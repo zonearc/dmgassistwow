@@ -121,5 +121,8 @@ docs/findings/2026-11-08-first-midnight-session.md.
 Addon compartment (Midnight): Blizzard_Minimap/Mainline/AddonCompartment.lua reads the TOC field
 `AddonCompartmentFunc` and calls `_G[name](addonName, mouseButtonName)`; the icon comes from `IconTexture`.
 
-BugGrabber (BugSack) keeps the global error handler; read its list with `BugGrabber:GetDB()` /
-`BugGrabber:GetSessionId()` (unverified here against its source; every call guarded, outcome logged).
+BugGrabber (BugSack) keeps the global error handler: it installs its own, then replaces `seterrorhandler` with a
+no-op (BugGrabber.lua v12.1.0, lines 573-574, interface 16001 and 120105 listed), so no other addon can install one.
+Read its list instead: `BugGrabber:GetDB()` (errors), `BugGrabber:GetSessionId()` (current session); each error has
+`message` (usually a string, sometimes a table), `stack`, `locals`, `counter`, `session` (lines 359-389, 465-466).
+Verified against the source (a public mirror of v12.1.0; the player runs v12.1.1).
