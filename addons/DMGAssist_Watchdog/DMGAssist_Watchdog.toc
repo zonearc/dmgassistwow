@@ -1,5 +1,6 @@
 ## Interface: 120105, 16001
 ## Title: DMGAssist Watchdog
+## Group: DMGAssist
 ## Notes: Diagnostics for DMGAssist: captures Lua errors, blocked actions and combat sessions, probes what the game exposes, and exports it all for analysis.
 ## Author: zonearc
 ## Version: 0.1.0

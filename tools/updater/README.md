@@ -32,7 +32,7 @@ Right-click → **Uninstall the updater**, or run `Uninstall-DMGAssistUpdater.ah
 
 ## What it does
 `update.ps1` asks GitHub for the `nightly` release. Folders already on that version are left alone. Otherwise it
-downloads `DMGAssist.zip` and `DMGAssist_Watchdog.zip`, checks each contains its addon folder, and only then
+downloads `DMGAssist.zip` (both addons), checks it contains both addon folders, and only then
 replaces the two folders in each AddOns folder that needs it. Nothing else in AddOns is touched. If anything fails,
 the installed addons are left as they were; an automatic check reports a new error once, a manual check always.
 

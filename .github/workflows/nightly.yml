@@ -52,8 +52,8 @@ jobs:
             echo "**DMGAssist $VERSION** — built $(date -u '+%Y-%m-%d %H:%M UTC') from \`${GITHUB_SHA:0:7}\` (${GITHUB_REF_NAME})."
             echo
             echo "### Install"
-            echo "1. Download **DMGAssist.zip** and **DMGAssist_Watchdog.zip** below."
-            echo "2. Unzip both into \`World of Warcraft/_retail_/Interface/AddOns/\` (Forever: the same folder of the client you play)."
+            echo "1. Download **DMGAssist.zip** below (DMGAssist and its Watchdog in one package)."
+            echo "2. Unzip it into \`World of Warcraft/_retail_/Interface/AddOns/\` (Forever: the same folder of the client you play)."
             echo "3. Restart the game (or /reload). Type \`/dmga\` to check it's loaded."
             echo
             echo "Windows: the updater in **DMGAssist_Updater.zip** keeps both addons up to date (see its README)."

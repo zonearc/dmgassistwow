@@ -29,14 +29,21 @@ def read_toc(zip_path):
         tocs = [n for n in z.namelist() if re.match(r"^([^/]+)/\1\.toc$", n)]
         if not tocs:
             raise SystemExit(f"{zip_path}: no <Addon>/<Addon>.toc inside")
-        text = z.read(tocs[0]).decode("utf-8", "replace")
-    meta = {}
-    for line in text.splitlines():
-        m = re.match(r"^##\s*([^:]+):\s*(.*)$", line)
-        if m:
-            meta[m.group(1).strip()] = m.group(2).strip()
-    meta["_addon"] = tocs[0].split("/")[0]
-    return meta
+        # A package can hold several addon folders (DMGAssist + DMGAssist_Watchdog): the one with the CurseForge
+        # project ID describes the package.
+        found = []
+        for toc in sorted(tocs):
+            meta = {}
+            for line in z.read(toc).decode("utf-8", "replace").splitlines():
+                m = re.match(r"^##\s*([^:]+):\s*(.*)$", line)
+                if m:
+                    meta[m.group(1).strip()] = m.group(2).strip()
+            meta["_addon"] = toc.split("/")[0]
+            found.append(meta)
+    for meta in found:
+        if meta.get("X-Curse-Project-ID"):
+            return meta
+    return found[0]
 
 
 def interface_to_version(n):

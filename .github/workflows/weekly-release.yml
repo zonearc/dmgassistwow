@@ -63,9 +63,14 @@ jobs:
             echo "No changes since $prev"; exit 0
           fi
           mkdir assets
-          gh release download nightly --dir assets --pattern 'DMGAssist.zip' --pattern 'DMGAssist_Watchdog.zip' \
-            --pattern 'DMGAssist_Updater.zip'
-          (cd assets && for f in DMGAssist DMGAssist_Watchdog; do mv "$f.zip" "$f-$version.zip"; done)
+          # One package (DMGAssist + DMGAssist_Watchdog) and release.json, the packager metadata addon managers
+          # (WowUp and others) read to pick the zip: nothing else, so they can't pick the wrong file.
+          gh release download nightly --dir assets --pattern 'DMGAssist.zip'
+          mv assets/DMGAssist.zip "assets/DMGAssist-$version.zip"
+          cat > assets/release.json <<JSON
+          {"releases":[{"name":"DMGAssist","version":"$version","filename":"DMGAssist-$version.zip","nolib":false,
+            "metadata":[{"flavor":"mainline","interface":120105}]}]}
+          JSON
           {
             echo "**DMGAssist $version**: this week's build (the newest one is always the [nightly build](https://github.com/${{ github.repository }}/releases/tag/nightly))."
             echo
@@ -74,6 +79,6 @@ jobs:
             git log --no-merges --format='- %s' $range | head -60
             echo
             echo "### Install"
-            echo "Unzip **DMGAssist** and **DMGAssist_Watchdog** into \`World of Warcraft/_retail_/Interface/AddOns/\`."
+            echo "Unzip **DMGAssist-$version.zip** into \`World of Warcraft/_retail_/Interface/AddOns/\` (it holds DMGAssist and its Watchdog), or install it with WowUp from this repository's link: it updates by itself."
           } > notes.md
           gh release create "$tag" assets/* --target "$sha" --title "DMGAssist $version" --notes-file notes.md --latest

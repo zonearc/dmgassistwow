@@ -60,15 +60,15 @@ try {
   $work = Join-Path $env:TEMP ('dmgassist-update-' + [guid]::NewGuid().ToString('N'))
   New-Item -ItemType Directory -Path $work | Out-Null
 
-  # 1. Download and check everything first.
+  # 1. Download and check everything first: DMGAssist.zip holds both addon folders.
+  $asset = $release.assets | Where-Object { $_.name -eq 'DMGAssist.zip' }
+  if (-not $asset) { throw 'DMGAssist.zip is not in the nightly release.' }
+  $zip = Join-Path $work 'DMGAssist.zip'
+  Invoke-WebRequest -Uri $asset.browser_download_url -Headers @{ 'User-Agent' = 'DMGAssistUpdater' } -OutFile $zip -UseBasicParsing
+  Expand-Archive -LiteralPath $zip -DestinationPath (Join-Path $work 'unzipped') -Force
   foreach ($addon in $addonNames) {
-    $asset = $release.assets | Where-Object { $_.name -eq "$addon.zip" }
-    if (-not $asset) { throw "$addon.zip is not in the nightly release." }
-    $zip = Join-Path $work "$addon.zip"
-    Invoke-WebRequest -Uri $asset.browser_download_url -Headers @{ 'User-Agent' = 'DMGAssistUpdater' } -OutFile $zip -UseBasicParsing
-    Expand-Archive -LiteralPath $zip -DestinationPath (Join-Path $work "unzipped-$addon") -Force
-    $toc = Join-Path $work "unzipped-$addon\$addon\$addon.toc"
-    if (-not (Test-Path -LiteralPath $toc)) { throw "$addon.zip does not contain $addon\$addon.toc." }
+    $toc = Join-Path $work "unzipped\$addon\$addon.toc"
+    if (-not (Test-Path -LiteralPath $toc)) { throw "DMGAssist.zip does not contain $addon\$addon.toc." }
   }
 
   # 2. Replace the installed copies in every folder that needs it (the AddOns folder is created if missing).
@@ -77,7 +77,7 @@ try {
     foreach ($addon in $addonNames) {
       $dest = Join-Path $folder $addon
       if (Test-Path -LiteralPath $dest) { Remove-Item -LiteralPath $dest -Recurse -Force }
-      Copy-Item -LiteralPath (Join-Path $work "unzipped-$addon\$addon") -Destination $dest -Recurse
+      Copy-Item -LiteralPath (Join-Path $work "unzipped\$addon") -Destination $dest -Recurse
     }
   }
 

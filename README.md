@@ -35,11 +35,17 @@ nothing automated. You press every button.
 
 **CurseForge / Wago:** coming soon.
 
-**Manual:** download `DMGAssist.zip` (and `DMGAssist_Watchdog.zip`, recommended) from the
-[nightly release](../../releases/tag/nightly) and unzip both into `World of Warcraft/_retail_/Interface/AddOns/`.
+**Automatic updates with WowUp (recommended for testers):** install [WowUp](https://wowup.io), then
+**Get Addons → Install from URL** and paste `https://github.com/zonearc/dmgassistwow`. It installs the latest weekly
+release and keeps it updated. WowUp leaves the addons other managers (the CurseForge app) installed alone; just
+don't update those from WowUp.
 
-**Windows, automatic:** `DMGAssist_Updater.zip` on the same release has a small updater (AutoHotkey v2) that
-starts with Windows and keeps DMGAssist up to date in retail and Forever. See [tools/updater](tools/updater/README.md).
+**Manual:** download `DMGAssist-<version>.zip` from the [latest release](../../releases/latest) (or `DMGAssist.zip`
+from the [nightly build](../../releases/tag/nightly)) and unzip it into `World of Warcraft/_retail_/Interface/AddOns/`.
+It holds DMGAssist and its Watchdog (the report tool), which shows under DMGAssist in the game's AddOns list.
+
+**Windows, automatic (AutoHotkey):** `DMGAssist_Updater.zip` on the nightly page has a small updater that starts with
+Windows and keeps DMGAssist up to date in retail and Forever. See [tools/updater](tools/updater/README.md).
 
 ## Using it
 

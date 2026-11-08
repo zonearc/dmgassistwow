@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Build installable zips into dist/. Each addon folder is zipped so it unpacks straight into
-# World of Warcraft/_<flavor>_/Interface/AddOns/.
+# Build installable zips into dist/, unpacking straight into World of Warcraft/_<flavor>_/Interface/AddOns/.
+# DMGAssist-<version>.zip is the package players install: both folders (DMGAssist and DMGAssist_Watchdog).
+# DMGAssist_Watchdog-<version>.zip alone is still built (older updaters download it).
 #   scripts/package.sh                 zips named <Addon>-<version>.zip (version from the .toc)
 #   PACKAGE_VERSION=0.1.0.42 scripts/package.sh
 #                                      stamps that version into the zipped copies (## Version and ns.VERSION;
@@ -28,3 +29,12 @@ for dir in addons/*/; do
   fi
   echo "built dist/${name}-${version}.zip"
 done
+# The package players install: one zip with every addon folder (DMGAssist and its Watchdog).
+(cd "$stage" && zip -qr "$OLDPWD/dist/DMGAssist-${version}-all.zip" .)
+mv "dist/DMGAssist-${version}.zip" "dist/DMGAssist-only-${version}.zip"
+mv "dist/DMGAssist-${version}-all.zip" "dist/DMGAssist-${version}.zip"
+if [ -n "${PACKAGE_VERSION:-}" ]; then
+  cp "dist/DMGAssist-${version}.zip" dist/DMGAssist.zip
+fi
+rm -f "dist/DMGAssist-only-${version}.zip"
+echo "built dist/DMGAssist-${version}.zip (DMGAssist + DMGAssist_Watchdog)"
