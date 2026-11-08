@@ -248,6 +248,10 @@ function O.Register()
   Choice(display, HUD, "font", "Font", H.font, ns.Display.FontChoices,
     "Game fonts, plus any registered with LibSharedMedia.")
   Choice(display, HUD, "outline", "Outline", H.outline, ns.Display.OUTLINES)
+  Header(display, "Off-GCD badge (Ironfur)")
+  Choice(display, HUD, "weavePos", "Badge position", H.weavePos, ns.Display.WEAVE_POSITIONS,
+    "Where the small badge for spells pressed alongside slot 1 (no GCD, e.g. Ironfur) sits.")
+  Slider(display, HUD, "weaveSize", "Badge size", H.weaveSize, 25, 80, 5, "Size, as a percentage of slot 1.", "%")
   Header(display, "Stack count")
   Check(display, HUD, "stackCount", "Show stack count", H.stackCount,
     "Our count of your stacking buff (Guardian: Ironfur), counted from your casts. Put the same buff in "

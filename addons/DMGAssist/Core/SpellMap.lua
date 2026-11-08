@@ -127,6 +127,26 @@ local function DataIDs(token, kind)
   return nil
 end
 
+-- Buttons that turn into another spell during the fight (Wild Guardian after Lunar Beam): the spellbook is only
+-- read out of combat, so the current overrides of the player's buttons are looked up live, twice a second at most.
+-- Returns the button (base spell) that casts `id` right now, or nil.
+local live, liveAt = {}, -1
+function M.LiveOverride(id)
+  local now = GetTime()
+  if now - liveAt > 0.5 then
+    live, liveAt = {}, now
+    for bid, b in pairs(M.book or {}) do
+      if b.id == bid and not b.passive then
+        local o = U.Get(C_Spell and C_Spell.GetOverrideSpell, bid)
+        if type(o) == "number" and o ~= bid then
+          live[o] = bid
+        end
+      end
+    end
+  end
+  return live[id]
+end
+
 -- Castable spell ID for a SimC action token, or nil.
 function M.SpellID(token)
   local ids = DataIDs(token, "a")
@@ -135,6 +155,18 @@ function M.SpellID(token)
       local b = M.book[id]
       if b and not b.passive then
         return b.id
+      end
+    end
+    for _, id in ipairs(ids) do
+      local info = M.info[id]
+      if info and (info.gcd or info.cd or info.cost) then -- a castable spell, not a passive talent or an aura
+        local base = M.LiveOverride(id)
+        if base then
+          return base
+        end
+        if U.Get(IsPlayerSpell, id) == true then
+          return id -- granted for now (not in the spellbook scan)
+        end
       end
     end
   end

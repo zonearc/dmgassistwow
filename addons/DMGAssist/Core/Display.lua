@@ -31,7 +31,15 @@ D.DEFAULTS = {
   hideOutOfCombat = true, showWithTarget = true, hideMounted = true, hideVehicle = true,
   debugText = false, callout = true, pressCue = true, pressLead = 50, secretBranches = true, interrupt = true, defensive = true,
   highlight = true,
-  stackCount = true, stackSize = 14, stackPos = "BOTTOMLEFT",
+  stackCount = true, stackSize = 14, stackPos = "BOTTOMLEFT", weavePos = "TOPLEFT", weaveSize = 45,
+}
+
+-- Where the off-GCD badge sits relative to slot 1: { point on the badge, point on slot 1, x, y }.
+D.WEAVE_POSITIONS = { { "TOPLEFT", "Top-left corner (docked)" }, { "TOPRIGHT", "Top-right corner" },
+  { "LEFT", "Left of the icon" }, { "TOP", "Above the icon" }, { "BOTTOM", "Below the icon" } }
+local WEAVE_ANCHOR = {
+  TOPLEFT = { "CENTER", "TOPLEFT", 2, -2 }, TOPRIGHT = { "CENTER", "TOPRIGHT", -2, -2 },
+  LEFT = { "RIGHT", "LEFT", -4, 0 }, TOP = { "BOTTOM", "TOP", 0, 4 }, BOTTOM = { "TOP", "BOTTOM", 0, -4 },
 }
 
 D.STACK_POSITIONS = { { "BOTTOMLEFT", "Bottom left" }, { "TOPLEFT", "Top left" }, { "BOTTOMRIGHT", "Bottom right" },
@@ -521,7 +529,11 @@ function D.Create()
   f.def:SetAllPoints(f.slots[1])
   f.def:SetFrameLevel((f.slots[1]:GetFrameLevel() or 1) + 6)
   -- Counted stacks (Ironfur): our own count from casts, to compare with Blizzard's buff display.
-  f.stack = f:CreateFontString(nil, "OVERLAY")
+  -- (on its own frame above slot 1: a font string of the HUD frame itself was drawn behind the icon)
+  f.stackHolder = CreateFrame("Frame", nil, f)
+  f.stackHolder:SetAllPoints(f.slots[1])
+  f.stackHolder:SetFrameLevel((f.slots[1]:GetFrameLevel() or 1) + 9)
+  f.stack = f.stackHolder:CreateFontString(nil, "OVERLAY")
   f.stack:Hide()
   -- Off-GCD keep-up (Ironfur): a small badge on slot 1's top-left corner, pressed alongside the GCD spell.
   f.weave = Icon(f, cfg.iconSize, cfg)
@@ -811,10 +823,11 @@ local function RenderWeave(f, result, cfg)
     f.weave:Hide()
     return
   end
-  local size = math.floor((cfg.iconSize or 48) * 0.45)
+  local size = math.floor((cfg.iconSize or 48) * (tonumber(cfg.weaveSize) or 45) / 100)
+  local a = WEAVE_ANCHOR[cfg.weavePos or "TOPLEFT"] or WEAVE_ANCHOR.TOPLEFT
   f.weave:ClearAllPoints()
   f.weave:SetSize(size, size)
-  f.weave:SetPoint("CENTER", f.slots[1], "TOPLEFT", 2, -2)
+  f.weave:SetPoint(a[1], f.slots[1], a[2], a[3], a[4])
   SetIcon(f.weave, w, cfg, true, "")
   f.weave.name:SetText("")
 end
