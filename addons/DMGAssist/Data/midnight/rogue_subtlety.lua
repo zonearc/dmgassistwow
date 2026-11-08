@@ -531,6 +531,26 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       chcd = 120,
       n = "vanish",
     },
+    [1966] = {
+      ap = {
+        { 1966, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 15,
+      cost = { [3] = 35 },
+      d = 6,
+      n = "feint",
+    },
+    [5277] = {
+      ap = {
+        { 5277, "self" },
+      },
+      cd = 120,
+      d = 10,
+      n = "evasion",
+      tal = true,
+    },
     [11327] = {
       ap = {
         { 11327, "self" },
@@ -544,6 +564,23 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       gain = { [3] = 15 },
       gcd = 1,
       n = "arcane_torrent",
+    },
+    [31224] = {
+      ap = {
+        { 31224, "self" },
+        { 35729, "self" },
+      },
+      cd = 120,
+      d = 5,
+      n = "cloak_of_shadows",
+      tal = true,
+    },
+    [35729] = {
+      ap = {
+        { 35729, "self" },
+      },
+      d = 1,
+      n = "cloak_of_shadows",
     },
     [108208] = {
       n = "subterfuge",
@@ -576,6 +613,16 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
     },
     [158188] = {
       n = "stealth",
+    },
+    [185311] = {
+      ap = {
+        { 185311, "self" },
+      },
+      cd = 30,
+      cost = { [3] = 20 },
+      d = 4,
+      gcd = 1,
+      n = "crimson_vial",
     },
     [185313] = {
       ap = {
@@ -634,6 +681,21 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       n = "gloomblade",
       r = 5,
       tal = true,
+    },
+    [212198] = {
+      ap = {
+        { 212198, "self" },
+      },
+      cd = 60,
+      d = 6,
+      n = "crimson_vial",
+    },
+    [226364] = {
+      ap = {
+        { 226364, "self" },
+      },
+      d = 2,
+      n = "evasion",
     },
     [231718] = {
       n = "shadowstrike",
@@ -725,6 +787,10 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
     },
     [345121] = {
       n = "shadowstrike",
+    },
+    [354494] = {
+      d = 4,
+      n = "crimson_vial",
     },
     [382524] = {
       n = "lingering_shadow",
@@ -944,6 +1010,9 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       n = "shuriken_storm",
       pas = true,
     },
+    [1293149] = {
+      n = "crimson_vial",
+    },
     [1309274] = {
       ap = {
         { 1309274, "self" },
@@ -969,8 +1038,14 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
     black_powder = {
       a = { 319175, 319190, 1269565, 1269634 },
     },
+    cloak_of_shadows = {
+      a = { 31224, 35729 },
+    },
     coup_de_grace = {
       a = { 441776, 450743, 441423, 462127, 462128 },
+    },
+    crimson_vial = {
+      a = { 185311, 212198, 354494, 1293149 },
     },
     darkest_night = {
       a = { 457280, 457058, 469637 },
@@ -984,8 +1059,14 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
     deeper_stratagem = {
       t = { 193531 },
     },
+    evasion = {
+      a = { 5277, 226364 },
+    },
     eviscerate = {
       a = { 196819, 328082, 245691, 1269205, 1269630 },
+    },
+    feint = {
+      a = { 1966 },
     },
     gloomblade = {
       a = { 200758, 246332, 1269214, 1269669 },

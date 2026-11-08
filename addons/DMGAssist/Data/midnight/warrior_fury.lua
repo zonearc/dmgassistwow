@@ -885,6 +885,17 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       r = 5,
       tal = true,
     },
+    [871] = {
+      ap = {
+        { 871, "self" },
+      },
+      cd = 8,
+      ch = 1,
+      chcd = 180,
+      d = 8,
+      n = "shield_wall",
+      tal = true,
+    },
     [1464] = {
       cost = { [1] = 20 },
       gcd = 1.5,
@@ -943,6 +954,14 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       n = "improved_whirlwind",
       pas = true,
       tal = true,
+    },
+    [12975] = {
+      ap = {
+        { 12975, "self" },
+      },
+      cd = 180,
+      d = 8,
+      n = "last_stand",
     },
     [13491] = {
       cd = 10,
@@ -1041,6 +1060,15 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       d = 6,
       n = "bloodbath",
     },
+    [118038] = {
+      ap = {
+        { 118038, "self" },
+      },
+      cd = 120,
+      d = 8,
+      n = "die_by_the_sword",
+      tal = true,
+    },
     [126664] = {
       n = "charge",
     },
@@ -1071,6 +1099,15 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       d = 4,
       n = "enrage",
     },
+    [184364] = {
+      ap = {
+        { 184364, "self" },
+      },
+      cd = 120,
+      d = 8,
+      n = "enraged_regeneration",
+      tal = true,
+    },
     [184367] = {
       cost = { [1] = 80 },
       gcd = 1.5,
@@ -1089,6 +1126,16 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     [190411] = {
       gcd = 1.5,
       n = "whirlwind",
+    },
+    [190456] = {
+      ap = {
+        { 190456, "self" },
+      },
+      cd = 1,
+      cost = { [1] = 35 },
+      d = 12,
+      n = "ignore_pain",
+      tal = true,
     },
     [198337] = {
       n = "charge",
@@ -1382,6 +1429,11 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       n = "bloodbath",
       st = 1,
     },
+    [1243659] = {
+      n = "last_stand",
+      pas = true,
+      tal = true,
+    },
     [1261060] = {
       n = "deep_wounds",
       pas = true,
@@ -1394,6 +1446,16 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       d = 8,
       n = "battle_shout_highlight",
       st = 1,
+    },
+    [1277297] = {
+      ap = {
+        { 1277297, "self" },
+      },
+      cd = 20,
+      d = 12,
+      gcd = 1.5,
+      n = "ignore_pain",
+      tal = true,
     },
     [1299025] = {
       n = "storm_of_blood",
@@ -1441,9 +1503,15 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     deep_wounds = {
       t = { 1261060 },
     },
+    die_by_the_sword = {
+      a = { 118038 },
+    },
     enrage = {
       a = { 184362, 184361 },
       b = { 184362, 184361 },
+    },
+    enraged_regeneration = {
+      a = { 184364 },
     },
     execute = {
       a = { 5308, 163201, 280735, 281000, 260798, 280849 },
@@ -1458,8 +1526,14 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     heroic_throw = {
       a = { 57755 },
     },
+    ignore_pain = {
+      a = { 190456, 1277297 },
+    },
     improved_whirlwind = {
       t = { 12950 },
+    },
+    last_stand = {
+      a = { 12975, 1243659 },
     },
     lightning_strikes = {
       t = { 434969 },
@@ -1487,6 +1561,9 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     rend_dot = {
       a = { 388539, 772 },
       b = { 388539, 772 },
+    },
+    shield_wall = {
+      a = { 871 },
     },
     slam = {
       a = { 1464 },

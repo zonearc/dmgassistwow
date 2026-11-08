@@ -1002,6 +1002,23 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       n = "axe_toss",
       r = 30,
     },
+    [104773] = {
+      ap = {
+        { 104773, "self" },
+      },
+      cd = 180,
+      d = 8,
+      n = "unending_resolve",
+    },
+    [108416] = {
+      ap = {
+        { 108416, "self" },
+      },
+      cd = 60,
+      d = 20,
+      n = "dark_pact",
+      tal = true,
+    },
     [108503] = {
       cd = 30,
       gcd = 1.5,
@@ -1347,6 +1364,9 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
     dark_harvest = {
       a = { 1257052, 1257065 },
     },
+    dark_pact = {
+      a = { 108416 },
+    },
     drain_soul = {
       a = { 198590, 205292, 388667 },
     },
@@ -1406,6 +1426,9 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
     summon_darkglare = {
       a = { 205180 },
       t = { 205180 },
+    },
+    unending_resolve = {
+      a = { 104773 },
     },
     unstable_affliction = {
       a = { 30108, 1219045, 1259790, 31117, 196364, 233490 },

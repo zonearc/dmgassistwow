@@ -1049,6 +1049,16 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       n = "cleave",
       r = 5,
     },
+    [871] = {
+      ap = {
+        { 871, "self" },
+      },
+      cd = 900,
+      cost = { [1] = 0 },
+      d = 12,
+      gcd = 1.5,
+      n = "shield_wall",
+    },
     [1464] = {
       cd = 18,
       cost = { [1] = 15 },
@@ -1325,6 +1335,18 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       pas = true,
       tal = true,
     },
+    [12975] = {
+      cd = 180,
+      n = "last_stand",
+      tal = true,
+    },
+    [12976] = {
+      ap = {
+        { 12976, "self" },
+      },
+      d = 20,
+      n = "last_stand",
+    },
     [20569] = {
       cost = { [1] = 20 },
       n = "cleave",
@@ -1409,6 +1431,19 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       },
       d = 1,
       n = "execute",
+    },
+    [402913] = {
+      ap = {
+        { 402913, "self" },
+      },
+      cd = 180,
+      d = 10,
+      gcd = 1.5,
+      n = "enraged_regeneration",
+    },
+    [403359] = {
+      n = "enraged_regeneration",
+      pas = true,
     },
     [440113] = {
       n = "sudden_death",
@@ -1496,11 +1531,17 @@ ns.RegisterSpecData("forever", "warrior_arms", {
     deep_wounds = {
       t = { 12834 },
     },
+    enraged_regeneration = {
+      a = { 402913, 403359 },
+    },
     execute = {
       a = { 5308, 20647, 20658, 20660, 20661, 20662 },
     },
     heroic_strike = {
       a = { 78, 284, 285, 1608, 11564, 11565 },
+    },
+    last_stand = {
+      a = { 12975, 12976 },
     },
     mortal_strike = {
       a = { 12294, 21551, 21552, 21553 },
@@ -1518,6 +1559,9 @@ ns.RegisterSpecData("forever", "warrior_arms", {
     rend_dot = {
       a = { 772, 6546, 6547, 6548, 11572, 11573 },
       b = { 772, 6546, 6547, 6548, 11572, 11573 },
+    },
+    shield_wall = {
+      a = { 871 },
     },
     slam = {
       a = { 1464, 8820, 11604, 11605, 1240193, 1310196 },

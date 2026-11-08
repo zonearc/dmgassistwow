@@ -1032,6 +1032,17 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       r = 5,
       tal = true,
     },
+    [871] = {
+      ap = {
+        { 871, "self" },
+      },
+      cd = 8,
+      ch = 1,
+      chcd = 180,
+      d = 8,
+      n = "shield_wall",
+      tal = true,
+    },
     [1464] = {
       cost = { [1] = 20 },
       gcd = 1.5,
@@ -1078,6 +1089,14 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       n = "mortal_strike",
       r = 5,
       tal = true,
+    },
+    [12975] = {
+      ap = {
+        { 12975, "self" },
+      },
+      cd = 180,
+      d = 8,
+      n = "last_stand",
     },
     [13491] = {
       cd = 10,
@@ -1147,6 +1166,15 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       n = "avatar",
       tal = true,
     },
+    [118038] = {
+      ap = {
+        { 118038, "self" },
+      },
+      cd = 120,
+      d = 8,
+      n = "die_by_the_sword",
+      tal = true,
+    },
     [126664] = {
       n = "charge",
     },
@@ -1175,9 +1203,28 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       n = "colossus_smash",
       tal = true,
     },
+    [184364] = {
+      ap = {
+        { 184364, "self" },
+      },
+      cd = 120,
+      d = 8,
+      n = "enraged_regeneration",
+      tal = true,
+    },
     [190411] = {
       gcd = 1.5,
       n = "whirlwind",
+    },
+    [190456] = {
+      ap = {
+        { 190456, "self" },
+      },
+      cd = 1,
+      cost = { [1] = 35 },
+      d = 12,
+      n = "ignore_pain",
+      tal = true,
     },
     [198337] = {
       n = "charge",
@@ -1528,6 +1575,11 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       n = "cleave",
       r = 5,
     },
+    [1243659] = {
+      n = "last_stand",
+      pas = true,
+      tal = true,
+    },
     [1261051] = {
       n = "tactical_edge",
       pas = true,
@@ -1579,6 +1631,16 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       cd = 6,
       n = "champions_spear",
       r = 40,
+    },
+    [1277297] = {
+      ap = {
+        { 1277297, "self" },
+      },
+      cd = 20,
+      d = 12,
+      gcd = 1.5,
+      n = "ignore_pain",
+      tal = true,
     },
   },
   spells = {
@@ -1639,8 +1701,14 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       a = { 436358, 440884, 440886, 440888 },
       t = { 436358 },
     },
+    die_by_the_sword = {
+      a = { 118038 },
+    },
     dreadnaught = {
       t = { 262150 },
+    },
+    enraged_regeneration = {
+      a = { 184364 },
     },
     execute = {
       a = { 5308, 163201, 280735, 281000, 260798, 280849 },
@@ -1662,9 +1730,15 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
     heroic_throw = {
       a = { 57755 },
     },
+    ignore_pain = {
+      a = { 1277297, 190456 },
+    },
     imminent_demise = {
       a = { 445606, 444769 },
       b = { 445606, 444769 },
+    },
+    last_stand = {
+      a = { 12975, 1243659 },
     },
     massacre = {
       t = { 206315, 281001 },
@@ -1693,6 +1767,9 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
     rend_dot = {
       a = { 772, 388539 },
       b = { 388539, 772 },
+    },
+    shield_wall = {
+      a = { 871 },
     },
     slam = {
       a = { 1464 },

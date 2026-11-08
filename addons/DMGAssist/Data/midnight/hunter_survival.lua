@@ -524,6 +524,16 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
     [83381] = {
       n = "kill_command",
     },
+    [109304] = {
+      cd = 120,
+      gcd = 1.5,
+      n = "exhilaration",
+      r = 45,
+    },
+    [128594] = {
+      cd = 120,
+      n = "exhilaration",
+    },
     [147362] = {
       cd = 24,
       d = 5,
@@ -536,6 +546,14 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
       gcd = 1.5,
       n = "arcane_shot",
       r = 40,
+    },
+    [186265] = {
+      ap = {
+        { 186265, "self" },
+      },
+      cd = 180,
+      d = 8,
+      n = "aspect_of_the_turtle",
     },
     [186270] = {
       cost = { [2] = 30 },
@@ -606,6 +624,17 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
       d = 10,
       n = "tip_of_the_spear",
       st = 3,
+    },
+    [264735] = {
+      ap = {
+        { 264735, "self" },
+      },
+      ch = 1,
+      chcd = 90,
+      d = 6,
+      gcd = 1.5,
+      n = "survival_of_the_fittest",
+      tal = true,
     },
     [265157] = {
       n = "wildfire_bomb",
@@ -821,6 +850,9 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
     aspect_of_the_eagle = {
       a = { 186289 },
     },
+    aspect_of_the_turtle = {
+      a = { 186265 },
+    },
     boomstick = {
       a = { 1261193, 1261215 },
     },
@@ -829,6 +861,9 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
     },
     counter_shot = {
       a = { 147362 },
+    },
+    exhilaration = {
+      a = { 109304, 128594 },
     },
     howl_of_the_pack_leader = {
       t = { 471876 },
@@ -862,6 +897,9 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
     },
     steady_shot = {
       a = { 56641, 77443 },
+    },
+    survival_of_the_fittest = {
+      a = { 264735 },
     },
     takedown = {
       a = { 1250646, 1253859, 1253860, 1253862, 1258571 },

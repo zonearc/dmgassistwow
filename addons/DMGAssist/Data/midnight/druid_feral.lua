@@ -816,8 +816,36 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       n = "ferocious_bite",
       r = 5,
     },
+    [22812] = {
+      ap = {
+        { 22812, "self" },
+      },
+      cd = 60,
+      d = 8,
+      n = "barkskin",
+    },
+    [22842] = {
+      ap = {
+        { 22842, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 36,
+      cost = { [1] = 10, [3] = 0 },
+      d = 3,
+      gcd = 1.5,
+      n = "frenzied_regeneration",
+      tal = true,
+    },
     [48629] = {
       n = "cat_form",
+    },
+    [50322] = {
+      ap = {
+        { 50322, "self" },
+      },
+      d = 6,
+      n = "survival_instincts",
     },
     [50334] = {
       ap = {
@@ -826,6 +854,17 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       cd = 180,
       d = 15,
       n = "berserk",
+      tal = true,
+    },
+    [61336] = {
+      ap = {
+        { 61336, "self" },
+      },
+      cd = 6,
+      ch = 1,
+      chcd = 180,
+      d = 6,
+      n = "survival_instincts",
       tal = true,
     },
     [69369] = {
@@ -895,6 +934,9 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       n = "cat_form",
       pas = true,
     },
+    [122307] = {
+      n = "frenzied_regeneration",
+    },
     [135700] = {
       ap = {
         { 135700, "self" },
@@ -942,6 +984,11 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       },
       d = 18,
       n = "moonfire",
+    },
+    [203965] = {
+      n = "survival_of_the_fittest",
+      pas = true,
+      tal = true,
     },
     [213764] = {
       gcd = 1,
@@ -1233,6 +1280,9 @@ ns.RegisterSpecData("midnight", "druid_feral", {
     ashamanes_guidance = {
       t = { 391548, 391538, 1244546 },
     },
+    barkskin = {
+      a = { 22812 },
+    },
     berserk = {
       a = { 106951, 279526, 343216, 50334, 343223 },
     },
@@ -1278,6 +1328,9 @@ ns.RegisterSpecData("midnight", "druid_feral", {
     frantic_frenzy = {
       a = { 1243807, 1244004, 1244023, 1244079, 1278969, 1243995 },
       t = { 1243807 },
+    },
+    frenzied_regeneration = {
+      a = { 22842, 122307 },
     },
     incarnation_avatar_of_ashamane = {
       a = { 102543, 252071 },
@@ -1343,6 +1396,12 @@ ns.RegisterSpecData("midnight", "druid_feral", {
     sudden_ambush = {
       a = { 1244483, 384667 },
       b = { 1244483, 384667 },
+    },
+    survival_instincts = {
+      a = { 61336, 50322 },
+    },
+    survival_of_the_fittest = {
+      a = { 203965 },
     },
     swipe = {
       a = { 106785, 213764, 213771 },

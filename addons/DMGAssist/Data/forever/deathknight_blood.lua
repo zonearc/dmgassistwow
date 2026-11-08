@@ -535,6 +535,15 @@ ns.RegisterSpecData("forever", "deathknight_blood", {
       r = 15,
       tal = true,
     },
+    [48792] = {
+      ap = {
+        { 48792, "self" },
+      },
+      cd = 120,
+      d = 8,
+      n = "icebound_fortitude",
+      tal = true,
+    },
     [49028] = {
       ap = {
         { 49028, "self" },
@@ -546,12 +555,27 @@ ns.RegisterSpecData("forever", "deathknight_blood", {
       r = 30,
       tal = true,
     },
+    [49039] = {
+      ap = {
+        { 49039, "self" },
+      },
+      cd = 120,
+      d = 10,
+      n = "lichborne",
+    },
     [49998] = {
       cost = { [6] = 45 },
       gcd = 1.5,
       n = "death_strike",
       r = 5,
       tal = true,
+    },
+    [50397] = {
+      ap = {
+        { 50397, "self" },
+      },
+      d = 30,
+      n = "lichborne",
     },
     [50842] = {
       ch = 2,
@@ -975,6 +999,12 @@ ns.RegisterSpecData("forever", "deathknight_blood", {
     },
     heart_strike = {
       a = { 206930, 228645, 445504, 460501, 316575 },
+    },
+    icebound_fortitude = {
+      a = { 48792 },
+    },
+    lichborne = {
+      a = { 49039, 50397 },
     },
     marrowrend = {
       a = { 195182, 316746 },

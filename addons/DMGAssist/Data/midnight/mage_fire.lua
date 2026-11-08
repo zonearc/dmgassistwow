@@ -807,6 +807,17 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       r = 40,
       tal = true,
     },
+    [11426] = {
+      ap = {
+        { 11426, "self" },
+      },
+      ch = 1,
+      chcd = 30,
+      d = 60,
+      gcd = 0.75,
+      n = "ice_barrier",
+      tal = true,
+    },
     [13438] = {
       ap = {
         { 13438, "enemy" },
@@ -860,6 +871,17 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       n = "fireball",
       r = 35,
     },
+    [45438] = {
+      ap = {
+        { 45438, "self" },
+      },
+      ch = 1,
+      chcd = 240,
+      d = 10,
+      gcd = 1.5,
+      n = "ice_block",
+      tal = true,
+    },
     [48107] = {
       ap = {
         { 48107, "self" },
@@ -891,6 +913,24 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       n = "fire_blast",
       r = 40,
       tal = true,
+    },
+    [108978] = {
+      ap = {
+        { 110909, "self" },
+      },
+      cd = 60,
+      d = 20,
+      n = "alter_time",
+    },
+    [110909] = {
+      ap = {
+        { 110909, "self" },
+      },
+      d = 10,
+      n = "alter_time",
+    },
+    [127140] = {
+      n = "alter_time",
     },
     [153561] = {
       cd = 45,
@@ -925,6 +965,31 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       n = "fire_blast",
       pas = true,
     },
+    [235313] = {
+      ap = {
+        { 235313, "self" },
+      },
+      ch = 1,
+      chcd = 30,
+      d = 60,
+      gcd = 0.75,
+      n = "blazing_barrier",
+      tal = true,
+    },
+    [235314] = {
+      n = "blazing_barrier",
+    },
+    [235450] = {
+      ap = {
+        { 235450, "self" },
+      },
+      ch = 1,
+      chcd = 30,
+      d = 60,
+      gcd = 0.75,
+      n = "prismatic_barrier",
+      tal = true,
+    },
     [269650] = {
       n = "pyroclasm",
       pas = true,
@@ -958,6 +1023,25 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       d = 6,
       n = "pyroblast",
       r = 40,
+    },
+    [342245] = {
+      ap = {
+        { 342246, "self" },
+      },
+      cd = 60,
+      d = 20,
+      n = "alter_time",
+      tal = true,
+    },
+    [342246] = {
+      ap = {
+        { 342246, "self" },
+      },
+      d = 10,
+      n = "alter_time",
+    },
+    [342247] = {
+      n = "alter_time",
     },
     [351140] = {
       n = "meteor",
@@ -1094,6 +1178,9 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       n = "pyroblast",
       r = 40,
     },
+    [1265927] = {
+      n = "blazing_barrier",
+    },
     [1271177] = {
       n = "burnout",
       pas = true,
@@ -1101,11 +1188,17 @@ ns.RegisterSpecData("midnight", "mage_fire", {
     },
   },
   spells = {
+    alter_time = {
+      a = { 108978, 342245, 110909, 127140, 342246, 342247 },
+    },
     arcane_intellect = {
       a = { 1459 },
     },
     blast_zone = {
       t = { 416719 },
+    },
+    blazing_barrier = {
+      a = { 235313, 235314, 1265927 },
     },
     bloodlust = {
       a = { 80353 },
@@ -1160,8 +1253,17 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       a = { 383874, 1242220, 383860 },
       b = { 383874, 1242220, 383860 },
     },
+    ice_barrier = {
+      a = { 11426 },
+    },
+    ice_block = {
+      a = { 45438 },
+    },
     meteor = {
       a = { 153561, 153564, 351140, 420218, 420221, 438607 },
+    },
+    prismatic_barrier = {
+      a = { 235450 },
     },
     pyroblast = {
       a = { 11366, 321712, 450461, 460475, 1262863, 321711 },

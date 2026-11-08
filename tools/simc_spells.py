@@ -294,6 +294,16 @@ def select(spells, refs, other_specs=()):
 INTERRUPTS = {"kick", "counterspell", "pummel", "wind_shear", "mind_freeze", "skull_bash", "solar_beam", "rebuke",
               "spear_hand_strike", "disrupt", "counter_shot", "muzzle", "silence", "quell", "spell_lock", "axe_toss"}
 
+DEFENSIVES = {"barkskin", "survival_instincts", "frenzied_regeneration", "renewal", "antimagic_shell",
+              "icebound_fortitude", "vampiric_blood", "lichborne", "blur", "fiery_brand", "netherwalk", "darkness",
+              "obsidian_scales", "renewing_blaze", "exhilaration", "survival_of_the_fittest", "aspect_of_the_turtle",
+              "ice_barrier", "blazing_barrier", "prismatic_barrier", "mirror_image", "alter_time", "ice_block",
+              "fortifying_brew", "diffuse_magic", "dampen_harm", "touch_of_karma", "divine_protection",
+              "shield_of_vengeance", "ardent_defender", "guardian_of_ancient_kings", "divine_shield",
+              "desperate_prayer", "dispersion", "fade", "crimson_vial", "feint", "evasion", "cloak_of_shadows",
+              "astral_shift", "dark_pact", "unending_resolve", "ignore_pain", "die_by_the_sword",
+              "enraged_regeneration", "shield_wall", "last_stand"}
+
 REF_PATTERNS = {
     "aura": re.compile(r"\b(?:buff|debuff|dot|active_dot)\.([a-z0-9_]+)"),
     "action": re.compile(r"\b(?:cooldown|action|prev_gcd\.\d+|prev|prev_off_gcd\.\d+|prev_off_gcd)\.([a-z0-9_]+)"),
@@ -315,7 +325,7 @@ def references(lists_list):
                         for m in pat.finditer(text):
                             refs[kind].add(m.group(1))
     # Interrupts are rarely in SimC's lists but the HUD's interrupt reminder needs their IDs (any language).
-    refs["action"] |= INTERRUPTS
+    refs["action"] |= INTERRUPTS | DEFENSIVES
     # Buffs/dots are often named after the spell that applies them: make the action ids available too.
     refs["action"] |= {t for t in refs["aura"]}
     return refs

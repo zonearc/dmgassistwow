@@ -16,24 +16,64 @@ local U, L = ns.U, ns.L
 local D = {}
 ns.Display = D
 
+-- Defaults aim at what most players want: icons only (no frame chrome), keybinds on, a gentle glow, the
+-- press-now cue, boss callouts, interrupts and defensives, the real action button highlighted.
 D.DEFAULTS = {
   scale = 1.0, alpha = 1.0,
   iconSize = 52, nextSize = 38, cdSize = 34, spacing = 6, padding = 6,
   queueAlpha = 0.85, dimGuesses = true,
-  background = true, bgAlpha = 0.55, border = "thin", borderAlpha = 0.6,
-  header = true, keybind = true, keybindSize = 14, keybindPos = "TOPRIGHT",
+  background = false, bgAlpha = 0.55, border = "none", borderAlpha = 0.6,
+  header = false, keybind = true, keybindSize = 14, keybindPos = "TOPRIGHT",
   spellNames = false, nameSize = 10, labels = false,
+  font = "default", outline = "OUTLINE", calloutSize = 14,
   gcdBar = true, glow = "pulse",
-  hideOutOfCombat = true, showWithTarget = true,
-  debugText = false, callout = true, pressCue = true, secretBranches = true, interrupt = true,
+  hideOutOfCombat = true, showWithTarget = true, hideMounted = true, hideVehicle = true,
+  debugText = false, callout = true, pressCue = true, secretBranches = true, interrupt = true, defensive = true,
+  highlight = true,
 }
+
+-- Fonts that ship with the game (same files on every client). LibSharedMedia fonts are added when installed.
+D.FONTS = {
+  { "default", "Game default" },
+  { "Fonts\\FRIZQT__.TTF", "Friz Quadrata" },
+  { "Fonts\\ARIALN.TTF", "Arial Narrow" },
+  { "Fonts\\skurri.ttf", "Skurri" },
+  { "Fonts\\MORPHEUS.TTF", "Morpheus" },
+}
+D.OUTLINES = { { "", "None" }, { "OUTLINE", "Outline" }, { "THICKOUTLINE", "Thick outline" } }
+
+function D.FontChoices()
+  local list = {}
+  for _, f in ipairs(D.FONTS) do
+    list[#list + 1] = f
+  end
+  local LSM = LibStub and U.Call(LibStub, "LibSharedMedia-3.0", true)
+  if LSM and LSM.List and LSM.Fetch then
+    for _, name in ipairs(LSM:List("font") or {}) do
+      list[#list + 1] = { "lsm:" .. name, name }
+    end
+  end
+  return list
+end
+
+local function FontPath(choice)
+  if not choice or choice == "default" then
+    return STANDARD_TEXT_FONT or "Fonts\\FRIZQT__.TTF"
+  end
+  local lsmName = choice:match("^lsm:(.+)$")
+  if lsmName then
+    local LSM = LibStub and U.Call(LibStub, "LibSharedMedia-3.0", true)
+    local path = LSM and U.Call(LSM.Fetch, LSM, "font", lsmName)
+    return path or STANDARD_TEXT_FONT or "Fonts\\FRIZQT__.TTF"
+  end
+  return choice
+end
 
 local GOLD = { 1, 0.69, 0 }
 local SOURCE_TEXT = {
   simc = "", ["simc+assisted"] = "", ["simc+rules"] = "",
-  assisted = "AC", rules = "B", ["rules?"] = "?", guess = "?",
+  assisted = "AC", rules = "B", ["rules?"] = "?", guess = "?", pool = "...",
 }
-local FONT = STANDARD_TEXT_FONT or "Fonts\\FRIZQT__.TTF"
 
 function D.Settings()
   local db = ns.db or {}
@@ -92,12 +132,31 @@ end
 
 -- Action bar addons bind keys to their own buttons ("CLICK <button>:LeftButton"); the button's action slot is an
 -- attribute. Patterns for the common ones (LibActionButton-based Bartender4/ElvUI, and Dominos).
-local ADDON_BUTTONS = {
+local ALL_BUTTONS = {
+  { pattern = "ActionButton%d", count = 12, blizzardMain = true },
+  { pattern = "MultiBarBottomLeftButton%d", count = 12 },
+  { pattern = "MultiBarBottomRightButton%d", count = 12 },
+  { pattern = "MultiBarRightButton%d", count = 12 },
+  { pattern = "MultiBarLeftButton%d", count = 12 },
+  { pattern = "MultiBar5Button%d", count = 12 },
+  { pattern = "MultiBar6Button%d", count = 12 },
+  { pattern = "MultiBar7Button%d", count = 12 },
   { pattern = "BT4Button%d", count = 180 },
   { pattern = "DominosActionButton%d", count = 180 },
 }
 for bar = 1, 15 do
-  ADDON_BUTTONS[#ADDON_BUTTONS + 1] = { pattern = "ElvUI_Bar" .. bar .. "Button%d", count = 12 }
+  ALL_BUTTONS[#ALL_BUTTONS + 1] = { pattern = "ElvUI_Bar" .. bar .. "Button%d", count = 12 }
+end
+local buttonsBySpell = {}
+
+-- The action button that casts this spell (visible preferred), for the highlight.
+function D.ButtonFor(spellID)
+  if not keymap then
+    D.BuildKeymap()
+  end
+  local b = buttonsBySpell[spellID]
+  local base = ns.SpellMap and ns.SpellMap.baseOf[spellID]
+  return b or (base and buttonsBySpell[base]) or nil
 end
 
 local function MainPage()
@@ -144,7 +203,11 @@ function D.BuildKeymap()
       Put(sid, text, main)
     end
   end
-  for _, def in ipairs(ADDON_BUTTONS) do
+  -- Every button frame we know: Blizzard bars (<BarName>Button<i>, slot in button.action, binding in
+  -- button.commandName) and bar addons (slot in an attribute, CLICK bindings). Also remembers which button holds
+  -- each spell, for the action bar highlight.
+  buttonsBySpell = {}
+  for _, def in ipairs(ALL_BUTTONS) do
     for i = 1, def.count do
       local name = def.pattern:format(i)
       local button = _G[name]
@@ -154,11 +217,20 @@ function D.BuildKeymap()
           slot = U.Read(U.Call(button.GetAttribute, button, "action"))
         end
         slot = tonumber(slot)
-        local key = U.Read(U.Call(GetBindingKey, "CLICK " .. name .. ":LeftButton"))
-          or U.Read(U.Call(GetBindingKey, "CLICK " .. name .. ":Keybind"))
-        if slot and type(key) == "string" then
-          local text = U.Read(U.Call(GetBindingText, key, 1))
-          Put(SlotSpell(slot), Shorten(type(text) == "string" and text or key), false)
+        local sid = slot and SlotSpell(slot)
+        if sid then
+          local visible = U.Read(U.Call(button.IsVisible, button)) == true
+          if visible or not buttonsBySpell[sid] then
+            buttonsBySpell[sid] = button
+          end
+          local command = U.Read(button.commandName)
+          local key = (type(command) == "string" and U.Read(U.Call(GetBindingKey, command)))
+            or U.Read(U.Call(GetBindingKey, "CLICK " .. name .. ":LeftButton"))
+            or U.Read(U.Call(GetBindingKey, "CLICK " .. name .. ":Keybind"))
+          if type(key) == "string" then
+            local text = U.Read(U.Call(GetBindingText, key, 1))
+            Put(sid, Shorten(type(text) == "string" and text or key), visible and def.blizzardMain)
+          end
         end
       end
     end
@@ -215,7 +287,10 @@ end
 -- Building
 ---------------------------------------------------------------------------
 local function SetFont(fs, size)
-  fs:SetFont(FONT, size, "OUTLINE")
+  local cfg = D.Settings()
+  if not fs:SetFont(FontPath(cfg.font), size, cfg.outline or "OUTLINE") then
+    fs:SetFont(STANDARD_TEXT_FONT or "Fonts\\FRIZQT__.TTF", size, cfg.outline or "OUTLINE")
+  end
 end
 
 local function Icon(parent, size, cfg)
@@ -301,6 +376,9 @@ local function Layout(f, cfg)
   f.cd:SetSize(cfg.cdSize, cfg.cdSize)
   f.cd:SetPoint("TOPLEFT", f, "TOPLEFT", pad, -(y + gap))
 
+  f.def:ClearAllPoints()
+  f.def:SetSize(cfg.cdSize, cfg.cdSize)
+  f.def:SetPoint("LEFT", f.cd, "RIGHT", gap, 0)
   y = y + gap + cfg.cdSize
   f.debug:ClearAllPoints()
   f.debug:SetPoint("TOPLEFT", f, "TOPLEFT", pad, -(y + 2))
@@ -383,6 +461,18 @@ function D.Create()
   f.kick.border:SetPoint("BOTTOMRIGHT", f.kick, "BOTTOMRIGHT", 3, -3)
   f.kick.border:SetColorTexture(1, 0.1, 0.1, 0.7)
   f.kick.border:SetDrawLayer("BACKGROUND")
+  -- Defensive suggestion, next to the cooldown icon.
+  f.def = Icon(f, cfg.cdSize, cfg)
+  -- Highlight on the real action button that casts slot 1 (our own frame anchored over it; theirs is untouched).
+  f.hl = CreateFrame("Frame", nil, UIParent)
+  f.hl:SetFrameStrata("HIGH")
+  f.hl.tex = f.hl:CreateTexture(nil, "OVERLAY")
+  f.hl.tex:SetAllPoints(f.hl)
+  f.hl.tex:SetColorTexture(GOLD[1], GOLD[2], GOLD[3], 0.45)
+  if f.hl.tex.SetBlendMode then
+    f.hl.tex:SetBlendMode("ADD")
+  end
+  f.hl:Hide()
   f.cd = Icon(f, cfg.cdSize, cfg)
   f.gcdBg = f:CreateTexture(nil, "BACKGROUND")
   f.gcdBg:SetColorTexture(0, 0, 0, 0.6)
@@ -391,7 +481,7 @@ function D.Create()
   f.gcd:SetStatusBarColor(GOLD[1], GOLD[2], GOLD[3], 0.9)
   f.gcd:SetMinMaxValues(0, 1)
   f.callout = f:CreateFontString(nil, "OVERLAY")
-  SetFont(f.callout, 13)
+  SetFont(f.callout, cfg.calloutSize or 14)
   f.callout:SetPoint("BOTTOMLEFT", f, "TOPLEFT", 2, 3)
   f.callout:SetTextColor(1, 0.25, 0.2)
   f.debug = f:CreateFontString(nil, "OVERLAY")
@@ -421,6 +511,15 @@ function D.Rebuild()
       cfg.keybindPos:find("TOP") and -2 or 2)
     SetFont(icon.name, cfg.nameSize)
   end
+  for _, icon in ipairs({ f.branch, f.kick, f.def }) do
+    if icon then
+      SetFont(icon.key, cfg.keybindSize)
+      SetFont(icon.name, cfg.nameSize)
+    end
+  end
+  SetFont(f.header, 11)
+  SetFont(f.callout, cfg.calloutSize or 14)
+  SetFont(f.debug, 9)
   Layout(f, cfg)
   D.SetLocked(ns.db and ns.db.locked)
 end
@@ -441,7 +540,7 @@ local function SetIcon(icon, pick, cfg, isMain, labelText)
   icon.name:SetText(name or "")
   icon.label:SetText(cfg.labels and labelText or "")
   local alpha = isMain and 1 or cfg.queueAlpha
-  if cfg.dimGuesses and (pick.source == "guess" or pick.source == "rules?") then
+  if cfg.dimGuesses and (pick.source == "guess" or pick.source == "rules?" or pick.source == "pool") then
     alpha = alpha * 0.5
   end
   icon:SetAlpha(alpha)
@@ -573,6 +672,55 @@ local function RenderInterrupt(f, result, cfg)
   end
 end
 
+-- Defensive: decided (boss mod / readable health) -> shown; render -> alpha from a step curve on the player's
+-- secret health percent (UnitHealthPercent with a curve, input 0..1): visible only at or below the threshold.
+local healthCurves = {}
+
+local function RenderDefensive(f, result, cfg)
+  local d = result.defensive
+  if not (cfg.defensive and d) then
+    f.def:Hide()
+    return
+  end
+  SetIcon(f.def, { id = d.id, source = "defensive" }, cfg, true, L["DEFENSIVE"])
+  if d.how == "render" then
+    local key = string.format("%.2f", d.threshold)
+    local c = healthCurves[key]
+    if not c and C_CurveUtil and C_CurveUtil.CreateCurve then
+      c = U.Call(C_CurveUtil.CreateCurve)
+      if c then
+        c:SetType(Enum and Enum.LuaCurveType and Enum.LuaCurveType.Step or 1)
+        c:AddPoint(0, 1)
+        c:AddPoint(d.threshold + 0.0001, 0)
+        healthCurves[key] = c
+      end
+    end
+    local alpha = c and U.Call(UnitHealthPercent, "player", true, c)
+    if alpha == nil then
+      f.def:Hide()
+      return
+    end
+    f.def:SetAlpha(alpha)
+  end
+end
+
+local function RenderHighlight(f, result, cfg)
+  local pick = result.queue and result.queue[1] or result.main
+  local button = cfg.highlight and pick and D.ButtonFor(pick.id)
+  if not (button and U.Read(U.Call(button.IsVisible, button)) == true) then
+    f.hl:Hide()
+    return
+  end
+  if f.hl.button ~= button then
+    f.hl:ClearAllPoints()
+    f.hl:SetPoint("TOPLEFT", button, "TOPLEFT", -1, 1)
+    f.hl:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 1, -1)
+    f.hl.button = button
+  end
+  f.hl:SetAlpha(f.pressNow and 1 or (0.55 + 0.25 * math.sin(GetTime() * 5)))
+  f.hl:Show()
+end
+
 function D.ShouldShow(inCombat, hasEnemyTarget)
   local cfg = D.Settings()
   if not cfg.hideOutOfCombat then
@@ -585,6 +733,9 @@ function D.Update(result, visible)
   local f = D.Create()
   if not visible or not result or not result.main then
     f:Hide()
+    if f.hl then
+      f.hl:Hide()
+    end
     return
   end
   local cfg = D.Settings()
@@ -596,6 +747,7 @@ function D.Update(result, visible)
   SetIcon(f.cd, result.cd, cfg, true, L["COOLDOWN"])
   f.branchShown = RenderBranch(f, result, cfg)
   RenderInterrupt(f, result, cfg)
+  RenderDefensive(f, result, cfg)
   -- "Press now" cue: the GCD (or the current cast) ends within the game's spell queue window, so pressing now
   -- queues the spell with no gap. Timing uses the haste-adjusted GCD we track.
   local queueWindow = (tonumber(U.Read(U.Call(C_CVar and C_CVar.GetCVar, "SpellQueueWindow"))) or 400) / 1000
@@ -657,6 +809,7 @@ function D.Update(result, visible)
   else
     f.debug:Hide()
   end
+  RenderHighlight(f, result, cfg)
   f:Show()
 end
 

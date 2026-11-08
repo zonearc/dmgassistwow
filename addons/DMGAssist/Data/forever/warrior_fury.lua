@@ -890,6 +890,16 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       n = "rend",
       r = 5,
     },
+    [871] = {
+      ap = {
+        { 871, "self" },
+      },
+      cd = 900,
+      cost = { [1] = 0 },
+      d = 12,
+      gcd = 1.5,
+      n = "shield_wall",
+    },
     [1464] = {
       cd = 18,
       cost = { [1] = 15 },
@@ -1160,6 +1170,18 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       d = 12,
       n = "enrage",
     },
+    [12975] = {
+      cd = 180,
+      n = "last_stand",
+      tal = true,
+    },
+    [12976] = {
+      ap = {
+        { 12976, "self" },
+      },
+      d = 20,
+      n = "last_stand",
+    },
     [20647] = {
       cost = { [1] = 0.1 },
       n = "execute",
@@ -1257,6 +1279,19 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       gcd = 1.5,
       n = "raging_blow",
       r = 5,
+    },
+    [402913] = {
+      ap = {
+        { 402913, "self" },
+      },
+      cd = 180,
+      d = 10,
+      gcd = 1.5,
+      n = "enraged_regeneration",
+    },
+    [403359] = {
+      n = "enraged_regeneration",
+      pas = true,
     },
     [425415] = {
       ap = {
@@ -1377,8 +1412,14 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       a = { 12880, 425415, 427066, 440483, 12317, 462885 },
       b = { 12880, 425415, 427066, 440483, 462885, 12317 },
     },
+    enraged_regeneration = {
+      a = { 402913, 403359 },
+    },
     execute = {
       a = { 5308, 20647, 20658, 20660, 20661, 20662 },
+    },
+    last_stand = {
+      a = { 12975, 12976 },
     },
     pummel = {
       a = { 6552, 6554 },
@@ -1396,6 +1437,9 @@ ns.RegisterSpecData("forever", "warrior_fury", {
     rend = {
       a = { 772, 6546, 6547, 6548, 11572, 11573 },
       b = { 772, 6546, 6547, 6548, 11572, 11573 },
+    },
+    shield_wall = {
+      a = { 871 },
     },
     slam = {
       a = { 1464, 8820, 11604, 11605, 1240193, 1310196 },

@@ -50,6 +50,8 @@ local function Reset()
   mock.actionInfo, mock.macroSpell, mock.powerCost, mock.cdmInfo, mock.timeline = nil, nil, nil, nil, nil
   mock.bindings, mock.actionSlots, mock.bonusBar = nil, nil, nil
   mock.targetCast, mock.important = nil, nil
+  mock.healthPct, mock.mounted, mock.sounds, mock.castTimes = nil, nil, {}, nil
+  SettingsPanel, ActionButton3 = nil, nil
   DBM, BigWigsLoader, BT4Button1, BuffIconCooldownViewer = nil, nil, nil, nil
   mock.class, mock.specs, mock.specIndex = { "Druid", "DRUID", 11 }, { [1] = 102, [2] = 103, [3] = 104, [4] = 105 }, 2
   mock.book = FERAL_BOOK
@@ -625,6 +627,8 @@ test("HUD shows three icons, the mode in the header, keybinds and the GCD bar", 
   Reset()
   mock.bindings = { ACTIONBUTTON3 = "SHIFT-3", MULTIACTIONBAR1BUTTON2 = "CTRL-F" }
   local ns = Boot()
+  ns.db.hud.header = true -- off by default (icons only); switched on here to check its text
+  ns.Display.Rebuild()
   local r = ns.Update()
   local f = ns.Display.frame
   eq(f.slots[1]:IsShown(), true)
@@ -1321,6 +1325,172 @@ test("diagnostics: our own failing calls are counted and the first of each is lo
   end
   eq(count, 2, "counted every time")
   DMGAssistWatchdog = nil
+end)
+
+---------------------------------------------------------------------------
+-- Defensives, sounds, highlight, visibility, pooling, movement, snapshot, reset
+---------------------------------------------------------------------------
+local function DefBook()
+  local book = {}
+  for _, b in ipairs(FERAL_BOOK) do
+    book[#book + 1] = b
+  end
+  book[#book + 1] = { spellID = 22812, name = "Barkskin" }
+  book[#book + 1] = { spellID = 61336, name = "Survival Instincts" }
+  mock.book = book
+end
+
+test("defensives: boss mod warning -> decided with sound; low health in combat -> game-rendered", function()
+  Reset()
+  DefBook()
+  local dbm = FakeBossMods()
+  local ns = Boot()
+  eq(ns.Update().defensive, nil, "nothing coming, full health")
+  dbm.DBM_TimerBegin("DBM_TimerBegin", "nova", "Shadow Nova", 2, 0, "cd", 1, 2) -- AoE in 2 s
+  local r = ns.Update()
+  eq(r.defensive.how, "decided")
+  eq(r.defensive.id, 22812, "lighter defensive first (Barkskin)")
+  eq(#mock.sounds, 1, "defensive sound played")
+  mock.cooldowns[22812] = { active = true }
+  eq(ns.Update().defensive.id, 61336, "Barkskin on cooldown -> Survival Instincts")
+  ns.BossMods.Reset()
+  mock.cooldowns[22812] = nil
+  Restrict()
+  mock.healthPct = { player = 0.2 }
+  r = ns.Update()
+  eq(r.defensive.how, "render")
+  eq(mock.IsSecret(ns.Display.frame.def.alpha), true, "alpha from the secret health curve")
+  mock.restricted = false
+  mock.healthPct = { player = 0.9 }
+  r = ns.Update()
+  eq(r.defensive, nil, "readable full health: nothing")
+end)
+
+test("sounds: on the rising edge only, throttled, 'none' silences, master switch", function()
+  Reset()
+  KickBook()
+  local ns = Boot()
+  mock.targetCast = { notInterruptible = false, id = 9999 }
+  ns.Update()
+  ns.Update()
+  eq(#mock.sounds, 1, "once per interrupt, not every tick")
+  eq(mock.sounds[1][2], "Master")
+  ns.db.sound_interrupt = "none"
+  eq(ns.Sounds.Play("interrupt"), false)
+  ns.db.sound_interrupt = nil
+  ns.db.sounds = false
+  mock.Advance(3)
+  eq(ns.Sounds.Play("interrupt"), false, "master switch")
+end)
+
+test("action bar highlight: the real button for slot 1 glows", function()
+  Reset()
+  local ns = Boot()
+  local r = ns.Update()
+  local id = r.queue[1].id
+  ActionButton3 = { action = 3, commandName = "ACTIONBUTTON3", shown = true, events = {}, scripts = {} }
+  setmetatable(ActionButton3, getmetatable(ns.Display.frame))
+  mock.actionInfo = { [3] = { "spell", id } }
+  mock.bindings = { ACTIONBUTTON3 = "3" }
+  ns.Display.InvalidateKeybinds()
+  ns.Update()
+  local hl = ns.Display.frame.hl
+  eq(hl:IsShown(), true)
+  eq(hl.button, ActionButton3)
+  eq(ns.Display.Keybind(id), "3", "binding from the button's commandName")
+  ns.db.hud.highlight = false
+  ns.Update()
+  eq(hl:IsShown(), false)
+end)
+
+test("visibility: hidden while mounted out of combat; preview while the settings panel is open", function()
+  Reset()
+  local ns = Boot()
+  mock.mounted = true
+  eq(ns.Update(), nil, "mounted")
+  mock.mounted = false
+  mock.hasTarget = false
+  eq(ns.Update(), nil, "no target, out of combat")
+  SettingsPanel = { IsShown = function() return true end }
+  eq(type(ns.Update()), "table", "previewing while the options are open")
+  SettingsPanel = nil
+end)
+
+test("pooling: SimC's pool_resource waits for the next action instead of a filler", function()
+  Reset()
+  local ns = Boot()
+  local rec = QRecord({
+    { a = "pool_resource", k = "R", p = { for_next = "1" } },
+    { a = "rip", k = "R", c = "combo_points>=1" },
+    { a = "shred", k = "R" },
+  })
+  Feral(ns, rec)
+  mock.power[4], mock.power[3] = 5, 10
+  mock.usable[1079] = { false, true } -- Rip: not enough energy
+  local r = ns.Engine.Recommend(rec, {})
+  eq(r.main.token, "rip")
+  eq(r.main.source, "pool", "pool for Rip, don't Shred")
+end)
+
+test("movement: cast-time spells are skipped while moving (setting), instants are not", function()
+  Reset()
+  local ns = Boot()
+  local rec = QRecord({ { a = "rip", k = "R" }, { a = "shred", k = "R" } })
+  Feral(ns, rec)
+  mock.power[4] = 3
+  mock.castTimes = { [1079] = 2000 } -- pretend Rip had a 2 s cast (live value from the game)
+  mock.Fire("PLAYER_STARTED_MOVING")
+  local r = ns.Engine.Recommend(rec, {})
+  eq(r.main.token, "shred")
+  mock.Fire("PLAYER_STOPPED_MOVING")
+  eq(ns.Engine.Recommend(rec, {}).main.token, "rip")
+  ns.db.castWhileMoving = true
+  mock.Fire("PLAYER_STARTED_MOVING")
+  eq(ns.Engine.Recommend(rec, {}).main.token, "rip", "setting allows it")
+end)
+
+test("snapshot: full decision trace stored in the Watchdog log", function()
+  Reset()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, tostring(data) } end }
+  Boot()
+  SlashCmdList.DMGASSIST("snapshot")
+  local lines = 0
+  for _, l in ipairs(logged) do
+    if l[1] == "snapshot_line" then
+      lines = lines + 1
+    end
+  end
+  eq(lines >= 1, true, "trace lines (the walk stops at the pick)")
+  DMGAssistWatchdog = nil
+end)
+
+test("settings: sections on every page, fonts listed, reset restores defaults", function()
+  Reset()
+  local ns = Boot()
+  local headers = 0
+  local cats = mock.settingsCategories
+  local mine = {}
+  for i = #cats - 4, #cats do
+    mine[#mine + 1] = cats[i]
+  end
+  for _, c in ipairs(mine) do
+    for _, item in ipairs(c.layout.items) do
+      if item.header then
+        headers = headers + 1
+      end
+    end
+  end
+  eq(headers >= 12, true, "section headers: " .. headers)
+  eq(mine[1].name, "DMGAssist", "basic page first")
+  eq(mine[5].parent, mine[1], "four sub-pages: Display, Alerts & Sounds, Combat, Advanced")
+  local fonts = mock.settings.DMGASSIST_FONT.options()
+  eq(fonts[1].value, "default")
+  mock.settings.DMGASSIST_ICONSIZE:SetValue(80)
+  mock.settings.DMGASSIST_INTERRUPTMODE:SetValue("off")
+  ns.Options.ResetAll()
+  eq(ns.db.hud.iconSize, 52)
+  eq(ns.db.interruptMode, "smart")
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

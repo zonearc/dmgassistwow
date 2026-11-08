@@ -104,6 +104,19 @@ local function DoVariable(e, run)
 end
 
 -- Is the spell castable (now, or at the look-ahead moment)? true / false / UNKNOWN.
+-- Cast time right now in seconds (live from the game when readable, else SimC's data), for the movement check.
+local function CastTime(id)
+  local info = U.Read(U.Call(C_Spell and C_Spell.GetSpellInfo, id))
+  local ms = type(info) == "table" and U.Read(info.castTime)
+  if type(ms) == "number" then
+    return ms / 1000
+  end
+  local data = M.Info(id)
+  return data and data.ct or 0
+end
+
+-- Is the spell castable (now, or at the look-ahead moment)? true / false / UNKNOWN, plus a reason when false:
+-- "power" (not enough resources: a pooling candidate) or "moving" (has a cast time and we are moving).
 local function Castable(id)
   local usable, noPower = U.Call(C_Spell and C_Spell.IsSpellUsable, id)
   usable, noPower = U.Read(usable), U.Read(noPower)
@@ -111,17 +124,24 @@ local function Castable(id)
     return UNKNOWN
   end
   local ahead = S.Lookahead()
+  local first = not ahead or #ahead.prev == 0
   if not usable then
-    if noPower ~= true or not ahead then
+    if noPower ~= true then
       return false
+    end
+    if not ahead then
+      return false, "power"
     end
     -- Can't afford it now; by the look-ahead moment we may (resources gained in between).
     local afford = S.Affordable(id)
     if afford ~= true then
-      return false
+      return false, "power"
     end
   elseif ahead and S.Affordable(id) == false then
-    return false
+    return false, "power"
+  end
+  if first and S.moving and not (ns.db and ns.db.castWhileMoving) and CastTime(id) > 0 then
+    return false, "moving"
   end
   local ready = S.CooldownReady(id)
   if ready == false then
@@ -213,13 +233,32 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
           return STOP
         end
       end
+    elseif a == "pool_resource" then
+      if not isBlizzard and e.p and tostring(e.p.for_next) == "1" and not maybe then
+        run.poolNext = Test(e.c, run) == true or nil
+      end
     elseif not G.SKIP[a] and not (isBlizzard and (e.x or run.cooldowns[a])) then
       -- (Blizzard's excluded lines are the major cooldowns: never a main pick from the fallback.)
       local id = M.SpellID(a)
       if id then
-        local castable = Castable(id)
+        local castable, why = Castable(id)
+        local pooling = run.poolNext
+        run.poolNext = nil
+        if run.trace then
+          run.trace[#run.trace + 1] = string.format("%s:%s castable=%s%s", name, a, tostring(castable),
+            why and ("(" .. why .. ")") or "")
+        end
+        if castable == false and why == "power" and pooling and not isBlizzard and not maybe
+          and Test(e.c, run, a) == true then
+          -- SimC said "pool for the next action" and this is it: wait for the resource instead of a filler.
+          run.visiting[name] = nil
+          return { id = id, token = a, source = "pool" }
+        end
         if castable ~= false then
           local t = Test(e.c, run, a)
+          if run.trace then
+            run.trace[#run.trace] = run.trace[#run.trace] .. " cond=" .. tostring(t)
+          end
           if t ~= false then
             local certain = t == true and castable == true and not maybe
             if run.cooldowns[a] then
@@ -305,6 +344,7 @@ local function Decide(record, opts, targets, first)
     blizzardByAction = prep.blizzardByAction,
     burst = first and opts.burst ~= false,
     override = {},
+    trace = (first and opts.trace) and {} or nil,
   }
   run.first = first
   run.resolve = function(name)
@@ -376,7 +416,7 @@ local function Decide(record, opts, targets, first)
     branch = nil
   end
   return { main = pick, cd = run.cd, acSpell = run.acSpell, unresolved = run.unresolved, vars = run.ctx.vars,
-    branch = branch }
+    branch = branch, trace = run.trace }
 end
 
 local function Queue(record, opts, targets)

@@ -22,6 +22,9 @@ globals = {
 -- WoW API we read. Keep this list to what the code actually uses, so a typo
 -- in an API name shows up as an undefined global.
 read_globals = {
+  "UnitHealthPercent",
+  "LibStub", "IsMounted", "UnitInVehicle", "C_PetBattles", "PlaySound", "SOUNDKIT", "SettingsPanel",
+  "CreateSettingsListSectionHeaderInitializer",
   "C_CurveUtil", "UnitPowerPercent",
   "CreateSettingsButtonInitializer",
   "BuffIconCooldownViewer",
@@ -44,7 +47,8 @@ read_globals = {
 files["tests/**"] = {
   std = "+lua51",
   globals = { "C_EncodingUtil", "DMGAssistWatchdogDB", "DMGAssistWatchdog", "DMGAssistDB", "SlashCmdList",
-    "WOW_PROJECT_ID", "DBM", "BigWigsLoader", "BT4Button1", "BT4Button50", "BuffIconCooldownViewer" },
+    "WOW_PROJECT_ID", "DBM", "BigWigsLoader", "BT4Button1", "BT4Button50", "BuffIconCooldownViewer", "SettingsPanel",
+    "ActionButton3" },
   read_globals = { "newproxy" },
   allow_defined_top = true,
   ignore = { "212", "213" },

@@ -867,6 +867,18 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       pas = true,
       tal = true,
     },
+    [12975] = {
+      cd = 180,
+      n = "last_stand",
+      tal = true,
+    },
+    [12976] = {
+      ap = {
+        { 12976, "self" },
+      },
+      d = 20,
+      n = "last_stand",
+    },
     [20647] = {
       cost = { [1] = 0.1 },
       n = "execute",
@@ -950,12 +962,25 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       d = 1,
       n = "execute",
     },
+    [402913] = {
+      ap = {
+        { 402913, "self" },
+      },
+      cd = 180,
+      d = 10,
+      gcd = 1.5,
+      n = "enraged_regeneration",
+    },
     [403195] = {
       n = "devastate",
       pas = true,
     },
     [403196] = {
       n = "devastate",
+    },
+    [403359] = {
+      n = "enraged_regeneration",
+      pas = true,
     },
     [440113] = {
       n = "sudden_death",
@@ -1022,8 +1047,14 @@ ns.RegisterSpecData("forever", "warrior_protection", {
     devastate = {
       a = { 403196, 403195 },
     },
+    enraged_regeneration = {
+      a = { 402913, 403359 },
+    },
     execute = {
       a = { 5308, 20647, 20658, 20660, 20661, 20662 },
+    },
+    last_stand = {
+      a = { 12975, 12976 },
     },
     pummel = {
       a = { 6552, 6554 },

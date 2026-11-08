@@ -1170,6 +1170,25 @@ ns.RegisterSpecData("forever", "demonhunter_devourer", {
       n = "disrupt",
       r = 5,
     },
+    [196718] = {
+      ap = {
+        { 196718, "self" },
+      },
+      cd = 300,
+      d = 8,
+      gcd = 1.5,
+      n = "darkness",
+      tal = true,
+    },
+    [198589] = {
+      ap = {
+        { 212800, "self" },
+      },
+      cd = 0.5,
+      ch = 1,
+      chcd = 60,
+      n = "blur",
+    },
     [198793] = {
       ap = {
         { 198793, "self" },
@@ -1204,9 +1223,61 @@ ns.RegisterSpecData("forever", "demonhunter_devourer", {
       d = 1,
       n = "metamorphosis",
     },
+    [202818] = {
+      ap = {
+        { 202818, "self" },
+      },
+      d = 2,
+      n = "blur",
+    },
     [203981] = {
       n = "soul_fragments",
       st = 20,
+    },
+    [204021] = {
+      ch = 1,
+      chcd = 60,
+      gcd = 1.5,
+      n = "fiery_brand",
+      r = 30,
+      tal = true,
+    },
+    [207744] = {
+      ap = {
+        { 207744, "self" },
+      },
+      d = 12,
+      n = "fiery_brand",
+    },
+    [207771] = {
+      ap = {
+        { 207771, "self" },
+      },
+      d = 12,
+      n = "fiery_brand",
+    },
+    [209245] = {
+      ap = {
+        { 209245, "enemy" },
+        { 209247, "enemy" },
+      },
+      cd = 60,
+      d = 12,
+      gcd = 1.5,
+      n = "fiery_brand",
+      r = 30,
+    },
+    [209247] = {
+      ap = {
+        { 209247, "enemy" },
+      },
+      d = 30,
+      n = "fiery_brand",
+      r = 40,
+    },
+    [209426] = {
+      d = 8,
+      n = "darkness",
     },
     [210788] = {
       ap = {
@@ -1214,6 +1285,14 @@ ns.RegisterSpecData("forever", "demonhunter_devourer", {
       },
       d = 25,
       n = "soul_fragments",
+    },
+    [212800] = {
+      ap = {
+        { 212800, "self" },
+      },
+      cd = 60,
+      d = 10,
+      n = "blur",
     },
     [218903] = {
       gain = { [17] = 30 },
@@ -1255,6 +1334,10 @@ ns.RegisterSpecData("forever", "demonhunter_devourer", {
     },
     [272801] = {
       n = "devour",
+    },
+    [320962] = {
+      n = "fiery_brand",
+      pas = true,
     },
     [323639] = {
       ap = {
@@ -1689,6 +1772,9 @@ ns.RegisterSpecData("forever", "demonhunter_devourer", {
     },
   },
   spells = {
+    blur = {
+      a = { 198589, 212800, 202818 },
+    },
     collapsing_star = {
       a = { 1221150, 1221162, 1227702, 1221167, 1221171, 1319061 },
       b = { 1221150, 1221162, 1221171, 1227702, 1319061, 1319066 },
@@ -1704,6 +1790,9 @@ ns.RegisterSpecData("forever", "demonhunter_devourer", {
       a = { 1256308, 1256307 },
       b = { 1256308, 1256307 },
     },
+    darkness = {
+      a = { 196718, 209426 },
+    },
     devour = {
       a = { 1217610, 1288123, 272801 },
     },
@@ -1717,6 +1806,9 @@ ns.RegisterSpecData("forever", "demonhunter_devourer", {
       a = { 1225826, 1225827, 1239524, 1279200, 1226033 },
       b = { 1225826, 1225827, 1239524, 1279200, 1226033 },
       t = { 1226033 },
+    },
+    fiery_brand = {
+      a = { 209245, 207744, 207771, 204021, 209247, 320962 },
     },
     hungering_slash = {
       a = { 1239123, 1239127, 1239507, 1239525, 1239519 },

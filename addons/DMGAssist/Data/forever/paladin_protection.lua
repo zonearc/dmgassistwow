@@ -357,13 +357,53 @@ ns.RegisterSpecData("forever", "paladin_protection", {
       gcd = 1.5,
       n = "devotion_aura",
     },
+    [498] = {
+      ap = {
+        { 498, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 15 },
+      d = 6,
+      gcd = 1.5,
+      n = "divine_protection",
+    },
+    [642] = {
+      ap = {
+        { 642, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 75 },
+      d = 10,
+      gcd = 1.5,
+      n = "divine_shield",
+    },
     [643] = {
       gcd = 1.5,
       n = "devotion_aura",
     },
+    [1020] = {
+      ap = {
+        { 1020, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 110 },
+      d = 12,
+      gcd = 1.5,
+      n = "divine_shield",
+    },
     [1032] = {
       gcd = 1.5,
       n = "devotion_aura",
+    },
+    [5573] = {
+      ap = {
+        { 5573, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 35 },
+      d = 8,
+      gcd = 1.5,
+      n = "divine_protection",
     },
     [10290] = {
       gcd = 1.5,
@@ -496,6 +536,26 @@ ns.RegisterSpecData("forever", "paladin_protection", {
       n = "rebuke",
       pas = true,
     },
+    [458312] = {
+      ap = {
+        { 458312, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 15 },
+      d = 9,
+      gcd = 1.5,
+      n = "divine_protection",
+    },
+    [458371] = {
+      ap = {
+        { 458371, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 35 },
+      d = 12,
+      gcd = 1.5,
+      n = "divine_protection",
+    },
     [1280345] = {
       n = "consecration",
     },
@@ -516,6 +576,12 @@ ns.RegisterSpecData("forever", "paladin_protection", {
     },
     devotion_aura = {
       a = { 465, 643, 1032, 10290, 10291, 10292 },
+    },
+    divine_protection = {
+      a = { 498, 5573, 458312, 458371 },
+    },
+    divine_shield = {
+      a = { 642, 1020 },
     },
     hammer_of_the_righteous = {
       a = { 407632, 409922 },

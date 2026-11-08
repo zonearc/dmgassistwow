@@ -555,6 +555,15 @@ ns.RegisterSpecData("midnight", "monk_brewmaster", {
     [121255] = {
       n = "keg_smash",
     },
+    [122470] = {
+      ap = {
+        { 122470, "self" },
+      },
+      cd = 90,
+      d = 10,
+      n = "touch_of_karma",
+      r = 20,
+    },
     [123725] = {
       ap = {
         { 123725, "enemy" },
@@ -571,6 +580,20 @@ ns.RegisterSpecData("midnight", "monk_brewmaster", {
       n = "chi_burst",
       r = 40,
       tal = true,
+    },
+    [124280] = {
+      ap = {
+        { 124280, "enemy" },
+      },
+      d = 6,
+      n = "touch_of_karma",
+    },
+    [125174] = {
+      ap = {
+        { 125174, "self" },
+      },
+      d = 10,
+      n = "touch_of_karma",
     },
     [129597] = {
       cd = 120,
@@ -786,6 +809,11 @@ ns.RegisterSpecData("midnight", "monk_brewmaster", {
       n = "chi_burst",
       r = 40,
     },
+    [1243287] = {
+      n = "diffuse_magic",
+      pas = true,
+      tal = true,
+    },
     [1262329] = {
       n = "empty_the_cellar",
       pas = true,
@@ -852,6 +880,9 @@ ns.RegisterSpecData("midnight", "monk_brewmaster", {
     chi_burst = {
       a = { 123986, 461404, 130654, 148135, 261682, 460490 },
     },
+    diffuse_magic = {
+      a = { 1243287 },
+    },
     empty_barrel = {
       a = { 1265133, 1265307, 1265351 },
       b = { 1265307, 1265133, 1265351 },
@@ -899,6 +930,9 @@ ns.RegisterSpecData("midnight", "monk_brewmaster", {
     },
     touch_of_death = {
       a = { 322109, 322111, 344361, 325095, 325215, 344360 },
+    },
+    touch_of_karma = {
+      a = { 122470, 124280, 125174 },
     },
   },
 })

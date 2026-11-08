@@ -1080,6 +1080,17 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       n = "azure_strike",
       r = 25,
     },
+    [363916] = {
+      ap = {
+        { 363916, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 90,
+      d = 12,
+      n = "obsidian_scales",
+      tal = true,
+    },
     [364664] = {
       d = 12,
       n = "living_flame",
@@ -1187,6 +1198,15 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
     },
     [373766] = {
       n = "emerald_blossom",
+    },
+    [374348] = {
+      n = "renewing_blaze",
+      pas = true,
+      tal = true,
+    },
+    [374349] = {
+      d = 8,
+      n = "renewing_blaze",
     },
     [375087] = {
       ap = {
@@ -1551,11 +1571,17 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
     melt_armor = {
       t = { 441176 },
     },
+    obsidian_scales = {
+      a = { 363916 },
+    },
     pyre = {
       a = { 357211, 1236970, 357212, 431151, 393568, 431152 },
     },
     quell = {
       a = { 351338 },
+    },
+    renewing_blaze = {
+      a = { 374349, 374348 },
     },
     rising_fury = {
       a = { 1271783, 1271687, 1271788, 1271796 },

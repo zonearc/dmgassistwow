@@ -719,6 +719,16 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       gain = { [2] = 20 },
       n = "steady_shot",
     },
+    [109304] = {
+      cd = 120,
+      gcd = 1.5,
+      n = "exhilaration",
+      r = 45,
+    },
+    [128594] = {
+      cd = 120,
+      n = "exhilaration",
+    },
     [147362] = {
       cd = 24,
       d = 5,
@@ -731,6 +741,14 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       gcd = 1.5,
       n = "arcane_shot",
       r = 40,
+    },
+    [186265] = {
+      ap = {
+        { 186265, "self" },
+      },
+      cd = 180,
+      d = 8,
+      n = "aspect_of_the_turtle",
     },
     [187707] = {
       cd = 15,
@@ -848,6 +866,17 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       cd = 360,
       d = 40,
       n = "primal_rage",
+    },
+    [264735] = {
+      ap = {
+        { 264735, "self" },
+      },
+      ch = 1,
+      chcd = 90,
+      d = 6,
+      gcd = 1.5,
+      n = "survival_of_the_fittest",
+      tal = true,
     },
     [269850] = {
       gain = { [2] = 10 },
@@ -1075,6 +1104,9 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
     aspect_of_the_hydra = {
       t = { 470945 },
     },
+    aspect_of_the_turtle = {
+      a = { 186265 },
+    },
     auto_shot = {
       a = { 75 },
     },
@@ -1100,6 +1132,9 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
     },
     counter_shot = {
       a = { 147362 },
+    },
+    exhilaration = {
+      a = { 109304, 128594 },
     },
     explosive_shot = {
       a = { 212431, 212680, 269850, 464618 },
@@ -1140,6 +1175,9 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
     },
     steady_shot = {
       a = { 56641, 77443 },
+    },
+    survival_of_the_fittest = {
+      a = { 264735 },
     },
     tactical_reload = {
       t = { 1301406 },

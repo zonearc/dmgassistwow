@@ -838,6 +838,15 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
       r = 30,
       tal = true,
     },
+    [48792] = {
+      ap = {
+        { 48792, "self" },
+      },
+      cd = 120,
+      d = 8,
+      n = "icebound_fortitude",
+      tal = true,
+    },
     [49020] = {
       cost = { [5] = 2 },
       gain = { [6] = 200 },
@@ -845,6 +854,14 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
       n = "obliterate",
       r = 5,
       tal = true,
+    },
+    [49039] = {
+      ap = {
+        { 49039, "self" },
+      },
+      cd = 120,
+      d = 10,
+      n = "lichborne",
     },
     [49143] = {
       cost = { [6] = 35 },
@@ -859,6 +876,13 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
       n = "howling_blast",
       r = 30,
       tal = true,
+    },
+    [50397] = {
+      ap = {
+        { 50397, "self" },
+      },
+      d = 30,
+      n = "lichborne",
     },
     [50401] = {
       n = "razorice",
@@ -906,6 +930,15 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
     [55095] = {
       d = 24,
       n = "frost_fever",
+    },
+    [55233] = {
+      ap = {
+        { 55233, "self" },
+      },
+      cd = 90,
+      d = 10,
+      n = "vampiric_blood",
+      tal = true,
     },
     [59052] = {
       ap = {
@@ -1365,6 +1398,9 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
     howling_blast = {
       a = { 49184, 237680 },
     },
+    icebound_fortitude = {
+      a = { 48792 },
+    },
     icy_onslaught = {
       a = { 1230273, 1230272 },
       b = { 1230273, 1230272 },
@@ -1376,6 +1412,9 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
     },
     killing_streak = {
       t = { 1230153 },
+    },
+    lichborne = {
+      a = { 49039, 50397 },
     },
     mind_freeze = {
       a = { 47528 },
@@ -1422,6 +1461,9 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
     unholy_strength = {
       a = { 53365 },
       b = { 53365 },
+    },
+    vampiric_blood = {
+      a = { 55233 },
     },
   },
 })

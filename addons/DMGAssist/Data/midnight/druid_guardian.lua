@@ -591,6 +591,19 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
       d = 8,
       n = "barkskin",
     },
+    [22842] = {
+      ap = {
+        { 22842, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 36,
+      cost = { [1] = 10, [3] = 0 },
+      d = 3,
+      gcd = 1.5,
+      n = "frenzied_regeneration",
+      tal = true,
+    },
     [24858] = {
       gcd = 1.5,
       n = "moonkin_form",
@@ -607,6 +620,13 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
     [48629] = {
       n = "cat_form",
     },
+    [50322] = {
+      ap = {
+        { 50322, "self" },
+      },
+      d = 6,
+      n = "survival_instincts",
+    },
     [50334] = {
       ap = {
         { 50334, "self" },
@@ -614,6 +634,17 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
       cd = 180,
       d = 15,
       n = "berserk",
+      tal = true,
+    },
+    [61336] = {
+      ap = {
+        { 61336, "self" },
+      },
+      cd = 6,
+      ch = 1,
+      chcd = 180,
+      d = 6,
+      n = "survival_instincts",
       tal = true,
     },
     [77758] = {
@@ -733,6 +764,9 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
       pas = true,
       tal = true,
     },
+    [122307] = {
+      n = "frenzied_regeneration",
+    },
     [155625] = {
       ap = {
         { 155625, "enemy" },
@@ -820,6 +854,11 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
     },
     [203964] = {
       n = "galactic_guardian",
+      pas = true,
+      tal = true,
+    },
+    [203965] = {
+      n = "survival_of_the_fittest",
       pas = true,
       tal = true,
     },
@@ -1225,6 +1264,9 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
     fount_of_strength = {
       t = { 441675 },
     },
+    frenzied_regeneration = {
+      a = { 22842, 122307 },
+    },
     galactic_guardian = {
       a = { 213708, 203964 },
       b = { 213708, 203964 },
@@ -1304,6 +1346,12 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
     },
     sundering_roar = {
       a = { 1253799, 1253982 },
+    },
+    survival_instincts = {
+      a = { 61336, 50322 },
+    },
+    survival_of_the_fittest = {
+      a = { 203965 },
     },
     swipe = {
       a = { 106785, 213764, 213771 },

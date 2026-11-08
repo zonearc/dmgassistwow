@@ -541,6 +541,16 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       n = "throw_glaive",
       r = 30,
     },
+    [196718] = {
+      ap = {
+        { 196718, "self" },
+      },
+      cd = 300,
+      d = 8,
+      gcd = 1.5,
+      n = "darkness",
+      tal = true,
+    },
     [198013] = {
       ap = {
         { 198013, "self" },
@@ -555,6 +565,15 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
     },
     [198030] = {
       n = "eye_beam",
+    },
+    [198589] = {
+      ap = {
+        { 212800, "self" },
+      },
+      cd = 0.5,
+      ch = 1,
+      chcd = 60,
+      n = "blur",
     },
     [198793] = {
       ap = {
@@ -610,12 +629,27 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       d = 1,
       n = "metamorphosis",
     },
+    [202818] = {
+      ap = {
+        { 202818, "self" },
+      },
+      d = 2,
+      n = "blur",
+    },
     [203040] = {
       n = "eye_beam",
     },
     [203557] = {
       n = "felblade",
       pas = true,
+    },
+    [204021] = {
+      ch = 1,
+      chcd = 60,
+      gcd = 1.5,
+      n = "fiery_brand",
+      r = 30,
+      tal = true,
     },
     [204157] = {
       ch = 1,
@@ -636,6 +670,43 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       pas = true,
       tal = true,
     },
+    [207744] = {
+      ap = {
+        { 207744, "self" },
+      },
+      d = 12,
+      n = "fiery_brand",
+    },
+    [207771] = {
+      ap = {
+        { 207771, "self" },
+      },
+      d = 12,
+      n = "fiery_brand",
+    },
+    [209245] = {
+      ap = {
+        { 209245, "enemy" },
+        { 209247, "enemy" },
+      },
+      cd = 60,
+      d = 12,
+      gcd = 1.5,
+      n = "fiery_brand",
+      r = 30,
+    },
+    [209247] = {
+      ap = {
+        { 209247, "enemy" },
+      },
+      d = 30,
+      n = "fiery_brand",
+      r = 40,
+    },
+    [209426] = {
+      d = 8,
+      n = "darkness",
+    },
     [210152] = {
       cd = 9,
       cost = { [17] = 35 },
@@ -647,6 +718,14 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
     },
     [210155] = {
       n = "death_sweep",
+    },
+    [212800] = {
+      ap = {
+        { 212800, "self" },
+      },
+      cd = 60,
+      d = 10,
+      n = "blur",
     },
     [213241] = {
       n = "felblade",
@@ -727,6 +806,10 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       },
       d = 4,
       n = "essence_break",
+    },
+    [320962] = {
+      n = "fiery_brand",
+      pas = true,
     },
     [323639] = {
       ap = {
@@ -1077,6 +1160,9 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
     blade_dance = {
       a = { 188499, 199552, 200685, 391374, 391378, 472559 },
     },
+    blur = {
+      a = { 198589, 212800, 202818 },
+    },
     burning_wound = {
       a = { 346278, 391191, 346279, 391189 },
       b = { 346278, 391191, 346279, 391189 },
@@ -1087,6 +1173,9 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
     },
     chaotic_transformation = {
       t = { 388112 },
+    },
+    darkness = {
+      a = { 196718, 209426 },
     },
     death_sweep = {
       a = { 210152, 210153, 210155, 393054, 393055 },
@@ -1118,6 +1207,9 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
     },
     felblade = {
       a = { 232893, 213241, 213243, 203557, 204497, 236167 },
+    },
+    fiery_brand = {
+      a = { 209245, 207744, 207771, 204021, 209247, 320962 },
     },
     glaive_flurry = {
       a = { 442435 },

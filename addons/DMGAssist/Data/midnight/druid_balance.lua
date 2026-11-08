@@ -907,6 +907,27 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       n = "wrath",
       r = 5,
     },
+    [22812] = {
+      ap = {
+        { 22812, "self" },
+      },
+      cd = 60,
+      d = 8,
+      n = "barkskin",
+    },
+    [22842] = {
+      ap = {
+        { 22842, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 36,
+      cost = { [1] = 10, [3] = 0 },
+      d = 3,
+      gcd = 1.5,
+      n = "frenzied_regeneration",
+      tal = true,
+    },
     [24858] = {
       gcd = 1.5,
       n = "moonkin_form",
@@ -928,6 +949,24 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       },
       d = 15,
       n = "eclipse_lunar",
+    },
+    [50322] = {
+      ap = {
+        { 50322, "self" },
+      },
+      d = 6,
+      n = "survival_instincts",
+    },
+    [61336] = {
+      ap = {
+        { 61336, "self" },
+      },
+      cd = 6,
+      ch = 1,
+      chcd = 180,
+      d = 6,
+      n = "survival_instincts",
+      tal = true,
     },
     [78674] = {
       cost = { [8] = 40 },
@@ -994,6 +1033,9 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       n = "skull_bash",
       r = 13,
       tal = true,
+    },
+    [122307] = {
+      n = "frenzied_regeneration",
     },
     [155625] = {
       ap = {
@@ -1090,6 +1132,11 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       gcd = 1.5,
       n = "fury_of_elune",
       r = 40,
+      tal = true,
+    },
+    [203965] = {
+      n = "survival_of_the_fittest",
+      pas = true,
       tal = true,
     },
     [205636] = {
@@ -1442,6 +1489,9 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       a = { 430589, 429532 },
       b = { 430589, 429532 },
     },
+    barkskin = {
+      a = { 22812 },
+    },
     ca_inc = {
       a = { 102560, 390414, 394013, 194223, 383410, 395022 },
       b = { 102560, 390414, 394013, 194223, 383410, 395022 },
@@ -1473,6 +1523,9 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     force_of_nature = {
       a = { 205636, 37846, 248280 },
       t = { 205636 },
+    },
+    frenzied_regeneration = {
+      a = { 22842, 122307 },
     },
     full_moon = {
       a = { 274283 },
@@ -1567,6 +1620,12 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     sunfire = {
       a = { 93402, 164815 },
       b = { 164815, 93402 },
+    },
+    survival_instincts = {
+      a = { 61336, 50322 },
+    },
+    survival_of_the_fittest = {
+      a = { 203965 },
     },
     touch_the_cosmos = {
       a = { 394414, 450360, 394451, 450356 },

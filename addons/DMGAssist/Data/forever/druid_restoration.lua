@@ -735,6 +735,15 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       n = "ferocious_bite",
       r = 5,
     },
+    [22812] = {
+      ap = {
+        { 22812, "self" },
+      },
+      cd = 60,
+      d = 15,
+      gcd = 1.5,
+      n = "barkskin",
+    },
     [22827] = {
       cmax = { [4] = 5 },
       cost = { [3] = 35, [4] = 1 },
@@ -756,6 +765,19 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       n = "ferocious_bite",
       r = 5,
     },
+    [22842] = {
+      ap = {
+        { 22842, "self" },
+      },
+      cd = 180,
+      cost = { [1] = 0 },
+      d = 10,
+      gcd = 1.5,
+      n = "frenzied_regeneration",
+    },
+    [22845] = {
+      n = "frenzied_regeneration",
+    },
     [24858] = {
       gcd = 1.5,
       n = "moonkin_form",
@@ -768,12 +790,38 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       n = "ferocious_bite",
       r = 5,
     },
+    [408024] = {
+      ap = {
+        { 408024, "self" },
+      },
+      cd = 180,
+      d = 20,
+      n = "survival_instincts",
+    },
+    [408025] = {
+      ap = {
+        { 408025, "self" },
+      },
+      d = 20,
+      n = "survival_instincts",
+    },
+    [409809] = {
+      n = "survival_instincts",
+      pas = true,
+    },
     [410176] = {
       cd = 10,
       cost = { [1] = 10, [3] = 25 },
       gcd = 1,
       n = "skull_bash",
       r = 13,
+    },
+    [411115] = {
+      n = "survival_of_the_fittest",
+      pas = true,
+    },
+    [411124] = {
+      n = "survival_of_the_fittest",
     },
     [411128] = {
       cost = { [3] = 50 },
@@ -831,8 +879,27 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       n = "starsurge",
       pas = true,
     },
+    [428708] = {
+      ap = {
+        { 428708, "self" },
+      },
+      cd = 180,
+      d = 10,
+      gcd = 1.5,
+      n = "frenzied_regeneration",
+    },
+    [428713] = {
+      cd = 60,
+      d = 15,
+      gcd = 1.5,
+      n = "barkskin",
+      r = 40,
+    },
   },
   spells = {
+    barkskin = {
+      a = { 22812, 428713 },
+    },
     bear_form = {
       a = { 5487 },
       b = { 5487 },
@@ -843,6 +910,9 @@ ns.RegisterSpecData("forever", "druid_restoration", {
     },
     ferocious_bite = {
       a = { 22568, 22827, 22828, 22829, 31018 },
+    },
+    frenzied_regeneration = {
+      a = { 22842, 428708, 22845 },
     },
     heart_of_the_wild = {
       a = { 17003 },
@@ -883,6 +953,12 @@ ns.RegisterSpecData("forever", "druid_restoration", {
     sunfire = {
       a = { 414684, 414687, 414689 },
       b = { 414684, 414687, 414689 },
+    },
+    survival_instincts = {
+      a = { 408024, 408025, 409809 },
+    },
+    survival_of_the_fittest = {
+      a = { 411115, 411124 },
     },
     swipe = {
       a = { 769, 779, 780, 9754, 9908, 411128 },

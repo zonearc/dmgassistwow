@@ -565,6 +565,13 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
       cost = { [3] = 0 },
       n = "vanish",
     },
+    [1966] = {
+      cd = 10,
+      cost = { [3] = 20 },
+      gcd = 1,
+      n = "feint",
+      r = 5,
+    },
     [5171] = {
       ap = {
         { 5171, "self" },
@@ -574,6 +581,22 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
       d = 6,
       gcd = 1,
       n = "slice_and_dice",
+    },
+    [5277] = {
+      ap = {
+        { 5277, "self" },
+      },
+      cd = 300,
+      cost = { [3] = 0 },
+      d = 15,
+      n = "evasion",
+    },
+    [6768] = {
+      cd = 10,
+      cost = { [3] = 20 },
+      gcd = 1,
+      n = "feint",
+      r = 5,
     },
     [6774] = {
       ap = {
@@ -590,6 +613,13 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "sinister_strike",
+      r = 5,
+    },
+    [8637] = {
+      cd = 10,
+      cost = { [3] = 20 },
+      gcd = 1,
+      n = "feint",
       r = 5,
     },
     [8676] = {
@@ -632,6 +662,13 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "ambush",
+      r = 5,
+    },
+    [11303] = {
+      cd = 10,
+      cost = { [3] = 20 },
+      gcd = 1,
+      n = "feint",
       r = 5,
     },
     [11327] = {
@@ -700,6 +737,13 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
       d = 1,
       n = "vanish_purge",
     },
+    [25302] = {
+      cd = 10,
+      cost = { [3] = 20 },
+      gcd = 1,
+      n = "feint",
+      r = 5,
+    },
     [398197] = {
       n = "quick_draw",
       pas = true,
@@ -754,6 +798,12 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
     },
     coup_de_grace = {
       a = { 1310709 },
+    },
+    evasion = {
+      a = { 5277 },
+    },
+    feint = {
+      a = { 1966, 6768, 8637, 11303, 25302 },
     },
     improved_ambush = {
       t = { 14079 },

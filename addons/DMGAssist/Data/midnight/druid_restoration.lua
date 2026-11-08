@@ -459,6 +459,27 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       n = "ferocious_bite",
       r = 5,
     },
+    [22812] = {
+      ap = {
+        { 22812, "self" },
+      },
+      cd = 60,
+      d = 8,
+      n = "barkskin",
+    },
+    [22842] = {
+      ap = {
+        { 22842, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 36,
+      cost = { [1] = 10, [3] = 0 },
+      d = 3,
+      gcd = 1.5,
+      n = "frenzied_regeneration",
+      tal = true,
+    },
     [24858] = {
       gcd = 1.5,
       n = "moonkin_form",
@@ -474,6 +495,24 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
     },
     [48629] = {
       n = "cat_form",
+    },
+    [50322] = {
+      ap = {
+        { 50322, "self" },
+      },
+      d = 6,
+      n = "survival_instincts",
+    },
+    [61336] = {
+      ap = {
+        { 61336, "self" },
+      },
+      cd = 6,
+      ch = 1,
+      chcd = 180,
+      d = 6,
+      n = "survival_instincts",
+      tal = true,
     },
     [77758] = {
       cd = 6,
@@ -587,6 +626,9 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       n = "cat_form",
       pas = true,
     },
+    [122307] = {
+      n = "frenzied_regeneration",
+    },
     [155625] = {
       ap = {
         { 155625, "enemy" },
@@ -674,6 +716,11 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       gcd = 1.5,
       n = "starfire",
       r = 40,
+      tal = true,
+    },
+    [203965] = {
+      n = "survival_of_the_fittest",
+      pas = true,
       tal = true,
     },
     [211141] = {
@@ -841,6 +888,9 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
     },
   },
   spells = {
+    barkskin = {
+      a = { 22812 },
+    },
     bear_form = {
       a = { 5487, 17057, 106829, 106899, 270100 },
       b = { 17057, 5487, 106829, 106899, 270100 },
@@ -868,6 +918,9 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
     },
     fluid_form = {
       t = { 449193 },
+    },
+    frenzied_regeneration = {
+      a = { 22842, 122307 },
     },
     heart_of_the_wild = {
       a = { 108291, 108292, 108293, 108294, 1261867, 1261868 },
@@ -924,6 +977,12 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
     sunfire = {
       a = { 93402, 164815 },
       b = { 164815, 93402 },
+    },
+    survival_instincts = {
+      a = { 61336, 50322 },
+    },
+    survival_of_the_fittest = {
+      a = { 203965 },
     },
     swipe = {
       a = { 106785, 213764, 213771 },

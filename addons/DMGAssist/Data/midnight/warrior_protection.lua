@@ -650,6 +650,14 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       gcd = 1.5,
       n = "battle_shout",
     },
+    [12975] = {
+      ap = {
+        { 12975, "self" },
+      },
+      cd = 180,
+      d = 8,
+      n = "last_stand",
+    },
     [13491] = {
       cd = 10,
       cost = { [1] = 10 },
@@ -727,6 +735,15 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       n = "avatar",
       tal = true,
     },
+    [118038] = {
+      ap = {
+        { 118038, "self" },
+      },
+      cd = 120,
+      d = 8,
+      n = "die_by_the_sword",
+      tal = true,
+    },
     [126664] = {
       n = "charge",
     },
@@ -747,6 +764,15 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       gcd = 1.5,
       n = "execute",
       r = 5,
+    },
+    [184364] = {
+      ap = {
+        { 184364, "self" },
+      },
+      cd = 120,
+      d = 8,
+      n = "enraged_regeneration",
+      tal = true,
     },
     [190456] = {
       ap = {
@@ -1068,6 +1094,11 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       pas = true,
       tal = true,
     },
+    [1243659] = {
+      n = "last_stand",
+      pas = true,
+      tal = true,
+    },
     [1269311] = {
       n = "phalanx",
       pas = true,
@@ -1196,6 +1227,12 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
     devastator = {
       t = { 236279 },
     },
+    die_by_the_sword = {
+      a = { 118038 },
+    },
+    enraged_regeneration = {
+      a = { 184364 },
+    },
     execute = {
       a = { 5308, 163201, 280735, 281000, 260798, 280849 },
     },
@@ -1213,6 +1250,9 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
     },
     javelineer = {
       t = { 1271948 },
+    },
+    last_stand = {
+      a = { 12975, 1243659 },
     },
     lightning_strikes = {
       t = { 434969 },
