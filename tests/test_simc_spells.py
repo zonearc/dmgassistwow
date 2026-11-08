@@ -127,6 +127,35 @@ Charges          : 1 (32 seconds cooldown)
         self.assertEqual(ids["eclipse"]["a"][:2], [1233272, 1233346], "castable buttons first")
         self.assertEqual(info[1233272]["ch"], 1)
 
+    def test_form_suffix_keeps_only_spells_usable_in_that_form(self):
+        dump = """Name             : Moonfire (id=8921) [Spell Family (7)]
+Class            : Druid
+Stance Mask      : 0x40000002
+GCD              : 1.5 seconds
+
+Name             : Moonfire (id=155625) [Spell Family (7)]
+Class            : Druid
+Stance Mask      : 0x00000001
+GCD              : 1 seconds
+
+Name             : Swipe (id=213771) [Spell Family (7)]
+Class            : Druid
+Stance Mask      : 0x00000010
+GCD              : 1 seconds
+
+Name             : Swipe (id=106785) [Spell Family (7)]
+Class            : Druid
+Stance Mask      : 0x00000001
+GCD              : 1 seconds
+"""
+        spells = ss.parse_dump(dump)
+        self.assertEqual(spells[155625]["stanceMask"], 1)
+        ids, _ = ss.select(spells, {"action": {"moonfire_cat", "swipe_bear", "moonfire"}, "aura": set(),
+                                    "talent": set()})
+        self.assertEqual(ids["moonfire_cat"]["a"], [155625], "the caster Moonfire would leave Cat Form")
+        self.assertEqual(ids["swipe_bear"]["a"], [213771])
+        self.assertIn(8921, ids["moonfire"]["a"], "the plain name keeps every Moonfire")
+
 
 if __name__ == "__main__":
     unittest.main()

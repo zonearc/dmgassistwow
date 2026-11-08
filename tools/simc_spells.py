@@ -85,6 +85,11 @@ def parse_dump(text):
         effect = None
         if key == "Description":
             cur["descRefs"] = [int(x) for x in re.findall(r"\$(\d+)d\b", val)]
+        elif key == "Stance Mask":
+            try:
+                cur["stanceMask"] = int(val.split()[0], 16)
+            except ValueError:
+                pass
         elif key == "Class":
             cur["class"] = val.replace(" ", "").lower()  # "Death Knight" -> "deathknight"
         elif key == "Talent Entry":
@@ -243,6 +248,20 @@ UNLOCKS = {
     "eclipse": ["lunar_eclipse", "solar_eclipse"],
 }
 SUFFIXES = ("_cat", "_bear", "_dot", "_debuff", "_buff", "_aoe", "_st")
+# Shapeshift suffixes: SimC's moonfire_cat is the Moonfire castable in Cat Form (155625, Lunar Inspiration), not
+# the caster Moonfire (8921) that shares its name and would take the player out of the form. The game data's
+# "Stance Mask" says which forms a spell works in: bit (form index - 1); Cat Form is 1, Bear Form 5.
+FORM_BITS = {"_cat": 0x1, "_bear": 0x10}
+
+
+def form_ok(tok, s):
+    """A spell that shares the base name is only a candidate for a form-suffixed action if it works in that form."""
+    if s.get("class") != "druid":
+        return True  # druid forms only (a hunter's howl_of_the_pack_leader_bear is a buff, not a form)
+    for suf, bit in FORM_BITS.items():
+        if tok.endswith(suf) and s["token"] != tok:
+            return bool(s.get("stanceMask", 0) & bit)
+    return True
 
 
 def candidates(tok):
@@ -285,16 +304,16 @@ def select(spells, refs, other_specs=()):
     by = index_by_token(spells)
     ids, keep = {}, set()
 
-    def pick(tok, rank, want=lambda s: True):
+    def pick(tok, rank, want=lambda s: True, action=False):
         found = []
         for c in candidates(tok):
             for s in sorted(by.get(c, []), key=rank):
-                if want(s) and s["id"] not in found:
+                if want(s) and (not action or form_ok(tok, s)) and s["id"] not in found:
                     found.append(s["id"])
         return found[:MAX_IDS]
 
     for tok in sorted(refs["action"]):
-        f = pick(tok, lambda s: _castable_rank(s, other_specs))
+        f = pick(tok, lambda s: _castable_rank(s, other_specs), action=True)
         if f and all(spells[i]["passive"] for i in f):
             # Only a passive talent carries this name: the buttons are the castable spells it unlocks.
             unlocked = [i for u in UNLOCKS.get(tok, []) for i in pick(u, lambda s: _castable_rank(s, other_specs))
