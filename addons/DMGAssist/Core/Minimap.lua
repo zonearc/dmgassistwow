@@ -1,9 +1,10 @@
 -- Minimap.lua: the minimap button and the Midnight addon compartment entry.
 --
---   Left-click   open the settings
---   Right-click  show / hide the HUD
+--   Left-click   open the settings (after combat, if in combat: the game blocks it during a fight)
+--   Right-click  menu: Settings, Watchdog report, "Show out of combat", "Enabled"
 --   Shift-click  open the Watchdog report (when DMGAssist_Watchdog is installed)
 --   Drag         move it around the minimap (the angle is saved in DMGAssistDB.minimapAngle)
+-- The menu is Blizzard_Menu's MenuUtil.CreateContextMenu (present on live 12.1.5 and forever 1.60.1).
 --
 -- Options > DMGAssist > "Minimap button" (DMGAssistDB.minimap) shows or hides it. The compartment entry comes
 -- from the TOC (AddonCompartmentFunc = DMGAssist_OnCompartmentClick); Blizzard_Minimap's AddonCompartment.lua
@@ -29,12 +30,48 @@ local function OpenWatchdogReport()
   return false
 end
 
+-- "Show out of combat" is the inverse of the HUD's hideOutOfCombat setting.
+local function ShownOutOfCombat()
+  return not ns.Display.Settings().hideOutOfCombat
+end
+
+local function FlipOutOfCombat()
+  local cfg = ns.Display.Settings()
+  cfg.hideOutOfCombat = not cfg.hideOutOfCombat
+  ns.Update()
+end
+
+local function IsEnabled()
+  return ns.db.enabled ~= false
+end
+
+function MM.FillMenu(_, root)
+  root:CreateTitle("DMGAssist")
+  root:CreateButton(L["Settings"], function()
+    ns.Options.Open()
+  end)
+  root:CreateButton(L["Watchdog report"], OpenWatchdogReport)
+  root:CreateDivider()
+  root:CreateCheckbox(L["Show out of combat"], ShownOutOfCombat, FlipOutOfCombat)
+  root:CreateCheckbox(L["Enabled"], IsEnabled, function()
+    DMGAssist_Toggle()
+  end)
+end
+
+local function OpenMenu(owner)
+  if MenuUtil and MenuUtil.CreateContextMenu then
+    MenuUtil.CreateContextMenu(owner, MM.FillMenu)
+  else
+    DMGAssist_Toggle() -- no menu system on this client: right-click keeps its old meaning
+  end
+end
+
 -- One handler for the minimap button and the compartment.
-local function OnClick(mouse)
+local function OnClick(mouse, owner)
   if IsShiftKeyDown() then
     OpenWatchdogReport()
   elseif mouse == "RightButton" then
-    DMGAssist_Toggle()
+    OpenMenu(owner)
   else
     ns.Options.Open()
   end
@@ -79,8 +116,8 @@ local function Create()
   border:SetSize(53, 53)
   border:SetPoint("TOPLEFT")
 
-  button:SetScript("OnClick", function(_, mouse)
-    OnClick(mouse)
+  button:SetScript("OnClick", function(self, mouse)
+    OnClick(mouse, self)
   end)
   button:SetScript("OnDragStart", function(self)
     self:SetScript("OnUpdate", FollowCursor)
@@ -92,7 +129,7 @@ local function Create()
     GameTooltip:SetOwner(self, "ANCHOR_LEFT")
     GameTooltip:AddLine("DMGAssist")
     GameTooltip:AddLine(L["Left-click: settings"], 1, 1, 1)
-    GameTooltip:AddLine(L["Right-click: show / hide"], 1, 1, 1)
+    GameTooltip:AddLine(L["Right-click: menu"], 1, 1, 1)
     GameTooltip:AddLine(L["Shift-click: Watchdog report"], 1, 1, 1)
     GameTooltip:Show()
   end)
@@ -118,5 +155,5 @@ end
 
 -- Midnight's addon compartment (the button under the minimap); named in the TOC.
 function DMGAssist_OnCompartmentClick(_, mouse)
-  OnClick(mouse)
+  OnClick(mouse, button)
 end

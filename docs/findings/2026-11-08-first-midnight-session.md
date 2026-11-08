@@ -23,3 +23,11 @@ Scrap, Threat Plates.
 - Assisted Combat's pick flips between a spell and nil out of combat as targets change (now not logged out of combat).
 - Balance list match on this character: 9 of 17 list spells known (missing include Eclipse, Force of Nature, moons);
   Restoration has no SimC damage list worth using (8 of 17).
+
+## Second session (build 0.1.0.3, Balance, Cleave Training Dummies)
+| Observation | Cause | Fix |
+|---|---|---|
+| Never suggested Eclipse | SimC's `eclipse` resolved only to the passive Eclipse talent (1239669); the buttons are Lunar Eclipse 1233272 / Solar Eclipse 1233346 (the assistant's pick range reached 1233272). Every Eclipse line was skipped as "not known". | Importer: `UNLOCKS` maps a SimC action that is only a passive talent to the castable spells (eclipse → lunar_eclipse, solar_eclipse). |
+| Stuck on Starfall | Starfall's lines hinge on hidden procs (Starweaver's Warp, Touch the Cosmos) and Astral Power, which is secret in combat (`astral_power=secret34`); Blizzard's rule `starfall if active_enemies>3` was true on the cleave dummies, so the uncertain line kept being confirmed. Exact cause needs a trace. | Auto "stuck" snapshot: 3 casts of other spells while the HUD shows one spell stores a full trace. Next report shows it. |
+| `ADDON_ACTION_BLOCKED ... OpenSettingsPanel()` | Minimap left-click in combat; the Settings panel is protected in combat. | Opens when combat ends. |
+| Assistant oracle switched itself off (`clue_disabled source=assisted wrong=7` of 20) | Its inferred facts disagreed with the truth 7 times. | Watch in the next report. |

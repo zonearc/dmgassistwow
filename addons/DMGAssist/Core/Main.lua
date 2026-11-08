@@ -35,6 +35,8 @@ ns.Describe = Describe
 ---------------------------------------------------------------------------
 local spellsDirty = true
 local inCombat = false
+local STUCK_AFTER = 3                     -- see ns.OnOwnCast
+local stuck = { ignored = 0, snapped = {} }
 
 local function RefreshSpells()
   if inCombat then
@@ -355,6 +357,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     D.InvalidateKeybinds()
   elseif event == "PLAYER_REGEN_DISABLED" then
     inCombat = true
+    stuck.ignored, stuck.snapped = 0, {}
     S.OnCombat(true)
     ns.Engine.OnCombat()
     ns.Diagnostics.OnCombat(true)
@@ -367,6 +370,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
       end)
     end
   elseif event == "PLAYER_REGEN_ENABLED" then
+    ns.Options.OnCombatEnded()
     inCombat = false
     S.OnCombat(false)
     ns.Engine.OnCombat()
@@ -529,6 +533,25 @@ end
 
 -- Full decision trace for troubleshooting: every line looked at, castable or not and
 -- why, its condition result, the inputs that were unknown; printed short in chat and stored in the Watchdog log.
+-- "Stuck" detector: the HUD keeps showing one spell while the player casts other things. After 3 such casts
+-- in a row a full decision snapshot is stored (once per spell per fight), so a report shows why it stuck.
+function ns.OnOwnCast(id)
+  local shown = ns.last and ns.last.main
+  if not (inCombat and shown and shown.id) then
+    return
+  end
+  if id == shown.id or (ns.SpellMap.baseOf[id] and ns.SpellMap.baseOf[id] == shown.id) then
+    stuck.ignored = 0
+    return
+  end
+  stuck.ignored = stuck.ignored + 1
+  if stuck.ignored >= STUCK_AFTER and not stuck.snapped[shown.id] then
+    stuck.snapped[shown.id] = true
+    U.Log("stuck", { shown = shown.token, source = shown.source, castInstead = id, casts = stuck.ignored })
+    pcall(ns.QuietSnapshot)
+  end
+end
+
 function ns.QuietSnapshot()
   ns.snapshotQuiet = true
   commands.snapshot()
@@ -542,7 +565,7 @@ function commands.snapshot()
     return
   end
   S.unknownTerms = {}
-  local r = G.Recommend(state.data, { burst = ns.db.burst ~= false, trace = true,
+  local r = G.Recommend(ns.ActiveRecord(state), { burst = ns.db.burst ~= false, trace = true,
     useAssisted = state.branch == "midnight" and ns.db.useAssisted ~= false })
   local lines = r.trace or {}
   U.Log("snapshot", { spec = state.key, pick = r.main and r.main.token, source = r.main and r.main.source,

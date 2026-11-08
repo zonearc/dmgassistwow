@@ -181,6 +181,11 @@ ALIASES = {
                     "incarnation_tree_of_life"],
     "bloodlust": ["bloodlust", "heroism", "time_warp", "primal_rage", "fury_of_the_aspects"],
 }
+# SimC actions whose name is only a passive talent in the game data; the buttons are these spells instead
+# (Midnight Balance: the Eclipse talent 1239669 gives Lunar Eclipse 1233272 / Solar Eclipse 1233346).
+UNLOCKS = {
+    "eclipse": ["lunar_eclipse", "solar_eclipse"],
+}
 SUFFIXES = ("_cat", "_bear", "_dot", "_debuff", "_buff", "_aoe", "_st")
 
 
@@ -234,6 +239,12 @@ def select(spells, refs, other_specs=()):
 
     for tok in sorted(refs["action"]):
         f = pick(tok, lambda s: _castable_rank(s, other_specs))
+        if f and all(spells[i]["passive"] for i in f):
+            # Only a passive talent carries this name: the buttons are the castable spells it unlocks.
+            unlocked = [i for u in UNLOCKS.get(tok, []) for i in pick(u, lambda s: _castable_rank(s, other_specs))
+                        if not spells[i]["passive"]]
+            if unlocked:
+                f = (unlocked + f)[:MAX_IDS]
         if f:
             ids.setdefault(tok, {})["a"] = f
             keep.update(f)

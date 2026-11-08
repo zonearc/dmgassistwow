@@ -184,11 +184,37 @@ test("minimap button: settings, show/hide, Watchdog report, saved position, can 
   ns.Options.Open = function() opened = opened + 1 end
   b.scripts.OnClick(b, "LeftButton")
   eq(opened, 1, "left-click opens settings")
-  local before = ns.db.enabled
+  -- right-click: a menu with Settings, Watchdog report, Show out of combat, Enabled
+  local items = {}
+  local root = {
+    CreateTitle = function(_, t) items[#items + 1] = { kind = "title", text = t } end,
+    CreateButton = function(_, t, fn) items[#items + 1] = { kind = "button", text = t, fn = fn } end,
+    CreateDivider = function() end,
+    CreateCheckbox = function(_, t, get, set) items[#items + 1] = { kind = "check", text = t, get = get, set = set } end,
+  }
+  MenuUtil = { CreateContextMenu = function(owner, gen) eq(owner, b) gen(owner, root) end }
   b.scripts.OnClick(b, "RightButton")
-  eq(ns.db.enabled, not before, "right-click toggles")
+  MenuUtil = nil
+  local byText = {}
+  for _, it in ipairs(items) do
+    byText[it.text] = it
+  end
+  eq(byText["Settings"].kind, "button")
+  eq(byText["Watchdog report"].kind, "button")
+  local ooc = byText["Show out of combat"]
+  local was = ooc.get()
+  ooc.set()
+  eq(ooc.get(), not was, "out-of-combat display flips")
+  eq(ns.Display.Settings().hideOutOfCombat, was, "stored as hideOutOfCombat")
+  local en = byText["Enabled"]
+  local before = en.get()
+  en.set()
+  eq(en.get(), not before, "enabled flips")
+  en.set()
+  byText["Settings"].fn()
+  eq(opened, 2, "menu opens settings")
   DMGAssist_OnCompartmentClick("DMGAssist", "LeftButton")
-  eq(opened, 2, "compartment opens settings")
+  eq(opened, 3, "compartment opens settings")
   ns.Options.Open = open
   local reports = 0
   DMGAssistWatchdog = { OpenReport = function() reports = reports + 1 end }
@@ -223,6 +249,20 @@ test("sounds: removed choices fall back to the default; keybind color applies", 
     colors[c[1]] = true
   end
   eq(colors.cyan, true)
+end)
+
+test("settings asked for in combat open when the fight ends (the game blocks them in combat)", function()
+  local ns = Boot("standard")
+  local opened = 0
+  _G.Settings.OpenToCategory = function() opened = opened + 1 end
+  mock.inCombat = true
+  eq(ns.Options.Open(), false)
+  eq(opened, 0, "not in combat")
+  mock.inCombat = false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  eq(opened, 1, "opened after combat")
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  eq(opened, 1, "only once")
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))
