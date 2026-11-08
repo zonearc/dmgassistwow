@@ -208,15 +208,42 @@ function X.KeepUp()
   return nil
 end
 
--- The melee range check: the spec's usual spell when that is a melee spell (nil for ranged specs).
+-- Melee specs. The most common range among a spec's spells is no use here: Survival carries many 40 yd shots.
+X.MELEE = {
+  deathknight_blood = true, deathknight_frost = true, deathknight_unholy = true,
+  demonhunter_havoc = true, demonhunter_vengeance = true, druid_feral = true, druid_guardian = true,
+  hunter_survival = true, monk_brewmaster = true, monk_windwalker = true, paladin_protection = true,
+  paladin_retribution = true, rogue_assassination = true, rogue_outlaw = true, rogue_subtlety = true,
+  shaman_enhancement = true, warrior_arms = true, warrior_fury = true, warrior_protection = true,
+}
+
+-- The melee range check: the commonest melee-range (8 yd or less) spell the player knows; nil for ranged specs.
+local meleeProbe = { book = false }
 local function MeleeProbe()
-  local id = ns.State.RangeProbe and ns.State.RangeProbe()
-  local info = id and ns.SpellMap.Info(id)
-  if info and info.r and info.r <= 8 then
-    return id
+  local key = ns.Specs.current and ns.Specs.current.key
+  if not X.MELEE[key or ""] then
+    return nil
   end
-  return nil
+  local M = ns.SpellMap
+  if meleeProbe.book == M.book and meleeProbe.key == key then
+    return meleeProbe.id
+  end
+  local byRange, best, bestN = {}, nil, 0
+  for id, b in pairs(M.book or {}) do
+    local info = b.id == id and not b.passive and M.Info(id)
+    if info and info.r and info.r > 0 and info.r <= 8 then
+      local entry = byRange[info.r] or { n = 0, id = id }
+      entry.n = entry.n + 1
+      byRange[info.r] = entry
+      if entry.n > bestN then
+        best, bestN = entry.id, entry.n
+      end
+    end
+  end
+  meleeProbe.book, meleeProbe.key, meleeProbe.id = M.book, key, best
+  return best
 end
+X.MeleeProbe = MeleeProbe
 
 function X.GapCloser()
   if ns.db.gapClosers == false or not HostileTarget() then

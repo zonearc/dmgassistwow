@@ -26,6 +26,16 @@ G.SKIP = {
   sequence = true, strict_sequence = true, swap_action_list = true,
 }
 
+-- Interrupts: SimC only fires these while the target casts something interruptible, which the lists leave to
+-- the simulator. Read as ordinary lines they would sit in slot 1 whenever off cooldown; the Interrupts module
+-- shows them when a cast is really on.
+for _, token in ipairs({
+  "muzzle", "counter_shot", "kick", "pummel", "mind_freeze", "rebuke", "wind_shear", "spell_lock", "skull_bash",
+  "solar_beam", "counterspell", "silence", "disrupt", "quell", "spear_hand_strike", "axe_toss", "optical_blast",
+}) do
+  G.SKIP[token] = true
+end
+
 local STOP = {}
 local MAX_DEPTH = 8
 

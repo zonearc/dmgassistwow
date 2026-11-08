@@ -313,6 +313,36 @@ test("major cooldowns are ordinary queue lines; switched off they never show", f
   end
 end)
 
+test("interrupt lines in a SimC list are never rotation picks (the Interrupts module shows them)", function()
+  Reset()
+  local book = {}
+  for i, b in ipairs(FERAL_BOOK) do
+    book[i] = b
+  end
+  book[#book + 1] = { spellID = 106839, name = "Skull Bash" }
+  mock.book = book
+  local ns = Boot()
+  eq(ns.Engine.SKIP.skull_bash, true)
+  eq(ns.Engine.SKIP.muzzle, true)
+  local rec = Record()
+  table.insert(rec.simc.default, 1, { a = "skull_bash", k = "R" })
+  local r = ns.Engine.Recommend(rec, {})
+  for _, p in ipairs(r.queue) do
+    eq(p.token ~= "skull_bash", true, "skull bash not in the queue")
+  end
+end)
+
+test("gap closer: melee specs probe with a melee spell even when most of their spells are ranged", function()
+  Reset()
+  local ns = Boot()
+  local X = ns.Essentials
+  eq(X.MELEE.hunter_survival, true)
+  eq(X.MELEE.hunter_beast_mastery, nil, "ranged hunters get no gap closer")
+  eq(X.MeleeProbe() ~= nil, true, "feral: a melee probe")
+  local info = ns.SpellMap.Info(X.MeleeProbe())
+  eq(info.r <= 8, true, "the probe is a melee-range spell")
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()
