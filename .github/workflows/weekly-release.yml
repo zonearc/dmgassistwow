@@ -9,7 +9,10 @@ on:
     - cron: "41 16 * * 2"   # Tuesdays 16:41 UTC
   workflow_dispatch:
   push:
-    tags: ["release-now-*"]  # a release right away, from any branch (schedules only run from the default branch)
+    # A release right away, from any branch (schedules only run from the default branch): a "release-now-*" tag, or
+    # "[release]" in the message of a pushed commit (after that commit's nightly build is published).
+    tags: ["release-now-*"]
+    branches: [main, foundation]
 
 permissions:
   contents: write
@@ -19,11 +22,26 @@ concurrency:
 
 jobs:
   release:
+    if: github.event_name != 'push' || startsWith(github.ref, 'refs/tags/') || contains(github.event.head_commit.message, '[release]')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Wait for this commit's nightly build
+        if: github.event_name == 'push' && !startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          for i in $(seq 1 40); do
+            git fetch -q -f origin 'refs/tags/nightly:refs/tags/nightly' || true
+            if [ "$(git rev-list -n 1 nightly 2>/dev/null)" = "$GITHUB_SHA" ] && \
+               gh release view nightly --json assets --jq '.assets[].name' | grep -q DMGAssistUpdater.exe; then
+              exit 0
+            fi
+            sleep 30
+          done
+          echo "The nightly build for $GITHUB_SHA did not appear in 20 minutes"; exit 1
       - name: Promote the nightly build
         env:
           GH_TOKEN: ${{ github.token }}
