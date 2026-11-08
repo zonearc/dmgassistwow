@@ -132,10 +132,11 @@ function E.HandleEvent(event, arg1, arg2)
   end
 end
 
--- BugSack users: !BugGrabber loads first and keeps the global error handler for itself, so ours never sees
--- errors. Read what it caught instead, when building a report. Only BugGrabber's read calls that BugSack
--- uses to list errors are touched (GetDB, GetSessionId), each guarded; unverified against its source here, so
--- every pull logs whether it worked ("buggrabber_pull").
+-- BugSack users: !BugGrabber loads first, installs its handler, then replaces seterrorhandler with a no-op
+-- (BugGrabber.lua v12.1.0, lines 573-574), so ours is never installed. Read what it caught instead, when
+-- building a report: GetDB() is its error list, GetSessionId() the current session (lines 465-466); each
+-- error has message, stack, locals, counter, session (lines 359-389). message can be a table: skipped.
+-- Calls are still guarded in case a later version changes; a failed pull is logged ("buggrabber_pull").
 local pulled = {}  -- BugGrabber error table -> counter already taken
 function E.PullBugGrabber()
   local bg = _G.BugGrabber

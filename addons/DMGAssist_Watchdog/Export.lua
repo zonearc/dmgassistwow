@@ -123,7 +123,11 @@ function X.Summary()
     lines[#lines + 1] = string.format(fmt, ...)
   end
   add("DMGAssist Watchdog %s   logins: %d", ns.VERSION, db.loginCount or 0)
-  add("Error handler installed: %s", tostring(ns.Errors.IsInstalled()))
+  if type(_G.BugGrabber) == "table" then
+    add("Errors: read from BugGrabber (BugSack keeps the error handler)")
+  else
+    add("Error handler installed: %s", tostring(ns.Errors.IsInstalled()))
+  end
   add("Errors: %d unique   Sessions: %d   Probes: %d", #db.errors, #db.sessions, #db.probes)
   local probe = ns.Probe.Latest()
   if probe then
