@@ -31,7 +31,11 @@ D.DEFAULTS = {
   hideOutOfCombat = true, showWithTarget = true, hideMounted = true, hideVehicle = true,
   debugText = false, callout = true, pressCue = true, pressLead = 50, secretBranches = true, interrupt = true, defensive = true,
   highlight = true,
+  stackCount = true, stackSize = 14, stackPos = "BOTTOMLEFT",
 }
+
+D.STACK_POSITIONS = { { "BOTTOMLEFT", "Bottom left" }, { "TOPLEFT", "Top left" }, { "BOTTOMRIGHT", "Bottom right" },
+  { "BOTTOM", "Below the icon" } }
 
 -- Fonts that ship with the game (same files on every client). LibSharedMedia fonts are added when installed.
 D.FONTS = {
@@ -516,6 +520,9 @@ function D.Create()
   f.def = Icon(f, cfg.iconSize, cfg)
   f.def:SetAllPoints(f.slots[1])
   f.def:SetFrameLevel((f.slots[1]:GetFrameLevel() or 1) + 6)
+  -- Counted stacks (Ironfur): our own count from casts, to compare with Blizzard's buff display.
+  f.stack = f:CreateFontString(nil, "OVERLAY")
+  f.stack:Hide()
   -- Off-GCD keep-up (Ironfur): a small badge on slot 1's top-left corner, pressed alongside the GCD spell.
   f.weave = Icon(f, cfg.iconSize, cfg)
   f.weave:SetFrameLevel((f.slots[1]:GetFrameLevel() or 1) + 8)
@@ -812,6 +819,32 @@ local function RenderWeave(f, result, cfg)
   f.weave.name:SetText("")
 end
 
+-- "<icon> 2/3": our counted stacks of the spec's stacking keep-up, and the target (orange when below it).
+local function RenderStacks(f, cfg)
+  local X = ns.Essentials
+  local k = cfg.stackCount ~= false and ns.db and ns.db.tankEssentials ~= false and X and X.CountedKeepUp()
+  if not k then
+    f.stack:Hide()
+    return
+  end
+  local n = X.Stacks(k.id)
+  local want = tonumber(ns.db[k.setting]) or 3
+  local size = tonumber(cfg.stackSize) or 14
+  SetFont(f.stack, size)
+  local pos = cfg.stackPos or "BOTTOMLEFT"
+  f.stack:ClearAllPoints()
+  if pos == "BOTTOM" then
+    f.stack:SetPoint("TOP", f.slots[1], "BOTTOM", 0, -2)
+  else
+    f.stack:SetPoint(pos, f.slots[1], pos, pos:find("LEFT") and 2 or -2, pos:find("TOP") and -2 or 2)
+  end
+  local tex = U.Get(C_Spell and C_Spell.GetSpellTexture, k.id)
+  local icon = tex and string.format("|T%s:%d|t ", tostring(tex), size) or ""
+  local color = (want > 0 and n < want) and "|cffff9933" or "|cffffffff"
+  f.stack:SetText(string.format("%s%s%d|r", icon, color, n) .. (want > 0 and ("|cff999999/" .. want .. "|r") or ""))
+  f.stack:Show()
+end
+
 local function RenderHighlight(f, result, cfg)
   local pick = result.queue and result.queue[1] or result.main
   local button = cfg.highlight and pick and D.ButtonFor(pick.id)
@@ -919,6 +952,7 @@ function D.Update(result, visible)
   RenderInterrupt(f, result, cfg)
   RenderDefensive(f, result, cfg)
   RenderWeave(f, result, cfg)
+  RenderStacks(f, cfg)
   f.timingCfg = cfg
   D.RenderTiming(f, cfg)
   if cfg.header then

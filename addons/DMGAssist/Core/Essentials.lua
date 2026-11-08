@@ -71,8 +71,12 @@ function X.Stacks(id, lead)
   return n
 end
 
+-- At combat start: stacks are kept (an Ironfur cast just before the pull still counts; they expire on their own).
 function X.Reset()
-  X.stacks, X.lastWeave, X.shownWeave = {}, {}, nil
+  X.lastWeave, X.shownWeave = {}, nil
+  if X.LogStackSummary then
+    X.LogStackSummary() -- the checks made since the last fight
+  end
 end
 
 local function Known(id)
@@ -94,6 +98,86 @@ end
 local function HostileTarget()
   return U.Get(UnitExists, "target") == true and U.Get(UnitCanAttack, "player", "target") == true
     and U.Get(UnitIsDead, "target") ~= true
+end
+
+-- Stack check: whenever the game lets us read our buffs (out of combat, or unrestricted), count the real stacks
+-- of the counted keep-up, compare with our count, log the result for the Watchdog report, and correct our list.
+-- Each Ironfur cast is its own aura instance, so instances are counted (applications when one instance stacks).
+X.check = { match = 0, mismatch = 0, last = nil, at = 0 }
+
+function X.RealStacks(id)
+  local getter = C_UnitAuras and C_UnitAuras.GetAuraDataByIndex
+  if type(getter) ~= "function" or U.Get(C_Secrets and C_Secrets.ShouldAurasBeSecret) == true then
+    return nil
+  end
+  local n, expiries = 0, {}
+  for i = 1, 80 do
+    local aura = U.Call(getter, "player", i, "HELPFUL")
+    if aura == nil then
+      break
+    end
+    if U.IsSecret(aura) then
+      return nil
+    end
+    local sid = U.Read(aura.spellId)
+    if sid == nil then
+      return nil
+    end
+    if sid == id then
+      local apps = U.Read(aura.applications)
+      apps = (type(apps) == "number" and apps > 0) and apps or 1
+      local exp = U.Read(aura.expirationTime)
+      for _ = 1, apps do
+        n = n + 1
+        expiries[#expiries + 1] = (type(exp) == "number" and exp > 0) and exp or (GetTime() + 7)
+      end
+    end
+  end
+  return n, expiries
+end
+
+-- The counted keep-up of the current spec ({ id, token, setting, ... }) when the player knows it, or nil.
+function X.CountedKeepUp()
+  local keep = X.KEEPUPS[ns.Specs.current and ns.Specs.current.key or ""]
+  for _, k in ipairs(keep or {}) do
+    if k.kind == "stacks" and Known(k.id) then
+      return k
+    end
+  end
+  return nil
+end
+
+function X.CheckStacks()
+  local k = X.CountedKeepUp()
+  if not k or GetTime() - X.check.at < 1 then
+    return
+  end
+  X.check.at = GetTime()
+  local real, expiries = X.RealStacks(k.id)
+  if real == nil then
+    return
+  end
+  local ours = X.Stacks(k.id)
+  local sig = ours .. "/" .. real
+  if ours == real then
+    X.check.match = X.check.match + 1
+  else
+    X.check.mismatch = X.check.mismatch + 1
+    if sig ~= X.check.last then
+      U.Log("stack_check", { spell = k.token, ours = ours, real = real, combat = ns.State.combatStart ~= nil })
+    end
+    table.sort(expiries)
+    X.stacks[k.id] = expiries -- the game's truth replaces our count
+  end
+  X.check.last = sig
+end
+
+function X.LogStackSummary()
+  local c = X.check
+  if c.match + c.mismatch > 0 then
+    U.Log("stack_summary", { match = c.match, mismatch = c.mismatch })
+  end
+  X.check = { match = 0, mismatch = 0, last = nil, at = 0 }
 end
 
 -- The keep-up due now, or nil.
@@ -169,6 +253,7 @@ function X.Apply(result)
   if not result then
     return result
   end
+  X.CheckStacks()
   local keep = X.KeepUp()
   result.weave = nil
   if keep and keep.weave then

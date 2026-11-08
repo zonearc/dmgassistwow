@@ -248,6 +248,12 @@ function O.Register()
   Choice(display, HUD, "font", "Font", H.font, ns.Display.FontChoices,
     "Game fonts, plus any registered with LibSharedMedia.")
   Choice(display, HUD, "outline", "Outline", H.outline, ns.Display.OUTLINES)
+  Header(display, "Stack count")
+  Check(display, HUD, "stackCount", "Show stack count", H.stackCount,
+    "Our count of your stacking buff (Guardian: Ironfur), counted from your casts. Put the same buff in "
+    .. "Blizzard's Cooldown Manager next to it to check the count.")
+  Slider(display, HUD, "stackSize", "Stack text size", H.stackSize, 8, 28, 1)
+  Choice(display, HUD, "stackPos", "Stack position", H.stackPos, ns.Display.STACK_POSITIONS)
   Check(display, HUD, "keybind", "Keybind on icons", H.keybind)
   Slider(display, HUD, "keybindSize", "Keybind text size", H.keybindSize, 8, 24, 1)
   Choice(display, HUD, "keybindPos", "Keybind position", H.keybindPos,

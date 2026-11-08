@@ -2024,6 +2024,8 @@ test("essentials: keep-up stacks from own casts, gap closer only out of melee ra
   -- a stacking keep-up (Ironfur-style), here on a Feral spell so the test book has it
   X.KEEPUPS.druid_feral = { { kind = "stacks", token = "tigers_fury", id = 5217, setting = "ironfurStacks",
     duration = 7 } }
+  local realStacks = X.RealStacks
+  X.RealStacks = function() return nil end -- in combat: the game hides auras (the check is tested below)
   local r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
   eq(r.main.token, "shred", "an off-GCD keep-up never takes slot 1")
   eq(r.weave and r.weave.token, "tigers_fury", "it is the weave badge")
@@ -2044,6 +2046,20 @@ test("essentials: keep-up stacks from own casts, gap closer only out of melee ra
   ns.db.ironfurStacks = 0
   r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
   eq(r.main.token, "shred", "0 = off")
+  -- the stack check: readable auras (out of combat) are compared with our count and correct it
+  X.RealStacks = realStacks
+  ns.db.ironfurStacks = 3
+  X.stacks[5217] = { GetTime() + 5 }
+  mock.auras.player = { { name = "Tiger's Fury", spellId = 5217, duration = 7, expirationTime = GetTime() + 6 },
+    { name = "Tiger's Fury", spellId = 5217, duration = 7, expirationTime = GetTime() + 4 } }
+  X.check.at = 0
+  X.CheckStacks()
+  eq(X.Stacks(5217), 2, "corrected to the game's count")
+  eq(X.check.mismatch, 1)
+  X.check.at = 0
+  X.CheckStacks()
+  eq(X.check.match, 1, "now they agree")
+  mock.auras.player = nil
   X.KEEPUPS.druid_feral = nil
   -- gap closer
   mock.inRange = { [5221] = false, [1822] = false, [1079] = false, [22568] = false, [102401] = true }
