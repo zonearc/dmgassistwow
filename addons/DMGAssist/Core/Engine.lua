@@ -55,6 +55,7 @@ end
 
 function G.OnCombat()
   G.fightVars, pendingVars = {}, nil
+  G.waiting = {}
 end
 
 -- SimC's target_if: "min:expr" / "max:expr" choose among targets (we only see the current one, so they add
@@ -208,7 +209,39 @@ end
 G.Castable = Castable
 
 -- Does Blizzard (live assistant, or our evaluation of its rules) agree with this spell?
-local function Corroborated(id, token, run)
+-- Escalation. Blizzard's assistant never mentions many spells SimC relies on, so its silence is no "no". A key
+-- spell (a real cooldown) that SimC keeps reaching while the assistant says something else is promoted once it
+-- has waited long enough: "the assistant is clearly ignoring this, SimC says it matters, use it now". Fillers
+-- (no cooldown) never escalate: that is what let an uncertain Starfire shadow Fury of Elune before.
+G.KEY_COOLDOWN = 20 -- seconds of cooldown that make a spell "key"
+G.WAIT = 4          -- seconds SimC must have wanted it, uncorroborated, before it comes in anyway
+G.LAPSE = 1.5       -- a gap longer than this between sightings starts the wait again
+G.waiting = {}
+
+local function Waited(id, token, run, castable)
+  if not run.first or castable ~= true then
+    return nil
+  end
+  local cd = S.CooldownLength and S.CooldownLength(id)
+  if not (cd and cd >= G.KEY_COOLDOWN) then
+    return nil
+  end
+  local now = S.Now()
+  local w = G.waiting[token]
+  local since = S.SinceCast(id)
+  if not w or now - w.seen > G.LAPSE or (since and since < now - w.since) then
+    w = { since = now }
+    G.waiting[token] = w
+  end
+  w.seen = now
+  if now - w.since >= G.WAIT then
+    return "waited"
+  end
+  return nil
+end
+G.Waited = Waited
+
+local function Corroborated(id, token, run, castable)
   if run.acSpell then
     -- Blizzard's live assistant sees the hidden state (procs, resources); our evaluation of its rules does
     -- not. When it is there, only it can confirm an uncertain line: otherwise a rule that happens to hold
@@ -217,7 +250,11 @@ local function Corroborated(id, token, run)
     if run.acSpell == id or run.acSpell == run.override[id] then
       return "assisted"
     end
-    return nil
+    -- The major cooldowns are left out of the assistant by design: it never names them, so for them its
+    -- choice says nothing and Blizzard's written rules decide (Incarnation never reached slot 1, 2026-11-08).
+    if not run.cooldowns[token] then
+      return Waited(id, token, run, castable)
+    end
   end
   local rules = run.blizzardByAction[token]
   if rules then
@@ -226,6 +263,9 @@ local function Corroborated(id, token, run)
         return "rules"
       end
     end
+  end
+  if run.acSpell then
+    return Waited(id, token, run, castable)
   end
   return nil
 end
@@ -340,7 +380,7 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
               run.visiting[name] = nil
               return { id = id, token = a, source = isBlizzard and "rules" or "simc" }
             elseif not isBlizzard then
-              local how = Corroborated(id, a, run)
+              local how = Corroborated(id, a, run, castable)
               if how then
                 run.visiting[name] = nil
                 return { id = id, token = a, source = "simc+" .. how }
@@ -534,4 +574,54 @@ function G.Recommend(record, opts)
   end
   result.targets, result.modeLabel = targets, label
   return result
+end
+
+-- Steady slot 1. Close to the next press the decision can flip between two spells several times a second as
+-- hidden state shifts; that is hard to follow. Inside the last moments before the GCD / cast ends, slot 1 is
+-- locked to what it showed when the window opened, and a different new pick moves into slot 2 (it is next
+-- anyway). The lock ends when the player presses something (a new GCD starts), when the locked spell stops
+-- being castable, or after G.LOCK_MAX. Interrupts and defensives are applied after this and still take slot 1.
+G.LOCK_WINDOW = 0.5
+G.LOCK_MAX = 1.5
+local held
+
+function G.ReadyIn()
+  local _, castLeft = S.CurrentCast()
+  return math.max(S.GCDRemains() or 0, castLeft or 0)
+end
+
+function G.Steady(result)
+  local main = result and result.main
+  if not main or not main.id or not S.combatStart then
+    held = nil
+    return result
+  end
+  local now = S.Now()
+  local ready = G.ReadyIn()
+  if ready > G.LOCK_WINDOW then
+    held = nil
+    return result
+  end
+  if held and (now - held.at > G.LOCK_MAX or Castable(held.pick.id) == false) then
+    held = nil
+  end
+  if not held then
+    held = { pick = main, at = now }
+    return result
+  end
+  if held.pick.id == main.id then
+    return result
+  end
+  local queue, out = result.queue or { main }, { held.pick }
+  for _, p in ipairs(queue) do
+    if p.id ~= held.pick.id and #out < #queue then
+      out[#out + 1] = p
+    end
+  end
+  result.queue, result.main, result.steadied = out, held.pick, main.token
+  return result
+end
+
+function G.ResetSteady()
+  held = nil
 end

@@ -61,3 +61,18 @@ Scrap, Threat Plates.
   Affects 10 Midnight lists (Feral 10 uses, Balance, Elemental, Havoc 3 each, Destruction, Affliction,
   Devastation 2, Assassination ...) and the WoWSims converter's min/max. Fixed and tested.
 - Watchdog window's X did not close it: wired explicitly.
+
+## Sixth session (export 7, Balance Elune's Chosen)
+- Incarnation: Chosen of Elune sat in slot 2 for a minute and never reached slot 1. Its line in the cooldowns
+  list was castable with a true condition, but the list is entered through `variable.cds`, which was UNKNOWN:
+  one term of its "longest of these < 1" is `buff.eclipse.remains-(10*(buff.bloodlust.up*buff.ascendant_stars.down))`
+  (hidden procs). Uncertain lines need corroboration, and Blizzard's assistant never names major cooldowns
+  (they are its excluded lines), so nothing could ever confirm it.
+  Fixes (general): the expression engine keeps limits for unknown values (flags 0..1, times and counts >= 0,
+  resource bounds) so such terms are decided when the limits allow; for major cooldowns Blizzard's rules confirm
+  instead of the live assistant; and a key spell (cooldown >= 20 s) that SimC keeps reaching for 4 s while the
+  assistant says something else comes in anyway (`simc+waited`). Fillers never escalate.
+- Slot 1 switched 2-3 times a second close to the press: slot 1 is now locked for the last 0.5 s before the
+  GCD / cast ends (at most 1.5 s); a different new pick goes to slot 2. Interrupts and defensives still take slot 1.
+- Title row: more room above the icons, shown only in combat, no "?".
+- Long setting names were cut off in the settings list: short names, the detail in tooltips.

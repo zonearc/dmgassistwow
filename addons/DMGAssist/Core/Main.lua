@@ -317,6 +317,7 @@ function ns.Update()
     useAssisted = state.branch == "midnight" and ns.db.useAssisted ~= false,
   })
   result.callout = ns.BossMods.Callout()
+  G.Steady(result)
   ns.Interrupts.Apply(result)
   ns.Defensives.Apply(result)
   ns.Alerts(result)
@@ -340,7 +341,7 @@ function ns.Update()
     end
     U.Log("pick", {
       main = main and main.token, source = main and main.source, cd = cd and cd.token, ac = result.acSpell,
-      next = q2 and q2.token, after = q3 and q3.token, mode = result.modeLabel,
+      next = q2 and q2.token, after = q3 and q3.token, mode = result.modeLabel, held = result.steadied,
     })
   end
   return result
