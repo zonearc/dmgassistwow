@@ -1405,6 +1405,20 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       n = "touch_the_cosmos",
       st = 1,
     },
+    [1233272] = {
+      cd = 1,
+      ch = 1,
+      chcd = 32,
+      gcd = 0.5,
+      n = "lunar_eclipse",
+    },
+    [1233346] = {
+      cd = 1,
+      ch = 1,
+      chcd = 32,
+      gcd = 0.5,
+      n = "solar_eclipse",
+    },
     [1233353] = {
       n = "lunar_eclipse_override",
     },
@@ -1529,7 +1543,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       t = { 433831 },
     },
     eclipse = {
-      a = { 1239669 },
+      a = { 1233272, 1233346, 1239669 },
       b = { 1239669 },
       t = { 1239669 },
     },

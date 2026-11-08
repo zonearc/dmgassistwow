@@ -109,5 +109,24 @@ class DumpTests(unittest.TestCase):
         self.assertIn("swipe", ss.candidates("swipe_cat"))
 
 
+    def test_passive_talent_action_maps_to_the_buttons_it_unlocks(self):
+        dump = """Name             : Eclipse (id=1239669) [Spell Family (7), Passive]
+Talent Entry     : Balance [tree=spec, row=1, col=4, max_rank=1, req_points=0]
+Class            : Druid
+
+Name             : Lunar Eclipse (id=1233272) [Spell Family (7)]
+Class            : Druid
+Charges          : 1 (32 seconds cooldown)
+
+Name             : Solar Eclipse (id=1233346) [Spell Family (7)]
+Class            : Druid
+Charges          : 1 (32 seconds cooldown)
+"""
+        spells = ss.parse_dump(dump)
+        ids, info = ss.select(spells, {"action": {"eclipse"}, "aura": set(), "talent": set()})
+        self.assertEqual(ids["eclipse"]["a"][:2], [1233272, 1233346], "castable buttons first")
+        self.assertEqual(info[1233272]["ch"], 1)
+
+
 if __name__ == "__main__":
     unittest.main()

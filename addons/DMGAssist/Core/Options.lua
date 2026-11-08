@@ -9,7 +9,7 @@
 -- is open so changes are visible as they are made. "Reset to defaults" restores every value on every page.
 
 local _, ns = ...
-local L = ns.L
+local U, L = ns.U, ns.L
 
 local O = {}
 ns.Options = O
@@ -174,7 +174,7 @@ function O.Register()
   Check(main, HUD, "highlight", "Highlight the button on your action bars", H.highlight,
     "Glows the real action button for the next spell (Blizzard bars, Bartender, ElvUI, Dominos).")
   Check(main, DB, "minimap", "Minimap button", true,
-    "Left-click: settings. Right-click: show / hide. Shift-click: Watchdog report. Drag to move it.")
+    "Left-click: settings. Right-click: menu. Shift-click: Watchdog report. Drag to move it.")
   Check(main, DB, "locked", "Lock position", true,
     "Unlock to drag the icons; they are also shown while this panel is open.")
   Button(main, "Keybinds", "Refresh keybinds", function()
@@ -278,9 +278,28 @@ function O.Register()
   return main
 end
 
+-- The game won't let an addon open the Settings panel in combat (OpenSettingsPanel is protected), so a
+-- request in combat waits for the fight to end.
+O.openAfterCombat = false
+
 function O.Open()
+  if InCombatLockdown() then
+    if not O.openAfterCombat then
+      O.openAfterCombat = true
+      U.Print("%s", L["Settings open when combat ends."])
+    end
+    return false
+  end
+  O.openAfterCombat = false
   local cat = O.Register()
   if cat and Settings.OpenToCategory then
     Settings.OpenToCategory(cat:GetID())
+  end
+  return true
+end
+
+function O.OnCombatEnded()
+  if O.openAfterCombat then
+    O.Open()
   end
 end

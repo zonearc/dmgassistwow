@@ -1616,6 +1616,24 @@ test("hidden auras: one our spells apply and we never cast this fight is down", 
   eq(ns.State.Resolve("buff.tigers_fury.up", {}), 1, "cast -> our clock runs")
 end)
 
+test("stuck detector: same pick while the player casts other spells stores one snapshot", function()
+  Reset()
+  local ns = Boot()
+  Restrict()
+  ns.Update()
+  local shown = ns.last.main
+  eq(type(shown), "table")
+  local other = shown.id == 5221 and 1822 or 5221
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind) logged[kind] = (logged[kind] or 0) + 1 end }
+  for _ = 1, 5 do
+    ns.OnOwnCast(other)
+  end
+  DMGAssistWatchdog = nil
+  eq(logged.stuck, 1, "logged once")
+  eq(logged.snapshot, 1, "one snapshot")
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

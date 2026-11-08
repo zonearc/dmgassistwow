@@ -404,6 +404,9 @@ local function RecordCast(id, how)
   if ns.Engine then
     ns.Engine.OnOwnCast()
   end
+  if ns.OnOwnCast then
+    ns.OnOwnCast(id)
+  end
   if ns.Interrupts then
     ns.Interrupts.OnOwnCast(id)
   end
