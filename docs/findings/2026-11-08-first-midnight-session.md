@@ -112,3 +112,14 @@ Scrap, Threat Plates.
   or a proc glow resets the spell. Ironfur in slot 1 front-loaded 3 stacks at the pull and flipped with the
   rotation: off-GCD keep-ups are now a small badge on slot 1's corner, one per GCD at most, held steady through
   brief unusable blinks. Ironfur presses no longer count as skipping the slot-1 spell (no GCD in its data).
+
+## Feral report (0.1.0.24)
+- Rake suggested over and over at 5 combo points: SimC's opener line `rake,if=buff.prowl.up|buff.shadowmeld.up`
+  was true all fight. Prowl cast before the pull has no duration, so our clock never ended it. Fix (all stealth
+  classes): Prowl / Stealth / Shadowmeld / Vanish / Camouflage are down whenever IsStealthed() says so, and their
+  clocks end when combat starts.
+- Moonfire in Cat Form: the player has no Lunar Inspiration, so the Moonfire button casts the caster Moonfire
+  (8921) and leaves Cat Form. SimC requires the talent for moonfire_cat; the importer now carries such
+  requirements (REQUIRES) and the action is skipped without the talent.
+- Wild Guardian (Guardian) never considered: its button only exists mid-fight as an override; buttons are now
+  checked for live overrides.

@@ -1364,6 +1364,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
     },
     moonfire_cat = {
       a = { 155625, 164812, 326646 },
+      req = "lunar_inspiration",
     },
     panthers_guile = {
       t = { 1280316 },

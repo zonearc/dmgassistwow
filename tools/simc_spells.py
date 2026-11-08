@@ -247,6 +247,12 @@ AURA_ALIASES = {
 UNLOCKS = {
     "eclipse": ["lunar_eclipse", "solar_eclipse"],
 }
+# SimC actions that need a talent the action's own spell doesn't carry (SimC checks it in the action's ready()):
+# Feral's moonfire_cat is Lunar Inspiration's Moonfire; without the talent, the Moonfire button is the caster
+# Moonfire, which leaves Cat Form.
+REQUIRES = {
+    "moonfire_cat": "lunar_inspiration",
+}
 SUFFIXES = ("_cat", "_bear", "_dot", "_debuff", "_buff", "_aoe", "_st")
 # Shapeshift suffixes: SimC's moonfire_cat is the Moonfire castable in Cat Form (155625, Lunar Inspiration), not
 # the caster Moonfire (8921) that shares its name and would take the player out of the form. The game data's
@@ -303,6 +309,8 @@ def select(spells, refs, other_specs=()):
     Returns (ids_by_token, info_by_id) with only what the spec's lists reference."""
     by = index_by_token(spells)
     ids, keep = {}, set()
+    refs = dict(refs)
+    refs["talent"] = set(refs.get("talent", set())) | {REQUIRES[t] for t in refs.get("action", set()) if t in REQUIRES}
 
     def pick(tok, rank, want=lambda s: True, action=False):
         found = []
@@ -323,6 +331,8 @@ def select(spells, refs, other_specs=()):
         if f:
             ids.setdefault(tok, {})["a"] = f
             keep.update(f)
+            if tok in REQUIRES:
+                ids[tok]["req"] = REQUIRES[tok]
     for tok in sorted(refs["aura"]):
         f = pick(tok, _aura_rank)
         for alias in AURA_ALIASES.get(tok, []):

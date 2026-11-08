@@ -238,7 +238,7 @@ test("spell names tokenize like SimC and aliases resolve", function()
   eq(M.Token("Ferocious Bite"), "ferocious_bite")
   eq(M.SpellID("tigers_fury"), 5217)
   eq(M.SpellID("swipe_cat"), 106785, "suffix _cat strips to swipe")
-  eq(M.SpellID("moonfire_cat"), 8921)
+  eq(M.SpellID("moonfire_cat"), nil, "needs Lunar Inspiration: the caster Moonfire would leave Cat Form")
   eq(M.SpellID("bs_inc"), 106951, "bs_inc alias -> berserk")
   eq(M.SpellID("omen_of_clarity"), nil, "passives are not castable")
   eq(M.AnySpellID("omen_of_clarity"), 16864)
@@ -2108,6 +2108,27 @@ test("cooldown flag unreadable: our own clock decides, so a spell just cast is n
   C_Spell.GetSpellCooldown = real -- luacheck: ignore 122
   mock.Fire("PLAYER_REGEN_ENABLED")
   mock.inCombat = false
+end)
+
+test("stealth buffs end with stealth; talent-gated actions need their talent", function()
+  Reset()
+  local ns = Boot()
+  local S, M = ns.State, ns.SpellMap
+  S.auraUntil.prowl = GetTime() + 1000 -- Prowl cast before the pull: no duration of its own
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  eq(S.Resolve("buff.prowl.up", { vars = {} }), 0, "not stealthed: Prowl is down")
+  S.auraUntil.prowl = GetTime() + 1000
+  eq(S.Resolve("buff.prowl.up", { vars = {} }), 0, "IsStealthed says no")
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat = false
+  -- moonfire_cat needs Lunar Inspiration
+  M.data.moonfire_cat = { a = { 8921 }, req = "lunar_inspiration" }
+  M.data.lunar_inspiration = { t = { 155580 } }
+  M.talentsRead, M.talentIDs = true, {}
+  eq(M.SpellID("moonfire_cat"), nil, "no talent: not castable")
+  M.talentIDs[155580] = 1
+  eq(M.SpellID("moonfire_cat"), 8921, "with the talent")
 end)
 
 test("title row: colour-coded ST / AOE with the live count", function()

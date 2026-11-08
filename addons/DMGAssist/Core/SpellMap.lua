@@ -149,6 +149,11 @@ end
 
 -- Castable spell ID for a SimC action token, or nil.
 function M.SpellID(token)
+  local entry = M.data and M.data[token]
+  if entry and entry.req and M.TalentRank(entry.req) == 0 then
+    M.unresolved[token] = true -- needs a talent the player doesn't have (moonfire_cat: Lunar Inspiration)
+    return nil
+  end
   local ids = DataIDs(token, "a")
   if ids then
     for _, id in ipairs(ids) do

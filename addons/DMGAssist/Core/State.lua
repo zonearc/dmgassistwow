@@ -1050,9 +1050,21 @@ function S.OnTargetChanged()
 end
 
 -- up, remains, stacks for an aura token on "player" or "target": overlay, read, our clock, else UNKNOWN.
+-- Stealth buffs: the game tells us whether we are stealthed (IsStealthed), and attacking ends them. Our own clock
+-- for them never ends by itself (Prowl has no duration), so without this a Prowl cast before the pull stayed "up"
+-- all fight and Feral's "rake if buff.prowl.up" opener line won every decision (2026-11-08).
+local STEALTH = { prowl = true, stealth = true, shadowmeld = true, vanish = true, camouflage = true }
+S.STEALTH = STEALTH
+
 local function AuraState(unit, token)
   local list = M.Candidates(token)
   local now = Now()
+  if unit == "player" and STEALTH[token] and not V then
+    local st = U.Get(IsStealthed)
+    if st == false then
+      return false, 0, 0
+    end
+  end
   if V then
     local vt = unit == "player" and V.aura or V.dot
     for _, t in ipairs(list) do
@@ -1821,6 +1833,9 @@ function S.OnCombat(inCombat)
     S.drift = {}
     S.castsSeen, S.castsSecret, S.castsInferred = 0, 0, 0
     S.ForgetEnemies()
+    for t in pairs(STEALTH) do
+      S.auraUntil[t] = nil -- the pull breaks stealth; a new one (Shadowmeld, Vanish) is seen when cast
+    end
   else
     S.ForgetEnemies()
     U.Log("tracking", { seen = S.castsSeen, secret = S.castsSecret, inferred = S.castsInferred, drift = S.drift })
