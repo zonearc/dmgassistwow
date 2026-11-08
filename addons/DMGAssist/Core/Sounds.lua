@@ -1,4 +1,4 @@
--- Sounds.lua: audio alerts. One sound per event, chosen in Options > Alerts & Sounds; each event is throttled.
+-- Sounds.lua: audio alerts. One sound per event, chosen in Options > Sounds; each event is throttled.
 -- Sounds are Blizzard's own sound kits (SOUNDKIT names exist on forever and live; numeric fallbacks from
 -- Blizzard_SharedXML/Mainline/SoundKitConstants.lua), played on the Master channel so they cut through music.
 

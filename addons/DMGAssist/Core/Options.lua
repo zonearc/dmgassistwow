@@ -150,44 +150,66 @@ function O.Register()
   local H = ns.Display.DEFAULTS
   local G = ns.DEFAULTS or {}
 
-  ---------------------------------------------------------------- basic page
+  -- Pages: DMGAssist (the essentials), Status (what is working), Combat (how it thinks and what it shows),
+  -- Display (visuals only), Sounds, Integrations (what it uses from Blizzard and other addons), Advanced.
+
+  ---------------------------------------------------------------- main page
   local main = Category("DMGAssist")
-  Header(main, "Recommendations")
+  Header(main, "DMGAssist")
   Check(main, DB, "enabled", "Show recommendations", true)
-  Slider(main, DB, "queue", "Spells shown", G.queue or 3, 1, 3, 1, "The next spell, plus up to two after it.")
-  Check(main, DB, "burst", "Major cooldowns", true,
-    "Show the next major cooldown (the spells Blizzard's assistant leaves out) in its own icon.")
-  Header(main, "Targets")
-  Choice(main, DB, "mode", "Primary target mode", "aoe", { { "st", "Single target" }, { "aoe", "AoE" } },
-    "Used when targets can't be counted. The key binding switches during a fight.")
-  Check(main, DB, "autoDetect", "Auto-detect targets", true,
-    "Count enemies in combat from their nameplates (enemy nameplates must be shown).")
-  Header(main, "Help in combat")
-  Choice(main, DB, "interruptMode", "Interrupts", "smart", INTERRUPT_CHOICES,
-    "In dungeons and raids 'what matters' = your boss mod calls an interrupt or Blizzard marks the spell important.")
-  Choice(main, DB, "defensiveMode", "Defensives", "smart", DEFENSIVE_CHOICES,
-    "Suggests your next personal defensive before big hits your boss mod warns about, and when you are low.")
-  Check(main, DB, "sounds", "Sound alerts", true, "Pick the sounds on the Alerts & Sounds page.")
-  Header(main, "Look")
-  Slider(main, HUD, "scale", "Scale", H.scale, 0.5, 2, 0.05)
-  Check(main, HUD, "keybind", "Keybind on icons", H.keybind)
-  Check(main, HUD, "highlight", "Highlight the button on your action bars", H.highlight,
-    "Glows the real action button for the next spell (Blizzard bars, Bartender, ElvUI, Dominos).")
   Check(main, DB, "minimap", "Minimap button", true,
     "Left-click: show / hide. Right-click: menu and settings. Drag to move it.")
   Check(main, DB, "locked", "Lock position", true,
     "Unlock to drag the icons; they are also shown while this panel is open.")
-  Button(main, "Keybinds", "Refresh keybinds", function()
-    if SlashCmdList.DMGASSIST then
-      SlashCmdList.DMGASSIST("keys")
-    end
-  end, "Re-read the keys bound to your action bars (also happens automatically).")
-  Button(main, "Defaults", "Reset to defaults", O.ResetAll, "Every setting on every DMGAssist page.")
+  Button(main, "Defaults", "Reset everything to defaults", O.ResetAll, "Every setting on every DMGAssist page.")
 
-  ---------------------------------------------------------------- display
   O.RegisterStatus(main)
+
+  ---------------------------------------------------------------- combat: how it thinks and what it shows
+  local combat = Category("Combat", main)
+  Header(combat, "Recommendations")
+  Slider(combat, DB, "queue", "Spells shown", G.queue or 3, 1, 3, 1, "The next spell, plus up to two after it.")
+  Check(combat, DB, "burst", "Major cooldowns in the rotation", true,
+    "On: big cooldowns show in the three slots in SimC's order. Off: they are never shown.")
+  Check(combat, DB, "castWhileMoving", "Suggest cast-time spells while moving", false,
+    "Off: while you move, spells with a cast time are skipped (instants and procs still show).")
+  Header(combat, "Targets")
+  Check(combat, DB, "autoDetect", "Auto-detect targets", true,
+    "Counts enemies in combat with you, within range of your spells, from their nameplates (enemy nameplates "
+    .. "must be on). Training dummies count once you have hit them.")
+  Choice(combat, DB, "mode", "When targets can't be counted", "aoe", { { "st", "Single target" }, { "aoe", "AoE" } },
+    "Used when the count isn't available. The key binding switches during a fight.")
+  Choice(combat, DB, "aoeCount", "AoE target count", "spec", { { "spec", "Your spec's switch point" },
+    { "custom", "Custom (slider below)" } },
+    "Your spec's switch point comes from its SimC list (when it uses an AoE list): the count where it changes.")
+  Slider(combat, DB, "aoeTargets", "Custom AoE target count", G.aoeTargets or 3, 2, 10, 1)
+  Header(combat, "Fight length")
+  Choice(combat, DB, "fightMode", "Fight length", "learned", {
+    { "learned", "Learned from your fights" }, { "simc", "SimC default (300 s bosses, short trash)" },
+    { "custom", "Custom (slider below)" } },
+    "SimC holds or uses cooldowns by how long the fight lasts. Learned: the typical length of your recent fights "
+    .. "of the same kind (open world, dungeon/raid trash, bosses, PvP); SimC's defaults until it has 5.")
+  Slider(combat, DB, "fightLength", "Custom fight length", G.fightLength or 300, 30, 600, 10, nil, "s")
+  Header(combat, "Interrupts")
+  Check(combat, HUD, "interrupt", "Suggest interrupts", H.interrupt)
+  Choice(combat, DB, "interruptMode", "When", "smart", INTERRUPT_CHOICES,
+    "In dungeons and raids 'what matters' = your boss mod calls an interrupt or Blizzard marks the spell important.")
+  Header(combat, "Defensives")
+  Check(combat, HUD, "defensive", "Suggest defensives", H.defensive)
+  Choice(combat, DB, "defensiveMode", "When", "smart", DEFENSIVE_CHOICES,
+    "Before big hits your boss mod warns about, and when you are low.")
+  Slider(combat, DB, "defensiveHealth", "Low health", G.defensiveHealth or 35, 10, 70, 5, nil, "%")
+  Slider(combat, DB, "defensiveLead", "Warn this long before a big hit", G.defensiveLead or 3, 1, 8, 1, nil, "s")
+  Header(combat, "When to show")
+  Check(combat, HUD, "hideOutOfCombat", "Hide out of combat", H.hideOutOfCombat)
+  Check(combat, HUD, "showWithTarget", "Show when targeting an enemy", H.showWithTarget)
+  Check(combat, HUD, "hideMounted", "Hide while mounted", H.hideMounted)
+  Check(combat, HUD, "hideVehicle", "Hide in vehicles", H.hideVehicle)
+
+  ---------------------------------------------------------------- display: visuals only
   local display = Category("Display", main)
   Header(display, "Layout")
+  Slider(display, HUD, "scale", "Scale", H.scale, 0.5, 2, 0.05)
   Slider(display, HUD, "iconSize", "Main icon size", H.iconSize, 24, 96, 1)
   Slider(display, HUD, "nextSize", "Next icon size", H.nextSize, 16, 80, 1)
   Slider(display, HUD, "spacing", "Icon spacing", H.spacing, 0, 24, 1)
@@ -204,6 +226,7 @@ function O.Register()
   Choice(display, HUD, "font", "Font", H.font, ns.Display.FontChoices,
     "Game fonts, plus any registered with LibSharedMedia.")
   Choice(display, HUD, "outline", "Outline", H.outline, ns.Display.OUTLINES)
+  Check(display, HUD, "keybind", "Keybind on icons", H.keybind)
   Slider(display, HUD, "keybindSize", "Keybind text size", H.keybindSize, 8, 24, 1)
   Choice(display, HUD, "keybindPos", "Keybind position", H.keybindPos,
     { { "TOPRIGHT", "Top right" }, { "TOPLEFT", "Top left" }, { "BOTTOMLEFT", "Bottom left" }, { "CENTER", "Center" } })
@@ -221,45 +244,37 @@ function O.Register()
     "How long before the exact moment the flash comes, for reaction time.", " ms")
   Check(display, HUD, "gcdBar", "GCD bar", H.gcdBar)
   Check(display, HUD, "dimGuesses", "Dim uncertain picks", H.dimGuesses)
-
-  ---------------------------------------------------------------- alerts & sounds
-  local alerts = Category("Alerts & Sounds", main)
-  Header(alerts, "On screen")
-  Check(alerts, HUD, "callout", "Boss callouts above the icons", H.callout,
+  Check(display, HUD, "highlight", "Highlight the button on your action bars", H.highlight,
+    "Glows the real action button for the next spell (Blizzard bars, Bartender, ElvUI, Dominos).")
+  Check(display, HUD, "callout", "Boss callouts above the icons", H.callout,
     "'AOE 3', 'TANK HIT 2', 'ADDS 8', 'INTERRUPT', 'DEFENSIVE' from your boss mod or Blizzard's timeline.")
-  Slider(alerts, HUD, "calloutSize", "Callout text size", H.calloutSize, 10, 28, 1)
-  Check(alerts, HUD, "interrupt", "Show interrupts", H.interrupt)
-  Check(alerts, HUD, "defensive", "Show defensives", H.defensive)
-  Slider(alerts, DB, "defensiveHealth", "Low health for defensives", G.defensiveHealth or 35, 10, 70, 5, nil, "%")
-  Slider(alerts, DB, "defensiveLead", "Warn this long before a big hit", G.defensiveLead or 3, 1, 8, 1, nil, "s")
-  Header(alerts, "Sounds")
+  Slider(display, HUD, "calloutSize", "Callout text size", H.calloutSize, 10, 28, 1)
+
+  ---------------------------------------------------------------- sounds
+  local sounds = Category("Sounds", main)
+  Header(sounds, "Sounds")
+  Check(sounds, DB, "sounds", "Sound alerts", true)
   for _, event in ipairs(ns.Sounds.EVENTS) do
-    Choice(alerts, DB, "sound_" .. event, SOUND_LABELS[event], ns.Sounds.DEFAULTS[event], ns.Sounds.CHOICES)
+    Choice(sounds, DB, "sound_" .. event, SOUND_LABELS[event], ns.Sounds.DEFAULTS[event], ns.Sounds.CHOICES)
   end
-  Button(alerts, "Test", "Play the interrupt sound", function()
+  Button(sounds, "Test", "Play the interrupt sound", function()
     ns.Sounds.Play("interrupt")
   end)
 
-  ---------------------------------------------------------------- combat
-  local combat = Category("Combat", main)
-  Header(combat, "When to show")
-  Check(combat, HUD, "hideOutOfCombat", "Hide out of combat", H.hideOutOfCombat)
-  Check(combat, HUD, "showWithTarget", "Show when targeting an enemy", H.showWithTarget)
-  Check(combat, HUD, "hideMounted", "Hide while mounted", H.hideMounted)
-  Check(combat, HUD, "hideVehicle", "Hide in vehicles", H.hideVehicle)
-  Header(combat, "Fight")
-  Slider(combat, DB, "aoeTargets", "Targets assumed in AoE mode", G.aoeTargets or 3, 2, 10, 1)
-  Slider(combat, DB, "fightLength", "Assumed fight length", G.fightLength or 300, 30, 600, 10,
-    "SimC holds or uses cooldowns based on how long the fight lasts.", "s")
-  Check(combat, DB, "smartFight", "Smart fight length", true,
-    "Bosses and encounters use the length above; dungeon and raid trash is assumed short so cooldowns aren't held.")
-  Check(combat, DB, "castWhileMoving", "Suggest cast-time spells while moving", false,
-    "Off: while you move, spells with a cast time are skipped (instants and procs still show).")
-  Header(combat, "Sources")
-  Check(combat, DB, "useAssisted", "Use Blizzard's Assisted Combat as backup", true,
-    "Midnight only: confirms uncertain SimC lines and reveals hidden buffs. Forever has no Assisted Combat.")
-  Check(combat, DB, "bossMods", "Use boss mod timers (DBM / BigWigs / LittleWigs)", true,
-    "Upcoming adds, AoE, tank hits and phase changes: shown on the HUD and used by SimC's add timing.")
+  ---------------------------------------------------------------- integrations: Blizzard and other addons
+  local integrations = Category("Integrations", main)
+  Header(integrations, "Blizzard")
+  Check(integrations, DB, "useAssisted", "Blizzard's assisted combat as a second opinion", true,
+    "Midnight only: it sees hidden procs and resources, so it confirms uncertain SimC lines. Forever has none.")
+  Header(integrations, "Boss mods")
+  Check(integrations, DB, "bossMods", "Use DBM / BigWigs / LittleWigs timers", true,
+    "Upcoming adds, AoE, tank hits and interrupts: used for defensives, interrupts and SimC's add timing.")
+  Header(integrations, "Action bars")
+  Button(integrations, "Keybinds", "Refresh keybinds", function()
+    if SlashCmdList.DMGASSIST then
+      SlashCmdList.DMGASSIST("keys")
+    end
+  end, "Keybinds are read from Blizzard bars, Bartender, ElvUI and Dominos automatically; this re-reads them now.")
 
   ---------------------------------------------------------------- advanced
   local advanced = Category("Advanced", main)

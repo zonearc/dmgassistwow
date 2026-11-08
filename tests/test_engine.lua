@@ -447,7 +447,7 @@ test("slash commands change settings", function()
   eq(ns.db.burst, true)
   SlashCmdList.DMGASSIST("mode aoe")
   eq(ns.db.mode, "aoe")
-  eq(ns.State.Targets(), 3)
+  eq(ns.State.Targets(), 2, "Feral's own list switches to AoE at 2 targets")
   SlashCmdList.DMGASSIST("targets 5")
   eq(ns.State.Targets(), 5)
   SlashCmdList.DMGASSIST("off")
@@ -620,7 +620,7 @@ test("modes: auto-detect counts enemies, hotkey cycles, primary mode is the fall
   eq(label, "ST")
   DMGAssist_CycleMode()
   n, label = S.Targets()
-  eq(n, 3)
+  eq(n, 2, "the spec's AoE switch point (Feral: 2)")
   eq(label, "AOE")
   DMGAssist_CycleMode()
   eq(S.ActiveMode(), "auto")
@@ -628,12 +628,15 @@ test("modes: auto-detect counts enemies, hotkey cycles, primary mode is the fall
   mock.nameplates = 0
   SlashCmdList.DMGASSIST("mode aoe")
   n, label = S.Targets()
-  eq(n, 3)
+  eq(n, 2)
   eq(label, "AOE?")
   SlashCmdList.DMGASSIST("auto off")
   n, label = S.Targets()
-  eq(n, 3)
+  eq(n, 2)
   eq(label, "AOE")
+  SlashCmdList.DMGASSIST("targets 4") -- a typed number overrides the spec's switch point
+  eq(S.Targets(), 4)
+  eq(ns.db.aoeCount, "custom")
   DMGAssist_ToggleBurst()
   eq(ns.db.burst, false)
   DMGAssist_Toggle()
@@ -1504,7 +1507,7 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   local headers = 0
   local cats = mock.settingsCategories
   local mine = {}
-  for i = #cats - 5, #cats do
+  for i = #cats - 6, #cats do
     mine[#mine + 1] = cats[i]
   end
   for _, c in ipairs(mine) do
@@ -1516,8 +1519,12 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   end
   eq(headers >= 12, true, "section headers: " .. headers)
   eq(mine[1].name, "DMGAssist", "basic page first")
-  eq(mine[2].name, "Status", "Status page right after the main page")
-  eq(mine[6].parent, mine[1], "five sub-pages: Status, Display, Alerts & Sounds, Combat, Advanced")
+  local names = {}
+  for i, c in ipairs(mine) do
+    names[i] = c.name
+  end
+  eq(table.concat(names, ","), "DMGAssist,Status,Combat,Display,Sounds,Integrations,Advanced")
+  eq(mine[7].parent, mine[1], "every page under DMGAssist")
   local fonts = mock.settings.DMGASSIST_FONT.options()
   eq(fonts[1].value, "default")
   mock.settings.DMGASSIST_ICONSIZE:SetValue(80)
@@ -1796,6 +1803,27 @@ test("charges: counted from casts, shared between spells of one entry, recharge 
   eq(ns.State.Charges(5217), 1, "one charge back after 32 s")
   mock.now = mock.now + 32
   eq(ns.State.Charges(5217), 2, "the second 32 s later")
+end)
+
+test("fight length: learned per kind of fight from your own fights; SimC default until 5; custom", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  eq(S.FightLength(), 300, "nothing learned yet: SimC's default")
+  for _, secs in ipairs({ 22, 30, 18, 25, 40 }) do
+    mock.inCombat = true
+    mock.Fire("PLAYER_REGEN_DISABLED")
+    mock.Advance(secs)
+    mock.inCombat = false
+    mock.Fire("PLAYER_REGEN_ENABLED")
+  end
+  eq(S.LearnedFightLength("world"), 25, "median of the open-world fights")
+  eq(S.FightLength(), 25, "learned length used")
+  ns.db.fightMode = "simc"
+  eq(S.FightLength(), 300)
+  ns.db.fightMode, ns.db.fightLength = "custom", 120
+  eq(S.FightLength(), 120)
+  eq(S.LearnedFightLength("boss"), nil, "bosses learned separately")
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

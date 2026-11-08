@@ -186,6 +186,18 @@ function ns.StatusLines()
   end
   local n, label = S.Targets()
   add("Target mode", string.format("%s (%s targets now)", tostring(label), tostring(n)))
+  local specAoe = S.SpecAoeTargets(state.data)
+  if ns.db.aoeCount == "custom" then
+    add("AoE target count", string.format("%d (custom)", S.AoeTargets()))
+  else
+    add("AoE target count", specAoe and string.format("%d (your spec's switch point)", specAoe)
+      or L["3 (your spec's list weighs the count line by line)"])
+  end
+  local context = S.fightContext or S.FightContext()
+  local learned = S.LearnedFightLength(context)
+  local mode = ns.db.fightMode or "learned"
+  add("Fight length", string.format("%d s (%s, %s)", S.FightLength(), mode == "learned" and (learned and
+    L["learned"] or L["learning: SimC default for now"]) or mode, context))
   local mods = ns.BossMods.Detected()
   add("Boss mods found", #mods > 0 and table.concat(mods, ", ") or L["none"])
   local keys = 0
@@ -376,7 +388,7 @@ end
 pcall(frame.RegisterUnitEvent, frame, "UNIT_AURA", "player", "target")
 
 local DEFAULTS = { enabled = true, burst = true, mode = "aoe", autoDetect = true, aoeTargets = 3, fightLength = 300,
-  useAssisted = true, queue = 3, smartFight = true, bossMods = true, interruptMode = "smart",
+  useAssisted = true, queue = 3, smartFight = true, fightMode = "learned", aoeCount = "spec", bossMods = true, interruptMode = "smart",
   defensiveMode = "smart", defensiveHealth = 35, defensiveLead = 3, sounds = true, locked = true,
   minimap = true, minimapAngle = 220 }
 ns.DEFAULTS = DEFAULTS
@@ -563,8 +575,9 @@ function commands.targets(arg)
   local n = tonumber(arg)
   if n and n >= 1 then
     ns.db.aoeTargets = math.floor(n)
+    ns.db.aoeCount = "custom" -- a number typed in means "use this", not the spec's switch point
   end
-  U.Print(L["AoE targets: %d."], ns.db.aoeTargets)
+  U.Print(L["AoE targets: %d."], S.AoeTargets())
 end
 
 function commands.fight(arg)

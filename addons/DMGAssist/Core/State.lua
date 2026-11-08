@@ -152,6 +152,54 @@ function S.CountEnemies()
   return n
 end
 
+-- The spec's own AoE switch point, read from its priority list: the smallest target count at which it calls
+-- or runs an AoE list ("run_action_list,name=aoe,if=spell_targets>=3" -> 3, "...>1" -> 2). nil if none.
+local aoeCache = setmetatable({}, { __mode = "k" })
+local AOE_TERMS = { "spell_targets[%w_%.]*", "active_enemies", "spell_targets" }
+
+function S.SpecAoeTargets(record)
+  if type(record) ~= "table" or type(record.simc) ~= "table" then
+    return nil
+  end
+  if aoeCache[record] ~= nil then
+    return aoeCache[record] or nil
+  end
+  local best
+  for _, list in pairs(record.simc) do
+    for _, e in ipairs(list) do
+      local name = e.p and e.p.name
+      if (e.a == "run_action_list" or e.a == "call_action_list") and type(name) == "string"
+        and (name:find("aoe") or name:find("cleave"))
+        and type(e.c) == "string" then
+        for _, term in ipairs(AOE_TERMS) do
+          for op, num in e.c:gmatch(term .. "%s*([>=]+)%s*(%d+)") do
+            local n = tonumber(num)
+            if op == ">" then
+              n = n + 1
+            end
+            if n and n >= 2 and (not best or n < best) then
+              best = n
+            end
+          end
+        end
+      end
+    end
+  end
+  aoeCache[record] = best or false
+  return best
+end
+
+-- Targets assumed in AoE mode: the spec's switch point (default), or DMGAssistDB.aoeTargets when the player
+-- set "AoE target count" to Custom. 3 when the spec's list has no clear switch point.
+function S.AoeTargets()
+  local db = ns.db or {}
+  if db.aoeCount == "custom" then
+    return tonumber(db.aoeTargets) or 3
+  end
+  local state = ns.Specs and ns.Specs.current
+  return S.SpecAoeTargets(state and state.data) or 3
+end
+
 -- The mode in force: hotkey override > auto (when enabled) > the primary mode.
 function S.ActiveMode()
   if S.modeOverride then
@@ -175,11 +223,11 @@ function S.Targets()
     end
     -- Nothing counted (nameplates hidden, out of combat, or unreadable): the primary mode decides.
     if set.mode == "aoe" then
-      return set.aoeTargets, "AOE?"
+      return S.AoeTargets(), "AOE?"
     end
     return 1, "ST?"
   elseif mode == "aoe" then
-    return set.aoeTargets, "AOE"
+    return S.AoeTargets(), "AOE"
   end
   return 1, "ST"
 end
@@ -205,25 +253,78 @@ end
 -- aren't held for a long fight that won't happen. Open world (including target dummies) uses the setting.
 S.inEncounter = false
 local TRASH_FIGHT = 30
+local SIMC_FIGHT = 300
 
+-- Kind of fight, for the learned lengths: "boss" (encounter, boss or world boss target), "instance" (dungeon or
+-- raid trash), "pvp" (battleground / arena), "world" (questing, grinding).
+function S.FightContext()
+  if S.inEncounter or U.Get(UnitIsBossMob, "target") == true or U.Get(UnitClassification, "target") == "worldboss" then
+    return "boss"
+  end
+  local inInstance, kind = U.Call(IsInInstance)
+  if U.Read(inInstance) == true then
+    kind = U.Read(kind)
+    if kind == "pvp" or kind == "arena" then
+      return "pvp"
+    end
+    return "instance"
+  end
+  return "world"
+end
+
+-- Learned fight length: the median of this player's recent fights of the same kind (DMGAssistDB.fights, the
+-- last 30 per kind, fights of 4 s or more). nil until there are 5.
+local LEARN_KEEP, LEARN_MIN, LEARN_SHORTEST = 30, 5, 4
+function S.LearnedFightLength(context)
+  local list = ns.db and type(ns.db.fights) == "table" and ns.db.fights[context]
+  if type(list) ~= "table" or #list < LEARN_MIN then
+    return nil
+  end
+  local sorted = {}
+  for i, v in ipairs(list) do
+    sorted[i] = v
+  end
+  table.sort(sorted)
+  return sorted[math.floor((#sorted + 1) / 2)]
+end
+
+local function RecordFight(context, seconds)
+  if not (ns.db and context and seconds >= LEARN_SHORTEST) then
+    return
+  end
+  ns.db.fights = type(ns.db.fights) == "table" and ns.db.fights or {}
+  local list = ns.db.fights[context] or {}
+  ns.db.fights[context] = list
+  list[#list + 1] = math.floor(seconds + 0.5)
+  while #list > LEARN_KEEP do
+    table.remove(list, 1)
+  end
+end
+
+-- Fight length for SimC's fight_remains / time_to_die. DMGAssistDB.fightMode:
+--   "learned" (default): your own typical fight of this kind; SimC's defaults until 5 fights are recorded
+--   "simc": SimC's 300 s for bosses, short for dungeon / raid trash
+--   "custom": the slider's value (DMGAssistDB.fightLength) for every fight
 function S.FightLength()
   local set = S.Settings()
   local db = ns.db or {}
-  if db.smartFight == false or S.inEncounter then
+  local mode = db.fightMode or "learned"
+  if mode == "custom" then
     return set.fightLength
   end
-  if U.Get(UnitIsBossMob, "target") == true then
-    return set.fightLength
+  if mode == "learned" then
+    local learned = S.LearnedFightLength(S.fightContext or S.FightContext())
+    if learned then
+      return learned
+    end
   end
-  local class = U.Get(UnitClassification, "target")
-  if class == "worldboss" then
-    return set.fightLength
+  -- SimC's default fight (Patchwerk, 300 s) for bosses and the open world; dungeon / raid trash is short, so
+  -- cooldowns are not held for a 5-minute fight that ends in 30 s.
+  local context = S.fightContext or S.FightContext()
+  if context == "instance" and db.smartFight ~= false then
+    return TRASH_FIGHT
   end
-  local inInstance = U.Get(IsInInstance)
-  if inInstance == true then
-    return math.min(set.fightLength, TRASH_FIGHT)
-  end
-  return set.fightLength
+  return SIMC_FIGHT
 end
 
 ---------------------------------------------------------------------------
@@ -1634,11 +1735,16 @@ end
 function S.OnCombat(inCombat)
   if inCombat then
     S.combatStart = GetTime()
+    S.fightContext = S.FightContext()
     S.timingLogged = 0
     S.drift = {}
     S.castsSeen, S.castsSecret, S.castsInferred = 0, 0, 0
   else
     U.Log("tracking", { seen = S.castsSeen, secret = S.castsSecret, inferred = S.castsInferred, drift = S.drift })
+    if S.combatStart then
+      RecordFight(S.fightContext, GetTime() - S.combatStart)
+    end
+    S.fightContext = nil
     S.combatStart = nil
     S.combatEnd = GetTime()
     S.history = {}
