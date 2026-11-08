@@ -10,7 +10,8 @@
 param(
   [Parameter(Mandatory = $true)][string]$AddOns,   # one or more AddOns folders, separated by |
   [Parameter(Mandatory = $true)][string]$Result,
-  [string]$Installed = ''                          # unused (older updaters passed it); versions are read per folder
+  [string]$Installed = '',                         # unused (older updaters passed it); versions are read per folder
+  [switch]$Force                                   # manual click: also re-check the updater's own files now
 )
 
 $ErrorActionPreference = 'Stop'
@@ -37,16 +38,23 @@ function Update-Self($release) {
     $stamp = Join-Path $PSScriptRoot 'updater.stamp'
     $seen = ''
     if (Test-Path -LiteralPath $stamp) { $seen = (Get-Content -LiteralPath $stamp -Raw).Trim() }
-    if ($seen -eq [string]$asset.updated_at) { return }
+    if (-not $Force -and $seen -eq [string]$asset.updated_at) { return }
     $tmp = Join-Path $env:TEMP ('dmgassist-updater-' + [guid]::NewGuid().ToString('N'))
     New-Item -ItemType Directory -Path $tmp | Out-Null
     try {
       $zip = Join-Path $tmp 'u.zip'
       Invoke-WebRequest -Uri $asset.browser_download_url -Headers @{ 'User-Agent' = 'DMGAssistUpdater' } -OutFile $zip -UseBasicParsing
       Expand-Archive -LiteralPath $zip -DestinationPath $tmp -Force
-      $new = Join-Path $tmp 'updater\update.ps1'
-      if ((Test-Path -LiteralPath $new) -and (Get-Content -LiteralPath $new -Raw) -match 'param\(') {
-        Copy-Item -LiteralPath $new -Destination $PSCommandPath -Force
+      # The updater's own files: this script, the tray app (it restarts itself when its file changes), the icon
+      # and the uninstaller. Only files that differ are written.
+      foreach ($name in @('update.ps1', 'DMGAssistUpdater.ahk', 'dmgassist.ico', 'Uninstall-DMGAssistUpdater.ahk')) {
+        $new = Join-Path $tmp ('updater\' + $name)
+        $dest = Join-Path $PSScriptRoot $name
+        if (-not (Test-Path -LiteralPath $new)) { continue }
+        if ($name -eq 'update.ps1' -and (Get-Content -LiteralPath $new -Raw) -notmatch 'param\(') { continue }
+        $same = (Test-Path -LiteralPath $dest) -and
+          ((Get-FileHash -LiteralPath $new).Hash -eq (Get-FileHash -LiteralPath $dest).Hash)
+        if (-not $same) { Copy-Item -LiteralPath $new -Destination $dest -Force }
       }
       Set-Content -LiteralPath $stamp -Value ([string]$asset.updated_at)
     } finally {

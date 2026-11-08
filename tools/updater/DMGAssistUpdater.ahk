@@ -58,6 +58,7 @@ if (A_ScriptDir != InstallDir) {
 }
 
 UpdateScript := A_ScriptDir "\update.ps1"
+ScriptStamp := FileGetTime(A_ScriptFullPath, "M") ; update.ps1 may replace this file: restart when it does
 try FileDelete(TokenFile) ; the repository is public: no token (one saved by the old version is removed)
 BuildMenu()
 RefreshTip()
@@ -338,10 +339,15 @@ RunUpdate(manual) {
     resultFile := A_Temp "\dmgassist-update-result.txt"
     try FileDelete(resultFile)
     RunWait('powershell.exe -NoProfile -ExecutionPolicy Bypass -File "' UpdateScript '" -AddOns "' list
-        '" -Result "' resultFile '"', , "Hide")
+        '" -Result "' resultFile '"' (manual ? " -Force" : ""), , "Hide")
     result := FileExist(resultFile) ? Trim(FileRead(resultFile)) : "ERROR PowerShell did not run."
     LastCheck := FormatTime(, "HH:mm")
     Busy := false
+    if (!A_IsCompiled && FileGetTime(A_ScriptFullPath, "M") != ScriptStamp) {
+        TrayTip("The updater updated itself and is restarting.", AppName)
+        Sleep(1500)
+        Reload()
+    }
     if SubStr(result, 1, 3) = "OK " {
         LastError := ""
         RefreshTip()
