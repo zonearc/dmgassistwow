@@ -43,6 +43,7 @@ local function RefreshSpells()
   end
   spellsDirty = false
   M.Refresh()
+  S.Calibrate()
   S.OnAura("player")
   S.OnTargetChanged()
 end
@@ -94,16 +95,19 @@ function ns.Update()
   if spellsDirty and not inCombat then
     RefreshSpells()
   end
+  D.MaybeRefreshKeymap(inCombat)
   local show = ShouldShow()
   if not show then
     D.Update(nil, false)
     return nil
   end
   S.VerifyPowers()
+  ns.Clues.ReadCooldownManager(S.ReadableAuras())
   local result = G.Recommend(state.data, {
     burst = ns.db.burst ~= false,
     useAssisted = state.branch == "midnight" and ns.db.useAssisted ~= false,
   })
+  result.callout = ns.BossMods.Callout()
   ns.last = result
   D.Update(result, true)
   -- Decision log: one line per change of pick (not every tick).
@@ -136,7 +140,7 @@ for _, event in ipairs({ "ADDON_LOADED", "PLAYER_LOGIN", "PLAYER_ENTERING_WORLD"
 end
 -- Keybind text on the icons follows action bar and binding changes.
 local KEYBIND_EVENTS = { ACTIONBAR_SLOT_CHANGED = true, UPDATE_BINDINGS = true, ACTIONBAR_PAGE_CHANGED = true,
-  UPDATE_BONUS_ACTIONBAR = true }
+  UPDATE_BONUS_ACTIONBAR = true, UPDATE_MACROS = true, UPDATE_SHAPESHIFT_FORM = true }
 for event in pairs(KEYBIND_EVENTS) do
   pcall(frame.RegisterEvent, frame, event)
 end
@@ -157,7 +161,7 @@ end
 pcall(frame.RegisterUnitEvent, frame, "UNIT_AURA", "player", "target")
 
 local DEFAULTS = { enabled = true, burst = true, mode = "st", autoDetect = true, aoeTargets = 3, fightLength = 300,
-  useAssisted = true, queue = 3, smartFight = true }
+  useAssisted = true, queue = 3, smartFight = true, bossMods = true }
 
 frame:SetScript("OnEvent", function(_, event, ...)
   local arg1, _, arg3 = ...
@@ -172,6 +176,8 @@ frame:SetScript("OnEvent", function(_, event, ...)
       ns.db = DMGAssistDB
       ns.Client.Detect()
     end
+    ns.BossMods.Hook() -- boss mods can load before us, after us, or on demand
+    D.InvalidateKeybinds() -- a bar addon may have just loaded
   elseif event == "PLAYER_LOGIN" then
     local state = Specs.Refresh("login")
     U.Print("%s", Describe(state))
@@ -182,6 +188,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     end
     D.Create()
     ns.Options.Register()
+    ns.BossMods.Hook()
   elseif KEYBIND_EVENTS[event] then
     D.InvalidateKeybinds()
   elseif event == "PLAYER_REGEN_DISABLED" then
@@ -190,6 +197,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
   elseif event == "PLAYER_REGEN_ENABLED" then
     inCombat = false
     S.OnCombat(false)
+    S.Calibrate()
     if spellsDirty then
       RequestSpellRefresh()
     end
@@ -209,6 +217,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     S.inEncounter = true
   elseif event == "ENCOUNTER_END" then
     S.inEncounter = false
+    ns.BossMods.Reset()
   elseif event == "SPELL_UPDATE_COOLDOWN" then
     S.OnCooldownUpdate()
   elseif event == "SPELL_ACTIVATION_OVERLAY_GLOW_SHOW" then
@@ -319,6 +328,15 @@ function commands.lock()
   U.Print(ns.db.locked and L["Icon locked."] or L["Icon unlocked (drag to move)."])
 end
 
+function commands.keys()
+  local map = D.BuildKeymap()
+  local n = 0
+  for _ in pairs(map) do
+    n = n + 1
+  end
+  U.Print(L["Keybinds refreshed: %d spells on your bars."], n)
+end
+
 function commands.config()
   ns.Options.Open()
 end
@@ -361,6 +379,7 @@ function commands.help()
     { "/dmga lock", "lock or unlock the icon position" },
     { "/dmga why", "explain the current pick" },
     { "/dmga config", "open the settings panel" },
+    { "/dmga keys", "refresh keybinds" },
   }
   for _, line in ipairs(lines) do
     U.Print("%s — %s", line[1], L[line[2]])
@@ -395,4 +414,8 @@ SlashCmdList.DMGASSIST = function(msg)
   local state = Specs.Refresh("slash")
   U.Print("%s", Describe(state))
   U.Print(L["Spells matched: %s. Type /dmga help for options."], tostring(M.count or 0))
+  local mods = ns.BossMods.Detected()
+  if #mods > 0 then
+    U.Print(L["Boss mods: %s."], table.concat(mods, ", "))
+  end
 end

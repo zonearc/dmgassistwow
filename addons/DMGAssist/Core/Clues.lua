@@ -240,7 +240,7 @@ local function Affordability()
   for id, b in pairs(M.book) do
     if b.id == id and not b.passive and not ns.State.glow[id] then
       local info = M.Info(id)
-      local cost = info and info.cost
+      local cost = M.Cost(info)
       if cost and not info.cmax then
         local pt, amount = next(cost)
         if pt and next(cost, pt) == nil and amount > 0 then
@@ -284,6 +284,10 @@ function C.ResourceBounds(pt)
   local o = C.bounds[pt]
   if o and o.untilT > now and C.Enabled(o.source) then
     lo, hi, known = math.max(lo, o.lo), math.min(hi, o.hi), true
+  end
+  local slo, shi = C.ShadowBounds(pt)
+  if slo then
+    lo, hi, known = math.max(lo, slo), math.min(hi, shi), true
   end
   if C.Enabled("usable") then
     local a = Affordability()[pt]
@@ -402,7 +406,11 @@ local function Settle(sh)
   local p = sh.pending
   if p and GetTime() - p.t > CONFIRM_WINDOW then
     -- No UNIT_POWER_UPDATE followed our cast: the change didn't happen (miss/dodge, or already capped).
-    sh.v = p.prev
+    if p.restoreLo then
+      sh.certain, sh.lo, sh.hi = false, p.restoreLo, p.restoreHi
+    else
+      sh.v = p.prev
+    end
     sh.pending = nil
   end
 end
@@ -412,10 +420,25 @@ function C.OnOwnCast(id)
   if not info then
     return
   end
+  local costs = M.Cost(info)
   for pt, sh in pairs(C.shadow) do
     Settle(sh)
-    local cost = info.cost and info.cost[pt]
+    local cost = costs and costs[pt]
     local gain = info.gain and info.gain[pt]
+    -- A finisher that can spend up to the cap empties the resource: exact again, whatever we knew before.
+    local cmaxAll = cost and info.cmax and info.cmax[pt]
+    if not sh.certain and cmaxAll and sh.max and cmaxAll >= sh.max then
+      sh.pending = { t = GetTime(), restoreLo = sh.lo, restoreHi = sh.hi }
+      sh.v, sh.certain, sh.lo, sh.hi = gain or 0, true, nil, nil
+      cost, gain = nil, nil
+    end
+    if not sh.certain and (cost or gain) and sh.lo then
+      local d = (gain or 0) - (cost or 0)
+      sh.lo, sh.hi = math.max(0, sh.lo + d), math.max(0, sh.hi + d)
+      if sh.max and sh.max > 0 then
+        sh.lo, sh.hi = math.min(sh.lo, sh.max), math.min(sh.hi, sh.max)
+      end
+    end
     if sh.certain and (cost or gain) then
       local v = sh.v
       if cost then
@@ -445,8 +468,22 @@ function C.OnPowerEvent(token)
   if sh.pending and GetTime() - sh.pending.t <= CONFIRM_WINDOW then
     sh.pending = nil -- the change we predicted happened
   elseif not U.Read(U.Call(UnitPower, "player", pt)) then
-    sh.certain = false -- something we didn't cause changed it (proc, crit bonus, passive spend)
+    -- Something we didn't cause changed it. Almost always a free point (crit bonus, talent proc), so the
+    -- count becomes "v or v+1" instead of fully unknown; each further surprise widens it; a finisher that
+    -- spends everything makes it exact again (see OnOwnCast).
+    local lo, hi = sh.lo or sh.v, sh.hi or sh.v
+    sh.lo, sh.hi = lo, math.min(hi + 1, sh.max and sh.max > 0 and sh.max or hi + 1)
+    sh.certain = false
   end
+end
+
+-- Range of a counted resource that became uncertain: lo, hi or nil.
+function C.ShadowBounds(pt)
+  local sh = C.shadow[pt]
+  if sh and not sh.certain and sh.lo and C.Enabled("shadow") then
+    return sh.lo, sh.hi
+  end
+  return nil
 end
 
 -- Exact value from the counter, or nil.
@@ -457,6 +494,51 @@ function C.ShadowValue(pt)
   end
   Settle(sh)
   return sh.v
+end
+
+---------------------------------------------------------------------------
+-- Blizzard's Cooldown Manager (the built-in buff/cooldown tracker)
+---------------------------------------------------------------------------
+-- Its buff icons decide "active" in Blizzard's own (secure) code and keep the result on the item frames
+-- (item.isActive, item.cooldownID -> C_CooldownViewer.GetCooldownViewerCooldownInfo(...).spellID).
+-- Whether those fields are readable to addons in combat is unverified (frames carry "secret aspects", and aura
+-- instance IDs are secret); U.Read drops anything secret, and the source is graded against readable truth like
+-- every other clue. Only buffs the player chose to track in the Cooldown Manager are visible here.
+C.CDM_VIEWERS = { "BuffIconCooldownViewer", "BuffBarCooldownViewer" }
+
+function C.ReadCooldownManager(readable)
+  if not C.Enabled("cdm") then
+    return 0
+  end
+  local seen = 0
+  for _, name in ipairs(C.CDM_VIEWERS) do
+    local viewer = _G[name]
+    if type(viewer) == "table" and type(viewer.GetChildren) == "function" then
+      for _, item in ipairs({ U.Call(viewer.GetChildren, viewer) }) do
+        local cdID = type(item) == "table" and U.Read(item.cooldownID)
+        local active = type(item) == "table" and U.Read(item.isActive)
+        if type(cdID) == "number" and type(active) == "boolean" then
+          local info = U.Read(U.Call(C_CooldownViewer and C_CooldownViewer.GetCooldownViewerCooldownInfo, cdID))
+          local sid = type(info) == "table" and U.Read(info.spellID)
+          local token = sid and M.AuraToken(sid, U.Read(U.Call(C_Spell and C_Spell.GetSpellName, sid)))
+          if token then
+            local unit = U.Read(U.Call(item.GetAuraDataUnit, item))
+            if unit ~= "target" then
+              unit = "player"
+            end
+            seen = seen + 1
+            local truth = readable and readable[unit]
+            if truth then
+              Record("cdm", (truth[token] ~= nil) == active)
+            else
+              C.SetAura(unit, token, active, 0.5, "cdm")
+            end
+          end
+        end
+      end
+    end
+  end
+  return seen
 end
 
 ---------------------------------------------------------------------------

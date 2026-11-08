@@ -89,7 +89,7 @@ function O.Register()
   local G = GENERAL_DEFAULTS
   local s = O.settings
 
-  local main = Settings.RegisterVerticalLayoutCategory("DMGAssist")
+  local main, mainLayout = Settings.RegisterVerticalLayoutCategory("DMGAssist")
   s.enabled = Check(main, DB, "enabled", "Show recommendations", G.enabled)
   s.burst = Check(main, DB, "burst", "Major cooldowns", G.burst,
     "Show the next major cooldown (the spells Blizzard's assistant leaves out) in its own icon.")
@@ -97,6 +97,13 @@ function O.Register()
     "Midnight only: confirms uncertain SimC lines and reveals hidden buffs. Forever has no Assisted Combat.")
   s.queue = Slider(main, DB, "queue", "Spells shown", G.queue, 1, 3, 1)
   s.locked = Check(main, DB, "locked", "Lock position", G.locked)
+  if type(CreateSettingsButtonInitializer) == "function" and type(mainLayout) == "table" and mainLayout.AddInitializer then
+    mainLayout:AddInitializer(CreateSettingsButtonInitializer(L["Keybinds"], L["Refresh keybinds"], function()
+      if SlashCmdList.DMGASSIST then
+        SlashCmdList.DMGASSIST("keys")
+      end
+    end, L["Re-read the keys bound to your action bars (also happens automatically)."], true))
+  end
 
   local combat = Settings.RegisterVerticalLayoutSubcategory(main, L["Combat"])
   s.mode = Choice(combat, DB, "mode", "Primary target mode", G.mode, { { "st", "Single target" }, { "aoe", "AoE" } },
@@ -108,6 +115,9 @@ function O.Register()
     "SimC holds or uses cooldowns based on how long the fight lasts.")
   s.smartFight = Check(combat, DB, "smartFight", "Smart fight length", true,
     "Bosses and encounters use the length above; dungeon and raid trash is assumed short so cooldowns aren't held.")
+  s.bossMods = Check(combat, DB, "bossMods", "Use boss mod timers (DBM / BigWigs)", true,
+    "Upcoming adds, AoE, tank hits and phase changes from your boss mod: shown on the HUD and used by SimC's add timing.")
+  s.callout = Check(combat, HUD, "callout", "Boss callouts on the HUD", true)
   s.hideOutOfCombat = Check(combat, HUD, "hideOutOfCombat", "Hide out of combat", H.hideOutOfCombat)
   s.showWithTarget = Check(combat, HUD, "showWithTarget", "Show when targeting an enemy", H.showWithTarget)
 
@@ -135,6 +145,8 @@ function O.Register()
   s.nameSize = Slider(display, HUD, "nameSize", "Spell name size", H.nameSize, 8, 18, 1)
   s.labels = Check(display, HUD, "labels", "NOW / NEXT labels", H.labels)
   s.gcdBar = Check(display, HUD, "gcdBar", "GCD bar", H.gcdBar)
+  s.pressCue = Check(display, HUD, "pressCue", "Press-now cue", H.pressCue,
+    "Brightens the main icon when your GCD or cast ends within the spell queue window: press now for no gap.")
   s.glow = Choice(display, HUD, "glow", "Main icon glow", H.glow,
     { { "none", "None" }, { "border", "Steady" }, { "pulse", "Pulse" } })
 
