@@ -157,20 +157,10 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       },
     },
   },
-  blizzardExcluded = {
-    "fel_rush",
-    "felblade",
-    "metamorphosis",
-    "the_hunt",
-    "vengeful_retreat",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "fel_rush", "felblade", "metamorphosis", "the_hunt", "vengeful_retreat" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "demonhunter",
+  heroTrees = {},
   key = "demonhunter_havoc",
   simc = {
     default = {
@@ -459,10 +449,669 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "items",
-  },
+  simcOrder = { "precombat", "default", "items" },
   spec = "havoc",
+  spellInfo = {
+    [162264] = {
+      ap = {
+        { 162264, "self" },
+      },
+      d = 20,
+      n = "metamorphosis",
+    },
+    [162794] = {
+      cost = { [17] = 40 },
+      gcd = 1.5,
+      n = "chaos_strike",
+    },
+    [185123] = {
+      ch = 1,
+      chcd = 9,
+      cost = { [17] = 25 },
+      gcd = 1.5,
+      n = "throw_glaive",
+    },
+    [187827] = {
+      ap = {
+        { 187827, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 120,
+      d = 15,
+      n = "metamorphosis",
+    },
+    [188499] = {
+      ap = {
+        { 188499, "self" },
+      },
+      cd = 15,
+      cost = { [17] = 35 },
+      d = 1,
+      gcd = 1.5,
+      n = "blade_dance",
+    },
+    [191427] = {
+      ap = {
+        { 162264, "self" },
+        { 201453, "self" },
+      },
+      cd = 120,
+      gcd = 1.5,
+      n = "metamorphosis",
+    },
+    [192611] = {
+      n = "fel_rush",
+    },
+    [193840] = {
+      gain = { [17] = 20 },
+      n = "chaos_strike",
+    },
+    [195072] = {
+      cd = 1,
+      ch = 1,
+      chcd = 10,
+      gcd = 0.5,
+      n = "fel_rush",
+    },
+    [195441] = {
+      ap = {
+        { 195441, "self" },
+      },
+      cd = 9,
+      d = 0.8,
+      n = "throw_glaive",
+    },
+    [198013] = {
+      ap = {
+        { 198013, "self" },
+      },
+      cd = 30,
+      cost = { [17] = 30 },
+      d = 2,
+      gcd = 1.5,
+      n = "eye_beam",
+      tal = true,
+    },
+    [198030] = {
+      n = "eye_beam",
+    },
+    [198793] = {
+      ap = {
+        { 198793, "self" },
+        { 198813, "enemy" },
+        { 232709, "self" },
+      },
+      cd = 0.75,
+      ch = 1,
+      chcd = 25,
+      d = 1,
+      n = "vengeful_retreat",
+      tal = true,
+    },
+    [198813] = {
+      ap = {
+        { 198813, "enemy" },
+      },
+      d = 3,
+      n = "vengeful_retreat",
+    },
+    [199547] = {
+      n = "chaos_strike",
+    },
+    [199552] = {
+      n = "blade_dance",
+    },
+    [200166] = {
+      ap = {
+        { 200166, "enemy" },
+      },
+      d = 3,
+      n = "metamorphosis",
+    },
+    [200685] = {
+      n = "blade_dance",
+    },
+    [201427] = {
+      cost = { [17] = 40 },
+      gcd = 1.5,
+      n = "annihilation",
+    },
+    [201428] = {
+      n = "annihilation",
+    },
+    [201453] = {
+      ap = {
+        { 201453, "self" },
+      },
+      d = 1,
+      n = "metamorphosis",
+    },
+    [203040] = {
+      n = "eye_beam",
+    },
+    [203557] = {
+      n = "felblade",
+      pas = true,
+    },
+    [204157] = {
+      ch = 1,
+      chcd = 9,
+      gcd = 1.5,
+      n = "throw_glaive",
+    },
+    [204497] = {
+      ap = {
+        { 204497, "self" },
+      },
+      d = 3,
+      n = "felblade",
+    },
+    [206476] = {
+      n = "exergy",
+      pas = true,
+      tal = true,
+    },
+    [210152] = {
+      cd = 9,
+      cost = { [17] = 35 },
+      gcd = 1.5,
+      n = "death_sweep",
+    },
+    [210153] = {
+      n = "death_sweep",
+    },
+    [210155] = {
+      n = "death_sweep",
+    },
+    [213241] = {
+      n = "felblade",
+    },
+    [213243] = {
+      gain = { [17] = 15 },
+      n = "felblade",
+    },
+    [222031] = {
+      n = "chaos_strike",
+    },
+    [227518] = {
+      n = "annihilation",
+    },
+    [232709] = {
+      ap = {
+        { 232709, "self" },
+      },
+      d = 0.1,
+      n = "vengeful_retreat",
+    },
+    [232893] = {
+      cd = 12,
+      gcd = 0.5,
+      n = "felblade",
+      tal = true,
+    },
+    [236167] = {
+      n = "felblade",
+      pas = true,
+    },
+    [247121] = {
+      ap = {
+        { 247121, "enemy" },
+      },
+      d = 3,
+      n = "metamorphosis",
+    },
+    [258860] = {
+      cd = 40,
+      gcd = 1.5,
+      n = "essence_break",
+      tal = true,
+    },
+    [258920] = {
+      ap = {
+        { 258920, "self" },
+      },
+      cd = 1.5,
+      ch = 1,
+      chcd = 30,
+      d = 6,
+      gain = { [17] = 28 },
+      gcd = 1.5,
+      n = "immolation_aura",
+    },
+    [258921] = {
+      n = "immolation_aura",
+    },
+    [258922] = {
+      gain = { [17] = 5 },
+      n = "immolation_aura",
+    },
+    [320338] = {
+      ap = {
+        { 320338, "enemy" },
+      },
+      d = 4,
+      n = "essence_break",
+    },
+    [323639] = {
+      ap = {
+        { 345396, "self" },
+        { 345422, "self" },
+        { 345335, "enemy" },
+      },
+      cd = 90,
+      ct = 1,
+      gcd = 1.5,
+      n = "the_hunt",
+    },
+    [323802] = {
+      ap = {
+        { 323802, "enemy" },
+        { 323996, "enemy" },
+        { 333762, "enemy" },
+      },
+      d = 30,
+      n = "the_hunt",
+    },
+    [323996] = {
+      ap = {
+        { 323996, "enemy" },
+      },
+      d = 1.5,
+      n = "the_hunt",
+    },
+    [333386] = {
+      ap = {
+        { 333386, "self" },
+      },
+      d = 2,
+      n = "eye_beam",
+    },
+    [333389] = {
+      n = "eye_beam",
+    },
+    [333762] = {
+      ap = {
+        { 333762, "enemy" },
+      },
+      d = 3,
+      n = "the_hunt",
+    },
+    [337819] = {
+      n = "throw_glaive",
+    },
+    [344862] = {
+      cost = { [17] = 40 },
+      gcd = 1.5,
+      n = "chaos_strike",
+    },
+    [344865] = {
+      cd = 1,
+      ch = 1,
+      chcd = 10,
+      gcd = 0.25,
+      n = "fel_rush",
+    },
+    [344866] = {
+      ap = {
+        { 198793, "self" },
+      },
+      cd = 25,
+      n = "vengeful_retreat",
+    },
+    [345335] = {
+      ap = {
+        { 345335, "enemy" },
+      },
+      d = 6,
+      n = "the_hunt",
+    },
+    [345396] = {
+      ap = {
+        { 345396, "self" },
+      },
+      d = 1.5,
+      n = "the_hunt",
+    },
+    [345422] = {
+      ap = {
+        { 345422, "self" },
+      },
+      d = 30,
+      n = "the_hunt",
+    },
+    [346278] = {
+      ap = {
+        { 346278, "enemy" },
+      },
+      d = 15,
+      n = "burning_wound",
+    },
+    [346279] = {
+      n = "burning_wound",
+      pas = true,
+    },
+    [346504] = {
+      ap = {
+        { 346504, "self" },
+      },
+      d = 2,
+      n = "eye_beam",
+    },
+    [346665] = {
+      n = "throw_glaive",
+    },
+    [370965] = {
+      ap = {
+        { 370965, "self" },
+        { 370967, "self" },
+      },
+      cd = 90,
+      ct = 1,
+      d = 2,
+      gcd = 1.5,
+      n = "the_hunt",
+      tal = true,
+    },
+    [370967] = {
+      ap = {
+        { 370967, "self" },
+      },
+      d = 1.5,
+      n = "the_hunt",
+    },
+    [388108] = {
+      n = "initiative",
+      pas = true,
+      tal = true,
+    },
+    [388112] = {
+      n = "chaotic_transformation",
+      pas = true,
+      tal = true,
+    },
+    [391189] = {
+      n = "burning_wound",
+      pas = true,
+      tal = true,
+    },
+    [391191] = {
+      ap = {
+        { 391191, "enemy" },
+      },
+      d = 15,
+      n = "burning_wound",
+    },
+    [391215] = {
+      ap = {
+        { 391215, "self" },
+      },
+      d = 5,
+      n = "initiative",
+    },
+    [391374] = {
+      n = "blade_dance",
+    },
+    [391378] = {
+      n = "blade_dance",
+    },
+    [393035] = {
+      n = "throw_glaive",
+    },
+    [393054] = {
+      n = "death_sweep",
+    },
+    [393055] = {
+      n = "death_sweep",
+    },
+    [427640] = {
+      n = "inertia",
+      pas = true,
+      tal = true,
+    },
+    [427775] = {
+      n = "a_fire_inside",
+      pas = true,
+      tal = true,
+    },
+    [427785] = {
+      cd = 1,
+      gcd = 0.5,
+      n = "fel_rush",
+    },
+    [427904] = {
+      n = "immolation_aura",
+    },
+    [427905] = {
+      n = "immolation_aura",
+    },
+    [427917] = {
+      cd = 1.5,
+      ch = 1,
+      chcd = 30,
+      gcd = 1.5,
+      n = "immolation_aura",
+    },
+    [442294] = {
+      gcd = 1.5,
+      n = "reavers_glaive",
+    },
+    [442435] = {
+      ap = {
+        { 442435, "self" },
+      },
+      d = 30,
+      n = "glaive_flurry",
+    },
+    [442442] = {
+      ap = {
+        { 442442, "self" },
+      },
+      d = 30,
+      n = "rending_strike",
+    },
+    [442624] = {
+      ap = {
+        { 442624, "enemy" },
+      },
+      d = 20,
+      n = "reavers_mark",
+      st = 2,
+    },
+    [442679] = {
+      n = "reavers_mark",
+      pas = true,
+      tal = true,
+    },
+    [444686] = {
+      n = "reavers_glaive",
+    },
+    [444764] = {
+      n = "reavers_glaive",
+    },
+    [451258] = {
+      n = "demonsurge",
+      pas = true,
+    },
+    [451263] = {
+      n = "demonsurge",
+      pas = true,
+    },
+    [451266] = {
+      n = "demonsurge",
+    },
+    [452409] = {
+      n = "violent_transformation",
+      pas = true,
+      tal = true,
+    },
+    [452416] = {
+      ap = {
+        { 452416, "self" },
+      },
+      d = 15,
+      n = "demonsurge",
+      st = 4,
+    },
+    [452435] = {
+      n = "demonsurge",
+    },
+    [452443] = {
+      n = "demonsurge",
+    },
+    [453323] = {
+      ap = {
+        { 452416, "self" },
+      },
+      n = "demonsurge",
+      st = 5,
+    },
+    [472559] = {
+      n = "blade_dance",
+    },
+    [472562] = {
+      n = "chaos_strike",
+    },
+    [1220506] = {
+      n = "screaming_brutality",
+      pas = true,
+      tal = true,
+    },
+    [1224451] = {
+      n = "a_fire_inside",
+      pas = true,
+    },
+    [1238696] = {
+      ap = {
+        { 452416, "self" },
+      },
+      n = "demonsurge",
+      st = 5,
+    },
+    [1245759] = {
+      n = "essence_break",
+    },
+    [1270898] = {
+      n = "eternal_hunt",
+      pas = true,
+      tal = true,
+    },
+    [1270900] = {
+      n = "eternal_hunt",
+      pas = true,
+      tal = true,
+    },
+    [1270901] = {
+      n = "eternal_hunt",
+      pas = true,
+      tal = true,
+    },
+    [1271092] = {
+      ap = {
+        { 1271092, "self" },
+      },
+      d = 8,
+      n = "eternal_hunt",
+    },
+    [1283344] = {
+      gcd = 1.5,
+      n = "reavers_glaive",
+    },
+  },
+  spells = {
+    a_fire_inside = {
+      t = { 427775, 1224451 },
+    },
+    annihilation = {
+      a = { 201427, 201428, 227518 },
+    },
+    blade_dance = {
+      a = { 188499, 199552, 200685, 391374, 391378, 472559 },
+    },
+    burning_wound = {
+      a = { 346278, 391191, 346279, 391189 },
+      b = { 346278, 391191, 346279, 391189 },
+      t = { 391189, 346279 },
+    },
+    chaos_strike = {
+      a = { 162794, 344862, 193840, 199547, 222031, 472562 },
+    },
+    chaotic_transformation = {
+      t = { 388112 },
+    },
+    death_sweep = {
+      a = { 210152, 210153, 210155, 393054, 393055 },
+    },
+    demonsurge = {
+      a = { 451266, 452416, 453323, 1238696, 451258, 451263 },
+      b = { 452416, 451258, 451263, 451266, 452435, 452443 },
+    },
+    essence_break = {
+      a = { 258860, 320338, 1245759 },
+      b = { 320338, 258860, 1245759 },
+    },
+    eternal_hunt = {
+      a = { 1271092, 1270898, 1270900, 1270901 },
+      b = { 1271092, 1270898, 1270900, 1270901 },
+      t = { 1270898, 1270900, 1270901 },
+    },
+    exergy = {
+      t = { 206476 },
+    },
+    eye_beam = {
+      a = { 198013, 198030, 203040, 333386, 333389, 346504 },
+    },
+    fel_rush = {
+      a = { 195072, 344865, 427785, 192611 },
+    },
+    felblade = {
+      a = { 232893, 213241, 213243, 203557, 204497, 236167 },
+    },
+    glaive_flurry = {
+      a = { 442435 },
+      b = { 442435 },
+    },
+    immolation_aura = {
+      a = { 258920, 427917, 258921, 258922, 427904, 427905 },
+    },
+    inertia = {
+      t = { 427640 },
+    },
+    initiative = {
+      a = { 391215, 388108 },
+      b = { 391215, 388108 },
+      t = { 388108 },
+    },
+    metamorphosis = {
+      a = { 187827, 191427, 162264, 200166, 247121, 201453 },
+      b = { 162264, 187827, 200166, 201453, 247121, 191427 },
+    },
+    reavers_glaive = {
+      a = { 442294, 1283344, 444686, 444764 },
+      b = { 442294, 444686, 444764, 1283344 },
+    },
+    reavers_mark = {
+      a = { 442624, 442679 },
+      b = { 442624, 442679 },
+    },
+    rending_strike = {
+      a = { 442442 },
+      b = { 442442 },
+    },
+    screaming_brutality = {
+      t = { 1220506 },
+    },
+    the_hunt = {
+      a = { 323639, 370965, 323802, 323996, 333762, 345335 },
+    },
+    throw_glaive = {
+      a = { 185123, 204157, 337819, 346665, 393035, 195441 },
+    },
+    vengeful_retreat = {
+      a = { 198793, 344866, 198813, 232709 },
+    },
+    violent_transformation = {
+      t = { 452409 },
+    },
+  },
 })

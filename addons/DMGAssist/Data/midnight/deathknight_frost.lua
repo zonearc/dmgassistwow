@@ -167,16 +167,39 @@ ns.RegisterSpecData("midnight", "deathknight_frost", {
       },
     },
   },
-  blizzardExcluded = {
-    "breath_of_sindragosa",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "breath_of_sindragosa" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "deathknight",
+  heroTrees = {
+    deathbringer = {
+      434905,
+      436687,
+      437122,
+      437161,
+      439843,
+      439851,
+      439948,
+      440031,
+      440282,
+      440476,
+      441378,
+      441894,
+    },
+    rider_of_the_apocalypse = {
+      444005,
+      444008,
+      444010,
+      444033,
+      444037,
+      444040,
+      444047,
+      444052,
+      444069,
+      444072,
+      444074,
+      444083,
+    },
+  },
   key = "deathknight_frost",
   simc = {
     aoe = {
@@ -785,4 +808,603 @@ ns.RegisterSpecData("midnight", "deathknight_frost", {
     "variables",
   },
   spec = "frost",
+  spellInfo = {
+    [46584] = {
+      cd = 30,
+      gcd = 1.5,
+      n = "raise_dead",
+    },
+    [46585] = {
+      cd = 120,
+      d = 60,
+      n = "raise_dead",
+      tal = true,
+    },
+    [47528] = {
+      cd = 15,
+      cost = { [6] = 0 },
+      d = 5,
+      n = "mind_freeze",
+      tal = true,
+    },
+    [47568] = {
+      ch = 2,
+      chcd = 30,
+      gcd = 0.75,
+      n = "empower_rune_weapon",
+      tal = true,
+    },
+    [49020] = {
+      cost = { [5] = 2 },
+      gain = { [6] = 200 },
+      gcd = 1.5,
+      n = "obliterate",
+      tal = true,
+    },
+    [49143] = {
+      cost = { [6] = 35 },
+      gcd = 1.5,
+      n = "frost_strike",
+      tal = true,
+    },
+    [49184] = {
+      cost = { [5] = 1 },
+      gcd = 1.5,
+      n = "howling_blast",
+      tal = true,
+    },
+    [50401] = {
+      n = "razorice",
+    },
+    [51124] = {
+      ap = {
+        { 51124, "self" },
+      },
+      d = 10,
+      n = "killing_machine",
+      st = 2,
+    },
+    [51128] = {
+      n = "killing_machine",
+      pas = true,
+      tal = true,
+    },
+    [51271] = {
+      ap = {
+        { 51271, "self" },
+      },
+      cd = 45,
+      d = 12,
+      n = "pillar_of_frost",
+      tal = true,
+    },
+    [51714] = {
+      ap = {
+        { 51714, "enemy" },
+      },
+      d = 20,
+      n = "razorice",
+      st = 5,
+    },
+    [53365] = {
+      ap = {
+        { 53365, "self" },
+      },
+      d = 15,
+      n = "unholy_strength",
+      st = 1,
+    },
+    [55095] = {
+      d = 24,
+      n = "frost_fever",
+    },
+    [59052] = {
+      ap = {
+        { 59052, "self" },
+      },
+      d = 15,
+      n = "rime",
+      st = 1,
+    },
+    [59057] = {
+      n = "rime",
+      pas = true,
+    },
+    [152279] = {
+      cd = 120,
+      cost = { [6] = 0 },
+      n = "breath_of_sindragosa",
+    },
+    [155166] = {
+      n = "breath_of_sindragosa",
+    },
+    [155168] = {
+      n = "breath_of_sindragosa",
+    },
+    [194912] = {
+      n = "gathering_storm",
+      pas = true,
+      tal = true,
+    },
+    [194913] = {
+      cost = { [6] = 35 },
+      gcd = 1.5,
+      n = "glacial_advance",
+    },
+    [195617] = {
+      gain = { [6] = 40 },
+      n = "frost_fever",
+    },
+    [195621] = {
+      n = "frost_fever",
+      pas = true,
+    },
+    [195975] = {
+      n = "glacial_advance",
+    },
+    [196770] = {
+      ap = {
+        { 196770, "self" },
+      },
+      cd = 20,
+      cost = { [5] = 1 },
+      d = 8,
+      gcd = 1.5,
+      n = "remorseless_winter",
+    },
+    [196771] = {
+      n = "remorseless_winter",
+    },
+    [207057] = {
+      n = "shattering_blade",
+      pas = true,
+      tal = true,
+    },
+    [207230] = {
+      cost = { [5] = 2 },
+      gain = { [6] = 200 },
+      gcd = 1.5,
+      n = "frostscythe",
+      tal = true,
+    },
+    [211793] = {
+      ap = {
+        { 211793, "enemy" },
+      },
+      d = 3,
+      n = "remorseless_winter",
+      st = 1,
+    },
+    [211805] = {
+      ap = {
+        { 211805, "self" },
+      },
+      d = 8,
+      n = "gathering_storm",
+      st = 10,
+    },
+    [222024] = {
+      n = "obliterate",
+    },
+    [222026] = {
+      n = "frost_strike",
+    },
+    [232752] = {
+      n = "glacial_advance",
+    },
+    [237680] = {
+      n = "howling_blast",
+    },
+    [279302] = {
+      cd = 90,
+      d = 10,
+      gcd = 1.5,
+      n = "frostwyrms_fury",
+      tal = true,
+    },
+    [279303] = {
+      ap = {
+        { 279303, "enemy" },
+      },
+      d = 10,
+      n = "frostwyrms_fury",
+      st = 1,
+    },
+    [281214] = {
+      n = "pillar_of_frost",
+      st = 25,
+    },
+    [281238] = {
+      n = "obliteration",
+      pas = true,
+      tal = true,
+    },
+    [281425] = {
+      n = "razorice",
+      pas = true,
+    },
+    [283499] = {
+      d = 24,
+      n = "frost_fever",
+    },
+    [292493] = {
+      gain = { [3] = 5 },
+      n = "frost_fever",
+    },
+    [303753] = {
+      n = "breath_of_sindragosa",
+    },
+    [325461] = {
+      n = "obliterate",
+    },
+    [325464] = {
+      n = "frost_strike",
+    },
+    [343294] = {
+      ap = {
+        { 1241521, "enemy" },
+      },
+      cd = 15,
+      cost = { [5] = 1 },
+      gcd = 1.5,
+      n = "soul_reaper",
+      tal = true,
+    },
+    [343295] = {
+      n = "soul_reaper",
+    },
+    [377098] = {
+      n = "bonegrinder",
+      pas = true,
+      tal = true,
+    },
+    [377226] = {
+      n = "frozen_dominion",
+      pas = true,
+      tal = true,
+    },
+    [392962] = {
+      n = "empower_rune_weapon",
+      pas = true,
+    },
+    [392963] = {
+      n = "empower_rune_weapon",
+      pas = true,
+    },
+    [394500] = {
+      n = "glacial_advance",
+    },
+    [410790] = {
+      ap = {
+        { 410790, "enemy" },
+      },
+      d = 10,
+      n = "frostwyrms_fury",
+      st = 1,
+    },
+    [434765] = {
+      ap = {
+        { 434765, "enemy" },
+      },
+      d = 12,
+      n = "reapers_mark",
+      st = 40,
+    },
+    [436304] = {
+      n = "reapers_mark",
+    },
+    [439594] = {
+      n = "reapers_mark",
+    },
+    [439843] = {
+      ap = {
+        { 434765, "enemy" },
+      },
+      cd = 45,
+      cost = { [5] = 2 },
+      gain = { [6] = 200 },
+      gcd = 1.5,
+      n = "reapers_mark",
+      tal = true,
+    },
+    [444040] = {
+      n = "apocalypse_now",
+      pas = true,
+      tal = true,
+    },
+    [445507] = {
+      cd = 6,
+      n = "obliterate",
+    },
+    [448229] = {
+      ap = {
+        { 448229, "enemy" },
+      },
+      cd = 6,
+      cost = { [5] = 1 },
+      d = 5,
+      gcd = 1.5,
+      n = "soul_reaper",
+    },
+    [455993] = {
+      n = "frostbane",
+      pas = true,
+      tal = true,
+    },
+    [1226969] = {
+      ap = {
+        { 1226969, "self" },
+      },
+      d = 6,
+      n = "breath_of_sindragosa",
+    },
+    [1228433] = {
+      ap = {
+        { 1229279, "self" },
+      },
+      cost = { [6] = 35 },
+      d = 0.75,
+      gcd = 1.5,
+      n = "frostbane",
+    },
+    [1228436] = {
+      ap = {
+        { 1229279, "self" },
+      },
+      d = 0.75,
+      n = "frostbane",
+    },
+    [1228440] = {
+      ap = {
+        { 1228440, "self" },
+      },
+      d = 4,
+      n = "frostbane",
+    },
+    [1228443] = {
+      n = "frostbane",
+    },
+    [1229279] = {
+      ap = {
+        { 1229279, "self" },
+      },
+      d = 0.75,
+      n = "frostbane",
+    },
+    [1229310] = {
+      ap = {
+        { 1229310, "self" },
+      },
+      d = 30,
+      n = "frostbane",
+    },
+    [1230153] = {
+      n = "killing_streak",
+      pas = true,
+      tal = true,
+    },
+    [1230272] = {
+      n = "icy_onslaught",
+      pas = true,
+      tal = true,
+    },
+    [1230273] = {
+      ap = {
+        { 1230273, "self" },
+      },
+      d = 30,
+      n = "icy_onslaught",
+      st = 4,
+    },
+    [1230930] = {
+      ap = {
+        { 1230930, "self" },
+      },
+      d = 30,
+      n = "frostscythe",
+    },
+    [1230933] = {
+      ap = {
+        { 1230933, "self" },
+      },
+      d = 30,
+      n = "frostscythe",
+    },
+    [1230959] = {
+      ap = {
+        { 1230959, "self" },
+      },
+      d = 30,
+      gain = { [6] = 400 },
+      n = "empower_rune_weapon",
+      st = 1,
+    },
+    [1231100] = {
+      ap = {
+        { 1230959, "self" },
+      },
+      n = "empower_rune_weapon",
+    },
+    [1233152] = {
+      ap = {
+        { 1233152, "self" },
+      },
+      d = 12,
+      n = "remorseless_winter",
+    },
+    [1237388] = {
+      gain = { [6] = 200 },
+      n = "frostscythe",
+    },
+    [1238680] = {
+      n = "frostbound_will",
+      pas = true,
+      tal = true,
+    },
+    [1241521] = {
+      ap = {
+        { 1241521, "enemy" },
+      },
+      d = 8,
+      n = "soul_reaper",
+    },
+    [1242866] = {
+      n = "raise_dead",
+    },
+    [1249658] = {
+      ap = {
+        { 1249658, "self" },
+      },
+      cd = 90,
+      cost = { [6] = 60 },
+      d = 8,
+      n = "breath_of_sindragosa",
+      tal = true,
+    },
+    [1264082] = {
+      n = "obliterate",
+    },
+    [1264084] = {
+      n = "obliterate",
+    },
+    [1265384] = {
+      d = 10,
+      n = "frostwyrms_fury",
+    },
+    [1265632] = {
+      n = "chosen_of_frostbrood",
+      pas = true,
+      tal = true,
+    },
+    [1265633] = {
+      n = "chosen_of_frostbrood",
+      pas = true,
+      tal = true,
+    },
+    [1265637] = {
+      n = "chosen_of_frostbrood",
+      pas = true,
+      tal = true,
+    },
+    [1265932] = {
+      n = "deathly_blows",
+      pas = true,
+      tal = true,
+    },
+  },
+  spells = {
+    apocalypse_now = {
+      t = { 444040 },
+    },
+    bonegrinder = {
+      t = { 377098 },
+    },
+    breath_of_sindragosa = {
+      a = { 152279, 1249658, 155166, 155168, 303753, 1226969 },
+      b = { 1226969, 1249658, 152279, 155166, 155168, 303753 },
+      t = { 1249658 },
+    },
+    chosen_of_frostbrood = {
+      t = { 1265632, 1265633, 1265637 },
+    },
+    deathly_blows = {
+      t = { 1265932 },
+    },
+    empower_rune_weapon = {
+      a = { 47568, 1231100, 392962, 392963, 1230959 },
+    },
+    frost_fever = {
+      a = { 55095, 195617, 283499, 292493, 195621 },
+      b = { 55095, 283499, 195617, 195621, 292493 },
+    },
+    frost_strike = {
+      a = { 49143, 222026, 325464 },
+    },
+    frostbane = {
+      a = { 1228433, 1228436, 1228440, 1228443, 1229310, 455993 },
+      b = { 1228433, 1228436, 1228440, 1229279, 1229310, 1228443 },
+      t = { 455993 },
+    },
+    frostbound_will = {
+      t = { 1238680 },
+    },
+    frostscythe = {
+      a = { 207230, 1230933, 1237388, 1230930 },
+    },
+    frostwyrms_fury = {
+      a = { 279302, 279303, 410790, 1265384 },
+    },
+    frozen_dominion = {
+      t = { 377226 },
+    },
+    gathering_storm = {
+      a = { 211805, 194912 },
+      b = { 211805, 194912 },
+      t = { 194912 },
+    },
+    glacial_advance = {
+      a = { 194913, 195975, 232752, 394500 },
+    },
+    howling_blast = {
+      a = { 49184, 237680 },
+    },
+    icy_onslaught = {
+      a = { 1230273, 1230272 },
+      b = { 1230273, 1230272 },
+      t = { 1230272 },
+    },
+    killing_machine = {
+      a = { 51124, 51128 },
+      b = { 51124, 51128 },
+    },
+    killing_streak = {
+      t = { 1230153 },
+    },
+    mind_freeze = {
+      a = { 47528 },
+    },
+    obliterate = {
+      a = { 49020, 445507, 222024, 325461, 1264082, 1264084 },
+    },
+    obliteration = {
+      t = { 281238 },
+    },
+    pillar_of_frost = {
+      a = { 51271, 281214 },
+      b = { 51271, 281214 },
+      t = { 51271 },
+    },
+    raise_dead = {
+      a = { 46584, 46585, 1242866 },
+    },
+    razorice = {
+      a = { 50401, 51714, 281425 },
+      b = { 51714, 50401, 281425 },
+    },
+    reapers_mark = {
+      a = { 439843, 434765, 436304, 439594 },
+    },
+    reapers_mark_debuff = {
+      a = { 439843, 434765, 436304, 439594 },
+      b = { 434765, 436304, 439594, 439843 },
+    },
+    remorseless_winter = {
+      a = { 196770, 196771, 211793, 1233152 },
+      b = { 196770, 211793, 1233152, 196771 },
+    },
+    rime = {
+      a = { 59052, 59057 },
+      b = { 59052, 59057 },
+    },
+    shattering_blade = {
+      t = { 207057 },
+    },
+    soul_reaper = {
+      a = { 448229, 343295, 1241521, 343294 },
+    },
+    unholy_strength = {
+      a = { 53365 },
+      b = { 53365 },
+    },
+  },
 })

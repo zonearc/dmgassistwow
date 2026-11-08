@@ -203,16 +203,10 @@ ns.RegisterSpecData("forever", "druid_balance", {
       },
     },
   },
-  blizzardExcluded = {
-    "celestial_alignment",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "celestial_alignment" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "druid",
+  heroTrees = {},
   key = "druid_balance",
   simc = {
     aoe = {
@@ -850,15 +844,260 @@ ns.RegisterSpecData("forever", "druid_balance", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "aoe",
-    "cooldowns",
-    "ec_st",
-    "kotg_st",
-    "mini",
-    "opener",
-  },
+  simcOrder = { "precombat", "default", "aoe", "cooldowns", "ec_st", "kotg_st", "mini", "opener" },
   spec = "balance",
+  spellInfo = {
+    [2912] = {
+      cost = { [0] = 95 },
+      ct = 3.5,
+      gcd = 1.5,
+      n = "starfire",
+    },
+    [5176] = {
+      cost = { [0] = 10 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "wrath",
+    },
+    [5177] = {
+      cost = { [0] = 20 },
+      ct = 1.7,
+      gcd = 1.5,
+      n = "wrath",
+    },
+    [5178] = {
+      cost = { [0] = 40 },
+      ct = 2,
+      gcd = 1.5,
+      n = "wrath",
+    },
+    [5179] = {
+      cost = { [0] = 50 },
+      ct = 2,
+      gcd = 1.5,
+      n = "wrath",
+    },
+    [5180] = {
+      cost = { [0] = 70 },
+      ct = 2,
+      gcd = 1.5,
+      n = "wrath",
+    },
+    [6780] = {
+      cost = { [0] = 80 },
+      ct = 2,
+      gcd = 1.5,
+      n = "wrath",
+    },
+    [8921] = {
+      ap = {
+        { 8921, "enemy" },
+      },
+      cost = { [0] = 25 },
+      d = 9,
+      gcd = 1.5,
+      n = "moonfire",
+    },
+    [8924] = {
+      ap = {
+        { 8924, "enemy" },
+      },
+      cost = { [0] = 50 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+    },
+    [8925] = {
+      ap = {
+        { 8925, "enemy" },
+      },
+      cost = { [0] = 75 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+    },
+    [8926] = {
+      ap = {
+        { 8926, "enemy" },
+      },
+      cost = { [0] = 105 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+    },
+    [8927] = {
+      ap = {
+        { 8927, "enemy" },
+      },
+      cost = { [0] = 150 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+    },
+    [8928] = {
+      ap = {
+        { 8928, "enemy" },
+      },
+      cost = { [0] = 190 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+    },
+    [8949] = {
+      cost = { [0] = 135 },
+      ct = 3.5,
+      gcd = 1.5,
+      n = "starfire",
+    },
+    [8950] = {
+      cost = { [0] = 180 },
+      ct = 3.5,
+      gcd = 1.5,
+      n = "starfire",
+    },
+    [8951] = {
+      cost = { [0] = 230 },
+      ct = 3.5,
+      gcd = 1.5,
+      n = "starfire",
+    },
+    [9875] = {
+      cost = { [0] = 275 },
+      ct = 3.5,
+      gcd = 1.5,
+      n = "starfire",
+    },
+    [9876] = {
+      cost = { [0] = 315 },
+      ct = 3.5,
+      gcd = 1.5,
+      n = "starfire",
+    },
+    [24858] = {
+      gcd = 1.5,
+      n = "moonkin_form",
+      tal = true,
+    },
+    [408248] = {
+      n = "eclipse",
+      pas = true,
+      tal = true,
+    },
+    [408255] = {
+      ap = {
+        { 408255, "self" },
+      },
+      d = 15,
+      n = "eclipse",
+      st = 4,
+    },
+    [409813] = {
+      n = "eclipse",
+      pas = true,
+    },
+    [414684] = {
+      ap = {
+        { 414684, "enemy" },
+      },
+      d = 12,
+      gcd = 1.5,
+      n = "sunfire",
+    },
+    [414687] = {
+      ap = {
+        { 414687, "enemy" },
+      },
+      cost = { [1] = 20 },
+      d = 12,
+      gcd = 1.5,
+      n = "sunfire",
+    },
+    [414689] = {
+      ap = {
+        { 414689, "enemy" },
+      },
+      cost = { [3] = 40 },
+      d = 12,
+      gain = { [4] = 1 },
+      gcd = 1.5,
+      n = "sunfire",
+    },
+    [417157] = {
+      ap = {
+        { 417157, "self" },
+      },
+      cd = 6,
+      d = 15,
+      gcd = 1.5,
+      n = "starsurge",
+      st = 1,
+    },
+    [424715] = {
+      n = "starsurge",
+      pas = true,
+    },
+    [439748] = {
+      ap = {
+        { 439748, "self" },
+      },
+      cd = 90,
+      d = 10,
+      gcd = 1.5,
+      n = "starfall",
+    },
+    [439753] = {
+      n = "starfall",
+    },
+    [439755] = {
+      n = "starfall",
+    },
+    [439756] = {
+      n = "starfall",
+    },
+    [439768] = {
+      n = "starfall",
+      pas = true,
+    },
+    [467079] = {
+      ap = {
+        { 467079, "self" },
+      },
+      d = 15,
+      n = "force_of_nature",
+    },
+  },
+  spells = {
+    eclipse = {
+      a = { 408255, 408248, 409813 },
+      b = { 408255, 409813, 408248 },
+      t = { 408248, 409813 },
+    },
+    force_of_nature = {
+      a = { 467079 },
+    },
+    moonfire = {
+      a = { 8921, 8924, 8925, 8926, 8927, 8928 },
+      b = { 8921, 8924, 8925, 8926, 8927, 8928 },
+    },
+    moonkin_form = {
+      a = { 24858 },
+      b = { 24858 },
+    },
+    starfall = {
+      a = { 439748, 439753, 439756, 439755, 439768 },
+    },
+    starfire = {
+      a = { 2912, 8949, 8950, 8951, 9875, 9876 },
+    },
+    starsurge = {
+      a = { 417157, 424715 },
+    },
+    sunfire = {
+      a = { 414684, 414687, 414689 },
+      b = { 414684, 414687, 414689 },
+    },
+    wrath = {
+      a = { 5176, 5177, 5178, 5179, 5180, 6780 },
+    },
+  },
 })

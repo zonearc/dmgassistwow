@@ -171,16 +171,39 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       },
     },
   },
-  blizzardExcluded = {
-    "berserk",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "berserk" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "druid",
+  heroTrees = {
+    druid_of_the_claw = {
+      441583,
+      441675,
+      441678,
+      441689,
+      441691,
+      441809,
+      441814,
+      441824,
+      441829,
+      441835,
+      441841,
+      441844,
+    },
+    wildstalker = {
+      439528,
+      439868,
+      439880,
+      439882,
+      439890,
+      439895,
+      439901,
+      439926,
+      439929,
+      440116,
+      440117,
+      440118,
+    },
+  },
   key = "druid_feral",
   simc = {
     aoe_builder = {
@@ -705,15 +728,583 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "aoe_builder",
-    "aoe_finisher",
-    "builder",
-    "cd_variable",
-    "cooldown",
-    "finisher",
-  },
+  simcOrder = { "precombat", "default", "aoe_builder", "aoe_finisher", "builder", "cd_variable", "cooldown", "finisher" },
   spec = "feral",
+  spellInfo = {
+    [768] = {
+      gcd = 1.5,
+      n = "cat_form",
+    },
+    [1079] = {
+      ap = {
+        { 1079, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 20, [4] = 1 },
+      d = 4,
+      gcd = 1,
+      n = "rip",
+      tal = true,
+    },
+    [1822] = {
+      ap = {
+        { 155722, "enemy" },
+      },
+      cost = { [3] = 35 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "rake",
+      tal = true,
+    },
+    [3025] = {
+      n = "cat_form",
+      pas = true,
+    },
+    [5215] = {
+      cd = 6,
+      n = "prowl",
+      st = 1,
+    },
+    [5217] = {
+      ap = {
+        { 5217, "self" },
+      },
+      cd = 30,
+      d = 10,
+      gain = { [3] = 50 },
+      n = "tigers_fury",
+      tal = true,
+    },
+    [5221] = {
+      cost = { [3] = 40 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "shred",
+    },
+    [8921] = {
+      gcd = 1.5,
+      n = "moonfire",
+    },
+    [8936] = {
+      ct = 1.5,
+      d = 6,
+      gcd = 1.5,
+      n = "regrowth",
+    },
+    [16870] = {
+      ap = {
+        { 16870, "self" },
+      },
+      d = 15,
+      n = "clearcasting",
+      st = 1,
+    },
+    [16974] = {
+      n = "predatory_swiftness",
+      pas = true,
+      st = 1,
+    },
+    [22568] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      gcd = 1,
+      n = "ferocious_bite",
+    },
+    [48629] = {
+      n = "cat_form",
+    },
+    [50334] = {
+      ap = {
+        { 50334, "self" },
+      },
+      cd = 180,
+      d = 15,
+      n = "berserk",
+      tal = true,
+    },
+    [69369] = {
+      ap = {
+        { 69369, "self" },
+      },
+      d = 12,
+      n = "predatory_swiftness",
+      st = 1,
+    },
+    [102543] = {
+      ap = {
+        { 102543, "self" },
+        { 252071, "self" },
+      },
+      cd = 180,
+      d = 20,
+      n = "incarnation_avatar_of_ashamane",
+      tal = true,
+    },
+    [102547] = {
+      cd = 6,
+      n = "prowl",
+      st = 1,
+    },
+    [106785] = {
+      cost = { [3] = 35 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "swipe",
+    },
+    [106840] = {
+      n = "cat_form",
+      pas = true,
+    },
+    [106951] = {
+      ap = {
+        { 106951, "self" },
+      },
+      cd = 180,
+      d = 15,
+      n = "berserk",
+    },
+    [113636] = {
+      n = "cat_form",
+      pas = true,
+    },
+    [135700] = {
+      ap = {
+        { 135700, "self" },
+      },
+      d = 15,
+      n = "clearcasting",
+      st = 1,
+    },
+    [155580] = {
+      n = "lunar_inspiration",
+      pas = true,
+      tal = true,
+    },
+    [155625] = {
+      ap = {
+        { 155625, "enemy" },
+      },
+      cost = { [3] = 30 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "moonfire",
+    },
+    [155627] = {
+      n = "lunar_inspiration",
+    },
+    [155722] = {
+      ap = {
+        { 155722, "enemy" },
+      },
+      d = 15,
+      n = "rake",
+    },
+    [163505] = {
+      ap = {
+        { 163505, "enemy" },
+      },
+      d = 4,
+      n = "rake",
+    },
+    [164812] = {
+      ap = {
+        { 164812, "enemy" },
+      },
+      d = 18,
+      n = "moonfire",
+    },
+    [213764] = {
+      gcd = 1,
+      n = "swipe",
+      tal = true,
+    },
+    [213771] = {
+      gcd = 1.5,
+      n = "swipe",
+    },
+    [231063] = {
+      n = "merciless_claws",
+      pas = true,
+      tal = true,
+    },
+    [252071] = {
+      ap = {
+        { 252071, "self" },
+      },
+      d = 30,
+      n = "incarnation_avatar_of_ashamane",
+    },
+    [274837] = {
+      ap = {
+        { 274837, "self" },
+      },
+      cd = 45,
+      cost = { [3] = 25 },
+      d = 1,
+      gcd = 1,
+      n = "feral_frenzy",
+      tal = true,
+    },
+    [274838] = {
+      ap = {
+        { 274838, "enemy" },
+      },
+      d = 6,
+      gain = { [4] = 1 },
+      n = "feral_frenzy",
+    },
+    [279526] = {
+      cd = 180,
+      gcd = 1,
+      n = "berserk",
+    },
+    [285381] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      gcd = 1,
+      n = "primal_wrath",
+      tal = true,
+    },
+    [323764] = {
+      ap = {
+        { 323764, "self" },
+      },
+      cd = 120,
+      d = 4,
+      gcd = 1.5,
+      n = "convoke_the_spirits",
+      st = 99,
+    },
+    [326646] = {
+      n = "moonfire",
+      pas = true,
+    },
+    [339139] = {
+      n = "apex_predators_craving",
+      pas = true,
+    },
+    [339140] = {
+      ap = {
+        { 339140, "self" },
+      },
+      d = 15,
+      n = "apex_predators_craving",
+      st = 1,
+    },
+    [343216] = {
+      gain = { [4] = 1 },
+      n = "berserk",
+    },
+    [343223] = {
+      n = "berserk",
+      pas = true,
+      tal = true,
+    },
+    [384667] = {
+      n = "sudden_ambush",
+      pas = true,
+      tal = true,
+    },
+    [390864] = {
+      n = "wild_slashes",
+      pas = true,
+      tal = true,
+    },
+    [391174] = {
+      n = "berserk_heart_of_the_lion",
+      pas = true,
+      tal = true,
+    },
+    [391528] = {
+      ap = {
+        { 391528, "self" },
+      },
+      cd = 120,
+      d = 4,
+      gcd = 1.5,
+      n = "convoke_the_spirits",
+      st = 99,
+      tal = true,
+    },
+    [391538] = {
+      n = "ashamanes_guidance",
+      pas = true,
+    },
+    [391548] = {
+      n = "ashamanes_guidance",
+      pas = true,
+      tal = true,
+    },
+    [391709] = {
+      n = "rampant_ferocity",
+      pas = true,
+      tal = true,
+    },
+    [391881] = {
+      n = "apex_predators_craving",
+      pas = true,
+      tal = true,
+    },
+    [391882] = {
+      ap = {
+        { 391882, "self" },
+      },
+      d = 15,
+      n = "apex_predators_craving",
+      st = 1,
+    },
+    [428545] = {
+      cd = 5,
+      gcd = 0.5,
+      n = "moonfire",
+    },
+    [439531] = {
+      ap = {
+        { 439531, "enemy" },
+      },
+      d = 6,
+      n = "bloodseeker_vines",
+      st = 20,
+    },
+    [441583] = {
+      n = "ravage",
+      pas = true,
+      tal = true,
+    },
+    [441585] = {
+      ap = {
+        { 441585, "self" },
+      },
+      d = 20,
+      n = "ravage",
+      st = 1,
+    },
+    [441591] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      gcd = 1,
+      n = "ravage",
+    },
+    [441602] = {
+      ap = {
+        { 441602, "self" },
+      },
+      d = 20,
+      n = "ravage",
+      st = 1,
+    },
+    [441605] = {
+      cost = { [1] = 40 },
+      gcd = 1.5,
+      n = "ravage",
+    },
+    [449193] = {
+      n = "fluid_form",
+      pas = true,
+      tal = true,
+    },
+    [468934] = {
+      ap = {
+        { 468934, "enemy" },
+      },
+      d = 15,
+      n = "rake",
+    },
+    [1243807] = {
+      ap = {
+        { 1243807, "self" },
+      },
+      cd = 45,
+      cost = { [3] = 25 },
+      d = 1.5,
+      gcd = 1,
+      n = "frantic_frenzy",
+      tal = true,
+    },
+    [1243995] = {
+      d = 6,
+      n = "frantic_frenzy",
+    },
+    [1244004] = {
+      n = "frantic_frenzy",
+    },
+    [1244023] = {
+      n = "frantic_frenzy",
+    },
+    [1244079] = {
+      ap = {
+        { 1244079, "enemy" },
+      },
+      d = 6,
+      n = "frantic_frenzy",
+    },
+    [1244258] = {
+      cd = 20,
+      gcd = 1,
+      n = "chomp",
+      tal = true,
+    },
+    [1244393] = {
+      n = "chomp_enabler",
+    },
+    [1244483] = {
+      ap = {
+        { 1244483, "self" },
+      },
+      d = 15,
+      n = "sudden_ambush",
+      st = 1,
+    },
+    [1244546] = {
+      n = "ashamanes_guidance",
+      pas = true,
+    },
+    [1264664] = {
+      n = "regrowth",
+    },
+    [1278969] = {
+      gain = { [4] = 1 },
+      n = "frantic_frenzy",
+    },
+    [1280133] = {
+      ap = {
+        { 1280133, "self" },
+      },
+      d = 0.2,
+      n = "rake",
+    },
+    [1280316] = {
+      n = "panthers_guile",
+      pas = true,
+      tal = true,
+    },
+  },
+  spells = {
+    apex_predators_craving = {
+      a = { 339140, 391882, 339139, 391881 },
+      b = { 339140, 391882, 339139, 391881 },
+    },
+    ashamanes_guidance = {
+      t = { 391548, 391538, 1244546 },
+    },
+    berserk = {
+      a = { 106951, 279526, 343216, 50334, 343223 },
+    },
+    berserk_heart_of_the_lion = {
+      t = { 391174 },
+    },
+    bloodseeker_vines = {
+      a = { 439531 },
+      b = { 439531 },
+    },
+    bs_inc = {
+      a = { 102543, 252071, 106951, 279526, 343216, 50334 },
+      b = { 102543, 252071, 50334, 106951, 279526, 343216 },
+    },
+    cat_form = {
+      a = { 768, 3025, 48629, 106840, 113636 },
+      b = { 768, 3025, 48629, 106840, 113636 },
+    },
+    chomp = {
+      a = { 1244258 },
+    },
+    chomp_enabler = {
+      a = { 1244393 },
+      b = { 1244393 },
+    },
+    clearcasting = {
+      a = { 16870, 135700 },
+      b = { 16870, 135700 },
+    },
+    convoke_the_spirits = {
+      a = { 323764, 391528 },
+      t = { 391528 },
+    },
+    feral_frenzy = {
+      a = { 274837, 274838 },
+    },
+    ferocious_bite = {
+      a = { 22568 },
+    },
+    fluid_form = {
+      t = { 449193 },
+    },
+    frantic_frenzy = {
+      a = { 1243807, 1244004, 1244023, 1244079, 1278969, 1243995 },
+      t = { 1243807 },
+    },
+    incarnation_avatar_of_ashamane = {
+      a = { 102543, 252071 },
+      b = { 102543, 252071 },
+    },
+    lunar_inspiration = {
+      a = { 155580, 155627 },
+      t = { 155580 },
+    },
+    merciless_claws = {
+      t = { 231063 },
+    },
+    moonfire = {
+      a = { 8921, 155625, 428545, 164812, 326646 },
+      b = { 155625, 164812, 8921, 326646, 428545 },
+    },
+    moonfire_cat = {
+      a = { 8921, 155625, 428545, 164812, 326646 },
+    },
+    panthers_guile = {
+      t = { 1280316 },
+    },
+    predatory_swiftness = {
+      a = { 69369, 16974 },
+      b = { 69369, 16974 },
+    },
+    primal_wrath = {
+      a = { 285381 },
+      b = { 285381 },
+      t = { 285381 },
+    },
+    prowl = {
+      a = { 5215, 102547 },
+      b = { 5215, 102547 },
+    },
+    rake = {
+      a = { 1822, 155722, 163505, 468934, 1280133 },
+      b = { 155722, 163505, 468934, 1280133, 1822 },
+    },
+    rampant_ferocity = {
+      t = { 391709 },
+    },
+    ravage = {
+      a = { 441591, 441605, 441585, 441602, 441583 },
+      b = { 441585, 441602, 441591, 441605, 441583 },
+    },
+    regrowth = {
+      a = { 8936, 1264664 },
+    },
+    rip = {
+      a = { 1079 },
+      b = { 1079 },
+    },
+    shred = {
+      a = { 5221 },
+    },
+    sudden_ambush = {
+      a = { 1244483, 384667 },
+      b = { 1244483, 384667 },
+    },
+    swipe = {
+      a = { 106785, 213764, 213771 },
+    },
+    swipe_cat = {
+      a = { 106785, 213764, 213771 },
+    },
+    tigers_fury = {
+      a = { 5217 },
+      b = { 5217 },
+    },
+    wild_slashes = {
+      t = { 390864 },
+    },
+  },
 })

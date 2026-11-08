@@ -27,6 +27,7 @@ plus warcraft.wiki.gg pages pasted by the project owner (marked "up to date as o
 
 | `UNIT_SPELLCAST_SUCCEEDED` (unit, castGUID, spellID) | `SecretWhenUnitSpellCastRestricted` — own-cast spell IDs may be secret in combat |
 | `UNIT_AURA` | `SecretWhenAurasRestricted` |
+| `UnitCastingInfo` / `UnitChannelInfo`, `UNIT_SPELLCAST_START` | `SecretWhenUnitSpellCastRestricted` (cast in progress may be hidden in combat) |
 | `UnitSpellHaste`, `GetUnitSpeed` | `SecretWhenUnitStatsRestricted` |
 | `UnitHealthPercent` | `SecretReturns`, `SecretWhenCurveSecret` |
 | `UnitGUID`, `UnitRace` | `SecretWhenUnitIdentityRestricted` |

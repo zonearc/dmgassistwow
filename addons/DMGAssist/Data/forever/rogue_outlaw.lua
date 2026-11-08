@@ -173,16 +173,10 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
       },
     },
   },
-  blizzardExcluded = {
-    "adrenaline_rush",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "adrenaline_rush" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "rogue",
+  heroTrees = {},
   key = "rogue_outlaw",
   simc = {
     build = {
@@ -467,12 +461,306 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "build",
-    "cds",
-    "finish",
-  },
+  simcOrder = { "precombat", "default", "build", "cds", "finish" },
   spec = "outlaw",
+  spellInfo = {
+    [1752] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
+    },
+    [1757] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
+    },
+    [1758] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
+    },
+    [1759] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
+    },
+    [1760] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
+    },
+    [1766] = {
+      cd = 10,
+      cost = { [3] = 25 },
+      d = 5,
+      gcd = 1,
+      n = "kick",
+    },
+    [1767] = {
+      cd = 10,
+      cost = { [3] = 25 },
+      d = 5,
+      gcd = 1,
+      n = "kick",
+    },
+    [1768] = {
+      cd = 10,
+      cost = { [3] = 25 },
+      d = 5,
+      gcd = 1,
+      n = "kick",
+    },
+    [1769] = {
+      cd = 10,
+      cost = { [3] = 25 },
+      d = 5,
+      gcd = 1,
+      n = "kick",
+    },
+    [1784] = {
+      cd = 10,
+      n = "stealth",
+    },
+    [1785] = {
+      cd = 10,
+      n = "stealth",
+    },
+    [1786] = {
+      cd = 10,
+      n = "stealth",
+    },
+    [1787] = {
+      cd = 10,
+      n = "stealth",
+    },
+    [1856] = {
+      ap = {
+        { 11327, "self" },
+        { 18461, "self" },
+      },
+      cd = 300,
+      cost = { [3] = 0 },
+      n = "vanish",
+    },
+    [1857] = {
+      ap = {
+        { 11329, "self" },
+        { 18461, "self" },
+      },
+      cd = 300,
+      cost = { [3] = 0 },
+      n = "vanish",
+    },
+    [5171] = {
+      ap = {
+        { 5171, "self" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "slice_and_dice",
+    },
+    [6774] = {
+      ap = {
+        { 6774, "self" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "slice_and_dice",
+    },
+    [8621] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
+    },
+    [8676] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+    },
+    [8724] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+    },
+    [8725] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+    },
+    [11267] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+    },
+    [11268] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+    },
+    [11269] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+    },
+    [11327] = {
+      ap = {
+        { 11327, "self" },
+      },
+      cost = { [3] = 0 },
+      d = 10,
+      n = "vanish",
+    },
+    [11329] = {
+      ap = {
+        { 11329, "self" },
+      },
+      cost = { [3] = 0 },
+      d = 10,
+      n = "vanish",
+    },
+    [13750] = {
+      ap = {
+        { 13750, "self" },
+      },
+      cd = 300,
+      cost = { [3] = 0 },
+      d = 15,
+      gcd = 1,
+      n = "adrenaline_rush",
+      tal = true,
+    },
+    [13877] = {
+      ap = {
+        { 13877, "self" },
+      },
+      cd = 120,
+      cost = { [3] = 25 },
+      d = 15,
+      gcd = 1,
+      n = "blade_flurry",
+      tal = true,
+    },
+    [14057] = {
+      n = "opportunity",
+      pas = true,
+      tal = true,
+    },
+    [14079] = {
+      n = "improved_ambush",
+      pas = true,
+      tal = true,
+    },
+    [14185] = {
+      cd = 600,
+      gcd = 1,
+      n = "preparation",
+      tal = true,
+    },
+    [14983] = {
+      n = "vigor",
+      pas = true,
+      tal = true,
+    },
+    [18461] = {
+      ap = {
+        { 18461, "self" },
+      },
+      d = 1,
+      n = "vanish_purge",
+    },
+    [398197] = {
+      n = "quick_draw",
+      pas = true,
+    },
+    [400009] = {
+      cd = 20,
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "between_the_eyes",
+    },
+    [400033] = {
+      n = "between_the_eyes",
+      pas = true,
+    },
+    [457437] = {
+      ap = {
+        { 457437, "self" },
+      },
+      cd = 300,
+      d = 10,
+      n = "vanish",
+    },
+    [1310709] = {
+      n = "coup_de_grace",
+      pas = true,
+    },
+  },
+  spells = {
+    adrenaline_rush = {
+      a = { 13750 },
+      b = { 13750 },
+    },
+    ambush = {
+      a = { 8676, 8724, 8725, 11267, 11268, 11269 },
+    },
+    between_the_eyes = {
+      a = { 400009, 400033 },
+      b = { 400009, 400033 },
+    },
+    blade_flurry = {
+      a = { 13877 },
+      b = { 13877 },
+    },
+    coup_de_grace = {
+      a = { 1310709 },
+    },
+    improved_ambush = {
+      t = { 14079 },
+    },
+    kick = {
+      a = { 1766, 1767, 1768, 1769 },
+    },
+    opportunity = {
+      a = { 14057 },
+      b = { 14057 },
+    },
+    preparation = {
+      a = { 14185 },
+    },
+    quick_draw = {
+      t = { 398197 },
+    },
+    sinister_strike = {
+      a = { 1752, 1757, 1758, 1759, 1760, 8621 },
+    },
+    slice_and_dice = {
+      a = { 5171, 6774 },
+    },
+    stealth = {
+      a = { 1784, 1785, 1786, 1787 },
+    },
+    vanish = {
+      a = { 1856, 1857, 11327, 11329, 457437 },
+    },
+    vigor = {
+      t = { 14983 },
+    },
+  },
 })

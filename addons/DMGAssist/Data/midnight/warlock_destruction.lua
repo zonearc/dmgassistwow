@@ -222,16 +222,10 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       },
     },
   },
-  blizzardExcluded = {
-    "summon_infernal",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "summon_infernal" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warlock",
+  heroTrees = {},
   key = "warlock_destruction",
   simc = {
     aoe_dia = {
@@ -747,14 +741,532 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "aoe_dia",
-    "aoe_hc",
-    "items",
-    "ogcd",
-    "variables",
-  },
+  simcOrder = { "precombat", "default", "aoe_dia", "aoe_hc", "items", "ogcd", "variables" },
   spec = "destruction",
+  spellInfo = {
+    [348] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "immolate",
+    },
+    [1122] = {
+      cd = 120,
+      d = 0.25,
+      gcd = 1.5,
+      n = "summon_infernal",
+      tal = true,
+    },
+    [5740] = {
+      ap = {
+        { 5740, "self" },
+      },
+      cost = { [7] = 3 },
+      d = 8,
+      gcd = 1.5,
+      n = "rain_of_fire",
+      tal = true,
+    },
+    [6353] = {
+      cd = 45,
+      ct = 3,
+      gcd = 1.5,
+      n = "soul_fire",
+      tal = true,
+    },
+    [17877] = {
+      ap = {
+        { 1311913, "enemy" },
+      },
+      cost = { [7] = 1 },
+      gcd = 1.5,
+      n = "shadowburn",
+      tal = true,
+    },
+    [17962] = {
+      ch = 2,
+      chcd = 12.96,
+      gcd = 1.5,
+      n = "conflagrate",
+      tal = true,
+    },
+    [29341] = {
+      gain = { [7] = 0.5 },
+      n = "shadowburn",
+    },
+    [29722] = {
+      ct = 2,
+      gcd = 1.5,
+      n = "incinerate",
+      st = 5,
+    },
+    [42223] = {
+      n = "rain_of_fire",
+    },
+    [80240] = {
+      ap = {
+        { 80240, "enemy" },
+      },
+      cd = 30,
+      d = 15,
+      gcd = 1.5,
+      n = "havoc",
+      st = 1,
+      tal = true,
+    },
+    [108503] = {
+      cd = 30,
+      gcd = 1.5,
+      n = "grimoire_of_sacrifice",
+      tal = true,
+    },
+    [111685] = {
+      ap = {
+        { 111685, "self" },
+      },
+      d = 30,
+      n = "summon_infernal",
+    },
+    [116858] = {
+      cost = { [7] = 2 },
+      ct = 3,
+      gcd = 1.5,
+      n = "chaos_bolt",
+      tal = true,
+    },
+    [117828] = {
+      ap = {
+        { 117828, "self" },
+      },
+      d = 10,
+      n = "backdraft",
+      st = 2,
+    },
+    [152108] = {
+      cd = 30,
+      ct = 2,
+      gcd = 1.5,
+      n = "cataclysm",
+      tal = true,
+    },
+    [157736] = {
+      ap = {
+        { 157736, "enemy" },
+      },
+      d = 18,
+      n = "immolate",
+    },
+    [193540] = {
+      gain = { [7] = 0.1 },
+      n = "immolate",
+    },
+    [193541] = {
+      n = "immolate",
+      pas = true,
+    },
+    [196099] = {
+      n = "grimoire_of_sacrifice",
+    },
+    [196100] = {
+      n = "grimoire_of_sacrifice",
+    },
+    [196406] = {
+      n = "backdraft",
+      pas = true,
+      tal = true,
+    },
+    [196408] = {
+      n = "fire_and_brimstone",
+      pas = true,
+      tal = true,
+    },
+    [196447] = {
+      ap = {
+        { 196447, "self" },
+      },
+      cd = 25,
+      d = 3,
+      gcd = 1.5,
+      n = "channel_demonfire",
+      tal = true,
+    },
+    [196448] = {
+      n = "channel_demonfire",
+    },
+    [196449] = {
+      n = "channel_demonfire",
+    },
+    [213229] = {
+      n = "chaos_bolt",
+    },
+    [215279] = {
+      n = "chaos_bolt",
+    },
+    [215409] = {
+      ap = {
+        { 215409, "self" },
+      },
+      d = 6,
+      n = "chaos_bolt",
+    },
+    [224322] = {
+      n = "channel_demonfire",
+    },
+    [228312] = {
+      ap = {
+        { 228312, "self" },
+      },
+      d = 25,
+      n = "immolate",
+    },
+    [244670] = {
+      gain = { [7] = 0.2 },
+      n = "incinerate",
+    },
+    [245330] = {
+      gain = { [7] = 0.5 },
+      n = "conflagrate",
+    },
+    [245731] = {
+      gain = { [7] = 1 },
+      n = "shadowburn",
+    },
+    [266134] = {
+      n = "internal_combustion",
+      pas = true,
+      tal = true,
+    },
+    [281440] = {
+      ap = {
+        { 281440, "self" },
+      },
+      d = 10,
+      n = "soul_fire",
+    },
+    [281490] = {
+      gain = { [7] = 1 },
+      n = "soul_fire",
+    },
+    [295419] = {
+      ap = {
+        { 295419, "self" },
+      },
+      d = 10,
+      n = "backdraft",
+      st = 2,
+    },
+    [335004] = {
+      n = "soul_fire",
+    },
+    [335236] = {
+      d = 8,
+      n = "summon_infernal",
+    },
+    [363950] = {
+      n = "avatar_of_destruction",
+      pas = true,
+    },
+    [387108] = {
+      n = "conflagration_of_chaos",
+      pas = true,
+      tal = true,
+    },
+    [394246] = {
+      n = "chaos_bolt",
+    },
+    [409890] = {
+      n = "channel_demonfire",
+    },
+    [428514] = {
+      n = "diabolic_ritual",
+      pas = true,
+      tal = true,
+    },
+    [428522] = {
+      n = "ruination",
+      pas = true,
+      tal = true,
+    },
+    [430014] = {
+      n = "malevolence",
+      pas = true,
+      tal = true,
+    },
+    [431944] = {
+      ap = {
+        { 431944, "self" },
+      },
+      d = 20,
+      n = "diabolic_ritual_overlord",
+    },
+    [432815] = {
+      ap = {
+        { 432815, "self" },
+      },
+      d = 20,
+      n = "diabolic_ritual_mother_of_chaos",
+    },
+    [432816] = {
+      ap = {
+        { 432816, "self" },
+      },
+      d = 20,
+      n = "diabolic_ritual_pit_lord",
+    },
+    [433885] = {
+      ap = {
+        { 433885, "self" },
+      },
+      d = 20,
+      n = "ruination",
+      st = 1,
+    },
+    [433891] = {
+      ap = {
+        { 433891, "self" },
+      },
+      d = 20,
+      n = "infernal_bolt",
+      st = 1,
+    },
+    [434506] = {
+      ct = 2,
+      gain = { [7] = 3 },
+      gcd = 1.5,
+      n = "infernal_bolt",
+    },
+    [434589] = {
+      ct = 3,
+      n = "chaos_bolt",
+    },
+    [434635] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "ruination",
+    },
+    [434636] = {
+      n = "ruination",
+    },
+    [442708] = {
+      n = "malevolence",
+    },
+    [442726] = {
+      ap = {
+        { 442726, "self" },
+      },
+      cd = 60,
+      d = 20,
+      gcd = 1.5,
+      n = "malevolence",
+    },
+    [443371] = {
+      n = "malevolence",
+    },
+    [445465] = {
+      n = "wither",
+      pas = true,
+      tal = true,
+    },
+    [445468] = {
+      ap = {
+        { 445474, "enemy" },
+      },
+      gcd = 1.5,
+      n = "wither",
+    },
+    [445474] = {
+      ap = {
+        { 445474, "enemy" },
+      },
+      d = 18,
+      n = "wither",
+      st = 99,
+    },
+    [446285] = {
+      n = "malevolence",
+    },
+    [456975] = {
+      n = "avatar_of_destruction",
+      pas = true,
+    },
+    [1214467] = {
+      ap = {
+        { 1214467, "self" },
+      },
+      cost = { [7] = 3 },
+      d = 8,
+      gcd = 1.5,
+      n = "rain_of_fire",
+      tal = true,
+    },
+    [1217787] = {
+      n = "channel_demonfire",
+    },
+    [1244310] = {
+      n = "roaring_blaze",
+      pas = true,
+      tal = true,
+    },
+    [1244877] = {
+      n = "lake_of_fire",
+      pas = true,
+      tal = true,
+    },
+    [1244928] = {
+      n = "destructive_rapidity",
+      pas = true,
+      tal = true,
+    },
+    [1244941] = {
+      n = "alythesss_ire",
+      pas = true,
+      tal = true,
+    },
+    [1244947] = {
+      ap = {
+        { 1244947, "self" },
+      },
+      d = 8,
+      n = "alythesss_ire",
+      st = 1,
+    },
+    [1245089] = {
+      n = "avatar_of_destruction",
+      pas = true,
+      tal = true,
+    },
+    [1245633] = {
+      n = "fiendish_cruelty",
+      pas = true,
+      tal = true,
+    },
+    [1245664] = {
+      ap = {
+        { 1245664, "self" },
+      },
+      d = 30,
+      n = "fiendish_cruelty",
+      st = 1,
+    },
+    [1279686] = {
+      n = "wither",
+    },
+    [1311913] = {
+      ap = {
+        { 1311913, "enemy" },
+      },
+      d = 5,
+      n = "shadowburn",
+    },
+  },
+  spells = {
+    alythesss_ire = {
+      a = { 1244947, 1244941 },
+      b = { 1244947, 1244941 },
+    },
+    avatar_of_destruction = {
+      t = { 1245089, 363950, 456975 },
+    },
+    backdraft = {
+      a = { 117828, 295419, 196406 },
+      b = { 117828, 295419, 196406 },
+      t = { 196406 },
+    },
+    cataclysm = {
+      a = { 152108 },
+      t = { 152108 },
+    },
+    channel_demonfire = {
+      a = { 196447, 196448, 409890, 1217787, 196449, 224322 },
+    },
+    chaos_bolt = {
+      a = { 116858, 213229, 215279, 394246, 434589, 215409 },
+    },
+    conflagrate = {
+      a = { 17962, 245330 },
+    },
+    conflagration_of_chaos = {
+      t = { 387108 },
+    },
+    destructive_rapidity = {
+      t = { 1244928 },
+    },
+    diabolic_ritual = {
+      t = { 428514 },
+    },
+    diabolic_ritual_mother_of_chaos = {
+      a = { 432815 },
+      b = { 432815 },
+    },
+    diabolic_ritual_overlord = {
+      a = { 431944 },
+      b = { 431944 },
+    },
+    diabolic_ritual_pit_lord = {
+      a = { 432816 },
+      b = { 432816 },
+    },
+    fiendish_cruelty = {
+      a = { 1245664, 1245633 },
+      b = { 1245664, 1245633 },
+    },
+    fire_and_brimstone = {
+      t = { 196408 },
+    },
+    grimoire_of_sacrifice = {
+      a = { 108503, 196099, 196100 },
+      b = { 108503, 196099, 196100 },
+      t = { 108503 },
+    },
+    havoc = {
+      a = { 80240 },
+      b = { 80240 },
+    },
+    immolate = {
+      a = { 348, 157736, 193540, 193541, 228312 },
+      b = { 157736, 228312, 348, 193540, 193541 },
+    },
+    incinerate = {
+      a = { 29722, 244670 },
+    },
+    infernal_bolt = {
+      a = { 434506, 433891 },
+      b = { 433891, 434506 },
+    },
+    internal_combustion = {
+      t = { 266134 },
+    },
+    lake_of_fire = {
+      t = { 1244877 },
+    },
+    malevolence = {
+      a = { 442726, 446285, 430014, 442708, 443371 },
+      b = { 442726, 442708, 443371, 446285, 430014 },
+      t = { 430014 },
+    },
+    rain_of_fire = {
+      a = { 5740, 1214467, 42223 },
+    },
+    roaring_blaze = {
+      t = { 1244310 },
+    },
+    ruination = {
+      a = { 434635, 433885, 434636, 428522 },
+    },
+    shadowburn = {
+      a = { 17877, 29341, 245731, 1311913 },
+    },
+    soul_fire = {
+      a = { 6353, 281440, 281490, 335004 },
+      t = { 6353 },
+    },
+    summon_infernal = {
+      a = { 1122, 111685, 335236 },
+      t = { 1122 },
+    },
+    wither = {
+      a = { 445468, 445474, 1279686, 445465 },
+      b = { 445474, 445468, 1279686, 445465 },
+      t = { 445465 },
+    },
+  },
 })

@@ -9,6 +9,7 @@
 ## X-Curse-Project-ID: 1481713
 
 Core\Util.lua
+Core\Locales.lua
 Core\Client.lua
 Core\Data.lua
 Core\Specs.lua

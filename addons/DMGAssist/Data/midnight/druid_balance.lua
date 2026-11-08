@@ -203,16 +203,39 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       },
     },
   },
-  blizzardExcluded = {
-    "celestial_alignment",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "celestial_alignment" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "druid",
+  heroTrees = {
+    elunes_chosen = {
+      424058,
+      424113,
+      428655,
+      429520,
+      429523,
+      429530,
+      429532,
+      429533,
+      429536,
+      429538,
+      429539,
+      429540,
+    },
+    keeper_of_the_grove = {
+      428544,
+      428731,
+      428859,
+      428937,
+      429215,
+      429227,
+      429399,
+      429402,
+      429420,
+      429433,
+      433748,
+      433831,
+    },
+  },
   key = "druid_balance",
   simc = {
     aoe = {
@@ -865,15 +888,640 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "aoe",
-    "cooldowns",
-    "ec_st",
-    "kotg_st",
-    "mini",
-    "opener",
-  },
+  simcOrder = { "precombat", "default", "aoe", "cooldowns", "ec_st", "kotg_st", "mini", "opener" },
   spec = "balance",
+  spellInfo = {
+    [5176] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "wrath",
+    },
+    [8921] = {
+      gcd = 1.5,
+      n = "moonfire",
+    },
+    [18104] = {
+      gcd = 1.5,
+      n = "wrath",
+    },
+    [24858] = {
+      gcd = 1.5,
+      n = "moonkin_form",
+      tal = true,
+    },
+    [37846] = {
+      n = "force_of_nature",
+    },
+    [48517] = {
+      ap = {
+        { 48517, "self" },
+      },
+      d = 15,
+      n = "eclipse_solar",
+    },
+    [48518] = {
+      ap = {
+        { 48518, "self" },
+      },
+      d = 15,
+      n = "eclipse_lunar",
+    },
+    [78674] = {
+      cost = { [8] = 40 },
+      gcd = 1.5,
+      n = "starsurge",
+      tal = true,
+    },
+    [81281] = {
+      ap = {
+        { 81281, "enemy" },
+      },
+      d = 10,
+      n = "fungal_growth",
+    },
+    [88747] = {
+      ap = {
+        { 88747, "self" },
+      },
+      ch = 3,
+      chcd = 30,
+      d = 1,
+      gcd = 1.5,
+      n = "wild_mushroom",
+      tal = true,
+    },
+    [88751] = {
+      n = "wild_mushroom",
+    },
+    [93402] = {
+      gcd = 1.5,
+      n = "sunfire",
+      tal = true,
+    },
+    [102560] = {
+      ap = {
+        { 102560, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 180,
+      d = 20,
+      n = "incarnation_chosen_of_elune",
+    },
+    [155625] = {
+      ap = {
+        { 155625, "enemy" },
+      },
+      cost = { [3] = 30 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "moonfire",
+    },
+    [164717] = {
+      d = 20,
+      n = "fungal_growth",
+    },
+    [164812] = {
+      ap = {
+        { 164812, "enemy" },
+      },
+      d = 18,
+      n = "moonfire",
+    },
+    [164815] = {
+      ap = {
+        { 164815, "enemy" },
+      },
+      d = 18,
+      n = "sunfire",
+    },
+    [190984] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "wrath",
+    },
+    [191034] = {
+      ap = {
+        { 191034, "self" },
+      },
+      cost = { [8] = 50 },
+      d = 8,
+      gcd = 1.5,
+      n = "starfall",
+      st = 20,
+    },
+    [191037] = {
+      n = "starfall",
+    },
+    [194153] = {
+      ct = 2.25,
+      gain = { [8] = 8 },
+      gcd = 1.5,
+      n = "starfire",
+      tal = true,
+    },
+    [194223] = {
+      ap = {
+        { 194223, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 180,
+      d = 15,
+      n = "celestial_alignment",
+    },
+    [197625] = {
+      gcd = 1.5,
+      n = "moonkin_form",
+      tal = true,
+    },
+    [197626] = {
+      cd = 10,
+      gcd = 1.5,
+      n = "starsurge",
+      tal = true,
+    },
+    [197628] = {
+      ct = 2.5,
+      gcd = 1.5,
+      n = "starfire",
+      tal = true,
+    },
+    [202770] = {
+      ap = {
+        { 202770, "self" },
+      },
+      cd = 60,
+      d = 8,
+      gcd = 1.5,
+      n = "fury_of_elune",
+      tal = true,
+    },
+    [205636] = {
+      cd = 60,
+      gain = { [8] = 20 },
+      gcd = 1.5,
+      n = "force_of_nature",
+      tal = true,
+    },
+    [211545] = {
+      n = "fury_of_elune",
+    },
+    [211547] = {
+      cd = 0.5,
+      n = "fury_of_elune",
+    },
+    [248163] = {
+      n = "radiant_moonlight",
+      pas = true,
+    },
+    [248280] = {
+      d = 10,
+      n = "force_of_nature",
+    },
+    [274281] = {
+      ch = 3,
+      chcd = 20,
+      ct = 1,
+      gain = { [8] = 10 },
+      gcd = 1,
+      n = "new_moon",
+      tal = true,
+    },
+    [274282] = {
+      ch = 3,
+      chcd = 20,
+      ct = 2,
+      gain = { [8] = 20 },
+      gcd = 1.5,
+      n = "half_moon",
+    },
+    [274283] = {
+      ch = 3,
+      chcd = 20,
+      ct = 3,
+      gain = { [8] = 40 },
+      gcd = 1.5,
+      n = "full_moon",
+    },
+    [281871] = {
+      n = "fury_of_elune",
+    },
+    [323764] = {
+      ap = {
+        { 323764, "self" },
+      },
+      cd = 120,
+      d = 4,
+      gcd = 1.5,
+      n = "convoke_the_spirits",
+      st = 99,
+    },
+    [326646] = {
+      n = "moonfire",
+      pas = true,
+    },
+    [327541] = {
+      n = "aetherial_kindling",
+      pas = true,
+      tal = true,
+    },
+    [359399] = {
+      n = "starfall",
+    },
+    [365640] = {
+      n = "fury_of_elune",
+    },
+    [383197] = {
+      n = "orbit_breaker",
+      pas = true,
+      tal = true,
+    },
+    [383410] = {
+      ap = {
+        { 383410, "self" },
+      },
+      ch = 1,
+      chcd = 180,
+      d = 15,
+      gcd = 1.5,
+      n = "celestial_alignment",
+    },
+    [390414] = {
+      ap = {
+        { 390414, "self" },
+      },
+      ch = 1,
+      chcd = 180,
+      d = 20,
+      gcd = 1.5,
+      n = "incarnation_chosen_of_elune",
+    },
+    [391528] = {
+      ap = {
+        { 391528, "self" },
+      },
+      cd = 120,
+      d = 4,
+      gcd = 1.5,
+      n = "convoke_the_spirits",
+      st = 99,
+      tal = true,
+    },
+    [392996] = {
+      n = "wild_mushroom",
+    },
+    [393940] = {
+      n = "starweaver",
+      pas = true,
+      tal = true,
+    },
+    [393942] = {
+      ap = {
+        { 393942, "self" },
+      },
+      d = 30,
+      n = "starweavers_warp",
+      st = 1,
+    },
+    [393944] = {
+      ap = {
+        { 393944, "self" },
+      },
+      d = 30,
+      n = "starweavers_weft",
+      st = 1,
+    },
+    [393954] = {
+      n = "rattle_the_stars",
+      pas = true,
+      tal = true,
+    },
+    [394013] = {
+      n = "incarnation_chosen_of_elune",
+      pas = true,
+      tal = true,
+    },
+    [394046] = {
+      n = "power_of_goldrinn",
+      pas = true,
+      tal = true,
+    },
+    [394111] = {
+      n = "fury_of_elune",
+    },
+    [394121] = {
+      n = "radiant_moonlight",
+      pas = true,
+      tal = true,
+    },
+    [394414] = {
+      ap = {
+        { 394414, "self" },
+      },
+      d = 15,
+      n = "touch_the_cosmos",
+      st = 1,
+    },
+    [394451] = {
+      ap = {
+        { 394451, "self" },
+      },
+      d = 8,
+      n = "touch_the_cosmos",
+    },
+    [395022] = {
+      n = "celestial_alignment",
+      pas = true,
+      tal = true,
+    },
+    [428545] = {
+      cd = 5,
+      gcd = 0.5,
+      n = "moonfire",
+    },
+    [428731] = {
+      n = "harmony_of_the_grove",
+      pas = true,
+      tal = true,
+    },
+    [428735] = {
+      cd = 15,
+      d = 10,
+      n = "harmony_of_the_grove",
+      st = 4,
+    },
+    [428737] = {
+      d = 8,
+      n = "harmony_of_the_grove",
+      st = 5,
+    },
+    [429523] = {
+      n = "lunar_calling",
+      pas = true,
+      tal = true,
+    },
+    [429532] = {
+      n = "atmospheric_exposure",
+      pas = true,
+      tal = true,
+    },
+    [429539] = {
+      n = "lunation",
+      pas = true,
+      tal = true,
+    },
+    [430589] = {
+      ap = {
+        { 430589, "enemy" },
+      },
+      d = 6,
+      n = "atmospheric_exposure",
+    },
+    [433831] = {
+      n = "dream_surge",
+      pas = true,
+      tal = true,
+    },
+    [450212] = {
+      n = "stellar_amplification",
+      pas = true,
+      tal = true,
+    },
+    [450356] = {
+      n = "touch_the_cosmos",
+      pas = true,
+      tal = true,
+    },
+    [450360] = {
+      ap = {
+        { 450360, "self" },
+      },
+      d = 15,
+      n = "touch_the_cosmos",
+      st = 1,
+    },
+    [1233353] = {
+      n = "lunar_eclipse_override",
+    },
+    [1236917] = {
+      n = "starsurge",
+    },
+    [1239669] = {
+      n = "eclipse",
+      pas = true,
+      tal = true,
+    },
+    [1240262] = {
+      n = "meteor_storm",
+      pas = true,
+      tal = true,
+    },
+    [1240907] = {
+      n = "meteorites",
+      pas = true,
+      tal = true,
+    },
+    [1263363] = {
+      ap = {
+        { 1263363, "self" },
+      },
+      d = 15,
+      n = "ascendant_fires",
+      st = 1,
+    },
+    [1263382] = {
+      ap = {
+        { 1263382, "self" },
+      },
+      d = 15,
+      n = "ascendant_stars",
+      st = 3,
+    },
+    [1263401] = {
+      ap = {
+        { 1263401, "self" },
+      },
+      d = 8,
+      n = "ascendant_stars",
+      st = 20,
+    },
+    [1264671] = {
+      d = 8,
+      n = "starfall",
+      st = 20,
+    },
+    [1264676] = {
+      n = "starfall",
+    },
+    [1264677] = {
+      ct = 2,
+      n = "starsurge",
+    },
+    [1271222] = {
+      n = "starsurge",
+    },
+    [1280213] = {
+      ap = {
+        { 1280213, "enemy" },
+      },
+      d = 10,
+      n = "fungal_growth",
+    },
+    [1286243] = {
+      n = "starfall",
+    },
+    [1303480] = {
+      n = "orbit_breaker",
+      st = 30,
+    },
+  },
+  spells = {
+    aetherial_kindling = {
+      t = { 327541 },
+    },
+    ascendant_fires = {
+      a = { 1263363 },
+      b = { 1263363 },
+    },
+    ascendant_stars = {
+      a = { 1263382, 1263401 },
+      b = { 1263382, 1263401 },
+    },
+    atmospheric_exposure = {
+      a = { 430589, 429532 },
+      b = { 430589, 429532 },
+    },
+    ca_inc = {
+      a = { 102560, 390414, 394013, 194223, 383410, 395022 },
+      b = { 102560, 390414, 394013, 194223, 383410, 395022 },
+    },
+    celestial_alignment = {
+      a = { 194223, 383410, 395022 },
+      t = { 395022 },
+    },
+    convoke_the_spirits = {
+      a = { 323764, 391528 },
+      t = { 391528 },
+    },
+    dream_surge = {
+      t = { 433831 },
+    },
+    eclipse = {
+      a = { 1239669 },
+      b = { 1239669 },
+      t = { 1239669 },
+    },
+    eclipse_lunar = {
+      a = { 48518 },
+      b = { 48518 },
+    },
+    eclipse_solar = {
+      a = { 48517 },
+      b = { 48517 },
+    },
+    force_of_nature = {
+      a = { 205636, 37846, 248280 },
+      t = { 205636 },
+    },
+    full_moon = {
+      a = { 274283 },
+    },
+    fungal_growth = {
+      a = { 81281, 1280213, 164717 },
+      b = { 81281, 164717, 1280213 },
+    },
+    fury_of_elune = {
+      a = { 202770, 211547, 211545, 281871, 365640, 394111 },
+      t = { 202770 },
+    },
+    half_moon = {
+      a = { 274282 },
+    },
+    harmony_of_the_grove = {
+      a = { 428735, 428737, 428731 },
+      b = { 428735, 428737, 428731 },
+    },
+    incarnation_chosen_of_elune = {
+      t = { 394013 },
+    },
+    lunar_calling = {
+      t = { 429523 },
+    },
+    lunar_eclipse_override = {
+      a = { 1233353 },
+      b = { 1233353 },
+    },
+    lunation = {
+      t = { 429539 },
+    },
+    meteor_storm = {
+      t = { 1240262 },
+    },
+    meteorites = {
+      t = { 1240907 },
+    },
+    moonfire = {
+      a = { 8921, 155625, 428545, 164812, 326646 },
+      b = { 155625, 164812, 8921, 326646, 428545 },
+    },
+    moonkin_form = {
+      a = { 24858, 197625 },
+      b = { 24858, 197625 },
+    },
+    new_moon = {
+      a = { 274281 },
+    },
+    orbit_breaker = {
+      a = { 1303480, 383197 },
+      b = { 1303480, 383197 },
+    },
+    power_of_goldrinn = {
+      t = { 394046 },
+    },
+    radiant_moonlight = {
+      t = { 394121, 248163 },
+    },
+    rattle_the_stars = {
+      t = { 393954 },
+    },
+    starfall = {
+      a = { 191034, 191037, 359399, 1264671, 1264676, 1286243 },
+    },
+    starfire = {
+      a = { 194153, 197628 },
+    },
+    starsurge = {
+      a = { 78674, 197626, 1236917, 1264677, 1271222 },
+    },
+    starweaver = {
+      t = { 393940 },
+    },
+    starweavers_warp = {
+      a = { 393942 },
+      b = { 393942 },
+    },
+    starweavers_weft = {
+      a = { 393944 },
+      b = { 393944 },
+    },
+    stellar_amplification = {
+      t = { 450212 },
+    },
+    sunfire = {
+      a = { 93402, 164815 },
+      b = { 164815, 93402 },
+    },
+    touch_the_cosmos = {
+      a = { 394414, 450360, 394451, 450356 },
+      b = { 394414, 394451, 450360, 450356 },
+    },
+    wild_mushroom = {
+      a = { 88747, 88751, 392996 },
+    },
+    wrath = {
+      a = { 5176, 18104, 190984 },
+    },
+  },
 })

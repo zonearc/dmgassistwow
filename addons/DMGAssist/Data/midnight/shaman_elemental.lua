@@ -215,16 +215,10 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       },
     },
   },
-  blizzardExcluded = {
-    "ascendance",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "ascendance" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "shaman",
+  heroTrees = {},
   key = "shaman_elemental",
   simc = {
     aoe = {
@@ -720,11 +714,684 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "aoe",
-    "single_target",
-  },
+  simcOrder = { "precombat", "default", "aoe", "single_target" },
   spec = "elemental",
+  spellInfo = {
+    [2825] = {
+      cd = 300,
+      d = 40,
+      n = "bloodlust",
+    },
+    [8042] = {
+      cost = { [11] = 60 },
+      gcd = 1.5,
+      n = "earth_shock",
+      tal = true,
+    },
+    [16166] = {
+      n = "master_of_the_elements",
+      pas = true,
+      tal = true,
+    },
+    [32182] = {
+      cd = 300,
+      d = 40,
+      n = "heroism",
+    },
+    [37661] = {
+      n = "lightning_bolt",
+    },
+    [51505] = {
+      ch = 1,
+      chcd = 8,
+      ct = 2,
+      gcd = 1.5,
+      n = "lava_burst",
+      tal = true,
+    },
+    [54843] = {
+      n = "lightning_bolt",
+    },
+    [57994] = {
+      cd = 12,
+      d = 4,
+      n = "wind_shear",
+      tal = true,
+    },
+    [61882] = {
+      ap = {
+        { 61882, "self" },
+      },
+      cost = { [11] = 60 },
+      d = 6,
+      gcd = 1.5,
+      n = "earthquake",
+      tal = true,
+    },
+    [77478] = {
+      n = "earthquake",
+    },
+    [77756] = {
+      n = "lava_surge",
+      pas = true,
+    },
+    [77762] = {
+      ap = {
+        { 77762, "self" },
+      },
+      d = 10,
+      n = "lava_surge",
+      st = 1,
+    },
+    [79206] = {
+      ap = {
+        { 79206, "self" },
+      },
+      cd = 120,
+      d = 15,
+      n = "spiritwalkers_grace",
+      tal = true,
+    },
+    [96891] = {
+      n = "lightning_bolt",
+    },
+    [114050] = {
+      cd = 180,
+      gcd = 1.5,
+      n = "ascendance",
+      tal = true,
+    },
+    [114051] = {
+      ap = {
+        { 114051, "self" },
+      },
+      cd = 180,
+      d = 15,
+      gcd = 1.5,
+      n = "ascendance",
+      tal = true,
+    },
+    [114052] = {
+      ap = {
+        { 114052, "self" },
+      },
+      cd = 180,
+      d = 15,
+      gcd = 1.5,
+      n = "ascendance",
+      tal = true,
+    },
+    [117014] = {
+      ch = 1,
+      chcd = 12,
+      cost = { [11] = 90 },
+      ct = 2,
+      gcd = 1.5,
+      n = "elemental_blast",
+      tal = true,
+    },
+    [118522] = {
+      ap = {
+        { 118522, "self" },
+      },
+      d = 10,
+      n = "elemental_blast_critical_strike",
+    },
+    [157299] = {
+      ap = {
+        { 157299, "self" },
+      },
+      d = 10,
+      n = "storm_elemental",
+    },
+    [157331] = {
+      ct = 2,
+      gcd = 0.5,
+      n = "wind_gust",
+    },
+    [173183] = {
+      ap = {
+        { 173183, "self" },
+      },
+      d = 10,
+      n = "elemental_blast_haste",
+    },
+    [173184] = {
+      ap = {
+        { 173184, "self" },
+      },
+      d = 10,
+      n = "elemental_blast_mastery",
+    },
+    [188196] = {
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lightning_bolt",
+    },
+    [188389] = {
+      ap = {
+        { 188389, "enemy" },
+      },
+      d = 18,
+      n = "flame_shock",
+    },
+    [188443] = {
+      ct = 2,
+      gcd = 1.5,
+      n = "chain_lightning",
+      tal = true,
+    },
+    [188592] = {
+      ap = {
+        { 188592, "self" },
+      },
+      d = 20,
+      gcd = 1,
+      n = "fire_elemental",
+    },
+    [191634] = {
+      ap = {
+        { 191634, "self" },
+      },
+      cd = 60,
+      ct = 1.5,
+      d = 15,
+      gcd = 1.5,
+      n = "stormkeeper",
+      st = 4,
+      tal = true,
+    },
+    [191732] = {
+      ct = 1.5,
+      n = "chain_lightning",
+    },
+    [192106] = {
+      ap = {
+        { 192106, "self" },
+      },
+      d = 3600,
+      gcd = 1.5,
+      n = "lightning_shield",
+    },
+    [192109] = {
+      n = "lightning_shield",
+    },
+    [192249] = {
+      ch = 1,
+      chcd = 120,
+      gcd = 1.5,
+      n = "storm_elemental",
+    },
+    [196840] = {
+      ap = {
+        { 196840, "enemy" },
+      },
+      d = 6,
+      gcd = 1.5,
+      n = "frost_shock",
+      tal = true,
+    },
+    [197209] = {
+      ap = {
+        { 197209, "enemy" },
+      },
+      d = 8,
+      n = "lightning_rod",
+    },
+    [197568] = {
+      n = "lightning_rod",
+    },
+    [198067] = {
+      ch = 1,
+      chcd = 120,
+      gcd = 1.5,
+      n = "fire_elemental",
+    },
+    [205495] = {
+      ap = {
+        { 205495, "self" },
+      },
+      cd = 60,
+      ct = 1.5,
+      d = 15,
+      gcd = 1.5,
+      n = "stormkeeper",
+      st = 3,
+    },
+    [210689] = {
+      gcd = 1.5,
+      n = "lightning_rod",
+      pas = true,
+      tal = true,
+    },
+    [211094] = {
+      n = "chain_lightning",
+    },
+    [214815] = {
+      gain = { [11] = 6 },
+      n = "lightning_bolt",
+    },
+    [226180] = {
+      gain = { [11] = 10 },
+      n = "wind_gust",
+    },
+    [260734] = {
+      ap = {
+        { 260734, "self" },
+      },
+      d = 15,
+      n = "master_of_the_elements",
+    },
+    [263806] = {
+      n = "wind_gust",
+      st = 4,
+    },
+    [263819] = {
+      gain = { [11] = 3 },
+      gcd = 1,
+      n = "fire_elemental",
+    },
+    [273324] = {
+      n = "lightning_shield",
+    },
+    [285452] = {
+      n = "lava_burst",
+    },
+    [289439] = {
+      n = "frost_shock",
+    },
+    [290431] = {
+      ap = {
+        { 290431, "enemy" },
+      },
+      d = 10,
+      n = "earthquake",
+    },
+    [290432] = {
+      n = "earthquake",
+    },
+    [298762] = {
+      ap = {
+        { 298762, "self" },
+      },
+      d = 6,
+      n = "earthquake",
+    },
+    [318038] = {
+      gcd = 1.5,
+      n = "flametongue_weapon",
+      tal = true,
+    },
+    [318044] = {
+      n = "lightning_bolt",
+      pas = true,
+    },
+    [319778] = {
+      ap = {
+        { 319778, "self" },
+      },
+      d = 3600,
+      n = "flametongue_weapon",
+    },
+    [344174] = {
+      n = "lightning_shield",
+    },
+    [344548] = {
+      n = "ascendance",
+    },
+    [344645] = {
+      n = "elemental_blast",
+    },
+    [378081] = {
+      cd = 60,
+      n = "natures_swiftness",
+      st = 1,
+      tal = true,
+    },
+    [381708] = {
+      n = "eye_of_the_storm",
+      pas = true,
+      tal = true,
+    },
+    [383009] = {
+      ap = {
+        { 383009, "self" },
+      },
+      cd = 60,
+      ct = 1.5,
+      d = 15,
+      gcd = 1.5,
+      n = "stormkeeper",
+      st = 2,
+    },
+    [392714] = {
+      n = "stormkeeper",
+      pas = true,
+    },
+    [392763] = {
+      n = "stormkeeper",
+      pas = true,
+    },
+    [394150] = {
+      n = "elemental_blast",
+      pas = true,
+    },
+    [394152] = {
+      n = "elemental_blast",
+    },
+    [429627] = {
+      n = "lava_burst",
+    },
+    [443450] = {
+      n = "call_of_the_ancestors",
+      pas = true,
+      tal = true,
+    },
+    [443454] = {
+      cd = 30,
+      n = "ancestral_swiftness",
+      st = 1,
+    },
+    [445624] = {
+      d = 8,
+      n = "call_of_the_ancestors",
+    },
+    [447206] = {
+      n = "call_of_the_ancestors",
+    },
+    [447244] = {
+      ap = {
+        { 447244, "self" },
+      },
+      d = 8,
+      n = "call_of_the_ancestors",
+      st = 10,
+    },
+    [447419] = {
+      n = "lava_burst",
+    },
+    [447425] = {
+      n = "chain_lightning",
+    },
+    [447427] = {
+      n = "elemental_blast",
+    },
+    [448861] = {
+      n = "ancestral_swiftness",
+      pas = true,
+      tal = true,
+    },
+    [448866] = {
+      n = "ancestral_swiftness",
+    },
+    [448898] = {
+      n = "natures_swiftness",
+      pas = true,
+    },
+    [450511] = {
+      n = "call_of_the_ancestors",
+    },
+    [451137] = {
+      ap = {
+        { 451137, "self" },
+      },
+      d = 2.5,
+      n = "call_of_the_ancestors",
+    },
+    [452201] = {
+      ct = 2,
+      gcd = 1.5,
+      n = "tempest",
+    },
+    [454009] = {
+      n = "tempest",
+      pas = true,
+      tal = true,
+    },
+    [454015] = {
+      ap = {
+        { 454015, "self" },
+      },
+      d = 30,
+      n = "tempest",
+      st = 2,
+    },
+    [462620] = {
+      ap = {
+        { 462620, "self" },
+      },
+      cost = { [11] = 60 },
+      d = 6,
+      gcd = 1.5,
+      n = "earthquake",
+      tal = true,
+    },
+    [462742] = {
+      ap = {
+        { 462742, "self" },
+      },
+      d = 3600,
+      n = "thunderstrike_ward",
+    },
+    [462757] = {
+      ap = {
+        { 462757, "self" },
+      },
+      d = 3600,
+      gcd = 1,
+      n = "thunderstrike_ward",
+      tal = true,
+    },
+    [462760] = {
+      n = "thunderstrike_ward",
+    },
+    [465717] = {
+      n = "elemental_blast",
+    },
+    [467263] = {
+      n = "ascendance",
+    },
+    [470057] = {
+      cd = 10,
+      gcd = 1.5,
+      n = "voltaic_blaze",
+      tal = true,
+    },
+    [470411] = {
+      ap = {
+        { 188389, "enemy" },
+      },
+      cd = 6,
+      gcd = 1.5,
+      n = "flame_shock",
+    },
+    [1219480] = {
+      ap = {
+        { 1219480, "self" },
+      },
+      cd = 180,
+      d = 15,
+      gcd = 1.5,
+      n = "ascendance",
+    },
+    [1238269] = {
+      d = 15,
+      n = "call_of_the_ancestors",
+    },
+    [1258843] = {
+      n = "molten_wrath",
+      pas = true,
+      tal = true,
+    },
+    [1259047] = {
+      n = "inferno_arc",
+      pas = true,
+      tal = true,
+    },
+    [1259101] = {
+      n = "voltaic_blaze",
+    },
+    [1259471] = {
+      n = "purging_flames",
+      pas = true,
+      tal = true,
+    },
+    [1259491] = {
+      ap = {
+        { 1259491, "self" },
+      },
+      d = 30,
+      n = "purging_flames",
+      st = 1,
+    },
+    [1269215] = {
+      n = "crackling_fury",
+      pas = true,
+      tal = true,
+    },
+    [1300219] = {
+      ap = {
+        { 1300219, "self" },
+      },
+      d = 20,
+      n = "flowing_elements",
+      st = 4,
+    },
+  },
+  spells = {
+    ancestral_swiftness = {
+      a = { 443454, 448861, 448866 },
+    },
+    ascendance = {
+      a = { 114050, 114052, 1219480, 344548, 467263, 114051 },
+      b = { 114051, 114052, 1219480, 114050, 344548, 467263 },
+    },
+    bloodlust = {
+      a = { 2825, 32182 },
+      b = { 2825, 32182 },
+    },
+    call_of_the_ancestors = {
+      a = { 445624, 447244, 1238269, 443450, 447206, 450511 },
+      b = { 445624, 447244, 451137, 1238269, 447206, 450511 },
+      t = { 443450 },
+    },
+    chain_lightning = {
+      a = { 188443, 191732, 211094, 447425 },
+    },
+    crackling_fury = {
+      t = { 1269215 },
+    },
+    earth_shock = {
+      a = { 8042 },
+    },
+    earthquake = {
+      a = { 61882, 462620, 77478, 290431, 290432, 298762 },
+    },
+    elemental_blast = {
+      a = { 117014, 344645, 465717, 394150, 394152, 447427 },
+      t = { 117014, 394150 },
+    },
+    elemental_blast_critical_strike = {
+      a = { 118522 },
+      b = { 118522 },
+    },
+    elemental_blast_haste = {
+      a = { 173183 },
+      b = { 173183 },
+    },
+    elemental_blast_mastery = {
+      a = { 173184 },
+      b = { 173184 },
+    },
+    eye_of_the_storm = {
+      t = { 381708 },
+    },
+    fire_elemental = {
+      a = { 188592, 198067, 263819 },
+      b = { 188592, 198067, 263819 },
+    },
+    flame_shock = {
+      a = { 470411, 188389 },
+      b = { 188389, 470411 },
+    },
+    flametongue_weapon = {
+      a = { 318038, 319778 },
+      t = { 318038 },
+    },
+    flowing_elements = {
+      a = { 1300219 },
+      b = { 1300219 },
+    },
+    frost_shock = {
+      a = { 196840, 289439 },
+    },
+    inferno_arc = {
+      t = { 1259047 },
+    },
+    lava_burst = {
+      a = { 51505, 285452, 429627, 447419 },
+    },
+    lava_surge = {
+      a = { 77762, 77756 },
+      b = { 77762, 77756 },
+    },
+    lightning_bolt = {
+      a = { 188196, 37661, 54843, 96891, 214815, 318044 },
+    },
+    lightning_rod = {
+      a = { 197209, 197568, 210689 },
+      b = { 197209, 197568, 210689 },
+    },
+    lightning_shield = {
+      a = { 192106, 192109, 273324, 344174 },
+      b = { 192106, 192109, 273324, 344174 },
+    },
+    master_of_the_elements = {
+      a = { 260734, 16166 },
+      b = { 260734, 16166 },
+      t = { 16166 },
+    },
+    molten_wrath = {
+      t = { 1258843 },
+    },
+    natures_swiftness = {
+      a = { 378081, 448898 },
+    },
+    purging_flames = {
+      a = { 1259491, 1259471 },
+      b = { 1259491, 1259471 },
+      t = { 1259471 },
+    },
+    spiritwalkers_grace = {
+      a = { 79206 },
+    },
+    storm_elemental = {
+      a = { 192249, 157299 },
+      b = { 157299, 192249 },
+    },
+    stormkeeper = {
+      a = { 191634, 205495, 383009, 392714, 392763 },
+      b = { 191634, 205495, 383009, 392714, 392763 },
+    },
+    tempest = {
+      a = { 452201, 454015, 454009 },
+      b = { 454015, 452201, 454009 },
+      t = { 454009 },
+    },
+    thunderstrike_ward = {
+      a = { 462757, 462760, 462742 },
+      b = { 462742, 462757, 462760 },
+    },
+    voltaic_blaze = {
+      a = { 1259101, 470057 },
+      t = { 470057 },
+    },
+    wind_gust = {
+      a = { 157331, 226180, 263806 },
+      b = { 157331, 226180, 263806 },
+    },
+    wind_shear = {
+      a = { 57994 },
+    },
+  },
 })

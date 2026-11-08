@@ -222,16 +222,10 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       },
     },
   },
-  blizzardExcluded = {
-    "summon_infernal",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "summon_infernal" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warlock",
+  heroTrees = {},
   key = "warlock_destruction",
   simc = {
     aoe_dia = {
@@ -747,14 +741,359 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "aoe_dia",
-    "aoe_hc",
-    "items",
-    "ogcd",
-    "variables",
-  },
+  simcOrder = { "precombat", "default", "aoe_dia", "aoe_hc", "items", "ogcd", "variables" },
   spec = "destruction",
+  spellInfo = {
+    [348] = {
+      ap = {
+        { 348, "enemy" },
+      },
+      cost = { [0] = 25 },
+      ct = 2,
+      d = 15,
+      gcd = 1.5,
+      n = "immolate",
+    },
+    [707] = {
+      ap = {
+        { 707, "enemy" },
+      },
+      cost = { [0] = 45 },
+      ct = 2,
+      d = 15,
+      gcd = 1.5,
+      n = "immolate",
+    },
+    [1094] = {
+      ap = {
+        { 1094, "enemy" },
+      },
+      cost = { [0] = 90 },
+      ct = 2,
+      d = 15,
+      gcd = 1.5,
+      n = "immolate",
+    },
+    [2941] = {
+      ap = {
+        { 2941, "enemy" },
+      },
+      cost = { [0] = 155 },
+      ct = 2,
+      d = 15,
+      gcd = 1.5,
+      n = "immolate",
+    },
+    [5740] = {
+      ap = {
+        { 5740, "self" },
+      },
+      cost = { [0] = 295 },
+      d = 8,
+      gcd = 1.5,
+      n = "rain_of_fire",
+    },
+    [6219] = {
+      ap = {
+        { 6219, "self" },
+      },
+      cost = { [0] = 605 },
+      d = 8,
+      gcd = 1.5,
+      n = "rain_of_fire",
+    },
+    [6353] = {
+      cd = 60,
+      cost = { [0] = 305 },
+      ct = 6,
+      gcd = 1.5,
+      n = "soul_fire",
+    },
+    [11665] = {
+      ap = {
+        { 11665, "enemy" },
+      },
+      cost = { [0] = 220 },
+      ct = 2,
+      d = 15,
+      gcd = 1.5,
+      n = "immolate",
+    },
+    [11667] = {
+      ap = {
+        { 11667, "enemy" },
+      },
+      cost = { [0] = 295 },
+      ct = 2,
+      d = 15,
+      gcd = 1.5,
+      n = "immolate",
+    },
+    [11677] = {
+      ap = {
+        { 11677, "self" },
+      },
+      cost = { [0] = 885 },
+      d = 8,
+      gcd = 1.5,
+      n = "rain_of_fire",
+    },
+    [11678] = {
+      ap = {
+        { 11678, "self" },
+      },
+      cost = { [0] = 1185 },
+      d = 8,
+      gcd = 1.5,
+      n = "rain_of_fire",
+    },
+    [17778] = {
+      n = "cataclysm",
+      pas = true,
+      tal = true,
+    },
+    [17877] = {
+      ap = {
+        { 17877, "enemy" },
+      },
+      cd = 15,
+      cost = { [0] = 105 },
+      d = 8,
+      gcd = 1.5,
+      n = "shadowburn",
+      tal = true,
+    },
+    [17924] = {
+      cd = 60,
+      cost = { [0] = 335 },
+      ct = 6,
+      gcd = 1.5,
+      n = "soul_fire",
+    },
+    [17962] = {
+      cd = 10,
+      cost = { [0] = 165 },
+      gcd = 1.5,
+      n = "conflagrate",
+    },
+    [18867] = {
+      ap = {
+        { 18867, "enemy" },
+      },
+      cd = 15,
+      cost = { [0] = 130 },
+      d = 8,
+      gcd = 1.5,
+      n = "shadowburn",
+    },
+    [18868] = {
+      ap = {
+        { 18868, "enemy" },
+      },
+      cd = 15,
+      cost = { [0] = 190 },
+      d = 8,
+      gcd = 1.5,
+      n = "shadowburn",
+    },
+    [18869] = {
+      ap = {
+        { 18869, "enemy" },
+      },
+      cd = 15,
+      cost = { [0] = 245 },
+      d = 8,
+      gcd = 1.5,
+      n = "shadowburn",
+    },
+    [18870] = {
+      ap = {
+        { 18870, "enemy" },
+      },
+      cd = 15,
+      cost = { [0] = 305 },
+      d = 8,
+      gcd = 1.5,
+      n = "shadowburn",
+    },
+    [18871] = {
+      ap = {
+        { 18871, "enemy" },
+      },
+      cd = 15,
+      cost = { [0] = 365 },
+      d = 8,
+      gcd = 1.5,
+      n = "shadowburn",
+    },
+    [18930] = {
+      cd = 10,
+      cost = { [0] = 200 },
+      gcd = 1.5,
+      n = "conflagrate",
+    },
+    [18931] = {
+      cd = 10,
+      cost = { [0] = 230 },
+      gcd = 1.5,
+      n = "conflagrate",
+    },
+    [18932] = {
+      cd = 10,
+      cost = { [0] = 255 },
+      gcd = 1.5,
+      n = "conflagrate",
+    },
+    [403629] = {
+      cd = 12,
+      ct = 2.5,
+      gcd = 1.5,
+      n = "chaos_bolt",
+    },
+    [403630] = {
+      n = "chaos_bolt",
+      pas = true,
+    },
+    [403666] = {
+      n = "lake_of_fire",
+      pas = true,
+    },
+    [403860] = {
+      n = "chaos_bolt",
+      pas = true,
+    },
+    [403872] = {
+      n = "lake_of_fire",
+      pas = true,
+    },
+    [412751] = {
+      n = "fire_and_brimstone",
+      pas = true,
+      tal = true,
+    },
+    [412758] = {
+      cost = { [0] = 205 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "incinerate",
+      tal = true,
+    },
+    [427713] = {
+      n = "backdraft",
+      pas = true,
+    },
+    [427714] = {
+      ap = {
+        { 427714, "self" },
+      },
+      d = 15,
+      n = "backdraft",
+    },
+    [431742] = {
+      n = "backdraft",
+      pas = true,
+    },
+    [457643] = {
+      ap = {
+        { 457643, "self" },
+      },
+      d = 10,
+      n = "soul_fire",
+      st = 1,
+    },
+    [460692] = {
+      ap = {
+        { 460692, "self" },
+      },
+      cd = 8,
+      cost = { [0] = 295 },
+      d = 8,
+      gcd = 1.5,
+      n = "rain_of_fire",
+    },
+    [460698] = {
+      ap = {
+        { 460698, "self" },
+      },
+      cd = 8,
+      cost = { [0] = 605 },
+      d = 8,
+      gcd = 1.5,
+      n = "rain_of_fire",
+    },
+    [1293812] = {
+      cost = { [0] = 265 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "incinerate",
+    },
+    [1293813] = {
+      cost = { [0] = 325 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "incinerate",
+    },
+    [1293817] = {
+      cd = 10,
+      cost = { [0] = 100 },
+      gcd = 1.5,
+      n = "conflagrate",
+      tal = true,
+    },
+    [1293818] = {
+      cd = 10,
+      cost = { [0] = 130 },
+      gcd = 1.5,
+      n = "conflagrate",
+    },
+    [1310949] = {
+      n = "malevolence",
+      pas = true,
+      tal = true,
+    },
+  },
+  spells = {
+    backdraft = {
+      a = { 427714, 427713, 431742 },
+      b = { 427714, 427713, 431742 },
+      t = { 427713, 431742 },
+    },
+    cataclysm = {
+      a = { 17778 },
+      t = { 17778 },
+    },
+    chaos_bolt = {
+      a = { 403629, 403630, 403860 },
+    },
+    conflagrate = {
+      a = { 17962, 18930, 18931, 18932, 1293817, 1293818 },
+    },
+    fire_and_brimstone = {
+      t = { 412751 },
+    },
+    immolate = {
+      a = { 348, 707, 1094, 2941, 11665, 11667 },
+      b = { 348, 707, 1094, 2941, 11665, 11667 },
+    },
+    incinerate = {
+      a = { 412758, 1293812, 1293813 },
+    },
+    lake_of_fire = {
+      t = { 403666, 403872 },
+    },
+    malevolence = {
+      a = { 1310949 },
+      b = { 1310949 },
+      t = { 1310949 },
+    },
+    rain_of_fire = {
+      a = { 5740, 6219, 11677, 11678, 460692, 460698 },
+    },
+    shadowburn = {
+      a = { 17877, 18867, 18868, 18869, 18870, 18871 },
+    },
+    soul_fire = {
+      a = { 6353, 17924, 457643 },
+    },
+  },
 })

@@ -120,13 +120,9 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
     },
   },
   blizzardExcluded = {},
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "druid",
+  heroTrees = {},
   key = "druid_restoration",
   simc = {
     cat = {
@@ -382,11 +378,510 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "cat",
-    "healing",
-  },
+  simcOrder = { "precombat", "default", "cat", "healing" },
   spec = "restoration",
+  spellInfo = {
+    [768] = {
+      gcd = 1.5,
+      n = "cat_form",
+    },
+    [1079] = {
+      ap = {
+        { 1079, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 20, [4] = 1 },
+      d = 4,
+      gcd = 1,
+      n = "rip",
+      tal = true,
+    },
+    [1822] = {
+      ap = {
+        { 155722, "enemy" },
+      },
+      cost = { [3] = 35 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "rake",
+      tal = true,
+    },
+    [3025] = {
+      n = "cat_form",
+      pas = true,
+    },
+    [5176] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "wrath",
+    },
+    [5215] = {
+      cd = 6,
+      n = "prowl",
+      st = 1,
+    },
+    [5221] = {
+      cost = { [3] = 40 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "shred",
+    },
+    [5487] = {
+      gcd = 1.5,
+      n = "bear_form",
+    },
+    [8921] = {
+      gcd = 1.5,
+      n = "moonfire",
+    },
+    [17057] = {
+      ap = {
+        { 17057, "self" },
+      },
+      d = 6,
+      gain = { [1] = 250 },
+      n = "bear_form",
+    },
+    [18104] = {
+      gcd = 1.5,
+      n = "wrath",
+    },
+    [22568] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      gcd = 1,
+      n = "ferocious_bite",
+    },
+    [24858] = {
+      gcd = 1.5,
+      n = "moonkin_form",
+      tal = true,
+    },
+    [33917] = {
+      ch = 1,
+      chcd = 6,
+      gain = { [1] = 120 },
+      gcd = 1.5,
+      n = "mangle",
+    },
+    [48629] = {
+      n = "cat_form",
+    },
+    [77758] = {
+      cd = 6,
+      gain = { [1] = 50 },
+      gcd = 1.5,
+      n = "thrash",
+    },
+    [78674] = {
+      cost = { [8] = 40 },
+      gcd = 1.5,
+      n = "starsurge",
+      tal = true,
+    },
+    [93402] = {
+      gcd = 1.5,
+      n = "sunfire",
+      tal = true,
+    },
+    [102547] = {
+      cd = 6,
+      n = "prowl",
+      st = 1,
+    },
+    [106785] = {
+      cost = { [3] = 35 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "swipe",
+    },
+    [106829] = {
+      n = "bear_form",
+    },
+    [106830] = {
+      cd = 6,
+      cost = { [3] = 40 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "thrash",
+    },
+    [106840] = {
+      n = "cat_form",
+      pas = true,
+    },
+    [106899] = {
+      n = "bear_form",
+      pas = true,
+    },
+    [108291] = {
+      ap = {
+        { 108291, "self" },
+      },
+      cd = 300,
+      d = 45,
+      gcd = 1.5,
+      n = "heart_of_the_wild",
+    },
+    [108292] = {
+      ap = {
+        { 108292, "self" },
+      },
+      cd = 300,
+      d = 45,
+      gcd = 1.5,
+      n = "heart_of_the_wild",
+    },
+    [108293] = {
+      ap = {
+        { 108293, "self" },
+      },
+      cd = 300,
+      d = 45,
+      gcd = 1.5,
+      n = "heart_of_the_wild",
+    },
+    [108294] = {
+      ap = {
+        { 108294, "self" },
+      },
+      cd = 300,
+      d = 45,
+      gcd = 1.5,
+      n = "heart_of_the_wild",
+    },
+    [113636] = {
+      n = "cat_form",
+      pas = true,
+    },
+    [155625] = {
+      ap = {
+        { 155625, "enemy" },
+      },
+      cost = { [3] = 30 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "moonfire",
+    },
+    [155722] = {
+      ap = {
+        { 155722, "enemy" },
+      },
+      d = 15,
+      n = "rake",
+    },
+    [158723] = {
+      gain = { [1] = 10 },
+      n = "thrash",
+    },
+    [159286] = {
+      n = "primal_fury",
+      pas = true,
+      tal = true,
+    },
+    [163505] = {
+      ap = {
+        { 163505, "enemy" },
+      },
+      d = 4,
+      n = "rake",
+    },
+    [164812] = {
+      ap = {
+        { 164812, "enemy" },
+      },
+      d = 18,
+      n = "moonfire",
+    },
+    [164815] = {
+      ap = {
+        { 164815, "enemy" },
+      },
+      d = 18,
+      n = "sunfire",
+    },
+    [190984] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "wrath",
+    },
+    [192090] = {
+      ap = {
+        { 192090, "enemy" },
+      },
+      d = 15,
+      n = "thrash",
+      st = 3,
+    },
+    [194153] = {
+      ct = 2.25,
+      gain = { [8] = 8 },
+      gcd = 1.5,
+      n = "starfire",
+      tal = true,
+    },
+    [197625] = {
+      gcd = 1.5,
+      n = "moonkin_form",
+      tal = true,
+    },
+    [197626] = {
+      cd = 10,
+      gcd = 1.5,
+      n = "starsurge",
+      tal = true,
+    },
+    [197628] = {
+      ct = 2.5,
+      gcd = 1.5,
+      n = "starfire",
+      tal = true,
+    },
+    [211141] = {
+      gain = { [4] = 1 },
+      n = "thrash",
+      st = 3,
+    },
+    [213764] = {
+      gcd = 1,
+      n = "swipe",
+      tal = true,
+    },
+    [213771] = {
+      gcd = 1.5,
+      n = "swipe",
+    },
+    [231064] = {
+      n = "mangle",
+      pas = true,
+    },
+    [270100] = {
+      n = "bear_form",
+      pas = true,
+    },
+    [289237] = {
+      n = "master_shapeshifter",
+      pas = true,
+      tal = true,
+    },
+    [319454] = {
+      ap = {
+        { 319454, "self" },
+      },
+      cd = 300,
+      d = 45,
+      gcd = 1.5,
+      n = "call_of_the_elder_druid",
+    },
+    [323764] = {
+      ap = {
+        { 323764, "self" },
+      },
+      cd = 120,
+      d = 4,
+      gcd = 1.5,
+      n = "convoke_the_spirits",
+      st = 99,
+    },
+    [326646] = {
+      n = "moonfire",
+      pas = true,
+    },
+    [391528] = {
+      ap = {
+        { 391528, "self" },
+      },
+      cd = 120,
+      d = 4,
+      gcd = 1.5,
+      n = "convoke_the_spirits",
+      st = 99,
+      tal = true,
+    },
+    [405233] = {
+      ap = {
+        { 405233, "enemy" },
+      },
+      d = 15,
+      n = "thrash",
+    },
+    [426702] = {
+      n = "liveliness",
+      pas = true,
+      tal = true,
+    },
+    [426784] = {
+      n = "call_of_the_elder_druid",
+      pas = true,
+      tal = true,
+    },
+    [426790] = {
+      ap = {
+        { 426790, "self" },
+      },
+      d = 60,
+      n = "call_of_the_elder_druid",
+    },
+    [428545] = {
+      cd = 5,
+      gcd = 0.5,
+      n = "moonfire",
+    },
+    [449193] = {
+      n = "fluid_form",
+      pas = true,
+      tal = true,
+    },
+    [468873] = {
+      ap = {
+        { 468873, "enemy" },
+      },
+      d = 15,
+      n = "thrash",
+    },
+    [468934] = {
+      ap = {
+        { 468934, "enemy" },
+      },
+      d = 15,
+      n = "rake",
+    },
+    [474530] = {
+      n = "circle_of_the_wild",
+      pas = true,
+      tal = true,
+    },
+    [474541] = {
+      n = "circle_of_the_heavens",
+      pas = true,
+      tal = true,
+    },
+    [1236917] = {
+      n = "starsurge",
+    },
+    [1261867] = {
+      ap = {
+        { 1261867, "self" },
+      },
+      cd = 120,
+      d = 1,
+      n = "heart_of_the_wild",
+      tal = true,
+    },
+    [1261868] = {
+      ap = {
+        { 1261868, "self" },
+      },
+      cd = 120,
+      d = 1,
+      n = "heart_of_the_wild",
+    },
+    [1264677] = {
+      ct = 2,
+      n = "starsurge",
+    },
+    [1271222] = {
+      n = "starsurge",
+    },
+    [1280133] = {
+      ap = {
+        { 1280133, "self" },
+      },
+      d = 0.2,
+      n = "rake",
+    },
+  },
+  spells = {
+    bear_form = {
+      a = { 5487, 17057, 106829, 106899, 270100 },
+      b = { 17057, 5487, 106829, 106899, 270100 },
+    },
+    call_of_the_elder_druid = {
+      a = { 319454, 426790, 426784 },
+      b = { 319454, 426790, 426784 },
+    },
+    cat_form = {
+      a = { 768, 3025, 48629, 106840, 113636 },
+      b = { 768, 3025, 48629, 106840, 113636 },
+    },
+    circle_of_the_heavens = {
+      t = { 474541 },
+    },
+    circle_of_the_wild = {
+      t = { 474530 },
+    },
+    convoke_the_spirits = {
+      a = { 323764, 391528 },
+      t = { 391528 },
+    },
+    ferocious_bite = {
+      a = { 22568 },
+    },
+    fluid_form = {
+      t = { 449193 },
+    },
+    heart_of_the_wild = {
+      a = { 108291, 108292, 108293, 108294, 1261867, 1261868 },
+      b = { 108291, 108292, 108293, 108294, 1261867, 1261868 },
+    },
+    liveliness = {
+      t = { 426702 },
+    },
+    mangle = {
+      a = { 33917, 231064 },
+    },
+    master_shapeshifter = {
+      t = { 289237 },
+    },
+    moonfire = {
+      a = { 8921, 155625, 428545, 164812, 326646 },
+      b = { 155625, 164812, 8921, 326646, 428545 },
+    },
+    moonkin_form = {
+      a = { 24858, 197625 },
+      b = { 24858, 197625 },
+    },
+    primal_fury = {
+      t = { 159286 },
+    },
+    prowl = {
+      a = { 5215, 102547 },
+      b = { 5215, 102547 },
+    },
+    rake = {
+      a = { 1822, 155722, 163505, 468934, 1280133 },
+      b = { 155722, 163505, 468934, 1280133, 1822 },
+      t = { 1822 },
+    },
+    rip = {
+      a = { 1079 },
+      b = { 1079 },
+    },
+    shred = {
+      a = { 5221 },
+    },
+    starfire = {
+      a = { 197628, 194153 },
+    },
+    starsurge = {
+      a = { 197626, 1236917, 1264677, 1271222, 78674 },
+    },
+    sunfire = {
+      a = { 93402, 164815 },
+      b = { 164815, 93402 },
+    },
+    swipe = {
+      a = { 106785, 213764, 213771 },
+    },
+    swipe_cat = {
+      a = { 106785, 213764, 213771 },
+    },
+    thrash = {
+      a = { 77758, 106830, 158723, 192090, 211141, 405233 },
+      b = { 192090, 405233, 468873, 77758, 106830, 158723 },
+    },
+    wrath = {
+      a = { 5176, 18104, 190984 },
+    },
+  },
 })

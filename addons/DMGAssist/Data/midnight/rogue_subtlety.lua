@@ -170,16 +170,10 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       },
     },
   },
-  blizzardExcluded = {
-    "shadow_blades",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "shadow_blades" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "rogue",
+  heroTrees = {},
   key = "rogue_subtlety",
   simc = {
     build = {
@@ -510,15 +504,532 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "build",
-    "cds",
-    "fill",
-    "finish",
-    "item",
-    "race",
-  },
+  simcOrder = { "precombat", "default", "build", "cds", "fill", "finish", "item", "race" },
   spec = "subtlety",
+  spellInfo = {
+    [53] = {
+      cost = { [3] = 40 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+    },
+    [1784] = {
+      cd = 2,
+      n = "stealth",
+      st = 1,
+    },
+    [1856] = {
+      cd = 1,
+      ch = 1,
+      chcd = 120,
+      n = "vanish",
+    },
+    [11327] = {
+      ap = {
+        { 11327, "self" },
+      },
+      d = 3,
+      n = "vanish",
+      st = 1,
+    },
+    [25046] = {
+      cd = 120,
+      gain = { [3] = 15 },
+      gcd = 1,
+      n = "arcane_torrent",
+    },
+    [108208] = {
+      n = "subterfuge",
+      pas = true,
+      tal = true,
+    },
+    [114014] = {
+      cost = { [3] = 40 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "shuriken_toss",
+    },
+    [115191] = {
+      cd = 2,
+      n = "stealth",
+      st = 1,
+    },
+    [115192] = {
+      n = "subterfuge",
+    },
+    [121471] = {
+      ap = {
+        { 121471, "self" },
+      },
+      cd = 90,
+      d = 16,
+      n = "shadow_blades",
+      tal = true,
+    },
+    [158188] = {
+      n = "stealth",
+    },
+    [185313] = {
+      ap = {
+        { 185313, "self" },
+      },
+      cd = 6,
+      ch = 1,
+      chcd = 20,
+      d = 6,
+      n = "shadow_dance",
+    },
+    [185422] = {
+      ap = {
+        { 185422, "self" },
+      },
+      d = 6,
+      n = "shadow_dance",
+    },
+    [185438] = {
+      cost = { [3] = 50 },
+      gain = { [4] = 2 },
+      gcd = 1,
+      n = "shadowstrike",
+    },
+    [193531] = {
+      n = "deeper_stratagem",
+      pas = true,
+      tal = true,
+    },
+    [196819] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "eviscerate",
+    },
+    [196911] = {
+      gain = { [3] = 5 },
+      n = "shadow_techniques",
+      st = 10,
+    },
+    [196912] = {
+      n = "shadow_techniques",
+      pas = true,
+    },
+    [197835] = {
+      cost = { [3] = 50 },
+      gcd = 1,
+      n = "shuriken_storm",
+    },
+    [200758] = {
+      cost = { [3] = 40 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "gloomblade",
+      tal = true,
+    },
+    [231718] = {
+      n = "shadowstrike",
+      pas = true,
+    },
+    [245623] = {
+      n = "shadowstrike",
+    },
+    [245689] = {
+      ap = {
+        { 245689, "self" },
+      },
+      d = 30,
+      n = "backstab",
+      st = 1,
+    },
+    [245691] = {
+      ap = {
+        { 245691, "self" },
+      },
+      d = 30,
+      n = "eviscerate",
+      st = 1,
+    },
+    [246332] = {
+      ap = {
+        { 246332, "self" },
+      },
+      d = 30,
+      n = "gloomblade",
+      st = 1,
+    },
+    [279043] = {
+      n = "shadow_blades",
+    },
+    [280719] = {
+      ch = 1,
+      chcd = 25,
+      cmax = { [4] = 5 },
+      cost = { [3] = 30, [4] = 1 },
+      gcd = 1,
+      n = "secret_technique",
+    },
+    [280720] = {
+      n = "secret_technique",
+    },
+    [282449] = {
+      n = "secret_technique",
+    },
+    [282480] = {
+      n = "secret_technique",
+    },
+    [315496] = {
+      ap = {
+        { 315496, "self" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "slice_and_dice",
+    },
+    [319175] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "black_powder",
+    },
+    [319190] = {
+      n = "black_powder",
+    },
+    [328082] = {
+      gcd = 1,
+      n = "eviscerate",
+    },
+    [343160] = {
+      n = "premeditation",
+      pas = true,
+      tal = true,
+    },
+    [343170] = {
+      gain = { [4] = 7 },
+      n = "premeditation",
+    },
+    [343173] = {
+      n = "premeditation",
+      st = 1,
+    },
+    [345121] = {
+      n = "shadowstrike",
+    },
+    [382524] = {
+      n = "lingering_shadow",
+      pas = true,
+      tal = true,
+    },
+    [385960] = {
+      ap = {
+        { 385960, "self" },
+      },
+      d = 18,
+      n = "lingering_shadow",
+      st = 50,
+    },
+    [386081] = {
+      n = "lingering_shadow",
+    },
+    [394029] = {
+      gain = { [4] = 4 },
+      n = "shadow_dance",
+    },
+    [394320] = {
+      n = "secret_stratagem",
+      pas = true,
+      tal = true,
+    },
+    [426591] = {
+      ap = {
+        { 426593, "enemy" },
+        { 1309274, "self" },
+      },
+      cd = 45,
+      cost = { [3] = 25 },
+      gcd = 1,
+      n = "goremaws_bite",
+      tal = true,
+    },
+    [426592] = {
+      n = "goremaws_bite",
+    },
+    [426593] = {
+      ap = {
+        { 426593, "enemy" },
+      },
+      d = 14,
+      n = "goremaws_bite",
+    },
+    [426595] = {
+      n = "shadow_techniques",
+    },
+    [426605] = {
+      n = "slice_and_dice",
+    },
+    [441146] = {
+      n = "unseen_blade",
+      pas = true,
+      tal = true,
+    },
+    [441423] = {
+      n = "coup_de_grace",
+      pas = true,
+      tal = true,
+    },
+    [441776] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1.2,
+      n = "coup_de_grace",
+    },
+    [450743] = {
+      n = "coup_de_grace",
+    },
+    [457052] = {
+      n = "deathstalkers_mark",
+      pas = true,
+      tal = true,
+    },
+    [457058] = {
+      n = "darkest_night",
+      pas = true,
+      tal = true,
+    },
+    [457129] = {
+      ap = {
+        { 457129, "enemy" },
+      },
+      d = 60,
+      n = "deathstalkers_mark",
+      st = 3,
+    },
+    [457157] = {
+      n = "deathstalkers_mark",
+    },
+    [457280] = {
+      ap = {
+        { 457280, "self" },
+      },
+      d = 30,
+      gain = { [3] = 30 },
+      n = "darkest_night",
+    },
+    [462127] = {
+      n = "coup_de_grace",
+    },
+    [462128] = {
+      n = "coup_de_grace",
+    },
+    [469637] = {
+      ap = {
+        { 469637, "enemy" },
+      },
+      d = 0.2,
+      n = "darkest_night",
+    },
+    [1265952] = {
+      n = "potent_powder",
+      pas = true,
+      tal = true,
+    },
+    [1268932] = {
+      n = "ancient_arts",
+      pas = true,
+      tal = true,
+    },
+    [1268936] = {
+      n = "ancient_arts",
+      pas = true,
+      tal = true,
+    },
+    [1268939] = {
+      n = "ancient_arts",
+      pas = true,
+      tal = true,
+    },
+    [1269163] = {
+      ap = {
+        { 1269163, "self" },
+      },
+      d = 12,
+      n = "ancient_arts",
+    },
+    [1269205] = {
+      n = "eviscerate",
+    },
+    [1269209] = {
+      n = "backstab",
+    },
+    [1269214] = {
+      n = "gloomblade",
+    },
+    [1269217] = {
+      n = "goremaws_bite",
+    },
+    [1269336] = {
+      n = "shadowstrike",
+    },
+    [1269340] = {
+      n = "shuriken_storm",
+    },
+    [1269343] = {
+      n = "shuriken_toss",
+    },
+    [1269560] = {
+      n = "secret_technique",
+    },
+    [1269565] = {
+      n = "black_powder",
+    },
+    [1269579] = {
+      n = "ancient_arts",
+    },
+    [1269584] = {
+      n = "ancient_arts",
+    },
+    [1269592] = {
+      d = 6,
+      n = "ancient_arts",
+    },
+    [1269630] = {
+      n = "eviscerate",
+    },
+    [1269634] = {
+      n = "black_powder",
+    },
+    [1269663] = {
+      n = "secret_technique",
+    },
+    [1269664] = {
+      n = "backstab",
+    },
+    [1269669] = {
+      n = "gloomblade",
+    },
+    [1269674] = {
+      n = "goremaws_bite",
+    },
+    [1269676] = {
+      n = "shadowstrike",
+    },
+    [1269678] = {
+      n = "shuriken_storm",
+    },
+    [1269680] = {
+      n = "shuriken_toss",
+    },
+    [1273061] = {
+      n = "deathstalkers_mark",
+    },
+    [1279401] = {
+      n = "shuriken_storm",
+      pas = true,
+    },
+    [1309274] = {
+      ap = {
+        { 1309274, "self" },
+      },
+      d = 13.95,
+      n = "goremaws_bite",
+    },
+    [1309309] = {
+      n = "goremaws_bite",
+    },
+  },
+  spells = {
+    ancient_arts = {
+      a = { 1269163, 1268932, 1268936, 1268939, 1269579, 1269584 },
+      b = { 1269163, 1269592, 1269579, 1269584, 1268932, 1268936 },
+    },
+    arcane_torrent = {
+      a = { 25046 },
+    },
+    backstab = {
+      a = { 53, 245689, 1269209, 1269664 },
+    },
+    black_powder = {
+      a = { 319175, 319190, 1269565, 1269634 },
+    },
+    coup_de_grace = {
+      a = { 441776, 450743, 441423, 462127, 462128 },
+    },
+    darkest_night = {
+      a = { 457280, 457058, 469637 },
+      b = { 457280, 469637, 457058 },
+    },
+    deathstalkers_mark = {
+      a = { 457129, 457157, 1273061, 457052 },
+      b = { 457129, 457157, 1273061, 457052 },
+      t = { 457052 },
+    },
+    deeper_stratagem = {
+      t = { 193531 },
+    },
+    eviscerate = {
+      a = { 196819, 328082, 245691, 1269205, 1269630 },
+    },
+    gloomblade = {
+      a = { 200758, 246332, 1269214, 1269669 },
+    },
+    goremaws_bite = {
+      a = { 426591, 426592, 426593, 1269217, 1269674, 1309309 },
+    },
+    lingering_shadow = {
+      a = { 385960, 386081, 382524 },
+      b = { 385960, 386081, 382524 },
+    },
+    potent_powder = {
+      t = { 1265952 },
+    },
+    premeditation = {
+      a = { 343170, 343173, 343160 },
+      b = { 343170, 343173, 343160 },
+    },
+    secret_stratagem = {
+      t = { 394320 },
+    },
+    secret_technique = {
+      a = { 280719, 280720, 282449, 282480, 1269560, 1269663 },
+    },
+    shadow_blades = {
+      a = { 121471, 279043 },
+      b = { 121471, 279043 },
+    },
+    shadow_dance = {
+      a = { 185313, 185422, 394029 },
+      b = { 185313, 185422, 394029 },
+    },
+    shadow_techniques = {
+      a = { 196911, 426595, 196912 },
+      b = { 196911, 196912, 426595 },
+    },
+    shadowstrike = {
+      a = { 185438, 345121, 1269336, 1269676, 231718, 245623 },
+    },
+    shuriken_storm = {
+      a = { 197835, 1269340, 1269678, 1279401 },
+    },
+    shuriken_toss = {
+      a = { 114014, 1269343, 1269680 },
+    },
+    slice_and_dice = {
+      a = { 315496, 426605 },
+      b = { 315496, 426605 },
+    },
+    stealth = {
+      a = { 1784, 115191, 158188 },
+      b = { 1784, 115191, 158188 },
+    },
+    subterfuge = {
+      a = { 115192, 108208 },
+      b = { 115192, 108208 },
+    },
+    unseen_blade = {
+      t = { 441146 },
+    },
+    vanish = {
+      a = { 1856, 11327 },
+      b = { 11327, 1856 },
+    },
+  },
 })

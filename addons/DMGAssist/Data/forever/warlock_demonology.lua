@@ -146,16 +146,10 @@ ns.RegisterSpecData("forever", "warlock_demonology", {
       },
     },
   },
-  blizzardExcluded = {
-    "summon_demonic_tyrant",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "summon_demonic_tyrant" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warlock",
+  heroTrees = {},
   key = "warlock_demonology",
   simc = {
     default = {
@@ -545,13 +539,61 @@ ns.RegisterSpecData("forever", "warlock_demonology", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "diabolist",
-    "items",
-    "racials",
-    "soulharvest",
-  },
+  simcOrder = { "precombat", "default", "diabolist", "items", "racials", "soulharvest" },
   spec = "demonology",
+  spellInfo = {
+    [686] = {
+      cost = { [0] = 25 },
+      ct = 1.7,
+      gcd = 1.5,
+      n = "shadow_bolt",
+    },
+    [695] = {
+      cost = { [0] = 40 },
+      ct = 2.2,
+      gcd = 1.5,
+      n = "shadow_bolt",
+    },
+    [705] = {
+      cost = { [0] = 70 },
+      ct = 2.8,
+      gcd = 1.5,
+      n = "shadow_bolt",
+    },
+    [1088] = {
+      cost = { [0] = 110 },
+      ct = 3,
+      gcd = 1.5,
+      n = "shadow_bolt",
+    },
+    [1106] = {
+      cost = { [0] = 160 },
+      ct = 3,
+      gcd = 1.5,
+      n = "shadow_bolt",
+    },
+    [7641] = {
+      cost = { [0] = 210 },
+      ct = 3,
+      gcd = 1.5,
+      n = "shadow_bolt",
+    },
+    [427733] = {
+      ct = 10,
+      gcd = 1.5,
+      n = "summon_felguard",
+    },
+    [431754] = {
+      n = "summon_felguard",
+      pas = true,
+    },
+  },
+  spells = {
+    shadow_bolt = {
+      a = { 686, 695, 705, 1088, 1106, 7641 },
+    },
+    summon_felguard = {
+      a = { 427733, 431754 },
+    },
+  },
 })

@@ -126,17 +126,10 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       },
     },
   },
-  blizzardExcluded = {
-    "berserk",
-    "convoke_the_spirits",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "berserk", "convoke_the_spirits" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "druid",
+  heroTrees = {},
   key = "druid_guardian",
   simc = {
     bear = {
@@ -449,11 +442,404 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "bear",
-    "cooldowns",
-  },
+  simcOrder = { "precombat", "default", "bear", "cooldowns" },
   spec = "guardian",
+  spellInfo = {
+    [768] = {
+      gcd = 1.5,
+      n = "cat_form",
+    },
+    [769] = {
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "swipe",
+    },
+    [779] = {
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "swipe",
+    },
+    [780] = {
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "swipe",
+    },
+    [1079] = {
+      ap = {
+        { 1079, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 30, [4] = 1 },
+      d = 12,
+      gcd = 1,
+      n = "rip",
+    },
+    [1822] = {
+      ap = {
+        { 1822, "enemy" },
+      },
+      cost = { [3] = 40 },
+      d = 9,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "rake",
+    },
+    [1823] = {
+      ap = {
+        { 1823, "enemy" },
+      },
+      cost = { [3] = 40 },
+      d = 9,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "rake",
+    },
+    [1824] = {
+      ap = {
+        { 1824, "enemy" },
+      },
+      cost = { [3] = 40 },
+      d = 9,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "rake",
+    },
+    [5221] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "shred",
+    },
+    [5487] = {
+      gcd = 1.5,
+      n = "bear_form",
+    },
+    [6785] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ravage",
+    },
+    [6787] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ravage",
+    },
+    [6800] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "shred",
+    },
+    [6807] = {
+      cost = { [1] = 15 },
+      n = "maul",
+    },
+    [6808] = {
+      cost = { [1] = 15 },
+      n = "maul",
+    },
+    [6809] = {
+      cost = { [1] = 15 },
+      n = "maul",
+    },
+    [8921] = {
+      ap = {
+        { 8921, "enemy" },
+      },
+      cost = { [0] = 25 },
+      d = 9,
+      gcd = 1.5,
+      n = "moonfire",
+    },
+    [8924] = {
+      ap = {
+        { 8924, "enemy" },
+      },
+      cost = { [0] = 50 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+    },
+    [8925] = {
+      ap = {
+        { 8925, "enemy" },
+      },
+      cost = { [0] = 75 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+    },
+    [8926] = {
+      ap = {
+        { 8926, "enemy" },
+      },
+      cost = { [0] = 105 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+    },
+    [8927] = {
+      ap = {
+        { 8927, "enemy" },
+      },
+      cost = { [0] = 150 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+    },
+    [8928] = {
+      ap = {
+        { 8928, "enemy" },
+      },
+      cost = { [0] = 190 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+    },
+    [8972] = {
+      cost = { [1] = 15 },
+      n = "maul",
+    },
+    [8992] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "shred",
+    },
+    [9492] = {
+      ap = {
+        { 9492, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 30, [4] = 1 },
+      d = 12,
+      gcd = 1,
+      n = "rip",
+    },
+    [9493] = {
+      ap = {
+        { 9493, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 30, [4] = 1 },
+      d = 12,
+      gcd = 1,
+      n = "rip",
+    },
+    [9745] = {
+      cost = { [1] = 15 },
+      n = "maul",
+    },
+    [9752] = {
+      ap = {
+        { 9752, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 30, [4] = 1 },
+      d = 12,
+      gcd = 1,
+      n = "rip",
+    },
+    [9754] = {
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "swipe",
+    },
+    [9829] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "shred",
+    },
+    [9830] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "shred",
+    },
+    [9866] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ravage",
+    },
+    [9867] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ravage",
+    },
+    [9880] = {
+      cost = { [1] = 15 },
+      n = "maul",
+    },
+    [9894] = {
+      ap = {
+        { 9894, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 30, [4] = 1 },
+      d = 12,
+      gcd = 1,
+      n = "rip",
+    },
+    [9896] = {
+      ap = {
+        { 9896, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 30, [4] = 1 },
+      d = 12,
+      gcd = 1,
+      n = "rip",
+    },
+    [9904] = {
+      ap = {
+        { 9904, "enemy" },
+      },
+      cost = { [3] = 40 },
+      d = 9,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "rake",
+    },
+    [9908] = {
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "swipe",
+    },
+    [17003] = {
+      n = "heart_of_the_wild",
+      pas = true,
+      tal = true,
+    },
+    [22568] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "ferocious_bite",
+    },
+    [22812] = {
+      ap = {
+        { 22812, "self" },
+      },
+      cd = 60,
+      d = 15,
+      gcd = 1.5,
+      n = "barkskin",
+    },
+    [22827] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "ferocious_bite",
+    },
+    [22828] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "ferocious_bite",
+    },
+    [22829] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "ferocious_bite",
+    },
+    [24858] = {
+      gcd = 1.5,
+      n = "moonkin_form",
+      tal = true,
+    },
+    [31018] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "ferocious_bite",
+    },
+    [411128] = {
+      cost = { [3] = 50 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "swipe",
+    },
+    [417141] = {
+      ap = {
+        { 417141, "self" },
+      },
+      cd = 180,
+      d = 15,
+      n = "berserk",
+      tal = true,
+    },
+    [424759] = {
+      n = "berserk",
+      pas = true,
+    },
+    [428713] = {
+      cd = 60,
+      d = 15,
+      gcd = 1.5,
+      n = "barkskin",
+    },
+  },
+  spells = {
+    barkskin = {
+      a = { 22812, 428713 },
+    },
+    bear_form = {
+      a = { 5487 },
+      b = { 5487 },
+    },
+    berserk = {
+      a = { 417141, 424759 },
+      b = { 417141, 424759 },
+    },
+    cat_form = {
+      a = { 768 },
+      b = { 768 },
+    },
+    ferocious_bite = {
+      a = { 22568, 22827, 22828, 22829, 31018 },
+    },
+    heart_of_the_wild = {
+      a = { 17003 },
+      t = { 17003 },
+    },
+    maul = {
+      a = { 6807, 6808, 6809, 8972, 9745, 9880 },
+    },
+    moonfire = {
+      a = { 8921, 8924, 8925, 8926, 8927, 8928 },
+      b = { 8921, 8924, 8925, 8926, 8927, 8928 },
+    },
+    moonkin_form = {
+      a = { 24858 },
+      b = { 24858 },
+      t = { 24858 },
+    },
+    rake = {
+      a = { 1822, 1823, 1824, 9904 },
+      b = { 1822, 1823, 1824, 9904 },
+    },
+    ravage = {
+      a = { 6785, 6787, 9866, 9867 },
+      b = { 6785, 6787, 9866, 9867 },
+    },
+    rip = {
+      a = { 1079, 9492, 9493, 9752, 9894, 9896 },
+      b = { 1079, 9492, 9493, 9752, 9894, 9896 },
+    },
+    shred = {
+      a = { 5221, 6800, 8992, 9829, 9830 },
+    },
+    swipe = {
+      a = { 769, 779, 780, 9754, 9908, 411128 },
+    },
+    swipe_bear = {
+      a = { 769, 779, 780, 9754, 9908, 411128 },
+    },
+  },
 })

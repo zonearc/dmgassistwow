@@ -122,13 +122,24 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
     },
   },
   blizzardExcluded = {},
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "monk",
+  heroTrees = {
+    master_of_harmony = {
+      450508,
+      450529,
+      450867,
+      450870,
+      450875,
+      450889,
+      450892,
+      450912,
+      450965,
+      451017,
+      451024,
+      451029,
+    },
+  },
   key = "monk_brewmaster",
   simc = {
     default = {
@@ -435,13 +446,423 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "item_actions",
-    "master_of_harmony",
-    "race_actions",
-    "shado_pan",
-  },
+  simcOrder = { "precombat", "default", "item_actions", "master_of_harmony", "race_actions", "shado_pan" },
   spec = "brewmaster",
+  spellInfo = {
+    [100780] = {
+      cost = { [3] = 50 },
+      gcd = 1.5,
+      n = "tiger_palm",
+    },
+    [100784] = {
+      cd = 3,
+      cost = { [12] = 3 },
+      gcd = 1.5,
+      n = "blackout_kick",
+    },
+    [101546] = {
+      ap = {
+        { 101546, "self" },
+      },
+      cost = { [3] = 40, [12] = 2 },
+      d = 1.5,
+      gcd = 1.5,
+      n = "spinning_crane_kick",
+    },
+    [107270] = {
+      n = "spinning_crane_kick",
+    },
+    [115129] = {
+      n = "expel_harm",
+    },
+    [115181] = {
+      cd = 15,
+      gcd = 1,
+      n = "breath_of_fire",
+      tal = true,
+    },
+    [115203] = {
+      cd = 360,
+      n = "fortifying_brew",
+    },
+    [115399] = {
+      cd = 120,
+      gain = { [3] = 200 },
+      n = "black_ox_brew",
+      tal = true,
+    },
+    [116768] = {
+      ap = {
+        { 116768, "self" },
+      },
+      d = 15,
+      n = "blackout_kick",
+      st = 2,
+    },
+    [116847] = {
+      ap = {
+        { 116847, "self" },
+      },
+      cd = 6,
+      cost = { [12] = 1 },
+      d = 6,
+      gcd = 1.5,
+      n = "rushing_jade_wind",
+      tal = true,
+    },
+    [118166] = {
+      gain = { [12] = 1 },
+      n = "blackout_kick",
+    },
+    [119582] = {
+      cd = 1,
+      ch = 2,
+      chcd = 20,
+      n = "purifying_brew",
+      tal = true,
+    },
+    [120954] = {
+      ap = {
+        { 120954, "self" },
+      },
+      d = 15,
+      n = "fortifying_brew",
+    },
+    [121253] = {
+      ap = {
+        { 121253, "enemy" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 8,
+      cost = { [3] = 40 },
+      d = 15,
+      gcd = 1,
+      n = "keg_smash",
+      tal = true,
+    },
+    [121255] = {
+      n = "keg_smash",
+    },
+    [123725] = {
+      ap = {
+        { 123725, "enemy" },
+      },
+      d = 12,
+      gcd = 1,
+      n = "breath_of_fire",
+    },
+    [123986] = {
+      cd = 30,
+      ct = 1,
+      d = 1,
+      gcd = 1.5,
+      n = "chi_burst",
+      tal = true,
+    },
+    [130654] = {
+      n = "chi_burst",
+    },
+    [132578] = {
+      ap = {
+        { 132578, "self" },
+      },
+      cd = 120,
+      d = 25,
+      gcd = 1,
+      n = "invoke_niuzao_the_black_ox",
+      tal = true,
+    },
+    [148135] = {
+      n = "chi_burst",
+    },
+    [148187] = {
+      n = "rushing_jade_wind",
+    },
+    [196736] = {
+      n = "blackout_combo",
+      pas = true,
+      tal = true,
+    },
+    [205523] = {
+      ch = 1,
+      chcd = 4,
+      gcd = 1.5,
+      n = "blackout_kick",
+    },
+    [212141] = {
+      n = "spinning_crane_kick",
+    },
+    [212142] = {
+      ap = {
+        { 212142, "self" },
+      },
+      d = 3,
+      gcd = 1.5,
+      n = "spinning_crane_kick",
+    },
+    [212935] = {
+      n = "salsalabims_strength",
+      pas = true,
+    },
+    [228563] = {
+      ap = {
+        { 228563, "self" },
+      },
+      d = 15,
+      n = "blackout_combo",
+      st = 1,
+    },
+    [228649] = {
+      n = "blackout_kick",
+    },
+    [261682] = {
+      gain = { [12] = 1 },
+      n = "chi_burst",
+    },
+    [261916] = {
+      n = "blackout_kick",
+      pas = true,
+    },
+    [322101] = {
+      cd = 15,
+      cost = { [3] = 15 },
+      gcd = 1,
+      n = "expel_harm",
+    },
+    [322102] = {
+      n = "expel_harm",
+      pas = true,
+    },
+    [322109] = {
+      cd = 180,
+      gcd = 1.5,
+      n = "touch_of_death",
+    },
+    [322111] = {
+      n = "touch_of_death",
+    },
+    [322507] = {
+      ap = {
+        { 322507, "self" },
+      },
+      ch = 1,
+      chcd = 90,
+      d = 8,
+      gcd = 1,
+      n = "celestial_brew",
+      tal = true,
+    },
+    [322729] = {
+      ap = {
+        { 322729, "self" },
+      },
+      cost = { [3] = 25 },
+      d = 1.5,
+      gcd = 1.5,
+      n = "spinning_crane_kick",
+    },
+    [325095] = {
+      n = "touch_of_death",
+      pas = true,
+    },
+    [325153] = {
+      ap = {
+        { 325153, "self" },
+      },
+      cd = 60,
+      d = 3,
+      gcd = 1,
+      n = "exploding_keg",
+      tal = true,
+    },
+    [325215] = {
+      n = "touch_of_death",
+      pas = true,
+    },
+    [330903] = {
+      n = "spinning_crane_kick",
+    },
+    [330911] = {
+      ap = {
+        { 330911, "enemy" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 8,
+      d = 15,
+      gcd = 1,
+      n = "keg_smash",
+    },
+    [331433] = {
+      n = "tiger_palm",
+    },
+    [344360] = {
+      n = "touch_of_death",
+      pas = true,
+    },
+    [344361] = {
+      ap = {
+        { 344361, "self" },
+      },
+      d = 10,
+      n = "touch_of_death",
+    },
+    [383697] = {
+      n = "salsalabims_strength",
+      pas = true,
+      tal = true,
+    },
+    [388867] = {
+      n = "exploding_keg",
+    },
+    [388917] = {
+      n = "fortifying_brew",
+      pas = true,
+      tal = true,
+    },
+    [395267] = {
+      ap = {
+        { 395267, "self" },
+      },
+      cd = 180,
+      d = 12,
+      gcd = 1.5,
+      n = "invoke_niuzao_the_black_ox",
+    },
+    [418359] = {
+      n = "press_the_advantage",
+      pas = true,
+      tal = true,
+    },
+    [425965] = {
+      ap = {
+        { 425965, "self" },
+      },
+      d = 8,
+      n = "celestial_brew",
+    },
+    [451968] = {
+      n = "expel_harm",
+    },
+    [460490] = {
+      ap = {
+        { 460490, "self" },
+      },
+      d = 30,
+      n = "chi_burst",
+      st = 2,
+    },
+    [461404] = {
+      cd = 0.1,
+      ct = 1,
+      d = 1,
+      gcd = 1.5,
+      n = "chi_burst",
+    },
+    [1262329] = {
+      n = "empty_the_cellar",
+      pas = true,
+      tal = true,
+    },
+    [1262765] = {
+      gcd = 1,
+      n = "empty_the_cellar",
+    },
+    [1262768] = {
+      ap = {
+        { 1262768, "self" },
+      },
+      d = 20,
+      n = "empty_the_cellar",
+    },
+    [1263438] = {
+      ap = {
+        { 1263438, "self" },
+      },
+      d = 1,
+      gcd = 1,
+      n = "empty_the_cellar",
+    },
+    [1265133] = {
+      n = "empty_barrel",
+    },
+    [1265307] = {
+      ap = {
+        { 1265307, "self" },
+      },
+      d = 12,
+      n = "empty_barrel",
+    },
+    [1265351] = {
+      n = "empty_barrel",
+    },
+  },
+  spells = {
+    black_ox_brew = {
+      a = { 115399 },
+    },
+    blackout_combo = {
+      a = { 228563, 196736 },
+      b = { 228563, 196736 },
+      t = { 196736 },
+    },
+    blackout_kick = {
+      a = { 100784, 205523, 116768, 118166, 228649, 261916 },
+    },
+    breath_of_fire = {
+      a = { 115181, 123725 },
+    },
+    celestial_brew = {
+      a = { 322507, 425965 },
+    },
+    chi_burst = {
+      a = { 123986, 461404, 130654, 148135, 261682, 460490 },
+    },
+    empty_barrel = {
+      a = { 1265133, 1265307, 1265351 },
+      b = { 1265307, 1265133, 1265351 },
+    },
+    empty_the_cellar = {
+      a = { 1262765, 1263438, 1262768, 1262329 },
+      b = { 1262768, 1263438, 1262765, 1262329 },
+    },
+    expel_harm = {
+      a = { 322101, 115129, 451968, 322102 },
+    },
+    exploding_keg = {
+      a = { 325153, 388867 },
+    },
+    fortifying_brew = {
+      a = { 115203, 120954, 388917 },
+    },
+    invoke_niuzao_the_black_ox = {
+      a = { 132578, 395267 },
+      b = { 132578, 395267 },
+    },
+    keg_smash = {
+      a = { 121253, 330911, 121255 },
+    },
+    press_the_advantage = {
+      t = { 418359 },
+    },
+    purifying_brew = {
+      a = { 119582 },
+    },
+    rushing_jade_wind = {
+      a = { 116847, 148187 },
+    },
+    salsalabims_strength = {
+      t = { 383697, 212935 },
+    },
+    spinning_crane_kick = {
+      a = { 101546, 212142, 322729, 107270, 212141, 330903 },
+    },
+    tiger_palm = {
+      a = { 100780, 331433 },
+    },
+    touch_of_death = {
+      a = { 322109, 322111, 344361, 325095, 325215, 344360 },
+    },
+  },
 })

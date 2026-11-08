@@ -25,6 +25,10 @@ mock.cooldowns = {}    -- spellID -> { active =, onGCD =, start =, duration = }
 mock.talents = {}
 mock.auras = {}
 mock.acSpell = nil
+mock.power, mock.powerMax, mock.powerReadable = {}, {}, {}  -- per power type overrides
+mock.casting = nil
+mock.nameplates = 0
+mock.locale = "enUS"
 mock.hasTarget = false
 mock.specIndex = 3
 mock.specs = { [1] = 65, [2] = 66, [3] = 70 }  -- index -> specID
@@ -217,7 +221,7 @@ function mock.Install(env)
     return "1.60.1", "70862", "Nov 7 2026", 16001, "1.60.1", "release"
   end
   env.GetLocale = function()
-    return "enUS"
+    return mock.locale or "enUS"
   end
   env.GetRealZoneText = function()
     return "Elwynn Forest"
@@ -247,16 +251,37 @@ function mock.Install(env)
     return ctx(1000)
   end
   env.UnitPower = function(_, pt)
+    if mock.power[pt] ~= nil then
+      if mock.powerReadable[pt] then
+        return mock.power[pt]
+      end
+      return ctx(mock.power[pt])
+    end
     if pt == 9 then -- holy power stays readable
       return 3
     end
     return ctx(50)
   end
   env.UnitPowerMax = function(_, pt)
+    if mock.powerMax[pt] ~= nil then
+      return mock.powerMax[pt]
+    end
     if pt == 0 or pt == 9 then
       return pt == 0 and 1000 or 5
     end
     return 0
+  end
+  -- mock.casting = { id =, endsIn = seconds }
+  env.UnitCastingInfo = function()
+    local c = mock.casting
+    if not c then
+      return nil
+    end
+    return ctx("Cast"), ctx("Cast"), ctx(1), ctx((mock.now - 1) * 1000), ctx((mock.now + c.endsIn) * 1000), false,
+      ctx("guid"), ctx(false), ctx(c.id)
+  end
+  env.UnitChannelInfo = function()
+    return nil
   end
 
   env.Enum = {
@@ -476,10 +501,20 @@ function mock.Install(env)
       return a
     end,
   }
+  local function PlateIndex(unit)
+    return tonumber(tostring(unit):match("^nameplate(%d+)$"))
+  end
   env.UnitExists = function(unit)
+    local i = PlateIndex(unit)
+    if i then
+      return i <= (mock.nameplates or 0)
+    end
     return unit == "player" or (unit == "target" and mock.hasTarget == true)
   end
   env.UnitCanAttack = function(_, unit)
+    if PlateIndex(unit) then
+      return true
+    end
     return unit == "target" and mock.hasTarget == true
   end
   env.UnitAffectingCombat = function()

@@ -114,13 +114,9 @@ ns.RegisterSpecData("forever", "hunter_beast_mastery", {
     },
   },
   blizzardExcluded = {},
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "hunter",
+  heroTrees = {},
   key = "hunter_beast_mastery",
   simc = {
     cds = {
@@ -457,15 +453,121 @@ ns.RegisterSpecData("forever", "hunter_beast_mastery", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "cds",
-    "cleave",
-    "drcleave",
-    "drst",
-    "st",
-    "trinkets",
-  },
+  simcOrder = { "precombat", "default", "cds", "cleave", "drcleave", "drst", "st", "trinkets" },
   spec = "beast_mastery",
+  spellInfo = {
+    [75] = {
+      n = "auto_shot",
+    },
+    [3044] = {
+      cd = 6,
+      cost = { [0] = 25 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [3674] = {
+      ap = {
+        { 3674, "enemy" },
+      },
+      d = 30,
+      gcd = 1.5,
+      n = "black_arrow",
+    },
+    [14281] = {
+      cd = 6,
+      cost = { [0] = 35 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [14282] = {
+      cd = 6,
+      cost = { [0] = 50 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [14283] = {
+      cd = 6,
+      cost = { [0] = 80 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [14284] = {
+      cd = 6,
+      cost = { [0] = 105 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [14285] = {
+      cd = 6,
+      cost = { [0] = 135 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [14296] = {
+      ap = {
+        { 14296, "enemy" },
+      },
+      d = 30,
+      gcd = 1.5,
+      n = "black_arrow",
+    },
+    [19574] = {
+      cd = 120,
+      d = 18,
+      n = "bestial_wrath",
+      tal = true,
+    },
+    [409379] = {
+      ap = {
+        { 409379, "self" },
+      },
+      cd = 60,
+      d = 30,
+      n = "kill_command",
+    },
+    [409396] = {
+      ap = {
+        { 409396, "self" },
+      },
+      d = 30,
+      n = "kill_command",
+      st = 3,
+    },
+    [409418] = {
+      cd = 60,
+      d = 30,
+      n = "kill_command",
+      st = 3,
+    },
+    [409957] = {
+      n = "steady_shot",
+      pas = true,
+    },
+    [437123] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "steady_shot",
+    },
+  },
+  spells = {
+    arcane_shot = {
+      a = { 3044, 14281, 14282, 14283, 14284, 14285 },
+    },
+    auto_shot = {
+      a = { 75 },
+    },
+    bestial_wrath = {
+      a = { 19574 },
+      b = { 19574 },
+    },
+    black_arrow = {
+      a = { 3674, 14296 },
+    },
+    kill_command = {
+      a = { 409379, 409418, 409396 },
+    },
+    steady_shot = {
+      a = { 437123, 409957 },
+    },
+  },
 })

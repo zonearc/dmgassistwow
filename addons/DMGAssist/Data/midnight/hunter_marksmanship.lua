@@ -160,16 +160,39 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       },
     },
   },
-  blizzardExcluded = {
-    "trueshot",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "trueshot" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "hunter",
+  heroTrees = {
+    dark_ranger = {
+      430709,
+      430712,
+      466930,
+      466932,
+      466990,
+      467644,
+      467741,
+      467749,
+      467897,
+      467902,
+      467911,
+      469638,
+    },
+    sentinel = {
+      450373,
+      450379,
+      1253599,
+      1253732,
+      1253751,
+      1253807,
+      1253825,
+      1253830,
+      1253831,
+      1253846,
+      1253852,
+      1253887,
+    },
+  },
   key = "hunter_marksmanship",
   simc = {
     cds = {
@@ -660,15 +683,443 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "cds",
-    "draoe",
-    "drst",
-    "sentaoe",
-    "sentst",
-    "trinkets",
-  },
+  simcOrder = { "precombat", "default", "cds", "draoe", "drst", "sentaoe", "sentst", "trinkets" },
   spec = "marksmanship",
+  spellInfo = {
+    [75] = {
+      n = "auto_shot",
+    },
+    [19434] = {
+      ch = 2,
+      chcd = 15,
+      cost = { [2] = 35 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "aimed_shot",
+      tal = true,
+    },
+    [53351] = {
+      ch = 1,
+      chcd = 10,
+      cost = { [2] = 10 },
+      gcd = 1.5,
+      n = "kill_shot",
+      tal = true,
+    },
+    [56641] = {
+      ct = 1.7,
+      gcd = 1.5,
+      n = "steady_shot",
+    },
+    [77443] = {
+      gain = { [2] = 20 },
+      n = "steady_shot",
+    },
+    [185358] = {
+      cost = { [2] = 40 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [194594] = {
+      ap = {
+        { 194594, "self" },
+      },
+      d = 15,
+      n = "lock_and_load",
+      st = 1,
+    },
+    [194595] = {
+      n = "lock_and_load",
+      pas = true,
+      tal = true,
+    },
+    [204089] = {
+      n = "bullseye",
+      pas = true,
+      tal = true,
+    },
+    [204090] = {
+      ap = {
+        { 204090, "self" },
+      },
+      d = 6,
+      n = "bullseye",
+      st = 30,
+    },
+    [212431] = {
+      ap = {
+        { 212431, "enemy" },
+      },
+      cd = 30,
+      cost = { [2] = 20 },
+      d = 3,
+      gcd = 1.5,
+      n = "explosive_shot",
+      tal = true,
+    },
+    [212680] = {
+      n = "explosive_shot",
+    },
+    [257044] = {
+      ap = {
+        { 257044, "enemy" },
+      },
+      cd = 16,
+      d = 2,
+      gcd = 1.5,
+      n = "rapid_fire",
+      tal = true,
+    },
+    [257045] = {
+      n = "rapid_fire",
+    },
+    [257621] = {
+      n = "trick_shots",
+      pas = true,
+      tal = true,
+    },
+    [257622] = {
+      ap = {
+        { 257622, "self" },
+      },
+      d = 20,
+      n = "trick_shots",
+    },
+    [260240] = {
+      n = "precise_shots",
+      pas = true,
+      tal = true,
+    },
+    [260242] = {
+      ap = {
+        { 260242, "self" },
+      },
+      d = 15,
+      n = "precise_shots",
+      st = 1,
+    },
+    [260243] = {
+      ap = {
+        { 260243, "self" },
+      },
+      cd = 45,
+      d = 6,
+      gcd = 1.5,
+      n = "volley",
+      tal = true,
+    },
+    [260247] = {
+      n = "volley",
+    },
+    [260404] = {
+      n = "calling_the_shots",
+      pas = true,
+      tal = true,
+    },
+    [263585] = {
+      gain = { [2] = 3 },
+      n = "rapid_fire",
+    },
+    [264667] = {
+      cd = 360,
+      d = 40,
+      n = "primal_rage",
+    },
+    [269850] = {
+      gain = { [2] = 10 },
+      n = "explosive_shot",
+    },
+    [270436] = {
+      ap = {
+        { 270436, "self" },
+      },
+      d = 15,
+      n = "precise_shots",
+    },
+    [270437] = {
+      ap = {
+        { 270437, "self" },
+      },
+      d = 15,
+      n = "precise_shots",
+    },
+    [272678] = {
+      cd = 360,
+      n = "primal_rage",
+    },
+    [288613] = {
+      ap = {
+        { 288613, "self" },
+      },
+      cd = 120,
+      d = 15,
+      n = "trueshot",
+      tal = true,
+    },
+    [320976] = {
+      ch = 1,
+      chcd = 10,
+      cost = { [2] = 10 },
+      gcd = 1.5,
+      n = "kill_shot",
+    },
+    [354831] = {
+      ap = {
+        { 355596, "enemy" },
+      },
+      n = "wailing_arrow",
+    },
+    [355589] = {
+      cd = 60,
+      cost = { [2] = 15 },
+      ct = 2,
+      gcd = 1.5,
+      n = "wailing_arrow",
+    },
+    [355596] = {
+      ap = {
+        { 355596, "enemy" },
+      },
+      d = 5,
+      n = "wailing_arrow",
+    },
+    [357650] = {
+      cd = 360,
+      d = 20,
+      n = "primal_rage",
+    },
+    [389019] = {
+      n = "bulletstorm",
+      pas = true,
+      tal = true,
+    },
+    [389020] = {
+      ap = {
+        { 389020, "self" },
+      },
+      d = 15,
+      n = "bulletstorm",
+      st = 1,
+    },
+    [392058] = {
+      n = "wailing_arrow",
+    },
+    [392060] = {
+      cost = { [2] = 15 },
+      ct = 1,
+      gcd = 1.5,
+      n = "wailing_arrow",
+    },
+    [392061] = {
+      ap = {
+        { 392061, "enemy" },
+      },
+      d = 1,
+      n = "wailing_arrow",
+    },
+    [460496] = {
+      n = "rapid_fire",
+    },
+    [464618] = {
+      n = "explosive_shot",
+    },
+    [466872] = {
+      ap = {
+        { 466872, "enemy" },
+      },
+      d = 12,
+      n = "spotters_mark",
+    },
+    [466930] = {
+      ch = 1,
+      chcd = 10,
+      cost = { [2] = 10 },
+      gcd = 1.5,
+      n = "black_arrow",
+      tal = true,
+    },
+    [466932] = {
+      n = "black_arrow",
+      pas = true,
+      tal = true,
+    },
+    [468037] = {
+      n = "black_arrow",
+    },
+    [468572] = {
+      ap = {
+        { 468572, "enemy" },
+      },
+      d = 8,
+      n = "black_arrow",
+    },
+    [470945] = {
+      n = "aspect_of_the_hydra",
+      pas = true,
+      tal = true,
+    },
+    [471429] = {
+      n = "spotters_mark",
+    },
+    [473385] = {
+      n = "no_scope",
+      pas = true,
+      tal = true,
+    },
+    [1215057] = {
+      ap = {
+        { 1215057, "enemy" },
+      },
+      d = 12,
+      n = "spotters_mark",
+    },
+    [1219616] = {
+      n = "spotters_mark",
+      pas = true,
+    },
+    [1223323] = {
+      n = "unbreakable_bond",
+      pas = true,
+      tal = true,
+    },
+    [1253601] = {
+      ap = {
+        { 1253601, "enemy" },
+      },
+      d = 16,
+      n = "sentinels_mark",
+    },
+    [1257703] = {
+      ap = {
+        { 1257703, "self" },
+      },
+      d = 15,
+      n = "precise_shots",
+      st = 1,
+    },
+    [1264902] = {
+      n = "moonlight_chakram",
+      pas = true,
+      tal = true,
+    },
+    [1264946] = {
+      ap = {
+        { 1264946, "self" },
+      },
+      d = 15,
+      n = "moonlight_chakram",
+    },
+    [1264949] = {
+      gcd = 1.5,
+      n = "moonlight_chakram",
+    },
+    [1266081] = {
+      n = "moonlight_chakram",
+    },
+    [1266960] = {
+      ap = {
+        { 1266960, "enemy" },
+      },
+      d = 16,
+      n = "sentinels_mark",
+    },
+    [1301406] = {
+      n = "tactical_reload",
+      pas = true,
+      tal = true,
+    },
+  },
+  spells = {
+    aimed_shot = {
+      a = { 19434 },
+    },
+    arcane_shot = {
+      a = { 185358 },
+    },
+    aspect_of_the_hydra = {
+      t = { 470945 },
+    },
+    auto_shot = {
+      a = { 75 },
+    },
+    black_arrow = {
+      a = { 466930, 468037, 468572, 466932 },
+      t = { 466930, 466932 },
+    },
+    bloodlust = {
+      a = { 264667, 272678, 357650 },
+      b = { 264667, 357650, 272678 },
+    },
+    bulletstorm = {
+      a = { 389020, 389019 },
+      b = { 389020, 389019 },
+    },
+    bullseye = {
+      a = { 204090, 204089 },
+      b = { 204090, 204089 },
+      t = { 204089 },
+    },
+    calling_the_shots = {
+      t = { 260404 },
+    },
+    explosive_shot = {
+      a = { 212431, 212680, 269850, 464618 },
+      b = { 212431, 212680, 269850, 464618 },
+    },
+    kill_shot = {
+      a = { 53351, 320976 },
+    },
+    lock_and_load = {
+      a = { 194594, 194595 },
+      b = { 194594, 194595 },
+    },
+    moonlight_chakram = {
+      a = { 1264949, 1264946, 1266081, 1264902 },
+      b = { 1264946, 1264949, 1266081, 1264902 },
+    },
+    no_scope = {
+      t = { 473385 },
+    },
+    precise_shots = {
+      a = { 260242, 260240, 270436, 270437, 1257703 },
+      b = { 260242, 270436, 270437, 1257703, 260240 },
+      t = { 260240 },
+    },
+    rapid_fire = {
+      a = { 257044, 257045, 263585, 460496 },
+    },
+    sentinels_mark = {
+      a = { 1253601, 1266960 },
+      b = { 1253601, 1266960 },
+    },
+    spotters_mark = {
+      a = { 466872, 471429, 1215057, 1219616 },
+      b = { 466872, 1215057, 471429, 1219616 },
+    },
+    steady_shot = {
+      a = { 56641, 77443 },
+    },
+    tactical_reload = {
+      t = { 1301406 },
+    },
+    trick_shots = {
+      a = { 257622, 257621 },
+      b = { 257622, 257621 },
+      t = { 257621 },
+    },
+    trueshot = {
+      a = { 288613 },
+      b = { 288613 },
+    },
+    unbreakable_bond = {
+      t = { 1223323 },
+    },
+    volley = {
+      a = { 260243, 260247 },
+      b = { 260243, 260247 },
+    },
+    wailing_arrow = {
+      a = { 355589, 392060, 354831, 355596, 392058, 392061 },
+    },
+  },
 })

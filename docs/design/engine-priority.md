@@ -88,3 +88,21 @@ Assumptions standing in for unreadable facts (class M): `target.distance` = 5 (S
 
 Not yet: queue slots 2–3 (state advance), using glows as proc evidence, the assistant-as-oracle inference, pooling
 (`pool_resource`), `target_if` multi-target selection, healer/defensive/interrupt advice (task: legacy review).
+
+## Update (2026-11-08, later): SimC spell data, look-ahead, modes, languages
+
+- **Spell data from SimC.** `tools/simc_spells.py` parses `SpellDataDump/<class>.txt` (plus the class's entries in
+  `allspells.txt`, which has spells the class dump omits) into per-spell facts: cooldown (and whether haste shortens it),
+  charges, GCD, duration, cast time, resource costs (finishers: min–max), resource gains, and the auras a spell applies
+  to the player or the target (directly or via a triggered spell). Per spec only the spells its lists reference are
+  emitted (`record.spells`, `record.spellInfo`, `record.heroTrees`). 92%+ of SimC action names map to spell IDs; the rest
+  are SimC pseudo-actions (`retarget`, `pick_up_fragment`, `cycling_variable`) or pets/poisons.
+- **Language independence.** The spell map matches by spell ID against the spellbook and talent tree; hero trees by
+  their talents' IDs. English-name tokens remain only as a fallback.
+- **Look-ahead.** `State.BeginLookahead` overlays a future moment: clock shifted, cooldowns started, auras applied,
+  costs paid (finishers empty their resource even when its value is secret), gains added, `prev_gcd` updated. Slot 1 is
+  evaluated at the end of the current GCD / cast with the spell being cast already counted; slots 2–3 chain from there.
+  Not modelled yet: passive resource regeneration (energy/focus/runes), procs, charge counts, cooldown reduction effects.
+- **Target modes.** Primary mode ST/AoE (user setting), auto-detect from hostile in-combat nameplates (`nameplate1..40`)
+  when readable, a key binding to cycle Auto → ST → AoE. When auto can't count, the primary mode applies.
+- **Languages.** Messages and key-binding names in 9 locales (`Core/Locales.lua`); missing strings fall back to English.

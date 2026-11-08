@@ -174,17 +174,10 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       },
     },
   },
-  blizzardExcluded = {
-    "avatar",
-    "recklessness",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "avatar", "recklessness" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warrior",
+  heroTrees = {},
   key = "warrior_fury",
   simc = {
     default = {
@@ -874,15 +867,628 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "slayer",
-    "slayer_aoe",
-    "thane",
-    "thane_aoe",
-    "trinkets",
-    "variables",
-  },
+  simcOrder = { "precombat", "default", "slayer", "slayer_aoe", "thane", "thane_aoe", "trinkets", "variables" },
   spec = "fury",
+  spellInfo = {
+    [100] = {
+      cd = 1.5,
+      ch = 1,
+      chcd = 20,
+      gain = { [1] = 200 },
+      n = "charge",
+    },
+    [772] = {
+      cost = { [1] = 10 },
+      gcd = 1.5,
+      n = "rend",
+      tal = true,
+    },
+    [1464] = {
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "slam",
+    },
+    [1680] = {
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "whirlwind",
+    },
+    [1719] = {
+      ap = {
+        { 1719, "self" },
+      },
+      cd = 90,
+      d = 12,
+      n = "recklessness",
+      tal = true,
+    },
+    [5308] = {
+      cd = 6,
+      cmax = { [1] = 40 },
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [6343] = {
+      cd = 6,
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "thunder_clap",
+      tal = true,
+    },
+    [6544] = {
+      cd = 1.5,
+      ch = 1,
+      chcd = 45,
+      n = "heroic_leap",
+      tal = true,
+    },
+    [6552] = {
+      cd = 15,
+      d = 5,
+      n = "pummel",
+    },
+    [6673] = {
+      d = 3600,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [12950] = {
+      n = "improved_whirlwind",
+      pas = true,
+      tal = true,
+    },
+    [13491] = {
+      cd = 10,
+      cost = { [1] = 10 },
+      d = 5,
+      gcd = 1.5,
+      n = "pummel",
+    },
+    [23881] = {
+      cd = 4.5,
+      gain = { [1] = 80 },
+      gcd = 1.5,
+      n = "bloodthirst",
+      st = 1,
+      tal = true,
+    },
+    [29725] = {
+      n = "sudden_death",
+      pas = true,
+      tal = true,
+    },
+    [50622] = {
+      gain = { [1] = 50 },
+      n = "bladestorm",
+    },
+    [52174] = {
+      n = "heroic_leap",
+    },
+    [52437] = {
+      ap = {
+        { 52437, "self" },
+      },
+      d = 12,
+      n = "sudden_death",
+      st = 2,
+    },
+    [57755] = {
+      cd = 6,
+      gcd = 1.5,
+      n = "heroic_throw",
+    },
+    [85288] = {
+      ch = 1,
+      chcd = 8,
+      gain = { [1] = 120 },
+      gcd = 1.5,
+      n = "raging_blow",
+      st = 1,
+      tal = true,
+    },
+    [85384] = {
+      n = "raging_blow",
+    },
+    [85739] = {
+      ap = {
+        { 85739, "self" },
+      },
+      d = 20,
+      n = "whirlwind",
+      st = 4,
+    },
+    [96103] = {
+      n = "raging_blow",
+    },
+    [105771] = {
+      ap = {
+        { 105771, "enemy" },
+      },
+      d = 1,
+      n = "charge",
+    },
+    [107570] = {
+      cd = 30,
+      gcd = 1.5,
+      n = "storm_bolt",
+      tal = true,
+    },
+    [107574] = {
+      ap = {
+        { 107574, "self" },
+      },
+      cd = 90,
+      d = 20,
+      n = "avatar",
+      tal = true,
+    },
+    [113344] = {
+      ap = {
+        { 113344, "enemy" },
+      },
+      d = 6,
+      n = "bloodbath",
+    },
+    [126664] = {
+      n = "charge",
+    },
+    [132169] = {
+      ap = {
+        { 132169, "enemy" },
+      },
+      d = 4,
+      n = "storm_bolt",
+    },
+    [163201] = {
+      cd = 6,
+      cmax = { [1] = 40 },
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [184361] = {
+      n = "enrage",
+      pas = true,
+    },
+    [184362] = {
+      ap = {
+        { 184362, "self" },
+      },
+      d = 4,
+      n = "enrage",
+    },
+    [184367] = {
+      cost = { [1] = 80 },
+      gcd = 1.5,
+      n = "rampage",
+      tal = true,
+    },
+    [184707] = {
+      n = "rampage",
+    },
+    [184709] = {
+      n = "rampage",
+    },
+    [190411] = {
+      gcd = 1.5,
+      n = "whirlwind",
+    },
+    [198337] = {
+      n = "charge",
+    },
+    [199658] = {
+      n = "whirlwind",
+    },
+    [199667] = {
+      n = "whirlwind",
+    },
+    [199850] = {
+      n = "whirlwind",
+    },
+    [200951] = {
+      ap = {
+        { 200951, "self" },
+      },
+      d = 12,
+      n = "berserking",
+    },
+    [200953] = {
+      ap = {
+        { 200953, "self" },
+      },
+      d = 3,
+      n = "berserking",
+      st = 12,
+    },
+    [201363] = {
+      n = "rampage",
+    },
+    [201364] = {
+      n = "rampage",
+    },
+    [205545] = {
+      ap = {
+        { 205546, "enemy" },
+      },
+      cd = 45,
+      gcd = 1.5,
+      n = "odyns_fury",
+    },
+    [205546] = {
+      ap = {
+        { 205546, "enemy" },
+      },
+      d = 4,
+      n = "odyns_fury",
+    },
+    [205547] = {
+      n = "odyns_fury",
+    },
+    [206315] = {
+      n = "massacre",
+      pas = true,
+      tal = true,
+    },
+    [218104] = {
+      n = "charge",
+    },
+    [218617] = {
+      n = "rampage",
+    },
+    [222634] = {
+      ap = {
+        { 222634, "self" },
+      },
+      cd = 60,
+      d = 6,
+      gcd = 1.5,
+      n = "bladestorm",
+    },
+    [227847] = {
+      ap = {
+        { 227847, "self" },
+      },
+      cd = 90,
+      ch = 1,
+      chcd = 90,
+      d = 6,
+      gcd = 1.5,
+      n = "bladestorm",
+      tal = true,
+    },
+    [236027] = {
+      ap = {
+        { 236027, "enemy" },
+      },
+      d = 6,
+      n = "charge",
+    },
+    [253521] = {
+      n = "heroic_leap",
+    },
+    [260798] = {
+      n = "execute",
+    },
+    [280721] = {
+      n = "sudden_death",
+      pas = true,
+    },
+    [280735] = {
+      cd = 4.5,
+      cmax = { [1] = 40 },
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [280776] = {
+      ap = {
+        { 280776, "self" },
+      },
+      d = 12,
+      n = "sudden_death",
+      st = 2,
+    },
+    [280849] = {
+      n = "execute",
+    },
+    [281000] = {
+      cd = 6,
+      cmax = { [1] = 40 },
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [281001] = {
+      n = "massacre",
+      pas = true,
+      tal = true,
+    },
+    [335096] = {
+      cd = 4.5,
+      gain = { [1] = 80 },
+      gcd = 1.5,
+      n = "bloodbath",
+    },
+    [335097] = {
+      ch = 1,
+      chcd = 8,
+      gain = { [1] = 120 },
+      gcd = 1.5,
+      n = "crushing_blow",
+    },
+    [335098] = {
+      n = "crushing_blow",
+    },
+    [335100] = {
+      n = "crushing_blow",
+    },
+    [362043] = {
+      ap = {
+        { 362043, "enemy" },
+      },
+      d = 3,
+      n = "heroic_leap",
+    },
+    [383873] = {
+      ap = {
+        { 383873, "self" },
+      },
+      d = 8,
+      n = "hack_and_slash",
+    },
+    [383877] = {
+      n = "hack_and_slash",
+      pas = true,
+      tal = true,
+    },
+    [385059] = {
+      ap = {
+        { 385060, "enemy" },
+      },
+      cd = 45,
+      gain = { [1] = 200 },
+      gcd = 1.5,
+      n = "odyns_fury",
+      tal = true,
+    },
+    [385060] = {
+      ap = {
+        { 385060, "enemy" },
+      },
+      d = 4,
+      n = "odyns_fury",
+    },
+    [385062] = {
+      n = "odyns_fury",
+    },
+    [386045] = {
+      n = "wrath_and_fury",
+      pas = true,
+    },
+    [386196] = {
+      cd = 3,
+      n = "berserker_stance",
+      tal = true,
+    },
+    [388539] = {
+      ap = {
+        { 388539, "enemy" },
+      },
+      d = 15,
+      n = "rend",
+    },
+    [392936] = {
+      n = "wrath_and_fury",
+      pas = true,
+      tal = true,
+    },
+    [396752] = {
+      ap = {
+        { 396752, "self" },
+      },
+      d = 12,
+      n = "crushing_blow",
+      st = 1,
+    },
+    [434969] = {
+      n = "lightning_strikes",
+      pas = true,
+      tal = true,
+    },
+    [435203] = {
+      ap = {
+        { 435203, "enemy" },
+      },
+      d = 10,
+      n = "thunder_clap",
+    },
+    [435222] = {
+      cd = 6,
+      gain = { [1] = 20 },
+      gcd = 1.5,
+      n = "thunder_blast",
+    },
+    [435607] = {
+      n = "thunder_blast",
+      pas = true,
+      tal = true,
+    },
+    [435615] = {
+      ap = {
+        { 435615, "self" },
+      },
+      d = 15,
+      n = "thunder_blast",
+      st = 2,
+    },
+    [436707] = {
+      n = "crashing_thunder",
+      pas = true,
+      tal = true,
+    },
+    [442150] = {
+      n = "heroic_leap",
+    },
+    [444767] = {
+      n = "slayers_dominance",
+      pas = true,
+      tal = true,
+    },
+    [446035] = {
+      ap = {
+        { 446035, "self" },
+      },
+      cd = 90,
+      ch = 1,
+      chcd = 90,
+      d = 6,
+      gcd = 1.5,
+      n = "bladestorm",
+    },
+    [461288] = {
+      ap = {
+        { 461288, "self" },
+      },
+      d = 12,
+      n = "bloodbath",
+      st = 1,
+    },
+    [1261060] = {
+      n = "deep_wounds",
+      pas = true,
+      tal = true,
+    },
+    [1271909] = {
+      ap = {
+        { 1271909, "self" },
+      },
+      d = 8,
+      n = "battle_shout_highlight",
+      st = 1,
+    },
+    [1299025] = {
+      n = "storm_of_blood",
+      pas = true,
+      tal = true,
+    },
+  },
+  spells = {
+    avatar = {
+      a = { 107574 },
+      b = { 107574 },
+    },
+    battle_shout = {
+      a = { 6673 },
+    },
+    battle_shout_highlight = {
+      a = { 1271909 },
+      b = { 1271909 },
+    },
+    berserker_stance = {
+      a = { 386196 },
+    },
+    berserking = {
+      a = { 200953, 200951 },
+    },
+    bladestorm = {
+      a = { 222634, 227847, 446035, 50622 },
+      b = { 222634, 227847, 446035, 50622 },
+    },
+    bloodbath = {
+      a = { 335096, 113344, 461288 },
+    },
+    bloodthirst = {
+      a = { 23881 },
+    },
+    charge = {
+      a = { 100, 105771, 126664, 198337, 218104, 236027 },
+    },
+    crashing_thunder = {
+      t = { 436707 },
+    },
+    crushing_blow = {
+      a = { 335097, 335098, 335100, 396752 },
+    },
+    deep_wounds = {
+      t = { 1261060 },
+    },
+    enrage = {
+      a = { 184362, 184361 },
+      b = { 184362, 184361 },
+    },
+    execute = {
+      a = { 5308, 163201, 280735, 281000, 260798, 280849 },
+    },
+    hack_and_slash = {
+      a = { 383873, 383877 },
+      b = { 383873, 383877 },
+    },
+    heroic_leap = {
+      a = { 6544, 52174, 253521, 362043, 442150 },
+    },
+    heroic_throw = {
+      a = { 57755 },
+    },
+    improved_whirlwind = {
+      t = { 12950 },
+    },
+    lightning_strikes = {
+      t = { 434969 },
+    },
+    massacre = {
+      t = { 206315, 281001 },
+    },
+    odyns_fury = {
+      a = { 205545, 385059, 205546, 205547, 385060, 385062 },
+    },
+    pummel = {
+      a = { 6552, 13491 },
+    },
+    raging_blow = {
+      a = { 85288, 85384, 96103 },
+    },
+    rampage = {
+      a = { 184367, 184707, 184709, 201363, 201364, 218617 },
+    },
+    recklessness = {
+      a = { 1719 },
+      b = { 1719 },
+      t = { 1719 },
+    },
+    rend_dot = {
+      a = { 388539, 772 },
+      b = { 388539, 772 },
+    },
+    slam = {
+      a = { 1464 },
+    },
+    slayers_dominance = {
+      t = { 444767 },
+    },
+    storm_bolt = {
+      a = { 107570, 132169 },
+    },
+    storm_of_blood = {
+      t = { 1299025 },
+    },
+    sudden_death = {
+      a = { 52437, 280776, 280721, 29725 },
+      b = { 52437, 280776, 280721, 29725 },
+    },
+    thunder_blast = {
+      a = { 435222, 435615, 435607 },
+      b = { 435615, 435222, 435607 },
+    },
+    thunder_clap = {
+      a = { 6343, 435203 },
+    },
+    whirlwind = {
+      a = { 1680, 190411, 85739, 199658, 199667, 199850 },
+      b = { 85739, 1680, 190411, 199658, 199667, 199850 },
+    },
+    wrath_and_fury = {
+      t = { 392936, 386045 },
+    },
+  },
 })

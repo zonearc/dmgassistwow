@@ -174,17 +174,10 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       },
     },
   },
-  blizzardExcluded = {
-    "avatar",
-    "recklessness",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "avatar", "recklessness" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warrior",
+  heroTrees = {},
   key = "warrior_fury",
   simc = {
     default = {
@@ -874,15 +867,518 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "slayer",
-    "slayer_aoe",
-    "thane",
-    "thane_aoe",
-    "trinkets",
-    "variables",
-  },
+  simcOrder = { "precombat", "default", "slayer", "slayer_aoe", "thane", "thane_aoe", "trinkets", "variables" },
   spec = "fury",
+  spellInfo = {
+    [100] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 90 },
+      n = "charge",
+    },
+    [772] = {
+      ap = {
+        { 772, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 9,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [1464] = {
+      cd = 18,
+      cost = { [1] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "slam",
+    },
+    [1680] = {
+      cd = 10,
+      cost = { [1] = 25 },
+      gcd = 1.5,
+      n = "whirlwind",
+    },
+    [1719] = {
+      ap = {
+        { 1719, "self" },
+      },
+      cd = 1800,
+      cost = { [1] = 0 },
+      d = 15,
+      gcd = 1.5,
+      n = "recklessness",
+    },
+    [2458] = {
+      cd = 1,
+      cost = { [1] = 0 },
+      n = "berserker_stance",
+    },
+    [5242] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [5308] = {
+      ap = {
+        { 26651, "self" },
+      },
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [6178] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 120 },
+      n = "charge",
+    },
+    [6192] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [6343] = {
+      ap = {
+        { 6343, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 20 },
+      d = 10,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [6546] = {
+      ap = {
+        { 6546, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 12,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [6547] = {
+      ap = {
+        { 6547, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 15,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [6548] = {
+      ap = {
+        { 6548, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 18,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [6552] = {
+      cd = 10,
+      cost = { [1] = 10 },
+      d = 4,
+      gcd = 1.5,
+      n = "pummel",
+    },
+    [6554] = {
+      cd = 10,
+      cost = { [1] = 10 },
+      d = 4,
+      gcd = 1.5,
+      n = "pummel",
+    },
+    [6673] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [7922] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cost = { [1] = 0 },
+      d = 1,
+      n = "charge_stun",
+    },
+    [8198] = {
+      ap = {
+        { 8198, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 20 },
+      d = 14,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [8204] = {
+      ap = {
+        { 8204, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 20 },
+      d = 18,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [8205] = {
+      ap = {
+        { 8205, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 20 },
+      d = 22,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [8820] = {
+      cd = 18,
+      cost = { [1] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "slam",
+    },
+    [11549] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [11550] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [11551] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [11572] = {
+      ap = {
+        { 11572, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 21,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [11573] = {
+      ap = {
+        { 11573, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 21,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [11578] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 150 },
+      n = "charge",
+    },
+    [11580] = {
+      ap = {
+        { 11580, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 20 },
+      d = 26,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [11581] = {
+      ap = {
+        { 11581, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 20 },
+      d = 30,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [11604] = {
+      cd = 18,
+      cost = { [1] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "slam",
+    },
+    [11605] = {
+      cd = 18,
+      cost = { [1] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "slam",
+    },
+    [12317] = {
+      n = "enrage",
+      pas = true,
+      tal = true,
+    },
+    [12834] = {
+      n = "deep_wounds",
+      pas = true,
+      tal = true,
+    },
+    [12880] = {
+      ap = {
+        { 12880, "self" },
+      },
+      d = 12,
+      n = "enrage",
+    },
+    [20647] = {
+      cost = { [1] = 0.1 },
+      n = "execute",
+    },
+    [20658] = {
+      ap = {
+        { 26651, "self" },
+      },
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [20660] = {
+      ap = {
+        { 26651, "self" },
+      },
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [20661] = {
+      ap = {
+        { 26651, "self" },
+      },
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [20662] = {
+      ap = {
+        { 26651, "self" },
+      },
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [23881] = {
+      ap = {
+        { 23881, "self" },
+      },
+      cd = 6,
+      cost = { [1] = 30 },
+      d = 10,
+      gcd = 1.5,
+      n = "bloodthirst",
+      tal = true,
+    },
+    [23892] = {
+      ap = {
+        { 23892, "self" },
+      },
+      cd = 6,
+      cost = { [1] = 30 },
+      d = 10,
+      gcd = 1.5,
+      n = "bloodthirst",
+    },
+    [23893] = {
+      ap = {
+        { 23893, "self" },
+      },
+      cd = 6,
+      cost = { [1] = 30 },
+      d = 10,
+      gcd = 1.5,
+      n = "bloodthirst",
+    },
+    [23894] = {
+      ap = {
+        { 23894, "self" },
+      },
+      cd = 6,
+      cost = { [1] = 30 },
+      d = 10,
+      gcd = 1.5,
+      n = "bloodthirst",
+    },
+    [26651] = {
+      ap = {
+        { 26651, "self" },
+      },
+      d = 1,
+      n = "execute",
+    },
+    [402911] = {
+      cd = 8,
+      gcd = 1.5,
+      n = "raging_blow",
+    },
+    [425415] = {
+      ap = {
+        { 425415, "self" },
+      },
+      d = 12,
+      n = "enrage",
+    },
+    [426940] = {
+      ap = {
+        { 426940, "self" },
+      },
+      cd = 120,
+      d = 30,
+      n = "rampage",
+    },
+    [427066] = {
+      ap = {
+        { 427066, "self" },
+      },
+      d = 12,
+      n = "enrage",
+    },
+    [427070] = {
+      n = "rampage",
+      pas = true,
+    },
+    [440113] = {
+      n = "sudden_death",
+      pas = true,
+    },
+    [440114] = {
+      ap = {
+        { 440114, "self" },
+      },
+      d = 10,
+      n = "sudden_death",
+    },
+    [440483] = {
+      ap = {
+        { 440483, "self" },
+      },
+      d = 12,
+      n = "enrage",
+    },
+    [440495] = {
+      n = "sudden_death",
+      pas = true,
+    },
+    [462885] = {
+      n = "enrage",
+      pas = true,
+    },
+    [1240193] = {
+      cd = 18,
+      cost = { [1] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "slam",
+    },
+    [1240287] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 90 },
+      n = "charge",
+    },
+    [1240288] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 120 },
+      n = "charge",
+    },
+    [1240289] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 150 },
+      n = "charge",
+    },
+    [1310196] = {
+      cd = 18,
+      cost = { [1] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "slam",
+    },
+  },
+  spells = {
+    battle_shout = {
+      a = { 5242, 6192, 6673, 11549, 11550, 11551 },
+    },
+    berserker_stance = {
+      a = { 2458 },
+    },
+    bloodthirst = {
+      a = { 23881, 23892, 23893, 23894 },
+    },
+    charge = {
+      a = { 100, 6178, 11578, 1240287, 1240288, 1240289 },
+    },
+    deep_wounds = {
+      t = { 12834 },
+    },
+    enrage = {
+      a = { 12880, 425415, 427066, 440483, 12317, 462885 },
+      b = { 12880, 425415, 427066, 440483, 462885, 12317 },
+    },
+    execute = {
+      a = { 5308, 20647, 20658, 20660, 20661, 20662 },
+    },
+    pummel = {
+      a = { 6552, 6554 },
+    },
+    raging_blow = {
+      a = { 402911 },
+    },
+    rampage = {
+      a = { 426940, 427070 },
+    },
+    recklessness = {
+      a = { 1719 },
+      b = { 1719 },
+    },
+    rend = {
+      a = { 772, 6546, 6547, 6548, 11572, 11573 },
+      b = { 772, 6546, 6547, 6548, 11572, 11573 },
+    },
+    slam = {
+      a = { 1464, 8820, 11604, 11605, 1240193, 1310196 },
+    },
+    sudden_death = {
+      a = { 440114, 440113, 440495 },
+      b = { 440114, 440113, 440495 },
+    },
+    thunder_clap = {
+      a = { 6343, 8198, 8204, 8205, 11580, 11581 },
+    },
+    whirlwind = {
+      a = { 1680 },
+      b = { 1680 },
+    },
+  },
 })

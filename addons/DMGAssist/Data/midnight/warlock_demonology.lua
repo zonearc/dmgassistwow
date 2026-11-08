@@ -146,16 +146,10 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       },
     },
   },
-  blizzardExcluded = {
-    "summon_demonic_tyrant",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "summon_demonic_tyrant" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warlock",
+  heroTrees = {},
   key = "warlock_demonology",
   simc = {
     default = {
@@ -545,13 +539,355 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "diabolist",
-    "items",
-    "racials",
-    "soulharvest",
-  },
+  simcOrder = { "precombat", "default", "diabolist", "items", "racials", "soulharvest" },
   spec = "demonology",
+  spellInfo = {
+    [686] = {
+      ct = 2,
+      gcd = 1.5,
+      n = "shadow_bolt",
+    },
+    [30146] = {
+      cost = { [7] = 1 },
+      ct = 6,
+      gcd = 1.5,
+      n = "summon_felguard",
+      tal = true,
+    },
+    [86040] = {
+      n = "hand_of_guldan",
+    },
+    [104316] = {
+      cd = 20,
+      cost = { [7] = 2 },
+      ct = 2,
+      gcd = 1.5,
+      n = "call_dreadstalkers",
+      tal = true,
+    },
+    [105174] = {
+      cost = { [7] = 3 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "hand_of_guldan",
+    },
+    [193331] = {
+      d = 12,
+      n = "call_dreadstalkers",
+    },
+    [193332] = {
+      d = 12,
+      n = "call_dreadstalkers",
+    },
+    [194192] = {
+      gain = { [7] = 1 },
+      n = "shadow_bolt",
+    },
+    [196273] = {
+      d = 12,
+      n = "call_dreadstalkers",
+    },
+    [196274] = {
+      d = 12,
+      n = "call_dreadstalkers",
+    },
+    [196277] = {
+      cd = 15,
+      gcd = 1.5,
+      n = "implosion",
+      tal = true,
+    },
+    [196278] = {
+      n = "implosion",
+    },
+    [196281] = {
+      d = 12,
+      n = "call_dreadstalkers",
+    },
+    [196282] = {
+      d = 20,
+      n = "hand_of_guldan",
+    },
+    [196657] = {
+      n = "shadow_bolt",
+    },
+    [264130] = {
+      cd = 30,
+      gcd = 1.5,
+      n = "power_siphon",
+      tal = true,
+    },
+    [264173] = {
+      ap = {
+        { 264173, "self" },
+      },
+      d = 20,
+      n = "demonic_core",
+      st = 4,
+    },
+    [264178] = {
+      ct = 4.5,
+      gcd = 1.5,
+      n = "demonbolt",
+    },
+    [265187] = {
+      ap = {
+        { 265187, "self" },
+      },
+      cd = 60,
+      ct = 2,
+      d = 15,
+      gcd = 1.5,
+      n = "summon_demonic_tyrant",
+      tal = true,
+    },
+    [267102] = {
+      n = "demonic_core",
+      pas = true,
+    },
+    [268583] = {
+      gain = { [7] = 1 },
+      n = "implosion",
+    },
+    [270171] = {
+      n = "demonic_core",
+    },
+    [270176] = {
+      n = "demonic_core",
+    },
+    [270215] = {
+      n = "hand_of_guldan",
+    },
+    [280127] = {
+      gain = { [7] = 2 },
+      n = "demonbolt",
+    },
+    [280381] = {
+      n = "demonbolt",
+    },
+    [334581] = {
+      ap = {
+        { 334581, "self" },
+      },
+      d = 20,
+      n = "power_siphon",
+      st = 2,
+    },
+    [370371] = {
+      n = "implosion",
+    },
+    [394238] = {
+      n = "shadow_bolt",
+    },
+    [428514] = {
+      n = "diabolic_ritual",
+      pas = true,
+      tal = true,
+    },
+    [428522] = {
+      n = "ruination",
+      pas = true,
+      tal = true,
+    },
+    [433885] = {
+      ap = {
+        { 433885, "self" },
+      },
+      d = 20,
+      n = "ruination",
+      st = 1,
+    },
+    [433891] = {
+      ap = {
+        { 433891, "self" },
+      },
+      d = 20,
+      n = "infernal_bolt",
+      st = 1,
+    },
+    [434506] = {
+      ct = 2,
+      gain = { [7] = 3 },
+      gcd = 1.5,
+      n = "infernal_bolt",
+    },
+    [434635] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "ruination",
+    },
+    [434636] = {
+      n = "ruination",
+    },
+    [449614] = {
+      n = "demonic_soul",
+      pas = true,
+      tal = true,
+    },
+    [460551] = {
+      n = "doom",
+      pas = true,
+      tal = true,
+    },
+    [460553] = {
+      d = 20,
+      n = "doom",
+    },
+    [460555] = {
+      n = "doom",
+    },
+    [460569] = {
+      n = "doom",
+    },
+    [464890] = {
+      n = "hand_of_guldan",
+    },
+    [464907] = {
+      n = "implosion",
+    },
+    [464908] = {
+      n = "implosion",
+    },
+    [1250273] = {
+      n = "hand_of_guldan",
+      pas = true,
+      tal = true,
+    },
+    [1276163] = {
+      n = "dominion_of_argus",
+      pas = true,
+      tal = true,
+    },
+    [1276166] = {
+      ap = {
+        { 1276166, "self" },
+      },
+      d = 15,
+      n = "dominion_of_argus",
+      st = 3,
+    },
+    [1276190] = {
+      n = "dominion_of_argus",
+      pas = true,
+      tal = true,
+    },
+    [1276222] = {
+      n = "dominion_of_argus",
+      pas = true,
+      tal = true,
+    },
+    [1276318] = {
+      gain = { [7] = 1 },
+      n = "dominion_of_argus",
+    },
+    [1276452] = {
+      cd = 120,
+      cost = { [7] = 1 },
+      d = 20,
+      gcd = 1.5,
+      n = "grimoire_imp_lord",
+      tal = true,
+    },
+    [1276467] = {
+      cd = 120,
+      cost = { [7] = 1 },
+      d = 20,
+      gcd = 1.5,
+      n = "grimoire_fel_ravager",
+      tal = true,
+    },
+    [1276672] = {
+      ap = {
+        { 1276672, "self" },
+      },
+      cd = 120,
+      cost = { [7] = 1 },
+      d = 12,
+      gcd = 1.5,
+      n = "summon_doomguard",
+      tal = true,
+    },
+    [1276748] = {
+      n = "reign_of_tyranny",
+      pas = true,
+      tal = true,
+    },
+    [1281511] = {
+      n = "to_hell_and_back",
+      pas = true,
+      tal = true,
+    },
+  },
+  spells = {
+    call_dreadstalkers = {
+      a = { 104316, 193331, 193332, 196273, 196274, 196281 },
+    },
+    demonbolt = {
+      a = { 264178, 280127, 280381 },
+    },
+    demonic_core = {
+      a = { 264173, 267102, 270171, 270176 },
+      b = { 264173, 267102, 270171, 270176 },
+    },
+    demonic_soul = {
+      t = { 449614 },
+    },
+    diabolic_ritual = {
+      t = { 428514 },
+    },
+    dominion_of_argus = {
+      a = { 1276166, 1276318, 1276163, 1276190, 1276222 },
+      b = { 1276166, 1276318, 1276163, 1276190, 1276222 },
+    },
+    doom = {
+      a = { 460553, 460555, 460551, 460569 },
+      b = { 460553, 460555, 460569, 460551 },
+      t = { 460551 },
+    },
+    grimoire_fel_ravager = {
+      a = { 1276467 },
+    },
+    grimoire_imp_lord = {
+      a = { 1276452 },
+      t = { 1276452 },
+    },
+    hand_of_guldan = {
+      a = { 105174, 86040, 196282, 464890, 270215, 1250273 },
+    },
+    implosion = {
+      a = { 196277, 196278, 268583, 370371, 464907, 464908 },
+    },
+    infernal_bolt = {
+      a = { 434506, 433891 },
+      b = { 433891, 434506 },
+    },
+    power_siphon = {
+      a = { 264130, 334581 },
+      b = { 334581, 264130 },
+    },
+    reign_of_tyranny = {
+      t = { 1276748 },
+    },
+    ruination = {
+      a = { 434635, 433885, 434636, 428522 },
+      t = { 428522 },
+    },
+    shadow_bolt = {
+      a = { 686, 194192, 196657, 394238 },
+    },
+    summon_demonic_tyrant = {
+      a = { 265187 },
+      t = { 265187 },
+    },
+    summon_doomguard = {
+      a = { 1276672 },
+      t = { 1276672 },
+    },
+    summon_felguard = {
+      a = { 30146 },
+    },
+    to_hell_and_back = {
+      t = { 1281511 },
+    },
+  },
 })

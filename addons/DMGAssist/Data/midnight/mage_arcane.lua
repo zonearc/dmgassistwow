@@ -156,16 +156,10 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       },
     },
   },
-  blizzardExcluded = {
-    "arcane_surge",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "arcane_surge" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "mage",
+  heroTrees = {},
   key = "mage_arcane",
   simc = {
     cooldowns = {
@@ -493,12 +487,408 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "cooldowns",
-    "spellslinger",
-    "sunfury",
-  },
+  simcOrder = { "precombat", "default", "cooldowns", "spellslinger", "sunfury" },
   spec = "arcane",
+  spellInfo = {
+    [1459] = {
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [2139] = {
+      cd = 25,
+      d = 7,
+      n = "counterspell",
+    },
+    [5143] = {
+      ap = {
+        { 5143, "self" },
+      },
+      d = 2.5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+      tal = true,
+    },
+    [7268] = {
+      n = "arcane_missiles",
+    },
+    [12051] = {
+      ap = {
+        { 12051, "self" },
+      },
+      ch = 1,
+      chcd = 45,
+      d = 3,
+      gcd = 1.5,
+      n = "evocation",
+      tal = true,
+    },
+    [18091] = {
+      cd = 8,
+      gcd = 1.5,
+      n = "arcane_blast",
+    },
+    [20883] = {
+      cd = 8,
+      cost = { [0] = 80 },
+      gcd = 1.5,
+      n = "arcane_blast",
+    },
+    [30451] = {
+      ct = 2.25,
+      gcd = 1.5,
+      n = "arcane_blast",
+    },
+    [36032] = {
+      n = "arcane_charge",
+      st = 4,
+    },
+    [44425] = {
+      gcd = 1.5,
+      n = "arcane_barrage",
+    },
+    [79684] = {
+      n = "clearcasting",
+      pas = true,
+    },
+    [88084] = {
+      ct = 2.5,
+      gcd = 1.5,
+      n = "arcane_blast",
+    },
+    [139678] = {
+      n = "arcane_missiles",
+    },
+    [145435] = {
+      n = "arcane_missiles",
+    },
+    [153626] = {
+      ch = 1,
+      chcd = 20,
+      d = 2.5,
+      gcd = 1.5,
+      n = "arcane_orb",
+      tal = true,
+    },
+    [153640] = {
+      n = "arcane_orb",
+    },
+    [190427] = {
+      n = "arcane_charge",
+      pas = true,
+    },
+    [195302] = {
+      n = "arcane_charge",
+      st = 4,
+    },
+    [205025] = {
+      cd = 45,
+      n = "presence_of_mind",
+      st = 2,
+      tal = true,
+    },
+    [210824] = {
+      ap = {
+        { 210824, "enemy" },
+      },
+      d = 12,
+      n = "touch_of_the_magi",
+    },
+    [210833] = {
+      n = "touch_of_the_magi",
+    },
+    [222321] = {
+      n = "arcane_blast",
+    },
+    [236628] = {
+      n = "amplification",
+      pas = true,
+      tal = true,
+    },
+    [243313] = {
+      n = "arcane_missiles",
+    },
+    [263725] = {
+      ap = {
+        { 263725, "self" },
+      },
+      d = 20,
+      n = "clearcasting",
+      st = 1,
+    },
+    [276743] = {
+      ap = {
+        { 276743, "self" },
+      },
+      d = 20,
+      n = "clearcasting",
+      st = 5,
+    },
+    [277726] = {
+      ap = {
+        { 277726, "self" },
+      },
+      d = 20,
+      n = "clearcasting",
+    },
+    [321507] = {
+      ap = {
+        { 210824, "enemy" },
+      },
+      cd = 0.5,
+      ch = 1,
+      chcd = 45,
+      n = "touch_of_the_magi",
+      st = 1,
+      tal = true,
+    },
+    [321529] = {
+      n = "arcane_barrage",
+    },
+    [365265] = {
+      gain = { [0] = 15 },
+      n = "arcane_surge",
+    },
+    [365350] = {
+      cd = 90,
+      ct = 2.5,
+      gcd = 1.5,
+      n = "arcane_surge",
+      tal = true,
+    },
+    [365362] = {
+      ap = {
+        { 365362, "self" },
+      },
+      d = 15,
+      n = "arcane_surge",
+    },
+    [384452] = {
+      n = "arcane_salvo",
+      pas = true,
+      tal = true,
+    },
+    [384651] = {
+      n = "charged_orb",
+      pas = true,
+      tal = true,
+    },
+    [384858] = {
+      n = "orb_barrage",
+      pas = true,
+      tal = true,
+    },
+    [440552] = {
+      n = "arcane_orb",
+    },
+    [443739] = {
+      n = "splintering_sorcery",
+      pas = true,
+      tal = true,
+    },
+    [448601] = {
+      n = "spellfire_spheres",
+      pas = true,
+      tal = true,
+    },
+    [450499] = {
+      n = "arcane_barrage",
+    },
+    [451038] = {
+      ap = {
+        { 451038, "self" },
+      },
+      d = 4,
+      n = "arcane_soul",
+    },
+    [453326] = {
+      ct = 2.5,
+      n = "arcane_surge",
+    },
+    [453413] = {
+      n = "arcane_soul",
+    },
+    [461248] = {
+      n = "high_voltage",
+      pas = true,
+      tal = true,
+    },
+    [1223522] = {
+      ap = {
+        { 1223522, "self" },
+      },
+      d = 5,
+      n = "arcane_soul",
+      st = 10,
+    },
+    [1241462] = {
+      cd = 15,
+      ct = 2,
+      gcd = 1.5,
+      n = "arcane_pulse",
+      tal = true,
+    },
+    [1242974] = {
+      n = "arcane_salvo",
+      st = 20,
+    },
+    [1243435] = {
+      n = "orb_mastery",
+      pas = true,
+      tal = true,
+    },
+    [1243460] = {
+      gcd = 1.5,
+      n = "arcane_pulse",
+    },
+    [1244329] = {
+      n = "overpowered_missiles",
+      pas = true,
+      tal = true,
+    },
+    [1260616] = {
+      n = "spellfire_salvo",
+      pas = true,
+      tal = true,
+    },
+    [1277009] = {
+      ap = {
+        { 1277009, "self" },
+      },
+      d = 30,
+      n = "overpowered_missiles",
+    },
+    [1295923] = {
+      n = "prismatic_bolt",
+      pas = true,
+      tal = true,
+    },
+    [1295924] = {
+      ct = 2.5,
+      gcd = 1.5,
+      n = "prismatic_bolt",
+    },
+    [1295939] = {
+      n = "prismatic_bolt",
+    },
+    [1295942] = {
+      ap = {
+        { 1295942, "self" },
+      },
+      d = 60,
+      n = "prismatic_bolt",
+      st = 1,
+    },
+    [1295944] = {
+      n = "prismatic_bolt",
+      pas = true,
+      tal = true,
+    },
+    [1295946] = {
+      n = "prismatic_bolt",
+      pas = true,
+      tal = true,
+    },
+    [1295977] = {
+      n = "arcane_pulse",
+    },
+    [1296930] = {
+      ap = {
+        { 1296930, "self" },
+      },
+      d = 12,
+      n = "cumulative_power",
+      st = 8,
+    },
+  },
+  spells = {
+    amplification = {
+      t = { 236628 },
+    },
+    arcane_barrage = {
+      a = { 44425, 321529, 450499 },
+    },
+    arcane_blast = {
+      a = { 18091, 20883, 30451, 88084, 222321 },
+    },
+    arcane_charge = {
+      a = { 36032, 195302, 190427 },
+      b = { 36032, 190427, 195302 },
+    },
+    arcane_intellect = {
+      a = { 1459 },
+    },
+    arcane_missiles = {
+      a = { 5143, 7268, 139678, 145435, 243313 },
+    },
+    arcane_orb = {
+      a = { 153626, 153640, 440552 },
+    },
+    arcane_pulse = {
+      a = { 1241462, 1243460, 1295977 },
+      t = { 1241462 },
+    },
+    arcane_salvo = {
+      a = { 1242974, 384452 },
+      b = { 1242974, 384452 },
+    },
+    arcane_soul = {
+      a = { 451038, 1223522, 453413 },
+      b = { 451038, 1223522, 453413 },
+    },
+    arcane_surge = {
+      a = { 365350, 365362, 453326, 365265 },
+      b = { 365362, 365265, 365350, 453326 },
+    },
+    charged_orb = {
+      t = { 384651 },
+    },
+    clearcasting = {
+      a = { 263725, 276743, 79684, 277726 },
+      b = { 263725, 276743, 277726, 79684 },
+    },
+    counterspell = {
+      a = { 2139 },
+    },
+    cumulative_power = {
+      a = { 1296930 },
+      b = { 1296930 },
+    },
+    evocation = {
+      a = { 12051 },
+    },
+    high_voltage = {
+      t = { 461248 },
+    },
+    orb_barrage = {
+      t = { 384858 },
+    },
+    orb_mastery = {
+      t = { 1243435 },
+    },
+    overpowered_missiles = {
+      a = { 1277009, 1244329 },
+      b = { 1277009, 1244329 },
+    },
+    presence_of_mind = {
+      a = { 205025 },
+    },
+    prismatic_bolt = {
+      a = { 1295924, 1295939, 1295942, 1295923, 1295944, 1295946 },
+      b = { 1295942, 1295924, 1295939, 1295923, 1295944, 1295946 },
+    },
+    spellfire_salvo = {
+      t = { 1260616 },
+    },
+    spellfire_spheres = {
+      t = { 448601 },
+    },
+    splintering_sorcery = {
+      t = { 443739 },
+    },
+    touch_of_the_magi = {
+      a = { 321507, 210824, 210833 },
+      b = { 210824, 210833, 321507 },
+    },
+  },
 })

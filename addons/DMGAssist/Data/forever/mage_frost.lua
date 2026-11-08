@@ -140,13 +140,9 @@ ns.RegisterSpecData("forever", "mage_frost", {
     },
   },
   blizzardExcluded = {},
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "mage",
+  heroTrees = {},
   key = "mage_frost",
   simc = {
     cds = {
@@ -578,13 +574,299 @@ ns.RegisterSpecData("forever", "mage_frost", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "cds",
-    "frostfire",
-    "movement",
-    "spellslinger",
-  },
+  simcOrder = { "precombat", "default", "cds", "frostfire", "movement", "spellslinger" },
   spec = "frost",
+  spellInfo = {
+    [10] = {
+      ap = {
+        { 10, "self" },
+      },
+      cost = { [0] = 320 },
+      d = 8,
+      gcd = 1.5,
+      n = "blizzard",
+    },
+    [116] = {
+      ap = {
+        { 116, "enemy" },
+      },
+      cost = { [0] = 25 },
+      ct = 1.5,
+      d = 5,
+      gcd = 1.5,
+      n = "frostbolt",
+    },
+    [120] = {
+      cd = 10,
+      cost = { [0] = 210 },
+      d = 6,
+      gcd = 1.5,
+      n = "cone_of_cold",
+    },
+    [205] = {
+      ap = {
+        { 205, "enemy" },
+      },
+      cost = { [0] = 35 },
+      ct = 1.8,
+      d = 6,
+      gcd = 1.5,
+      n = "frostbolt",
+    },
+    [837] = {
+      ap = {
+        { 837, "enemy" },
+      },
+      cost = { [0] = 50 },
+      ct = 2.2,
+      d = 6,
+      gcd = 1.5,
+      n = "frostbolt",
+    },
+    [1459] = {
+      cost = { [0] = 60 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [1460] = {
+      cost = { [0] = 185 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [1461] = {
+      cost = { [0] = 520 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [6141] = {
+      ap = {
+        { 6141, "self" },
+      },
+      cost = { [0] = 520 },
+      d = 8,
+      gcd = 1.5,
+      n = "blizzard",
+    },
+    [7322] = {
+      ap = {
+        { 7322, "enemy" },
+      },
+      cost = { [0] = 65 },
+      ct = 2.6,
+      d = 7,
+      gcd = 1.5,
+      n = "frostbolt",
+    },
+    [8406] = {
+      ap = {
+        { 8406, "enemy" },
+      },
+      cost = { [0] = 100 },
+      ct = 3,
+      d = 7,
+      gcd = 1.5,
+      n = "frostbolt",
+    },
+    [8407] = {
+      ap = {
+        { 8407, "enemy" },
+      },
+      cost = { [0] = 130 },
+      ct = 3,
+      d = 8,
+      gcd = 1.5,
+      n = "frostbolt",
+    },
+    [8427] = {
+      ap = {
+        { 8427, "self" },
+      },
+      cost = { [0] = 720 },
+      d = 8,
+      gcd = 1.5,
+      n = "blizzard",
+    },
+    [8492] = {
+      cd = 10,
+      cost = { [0] = 290 },
+      d = 6,
+      gcd = 1.5,
+      n = "cone_of_cold",
+    },
+    [10156] = {
+      cost = { [0] = 945 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [10157] = {
+      cost = { [0] = 1510 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [10159] = {
+      cd = 10,
+      cost = { [0] = 380 },
+      d = 6,
+      gcd = 1.5,
+      n = "cone_of_cold",
+    },
+    [10160] = {
+      cd = 10,
+      cost = { [0] = 465 },
+      d = 6,
+      gcd = 1.5,
+      n = "cone_of_cold",
+    },
+    [10161] = {
+      cd = 10,
+      cost = { [0] = 555 },
+      d = 6,
+      gcd = 1.5,
+      n = "cone_of_cold",
+    },
+    [10185] = {
+      ap = {
+        { 10185, "self" },
+      },
+      cost = { [0] = 935 },
+      d = 8,
+      gcd = 1.5,
+      n = "blizzard",
+    },
+    [10186] = {
+      ap = {
+        { 10186, "self" },
+      },
+      cost = { [0] = 1160 },
+      d = 8,
+      gcd = 1.5,
+      n = "blizzard",
+    },
+    [10187] = {
+      ap = {
+        { 10187, "self" },
+      },
+      cost = { [0] = 1400 },
+      d = 8,
+      gcd = 1.5,
+      n = "blizzard",
+    },
+    [400640] = {
+      cost = { [0] = 55 },
+      gcd = 1.5,
+      n = "ice_lance",
+    },
+    [400647] = {
+      n = "fingers_of_frost",
+      pas = true,
+      tal = true,
+    },
+    [400669] = {
+      ap = {
+        { 400669, "self" },
+      },
+      d = 15,
+      n = "fingers_of_frost",
+    },
+    [400731] = {
+      n = "brain_freeze",
+      pas = true,
+    },
+    [401725] = {
+      n = "brain_freeze",
+      pas = true,
+    },
+    [401735] = {
+      n = "frostfire_bolt",
+      pas = true,
+    },
+    [401741] = {
+      n = "fingers_of_frost",
+      pas = true,
+    },
+    [440802] = {
+      cd = 60,
+      d = 16,
+      gcd = 1.5,
+      n = "frozen_orb",
+    },
+    [440804] = {
+      n = "frozen_orb",
+      pas = true,
+    },
+    [440809] = {
+      ap = {
+        { 440809, "enemy" },
+      },
+      d = 5,
+      gcd = 1.5,
+      n = "frozen_orb",
+    },
+    [440859] = {
+      n = "frozen_orb",
+      pas = true,
+    },
+    [1240044] = {
+      cost = { [0] = 70 },
+      gcd = 1.5,
+      n = "ice_lance",
+    },
+    [1240045] = {
+      cost = { [0] = 105 },
+      gcd = 1.5,
+      n = "ice_lance",
+    },
+    [1240046] = {
+      cost = { [0] = 120 },
+      gcd = 1.5,
+      n = "ice_lance",
+    },
+    [1240047] = {
+      cost = { [0] = 160 },
+      gcd = 1.5,
+      n = "ice_lance",
+    },
+    [1312002] = {
+      cost = { [0] = 45 },
+      gcd = 1.5,
+      n = "ice_lance",
+      tal = true,
+    },
+  },
+  spells = {
+    arcane_intellect = {
+      a = { 1459, 1460, 1461, 10156, 10157 },
+    },
+    blizzard = {
+      a = { 10, 6141, 8427, 10185, 10186, 10187 },
+    },
+    brain_freeze = {
+      a = { 400731, 401725 },
+      b = { 400731, 401725 },
+    },
+    cone_of_cold = {
+      a = { 120, 8492, 10159, 10160, 10161 },
+    },
+    fingers_of_frost = {
+      a = { 400647, 400669, 401741 },
+      b = { 400669, 401741, 400647 },
+    },
+    frostbolt = {
+      a = { 116, 205, 837, 7322, 8406, 8407 },
+    },
+    frostfire_bolt = {
+      t = { 401735 },
+    },
+    frozen_orb = {
+      a = { 440802, 440809, 440804, 440859 },
+    },
+    ice_lance = {
+      a = { 400640, 1240044, 1240045, 1240046, 1240047, 1312002 },
+    },
+  },
 })

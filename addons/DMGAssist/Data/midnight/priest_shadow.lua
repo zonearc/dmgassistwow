@@ -222,13 +222,9 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
     },
   },
   blizzardExcluded = {},
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "priest",
+  heroTrees = {},
   key = "priest_shadow",
   simc = {
     aoe = {
@@ -723,15 +719,558 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "aoe",
-    "aoe_variables",
-    "cds",
-    "heal_for_tof",
-    "main",
-    "trinkets",
-  },
+  simcOrder = { "precombat", "default", "aoe", "aoe_variables", "cds", "heal_for_tof", "main", "trinkets" },
   spec = "shadow",
+  spellInfo = {
+    [589] = {
+      ap = {
+        { 589, "enemy" },
+      },
+      d = 16,
+      gain = { [13] = 300 },
+      gcd = 1.5,
+      n = "shadow_word_pain",
+    },
+    [8092] = {
+      ch = 1,
+      chcd = 9,
+      ct = 1.5,
+      gcd = 1.5,
+      n = "mind_blast",
+      tal = true,
+    },
+    [10060] = {
+      cd = 120,
+      d = 15,
+      n = "power_infusion",
+      tal = true,
+    },
+    [15407] = {
+      ap = {
+        { 15407, "self" },
+      },
+      d = 4.5,
+      gcd = 1.5,
+      n = "mind_flay",
+    },
+    [19236] = {
+      ap = {
+        { 19236, "self" },
+      },
+      cd = 90,
+      d = 10,
+      n = "desperate_prayer",
+      tal = true,
+    },
+    [21562] = {
+      d = 3600,
+      gcd = 1.5,
+      n = "power_word_fortitude",
+    },
+    [23455] = {
+      n = "holy_nova",
+    },
+    [32379] = {
+      ch = 1,
+      chcd = 10,
+      gcd = 1.5,
+      n = "shadow_word_death",
+      tal = true,
+    },
+    [32409] = {
+      n = "shadow_word_death",
+      st = 1,
+    },
+    [34433] = {
+      n = "shadowfiend",
+      pas = true,
+      tal = true,
+    },
+    [34914] = {
+      ap = {
+        { 34914, "enemy" },
+      },
+      ct = 1.5,
+      d = 21,
+      gain = { [13] = 400 },
+      gcd = 1.5,
+      n = "vampiric_touch",
+    },
+    [120517] = {
+      ap = {
+        { 120517, "self" },
+      },
+      cd = 60,
+      ct = 1.5,
+      d = 2.5,
+      gcd = 1.5,
+      n = "halo",
+      tal = true,
+    },
+    [120644] = {
+      ap = {
+        { 120644, "self" },
+      },
+      cd = 60,
+      ct = 1.5,
+      d = 2.5,
+      gain = { [13] = 500 },
+      gcd = 1.5,
+      n = "halo",
+      tal = true,
+    },
+    [120692] = {
+      n = "halo",
+    },
+    [120696] = {
+      n = "halo",
+    },
+    [132157] = {
+      gcd = 1.5,
+      n = "holy_nova",
+      tal = true,
+    },
+    [193473] = {
+      ap = {
+        { 193473, "enemy" },
+      },
+      d = 10,
+      n = "mind_flay",
+    },
+    [193635] = {
+      n = "mind_flay",
+    },
+    [194249] = {
+      ap = {
+        { 194249, "self" },
+      },
+      cd = 120,
+      d = 20,
+      n = "voidform",
+    },
+    [205065] = {
+      ap = {
+        { 205065, "self" },
+      },
+      cd = 60,
+      d = 4,
+      gcd = 1.5,
+      n = "void_torrent",
+    },
+    [218413] = {
+      n = "voidform",
+    },
+    [228260] = {
+      cd = 120,
+      ct = 1.5,
+      gcd = 1.5,
+      n = "voidform",
+      tal = true,
+    },
+    [228264] = {
+      n = "voidform",
+      pas = true,
+    },
+    [232633] = {
+      cd = 120,
+      gain = { [0] = 3, [13] = 1500 },
+      gcd = 1.5,
+      n = "arcane_torrent",
+    },
+    [232698] = {
+      gcd = 1.5,
+      n = "shadowform",
+    },
+    [238558] = {
+      n = "misery",
+      pas = true,
+      tal = true,
+    },
+    [250844] = {
+      n = "voidform",
+      st = 100,
+    },
+    [263165] = {
+      ap = {
+        { 263165, "self" },
+        { 289577, "self" },
+      },
+      cd = 30,
+      d = 3,
+      gcd = 1.5,
+      n = "void_torrent",
+      tal = true,
+    },
+    [281265] = {
+      n = "holy_nova",
+    },
+    [284508] = {
+      ap = {
+        { 284508, "self" },
+      },
+      d = 15,
+      n = "voidform",
+    },
+    [289577] = {
+      ap = {
+        { 289577, "self" },
+      },
+      d = 3.9,
+      n = "void_torrent",
+    },
+    [292450] = {
+      n = "holy_nova",
+    },
+    [335467] = {
+      ap = {
+        { 335467, "enemy" },
+      },
+      cost = { [13] = 50 },
+      d = 6,
+      gcd = 1.5,
+      n = "shadow_word_madness",
+      tal = true,
+    },
+    [373202] = {
+      n = "mind_devourer",
+      pas = true,
+      tal = true,
+    },
+    [373204] = {
+      ap = {
+        { 373204, "self" },
+      },
+      d = 15,
+      n = "mind_devourer",
+    },
+    [373310] = {
+      n = "idol_of_yshaarj",
+      pas = true,
+      tal = true,
+    },
+    [373427] = {
+      n = "inescapable_torment",
+      pas = true,
+      tal = true,
+    },
+    [390964] = {
+      n = "halo",
+    },
+    [390971] = {
+      n = "halo",
+    },
+    [390972] = {
+      n = "twist_of_fate",
+      pas = true,
+      tal = true,
+    },
+    [390978] = {
+      ap = {
+        { 390978, "self" },
+      },
+      d = 8,
+      n = "twist_of_fate",
+    },
+    [391401] = {
+      ap = {
+        { 391401, "self" },
+      },
+      d = 30,
+      n = "mind_flay_insanity",
+      st = 4,
+    },
+    [391403] = {
+      ap = {
+        { 391403, "self" },
+      },
+      d = 1.5,
+      gcd = 1.5,
+      n = "mind_flay_insanity",
+    },
+    [392507] = {
+      n = "deathspeaker",
+      pas = true,
+      tal = true,
+    },
+    [406788] = {
+      n = "thought_harvester",
+      pas = true,
+      tal = true,
+    },
+    [407430] = {
+      n = "voidtouched",
+      pas = true,
+      tal = true,
+    },
+    [409044] = {
+      n = "distorted_reality",
+      pas = true,
+      tal = true,
+    },
+    [447444] = {
+      n = "entropic_rift",
+      pas = true,
+      tal = true,
+    },
+    [447445] = {
+      d = 20,
+      n = "entropic_rift",
+    },
+    [447448] = {
+      n = "entropic_rift",
+    },
+    [450193] = {
+      ap = {
+        { 450193, "self" },
+      },
+      d = 8,
+      n = "entropic_rift",
+    },
+    [450215] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "void_blast",
+    },
+    [450404] = {
+      ap = {
+        { 450404, "self" },
+      },
+      d = 24,
+      n = "void_blast",
+    },
+    [450405] = {
+      n = "void_blast",
+      pas = true,
+      tal = true,
+    },
+    [450983] = {
+      ch = 1,
+      chcd = 9,
+      ct = 1.5,
+      gcd = 1.5,
+      n = "void_blast",
+    },
+    [451840] = {
+      n = "devour_matter",
+      pas = true,
+      tal = true,
+    },
+    [453845] = {
+      n = "resonant_energy",
+      pas = true,
+      tal = true,
+    },
+    [459314] = {
+      ap = {
+        { 459314, "self" },
+      },
+      d = 8,
+      n = "entropic_rift",
+    },
+    [1227280] = {
+      ch = 2,
+      chcd = 15,
+      gain = { [13] = 600 },
+      gcd = 1.5,
+      n = "tentacle_slam",
+      tal = true,
+    },
+    [1227621] = {
+      n = "tentacle_slam",
+    },
+    [1231346] = {
+      n = "ancient_madness",
+      pas = true,
+      tal = true,
+    },
+    [1242171] = {
+      ap = {
+        { 1242171, "self" },
+      },
+      d = 30,
+      n = "void_volley",
+      st = 10,
+    },
+    [1242173] = {
+      gain = { [13] = 1000 },
+      gcd = 1.5,
+      n = "void_volley",
+    },
+    [1242189] = {
+      n = "void_volley",
+    },
+    [1246549] = {
+      n = "lightburst",
+      pas = true,
+      tal = true,
+    },
+    [1264096] = {
+      n = "void_apparitions",
+      pas = true,
+      tal = true,
+    },
+    [1264104] = {
+      n = "void_apparitions",
+      pas = true,
+      tal = true,
+    },
+    [1264107] = {
+      n = "void_apparitions",
+      pas = true,
+      tal = true,
+    },
+    [1279350] = {
+      n = "invoked_nightmare",
+      pas = true,
+      tal = true,
+    },
+    [1279353] = {
+      n = "maddening_tentacles",
+      pas = true,
+      tal = true,
+    },
+    [1279354] = {
+      n = "crushing_void",
+      pas = true,
+      tal = true,
+    },
+    [1279437] = {
+      ap = {
+        { 1279437, "self" },
+      },
+      d = 30,
+      n = "crushing_void",
+      st = 4,
+    },
+  },
+  spells = {
+    ancient_madness = {
+      t = { 1231346 },
+    },
+    arcane_torrent = {
+      a = { 232633 },
+    },
+    crushing_void = {
+      a = { 1279437, 1279354 },
+      b = { 1279437, 1279354 },
+    },
+    deathspeaker = {
+      t = { 392507 },
+    },
+    desperate_prayer = {
+      a = { 19236 },
+    },
+    devour_matter = {
+      t = { 451840 },
+    },
+    distorted_reality = {
+      t = { 409044 },
+    },
+    entropic_rift = {
+      a = { 447445, 447448, 450193, 459314, 447444 },
+      b = { 447445, 450193, 459314, 447448, 447444 },
+    },
+    halo = {
+      a = { 120517, 120644, 120692, 120696, 390964, 390971 },
+      t = { 120517, 120644 },
+    },
+    holy_nova = {
+      a = { 132157, 23455, 281265, 292450 },
+    },
+    idol_of_yshaarj = {
+      t = { 373310 },
+    },
+    inescapable_torment = {
+      t = { 373427 },
+    },
+    invoked_nightmare = {
+      t = { 1279350 },
+    },
+    lightburst = {
+      t = { 1246549 },
+    },
+    maddening_tentacles = {
+      t = { 1279353 },
+    },
+    mind_blast = {
+      a = { 8092 },
+    },
+    mind_devourer = {
+      a = { 373204, 373202 },
+      b = { 373204, 373202 },
+      t = { 373202 },
+    },
+    mind_flay = {
+      a = { 15407, 193473, 193635 },
+    },
+    mind_flay_insanity = {
+      a = { 391403, 391401 },
+    },
+    misery = {
+      t = { 238558 },
+    },
+    power_infusion = {
+      a = { 10060 },
+      b = { 10060 },
+    },
+    power_word_fortitude = {
+      a = { 21562 },
+    },
+    resonant_energy = {
+      t = { 453845 },
+    },
+    shadow_word_death = {
+      a = { 32379, 32409 },
+    },
+    shadow_word_madness = {
+      a = { 335467 },
+      b = { 335467 },
+    },
+    shadow_word_pain = {
+      a = { 589 },
+      b = { 589 },
+    },
+    shadowfiend = {
+      t = { 34433 },
+    },
+    shadowform = {
+      a = { 232698 },
+      b = { 232698 },
+    },
+    tentacle_slam = {
+      a = { 1227280, 1227621 },
+    },
+    thought_harvester = {
+      t = { 406788 },
+    },
+    twist_of_fate = {
+      a = { 390978, 390972 },
+      b = { 390978, 390972 },
+    },
+    vampiric_touch = {
+      a = { 34914 },
+      b = { 34914 },
+    },
+    void_apparitions = {
+      t = { 1264096, 1264104, 1264107 },
+    },
+    void_blast = {
+      a = { 450215, 450983, 450404, 450405 },
+      t = { 450405 },
+    },
+    void_torrent = {
+      a = { 205065, 263165, 289577 },
+    },
+    void_volley = {
+      a = { 1242173, 1242171, 1242189 },
+    },
+    voidform = {
+      a = { 194249, 228260, 250844, 284508, 218413, 228264 },
+      b = { 194249, 284508, 218413, 228260, 228264, 250844 },
+      t = { 228260, 228264 },
+    },
+    voidtouched = {
+      t = { 407430 },
+    },
+  },
 })

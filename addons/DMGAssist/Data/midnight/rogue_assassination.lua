@@ -197,16 +197,10 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       },
     },
   },
-  blizzardExcluded = {
-    "deathmark",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "deathmark" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "rogue",
+  heroTrees = {},
   key = "rogue_assassination",
   simc = {
     cds = {
@@ -556,4 +550,512 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
     "vanish",
   },
   spec = "assassination",
+  spellInfo = {
+    [703] = {
+      ap = {
+        { 703, "enemy" },
+      },
+      cd = 6,
+      cost = { [3] = 45 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "garrote",
+    },
+    [1329] = {
+      cost = { [3] = 50 },
+      gain = { [4] = 2 },
+      gcd = 1,
+      n = "mutilate",
+    },
+    [1766] = {
+      cd = 15,
+      d = 6,
+      n = "kick",
+    },
+    [1784] = {
+      cd = 2,
+      n = "stealth",
+      st = 1,
+    },
+    [1856] = {
+      cd = 1,
+      ch = 1,
+      chcd = 120,
+      n = "vanish",
+    },
+    [1943] = {
+      ap = {
+        { 1943, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 4,
+      gcd = 1,
+      n = "rupture",
+    },
+    [5374] = {
+      n = "mutilate",
+    },
+    [5938] = {
+      ch = 1,
+      chcd = 30,
+      cost = { [3] = 30 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "shiv",
+      tal = true,
+    },
+    [8676] = {
+      cost = { [3] = 50 },
+      gain = { [4] = 2 },
+      gcd = 1,
+      n = "ambush",
+    },
+    [11327] = {
+      ap = {
+        { 11327, "self" },
+      },
+      d = 3,
+      n = "vanish",
+      st = 1,
+    },
+    [27576] = {
+      n = "mutilate",
+    },
+    [32645] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "envenom",
+      st = 1,
+    },
+    [51723] = {
+      cost = { [3] = 35 },
+      gcd = 1,
+      n = "fan_of_knives",
+    },
+    [111240] = {
+      cost = { [3] = 30 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "blindside",
+    },
+    [115191] = {
+      cd = 2,
+      n = "stealth",
+      st = 1,
+    },
+    [121153] = {
+      ap = {
+        { 121153, "self" },
+      },
+      d = 10,
+      n = "blindside",
+      st = 1,
+    },
+    [158188] = {
+      n = "stealth",
+    },
+    [185565] = {
+      cost = { [3] = 40 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "poisoned_knife",
+    },
+    [193531] = {
+      n = "deeper_stratagem",
+      pas = true,
+      tal = true,
+    },
+    [199672] = {
+      n = "rupture",
+    },
+    [214320] = {
+      cd = 45,
+      gcd = 1,
+      n = "kingsbane",
+      pas = true,
+    },
+    [315496] = {
+      ap = {
+        { 315496, "self" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "slice_and_dice",
+    },
+    [319504] = {
+      ap = {
+        { 319504, "enemy" },
+      },
+      d = 8,
+      n = "shiv",
+    },
+    [328085] = {
+      n = "blindside",
+      pas = true,
+      tal = true,
+    },
+    [360194] = {
+      ap = {
+        { 360194, "enemy" },
+      },
+      cd = 120,
+      d = 16,
+      gcd = 1,
+      n = "deathmark",
+      tal = true,
+    },
+    [360826] = {
+      ap = {
+        { 360826, "enemy" },
+      },
+      d = 4,
+      n = "rupture",
+    },
+    [360830] = {
+      ap = {
+        { 360830, "enemy" },
+      },
+      d = 18,
+      n = "garrote",
+    },
+    [381620] = {
+      n = "improved_ambush",
+      pas = true,
+      tal = true,
+    },
+    [381623] = {
+      cd = 1,
+      ch = 3,
+      chcd = 60,
+      gain = { [3] = 100 },
+      n = "thistle_tea",
+    },
+    [381632] = {
+      n = "improved_garrote",
+      pas = true,
+      tal = true,
+    },
+    [381799] = {
+      n = "scent_of_blood",
+      pas = true,
+      tal = true,
+    },
+    [385478] = {
+      n = "shrouded_suffocation",
+      pas = true,
+      tal = true,
+    },
+    [385627] = {
+      ap = {
+        { 385627, "self" },
+      },
+      cd = 60,
+      cost = { [3] = 35 },
+      d = 14,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "kingsbane",
+      tal = true,
+    },
+    [385794] = {
+      n = "ambush",
+    },
+    [385802] = {
+      n = "mutilate",
+    },
+    [385806] = {
+      gcd = 1,
+      n = "mutilate",
+    },
+    [385897] = {
+      gain = { [4] = 2 },
+      n = "ambush",
+    },
+    [392401] = {
+      ap = {
+        { 392401, "self" },
+      },
+      d = 6,
+      n = "improved_garrote",
+    },
+    [392403] = {
+      n = "improved_garrote",
+    },
+    [394031] = {
+      n = "rupture",
+    },
+    [394080] = {
+      ap = {
+        { 394080, "self" },
+      },
+      d = 24,
+      n = "scent_of_blood",
+      st = 20,
+    },
+    [394095] = {
+      ap = {
+        { 394095, "self" },
+      },
+      d = 14,
+      n = "kingsbane",
+      st = 50,
+    },
+    [400789] = {
+      ap = {
+        { 400789, "enemy" },
+      },
+      d = 8,
+      n = "shiv",
+    },
+    [426605] = {
+      n = "slice_and_dice",
+    },
+    [430023] = {
+      cost = { [3] = 50 },
+      gain = { [4] = 2 },
+      gcd = 1,
+      n = "ambush",
+    },
+    [441423] = {
+      n = "coup_de_grace",
+      pas = true,
+      tal = true,
+    },
+    [441776] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1.2,
+      n = "coup_de_grace",
+    },
+    [450743] = {
+      n = "coup_de_grace",
+    },
+    [457056] = {
+      n = "lingering_darkness",
+      pas = true,
+      tal = true,
+    },
+    [457058] = {
+      n = "darkest_night",
+      pas = true,
+      tal = true,
+    },
+    [457273] = {
+      ap = {
+        { 457273, "self" },
+      },
+      d = 30,
+      n = "lingering_darkness",
+    },
+    [457280] = {
+      ap = {
+        { 457280, "self" },
+      },
+      d = 30,
+      gain = { [3] = 30 },
+      n = "darkest_night",
+    },
+    [457512] = {
+      n = "sanguine_stratagem",
+      pas = true,
+      tal = true,
+    },
+    [462127] = {
+      n = "coup_de_grace",
+    },
+    [462128] = {
+      n = "coup_de_grace",
+    },
+    [469637] = {
+      ap = {
+        { 469637, "enemy" },
+      },
+      d = 0.2,
+      n = "darkest_night",
+    },
+    [469779] = {
+      n = "thistle_tea",
+      pas = true,
+      tal = true,
+    },
+    [470679] = {
+      cost = { [3] = 1 },
+      gain = { [3] = 1 },
+      n = "deathmark",
+    },
+    [1247227] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "crimson_tempest",
+      tal = true,
+    },
+    [1248010] = {
+      n = "deathmark",
+    },
+    [1248793] = {
+      n = "clear_the_witnesses",
+      pas = true,
+      tal = true,
+    },
+    [1249802] = {
+      n = "razor_wire",
+      pas = true,
+      tal = true,
+    },
+    [1265385] = {
+      n = "implacable",
+      pas = true,
+      tal = true,
+    },
+    [1265386] = {
+      n = "implacable",
+      pas = true,
+      tal = true,
+    },
+    [1265387] = {
+      n = "implacable",
+      pas = true,
+      tal = true,
+    },
+    [1267182] = {
+      n = "toxic_stiletto",
+      pas = true,
+      tal = true,
+    },
+    [1270203] = {
+      ap = {
+        { 1270203, "enemy" },
+      },
+      d = 4,
+      n = "rupture",
+    },
+    [1270243] = {
+      n = "rupture",
+    },
+    [1298826] = {
+      cd = 1,
+      ch = 3,
+      chcd = 60,
+      gain = { [3] = 100 },
+      n = "thistle_tea",
+      tal = true,
+    },
+  },
+  spells = {
+    ambush = {
+      a = { 8676, 430023, 385794, 385897 },
+    },
+    blindside = {
+      a = { 111240, 121153, 328085 },
+      b = { 121153, 111240, 328085 },
+      t = { 328085 },
+    },
+    clear_the_witnesses = {
+      t = { 1248793 },
+    },
+    coup_de_grace = {
+      a = { 441776, 450743, 441423, 462127, 462128 },
+    },
+    crimson_tempest = {
+      a = { 1247227 },
+      t = { 1247227 },
+    },
+    darkest_night = {
+      a = { 457280, 457058, 469637 },
+      b = { 457280, 469637, 457058 },
+      t = { 457058 },
+    },
+    deathmark = {
+      a = { 360194, 1248010, 470679 },
+      b = { 360194, 470679, 1248010 },
+    },
+    deeper_stratagem = {
+      t = { 193531 },
+    },
+    envenom = {
+      a = { 32645 },
+      b = { 32645 },
+    },
+    fan_of_knives = {
+      a = { 51723 },
+    },
+    garrote = {
+      a = { 703, 360830 },
+      b = { 703, 360830 },
+    },
+    implacable = {
+      t = { 1265385, 1265386, 1265387 },
+    },
+    improved_ambush = {
+      t = { 381620 },
+    },
+    improved_garrote = {
+      a = { 392401, 392403, 381632 },
+      b = { 392401, 392403, 381632 },
+      t = { 381632 },
+    },
+    kick = {
+      a = { 1766 },
+    },
+    kingsbane = {
+      a = { 385627, 394095, 214320 },
+      b = { 385627, 394095, 214320 },
+      t = { 385627, 214320 },
+    },
+    lingering_darkness = {
+      a = { 457273, 457056 },
+      b = { 457273, 457056 },
+    },
+    mutilate = {
+      a = { 1329, 385806, 5374, 27576, 385802 },
+    },
+    poisoned_knife = {
+      a = { 185565 },
+    },
+    razor_wire = {
+      t = { 1249802 },
+    },
+    rupture = {
+      a = { 1943, 360826, 394031, 1270203, 1270243, 199672 },
+      b = { 1943, 360826, 1270203, 199672, 394031, 1270243 },
+    },
+    sanguine_stratagem = {
+      t = { 457512 },
+    },
+    scent_of_blood = {
+      a = { 394080, 381799 },
+      b = { 394080, 381799 },
+      t = { 381799 },
+    },
+    shiv = {
+      a = { 5938, 319504, 400789 },
+    },
+    shrouded_suffocation = {
+      t = { 385478 },
+    },
+    slice_and_dice = {
+      a = { 315496, 426605 },
+      b = { 315496, 426605 },
+    },
+    stealth = {
+      a = { 1784, 115191, 158188 },
+      b = { 1784, 115191, 158188 },
+    },
+    thistle_tea = {
+      a = { 381623, 1298826, 469779 },
+    },
+    toxic_stiletto = {
+      t = { 1267182 },
+    },
+    vanish = {
+      a = { 1856, 11327 },
+      b = { 11327, 1856 },
+    },
+  },
 })

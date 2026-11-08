@@ -144,13 +144,38 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
     },
   },
   blizzardExcluded = {},
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "deathknight",
+  heroTrees = {
+    deathbringer = {
+      434905,
+      436687,
+      437122,
+      437161,
+      439843,
+      439851,
+      439948,
+      440031,
+      440282,
+      440476,
+      441378,
+      441894,
+    },
+    sanlayn = {
+      433901,
+      433934,
+      434028,
+      434033,
+      434075,
+      434100,
+      434136,
+      434143,
+      434151,
+      434152,
+      434157,
+      434260,
+    },
+  },
   key = "deathknight_blood",
   simc = {
     deathbringer = {
@@ -471,13 +496,486 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "deathbringer",
-    "high_prio_actions",
-    "san_gift",
-    "sanlayn",
-  },
+  simcOrder = { "precombat", "default", "deathbringer", "high_prio_actions", "san_gift", "sanlayn" },
   spec = "blood",
+  spellInfo = {
+    [43265] = {
+      ap = {
+        { 43265, "self" },
+      },
+      ch = 1,
+      chcd = 30,
+      cost = { [5] = 1 },
+      d = 10,
+      gcd = 1.5,
+      n = "death_and_decay",
+    },
+    [45470] = {
+      n = "death_strike",
+    },
+    [46584] = {
+      cd = 30,
+      gcd = 1.5,
+      n = "raise_dead",
+    },
+    [46585] = {
+      cd = 120,
+      d = 60,
+      n = "raise_dead",
+      tal = true,
+    },
+    [49028] = {
+      ap = {
+        { 49028, "self" },
+      },
+      cd = 120,
+      d = 8,
+      gcd = 1.5,
+      n = "dancing_rune_weapon",
+      tal = true,
+    },
+    [49998] = {
+      cost = { [6] = 45 },
+      gcd = 1.5,
+      n = "death_strike",
+      tal = true,
+    },
+    [50613] = {
+      cd = 120,
+      gain = { [6] = 200 },
+      gcd = 1.5,
+      n = "arcane_torrent",
+    },
+    [50842] = {
+      ch = 2,
+      chcd = 7.5,
+      gcd = 1.5,
+      n = "blood_boil",
+      tal = true,
+    },
+    [52212] = {
+      n = "death_and_decay",
+    },
+    [55078] = {
+      d = 24,
+      n = "blood_plague",
+    },
+    [55233] = {
+      ap = {
+        { 55233, "self" },
+      },
+      cd = 90,
+      d = 10,
+      n = "vampiric_blood",
+      tal = true,
+    },
+    [81136] = {
+      n = "crimson_scourge",
+      pas = true,
+    },
+    [81141] = {
+      ap = {
+        { 81141, "self" },
+      },
+      d = 15,
+      n = "crimson_scourge",
+    },
+    [81256] = {
+      ap = {
+        { 81256, "self" },
+      },
+      d = 8,
+      n = "dancing_rune_weapon",
+    },
+    [188290] = {
+      ap = {
+        { 188290, "self" },
+      },
+      d = 10,
+      n = "death_and_decay",
+    },
+    [195181] = {
+      ap = {
+        { 195181, "self" },
+      },
+      d = 30,
+      n = "bone_shield",
+      st = 10,
+    },
+    [195182] = {
+      cost = { [5] = 2 },
+      gcd = 1.5,
+      n = "marrowrend",
+      tal = true,
+    },
+    [195292] = {
+      cd = 6,
+      cost = { [5] = 1 },
+      gcd = 1.5,
+      n = "deaths_caress",
+    },
+    [205223] = {
+      cd = 45,
+      gcd = 1.5,
+      n = "consumption",
+    },
+    [205224] = {
+      n = "consumption",
+    },
+    [206930] = {
+      ap = {
+        { 206930, "enemy" },
+      },
+      cost = { [5] = 1 },
+      d = 8,
+      gcd = 1.5,
+      n = "heart_strike",
+      tal = true,
+    },
+    [224685] = {
+      n = "consumption",
+    },
+    [228645] = {
+      ap = {
+        { 228645, "enemy" },
+      },
+      cost = { [5] = 1 },
+      d = 8,
+      gcd = 1.5,
+      n = "heart_strike",
+    },
+    [274893] = {
+      n = "consumption",
+    },
+    [316575] = {
+      n = "heart_strike",
+      pas = true,
+    },
+    [316746] = {
+      n = "marrowrend",
+      pas = true,
+    },
+    [377671] = {
+      ap = {
+        { 377671, "self" },
+      },
+      d = 6,
+      n = "dancing_rune_weapon",
+    },
+    [433895] = {
+      ap = {
+        { 433925, "self" },
+      },
+      cost = { [5] = 1 },
+      gcd = 1.5,
+      n = "vampiric_strike",
+    },
+    [433899] = {
+      n = "vampiric_strike",
+    },
+    [433901] = {
+      n = "vampiric_strike",
+      pas = true,
+      tal = true,
+    },
+    [433925] = {
+      ap = {
+        { 433925, "self" },
+      },
+      d = 20,
+      n = "essence_of_the_blood_queen",
+      st = 5,
+    },
+    [434152] = {
+      n = "gift_of_the_sanlayn",
+      pas = true,
+      tal = true,
+    },
+    [434153] = {
+      ap = {
+        { 434153, "self" },
+      },
+      d = 10,
+      n = "gift_of_the_sanlayn",
+    },
+    [434157] = {
+      n = "visceral_strength",
+      pas = true,
+      tal = true,
+    },
+    [434159] = {
+      ap = {
+        { 434159, "self" },
+      },
+      d = 5,
+      n = "visceral_strength",
+    },
+    [434422] = {
+      n = "vampiric_strike",
+    },
+    [434674] = {
+      n = "vampiric_strike",
+    },
+    [434765] = {
+      ap = {
+        { 434765, "enemy" },
+      },
+      d = 12,
+      n = "reapers_mark",
+      st = 40,
+    },
+    [436304] = {
+      n = "reapers_mark",
+    },
+    [439594] = {
+      n = "reapers_mark",
+    },
+    [439843] = {
+      ap = {
+        { 434765, "enemy" },
+      },
+      cd = 45,
+      cost = { [5] = 2 },
+      gain = { [6] = 200 },
+      gcd = 1.5,
+      n = "reapers_mark",
+      tal = true,
+    },
+    [441378] = {
+      n = "exterminate",
+      pas = true,
+      tal = true,
+    },
+    [441416] = {
+      ap = {
+        { 441416, "self" },
+      },
+      d = 30,
+      n = "exterminate",
+      st = 2,
+    },
+    [441424] = {
+      n = "exterminate",
+    },
+    [441426] = {
+      n = "exterminate",
+    },
+    [444474] = {
+      ap = {
+        { 444474, "self" },
+        { 466066, "self" },
+      },
+      d = 10,
+      gcd = 1.5,
+      n = "death_and_decay",
+    },
+    [445504] = {
+      cd = 3,
+      n = "heart_strike",
+    },
+    [445669] = {
+      n = "vampiric_strike",
+      pas = true,
+    },
+    [447954] = {
+      ap = {
+        { 447954, "self" },
+      },
+      d = 30,
+      n = "exterminate",
+      st = 1,
+    },
+    [460501] = {
+      ap = {
+        { 460501, "enemy" },
+      },
+      d = 8,
+      n = "heart_strike",
+    },
+    [461130] = {
+      ap = {
+        { 461130, "self" },
+      },
+      d = 12,
+      n = "visceral_strength",
+    },
+    [466066] = {
+      ap = {
+        { 466066, "self" },
+      },
+      d = 1,
+      n = "death_and_decay",
+    },
+    [1234532] = {
+      ap = {
+        { 1237848, "self" },
+      },
+      n = "visceral_strength",
+    },
+    [1237032] = {
+      ap = {
+        { 1237032, "self" },
+      },
+      d = 8,
+      n = "dancing_rune_weapon",
+    },
+    [1237128] = {
+      ap = {
+        { 1237128, "self" },
+      },
+      d = 8,
+      n = "dancing_rune_weapon",
+    },
+    [1237848] = {
+      ap = {
+        { 1237848, "self" },
+      },
+      d = 3,
+      n = "visceral_strength",
+      st = 1,
+    },
+    [1242866] = {
+      n = "raise_dead",
+    },
+    [1251951] = {
+      n = "death_and_decay",
+    },
+    [1263824] = {
+      ap = {
+        { 1263824, "self" },
+        { 1263861, "self" },
+      },
+      cd = 45,
+      d = 2,
+      gcd = 0.5,
+      n = "consumption",
+      tal = true,
+    },
+    [1263825] = {
+      n = "consumption",
+    },
+    [1263861] = {
+      ap = {
+        { 1263861, "self" },
+      },
+      d = 4.5,
+      n = "consumption",
+    },
+    [1264353] = {
+      ap = {
+        { 1264353, "self" },
+      },
+      d = 8,
+      n = "dancing_rune_weapon",
+    },
+    [1265790] = {
+      n = "boiling_point",
+      pas = true,
+      tal = true,
+    },
+    [1265968] = {
+      ap = {
+        { 1265968, "self" },
+      },
+      d = 15,
+      n = "boiling_point",
+      st = 1,
+    },
+    [1265982] = {
+      ap = {
+        { 1265982, "self" },
+      },
+      d = 3,
+      n = "boiling_point",
+    },
+    [1310372] = {
+      n = "blood_debt",
+      st = 10,
+    },
+  },
+  spells = {
+    arcane_torrent = {
+      a = { 50613 },
+    },
+    blood_boil = {
+      a = { 50842 },
+    },
+    blood_debt = {
+      a = { 1310372 },
+      b = { 1310372 },
+    },
+    blood_plague = {
+      a = { 55078 },
+      b = { 55078 },
+    },
+    boiling_point = {
+      a = { 1265968, 1265982, 1265790 },
+      b = { 1265968, 1265982, 1265790 },
+    },
+    bone_shield = {
+      a = { 195181 },
+      b = { 195181 },
+    },
+    consumption = {
+      a = { 205223, 1263824, 205224, 224685, 274893, 1263825 },
+    },
+    crimson_scourge = {
+      a = { 81141, 81136 },
+      b = { 81141, 81136 },
+    },
+    dancing_rune_weapon = {
+      a = { 49028, 81256, 377671, 1237032, 1237128, 1264353 },
+      b = { 49028, 81256, 377671, 1237032, 1237128, 1264353 },
+    },
+    death_and_decay = {
+      a = { 43265, 444474, 52212, 188290, 1251951, 466066 },
+      b = { 43265, 188290, 444474, 466066, 52212, 1251951 },
+    },
+    death_strike = {
+      a = { 49998, 45470 },
+    },
+    deaths_caress = {
+      a = { 195292 },
+    },
+    essence_of_the_blood_queen = {
+      a = { 433925 },
+      b = { 433925 },
+    },
+    exterminate = {
+      a = { 441416, 441424, 441426, 447954, 441378 },
+      b = { 441416, 447954, 441424, 441426, 441378 },
+    },
+    gift_of_the_sanlayn = {
+      a = { 434153, 434152 },
+      b = { 434153, 434152 },
+    },
+    heart_strike = {
+      a = { 206930, 228645, 445504, 460501, 316575 },
+    },
+    marrowrend = {
+      a = { 195182, 316746 },
+    },
+    raise_dead = {
+      a = { 46584, 46585, 1242866 },
+    },
+    reapers_mark = {
+      a = { 439843, 434765, 436304, 439594 },
+    },
+    reapers_mark_debuff = {
+      a = { 439843, 434765, 436304, 439594 },
+      b = { 434765, 436304, 439594, 439843 },
+    },
+    vampiric_blood = {
+      a = { 55233 },
+      b = { 55233 },
+    },
+    vampiric_strike = {
+      a = { 433895, 433899, 434422, 434674, 433901, 445669 },
+      b = { 433895, 433899, 434422, 434674, 445669, 433901 },
+    },
+    visceral_strength = {
+      a = { 434159, 461130, 1234532, 434157, 1237848 },
+      b = { 434159, 461130, 1237848, 1234532, 434157 },
+    },
+  },
 })

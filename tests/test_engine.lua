@@ -44,6 +44,8 @@ local function Reset()
   mock.restricted, mock.inCombat, mock.hasTarget = false, false, true
   mock.usable, mock.cooldowns, mock.auras, mock.talents = {}, {}, {}, {}
   mock.acSpell, mock.heroTree = nil, nil
+  mock.power, mock.powerMax, mock.powerReadable = {}, {}, {}
+  mock.casting, mock.nameplates, mock.locale = nil, 0, "enUS"
   mock.class, mock.specs, mock.specIndex = { "Druid", "DRUID", 11 }, { [1] = 102, [2] = 103, [3] = 104, [4] = 105 }, 2
   mock.book = FERAL_BOOK
   DMGAssistDB = nil
@@ -225,6 +227,12 @@ test("talents and hero tree are read from the trait tree", function()
   mock.book[#mock.book + 1] = { spellID = 400001, name = "Panther's Guile", isPassive = true }
   local ns = Boot()
   local S = ns.State
+  -- Hero trees are recognised by their talents' spell IDs (from SimC's data), not by the localized name.
+  local heroIDs = ns.Specs.current.data.heroTrees.wildstalker
+  eq(type(heroIDs), "table", "SimC data lists Wildstalker talents")
+  mock.talents[#mock.talents + 1] = { name = "Some Wildstalker Talent", spellID = heroIDs[1], rank = 1 }
+  mock.Fire("TRAIT_CONFIG_UPDATED", 1)
+  mock.Advance(0.5)
   eq(S.Resolve("talent.lunar_inspiration", {}), 1)
   eq(S.Resolve("talent.panthers_guile", {}), 0)
   eq(S.Resolve("talent.never_heard_of_it", {}), ns.Expr.UNKNOWN)
@@ -441,6 +449,220 @@ test("picks are logged to the Watchdog once per change", function()
   eq(picks, 1)
   eq(ns.U.Flatten({ b = 1, a = "x", t = { k = 2 } }), "a=x b=1 t={k:2}")
   eq(ns.U.Flatten({ s = mock.Secret() }), "s=<secret>", "secrets are never stringified")
+end)
+
+---------------------------------------------------------------------------
+-- SimC spell data, look-ahead queue, modes, languages
+---------------------------------------------------------------------------
+-- A record with SimC-style spell data (ids, costs, gains, cooldowns, auras).
+local function QRecord(default)
+  return {
+    key = "druid_feral",
+    simc = { default = default },
+    spells = {
+      rip = { a = { 1079 }, b = { 1079 } }, shred = { a = { 5221 } }, tigers_fury = { a = { 5217 }, b = { 5217 } },
+      ferocious_bite = { a = { 22568 } },
+    },
+    spellInfo = {
+      [1079] = { n = "rip", cost = { [3] = 20, [4] = 1 }, cmax = { [4] = 5 }, d = 24, gcd = 1, ap = { { 1079, "enemy" } } },
+      [5221] = { n = "shred", cost = { [3] = 40 }, gain = { [4] = 1 }, gcd = 1 },
+      [5217] = { n = "tigers_fury", cd = 30, d = 10, gain = { [3] = 50 }, ap = { { 5217, "self" } } },
+      [22568] = { n = "ferocious_bite", cost = { [3] = 25, [4] = 1 }, cmax = { [4] = 5 }, gcd = 1 },
+    },
+  }
+end
+
+local function Tokens(r)
+  local out = {}
+  for i, p in ipairs(r.queue or {}) do
+    out[i] = tostring(p.token)
+  end
+  return table.concat(out, " > ")
+end
+
+local function Feral(ns, rec)
+  ns.SpellMap.SetData(rec)
+  mock.power[3], mock.powerMax[3] = 100, 100
+  mock.power[4], mock.powerMax[4] = 0, 5
+end
+
+test("every spec ships SimC spell data (ids, cooldowns, durations)", function()
+  for _, client in ipairs({ { "standard", 1, "midnight" }, { "camelot", 18, "forever" } }) do
+    Reset()
+    local ns = Boot(client[1], client[2])
+    for key, rec in pairs(ns.Data.specs[client[3]]) do
+      eq(type(rec.spellInfo), "table", key .. " has no spell data")
+      eq(next(rec.spellInfo) ~= nil, true, key .. " spell data empty")
+    end
+    local tf = ns.Data.specs[client[3]].druid_feral.spellInfo[5217]
+    eq(tf.n, "tigers_fury")
+    eq(tf.cd, 30)
+    if client[3] == "midnight" then
+      eq(tf.gain[3], 50, "Tiger's Fury restores 50 energy on Midnight")
+    else
+      eq(tf.gain, nil, "Forever's Tiger's Fury restores no energy (different game data)")
+    end
+  end
+end)
+
+test("spells are matched by ID, so a German client works", function()
+  Reset()
+  mock.locale = "deDE"
+  mock.book = {
+    { spellID = 5217, name = "Tigerfuror" }, { spellID = 5221, name = "Schreddern" },
+    { spellID = 1079, name = "Zerfetzen" }, { spellID = 22568, name = "Wilder Biss" },
+  }
+  local ns = Boot()
+  eq(ns.SpellMap.SpellID("tigers_fury"), 5217)
+  eq(ns.SpellMap.SpellID("shred"), 5221)
+  eq(ns.SpellMap.SpellID("ferocious_bite"), 22568)
+  local r = ns.Update()
+  eq(type(r.main), "table", "German client gets a recommendation")
+  eq(ns.L["Recommendations on."], "Empfehlungen an.")
+end)
+
+test("look-ahead: a DoT applied in slot 1 is not recommended again in slot 2", function()
+  Reset()
+  local ns = Boot()
+  local rec = QRecord({ { a = "rip", k = "T", c = "!dot.rip.ticking" }, { a = "shred", k = "R" } })
+  Feral(ns, rec)
+  mock.power[4] = 2
+  eq(Tokens(ns.Engine.Recommend(rec, {})), "rip > shred > shred")
+end)
+
+test("look-ahead: cooldowns start, resources are spent and gained", function()
+  Reset()
+  local ns = Boot()
+  local rec = QRecord({
+    { a = "tigers_fury", k = "R" },
+    { a = "ferocious_bite", k = "R", c = "combo_points>=5" },
+    { a = "shred", k = "R" },
+  })
+  Feral(ns, rec)
+  mock.power[4] = 5
+  -- TF (then on cooldown) > Bite at 5 combo points (spends them all) > Shred (no combo points left)
+  eq(Tokens(ns.Engine.Recommend(rec, {})), "tigers_fury > ferocious_bite > shred")
+  -- Not enough energy for Shred later: 20 energy, Shred costs 40, nothing else usable -> queue stops early.
+  mock.power[4], mock.power[3] = 0, 20
+  rec.simc.default = { { a = "shred", k = "R" } }
+  local r = ns.Engine.Recommend(rec, {})
+  eq(r.queue[2], nil, "cannot afford a second Shred")
+end)
+
+test("look-ahead: the spell being cast counts as already cast", function()
+  Reset()
+  local ns = Boot()
+  local rec = QRecord({ { a = "shred", k = "R", c = "!prev_gcd.1.shred" }, { a = "ferocious_bite", k = "R" } })
+  Feral(ns, rec)
+  mock.power[4] = 3
+  eq(ns.Engine.Recommend(rec, {}).main.token, "shred")
+  mock.casting = { id = 5221, endsIn = 1.2 }
+  local r = ns.Engine.Recommend(rec, {})
+  eq(r.casting, 5221)
+  eq(r.main.token, "ferocious_bite", "Shred is mid-cast, so the next press is Bite")
+  -- and the overlay is gone afterwards: the real present is untouched
+  eq(ns.State.Lookahead(), nil)
+end)
+
+test("look-ahead with secret resources: a finisher still empties combo points", function()
+  Reset()
+  local ns = Boot()
+  local rec = QRecord({
+    { a = "ferocious_bite", k = "R", c = "combo_points>=5" },
+    { a = "shred", k = "R" },
+  })
+  Feral(ns, rec)
+  Restrict()
+  mock.acSpell = 22568 -- the assistant (which can see combo points) wants Bite
+  local r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(r.main.token, "ferocious_bite")
+  eq(r.main.source, "simc+assisted")
+  eq(r.queue[2].token, "shred", "after a finisher, combo points are known to be 0")
+end)
+
+test("modes: auto-detect counts enemies, hotkey cycles, primary mode is the fallback", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  mock.inCombat, mock.nameplates = true, 4
+  local n, label = S.Targets()
+  eq(n, 4)
+  eq(label, "AUTO 4")
+  DMGAssist_CycleMode()
+  n, label = S.Targets()
+  eq(n, 1)
+  eq(label, "ST")
+  DMGAssist_CycleMode()
+  n, label = S.Targets()
+  eq(n, 3)
+  eq(label, "AOE")
+  DMGAssist_CycleMode()
+  eq(S.ActiveMode(), "auto")
+  -- no nameplates (hidden or none in combat): the primary mode decides
+  mock.nameplates = 0
+  SlashCmdList.DMGASSIST("mode aoe")
+  n, label = S.Targets()
+  eq(n, 3)
+  eq(label, "AOE?")
+  SlashCmdList.DMGASSIST("auto off")
+  n, label = S.Targets()
+  eq(n, 3)
+  eq(label, "AOE")
+  DMGAssist_ToggleBurst()
+  eq(ns.db.burst, false)
+  DMGAssist_Toggle()
+  eq(ns.db.enabled, false)
+  DMGAssist_Toggle()
+  eq(ns.db.enabled, true)
+end)
+
+test("HUD shows three icons and the mode", function()
+  Reset()
+  local ns = Boot()
+  local r = ns.Update()
+  local f = ns.Display.frame
+  eq(f.slots[1]:IsShown(), true)
+  eq(f.slots[2]:IsShown(), r.queue[2] ~= nil)
+  eq(type(f.mode.text), "string")
+  eq(f.mode.text:find("ST", 1, true) ~= nil or f.mode.text:find("AUTO", 1, true) ~= nil, true, f.mode.text)
+  SlashCmdList.DMGASSIST("queue 1")
+  ns.Update()
+  eq(f.slots[2]:IsShown(), false)
+end)
+
+test("translations: every language covers the same strings, Chinese client shows Chinese", function()
+  Reset()
+  mock.locale = "zhCN"
+  local ns = Boot()
+  eq(ns.L["Recommendations on."], "推荐已开启。")
+  eq(BINDING_NAME_DMGASSIST_BURST, "开关大技能")
+  local base = ns.LOCALES.deDE
+  for locale, t in pairs(ns.LOCALES) do
+    for k in pairs(base) do
+      eq(type(t[k]), "string", locale .. " is missing: " .. k)
+    end
+    for k in pairs(t) do
+      eq(type(base[k]), "string", locale .. " has an extra key: " .. k)
+    end
+  end
+  -- English client: keys are the text
+  ns.SetLocale("enUS")
+  eq(ns.L["Recommendations on."], "Recommendations on.")
+end)
+
+test("key bindings file calls functions that exist", function()
+  Reset()
+  Boot()
+  local xml = assert(io.open("addons/DMGAssist/Bindings.xml")):read("*a")
+  local count = 0
+  for fn in xml:gmatch("([%w_]+)%(%)") do
+    eq(type(_G[fn]), "function", fn)
+    count = count + 1
+  end
+  eq(count, 3)
+  for name in xml:gmatch('name="([%w_]+)"') do
+    eq(type(_G["BINDING_NAME_" .. name]), "string", name)
+  end
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))
