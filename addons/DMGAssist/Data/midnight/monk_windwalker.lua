@@ -1351,6 +1351,10 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
     [322111] = {
       n = "touch_of_death",
     },
+    [322700] = {
+      n = "spinning_crane_kick",
+      pas = true,
+    },
     [322729] = {
       ap = {
         { 322729, "self" },
@@ -1374,6 +1378,10 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
     [331433] = {
       n = "tiger_palm",
       r = 5,
+    },
+    [343730] = {
+      n = "spinning_crane_kick",
+      pas = true,
     },
     [344360] = {
       n = "touch_of_death",
@@ -1453,6 +1461,11 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
     [443039] = {
       n = "celestial_conduit",
     },
+    [443294] = {
+      n = "heart_of_the_jade_serpent",
+      pas = true,
+      tal = true,
+    },
     [443421] = {
       ap = {
         { 443421, "self" },
@@ -1521,6 +1534,10 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       n = "heart_of_the_jade_serpent",
       st = 2,
     },
+    [460485] = {
+      n = "chi_burst",
+      pas = true,
+    },
     [460490] = {
       ap = {
         { 460490, "self" },
@@ -1578,6 +1595,14 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
     [1217411] = {
       n = "slicing_winds",
     },
+    [1217412] = {
+      ap = {
+        { 1217412, "self" },
+      },
+      d = 0.5,
+      n = "slicing_winds",
+      r = 30,
+    },
     [1217413] = {
       ap = {
         { 1217413, "self" },
@@ -1605,6 +1630,10 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       n = "airborne_rhythm",
       pas = true,
       tal = true,
+    },
+    [1248946] = {
+      gain = { [12] = 2 },
+      n = "slicing_winds",
     },
     [1248989] = {
       n = "celestial_conduit",
@@ -1657,6 +1686,9 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       n = "rushing_wind_kick",
       pas = true,
       tal = true,
+    },
+    [1250999] = {
+      n = "spinning_crane_kick",
     },
     [1269159] = {
       n = "rushing_wind_kick",
@@ -1718,7 +1750,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       t = { 443028, 1248989 },
     },
     chi_burst = {
-      a = { 461404, 130654, 148135, 261682, 460490, 123986 },
+      a = { 461404, 130654, 148135, 261682, 460490, 123986, 460485 },
     },
     combo_breaker = {
       a = { 137384 },
@@ -1755,8 +1787,8 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       t = { 1250041 },
     },
     heart_of_the_jade_serpent = {
-      a = { 443421, 443424, 443506, 443616, 456368, 1238904 },
-      b = { 443421, 443424, 443506, 443616, 456368, 1238904 },
+      a = { 443421, 443424, 443506, 443616, 456368, 1238904, 443294 },
+      b = { 443421, 443424, 443506, 443616, 456368, 1238904, 443294 },
     },
     invoke_xuen_the_white_tiger = {
       a = { 123904 },
@@ -1790,14 +1822,24 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       t = { 387638, 392982 },
     },
     slicing_winds = {
-      a = { 1217413, 1217407, 1217408, 1217409, 1217410, 1217411 },
+      a = { 1217413, 1217407, 1217408, 1217409, 1217410, 1217411, 1217412, 1248946 },
       t = { 1217413 },
     },
     spear_hand_strike = {
       a = { 116705 },
     },
     spinning_crane_kick = {
-      a = { 101546, 212142, 322729, 107270, 212141, 330903 },
+      a = {
+        101546,
+        212142,
+        322729,
+        107270,
+        212141,
+        330903,
+        1250999,
+        322700,
+        343730,
+      },
     },
     spiritual_focus = {
       t = { 280197 },

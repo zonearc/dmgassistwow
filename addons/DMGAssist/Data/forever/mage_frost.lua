@@ -142,445 +142,97 @@ ns.RegisterSpecData("forever", "mage_frost", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "mage",
+  credit = "WoWSims (wowsims.com/forever)",
   gameMatch = {
-    matched = 6,
-    missing = { "any_blink", "comet_storm", "flurry", "glacial_spike", "ice_nova", "ray_of_frost", "summon_water_elemental" },
-    total = 13,
+    matched = 7,
+    missing = { "spell_1259705" },
+    total = 8,
   },
   heroTrees = {},
   key = "mage_frost",
   simc = {
-    cds = {
+    aoe = {
       {
-        a = "variable",
+        a = "cone_of_cold",
+        c = "(buff.fingers_of_frost.stack>=1)",
+        k = "T",
+      },
+      {
+        a = "ice_lance",
+        c = "(buff.fingers_of_frost.stack>=1)",
+        k = "T",
+      },
+      {
+        a = "cold_snap",
+        c = "((cooldown.cone_of_cold.remains>=5))",
+        k = "T",
+      },
+      {
+        a = "ice_barrier",
+        c = "buff.ice_barrier.down",
+        k = "T",
+      },
+      {
+        a = "blizzard",
         k = "R",
-        p = {
-          name = "ff_trinket_timing",
-          value = "talent.frostfire_bolt&(fight_remains<15|prev_gcd.1.frozen_orb|prev_gcd.1.comet_storm|prev_gcd.1.glacial_spike|cooldown.ray_of_frost.charges>=1&debuff.freezing.react<12&buff.fingers_of_frost.react<2&buff.icicles.react<5&(!buff.frostfire_empowerment.react|active_enemies<=2)&(!buff.brain_freeze.react|buff.thermal_void.up))",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "ss_trinket_timing",
-          value = "!talent.frostfire_bolt&(fight_remains<15|prev_gcd.1.frozen_orb|time>1.5&cooldown.ray_of_frost.charges>=1&debuff.freezing.react<6&!buff.fingers_of_frost.react&buff.icicles.react<=3&(!buff.brain_freeze.react|buff.thermal_void.up))",
-        },
-      },
-      {
-        a = "invoke_external_buff",
-        c = "buff.power_infusion.down&(variable.ff_trinket_timing|variable.ss_trinket_timing)",
-        k = "T",
-        p = {
-          name = "power_infusion",
-        },
-      },
-      {
-        a = "blood_fury",
-        c = "variable.ff_trinket_timing|variable.ss_trinket_timing",
-        k = "T",
-      },
-      {
-        a = "berserking",
-        c = "variable.ff_trinket_timing|variable.ss_trinket_timing",
-        k = "T",
-      },
-      {
-        a = "fireblood",
-        c = "variable.ff_trinket_timing|variable.ss_trinket_timing",
-        k = "T",
-      },
-      {
-        a = "ancestral_call",
-        c = "variable.ff_trinket_timing|variable.ss_trinket_timing",
-        k = "T",
-      },
-      {
-        a = "use_item",
-        c = "cooldown.potion.remains|!potion.potion_of_recklessness",
-        k = "T",
-        p = {
-          name = "font_of_venomous_rage",
-        },
-      },
-      {
-        a = "use_item",
-        c = "cooldown.potion.remains|!potion.potion_of_recklessness",
-        k = "T",
-        p = {
-          name = "vexhuls_everflowing_gland",
-        },
-      },
-      {
-        a = "use_item",
-        c = "variable.ff_trinket_timing|variable.ss_trinket_timing",
-        k = "T",
-        p = {
-          name = "nevermelting_ice_crystal",
-        },
-      },
-      {
-        a = "use_item",
-        c = "variable.ff_trinket_timing|variable.ss_trinket_timing",
-        k = "T",
-        p = {
-          name = "freightrunners_flask",
-        },
-      },
-      {
-        a = "use_item",
-        c = "(variable.ff_trinket_timing|variable.ss_trinket_timing)&(stat.haste_rating>stat.crit_rating|stat.versatility_rating>stat.crit_rating)",
-        k = "T",
-        p = {
-          name = "vaelgors_final_stare",
-        },
-      },
-      {
-        a = "potion",
-        c = "variable.ff_trinket_timing|variable.ss_trinket_timing|(trinket.font_of_venomous_rage.cooldown.ready|trinket.vexhuls_everflowing_gland.cooldown.ready)&potion.potion_of_recklessness|fight_remains<35",
-        k = "T",
-      },
-      {
-        a = "use_item",
-        c = "variable.ff_trinket_timing|variable.ss_trinket_timing",
-        k = "T",
-        p = {
-          name = "vaelgors_final_stare",
-        },
-      },
-      {
-        a = "use_item",
-        c = "variable.ff_trinket_timing|variable.ss_trinket_timing",
-        k = "T",
-        p = {
-          name = "vile_vial_of_volatile_venom",
-        },
-      },
-      {
-        a = "use_items",
-        k = "R",
-      },
-      {
-        a = "use_item",
-        c = "variable.ff_trinket_timing|variable.ss_trinket_timing",
-        k = "T",
-        p = {
-          name = "hex_lords_dooming_idol",
-        },
-      },
-      {
-        a = "ray_of_frost",
-        c = "talent.frostfire_bolt",
-        k = "R",
-        p = {
-          interrupt_global = "1",
-          interrupt_if = "!talent.hand_of_frost_4&active_enemies>=2&tick_time>gcd.remains&(!talent.crystalline_refraction|talent.crystalline_refraction&buff.fingers_of_frost.react=2)",
-          interrupt_immediate = "1",
-          line_cd = "9999",
-        },
-      },
-      {
-        a = "flurry",
-        c = "talent.frostfire_bolt&talent.wintertide",
-        k = "R",
-        p = {
-          line_cd = "9999",
-        },
-      },
-      {
-        a = "frozen_orb",
-        c = "talent.frostfire_bolt",
-        k = "R",
-        p = {
-          line_cd = "9999",
-        },
-      },
-      {
-        a = "flurry",
-        c = "!talent.frostfire_bolt&talent.wintertide",
-        k = "R",
-        p = {
-          line_cd = "9999",
-        },
-      },
-      {
-        a = "frozen_orb",
-        c = "!talent.frostfire_bolt",
-        k = "R",
-        p = {
-          line_cd = "9999",
-        },
-      },
-      {
-        a = "ray_of_frost",
-        c = "!talent.frostfire_bolt",
-        k = "R",
-        p = {
-          line_cd = "9999",
-        },
-      },
-      {
-        a = "ray_of_frost",
-        c = "fight_remains<12|charges=2",
-        k = "T",
-        p = {
-          interrupt_global = "1",
-          interrupt_if = "talent.frostfire_bolt&!talent.hand_of_frost_4&active_enemies>=2&tick_time>gcd.remains&(!talent.crystalline_refraction|talent.crystalline_refraction&buff.fingers_of_frost.react=2)",
-          interrupt_immediate = "1",
-        },
-      },
-      {
-        a = "comet_storm",
-        c = "fight_remains<8",
-        k = "M",
       },
     },
     default = {
       {
         a = "call_action_list",
-        k = "R",
+        c = "(mana.pct<=5)",
+        k = "T",
         p = {
-          name = "cds",
+          name = "mana_tools",
         },
-      },
-      {
-        a = "run_action_list",
-        c = "talent.frostfire_bolt",
-        k = "R",
-        p = {
-          name = "frostfire",
-        },
-      },
-      {
-        a = "run_action_list",
-        k = "R",
-        p = {
-          name = "spellslinger",
-        },
-      },
-    },
-    frostfire = {
-      {
-        a = "glacial_spike",
-        c = "buff.glacial_spike.react|time-buff.rapid_refreezing.last_trigger<1.5",
-        k = "T",
-      },
-      {
-        a = "comet_storm",
-        c = "active_enemies<=2|prev_gcd.2.glacial_spike&(time-buff.rapid_refreezing.last_trigger>1.5|!set_bonus.midnight_season_2_4pc)",
-        k = "T",
-      },
-      {
-        a = "flurry",
-        c = "buff.brain_freeze.react&buff.thermal_void.down",
-        k = "T",
-      },
-      {
-        a = "ice_lance",
-        c = "buff.fingers_of_frost.react=2",
-        k = "T",
-      },
-      {
-        a = "ray_of_frost",
-        c = "!talent.hand_of_frost_4",
-        k = "R",
-        p = {
-          interrupt_global = "1",
-          interrupt_if = "active_enemies>=2&tick_time>gcd.remains&(!talent.crystalline_refraction|talent.crystalline_refraction&buff.fingers_of_frost.react=2)",
-          interrupt_immediate = "1",
-        },
-      },
-      {
-        a = "frozen_orb",
-        k = "R",
-      },
-      {
-        a = "blizzard",
-        c = "active_enemies>=(8-3*talent.freezing_winds-2*talent.freezing_rain)|active_enemies>=3&buff.freezing_rain.up",
-        k = "T",
-      },
-      {
-        a = "ice_lance",
-        c = "buff.fingers_of_frost.react&buff.thermal_void.up",
-        k = "T",
-      },
-      {
-        a = "ice_lance",
-        c = "debuff.freezing.stack>=12",
-        k = "T",
-      },
-      {
-        a = "flurry",
-        c = "cooldown_react",
-        k = "T",
-      },
-      {
-        a = "ice_nova",
-        c = "active_enemies>=5&talent.cone_of_frost&!buff.frostfire_empowerment.react&cooldown.ray_of_frost.charges>=1",
-        k = "T",
-      },
-      {
-        a = "cone_of_cold",
-        c = "active_enemies>=5&talent.cone_of_frost&!buff.frostfire_empowerment.react&cooldown.ray_of_frost.charges>=1",
-        k = "T",
-      },
-      {
-        a = "ray_of_frost",
-        c = "active_enemies<=2|!buff.frostfire_empowerment.react",
-        k = "T",
-      },
-      {
-        a = "glacial_spike",
-        k = "R",
-      },
-      {
-        a = "frostbolt",
-        k = "R",
       },
       {
         a = "call_action_list",
-        k = "R",
+        c = "(active_enemies>=3)",
+        k = "M",
         p = {
-          name = "movement",
+          name = "aoe",
         },
       },
-    },
-    movement = {
       {
-        a = "any_blink",
-        c = "movement.distance>5",
-        k = "R",
-      },
-      {
-        a = "blizzard",
-        c = "buff.freezing_rain.up",
+        a = "cold_snap",
+        c = "(cooldown.cone_of_cold.remains>=7)",
         k = "T",
       },
       {
-        a = "ice_nova",
-        c = "talent.cone_of_frost",
-        k = "R",
-      },
-      {
         a = "cone_of_cold",
-        c = "talent.cone_of_frost",
-        k = "R",
+        c = "(debuff.winters_chill.stack=5)",
+        k = "T",
       },
       {
         a = "ice_lance",
-        k = "R",
-      },
-    },
-    precombat = {
-      {
-        a = "arcane_intellect",
-        k = "R",
+        c = "((buff.fingers_of_frost.stack=1)&casting.frostbolt)",
+        k = "U",
       },
       {
-        a = "snapshot_stats",
-        k = "R",
-      },
-      {
-        a = "summon_water_elemental",
-        k = "R",
-      },
-      {
-        a = "blizzard",
-        c = "talent.frostfire_bolt&active_enemies>=(8-3*talent.freezing_winds-2*talent.freezing_rain)|!talent.frostfire_bolt&active_enemies>=(7-2*talent.freezing_winds-2*talent.freezing_rain)",
-        k = "M",
-      },
-      {
-        a = "glacial_spike",
-        k = "R",
+        a = "ice_barrier",
+        c = "(buff.frigid_power.remains<=3)",
+        k = "T",
       },
       {
         a = "frostbolt",
         k = "R",
       },
     },
-    spellslinger = {
+    mana_tools = {
       {
-        a = "comet_storm",
+        a = "spell_1259705",
         k = "R",
       },
       {
-        a = "flurry",
-        c = "buff.brain_freeze.react&buff.thermal_void.down",
-        k = "T",
-      },
-      {
-        a = "ice_lance",
-        c = "buff.fingers_of_frost.react=2",
-        k = "T",
-      },
-      {
-        a = "frozen_orb",
+        a = "evocation",
         k = "R",
-      },
-      {
-        a = "glacial_spike",
-        c = "buff.glacial_spike.react|time-buff.rapid_refreezing.last_trigger<1.5",
-        k = "T",
-      },
-      {
-        a = "blizzard",
-        c = "active_enemies>=(5-2*talent.freezing_winds)&buff.freezing_rain.up",
-        k = "T",
-      },
-      {
-        a = "ice_lance",
-        c = "buff.fingers_of_frost.react",
-        k = "T",
-      },
-      {
-        a = "ice_lance",
-        c = "debuff.freezing.react>=6",
-        k = "T",
-      },
-      {
-        a = "ray_of_frost",
-        c = "buff.icicles.react<=3|active_enemies>=3",
-        k = "T",
-      },
-      {
-        a = "flurry",
-        c = "cooldown_react",
-        k = "T",
-      },
-      {
-        a = "ice_nova",
-        c = "active_enemies>=4&talent.cone_of_frost",
-        k = "M",
-      },
-      {
-        a = "cone_of_cold",
-        c = "active_enemies>=4&talent.cone_of_frost",
-        k = "M",
-      },
-      {
-        a = "blizzard",
-        c = "active_enemies>=(7-2*talent.freezing_winds-2*talent.freezing_rain)",
-        k = "M",
-      },
-      {
-        a = "glacial_spike",
-        k = "R",
-      },
-      {
-        a = "frostbolt",
-        k = "R",
-      },
-      {
-        a = "call_action_list",
-        k = "R",
-        p = {
-          name = "movement",
-        },
       },
     },
+    precombat = {},
   },
-  simcOrder = { "precombat", "default", "cds", "frostfire", "movement", "spellslinger" },
-  simcSource = "simc",
+  simcOrder = { "precombat", "default", "mana_tools", "aoe" },
+  simcSource = "wowsims",
   spec = "frost",
   spellInfo = {
     [10] = {
@@ -704,6 +356,17 @@ ns.RegisterSpecData("forever", "mage_frost", {
       n = "frostbolt",
       r = 30,
     },
+    [8408] = {
+      ap = {
+        { 8408, "enemy" },
+      },
+      cost = { [0] = 160 },
+      ct = 3,
+      d = 8,
+      gcd = 1.5,
+      n = "frostbolt",
+      r = 30,
+    },
     [8427] = {
       ap = {
         { 8427, "self" },
@@ -756,6 +419,39 @@ ns.RegisterSpecData("forever", "mage_frost", {
       gcd = 1.5,
       n = "cone_of_cold",
     },
+    [10179] = {
+      ap = {
+        { 10179, "enemy" },
+      },
+      cost = { [0] = 195 },
+      ct = 3,
+      d = 9,
+      gcd = 1.5,
+      n = "frostbolt",
+      r = 30,
+    },
+    [10180] = {
+      ap = {
+        { 10180, "enemy" },
+      },
+      cost = { [0] = 225 },
+      ct = 3,
+      d = 9,
+      gcd = 1.5,
+      n = "frostbolt",
+      r = 30,
+    },
+    [10181] = {
+      ap = {
+        { 10181, "enemy" },
+      },
+      cost = { [0] = 260 },
+      ct = 3,
+      d = 9,
+      gcd = 1.5,
+      n = "frostbolt",
+      r = 30,
+    },
     [10185] = {
       ap = {
         { 10185, "self" },
@@ -786,6 +482,10 @@ ns.RegisterSpecData("forever", "mage_frost", {
       n = "blizzard",
       r = 30,
     },
+    [11180] = {
+      n = "winters_chill",
+      pas = true,
+    },
     [11426] = {
       ap = {
         { 11426, "self" },
@@ -795,7 +495,6 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 60,
       gcd = 1.5,
       n = "ice_barrier",
-      tal = true,
     },
     [11958] = {
       ap = {
@@ -806,7 +505,37 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 10,
       gcd = 1.5,
       n = "ice_block",
-      tal = true,
+    },
+    [12051] = {
+      ap = {
+        { 12051, "self" },
+      },
+      cd = 480,
+      d = 8,
+      gcd = 1.5,
+      n = "evocation",
+    },
+    [12472] = {
+      cd = 600,
+      n = "cold_snap",
+    },
+    [12557] = {
+      cost = { [0] = 120 },
+      d = 8,
+      n = "cone_of_cold",
+    },
+    [12579] = {
+      ap = {
+        { 12579, "enemy" },
+      },
+      d = 15,
+      n = "winters_chill",
+      st = 5,
+    },
+    [12611] = {
+      cost = { [0] = 120 },
+      d = 8,
+      n = "cone_of_cold",
     },
     [13031] = {
       ap = {
@@ -838,12 +567,115 @@ ns.RegisterSpecData("forever", "mage_frost", {
       gcd = 1.5,
       n = "ice_barrier",
     },
+    [13326] = {
+      cost = { [0] = 90 },
+      d = 1800,
+      n = "arcane_intellect",
+      r = 30,
+    },
+    [15122] = {
+      cost = { [0] = 100 },
+      d = 15,
+      n = "counterspell",
+      r = 30,
+    },
+    [15244] = {
+      cost = { [0] = 120 },
+      d = 8,
+      n = "cone_of_cold",
+    },
+    [16876] = {
+      d = 1800,
+      gcd = 1.5,
+      n = "arcane_intellect",
+      r = 30,
+    },
+    [19715] = {
+      d = 10,
+      n = "counterspell",
+      r = 30,
+    },
+    [20537] = {
+      cd = 30,
+      d = 15,
+      n = "counterspell",
+      r = 30,
+    },
+    [20788] = {
+      d = 0.001,
+      n = "counterspell",
+      r = 10,
+    },
+    [20828] = {
+      cost = { [0] = 120 },
+      d = 8,
+      n = "cone_of_cold",
+    },
+    [22746] = {
+      d = 8,
+      n = "cone_of_cold",
+    },
+    [25304] = {
+      ap = {
+        { 25304, "enemy" },
+      },
+      cost = { [0] = 290 },
+      ct = 3,
+      d = 9,
+      gcd = 1.5,
+      n = "frostbolt",
+      r = 30,
+    },
+    [27618] = {
+      cost = { [0] = 1400 },
+      d = 8,
+      gcd = 1.5,
+      n = "blizzard",
+      r = 30,
+    },
+    [27619] = {
+      ap = {
+        { 27619, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 15 },
+      d = 10,
+      gcd = 1.5,
+      n = "ice_block",
+    },
+    [28763] = {
+      n = "evocation",
+      pas = true,
+    },
     [29443] = {
       d = 10,
       n = "counterspell",
       r = 30,
     },
+    [30095] = {
+      cost = { [0] = 120 },
+      d = 8,
+      n = "cone_of_cold",
+    },
+    [350025] = {
+      ap = {
+        { 350025, "enemy" },
+      },
+      cost = { [0] = 35 },
+      ct = 1.8,
+      d = 6,
+      n = "frostbolt",
+      r = 30,
+    },
+    [364161] = {
+      cost = { [0] = 185 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+      r = 30,
+    },
     [400640] = {
+      cd = 8,
       cost = { [0] = 55 },
       gcd = 1.5,
       n = "ice_lance",
@@ -852,7 +684,6 @@ ns.RegisterSpecData("forever", "mage_frost", {
     [400647] = {
       n = "fingers_of_frost",
       pas = true,
-      tal = true,
     },
     [400669] = {
       ap = {
@@ -860,6 +691,14 @@ ns.RegisterSpecData("forever", "mage_frost", {
       },
       d = 15,
       n = "fingers_of_frost",
+    },
+    [400670] = {
+      ap = {
+        { 400670, "self" },
+      },
+      d = 15,
+      n = "fingers_of_frost",
+      st = 2,
     },
     [400731] = {
       n = "brain_freeze",
@@ -869,8 +708,8 @@ ns.RegisterSpecData("forever", "mage_frost", {
       n = "brain_freeze",
       pas = true,
     },
-    [401735] = {
-      n = "frostfire_bolt",
+    [401732] = {
+      n = "ice_lance",
       pas = true,
     },
     [401741] = {
@@ -897,93 +736,196 @@ ns.RegisterSpecData("forever", "mage_frost", {
       pas = true,
     },
     [440809] = {
-      ap = {
-        { 440809, "enemy" },
-      },
       d = 5,
       gcd = 1.5,
+      n = "frozen_orb",
+    },
+    [440813] = {
       n = "frozen_orb",
     },
     [440859] = {
       n = "frozen_orb",
       pas = true,
     },
+    [456397] = {
+      ap = {
+        { 456397, "self" },
+      },
+      d = 8,
+      n = "evocation",
+    },
+    [460651] = {
+      gcd = 1.5,
+      n = "frozen_orb",
+    },
+    [1213278] = {
+      ap = {
+        { 1213278, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 480 },
+      d = 60,
+      gcd = 1.5,
+      n = "ice_barrier",
+    },
+    [1233255] = {
+      cost = { [0] = 100 },
+      d = 6,
+      n = "counterspell",
+      r = 30,
+    },
     [1240044] = {
+      cd = 8,
       cost = { [0] = 70 },
       gcd = 1.5,
       n = "ice_lance",
       r = 30,
     },
     [1240045] = {
+      cd = 8,
       cost = { [0] = 105 },
       gcd = 1.5,
       n = "ice_lance",
       r = 30,
     },
     [1240046] = {
+      cd = 8,
       cost = { [0] = 120 },
       gcd = 1.5,
       n = "ice_lance",
       r = 30,
     },
     [1240047] = {
+      cd = 8,
       cost = { [0] = 160 },
       gcd = 1.5,
       n = "ice_lance",
       r = 30,
     },
+    [1279949] = {
+      n = "blizzard",
+    },
+    [1279977] = {
+      n = "blizzard",
+    },
+    [1279978] = {
+      n = "blizzard",
+    },
+    [1279979] = {
+      n = "blizzard",
+    },
+    [1279980] = {
+      n = "blizzard",
+    },
     [1312002] = {
+      cd = 8,
       cost = { [0] = 45 },
       gcd = 1.5,
       n = "ice_lance",
       r = 30,
-      tal = true,
+    },
+    [1326891] = {
+      ap = {
+        { 1326891, "self" },
+      },
+      d = 60,
+      n = "frigid_power",
     },
   },
   spells = {
     arcane_intellect = {
-      a = { 1459, 1460, 1461, 10156, 10157 },
+      a = { 10157, 16876, 10156, 1461, 1460, 364161, 1459, 13326 },
     },
     blizzard = {
-      a = { 10, 6141, 8427, 10185, 10186, 10187 },
+      a = {
+        10187,
+        27618,
+        10186,
+        10185,
+        8427,
+        6141,
+        10,
+        1279949,
+        1279980,
+        1279979,
+        1279978,
+        1279977,
+      },
     },
     brain_freeze = {
       a = { 400731, 401725 },
       b = { 400731, 401725 },
     },
+    cold_snap = {
+      a = { 12472 },
+    },
     cone_of_cold = {
-      a = { 120, 8492, 10159, 10160, 10161 },
+      a = {
+        10161,
+        10160,
+        10159,
+        8492,
+        120,
+        12557,
+        12611,
+        15244,
+        20828,
+        30095,
+        22746,
+      },
     },
     counterspell = {
-      a = { 2139, 29443 },
+      a = { 2139, 15122, 20537, 1233255, 19715, 20788, 29443 },
+    },
+    evocation = {
+      a = { 12051, 456397, 28763 },
     },
     fingers_of_frost = {
-      a = { 400647, 400669, 401741 },
-      b = { 400669, 401741, 400647 },
+      a = { 400669, 400670, 400647, 401741 },
+      b = { 400669, 400670, 400647, 401741 },
+    },
+    frigid_power = {
+      a = { 1326891 },
+      b = { 1326891 },
     },
     frostbolt = {
-      a = { 116, 205, 837, 7322, 8406, 8407 },
-    },
-    frostfire_bolt = {
-      t = { 401735 },
+      a = {
+        25304,
+        10181,
+        10180,
+        10179,
+        8408,
+        8407,
+        8406,
+        7322,
+        837,
+        205,
+        116,
+        350025,
+      },
     },
     frozen_orb = {
-      a = { 440802, 440809, 440804, 440859 },
+      a = { 440802, 440809, 460651, 440813, 440804, 440859 },
     },
     ice_barrier = {
-      a = { 11426, 13031, 13032, 13033 },
+      a = { 13033, 1213278, 13032, 13031, 11426 },
+      b = { 13033, 1213278, 13032, 13031, 11426 },
     },
     ice_block = {
-      a = { 11958 },
+      a = { 11958, 27619 },
     },
     ice_lance = {
-      a = { 400640, 1240044, 1240045, 1240046, 1240047, 1312002 },
+      a = { 1240047, 1240046, 1240045, 1240044, 400640, 1312002, 401732 },
     },
     skull_bash = {
       a = { 415759 },
     },
     survival_of_the_fittest = {
       a = { 415709 },
+    },
+    winters_chill = {
+      a = { 12579, 11180 },
+      b = { 12579, 11180 },
     },
   },
 })

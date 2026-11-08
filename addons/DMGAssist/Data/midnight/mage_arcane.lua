@@ -820,6 +820,9 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       pas = true,
       tal = true,
     },
+    [1219545] = {
+      n = "alter_time",
+    },
     [1223522] = {
       ap = {
         { 1223522, "self" },
@@ -916,7 +919,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
   },
   spells = {
     alter_time = {
-      a = { 108978, 342245, 110909, 127140, 342246, 342247 },
+      a = { 108978, 342245, 110909, 127140, 342246, 342247, 1219545 },
     },
     amplification = {
       t = { 236628 },

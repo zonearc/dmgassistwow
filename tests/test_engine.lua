@@ -1495,6 +1495,64 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   eq(ns.db.interruptMode, "smart")
 end)
 
+---------------------------------------------------------------------------
+-- Forever: WoWSims lists, ranks, new terms, Feral cat/bear switch
+---------------------------------------------------------------------------
+test("Forever Feral uses the WoWSims list, credits it, and picks the highest rank known", function()
+  Reset()
+  mock.book = {
+    { spellID = 1079, name = "Rip" }, { spellID = 9492, name = "Rip" }, -- ranks 1 and 2 known
+    { spellID = 768, name = "Cat Form" }, { spellID = 5221, name = "Shred" },
+  }
+  local ns = Boot("camelot", 18)
+  local rec = ns.Specs.current.data
+  eq(rec.simcSource, "wowsims")
+  eq(rec.credit, "WoWSims (wowsims.com/forever)")
+  eq(ns.SpellMap.SpellID("rip"), 9492, "rank 2 known -> rank 2, not rank 1 or the list's rank 6")
+  SlashCmdList.DMGASSIST("")
+  local credited = false
+  for _, line in ipairs(mock.printed) do
+    if line:find("WoWSims", 1, true) then
+      credited = true
+    end
+  end
+  eq(credited, true, "credit shown to the player")
+end)
+
+test("WoWSims terms: known.<spell>, talentid.<id>, casting.<spell>, health.pct", function()
+  Reset()
+  mock.talents = { { name = "Blood Frenzy", spellID = 16954, rank = 2 } }
+  local ns = Boot()
+  local S, UNKNOWN = ns.State, ns.Expr.UNKNOWN
+  eq(S.Resolve("known.shred", {}), 1)
+  eq(S.Resolve("known.starfire", {}), 0)
+  eq(S.Resolve("talentid.16954", {}), 2)
+  eq(S.Resolve("talentid.99999", {}), 0, "tree read, not taken")
+  eq(S.Resolve("casting.shred", {}), 0)
+  mock.casting = { id = 5221, endsIn = 1 }
+  eq(S.Resolve("casting.shred", {}), 1)
+  mock.healthPct = nil
+  eq(S.Resolve("health.pct", {}), 100, "readable out of combat")
+  Restrict()
+  eq(S.Resolve("health.pct", {}), UNKNOWN)
+end)
+
+test("Forever Feral switches to the bear list in Bear Form", function()
+  Reset()
+  local ns = Boot("camelot", 18)
+  local state = ns.Specs.current
+  eq(ns.ActiveRecord(state).key, "druid_feral")
+  GetShapeshiftFormID = function() return 5 end
+  eq(ns.ActiveRecord(state).key, "druid_guardian")
+  GetShapeshiftFormID = function() return mock.Secret() end -- hidden: Maul castable means bear
+  mock.book = { { spellID = 6807, name = "Maul" } }
+  ns.SpellMap.Refresh()
+  eq(ns.ActiveRecord(state).key, "druid_guardian", "Maul usable -> bear")
+  mock.usable[6807] = { false, false }
+  eq(ns.ActiveRecord(state).key, "druid_feral", "Maul unusable (not in bear) -> cat")
+  GetShapeshiftFormID = nil
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

@@ -956,6 +956,9 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       d = 15,
       n = "eclipse_lunar",
     },
+    [50286] = {
+      n = "starfall",
+    },
     [50322] = {
       ap = {
         { 50322, "self" },
@@ -1452,6 +1455,9 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       n = "starfall",
       st = 20,
     },
+    [1264673] = {
+      n = "starfall",
+    },
     [1264676] = {
       n = "starfall",
     },
@@ -1472,6 +1478,15 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       n = "fungal_growth",
     },
     [1286243] = {
+      n = "starfall",
+    },
+    [1286247] = {
+      n = "starfall",
+    },
+    [1301742] = {
+      n = "starfall",
+    },
+    [1301747] = {
       n = "starfall",
     },
     [1303480] = {
@@ -1601,7 +1616,19 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       a = { 78675, 97547 },
     },
     starfall = {
-      a = { 191034, 191037, 359399, 1264671, 1264676, 1286243 },
+      a = {
+        191034,
+        191037,
+        359399,
+        1264671,
+        1264676,
+        1286243,
+        1301742,
+        50286,
+        1264673,
+        1286247,
+        1301747,
+      },
     },
     starfire = {
       a = { 194153, 197628 },

@@ -979,6 +979,17 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       d = 1,
       n = "wailing_arrow",
     },
+    [398388] = {
+      d = 3,
+      n = "wailing_arrow",
+    },
+    [459808] = {
+      ap = {
+        { 459808, "self" },
+      },
+      d = 15,
+      n = "wailing_arrow",
+    },
     [460496] = {
       n = "rapid_fire",
       r = 40,
@@ -1205,7 +1216,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       b = { 260243, 260247 },
     },
     wailing_arrow = {
-      a = { 355589, 392060, 354831, 355596, 392058, 392061 },
+      a = { 355589, 392060, 354831, 355596, 392058, 392061, 398388, 459808 },
     },
   },
 })

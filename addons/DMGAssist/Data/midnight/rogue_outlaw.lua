@@ -955,6 +955,23 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       d = 30,
       n = "jackpot",
     },
+    [1235074] = {
+      gain = { [4] = 1 },
+      n = "killing_spree",
+      r = 10,
+    },
+    [1235097] = {
+      n = "killing_spree",
+      r = 10,
+    },
+    [1235100] = {
+      n = "killing_spree",
+      r = 10,
+    },
+    [1248603] = {
+      n = "killing_spree",
+      r = 10,
+    },
     [1254567] = {
       gain = { [4] = 1 },
       n = "opportunity",
@@ -1065,7 +1082,18 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       a = { 1766 },
     },
     killing_spree = {
-      a = { 51690, 57841, 57842, 424556, 424562, 424564 },
+      a = {
+        51690,
+        57841,
+        57842,
+        424556,
+        424562,
+        424564,
+        1235074,
+        1235097,
+        1235100,
+        1248603,
+      },
     },
     loaded_dice = {
       a = { 256171, 256170 },

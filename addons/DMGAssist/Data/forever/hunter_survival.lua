@@ -484,24 +484,12 @@ ns.RegisterSpecData("forever", "hunter_survival", {
   simcSource = "simc",
   spec = "survival",
   spellInfo = {
-    [2973] = {
-      cd = 6,
-      cost = { [0] = 10 },
-      n = "raptor_strike",
-      r = 5,
-    },
     [3044] = {
       cd = 6,
       cost = { [0] = 25 },
       gcd = 1.5,
       n = "arcane_shot",
       r = 35,
-    },
-    [14260] = {
-      cd = 6,
-      cost = { [0] = 25 },
-      n = "raptor_strike",
-      r = 5,
     },
     [14261] = {
       cd = 6,
@@ -524,6 +512,18 @@ ns.RegisterSpecData("forever", "hunter_survival", {
     [14264] = {
       cd = 6,
       cost = { [0] = 70 },
+      n = "raptor_strike",
+      r = 5,
+    },
+    [14265] = {
+      cd = 6,
+      cost = { [0] = 85 },
+      n = "raptor_strike",
+      r = 5,
+    },
+    [14266] = {
+      cd = 6,
+      cost = { [0] = 100 },
       n = "raptor_strike",
       r = 5,
     },
@@ -562,6 +562,20 @@ ns.RegisterSpecData("forever", "hunter_survival", {
       n = "arcane_shot",
       r = 35,
     },
+    [14286] = {
+      cd = 6,
+      cost = { [0] = 160 },
+      gcd = 1.5,
+      n = "arcane_shot",
+      r = 35,
+    },
+    [14287] = {
+      cd = 6,
+      cost = { [0] = 190 },
+      gcd = 1.5,
+      n = "arcane_shot",
+      r = 35,
+    },
     [409379] = {
       ap = {
         { 409379, "self" },
@@ -590,6 +604,48 @@ ns.RegisterSpecData("forever", "hunter_survival", {
       n = "steady_shot",
       pas = true,
     },
+    [415337] = {
+      cd = 6,
+      cost = { [0] = 35 },
+      gcd = 1.5,
+      n = "raptor_strike",
+      r = 5,
+    },
+    [415338] = {
+      cd = 6,
+      cost = { [0] = 45 },
+      gcd = 1.5,
+      n = "raptor_strike",
+      r = 5,
+    },
+    [415340] = {
+      cd = 6,
+      cost = { [0] = 55 },
+      gcd = 1.5,
+      n = "raptor_strike",
+      r = 5,
+    },
+    [415341] = {
+      cd = 6,
+      cost = { [0] = 70 },
+      gcd = 1.5,
+      n = "raptor_strike",
+      r = 5,
+    },
+    [415342] = {
+      cd = 6,
+      cost = { [0] = 85 },
+      gcd = 1.5,
+      n = "raptor_strike",
+      r = 5,
+    },
+    [415343] = {
+      cd = 6,
+      cost = { [0] = 100 },
+      gcd = 1.5,
+      n = "raptor_strike",
+      r = 5,
+    },
     [437123] = {
       ct = 1.5,
       gcd = 1.5,
@@ -599,13 +655,26 @@ ns.RegisterSpecData("forever", "hunter_survival", {
   },
   spells = {
     arcane_shot = {
-      a = { 3044, 14281, 14282, 14283, 14284, 14285 },
+      a = { 14287, 14286, 14285, 14284, 14283, 14282, 14281, 3044 },
     },
     kill_command = {
       a = { 409379, 409418, 409396 },
     },
     raptor_strike = {
-      a = { 2973, 14260, 14261, 14262, 14263, 14264 },
+      a = {
+        14266,
+        415343,
+        14265,
+        415342,
+        14264,
+        415341,
+        14263,
+        415340,
+        14262,
+        415338,
+        14261,
+        415337,
+      },
     },
     steady_shot = {
       a = { 437123, 409957 },

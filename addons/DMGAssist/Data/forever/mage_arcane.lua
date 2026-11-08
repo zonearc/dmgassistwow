@@ -159,248 +159,40 @@ ns.RegisterSpecData("forever", "mage_arcane", {
   blizzardExcluded = { "arcane_surge" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "mage",
+  credit = "WoWSims (wowsims.com/forever)",
   gameMatch = {
-    matched = 8,
-    missing = { "arcane_orb", "mirror_image", "prismatic_bolt", "touch_of_the_magi" },
-    total = 12,
+    matched = 6,
+    missing = { "spell_1259705" },
+    total = 7,
   },
   heroTrees = {},
   key = "mage_arcane",
   simc = {
-    cooldowns = {
+    default = {
       {
-        a = "arcane_orb",
-        c = "talent.splintering_sorcery",
-        k = "R",
+        a = "call_action_list",
+        c = "(mana.pct<=10)",
+        k = "T",
         p = {
-          line_cd = "999",
+          name = "evocation",
         },
       },
       {
-        a = "touch_of_the_magi",
-        c = "(prev_gcd.1.prismatic_bolt|prev_gcd.1.arcane_barrage|(buff.arcane_surge.up&buff.arcane_surge.remains<12))&(buff.arcane_surge.up|cooldown.arcane_surge.remains>30)",
-        k = "T",
-        p = {
-          use_off_gcd = "1",
-        },
-      },
-      {
-        a = "arcane_surge",
-        c = "buff.lustrous_gleam.stack>=2|buff.lustrous_gleam.down",
-        k = "T",
-      },
-      {
-        a = "cancel_action",
-        c = "action.evocation.channeling&mana.pct>=95",
-        k = "T",
-      },
-      {
-        a = "evocation",
-        c = "mana.pct<10&buff.arcane_surge.down&debuff.touch_of_the_magi.down&cooldown.arcane_surge.remains>10",
+        a = "arcane_missiles",
+        c = "buff.missile_barrage.up",
         k = "T",
       },
       {
         a = "presence_of_mind",
-        c = "buff.arcane_charge.stack<1&!buff.prismatic_bolt.up&!cooldown.arcane_orb.ready&!cooldown.arcane_pulse.ready&!cooldown.touch_of_the_magi.ready&(buff.clearcasting.react=0|!talent.high_voltage)&prev_gcd.1.arcane_barrage",
-        k = "T",
-        p = {
-          use_off_gcd = "1",
-        },
-      },
-    },
-    default = {
-      {
-        a = "counterspell",
+        c = "cooldown.arcane_wrath.ready",
         k = "R",
       },
       {
-        a = "invoke_external_buff",
-        c = "(buff.arcane_surge.up&debuff.touch_of_the_magi.up)|(fight_remains<16)",
-        k = "T",
-        p = {
-          name = "power_infusion",
-        },
-      },
-      {
-        a = "potion",
-        c = "cooldown.arcane_surge.ready|fight_remains<35",
-        k = "M",
-      },
-      {
-        a = "berserking",
-        c = "(buff.arcane_surge.up&debuff.touch_of_the_magi.up)|(fight_remains<13)",
-        k = "T",
-      },
-      {
-        a = "blood_fury",
-        c = "(buff.arcane_surge.up&debuff.touch_of_the_magi.up)|(fight_remains<9)",
-        k = "T",
-      },
-      {
-        a = "fireblood",
-        c = "(buff.arcane_surge.up&debuff.touch_of_the_magi.up)|(fight_remains<16)",
-        k = "T",
-      },
-      {
-        a = "ancestral_call",
-        c = "(buff.arcane_surge.up&debuff.touch_of_the_magi.up)|(fight_remains<16)",
-        k = "T",
-      },
-      {
-        a = "use_item",
-        c = "((buff.arcane_surge.down&buff.arcane_soul.down&debuff.touch_of_the_magi.down)|(!potion.liquid_luster&time<5))&(time>25|!variable.steroid_trinket_equipped|equipped.hex_lords_dooming_idol)|fight_remains<30",
-        k = "T",
-        p = {
-          name = "font_of_venomous_rage",
-        },
-      },
-      {
-        a = "use_item",
-        c = "(buff.hex_lords_doom.stack>(24-(15*equipped.vile_vial_of_volatile_venom))&(cooldown.arcane_surge.ready|buff.arcane_surge.up)&variable.hex_double_on_use)|((cooldown.arcane_surge.ready|buff.arcane_surge.up)&!variable.hex_double_on_use)",
-        k = "T",
-        p = {
-          name = "hex_lords_dooming_idol",
-        },
-      },
-      {
-        a = "use_item",
-        c = "(cooldown.arcane_surge.remains<2)|cooldown.arcane_surge.ready|(fight_remains<22)",
-        k = "T",
-        p = {
-          name = "stormbound_emblem_of_dazar",
-        },
-      },
-      {
-        a = "use_items",
-        c = "((buff.arcane_surge.up&((variable.12ssteroid_trinket_equipped&debuff.touch_of_the_magi.up)|variable.15ssteroid_trinket_equipped))|(cooldown.arcane_surge.ready&variable.20ssteroid_trinket_equipped))|(fight_remains<13&variable.12ssteroid_trinket_equipped)|(fight_remains<16&variable.15ssteroid_trinket_equipped)|(fight_remains<21&variable.20ssteroid_trinket_equipped)|(variable.nonsteroid_trinket_equipped&((buff.arcane_surge.down&cooldown.arcane_surge.remains>20)|!variable.steroid_trinket_equipped))|fight_remains<((20*variable.steroid_trinket_equipped)+(20*variable.nonsteroid_trinket_equipped)+(10*equipped.hex_lords_dooming_idol))",
-        k = "T",
-      },
-      {
-        a = "use_item",
-        c = "(fight_remains<(40+(3*variable.nonsteroid_trinket_equipped)+(20*variable.hex_double_on_use)-(15*equipped.vile_vial_of_volatile_venom)))",
-        k = "M",
-        p = {
-          name = "hex_lords_dooming_idol",
-        },
-      },
-      {
-        a = "arcane_barrage",
-        c = "fight_remains<gcd.max*2&buff.arcane_charge.stack=4",
-        k = "T",
-      },
-      {
-        a = "call_action_list",
-        k = "R",
-        p = {
-          name = "cooldowns",
-        },
-      },
-      {
-        a = "call_action_list",
-        c = "talent.splintering_sorcery",
-        k = "R",
-        p = {
-          name = "spellslinger",
-        },
-      },
-      {
-        a = "call_action_list",
-        c = "!talent.splintering_sorcery",
-        k = "R",
-        p = {
-          name = "sunfury",
-        },
-      },
-      {
-        a = "arcane_barrage",
-        c = "talent.spellfire_spheres&!buff.arcane_surge.up",
-        k = "T",
-      },
-    },
-    precombat = {
-      {
-        a = "arcane_intellect",
+        a = "arcane_wrath",
         k = "R",
       },
       {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "aoe_count",
-          op = "set",
-          value = "2+(3*talent.spellfire_spheres)",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "20ssteroid_trinket_equipped",
-          op = "set",
-          value = "equipped.signet_of_the_priory|equipped.incorporeal_essencegorger|equipped.sealed_chaos_urn|equipped.hex_lords_dooming_idol",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "15ssteroid_trinket_equipped",
-          op = "set",
-          value = "equipped.lily_of_the_eternal_weave|equipped.sunblood_amethyst|equipped.astral_gladiators_badge_of_ferocity|equipped.arazs_ritual_forge|equipped.freightrunners_flask|equipped.emberwing_feather|equipped.vaelgors_final_stare|equipped.galactic_gladiators_badge_of_ferocity|equipped.vile_vial_of_volatile_venom|equipped.venomous_gladiators_badge_of_ferocity",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "12ssteroid_trinket_equipped",
-          op = "set",
-          value = "equipped.nevermelting_ice_crystal|equipped.ever_collapsing_void_fissure",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "steroid_trinket_equipped",
-          op = "set",
-          value = "equipped.lily_of_the_eternal_weave|equipped.sunblood_amethyst|equipped.astral_gladiators_badge_of_ferocity|equipped.arazs_ritual_forge|equipped.freightrunners_flask|equipped.emberwing_feather|equipped.vaelgors_final_stare|equipped.galactic_gladiators_badge_of_ferocity|equipped.nevermelting_ice_crystal|equipped.ever_collapsing_void_fissure|equipped.signet_of_the_priory|equipped.incorporeal_essencegorger|equipped.sealed_chaos_urn|equipped.venomous_gladiators_badge_of_ferocity|equipped.vile_vial_of_volatile_venom|equipped.stormbound_emblem_of_dazar|equipped.hex_lords_dooming_idol",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "nonsteroid_trinket_equipped",
-          op = "set",
-          value = "equipped.mereldars_toll|equipped.perfidious_projector|equipped.chaotic_nethergate|equipped.wraps_of_cosmic_madness|equipped.astalors_anguish_agitator|equipped.sethraliss_defiled_relic|equipped.vexhuls_everflowing_gland|equipped.font_of_venomous_rage|equipped.ophidian_bone_whistle|equipped.spiritrending_poison",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "hex_double_on_use",
-          op = "set",
-          value = "(equipped.lily_of_the_eternal_weave|equipped.sunblood_amethyst|equipped.astral_gladiators_badge_of_ferocity|equipped.arazs_ritual_forge|equipped.freightrunners_flask|equipped.emberwing_feather|equipped.vaelgors_final_stare|equipped.galactic_gladiators_badge_of_ferocity|equipped.nevermelting_ice_crystal|equipped.ever_collapsing_void_fissure|equipped.signet_of_the_priory|equipped.incorporeal_essencegorger|equipped.sealed_chaos_urn|equipped.venomous_gladiators_badge_of_ferocity|equipped.vile_vial_of_volatile_venom|equipped.stormbound_emblem_of_dazar)&equipped.hex_lords_dooming_idol",
-        },
-      },
-      {
-        a = "snapshot_stats",
-        k = "R",
-      },
-      {
-        a = "mirror_image",
-        k = "R",
-      },
-      {
-        a = "potion",
-        c = "talent.spellfire_spheres",
-        k = "R",
-      },
-      {
-        a = "arcane_surge",
-        c = "talent.spellfire_spheres",
+        a = "fire_blast",
         k = "R",
       },
       {
@@ -408,92 +200,22 @@ ns.RegisterSpecData("forever", "mage_arcane", {
         k = "R",
       },
     },
-    spellslinger = {
+    evocation = {
       {
-        a = "prismatic_bolt",
-        c = "(!set_bonus.midnight_season_2_4pc|buff.cumulative_power.stack>=6|active_enemies>=variable.aoe_count&buff.clearcasting.react=0)&(active_enemies>=variable.aoe_count&buff.clearcasting.react<3|buff.arcane_salvo.react>13)",
-        k = "T",
+        a = "spell_1259705",
+        c = "(!(buff.spell_1270842.up)&known.spell_1259705)",
+        k = "U",
       },
       {
-        a = "arcane_orb",
-        c = "cooldown.arcane_orb.charges_fractional>=1+(0.95*talent.charged_orb)&talent.orb_mastery&active_enemies>=variable.aoe_count",
-        k = "T",
-      },
-      {
-        a = "arcane_barrage",
-        c = "buff.arcane_salvo.react>=(20-talent.orb_barrage)&(active_enemies<variable.aoe_count|buff.arcane_charge.stack=4)|prev_gcd.1.arcane_surge&buff.arcane_salvo.stack>=(10+5*talent.orb_barrage)",
-        k = "T",
-      },
-      {
-        a = "arcane_missiles",
-        c = "buff.clearcasting.react&(buff.arcane_salvo.stack<15|active_enemies<variable.aoe_count&buff.clearcasting.react=3)",
-        k = "T",
-        p = {
-          interrupt_global = "1",
-          interrupt_if = "tick_time>gcd.remains&(buff.overpowered_missiles.react=0|active_enemies>=variable.aoe_count|!talent.high_voltage)",
-          interrupt_immediate = "1",
-        },
-      },
-      {
-        a = "prismatic_bolt",
-        k = "R",
-      },
-      {
-        a = "arcane_orb",
-        c = "buff.arcane_charge.stack<(3+(active_enemies>=variable.aoe_count))|(talent.orb_mastery|active_enemies>=(variable.aoe_count+2))&cooldown.arcane_orb.charges_fractional>=(1+0.5*(talent.orb_mastery&active_enemies<variable.aoe_count&buff.arcane_surge.down))",
-        k = "T",
-      },
-      {
-        a = "arcane_pulse",
-        c = "buff.arcane_charge.stack<3&buff.arcane_surge.down",
-        k = "T",
-      },
-      {
-        a = "arcane_blast",
-        k = "R",
+        a = "evocation",
+        c = "(!(known.spell_1259705)|!(cooldown.spell_1259705.ready)|buff.spell_1270842.up)",
+        k = "U",
       },
     },
-    sunfury = {
-      {
-        a = "arcane_missiles",
-        c = "buff.clearcasting.react&buff.arcane_salvo.stack<12",
-        k = "T",
-        p = {
-          chain = "1",
-        },
-      },
-      {
-        a = "prismatic_bolt",
-        c = "((!set_bonus.midnight_season_2_4pc)|buff.cumulative_power.stack=8)&buff.arcane_soul.down",
-        k = "T",
-      },
-      {
-        a = "arcane_barrage",
-        c = "(buff.arcane_charge.stack=4&(((((cooldown.arcane_orb.charges_fractional>0.95|cooldown.arcane_pulse.charges_fractional>0.95)&active_enemies>=variable.aoe_count)|buff.clearcasting.react)&buff.arcane_salvo.react>=12)|((buff.arcane_surge.remains>gcd.max|buff.arcane_surge.down)&buff.arcane_salvo.react=25)))|buff.arcane_soul.up|(buff.arcane_salvo.react>8&cooldown.touch_of_the_magi.ready)",
-        k = "T",
-      },
-      {
-        a = "prismatic_bolt",
-        k = "R",
-      },
-      {
-        a = "arcane_orb",
-        c = "buff.arcane_charge.stack<3",
-        k = "T",
-      },
-      {
-        a = "arcane_pulse",
-        c = "active_enemies>=(variable.aoe_count-1)|buff.arcane_charge.stack<1",
-        k = "T",
-      },
-      {
-        a = "arcane_blast",
-        k = "R",
-      },
-    },
+    precombat = {},
   },
-  simcOrder = { "precombat", "default", "cooldowns", "spellslinger", "sunfury" },
-  simcSource = "simc",
+  simcOrder = { "precombat", "default", "evocation" },
+  simcSource = "wowsims",
   spec = "arcane",
   spellInfo = {
     [1459] = {
@@ -516,6 +238,20 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       gcd = 1.5,
       n = "arcane_intellect",
       r = 30,
+    },
+    [2137] = {
+      cd = 8,
+      cost = { [0] = 75 },
+      gcd = 1.5,
+      n = "fire_blast",
+      r = 20,
+    },
+    [2138] = {
+      cd = 8,
+      cost = { [0] = 115 },
+      gcd = 1.5,
+      n = "fire_blast",
+      r = 20,
     },
     [2139] = {
       cd = 30,
@@ -554,6 +290,20 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       n = "arcane_missiles",
       r = 30,
     },
+    [8412] = {
+      cd = 8,
+      cost = { [0] = 165 },
+      gcd = 1.5,
+      n = "fire_blast",
+      r = 20,
+    },
+    [8413] = {
+      cd = 8,
+      cost = { [0] = 220 },
+      gcd = 1.5,
+      n = "fire_blast",
+      r = 20,
+    },
     [8416] = {
       ap = {
         { 8416, "self" },
@@ -588,11 +338,35 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       n = "arcane_intellect",
       r = 30,
     },
+    [10197] = {
+      cd = 8,
+      cost = { [0] = 280 },
+      gcd = 1.5,
+      n = "fire_blast",
+      r = 20,
+    },
+    [10199] = {
+      cd = 8,
+      cost = { [0] = 340 },
+      gcd = 1.5,
+      n = "fire_blast",
+      r = 20,
+    },
     [10211] = {
       ap = {
         { 10211, "self" },
       },
       cost = { [0] = 500 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+      r = 30,
+    },
+    [10212] = {
+      ap = {
+        { 10212, "self" },
+      },
+      cost = { [0] = 595 },
       d = 5,
       gcd = 1.5,
       n = "arcane_missiles",
@@ -607,7 +381,6 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       d = 60,
       gcd = 1.5,
       n = "ice_barrier",
-      tal = true,
     },
     [11958] = {
       ap = {
@@ -618,13 +391,10 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       d = 10,
       gcd = 1.5,
       n = "ice_block",
-      tal = true,
     },
     [12043] = {
       cd = 180,
       n = "presence_of_mind",
-      st = 1,
-      tal = true,
     },
     [12051] = {
       ap = {
@@ -641,7 +411,6 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       },
       d = 15,
       n = "clearcasting",
-      st = 1,
     },
     [13031] = {
       ap = {
@@ -673,6 +442,51 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       gcd = 1.5,
       n = "ice_barrier",
     },
+    [13326] = {
+      cost = { [0] = 90 },
+      d = 1800,
+      n = "arcane_intellect",
+      r = 30,
+    },
+    [15122] = {
+      cost = { [0] = 100 },
+      d = 15,
+      n = "counterspell",
+      r = 30,
+    },
+    [15735] = {
+      ap = {
+        { 15735, "self" },
+      },
+      cost = { [0] = 235 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+      r = 30,
+    },
+    [15790] = {
+      ap = {
+        { 15790, "self" },
+      },
+      cost = { [0] = 235 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+      r = 30,
+    },
+    [16067] = {
+      cd = 8,
+      cost = { [0] = 80 },
+      gcd = 1.5,
+      n = "arcane_blast",
+      r = 30,
+    },
+    [16876] = {
+      d = 1800,
+      gcd = 1.5,
+      n = "arcane_intellect",
+      r = 30,
+    },
     [18091] = {
       cd = 8,
       cost = { [0] = 80 },
@@ -680,17 +494,111 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       n = "arcane_blast",
       r = 30,
     },
+    [19715] = {
+      d = 10,
+      n = "counterspell",
+      r = 30,
+    },
+    [20537] = {
+      cd = 30,
+      d = 15,
+      n = "counterspell",
+      r = 30,
+    },
+    [20788] = {
+      d = 0.001,
+      n = "counterspell",
+      r = 10,
+    },
+    [22272] = {
+      ap = {
+        { 22272, "self" },
+      },
+      cost = { [0] = 235 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+      r = 30,
+    },
+    [25345] = {
+      ap = {
+        { 25345, "self" },
+      },
+      cost = { [0] = 655 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+      r = 30,
+    },
+    [25346] = {
+      n = "arcane_missiles",
+      r = 30,
+    },
+    [27619] = {
+      ap = {
+        { 27619, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 15 },
+      d = 10,
+      gcd = 1.5,
+      n = "ice_block",
+    },
+    [28763] = {
+      n = "evocation",
+      pas = true,
+    },
     [29443] = {
       d = 10,
       n = "counterspell",
       r = 30,
+    },
+    [42896] = {
+      ct = 2.5,
+      gcd = 1.5,
+      n = "arcane_blast",
+      r = 30,
+    },
+    [364161] = {
+      cost = { [0] = 185 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+      r = 30,
+    },
+    [400573] = {
+      ap = {
+        { 400573, "self" },
+      },
+      d = 18,
+      n = "arcane_blast",
+      st = 4,
     },
     [400574] = {
       ct = 1.5,
       gcd = 1.5,
       n = "arcane_blast",
       r = 30,
-      tal = true,
+    },
+    [400586] = {
+      ap = {
+        { 400586, "self" },
+      },
+      cd = 180,
+      d = 8,
+      n = "arcane_blast",
+      st = 4,
+    },
+    [400588] = {
+      n = "missile_barrage",
+      pas = true,
+    },
+    [400589] = {
+      ap = {
+        { 400589, "self" },
+      },
+      d = 15,
+      n = "missile_barrage",
     },
     [400610] = {
       cd = 3,
@@ -698,8 +606,48 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       n = "arcane_barrage",
       r = 30,
     },
+    [400616] = {
+      cd = 15,
+      cost = { [0] = 115 },
+      n = "fire_blast",
+      r = 20,
+    },
+    [400619] = {
+      cd = 15,
+      cost = { [0] = 75 },
+      n = "fire_blast",
+      r = 20,
+    },
+    [400620] = {
+      cd = 15,
+      cost = { [0] = 165 },
+      n = "fire_blast",
+      r = 20,
+    },
+    [400621] = {
+      cd = 15,
+      cost = { [0] = 220 },
+      n = "fire_blast",
+      r = 20,
+    },
+    [400622] = {
+      cd = 15,
+      cost = { [0] = 280 },
+      n = "fire_blast",
+      r = 20,
+    },
+    [400623] = {
+      cd = 15,
+      cost = { [0] = 340 },
+      n = "fire_blast",
+      r = 20,
+    },
     [401719] = {
       n = "arcane_barrage",
+      pas = true,
+    },
+    [401736] = {
+      n = "missile_barrage",
       pas = true,
     },
     [415709] = {
@@ -723,6 +671,36 @@ ns.RegisterSpecData("forever", "mage_arcane", {
     [425168] = {
       n = "arcane_surge",
       pas = true,
+    },
+    [456397] = {
+      ap = {
+        { 456397, "self" },
+      },
+      d = 8,
+      n = "evocation",
+    },
+    [467409] = {
+      ap = {
+        { 467409, "self" },
+      },
+      d = 15,
+      n = "missile_barrage",
+    },
+    [1213278] = {
+      ap = {
+        { 1213278, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 480 },
+      d = 60,
+      gcd = 1.5,
+      n = "ice_barrier",
+    },
+    [1233255] = {
+      cost = { [0] = 100 },
+      d = 6,
+      n = "counterspell",
+      r = 30,
     },
     [1239696] = {
       ct = 1.5,
@@ -748,39 +726,145 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       n = "arcane_blast",
       r = 30,
     },
+    [1300176] = {
+      ap = {
+        { 1300176, "self" },
+      },
+      cd = 180,
+      d = 8,
+      n = "arcane_blast",
+      st = 4,
+    },
+    [1300177] = {
+      ap = {
+        { 1300177, "self" },
+      },
+      cd = 180,
+      d = 8,
+      n = "arcane_blast",
+      st = 4,
+    },
+    [1326079] = {
+      cd = 6,
+      cost = { [0] = 140 },
+      ct = 3.5,
+      gcd = 1.5,
+      n = "arcane_wrath",
+      r = 30,
+    },
+    [1326080] = {
+      cd = 6,
+      cost = { [0] = 220 },
+      ct = 3.5,
+      gcd = 1.5,
+      n = "arcane_wrath",
+      r = 30,
+    },
+    [1326081] = {
+      cd = 6,
+      cost = { [0] = 305 },
+      ct = 3.5,
+      gcd = 1.5,
+      n = "arcane_wrath",
+      r = 30,
+    },
+    [1326082] = {
+      cd = 6,
+      cost = { [0] = 395 },
+      ct = 3.5,
+      gcd = 1.5,
+      n = "arcane_wrath",
+      r = 30,
+    },
+    [1326083] = {
+      ap = {
+        { 1326083, "self" },
+      },
+      d = 15,
+      n = "missile_barrage",
+    },
   },
   spells = {
     arcane_barrage = {
       a = { 400610, 401719 },
     },
     arcane_blast = {
-      a = { 18091, 400574, 1239696, 1239697, 1239699, 1239700 },
+      a = {
+        1239700,
+        1239699,
+        42896,
+        1239697,
+        1239696,
+        400574,
+        16067,
+        18091,
+        400586,
+        1300176,
+        1300177,
+        400573,
+      },
     },
     arcane_intellect = {
-      a = { 1459, 1460, 1461, 10156, 10157 },
+      a = { 10157, 16876, 10156, 1461, 1460, 364161, 1459, 13326 },
     },
     arcane_missiles = {
-      a = { 5143, 5144, 5145, 8416, 8417, 10211 },
+      a = {
+        25345,
+        10212,
+        10211,
+        8417,
+        8416,
+        5145,
+        5144,
+        5143,
+        15735,
+        15790,
+        22272,
+        25346,
+      },
     },
     arcane_surge = {
       a = { 425124, 425168 },
       b = { 425124, 425168 },
+    },
+    arcane_wrath = {
+      a = { 1326082, 1326081, 1326080, 1326079 },
     },
     clearcasting = {
       a = { 12536 },
       b = { 12536 },
     },
     counterspell = {
-      a = { 2139, 29443 },
+      a = { 2139, 15122, 20537, 1233255, 19715, 20788, 29443 },
     },
     evocation = {
-      a = { 12051 },
+      a = { 12051, 456397, 28763 },
+    },
+    fire_blast = {
+      a = {
+        10199,
+        400623,
+        10197,
+        400622,
+        8413,
+        400621,
+        8412,
+        400620,
+        2138,
+        400616,
+        2137,
+        400619,
+      },
     },
     ice_barrier = {
-      a = { 11426, 13031, 13032, 13033 },
+      a = { 13033, 1213278, 13032, 13031, 11426 },
     },
     ice_block = {
-      a = { 11958 },
+      a = { 11958, 27619 },
+    },
+    missile_barrage = {
+      a = { 400589, 467409, 1326083, 400588, 401736 },
+      b = { 400589, 467409, 1326083, 400588, 401736 },
     },
     presence_of_mind = {
       a = { 12043 },

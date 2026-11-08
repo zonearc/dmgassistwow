@@ -241,10 +241,10 @@ function B.Next(kind)
   end
   if not best and kind == nil then
     -- No boss mod timer: Blizzard's timeline still says when the next boss event lands (not what it is).
-    local list = U.Read(U.Call(C_EncounterTimeline and C_EncounterTimeline.GetEventList))
+    local list = U.Get(C_EncounterTimeline and C_EncounterTimeline.GetEventList)
     if type(list) == "table" then
       for _, id in ipairs(list) do
-        local left = U.Read(U.Call(C_EncounterTimeline.GetEventTimeRemaining, id))
+        local left = U.Get(C_EncounterTimeline.GetEventTimeRemaining, id)
         if type(left) == "number" and left >= 0 and (not best or left < best) then
           best, bestT = left, { text = nil, kind = "generic", source = "Blizzard" }
         end

@@ -1119,11 +1119,22 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       n = "emerald_blossom",
       pas = true,
     },
+    [366903] = {
+      n = "fire_breath",
+    },
     [367106] = {
+      n = "fire_breath",
+    },
+    [367995] = {
       n = "fire_breath",
     },
     [369089] = {
       n = "volatility",
+      pas = true,
+      tal = true,
+    },
+    [369297] = {
+      n = "essence_burst",
       pas = true,
       tal = true,
     },
@@ -1143,6 +1154,14 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       n = "living_flame",
       st = 3,
     },
+    [369416] = {
+      ap = {
+        { 369416, "enemy" },
+      },
+      ct = 2,
+      d = 12,
+      n = "fire_breath",
+    },
     [369819] = {
       n = "disintegrate",
       r = 25,
@@ -1161,6 +1180,12 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       n = "ancient_flame",
       pas = true,
       tal = true,
+    },
+    [370260] = {
+      ct = 2,
+      d = 12,
+      n = "living_flame",
+      st = 3,
     },
     [370454] = {
       ap = {
@@ -1267,6 +1292,12 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       n = "burnout",
       st = 2,
     },
+    [377277] = {
+      ct = 1.5,
+      d = 12,
+      n = "living_flame",
+      st = 3,
+    },
     [382266] = {
       ap = {
         { 382266, "self" },
@@ -1287,6 +1318,17 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       n = "eternity_surge",
       r = 25,
     },
+    [383880] = {
+      ct = 2,
+      n = "living_flame",
+      st = 3,
+    },
+    [385757] = {
+      ct = 2,
+      d = 3,
+      n = "living_flame",
+      st = 3,
+    },
     [392268] = {
       ap = {
         { 392268, "self" },
@@ -1295,8 +1337,34 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       n = "essence_burst",
       st = 1,
     },
+    [393271] = {
+      ap = {
+        { 393271, "self" },
+      },
+      d = 2,
+      n = "hover",
+      st = 1,
+    },
     [393568] = {
       n = "pyre",
+    },
+    [394784] = {
+      ap = {
+        { 394784, "self" },
+      },
+      d = 0.4,
+      n = "hover",
+    },
+    [396187] = {
+      n = "essence_burst",
+      pas = true,
+      tal = true,
+    },
+    [399787] = {
+      ct = 2,
+      d = 12,
+      n = "living_flame",
+      st = 3,
     },
     [409895] = {
       d = 8,
@@ -1319,6 +1387,11 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       n = "living_flame",
       st = 3,
     },
+    [430817] = {
+      d = 12,
+      n = "living_flame",
+      st = 3,
+    },
     [430835] = {
       ap = {
         { 430835, "self" },
@@ -1332,6 +1405,13 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
     },
     [431152] = {
       n = "pyre",
+    },
+    [431164] = {
+      ap = {
+        { 431164, "enemy" },
+      },
+      d = 24,
+      n = "fire_breath",
     },
     [431165] = {
       cd = 30,
@@ -1378,6 +1458,13 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       pas = true,
       tal = true,
     },
+    [444249] = {
+      ap = {
+        { 444249, "enemy" },
+      },
+      d = 2,
+      n = "fire_breath",
+    },
     [459537] = {
       n = "imminent_destruction",
       pas = true,
@@ -1404,6 +1491,13 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
     [1236970] = {
       gcd = 1.5,
       n = "pyre",
+    },
+    [1247728] = {
+      ap = {
+        { 1247728, "self" },
+      },
+      d = 10,
+      n = "deep_breath",
     },
     [1264269] = {
       n = "legacy_of_the_lifebinder",
@@ -1478,6 +1572,13 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       gcd = 0.5,
       n = "fire_breath",
     },
+    [1283719] = {
+      ap = {
+        { 1283719, "enemy" },
+      },
+      d = 24,
+      n = "fire_breath",
+    },
     [1292321] = {
       ap = {
         { 359618, "self" },
@@ -1535,7 +1636,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       t = { 444088 },
     },
     deep_breath = {
-      a = { 357210, 433874, 1236943, 353759, 362010, 362019 },
+      a = { 357210, 433874, 1236943, 353759, 362010, 362019, 1247728 },
     },
     disintegrate = {
       a = { 356995, 1236949, 369819 },
@@ -1549,8 +1650,28 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       a = { 355913, 355916, 373766, 365261 },
     },
     essence_burst = {
-      a = { 359618, 369299, 392268, 430835, 359565, 361519 },
-      b = { 359618, 361519, 369299, 392268, 417402, 430835 },
+      a = {
+        359618,
+        369299,
+        392268,
+        430835,
+        359565,
+        361519,
+        369297,
+        417402,
+        396187,
+      },
+      b = {
+        359618,
+        361519,
+        369299,
+        392268,
+        417402,
+        430835,
+        359565,
+        369297,
+        396187,
+      },
     },
     eternity_surge = {
       a = { 359073, 359077, 382411, 431192 },
@@ -1562,11 +1683,44 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       t = { 369846 },
     },
     fire_breath = {
-      a = { 357208, 382266, 431165, 1283718, 357209, 367106 },
+      a = {
+        357208,
+        382266,
+        431165,
+        1283718,
+        357209,
+        367106,
+        367995,
+        369416,
+        431164,
+        444249,
+        1283719,
+        366903,
+      },
     },
     hover = {
-      a = { 358267, 357302, 357332, 357377, 357379, 372563 },
-      b = { 357302, 357332, 357377, 357379, 358267, 358268 },
+      a = {
+        358267,
+        357302,
+        357332,
+        357377,
+        357379,
+        372563,
+        358268,
+        393271,
+        394784,
+      },
+      b = {
+        357302,
+        357332,
+        357377,
+        357379,
+        358267,
+        358268,
+        372563,
+        393271,
+        394784,
+      },
     },
     imminent_destruction = {
       t = { 370781, 459537 },
@@ -1579,7 +1733,20 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       t = { 1264269 },
     },
     living_flame = {
-      a = { 361469, 361500, 430806, 361509, 364664, 369398 },
+      a = {
+        361469,
+        361500,
+        430806,
+        361509,
+        364664,
+        369398,
+        370260,
+        377277,
+        383880,
+        385757,
+        399787,
+        430817,
+      },
     },
     maneuverability = {
       t = { 433871 },

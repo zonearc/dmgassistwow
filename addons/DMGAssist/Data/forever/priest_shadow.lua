@@ -883,13 +883,32 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       d = 15,
       n = "power_infusion",
       r = 30,
-      tal = true,
     },
     [10892] = {
       ap = {
         { 10892, "enemy" },
       },
       cost = { [0] = 305 },
+      d = 18,
+      gcd = 1.5,
+      n = "shadow_word_pain",
+      r = 30,
+    },
+    [10893] = {
+      ap = {
+        { 10893, "enemy" },
+      },
+      cost = { [0] = 385 },
+      d = 18,
+      gcd = 1.5,
+      n = "shadow_word_pain",
+      r = 30,
+    },
+    [10894] = {
+      ap = {
+        { 10894, "enemy" },
+      },
+      cost = { [0] = 470 },
       d = 18,
       gcd = 1.5,
       n = "shadow_word_pain",
@@ -929,6 +948,30 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       gcd = 1.5,
       n = "fade",
     },
+    [10945] = {
+      cd = 8,
+      cost = { [0] = 265 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "mind_blast",
+      r = 30,
+    },
+    [10946] = {
+      cd = 8,
+      cost = { [0] = 310 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "mind_blast",
+      r = 30,
+    },
+    [10947] = {
+      cd = 8,
+      cost = { [0] = 350 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "mind_blast",
+      r = 30,
+    },
     [13908] = {
       cd = 600,
       gcd = 1.5,
@@ -938,12 +981,10 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       cost = { [0] = 185 },
       gcd = 1.5,
       n = "holy_nova",
-      tal = true,
     },
     [15259] = {
       n = "darkness",
       pas = true,
-      tal = true,
     },
     [15407] = {
       ap = {
@@ -954,7 +995,6 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       gcd = 1.5,
       n = "mind_flay",
       r = 20,
-      tal = true,
     },
     [15430] = {
       cost = { [0] = 290 },
@@ -970,7 +1010,6 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       cd = 1.5,
       gcd = 1.5,
       n = "shadowform",
-      tal = true,
     },
     [15487] = {
       ap = {
@@ -982,7 +1021,24 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       gcd = 1.5,
       n = "silence",
       r = 20,
-      tal = true,
+    },
+    [16568] = {
+      ap = {
+        { 16568, "enemy" },
+      },
+      cost = { [0] = 60 },
+      d = 3,
+      n = "mind_flay",
+      r = 20,
+    },
+    [17165] = {
+      ap = {
+        { 17165, "enemy" },
+      },
+      cost = { [0] = 60 },
+      d = 3,
+      n = "mind_flay",
+      r = 20,
     },
     [17311] = {
       ap = {
@@ -1059,6 +1115,77 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       gcd = 1.5,
       n = "desperate_prayer",
     },
+    [19243] = {
+      cd = 600,
+      gcd = 1.5,
+      n = "desperate_prayer",
+    },
+    [20694] = {
+      cost = { [0] = 315 },
+      n = "holy_nova",
+    },
+    [22919] = {
+      ap = {
+        { 22919, "enemy" },
+      },
+      cost = { [0] = 60 },
+      d = 3,
+      n = "mind_flay",
+      r = 20,
+    },
+    [23459] = {
+      n = "holy_nova",
+    },
+    [23858] = {
+      cost = { [0] = 315 },
+      n = "holy_nova",
+    },
+    [23947] = {
+      cost = { [0] = 1170 },
+      d = 3600,
+      gcd = 1.5,
+      n = "power_word_fortitude",
+      r = 30,
+    },
+    [23948] = {
+      cost = { [0] = 1695 },
+      d = 3600,
+      gcd = 1.5,
+      n = "power_word_fortitude",
+      r = 30,
+    },
+    [23953] = {
+      ap = {
+        { 23953, "enemy" },
+      },
+      cost = { [0] = 100 },
+      d = 10,
+      n = "mind_flay",
+    },
+    [26044] = {
+      ap = {
+        { 26044, "enemy" },
+      },
+      d = 8,
+      n = "mind_flay",
+    },
+    [27605] = {
+      ap = {
+        { 27605, "enemy" },
+      },
+      cost = { [0] = 470 },
+      d = 18,
+      gcd = 1.5,
+      n = "shadow_word_pain",
+      r = 30,
+    },
+    [27779] = {
+      ap = {
+        { 27779, "self" },
+      },
+      d = 30,
+      n = "divine_protection",
+    },
     [27799] = {
       cost = { [0] = 520 },
       gcd = 1.5,
@@ -1074,11 +1201,27 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       gcd = 1.5,
       n = "holy_nova",
     },
+    [27803] = {
+      n = "holy_nova",
+    },
+    [27804] = {
+      n = "holy_nova",
+    },
+    [27805] = {
+      n = "holy_nova",
+    },
     [401955] = {
       cd = 12,
       gcd = 1.5,
       n = "shadow_word_death",
       r = 30,
+    },
+    [401962] = {
+      ap = {
+        { 401962, "self" },
+      },
+      d = 1,
+      n = "shadow_word_death",
     },
     [402668] = {
       ap = {
@@ -1107,12 +1250,30 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       n = "dispersion",
       pas = true,
     },
+    [459702] = {
+      n = "desperate_prayer",
+    },
+    [474204] = {
+      ap = {
+        { 474204, "enemy" },
+      },
+      cost = { [0] = 60 },
+      d = 5,
+      n = "mind_flay",
+      r = 20,
+    },
+    [1226589] = {
+      n = "shadow_word_pain",
+    },
     [1309595] = {
       cd = 18,
       cost = { [0] = 175 },
       gcd = 1.5,
       n = "shadow_word_death",
       r = 30,
+    },
+    [1309598] = {
+      n = "shadow_word_death",
     },
     [1309633] = {
       cd = 18,
@@ -1149,36 +1310,97 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       a = { 15259 },
     },
     desperate_prayer = {
-      a = { 13908, 19236, 19238, 19240, 19241, 19242 },
+      a = { 19243, 19242, 19241, 19240, 19238, 19236, 13908, 459702 },
     },
     dispersion = {
       a = { 425294, 425307 },
     },
+    divine_protection = {
+      a = { 27779 },
+    },
     fade = {
-      a = { 586, 9578, 9579, 9592, 10941, 10942 },
+      a = { 10942, 10941, 9592, 9579, 9578, 586 },
     },
     holy_nova = {
-      a = { 15237, 15430, 15431, 27799, 27800, 27801 },
+      a = {
+        27801,
+        27800,
+        27799,
+        15431,
+        15430,
+        15237,
+        20694,
+        23858,
+        27805,
+        27804,
+        27803,
+        23459,
+      },
     },
     mind_blast = {
-      a = { 8092, 8102, 8103, 8104, 8105, 8106 },
+      a = {
+        10947,
+        10946,
+        10945,
+        8106,
+        8105,
+        8104,
+        8103,
+        8102,
+        8092,
+      },
     },
     mind_flay = {
-      a = { 15407, 17311, 17312, 17313, 17314, 18807 },
+      a = {
+        18807,
+        17314,
+        17313,
+        17312,
+        17311,
+        15407,
+        16568,
+        17165,
+        22919,
+        23953,
+        474204,
+        26044,
+      },
     },
     power_infusion = {
       a = { 10060 },
       b = { 10060 },
     },
     power_word_fortitude = {
-      a = { 1243, 1244, 1245, 2791, 10937, 10938 },
+      a = { 10938, 23948, 10937, 23947, 2791, 1245, 1244, 1243 },
     },
     shadow_word_death = {
-      a = { 401955, 1309595, 1309633, 1309635, 1309636 },
+      a = { 1309636, 1309635, 1309633, 1309595, 401955, 401962, 1309598 },
     },
     shadow_word_pain = {
-      a = { 589, 594, 970, 992, 2767, 10892 },
-      b = { 589, 594, 970, 992, 2767, 10892 },
+      a = {
+        10894,
+        27605,
+        10893,
+        10892,
+        2767,
+        992,
+        970,
+        594,
+        589,
+        1226589,
+      },
+      b = {
+        10894,
+        27605,
+        10893,
+        10892,
+        2767,
+        992,
+        970,
+        594,
+        589,
+        1226589,
+      },
     },
     shadowfiend = {
       t = { 402843 },

@@ -44,7 +44,7 @@ Commands: `/dmgw` · `/dmgw probe` · `/dmgw export [last]` · `/dmgw status` ·
 python3 tools/decode-export.py export.txt
 ```
 
-Needs Lua 5.1 (`lua5.1`, `luac5.1`) and `luacheck`. Project rules: [CLAUDE.md](CLAUDE.md).
+Needs Lua 5.1 (`lua5.1`, `luac5.1`) and `luacheck`. Project rules and architecture: [CONTRIBUTING.md](CONTRIBUTING.md).
 Verified API facts: [docs/reference/api-findings.md](docs/reference/api-findings.md).
 
 ## Using DMGAssist
@@ -117,3 +117,9 @@ One-time repo settings:
 - Scheduled workflows only run from the default branch.
 
 Release: `scripts/bump-version.sh 0.2.0`, commit, `git tag v0.2.0`, push the tag.
+
+## Credits
+
+- Midnight priority lists and spell data: [SimulationCraft](https://github.com/simulationcraft/simc).
+- WoW Forever rotations and game data: [WoWSims](https://wowsims.com/forever)
+  ([wowsims/forever](https://github.com/wowsims/forever), [wowsims/gamedata](https://github.com/wowsims/gamedata), MIT).

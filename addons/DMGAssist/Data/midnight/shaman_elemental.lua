@@ -1075,6 +1075,16 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       d = 3600,
       n = "flametongue_weapon",
     },
+    [329801] = {
+      ct = 3,
+      n = "earthquake",
+      r = 40,
+    },
+    [336740] = {
+      ct = 3,
+      n = "earthquake",
+      r = 40,
+    },
     [344174] = {
       n = "lightning_shield",
       r = 10,
@@ -1175,6 +1185,9 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     [450511] = {
       n = "call_of_the_ancestors",
     },
+    [451031] = {
+      n = "call_of_the_ancestors",
+    },
     [451137] = {
       ap = {
         { 451137, "self" },
@@ -1266,6 +1279,10 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       d = 15,
       n = "call_of_the_ancestors",
     },
+    [1252197] = {
+      n = "ascendance",
+      pas = true,
+    },
     [1258843] = {
       n = "molten_wrath",
       pas = true,
@@ -1312,8 +1329,8 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       a = { 443454, 448861, 448866 },
     },
     ascendance = {
-      a = { 114050, 114052, 1219480, 344548, 467263, 114051 },
-      b = { 114051, 114052, 1219480, 114050, 344548, 467263 },
+      a = { 114050, 114052, 1219480, 344548, 467263, 114051, 1252197 },
+      b = { 114051, 114052, 1219480, 114050, 344548, 467263, 1252197 },
     },
     astral_shift = {
       a = { 108271 },
@@ -1323,8 +1340,8 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       b = { 2825, 32182 },
     },
     call_of_the_ancestors = {
-      a = { 445624, 447244, 1238269, 443450, 447206, 450511 },
-      b = { 445624, 447244, 451137, 1238269, 447206, 450511 },
+      a = { 445624, 447244, 1238269, 443450, 447206, 450511, 451031, 451137 },
+      b = { 445624, 447244, 451137, 1238269, 447206, 450511, 451031, 443450 },
       t = { 443450 },
     },
     chain_lightning = {
@@ -1337,7 +1354,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       a = { 8042 },
     },
     earthquake = {
-      a = { 61882, 462620, 77478, 290431, 290432, 298762 },
+      a = { 61882, 462620, 77478, 290431, 290432, 298762, 329801, 336740 },
     },
     elemental_blast = {
       a = { 117014, 344645, 465717, 394150, 394152, 447427 },

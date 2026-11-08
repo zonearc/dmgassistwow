@@ -77,7 +77,7 @@ Readable combat inputs for the engine: usable/affordable, on-cooldown yes/no, on
 
 ## 5. Lua environment notes
 
-- WoW Lua = Lua 5.1 + taint (local reference: `docs/reference/lua-5.1-manual.pdf`).
+- WoW Lua = Lua 5.1 + taint (reference: https://www.lua.org/manual/5.1/).
 - No `io`/`os` file access; persistence only via SavedVariables.
 - WoW extras: `bit.*`, `wipe`, `strsplit`, `C_Timer.After/NewTicker`, `tContains`, `math.clamp`, `string.join`, `issecretvalue`, `canaccessvalue`, `canaccessallvalues`, `hasanysecretvalues`, `scrubsecretvalues`, `secretwrap`.
 - Local test runtime: PUC Lua 5.1.5 + luacheck 1.2.0 (installed in the session; add to environment setup script).
@@ -97,3 +97,15 @@ Also secret in combat: `GetSpellCastCount`, `GetSpellDisplayCount`, `GetSpellCha
 Not secret: `C_Spell.GetSpellPowerCost` (live costs; used for calibration), `C_Spell.GetOverrideSpell`,
 `C_Spell.IsSpellInRange`, `UnitIsBossMob`, `UnitClassification`, `UNIT_POWER_UPDATE` payload, `UNIT_SPELL_HASTE`,
 `PLAYER_TOTEM_UPDATE(slot)`, `C_EncounterTimeline.GetEventTimeRemaining`.
+
+## 7. Showing secret values without reading them (verified, live 12.1.5 and forever 1.60.1)
+
+Widgets accept secret values: `SetAlpha`, `SetText`, `SetValue`, `SetVertexColor` are `SecretArguments =
+"AllowedWhenTainted"` (the widget then carries a secret aspect); `SetAlphaFromBoolean(value, ifTrue, ifFalse)` takes
+a secret boolean. Curves evaluate secret inputs: `C_CurveUtil.CreateCurve()` (types Linear/Step/Cosine/Cubic),
+`UnitPowerPercent(unit, powerType, unmodified, curve)` and `UnitHealthPercent(unit, usePredicted, curve)` take a
+curve; the input is a 0..1 fraction. Results stay secret, so nothing can be decided from them, but the screen can
+show the truth. DMGAssist uses this for two-spell branches (one hidden resource decides), the interrupt overlay
+(secret `notInterruptible`, `C_Spell.IsSpellImportant`), and the low-health defensive.
+Duration objects (`C_Spell.GetSpellCooldownDuration`, `C_UnitAuras.GetAuraDuration`) can drive cooldown swipes the
+same way (not used yet).

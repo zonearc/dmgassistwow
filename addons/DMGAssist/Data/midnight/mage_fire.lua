@@ -877,6 +877,25 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       n = "fireball",
       r = 35,
     },
+    [21159] = {
+      ap = {
+        { 21159, "enemy" },
+      },
+      d = 8,
+      n = "fireball",
+      r = 35,
+    },
+    [21162] = {
+      ap = {
+        { 21162, "enemy" },
+      },
+      cost = { [0] = 45 },
+      ct = 2,
+      d = 10,
+      gcd = 1.5,
+      n = "fireball",
+      r = 35,
+    },
     [45438] = {
       ap = {
         { 45438, "self" },
@@ -911,6 +930,12 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       cd = 300,
       d = 40,
       n = "time_warp",
+    },
+    [88082] = {
+      ct = 2.5,
+      gcd = 1.5,
+      n = "fireball",
+      r = 40,
     },
     [108853] = {
       cd = 0.5,
@@ -948,6 +973,10 @@ ns.RegisterSpecData("midnight", "mage_fire", {
     [153564] = {
       n = "meteor",
     },
+    [177345] = {
+      d = 3,
+      n = "meteor",
+    },
     [190319] = {
       ap = {
         { 190319, "self" },
@@ -966,6 +995,14 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       n = "firestarter",
       pas = true,
       tal = true,
+    },
+    [222305] = {
+      ap = {
+        { 222305, "enemy" },
+      },
+      d = 5,
+      n = "fireball",
+      r = 30,
     },
     [231568] = {
       n = "fire_blast",
@@ -1106,6 +1143,9 @@ ns.RegisterSpecData("midnight", "mage_fire", {
     [438607] = {
       n = "meteor",
     },
+    [438608] = {
+      n = "meteor",
+    },
     [448601] = {
       n = "spellfire_spheres",
       pas = true,
@@ -1164,6 +1204,9 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       d = 8,
       n = "frostfire_bolt",
     },
+    [1219545] = {
+      n = "alter_time",
+    },
     [1242220] = {
       ap = {
         { 1242220, "self" },
@@ -1195,7 +1238,7 @@ ns.RegisterSpecData("midnight", "mage_fire", {
   },
   spells = {
     alter_time = {
-      a = { 108978, 342245, 110909, 127140, 342246, 342247 },
+      a = { 108978, 342245, 110909, 127140, 342246, 342247, 1219545 },
     },
     arcane_intellect = {
       a = { 1459 },
@@ -1224,7 +1267,18 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       a = { 108853, 319836, 231568 },
     },
     fireball = {
-      a = { 133, 13438, 16415, 18082, 18199, 18796 },
+      a = {
+        133,
+        13438,
+        16415,
+        18082,
+        18199,
+        18796,
+        21162,
+        88082,
+        21159,
+        222305,
+      },
     },
     firestarter = {
       t = { 205026 },
@@ -1266,7 +1320,7 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       a = { 45438 },
     },
     meteor = {
-      a = { 153561, 153564, 351140, 420218, 420221, 438607 },
+      a = { 153561, 153564, 351140, 420218, 420221, 438607, 438608, 177345 },
     },
     prismatic_barrier = {
       a = { 235450 },

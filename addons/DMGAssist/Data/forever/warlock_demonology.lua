@@ -602,10 +602,28 @@ ns.RegisterSpecData("forever", "warlock_demonology", {
       n = "shadow_bolt",
       r = 30,
     },
+    [11659] = {
+      cost = { [0] = 265 },
+      ct = 3,
+      gcd = 1.5,
+      n = "shadow_bolt",
+      r = 30,
+    },
+    [11660] = {
+      cost = { [0] = 315 },
+      ct = 3,
+      gcd = 1.5,
+      n = "shadow_bolt",
+      r = 30,
+    },
+    [11661] = {
+      cost = { [0] = 370 },
+      ct = 3,
+      gcd = 1.5,
+      n = "shadow_bolt",
+      r = 30,
+    },
     [19244] = {
-      ap = {
-        { 24259, "enemy" },
-      },
       cd = 30,
       cost = { [0] = 120 },
       d = 6,
@@ -614,9 +632,6 @@ ns.RegisterSpecData("forever", "warlock_demonology", {
       r = 30,
     },
     [19647] = {
-      ap = {
-        { 24259, "enemy" },
-      },
       cd = 30,
       cost = { [0] = 200 },
       d = 8,
@@ -632,9 +647,32 @@ ns.RegisterSpecData("forever", "warlock_demonology", {
       n = "spell_lock",
       r = 30,
     },
+    [25307] = {
+      cost = { [0] = 380 },
+      ct = 3,
+      gcd = 1.5,
+      n = "shadow_bolt",
+      r = 30,
+    },
+    [350026] = {
+      cost = { [0] = 70 },
+      ct = 2.8,
+      n = "shadow_bolt",
+      r = 30,
+    },
+    [412787] = {
+      cd = 10,
+      d = 5,
+      gcd = 1,
+      n = "disrupt",
+      r = 5,
+    },
     [427733] = {
       ct = 10,
       gcd = 1.5,
+      n = "summon_felguard",
+    },
+    [427748] = {
       n = "summon_felguard",
     },
     [431754] = {
@@ -643,14 +681,29 @@ ns.RegisterSpecData("forever", "warlock_demonology", {
     },
   },
   spells = {
+    disrupt = {
+      a = { 412787 },
+    },
     shadow_bolt = {
-      a = { 686, 695, 705, 1088, 1106, 7641 },
+      a = {
+        25307,
+        11661,
+        11660,
+        11659,
+        7641,
+        1106,
+        1088,
+        705,
+        695,
+        686,
+        350026,
+      },
     },
     spell_lock = {
-      a = { 19244, 19647, 24259 },
+      a = { 19647, 19244, 24259 },
     },
     summon_felguard = {
-      a = { 427733, 431754 },
+      a = { 427733, 427748, 431754 },
     },
   },
 })

@@ -93,7 +93,7 @@ function F.Evaluate()
   end
   if mode ~= "bossmods" then
     local threshold = (tonumber(ns.db and ns.db.defensiveHealth) or 35) / 100
-    local hp, max = U.Read(U.Call(UnitHealth, "player")), U.Read(U.Call(UnitHealthMax, "player"))
+    local hp, max = U.Get(UnitHealth, "player"), U.Get(UnitHealthMax, "player")
     if type(hp) == "number" and type(max) == "number" and max > 0 then
       if hp / max <= threshold then
         return { id = id, how = "decided", why = "health" }

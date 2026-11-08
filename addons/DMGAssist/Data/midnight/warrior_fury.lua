@@ -1156,6 +1156,9 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     [199850] = {
       n = "whirlwind",
     },
+    [199852] = {
+      n = "whirlwind",
+    },
     [200951] = {
       ap = {
         { 200951, "self" },
@@ -1231,6 +1234,26 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       n = "bladestorm",
       tal = true,
     },
+    [235622] = {
+      n = "rampage",
+      r = 8,
+    },
+    [235623] = {
+      n = "rampage",
+      r = 8,
+    },
+    [235624] = {
+      n = "rampage",
+      r = 8,
+    },
+    [235625] = {
+      n = "rampage",
+      r = 8,
+    },
+    [235626] = {
+      n = "rampage",
+      r = 8,
+    },
     [236027] = {
       ap = {
         { 236027, "enemy" },
@@ -1238,12 +1261,18 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       d = 6,
       n = "charge",
     },
+    [250392] = {
+      n = "whirlwind",
+    },
     [253521] = {
       n = "heroic_leap",
     },
     [260798] = {
       n = "execute",
       r = 5,
+    },
+    [280715] = {
+      n = "whirlwind",
     },
     [280721] = {
       n = "sudden_death",
@@ -1282,6 +1311,9 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       pas = true,
       tal = true,
     },
+    [317073] = {
+      n = "execute",
+    },
     [335096] = {
       cd = 4.5,
       gain = { [1] = 80 },
@@ -1302,6 +1334,15 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     },
     [335100] = {
       n = "crushing_blow",
+    },
+    [347360] = {
+      n = "whirlwind",
+    },
+    [347363] = {
+      n = "whirlwind",
+    },
+    [361904] = {
+      n = "whirlwind",
     },
     [362043] = {
       ap = {
@@ -1427,6 +1468,10 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       gcd = 1.5,
       n = "bladestorm",
     },
+    [457998] = {
+      n = "charge",
+      r = 30,
+    },
     [461288] = {
       ap = {
         { 461288, "self" },
@@ -1498,7 +1543,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       a = { 23881 },
     },
     charge = {
-      a = { 100, 105771, 126664, 198337, 218104, 236027 },
+      a = { 100, 105771, 126664, 198337, 218104, 236027, 457998 },
     },
     crashing_thunder = {
       t = { 436707 },
@@ -1520,7 +1565,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       a = { 184364 },
     },
     execute = {
-      a = { 5308, 163201, 280735, 281000, 260798, 280849 },
+      a = { 5308, 163201, 280735, 281000, 260798, 280849, 317073 },
     },
     hack_and_slash = {
       a = { 383873, 383877 },
@@ -1557,7 +1602,19 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       a = { 85288, 85384, 96103 },
     },
     rampage = {
-      a = { 184367, 184707, 184709, 201363, 201364, 218617 },
+      a = {
+        184367,
+        184707,
+        184709,
+        201363,
+        201364,
+        218617,
+        235622,
+        235623,
+        235624,
+        235625,
+        235626,
+      },
     },
     recklessness = {
       a = { 1719 },
@@ -1595,8 +1652,34 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       a = { 6343, 435203 },
     },
     whirlwind = {
-      a = { 1680, 190411, 85739, 199658, 199667, 199850 },
-      b = { 85739, 1680, 190411, 199658, 199667, 199850 },
+      a = {
+        1680,
+        190411,
+        85739,
+        199658,
+        199667,
+        199850,
+        199852,
+        250392,
+        280715,
+        347360,
+        347363,
+        361904,
+      },
+      b = {
+        85739,
+        1680,
+        190411,
+        199658,
+        199667,
+        199850,
+        199852,
+        250392,
+        280715,
+        347360,
+        347363,
+        361904,
+      },
     },
     wrath_and_fury = {
       t = { 392936, 386045 },

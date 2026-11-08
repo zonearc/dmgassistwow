@@ -164,8 +164,8 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "hunter",
   gameMatch = {
-    matched = 8,
-    missing = { "explosive_shot", "moonlight_chakram", "multishot", "trueshot", "wailing_arrow" },
+    matched = 7,
+    missing = { "black_arrow", "explosive_shot", "moonlight_chakram", "multishot", "trueshot", "wailing_arrow" },
     total = 13,
   },
   heroTrees = {},
@@ -772,6 +772,20 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       n = "arcane_shot",
       r = 35,
     },
+    [14286] = {
+      cd = 6,
+      cost = { [0] = 160 },
+      gcd = 1.5,
+      n = "arcane_shot",
+      r = 35,
+    },
+    [14287] = {
+      cd = 6,
+      cost = { [0] = 190 },
+      gcd = 1.5,
+      n = "arcane_shot",
+      r = 35,
+    },
     [14294] = {
       ap = {
         { 14294, "self" },
@@ -849,6 +863,25 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       n = "aimed_shot",
       r = 35,
     },
+    [22908] = {
+      cd = 60,
+      d = 6,
+      gcd = 1.5,
+      n = "volley",
+      r = 30,
+    },
+    [27632] = {
+      cd = 6,
+      cost = { [0] = 310 },
+      ct = 3,
+      gcd = 1.5,
+      n = "aimed_shot",
+      r = 35,
+    },
+    [28755] = {
+      n = "rapid_fire",
+      pas = true,
+    },
     [409593] = {
       cd = 12,
       gcd = 1.5,
@@ -862,6 +895,10 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
     [409974] = {
       n = "kill_shot",
       pas = true,
+    },
+    [413446] = {
+      n = "auto_shot",
+      r = 35,
     },
     [415413] = {
       n = "lock_and_load",
@@ -881,8 +918,36 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       n = "steady_shot",
       r = 35,
     },
+    [468689] = {
+      ap = {
+        { 468689, "self" },
+      },
+      d = 8,
+      n = "lock_and_load",
+    },
+    [1218178] = {
+      ap = {
+        { 1218178, "self" },
+      },
+      d = 12,
+      n = "kill_shot",
+    },
     [1218240] = {
       n = "kill_shot",
+    },
+    [1233451] = {
+      ap = {
+        { 1233451, "self" },
+      },
+      d = 12,
+      n = "trick_shots",
+      st = 4,
+    },
+    [1236188] = {
+      cd = 6,
+      ct = 3,
+      gcd = 1.5,
+      n = "aimed_shot",
     },
     [1279715] = {
       n = "volley",
@@ -893,35 +958,55 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
     [1279721] = {
       n = "volley",
     },
+    [1294124] = {
+      cd = 6,
+      ct = 3,
+      gcd = 1.5,
+      n = "aimed_shot",
+    },
   },
   spells = {
     aimed_shot = {
-      a = { 19434, 20900, 20901, 20902, 20903, 20904 },
+      a = {
+        20904,
+        27632,
+        1236188,
+        20903,
+        20902,
+        20901,
+        20900,
+        19434,
+        1294124,
+      },
     },
     arcane_shot = {
-      a = { 3044, 14281, 14282, 14283, 14284, 14285 },
+      a = { 14287, 14286, 14285, 14284, 14283, 14282, 14281, 3044 },
     },
     auto_shot = {
-      a = { 75 },
+      a = { 75, 413446 },
     },
     black_arrow = {
       a = { 3674, 14296 },
     },
     kill_shot = {
-      a = { 409593, 1218240, 409974 },
+      a = { 409593, 1218178, 1218240, 409974 },
     },
     lock_and_load = {
-      a = { 415414, 415413 },
-      b = { 415414, 415413 },
+      a = { 415414, 468689, 415413 },
+      b = { 415414, 468689, 415413 },
     },
     rapid_fire = {
-      a = { 3045 },
+      a = { 3045, 28755 },
     },
     steady_shot = {
       a = { 437123, 409957 },
     },
+    trick_shots = {
+      a = { 1233451 },
+      b = { 1233451 },
+    },
     volley = {
-      a = { 1510, 14294, 14295, 1279715, 1279719, 1279721 },
+      a = { 14295, 14294, 1510, 22908, 1279715, 1279719, 1279721 },
     },
   },
 })

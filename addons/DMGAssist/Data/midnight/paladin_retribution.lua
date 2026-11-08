@@ -676,6 +676,10 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       gain = { [9] = 1 },
       n = "wake_of_ashes",
     },
+    [214083] = {
+      n = "wake_of_ashes",
+      pas = true,
+    },
     [214222] = {
       ap = {
         { 214222, "enemy" },
@@ -687,6 +691,10 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
     [218001] = {
       gain = { [9] = 5 },
       n = "wake_of_ashes",
+    },
+    [220637] = {
+      gain = { [9] = 1 },
+      n = "judgment",
     },
     [224239] = {
       n = "divine_storm",
@@ -776,6 +784,10 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
     [312952] = {
       n = "divine_toll",
     },
+    [315867] = {
+      n = "judgment",
+      pas = true,
+    },
     [317131] = {
       n = "divine_shield",
     },
@@ -806,6 +818,10 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       d = 15,
       n = "empyrean_power",
       st = 1,
+    },
+    [327977] = {
+      n = "judgment",
+      pas = true,
     },
     [337247] = {
       gcd = 1.5,
@@ -896,6 +912,13 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       d = 9,
       n = "expurgation",
     },
+    [383991] = {
+      n = "judgment",
+    },
+    [384376] = {
+      n = "avenging_wrath",
+      pas = true,
+    },
     [384392] = {
       n = "crusade",
       pas = true,
@@ -980,6 +1003,12 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       n = "crusading_strikes",
       pas = true,
       tal = true,
+    },
+    [405345] = {
+      n = "wake_of_ashes",
+    },
+    [405350] = {
+      n = "wake_of_ashes",
     },
     [406064] = {
       n = "art_of_war",
@@ -1128,6 +1157,11 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
     [1235934] = {
       n = "hammer_of_light",
     },
+    [1241288] = {
+      n = "hammer_of_wrath",
+      pas = true,
+      tal = true,
+    },
     [1241358] = {
       n = "empyrean_legacy",
       pas = true,
@@ -1224,8 +1258,8 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       b = { 406086, 406064 },
     },
     avenging_wrath = {
-      a = { 231895, 339044, 454351, 454373, 31884, 317872 },
-      b = { 31884, 231895, 339044, 454351, 454373, 317872 },
+      a = { 231895, 339044, 454351, 454373, 31884, 317872, 384376 },
+      b = { 31884, 231895, 339044, 454351, 454373, 317872, 384376 },
     },
     blade_of_justice = {
       a = { 184575, 404358 },
@@ -1288,13 +1322,24 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       a = { 88263, 150627, 249690, 53595 },
     },
     hammer_of_wrath = {
-      a = { 24275, 1241413, 1241410, 1277026, 1279408, 326730 },
+      a = { 24275, 1241413, 1241410, 1277026, 1279408, 326730, 1241288 },
     },
     holy_flames = {
       t = { 406545 },
     },
     judgment = {
-      a = { 20271, 275773, 275779, 406957, 197277, 214222 },
+      a = {
+        20271,
+        275773,
+        275779,
+        406957,
+        197277,
+        214222,
+        220637,
+        383991,
+        315867,
+        327977,
+      },
     },
     radiant_glory = {
       t = { 458359, 454353, 462048 },
@@ -1326,7 +1371,17 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       b = { 432629, 432626 },
     },
     wake_of_ashes = {
-      a = { 205273, 255937, 205290, 209122, 218001, 255941 },
+      a = {
+        205273,
+        255937,
+        205290,
+        209122,
+        218001,
+        255941,
+        405345,
+        405350,
+        214083,
+      },
     },
     walk_into_light = {
       t = { 1263782 },

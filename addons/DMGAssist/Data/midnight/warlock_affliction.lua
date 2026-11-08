@@ -1097,6 +1097,10 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       gain = { [7] = 1 },
       n = "agony",
     },
+    [231791] = {
+      n = "unstable_affliction",
+      pas = true,
+    },
     [233490] = {
       ap = {
         { 233490, "enemy" },
@@ -1323,6 +1327,9 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
     [1261166] = {
       n = "agony",
     },
+    [1261176] = {
+      n = "unstable_affliction",
+    },
     [1279521] = {
       n = "eye_contract",
       pas = true,
@@ -1437,8 +1444,34 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       a = { 104773 },
     },
     unstable_affliction = {
-      a = { 30108, 1219045, 1259790, 31117, 196364, 233490 },
-      b = { 196364, 233490, 233496, 233497, 233498, 233499 },
+      a = {
+        30108,
+        1219045,
+        1259790,
+        31117,
+        196364,
+        233490,
+        233496,
+        233497,
+        233498,
+        233499,
+        1261176,
+        231791,
+      },
+      b = {
+        196364,
+        233490,
+        233496,
+        233497,
+        233498,
+        233499,
+        1219045,
+        1259790,
+        30108,
+        31117,
+        231791,
+        1261176,
+      },
     },
     unstable_empowerment = {
       a = { 1305774 },

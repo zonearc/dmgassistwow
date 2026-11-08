@@ -27,6 +27,28 @@ from collections import Counter
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import simc_spells  # noqa: E402
+import gamedata_spells  # noqa: E402
+import wowsims_apl  # noqa: E402
+
+# WoW Forever rotations from WoWSims (github.com/wowsims/forever, MIT): spec key -> list file under ui/specs/.
+# SimC's forever branch only ships copies of the Midnight lists, so these win wherever they exist.
+WOWSIMS_FOREVER = {
+    "druid_feral": "druid/feralcat/apls/adaptive.apl.json",
+    "druid_guardian": "druid/feralbear/apls/adaptive.apl.json",
+    "druid_balance": "druid/balance/apls/default.apl.json",
+    "warrior_arms": "warrior/dps/apls/arms.apl.json",
+    "warrior_fury": "warrior/dps/apls/fury.apl.json",
+    "warrior_protection": "warrior/protection/apls/default.apl.json",
+    "mage_arcane": "mage/dps/apls/arcane.apl.json",
+    "mage_fire": "mage/dps/apls/deepFire.apl.json",
+    "mage_frost": "mage/dps/apls/frost.apl.json",
+    "rogue_assassination": "rogue/dps/apls/default.apl.json",
+    "rogue_outlaw": "rogue/dps/apls/default.apl.json",
+    "rogue_subtlety": "rogue/dps/apls/default.apl.json",
+}
+# Records that switch to another record while a form is active (Forever Feral: cat list, bear list in Bear Form).
+ALTERNATES = {("forever", "druid_feral"): {"key": "druid_guardian", "form": 5, "probe": "maul"}}
+WOWSIMS_CREDIT = "WoWSims (wowsims.com/forever)"
 
 BRANCHES = ("midnight", "forever")
 
@@ -204,7 +226,7 @@ STATIC_PREFIX = {"fight_style", "raid_event", "trinket", "equipped", "set_bonus"
                  "covenant", "bugs", "position_back", "position_front", "item", "potion", "runeforge", "apex",
                  "this_trinket", "other_trinket", "consumable", "stat"}
 # Mode = decided by a user setting rather than read: target count (ST/AOE/AUTO toggle) and fight length
-# ("assume a long fight" like MaxDPS's "use target health" switch; cooldown holding is the burst toggle's job).
+# ("assume a long fight" unless the player says otherwise; cooldown holding is the burst toggle's job).
 MODE_PREFIX = {"active_enemies", "spell_targets", "toggle", "variable_target_count", "enemies", "fight_remains",
                "time_to_die", "expected_combat_length"}
 TRACK_PREFIX = {"buff", "debuff", "dot", "active_dot", "stealthed", "action", "charges", "cooldown_react"}
@@ -409,7 +431,21 @@ NOT_SPELLS = {"auto_attack", "snapshot_stats", "use_item", "use_items", "potion"
               "cycling_variable", "apply_poison"}
 
 
-def import_branch(simc_root, branch, out_root, errors):
+_FOREVER_IDS = {}
+
+
+def forever_ids(wowsims_root):
+    """Spell id -> token for every Forever class spell (all classes: lists reference buffs from other classes)."""
+    if wowsims_root not in _FOREVER_IDS:
+        ids = {}
+        for cls in ("druid", "hunter", "mage", "paladin", "priest", "rogue", "shaman", "warlock", "warrior"):
+            for sid, sp in gamedata_spells.parse_class(os.path.join(wowsims_root, "gamedata"), cls).items():
+                ids[sid] = sp["token"]
+        _FOREVER_IDS[wowsims_root] = ids
+    return _FOREVER_IDS[wowsims_root]
+
+
+def import_branch(simc_root, branch, out_root, errors, wowsims_root=None):
     base = os.path.join(simc_root, branch, "ActionPriorityLists")
     sha, date = git_info(os.path.join(simc_root, branch))
     data_dir = os.path.join(out_root, "addons", "DMGAssist", "Data", branch)
@@ -422,6 +458,7 @@ def import_branch(simc_root, branch, out_root, errors):
     class_spells = {}
     all_spells = {}
     own_tokens = {}
+    wowsims_unknown = {}
     specs_by_class = {}
     for spec in specs:
         cls, _, name = spec.partition("_")
@@ -431,7 +468,16 @@ def import_branch(simc_root, branch, out_root, errors):
         # still ships copies of the Midnight lists): data/apl-overrides/<branch>/<spec>.simc
         override = os.path.join(out_root, "data", "apl-overrides", branch, spec + ".simc")
         apl_path = override if os.path.exists(override) else os.path.join(base, "default", spec + ".simc")
-        simc = parse_apl(open(apl_path, encoding="utf-8").read())
+        wowsims_file = None
+        if branch == "forever" and wowsims_root and spec in WOWSIMS_FOREVER and not os.path.exists(override):
+            candidate = os.path.join(wowsims_root, "forever", "ui", "specs", WOWSIMS_FOREVER[spec])
+            if os.path.exists(candidate):
+                wowsims_file = candidate
+        if wowsims_file:
+            simc, conv = wowsims_apl.convert_file(wowsims_file, forever_ids(wowsims_root))
+            wowsims_unknown[spec] = conv.unknown
+        else:
+            simc = parse_apl(open(apl_path, encoding="utf-8").read())
         unknown = analyse(simc, errors, f"{branch}/default/{spec}")
         blz_path = os.path.join(base, "assisted_combat", spec + ".simc")
         blz = None
@@ -455,6 +501,15 @@ def import_branch(simc_root, branch, out_root, errors):
             path = os.path.join(simc_root, branch, "SpellDataDump", "allspells.txt")
             all_spells[branch] = simc_spells.parse_dump(open(path, encoding="utf-8").read()) \
                 if os.path.exists(path) else {}
+        if cls not in class_spells and branch == "forever" and wowsims_root:
+            # Forever's own client data (wowsims/gamedata, refreshed per hotfix) first; SimC's dump fills gaps.
+            gd = gamedata_spells.parse_class(os.path.join(wowsims_root, "gamedata"), cls)
+            if gd:
+                class_spells[cls] = gd
+                path = os.path.join(simc_root, branch, "SpellDataDump", cls + ".txt")
+                if os.path.exists(path):
+                    for sid, sp in simc_spells.parse_dump(open(path, encoding="utf-8").read()).items():
+                        class_spells[cls].setdefault(sid, sp)
         if cls not in class_spells:
             # Spell IDs are shared across clients. A class whose dump is missing or empty on one branch
             # (forever's evoker.txt has no spells) uses another branch's dump rather than shipping no spell data.
@@ -477,7 +532,16 @@ def import_branch(simc_root, branch, out_root, errors):
             record["spellInfo"] = info
             record["heroTrees"] = simc_spells.hero_trees(class_spells[cls], refs["hero"])
         record["simcSource"] = "override" if apl_path == override else "simc"
+        if wowsims_file:
+            record["simcSource"] = "wowsims"
+            record["credit"] = WOWSIMS_CREDIT
+        if (branch, spec) in ALTERNATES:
+            record["alternate"] = ALTERNATES[(branch, spec)]
         # How many of the list's spells exist in THIS game version's own data (no fallback to another branch).
+        if cls not in own_tokens and branch == "forever" and wowsims_root:
+            gd = gamedata_spells.parse_class(os.path.join(wowsims_root, "gamedata"), cls)
+            if gd:
+                own_tokens[cls] = {sp["token"] for sp in gd.values()}
         if cls not in own_tokens:
             own = {}
             for name in (cls + ".txt",):
@@ -538,8 +602,9 @@ def write_report(out_root, report):
     for spec, c in sorted(report["specs"].items()):
         b = c.get("blizzard", {})
         gm = c.get("gameMatch")
-        gm_text = f"{gm['matched']}/{gm['total']}" + (" (override)" if c.get("simcSource") == "override" else "") \
-            if gm else "-"
+        gm_text = f"{gm['matched']}/{gm['total']}" if gm else "-"
+        if c.get("simcSource") in ("override", "wowsims"):
+            gm_text += f" ({c['simcSource']})"
         lines.append(f"| {spec} | {c['lines']} | {c['usablePct']}% | {c['readPct']}% | {c['unknown']} | {gm_text} | "
                      f"{b.get('lines', '-')} | {str(b.get('usablePct', '-')) + '%' if b else '-'} | "
                      f"{', '.join(c.get('blizzardExcluded', [])) or '-'} | {', '.join(c['topUnknown'][:4]) or '-'} |")
@@ -548,7 +613,7 @@ def write_report(out_root, report):
 
 
 # Each client loads only its own data: Midnight is game type "standard"; Forever ("Camelot") is reached by
-# excluding every other known type (same approach MaxDps uses), so we never need Forever's internal type name.
+# excluding every other known type, so we never need Forever's internal type name.
 TOC_GATES = {
     "midnight": "[AllowLoadGameType standard]",
     "forever": "[ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]",
@@ -596,6 +661,8 @@ def summarize(old, new):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--simc", default=".libraries/simc", help="directory holding <branch>/ActionPriorityLists")
+    ap.add_argument("--wowsims", default=".libraries/wowsims",
+                    help="directory holding forever/ and gamedata/ from scripts/fetch-wowsims.sh (optional)")
     ap.add_argument("--out", default=".", help="repository root to write into")
     ap.add_argument("--summary", help="write a markdown change summary here")
     args = ap.parse_args()
@@ -606,7 +673,8 @@ def main():
             sys.exit(f"missing {args.simc}/{branch}/ActionPriorityLists — run scripts/fetch-simc.sh")
         old_path = os.path.join(args.out, "data", f"coverage-{branch}.json")
         old = json.load(open(old_path)) if os.path.exists(old_path) else {}
-        report, specs = import_branch(args.simc, branch, args.out, errors)
+        wowsims_root = args.wowsims if os.path.isdir(os.path.join(args.wowsims, "gamedata")) else None
+        report, specs = import_branch(args.simc, branch, args.out, errors, wowsims_root)
         write_report(args.out, report)
         summaries.append(summarize(old, report))
         specs_by_branch[branch] = specs

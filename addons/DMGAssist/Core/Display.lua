@@ -122,11 +122,11 @@ local function BindingFor(slot, mainPage)
   if not command then
     return nil, false
   end
-  local key = U.Read(U.Call(GetBindingKey, command))
+  local key = U.Get(GetBindingKey, command)
   if type(key) ~= "string" then
     return nil, false
   end
-  local text = U.Read(U.Call(GetBindingText, key, 1))
+  local text = U.Get(GetBindingText, key, 1)
   return Shorten(type(text) == "string" and text or key), page == mainPage
 end
 
@@ -160,11 +160,11 @@ function D.ButtonFor(spellID)
 end
 
 local function MainPage()
-  local bonus = U.Read(U.Call(C_ActionBar and C_ActionBar.GetBonusBarOffset))
+  local bonus = U.Get(C_ActionBar and C_ActionBar.GetBonusBarOffset)
   if type(bonus) == "number" and bonus > 0 then
     return 6 + bonus
   end
-  return U.Read(U.Call(C_ActionBar and C_ActionBar.GetActionBarPage)) or 1
+  return U.Get(C_ActionBar and C_ActionBar.GetActionBarPage) or 1
 end
 
 -- What spell an action slot casts: a spell, or the spell a macro currently shows.
@@ -214,21 +214,21 @@ function D.BuildKeymap()
       if type(button) == "table" then
         local slot = U.Read(button._state_action) or U.Read(button.action)
         if not slot and button.GetAttribute then
-          slot = U.Read(U.Call(button.GetAttribute, button, "action"))
+          slot = U.Get(button.GetAttribute, button, "action")
         end
         slot = tonumber(slot)
         local sid = slot and SlotSpell(slot)
         if sid then
-          local visible = U.Read(U.Call(button.IsVisible, button)) == true
+          local visible = U.Get(button.IsVisible, button) == true
           if visible or not buttonsBySpell[sid] then
             buttonsBySpell[sid] = button
           end
           local command = U.Read(button.commandName)
-          local key = (type(command) == "string" and U.Read(U.Call(GetBindingKey, command)))
-            or U.Read(U.Call(GetBindingKey, "CLICK " .. name .. ":LeftButton"))
-            or U.Read(U.Call(GetBindingKey, "CLICK " .. name .. ":Keybind"))
+          local key = (type(command) == "string" and U.Get(GetBindingKey, command))
+            or U.Get(GetBindingKey, "CLICK " .. name .. ":LeftButton")
+            or U.Get(GetBindingKey, "CLICK " .. name .. ":Keybind")
           if type(key) == "string" then
-            local text = U.Read(U.Call(GetBindingText, key, 1))
+            local text = U.Get(GetBindingText, key, 1)
             Put(sid, Shorten(type(text) == "string" and text or key), visible and def.blizzardMain)
           end
         end
@@ -258,7 +258,7 @@ function D.Keybind(spellID)
   end
   if not best then
     -- Slots the game knows hold this spell (covers overrides and flyouts).
-    local slots = U.Read(U.Call(C_ActionBar and C_ActionBar.FindSpellActionButtons, spellID))
+    local slots = U.Get(C_ActionBar and C_ActionBar.FindSpellActionButtons, spellID)
     if type(slots) == "table" then
       local mainPage = MainPage()
       for _, slot in ipairs(slots) do
@@ -532,11 +532,11 @@ local function SetIcon(icon, pick, cfg, isMain, labelText)
     icon:Hide()
     return
   end
-  local tex = U.Read(U.Call(C_Spell and C_Spell.GetSpellTexture, pick.id))
+  local tex = U.Get(C_Spell and C_Spell.GetSpellTexture, pick.id)
   icon.tex:SetTexture(tex or 134400) -- 134400: question mark icon
   icon.source:SetText(SOURCE_TEXT[pick.source] or "")
   icon.key:SetText(cfg.keybind and D.Keybind(pick.id) or "")
-  local name = cfg.spellNames and U.Read(U.Call(C_Spell and C_Spell.GetSpellName, pick.id)) or ""
+  local name = cfg.spellNames and U.Get(C_Spell and C_Spell.GetSpellName, pick.id) or ""
   icon.name:SetText(name or "")
   icon.label:SetText(cfg.labels and labelText or "")
   local alpha = isMain and 1 or cfg.queueAlpha
@@ -707,7 +707,7 @@ end
 local function RenderHighlight(f, result, cfg)
   local pick = result.queue and result.queue[1] or result.main
   local button = cfg.highlight and pick and D.ButtonFor(pick.id)
-  if not (button and U.Read(U.Call(button.IsVisible, button)) == true) then
+  if not (button and U.Get(button.IsVisible, button) == true) then
     f.hl:Hide()
     return
   end
@@ -750,7 +750,7 @@ function D.Update(result, visible)
   RenderDefensive(f, result, cfg)
   -- "Press now" cue: the GCD (or the current cast) ends within the game's spell queue window, so pressing now
   -- queues the spell with no gap. Timing uses the haste-adjusted GCD we track.
-  local queueWindow = (tonumber(U.Read(U.Call(C_CVar and C_CVar.GetCVar, "SpellQueueWindow"))) or 400) / 1000
+  local queueWindow = (tonumber(U.Get(C_CVar and C_CVar.GetCVar, "SpellQueueWindow")) or 400) / 1000
   local castLeft = select(2, ns.State.CurrentCast()) or 0
   local wait = math.max(ns.State.GCDRemains(), castLeft)
   local pressNow = cfg.pressCue and wait <= queueWindow
@@ -786,7 +786,7 @@ function D.Update(result, visible)
   end
   local c = result.callout
   if cfg.callout and c then
-    local icon = c.spellID and U.Read(U.Call(C_Spell and C_Spell.GetSpellTexture, c.spellID))
+    local icon = c.spellID and U.Get(C_Spell and C_Spell.GetSpellTexture, c.spellID)
     local text = L[c.label]
     if c.seconds then
       text = string.format("%s %d", text, math.ceil(c.seconds))

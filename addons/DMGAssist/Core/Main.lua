@@ -123,18 +123,18 @@ function ns.Previewing()
   if ns.db and ns.db.locked == false and ns.db.previewUnlocked ~= false then
     return true
   end
-  return SettingsPanel ~= nil and U.Read(U.Call(SettingsPanel.IsShown, SettingsPanel)) == true
+  return SettingsPanel ~= nil and U.Get(SettingsPanel.IsShown, SettingsPanel) == true
 end
 
 local function Hidden()
   local cfg = D.Settings()
-  if U.Read(U.Call(C_PetBattles and C_PetBattles.IsInBattle)) == true then
+  if U.Get(C_PetBattles and C_PetBattles.IsInBattle) == true then
     return true
   end
-  if cfg.hideVehicle and U.Read(U.Call(UnitInVehicle, "player")) == true then
+  if cfg.hideVehicle and U.Get(UnitInVehicle, "player") == true then
     return true
   end
-  if cfg.hideMounted and not inCombat and U.Read(U.Call(IsMounted)) == true then
+  if cfg.hideMounted and not inCombat and U.Get(IsMounted) == true then
     return true
   end
   return false
@@ -150,8 +150,8 @@ local function ShouldShow()
   if Hidden() then
     return false
   end
-  local enemy = U.Read(U.Call(UnitExists, "target")) == true and
-    U.Read(U.Call(UnitCanAttack, "player", "target")) == true
+  local enemy = U.Get(UnitExists, "target") == true and
+    U.Get(UnitCanAttack, "player", "target") == true
   return D.ShouldShow(inCombat, enemy)
 end
 
@@ -203,6 +203,36 @@ function ns.Alerts(result)
   alerted.cd = cd
 end
 
+-- The record to use right now. Forever Feral switches to the bear list in Bear Form (record.alternate): the form
+-- ID when readable (GetShapeshiftFormID, DRUID_BEAR_FORM = 5 in Blizzard's UI), else whether Maul (bear-only)
+-- can be cast.
+local activeRecord
+function ns.ActiveRecord(state)
+  local record = state.data
+  local alt = record and record.alternate
+  if alt then
+    local inForm
+    local form = U.Get(GetShapeshiftFormID)
+    if type(form) == "number" then
+      inForm = form == alt.form
+    else
+      local probe = M.SpellID(alt.probe)
+      M.unresolved[alt.probe] = nil
+      local usable, noPower = U.Call(C_Spell and C_Spell.IsSpellUsable, probe or 0)
+      inForm = probe ~= nil and (U.Read(usable) == true or U.Read(noPower) == true)
+    end
+    local other = inForm and ns.Data.Get(state.branch, alt.key)
+    if other then
+      record = other
+    end
+  end
+  if record ~= activeRecord then
+    activeRecord = record
+    M.SetData(record)
+  end
+  return record
+end
+
 function ns.Update()
   local state = Specs.current
   if not state or state.status ~= "ready" or not state.data then
@@ -221,7 +251,7 @@ function ns.Update()
   end
   S.VerifyPowers()
   ns.Clues.ReadCooldownManager(S.ReadableAuras())
-  local result = G.Recommend(state.data, {
+  local result = G.Recommend(ns.ActiveRecord(state), {
     burst = ns.db.burst ~= false,
     useAssisted = state.branch == "midnight" and ns.db.useAssisted ~= false,
   })
@@ -492,7 +522,7 @@ function commands.keys()
   U.Print(L["Keybinds refreshed: %d spells on your bars."], n)
 end
 
--- Full decision trace for troubleshooting (like Hekili's snapshots): every line looked at, castable or not and
+-- Full decision trace for troubleshooting: every line looked at, castable or not and
 -- why, its condition result, the inputs that were unknown; printed short in chat and stored in the Watchdog log.
 function ns.QuietSnapshot()
   ns.snapshotQuiet = true
@@ -609,6 +639,9 @@ SlashCmdList.DMGASSIST = function(msg)
   local state = Specs.Refresh("slash")
   U.Print("%s", Describe(state))
   U.Print(L["Spells matched: %s. Type /dmga help for options."], tostring(M.count or 0))
+  if state.data and state.data.credit then
+    U.Print(L["Rotation by %s."], state.data.credit)
+  end
   local mods = ns.BossMods.Detected()
   if #mods > 0 then
     U.Print(L["Boss mods: %s."], table.concat(mods, ", "))

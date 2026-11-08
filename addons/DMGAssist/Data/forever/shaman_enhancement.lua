@@ -852,7 +852,6 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 600,
       gcd = 1.5,
       n = "lightning_shield",
-      st = 3,
     },
     [325] = {
       ap = {
@@ -862,7 +861,6 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 600,
       gcd = 1.5,
       n = "lightning_shield",
-      st = 3,
     },
     [403] = {
       cost = { [0] = 15 },
@@ -873,8 +871,8 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
     },
     [421] = {
       cd = 6,
-      cost = { [0] = 145 },
-      ct = 2,
+      cost = { [0] = 245 },
+      ct = 2.5,
       gcd = 1.5,
       n = "chain_lightning",
       r = 30,
@@ -901,7 +899,6 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 600,
       gcd = 1.5,
       n = "lightning_shield",
-      st = 3,
     },
     [915] = {
       cost = { [0] = 60 },
@@ -912,8 +909,8 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
     },
     [930] = {
       cd = 6,
-      cost = { [0] = 200 },
-      ct = 2,
+      cost = { [0] = 360 },
+      ct = 2.5,
       gcd = 1.5,
       n = "chain_lightning",
       r = 30,
@@ -933,12 +930,11 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 600,
       gcd = 1.5,
       n = "lightning_shield",
-      st = 3,
     },
     [2860] = {
       cd = 6,
-      cost = { [0] = 250 },
-      ct = 2,
+      cost = { [0] = 425 },
+      ct = 2.5,
       gcd = 1.5,
       n = "chain_lightning",
       r = 30,
@@ -1028,7 +1024,6 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 600,
       gcd = 1.5,
       n = "lightning_shield",
-      st = 3,
     },
     [8232] = {
       cost = { [0] = 90 },
@@ -1041,7 +1036,6 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       },
       d = 1.5,
       n = "windfury_weapon",
-      st = 3,
     },
     [8235] = {
       cost = { [0] = 115 },
@@ -1054,7 +1048,32 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       },
       d = 1.5,
       n = "windfury_weapon",
-      st = 3,
+    },
+    [8443] = {
+      n = "fire_nova",
+      pas = true,
+    },
+    [8504] = {
+      n = "fire_nova",
+      pas = true,
+    },
+    [8505] = {
+      n = "fire_nova",
+      pas = true,
+    },
+    [10391] = {
+      cost = { [0] = 135 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lightning_bolt",
+      r = 30,
+    },
+    [10392] = {
+      cost = { [0] = 160 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lightning_bolt",
+      r = 30,
     },
     [10431] = {
       ap = {
@@ -1064,7 +1083,15 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 600,
       gcd = 1.5,
       n = "lightning_shield",
-      st = 3,
+    },
+    [10432] = {
+      ap = {
+        { 10432, "self" },
+      },
+      cost = { [0] = 370 },
+      d = 600,
+      gcd = 1.5,
+      n = "lightning_shield",
     },
     [10447] = {
       ap = {
@@ -1116,7 +1143,6 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       },
       d = 1.5,
       n = "windfury_weapon",
-      st = 3,
     },
     [10486] = {
       cost = { [0] = 140 },
@@ -1125,10 +1151,32 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
     },
     [10605] = {
       cd = 6,
-      cost = { [0] = 315 },
-      ct = 2,
+      cost = { [0] = 495 },
+      ct = 2.5,
       gcd = 1.5,
       n = "chain_lightning",
+      r = 30,
+    },
+    [11310] = {
+      n = "fire_nova",
+      pas = true,
+    },
+    [11311] = {
+      n = "fire_nova",
+      pas = true,
+    },
+    [15207] = {
+      cost = { [0] = 190 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lightning_bolt",
+      r = 30,
+    },
+    [15208] = {
+      cost = { [0] = 220 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lightning_bolt",
       r = 30,
     },
     [16339] = {
@@ -1152,7 +1200,6 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       },
       d = 1.5,
       n = "windfury_weapon",
-      st = 3,
     },
     [16362] = {
       cost = { [0] = 165 },
@@ -1163,13 +1210,17 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       ap = {
         { 17364, "enemy" },
       },
-      cd = 8,
+      cd = 6,
       d = 12,
       gcd = 1.5,
       n = "stormstrike",
       r = 5,
-      st = 1,
-      tal = true,
+    },
+    [26363] = {
+      n = "lightning_shield",
+    },
+    [26370] = {
+      n = "lightning_shield",
     },
     [29228] = {
       ap = {
@@ -1186,6 +1237,14 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       n = "fire_nova",
       pas = true,
     },
+    [408475] = {
+      n = "lightning_bolt",
+      r = 30,
+    },
+    [408477] = {
+      n = "lightning_bolt",
+      r = 30,
+    },
     [408479] = {
       n = "chain_lightning",
       r = 30,
@@ -1194,10 +1253,17 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       n = "chain_lightning",
       r = 30,
     },
+    [408482] = {
+      n = "chain_lightning",
+      r = 30,
+    },
+    [408484] = {
+      n = "chain_lightning",
+      r = 30,
+    },
     [408498] = {
       n = "maelstrom_weapon",
       pas = true,
-      tal = true,
     },
     [408505] = {
       ap = {
@@ -1225,49 +1291,184 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       n = "lava_lash",
       pas = true,
     },
+    [410156] = {
+      n = "stormstrike",
+    },
+    [432144] = {
+      ap = {
+        { 432144, "self" },
+      },
+      d = 3,
+      n = "lightning_shield",
+    },
+    [432145] = {
+      ap = {
+        { 432145, "self" },
+      },
+      d = 3,
+      n = "lightning_shield",
+    },
+    [432146] = {
+      ap = {
+        { 432146, "self" },
+      },
+      d = 3,
+      n = "lightning_shield",
+    },
+    [432147] = {
+      ap = {
+        { 432147, "self" },
+      },
+      d = 3,
+      n = "lightning_shield",
+    },
+    [432148] = {
+      ap = {
+        { 432148, "self" },
+      },
+      d = 3,
+      n = "lightning_shield",
+    },
+    [432149] = {
+      ap = {
+        { 432149, "self" },
+      },
+      d = 3,
+      n = "lightning_shield",
+    },
     [436519] = {
       n = "flametongue_weapon",
       pas = true,
     },
+    [439431] = {
+      gcd = 1.5,
+      n = "windfury_weapon",
+      pas = true,
+    },
+    [439440] = {
+      n = "windfury_weapon",
+    },
+    [439441] = {
+      n = "windfury_weapon",
+    },
+    [461636] = {
+      cost = { [0] = 165 },
+      gcd = 1.5,
+      n = "windfury_weapon",
+    },
+    [470753] = {
+      n = "lightning_shield",
+    },
+    [1226963] = {
+      n = "flame_shock",
+    },
+    [1226972] = {
+      n = "flame_shock",
+    },
   },
   spells = {
     chain_lightning = {
-      a = { 421, 930, 2860, 10605, 408479, 408481 },
+      a = { 10605, 2860, 930, 421, 408484, 408482, 408481, 408479 },
     },
     fire_nova = {
-      t = { 408339, 409938 },
+      t = { 8443, 8504, 8505, 11310, 11311, 408339, 409938 },
     },
     flame_shock = {
-      a = { 8050, 8052, 8053, 10447, 10448, 29228 },
-      b = { 8050, 8052, 8053, 10447, 10448, 29228 },
+      a = { 29228, 10448, 10447, 8053, 8052, 8050, 1226963, 1226972 },
+      b = { 29228, 10448, 10447, 8053, 8052, 8050, 1226963, 1226972 },
     },
     flametongue_weapon = {
-      a = { 8024, 8027, 8030, 16339, 16341, 16342 },
+      a = { 8024, 8027, 8030, 16339, 16341, 16342, 436519 },
       t = { 436519 },
     },
     frost_shock = {
-      a = { 8056, 8058, 10472, 10473 },
+      a = { 10473, 10472, 8058, 8056 },
     },
     lava_lash = {
       a = { 408507, 409953 },
     },
     lightning_bolt = {
-      a = { 403, 529, 548, 915, 943, 6041 },
+      a = {
+        15208,
+        15207,
+        10392,
+        10391,
+        6041,
+        943,
+        915,
+        548,
+        529,
+        403,
+        408477,
+        408475,
+      },
     },
     lightning_shield = {
-      a = { 324, 325, 905, 945, 8134, 10431 },
-      b = { 324, 325, 905, 945, 8134, 10431 },
+      a = {
+        10432,
+        10431,
+        8134,
+        945,
+        905,
+        325,
+        324,
+        26363,
+        432149,
+        470753,
+        26370,
+        432148,
+      },
+      b = {
+        10432,
+        432149,
+        10431,
+        432148,
+        8134,
+        432147,
+        945,
+        432146,
+        905,
+        432145,
+        325,
+        432144,
+      },
     },
     maelstrom_weapon = {
       a = { 408505, 408498, 409946 },
-      b = { 408505, 409946, 408498 },
+      b = { 408505, 408498, 409946 },
     },
     stormstrike = {
-      a = { 17364 },
+      a = { 17364, 410156 },
     },
     windfury_weapon = {
-      a = { 8232, 8235, 10486, 16362, 8233, 8236 },
-      b = { 8233, 8236, 10484, 16361, 8232, 8235 },
+      a = {
+        16362,
+        461636,
+        10486,
+        8235,
+        8232,
+        16361,
+        10484,
+        8236,
+        8233,
+        439440,
+        439441,
+        439431,
+      },
+      b = {
+        16361,
+        10484,
+        8236,
+        8233,
+        16362,
+        461636,
+        10486,
+        8235,
+        8232,
+        439431,
+        439440,
+        439441,
+      },
     },
   },
 })

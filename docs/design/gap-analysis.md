@@ -1,8 +1,7 @@
 # Gap analysis: DMGAssist vs pre-Midnight rotation addons (2026-11-08)
 
-Compared against Hekili (options in `.libraries/reference/Hekili/Options`), MaxDps (glows action buttons, hooks
-the Cooldown Manager), ConRO-style defensive/interrupt side windows, and the requests players repeat on those
-projects' trackers and forums (wording from memory of common themes — no specific threads quoted).
+Compared against the publicly described features of popular rotation helpers (Hekili, MaxDps, ConRO) and the
+requests players commonly make for this kind of addon.
 
 Legend: ✅ have · 🟡 partial · ❌ missing · ⛔ impossible in Midnight combat (secret values) · ➖ out of scope
 

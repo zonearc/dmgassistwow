@@ -23,8 +23,8 @@ G.picks = {}    -- source -> count (this fight)
 local lastRun = 0
 
 local function Restriction()
-  local st = U.Read(U.Call(C_RestrictedActions and C_RestrictedActions.GetAddOnRestrictionState,
-    Enum and Enum.AddOnRestrictionType and Enum.AddOnRestrictionType.Combat or 0))
+  local st = U.Get(C_RestrictedActions and C_RestrictedActions.GetAddOnRestrictionState,
+    Enum and Enum.AddOnRestrictionType and Enum.AddOnRestrictionType.Combat or 0)
   return st
 end
 

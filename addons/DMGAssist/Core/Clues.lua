@@ -196,7 +196,7 @@ local overrideState, requirementState = {}, {}
 function C.ScanOverrides(aurasReadable)
   for id, b in pairs(M.book) do
     if b.id == id and not b.passive then
-      local o = U.Read(U.Call(C_Spell and C_Spell.GetOverrideSpell, id))
+      local o = U.Get(C_Spell and C_Spell.GetOverrideSpell, id)
       if type(o) == "number" then
         local on = o ~= id
         if overrideState[id] ~= nil and overrideState[id] ~= on then
@@ -353,7 +353,7 @@ function C.DistanceBounds()
     for id, b in pairs(M.book) do
       local info = b.id == id and not b.passive and M.Info(id)
       if info and info.r then
-        local inRange = U.Read(U.Call(C_Spell and C_Spell.IsSpellInRange, id, "target"))
+        local inRange = U.Get(C_Spell and C_Spell.IsSpellInRange, id, "target")
         if inRange == true then
           rangeHi, any = math.min(rangeHi, info.r), true
         elseif inRange == false then
@@ -467,7 +467,7 @@ function C.OnPowerEvent(token)
   end
   if sh.pending and GetTime() - sh.pending.t <= CONFIRM_WINDOW then
     sh.pending = nil -- the change we predicted happened
-  elseif not U.Read(U.Call(UnitPower, "player", pt)) then
+  elseif not U.Get(UnitPower, "player", pt) then
     -- Something we didn't cause changed it. Almost always a free point (crit bonus, talent proc), so the
     -- count becomes "v or v+1" instead of fully unknown; each further surprise widens it; a finisher that
     -- spends everything makes it exact again (see OnOwnCast).
@@ -518,11 +518,11 @@ function C.ReadCooldownManager(readable)
         local cdID = type(item) == "table" and U.Read(item.cooldownID)
         local active = type(item) == "table" and U.Read(item.isActive)
         if type(cdID) == "number" and type(active) == "boolean" then
-          local info = U.Read(U.Call(C_CooldownViewer and C_CooldownViewer.GetCooldownViewerCooldownInfo, cdID))
+          local info = U.Get(C_CooldownViewer and C_CooldownViewer.GetCooldownViewerCooldownInfo, cdID)
           local sid = type(info) == "table" and U.Read(info.spellID)
-          local token = sid and M.AuraToken(sid, U.Read(U.Call(C_Spell and C_Spell.GetSpellName, sid)))
+          local token = sid and M.AuraToken(sid, U.Get(C_Spell and C_Spell.GetSpellName, sid))
           if token then
-            local unit = U.Read(U.Call(item.GetAuraDataUnit, item))
+            local unit = U.Get(item.GetAuraDataUnit, item)
             if unit ~= "target" then
               unit = "player"
             end
@@ -583,13 +583,7 @@ function C.BlizzardOrder(record)
   return flat
 end
 
-local function Split(name)
-  local p = {}
-  for part in name:gmatch("[^%.]+") do
-    p[#p + 1] = part
-  end
-  return p
-end
+local Split = U.SplitDots
 
 local CMP = { [">="] = true, [">"] = true, ["<="] = true, ["<"] = true, ["="] = true }
 local NEGATE = { [">="] = "<", [">"] = "<=", ["<="] = ">", ["<"] = ">=", ["="] = "!=" }

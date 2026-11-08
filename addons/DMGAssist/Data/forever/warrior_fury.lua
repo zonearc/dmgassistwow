@@ -177,714 +177,338 @@ ns.RegisterSpecData("forever", "warrior_fury", {
   blizzardExcluded = { "avatar", "recklessness" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warrior",
+  credit = "WoWSims (wowsims.com/forever)",
   gameMatch = {
-    matched = 10,
-    missing = { "avatar", "bladestorm", "bloodbath", "crushing_blow", "heroic_leap", "odyns_fury", "storm_bolt", "thunder_blast" },
-    total = 18,
+    matched = 21,
+    missing = { "spell_1259799", "spell_12723", "spell_20554", "spell_20572", "spell_29602" },
+    total = 26,
   },
   heroTrees = {},
   key = "warrior_fury",
   simc = {
+    cd_racials = {
+      {
+        a = "spell_20572",
+        c = "wowsims.multiplecdusages",
+        k = "U",
+      },
+      {
+        a = "spell_20554",
+        c = "wowsims.multiplecdusages",
+        k = "U",
+      },
+      {
+        a = "eureka",
+        c = "wowsims.multiplecdusages",
+        k = "U",
+      },
+      {
+        a = "spell_1259799",
+        c = "(!(wowsims.actiongroupused)&wowsims.multiplecdusages)",
+        k = "U",
+      },
+      {
+        a = "spell_1259799",
+        c = "(wowsims.actiongroupused&buff.recklessness.down&(fight_remains>15)&((fight_remains>195)|(fight_remains<=30)))",
+        k = "U",
+      },
+    },
+    cd_trinkets = {
+      {
+        a = "spell_29602",
+        k = "R",
+      },
+    },
     default = {
       {
-        a = "auto_attack",
+        a = "call_action_list",
+        k = "R",
+        p = {
+          name = "rend_weave_onoff",
+        },
+      },
+      {
+        a = "call_action_list",
+        k = "R",
+        p = {
+          name = "hamstring_weave_onoff",
+        },
+      },
+      {
+        a = "call_action_list",
+        k = "R",
+        p = {
+          name = "engineering",
+        },
+      },
+      {
+        a = "call_action_list",
+        k = "R",
+        p = {
+          name = "cd_trinkets",
+        },
+      },
+      {
+        a = "call_action_list",
+        c = "(active_enemies=1)",
+        k = "M",
+        p = {
+          name = "sunder_armor",
+        },
+      },
+      {
+        a = "call_action_list",
+        k = "R",
+        p = {
+          name = "cd_racials",
+        },
+      },
+      {
+        a = "death_wish",
+        c = "wowsims.multiplecdusages",
+        k = "U",
+      },
+      {
+        a = "recklessness",
+        c = "(wowsims.actiongroupused&wowsims.multiplecdusages)",
+        k = "U",
+      },
+      {
+        a = "spell_12723",
+        c = "((active_enemies>1))",
+        k = "M",
+      },
+      {
+        a = "whirlwind",
+        c = "(active_enemies>1)",
+        k = "M",
+      },
+      {
+        a = "call_action_list",
+        k = "R",
+        p = {
+          name = "overpower_weaving",
+        },
+      },
+      {
+        a = "battle_stance",
+        c = "(known.spearing_strike&(cooldown.spearing_strike.remains<=0)&(rage>=15)&variable.battle_stance_swap_ready&!((target.health.pct<20))&variable.delay_check&(wowsims.targetismobtype|wowsims.targetismobtype))",
+        k = "U",
+      },
+      {
+        a = "spearing_strike",
+        c = "buff.battle_stance.up",
+        k = "T",
+      },
+      {
+        a = "execute",
+        c = "(target.health.pct<20)",
+        k = "U",
+      },
+      {
+        a = "whirlwind",
         k = "R",
       },
+      {
+        a = "cleave",
+        c = "((active_enemies>1)&(rage>=25))",
+        k = "T",
+      },
+      {
+        a = "bloodthirst",
+        k = "R",
+      },
+      {
+        a = "heroic_strike",
+        c = "(((active_enemies=1)&!((target.health.pct<20))&(rage>=40))|(variable.delay_check&(rage>60)))",
+        k = "U",
+      },
+      {
+        a = "battle_stance",
+        c = "((active_enemies=1)&variable.rend_can_cast&variable.battle_stance_swap_ready)",
+        k = "U",
+      },
+      {
+        a = "rend",
+        c = "variable.rend_can_cast",
+        k = "U",
+      },
+      {
+        a = "berserker_stance",
+        c = "(buff.battle_stance.up&!(variable.battle_stance_wanted))",
+        k = "U",
+      },
+      {
+        a = "hamstring",
+        c = "(wowsims.actiongroupused&known.spell_10612&variable.delay_check&!((target.health.pct<20))&(active_enemies<2))",
+        k = "U",
+      },
+      {
+        a = "reckless_swings",
+        k = "R",
+      },
+      {
+        a = "bloodrage",
+        c = "(((fight_remains>cooldown.bloodrage.duration)&(rage<90))|(fight_remains<2)|((target.health.pct<20)&((rage+10)>=action.execute.cost)&!(action.execute.ready)&(wowsims.autotimetonext>0.5)&buff.berserker_stance.up))",
+        k = "U",
+      },
+      {
+        a = "berserker_rage",
+        c = "(variable.delay_check&(talentid.20500>=1))",
+        k = "U",
+      },
+      {
+        a = "battle_shout",
+        c = "(variable.delay_check&variable.battle_shout_no_raid_buff&(buff.battle_shout.remains<=10))",
+        k = "U",
+      },
+    },
+    engineering = {},
+    hamstring_weave_onoff = {},
+    overpower_weaving = {
+      {
+        a = "battle_stance",
+        c = "(variable.overpower_can_cast&(buff.spell_1282733.remains>gcd.remains)&variable.battle_stance_swap_ready&(cooldown.overpower.remains<=0))",
+        k = "U",
+      },
+      {
+        a = "overpower",
+        c = "variable.overpower_can_cast",
+        k = "U",
+      },
+    },
+    pre_pull_move = {
       {
         a = "charge",
-        c = "time<=0.5|movement.distance>5",
-        k = "R",
-      },
-      {
-        a = "heroic_leap",
-        c = "(raid_event.movement.distance>25&raid_event.movement.in>45)",
-        k = "R",
-      },
-      {
-        a = "potion",
-        c = "target.time_to_die>300|buff.recklessness.up|target.time_to_die<25",
+        c = "buff.battle_stance.up",
         k = "T",
       },
       {
-        a = "pummel",
-        c = "target.debuff.casting.react",
-        k = "U",
-      },
-      {
-        a = "call_action_list",
-        k = "R",
-        p = {
-          name = "trinkets",
-        },
-      },
-      {
-        a = "call_action_list",
-        k = "R",
-        p = {
-          name = "variables",
-        },
-      },
-      {
-        a = "lights_judgment",
-        c = "variable.on_gcd_racials",
-        k = "U",
-      },
-      {
-        a = "bag_of_tricks",
-        c = "variable.on_gcd_racials",
-        k = "U",
-      },
-      {
-        a = "berserking",
-        c = "buff.recklessness.up",
+        a = "intercept",
+        c = "buff.berserker_stance.up",
         k = "T",
-      },
-      {
-        a = "blood_fury",
-        k = "R",
-      },
-      {
-        a = "fireblood",
-        k = "R",
-      },
-      {
-        a = "ancestral_call",
-        k = "R",
-      },
-      {
-        a = "invoke_external_buff",
-        c = "buff.recklessness.remains>15&fight_remains>=135|variable.execute_phase&buff.recklessness.up|fight_remains<=25",
-        k = "U",
-        p = {
-          name = "power_infusion",
-        },
-      },
-      {
-        a = "run_action_list",
-        c = "talent.slayers_dominance&active_enemies=1",
-        k = "M",
-        p = {
-          name = "slayer",
-        },
-      },
-      {
-        a = "run_action_list",
-        c = "talent.slayers_dominance&active_enemies>1",
-        k = "M",
-        p = {
-          name = "slayer_aoe",
-        },
-      },
-      {
-        a = "run_action_list",
-        c = "talent.lightning_strikes&active_enemies=1",
-        k = "M",
-        p = {
-          name = "thane",
-        },
-      },
-      {
-        a = "run_action_list",
-        c = "talent.lightning_strikes&active_enemies>1",
-        k = "M",
-        p = {
-          name = "thane_aoe",
-        },
       },
     },
     precombat = {
       {
-        a = "snapshot_stats",
-        k = "R",
-      },
-      {
-        a = "berserker_stance",
+        a = "variable",
         k = "R",
         p = {
-          toggle = "on",
+          name = "battle_shout_no_raid_buff",
+          value = "!((known.battle_shout|known.battle_shout))",
         },
       },
       {
         a = "variable",
         k = "R",
         p = {
-          name = "trinket_1_exclude",
-          value = "trinket.1.is.algethar_puzzle_box",
+          name = "delay_check",
+          value = "((cooldown.bloodthirst.remains>=gcd.max)&(cooldown.whirlwind.remains>=gcd.max))",
         },
       },
       {
         a = "variable",
         k = "R",
         p = {
-          name = "trinket_2_exclude",
-          value = "trinket.2.is.algethar_puzzle_box",
+          name = "overpower_can_cast",
+          value = "(wowsims.actiongroupused&buff.spell_1282733.up&(rage>=5)&(rage<=73)&cooldown.overpower.ready)",
         },
       },
       {
         a = "variable",
         k = "R",
         p = {
-          name = "trinket_1_buffs",
-          value = "trinket.1.has_use_buff",
+          name = "rend_can_cast",
+          value = "(wowsims.actiongroupused&!((target.health.pct<20))&!(dot.rend.ticking)&(rage>=10))",
         },
       },
       {
         a = "variable",
         k = "R",
         p = {
-          name = "trinket_2_buffs",
-          value = "trinket.2.has_use_buff",
+          name = "battle_stance_swap_ready",
+          value = "(cooldown.battle_stance.remains<=0)",
         },
       },
       {
         a = "variable",
         k = "R",
         p = {
-          condition = "0",
-          name = "trinket_1_duration",
-          op = "setif",
-          value = "0",
-          value_else = "trinket.1.proc.any_dps.duration",
+          name = "battle_stance_wanted",
+          value = "(variable.overpower_can_cast|variable.rend_can_cast)",
         },
       },
       {
         a = "variable",
         k = "R",
         p = {
-          condition = "0",
-          name = "trinket_2_duration",
-          op = "setif",
-          value = "0",
-          value_else = "trinket.2.proc.any_dps.duration",
+          name = "resource_potion_rage",
+          value = "(wowsims.selectedpotion|wowsims.selectedpotion|wowsims.selectedpotion)",
         },
       },
       {
         a = "variable",
         k = "R",
         p = {
-          condition = "trinket.1.is.treacherous_transmitter",
-          name = "trinket_1_high_value",
-          op = "setif",
-          value = "2",
-          value_else = "1",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          condition = "trinket.2.is.treacherous_transmitter",
-          name = "trinket_2_high_value",
-          op = "setif",
-          value = "2",
-          value_else = "1",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          condition = "variable.trinket_1_buffs&talent.recklessness&trinket.1.cooldown.duration%%cooldown.recklessness.duration=0",
-          name = "trinket_1_sync",
-          op = "setif",
-          value = "1",
-          value_else = "0.5",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          condition = "variable.trinket_2_buffs&talent.recklessness&trinket.2.cooldown.duration%%cooldown.recklessness.duration=0",
-          name = "trinket_2_sync",
-          op = "setif",
-          value = "1",
-          value_else = "0.5",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          condition = "!variable.trinket_1_buffs&variable.trinket_2_buffs&(trinket.2.has_cooldown|!trinket.1.has_cooldown)|variable.trinket_2_buffs&((trinket.2.cooldown.duration%variable.trinket_2_duration)*(1.5+trinket.2.has_buff.strength)*(variable.trinket_2_sync)*(variable.trinket_2_high_value)*(1+((trinket.2.ilvl-trinket.1.ilvl)%100)))>((trinket.1.cooldown.duration%variable.trinket_1_duration)*(1.5+trinket.1.has_buff.strength)*(variable.trinket_1_sync)*(variable.trinket_1_high_value)*(1+((trinket.1.ilvl-trinket.2.ilvl)%100)))",
-          name = "trinket_priority",
-          op = "setif",
-          value = "2",
-          value_else = "1",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          condition = "!variable.trinket_1_buffs&!variable.trinket_2_buffs&trinket.2.ilvl>=trinket.1.ilvl",
-          name = "damage_trinket_priority",
-          op = "setif",
-          value = "2",
-          value_else = "1",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "trinket_1_manual",
-          value = "trinket.1.is.algethar_puzzle_box",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "trinket_1_manual",
-          value = "trinket.2.is.algethar_puzzle_box",
+          name = "offensive_potion_rage",
+          value = "(wowsims.selectedpotion|wowsims.selectedpotion|wowsims.selectedpotion)",
         },
       },
     },
-    slayer = {
+    recklessness_onoff = {},
+    rend_weave_onoff = {},
+    sunder_armor = {
       {
-        a = "recklessness",
-        k = "R",
-      },
-      {
-        a = "rampage",
-        c = "buff.enrage.remains<gcd",
-        k = "T",
-      },
-      {
-        a = "rampage",
-        c = "buff.recklessness.up&rage>=100",
-        k = "T",
-      },
-      {
-        a = "rampage",
-        c = "buff.recklessness.up&cooldown.bladestorm.ready",
-        k = "T",
-      },
-      {
-        a = "bladestorm",
-        c = "buff.recklessness.up|target.time_to_die<=5",
-        k = "T",
-      },
-      {
-        a = "execute",
-        c = "buff.recklessness.up&buff.sudden_death.up",
-        k = "T",
-      },
-      {
-        a = "rampage",
-        c = "buff.recklessness.up&!buff.hack_and_slash.up",
-        k = "T",
-      },
-      {
-        a = "crushing_blow",
-        k = "R",
-      },
-      {
-        a = "odyns_fury",
-        c = "buff.recklessness.up",
-        k = "T",
-      },
-      {
-        a = "execute",
-        c = "buff.recklessness.up",
-        k = "T",
-      },
-      {
-        a = "bloodbath",
-        k = "R",
-      },
-      {
-        a = "odyns_fury",
-        c = "buff.recklessness.up",
-        k = "T",
-      },
-      {
-        a = "rampage",
-        c = "rage>100",
-        k = "T",
-      },
-      {
-        a = "execute",
-        k = "R",
-      },
-      {
-        a = "execute",
-        c = "buff.sudden_death.up",
-        k = "T",
-      },
-      {
-        a = "odyns_fury",
-        k = "R",
-      },
-      {
-        a = "execute",
-        k = "R",
-      },
-      {
-        a = "raging_blow",
-        k = "R",
-      },
-      {
-        a = "rampage",
-        k = "R",
-      },
-      {
-        a = "bloodthirst",
-        k = "R",
-      },
-      {
-        a = "whirlwind",
-        k = "R",
-      },
-      {
-        a = "storm_bolt",
-        c = "buff.bladestorm.up",
+        a = "sunder_armor",
+        c = "(debuff.sunder_armor.stack<5)",
         k = "T",
       },
     },
-    slayer_aoe = {
+    sunder_armor_refresh = {
       {
-        a = "whirlwind",
-        c = "talent.improved_whirlwind&buff.whirlwind.stack=0",
+        a = "sunder_armor",
+        c = "(variable.delay_check&(debuff.sunder_armor.remains<=10))",
         k = "T",
-      },
-      {
-        a = "recklessness",
-        k = "R",
-      },
-      {
-        a = "avatar",
-        k = "R",
-      },
-      {
-        a = "rampage",
-        k = "R",
-      },
-      {
-        a = "bladestorm",
-        c = "buff.recklessness.up|target.time_to_die<=5",
-        k = "T",
-      },
-      {
-        a = "execute",
-        c = "buff.sudden_death.up",
-        k = "T",
-      },
-      {
-        a = "odyns_fury",
-        k = "R",
-      },
-      {
-        a = "crushing_blow",
-        k = "R",
-      },
-      {
-        a = "bloodbath",
-        k = "R",
-      },
-      {
-        a = "execute",
-        k = "R",
-      },
-      {
-        a = "raging_blow",
-        k = "R",
-      },
-      {
-        a = "bloodthirst",
-        k = "R",
-      },
-      {
-        a = "whirlwind",
-        k = "R",
-      },
-      {
-        a = "storm_bolt",
-        c = "buff.bladestorm.up",
-        k = "T",
-      },
-    },
-    thane = {
-      {
-        a = "recklessness",
-        k = "R",
-      },
-      {
-        a = "avatar",
-        k = "R",
-      },
-      {
-        a = "rampage",
-        c = "buff.enrage.remains<gcd|rage>=100",
-        k = "T",
-      },
-      {
-        a = "bloodbath",
-        c = "buff.recklessness.up&buff.fury_mid2_4pc_crit.stack<2",
-        k = "T",
-      },
-      {
-        a = "thunder_blast",
-        c = "buff.thunder_blast.stack=2|buff.avatar.remains<2|buff.thunder_blast.remains<2",
-        k = "T",
-      },
-      {
-        a = "crushing_blow",
-        c = "buff.hack_and_slash.up",
-        k = "T",
-      },
-      {
-        a = "bloodbath",
-        k = "R",
-      },
-      {
-        a = "rampage",
-        c = "buff.recklessness.up",
-        k = "T",
-      },
-      {
-        a = "thunder_blast",
-        c = "buff.avatar.up",
-        k = "T",
-      },
-      {
-        a = "crushing_blow",
-        k = "R",
-      },
-      {
-        a = "raging_blow",
-        c = "buff.hack_and_slash.up",
-        k = "T",
-      },
-      {
-        a = "thunder_blast",
-        k = "R",
-      },
-      {
-        a = "rampage",
-        k = "R",
-      },
-      {
-        a = "bloodthirst",
-        k = "R",
-      },
-      {
-        a = "execute",
-        c = "talent.deep_wounds",
-        k = "R",
-      },
-      {
-        a = "raging_blow",
-        k = "R",
-      },
-      {
-        a = "odyns_fury",
-        k = "R",
-      },
-      {
-        a = "thunder_clap",
-        c = "buff.avatar.up&!talent.wrath_and_fury",
-        k = "T",
-      },
-      {
-        a = "execute",
-        k = "R",
-      },
-      {
-        a = "thunder_clap",
-        k = "R",
-      },
-    },
-    thane_aoe = {
-      {
-        a = "odyns_fury",
-        k = "R",
-      },
-      {
-        a = "recklessness",
-        k = "R",
-      },
-      {
-        a = "avatar",
-        k = "R",
-      },
-      {
-        a = "rampage",
-        c = "!buff.enrage.up",
-        k = "T",
-      },
-      {
-        a = "thunder_blast",
-        k = "R",
-      },
-      {
-        a = "thunder_blast",
-        c = "buff.thunder_blast.stack=2",
-        k = "T",
-      },
-      {
-        a = "thunder_blast",
-        c = "buff.avatar.up",
-        k = "T",
-      },
-      {
-        a = "thunder_clap",
-        c = "talent.improved_whirlwind&buff.whirlwind.stack=0|(buff.avatar.up&active_enemies>6)",
-        k = "T",
-      },
-      {
-        a = "rampage",
-        c = "buff.enrage.remains<gcd|rage>=100",
-        k = "T",
-      },
-      {
-        a = "bloodbath",
-        k = "R",
-      },
-      {
-        a = "crushing_blow",
-        c = "buff.hack_and_slash.up",
-        k = "T",
-      },
-      {
-        a = "rampage",
-        c = "buff.recklessness.up",
-        k = "T",
-      },
-      {
-        a = "thunder_clap",
-        c = "buff.avatar.up",
-        k = "T",
-      },
-      {
-        a = "crushing_blow",
-        k = "R",
-      },
-      {
-        a = "bloodthirst",
-        k = "R",
-      },
-      {
-        a = "thunder_blast",
-        k = "R",
-      },
-      {
-        a = "raging_blow",
-        c = "buff.hack_and_slash.up",
-        k = "T",
-      },
-      {
-        a = "execute",
-        k = "R",
-      },
-      {
-        a = "rampage",
-        k = "R",
-      },
-      {
-        a = "thunder_clap",
-        k = "R",
-      },
-      {
-        a = "raging_blow",
-        k = "R",
-      },
-      {
-        a = "whirlwind",
-        k = "R",
-      },
-    },
-    trinkets = {
-      {
-        a = "use_item",
-        c = "cooldown.recklessness.remains<2",
-        k = "T",
-        p = {
-          name = "algethar_puzzle_box",
-        },
-      },
-      {
-        a = "use_item",
-        c = "variable.trinket_1_buffs&(variable.trinket_priority=1|!variable.trinket_2_buffs|!trinket.2.has_cooldown)&(buff.recklessness.up)",
-        k = "T",
-        p = {
-          slot = "trinket1",
-        },
-      },
-      {
-        a = "use_item",
-        c = "variable.trinket_2_buffs&(variable.trinket_priority=2|!variable.trinket_1_buffs|!trinket.1.has_cooldown)&(buff.recklessness.up)",
-        k = "T",
-        p = {
-          slot = "trinket2",
-        },
-      },
-      {
-        a = "use_item",
-        c = "!variable.trinket_1_buffs&(variable.damage_trinket_priority=1|!variable.trinket_2_buffs|!trinket.2.has_cooldown)",
-        k = "R",
-        p = {
-          slot = "trinket1",
-        },
-      },
-      {
-        a = "use_item",
-        c = "!variable.trinket_2_buffs&(variable.damage_trinket_priority=2|!variable.trinket_1_buffs|!trinket.1.has_cooldown)",
-        k = "R",
-        p = {
-          slot = "trinket2",
-        },
-      },
-    },
-    variables = {
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "st_planning",
-          value = "active_enemies=1&(raid_event.adds.in>15|!raid_event.adds.exists)",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "adds_remain",
-          value = "active_enemies>=2&(!raid_event.adds.exists|raid_event.adds.exists&raid_event.adds.remains>5)",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "execute_phase",
-          value = "(talent.massacre.enabled&target.health.pct<35)|target.health.pct<20",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "on_gcd_racials",
-          value = "buff.recklessness.down&buff.recklessness.down&rage<80&buff.sudden_death.down&!cooldown.bladestorm.ready&(!cooldown.execute.ready|!variable.execute_phase)",
-        },
       },
     },
   },
-  simcOrder = { "precombat", "default", "slayer", "slayer_aoe", "thane", "thane_aoe", "trinkets", "variables" },
-  simcSource = "simc",
+  simcOrder = {
+    "precombat",
+    "default",
+    "pre_pull_move",
+    "recklessness_onoff",
+    "rend_weave_onoff",
+    "hamstring_weave_onoff",
+    "engineering",
+    "cd_racials",
+    "sunder_armor",
+    "sunder_armor_refresh",
+    "cd_trinkets",
+    "overpower_weaving",
+  },
+  simcSource = "wowsims",
   spec = "fury",
   spellInfo = {
+    [78] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
+    },
     [100] = {
-      ap = {
-        { 7922, "enemy" },
-      },
       cd = 15,
-      cost = { [1] = 0 },
       gain = { [1] = 90 },
       n = "charge",
       r = 25,
+    },
+    [284] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
+    },
+    [285] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
     },
     [772] = {
       ap = {
@@ -896,22 +520,31 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       n = "rend",
       r = 5,
     },
+    [845] = {
+      cost = { [1] = 20 },
+      n = "cleave",
+      r = 5,
+    },
     [871] = {
       ap = {
         { 871, "self" },
       },
       cd = 900,
-      cost = { [1] = 0 },
       d = 12,
       gcd = 1.5,
       n = "shield_wall",
     },
     [1464] = {
-      cd = 18,
+      cd = 15,
       cost = { [1] = 15 },
       ct = 1.5,
       gcd = 1.5,
       n = "slam",
+      r = 5,
+    },
+    [1608] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
       r = 5,
     },
     [1680] = {
@@ -920,20 +553,37 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       gcd = 1.5,
       n = "whirlwind",
     },
+    [1715] = {
+      ap = {
+        { 1715, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 15,
+      gcd = 1.5,
+      n = "hamstring",
+      r = 5,
+    },
     [1719] = {
       ap = {
         { 1719, "self" },
       },
       cd = 1800,
-      cost = { [1] = 0 },
       d = 15,
       gcd = 1.5,
       n = "recklessness",
     },
+    [2457] = {
+      cd = 1,
+      n = "battle_stance",
+    },
     [2458] = {
       cd = 1,
-      cost = { [1] = 0 },
       n = "berserker_stance",
+    },
+    [2687] = {
+      cd = 60,
+      gain = { [1] = 100 },
+      n = "bloodrage",
     },
     [5242] = {
       cost = { [1] = 10 },
@@ -942,20 +592,13 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       n = "battle_shout",
     },
     [5308] = {
-      ap = {
-        { 26651, "self" },
-      },
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
       r = 5,
     },
     [6178] = {
-      ap = {
-        { 7922, "enemy" },
-      },
       cd = 15,
-      cost = { [1] = 0 },
       gain = { [1] = 120 },
       n = "charge",
       r = 25,
@@ -967,9 +610,6 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       n = "battle_shout",
     },
     [6343] = {
-      ap = {
-        { 6343, "enemy" },
-      },
       cd = 6,
       cost = { [1] = 20 },
       d = 10,
@@ -1028,19 +668,70 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       gcd = 1.5,
       n = "battle_shout",
     },
-    [7922] = {
+    [7369] = {
+      cost = { [1] = 20 },
+      n = "cleave",
+      r = 5,
+    },
+    [7372] = {
       ap = {
-        { 7922, "enemy" },
+        { 7372, "enemy" },
       },
-      cost = { [1] = 0 },
-      d = 1,
-      n = "charge_stun",
-      r = 25,
+      cost = { [1] = 10 },
+      d = 15,
+      gcd = 1.5,
+      n = "hamstring",
+      r = 5,
+    },
+    [7373] = {
+      ap = {
+        { 7373, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 15,
+      gcd = 1.5,
+      n = "hamstring",
+      r = 5,
+    },
+    [7384] = {
+      cd = 5,
+      cmax = { [4] = 5 },
+      cost = { [1] = 5, [4] = 1 },
+      gcd = 1.5,
+      n = "overpower",
+      r = 5,
+    },
+    [7386] = {
+      ap = {
+        { 7386, "enemy" },
+      },
+      cost = { [1] = 15 },
+      d = 30,
+      gcd = 1.5,
+      n = "sunder_armor",
+      r = 5,
+      st = 5,
+    },
+    [7405] = {
+      ap = {
+        { 7405, "enemy" },
+      },
+      cost = { [1] = 15 },
+      d = 30,
+      gcd = 1.5,
+      n = "sunder_armor",
+      r = 5,
+      st = 5,
+    },
+    [7887] = {
+      cd = 5,
+      cmax = { [4] = 5 },
+      cost = { [1] = 5, [4] = 1 },
+      gcd = 1.5,
+      n = "overpower",
+      r = 5,
     },
     [8198] = {
-      ap = {
-        { 8198, "enemy" },
-      },
       cd = 6,
       cost = { [1] = 20 },
       d = 14,
@@ -1048,9 +739,6 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       n = "thunder_clap",
     },
     [8204] = {
-      ap = {
-        { 8204, "enemy" },
-      },
       cd = 6,
       cost = { [1] = 20 },
       d = 18,
@@ -1058,17 +746,25 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       n = "thunder_clap",
     },
     [8205] = {
-      ap = {
-        { 8205, "enemy" },
-      },
       cd = 6,
       cost = { [1] = 20 },
       d = 22,
       gcd = 1.5,
       n = "thunder_clap",
     },
+    [8380] = {
+      ap = {
+        { 8380, "enemy" },
+      },
+      cost = { [1] = 15 },
+      d = 30,
+      gcd = 1.5,
+      n = "sunder_armor",
+      r = 5,
+      st = 5,
+    },
     [8820] = {
-      cd = 18,
+      cd = 15,
       cost = { [1] = 15 },
       ct = 1.5,
       gcd = 1.5,
@@ -1093,6 +789,26 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       gcd = 1.5,
       n = "battle_shout",
     },
+    [11564] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
+    },
+    [11565] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
+    },
+    [11566] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
+    },
+    [11567] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
+    },
     [11572] = {
       ap = {
         { 11572, "enemy" },
@@ -1113,20 +829,23 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       n = "rend",
       r = 5,
     },
-    [11578] = {
+    [11574] = {
       ap = {
-        { 7922, "enemy" },
+        { 11574, "enemy" },
       },
+      cost = { [1] = 10 },
+      d = 21,
+      gcd = 1.5,
+      n = "rend",
+      r = 5,
+    },
+    [11578] = {
       cd = 15,
-      cost = { [1] = 0 },
       gain = { [1] = 150 },
       n = "charge",
       r = 25,
     },
     [11580] = {
-      ap = {
-        { 11580, "enemy" },
-      },
       cd = 6,
       cost = { [1] = 20 },
       d = 26,
@@ -1134,17 +853,52 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       n = "thunder_clap",
     },
     [11581] = {
-      ap = {
-        { 11581, "enemy" },
-      },
       cd = 6,
       cost = { [1] = 20 },
       d = 30,
       gcd = 1.5,
       n = "thunder_clap",
     },
+    [11584] = {
+      cd = 5,
+      cmax = { [4] = 5 },
+      cost = { [1] = 5, [4] = 1 },
+      gcd = 1.5,
+      n = "overpower",
+      r = 5,
+    },
+    [11585] = {
+      cd = 5,
+      cmax = { [4] = 5 },
+      cost = { [1] = 5, [4] = 1 },
+      gcd = 1.5,
+      n = "overpower",
+      r = 5,
+    },
+    [11596] = {
+      ap = {
+        { 11596, "enemy" },
+      },
+      cost = { [1] = 15 },
+      d = 30,
+      gcd = 1.5,
+      n = "sunder_armor",
+      r = 5,
+      st = 5,
+    },
+    [11597] = {
+      ap = {
+        { 11597, "enemy" },
+      },
+      cost = { [1] = 15 },
+      d = 30,
+      gcd = 1.5,
+      n = "sunder_armor",
+      r = 5,
+      st = 5,
+    },
     [11604] = {
-      cd = 18,
+      cd = 15,
       cost = { [1] = 15 },
       ct = 1.5,
       gcd = 1.5,
@@ -1152,11 +906,21 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       r = 5,
     },
     [11605] = {
-      cd = 18,
+      cd = 15,
       cost = { [1] = 15 },
       ct = 1.5,
       gcd = 1.5,
       n = "slam",
+      r = 5,
+    },
+    [11608] = {
+      cost = { [1] = 20 },
+      n = "cleave",
+      r = 5,
+    },
+    [11609] = {
+      cost = { [1] = 20 },
+      n = "cleave",
       r = 5,
     },
     [12317] = {
@@ -1164,10 +928,20 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       pas = true,
       tal = true,
     },
-    [12834] = {
-      n = "deep_wounds",
-      pas = true,
-      tal = true,
+    [12328] = {
+      ap = {
+        { 12328, "self" },
+      },
+      cd = 180,
+      cost = { [1] = 10 },
+      d = 30,
+      gcd = 1.5,
+      n = "death_wish",
+    },
+    [12555] = {
+      d = 5,
+      n = "pummel",
+      r = 5,
     },
     [12880] = {
       ap = {
@@ -1179,7 +953,6 @@ ns.RegisterSpecData("forever", "warrior_fury", {
     [12975] = {
       cd = 180,
       n = "last_stand",
-      tal = true,
     },
     [12976] = {
       ap = {
@@ -1188,45 +961,121 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       d = 20,
       n = "last_stand",
     },
+    [13847] = {
+      ap = {
+        { 13847, "self" },
+      },
+      d = 15,
+      n = "recklessness",
+    },
+    [14895] = {
+      cd = 5,
+      gcd = 1.5,
+      n = "overpower",
+      r = 5,
+    },
+    [15062] = {
+      ap = {
+        { 15062, "self" },
+      },
+      d = 10,
+      n = "shield_wall",
+    },
+    [15615] = {
+      d = 5,
+      n = "pummel",
+      r = 5,
+    },
+    [17198] = {
+      cd = 5,
+      gcd = 1.5,
+      n = "overpower",
+      r = 5,
+    },
+    [18499] = {
+      ap = {
+        { 18499, "self" },
+      },
+      cd = 30,
+      d = 10,
+      gcd = 1.5,
+      n = "berserker_rage",
+    },
+    [19639] = {
+      d = 5,
+      n = "pummel",
+      r = 5,
+    },
+    [20252] = {
+      cd = 30,
+      cost = { [1] = 10 },
+      n = "intercept",
+      r = 25,
+    },
+    [20508] = {
+      ap = {
+        { 20508, "enemy" },
+      },
+      d = 0.001,
+      n = "charge",
+      r = 45,
+    },
+    [20569] = {
+      cost = { [1] = 20 },
+      n = "cleave",
+      r = 5,
+    },
+    [20616] = {
+      cd = 30,
+      cost = { [1] = 10 },
+      n = "intercept",
+      r = 25,
+    },
+    [20617] = {
+      cd = 30,
+      cost = { [1] = 10 },
+      n = "intercept",
+      r = 25,
+    },
     [20647] = {
       cost = { [1] = 0.1 },
       n = "execute",
     },
     [20658] = {
-      ap = {
-        { 26651, "self" },
-      },
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
       r = 5,
     },
     [20660] = {
-      ap = {
-        { 26651, "self" },
-      },
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
       r = 5,
     },
     [20661] = {
-      ap = {
-        { 26651, "self" },
-      },
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
       r = 5,
     },
     [20662] = {
-      ap = {
-        { 26651, "self" },
-      },
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
       r = 5,
+    },
+    [22120] = {
+      n = "charge",
+      r = 25,
+    },
+    [22911] = {
+      ap = {
+        { 22911, "enemy" },
+      },
+      d = 2,
+      n = "charge",
+      r = 25,
     },
     [23881] = {
       ap = {
@@ -1238,7 +1087,6 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       gcd = 1.5,
       n = "bloodthirst",
       r = 5,
-      tal = true,
     },
     [23892] = {
       ap = {
@@ -1273,12 +1121,92 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       n = "bloodthirst",
       r = 5,
     },
+    [24023] = {
+      n = "charge",
+      r = 25,
+    },
+    [24193] = {
+      ap = {
+        { 24193, "enemy" },
+      },
+      d = 2,
+      n = "charge",
+      r = 25,
+    },
+    [24407] = {
+      n = "overpower",
+      r = 5,
+    },
+    [24431] = {
+      n = "improved_whirlwind",
+      pas = true,
+    },
+    [25286] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
+    },
+    [25289] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [25710] = {
+      n = "heroic_strike",
+      r = 5,
+    },
+    [25712] = {
+      n = "heroic_strike",
+      r = 5,
+    },
+    [25744] = {
+      n = "rampage",
+      r = 40,
+    },
     [26651] = {
       ap = {
         { 26651, "self" },
       },
       d = 1,
       n = "execute",
+    },
+    [27577] = {
+      n = "intercept",
+      r = 25,
+    },
+    [27578] = {
+      d = 120,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [27584] = {
+      ap = {
+        { 27584, "enemy" },
+      },
+      d = 15,
+      gcd = 1.5,
+      n = "hamstring",
+      r = 5,
+    },
+    [27826] = {
+      n = "intercept",
+      r = 30,
+    },
+    [29061] = {
+      ap = {
+        { 29061, "self" },
+      },
+      cd = 30,
+      d = 20,
+      n = "shield_wall",
+    },
+    [29131] = {
+      ap = {
+        { 29131, "self" },
+      },
+      d = 10,
+      n = "bloodrage",
     },
     [402911] = {
       cd = 8,
@@ -1298,6 +1226,15 @@ ns.RegisterSpecData("forever", "warrior_fury", {
     [403359] = {
       n = "enraged_regeneration",
       pas = true,
+    },
+    [411684] = {
+      ap = {
+        { 411684, "self" },
+      },
+      cd = 15,
+      d = 0.1,
+      n = "charge",
+      r = 25,
     },
     [425415] = {
       ap = {
@@ -1325,17 +1262,6 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       n = "rampage",
       pas = true,
     },
-    [440113] = {
-      n = "sudden_death",
-      pas = true,
-    },
-    [440114] = {
-      ap = {
-        { 440114, "self" },
-      },
-      d = 10,
-      n = "sudden_death",
-    },
     [440483] = {
       ap = {
         { 440483, "self" },
@@ -1343,16 +1269,74 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       d = 12,
       n = "enrage",
     },
-    [440495] = {
-      n = "sudden_death",
-      pas = true,
+    [461810] = {
+      cd = 4,
+      cost = { [1] = 20 },
+      d = 30,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [461826] = {
+      cd = 4,
+      cost = { [1] = 20 },
+      d = 26,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [461827] = {
+      cd = 4,
+      cost = { [1] = 20 },
+      d = 22,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [461828] = {
+      cd = 4,
+      cost = { [1] = 20 },
+      d = 18,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [461829] = {
+      cd = 4,
+      cost = { [1] = 20 },
+      d = 14,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [461830] = {
+      cd = 4,
+      cost = { [1] = 20 },
+      d = 10,
+      gcd = 1.5,
+      n = "thunder_clap",
     },
     [462885] = {
       n = "enrage",
       pas = true,
     },
+    [462891] = {
+      n = "whirlwind",
+    },
+    [462896] = {
+      n = "slam",
+      r = 5,
+    },
+    [462897] = {
+      n = "slam",
+      r = 5,
+    },
+    [1236177] = {
+      ap = {
+        { 1236177, "enemy" },
+      },
+      d = 5,
+      gcd = 1.5,
+      n = "hamstring",
+      r = 5,
+    },
     [1240193] = {
-      cd = 18,
+      cd = 15,
       cost = { [1] = 15 },
       ct = 1.5,
       gcd = 1.5,
@@ -1360,59 +1344,146 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       r = 5,
     },
     [1240287] = {
-      ap = {
-        { 7922, "enemy" },
-      },
       cd = 15,
-      cost = { [1] = 0 },
       gain = { [1] = 90 },
       n = "charge",
       r = 25,
     },
     [1240288] = {
-      ap = {
-        { 7922, "enemy" },
-      },
       cd = 15,
-      cost = { [1] = 0 },
       gain = { [1] = 120 },
       n = "charge",
       r = 25,
     },
     [1240289] = {
-      ap = {
-        { 7922, "enemy" },
-      },
       cd = 15,
-      cost = { [1] = 0 },
       gain = { [1] = 150 },
       n = "charge",
       r = 25,
     },
+    [1259813] = {
+      ap = {
+        { 1259813, "self" },
+      },
+      cd = 120,
+      d = 8,
+      n = "eureka",
+    },
+    [1277424] = {
+      ap = {
+        { 1277424, "self" },
+      },
+      d = 10,
+      n = "shield_wall",
+    },
     [1310196] = {
-      cd = 18,
+      cd = 15,
       cost = { [1] = 15 },
       ct = 1.5,
       gcd = 1.5,
       n = "slam",
       r = 5,
     },
+    [1310197] = {
+      cd = 15,
+      cost = { [1] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "slam",
+      r = 5,
+    },
+    [1310198] = {
+      cd = 15,
+      cost = { [1] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "slam",
+      r = 5,
+    },
+    [1310199] = {
+      cd = 15,
+      cost = { [1] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "slam",
+      r = 5,
+    },
+    [1310200] = {
+      cd = 15,
+      cost = { [1] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "slam",
+      r = 5,
+    },
+    [1310222] = {
+      cd = 20,
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "spearing_strike",
+      r = 5,
+    },
+    [1310315] = {
+      n = "improved_whirlwind",
+      pas = true,
+    },
+    [1329554] = {
+      gain = { [1] = 50 },
+      n = "reckless_swings",
+    },
+    [1329555] = {
+      ap = {
+        { 1329555, "self" },
+      },
+      cd = 15,
+      d = 8,
+      gcd = 1,
+      n = "reckless_swings",
+    },
   },
   spells = {
     battle_shout = {
-      a = { 5242, 6192, 6673, 11549, 11550, 11551 },
+      a = { 25289, 11551, 27578, 11550, 11549, 6192, 5242, 6673 },
+      b = { 25289, 11551, 27578, 11550, 11549, 6192, 5242, 6673 },
+    },
+    battle_stance = {
+      a = { 2457 },
+      b = { 2457 },
+    },
+    berserker_rage = {
+      a = { 18499 },
     },
     berserker_stance = {
       a = { 2458 },
+      b = { 2458 },
+    },
+    bloodrage = {
+      a = { 2687, 29131 },
     },
     bloodthirst = {
-      a = { 23881, 23892, 23893, 23894 },
+      a = { 23894, 23893, 23892, 23881 },
     },
     charge = {
-      a = { 100, 6178, 11578, 1240287, 1240288, 1240289 },
+      a = {
+        11578,
+        1240289,
+        6178,
+        1240288,
+        100,
+        1240287,
+        411684,
+        20508,
+        22120,
+        22911,
+        24023,
+        24193,
+      },
     },
-    deep_wounds = {
-      t = { 12834 },
+    cleave = {
+      a = { 20569, 11609, 11608, 7369, 845 },
+    },
+    death_wish = {
+      a = { 12328 },
     },
     enrage = {
       a = { 12880, 425415, 427066, 440483, 12317, 462885 },
@@ -1421,45 +1492,107 @@ ns.RegisterSpecData("forever", "warrior_fury", {
     enraged_regeneration = {
       a = { 402913, 403359 },
     },
+    eureka = {
+      a = { 1259813 },
+    },
     execute = {
-      a = { 5308, 20647, 20658, 20660, 20661, 20662 },
+      a = { 20662, 20661, 20660, 20658, 5308, 20647, 26651 },
+    },
+    hamstring = {
+      a = { 7373, 27584, 1236177, 7372, 1715 },
+    },
+    heroic_strike = {
+      a = {
+        25286,
+        11567,
+        11566,
+        11565,
+        11564,
+        1608,
+        285,
+        284,
+        78,
+        25712,
+        25710,
+      },
+    },
+    improved_whirlwind = {
+      t = { 24431, 1310315 },
+    },
+    intercept = {
+      a = { 20617, 20616, 20252, 27577, 27826 },
     },
     last_stand = {
       a = { 12975, 12976 },
     },
+    overpower = {
+      a = { 11585, 11584, 7887, 7384, 14895, 17198, 24407 },
+    },
     pummel = {
-      a = { 6552, 6554 },
+      a = { 6554, 6552, 12555, 15615, 19639 },
     },
     raging_blow = {
       a = { 402911 },
     },
     rampage = {
-      a = { 426940, 427070 },
+      a = { 426940, 25744, 427070 },
+    },
+    reckless_swings = {
+      a = { 1329555, 1329554 },
     },
     recklessness = {
-      a = { 1719 },
-      b = { 1719 },
+      a = { 1719, 13847 },
+      b = { 1719, 13847 },
     },
     rend = {
-      a = { 772, 6546, 6547, 6548, 11572, 11573 },
-      b = { 772, 6546, 6547, 6548, 11572, 11573 },
+      a = { 11574, 11573, 11572, 6548, 6547, 6546, 772 },
+      b = { 11574, 11573, 11572, 6548, 6547, 6546, 772 },
     },
     shield_wall = {
-      a = { 871 },
+      a = { 871, 29061, 15062, 1277424 },
     },
     slam = {
-      a = { 1464, 8820, 11604, 11605, 1240193, 1310196 },
+      a = {
+        11605,
+        1310200,
+        11604,
+        1310199,
+        8820,
+        1310198,
+        1464,
+        1310197,
+        1240193,
+        1310196,
+        462897,
+        462896,
+      },
     },
-    sudden_death = {
-      a = { 440114, 440113, 440495 },
-      b = { 440114, 440113, 440495 },
+    spearing_strike = {
+      a = { 1310222 },
+    },
+    sunder_armor = {
+      a = { 11597, 11596, 8380, 7405, 7386 },
+      b = { 11597, 11596, 8380, 7405, 7386 },
     },
     thunder_clap = {
-      a = { 6343, 8198, 8204, 8205, 11580, 11581 },
+      a = {
+        11581,
+        461810,
+        11580,
+        461826,
+        8205,
+        461827,
+        8204,
+        461828,
+        8198,
+        461829,
+        6343,
+        461830,
+      },
     },
     whirlwind = {
-      a = { 1680 },
-      b = { 1680 },
+      a = { 1680, 462891 },
+      b = { 1680, 462891 },
     },
   },
 })

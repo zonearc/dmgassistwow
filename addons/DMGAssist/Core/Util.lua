@@ -91,6 +91,21 @@ function U.Call(fn, ...)
   return unpack(p, 2, p.n)
 end
 
+-- Call fn and return its first result if readable; nil if it is secret, fn is missing, or the call failed.
+-- The everyday way to ask the game something: U.Get(UnitPower, "player", 4).
+function U.Get(fn, ...)
+  return U.Read((U.Call(fn, ...)))
+end
+
+-- "buff.tigers_fury.up" -> { "buff", "tigers_fury", "up" }
+function U.SplitDots(name)
+  local parts = {}
+  for part in name:gmatch("[^%.]+") do
+    parts[#parts + 1] = part
+  end
+  return parts
+end
+
 function U.Print(fmt, ...)
   local msg = select("#", ...) > 0 and string.format(fmt, ...) or fmt
   print("|cffffb000[DMGAssist]|r " .. msg)

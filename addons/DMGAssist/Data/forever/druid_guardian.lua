@@ -129,347 +129,234 @@ ns.RegisterSpecData("forever", "druid_guardian", {
   blizzardExcluded = { "berserk", "convoke_the_spirits" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "druid",
+  credit = "WoWSims (wowsims.com/forever)",
   gameMatch = {
-    matched = 13,
-    missing = {
-      "bristling_fur",
-      "convoke_the_spirits",
-      "ironfur",
-      "lunar_beam",
-      "mangle",
-      "red_moon",
-      "sundering_roar",
-      "thrash",
-      "wild_guardian",
-    },
-    total = 22,
+    matched = 10,
+    missing = { "spell_1259799" },
+    total = 11,
   },
   heroTrees = {},
   key = "druid_guardian",
   simc = {
-    bear = {
+    default = {
       {
-        a = "bear_form",
-        c = "!buff.bear_form.up&!buff.feline_potential.up&!talent.fluid_form.enabled",
-        k = "T",
-      },
-      {
-        a = "mangle",
-        c = "buff.cat_form.up",
-        k = "T",
-      },
-      {
-        a = "ironfur",
-        c = "buff.gory_fur_ironfur.up",
-        k = "T",
-        p = {
-          use_off_gcd = "1",
-        },
-      },
-      {
-        a = "ironfur",
-        c = "rage>=40&!talent.killing_blow.enabled&!buff.answered_calling.up&!buff.dream_conduit.up",
-        k = "T",
-        p = {
-          use_off_gcd = "1",
-        },
-      },
-      {
-        a = "ironfur",
-        c = "rage>=80&!talent.killing_blow.enabled&buff.answered_calling.up",
-        k = "T",
-        p = {
-          use_off_gcd = "1",
-        },
-      },
-      {
-        a = "ironfur",
-        c = "(!buff.ironfur.up|(buff.incarnation_guardian_of_ursoc.up|buff.berserk.up))&!buff.answered_calling.up&talent.killing_blow.enabled&!buff.ravage.up&!buff.dream_conduit.up",
-        k = "T",
-        p = {
-          use_off_gcd = "1",
-        },
-      },
-      {
-        a = "ironfur",
-        c = "(!buff.ironfur.up|(buff.incarnation_guardian_of_ursoc.up|buff.berserk.up))&rage>=80&buff.answered_calling.up&talent.killing_blow.enabled&!buff.ravage.up&!buff.dream_conduit.up",
-        k = "T",
-        p = {
-          use_off_gcd = "1",
-        },
-      },
-      {
-        a = "thrash",
+        a = "feral_charge",
+        c = "(target.distance>5)",
         k = "R",
-        p = {
-          target_if = "refreshable|(dot.thrash.stack<5&talent.flashing_claws.rank=2|dot.thrash.stack<4&talent.flashing_claws.rank=1|dot.thrash.stack<3&!talent.flashing_claws.enabled)",
-        },
-      },
-      {
-        a = "mangle",
-        c = "buff.answered_calling.up&active_enemies=1&talent.fount_of_strength.enabled",
-        k = "T",
-      },
-      {
-        a = "thrash",
-        c = "talent.lunar_calling.enabled|set_bonus.midnight_season_2_4pc&(active_enemies>1|buff.answered_calling.up)",
-        k = "T",
-      },
-      {
-        a = "maul",
-        c = "buff.dream_conduit.up&!talent.fount_of_strength.enabled&!buff.answered_calling.up",
-        k = "T",
-      },
-      {
-        a = "maul",
-        c = "rage>=55&talent.killing_blow.enabled&!buff.answered_calling.up",
-        k = "T",
-      },
-      {
-        a = "maul",
-        c = "rage>=80&talent.killing_blow.enabled&buff.answered_calling.up",
-        k = "T",
-      },
-      {
-        a = "maul",
-        c = "buff.gory_fur_maul.up&talent.raze.enabled",
-        k = "T",
-      },
-      {
-        a = "maul",
-        c = "buff.gory_fur_maul.up&!talent.raze.enabled&active_enemies<3",
-        k = "T",
-      },
-      {
-        a = "thrash",
-        c = "active_enemies>=3&talent.fount_of_strength.enabled",
-        k = "M",
-      },
-      {
-        a = "mangle",
-        c = "dot.red_moon.ticking|(buff.gorestained_claws.up|buff.answered_calling.up)&talent.fount_of_strength.enabled",
-        k = "T",
-      },
-      {
-        a = "rake",
-        c = "!buff.cat_form.up&talent.fluid_form.enabled&cooldown.heart_of_the_wild.up&talent.heart_of_the_wild.enabled&(active_enemies<=5&talent.moonkin_form.enabled|!talent.moonkin_form.enabled)",
-        k = "T",
-      },
-      {
-        a = "cat_form",
-        c = "!buff.cat_form.up&!talent.fluid_form.enabled&cooldown.heart_of_the_wild.up&talent.heart_of_the_wild.enabled&(active_enemies<=5&talent.moonkin_form.enabled|!talent.moonkin_form.enabled)&(rage<30&!talent.fount_of_strength.enabled|talent.fount_of_strength.enabled)",
-        k = "T",
-      },
-      {
-        a = "moonkin_form",
-        c = "!buff.moonkin_form.up&cooldown.heart_of_the_wild.up&active_enemies>=6&talent.moonkin_form.enabled",
-        k = "T",
-      },
-      {
-        a = "thrash",
-        k = "R",
-        p = {
-          target_if = "refreshable|(dot.thrash.stack<5&talent.flashing_claws.rank=2|dot.thrash.stack<4&talent.flashing_claws.rank=1|dot.thrash.stack<3&!talent.flashing_claws.enabled)",
-        },
-      },
-      {
-        a = "ferocious_bite",
-        c = "(buff.cat_form.up&buff.feline_potential.up&(buff.incarnation_guardian_of_ursoc.up|buff.berserk.up)&!dot.rip.refreshable)",
-        k = "T",
-      },
-      {
-        a = "rake",
-        c = "!buff.cat_form.up&talent.fluid_form.enabled&buff.feline_potential_counter.stack=6&talent.wildpower_surge.enabled&active_enemies<=2",
-        k = "T",
-      },
-      {
-        a = "rip",
-        c = "(buff.cat_form.up&buff.feline_potential.up)&active_enemies<=2",
-        k = "T",
-      },
-      {
-        a = "red_moon",
-        c = "cooldown.mangle.up&!dot.red_moon.ticking&(!talent.convoke_the_spirits.enabled|talent.convoke_the_spirits.enabled&cooldown.convoke_the_spirits.remains>=5)",
-        k = "T",
-      },
-      {
-        a = "mangle",
-        c = "(((buff.incarnation_guardian_of_ursoc.up|buff.berserk.up)&buff.feline_potential_counter.stack<6&talent.wildpower_surge.enabled))",
-        k = "T",
-      },
-      {
-        a = "shred",
-        c = "(buff.feline_potential_counter.stack=6&!buff.cat_form.up&!dot.rake.refreshable&talent.fluid_form.enabled)",
-        k = "T",
-      },
-      {
-        a = "rake",
-        c = "(buff.feline_potential_counter.stack=6&!buff.cat_form.up&talent.fluid_form.enabled)",
-        k = "T",
-      },
-      {
-        a = "maul",
-        c = "!buff.ravage.up&rage>=90&talent.fount_of_strength.enabled&!talent.raze.enabled",
-        k = "T",
-      },
-      {
-        a = "mangle",
-        c = "(buff.incarnation_guardian_of_ursoc.up|buff.berserk.up)|talent.red_moon.enabled&(cooldown.red_moon.remains>3&(((rage<88)&!talent.fount_of_strength.enabled)|((rage<83)&!talent.fount_of_strength.enabled&talent.soul_of_the_forest.enabled)|((rage<108)&talent.fount_of_strength.enabled)|((rage<103)&talent.fount_of_strength.enabled&talent.soul_of_the_forest.enabled)))",
-        k = "T",
-      },
-      {
-        a = "mangle",
-        c = "!talent.red_moon.enabled&(((rage<88)&!talent.fount_of_strength.enabled)|((rage<83)&!talent.fount_of_strength.enabled&talent.soul_of_the_forest.enabled)|((rage<108)&talent.fount_of_strength.enabled)|((rage<103)&talent.fount_of_strength.enabled&talent.soul_of_the_forest.enabled))",
-        k = "T",
-      },
-      {
-        a = "thrash",
-        k = "R",
-      },
-      {
-        a = "moonfire",
-        c = "talent.lunation.enabled&buff.bear_form.up&!talent.red_moon.enabled&(buff.galactic_guardian.up|active_enemies<3|refreshable)",
-        k = "T",
-      },
-      {
-        a = "swipe_bear",
-        c = "!talent.lunation.enabled|(talent.lunation.enabled&talent.red_moon.enabled)|talent.lunation.enabled&active_enemies>3",
-        k = "M",
-      },
-    },
-    cooldowns = {
-      {
-        a = "use_items",
-        k = "R",
-      },
-      {
-        a = "potion",
-        c = "buff.lunar_beam.up",
-        k = "T",
-      },
-      {
-        a = "blood_fury",
-        k = "R",
-      },
-      {
-        a = "berserking",
-        k = "R",
-      },
-      {
-        a = "fireblood",
-        k = "R",
-      },
-      {
-        a = "ancestral_call",
-        k = "R",
-      },
-      {
-        a = "bristling_fur",
-        c = "!target.cooldown.pause_action.remains&cooldown.mangle.remains&cooldown.thrash.remains&(rage<60&talent.killing_blow.enabled|rage<40&!talent.killing_blow.enabled)&!buff.ravage.up",
-        k = "U",
       },
       {
         a = "barkskin",
-        c = "buff.bear_form.up",
+        c = "(health.pct<=variable.barkskin_health_threshold)",
+        k = "U",
+      },
+      {
+        a = "spell_1259799",
+        c = "variable.ready_to_use_elunes_light",
+        k = "U",
+      },
+      {
+        a = "frenzied_regeneration",
+        c = "(health.pct<variable.frenzied_regeneration_health_threshold)",
+        k = "U",
+      },
+      {
+        a = "enrage",
+        c = "variable.enrage_can_rescue_the_next_attack",
+        k = "U",
+      },
+      {
+        a = "faerie_fire",
+        c = "variable.faerie_fire_needs_refreshing",
+        k = "U",
+      },
+      {
+        a = "lacerate",
+        c = "variable.five_stack_lacerate_is_near_expiry",
         k = "T",
       },
       {
-        a = "lunar_beam",
-        c = "(cooldown.incarnation_guardian_of_ursoc.up|cooldown.berserk.up)",
+        a = "demoralizing_roar",
+        c = "!(variable.attack_power_reduction_is_covered)",
+        k = "U",
+      },
+      {
+        a = "primal_bite",
+        c = "known.primal_bite",
+        k = "U",
+      },
+      {
+        a = "swipe",
+        c = "((active_enemies>=2)&wowsims.druidbleedisactive)",
+        k = "U",
+      },
+      {
+        a = "lacerate",
         k = "R",
       },
       {
-        a = "heart_of_the_wild",
-        c = "(active_enemies<=5&talent.moonkin_form.enabled&buff.cat_form.up|!talent.moonkin_form.enabled&buff.cat_form.up)|buff.moonkin_form.up&active_enemies>=6&talent.moonkin_form.enabled",
-        k = "T",
-      },
-      {
-        a = "convoke_the_spirits",
-        c = "buff.bear_form.up",
-        k = "T",
-      },
-      {
-        a = "sundering_roar",
-        c = "(dot.thrash.stack>4&talent.flashing_claws.rank=2|dot.thrash.stack>3&talent.flashing_claws.rank=1|dot.thrash.stack>2&!talent.flashing_claws.enabled)&!cooldown.thrash.up",
-        k = "T",
-      },
-      {
-        a = "berserk",
-        c = "(!cooldown.heart_of_the_wild.up&(talent.heart_of_the_wild.enabled)|!talent.ravage.enabled|!talent.heart_of_the_wild.enabled)&(!cooldown.thrash.up|(buff.cat_form.up&!talent.convoke_the_spirits.enabled))",
-        k = "T",
-      },
-      {
-        a = "wild_guardian",
-        c = "!buff.answered_calling.up&buff.lunar_beam.up",
-        k = "T",
-      },
-    },
-    default = {
-      {
-        a = "auto_attack",
-        k = "R",
-      },
-      {
-        a = "call_action_list",
-        k = "R",
-        p = {
-          name = "cooldowns",
-        },
-      },
-      {
-        a = "call_action_list",
-        k = "R",
-        p = {
-          name = "bear",
-        },
+        a = "maul",
+        c = "variable.enough_rage_to_queue_maul",
+        k = "U",
       },
     },
     precombat = {
       {
-        a = "snapshot_stats",
+        a = "variable",
         k = "R",
-      },
-      {
-        a = "bear_form",
-        c = "buff.bear_form.down&!talent.heart_of_the_wild.enabled",
-        k = "T",
-      },
-      {
-        a = "cat_form",
-        c = "buff.bear_form.down&talent.heart_of_the_wild.enabled",
-        k = "T",
+        p = {
+          name = "healthstone_health_threshold",
+          value = "30",
+        },
       },
       {
         a = "variable",
-        c = "equipped.algethar_puzzle_box",
         k = "R",
         p = {
-          name = "algethar_puzzle_box_precombat_cast",
+          name = "mighty_rage_potion_rage_threshold",
+          value = "20",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "barkskin_health_threshold",
+          value = "60",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "maul_minimum_rage",
+          value = "20",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "lacerate_refresh_window",
           value = "3",
         },
       },
       {
-        a = "use_item",
+        a = "variable",
         k = "R",
         p = {
-          name = "algethar_puzzle_box",
+          name = "frenzied_regeneration_health_threshold",
+          value = "25",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "lacerate_has_five_stacks",
+          value = "(dot.lacerate.ticking&(debuff.lacerate.stack>=5))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "attack_power_reduction_is_covered",
+          value = "(!((debuff.demoralizing_roar.remains<=0))|(known.spell_440667&debuff.spell_440667.up))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "five_stack_lacerate_is_near_expiry",
+          value = "(variable.lacerate_has_five_stacks&(dot.lacerate.remains<=variable.lacerate_refresh_window))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "maul_leaves_rage_for_a_nearby_primal_bite",
+          value = "(!(known.primal_bite)|(cooldown.primal_bite.remains>1.5)|((rage-action.maul.cost)>=action.primal_bite.cost))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "ready_to_use_elunes_light",
+          value = "known.spell_1259799",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "enrage_can_rescue_the_next_attack",
+          value = "(known.enrage&(gcd.remains=0)&(((known.primal_bite&cooldown.primal_bite.ready)&(rage<action.primal_bite.cost))|(!((known.primal_bite&cooldown.primal_bite.ready))&(rage<action.lacerate.cost))))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "faerie_fire_needs_refreshing",
+          value = "(known.faerie_fire&(debuff.faerie_fire.remains<=0))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "enough_rage_to_queue_maul",
+          value = "((rage>=variable.maul_minimum_rage)&variable.maul_leaves_rage_for_a_nearby_primal_bite)",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "offensive_potion_is_useful_without_a_defensive_potion",
+          value = "(0&!(0)&(rage<variable.mighty_rage_potion_rage_threshold))",
         },
       },
     },
   },
-  simcOrder = { "precombat", "default", "bear", "cooldowns" },
-  simcSource = "simc",
+  simcOrder = { "precombat", "default" },
+  simcSource = "wowsims",
   spec = "guardian",
   spellInfo = {
-    [768] = {
+    [99] = {
+      cost = { [1] = 10 },
+      d = 30,
       gcd = 1.5,
-      n = "cat_form",
+      n = "demoralizing_roar",
     },
     [769] = {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "swipe",
       r = 5,
+    },
+    [770] = {
+      ap = {
+        { 770, "enemy" },
+      },
+      cost = { [0] = 55 },
+      d = 40,
+      gcd = 1.5,
+      n = "faerie_fire",
+      r = 30,
+    },
+    [778] = {
+      ap = {
+        { 778, "enemy" },
+      },
+      cost = { [0] = 75 },
+      d = 40,
+      gcd = 1.5,
+      n = "faerie_fire",
+      r = 30,
     },
     [779] = {
       cost = { [1] = 20 },
@@ -483,81 +370,28 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       n = "swipe",
       r = 5,
     },
-    [1079] = {
-      ap = {
-        { 1079, "enemy" },
-      },
-      cmax = { [4] = 5 },
-      cost = { [3] = 30, [4] = 1 },
-      d = 12,
-      gcd = 1,
-      n = "rip",
-      r = 5,
+    [1178] = {
+      n = "bear_form",
+      pas = true,
     },
-    [1822] = {
-      ap = {
-        { 1822, "enemy" },
-      },
-      cost = { [3] = 40 },
-      d = 9,
-      gain = { [4] = 1 },
-      gcd = 1,
-      n = "rake",
-      r = 5,
+    [1735] = {
+      cost = { [1] = 10 },
+      d = 30,
+      gcd = 1.5,
+      n = "demoralizing_roar",
     },
-    [1823] = {
+    [5229] = {
       ap = {
-        { 1823, "enemy" },
+        { 5229, "self" },
       },
-      cost = { [3] = 40 },
-      d = 9,
-      gain = { [4] = 1 },
-      gcd = 1,
-      n = "rake",
-      r = 5,
-    },
-    [1824] = {
-      ap = {
-        { 1824, "enemy" },
-      },
-      cost = { [3] = 40 },
-      d = 9,
-      gain = { [4] = 1 },
-      gcd = 1,
-      n = "rake",
-      r = 5,
-    },
-    [5221] = {
-      cost = { [3] = 60 },
-      gain = { [4] = 1 },
-      gcd = 1,
-      n = "shred",
-      r = 5,
+      cd = 60,
+      d = 10,
+      gain = { [1] = 100 },
+      n = "enrage",
     },
     [5487] = {
       gcd = 1.5,
       n = "bear_form",
-    },
-    [6785] = {
-      cost = { [3] = 60 },
-      gain = { [4] = 1 },
-      gcd = 1,
-      n = "ravage",
-      r = 5,
-    },
-    [6787] = {
-      cost = { [3] = 60 },
-      gain = { [4] = 1 },
-      gcd = 1,
-      n = "ravage",
-      r = 5,
-    },
-    [6800] = {
-      cost = { [3] = 60 },
-      gain = { [4] = 1 },
-      gcd = 1,
-      n = "shred",
-      r = 5,
     },
     [6807] = {
       cost = { [1] = 15 },
@@ -634,55 +468,47 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       n = "moonfire",
       r = 30,
     },
+    [8929] = {
+      ap = {
+        { 8929, "enemy" },
+      },
+      cost = { [0] = 235 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+      r = 30,
+    },
     [8972] = {
       cost = { [1] = 15 },
       n = "maul",
       r = 5,
     },
-    [8992] = {
-      cost = { [3] = 60 },
-      gain = { [4] = 1 },
-      gcd = 1,
-      n = "shred",
-      r = 5,
-    },
-    [9492] = {
-      ap = {
-        { 9492, "enemy" },
-      },
-      cmax = { [4] = 5 },
-      cost = { [3] = 30, [4] = 1 },
-      d = 12,
-      gcd = 1,
-      n = "rip",
-      r = 5,
-    },
-    [9493] = {
-      ap = {
-        { 9493, "enemy" },
-      },
-      cmax = { [4] = 5 },
-      cost = { [3] = 30, [4] = 1 },
-      d = 12,
-      gcd = 1,
-      n = "rip",
-      r = 5,
+    [9490] = {
+      cost = { [1] = 10 },
+      d = 30,
+      gcd = 1.5,
+      n = "demoralizing_roar",
     },
     [9745] = {
       cost = { [1] = 15 },
       n = "maul",
       r = 5,
     },
-    [9752] = {
+    [9747] = {
+      cost = { [1] = 10 },
+      d = 30,
+      gcd = 1.5,
+      n = "demoralizing_roar",
+    },
+    [9749] = {
       ap = {
-        { 9752, "enemy" },
+        { 9749, "enemy" },
       },
-      cmax = { [4] = 5 },
-      cost = { [3] = 30, [4] = 1 },
-      d = 12,
-      gcd = 1,
-      n = "rip",
-      r = 5,
+      cost = { [0] = 95 },
+      d = 40,
+      gcd = 1.5,
+      n = "faerie_fire",
+      r = 30,
     },
     [9754] = {
       cost = { [1] = 20 },
@@ -690,71 +516,61 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       n = "swipe",
       r = 5,
     },
-    [9829] = {
-      cost = { [3] = 60 },
-      gain = { [4] = 1 },
-      gcd = 1,
-      n = "shred",
-      r = 5,
+    [9833] = {
+      ap = {
+        { 9833, "enemy" },
+      },
+      cost = { [0] = 280 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+      r = 30,
     },
-    [9830] = {
-      cost = { [3] = 60 },
-      gain = { [4] = 1 },
-      gcd = 1,
-      n = "shred",
-      r = 5,
+    [9834] = {
+      ap = {
+        { 9834, "enemy" },
+      },
+      cost = { [0] = 325 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+      r = 30,
     },
-    [9866] = {
-      cost = { [3] = 60 },
-      gain = { [4] = 1 },
-      gcd = 1,
-      n = "ravage",
-      r = 5,
-    },
-    [9867] = {
-      cost = { [3] = 60 },
-      gain = { [4] = 1 },
-      gcd = 1,
-      n = "ravage",
-      r = 5,
+    [9835] = {
+      ap = {
+        { 9835, "enemy" },
+      },
+      cost = { [0] = 375 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+      r = 30,
     },
     [9880] = {
       cost = { [1] = 15 },
       n = "maul",
       r = 5,
     },
-    [9894] = {
-      ap = {
-        { 9894, "enemy" },
-      },
-      cmax = { [4] = 5 },
-      cost = { [3] = 30, [4] = 1 },
-      d = 12,
-      gcd = 1,
-      n = "rip",
+    [9881] = {
+      cost = { [1] = 15 },
+      n = "maul",
       r = 5,
     },
-    [9896] = {
-      ap = {
-        { 9896, "enemy" },
-      },
-      cmax = { [4] = 5 },
-      cost = { [3] = 30, [4] = 1 },
-      d = 12,
-      gcd = 1,
-      n = "rip",
-      r = 5,
+    [9898] = {
+      cost = { [1] = 10 },
+      d = 30,
+      gcd = 1.5,
+      n = "demoralizing_roar",
     },
-    [9904] = {
+    [9907] = {
       ap = {
-        { 9904, "enemy" },
+        { 9907, "enemy" },
       },
-      cost = { [3] = 40 },
-      d = 9,
-      gain = { [4] = 1 },
-      gcd = 1,
-      n = "rake",
-      r = 5,
+      cost = { [0] = 115 },
+      d = 40,
+      gcd = 1.5,
+      n = "faerie_fire",
+      r = 30,
     },
     [9908] = {
       cost = { [1] = 20 },
@@ -762,17 +578,41 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       n = "swipe",
       r = 5,
     },
-    [17003] = {
-      n = "heart_of_the_wild",
-      pas = true,
-      tal = true,
+    [16979] = {
+      cd = 15,
+      cost = { [1] = 5 },
+      n = "feral_charge",
+      r = 25,
     },
-    [22568] = {
-      cmax = { [4] = 5 },
-      cost = { [3] = 35, [4] = 1 },
-      gcd = 1,
-      n = "ferocious_bite",
-      r = 5,
+    [19675] = {
+      ap = {
+        { 19675, "enemy" },
+      },
+      d = 4,
+      n = "feral_charge",
+      r = 25,
+    },
+    [20690] = {
+      ap = {
+        { 20690, "enemy" },
+      },
+      cost = { [0] = 375 },
+      d = 12,
+      n = "moonfire",
+      r = 50,
+    },
+    [21178] = {
+      n = "bear_form",
+      pas = true,
+    },
+    [21669] = {
+      ap = {
+        { 21669, "enemy" },
+      },
+      cost = { [0] = 150 },
+      d = 12,
+      n = "moonfire",
+      r = 40,
     },
     [22812] = {
       ap = {
@@ -783,33 +623,11 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       gcd = 1.5,
       n = "barkskin",
     },
-    [22827] = {
-      cmax = { [4] = 5 },
-      cost = { [3] = 35, [4] = 1 },
-      gcd = 1,
-      n = "ferocious_bite",
-      r = 5,
-    },
-    [22828] = {
-      cmax = { [4] = 5 },
-      cost = { [3] = 35, [4] = 1 },
-      gcd = 1,
-      n = "ferocious_bite",
-      r = 5,
-    },
-    [22829] = {
-      cmax = { [4] = 5 },
-      cost = { [3] = 35, [4] = 1 },
-      gcd = 1,
-      n = "ferocious_bite",
-      r = 5,
-    },
     [22842] = {
       ap = {
         { 22842, "self" },
       },
       cd = 180,
-      cost = { [1] = 0 },
       d = 10,
       gcd = 1.5,
       n = "frenzied_regeneration",
@@ -817,16 +635,23 @@ ns.RegisterSpecData("forever", "druid_guardian", {
     [22845] = {
       n = "frenzied_regeneration",
     },
-    [24858] = {
-      gcd = 1.5,
-      n = "moonkin_form",
-      tal = true,
+    [25503] = {
+      ap = {
+        { 25503, "self" },
+      },
+      d = 10,
+      n = "enrage",
     },
-    [31018] = {
-      cmax = { [4] = 5 },
-      cost = { [3] = 35, [4] = 1 },
-      gcd = 1,
-      n = "ferocious_bite",
+    [27554] = {
+      gcd = 1.5,
+      n = "swipe",
+      r = 5,
+    },
+    [407995] = {
+      cd = 6,
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "primal_bite",
       r = 5,
     },
     [408024] = {
@@ -873,6 +698,36 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       d = 2,
       n = "skull_bash",
     },
+    [414644] = {
+      ap = {
+        { 414644, "enemy" },
+      },
+      cost = { [1] = 15 },
+      d = 15,
+      gcd = 1.5,
+      n = "lacerate",
+      r = 5,
+      st = 5,
+    },
+    [414647] = {
+      n = "lacerate",
+    },
+    [414923] = {
+      ap = {
+        { 414923, "enemy" },
+      },
+      d = 3,
+      n = "feral_charge",
+    },
+    [414924] = {
+      cd = 30,
+      gcd = 1.5,
+      n = "feral_charge",
+      r = 25,
+    },
+    [414925] = {
+      n = "feral_charge",
+    },
     [417141] = {
       ap = {
         { 417141, "self" },
@@ -880,7 +735,38 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       cd = 180,
       d = 15,
       n = "berserk",
-      tal = true,
+    },
+    [417159] = {
+      cd = 90,
+      gcd = 1.5,
+      n = "renewal",
+    },
+    [417440] = {
+      cd = 6,
+      cost = { [1] = 10 },
+      gcd = 1.5,
+      n = "thrash",
+      r = 8,
+    },
+    [417441] = {
+      ap = {
+        { 417441, "enemy" },
+      },
+      d = 15,
+      gcd = 1,
+      n = "thrash",
+      st = 3,
+    },
+    [417448] = {
+      cost = { [3] = 40 },
+      d = 15,
+      gcd = 1,
+      n = "thrash",
+      r = 8,
+    },
+    [417453] = {
+      n = "thrash",
+      pas = true,
     },
     [424759] = {
       n = "berserk",
@@ -902,59 +788,161 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       n = "barkskin",
       r = 40,
     },
+    [439512] = {
+      n = "swipe",
+    },
+    [442211] = {
+      ap = {
+        { 442211, "self" },
+      },
+      d = 30,
+      n = "berserk",
+    },
+    [1235826] = {
+      ap = {
+        { 1235826, "enemy" },
+      },
+      cost = { [1] = 15 },
+      d = 15,
+      gcd = 1.5,
+      n = "lacerate",
+      r = 5,
+      st = 5,
+    },
+    [1235827] = {
+      ap = {
+        { 1235827, "enemy" },
+      },
+      cost = { [1] = 15 },
+      d = 15,
+      gcd = 1.5,
+      n = "lacerate",
+      r = 5,
+      st = 5,
+    },
+    [1238069] = {
+      cd = 6,
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "primal_bite",
+      r = 5,
+    },
+    [1238070] = {
+      cd = 6,
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "primal_bite",
+      r = 5,
+    },
+    [1238073] = {
+      cd = 6,
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "primal_bite",
+      r = 5,
+    },
+    [1238122] = {
+      cd = 15,
+      cost = { [1] = 5 },
+      n = "feral_charge",
+      r = 25,
+    },
+    [1238124] = {
+      n = "feral_charge",
+    },
+    [1328616] = {
+      ap = {
+        { 1328616, "enemy" },
+      },
+      cost = { [1] = 15 },
+      d = 15,
+      gcd = 1.5,
+      n = "lacerate",
+      r = 5,
+      st = 5,
+    },
+    [1328617] = {
+      ap = {
+        { 1328617, "enemy" },
+      },
+      cost = { [1] = 15 },
+      d = 15,
+      gcd = 1.5,
+      n = "lacerate",
+      r = 5,
+      st = 5,
+    },
   },
   spells = {
     barkskin = {
       a = { 22812, 428713 },
     },
     bear_form = {
-      a = { 5487 },
-      b = { 5487 },
+      a = { 5487, 1178, 21178 },
+      b = { 1178, 5487, 21178 },
     },
     berserk = {
-      a = { 417141, 424759 },
-      b = { 417141, 424759 },
+      a = { 417141, 442211, 424759 },
     },
-    cat_form = {
-      a = { 768 },
-      b = { 768 },
+    demoralizing_roar = {
+      a = { 9898, 9747, 9490, 1735, 99 },
+      b = { 9898, 9747, 9490, 1735, 99 },
     },
-    ferocious_bite = {
-      a = { 22568, 22827, 22828, 22829, 31018 },
+    enrage = {
+      a = { 5229, 25503 },
+    },
+    faerie_fire = {
+      a = { 9907, 9749, 778, 770 },
+      b = { 9907, 9749, 778, 770 },
+    },
+    feral_charge = {
+      a = { 16979, 414924, 1238122, 19675, 414923, 414925, 1238124 },
     },
     frenzied_regeneration = {
       a = { 22842, 428708, 22845 },
     },
-    heart_of_the_wild = {
-      a = { 17003 },
-      t = { 17003 },
+    lacerate = {
+      a = { 1235827, 1235826, 414644, 1328616, 1328617, 414647 },
+      b = { 1235827, 1235826, 414644, 1328616, 1328617, 414647 },
     },
     maul = {
-      a = { 6807, 6808, 6809, 8972, 9745, 9880 },
+      a = { 9881, 9880, 9745, 8972, 6809, 6808, 6807 },
     },
     moonfire = {
-      a = { 8921, 8924, 8925, 8926, 8927, 8928 },
-      b = { 8921, 8924, 8925, 8926, 8927, 8928 },
+      a = {
+        9835,
+        9834,
+        9833,
+        8929,
+        8928,
+        8927,
+        8926,
+        8925,
+        8924,
+        8921,
+        20690,
+        21669,
+      },
+      b = {
+        9835,
+        9834,
+        9833,
+        8929,
+        8928,
+        8927,
+        8926,
+        8925,
+        8924,
+        8921,
+        20690,
+        21669,
+      },
     },
-    moonkin_form = {
-      a = { 24858 },
-      b = { 24858 },
-      t = { 24858 },
+    primal_bite = {
+      a = { 1238073, 1238070, 1238069, 407995 },
     },
-    rake = {
-      a = { 1822, 1823, 1824, 9904 },
-      b = { 1822, 1823, 1824, 9904 },
-    },
-    ravage = {
-      a = { 6785, 6787, 9866, 9867 },
-      b = { 6785, 6787, 9866, 9867 },
-    },
-    rip = {
-      a = { 1079, 9492, 9493, 9752, 9894, 9896 },
-      b = { 1079, 9492, 9493, 9752, 9894, 9896 },
-    },
-    shred = {
-      a = { 5221, 6800, 8992, 9829, 9830 },
+    renewal = {
+      a = { 417159 },
     },
     skull_bash = {
       a = { 410176, 414621 },
@@ -966,10 +954,10 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       a = { 411115, 411124 },
     },
     swipe = {
-      a = { 769, 779, 780, 9754, 9908, 411128 },
+      a = { 9908, 9754, 769, 780, 779, 27554, 411128, 439512 },
     },
-    swipe_bear = {
-      a = { 769, 779, 780, 9754, 9908, 411128 },
+    thrash = {
+      a = { 417440, 417441, 417448, 417453 },
     },
   },
 })

@@ -785,6 +785,13 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       d = 6,
       n = "hover",
     },
+    [358268] = {
+      ap = {
+        { 358268, "self" },
+      },
+      d = 2,
+      n = "hover",
+    },
     [359565] = {
       n = "essence_burst",
       pas = true,
@@ -878,8 +885,19 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       n = "emerald_blossom",
       pas = true,
     },
+    [366903] = {
+      n = "fire_breath",
+    },
     [367106] = {
       n = "fire_breath",
+    },
+    [367995] = {
+      n = "fire_breath",
+    },
+    [369297] = {
+      n = "essence_burst",
+      pas = true,
+      tal = true,
     },
     [369299] = {
       ap = {
@@ -897,6 +915,14 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       n = "living_flame",
       st = 3,
     },
+    [369416] = {
+      ap = {
+        { 369416, "enemy" },
+      },
+      ct = 2,
+      d = 12,
+      n = "fire_breath",
+    },
     [369939] = {
       n = "leaping_flames",
       pas = true,
@@ -906,6 +932,12 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       n = "ancient_flame",
       pas = true,
       tal = true,
+    },
+    [370260] = {
+      ct = 2,
+      d = 12,
+      n = "living_flame",
+      st = 3,
     },
     [370553] = {
       cd = 120,
@@ -947,6 +979,12 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
     [375583] = {
       n = "ancient_flame",
     },
+    [377277] = {
+      ct = 1.5,
+      d = 12,
+      n = "living_flame",
+      st = 3,
+    },
     [382266] = {
       ap = {
         { 382266, "self" },
@@ -956,6 +994,17 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       d = 3.25,
       gcd = 0.5,
       n = "fire_breath",
+    },
+    [383880] = {
+      ct = 2,
+      n = "living_flame",
+      st = 3,
+    },
+    [385757] = {
+      ct = 2,
+      d = 3,
+      n = "living_flame",
+      st = 3,
     },
     [390386] = {
       cd = 300,
@@ -969,6 +1018,21 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       d = 15,
       n = "essence_burst",
       st = 1,
+    },
+    [393271] = {
+      ap = {
+        { 393271, "self" },
+      },
+      d = 2,
+      n = "hover",
+      st = 1,
+    },
+    [394784] = {
+      ap = {
+        { 394784, "self" },
+      },
+      d = 0.4,
+      n = "hover",
     },
     [395152] = {
       cd = 30,
@@ -993,6 +1057,11 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       d = 10,
       n = "ebon_might",
     },
+    [396187] = {
+      n = "essence_burst",
+      pas = true,
+      tal = true,
+    },
     [396286] = {
       ap = {
         { 396286, "enemy" },
@@ -1012,6 +1081,12 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       gcd = 1.5,
       n = "upheaval",
       st = 2,
+    },
+    [399787] = {
+      ct = 2,
+      d = 12,
+      n = "living_flame",
+      st = 3,
     },
     [403631] = {
       ap = {
@@ -1123,6 +1198,12 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
     [410296] = {
       n = "upheaval",
     },
+    [410297] = {
+      n = "upheaval",
+    },
+    [410298] = {
+      n = "upheaval",
+    },
     [410784] = {
       n = "echoing_strike",
       pas = true,
@@ -1175,6 +1256,11 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       n = "living_flame",
       st = 3,
     },
+    [430817] = {
+      d = 12,
+      n = "living_flame",
+      st = 3,
+    },
     [430835] = {
       ap = {
         { 430835, "self" },
@@ -1182,6 +1268,13 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       d = 15,
       n = "essence_burst",
       st = 2,
+    },
+    [431164] = {
+      ap = {
+        { 431164, "enemy" },
+      },
+      d = 24,
+      n = "fire_breath",
     },
     [431165] = {
       cd = 30,
@@ -1264,6 +1357,25 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
     [443788] = {
       n = "bombardments",
     },
+    [444249] = {
+      ap = {
+        { 444249, "enemy" },
+      },
+      d = 2,
+      n = "fire_breath",
+    },
+    [1219253] = {
+      n = "upheaval",
+    },
+    [1219254] = {
+      n = "upheaval",
+    },
+    [1219255] = {
+      n = "upheaval",
+    },
+    [1219257] = {
+      n = "upheaval",
+    },
     [1236943] = {
       ap = {
         { 1236943, "self" },
@@ -1271,6 +1383,13 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       cd = 120,
       d = 4,
       gcd = 1.5,
+      n = "deep_breath",
+    },
+    [1247728] = {
+      ap = {
+        { 1247728, "self" },
+      },
+      d = 10,
       n = "deep_breath",
     },
     [1259171] = {
@@ -1316,6 +1435,13 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       gcd = 0.5,
       n = "fire_breath",
     },
+    [1283719] = {
+      ap = {
+        { 1283719, "enemy" },
+      },
+      d = 24,
+      n = "fire_breath",
+    },
     [1297728] = {
       ap = {
         { 1297728, "self" },
@@ -1358,7 +1484,7 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       t = { 1260484 },
     },
     deep_breath = {
-      a = { 357210, 433874, 1236943, 353759, 362010, 362019 },
+      a = { 357210, 433874, 1236943, 353759, 362010, 362019, 1247728 },
     },
     dream_of_spring = {
       t = { 414969 },
@@ -1380,17 +1506,60 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       a = { 395160, 1259172, 424428, 438653 },
     },
     essence_burst = {
-      a = { 359618, 369299, 392268, 430835, 359565, 361519 },
-      b = { 359618, 361519, 369299, 392268, 417402, 430835 },
+      a = {
+        359618,
+        369299,
+        392268,
+        430835,
+        359565,
+        361519,
+        369297,
+        396187,
+        417402,
+      },
+      b = {
+        359618,
+        361519,
+        369299,
+        392268,
+        417402,
+        430835,
+        359565,
+        369297,
+        396187,
+      },
     },
     fire_breath = {
-      a = { 357208, 382266, 431165, 1283718, 357209, 367106 },
+      a = {
+        357208,
+        382266,
+        431165,
+        1283718,
+        357209,
+        367106,
+        367995,
+        369416,
+        431164,
+        444249,
+        1283719,
+        366903,
+      },
     },
     fury_of_the_aspects = {
       a = { 390386 },
     },
     hover = {
-      a = { 358267, 357302, 357332, 357377, 357379, 372563 },
+      a = {
+        358267,
+        357302,
+        357332,
+        357377,
+        357379,
+        372563,
+        358268,
+        393271,
+        394784,
+      },
     },
     interwoven_threads = {
       t = { 412713 },
@@ -1400,7 +1569,20 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       b = { 370901, 370917, 369939 },
     },
     living_flame = {
-      a = { 361469, 361500, 430806, 361509, 364664, 369398 },
+      a = {
+        361469,
+        361500,
+        430806,
+        361509,
+        364664,
+        369398,
+        370260,
+        377277,
+        383880,
+        385757,
+        399787,
+        430817,
+      },
     },
     magnified_fate = {
       a = { 1297728 },
@@ -1441,7 +1623,20 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       b = { 370553 },
     },
     upheaval = {
-      a = { 396286, 396288, 408092, 431620, 410295, 410296 },
+      a = {
+        396286,
+        396288,
+        408092,
+        431620,
+        410295,
+        410296,
+        410297,
+        410298,
+        1219253,
+        1219254,
+        1219255,
+        1219257,
+      },
     },
   },
 })
