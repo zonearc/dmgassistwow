@@ -655,7 +655,15 @@ function S.CooldownReady(id)
   end
   local info = CooldownInfo(id)
   if not info then
-    return UNKNOWN
+    return S.OwnClockReady(id)
+  end
+  -- Our own clock first: a spell we cast less than its cooldown ago is not ready, whatever a readable flag says,
+  -- unless the game's own timings (start + duration) say otherwise or a proc glow reset it. In restricted combat
+  -- the game reported Thrash "ready" 0.5 s after it was cast (Guardian, 2026-11-08), so slot 1 kept flipping.
+  local start, dur = U.Read(info.startTime), U.Read(info.duration)
+  local timed = type(start) == "number" and type(dur) == "number"
+  if not timed and S.OwnClockReady(id) == false then
+    return false
   end
   local active, onGCD = U.Read(info.isActive), U.Read(info.isOnGCD)
   if active == nil then

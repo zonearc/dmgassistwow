@@ -1,6 +1,10 @@
 -- Essentials.lua: things a priority list does not cover but a player needs, put in slot 1 ahead of the rotation
 -- (interrupts and defensives still come first).
 --
+-- Off-GCD keep-ups (Ironfur) never take slot 1: they are drawn as a small "weave" badge on slot 1's corner, one at
+-- a time with at least a GCD between suggestions, so stacks build while the rotation keeps generating Rage and
+-- threat (front-loading three at the pull starved both, and slot 1 flipped between Ironfur and the rotation).
+--
 -- Keep-ups (tanks): SimC simulates damage, not survival or threat, so it spends Rage on Ironfur only in narrow
 -- cases and never Moonfires a Guardian's target without Lunation. A keep-up is a per-spec rule:
 --   stacks: keep N of our own stacking buff up (Ironfur: each cast is its own 7 s stack, counted from our casts,
@@ -33,6 +37,9 @@ X.GAP_CLOSERS = {
 }
 
 X.stacks = {} -- spell id -> { expiry, ... } from our own casts
+X.lastWeave = {} -- spell id -> time of our last cast of it
+X.WEAVE_GAP = 1.5 -- seconds between two suggestions of the same off-GCD keep-up
+X.WEAVE_HOLD = 0.6 -- once shown, the badge stays while the spell flickers unusable for less than this
 
 function X.OnOwnCast(id)
   if not id then
@@ -45,6 +52,8 @@ function X.OnOwnCast(id)
       local list = X.stacks[k.id] or {}
       X.stacks[k.id] = list
       list[#list + 1] = GetTime() + ((info and info.d and info.d > 0) and info.d or k.duration)
+      X.lastWeave[k.id] = GetTime()
+      X.shownWeave = nil
     end
   end
 end
@@ -63,7 +72,7 @@ function X.Stacks(id, lead)
 end
 
 function X.Reset()
-  X.stacks = {}
+  X.stacks, X.lastWeave, X.shownWeave = {}, {}, nil
 end
 
 local function Known(id)
@@ -75,6 +84,9 @@ local function Known(id)
 end
 
 local function Usable(id)
+  if X.shownWeave and X.shownWeave.id == id and GetTime() - X.shownWeave.at < X.WEAVE_HOLD then
+    return true -- steady badge: a brief unusable blink does not hide it
+  end
   local usable = U.Read((U.Call(C_Spell and C_Spell.IsSpellUsable, id)))
   return usable == true and ns.State.CooldownReady(id) ~= false and not ns.Engine.IsHeld(id)
 end
@@ -94,8 +106,9 @@ function X.KeepUp()
     if Known(k.id) and Usable(k.id) then
       if k.kind == "stacks" then
         local want = tonumber(ns.db[k.setting]) or 3
-        if want > 0 and X.Stacks(k.id, 0.5) < want then
-          return { id = k.id, token = k.token, source = "keepup" }
+        local last = X.lastWeave[k.id]
+        if want > 0 and X.Stacks(k.id, 0.5) < want and not (last and GetTime() - last < X.WEAVE_GAP) then
+          return { id = k.id, token = k.token, source = "keepup", weave = true }
         end
       elseif k.kind == "dot" and HostileTarget() then
         local S = ns.State
@@ -157,8 +170,20 @@ function X.Apply(result)
     return result
   end
   local keep = X.KeepUp()
-  if keep then
+  result.weave = nil
+  if keep and keep.weave then
+    result.weave = keep
+    local s = X.shownWeave
+    if not (s and s.id == keep.id) then
+      X.shownWeave = { id = keep.id, at = GetTime() }
+    elseif U.Read((U.Call(C_Spell and C_Spell.IsSpellUsable, keep.id))) == true then
+      s.at = GetTime()
+    end
+  elseif keep then
+    X.shownWeave = nil
     Front(result, keep)
+  else
+    X.shownWeave = nil
   end
   local gap = X.GapCloser()
   if gap then

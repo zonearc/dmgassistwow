@@ -107,3 +107,8 @@ Scrap, Threat Plates.
 - Gap closers: melee specs out of melee range of a hostile target get their targeted charge first (Wild Charge,
   Charge, Shadowstep, Harpoon, Feral Lunge, Death Grip); setting, on by default.
 - Raze: SimC's line is Maul (Raze replaces it), gated on Rage and the Gory Fur proc, both hidden: not confirmed.
+- Follow-up report: Thrash still flipped: the game reported it "not active" 0.5 s after the cast (a readable but
+  wrong answer, not an unreadable one). Our own clock now wins unless the game gives real start/duration timings
+  or a proc glow resets the spell. Ironfur in slot 1 front-loaded 3 stacks at the pull and flipped with the
+  rotation: off-GCD keep-ups are now a small badge on slot 1's corner, one per GCD at most, held steady through
+  brief unusable blinks. Ironfur presses no longer count as skipping the slot-1 spell (no GCD in its data).

@@ -516,6 +516,14 @@ function D.Create()
   f.def = Icon(f, cfg.iconSize, cfg)
   f.def:SetAllPoints(f.slots[1])
   f.def:SetFrameLevel((f.slots[1]:GetFrameLevel() or 1) + 6)
+  -- Off-GCD keep-up (Ironfur): a small badge on slot 1's top-left corner, pressed alongside the GCD spell.
+  f.weave = Icon(f, cfg.iconSize, cfg)
+  f.weave:SetFrameLevel((f.slots[1]:GetFrameLevel() or 1) + 8)
+  f.weave.border = f.weave:CreateTexture(nil, "BACKGROUND")
+  f.weave.border:SetPoint("TOPLEFT", f.weave, "TOPLEFT", -2, 2)
+  f.weave.border:SetPoint("BOTTOMRIGHT", f.weave, "BOTTOMRIGHT", 2, -2)
+  f.weave.border:SetColorTexture(0.3, 0.8, 1, 0.9)
+  f.weave:Hide()
   -- Highlight on the real action button that casts slot 1 (our own frame anchored over it; theirs is untouched).
   f.hl = CreateFrame("Frame", nil, UIParent)
   f.hl:SetFrameStrata("HIGH")
@@ -565,7 +573,7 @@ function D.Rebuild()
     SetColor(icon.key, cfg.keybindColor)
     SetColor(icon.name, cfg.nameColor)
   end
-  for _, icon in ipairs({ f.branch, f.kick, f.def }) do
+  for _, icon in ipairs({ f.branch, f.kick, f.def, f.weave }) do
     if icon then
       SetFont(icon.key, cfg.keybindSize)
       SetFont(icon.name, cfg.nameSize)
@@ -790,6 +798,20 @@ local function RenderDefensive(f, result, cfg)
   end
 end
 
+local function RenderWeave(f, result, cfg)
+  local w = result.weave
+  if not w then
+    f.weave:Hide()
+    return
+  end
+  local size = math.floor((cfg.iconSize or 48) * 0.45)
+  f.weave:ClearAllPoints()
+  f.weave:SetSize(size, size)
+  f.weave:SetPoint("CENTER", f.slots[1], "TOPLEFT", 2, -2)
+  SetIcon(f.weave, w, cfg, true, "")
+  f.weave.name:SetText("")
+end
+
 local function RenderHighlight(f, result, cfg)
   local pick = result.queue and result.queue[1] or result.main
   local button = cfg.highlight and pick and D.ButtonFor(pick.id)
@@ -896,6 +918,7 @@ function D.Update(result, visible)
   f.branchShown = RenderBranch(f, result, cfg)
   RenderInterrupt(f, result, cfg)
   RenderDefensive(f, result, cfg)
+  RenderWeave(f, result, cfg)
   f.timingCfg = cfg
   D.RenderTiming(f, cfg)
   if cfg.header then

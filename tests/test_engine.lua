@@ -2025,13 +2025,20 @@ test("essentials: keep-up stacks from own casts, gap closer only out of melee ra
   X.KEEPUPS.druid_feral = { { kind = "stacks", token = "tigers_fury", id = 5217, setting = "ironfurStacks",
     duration = 7 } }
   local r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
-  eq(r.main.token, "tigers_fury", "no stacks: keep it up")
-  eq(r.queue[2].token, "shred", "the rotation moves right")
-  for _ = 1, 3 do
-    X.OnOwnCast(5217)
-  end
+  eq(r.main.token, "shred", "an off-GCD keep-up never takes slot 1")
+  eq(r.weave and r.weave.token, "tigers_fury", "it is the weave badge")
+  X.OnOwnCast(5217)
   r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
-  eq(r.main.token, "shred", "three stacks up (default 3)")
+  eq(r.weave, nil, "one at a time: not again within a GCD")
+  mock.Advance(1.6)
+  r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
+  eq(r.weave and r.weave.token, "tigers_fury", "next stack after a GCD")
+  X.OnOwnCast(5217)
+  mock.Advance(1.6)
+  X.OnOwnCast(5217)
+  mock.Advance(1.6)
+  r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
+  eq(r.weave, nil, "three stacks up (default 3)")
   mock.Advance(30) -- the spell's own duration from the data
   eq(X.Stacks(5217), 0, "stacks expire")
   ns.db.ironfurStacks = 0
@@ -2072,6 +2079,16 @@ test("cooldown flag unreadable: our own clock decides, so a spell just cast is n
   S.lastCast[1822] = GetTime()
   S.OnGlow(1822, true) -- a proc reset it
   eq(S.CooldownReady(1822), true, "glow after the cast: reset")
+  S.OnGlow(1822, false)
+  -- the game answers "not active" right after the cast (seen on Guardian Thrash): our clock wins
+  C_Spell.GetSpellCooldown = function() -- luacheck: ignore 122
+    return { isEnabled = true, isActive = false, isOnGCD = false }
+  end
+  mock.Advance(1)
+  S.lastCast[1822] = GetTime()
+  eq(S.CooldownReady(1822), false, "a wrong 'ready' right after the cast is ignored")
+  mock.Advance(6.1)
+  eq(S.CooldownReady(1822), true)
   C_Spell.GetSpellCooldown = real -- luacheck: ignore 122
   mock.Fire("PLAYER_REGEN_ENABLED")
   mock.inCombat = false

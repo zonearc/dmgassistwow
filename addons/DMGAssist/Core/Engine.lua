@@ -244,7 +244,8 @@ function G.OnPlayerCast(castID, shown, enabled)
     return nil
   end
   local info = M.Info(castID)
-  if enabled == false or (info and info.gcd == 0) or shown.source == "interrupt" or shown.source == "guess"
+  -- Off-GCD presses (no GCD in the data: Ironfur) are pressed alongside slot 1, not instead of it.
+  if enabled == false or (info and (info.gcd == nil or info.gcd == 0)) or shown.source == "interrupt" or shown.source == "guess"
     or shown.source == "pool" then
     return nil -- off-GCD presses are no skip; a kick is tied to one enemy cast
   end
