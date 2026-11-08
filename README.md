@@ -26,13 +26,13 @@ API docs), and a max-level character gives the probe a full spellbook. Forever o
 character to confirm the Forever-only switches (Assisted Combat off, restriction CVars).
 
 
-1. Log in, wait ~10 seconds, then `/dmgw` — "Summary" should show a probe.
+1. Log in, wait ~10 seconds, then `/dmgw status` — it should list a probe.
 2. Run `/dmgw force on`, then `/dmgw probe`, then `/dmgw force off`
    (tests whether the client can fake combat restrictions — if it says the setting doesn't exist, that's an answer too).
 3. Fight something for 15+ seconds (a training dummy is perfect). Do it twice.
 4. `/dmgw`: the report opens selected; Ctrl+C and paste it. No `/reload` needed.
 
-Commands: `/dmgw` · `/dmgw probe` · `/dmgw export [last]` · `/dmgw status` · `/dmgw force on|off` · `/dmgw clear`
+Commands: `/dmgw` (the report) · `/dmgw status` · `/dmgw probe` · `/dmgw force on|off` · `/dmgw clear`
 
 ## Development
 
