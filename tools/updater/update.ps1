@@ -28,6 +28,33 @@ function Get-InstalledVersion([string]$folder) {
   return ''
 }
 
+# Keep this script current: when DMGAssist_Updater.zip on the nightly release changes, take its update.ps1.
+# (An updater installed before a change in how builds are packaged would otherwise keep looking for old files.)
+function Update-Self($release) {
+  try {
+    $asset = $release.assets | Where-Object { $_.name -eq 'DMGAssist_Updater.zip' }
+    if (-not $asset -or -not $PSCommandPath) { return }
+    $stamp = Join-Path $PSScriptRoot 'updater.stamp'
+    $seen = ''
+    if (Test-Path -LiteralPath $stamp) { $seen = (Get-Content -LiteralPath $stamp -Raw).Trim() }
+    if ($seen -eq [string]$asset.updated_at) { return }
+    $tmp = Join-Path $env:TEMP ('dmgassist-updater-' + [guid]::NewGuid().ToString('N'))
+    New-Item -ItemType Directory -Path $tmp | Out-Null
+    try {
+      $zip = Join-Path $tmp 'u.zip'
+      Invoke-WebRequest -Uri $asset.browser_download_url -Headers @{ 'User-Agent' = 'DMGAssistUpdater' } -OutFile $zip -UseBasicParsing
+      Expand-Archive -LiteralPath $zip -DestinationPath $tmp -Force
+      $new = Join-Path $tmp 'updater\update.ps1'
+      if ((Test-Path -LiteralPath $new) -and (Get-Content -LiteralPath $new -Raw) -match 'param\(') {
+        Copy-Item -LiteralPath $new -Destination $PSCommandPath -Force
+      }
+      Set-Content -LiteralPath $stamp -Value ([string]$asset.updated_at)
+    } finally {
+      Remove-Item -LiteralPath $tmp -Recurse -Force -ErrorAction SilentlyContinue
+    }
+  } catch { } # never let this get in the way of the addon update
+}
+
 try {
   [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
   $folders = @($AddOns -split '\|' | Where-Object { $_.Trim() -ne '' } | ForEach-Object { $_.Trim() })
@@ -52,6 +79,7 @@ try {
   if ($release.name -match '(\d+(\.\d+)+)') { $latest = $Matches[1] }
 
   $todo = @($folders | Where-Object { -not $latest -or (Get-InstalledVersion $_) -ne $latest })
+  Update-Self $release
   if ($todo.Count -eq 0) {
     Set-Content -LiteralPath $Result -Value ("SAME " + $release.name)
     return
