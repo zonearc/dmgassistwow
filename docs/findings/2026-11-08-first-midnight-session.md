@@ -76,3 +76,7 @@ Scrap, Threat Plates.
   GCD / cast ends (at most 1.5 s); a different new pick goes to slot 2. Interrupts and defensives still take slot 1.
 - Title row: more room above the icons, shown only in combat, no "?".
 - Long setting names were cut off in the settings list: short names, the detail in tooltips.
+- Saving cooldowns on trash (player request): skipping the spell in slot 1 twice holds it until combat ends
+  (on by default, "Hold skipped spells"); casting it yourself releases it at once. Off-GCD presses, interrupts and
+  guesses never count as skips. Optional "Use cooldowns on: Bosses and big pulls" (off by default) keeps major
+  cooldowns for bosses, PvP and pulls of 5+ enemies (adjustable).

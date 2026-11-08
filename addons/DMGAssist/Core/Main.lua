@@ -294,6 +294,23 @@ function ns.ActiveRecord(state)
   return record
 end
 
+-- Major cooldowns: off, always (default), or only for bosses, PvP and big pulls (optional, "bigOnly").
+ns.BIG_PULL = 5
+function ns.BurstAllowed()
+  if ns.db.burst == false then
+    return false
+  end
+  if ns.db.burstWhen ~= "big" then
+    return true
+  end
+  local context = S.FightContext()
+  if context == "boss" or context == "pvp" then
+    return true
+  end
+  local n = S.Targets()
+  return (tonumber(n) or 0) >= (tonumber(ns.db.bigPull) or ns.BIG_PULL)
+end
+
 function ns.Update()
   local state = Specs.current
   if not state or state.status ~= "ready" or not state.data then
@@ -313,7 +330,7 @@ function ns.Update()
   S.VerifyPowers()
   ns.Clues.ReadCooldownManager(S.ReadableAuras())
   local result = G.Recommend(ns.ActiveRecord(state), {
-    burst = ns.db.burst ~= false,
+    burst = ns.BurstAllowed(),
     useAssisted = state.branch == "midnight" and ns.db.useAssisted ~= false,
   })
   result.callout = ns.BossMods.Callout()
@@ -335,7 +352,7 @@ function ns.Update()
     if inCombat then
       -- Why this pick: the same decision again with every line traced (one per change, capped per fight).
       S.unknownTerms = {}
-      local traced = G.Recommend(ns.ActiveRecord(state), { burst = ns.db.burst ~= false, trace = true,
+      local traced = G.Recommend(ns.ActiveRecord(state), { burst = ns.BurstAllowed(), trace = true,
         useAssisted = state.branch == "midnight" and ns.db.useAssisted ~= false })
       ns.Diagnostics.Trace(result, traced.trace)
     end
@@ -390,7 +407,8 @@ for _, event in ipairs({ "SPELL_UPDATE_USABLE", "SPELL_UPDATE_ICON", "COOLDOWN_V
 end
 pcall(frame.RegisterUnitEvent, frame, "UNIT_AURA", "player", "target")
 
-local DEFAULTS = { enabled = true, burst = true, mode = "aoe", autoDetect = true, aoeTargets = 3, fightLength = 300,
+local DEFAULTS = { enabled = true, burst = true,
+  burstWhen = "always", bigPull = 5, skipHold = true, mode = "aoe", autoDetect = true, aoeTargets = 3, fightLength = 300,
   useAssisted = true, queue = 3, smartFight = true, fightMode = "learned", aoeCount = "spec", bossMods = true, interruptMode = "smart",
   defensiveMode = "smart", defensiveHealth = 35, defensiveLead = 3, sounds = true, locked = true,
   minimap = true, minimapAngle = 220 }
@@ -621,6 +639,12 @@ end
 -- in a row a full decision snapshot is stored (once per spell per fight), so a report shows why it stuck.
 function ns.OnOwnCast(id)
   local shown = ns.last and ns.last.main
+  if inCombat then
+    local what, spell = G.OnPlayerCast(id, shown, ns.db.skipHold ~= false)
+    if what then
+      U.Log(what == "held" and "hold" or "hold_released", { spell = spell, cast = id })
+    end
+  end
   if not (inCombat and shown and shown.id) then
     return
   end
@@ -649,7 +673,7 @@ function commands.snapshot()
     return
   end
   S.unknownTerms = {}
-  local r = G.Recommend(ns.ActiveRecord(state), { burst = ns.db.burst ~= false, trace = true,
+  local r = G.Recommend(ns.ActiveRecord(state), { burst = ns.BurstAllowed(), trace = true,
     useAssisted = state.branch == "midnight" and ns.db.useAssisted ~= false })
   local lines = r.trace or {}
   U.Log("snapshot", { spec = state.key, pick = r.main and r.main.token, source = r.main and r.main.source,

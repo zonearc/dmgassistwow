@@ -620,11 +620,23 @@ function D.ModeText()
   local word = L[effective]
   if label:find("^AUTO") then
     local unit = n == 1 and L["target"] or L["targets"]
-    return string.format("|cff999999%s ·|r %s%s %d %s|r", L["AUTO"], color, word, n, unit)
+    return string.format("|cff999999%s ·|r %s%s %d %s|r", L["AUTO"], color, word, n, unit) .. D.HeldText()
   elseif S.modeOverride then
-    return string.format("%s%s|r |cff999999(%s)|r", color, word, L["manual"])
+    return string.format("%s%s|r |cff999999(%s)|r", color, word, L["manual"]) .. D.HeldText()
   end
-  return string.format("%s%s|r", color, word)
+  return string.format("%s%s|r", color, word) .. D.HeldText()
+end
+
+-- "· 1 held" after the mode while the player is holding skipped spells this fight.
+function D.HeldText()
+  local n = 0
+  for _ in pairs(ns.Engine.held or {}) do
+    n = n + 1
+  end
+  if n == 0 then
+    return ""
+  end
+  return string.format(" |cff999999· %d %s|r", n, L["held"])
 end
 
 ---------------------------------------------------------------------------

@@ -175,6 +175,13 @@ function O.Register()
   Slider(combat, DB, "queue", "Spells shown", G.queue or 3, 1, 3, 1, "The next spell, plus up to two after it.")
   Check(combat, DB, "burst", "Major cooldowns", true,
     "On: big cooldowns show in the three slots in SimC's order. Off: they are never shown.")
+  Choice(combat, DB, "burstWhen", "Use cooldowns on", "always", { { "always", "Every fight" },
+    { "big", "Bosses and big pulls" } },
+    "Every fight (default), or only bosses, PvP and pulls of at least the size below: trash keeps them saved.")
+  Slider(combat, DB, "bigPull", "Big pull size", G.bigPull or 5, 2, 10, 1,
+    "With \"Bosses and big pulls\": this many enemies or more counts as a big pull.")
+  Check(combat, DB, "skipHold", "Hold skipped spells", true,
+    "Skip the spell in the first slot twice and it is held until combat ends. Cast it yourself to bring it back.")
   Check(combat, DB, "castWhileMoving", "Casts while moving", false,
     "Off: while you move, spells with a cast time are skipped (instants and procs still show).")
   Header(combat, "Targets")
