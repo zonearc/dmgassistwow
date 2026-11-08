@@ -1,0 +1,45 @@
+name: Bug report
+description: Something DMGAssist does wrong (a wrong or missing recommendation, an error, a setting that doesn't work).
+labels: ["bug", "untriaged"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! The quickest way to a fix is the Watchdog report: it holds what DMGAssist saw and
+        decided during your fight. In game, after the problem: type `/dmgw`, press **Ctrl+C**, paste it below.
+        (Needs the DMGAssist_Watchdog addon, which ships next to DMGAssist.)
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened, and what did you expect?
+      placeholder: "Balance druid, 5 dummies: it kept showing Starfire while Eclipse was ready."
+    validations:
+      required: true
+  - type: input
+    id: spec
+    attributes:
+      label: Class and spec
+      placeholder: "Druid - Balance (Elune's Chosen)"
+    validations:
+      required: true
+  - type: dropdown
+    id: game
+    attributes:
+      label: Game
+      options:
+        - Midnight (retail)
+        - WoW Forever
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: DMGAssist version
+      description: Settings > DMGAssist > Status, first line.
+      placeholder: "0.1.0.12"
+  - type: textarea
+    id: report
+    attributes:
+      label: Watchdog report
+      description: "/dmgw, Ctrl+C, paste here (one long line starting with DMGW1:)."
+      render: text

@@ -1,0 +1,20 @@
+## Interface: 120001
+## Title: DMGAssist
+## Notes: DMGAssist — Enhanced rotation HUD for all 39 specs. Multi-signal highlight ranking powered by SimC data. Auto-detects your class & spec.
+## Author: DMGAssist Web Companion
+## Version: 1.5.0.282
+## IconTexture: Interface\Icons\Spell_Holy_FistOfJustice
+## SavedVariables: CLF_Config, CLF_Position, CLF_Profiles, CLF_SlotMap, DMGA_WD_Log, DMGA_WD_Config, DMGA_WD_APIScan
+## SavedVariablesPerCharacter: CLF_CharConfig
+## OptionalDeps: DBM-Core, BigWigs
+
+BindingNames.lua
+Libs/LibStub.lua
+Locales.lua
+Helpers.lua
+Config.lua
+Engine.lua
+HUD.lua
+Settings.lua
+Core.lua
+Watchdog.lua

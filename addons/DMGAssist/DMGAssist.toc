@@ -1,0 +1,105 @@
+## Interface: 120105, 16001
+## Title: DMGAssist
+## Notes: Rotation helper for WoW Forever and Midnight. Priorities from SimulationCraft (Midnight) and WoWSims (Forever, wowsims.com/forever), backed by Blizzard's own rules.
+## Author: zonearc
+## Version: 0.1.0
+## IconTexture: Interface\Icons\Spell_Holy_FistOfJustice
+## AddonCompartmentFunc: DMGAssist_OnCompartmentClick
+## SavedVariables: DMGAssistDB
+## OptionalDeps: DMGAssist_Watchdog
+## X-Curse-Project-ID: 1481713
+
+Core\Util.lua
+Core\Locales.lua
+Core\Client.lua
+Core\Data.lua
+Core\Specs.lua
+Core\Expr.lua
+Core\SpellMap.lua
+Core\State.lua
+Core\Clues.lua
+Core\BossMods.lua
+Core\Interrupts.lua
+Core\Defensives.lua
+Core\Essentials.lua
+Core\Sounds.lua
+Core\Diagnostics.lua
+Core\Engine.lua
+Core\Display.lua
+Core\Options.lua
+Core\Minimap.lua
+
+# BEGIN GENERATED DATA (tools/simc_import.py)
+Data\midnight\Index.lua [AllowLoadGameType standard]
+Data\midnight\deathknight_blood.lua [AllowLoadGameType standard]
+Data\midnight\deathknight_frost.lua [AllowLoadGameType standard]
+Data\midnight\deathknight_unholy.lua [AllowLoadGameType standard]
+Data\midnight\demonhunter_devourer.lua [AllowLoadGameType standard]
+Data\midnight\demonhunter_havoc.lua [AllowLoadGameType standard]
+Data\midnight\demonhunter_vengeance.lua [AllowLoadGameType standard]
+Data\midnight\druid_balance.lua [AllowLoadGameType standard]
+Data\midnight\druid_feral.lua [AllowLoadGameType standard]
+Data\midnight\druid_guardian.lua [AllowLoadGameType standard]
+Data\midnight\druid_restoration.lua [AllowLoadGameType standard]
+Data\midnight\evoker_augmentation.lua [AllowLoadGameType standard]
+Data\midnight\evoker_devastation.lua [AllowLoadGameType standard]
+Data\midnight\hunter_beast_mastery.lua [AllowLoadGameType standard]
+Data\midnight\hunter_marksmanship.lua [AllowLoadGameType standard]
+Data\midnight\hunter_survival.lua [AllowLoadGameType standard]
+Data\midnight\mage_arcane.lua [AllowLoadGameType standard]
+Data\midnight\mage_fire.lua [AllowLoadGameType standard]
+Data\midnight\mage_frost.lua [AllowLoadGameType standard]
+Data\midnight\monk_brewmaster.lua [AllowLoadGameType standard]
+Data\midnight\monk_windwalker.lua [AllowLoadGameType standard]
+Data\midnight\paladin_protection.lua [AllowLoadGameType standard]
+Data\midnight\paladin_retribution.lua [AllowLoadGameType standard]
+Data\midnight\priest_shadow.lua [AllowLoadGameType standard]
+Data\midnight\rogue_assassination.lua [AllowLoadGameType standard]
+Data\midnight\rogue_outlaw.lua [AllowLoadGameType standard]
+Data\midnight\rogue_subtlety.lua [AllowLoadGameType standard]
+Data\midnight\shaman_elemental.lua [AllowLoadGameType standard]
+Data\midnight\shaman_enhancement.lua [AllowLoadGameType standard]
+Data\midnight\warlock_affliction.lua [AllowLoadGameType standard]
+Data\midnight\warlock_demonology.lua [AllowLoadGameType standard]
+Data\midnight\warlock_destruction.lua [AllowLoadGameType standard]
+Data\midnight\warrior_arms.lua [AllowLoadGameType standard]
+Data\midnight\warrior_fury.lua [AllowLoadGameType standard]
+Data\midnight\warrior_protection.lua [AllowLoadGameType standard]
+Data\forever\Index.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\deathknight_blood.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\deathknight_frost.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\deathknight_unholy.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\demonhunter_devourer.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\demonhunter_havoc.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\demonhunter_vengeance.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\druid_balance.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\druid_feral.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\druid_guardian.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\druid_restoration.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\evoker_augmentation.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\evoker_devastation.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\hunter_beast_mastery.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\hunter_marksmanship.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\hunter_survival.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\mage_arcane.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\mage_fire.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\mage_frost.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\monk_brewmaster.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\monk_windwalker.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\paladin_protection.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\paladin_retribution.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\priest_shadow.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\rogue_assassination.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\rogue_outlaw.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\rogue_subtlety.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\shaman_elemental.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\shaman_enhancement.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\warlock_affliction.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\warlock_demonology.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\warlock_destruction.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\warrior_arms.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\warrior_fury.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+Data\forever\warrior_protection.lua [ExcludeLoadGameType standard, mists, cata, wrath, tbc, vanilla]
+# END GENERATED DATA
+
+Core\Main.lua

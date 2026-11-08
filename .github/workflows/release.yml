@@ -1,0 +1,54 @@
+name: Release
+
+# Push a tag like v0.2.0 (after scripts/bump-version.sh 0.2.0) to:
+#   1. verify the tag matches every addon's version and run all checks,
+#   2. build the zips and publish a GitHub Release with them,
+#   3. upload to CurseForge — only when the repo variable CURSEFORGE_PUBLISH is "true" and the
+#      CF_API_TOKEN secret is set. Tags with a suffix (v0.2.0-beta1) become beta/pre-releases.
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install Lua 5.1 and luacheck
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lua5.1 liblua5.1-0-dev luarocks zip
+          sudo luarocks install luacheck
+      - name: Tag matches addon versions
+        run: ./scripts/check-versions.sh "$GITHUB_REF_NAME"
+      - name: Check and package
+        run: ./scripts/package.sh
+      - name: Release notes
+        run: |
+          prev=$(git describe --tags --abbrev=0 "$GITHUB_REF_NAME^" 2>/dev/null || true)
+          range=${prev:+$prev..}$GITHUB_REF_NAME
+          {
+            echo "## Changes${prev:+ since $prev}"
+            echo
+            git log --no-merges --format='- %s' "$range"
+          } > release-notes.md
+          cat release-notes.md
+      - name: GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          flags=""
+          case "$GITHUB_REF_NAME" in *-*) flags="--prerelease";; esac
+          gh release create "$GITHUB_REF_NAME" dist/*-*.zip --title "DMGAssist $GITHUB_REF_NAME" \
+            --notes-file release-notes.md $flags
+      - name: CurseForge
+        if: env.CF_API_TOKEN != '' && vars.CURSEFORGE_PUBLISH == 'true'
+        run: python3 tools/curseforge_upload.py --changelog release-notes.md dist/*.zip

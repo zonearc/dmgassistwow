@@ -1,0 +1,18 @@
+## Interface: 120105, 16001
+## Title: DMGAssist Watchdog
+## Notes: Diagnostics for DMGAssist: captures Lua errors, blocked actions and combat sessions, probes what the game exposes, and exports it all for analysis.
+## Author: zonearc
+## Version: 0.1.0
+## IconTexture: Interface\Icons\INV_Misc_Spyglass_03
+## SavedVariables: DMGAssistWatchdogDB
+
+Util.lua
+Store.lua
+Errors.lua
+Sessions.lua
+Probe.lua
+Launch.lua
+Export.lua
+UI.lua
+Commands.lua
+Init.lua
