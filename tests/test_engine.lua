@@ -2009,6 +2009,74 @@ test("enemy count: remembered through combat-flag gaps; dummies longer; one unre
   mock.inCombat, mock.nameplates = false, 0
 end)
 
+test("essentials: keep-up stacks from own casts, gap closer only out of melee range", function()
+  Reset()
+  local book = {}
+  for i, b in ipairs(FERAL_BOOK) do
+    book[i] = b
+  end
+  book[#book + 1] = { spellID = 102401, name = "Wild Charge" }
+  mock.book = book
+  local ns = Boot()
+  local X = ns.Essentials
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  -- a stacking keep-up (Ironfur-style), here on a Feral spell so the test book has it
+  X.KEEPUPS.druid_feral = { { kind = "stacks", token = "tigers_fury", id = 5217, setting = "ironfurStacks",
+    duration = 7 } }
+  local r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
+  eq(r.main.token, "tigers_fury", "no stacks: keep it up")
+  eq(r.queue[2].token, "shred", "the rotation moves right")
+  for _ = 1, 3 do
+    X.OnOwnCast(5217)
+  end
+  r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
+  eq(r.main.token, "shred", "three stacks up (default 3)")
+  mock.Advance(30) -- the spell's own duration from the data
+  eq(X.Stacks(5217), 0, "stacks expire")
+  ns.db.ironfurStacks = 0
+  r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
+  eq(r.main.token, "shred", "0 = off")
+  X.KEEPUPS.druid_feral = nil
+  -- gap closer
+  mock.inRange = { [5221] = false, [1822] = false, [1079] = false, [22568] = false, [102401] = true }
+  r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
+  eq(r.main.source, "gapcloser", "out of melee: charge first")
+  eq(r.main.id, 102401)
+  mock.inRange = { [5221] = true, [1822] = true, [1079] = true, [22568] = true, [102401] = false }
+  r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
+  eq(r.main.token, "shred", "in melee: never shown")
+  ns.db.gapClosers = false
+  mock.inRange = { [5221] = false, [1822] = false, [1079] = false, [22568] = false, [102401] = true }
+  r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
+  eq(r.main.token, "shred", "setting off")
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat = false
+end)
+
+test("cooldown flag unreadable: our own clock decides, so a spell just cast is not 'ready'", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  S.learned.cd[1822] = 6
+  local real = C_Spell.GetSpellCooldown
+  C_Spell.GetSpellCooldown = function() -- luacheck: ignore 122
+    return { isEnabled = true } -- isActive / startTime / duration unreadable
+  end
+  S.lastCast[1822] = GetTime()
+  eq(S.CooldownReady(1822), false, "cast 0 s ago, 6 s cooldown")
+  mock.Advance(6.1)
+  eq(S.CooldownReady(1822), true)
+  S.lastCast[1822] = GetTime()
+  S.OnGlow(1822, true) -- a proc reset it
+  eq(S.CooldownReady(1822), true, "glow after the cast: reset")
+  C_Spell.GetSpellCooldown = real -- luacheck: ignore 122
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat = false
+end)
+
 test("title row: colour-coded ST / AOE with the live count", function()
   Reset()
   local ns = Boot()

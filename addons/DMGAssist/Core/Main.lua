@@ -335,6 +335,7 @@ function ns.Update()
   })
   result.callout = ns.BossMods.Callout()
   G.Steady(result)
+  ns.Essentials.Apply(result)
   ns.Interrupts.Apply(result)
   ns.Defensives.Apply(result)
   ns.Alerts(result)
@@ -408,7 +409,8 @@ end
 pcall(frame.RegisterUnitEvent, frame, "UNIT_AURA", "player", "target")
 
 local DEFAULTS = { enabled = true, burst = true,
-  burstWhen = "always", bigPull = 5, skipHold = true, mode = "aoe", autoDetect = true, aoeTargets = 3, fightLength = 300,
+  burstWhen = "always", bigPull = 5, skipHold = true, ironfurStacks = 3, tankEssentials = true,
+  gapClosers = true, mode = "aoe", autoDetect = true, aoeTargets = 3, fightLength = 300,
   useAssisted = true, queue = 3, smartFight = true, fightMode = "learned", aoeCount = "spec", bossMods = true, interruptMode = "smart",
   defensiveMode = "smart", defensiveHealth = 35, defensiveLead = 3, sounds = true, locked = true,
   minimap = true, minimapAngle = 220 }
@@ -450,6 +452,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     stuck.ignored, stuck.snapped = 0, {}
     lastLogged = nil -- the first pick of every fight is logged (and traced)
     S.OnCombat(true)
+    ns.Essentials.Reset()
     ns.Engine.OnCombat()
     ns.Diagnostics.OnCombat(true)
     if ns.TESTING then
@@ -639,6 +642,7 @@ end
 -- in a row a full decision snapshot is stored (once per spell per fight), so a report shows why it stuck.
 function ns.OnOwnCast(id)
   local shown = ns.last and ns.last.main
+  ns.Essentials.OnOwnCast(id)
   if inCombat then
     local what, spell = G.OnPlayerCast(id, shown, ns.db.skipHold ~= false)
     if what then

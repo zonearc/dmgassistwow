@@ -180,6 +180,12 @@ function O.Register()
     "Every fight (default), or only bosses, PvP and pulls of at least the size below: trash keeps them saved.")
   Slider(combat, DB, "bigPull", "Big pull size", G.bigPull or 5, 2, 10, 1,
     "With \"Bosses and big pulls\": this many enemies or more counts as a big pull.")
+  Check(combat, DB, "gapClosers", "Gap closers", true,
+    "Melee: out of range of your target, show your charge / leap (Wild Charge, Charge, Shadowstep...) first.")
+  Check(combat, DB, "tankEssentials", "Tank essentials", true,
+    "Tanks: keep active mitigation and your threat DoT up (Guardian: Ironfur stacks, Moonfire on the target).")
+  Slider(combat, DB, "ironfurStacks", "Ironfur stacks", G.ironfurStacks or 3, 0, 5, 1,
+    "Guardian: keep this many Ironfur stacks up (counted from your casts). 0 = off.")
   Check(combat, DB, "skipHold", "Hold skipped spells", true,
     "Skip the spell in the first slot twice and it is held until combat ends. Cast it yourself to bring it back.")
   Check(combat, DB, "castWhileMoving", "Casts while moving", false,

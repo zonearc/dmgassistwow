@@ -21,6 +21,7 @@ Core\Clues.lua
 Core\BossMods.lua
 Core\Interrupts.lua
 Core\Defensives.lua
+Core\Essentials.lua
 Core\Sounds.lua
 Core\Diagnostics.lua
 Core\Engine.lua

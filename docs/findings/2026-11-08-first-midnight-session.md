@@ -94,3 +94,16 @@ Scrap, Threat Plates.
   nameplate is up, alive and in range (5 s; training dummies, recognised by name in every client language, 12 s);
   an unreadable plate is skipped instead of voiding the count. The decision trace now shows
   `(fighting, remembered, unreadable, dummies)`.
+
+## Guardian session (export 9)
+- Slot 1 alternated Thrash <-> Swipe/Mangle every ~0.5 s. Thrash cast at 14.77 was "castable" again at 15.08: the
+  cooldown flag goes unreadable about once a second in restricted combat, CooldownReady then returned UNKNOWN and
+  IsSpellUsable (which ignores cooldowns) made the spell look ready. Fix (all specs): an unreadable cooldown flag
+  falls back to our own clock (last cast + cooldown); a proc glow after the cast (Gore on Mangle) means reset.
+  Very likely a large part of the slot-1 flicker seen on Balance too.
+- Ironfur never shown: its lines need Rage (hidden) and the assistant never confirms it. New tank keep-ups
+  (Essentials.lua): Ironfur stacks counted from own casts (default 3, setting), Moonfire on the target when it
+  isn't ticking (Blizzard's Guardian rule; SimC uses Moonfire only with Lunation).
+- Gap closers: melee specs out of melee range of a hostile target get their targeted charge first (Wild Charge,
+  Charge, Shadowstep, Harpoon, Feral Lunge, Death Grip); setting, on by default.
+- Raze: SimC's line is Maul (Raze replaces it), gated on Rage and the Gory Fur proc, both hidden: not confirmed.
