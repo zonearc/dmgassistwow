@@ -647,28 +647,34 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       d = 10,
       gcd = 1.5,
       n = "death_and_decay",
+      r = 30,
     },
     [46584] = {
       cd = 30,
       gcd = 1.5,
       n = "raise_dead",
+      r = 30,
     },
     [46585] = {
       cd = 120,
       d = 60,
       n = "raise_dead",
+      r = 30,
       tal = true,
     },
     [47541] = {
       cost = { [6] = 30 },
       gcd = 1.5,
       n = "death_coil",
+      r = 30,
     },
     [47632] = {
       n = "death_coil",
+      r = 40,
     },
     [47633] = {
       n = "death_coil",
+      r = 40,
     },
     [49530] = {
       n = "sudden_doom",
@@ -682,6 +688,7 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       cost = { [5] = 1 },
       gcd = 1.5,
       n = "scourge_strike",
+      r = 30,
       tal = true,
     },
     [63560] = {
@@ -696,6 +703,7 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       cost = { [5] = 1 },
       gcd = 1.5,
       n = "outbreak",
+      r = 30,
       tal = true,
     },
     [81340] = {
@@ -711,6 +719,7 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       gain = { [6] = 200 },
       gcd = 1.5,
       n = "festering_strike",
+      r = 5,
     },
     [188290] = {
       ap = {
@@ -744,9 +753,11 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       cost = { [6] = 30 },
       gcd = 1.5,
       n = "epidemic",
+      r = 30,
     },
     [212739] = {
       n = "epidemic",
+      r = 40,
     },
     [215969] = {
       n = "epidemic",
@@ -775,6 +786,7 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       cost = { [5] = 1 },
       gcd = 1.5,
       n = "soul_reaper",
+      r = 5,
       tal = true,
     },
     [343295] = {
@@ -798,6 +810,7 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       cost = { [5] = 1 },
       gcd = 1.5,
       n = "vampiric_strike",
+      r = 5,
     },
     [433899] = {
       n = "vampiric_strike",
@@ -829,17 +842,21 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       d = 10,
       gcd = 1.5,
       n = "death_and_decay",
+      r = 30,
     },
     [445508] = {
       cd = 3,
       n = "scourge_strike",
+      r = 5,
     },
     [445509] = {
       n = "scourge_strike",
+      r = 5,
     },
     [445513] = {
       cd = 5,
       n = "death_coil",
+      r = 30,
     },
     [445669] = {
       n = "vampiric_strike",
@@ -854,6 +871,7 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       d = 5,
       gcd = 1.5,
       n = "soul_reaper",
+      r = 5,
     },
     [455397] = {
       n = "festering_scythe",
@@ -894,6 +912,7 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       },
       d = 1,
       n = "death_and_decay",
+      r = 30,
     },
     [1233448] = {
       cd = 45,
@@ -926,6 +945,7 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
     },
     [1237172] = {
       n = "epidemic",
+      r = 40,
     },
     [1240994] = {
       n = "festering_strike",
@@ -978,6 +998,7 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
     },
     [1242866] = {
       n = "raise_dead",
+      r = 30,
     },
     [1244519] = {
       ap = {
@@ -993,6 +1014,7 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       cost = { [5] = 1 },
       gcd = 1.5,
       n = "putrefy",
+      r = 40,
       tal = true,
     },
     [1251951] = {
@@ -1029,6 +1051,7 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       chcd = 0.75,
       gcd = 1.5,
       n = "blightfall",
+      r = 30,
     },
     [1271974] = {
       n = "blightfall",

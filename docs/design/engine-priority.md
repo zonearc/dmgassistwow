@@ -115,6 +115,18 @@ Not yet: queue slots 2–3 (state advance), using glows as proc evidence, the as
 | Proc glows | `SPELL_ACTIVATION_OVERLAY_GLOW_SHOW/HIDE` (plain spell IDs) | Which buff each glow means (learned out of combat, saved per spec); in combat glow = buff up, glow gone = buff consumed | Readable aura scans |
 | Affordability | `C_Spell.IsSpellUsable` (isUsable, insufficientPower), not secret | Hidden resource ranges from single-cost spells (SimC costs); glowing spells skipped (procs make them free) | Readable resource values |
 
+| Shadow resource counters | Last readable value + SimC cost/gain per own cast, confirmed by `UNIT_POWER_UPDATE` (names the resource, never secret) | Exact combo points / holy power / chi / shards / arcane charges / essence in combat; no event after a cast = miss (rolled back); an event we didn't cause = uncertain | Readable value (graded as "shadow") |
+| Range | SimC spell ranges + `C_Spell.IsSpellInRange` (not secret) | `target.distance` bounds (in 5 yd range → ≤ 5; only 40 yd spells in range → 5–40) instead of assuming 5 | — |
+| Button overrides | `SPELL_UPDATE_ICON`, `COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED`, `C_Spell.GetOverrideSpell` (not secret) | A transformed button (Bite → Ravage) = the buff behind it, learned like glows | Readable aura scans |
+| Requirement-only usability | `SPELL_UPDATE_USABLE` + `IsSpellUsable` with `insufficientPower == false` | A spell that becomes castable without a resource change = its enabling buff/form, learned like glows | Readable aura scans |
+| Haste | `UNIT_SPELL_HASTE` (event, no value) + the GCD's on/off edges (`isActive` never secret) | Bloodlust and haste procs: haste re-measured from a 1.5 s-base GCD when `UnitSpellHaste` is hidden | — |
+| Fight length | `UnitIsBossMob`, `UnitClassification`, `IsInInstance`, `ENCOUNTER_START/END` (not secret) | Bosses/encounters use the setting; instance trash ≤ 30 s so cooldowns aren't held for a long fight | — |
+| Oracle: health & distance | Blizzard rules mentioning `target.health.pct` / `target.distance` | Execute-phase and range bounds from the assistant's pick | — |
+
+Checked but not usable in combat: `GetSpellCastCount` / `GetSpellDisplayCount` / `GetSpellCharges` (secret with cooldowns),
+`GetTotemInfo` (secret per slot), `UnitThreatSituation`, `UNIT_SPELLCAST_SENT/FAILED` payloads (secret with casts).
+Not used yet: `UI_ERROR_MESSAGE` ("not enough energy" on a failed press), loss-of-control count (pause advice while stunned).
+
 Expressions use the ranges directly: `combo_points<5` is decided when combo points are known to be 0–4.
 Oracle facts live 1 s and are dropped when we cast; glow facts last until the glow ends. Every source is graded each time
 the truth is readable; one that is wrong > 20 % of the time (after 20 checks) is switched off for the session and logged.

@@ -512,6 +512,7 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "backstab",
+      r = 5,
     },
     [1784] = {
       cd = 10,
@@ -552,24 +553,28 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "eviscerate",
+      r = 5,
     },
     [2589] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "backstab",
+      r = 5,
     },
     [2590] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "backstab",
+      r = 5,
     },
     [2591] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "backstab",
+      r = 5,
     },
     [5171] = {
       ap = {
@@ -586,18 +591,21 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "eviscerate",
+      r = 5,
     },
     [6761] = {
       cmax = { [4] = 5 },
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "eviscerate",
+      r = 5,
     },
     [6762] = {
       cmax = { [4] = 5 },
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "eviscerate",
+      r = 5,
     },
     [6774] = {
       ap = {
@@ -614,24 +622,28 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "eviscerate",
+      r = 5,
     },
     [8624] = {
       cmax = { [4] = 5 },
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "eviscerate",
+      r = 5,
     },
     [8721] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "backstab",
+      r = 5,
     },
     [11279] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "backstab",
+      r = 5,
     },
     [11327] = {
       ap = {
@@ -657,6 +669,7 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       d = 20,
       gain = { [4] = 2 },
       n = "premeditation",
+      r = 20,
       tal = true,
     },
     [18461] = {
@@ -671,6 +684,7 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "shadowstrike",
+      r = 25,
     },
     [399986] = {
       cd = 20,
@@ -678,6 +692,7 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "shuriken_toss",
+      r = 25,
     },
     [400031] = {
       n = "shadowstrike",

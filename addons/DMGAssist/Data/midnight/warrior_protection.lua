@@ -572,11 +572,13 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       chcd = 20,
       gain = { [1] = 200 },
       n = "charge",
+      r = 25,
     },
     [772] = {
       cost = { [1] = 10 },
       gcd = 1.5,
       n = "rend",
+      r = 5,
       tal = true,
     },
     [871] = {
@@ -621,6 +623,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [6343] = {
       cd = 6,
@@ -633,6 +636,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "revenge",
+      r = 5,
       tal = true,
     },
     [6673] = {
@@ -643,6 +647,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
     [20243] = {
       gcd = 1.5,
       n = "devastate",
+      r = 5,
       st = 3,
     },
     [23922] = {
@@ -654,6 +659,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       gain = { [1] = 150 },
       gcd = 1.5,
       n = "shield_slam",
+      r = 5,
     },
     [29725] = {
       n = "sudden_death",
@@ -672,6 +678,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       cd = 6,
       gcd = 1.5,
       n = "heroic_throw",
+      r = 30,
     },
     [64380] = {
       n = "shattering_throw",
@@ -681,6 +688,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       ct = 1.5,
       gcd = 1.5,
       n = "shattering_throw",
+      r = 25,
       tal = true,
     },
     [69179] = {
@@ -724,6 +732,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [190456] = {
       ap = {
@@ -737,6 +746,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
     },
     [198337] = {
       n = "charge",
+      r = 25,
     },
     [200951] = {
       ap = {
@@ -770,6 +780,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
     },
     [218104] = {
       n = "charge",
+      r = 45,
     },
     [228920] = {
       ap = {
@@ -781,6 +792,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       d = 12,
       gcd = 1.5,
       n = "ravager",
+      r = 40,
       tal = true,
     },
     [231834] = {
@@ -805,6 +817,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
     },
     [260798] = {
       n = "execute",
+      r = 5,
     },
     [280721] = {
       n = "sudden_death",
@@ -816,6 +829,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [280776] = {
       ap = {
@@ -827,6 +841,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
     },
     [280849] = {
       n = "execute",
+      r = 5,
     },
     [281000] = {
       cd = 6,
@@ -834,6 +849,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [281001] = {
       n = "massacre",
@@ -856,6 +872,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       cd = 90,
       gcd = 1.5,
       n = "champions_spear",
+      r = 25,
       tal = true,
     },
     [376080] = {
@@ -872,6 +889,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       },
       d = 6,
       n = "champions_spear",
+      r = 25,
     },
     [376083] = {
       n = "champions_spear",
@@ -880,16 +898,19 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       cd = 45,
       gcd = 1.5,
       n = "wrecking_throw",
+      r = 25,
       tal = true,
     },
     [385952] = {
       cd = 45,
       gcd = 1.5,
       n = "shield_charge",
+      r = 25,
       tal = true,
     },
     [385953] = {
       n = "shield_charge",
+      r = 25,
     },
     [385954] = {
       ap = {
@@ -931,6 +952,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       },
       d = 15,
       n = "rend",
+      r = 25,
     },
     [394352] = {
       n = "shattering_throw",
@@ -987,16 +1009,20 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       d = 2,
       gcd = 1.5,
       n = "demolish",
+      r = 5,
       tal = true,
     },
     [440884] = {
       n = "demolish",
+      r = 10,
     },
     [440886] = {
       n = "demolish",
+      r = 10,
     },
     [440888] = {
       n = "demolish",
+      r = 10,
     },
     [440989] = {
       ap = {
@@ -1021,6 +1047,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
     [1215174] = {
       cost = { [1] = 20 },
       n = "revenge",
+      r = 5,
     },
     [1235088] = {
       n = "heavy_handed",
@@ -1062,6 +1089,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
     [1271980] = {
       cd = 6,
       n = "champions_spear",
+      r = 40,
     },
     [1271981] = {
       ap = {
@@ -1073,6 +1101,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
     [1271982] = {
       cd = 6,
       n = "champions_spear",
+      r = 40,
     },
     [1271985] = {
       n = "champions_leap",
@@ -1100,6 +1129,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       },
       d = 8,
       n = "phalanx",
+      r = 12,
     },
   },
   spells = {

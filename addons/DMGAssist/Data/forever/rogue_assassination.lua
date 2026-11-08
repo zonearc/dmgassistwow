@@ -560,6 +560,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "garrote",
+      r = 5,
     },
     [1766] = {
       cd = 10,
@@ -567,6 +568,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       d = 5,
       gcd = 1,
       n = "kick",
+      r = 5,
     },
     [1767] = {
       cd = 10,
@@ -574,6 +576,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       d = 5,
       gcd = 1,
       n = "kick",
+      r = 5,
     },
     [1768] = {
       cd = 10,
@@ -581,6 +584,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       d = 5,
       gcd = 1,
       n = "kick",
+      r = 5,
     },
     [1769] = {
       cd = 10,
@@ -588,6 +592,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       d = 5,
       gcd = 1,
       n = "kick",
+      r = 5,
     },
     [1784] = {
       cd = 10,
@@ -632,6 +637,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       d = 6,
       gcd = 1,
       n = "rupture",
+      r = 5,
     },
     [5171] = {
       ap = {
@@ -662,6 +668,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "garrote",
+      r = 5,
     },
     [8632] = {
       ap = {
@@ -672,6 +679,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "garrote",
+      r = 5,
     },
     [8633] = {
       ap = {
@@ -682,6 +690,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "garrote",
+      r = 5,
     },
     [8639] = {
       ap = {
@@ -692,6 +701,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       d = 6,
       gcd = 1,
       n = "rupture",
+      r = 5,
     },
     [8640] = {
       ap = {
@@ -702,42 +712,49 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       d = 6,
       gcd = 1,
       n = "rupture",
+      r = 5,
     },
     [8676] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "ambush",
+      r = 5,
     },
     [8724] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "ambush",
+      r = 5,
     },
     [8725] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "ambush",
+      r = 5,
     },
     [11267] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "ambush",
+      r = 5,
     },
     [11268] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "ambush",
+      r = 5,
     },
     [11269] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "ambush",
+      r = 5,
     },
     [11273] = {
       ap = {
@@ -748,6 +765,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       d = 6,
       gcd = 1,
       n = "rupture",
+      r = 5,
     },
     [11274] = {
       ap = {
@@ -758,6 +776,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       d = 6,
       gcd = 1,
       n = "rupture",
+      r = 5,
     },
     [11275] = {
       ap = {
@@ -768,6 +787,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       d = 6,
       gcd = 1,
       n = "rupture",
+      r = 5,
     },
     [11289] = {
       ap = {
@@ -778,6 +798,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "garrote",
+      r = 5,
     },
     [11290] = {
       ap = {
@@ -788,6 +809,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "garrote",
+      r = 5,
     },
     [11327] = {
       ap = {
@@ -822,12 +844,15 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       gain = { [4] = 2 },
       gcd = 1,
       n = "mutilate",
+      r = 5,
     },
     [399960] = {
       n = "mutilate",
+      r = 5,
     },
     [399961] = {
       n = "mutilate",
+      r = 5,
     },
     [399968] = {
       n = "envenom",
@@ -847,17 +872,20 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       d = 2,
       gcd = 1,
       n = "crimson_tempest",
+      r = 8,
     },
     [424799] = {
       cost = { [3] = 20 },
       gcd = 1,
       n = "shiv",
+      r = 5,
     },
     [425012] = {
       cd = 6,
       cost = { [3] = 25 },
       gcd = 1,
       n = "poisoned_knife",
+      r = 25,
     },
     [425013] = {
       gain = { [4] = 1 },
@@ -888,18 +916,21 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       gain = { [4] = 2 },
       gcd = 1,
       n = "mutilate",
+      r = 5,
     },
     [1241584] = {
       cost = { [3] = 60 },
       gain = { [4] = 2 },
       gcd = 1,
       n = "mutilate",
+      r = 5,
     },
     [1310707] = {
       cost = { [3] = 60 },
       gain = { [4] = 2 },
       gcd = 1,
       n = "mutilate",
+      r = 5,
       tal = true,
     },
     [1310709] = {

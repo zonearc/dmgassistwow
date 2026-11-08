@@ -495,24 +495,28 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 30,
     },
     [1460] = {
       cost = { [0] = 185 },
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 30,
     },
     [1461] = {
       cost = { [0] = 520 },
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 30,
     },
     [2139] = {
       cd = 30,
       cost = { [0] = 100 },
       d = 10,
       n = "counterspell",
+      r = 30,
     },
     [5143] = {
       ap = {
@@ -522,6 +526,7 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       d = 3,
       gcd = 1.5,
       n = "arcane_missiles",
+      r = 30,
     },
     [5144] = {
       ap = {
@@ -531,6 +536,7 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       d = 4,
       gcd = 1.5,
       n = "arcane_missiles",
+      r = 30,
     },
     [5145] = {
       ap = {
@@ -540,6 +546,7 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       d = 5,
       gcd = 1.5,
       n = "arcane_missiles",
+      r = 30,
     },
     [8416] = {
       ap = {
@@ -549,6 +556,7 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       d = 5,
       gcd = 1.5,
       n = "arcane_missiles",
+      r = 30,
     },
     [8417] = {
       ap = {
@@ -558,18 +566,21 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       d = 5,
       gcd = 1.5,
       n = "arcane_missiles",
+      r = 30,
     },
     [10156] = {
       cost = { [0] = 945 },
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 30,
     },
     [10157] = {
       cost = { [0] = 1510 },
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 30,
     },
     [10211] = {
       ap = {
@@ -579,6 +590,7 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       d = 5,
       gcd = 1.5,
       n = "arcane_missiles",
+      r = 30,
     },
     [12043] = {
       cd = 180,
@@ -608,21 +620,25 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       cost = { [0] = 80 },
       gcd = 1.5,
       n = "arcane_blast",
+      r = 30,
     },
     [29443] = {
       d = 10,
       n = "counterspell",
+      r = 30,
     },
     [400574] = {
       ct = 1.5,
       gcd = 1.5,
       n = "arcane_blast",
+      r = 30,
       tal = true,
     },
     [400610] = {
       cd = 3,
       gcd = 1.5,
       n = "arcane_barrage",
+      r = 30,
     },
     [401719] = {
       n = "arcane_barrage",
@@ -636,6 +652,7 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       d = 8,
       gcd = 1.5,
       n = "arcane_surge",
+      r = 30,
     },
     [425168] = {
       n = "arcane_surge",
@@ -645,21 +662,25 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       ct = 1.5,
       gcd = 1.5,
       n = "arcane_blast",
+      r = 30,
     },
     [1239697] = {
       ct = 1.5,
       gcd = 1.5,
       n = "arcane_blast",
+      r = 30,
     },
     [1239699] = {
       ct = 1.5,
       gcd = 1.5,
       n = "arcane_blast",
+      r = 30,
     },
     [1239700] = {
       ct = 1.5,
       gcd = 1.5,
       n = "arcane_blast",
+      r = 30,
     },
   },
   spells = {

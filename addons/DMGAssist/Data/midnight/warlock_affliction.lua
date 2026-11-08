@@ -919,11 +919,13 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
     [172] = {
       gcd = 1.5,
       n = "corruption",
+      r = 40,
     },
     [686] = {
       ct = 2,
       gcd = 1.5,
       n = "shadow_bolt",
+      r = 40,
     },
     [980] = {
       ap = {
@@ -932,6 +934,7 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       d = 18,
       gcd = 1.5,
       n = "agony",
+      r = 40,
       st = 8,
       tal = true,
     },
@@ -948,6 +951,7 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       d = 12,
       gcd = 1.5,
       n = "seed_of_corruption",
+      r = 40,
       tal = true,
     },
     [27285] = {
@@ -958,6 +962,7 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       ct = 1.5,
       gcd = 1.5,
       n = "unstable_affliction",
+      r = 40,
       st = 10,
     },
     [31117] = {
@@ -979,6 +984,7 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       d = 18,
       gcd = 1.5,
       n = "haunt",
+      r = 40,
       tal = true,
     },
     [108503] = {
@@ -995,10 +1001,12 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
     [146739] = {
       d = 14,
       n = "corruption",
+      r = 40,
     },
     [194192] = {
       gain = { [7] = 1 },
       n = "shadow_bolt",
+      r = 40,
     },
     [196099] = {
       n = "grimoire_of_sacrifice",
@@ -1025,6 +1033,7 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       d = 5,
       gcd = 1.5,
       n = "drain_soul",
+      r = 40,
     },
     [205180] = {
       ap = {
@@ -1121,6 +1130,7 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       gain = { [7] = 3 },
       gcd = 1.5,
       n = "infernal_bolt",
+      r = 40,
     },
     [442708] = {
       n = "malevolence",
@@ -1148,6 +1158,7 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       },
       gcd = 1.5,
       n = "wither",
+      r = 40,
     },
     [445474] = {
       ap = {
@@ -1180,6 +1191,7 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       d = 12,
       gcd = 1.5,
       n = "unstable_affliction",
+      r = 40,
       st = 1,
     },
     [1257052] = {
@@ -1204,6 +1216,7 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       d = 8,
       gcd = 1.5,
       n = "unstable_affliction",
+      r = 40,
       st = 99,
       tal = true,
     },
@@ -1252,6 +1265,7 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       d = 4,
       gcd = 1.5,
       n = "malefic_grasp",
+      r = 40,
     },
     [1261158] = {
       n = "corruption",

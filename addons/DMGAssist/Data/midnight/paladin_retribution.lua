@@ -480,6 +480,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       d = 5,
       gcd = 1.5,
       n = "judgment",
+      r = 30,
     },
     [24275] = {
       ap = {
@@ -491,6 +492,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       gain = { [9] = 1 },
       gcd = 1.5,
       n = "hammer_of_wrath",
+      r = 30,
     },
     [31884] = {
       ap = {
@@ -507,6 +509,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       gain = { [9] = 1 },
       gcd = 1.5,
       n = "crusader_strike",
+      r = 5,
     },
     [53385] = {
       cost = { [9] = 3 },
@@ -523,12 +526,14 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       gain = { [9] = 1 },
       gcd = 1.5,
       n = "hammer_of_the_righteous",
+      r = 5,
       tal = true,
     },
     [85256] = {
       cost = { [9] = 3 },
       gcd = 1.5,
       n = "templars_verdict",
+      r = 5,
     },
     [88263] = {
       ap = {
@@ -540,6 +545,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       cd = 15,
       d = 5,
       n = "rebuke",
+      r = 5,
       tal = true,
     },
     [132331] = {
@@ -547,6 +553,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       gain = { [9] = 1 },
       gcd = 1.5,
       n = "crusader_strike",
+      r = 5,
     },
     [150627] = {
       n = "hammer_of_the_righteous",
@@ -563,6 +570,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       gain = { [9] = 1 },
       gcd = 1.5,
       n = "blade_of_justice",
+      r = 12,
       tal = true,
     },
     [197277] = {
@@ -571,6 +579,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       },
       d = 18,
       n = "judgment",
+      r = 30,
       st = 20,
     },
     [204019] = {
@@ -676,12 +685,14 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       chcd = 11,
       gcd = 1.5,
       n = "judgment",
+      r = 30,
     },
     [275779] = {
       ch = 1,
       chcd = 11,
       gcd = 1.5,
       n = "judgment",
+      r = 30,
     },
     [286392] = {
       n = "empyrean_power",
@@ -698,6 +709,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       cd = 60,
       gcd = 1.5,
       n = "divine_toll",
+      r = 30,
     },
     [312952] = {
       n = "divine_toll",
@@ -759,6 +771,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       d = 10,
       gcd = 0.75,
       n = "execution_sentence",
+      r = 30,
       tal = true,
     },
     [344067] = {
@@ -772,6 +785,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       cd = 60,
       gcd = 1.5,
       n = "divine_toll",
+      r = 30,
       tal = true,
     },
     [375609] = {
@@ -785,6 +799,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       cost = { [9] = 3 },
       gcd = 1.5,
       n = "final_verdict",
+      r = 12,
       tal = true,
     },
     [383344] = {
@@ -852,6 +867,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
     },
     [404358] = {
       n = "blade_of_justice",
+      r = 12,
     },
     [404542] = {
       n = "crusading_strikes",
@@ -885,6 +901,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       gain = { [9] = 1 },
       gcd = 1,
       n = "templar_slash",
+      r = 5,
     },
     [406648] = {
       ap = {
@@ -903,6 +920,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       d = 5,
       gcd = 1.5,
       n = "judgment",
+      r = 30,
     },
     [407480] = {
       ap = {
@@ -913,6 +931,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       gain = { [9] = 1 },
       gcd = 1,
       n = "templar_strike",
+      r = 5,
     },
     [423593] = {
       n = "divine_storm",
@@ -932,6 +951,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       cost = { [9] = 3 },
       gcd = 1.5,
       n = "hammer_of_light",
+      r = 14,
     },
     [429826] = {
       n = "hammer_of_light",
@@ -996,6 +1016,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       },
       d = 10,
       n = "execution_sentence",
+      r = 30,
     },
     [1235934] = {
       n = "hammer_of_light",
@@ -1014,6 +1035,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       gain = { [9] = 1 },
       gcd = 1.5,
       n = "hammer_of_wrath",
+      r = 30,
     },
     [1246643] = {
       ap = {
@@ -1034,6 +1056,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       },
       d = 10,
       n = "execution_sentence",
+      r = 30,
     },
     [1263782] = {
       n = "walk_into_light",
@@ -1049,10 +1072,12 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       gain = { [9] = 1 },
       gcd = 1.5,
       n = "crusader_strike",
+      r = 5,
     },
     [1279408] = {
       gain = { [9] = 1 },
       n = "hammer_of_wrath",
+      r = 30,
     },
     [1302139] = {
       ap = {
@@ -1060,6 +1085,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       },
       d = 8,
       n = "seal_of_reprisal",
+      r = 40,
     },
   },
   spells = {

@@ -895,14 +895,17 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       ct = 1.5,
       gcd = 1.5,
       n = "wrath",
+      r = 40,
     },
     [8921] = {
       gcd = 1.5,
       n = "moonfire",
+      r = 40,
     },
     [18104] = {
       gcd = 1.5,
       n = "wrath",
+      r = 5,
     },
     [24858] = {
       gcd = 1.5,
@@ -930,6 +933,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       cost = { [8] = 40 },
       gcd = 1.5,
       n = "starsurge",
+      r = 40,
       tal = true,
     },
     [81281] = {
@@ -948,6 +952,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       d = 1,
       gcd = 1.5,
       n = "wild_mushroom",
+      r = 40,
       tal = true,
     },
     [88751] = {
@@ -956,6 +961,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     [93402] = {
       gcd = 1.5,
       n = "sunfire",
+      r = 40,
       tal = true,
     },
     [102560] = {
@@ -977,6 +983,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "moonfire",
+      r = 40,
     },
     [164717] = {
       d = 20,
@@ -1000,6 +1007,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       ct = 1.5,
       gcd = 1.5,
       n = "wrath",
+      r = 40,
     },
     [191034] = {
       ap = {
@@ -1019,6 +1027,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       gain = { [8] = 8 },
       gcd = 1.5,
       n = "starfire",
+      r = 40,
       tal = true,
     },
     [194223] = {
@@ -1030,6 +1039,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       chcd = 180,
       d = 15,
       n = "celestial_alignment",
+      r = 40,
     },
     [197625] = {
       gcd = 1.5,
@@ -1040,12 +1050,14 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       cd = 10,
       gcd = 1.5,
       n = "starsurge",
+      r = 40,
       tal = true,
     },
     [197628] = {
       ct = 2.5,
       gcd = 1.5,
       n = "starfire",
+      r = 40,
       tal = true,
     },
     [202770] = {
@@ -1056,6 +1068,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       d = 8,
       gcd = 1.5,
       n = "fury_of_elune",
+      r = 40,
       tal = true,
     },
     [205636] = {
@@ -1063,6 +1076,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       gain = { [8] = 20 },
       gcd = 1.5,
       n = "force_of_nature",
+      r = 40,
       tal = true,
     },
     [211545] = {
@@ -1071,6 +1085,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     [211547] = {
       cd = 0.5,
       n = "fury_of_elune",
+      r = 40,
     },
     [248163] = {
       n = "radiant_moonlight",
@@ -1079,6 +1094,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     [248280] = {
       d = 10,
       n = "force_of_nature",
+      r = 40,
     },
     [274281] = {
       ch = 3,
@@ -1087,6 +1103,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       gain = { [8] = 10 },
       gcd = 1,
       n = "new_moon",
+      r = 40,
       tal = true,
     },
     [274282] = {
@@ -1096,6 +1113,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       gain = { [8] = 20 },
       gcd = 1.5,
       n = "half_moon",
+      r = 40,
     },
     [274283] = {
       ch = 3,
@@ -1104,6 +1122,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       gain = { [8] = 40 },
       gcd = 1.5,
       n = "full_moon",
+      r = 40,
     },
     [281871] = {
       n = "fury_of_elune",
@@ -1147,6 +1166,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       d = 15,
       gcd = 1.5,
       n = "celestial_alignment",
+      r = 40,
     },
     [390414] = {
       ap = {
@@ -1157,6 +1177,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       d = 20,
       gcd = 1.5,
       n = "incarnation_chosen_of_elune",
+      r = 40,
     },
     [391528] = {
       ap = {
@@ -1171,6 +1192,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     },
     [392996] = {
       n = "wild_mushroom",
+      r = 40,
     },
     [393940] = {
       n = "starweaver",
@@ -1240,6 +1262,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       cd = 5,
       gcd = 0.5,
       n = "moonfire",
+      r = 40,
     },
     [428731] = {
       n = "harmony_of_the_grove",
@@ -1358,9 +1381,11 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     [1264677] = {
       ct = 2,
       n = "starsurge",
+      r = 40,
     },
     [1271222] = {
       n = "starsurge",
+      r = 60,
     },
     [1280213] = {
       ap = {

@@ -921,6 +921,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       cd = 15,
       d = 5,
       n = "disrupt",
+      r = 5,
     },
     [185123] = {
       ch = 1,
@@ -928,6 +929,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       cost = { [17] = 25 },
       gcd = 1.5,
       n = "throw_glaive",
+      r = 30,
     },
     [187827] = {
       ap = {
@@ -944,6 +946,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       ch = 1,
       chcd = 15,
       n = "infernal_strike",
+      r = 30,
     },
     [189112] = {
       n = "infernal_strike",
@@ -956,6 +959,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       cd = 120,
       gcd = 1.5,
       n = "metamorphosis",
+      r = 40,
     },
     [195439] = {
       ap = {
@@ -964,6 +968,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       cd = 15,
       d = 0.8,
       n = "disrupt",
+      r = 5,
     },
     [195441] = {
       ap = {
@@ -972,6 +977,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       cd = 9,
       d = 0.8,
       n = "throw_glaive",
+      r = 30,
     },
     [200166] = {
       ap = {
@@ -1013,6 +1019,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       chcd = 60,
       gcd = 1.5,
       n = "fiery_brand",
+      r = 30,
       tal = true,
     },
     [204157] = {
@@ -1020,6 +1027,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       chcd = 9,
       gcd = 1.5,
       n = "throw_glaive",
+      r = 30,
     },
     [204497] = {
       ap = {
@@ -1034,6 +1042,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       d = 2,
       gcd = 1.5,
       n = "sigil_of_flame",
+      r = 30,
     },
     [204598] = {
       ap = {
@@ -1051,6 +1060,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       d = 3,
       gcd = 1.5,
       n = "soul_carver",
+      r = 5,
       tal = true,
     },
     [207744] = {
@@ -1076,6 +1086,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       d = 12,
       gcd = 1.5,
       n = "fiery_brand",
+      r = 30,
     },
     [209247] = {
       ap = {
@@ -1083,6 +1094,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       },
       d = 30,
       n = "fiery_brand",
+      r = 40,
     },
     [210788] = {
       ap = {
@@ -1100,6 +1112,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       d = 2,
       gcd = 1.5,
       n = "fel_devastation",
+      r = 20,
       tal = true,
     },
     [212105] = {
@@ -1110,10 +1123,12 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
     },
     [213241] = {
       n = "felblade",
+      r = 15,
     },
     [213243] = {
       gain = { [17] = 15 },
       n = "felblade",
+      r = 15,
     },
     [214740] = {
       n = "soul_carver",
@@ -1123,6 +1138,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       cd = 60,
       gcd = 1.5,
       n = "soul_carver",
+      r = 5,
     },
     [218903] = {
       gain = { [17] = 30 },
@@ -1130,9 +1146,11 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
     },
     [225919] = {
       n = "fracture",
+      r = 20,
     },
     [225921] = {
       n = "fracture",
+      r = 20,
     },
     [227174] = {
       n = "fallout",
@@ -1143,14 +1161,17 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       cost = { [17] = 35 },
       gcd = 1.5,
       n = "soul_cleave",
+      r = 5,
     },
     [228478] = {
       n = "soul_cleave",
+      r = 5,
     },
     [232893] = {
       cd = 12,
       gcd = 0.5,
       n = "felblade",
+      r = 15,
       tal = true,
     },
     [236167] = {
@@ -1163,6 +1184,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       },
       d = 3,
       n = "metamorphosis",
+      r = 40,
     },
     [247454] = {
       ap = {
@@ -1203,6 +1225,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       gain = { [17] = 25 },
       gcd = 1.5,
       n = "fracture",
+      r = 5,
     },
     [320794] = {
       n = "sigil_of_flame",
@@ -1226,6 +1249,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       },
       d = 2,
       n = "fel_devastation",
+      r = 20,
     },
     [333110] = {
       n = "fel_devastation",
@@ -1240,9 +1264,11 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
     },
     [337819] = {
       n = "throw_glaive",
+      r = 30,
     },
     [346665] = {
       n = "throw_glaive",
+      r = 30,
     },
     [389220] = {
       n = "fiery_demise",
@@ -1262,6 +1288,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       d = 2,
       gcd = 1.5,
       n = "sigil_of_spite",
+      r = 30,
       tal = true,
     },
     [391159] = {
@@ -1300,6 +1327,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
     [442294] = {
       gcd = 1.5,
       n = "reavers_glaive",
+      r = 40,
     },
     [442435] = {
       ap = {
@@ -1330,6 +1358,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
     },
     [442507] = {
       n = "warblades_hunger",
+      r = 5,
     },
     [444661] = {
       ap = {
@@ -1347,6 +1376,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
     },
     [444810] = {
       n = "art_of_the_glaive",
+      r = 8,
     },
     [1245577] = {
       n = "soul_fragments",
@@ -1393,6 +1423,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
     [1283344] = {
       gcd = 1.5,
       n = "reavers_glaive",
+      r = 40,
     },
   },
   spells = {

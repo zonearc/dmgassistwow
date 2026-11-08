@@ -60,9 +60,11 @@ end
 function C.Reset(links)
   C.aura = { player = {}, target = {} }
   C.bounds = {}
+  C.named = {}
+  C.shadow = {}
   C.stats = {}
   C.links = links or {}
-  C.lastGlow, C.lastNewAura = nil, nil
+  C.lastSignal, C.lastNewAura = nil, nil
 end
 
 ---------------------------------------------------------------------------
@@ -131,42 +133,95 @@ function C.OnTargetChanged()
 end
 
 ---------------------------------------------------------------------------
--- Proc glows
+-- On/off signals linked to buffs: proc glows, button overrides, requirement-based usability
 ---------------------------------------------------------------------------
-local function Link(spellID, token)
-  if C.links[spellID] ~= token then
-    C.links[spellID] = token
-    U.Log("glow_link", { spell = spellID, aura = token })
+-- A signal is anything the game shows in combat that switches on and off: a proc glow on a button
+-- (key = spellID), a button turning into another spell ("o<baseID>", e.g. Bite -> Ravage), or a spell becoming
+-- castable for reasons other than resources ("u<spellID>", e.g. a proc-only ability, or a form). Out of combat we
+-- learn which buff appears with which signal; in combat the signal then says the buff is up or gone.
+local function SignalSource(key)
+  if type(key) == "number" then
+    return "glow"
+  elseif key:sub(1, 1) == "o" then
+    return "override"
+  end
+  return "requirement"
+end
+C.SignalSource = SignalSource
+
+local function Link(key, token)
+  if C.links[key] ~= token then
+    C.links[key] = token
+    U.Log("signal_link", { signal = key, aura = token })
   end
 end
 
--- Glow shown/hidden on spellID. aurasReadable: whether the player's auras can be read right now.
-function C.OnGlow(spellID, shown, aurasReadable)
+function C.OnSignal(key, on, aurasReadable)
   local now = GetTime()
-  if shown then
-    C.lastGlow = { id = spellID, t = now }
+  if on then
+    C.lastSignal = { key = key, t = now }
     local n = C.lastNewAura
     if aurasReadable and n and now - n.t <= LINK_WINDOW then
-      Link(spellID, n.token)
+      Link(key, n.token)
     end
   end
-  local token = C.links[spellID]
+  local token = C.links[key]
   if token then
-    if shown then
-      C.SetAura("player", token, true, 30, "glow")
+    if on then
+      C.SetAura("player", token, true, 30, SignalSource(key))
     else
-      C.SetAura("player", token, false, 1.0, "glow")
+      C.SetAura("player", token, false, 1.0, SignalSource(key))
     end
   end
+end
+
+-- Glow shown/hidden on spellID (kept as its own entry point: glows are the most common signal).
+function C.OnGlow(spellID, shown, aurasReadable)
+  C.OnSignal(spellID, shown, aurasReadable)
 end
 
 -- A new aura appeared on the player (readable scan).
 function C.OnNewAura(token)
   local now = GetTime()
   C.lastNewAura = { token = token, t = now }
-  local g = C.lastGlow
+  local g = C.lastSignal
   if g and now - g.t <= LINK_WINDOW then
-    Link(g.id, token)
+    Link(g.key, token)
+  end
+end
+
+local overrideState, requirementState = {}, {}
+
+-- SPELL_UPDATE_ICON / COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED: which buttons are transformed right now?
+function C.ScanOverrides(aurasReadable)
+  for id, b in pairs(M.book) do
+    if b.id == id and not b.passive then
+      local o = U.Read(U.Call(C_Spell and C_Spell.GetOverrideSpell, id))
+      if type(o) == "number" then
+        local on = o ~= id
+        if overrideState[id] ~= nil and overrideState[id] ~= on then
+          C.OnSignal("o" .. id, on, aurasReadable)
+        end
+        overrideState[id] = on
+      end
+    end
+  end
+end
+
+-- SPELL_UPDATE_USABLE: spells whose castability changed for a reason other than resources.
+function C.ScanRequirements(aurasReadable)
+  for id, b in pairs(M.book) do
+    if b.id == id and not b.passive then
+      local usable, noPower = U.Call(C_Spell and C_Spell.IsSpellUsable, id)
+      usable, noPower = U.Read(usable), U.Read(noPower)
+      if usable ~= nil then
+        local met = usable == true or noPower == true
+        if requirementState[id] ~= nil and requirementState[id] ~= met then
+          C.OnSignal("u" .. id, met, aurasReadable)
+        end
+        requirementState[id] = met
+      end
+    end
   end
 end
 
@@ -253,6 +308,155 @@ function C.VerifyPower(pt, value)
   if a and (a.lo > 0 or a.hi < math.huge) then
     Record("usable", value >= a.lo and value <= a.hi)
   end
+end
+
+---------------------------------------------------------------------------
+-- Named bounds (target health, distance) and spell ranges
+---------------------------------------------------------------------------
+C.named = {} -- name -> { lo, hi, untilT, source }
+
+function C.SetNamed(name, lo, hi, ttl, source)
+  if not C.Enabled(source) then
+    return
+  end
+  local now = GetTime()
+  local b = C.named[name]
+  if not b or b.untilT <= now then
+    b = { lo = -math.huge, hi = math.huge }
+  end
+  b.lo, b.hi = math.max(b.lo, lo or -math.huge), math.min(b.hi, hi or math.huge)
+  b.untilT, b.source = now + ttl, source
+  C.named[name] = b
+  Stat(source).facts = Stat(source).facts + 1
+end
+
+function C.NamedBounds(name)
+  local b = C.named[name]
+  if b and b.untilT > GetTime() and C.Enabled(b.source) and b.lo <= b.hi then
+    return b.lo, b.hi
+  end
+  return nil
+end
+
+local rangeAt, rangeLo, rangeHi = nil, nil, nil
+
+-- Distance to the target from which of our spells are in range (SimC ranges + C_Spell.IsSpellInRange).
+function C.DistanceBounds()
+  local now = GetTime()
+  if rangeAt ~= now then
+    rangeAt, rangeLo, rangeHi = now, 0, math.huge
+    local any = false
+    for id, b in pairs(M.book) do
+      local info = b.id == id and not b.passive and M.Info(id)
+      if info and info.r then
+        local inRange = U.Read(U.Call(C_Spell and C_Spell.IsSpellInRange, id, "target"))
+        if inRange == true then
+          rangeHi, any = math.min(rangeHi, info.r), true
+        elseif inRange == false then
+          rangeLo, any = math.max(rangeLo, info.r + 0.5), true
+        end
+      end
+    end
+    if not any then
+      rangeLo, rangeHi = nil, nil
+    end
+  end
+  local lo, hi = rangeLo, rangeHi
+  local nlo, nhi = C.NamedBounds("target.distance")
+  if nlo then
+    lo, hi = math.max(lo or nlo, nlo), math.min(hi or nhi, nhi)
+  end
+  if lo and lo <= hi then
+    return lo, hi
+  end
+  return nil
+end
+
+---------------------------------------------------------------------------
+-- Shadow counters for discrete resources (combo points, holy power, chi, shards, arcane charges, essence)
+---------------------------------------------------------------------------
+-- Start from the last readable value, apply SimC's cost/gain for every cast we see, and use UNIT_POWER_UPDATE
+-- (whose payload names the resource and is never secret) as confirmation: an expected change without the event
+-- did not happen (miss), an event we didn't expect (a proc granted or spent some) makes the count uncertain.
+C.DISCRETE = { COMBO_POINTS = 4, SOUL_SHARDS = 7, HOLY_POWER = 9, CHI = 12, ARCANE_CHARGES = 16, ESSENCE = 19 }
+local DISCRETE_PT = {}
+for _, pt in pairs(C.DISCRETE) do
+  DISCRETE_PT[pt] = true
+end
+local CONFIRM_WINDOW = 0.6
+C.shadow = {} -- pt -> { v =, max =, certain =, pending = { prev =, t = } }
+
+-- Called with the real value whenever it is readable: resync, and grade the counter.
+function C.SyncPower(pt, value, max)
+  if not DISCRETE_PT[pt] then
+    return
+  end
+  local sh = C.shadow[pt]
+  if sh and sh.certain and not sh.pending then
+    Record("shadow", sh.v == value)
+  end
+  C.shadow[pt] = { v = value, max = max, certain = true }
+end
+
+local function Settle(sh)
+  local p = sh.pending
+  if p and GetTime() - p.t > CONFIRM_WINDOW then
+    -- No UNIT_POWER_UPDATE followed our cast: the change didn't happen (miss/dodge, or already capped).
+    sh.v = p.prev
+    sh.pending = nil
+  end
+end
+
+function C.OnOwnCast(id)
+  local info = M.Info(id)
+  if not info then
+    return
+  end
+  for pt, sh in pairs(C.shadow) do
+    Settle(sh)
+    local cost = info.cost and info.cost[pt]
+    local gain = info.gain and info.gain[pt]
+    if sh.certain and (cost or gain) then
+      local v = sh.v
+      if cost then
+        local cmax = info.cmax and info.cmax[pt]
+        v = v - (cmax and math.min(v, cmax) or cost)
+      end
+      v = v + (gain or 0)
+      if sh.max and sh.max > 0 then
+        v = math.min(v, sh.max)
+      end
+      v = math.max(0, v)
+      if v ~= sh.v then
+        sh.pending = { prev = sh.v, t = GetTime() }
+        sh.v = v
+      end
+    end
+  end
+end
+
+-- UNIT_POWER_UPDATE("player", powerToken).
+function C.OnPowerEvent(token)
+  local pt = C.DISCRETE[token]
+  local sh = pt and C.shadow[pt]
+  if not sh then
+    return
+  end
+  if sh.pending and GetTime() - sh.pending.t <= CONFIRM_WINDOW then
+    sh.pending = nil -- the change we predicted happened
+  elseif not U.Read(U.Call(UnitPower, "player", pt)) then
+    sh.certain = false -- something we didn't cause changed it (proc, crit bonus, passive spend)
+  end
+end
+
+-- Exact value from the counter, or nil.
+function C.ShadowValue(pt)
+  local sh = C.shadow[pt]
+  if not (sh and sh.certain and C.Enabled("shadow")) then
+    return nil
+  end
+  Settle(sh)
+  return sh.v
 end
 
 ---------------------------------------------------------------------------
@@ -343,6 +547,16 @@ local function Learn(node, truth, ctx)
       end
     elseif CMP[op] and node[3][1] == "id" and node[4][1] == "num" then
       local pt = ns.State.PowerTypeOf(node[3][2])
+      local name = node[3][2]
+      if not pt and (name == "target.health.pct" or name == "target.distance") then
+        local c = node[4][2]
+        local eff = truth and op or NEGATE[op]
+        if eff == ">=" or eff == ">" then
+          C.SetNamed(name, c, nil, FACT_TTL, "assisted")
+        elseif eff == "<=" or eff == "<" then
+          C.SetNamed(name, nil, c, FACT_TTL, "assisted")
+        end
+      end
       if pt then
         local c = node[4][2]
         local effective = truth and op or NEGATE[op]

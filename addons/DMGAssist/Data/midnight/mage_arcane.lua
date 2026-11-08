@@ -494,11 +494,13 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 40,
     },
     [2139] = {
       cd = 25,
       d = 7,
       n = "counterspell",
+      r = 40,
     },
     [5143] = {
       ap = {
@@ -507,10 +509,12 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       d = 2.5,
       gcd = 1.5,
       n = "arcane_missiles",
+      r = 40,
       tal = true,
     },
     [7268] = {
       n = "arcane_missiles",
+      r = 60,
     },
     [12051] = {
       ap = {
@@ -527,17 +531,20 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       cd = 8,
       gcd = 1.5,
       n = "arcane_blast",
+      r = 30,
     },
     [20883] = {
       cd = 8,
       cost = { [0] = 80 },
       gcd = 1.5,
       n = "arcane_blast",
+      r = 30,
     },
     [30451] = {
       ct = 2.25,
       gcd = 1.5,
       n = "arcane_blast",
+      r = 40,
     },
     [36032] = {
       n = "arcane_charge",
@@ -546,6 +553,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
     [44425] = {
       gcd = 1.5,
       n = "arcane_barrage",
+      r = 40,
     },
     [79684] = {
       n = "clearcasting",
@@ -555,12 +563,14 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       ct = 2.5,
       gcd = 1.5,
       n = "arcane_blast",
+      r = 40,
     },
     [139678] = {
       n = "arcane_missiles",
     },
     [145435] = {
       n = "arcane_missiles",
+      r = 60,
     },
     [153626] = {
       ch = 1,
@@ -568,6 +578,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       d = 2.5,
       gcd = 1.5,
       n = "arcane_orb",
+      r = 40,
       tal = true,
     },
     [153640] = {
@@ -599,6 +610,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
     },
     [222321] = {
       n = "arcane_blast",
+      r = 30,
     },
     [236628] = {
       n = "amplification",
@@ -607,6 +619,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
     },
     [243313] = {
       n = "arcane_missiles",
+      r = 60,
     },
     [263725] = {
       ap = {
@@ -639,6 +652,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       ch = 1,
       chcd = 45,
       n = "touch_of_the_magi",
+      r = 40,
       st = 1,
       tal = true,
     },
@@ -654,6 +668,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       ct = 2.5,
       gcd = 1.5,
       n = "arcane_surge",
+      r = 40,
       tal = true,
     },
     [365362] = {
@@ -693,6 +708,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
     },
     [450499] = {
       n = "arcane_barrage",
+      r = 40,
     },
     [451038] = {
       ap = {
@@ -704,6 +720,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
     [453326] = {
       ct = 2.5,
       n = "arcane_surge",
+      r = 40,
     },
     [453413] = {
       n = "arcane_soul",
@@ -726,6 +743,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       ct = 2,
       gcd = 1.5,
       n = "arcane_pulse",
+      r = 40,
       tal = true,
     },
     [1242974] = {
@@ -740,6 +758,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
     [1243460] = {
       gcd = 1.5,
       n = "arcane_pulse",
+      r = 40,
     },
     [1244329] = {
       n = "overpowered_missiles",
@@ -767,6 +786,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       ct = 2.5,
       gcd = 1.5,
       n = "prismatic_bolt",
+      r = 40,
     },
     [1295939] = {
       n = "prismatic_bolt",

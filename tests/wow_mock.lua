@@ -313,6 +313,9 @@ function mock.Install(env)
     return "Elwynn Forest"
   end
   env.IsInInstance = function()
+    if mock.instance then
+      return true, "party"
+    end
     return false, "none"
   end
   env.UnitClass = function()
@@ -537,7 +540,13 @@ function mock.Install(env)
       return 1000000 + id
     end,
     GetOverrideSpell = function(id)
-      return id
+      return (mock.overrides and mock.overrides[id]) or id
+    end,
+    IsSpellInRange = function(id)
+      if mock.inRange then
+        return mock.inRange[id]
+      end
+      return nil
     end,
     GetSpellInfo = function(id)
       return { name = "x", spellID = id, castTime = 0 }
@@ -614,6 +623,12 @@ function mock.Install(env)
   end
   env.UnitAffectingCombat = function()
     return mock.inCombat == true
+  end
+  env.UnitIsBossMob = function()
+    return mock.boss == true
+  end
+  env.UnitClassification = function()
+    return mock.classification or "normal"
   end
   env.UnitHealthMax = function()
     return 1000

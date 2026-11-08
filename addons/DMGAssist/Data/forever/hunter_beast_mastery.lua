@@ -458,12 +458,14 @@ ns.RegisterSpecData("forever", "hunter_beast_mastery", {
   spellInfo = {
     [75] = {
       n = "auto_shot",
+      r = 35,
     },
     [3044] = {
       cd = 6,
       cost = { [0] = 25 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [3674] = {
       ap = {
@@ -472,36 +474,42 @@ ns.RegisterSpecData("forever", "hunter_beast_mastery", {
       d = 30,
       gcd = 1.5,
       n = "black_arrow",
+      r = 35,
     },
     [14281] = {
       cd = 6,
       cost = { [0] = 35 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [14282] = {
       cd = 6,
       cost = { [0] = 50 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [14283] = {
       cd = 6,
       cost = { [0] = 80 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [14284] = {
       cd = 6,
       cost = { [0] = 105 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [14285] = {
       cd = 6,
       cost = { [0] = 135 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [14296] = {
       ap = {
@@ -510,6 +518,7 @@ ns.RegisterSpecData("forever", "hunter_beast_mastery", {
       d = 30,
       gcd = 1.5,
       n = "black_arrow",
+      r = 35,
     },
     [19574] = {
       cd = 120,
@@ -524,6 +533,7 @@ ns.RegisterSpecData("forever", "hunter_beast_mastery", {
       cd = 60,
       d = 30,
       n = "kill_command",
+      r = 45,
     },
     [409396] = {
       ap = {
@@ -531,6 +541,7 @@ ns.RegisterSpecData("forever", "hunter_beast_mastery", {
       },
       d = 30,
       n = "kill_command",
+      r = 45,
       st = 3,
     },
     [409418] = {
@@ -547,6 +558,7 @@ ns.RegisterSpecData("forever", "hunter_beast_mastery", {
       ct = 1.5,
       gcd = 1.5,
       n = "steady_shot",
+      r = 35,
     },
   },
   spells = {

@@ -825,6 +825,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       cd = 120,
       gcd = 1.5,
       n = "metamorphosis",
+      r = 40,
     },
     [198793] = {
       ap = {
@@ -890,6 +891,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       },
       d = 3,
       n = "metamorphosis",
+      r = 40,
     },
     [258920] = {
       ap = {
@@ -923,6 +925,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       ct = 1,
       gcd = 1.5,
       n = "the_hunt",
+      r = 50,
     },
     [323802] = {
       ap = {
@@ -967,6 +970,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       },
       d = 1.5,
       n = "the_hunt",
+      r = 50,
     },
     [345422] = {
       ap = {
@@ -985,6 +989,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       d = 2,
       gcd = 1.5,
       n = "the_hunt",
+      r = 50,
       tal = true,
     },
     [370967] = {
@@ -993,6 +998,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       },
       d = 1.5,
       n = "the_hunt",
+      r = 50,
     },
     [427904] = {
       n = "immolation_aura",
@@ -1011,6 +1017,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       ct = 2,
       gcd = 1.5,
       n = "consume",
+      r = 25,
     },
     [473728] = {
       ap = {
@@ -1020,6 +1027,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       d = 3,
       gcd = 1.5,
       n = "void_ray",
+      r = 25,
       tal = true,
     },
     [1213649] = {
@@ -1033,11 +1041,13 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       ct = 1.5,
       gcd = 1.5,
       n = "devour",
+      r = 25,
     },
     [1221150] = {
       ct = 3,
       gcd = 1.5,
       n = "collapsing_star",
+      r = 25,
     },
     [1221162] = {
       n = "collapsing_star",
@@ -1059,6 +1069,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
     },
     [1225823] = {
       n = "reap",
+      r = 25,
     },
     [1225826] = {
       ap = {
@@ -1069,6 +1080,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       d = 1.5,
       gcd = 1.5,
       n = "eradicate",
+      r = 25,
     },
     [1225827] = {
       n = "eradicate",
@@ -1082,6 +1094,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       d = 1,
       gcd = 1.5,
       n = "reap",
+      r = 25,
     },
     [1226033] = {
       n = "eradicate",
@@ -1124,6 +1137,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
     },
     [1239127] = {
       n = "hungering_slash",
+      r = 25,
     },
     [1239507] = {
       gain = { [17] = 10 },
@@ -1140,6 +1154,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
     },
     [1239524] = {
       n = "eradicate",
+      r = 25,
     },
     [1239525] = {
       ap = {
@@ -1147,6 +1162,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       },
       d = 6,
       n = "hungering_slash",
+      r = 25,
     },
     [1239526] = {
       n = "voidstep",
@@ -1158,6 +1174,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
     },
     [1241285] = {
       n = "voidblade",
+      r = 15,
     },
     [1241937] = {
       ap = {
@@ -1179,10 +1196,12 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       chcd = 30,
       gcd = 0.5,
       n = "voidblade",
+      r = 15,
       tal = true,
     },
     [1245414] = {
       n = "voidblade",
+      r = 15,
     },
     [1245453] = {
       ap = {
@@ -1193,9 +1212,11 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       d = 1,
       gcd = 1.5,
       n = "cull",
+      r = 25,
     },
     [1245455] = {
       n = "cull",
+      r = 25,
     },
     [1245470] = {
       ap = {
@@ -1210,6 +1231,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       chcd = 30,
       gcd = 0.5,
       n = "pierce_the_veil",
+      r = 15,
     },
     [1245523] = {
       ap = {
@@ -1217,6 +1239,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       },
       d = 6,
       n = "reapers_toll",
+      r = 25,
     },
     [1245577] = {
       n = "soul_fragments",
@@ -1239,6 +1262,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       d = 2,
       gcd = 1.5,
       n = "the_hunt",
+      r = 50,
       tal = true,
     },
     [1246556] = {
@@ -1261,6 +1285,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       d = 2,
       gcd = 1.5,
       n = "predators_wake",
+      r = 50,
     },
     [1261679] = {
       gain = { [17] = 10 },

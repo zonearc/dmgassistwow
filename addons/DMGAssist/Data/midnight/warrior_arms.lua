@@ -1015,11 +1015,13 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       chcd = 20,
       gain = { [1] = 200 },
       n = "charge",
+      r = 25,
     },
     [772] = {
       cost = { [1] = 10 },
       gcd = 1.5,
       n = "rend",
+      r = 5,
       tal = true,
     },
     [845] = {
@@ -1027,12 +1029,14 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "cleave",
+      r = 5,
       tal = true,
     },
     [1464] = {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "slam",
+      r = 5,
     },
     [1680] = {
       cost = { [1] = 20 },
@@ -1045,11 +1049,13 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [6552] = {
       cd = 15,
       d = 5,
       n = "pummel",
+      r = 5,
     },
     [6673] = {
       d = 3600,
@@ -1061,6 +1067,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       chcd = 12,
       gcd = 1.5,
       n = "overpower",
+      r = 5,
       st = 1,
       tal = true,
     },
@@ -1069,6 +1076,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       cost = { [1] = 30 },
       gcd = 1.5,
       n = "mortal_strike",
+      r = 5,
       tal = true,
     },
     [13491] = {
@@ -1077,6 +1085,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       d = 5,
       gcd = 1.5,
       n = "pummel",
+      r = 5,
     },
     [29725] = {
       n = "sudden_death",
@@ -1099,6 +1108,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       cd = 6,
       gcd = 1.5,
       n = "heroic_throw",
+      r = 30,
     },
     [69179] = {
       cd = 120,
@@ -1125,6 +1135,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       cd = 30,
       gcd = 1.5,
       n = "storm_bolt",
+      r = 20,
       tal = true,
     },
     [107574] = {
@@ -1145,6 +1156,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       },
       d = 4,
       n = "storm_bolt",
+      r = 30,
     },
     [156287] = {
       n = "ravager",
@@ -1155,6 +1167,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [167105] = {
       cd = 45,
@@ -1168,6 +1181,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
     },
     [198337] = {
       n = "charge",
+      r = 25,
     },
     [198819] = {
       ap = {
@@ -1216,9 +1230,11 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       },
       d = 10,
       n = "colossus_smash",
+      r = 12,
     },
     [218104] = {
       n = "charge",
+      r = 45,
     },
     [222634] = {
       ap = {
@@ -1251,6 +1267,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       d = 12,
       gcd = 1.5,
       n = "ravager",
+      r = 40,
       tal = true,
     },
     [236027] = {
@@ -1272,6 +1289,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
     },
     [260798] = {
       n = "execute",
+      r = 5,
     },
     [262128] = {
       ap = {
@@ -1296,6 +1314,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [280776] = {
       ap = {
@@ -1307,6 +1326,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
     },
     [280849] = {
       n = "execute",
+      r = 5,
     },
     [281000] = {
       cd = 6,
@@ -1314,6 +1334,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [281001] = {
       n = "massacre",
@@ -1347,11 +1368,13 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
     },
     [339385] = {
       n = "mortal_strike",
+      r = 5,
     },
     [376079] = {
       cd = 90,
       gcd = 1.5,
       n = "champions_spear",
+      r = 25,
       tal = true,
     },
     [376080] = {
@@ -1368,6 +1391,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       },
       d = 6,
       n = "champions_spear",
+      r = 25,
     },
     [376083] = {
       n = "champions_spear",
@@ -1381,6 +1405,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       cd = 45,
       gcd = 1.5,
       n = "wrecking_throw",
+      r = 25,
       tal = true,
     },
     [386164] = {
@@ -1407,6 +1432,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       },
       d = 15,
       n = "rend",
+      r = 25,
     },
     [394354] = {
       n = "wrecking_throw",
@@ -1424,16 +1450,20 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       d = 2,
       gcd = 1.5,
       n = "demolish",
+      r = 5,
       tal = true,
     },
     [440884] = {
       n = "demolish",
+      r = 10,
     },
     [440886] = {
       n = "demolish",
+      r = 10,
     },
     [440888] = {
       n = "demolish",
+      r = 10,
     },
     [440989] = {
       ap = {
@@ -1464,6 +1494,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       },
       d = 12,
       n = "executioner",
+      r = 5,
       st = 5,
     },
     [445606] = {
@@ -1495,6 +1526,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
     },
     [458459] = {
       n = "cleave",
+      r = 5,
     },
     [1261051] = {
       n = "tactical_edge",
@@ -1513,6 +1545,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "heroic_strike",
+      r = 5,
     },
     [1269394] = {
       ap = {
@@ -1533,6 +1566,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
     [1271980] = {
       cd = 6,
       n = "champions_spear",
+      r = 40,
     },
     [1271981] = {
       ap = {
@@ -1544,6 +1578,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
     [1271982] = {
       cd = 6,
       n = "champions_spear",
+      r = 40,
     },
   },
   spells = {

@@ -46,6 +46,7 @@ local function Reset()
   mock.acSpell, mock.heroTree = nil, nil
   mock.power, mock.powerMax, mock.powerReadable = {}, {}, {}
   mock.casting, mock.nameplates, mock.locale = nil, 0, "enUS"
+  mock.overrides, mock.inRange, mock.boss, mock.classification, mock.instance = nil, nil, nil, nil, nil
   mock.class, mock.specs, mock.specIndex = { "Druid", "DRUID", 11 }, { [1] = 102, [2] = 103, [3] = 104, [4] = 105 }, 2
   mock.book = FERAL_BOOK
   DMGAssistDB = nil
@@ -813,6 +814,134 @@ test("an inference source that keeps being wrong switches itself off", function(
   end
   eq(Cl.Enabled("assisted"), false)
   eq(Cl.AuraFact("player", "phantom"), nil, "facts from a disabled source are ignored")
+end)
+
+---------------------------------------------------------------------------
+-- More clues: resource counting, range, button changes, haste, fight length, health from the oracle
+---------------------------------------------------------------------------
+test("shadow combo points: counted from casts, confirmed by power events, misses rolled back", function()
+  Reset()
+  local ns = Boot()
+  local S, UNKNOWN = ns.State, ns.Expr.UNKNOWN
+  mock.power[4], mock.powerMax[4] = 2, 5
+  S.VerifyPowers()                       -- readable: the counter starts at 2
+  Restrict()
+  eq(S.Resolve("combo_points", {}), 2, "hidden now, but counted")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "g1", 5221) -- Shred: +1 combo point (SimC data)
+  mock.Fire("UNIT_POWER_UPDATE", "player", "COMBO_POINTS")   -- and the game confirms a change
+  eq(S.Resolve("combo_points", {}), 3)
+  mock.Advance(1)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "g2", 5221) -- Shred again, but no power event: it missed
+  mock.Advance(0.7)
+  eq(S.Resolve("combo_points", {}), 3, "no confirmation -> rolled back")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "g3", 22568) -- Ferocious Bite spends them all
+  mock.Fire("UNIT_POWER_UPDATE", "player", "COMBO_POINTS")
+  eq(S.Resolve("combo_points", {}), 0)
+  mock.Advance(1)
+  mock.Fire("UNIT_POWER_UPDATE", "player", "COMBO_POINTS")   -- a change we didn't cause (proc)
+  eq(S.Resolve("combo_points", {}), UNKNOWN, "unexplained change -> no longer certain")
+  -- graded when readable again
+  mock.restricted = false
+  mock.power[4] = 1
+  S.VerifyPowers()
+  eq(S.Resolve("combo_points", {}), 1)
+end)
+
+test("range: which spells are in range bounds the target's distance", function()
+  Reset()
+  local ns = Boot()
+  local E = ns.Expr
+  local function r() return E.UNKNOWN end
+  mock.inRange = { [1822] = true }          -- Rake (5 yd) in range
+  mock.Advance(0.01)
+  eq(E.Test("target.distance<=8", r, ns.State.Bounds), true)
+  mock.inRange = { [1822] = false, [8921] = true } -- out of melee, Moonfire (40 yd) in range
+  mock.Advance(0.01)
+  eq(E.Test("target.distance>5", r, ns.State.Bounds), true)
+  eq(E.Test("target.distance<=8", r, ns.State.Bounds), E.UNKNOWN, "between 5 and 40: can't tell")
+  eq(ns.State.Resolve("target.distance", {}), E.UNKNOWN, "no more assuming 5 yards when we can measure")
+  mock.inRange = nil
+  mock.Advance(0.01)
+  eq(ns.State.Resolve("target.distance", {}), 5, "no range info: SimC's default")
+end)
+
+test("button changes and requirement-only spells are learned as buff signals", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  -- Out of combat: Bite turns into Ravage when a buff appears.
+  mock.Fire("SPELL_UPDATE_ICON", 22568)           -- baseline: not transformed
+  mock.overrides = { [22568] = 441591 }
+  mock.Fire("SPELL_UPDATE_ICON", 22568)
+  mock.auras.player = { { name = "Ravage!", spellId = 999001, duration = 15, expirationTime = mock.now + 15 } }
+  mock.Fire("UNIT_AURA", "player")
+  eq(ns.Clues.links["o22568"], "ravage", "override linked to the buff")
+  -- A spell that is only castable while a buff is up.
+  mock.Advance(1)
+  mock.usable[5215] = { false, false }
+  mock.Fire("SPELL_UPDATE_USABLE")
+  mock.usable[5215] = { true, false }
+  mock.Fire("SPELL_UPDATE_USABLE")
+  mock.auras.player = { { name = "Ravage!", spellId = 999001, duration = 15, expirationTime = mock.now + 15 },
+    { name = "Shadowmeld Ready", spellId = 999002, duration = 10, expirationTime = mock.now + 10 } }
+  mock.Fire("UNIT_AURA", "player")
+  eq(ns.Clues.links.u5215, "shadowmeld_ready")
+  -- In combat (auras hidden) the signals tell us.
+  mock.overrides = nil
+  mock.Fire("SPELL_UPDATE_ICON", 22568)
+  Restrict()
+  mock.Advance(2)
+  mock.overrides = { [22568] = 441591 }
+  mock.Fire("SPELL_UPDATE_ICON", 22568)
+  eq(S.Resolve("buff.ravage.up", {}), 1)
+  mock.usable[5215] = { false, false }
+  mock.Fire("SPELL_UPDATE_USABLE")
+  eq(S.Resolve("buff.shadowmeld_ready.up", {}), 0)
+end)
+
+test("haste: Bloodlust is caught by measuring the GCD when haste is hidden", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  Restrict()
+  mock.Fire("UNIT_SPELL_HASTE", "player")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "g", 8921) -- Moonfire: 1.5 s hasted GCD
+  mock.cooldowns[61304] = { active = true }
+  mock.Fire("SPELL_UPDATE_COOLDOWN")
+  mock.Advance(1.2)
+  mock.cooldowns[61304] = { active = false }
+  mock.Fire("SPELL_UPDATE_COOLDOWN")
+  eq(S.hasteSource, "measured")
+  eq(math.floor(S.GCD(8921) * 100 + 0.5), 120, "GCD now 1.2 s (25% haste)")
+end)
+
+test("smart fight length: bosses use the setting, dungeon trash is short, dummies are long", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  eq(S.FightLength(), 300, "open world / target dummy")
+  mock.instance = true
+  eq(S.FightLength(), 30, "dungeon trash")
+  mock.boss = true
+  eq(S.FightLength(), 300, "boss")
+  mock.boss = nil
+  mock.Fire("ENCOUNTER_START", 1, "Boss", 1, 5)
+  eq(S.FightLength(), 300, "encounter in progress")
+  mock.Fire("ENCOUNTER_END", 1, "Boss", 1, 5, 1)
+  ns.db.smartFight = false
+  eq(S.FightLength(), 300, "switched off")
+end)
+
+test("oracle: a skipped execute-style rule bounds the target's health", function()
+  Reset()
+  local ns = Boot()
+  local rec = Record()
+  rec.blizzard = { default = { { a = "rake", k = "T", c = "target.health.pct<20" }, { a = "shred", k = "R" } } }
+  Restrict()
+  mock.acSpell = 5221
+  ns.Engine.Recommend(rec, { useAssisted = true })
+  local lo = ns.State.Bounds("target.health.pct")
+  eq(lo, 20, "Rake's <20% rule was skipped although castable: health >= 20%")
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

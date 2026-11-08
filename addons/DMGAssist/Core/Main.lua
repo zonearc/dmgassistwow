@@ -148,10 +148,16 @@ for _, event in ipairs(Specs.EVENTS) do
   end
 end
 pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_SUCCEEDED", "player")
+pcall(frame.RegisterUnitEvent, frame, "UNIT_POWER_UPDATE", "player")
+pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELL_HASTE", "player")
+for _, event in ipairs({ "SPELL_UPDATE_USABLE", "SPELL_UPDATE_ICON", "COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED",
+  "ENCOUNTER_START", "ENCOUNTER_END" }) do
+  pcall(frame.RegisterEvent, frame, event)
+end
 pcall(frame.RegisterUnitEvent, frame, "UNIT_AURA", "player", "target")
 
 local DEFAULTS = { enabled = true, burst = true, mode = "st", autoDetect = true, aoeTargets = 3, fightLength = 300,
-  useAssisted = true, queue = 3 }
+  useAssisted = true, queue = 3, smartFight = true }
 
 frame:SetScript("OnEvent", function(_, event, ...)
   local arg1, _, arg3 = ...
@@ -191,6 +197,18 @@ frame:SetScript("OnEvent", function(_, event, ...)
     if arg1 == "player" then
       S.OnSpellcastSucceeded(arg3)
     end
+  elseif event == "UNIT_POWER_UPDATE" then
+    ns.Clues.OnPowerEvent(U.Read(select(2, ...)))
+  elseif event == "UNIT_SPELL_HASTE" then
+    S.OnHasteChanged()
+  elseif event == "SPELL_UPDATE_USABLE" then
+    ns.Clues.ScanRequirements(S.AurasReadable())
+  elseif event == "SPELL_UPDATE_ICON" or event == "COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED" then
+    ns.Clues.ScanOverrides(S.AurasReadable())
+  elseif event == "ENCOUNTER_START" then
+    S.inEncounter = true
+  elseif event == "ENCOUNTER_END" then
+    S.inEncounter = false
   elseif event == "SPELL_UPDATE_COOLDOWN" then
     S.OnCooldownUpdate()
   elseif event == "SPELL_ACTIVATION_OVERLAY_GLOW_SHOW" then

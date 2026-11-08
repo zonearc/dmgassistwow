@@ -772,28 +772,33 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       ct = 1.75,
       gcd = 1.5,
       n = "fireball",
+      r = 40,
     },
     [1459] = {
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 40,
     },
     [2120] = {
       ct = 3.5,
       gcd = 1.5,
       n = "flamestrike",
+      r = 40,
       tal = true,
     },
     [2948] = {
       ct = 1.5,
       gcd = 1.5,
       n = "scorch",
+      r = 40,
       tal = true,
     },
     [11366] = {
       ct = 4,
       gcd = 1.5,
       n = "pyroblast",
+      r = 40,
       tal = true,
     },
     [13438] = {
@@ -805,6 +810,7 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       d = 6,
       gcd = 1.5,
       n = "fireball",
+      r = 35,
     },
     [16415] = {
       ap = {
@@ -815,6 +821,7 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       d = 8,
       gcd = 1.5,
       n = "fireball",
+      r = 35,
     },
     [18082] = {
       ap = {
@@ -825,6 +832,7 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       d = 6,
       gcd = 1.5,
       n = "fireball",
+      r = 35,
     },
     [18199] = {
       ap = {
@@ -835,6 +843,7 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       d = 6,
       gcd = 1.5,
       n = "fireball",
+      r = 35,
     },
     [18796] = {
       ap = {
@@ -843,6 +852,7 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       d = 6,
       gcd = 1.5,
       n = "fireball",
+      r = 35,
     },
     [48107] = {
       ap = {
@@ -873,12 +883,14 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       ch = 1,
       chcd = 14,
       n = "fire_blast",
+      r = 40,
       tal = true,
     },
     [153561] = {
       cd = 45,
       gcd = 1.5,
       n = "meteor",
+      r = 40,
       tal = true,
     },
     [153564] = {
@@ -926,6 +938,7 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       chcd = 14,
       gcd = 1.5,
       n = "fire_blast",
+      r = 40,
     },
     [321711] = {
       n = "pyroblast",
@@ -938,6 +951,7 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       cd = 30,
       d = 6,
       n = "pyroblast",
+      r = 40,
     },
     [351140] = {
       n = "meteor",
@@ -973,6 +987,7 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       ct = 1.75,
       gcd = 1.5,
       n = "frostfire_bolt",
+      r = 40,
       tal = true,
     },
     [431176] = {
@@ -1007,11 +1022,13 @@ ns.RegisterSpecData("midnight", "mage_fire", {
     },
     [450461] = {
       n = "pyroblast",
+      r = 40,
     },
     [450462] = {
       ct = 3.5,
       gcd = 1.5,
       n = "flamestrike",
+      r = 40,
     },
     [450746] = {
       n = "scald",
@@ -1037,10 +1054,12 @@ ns.RegisterSpecData("midnight", "mage_fire", {
     },
     [460475] = {
       n = "pyroblast",
+      r = 40,
     },
     [460476] = {
       ct = 3.5,
       n = "flamestrike",
+      r = 40,
     },
     [468655] = {
       ap = {
@@ -1061,11 +1080,13 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       ct = 3.5,
       gcd = 1.5,
       n = "flamestrike",
+      r = 40,
       tal = true,
     },
     [1262863] = {
       ct = 4,
       n = "pyroblast",
+      r = 40,
     },
     [1271177] = {
       n = "burnout",

@@ -876,17 +876,20 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       chcd = 20,
       gain = { [1] = 200 },
       n = "charge",
+      r = 25,
     },
     [772] = {
       cost = { [1] = 10 },
       gcd = 1.5,
       n = "rend",
+      r = 5,
       tal = true,
     },
     [1464] = {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "slam",
+      r = 5,
     },
     [1680] = {
       cost = { [1] = 20 },
@@ -908,6 +911,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [6343] = {
       cd = 6,
@@ -921,12 +925,14 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       ch = 1,
       chcd = 45,
       n = "heroic_leap",
+      r = 40,
       tal = true,
     },
     [6552] = {
       cd = 15,
       d = 5,
       n = "pummel",
+      r = 5,
     },
     [6673] = {
       d = 3600,
@@ -944,12 +950,14 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       d = 5,
       gcd = 1.5,
       n = "pummel",
+      r = 5,
     },
     [23881] = {
       cd = 4.5,
       gain = { [1] = 80 },
       gcd = 1.5,
       n = "bloodthirst",
+      r = 5,
       st = 1,
       tal = true,
     },
@@ -977,6 +985,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       cd = 6,
       gcd = 1.5,
       n = "heroic_throw",
+      r = 30,
     },
     [85288] = {
       ch = 1,
@@ -984,6 +993,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       gain = { [1] = 120 },
       gcd = 1.5,
       n = "raging_blow",
+      r = 5,
       st = 1,
       tal = true,
     },
@@ -1012,6 +1022,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       cd = 30,
       gcd = 1.5,
       n = "storm_bolt",
+      r = 20,
       tal = true,
     },
     [107574] = {
@@ -1039,6 +1050,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       },
       d = 4,
       n = "storm_bolt",
+      r = 30,
     },
     [163201] = {
       cd = 6,
@@ -1046,6 +1058,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [184361] = {
       n = "enrage",
@@ -1062,13 +1075,16 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       cost = { [1] = 80 },
       gcd = 1.5,
       n = "rampage",
+      r = 5,
       tal = true,
     },
     [184707] = {
       n = "rampage",
+      r = 8,
     },
     [184709] = {
       n = "rampage",
+      r = 8,
     },
     [190411] = {
       gcd = 1.5,
@@ -1076,6 +1092,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     },
     [198337] = {
       n = "charge",
+      r = 25,
     },
     [199658] = {
       n = "whirlwind",
@@ -1103,9 +1120,11 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     },
     [201363] = {
       n = "rampage",
+      r = 8,
     },
     [201364] = {
       n = "rampage",
+      r = 8,
     },
     [205545] = {
       ap = {
@@ -1132,9 +1151,11 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     },
     [218104] = {
       n = "charge",
+      r = 45,
     },
     [218617] = {
       n = "rampage",
+      r = 8,
     },
     [222634] = {
       ap = {
@@ -1169,6 +1190,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     },
     [260798] = {
       n = "execute",
+      r = 5,
     },
     [280721] = {
       n = "sudden_death",
@@ -1180,6 +1202,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [280776] = {
       ap = {
@@ -1191,6 +1214,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     },
     [280849] = {
       n = "execute",
+      r = 5,
     },
     [281000] = {
       cd = 6,
@@ -1198,6 +1222,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [281001] = {
       n = "massacre",
@@ -1209,6 +1234,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       gain = { [1] = 80 },
       gcd = 1.5,
       n = "bloodbath",
+      r = 5,
     },
     [335097] = {
       ch = 1,
@@ -1216,6 +1242,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       gain = { [1] = 120 },
       gcd = 1.5,
       n = "crushing_blow",
+      r = 5,
     },
     [335098] = {
       n = "crushing_blow",
@@ -1277,6 +1304,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       },
       d = 15,
       n = "rend",
+      r = 25,
     },
     [392936] = {
       n = "wrath_and_fury",

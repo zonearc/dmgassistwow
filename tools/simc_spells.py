@@ -105,6 +105,11 @@ def parse_dump(text):
             s = SECONDS.search(val)
             if s:
                 cur["gcd"] = _num(s.group(1))
+        elif key == "Range":
+            r = re.search(r"([\d.]+) yards", val)  # "5 yards", "8 - 40 yards": the max range is what matters
+            nums = re.findall(r"[\d.]+", val)
+            if r and nums:
+                cur["range"] = _num(nums[-1])
         elif key == "Cast Time":
             s = SECONDS.search(val)
             if s:
@@ -256,6 +261,9 @@ def select(spells, refs, other_specs=()):
                          ("duration", "d"), ("castTime", "ct"), ("stacks", "st")):
             if s.get(src) is not None:
                 rec[dst] = s[src]
+        # Range in yards for targeted spells (100+ yards = self/unlimited, useless for distance).
+        if s.get("range") and 0 < s["range"] <= 60 and not s["passive"]:
+            rec["r"] = s["range"]
         if s.get("hastedCooldown"):
             rec["hc"] = True
         if s.get("hastedGcd"):

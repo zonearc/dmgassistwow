@@ -852,42 +852,49 @@ ns.RegisterSpecData("forever", "druid_balance", {
       ct = 3.5,
       gcd = 1.5,
       n = "starfire",
+      r = 30,
     },
     [5176] = {
       cost = { [0] = 10 },
       ct = 1.5,
       gcd = 1.5,
       n = "wrath",
+      r = 30,
     },
     [5177] = {
       cost = { [0] = 20 },
       ct = 1.7,
       gcd = 1.5,
       n = "wrath",
+      r = 30,
     },
     [5178] = {
       cost = { [0] = 40 },
       ct = 2,
       gcd = 1.5,
       n = "wrath",
+      r = 30,
     },
     [5179] = {
       cost = { [0] = 50 },
       ct = 2,
       gcd = 1.5,
       n = "wrath",
+      r = 30,
     },
     [5180] = {
       cost = { [0] = 70 },
       ct = 2,
       gcd = 1.5,
       n = "wrath",
+      r = 30,
     },
     [6780] = {
       cost = { [0] = 80 },
       ct = 2,
       gcd = 1.5,
       n = "wrath",
+      r = 30,
     },
     [8921] = {
       ap = {
@@ -897,6 +904,7 @@ ns.RegisterSpecData("forever", "druid_balance", {
       d = 9,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8924] = {
       ap = {
@@ -906,6 +914,7 @@ ns.RegisterSpecData("forever", "druid_balance", {
       d = 12,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8925] = {
       ap = {
@@ -915,6 +924,7 @@ ns.RegisterSpecData("forever", "druid_balance", {
       d = 12,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8926] = {
       ap = {
@@ -924,6 +934,7 @@ ns.RegisterSpecData("forever", "druid_balance", {
       d = 12,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8927] = {
       ap = {
@@ -933,6 +944,7 @@ ns.RegisterSpecData("forever", "druid_balance", {
       d = 12,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8928] = {
       ap = {
@@ -942,36 +954,42 @@ ns.RegisterSpecData("forever", "druid_balance", {
       d = 12,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8949] = {
       cost = { [0] = 135 },
       ct = 3.5,
       gcd = 1.5,
       n = "starfire",
+      r = 30,
     },
     [8950] = {
       cost = { [0] = 180 },
       ct = 3.5,
       gcd = 1.5,
       n = "starfire",
+      r = 30,
     },
     [8951] = {
       cost = { [0] = 230 },
       ct = 3.5,
       gcd = 1.5,
       n = "starfire",
+      r = 30,
     },
     [9875] = {
       cost = { [0] = 275 },
       ct = 3.5,
       gcd = 1.5,
       n = "starfire",
+      r = 30,
     },
     [9876] = {
       cost = { [0] = 315 },
       ct = 3.5,
       gcd = 1.5,
       n = "starfire",
+      r = 30,
     },
     [24858] = {
       gcd = 1.5,
@@ -1002,6 +1020,7 @@ ns.RegisterSpecData("forever", "druid_balance", {
       d = 12,
       gcd = 1.5,
       n = "sunfire",
+      r = 30,
     },
     [414687] = {
       ap = {
@@ -1011,6 +1030,7 @@ ns.RegisterSpecData("forever", "druid_balance", {
       d = 12,
       gcd = 1.5,
       n = "sunfire",
+      r = 30,
     },
     [414689] = {
       ap = {
@@ -1021,6 +1041,7 @@ ns.RegisterSpecData("forever", "druid_balance", {
       gain = { [4] = 1 },
       gcd = 1.5,
       n = "sunfire",
+      r = 30,
     },
     [417157] = {
       ap = {
@@ -1030,6 +1051,7 @@ ns.RegisterSpecData("forever", "druid_balance", {
       d = 15,
       gcd = 1.5,
       n = "starsurge",
+      r = 30,
       st = 1,
     },
     [424715] = {
@@ -1064,6 +1086,7 @@ ns.RegisterSpecData("forever", "druid_balance", {
       },
       d = 15,
       n = "force_of_nature",
+      r = 30,
     },
   },
   spells = {

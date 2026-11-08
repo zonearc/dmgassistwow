@@ -508,12 +508,14 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
       cost = { [2] = 30 },
       gcd = 1.5,
       n = "kill_command",
+      r = 50,
       tal = true,
     },
     [56641] = {
       ct = 1.7,
       gcd = 1.5,
       n = "steady_shot",
+      r = 40,
     },
     [77443] = {
       gain = { [2] = 20 },
@@ -526,11 +528,13 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
       cost = { [2] = 40 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 40,
     },
     [186270] = {
       cost = { [2] = 30 },
       gcd = 1.5,
       n = "raptor_strike",
+      r = 5,
       tal = true,
     },
     [186289] = {
@@ -545,6 +549,7 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
       cd = 15,
       d = 5,
       n = "muzzle",
+      r = 5,
       tal = true,
     },
     [259277] = {
@@ -563,6 +568,7 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
       gain = { [2] = 15 },
       gcd = 1.5,
       n = "kill_command",
+      r = 50,
       tal = true,
     },
     [259495] = {
@@ -571,6 +577,7 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
       cost = { [2] = 10 },
       gcd = 1.5,
       n = "wildfire_bomb",
+      r = 40,
       tal = true,
     },
     [259496] = {
@@ -604,6 +611,7 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
       cost = { [2] = 30 },
       gcd = 1.5,
       n = "raptor_strike",
+      r = 40,
     },
     [269747] = {
       ap = {
@@ -675,6 +683,7 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
       d = 8,
       gcd = 1.5,
       n = "takedown",
+      r = 15,
       tal = true,
     },
     [1253171] = {
@@ -690,6 +699,7 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
       },
       d = 16,
       n = "sentinels_mark",
+      r = 40,
     },
     [1253859] = {
       n = "takedown",
@@ -719,20 +729,24 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
       d = 3,
       gcd = 1.5,
       n = "boomstick",
+      r = 20,
       tal = true,
     },
     [1261215] = {
       n = "boomstick",
+      r = 20,
     },
     [1262293] = {
       cost = { [2] = 30 },
       gcd = 1.5,
       n = "raptor_swipe",
+      r = 15,
     },
     [1262343] = {
       cost = { [2] = 30 },
       gcd = 1.5,
       n = "raptor_swipe",
+      r = 40,
     },
     [1262361] = {
       gain = { [2] = 15 },
@@ -758,6 +772,7 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
     [1264949] = {
       gcd = 1.5,
       n = "moonlight_chakram",
+      r = 40,
     },
     [1266081] = {
       n = "moonlight_chakram",
@@ -768,6 +783,7 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
       },
       d = 16,
       n = "sentinels_mark",
+      r = 40,
     },
     [1272139] = {
       n = "twin_fangs",

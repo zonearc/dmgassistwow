@@ -21,6 +21,7 @@ Effects          :
 
 Name             : Rake (id=1822) [Spell Family (7)]
 Resource         : 35 Energy (3) (id=143)
+Range            : 5 yards
 GCD              : 1 seconds
 Effects          :
 #2 (id=560)      : Energize Power (30)
@@ -97,6 +98,7 @@ class DumpTests(unittest.TestCase):
         self.assertIn(155722, ids["rake"]["b"], "the Rake bleed is the aura")
         self.assertEqual(info[1822]["ap"], [[155722, "enemy"]])
         self.assertEqual(info[155722]["d"], 15)
+        self.assertEqual(info[1822]["r"], 5, "melee range kept for distance clues")
         self.assertEqual(info[5217]["cd"], 30)
         self.assertTrue(info[5217]["hc"])
         self.assertEqual(ids["tigers_fury"]["t"], [5217])

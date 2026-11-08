@@ -469,30 +469,35 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "sinister_strike",
+      r = 5,
     },
     [1757] = {
       cost = { [3] = 45 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "sinister_strike",
+      r = 5,
     },
     [1758] = {
       cost = { [3] = 45 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "sinister_strike",
+      r = 5,
     },
     [1759] = {
       cost = { [3] = 45 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "sinister_strike",
+      r = 5,
     },
     [1760] = {
       cost = { [3] = 45 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "sinister_strike",
+      r = 5,
     },
     [1766] = {
       cd = 10,
@@ -500,6 +505,7 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
       d = 5,
       gcd = 1,
       n = "kick",
+      r = 5,
     },
     [1767] = {
       cd = 10,
@@ -507,6 +513,7 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
       d = 5,
       gcd = 1,
       n = "kick",
+      r = 5,
     },
     [1768] = {
       cd = 10,
@@ -514,6 +521,7 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
       d = 5,
       gcd = 1,
       n = "kick",
+      r = 5,
     },
     [1769] = {
       cd = 10,
@@ -521,6 +529,7 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
       d = 5,
       gcd = 1,
       n = "kick",
+      r = 5,
     },
     [1784] = {
       cd = 10,
@@ -581,42 +590,49 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "sinister_strike",
+      r = 5,
     },
     [8676] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "ambush",
+      r = 5,
     },
     [8724] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "ambush",
+      r = 5,
     },
     [8725] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "ambush",
+      r = 5,
     },
     [11267] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "ambush",
+      r = 5,
     },
     [11268] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "ambush",
+      r = 5,
     },
     [11269] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "ambush",
+      r = 5,
     },
     [11327] = {
       ap = {
@@ -694,6 +710,7 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "between_the_eyes",
+      r = 20,
     },
     [400033] = {
       n = "between_the_eyes",

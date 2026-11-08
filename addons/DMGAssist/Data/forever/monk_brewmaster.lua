@@ -453,12 +453,14 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       cost = { [3] = 50 },
       gcd = 1.5,
       n = "tiger_palm",
+      r = 5,
     },
     [100784] = {
       cd = 3,
       cost = { [12] = 3 },
       gcd = 1.5,
       n = "blackout_kick",
+      r = 5,
     },
     [101546] = {
       ap = {
@@ -474,6 +476,7 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
     },
     [115129] = {
       n = "expel_harm",
+      r = 10,
     },
     [115181] = {
       cd = 15,
@@ -539,6 +542,7 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       d = 15,
       gcd = 1,
       n = "keg_smash",
+      r = 15,
       tal = true,
     },
     [121255] = {
@@ -558,6 +562,7 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       d = 1,
       gcd = 1.5,
       n = "chi_burst",
+      r = 40,
       tal = true,
     },
     [130654] = {
@@ -571,6 +576,7 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       d = 25,
       gcd = 1,
       n = "invoke_niuzao_the_black_ox",
+      r = 40,
       tal = true,
     },
     [148135] = {
@@ -589,6 +595,7 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       chcd = 4,
       gcd = 1.5,
       n = "blackout_kick",
+      r = 5,
     },
     [212141] = {
       n = "spinning_crane_kick",
@@ -638,6 +645,7 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       cd = 180,
       gcd = 1.5,
       n = "touch_of_death",
+      r = 5,
     },
     [322111] = {
       n = "touch_of_death",
@@ -674,6 +682,7 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       d = 3,
       gcd = 1,
       n = "exploding_keg",
+      r = 40,
       tal = true,
     },
     [325215] = {
@@ -693,9 +702,11 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       d = 15,
       gcd = 1,
       n = "keg_smash",
+      r = 15,
     },
     [331433] = {
       n = "tiger_palm",
+      r = 5,
     },
     [344360] = {
       n = "touch_of_death",
@@ -729,6 +740,7 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       d = 12,
       gcd = 1.5,
       n = "invoke_niuzao_the_black_ox",
+      r = 40,
     },
     [418359] = {
       n = "press_the_advantage",
@@ -759,6 +771,7 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       d = 1,
       gcd = 1.5,
       n = "chi_burst",
+      r = 40,
     },
     [1262329] = {
       n = "empty_the_cellar",
@@ -768,6 +781,7 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
     [1262765] = {
       gcd = 1,
       n = "empty_the_cellar",
+      r = 40,
     },
     [1262768] = {
       ap = {
@@ -783,9 +797,11 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       d = 1,
       gcd = 1,
       n = "empty_the_cellar",
+      r = 20,
     },
     [1265133] = {
       n = "empty_barrel",
+      r = 40,
     },
     [1265307] = {
       ap = {
@@ -796,6 +812,7 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
     },
     [1265351] = {
       n = "empty_barrel",
+      r = 40,
     },
   },
   spells = {

@@ -744,6 +744,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       d = 4,
       gcd = 1,
       n = "rip",
+      r = 5,
       tal = true,
     },
     [1822] = {
@@ -754,6 +755,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "rake",
+      r = 5,
       tal = true,
     },
     [3025] = {
@@ -780,16 +782,19 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "shred",
+      r = 5,
     },
     [8921] = {
       gcd = 1.5,
       n = "moonfire",
+      r = 40,
     },
     [8936] = {
       ct = 1.5,
       d = 6,
       gcd = 1.5,
       n = "regrowth",
+      r = 40,
     },
     [16870] = {
       ap = {
@@ -809,6 +814,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       cost = { [3] = 25, [4] = 1 },
       gcd = 1,
       n = "ferocious_bite",
+      r = 5,
     },
     [48629] = {
       n = "cat_form",
@@ -850,6 +856,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "swipe",
+      r = 8,
     },
     [106840] = {
       n = "cat_form",
@@ -889,6 +896,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "moonfire",
+      r = 40,
     },
     [155627] = {
       n = "lunar_inspiration",
@@ -917,11 +925,13 @@ ns.RegisterSpecData("midnight", "druid_feral", {
     [213764] = {
       gcd = 1,
       n = "swipe",
+      r = 8,
       tal = true,
     },
     [213771] = {
       gcd = 1.5,
       n = "swipe",
+      r = 8,
     },
     [231063] = {
       n = "merciless_claws",
@@ -944,6 +954,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       d = 1,
       gcd = 1,
       n = "feral_frenzy",
+      r = 5,
       tal = true,
     },
     [274838] = {
@@ -953,6 +964,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       d = 6,
       gain = { [4] = 1 },
       n = "feral_frenzy",
+      r = 8,
     },
     [279526] = {
       cd = 180,
@@ -964,6 +976,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       cost = { [3] = 25, [4] = 1 },
       gcd = 1,
       n = "primal_wrath",
+      r = 8,
       tal = true,
     },
     [323764] = {
@@ -1058,6 +1071,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       cd = 5,
       gcd = 0.5,
       n = "moonfire",
+      r = 40,
     },
     [439531] = {
       ap = {
@@ -1085,6 +1099,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       cost = { [3] = 25, [4] = 1 },
       gcd = 1,
       n = "ravage",
+      r = 5,
     },
     [441602] = {
       ap = {
@@ -1098,6 +1113,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       cost = { [1] = 40 },
       gcd = 1.5,
       n = "ravage",
+      r = 5,
     },
     [449193] = {
       n = "fluid_form",
@@ -1120,11 +1136,13 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       d = 1.5,
       gcd = 1,
       n = "frantic_frenzy",
+      r = 5,
       tal = true,
     },
     [1243995] = {
       d = 6,
       n = "frantic_frenzy",
+      r = 35,
     },
     [1244004] = {
       n = "frantic_frenzy",
@@ -1138,11 +1156,13 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       },
       d = 6,
       n = "frantic_frenzy",
+      r = 40,
     },
     [1244258] = {
       cd = 20,
       gcd = 1,
       n = "chomp",
+      r = 5,
       tal = true,
     },
     [1244393] = {
@@ -1162,6 +1182,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
     },
     [1264664] = {
       n = "regrowth",
+      r = 40,
     },
     [1278969] = {
       gain = { [4] = 1 },

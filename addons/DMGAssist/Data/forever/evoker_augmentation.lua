@@ -700,6 +700,7 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
       d = 1.5,
       gcd = 1.5,
       n = "emerald_blossom",
+      r = 25,
     },
     [355916] = {
       n = "emerald_blossom",
@@ -731,6 +732,7 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
       d = 6,
       gcd = 1.5,
       n = "deep_breath",
+      r = 50,
     },
     [357302] = {
       ap = {
@@ -787,6 +789,7 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
       d = 3600,
       gcd = 1.5,
       n = "blistering_scales",
+      r = 25,
       st = 15,
       tal = true,
     },
@@ -797,6 +800,7 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
       ct = 2,
       gcd = 1.5,
       n = "living_flame",
+      r = 25,
     },
     [361500] = {
       ap = {
@@ -839,6 +843,7 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
       },
       gcd = 1.5,
       n = "azure_strike",
+      r = 25,
     },
     [364664] = {
       d = 12,
@@ -894,6 +899,7 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
     },
     [370917] = {
       n = "leaping_flames",
+      r = 30,
     },
     [372563] = {
       ap = {
@@ -944,6 +950,7 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
       ct = 2.5,
       gcd = 1.5,
       n = "eruption",
+      r = 25,
       tal = true,
     },
     [395296] = {
@@ -961,6 +968,7 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
       d = 2.5,
       gcd = 0.5,
       n = "upheaval",
+      r = 25,
       tal = true,
     },
     [396288] = {
@@ -980,6 +988,7 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
       d = 6,
       gcd = 1.5,
       n = "breath_of_eons",
+      r = 50,
       tal = true,
     },
     [403755] = {
@@ -1020,12 +1029,14 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
       d = 3.25,
       gcd = 0.5,
       n = "upheaval",
+      r = 25,
     },
     [409311] = {
       ch = 2,
       chcd = 12,
       gcd = 1.5,
       n = "prescience",
+      r = 25,
       tal = true,
     },
     [409560] = {
@@ -1235,11 +1246,13 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
       },
       d = 20,
       n = "duplicate",
+      r = 40,
     },
     [1259172] = {
       ct = 2.5,
       gcd = 1.5,
       n = "eruption",
+      r = 25,
     },
     [1259173] = {
       cd = 120,

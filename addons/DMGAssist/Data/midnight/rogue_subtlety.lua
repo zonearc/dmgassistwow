@@ -512,6 +512,7 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "backstab",
+      r = 5,
     },
     [1784] = {
       cd = 2,
@@ -548,6 +549,7 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "shuriken_toss",
+      r = 30,
     },
     [115191] = {
       cd = 2,
@@ -591,6 +593,7 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       gain = { [4] = 2 },
       gcd = 1,
       n = "shadowstrike",
+      r = 5,
     },
     [193531] = {
       n = "deeper_stratagem",
@@ -602,6 +605,7 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "eviscerate",
+      r = 5,
     },
     [196911] = {
       gain = { [3] = 5 },
@@ -622,6 +626,7 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "gloomblade",
+      r = 5,
       tal = true,
     },
     [231718] = {
@@ -665,6 +670,7 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       cost = { [3] = 30, [4] = 1 },
       gcd = 1,
       n = "secret_technique",
+      r = 5,
     },
     [280720] = {
       n = "secret_technique",
@@ -748,10 +754,12 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       cost = { [3] = 25 },
       gcd = 1,
       n = "goremaws_bite",
+      r = 5,
       tal = true,
     },
     [426592] = {
       n = "goremaws_bite",
+      r = 40,
     },
     [426593] = {
       ap = {
@@ -759,6 +767,7 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       },
       d = 14,
       n = "goremaws_bite",
+      r = 40,
     },
     [426595] = {
       n = "shadow_techniques",
@@ -781,9 +790,11 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       cost = { [3] = 35, [4] = 1 },
       gcd = 1.2,
       n = "coup_de_grace",
+      r = 5,
     },
     [450743] = {
       n = "coup_de_grace",
+      r = 30,
     },
     [457052] = {
       n = "deathstalkers_mark",
@@ -805,6 +816,7 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
     },
     [457157] = {
       n = "deathstalkers_mark",
+      r = 30,
     },
     [457280] = {
       ap = {
@@ -920,6 +932,7 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
     },
     [1273061] = {
       n = "deathstalkers_mark",
+      r = 12,
     },
     [1279401] = {
       n = "shuriken_storm",

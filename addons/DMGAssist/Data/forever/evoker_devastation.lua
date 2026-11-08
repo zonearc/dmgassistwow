@@ -870,6 +870,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       cd = 20,
       d = 6,
       n = "quell",
+      r = 25,
       tal = true,
     },
     [353759] = {
@@ -892,6 +893,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       d = 1.5,
       gcd = 1.5,
       n = "emerald_blossom",
+      r = 25,
     },
     [355916] = {
       n = "emerald_blossom",
@@ -904,6 +906,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       d = 3,
       gcd = 1.5,
       n = "disintegrate",
+      r = 25,
     },
     [357208] = {
       ap = {
@@ -932,11 +935,13 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       d = 6,
       gcd = 1.5,
       n = "deep_breath",
+      r = 50,
     },
     [357211] = {
       cost = { [19] = 3 },
       gcd = 1.5,
       n = "pyre",
+      r = 25,
       tal = true,
     },
     [357212] = {
@@ -995,6 +1000,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       d = 2.5,
       gcd = 0.5,
       n = "eternity_surge",
+      r = 25,
       tal = true,
     },
     [359077] = {
@@ -1019,6 +1025,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       chcd = 24,
       gcd = 1.5,
       n = "verdant_embrace",
+      r = 25,
       tal = true,
     },
     [361195] = {
@@ -1028,6 +1035,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       ct = 2,
       gcd = 1.5,
       n = "living_flame",
+      r = 25,
     },
     [361500] = {
       ap = {
@@ -1070,6 +1078,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       },
       gcd = 1.5,
       n = "azure_strike",
+      r = 25,
     },
     [364664] = {
       d = 12,
@@ -1106,6 +1115,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
     },
     [369819] = {
       n = "disintegrate",
+      r = 25,
     },
     [369846] = {
       n = "feed_the_flames",
@@ -1161,6 +1171,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
     },
     [370917] = {
       n = "leaping_flames",
+      r = 30,
     },
     [372469] = {
       n = "scarlet_adaptation",
@@ -1189,6 +1200,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
     },
     [375088] = {
       n = "dragonrage",
+      r = 30,
     },
     [375583] = {
       n = "ancient_flame",
@@ -1234,6 +1246,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       d = 3.25,
       gcd = 0.5,
       n = "eternity_surge",
+      r = 25,
     },
     [392268] = {
       ap = {
@@ -1347,6 +1360,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       d = 2.5,
       gcd = 1.5,
       n = "disintegrate",
+      r = 40,
     },
     [1236970] = {
       gcd = 1.5,
@@ -1378,6 +1392,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
     [1265872] = {
       gcd = 1.5,
       n = "azure_sweep",
+      r = 25,
     },
     [1266151] = {
       n = "strafing_run",
@@ -1430,6 +1445,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       },
       gcd = 1.5,
       n = "unbound_flame",
+      r = 25,
     },
     [1292322] = {
       n = "unbound_flame",

@@ -581,6 +581,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       ct = 1.75,
       gcd = 1.5,
       n = "frostbolt",
+      r = 40,
     },
     [120] = {
       cd = 25,
@@ -591,6 +592,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 40,
     },
     [12486] = {
       ap = {
@@ -608,10 +610,12 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       d = 5,
       gcd = 1.5,
       n = "frostbolt",
+      r = 30,
     },
     [30455] = {
       gcd = 1.5,
       n = "ice_lance",
+      r = 40,
       tal = true,
     },
     [31687] = {
@@ -634,6 +638,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       chcd = 30,
       gcd = 1.5,
       n = "flurry",
+      r = 40,
       tal = true,
     },
     [59638] = {
@@ -643,12 +648,14 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       ct = 2,
       d = 4,
       n = "frostbolt",
+      r = 40,
     },
     [84714] = {
       cd = 60,
       d = 15,
       gcd = 1.5,
       n = "frozen_orb",
+      r = 40,
       tal = true,
     },
     [84721] = {
@@ -662,6 +669,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       d = 9,
       gcd = 1.5,
       n = "frostbolt",
+      r = 35,
     },
     [112965] = {
       n = "fingers_of_frost",
@@ -685,10 +693,12 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       d = 5,
       gcd = 1.5,
       n = "frostbolt",
+      r = 30,
     },
     [153595] = {
       gcd = 1.5,
       n = "comet_storm",
+      r = 40,
     },
     [153596] = {
       n = "comet_storm",
@@ -701,6 +711,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       d = 2,
       gcd = 1.5,
       n = "ice_nova",
+      r = 40,
       tal = true,
     },
     [190356] = {
@@ -709,6 +720,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       d = 12,
       gcd = 1.5,
       n = "blizzard",
+      r = 40,
       tal = true,
     },
     [190357] = {
@@ -731,6 +743,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       ct = 1.75,
       gcd = 1.5,
       n = "glacial_spike",
+      r = 40,
     },
     [199844] = {
       ap = {
@@ -748,6 +761,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       d = 4,
       gcd = 1.5,
       n = "ray_of_frost",
+      r = 40,
       tal = true,
     },
     [205473] = {
@@ -764,6 +778,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       },
       d = 10,
       n = "ray_of_frost",
+      r = 40,
       st = 6,
     },
     [214325] = {
@@ -779,6 +794,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       },
       d = 5,
       n = "frostbolt",
+      r = 30,
     },
     [228354] = {
       n = "flurry",
@@ -862,6 +878,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       ct = 1.75,
       gcd = 1.5,
       n = "frostfire_bolt",
+      r = 40,
       tal = true,
     },
     [431176] = {
@@ -909,6 +926,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       ct = 2.75,
       gcd = 1.5,
       n = "glacial_spike",
+      r = 40,
     },
     [1236211] = {
       n = "glacial_spike",
@@ -950,6 +968,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       d = 12,
       gcd = 1.5,
       n = "blizzard",
+      r = 40,
       tal = true,
     },
     [1310248] = {

@@ -753,6 +753,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 15,
       gcd = 1.5,
       n = "immolate",
+      r = 30,
     },
     [707] = {
       ap = {
@@ -763,6 +764,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 15,
       gcd = 1.5,
       n = "immolate",
+      r = 30,
     },
     [1094] = {
       ap = {
@@ -773,6 +775,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 15,
       gcd = 1.5,
       n = "immolate",
+      r = 30,
     },
     [2941] = {
       ap = {
@@ -783,6 +786,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 15,
       gcd = 1.5,
       n = "immolate",
+      r = 30,
     },
     [5740] = {
       ap = {
@@ -792,6 +796,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 8,
       gcd = 1.5,
       n = "rain_of_fire",
+      r = 30,
     },
     [6219] = {
       ap = {
@@ -801,6 +806,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 8,
       gcd = 1.5,
       n = "rain_of_fire",
+      r = 30,
     },
     [6353] = {
       cd = 60,
@@ -808,6 +814,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       ct = 6,
       gcd = 1.5,
       n = "soul_fire",
+      r = 30,
     },
     [11665] = {
       ap = {
@@ -818,6 +825,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 15,
       gcd = 1.5,
       n = "immolate",
+      r = 30,
     },
     [11667] = {
       ap = {
@@ -828,6 +836,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 15,
       gcd = 1.5,
       n = "immolate",
+      r = 30,
     },
     [11677] = {
       ap = {
@@ -837,6 +846,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 8,
       gcd = 1.5,
       n = "rain_of_fire",
+      r = 30,
     },
     [11678] = {
       ap = {
@@ -846,6 +856,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 8,
       gcd = 1.5,
       n = "rain_of_fire",
+      r = 30,
     },
     [17778] = {
       n = "cataclysm",
@@ -861,6 +872,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 8,
       gcd = 1.5,
       n = "shadowburn",
+      r = 30,
       tal = true,
     },
     [17924] = {
@@ -869,12 +881,14 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       ct = 6,
       gcd = 1.5,
       n = "soul_fire",
+      r = 30,
     },
     [17962] = {
       cd = 10,
       cost = { [0] = 165 },
       gcd = 1.5,
       n = "conflagrate",
+      r = 30,
     },
     [18867] = {
       ap = {
@@ -885,6 +899,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 8,
       gcd = 1.5,
       n = "shadowburn",
+      r = 30,
     },
     [18868] = {
       ap = {
@@ -895,6 +910,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 8,
       gcd = 1.5,
       n = "shadowburn",
+      r = 30,
     },
     [18869] = {
       ap = {
@@ -905,6 +921,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 8,
       gcd = 1.5,
       n = "shadowburn",
+      r = 30,
     },
     [18870] = {
       ap = {
@@ -915,6 +932,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 8,
       gcd = 1.5,
       n = "shadowburn",
+      r = 30,
     },
     [18871] = {
       ap = {
@@ -925,30 +943,35 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 8,
       gcd = 1.5,
       n = "shadowburn",
+      r = 30,
     },
     [18930] = {
       cd = 10,
       cost = { [0] = 200 },
       gcd = 1.5,
       n = "conflagrate",
+      r = 30,
     },
     [18931] = {
       cd = 10,
       cost = { [0] = 230 },
       gcd = 1.5,
       n = "conflagrate",
+      r = 30,
     },
     [18932] = {
       cd = 10,
       cost = { [0] = 255 },
       gcd = 1.5,
       n = "conflagrate",
+      r = 30,
     },
     [403629] = {
       cd = 12,
       ct = 2.5,
       gcd = 1.5,
       n = "chaos_bolt",
+      r = 30,
     },
     [403630] = {
       n = "chaos_bolt",
@@ -976,6 +999,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       ct = 2.5,
       gcd = 1.5,
       n = "incinerate",
+      r = 30,
       tal = true,
     },
     [427713] = {
@@ -1010,6 +1034,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 8,
       gcd = 1.5,
       n = "rain_of_fire",
+      r = 30,
     },
     [460698] = {
       ap = {
@@ -1020,24 +1045,28 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       d = 8,
       gcd = 1.5,
       n = "rain_of_fire",
+      r = 30,
     },
     [1293812] = {
       cost = { [0] = 265 },
       ct = 2.5,
       gcd = 1.5,
       n = "incinerate",
+      r = 30,
     },
     [1293813] = {
       cost = { [0] = 325 },
       ct = 2.5,
       gcd = 1.5,
       n = "incinerate",
+      r = 30,
     },
     [1293817] = {
       cd = 10,
       cost = { [0] = 100 },
       gcd = 1.5,
       n = "conflagrate",
+      r = 30,
       tal = true,
     },
     [1293818] = {
@@ -1045,6 +1074,7 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       cost = { [0] = 130 },
       gcd = 1.5,
       n = "conflagrate",
+      r = 30,
     },
     [1310949] = {
       n = "malevolence",

@@ -728,6 +728,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       ct = 1.5,
       gcd = 1.5,
       n = "lightning_bolt",
+      r = 30,
     },
     [421] = {
       cd = 6,
@@ -735,18 +736,21 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       ct = 2,
       gcd = 1.5,
       n = "chain_lightning",
+      r = 30,
     },
     [529] = {
       cost = { [0] = 30 },
       ct = 2,
       gcd = 1.5,
       n = "lightning_bolt",
+      r = 30,
     },
     [548] = {
       cost = { [0] = 45 },
       ct = 2.5,
       gcd = 1.5,
       n = "lightning_bolt",
+      r = 30,
     },
     [905] = {
       ap = {
@@ -763,6 +767,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       ct = 2.5,
       gcd = 1.5,
       n = "lightning_bolt",
+      r = 30,
     },
     [930] = {
       cd = 6,
@@ -770,12 +775,14 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       ct = 2,
       gcd = 1.5,
       n = "chain_lightning",
+      r = 30,
     },
     [943] = {
       cost = { [0] = 85 },
       ct = 2.5,
       gcd = 1.5,
       n = "lightning_bolt",
+      r = 30,
     },
     [945] = {
       ap = {
@@ -793,12 +800,14 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       ct = 2,
       gcd = 1.5,
       n = "chain_lightning",
+      r = 30,
     },
     [6041] = {
       cost = { [0] = 110 },
       ct = 2.5,
       gcd = 1.5,
       n = "lightning_bolt",
+      r = 30,
     },
     [8024] = {
       cost = { [0] = 30 },
@@ -821,6 +830,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 2,
       gcd = 1.5,
       n = "earth_shock",
+      r = 20,
     },
     [8044] = {
       cd = 6,
@@ -828,6 +838,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 2,
       gcd = 1.5,
       n = "earth_shock",
+      r = 20,
     },
     [8045] = {
       cd = 6,
@@ -835,6 +846,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 2,
       gcd = 1.5,
       n = "earth_shock",
+      r = 20,
     },
     [8046] = {
       cd = 6,
@@ -842,6 +854,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 2,
       gcd = 1.5,
       n = "earth_shock",
+      r = 20,
     },
     [8050] = {
       ap = {
@@ -852,6 +865,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 12,
       gcd = 1.5,
       n = "flame_shock",
+      r = 20,
     },
     [8052] = {
       ap = {
@@ -862,6 +876,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 12,
       gcd = 1.5,
       n = "flame_shock",
+      r = 20,
     },
     [8053] = {
       ap = {
@@ -872,6 +887,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 12,
       gcd = 1.5,
       n = "flame_shock",
+      r = 20,
     },
     [8056] = {
       ap = {
@@ -882,6 +898,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 8,
       gcd = 1.5,
       n = "frost_shock",
+      r = 20,
     },
     [8058] = {
       ap = {
@@ -892,6 +909,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 8,
       gcd = 1.5,
       n = "frost_shock",
+      r = 20,
     },
     [8134] = {
       ap = {
@@ -909,6 +927,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 2,
       gcd = 1.5,
       n = "earth_shock",
+      r = 20,
     },
     [10413] = {
       cd = 6,
@@ -916,6 +935,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 2,
       gcd = 1.5,
       n = "earth_shock",
+      r = 20,
     },
     [10431] = {
       ap = {
@@ -936,6 +956,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 12,
       gcd = 1.5,
       n = "flame_shock",
+      r = 20,
     },
     [10448] = {
       ap = {
@@ -946,6 +967,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 12,
       gcd = 1.5,
       n = "flame_shock",
+      r = 20,
     },
     [10472] = {
       ap = {
@@ -956,6 +978,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 8,
       gcd = 1.5,
       n = "frost_shock",
+      r = 20,
     },
     [10473] = {
       ap = {
@@ -966,6 +989,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 8,
       gcd = 1.5,
       n = "frost_shock",
+      r = 20,
     },
     [10605] = {
       cd = 6,
@@ -973,6 +997,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       ct = 2,
       gcd = 1.5,
       n = "chain_lightning",
+      r = 30,
     },
     [16188] = {
       cd = 180,
@@ -1009,12 +1034,15 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 12,
       gcd = 1.5,
       n = "flame_shock",
+      r = 20,
     },
     [408479] = {
       n = "chain_lightning",
+      r = 30,
     },
     [408481] = {
       n = "chain_lightning",
+      r = 30,
     },
     [408490] = {
       cd = 10,
@@ -1022,10 +1050,12 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       ct = 2.5,
       gcd = 1.5,
       n = "lava_burst",
+      r = 30,
       tal = true,
     },
     [408491] = {
       n = "lava_burst",
+      r = 30,
     },
     [436519] = {
       n = "flametongue_weapon",
@@ -1037,6 +1067,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       ct = 2.5,
       gcd = 1.5,
       n = "lava_burst",
+      r = 30,
     },
     [1238300] = {
       cd = 10,
@@ -1044,9 +1075,11 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       ct = 2.5,
       gcd = 1.5,
       n = "lava_burst",
+      r = 30,
     },
     [1238373] = {
       n = "lava_burst",
+      r = 30,
     },
     [1326047] = {
       cd = 10,
@@ -1054,6 +1087,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       ct = 2.5,
       gcd = 1.5,
       n = "lava_burst",
+      r = 30,
     },
   },
   spells = {

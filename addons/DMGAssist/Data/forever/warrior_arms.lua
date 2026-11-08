@@ -1012,6 +1012,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
     [78] = {
       cost = { [1] = 15 },
       n = "heroic_strike",
+      r = 5,
     },
     [100] = {
       ap = {
@@ -1021,14 +1022,17 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       cost = { [1] = 0 },
       gain = { [1] = 90 },
       n = "charge",
+      r = 25,
     },
     [284] = {
       cost = { [1] = 15 },
       n = "heroic_strike",
+      r = 5,
     },
     [285] = {
       cost = { [1] = 15 },
       n = "heroic_strike",
+      r = 5,
     },
     [772] = {
       ap = {
@@ -1038,10 +1042,12 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       d = 9,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [845] = {
       cost = { [1] = 20 },
       n = "cleave",
+      r = 5,
     },
     [1464] = {
       cd = 18,
@@ -1049,10 +1055,12 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       ct = 1.5,
       gcd = 1.5,
       n = "slam",
+      r = 5,
     },
     [1608] = {
       cost = { [1] = 15 },
       n = "heroic_strike",
+      r = 5,
     },
     [1680] = {
       cd = 10,
@@ -1078,6 +1086,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [6178] = {
       ap = {
@@ -1087,6 +1096,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       cost = { [1] = 0 },
       gain = { [1] = 120 },
       n = "charge",
+      r = 25,
     },
     [6192] = {
       cost = { [1] = 10 },
@@ -1102,6 +1112,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       d = 12,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [6547] = {
       ap = {
@@ -1111,6 +1122,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       d = 15,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [6548] = {
       ap = {
@@ -1120,6 +1132,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       d = 18,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [6552] = {
       cd = 10,
@@ -1127,6 +1140,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       d = 4,
       gcd = 1.5,
       n = "pummel",
+      r = 5,
     },
     [6554] = {
       cd = 10,
@@ -1134,6 +1148,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       d = 4,
       gcd = 1.5,
       n = "pummel",
+      r = 5,
     },
     [6673] = {
       cost = { [1] = 10 },
@@ -1144,6 +1159,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
     [7369] = {
       cost = { [1] = 20 },
       n = "cleave",
+      r = 5,
     },
     [7384] = {
       cd = 5,
@@ -1151,6 +1167,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       cost = { [1] = 5, [4] = 1 },
       gcd = 1.5,
       n = "overpower",
+      r = 5,
     },
     [7887] = {
       cd = 5,
@@ -1158,6 +1175,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       cost = { [1] = 5, [4] = 1 },
       gcd = 1.5,
       n = "overpower",
+      r = 5,
     },
     [7922] = {
       ap = {
@@ -1166,6 +1184,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       cost = { [1] = 0 },
       d = 1,
       n = "charge_stun",
+      r = 25,
     },
     [8820] = {
       cd = 18,
@@ -1173,6 +1192,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       ct = 1.5,
       gcd = 1.5,
       n = "slam",
+      r = 5,
     },
     [11549] = {
       cost = { [1] = 10 },
@@ -1195,10 +1215,12 @@ ns.RegisterSpecData("forever", "warrior_arms", {
     [11564] = {
       cost = { [1] = 15 },
       n = "heroic_strike",
+      r = 5,
     },
     [11565] = {
       cost = { [1] = 15 },
       n = "heroic_strike",
+      r = 5,
     },
     [11572] = {
       ap = {
@@ -1208,6 +1230,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       d = 21,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [11573] = {
       ap = {
@@ -1217,6 +1240,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       d = 21,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [11578] = {
       ap = {
@@ -1226,6 +1250,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       cost = { [1] = 0 },
       gain = { [1] = 150 },
       n = "charge",
+      r = 25,
     },
     [11584] = {
       cd = 5,
@@ -1233,6 +1258,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       cost = { [1] = 5, [4] = 1 },
       gcd = 1.5,
       n = "overpower",
+      r = 5,
     },
     [11585] = {
       cd = 5,
@@ -1240,6 +1266,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       cost = { [1] = 5, [4] = 1 },
       gcd = 1.5,
       n = "overpower",
+      r = 5,
     },
     [11604] = {
       cd = 18,
@@ -1247,6 +1274,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       ct = 1.5,
       gcd = 1.5,
       n = "slam",
+      r = 5,
     },
     [11605] = {
       cd = 18,
@@ -1254,14 +1282,17 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       ct = 1.5,
       gcd = 1.5,
       n = "slam",
+      r = 5,
     },
     [11608] = {
       cost = { [1] = 20 },
       n = "cleave",
+      r = 5,
     },
     [11609] = {
       cost = { [1] = 20 },
       n = "cleave",
+      r = 5,
     },
     [12292] = {
       ap = {
@@ -1283,6 +1314,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       d = 10,
       gcd = 1.5,
       n = "mortal_strike",
+      r = 5,
       tal = true,
     },
     [12723] = {
@@ -1296,6 +1328,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
     [20569] = {
       cost = { [1] = 20 },
       n = "cleave",
+      r = 5,
     },
     [20647] = {
       cost = { [1] = 0.1 },
@@ -1308,6 +1341,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [20660] = {
       ap = {
@@ -1316,6 +1350,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [20661] = {
       ap = {
@@ -1324,6 +1359,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [20662] = {
       ap = {
@@ -1332,6 +1368,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [21551] = {
       ap = {
@@ -1342,6 +1379,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       d = 10,
       gcd = 1.5,
       n = "mortal_strike",
+      r = 5,
     },
     [21552] = {
       ap = {
@@ -1352,6 +1390,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       d = 10,
       gcd = 1.5,
       n = "mortal_strike",
+      r = 5,
     },
     [21553] = {
       ap = {
@@ -1362,6 +1401,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       d = 10,
       gcd = 1.5,
       n = "mortal_strike",
+      r = 5,
     },
     [26651] = {
       ap = {
@@ -1391,6 +1431,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       ct = 1.5,
       gcd = 1.5,
       n = "slam",
+      r = 5,
     },
     [1240287] = {
       ap = {
@@ -1400,6 +1441,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       cost = { [1] = 0 },
       gain = { [1] = 90 },
       n = "charge",
+      r = 25,
     },
     [1240288] = {
       ap = {
@@ -1409,6 +1451,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       cost = { [1] = 0 },
       gain = { [1] = 120 },
       n = "charge",
+      r = 25,
     },
     [1240289] = {
       ap = {
@@ -1418,6 +1461,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       cost = { [1] = 0 },
       gain = { [1] = 150 },
       n = "charge",
+      r = 25,
     },
     [1282733] = {
       ap = {
@@ -1433,6 +1477,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
       ct = 1.5,
       gcd = 1.5,
       n = "slam",
+      r = 5,
     },
   },
   spells = {

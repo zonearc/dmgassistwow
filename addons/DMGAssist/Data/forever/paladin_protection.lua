@@ -423,6 +423,7 @@ ns.RegisterSpecData("forever", "paladin_protection", {
       ct = 1,
       gcd = 1,
       n = "hammer_of_wrath",
+      r = 30,
     },
     [24274] = {
       cd = 6,
@@ -430,6 +431,7 @@ ns.RegisterSpecData("forever", "paladin_protection", {
       ct = 1,
       gcd = 1,
       n = "hammer_of_wrath",
+      r = 30,
     },
     [24275] = {
       cd = 6,
@@ -437,6 +439,7 @@ ns.RegisterSpecData("forever", "paladin_protection", {
       ct = 1,
       gcd = 1,
       n = "hammer_of_wrath",
+      r = 30,
     },
     [25771] = {
       d = 60,
@@ -456,6 +459,7 @@ ns.RegisterSpecData("forever", "paladin_protection", {
       cd = 6,
       gcd = 1.5,
       n = "hammer_of_the_righteous",
+      r = 5,
     },
     [407788] = {
       ap = {

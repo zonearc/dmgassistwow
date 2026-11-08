@@ -896,36 +896,42 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       d = 12,
       gcd = 1.5,
       n = "corruption",
+      r = 30,
     },
     [686] = {
       cost = { [0] = 25 },
       ct = 1.7,
       gcd = 1.5,
       n = "shadow_bolt",
+      r = 30,
     },
     [695] = {
       cost = { [0] = 40 },
       ct = 2.2,
       gcd = 1.5,
       n = "shadow_bolt",
+      r = 30,
     },
     [705] = {
       cost = { [0] = 70 },
       ct = 2.8,
       gcd = 1.5,
       n = "shadow_bolt",
+      r = 30,
     },
     [1088] = {
       cost = { [0] = 110 },
       ct = 3,
       gcd = 1.5,
       n = "shadow_bolt",
+      r = 30,
     },
     [1106] = {
       cost = { [0] = 160 },
       ct = 3,
       gcd = 1.5,
       n = "shadow_bolt",
+      r = 30,
     },
     [1120] = {
       ap = {
@@ -935,6 +941,7 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       d = 15,
       gcd = 1.5,
       n = "drain_soul",
+      r = 30,
       st = 1,
     },
     [6222] = {
@@ -946,6 +953,7 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       d = 15,
       gcd = 1.5,
       n = "corruption",
+      r = 30,
     },
     [6223] = {
       ap = {
@@ -956,12 +964,14 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       d = 18,
       gcd = 1.5,
       n = "corruption",
+      r = 30,
     },
     [7641] = {
       cost = { [0] = 210 },
       ct = 3,
       gcd = 1.5,
       n = "shadow_bolt",
+      r = 30,
     },
     [7648] = {
       ap = {
@@ -972,6 +982,7 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       d = 18,
       gcd = 1.5,
       n = "corruption",
+      r = 30,
     },
     [8288] = {
       ap = {
@@ -981,6 +992,7 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       d = 15,
       gcd = 1.5,
       n = "drain_soul",
+      r = 30,
       st = 1,
     },
     [8289] = {
@@ -991,6 +1003,7 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       d = 15,
       gcd = 1.5,
       n = "drain_soul",
+      r = 30,
       st = 1,
     },
     [11671] = {
@@ -1002,6 +1015,7 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       d = 18,
       gcd = 1.5,
       n = "corruption",
+      r = 30,
     },
     [11672] = {
       ap = {
@@ -1012,6 +1026,7 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       d = 18,
       gcd = 1.5,
       n = "corruption",
+      r = 30,
     },
     [11675] = {
       ap = {
@@ -1021,6 +1036,7 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       d = 15,
       gcd = 1.5,
       n = "drain_soul",
+      r = 30,
       st = 1,
     },
     [18094] = {
@@ -1036,6 +1052,7 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       d = 30,
       gcd = 1.5,
       n = "siphon_life",
+      r = 30,
       tal = true,
     },
     [403501] = {
@@ -1048,6 +1065,7 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       d = 12,
       gcd = 1.5,
       n = "haunt",
+      r = 30,
     },
     [403858] = {
       n = "haunt",
@@ -1062,6 +1080,7 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       d = 18,
       gcd = 1.5,
       n = "unstable_affliction",
+      r = 30,
     },
     [427719] = {
       d = 5,

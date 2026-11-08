@@ -468,6 +468,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       cost = { [17] = 40 },
       gcd = 1.5,
       n = "chaos_strike",
+      r = 5,
     },
     [185123] = {
       ch = 1,
@@ -475,6 +476,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       cost = { [17] = 25 },
       gcd = 1.5,
       n = "throw_glaive",
+      r = 30,
     },
     [187827] = {
       ap = {
@@ -504,6 +506,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       cd = 120,
       gcd = 1.5,
       n = "metamorphosis",
+      r = 40,
     },
     [192611] = {
       n = "fel_rush",
@@ -526,6 +529,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       cd = 9,
       d = 0.8,
       n = "throw_glaive",
+      r = 30,
     },
     [198013] = {
       ap = {
@@ -536,6 +540,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       d = 2,
       gcd = 1.5,
       n = "eye_beam",
+      r = 20,
       tal = true,
     },
     [198030] = {
@@ -563,6 +568,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
     },
     [199547] = {
       n = "chaos_strike",
+      r = 15,
     },
     [199552] = {
       n = "blade_dance",
@@ -581,9 +587,11 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       cost = { [17] = 40 },
       gcd = 1.5,
       n = "annihilation",
+      r = 5,
     },
     [201428] = {
       n = "annihilation",
+      r = 15,
     },
     [201453] = {
       ap = {
@@ -610,6 +618,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       chcd = 9,
       gcd = 1.5,
       n = "throw_glaive",
+      r = 30,
     },
     [204497] = {
       ap = {
@@ -637,16 +646,20 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
     },
     [213241] = {
       n = "felblade",
+      r = 15,
     },
     [213243] = {
       gain = { [17] = 15 },
       n = "felblade",
+      r = 15,
     },
     [222031] = {
       n = "chaos_strike",
+      r = 15,
     },
     [227518] = {
       n = "annihilation",
+      r = 15,
     },
     [232709] = {
       ap = {
@@ -659,6 +672,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       cd = 12,
       gcd = 0.5,
       n = "felblade",
+      r = 15,
       tal = true,
     },
     [236167] = {
@@ -671,11 +685,13 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       },
       d = 3,
       n = "metamorphosis",
+      r = 40,
     },
     [258860] = {
       cd = 40,
       gcd = 1.5,
       n = "essence_break",
+      r = 10,
       tal = true,
     },
     [258920] = {
@@ -714,6 +730,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       ct = 1,
       gcd = 1.5,
       n = "the_hunt",
+      r = 50,
     },
     [323802] = {
       ap = {
@@ -737,6 +754,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       },
       d = 2,
       n = "eye_beam",
+      r = 20,
     },
     [333389] = {
       n = "eye_beam",
@@ -750,11 +768,13 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
     },
     [337819] = {
       n = "throw_glaive",
+      r = 30,
     },
     [344862] = {
       cost = { [17] = 40 },
       gcd = 1.5,
       n = "chaos_strike",
+      r = 5,
     },
     [344865] = {
       cd = 1,
@@ -783,6 +803,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       },
       d = 1.5,
       n = "the_hunt",
+      r = 50,
     },
     [345422] = {
       ap = {
@@ -808,9 +829,11 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       },
       d = 2,
       n = "eye_beam",
+      r = 20,
     },
     [346665] = {
       n = "throw_glaive",
+      r = 30,
     },
     [370965] = {
       ap = {
@@ -822,6 +845,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       d = 2,
       gcd = 1.5,
       n = "the_hunt",
+      r = 50,
       tal = true,
     },
     [370967] = {
@@ -830,6 +854,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       },
       d = 1.5,
       n = "the_hunt",
+      r = 50,
     },
     [388108] = {
       n = "initiative",
@@ -906,6 +931,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
     [442294] = {
       gcd = 1.5,
       n = "reavers_glaive",
+      r = 40,
     },
     [442435] = {
       ap = {
@@ -927,6 +953,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       },
       d = 20,
       n = "reavers_mark",
+      r = 5,
       st = 2,
     },
     [442679] = {
@@ -979,6 +1006,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       d = 2,
       gcd = 1.5,
       n = "abyssal_gaze",
+      r = 20,
     },
     [453323] = {
       ap = {
@@ -992,6 +1020,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
     },
     [472562] = {
       n = "chaos_strike",
+      r = 15,
     },
     [1220506] = {
       n = "screaming_brutality",
@@ -1011,6 +1040,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
     },
     [1245759] = {
       n = "essence_break",
+      r = 40,
     },
     [1270898] = {
       n = "eternal_hunt",
@@ -1037,6 +1067,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
     [1283344] = {
       gcd = 1.5,
       n = "reavers_glaive",
+      r = 40,
     },
   },
   spells = {
