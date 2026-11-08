@@ -690,6 +690,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       cd = 60,
       ct = 2,
       d = 15,
+      gain = { [7] = 3 },
       gcd = 1.5,
       n = "summon_demonic_tyrant",
       r = 40,

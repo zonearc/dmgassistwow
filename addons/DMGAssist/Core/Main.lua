@@ -198,7 +198,7 @@ function ns.Alerts(result)
     ns.Sounds.Play("bosscall")
   end
   alerted.call = call
-  local cd = result.cd and result.cd.id or nil
+  local cd = result.main and result.main.major and result.main.id or nil
   if cd and cd ~= alerted.cd then
     ns.Sounds.Play("burst")
   end
@@ -265,7 +265,8 @@ function ns.Update()
   ns.last = result
   D.Update(result, true)
   -- Decision log: one line per change of pick (not every tick).
-  local main, cd = result.main, result.cd
+  local main = result.main
+  local cd = main and main.major and main or nil
   local q2, q3 = result.queue and result.queue[2], result.queue and result.queue[3]
   local sig = (main and (main.token or main.id) or "-") .. "/" .. (cd and cd.token or "-") .. "/" ..
     tostring(result.modeLabel)
@@ -447,6 +448,7 @@ end)
 -- Slash commands
 ---------------------------------------------------------------------------
 local commands = {}
+ns.commands = commands -- the minimap menu uses the same actions as the slash commands
 
 function commands.on()
   ns.db.enabled = true
@@ -604,8 +606,8 @@ function commands.why()
   for i, pick in ipairs(r.queue or {}) do
     names[i] = tostring(pick.token)
   end
-  U.Print(L["Next: %s (%s). Cooldown slot: %s. Assisted Combat says: %s."], table.concat(names, " > "),
-    tostring(r.main.source), tostring(r.cd and r.cd.token or "-"), tostring(r.acSpell or "-"))
+  U.Print(L["Next: %s (%s). Assisted Combat says: %s."], table.concat(names, " > "),
+    tostring(r.main.source), tostring(r.acSpell or "-"))
   local missing = {}
   for name in pairs(r.unresolved or {}) do
     missing[#missing + 1] = name

@@ -62,6 +62,7 @@ function C.Reset(links)
   C.bounds = {}
   C.named = {}
   C.shadow = {}
+  C.floor = {}
   C.stats = {}
   C.links = links or {}
   C.lastSignal, C.lastNewAura = nil, nil
@@ -289,6 +290,10 @@ function C.ResourceBounds(pt)
   if slo then
     lo, hi, known = math.max(lo, slo), math.min(hi, shi), true
   end
+  local flo, fhi = C.FloorBounds(pt)
+  if flo then
+    lo, hi, known = math.max(lo, flo), math.min(hi, fhi), true
+  end
   if C.Enabled("usable") then
     local a = Affordability()[pt]
     if a and (a.lo > 0 or a.hi < math.huge) then
@@ -420,6 +425,7 @@ function C.OnOwnCast(id)
   if not info then
     return
   end
+  C.FloorOnCast(info)
   local costs = M.Cost(info)
   for pt, sh in pairs(C.shadow) do
     Settle(sh)
@@ -475,6 +481,54 @@ function C.OnPowerEvent(token)
     sh.lo, sh.hi = lo, math.min(hi + 1, sh.max and sh.max > 0 and sh.max or hi + 1)
     sh.certain = false
   end
+end
+
+---------------------------------------------------------------------------
+-- Floors for built resources (Astral Power, Insanity, Maelstrom, Fury, Runic Power)
+---------------------------------------------------------------------------
+-- These have no passive regeneration in combat: they change through our own casts, plus bonus gains we can't
+-- see (procs such as Shooting Stars). So "last readable value + SimC's gains - SimC's full costs, cast by
+-- cast" never exceeds the truth: a floor. Talents that cut costs or add gains only make the truth higher.
+-- It decides lines like Balance's "wrath while astral_power<80" once enough Wraths have been cast. Graded
+-- against the real value whenever it is readable again ("floor"), and switched off if it is ever above it.
+C.BUILT = { RUNIC_POWER = 6, ASTRAL_POWER = 8, MAELSTROM = 11, INSANITY = 13, FURY = 17 }
+local BUILT_PT = {}
+for _, pt in pairs(C.BUILT) do
+  BUILT_PT[pt] = true
+end
+C.floor = {} -- pt -> { lo =, max =, moved = true once a cast changed it }
+
+function C.SyncFloor(pt, value, max)
+  if not BUILT_PT[pt] then
+    return
+  end
+  local f = C.floor[pt]
+  if f and f.moved then
+    Record("floor", value >= f.lo)
+  end
+  C.floor[pt] = { lo = value, max = max }
+end
+
+function C.FloorOnCast(info)
+  local costs = M.Cost(info)
+  for pt, f in pairs(C.floor) do
+    local d = ((info.gain and info.gain[pt]) or 0) - ((costs and costs[pt]) or 0)
+    if d ~= 0 then
+      f.lo = math.max(0, f.lo + d)
+      if type(f.max) == "number" and f.max > 0 then
+        f.lo = math.min(f.lo, f.max)
+      end
+      f.moved = true
+    end
+  end
+end
+
+function C.FloorBounds(pt)
+  local f = C.floor[pt]
+  if f and C.Enabled("floor") then
+    return f.lo, (type(f.max) == "number" and f.max > 0) and f.max or math.huge
+  end
+  return nil
 end
 
 -- Range of a counted resource that became uncertain: lo, hi or nil.

@@ -243,8 +243,10 @@ local function DataCooldown(id)
   if not info then
     return nil
   end
-  local cd = info.cd or info.chcd
-  if not cd or cd <= 0 then
+  -- A charge spell's recharge is its real cooldown: Celestial Alignment is "cd 1, 1 charge, 180 s recharge",
+  -- Eclipse "cd 1, 1 charge, 32 s recharge" (the 1 s is only the minimum between uses).
+  local cd = math.max(info.cd or 0, info.chcd or 0)
+  if cd <= 0 then
     return nil
   end
   if info.hc then
@@ -365,6 +367,26 @@ function S.IsStacking(token)
   return (S.learned.stacking and S.learned.stacking[token]) or false
 end
 
+-- The auras a cast applies: { {auraID, "self"|"enemy"}, ... } from SimC's data. When the button lists none,
+-- the same-named aura that applies itself counts: the button and its aura can be separate spells with no link
+-- in the data (Midnight Sunfire 93402 -> its DoT 164815, Moonfire 8921 -> 164812).
+local NONE = {}
+function S.AppliedAuras(id)
+  local info = M.Info(id)
+  if info and info.ap then
+    return info.ap
+  end
+  local token = info and info.n
+  for _, aid in ipairs(token and M.AuraIDs(token) or NONE) do
+    local ai = aid ~= id and M.Info(aid)
+    local ap = ai and ai.ap and ai.ap[1]
+    if ap and ap[1] == aid and ai.n == token and ai.d then
+      return { ap }
+    end
+  end
+  return NONE
+end
+
 local function StartAuraClock(token, auraID, target, from)
   local d = AuraLength(token, auraID)
   if not d then
@@ -412,13 +434,11 @@ local function RecordCast(id, how)
   end
   -- Start our clocks for the auras this spell applies (SimC data, else what we learned in game).
   local started = false
-  if info and info.ap then
-    for _, ap in ipairs(info.ap) do
-      local ai = M.Info(ap[1])
-      if ai and ai.n then
-        StartAuraClock(ai.n, ap[1], ap[2], GetTime())
-        started = true
-      end
+  for _, ap in ipairs(S.AppliedAuras(id)) do
+    local ai = M.Info(ap[1])
+    if ai and ai.n then
+      StartAuraClock(ai.n, ap[1], ap[2], GetTime())
+      started = true
     end
   end
   if not started then
@@ -899,6 +919,12 @@ function S.VerifyPowers()
       ns.Clues.SyncPower(pt, cur, U.Get(UnitPowerMax, "player", pt))
     end
   end
+  for _, pt in pairs(ns.Clues.BUILT) do
+    local cur = U.Get(UnitPower, "player", pt)
+    if type(cur) == "number" then
+      ns.Clues.SyncFloor(pt, cur, U.Get(UnitPowerMax, "player", pt))
+    end
+  end
   local seen = {}
   for pt in pairs(ns.Clues.bounds) do
     seen[pt] = true
@@ -966,8 +992,8 @@ function S.Apply(id)
       V.power[pt] = (V.power[pt] or 0) + amount
     end
   end
-  if info.ap then
-    for _, ap in ipairs(info.ap) do
+  do
+    for _, ap in ipairs(S.AppliedAuras(id)) do
       local ai = M.Info(ap[1])
       local tok = ai and ai.n
       local d = tok and AuraLength(tok, ap[1])

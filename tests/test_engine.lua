@@ -87,7 +87,7 @@ local function Record()
         { a = "variable", k = "S", p = { name = "big", value = "10" } },
       },
       default = {
-        { a = "berserk", k = "R" },
+        { a = "berserk", k = "R", c = "buff.tigers_fury.up" }, -- false until Tiger's Fury is cast
         { a = "variable", k = "S", p = { name = "big", op = "add", value = "5" } },
         { a = "call_action_list", k = "R", c = "combo_points>=5", p = { name = "finisher" } },
         { a = "rake", k = "T", c = "!dot.rake.ticking" },
@@ -261,14 +261,30 @@ test("confident SimC line wins, even against the assistant", function()
   eq(r.main.source, "simc")
 end)
 
-test("major cooldown goes to the cooldown slot, burst toggle hides it", function()
+test("major cooldowns are ordinary queue lines; switched off they never show", function()
   Reset()
   local ns = Boot()
-  local r = ns.Engine.Recommend(Record(), {})
-  eq(r.cd and r.cd.token, "berserk")
-  eq(r.main.token ~= "berserk", true)
-  r = ns.Engine.Recommend(Record(), { burst = false })
-  eq(r.cd, nil)
+  local now = Record()
+  now.simc.default[1].c = nil
+  local r = ns.Engine.Recommend(now, {})
+  eq(r.main.token, "berserk", "the list wants it now: slot 1")
+  eq(r.main.major, true)
+  eq(r.cd, nil, "no separate cooldown slot")
+  -- later in the list: it shows up in slot 2 / 3 like anything else
+  local later = Record()
+  later.simc.default[1].c = "prev_gcd.1.shred"
+  r = ns.Engine.Recommend(later, {})
+  local tokens = {}
+  for i, p in ipairs(r.queue) do
+    tokens[i] = p.token
+  end
+  eq(tokens[1] ~= "berserk" and (tokens[2] == "berserk" or tokens[3] == "berserk"), true,
+    "berserk after shred in the queue: " .. table.concat(tokens, " > "))
+  -- switched off: nowhere in the queue
+  r = ns.Engine.Recommend(now, { burst = false })
+  for _, p in ipairs(r.queue) do
+    eq(p.token ~= "berserk", true, "major cooldowns off")
+  end
 end)
 
 test("spells on cooldown or unusable are skipped", function()
@@ -282,7 +298,6 @@ test("spells on cooldown or unusable are skipped", function()
   }
   mock.Fire("UNIT_AURA", "target")
   local r = ns.Engine.Recommend(Record(), {})
-  eq(r.cd, nil)
   -- rip ticking, bite on cooldown; back in default: rake ticking, shred certain
   eq(r.main.token, "shred")
   eq(r.vars.big, 15, "precombat set + add")
@@ -307,11 +322,12 @@ test("on Forever an UNKNOWN line can be corroborated by Blizzard's rule", functi
   mock.cooldowns[5221] = { active = true, start = 999, duration = 10 } -- shred on cooldown
   Restrict()
   -- rake's condition is UNKNOWN; Blizzard's rake rule (combo_points<5) is UNKNOWN too: no corroboration.
-  local r = ns.Engine.Recommend(rec, {})
+  -- (Major cooldowns off: with them on, Blizzard's unconditional Berserk would rightly come first.)
+  local r = ns.Engine.Recommend(rec, { burst = false })
   eq(r.main.token, "thrash", "falls back to Blizzard's rules")
   eq(r.main.source, "rules")
   rec.blizzard.default[2].c = "level>10"
-  r = ns.Engine.Recommend(rec, {})
+  r = ns.Engine.Recommend(rec, { burst = false })
   eq(r.main.token, "rake")
   eq(r.main.source, "simc+rules")
 end)
@@ -1355,6 +1371,9 @@ test("defensives: boss mod warning -> decided with sound; low health in combat -
   local r = ns.Update()
   eq(r.defensive.how, "decided")
   eq(r.defensive.id, 22812, "lighter defensive first (Barkskin)")
+  eq(r.queue[1].id, 22812, "a decided defensive is slot 1; the rotation shifts right")
+  eq(r.queue[1].source, "defensive")
+  eq(#r.queue <= 3, true, "still three slots")
   eq(#mock.sounds, 1, "defensive sound played")
   mock.cooldowns[22812] = { active = true }
   eq(ns.Update().defensive.id, 61336, "Barkskin on cooldown -> Survival Instincts")
@@ -1632,6 +1651,26 @@ test("stuck detector: same pick while the player casts other spells stores one s
   DMGAssistWatchdog = nil
   eq(logged.stuck, 1, "logged once")
   eq(logged.snapshot, 1, "one snapshot")
+end)
+
+test("priority in the three slots: interrupt, then defensive, then the rotation", function()
+  Reset()
+  DefBook()
+  local book = mock.book
+  KickBook()
+  for _, b in ipairs(book) do
+    mock.book[#mock.book + 1] = b
+  end
+  local dbm = FakeBossMods()
+  local ns = Boot()
+  ns.db.interruptMode = "everywhere"
+  mock.targetCast = { notInterruptible = false, id = 9999 }
+  dbm.DBM_TimerBegin("DBM_TimerBegin", "nova", "Shadow Nova", 2, 0, "cd", 1, 2)
+  local r = ns.Update()
+  eq(r.queue[1].source, "interrupt", "slot 1: interrupt")
+  eq(r.queue[2].source, "defensive", "slot 2: defensive")
+  eq(#r.queue, 3)
+  eq(ns.Display.frame.def:IsShown(), false, "no extra icon outside the three slots")
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

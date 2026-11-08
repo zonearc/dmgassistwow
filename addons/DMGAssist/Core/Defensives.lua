@@ -105,9 +105,34 @@ function F.Evaluate()
   return nil
 end
 
+-- A decided defensive goes into the queue: slot 1, or slot 2 behind a decided interrupt; the rest shifts right.
+-- (One that depends on hidden health is drawn over slot 1 by the HUD instead, visible only when low.)
+local function IntoQueue(result, d)
+  local def = { id = d.id, token = "defensive", source = "defensive" }
+  local queue, placed = {}, false
+  for _, p in ipairs(result.queue or {}) do
+    if not placed and p.source ~= "interrupt" then
+      queue[#queue + 1] = def
+      placed = true
+    end
+    queue[#queue + 1] = p
+  end
+  if not placed then
+    queue[#queue + 1] = def
+  end
+  while #queue > 3 do
+    queue[#queue] = nil
+  end
+  result.queue, result.main = queue, queue[1]
+  result.branch = nil
+end
+
 function F.Apply(result)
   local d = F.Evaluate()
   result.defensive = d
+  if d and d.how == "decided" and not (ns.Display and ns.Display.Settings().defensive == false) then
+    IntoQueue(result, d)
+  end
   if d and d.how == "decided" and not F.shown then
     F.shown = true
     F.stats.shown = F.stats.shown + 1

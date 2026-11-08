@@ -1,10 +1,11 @@
 -- Minimap.lua: the minimap button and the Midnight addon compartment entry.
 --
---   Left-click   open the settings (after combat, if in combat: the game blocks it during a fight)
---   Right-click  menu: Settings, Watchdog report, "Show out of combat", "Enabled"
---   Shift-click  open the Watchdog report (when DMGAssist_Watchdog is installed)
---   Drag         move it around the minimap (the angle is saved in DMGAssistDB.minimapAngle)
--- The menu is Blizzard_Menu's MenuUtil.CreateContextMenu (present on live 12.1.5 and forever 1.60.1).
+--   Left-click   show / hide the recommendations
+--   Left-drag    move the button around the minimap (the angle is saved in DMGAssistDB.minimapAngle)
+--   Right-click  menu: Settings, Watchdog report, quick toggles (shown, out of combat, cooldowns, lock,
+--                sounds), target mode, hide this button
+-- The menu is Blizzard_Menu's MenuUtil.CreateContextMenu with buttons, checkboxes and radios (present on live
+-- 12.1.5 and forever 1.60.1). Its actions are the slash commands' (ns.commands), so both behave the same.
 --
 -- Options > DMGAssist > "Minimap button" (DMGAssistDB.minimap) shows or hides it. The compartment entry comes
 -- from the TOC (AddonCompartmentFunc = DMGAssist_OnCompartmentClick); Blizzard_Minimap's AddonCompartment.lua
@@ -30,19 +31,33 @@ local function OpenWatchdogReport()
   return false
 end
 
--- "Show out of combat" is the inverse of the HUD's hideOutOfCombat setting.
-local function ShownOutOfCombat()
-  return not ns.Display.Settings().hideOutOfCombat
-end
-
-local function FlipOutOfCombat()
-  local cfg = ns.Display.Settings()
-  cfg.hideOutOfCombat = not cfg.hideOutOfCombat
+local function Run(command, arg)
+  ns.commands[command](arg)
   ns.Update()
 end
 
-local function IsEnabled()
-  return ns.db.enabled ~= false
+-- Checkbox helpers: a getter and a flip for a DMGAssistDB flag that defaults to on.
+local function DbFlag(key)
+  return function()
+    return ns.db[key] ~= false
+  end
+end
+
+-- Target mode as one choice: auto-detect, or a fixed single target / AoE.
+local function ModeIs(mode)
+  if mode == "auto" then
+    return ns.db.autoDetect ~= false
+  end
+  return ns.db.autoDetect == false and ns.db.mode == mode
+end
+
+local function SetMode(mode)
+  if mode == "auto" then
+    Run("auto", "on")
+  else
+    ns.db.autoDetect = false
+    Run("mode", mode)
+  end
 end
 
 function MM.FillMenu(_, root)
@@ -50,11 +65,43 @@ function MM.FillMenu(_, root)
   root:CreateButton(L["Settings"], function()
     ns.Options.Open()
   end)
-  root:CreateButton(L["Watchdog report"], OpenWatchdogReport)
+  if type(_G.DMGAssistWatchdog) == "table" then
+    root:CreateButton(L["Watchdog report"], OpenWatchdogReport)
+  end
   root:CreateDivider()
-  root:CreateCheckbox(L["Show out of combat"], ShownOutOfCombat, FlipOutOfCombat)
-  root:CreateCheckbox(L["Enabled"], IsEnabled, function()
+  root:CreateCheckbox(L["Show recommendations"], DbFlag("enabled"), function()
     DMGAssist_Toggle()
+  end)
+  root:CreateCheckbox(L["Show out of combat"], function()
+    return not ns.Display.Settings().hideOutOfCombat
+  end, function()
+    local cfg = ns.Display.Settings()
+    cfg.hideOutOfCombat = not cfg.hideOutOfCombat
+    ns.Update()
+  end)
+  root:CreateCheckbox(L["Major cooldowns"], DbFlag("burst"), function()
+    Run("burst")
+  end)
+  root:CreateCheckbox(L["Lock position"], DbFlag("locked"), function()
+    Run("lock")
+  end)
+  root:CreateCheckbox(L["Sound alerts"], DbFlag("sounds"), function()
+    ns.db.sounds = ns.db.sounds == false
+  end)
+  root:CreateDivider()
+  root:CreateTitle(L["Target mode"])
+  for _, m in ipairs({ { "auto", "Auto-detect" }, { "st", "Single target" }, { "aoe", "AoE" } }) do
+    root:CreateRadio(L[m[2]], function()
+      return ModeIs(m[1])
+    end, function()
+      SetMode(m[1])
+    end)
+  end
+  root:CreateDivider()
+  root:CreateButton(L["Hide minimap button"], function()
+    ns.db.minimap = false
+    MM.Apply()
+    U.Print("%s", L["Minimap button hidden. Turn it back on in Settings (/dmga config)."])
   end)
 end
 
@@ -62,18 +109,16 @@ local function OpenMenu(owner)
   if MenuUtil and MenuUtil.CreateContextMenu then
     MenuUtil.CreateContextMenu(owner, MM.FillMenu)
   else
-    DMGAssist_Toggle() -- no menu system on this client: right-click keeps its old meaning
+    ns.Options.Open() -- no menu system on this client: the settings have everything the menu has
   end
 end
 
 -- One handler for the minimap button and the compartment.
 local function OnClick(mouse, owner)
-  if IsShiftKeyDown() then
-    OpenWatchdogReport()
-  elseif mouse == "RightButton" then
+  if mouse == "RightButton" then
     OpenMenu(owner)
   else
-    ns.Options.Open()
+    DMGAssist_Toggle()
   end
 end
 
@@ -117,9 +162,14 @@ local function Create()
   border:SetPoint("TOPLEFT")
 
   button:SetScript("OnClick", function(self, mouse)
+    if self.dragged then
+      self.dragged = nil -- the mouse-up that ends a drag is not a click
+      return
+    end
     OnClick(mouse, self)
   end)
   button:SetScript("OnDragStart", function(self)
+    self.dragged = true
     self:SetScript("OnUpdate", FollowCursor)
   end)
   button:SetScript("OnDragStop", function(self)
@@ -128,9 +178,9 @@ local function Create()
   button:SetScript("OnEnter", function(self)
     GameTooltip:SetOwner(self, "ANCHOR_LEFT")
     GameTooltip:AddLine("DMGAssist")
-    GameTooltip:AddLine(L["Left-click: settings"], 1, 1, 1)
-    GameTooltip:AddLine(L["Right-click: menu"], 1, 1, 1)
-    GameTooltip:AddLine(L["Shift-click: Watchdog report"], 1, 1, 1)
+    GameTooltip:AddLine(L["Left-click: show / hide"], 1, 1, 1)
+    GameTooltip:AddLine(L["Right-click: menu and settings"], 1, 1, 1)
+    GameTooltip:AddLine(L["Drag: move this button"], 1, 1, 1)
     GameTooltip:Show()
   end)
   button:SetScript("OnLeave", function()

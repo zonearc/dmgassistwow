@@ -585,7 +585,7 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
     },
     [50613] = {
       cd = 120,
-      gain = { [6] = 200 },
+      gain = { [6] = 20 },
       gcd = 1.5,
       n = "arcane_torrent",
     },
@@ -788,7 +788,7 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       },
       cd = 45,
       cost = { [5] = 2 },
-      gain = { [6] = 200 },
+      gain = { [6] = 20 },
       gcd = 1.5,
       n = "reapers_mark",
       r = 5,

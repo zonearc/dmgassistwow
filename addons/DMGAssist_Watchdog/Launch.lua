@@ -95,6 +95,37 @@ local function Addons()
   return list
 end
 
+-- Who has changed the game tooltip. Blizzard's own code fails on GameTooltip:Hide() for some players
+-- ("attempt to call a nil value" in Minimap.lua / MainMenuBarMicroButtons.lua). issecurevariable(table, key)
+-- returns whether the field is still Blizzard's and, if not, the addon that changed it; it is not in Blizzard's
+-- UI source here, so it is only called if present. The OnHide/OnShow scripts are listed as present or not.
+local function Tooltip()
+  local tip = _G.GameTooltip
+  if type(tip) ~= "table" then
+    return { present = false }
+  end
+  local out = { present = true }
+  local isv = _G.issecurevariable
+  for _, key in ipairs({ "Hide", "Show", "SetOwner", "AddLine" }) do
+    local f = rawget(tip, key) or tip[key]
+    local row = { type = type(f) }
+    if type(isv) == "function" then
+      local ok, secure, taint = pcall(isv, tip, key)
+      if ok then
+        row.secure, row.taintedBy = U.Safe(secure), U.Safe(taint)
+      end
+    end
+    out[key] = row
+  end
+  if type(tip.GetScript) == "function" then
+    for _, script in ipairs({ "OnHide", "OnShow", "OnTooltipCleared" }) do
+      local ok, fn = pcall(tip.GetScript, tip, script)
+      out[script] = ok and type(fn) or "error"
+    end
+  end
+  return out
+end
+
 local function Secrets()
   local out = {}
   local types = Enum and Enum.AddOnRestrictionType or {}
@@ -168,6 +199,7 @@ function L.Snapshot(reason)
     character = Character(),
     cvars = CVars(),
     secrets = Secrets(),
+    tooltip = Tooltip(),
     bindings = Bindings(),
     addons = Addons(),
     testingMode = db.settings.testingMode,

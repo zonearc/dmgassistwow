@@ -570,6 +570,7 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
       tal = true,
     },
     [8921] = {
+      gain = { [8] = 6 },
       gcd = 1.5,
       n = "moonfire",
       r = 40,
@@ -579,7 +580,7 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
         { 17057, "self" },
       },
       d = 6,
-      gain = { [1] = 250 },
+      gain = { [1] = 25 },
       n = "bear_form",
     },
     [22568] = {
@@ -618,7 +619,7 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
     [33917] = {
       ch = 1,
       chcd = 6,
-      gain = { [1] = 120 },
+      gain = { [1] = 12 },
       gcd = 1.5,
       n = "mangle",
       r = 5,
@@ -655,7 +656,7 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
     },
     [77758] = {
       cd = 6,
-      gain = { [1] = 50 },
+      gain = { [1] = 5 },
       gcd = 1.5,
       n = "thrash",
       r = 8,
@@ -817,7 +818,7 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
       tal = true,
     },
     [158723] = {
-      gain = { [1] = 10 },
+      gain = { [1] = 1 },
       n = "thrash",
     },
     [163505] = {
@@ -1111,7 +1112,7 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
       tal = true,
     },
     [1253582] = {
-      gain = { [1] = 80 },
+      gain = { [1] = 8 },
       n = "red_moon",
       r = 40,
     },

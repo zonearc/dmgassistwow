@@ -470,6 +470,7 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
   spellInfo = {
     [100780] = {
       cost = { [3] = 50 },
+      gain = { [12] = 2 },
       gcd = 1.5,
       n = "tiger_palm",
       r = 5,

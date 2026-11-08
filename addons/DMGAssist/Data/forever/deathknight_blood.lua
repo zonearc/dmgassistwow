@@ -795,7 +795,7 @@ ns.RegisterSpecData("forever", "deathknight_blood", {
       },
       cd = 45,
       cost = { [5] = 2 },
-      gain = { [6] = 200 },
+      gain = { [6] = 20 },
       gcd = 1.5,
       n = "reapers_mark",
       r = 5,

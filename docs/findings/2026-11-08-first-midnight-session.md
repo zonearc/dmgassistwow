@@ -31,3 +31,13 @@ Scrap, Threat Plates.
 | Stuck on Starfall | Starfall's lines hinge on hidden procs (Starweaver's Warp, Touch the Cosmos) and Astral Power, which is secret in combat (`astral_power=secret34`); Blizzard's rule `starfall if active_enemies>3` was true on the cleave dummies, so the uncertain line kept being confirmed. Exact cause needs a trace. | Auto "stuck" snapshot: 3 casts of other spells while the HUD shows one spell stores a full trace. Next report shows it. |
 | `ADDON_ACTION_BLOCKED ... OpenSettingsPanel()` | Minimap left-click in combat; the Settings panel is protected in combat. | Opens when combat ends. |
 | Assistant oracle switched itself off (`clue_disabled source=assisted wrong=7` of 20) | Its inferred facts disagreed with the truth 7 times. | Watch in the next report. |
+
+## Third session (0.1.0.3 still installed, Balance)
+| Observation | Cause | Fix |
+|---|---|---|
+| Starfire for 25 s, no cooldowns | The opener waits for Celestial Alignment; the engine put it in the separate cooldown icon (`cd=celestial_alignment` at 2.9 s), which went unnoticed, so the opener never ended. | No separate icon: major cooldowns are ordinary lines in the three slots (off = never shown). Interrupts, then defensives, then the rotation, all in the three slots; nothing else on the HUD. |
+| Would have stuck on Wrath next | Astral Power is secret in combat; "wrath while astral_power<80" never resolved. Wrath/Moonfire/Sunfire showed no Astral Power gain in our data (the gain comes from the hidden "Astral Power" passive 197911). | Importer folds baseline passives' flat modifiers into energize effects; a floor for built resources (Astral Power, Insanity, Maelstrom, Fury, Runic Power) from our own casts, graded and self-disabling. |
+| Rage gains 10x, Insanity 100x too high in data | Spell data stores those in tenths / hundredths. | POWER_DIVISOR covers rage, runic power, insanity. |
+| Sunfire/Moonfire DoT clocks never started | The button and its DoT are separate spells with no link in the data. | Casting starts the same-named aura's clock (State.AppliedAuras). |
+| Celestial Alignment looked ready again 1 s after use in the look-ahead | Data has cd 1 + one 180 s charge; the 1 s was used. | Cooldown = max(cd, recharge). |
+| Blizzard Minimap.lua:286 `GameTooltip:Hide()` "attempt to call a nil value" (541x) | Same as the micro-button error: something broke the game tooltip. Not DMGAssist (no tooltip hooks). | Launch snapshot records the tooltip's fields and who changed them (issecurevariable). |
