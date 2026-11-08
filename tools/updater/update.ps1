@@ -7,11 +7,14 @@
 # %APPDATA%\DMGAssistUpdater\token.txt by the tray icon's "Set GitHub token..." item.
 #
 # Safe order: both zips are downloaded and checked first; only then are the installed folders replaced.
-# The result ("OK <release name>" or "ERROR <message>") is written to -Result for the tray icon to show.
+# The result ("OK <release name>", "SAME <release name>" or "ERROR <message>") is written to -Result for the tray icon to show.
 
 param(
   [Parameter(Mandatory = $true)][string]$AddOns,
-  [Parameter(Mandatory = $true)][string]$Result
+  [Parameter(Mandatory = $true)][string]$Result,
+  # The installed version ("0.1.0.15"); when the nightly release is the same build, nothing is downloaded and the
+  # result is "SAME <release name>" (the tray icon's 10-minute check).
+  [string]$Installed = ''
 )
 
 $ErrorActionPreference = 'Stop'
@@ -41,6 +44,11 @@ try {
     $release = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/tags/nightly" -Headers $headers
   } catch {
     throw "GitHub refused the request (token wrong or expired, or no access to $repo): $($_.Exception.Message)"
+  }
+
+  if ($Installed -and $release.name -match '(\d+(\.\d+)+)' -and $Matches[1] -eq $Installed) {
+    Set-Content -LiteralPath $Result -Value ("SAME " + $release.name)
+    return
   }
 
   $work = Join-Path $env:TEMP ('dmgassist-update-' + [guid]::NewGuid().ToString('N'))
