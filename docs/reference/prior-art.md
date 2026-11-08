@@ -73,3 +73,10 @@ we only display recommendations. Reviewed from its public rotation guide only. I
 - **Click an ability icon to disable it** for the current fight.
 - **`pool_resource,for_next=1` and `wait`** — hold fillers when the next important ability only lacks resource / is about to come up.
 - **`use_off_gcd`** marking, **empower level** (`empower_to`), and **proc replacement awareness** (base spell → current override).
+
+## SimulationCraft (data source) — correction
+
+Earlier notes said SimC has no Forever profiles. Wrong: `simulationcraft/simc` has a `forever` branch (Forever beta
+game data, build 70425) alongside `midnight`. Both carry `ActionPriorityLists/default/` (SimC APLs) and
+`ActionPriorityLists/assisted_combat/` (Blizzard's own Assisted Combat rules extracted from game DBC tables).
+See docs/design/engine-priority.md for how the engine combines them.
