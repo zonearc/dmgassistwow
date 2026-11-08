@@ -36,6 +36,7 @@ S.EVENTS = {
   "ACTIVE_TALENT_GROUP_CHANGED",
   "PLAYER_TALENT_UPDATE",
   "TRAIT_CONFIG_UPDATED",                -- talent loadout edits
+  "ACTIVE_COMBAT_CONFIG_CHANGED",        -- Forever: talent tree config switched (used by WoWSims' exporter too)
   "SPELLS_CHANGED",
   "PLAYER_LEVEL_UP",
 }
