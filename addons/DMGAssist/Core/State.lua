@@ -400,6 +400,9 @@ local function RecordCast(id, how)
   S.lastCast[id] = GetTime()
   ns.Clues.OnCast()
   ns.Clues.OnOwnCast(id)
+  if ns.Interrupts then
+    ns.Interrupts.OnOwnCast(id)
+  end
   -- Start our clocks for the auras this spell applies (SimC data, else what we learned in game).
   local started = false
   if info and info.ap then
@@ -447,6 +450,9 @@ function S.OnCooldownUpdate()
   local gActive = g and U.Read(g.isActive)
   if gActive == true and not gcdStart then
     gcdStart = GetTime()
+    if ns.Interrupts then
+      ns.Interrupts.OnGCDStarted()
+    end
     local last = S.history[1]
     local info = last and M.Info(last.id)
     gcdBase = (info and info.gcd) or 1.5

@@ -63,12 +63,27 @@ end
 
 -- Call fn and return its results unchanged (they may be secret: pass them through U.Read).
 -- Returns nothing when fn is missing or raised an error.
+-- Failed calls are counted by message (U.callErrors) and the first of each kind is logged, so a call that starts
+-- failing in combat ("went dark") shows up in the Watchdog log instead of silently returning nothing.
+U.callErrors = {}
+local callErrorKinds = 0
+
 function U.Call(fn, ...)
   if type(fn) ~= "function" then
     return nil
   end
   local p = Pack(pcall(fn, ...))
   if not p[1] then
+    local msg = U.Safe(p[2])
+    msg = type(msg) == "string" and msg:gsub("^.-AddOns\\", ""):sub(1, 160) or tostring(msg)
+    local n = U.callErrors[msg]
+    if not n and callErrorKinds < 50 then
+      callErrorKinds = callErrorKinds + 1
+      U.callErrors[msg] = 1
+      U.Log("call_error", msg)
+    elseif n then
+      U.callErrors[msg] = n + 1
+    end
     return nil
   end
   return unpack(p, 2, p.n)

@@ -118,6 +118,13 @@ function O.Register()
   s.bossMods = Check(combat, DB, "bossMods", "Use boss mod timers (DBM / BigWigs)", true,
     "Upcoming adds, AoE, tank hits and phase changes from your boss mod: shown on the HUD and used by SimC's add timing.")
   s.callout = Check(combat, HUD, "callout", "Boss callouts on the HUD", true)
+  s.interruptMode = Choice(combat, DB, "interruptMode", "Interrupts", "smart", {
+    { "smart", "Smart: all in the open world; dungeons/raids only what matters" },
+    { "everywhere", "Every interruptible cast" },
+    { "instances", "Only in dungeons and raids" },
+    { "bossmods", "Only when DBM / BigWigs / LittleWigs calls it" },
+    { "off", "Off" },
+  }, "In dungeons and raids 'what matters' = your boss mod calls an interrupt or Blizzard marks the spell important.")
   s.hideOutOfCombat = Check(combat, HUD, "hideOutOfCombat", "Hide out of combat", H.hideOutOfCombat)
   s.showWithTarget = Check(combat, HUD, "showWithTarget", "Show when targeting an enemy", H.showWithTarget)
 
@@ -147,8 +154,7 @@ function O.Register()
   s.gcdBar = Check(display, HUD, "gcdBar", "GCD bar", H.gcdBar)
   s.secretBranches = Check(display, HUD, "secretBranches", "Let the game pick between two spells", H.secretBranches,
     "When a hidden resource decides (e.g. 4 or 5 combo points), show both spells; the game makes the right one visible.")
-  s.interrupt = Check(display, HUD, "interrupt", "Interrupt reminder", H.interrupt,
-    "Your interrupt appears while the target casts something interruptible; red border = Blizzard marks it important.")
+  s.interrupt = Check(display, HUD, "interrupt", "Show interrupts", H.interrupt)
   s.pressCue = Check(display, HUD, "pressCue", "Press-now cue", H.pressCue,
     "Brightens the main icon when your GCD or cast ends within the spell queue window: press now for no gap.")
   s.glow = Choice(display, HUD, "glow", "Main icon glow", H.glow,

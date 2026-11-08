@@ -35,6 +35,7 @@ Plus `DMGAssist_Watchdog`, a standalone diagnostics addon.
 
 ## Getting evidence from the game
 
-Player installs `DMGAssist_Watchdog`, plays, types `/reload`, then uploads
-`WTF/Account/<ACCOUNT>/SavedVariables/DMGAssist_Watchdog.lua` — or pastes `/dmgw export`.
+Player installs `DMGAssist_Watchdog`, plays, types `/reload`, then runs `tools/send-logs.py` (uploads the
+SavedVariables + `Logs/taint.log` to branch `watchdog-logs`, folder `logs/<stamp>/`, and opens an issue labelled
+`watchdog-log`) — or uploads `WTF/Account/<ACCOUNT>/SavedVariables/DMGAssist_Watchdog.lua` / pastes `/dmgw export`.
 Write conclusions into `docs/findings/YYYY-MM-DD-<topic>.md` and fold confirmed facts into api-findings.

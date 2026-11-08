@@ -1147,26 +1147,180 @@ test("secret branch: Bite-at-5 vs Shred, both shown, the game's curve picks the 
   end
 end)
 
-test("interrupt reminder: shown while the target casts, hidden by the game if uninterruptible", function()
+local function KickBook()
+  local book = {}
+  for _, b in ipairs(FERAL_BOOK) do
+    book[#book + 1] = b
+  end
+  book[#book + 1] = { spellID = 106839, name = "Skull Bash" }
+  mock.book = book
+end
+
+test("interrupts: open world, readable -> slot 1, the rest of the queue shifts right", function()
   Reset()
-  mock.book = { { spellID = 106839, name = "Skull Bash" } }
+  KickBook()
   local ns = Boot()
-  local f = ns.Display.Create()
-  ns.Display.Update({ main = { id = 5221 }, queue = {} }, true)
-  eq(f.kick:IsShown(), false, "no cast")
+  local before = ns.Update()
+  local first = before.queue[1].token
   mock.targetCast = { notInterruptible = false, id = 9999 }
+  local r = ns.Update()
+  eq(r.interrupt.how, "decided")
+  eq(r.queue[1].id, 106839, "Skull Bash in slot 1")
+  eq(r.queue[2].token, first, "previous #1 is now #2")
+  mock.targetCast = { notInterruptible = true, id = 9999 }
+  eq(ns.Update().interrupt, nil, "uninterruptible: nothing")
+end)
+
+test("interrupts: secret flags in combat -> drawn over slot 1, the game decides visibility", function()
+  Reset()
+  KickBook()
+  local ns = Boot()
+  mock.targetCast = { notInterruptible = false, id = 9999 }
+  Restrict()
+  local r = ns.Update()
+  eq(r.interrupt.how, "render")
+  local f = ns.Display.frame
+  eq(f.kickGate:IsShown(), true)
+  eq(mock.IsSecret(f.kick.alpha.fromBoolean), true, "alpha from the secret 'notInterruptible'")
+  eq(f.kickGate.alpha, 1, "open world: no importance gate")
+end)
+
+test("interrupts: smart mode in dungeons only for important casts or boss mod calls", function()
+  Reset()
+  KickBook()
+  local dbm = FakeBossMods()
+  local ns = Boot()
+  mock.instance = true
+  mock.targetCast = { notInterruptible = false, id = 9999 }
+  mock.important = {}
+  eq(ns.Update().interrupt, nil, "trash cast that doesn't matter")
   mock.important = { [9999] = true }
-  ns.Display.Update({ main = { id = 5221 }, queue = {} }, true)
-  eq(f.kick:IsShown(), true)
-  eq(f.kick.alpha, 1)
-  eq(f.kick.important:IsShown(), true, "important cast highlighted")
-  Restrict() -- in combat both flags are secret: alpha comes from the secret boolean
-  ns.Display.Update({ main = { id = 5221 }, queue = {} }, true)
-  eq(type(f.kick.alpha), "table")
-  eq(mock.IsSecret(f.kick.alpha.fromBoolean), true)
-  mock.cooldowns[106839] = { active = true }
-  ns.Display.Update({ main = { id = 5221 }, queue = {} }, true)
-  eq(f.kick:IsShown(), false, "interrupt on cooldown")
+  eq(ns.Update().interrupt.how, "decided", "Blizzard: lethal if not interrupted")
+  mock.important = {}
+  dbm.DBM_Announce("DBM_Announce", "Interrupt Void Bolt!", 0, "interrupt", 9999, 1, true)
+  local r = ns.Update()
+  eq(r.interrupt.why, "bossmod")
+  eq(r.queue[1].id, 106839)
+  -- in combat with secrets: rendered with both gates (important AND interruptible)
+  ns.BossMods.Reset()
+  Restrict()
+  mock.targetCast = { notInterruptible = false, id = 9999 }
+  r = ns.Update()
+  eq(r.interrupt.how, "render")
+  eq(mock.IsSecret(ns.Display.frame.kickGate.alpha.fromBoolean), true, "importance gate from a secret")
+end)
+
+test("interrupts: modes off / instances / bossmods", function()
+  Reset()
+  KickBook()
+  local dbm = FakeBossMods()
+  local ns = Boot()
+  mock.targetCast = { notInterruptible = false, id = 9999 }
+  ns.db.interruptMode = "off"
+  eq(ns.Update().interrupt, nil)
+  ns.db.interruptMode = "instances"
+  eq(ns.Update().interrupt, nil, "open world")
+  mock.instance = true
+  eq(ns.Update().interrupt.how, "decided")
+  ns.db.interruptMode = "bossmods"
+  eq(ns.Update().interrupt, nil, "no call")
+  dbm.DBM_Announce("DBM_Announce", "Interrupt!", 0, "interrupt", 9999, 1, true)
+  eq(ns.Update().interrupt.how, "decided")
+end)
+
+test("interrupts: pressing it or skipping it (casting the next spell) clears it until the next cast", function()
+  Reset()
+  KickBook()
+  local ns = Boot()
+  mock.targetCast = { notInterruptible = false, id = 9999 }
+  eq(ns.Update().interrupt.how, "decided")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "x", 5221) -- player pressed Shred instead
+  eq(ns.Interrupts.stats.skipped, 1)
+  eq(ns.Update().interrupt, nil, "skipped: stays out of the way for this cast")
+  mock.Fire("UNIT_SPELLCAST_START", "target")             -- the mob starts its next cast
+  eq(ns.Update().interrupt.how, "decided")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "y", 106839) -- player interrupts
+  eq(ns.Interrupts.stats.used, 1)
+  mock.cooldowns[106839] = { active = true, start = mock.now, duration = 15 }
+  eq(ns.Update().interrupt, nil, "on cooldown")
+end)
+
+test("interrupts: skip detected from the GCD when cast events are secret", function()
+  Reset()
+  KickBook()
+  local ns = Boot()
+  mock.targetCast = { notInterruptible = false, id = 9999 }
+  ns.Update()
+  mock.Fire("SPELL_UPDATE_COOLDOWN")
+  mock.cooldowns[61304] = { active = true, start = mock.now, duration = 1 }
+  mock.Fire("SPELL_UPDATE_COOLDOWN") -- a GCD started: some on-GCD spell was pressed
+  mock.Advance(0.3)
+  eq(ns.Interrupts.skipped, true)
+end)
+
+---------------------------------------------------------------------------
+-- Diagnostics: readability changes, ranges, summaries, failed calls
+---------------------------------------------------------------------------
+test("diagnostics: logs when an input goes dark, the ranges seen, and a per-fight summary", function()
+  Reset()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, tostring(data) } end }
+  local ns = Boot()
+  local G = ns.Diagnostics
+  mock.power[4], mock.powerMax[4] = 3, 5
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  G.Tick(true)
+  eq(G.state.combo_points, "ok")
+  Restrict()
+  G.Tick(true)
+  eq(G.state.combo_points, "secret")
+  local found
+  for _, l in ipairs(logged) do
+    if l[1] == "readability" and l[2]:find("input=combo_points", 1, true) then
+      found = l[2]
+    end
+  end
+  eq(type(found), "string", "transition logged")
+  eq(found:find("from=ok", 1, true) ~= nil and found:find("to=secret", 1, true) ~= nil, true, found)
+  eq(found:find("combat=true", 1, true) ~= nil, true, found)
+  mock.restricted = false -- readable again before the fight ends
+  G.Tick(true)
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  local summary
+  for _, l in ipairs(logged) do
+    if l[1] == "readability_summary" then
+      summary = l[2]
+    end
+  end
+  eq(type(summary), "string")
+  eq(summary:find("combo_points=ok2/secret2[3..3]", 1, true) ~= nil, true, summary)
+  DMGAssistWatchdog = nil
+end)
+
+test("diagnostics: our own failing calls are counted and the first of each is logged", function()
+  Reset()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, tostring(data) } end }
+  local ns = Boot()
+  local before = #logged
+  local function Bad() error("attempted compare on a secret value") end
+  ns.U.Call(Bad)
+  ns.U.Call(Bad)
+  local errs = 0
+  for i = before + 1, #logged do
+    if logged[i][1] == "call_error" then
+      errs = errs + 1
+    end
+  end
+  eq(errs, 1, "logged once")
+  local count
+  for msg, n in pairs(ns.U.callErrors) do
+    if msg:find("secret value", 1, true) then
+      count = n
+    end
+  end
+  eq(count, 2, "counted every time")
+  DMGAssistWatchdog = nil
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))
