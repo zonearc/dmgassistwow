@@ -108,6 +108,8 @@ def main():
     ap.add_argument("zips", nargs="+")
     ap.add_argument("--changelog", help="markdown file used as the changelog")
     ap.add_argument("--dry-run", action="store_true", help="print what would be uploaded; no network calls")
+    ap.add_argument("--release-type", choices=["alpha", "beta", "release"],
+                    help="CurseForge channel; default from the version (-alpha / -beta suffix, else release)")
     args = ap.parse_args()
     token = os.environ.get("CF_API_TOKEN", "")
     if not token and not args.dry_run:
@@ -127,7 +129,7 @@ def main():
             "changelog": changelog,
             "changelogType": "markdown",
             "displayName": f"{meta.get('Title', meta['_addon'])} {version}",
-            "releaseType": release_type(version),
+            "releaseType": args.release_type or release_type(version),
         }
         if args.dry_run:
             print(f"[dry-run] {zip_path} -> project {project}; interfaces {interfaces} "

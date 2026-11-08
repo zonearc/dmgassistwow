@@ -1,8 +1,9 @@
 name: Weekly release
 
 # Once a week, the current nightly build becomes a numbered GitHub release (the repository's "Latest release"), with
-# the list of changes since the previous weekly release. Skipped when nothing changed. Nothing is uploaded to
-# CurseForge: that stays a manual, tagged release (release.yml).
+# the list of changes since the previous weekly release. Skipped when nothing changed. The same zip is uploaded to
+# CurseForge when the CF_API_TOKEN secret is set and the repository variable CURSEFORGE_PUBLISH is "true", as an
+# Alpha file unless the variable CURSEFORGE_RELEASE_TYPE says "beta" or "release".
 
 on:
   schedule:
@@ -47,6 +48,7 @@ jobs:
           done
           echo "The nightly build for $GITHUB_SHA did not finish in 20 minutes"; exit 1
       - name: Promote the nightly build
+        id: promote
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -89,8 +91,18 @@ jobs:
           # GitHub has answered the first try with a 403 right after a build (a re-run passed): retry a few times.
           for try in 1 2 3; do
             if gh release create "$tag" assets/* --target "$sha" --title "DMGAssist $version" --notes-file notes.md --latest; then
+              echo "version=$version" >> "$GITHUB_OUTPUT"
               exit 0
             fi
             sleep 60
           done
           exit 1
+      - name: CurseForge
+        if: steps.promote.outputs.version != '' && vars.CURSEFORGE_PUBLISH == 'true'
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          RELEASE_TYPE: ${{ vars.CURSEFORGE_RELEASE_TYPE || 'alpha' }}
+        run: |
+          if [ -z "$CF_API_TOKEN" ]; then echo "CF_API_TOKEN secret is not set: nothing uploaded"; exit 0; fi
+          python3 tools/curseforge_upload.py --release-type "$RELEASE_TYPE" --changelog notes.md \
+            "assets/DMGAssist-${{ steps.promote.outputs.version }}.zip"

@@ -14,7 +14,7 @@ local string_sub, string_format = string.sub, string.format
 local issecretvalue = issecretvalue
 local GetTime = GetTime
 
-ns.VERSION = "0.1.0"
+ns.VERSION = "1.6.0"
 ns.SECRET = "<secret>"
 ns.MAX_STRING = 400
 

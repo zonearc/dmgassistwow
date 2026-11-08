@@ -2,7 +2,7 @@
 ## Title: DMGAssist
 ## Notes: Rotation helper for WoW Forever and Midnight. Priorities from SimulationCraft (Midnight) and WoWSims (Forever, wowsims.com/forever), backed by Blizzard's own rules.
 ## Author: zonearc
-## Version: 0.1.0
+## Version: 1.6.0
 ## IconTexture: Interface\Icons\Spell_Holy_FistOfJustice
 ## AddonCompartmentFunc: DMGAssist_OnCompartmentClick
 ## SavedVariables: DMGAssistDB
