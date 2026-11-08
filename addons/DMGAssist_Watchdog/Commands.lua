@@ -11,6 +11,8 @@ local HELP = {
   "/dmgw status       print the summary to chat",
   "/dmgw force on|off force addon restrictions on/off for testing (if the client supports it)",
   "/dmgw taint on|off write the game's taint log (Logs/taint.log) for blocked/forbidden actions",
+  "/dmgw testing on|off test-build logging (taint log, more events, notices); on by default while we test",
+  "/dmgw launch      record the launch snapshot again (addons, CVars, client, restrictions)",
   "/dmgw clear        wipe all Watchdog data",
   "Easiest export: /reload, then upload WTF/Account/<ACCOUNT>/SavedVariables/DMGAssist_Watchdog.lua",
 }
@@ -76,6 +78,11 @@ SlashCmdList.DMGASSISTWATCHDOG = function(msg)
     end
   elseif cmd == "force" then
     SetForced(rest == "on")
+  elseif cmd == "testing" then
+    ns.Launch.SetTesting(rest ~= "off")
+  elseif cmd == "launch" then
+    ns.Launch.Snapshot("manual")
+    U.Print("Launch snapshot stored.")
   elseif cmd == "taint" then
     -- taintLog 1 = blocked actions with the addon that caused them; 2 = also every taint step (verbose).
     if InCombatLockdown() then

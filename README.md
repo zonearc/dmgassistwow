@@ -84,6 +84,11 @@ IDs, so it works on every client language; only messages are translated.
 With DMGAssist_Watchdog installed, every pick change (with the queue and mode), inferred cast and per-fight tracking
 summary is logged for diagnosis.
 
+## Testing
+
+See [TESTING.md](TESTING.md): test builds log everything needed automatically; play, `/reload`, run
+`tools/send-logs.py`.
+
 ## Sending logs (no copy/paste)
 
 1. Optional, for taint problems: `/dmgw taint on` once (the game then writes `Logs/taint.log`).

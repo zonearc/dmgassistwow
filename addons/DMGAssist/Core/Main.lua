@@ -155,6 +155,34 @@ local function ShouldShow()
   return D.ShouldShow(inCombat, enemy)
 end
 
+-- What DMGAssist looked like at launch (the Watchdog records the rest of the environment).
+function ns.LogLaunchState()
+  local state = Specs.current or {}
+  local have, total = ns.ListMatch(state)
+  local keys = 0
+  for _ in pairs(D.BuildKeymap()) do
+    keys = keys + 1
+  end
+  U.Log("launch_state", {
+    version = ns.VERSION, testing = ns.TESTING, client = state.client, spec = state.key, status = state.status,
+    data = state.source and (state.source.branch .. "@" .. tostring(state.source.commit)), listSource = state.data
+      and state.data.simcSource, spellsMatched = M.count, listMatch = have and (have .. "/" .. total),
+    talentsRead = M.talentsRead, bossMods = table.concat(ns.BossMods.Detected(), ","), keybinds = keys,
+    interrupt = D.InterruptSpell(), defensive = (ns.Defensives.Spell()), haste = S.hasteSource,
+  })
+  local settings = {}
+  for k, v in pairs(ns.db or {}) do
+    if type(v) ~= "table" then
+      settings[#settings + 1] = k .. "=" .. tostring(v)
+    end
+  end
+  for k, v in pairs(D.Settings()) do
+    settings[#settings + 1] = "hud." .. k .. "=" .. tostring(v)
+  end
+  table.sort(settings)
+  U.Log("launch_settings_summary", table.concat(settings, " "))
+end
+
 -- Sounds on the rising edge of each alert (each event is also throttled in Sounds).
 local alerted = {}
 function ns.Alerts(result)
@@ -289,12 +317,21 @@ frame:SetScript("OnEvent", function(_, event, ...)
     D.Create()
     ns.Options.Register()
     ns.BossMods.Hook()
+    C_Timer.After(5, ns.LogLaunchState)
   elseif KEYBIND_EVENTS[event] then
     D.InvalidateKeybinds()
   elseif event == "PLAYER_REGEN_DISABLED" then
     inCombat = true
     S.OnCombat(true)
     ns.Diagnostics.OnCombat(true)
+    if ns.TESTING then
+      -- test builds: one decision snapshot a few seconds into every fight, without chat output
+      C_Timer.After(3, function()
+        if inCombat then
+          pcall(ns.QuietSnapshot)
+        end
+      end)
+    end
   elseif event == "PLAYER_REGEN_ENABLED" then
     inCombat = false
     S.OnCombat(false)
@@ -457,6 +494,12 @@ end
 
 -- Full decision trace for troubleshooting (like Hekili's snapshots): every line looked at, castable or not and
 -- why, its condition result, the inputs that were unknown; printed short in chat and stored in the Watchdog log.
+function ns.QuietSnapshot()
+  ns.snapshotQuiet = true
+  commands.snapshot()
+  ns.snapshotQuiet = false
+end
+
 function commands.snapshot()
   local state = Specs.current
   if not (state and state.data) then
@@ -478,6 +521,9 @@ function commands.snapshot()
   end
   table.sort(unknown)
   U.Log("snapshot_unknown", table.concat(unknown, " "))
+  if ns.snapshotQuiet then
+    return
+  end
   U.Print(L["Snapshot: %s (%s), %d lines checked. Stored in the Watchdog log; /reload and send it."],
     tostring(r.main and r.main.token), tostring(r.main and r.main.source), #lines)
   for i = 1, math.min(#lines, 8) do

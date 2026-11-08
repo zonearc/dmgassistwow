@@ -223,6 +223,41 @@ test("clear wipes data but keeps settings", function()
   eq(DMGAssistWatchdogDB.settings.logGlows, false)
 end)
 
+test("launch snapshot: client, addons with versions, CVars, restrictions, load order", function()
+  mock.cvars.taintLog = "0"
+  mock.Fire("ADDON_LOADED", "BigWigs")
+  mock.Fire("PLAYER_LOGIN")
+  mock.Advance(5)
+  local snap = ns.db.launch[#ns.db.launch]
+  truthy(snap, "snapshot stored")
+  eq(snap.client.locale, "enUS")
+  eq(snap.client.screen, "2560x1440")
+  eq(#snap.addons, 4)
+  eq(snap.addons[3].name, "BigWigs")
+  eq(snap.addons[3].version, "v400")
+  eq(snap.addons[4].loaded, false)
+  eq(snap.cvars.taintLog, "0", "value at login, before testing mode applied")
+  truthy(snap.secrets.restriction_Combat ~= nil, "restriction state recorded")
+  local sawBigWigs = false
+  for _, e in ipairs(snap.addonLoadOrder) do
+    if e[1] == "BigWigs" then
+      sawBigWigs = true
+    end
+  end
+  truthy(sawBigWigs, "load order recorded")
+end)
+
+test("testing mode: taint log on at login, restored when switched off", function()
+  eq(ns.db.settings.testingMode, true, "on by default in test builds")
+  eq(mock.cvars.taintLog, "1", "turned on at login")
+  SlashCmdList.DMGASSISTWATCHDOG("testing off")
+  eq(mock.cvars.taintLog, "0", "restored")
+  eq(ns.db.settings.maxEventsPerSession, 600)
+  SlashCmdList.DMGASSISTWATCHDOG("testing on")
+  eq(mock.cvars.taintLog, "1")
+  eq(ns.db.settings.maxEventsPerSession, 1500)
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

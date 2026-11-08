@@ -14,6 +14,7 @@ local DEFAULT_SETTINGS = {
   logCasts = true,        -- record the player's own casts in combat sessions
   logGlows = true,        -- record proc glows (spell activation overlays)
   autoProbe = true,       -- probe once after login, once in the first real combat
+  testingMode = true,     -- test builds: taint log on, more events kept, login notice (see Launch.lua)
   maxSessions = 8,
   maxEventsPerSession = 600,
   maxErrors = 60,
