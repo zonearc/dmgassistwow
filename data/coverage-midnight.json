@@ -1,0 +1,838 @@
+{
+ "branch": "midnight",
+ "commit": "d38855b",
+ "date": "2026-11-05",
+ "specs": {
+  "deathknight_blood": {
+   "blizzard": {
+    "lines": 27,
+    "mode": 0,
+    "read": 17,
+    "readPct": 63,
+    "tracked": 9,
+    "unknown": 1,
+    "usablePct": 96
+   },
+   "blizzardExcluded": [],
+   "lines": 54,
+   "mode": 0,
+   "read": 19,
+   "readPct": 35,
+   "topUnknown": [],
+   "tracked": 35,
+   "unknown": 0,
+   "usablePct": 100
+  },
+  "deathknight_frost": {
+   "blizzard": {
+    "lines": 32,
+    "mode": 2,
+    "read": 20,
+    "readPct": 62,
+    "tracked": 9,
+    "unknown": 1,
+    "usablePct": 97
+   },
+   "blizzardExcluded": [
+    "breath_of_sindragosa"
+   ],
+   "lines": 65,
+   "mode": 2,
+   "read": 8,
+   "readPct": 12,
+   "topUnknown": [
+    "target.debuff.casting.react",
+    "death_knight.first_ams_cast"
+   ],
+   "tracked": 53,
+   "unknown": 2,
+   "usablePct": 97
+  },
+  "deathknight_unholy": {
+   "blizzard": {
+    "lines": 29,
+    "mode": 0,
+    "read": 13,
+    "readPct": 45,
+    "tracked": 12,
+    "unknown": 4,
+    "usablePct": 86
+   },
+   "blizzardExcluded": [],
+   "lines": 47,
+   "mode": 4,
+   "read": 8,
+   "readPct": 17,
+   "topUnknown": [
+    "variable.cds_active",
+    "max_charges",
+    "target.health.pct",
+    "pet.army_ghoul.active"
+   ],
+   "tracked": 23,
+   "unknown": 12,
+   "usablePct": 74
+  },
+  "demonhunter_devourer": {
+   "blizzard": {
+    "lines": 20,
+    "mode": 2,
+    "read": 12,
+    "readPct": 60,
+    "tracked": 6,
+    "unknown": 0,
+    "usablePct": 100
+   },
+   "blizzardExcluded": [
+    "metamorphosis",
+    "the_hunt",
+    "voidblade"
+   ],
+   "lines": 92,
+   "mode": 4,
+   "read": 29,
+   "readPct": 32,
+   "topUnknown": [
+    "void_metamorphosis_base_drain_ps"
+   ],
+   "tracked": 54,
+   "unknown": 5,
+   "usablePct": 95
+  },
+  "demonhunter_havoc": {
+   "blizzard": {
+    "lines": 29,
+    "mode": 2,
+    "read": 20,
+    "readPct": 69,
+    "tracked": 7,
+    "unknown": 0,
+    "usablePct": 100
+   },
+   "blizzardExcluded": [
+    "fel_rush",
+    "felblade",
+    "metamorphosis",
+    "the_hunt",
+    "vengeful_retreat"
+   ],
+   "lines": 36,
+   "mode": 4,
+   "read": 10,
+   "readPct": 28,
+   "topUnknown": [],
+   "tracked": 22,
+   "unknown": 0,
+   "usablePct": 100
+  },
+  "demonhunter_vengeance": {
+   "blizzard": {
+    "lines": 23,
+    "mode": 1,
+    "read": 17,
+    "readPct": 74,
+    "tracked": 5,
+    "unknown": 0,
+    "usablePct": 100
+   },
+   "blizzardExcluded": [
+    "metamorphosis"
+   ],
+   "lines": 97,
+   "mode": 5,
+   "read": 43,
+   "readPct": 44,
+   "topUnknown": [
+    "variable.dung_cd_ok",
+    "variable.dung_meta_ok",
+    "target.debuff.casting.react",
+    "in_boss_encounter"
+   ],
+   "tracked": 38,
+   "unknown": 11,
+   "usablePct": 89
+  },
+  "druid_balance": {
+   "blizzard": {
+    "lines": 36,
+    "mode": 3,
+    "read": 16,
+    "readPct": 44,
+    "tracked": 17,
+    "unknown": 0,
+    "usablePct": 100
+   },
+   "blizzardExcluded": [
+    "celestial_alignment"
+   ],
+   "lines": 82,
+   "mode": 7,
+   "read": 23,
+   "readPct": 28,
+   "topUnknown": [
+    "energize_amount",
+    "active_dots.moonfire",
+    "eclipse.lunar",
+    "eclipse.solar"
+   ],
+   "tracked": 41,
+   "unknown": 11,
+   "usablePct": 87
+  },
+  "druid_feral": {
+   "blizzard": {
+    "lines": 30,
+    "mode": 1,
+    "read": 16,
+    "readPct": 53,
+    "tracked": 13,
+    "unknown": 0,
+    "usablePct": 100
+   },
+   "blizzardExcluded": [
+    "berserk"
+   ],
+   "lines": 54,
+   "mode": 9,
+   "read": 9,
+   "readPct": 17,
+   "topUnknown": [],
+   "tracked": 36,
+   "unknown": 0,
+   "usablePct": 100
+  },
+  "druid_guardian": {
+   "blizzard": {
+    "lines": 22,
+    "mode": 1,
+    "read": 18,
+    "readPct": 82,
+    "tracked": 3,
+    "unknown": 0,
+    "usablePct": 100
+   },
+   "blizzardExcluded": [
+    "berserk",
+    "convoke_the_spirits"
+   ],
+   "lines": 58,
+   "mode": 2,
+   "read": 14,
+   "readPct": 24,
+   "topUnknown": [
+    "target.cooldown.pause_action.remains"
+   ],
+   "tracked": 41,
+   "unknown": 1,
+   "usablePct": 98
+  },
+  "druid_restoration": {
+   "blizzard": {
+    "lines": 20,
+    "mode": 0,
+    "read": 9,
+    "readPct": 45,
+    "tracked": 11,
+    "unknown": 0,
+    "usablePct": 100
+   },
+   "blizzardExcluded": [],
+   "lines": 39,
+   "mode": 3,
+   "read": 18,
+   "readPct": 46,
+   "topUnknown": [
+    "druid.time_spend_healing"
+   ],
+   "tracked": 17,
+   "unknown": 1,
+   "usablePct": 97
+  },
+  "evoker_augmentation": {
+   "blizzard": {
+    "lines": 23,
+    "mode": 0,
+    "read": 19,
+    "readPct": 83,
+    "tracked": 3,
+    "unknown": 1,
+    "usablePct": 96
+   },
+   "blizzardExcluded": [],
+   "lines": 36,
+   "mode": 1,
+   "read": 10,
+   "readPct": 28,
+   "topUnknown": [
+    "evoker.shifting_buffs",
+    "evoker.allied_cds_up"
+   ],
+   "tracked": 24,
+   "unknown": 1,
+   "usablePct": 97
+  },
+  "evoker_devastation": {
+   "blizzard": {
+    "lines": 22,
+    "mode": 3,
+    "read": 13,
+    "readPct": 59,
+    "tracked": 6,
+    "unknown": 0,
+    "usablePct": 100
+   },
+   "blizzardExcluded": [],
+   "lines": 59,
+   "mode": 13,
+   "read": 13,
+   "readPct": 22,
+   "topUnknown": [
+    "target.debuff.casting.react"
+   ],
+   "tracked": 32,
+   "unknown": 1,
+   "usablePct": 98
+  },
+  "hunter_beast_mastery": {
+   "blizzard": {
+    "lines": 20,
+    "mode": 0,
+    "read": 17,
+    "readPct": 85,
+    "tracked": 2,
+    "unknown": 1,
+    "usablePct": 95
+   },
+   "blizzardExcluded": [],
+   "lines": 54,
+   "mode": 9,
+   "read": 13,
+   "readPct": 24,
+   "topUnknown": [
+    "howl_summon.ready"
+   ],
+   "tracked": 29,
+   "unknown": 3,
+   "usablePct": 94
+  },
+  "hunter_marksmanship": {
+   "blizzard": {
+    "lines": 29,
+    "mode": 0,
+    "read": 23,
+    "readPct": 79,
+    "tracked": 6,
+    "unknown": 0,
+    "usablePct": 100
+   },
+   "blizzardExcluded": [
+    "trueshot"
+   ],
+   "lines": 75,
+   "mode": 2,
+   "read": 24,
+   "readPct": 32,
+   "topUnknown": [
+    "cost"
+   ],
+   "tracked": 47,
+   "unknown": 2,
+   "usablePct": 97
+  },
+  "hunter_survival": {
+   "blizzard": {
+    "lines": 21,
+    "mode": 1,
+    "read": 17,
+    "readPct": 81,
+    "tracked": 2,
+    "unknown": 1,
+    "usablePct": 95
+   },
+   "blizzardExcluded": [
+    "takedown"
+   ],
+   "lines": 59,
+   "mode": 5,
+   "read": 14,
+   "readPct": 24,
+   "topUnknown": [
+    "howl_summon.ready"
+   ],
+   "tracked": 39,
+   "unknown": 1,
+   "usablePct": 98
+  },
+  "mage_arcane": {
+   "blizzard": {
+    "lines": 27,
+    "mode": 2,
+    "read": 11,
+    "readPct": 41,
+    "tracked": 13,
+    "unknown": 1,
+    "usablePct": 96
+   },
+   "blizzardExcluded": [
+    "arcane_surge"
+   ],
+   "lines": 38,
+   "mode": 2,
+   "read": 9,
+   "readPct": 24,
+   "topUnknown": [],
+   "tracked": 27,
+   "unknown": 0,
+   "usablePct": 100
+  },
+  "mage_fire": {
+   "blizzard": {
+    "lines": 26,
+    "mode": 0,
+    "read": 13,
+    "readPct": 50,
+    "tracked": 11,
+    "unknown": 2,
+    "usablePct": 92
+   },
+   "blizzardExcluded": [
+    "combustion"
+   ],
+   "lines": 73,
+   "mode": 3,
+   "read": 9,
+   "readPct": 12,
+   "topUnknown": [
+    "scorch_execute.active",
+    "hot_streak_spells_in_flight",
+    "variable.combustion_precast_time",
+    "firestarter.active"
+   ],
+   "tracked": 51,
+   "unknown": 10,
+   "usablePct": 86
+  },
+  "mage_frost": {
+   "blizzard": {
+    "lines": 25,
+    "mode": 1,
+    "read": 14,
+    "readPct": 56,
+    "tracked": 9,
+    "unknown": 1,
+    "usablePct": 96
+   },
+   "blizzardExcluded": [],
+   "lines": 63,
+   "mode": 4,
+   "read": 24,
+   "readPct": 38,
+   "topUnknown": [],
+   "tracked": 35,
+   "unknown": 0,
+   "usablePct": 100
+  },
+  "monk_brewmaster": {
+   "blizzard": {
+    "lines": 22,
+    "mode": 1,
+    "read": 18,
+    "readPct": 82,
+    "tracked": 3,
+    "unknown": 0,
+    "usablePct": 100
+   },
+   "blizzardExcluded": [],
+   "lines": 60,
+   "mode": 0,
+   "read": 31,
+   "readPct": 52,
+   "topUnknown": [
+    "health.max"
+   ],
+   "tracked": 27,
+   "unknown": 2,
+   "usablePct": 97
+  },
+  "monk_windwalker": {
+   "blizzard": {
+    "lines": 34,
+    "mode": 0,
+    "read": 18,
+    "readPct": 53,
+    "tracked": 3,
+    "unknown": 13,
+    "usablePct": 62
+   },
+   "blizzardExcluded": [
+    "celestial_conduit",
+    "flying_serpent_kick",
+    "zenith"
+   ],
+   "lines": 128,
+   "mode": 5,
+   "read": 24,
+   "readPct": 19,
+   "topUnknown": [
+    "combo_strike",
+    "pet.xuen_the_white_tiger.active"
+   ],
+   "tracked": 47,
+   "unknown": 52,
+   "usablePct": 59
+  },
+  "paladin_protection": {
+   "blizzard": {
+    "lines": 26,
+    "mode": 2,
+    "read": 21,
+    "readPct": 81,
+    "tracked": 1,
+    "unknown": 2,
+    "usablePct": 92
+   },
+   "blizzardExcluded": [
+    "avenging_wrath",
+    "sentinel"
+   ],
+   "lines": 27,
+   "mode": 0,
+   "read": 13,
+   "readPct": 48,
+   "topUnknown": [
+    "next_armament",
+    "holy_bulwark",
+    "consecration.up"
+   ],
+   "tracked": 13,
+   "unknown": 1,
+   "usablePct": 96
+  },
+  "paladin_retribution": {
+   "blizzard": {
+    "lines": 37,
+    "mode": 2,
+    "read": 26,
+    "readPct": 70,
+    "tracked": 9,
+    "unknown": 0,
+    "usablePct": 100
+   },
+   "blizzardExcluded": [
+    "avenging_wrath"
+   ],
+   "lines": 32,
+   "mode": 0,
+   "read": 15,
+   "readPct": 47,
+   "topUnknown": [],
+   "tracked": 17,
+   "unknown": 0,
+   "usablePct": 100
+  },
+  "priest_shadow": {
+   "blizzard": {
+    "lines": 39,
+    "mode": 1,
+    "read": 14,
+    "readPct": 36,
+    "tracked": 21,
+    "unknown": 3,
+    "usablePct": 92
+   },
+   "blizzardExcluded": [],
+   "lines": 46,
+   "mode": 1,
+   "read": 15,
+   "readPct": 33,
+   "topUnknown": [
+    "target.health.pct",
+    "time_to_bloodlust",
+    "health.pct",
+    "priest.force_devour_matter",
+    "target.has_absorb",
+    "pet.mindbender.active"
+   ],
+   "tracked": 25,
+   "unknown": 5,
+   "usablePct": 89
+  },
+  "rogue_assassination": {
+   "blizzard": {
+    "lines": 36,
+    "mode": 1,
+    "read": 11,
+    "readPct": 31,
+    "tracked": 11,
+    "unknown": 13,
+    "usablePct": 64
+   },
+   "blizzardExcluded": [
+    "deathmark"
+   ],
+   "lines": 41,
+   "mode": 4,
+   "read": 6,
+   "readPct": 15,
+   "topUnknown": [],
+   "tracked": 31,
+   "unknown": 0,
+   "usablePct": 100
+  },
+  "rogue_outlaw": {
+   "blizzard": {
+    "lines": 31,
+    "mode": 0,
+    "read": 13,
+    "readPct": 42,
+    "tracked": 10,
+    "unknown": 8,
+    "usablePct": 74
+   },
+   "blizzardExcluded": [
+    "adrenaline_rush"
+   ],
+   "lines": 38,
+   "mode": 1,
+   "read": 17,
+   "readPct": 45,
+   "topUnknown": [
+    "rtb_buffs"
+   ],
+   "tracked": 17,
+   "unknown": 3,
+   "usablePct": 92
+  },
+  "rogue_subtlety": {
+   "blizzard": {
+    "lines": 31,
+    "mode": 2,
+    "read": 12,
+    "readPct": 39,
+    "tracked": 4,
+    "unknown": 13,
+    "usablePct": 58
+   },
+   "blizzardExcluded": [
+    "shadow_blades"
+   ],
+   "lines": 42,
+   "mode": 2,
+   "read": 7,
+   "readPct": 17,
+   "topUnknown": [
+    "cp_max_spend",
+    "variable.priority_rotation"
+   ],
+   "tracked": 31,
+   "unknown": 2,
+   "usablePct": 95
+  },
+  "shaman_elemental": {
+   "blizzard": {
+    "lines": 38,
+    "mode": 4,
+    "read": 17,
+    "readPct": 45,
+    "tracked": 17,
+    "unknown": 0,
+    "usablePct": 100
+   },
+   "blizzardExcluded": [
+    "ascendance"
+   ],
+   "lines": 73,
+   "mode": 2,
+   "read": 23,
+   "readPct": 32,
+   "topUnknown": [
+    "lightning_rod"
+   ],
+   "tracked": 47,
+   "unknown": 1,
+   "usablePct": 99
+  },
+  "shaman_enhancement": {
+   "blizzard": {
+    "lines": 39,
+    "mode": 0,
+    "read": 22,
+    "readPct": 56,
+    "tracked": 17,
+    "unknown": 0,
+    "usablePct": 100
+   },
+   "blizzardExcluded": [
+    "doom_winds"
+   ],
+   "lines": 101,
+   "mode": 8,
+   "read": 29,
+   "readPct": 29,
+   "topUnknown": [
+    "pet.surging_totem.active",
+    "ti_chain_lightning",
+    "pet.searing_totem.active",
+    "ti_lightning_bolt"
+   ],
+   "tracked": 58,
+   "unknown": 6,
+   "usablePct": 94
+  },
+  "warlock_affliction": {
+   "blizzard": {
+    "lines": 34,
+    "mode": 0,
+    "read": 20,
+    "readPct": 59,
+    "tracked": 13,
+    "unknown": 1,
+    "usablePct": 97
+   },
+   "blizzardExcluded": [
+    "summon_darkglare"
+   ],
+   "lines": 94,
+   "mode": 11,
+   "read": 32,
+   "readPct": 34,
+   "topUnknown": [
+    "pet.darkglare.remains",
+    "pet.darkglare.active",
+    "variable.cds_active"
+   ],
+   "tracked": 32,
+   "unknown": 19,
+   "usablePct": 80
+  },
+  "warlock_demonology": {
+   "blizzard": {
+    "lines": 22,
+    "mode": 0,
+    "read": 16,
+    "readPct": 73,
+    "tracked": 5,
+    "unknown": 1,
+    "usablePct": 95
+   },
+   "blizzardExcluded": [
+    "summon_demonic_tyrant"
+   ],
+   "lines": 47,
+   "mode": 0,
+   "read": 27,
+   "readPct": 57,
+   "topUnknown": [
+    "pet.demonic_tyrant.active"
+   ],
+   "tracked": 13,
+   "unknown": 7,
+   "usablePct": 85
+  },
+  "warlock_destruction": {
+   "blizzard": {
+    "lines": 36,
+    "mode": 9,
+    "read": 18,
+    "readPct": 50,
+    "tracked": 8,
+    "unknown": 1,
+    "usablePct": 97
+   },
+   "blizzardExcluded": [
+    "summon_infernal"
+   ],
+   "lines": 61,
+   "mode": 7,
+   "read": 20,
+   "readPct": 33,
+   "topUnknown": [
+    "variable.infernal_active",
+    "demonic_art",
+    "target.health.pct",
+    "pet.infernal.active",
+    "dot_refreshable_count.immolate",
+    "dot_refreshable_count.wither"
+   ],
+   "tracked": 18,
+   "unknown": 16,
+   "usablePct": 74
+  },
+  "warrior_arms": {
+   "blizzard": {
+    "lines": 30,
+    "mode": 3,
+    "read": 22,
+    "readPct": 73,
+    "tracked": 5,
+    "unknown": 0,
+    "usablePct": 100
+   },
+   "blizzardExcluded": [],
+   "lines": 131,
+   "mode": 9,
+   "read": 58,
+   "readPct": 44,
+   "topUnknown": [
+    "variable.execute_phase",
+    "target.debuff.casting.react"
+   ],
+   "tracked": 59,
+   "unknown": 5,
+   "usablePct": 96
+  },
+  "warrior_fury": {
+   "blizzard": {
+    "lines": 32,
+    "mode": 1,
+    "read": 23,
+    "readPct": 72,
+    "tracked": 8,
+    "unknown": 0,
+    "usablePct": 100
+   },
+   "blizzardExcluded": [
+    "avatar",
+    "recklessness"
+   ],
+   "lines": 101,
+   "mode": 4,
+   "read": 55,
+   "readPct": 54,
+   "topUnknown": [
+    "variable.on_gcd_racials",
+    "target.debuff.casting.react",
+    "variable.execute_phase"
+   ],
+   "tracked": 38,
+   "unknown": 4,
+   "usablePct": 96
+  },
+  "warrior_protection": {
+   "blizzard": {
+    "lines": 30,
+    "mode": 1,
+    "read": 25,
+    "readPct": 83,
+    "tracked": 4,
+    "unknown": 0,
+    "usablePct": 100
+   },
+   "blizzardExcluded": [
+    "avatar",
+    "shield_charge"
+   ],
+   "lines": 67,
+   "mode": 3,
+   "read": 40,
+   "readPct": 60,
+   "topUnknown": [
+    "variable.execute_phase",
+    "target.health.pct"
+   ],
+   "tracked": 21,
+   "unknown": 3,
+   "usablePct": 96
+  }
+ }
+}

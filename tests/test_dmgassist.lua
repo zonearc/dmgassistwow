@@ -1,0 +1,180 @@
+-- Run from the repo root:  lua5.1 tests/test_dmgassist.lua
+package.path = "./tests/?.lua;" .. package.path
+
+local mock = require("wow_mock")
+local print = print -- the mock captures the global print
+mock.Install(_G)
+
+local passed, failed = 0, 0
+local function test(name, fn)
+  local ok, err = pcall(fn)
+  if ok then
+    passed = passed + 1
+    print("  ok   " .. name)
+  else
+    failed = failed + 1
+    print("  FAIL " .. name .. "\n       " .. tostring(err))
+  end
+end
+local function eq(a, b, msg)
+  if a ~= b then
+    error((msg or "values differ") .. ": expected " .. tostring(b) .. ", got " .. tostring(a), 2)
+  end
+end
+
+local ADDON = "DMGAssist"
+
+-- Load the addon fresh as a given client.
+local function Boot(gameType, project)
+  mock.frames = {}
+  mock.timers = {}
+  mock.printed = {}
+  mock.gameType = gameType
+  WOW_PROJECT_ID = project
+  DMGAssistDB = nil
+  local ns = mock.LoadAddon("addons/" .. ADDON, ADDON)
+  mock.Fire("ADDON_LOADED", ADDON)
+  mock.Fire("PLAYER_LOGIN")
+  return ns
+end
+
+local function countFiles(prefix)
+  local n = 0
+  for _, f in ipairs(mock.loadedFiles) do
+    if f:sub(1, #prefix) == prefix then
+      n = n + 1
+    end
+  end
+  return n
+end
+
+print("DMGAssist runtime tests")
+
+test("Midnight client loads only Midnight data and is ready for Retribution", function()
+  mock.class, mock.specs, mock.specIndex = { "Paladin", "PALADIN", 2 }, { [1] = 65, [2] = 66, [3] = 70 }, 3
+  local ns = Boot("standard", 1)
+  eq(countFiles("Data/forever/"), 0, "forever data loaded on Midnight")
+  eq(countFiles("Data/midnight/") > 30, true, "midnight data missing")
+  local s = ns.Specs.current
+  eq(s.branch, "midnight")
+  eq(s.key, "paladin_retribution")
+  eq(s.status, "ready")
+  eq(s.source.branch, "midnight")
+  eq(type(s.data.simc.default), "table", "SimC default list missing")
+  eq(type(s.data.blizzard.assisted_combat), "table", "Blizzard rules missing")
+end)
+
+test("Forever client (Camelot) loads only Forever data", function()
+  mock.class, mock.specs, mock.specIndex = { "Druid", "DRUID", 11 }, { [1] = 102, [2] = 103, [3] = 104, [4] = 105 }, 2
+  local ns = Boot("camelot", 18)
+  eq(countFiles("Data/midnight/"), 0, "midnight data loaded on Forever")
+  eq(countFiles("Data/forever/") > 30, true, "forever data missing")
+  local s = ns.Specs.current
+  eq(s.client, "WoW Forever")
+  eq(s.key, "druid_feral")
+  eq(s.status, "ready")
+  eq(s.source.branch, "forever")
+end)
+
+test("spec change without reload switches data (coalesced into one refresh)", function()
+  mock.class, mock.specs, mock.specIndex = { "Druid", "DRUID", 11 }, { [1] = 102, [2] = 103, [3] = 104, [4] = 105 }, 2
+  local ns = Boot("standard", 1)
+  local changes = 0
+  ns.Specs.OnChange(function()
+    changes = changes + 1
+  end)
+  mock.specIndex = 1
+  mock.Fire("PLAYER_SPECIALIZATION_CHANGED", "player")
+  mock.Fire("ACTIVE_PLAYER_SPECIALIZATION_CHANGED")
+  mock.Fire("TRAIT_CONFIG_UPDATED", 1)
+  mock.Fire("SPELLS_CHANGED")
+  eq(ns.Specs.current.key, "druid_feral", "should not switch before the coalescing delay")
+  mock.Advance(0.3)
+  eq(ns.Specs.current.key, "druid_balance")
+  eq(changes, 1, "burst of events should produce one change")
+  local announced = false
+  for _, line in ipairs(mock.printed) do
+    if line:find("Spec changed", 1, true) then
+      announced = true
+    end
+  end
+  eq(announced, true, "player not told about the spec change")
+end)
+
+test("talent edits that keep the same spec do not fire a change", function()
+  local ns = Boot("standard", 1)
+  local changes = 0
+  ns.Specs.OnChange(function()
+    changes = changes + 1
+  end)
+  mock.Fire("TRAIT_CONFIG_UPDATED", 1)
+  mock.Advance(0.3)
+  eq(changes, 0)
+end)
+
+test("healer spec without a SimC list reports it clearly", function()
+  mock.class, mock.specs, mock.specIndex = { "Paladin", "PALADIN", 2 }, { [1] = 65, [2] = 66, [3] = 70 }, 1
+  local ns = Boot("standard", 1)
+  eq(ns.Specs.current.key, "paladin_holy")
+  eq(ns.Specs.current.status, "no_simc_list")
+end)
+
+test("low-level character with no spec is handled", function()
+  mock.specIndex = nil
+  local ns = Boot("camelot", 18)
+  eq(ns.Specs.current.status, "no_spec")
+  mock.specIndex = 2
+end)
+
+test("unknown spec ID is reported, not crashed on", function()
+  mock.class, mock.specs, mock.specIndex = { "Druid", "DRUID", 11 }, { [1] = 99999 }, 1
+  local ns = Boot("standard", 1)
+  eq(ns.Specs.current.status, "unknown_spec")
+end)
+
+test("unsupported client is reported", function()
+  mock.specs, mock.specIndex = { [1] = 103 }, 1
+  local ns = Boot("standard", 2)
+  eq(ns.Specs.current.status, "unsupported_client")
+end)
+
+test("spec changes are logged to the Watchdog when it is installed", function()
+  local logged = {}
+  DMGAssistWatchdog = {
+    Log = function(kind, data)
+      logged[#logged + 1] = kind .. "=" .. tostring(data)
+    end,
+  }
+  mock.class, mock.specs, mock.specIndex = { "Druid", "DRUID", 11 }, { [1] = 102, [2] = 103 }, 2
+  Boot("standard", 1)
+  DMGAssistWatchdog = nil
+  eq(logged[1], "spec=druid_feral:ready")
+end)
+
+test("/dmga reports status", function()
+  Boot("standard", 1)
+  SlashCmdList.DMGASSIST("")
+  local found = false
+  for _, line in ipairs(mock.printed) do
+    if line:find("druid_feral", 1, true) then
+      found = true
+    end
+  end
+  eq(found, true)
+end)
+
+test("every SimC spec in the data maps from a Blizzard spec ID", function()
+  local ns = Boot("standard", 1)
+  local known = {}
+  for _, key in pairs(ns.Specs.KEYS) do
+    known[key] = true
+  end
+  for key in pairs(ns.Data.specs.midnight) do
+    eq(known[key], true, "no spec ID maps to " .. key)
+  end
+end)
+
+print(string.format("\n%d passed, %d failed", passed, failed))
+if failed > 0 then
+  os.exit(1)
+end
