@@ -470,6 +470,12 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       n = "chaos_strike",
       r = 5,
     },
+    [183752] = {
+      cd = 15,
+      d = 5,
+      n = "disrupt",
+      r = 5,
+    },
     [185123] = {
       ch = 1,
       chcd = 9,
@@ -521,6 +527,15 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       chcd = 10,
       gcd = 0.5,
       n = "fel_rush",
+    },
+    [195439] = {
+      ap = {
+        { 195439, "self" },
+      },
+      cd = 15,
+      d = 0.8,
+      n = "disrupt",
+      r = 5,
     },
     [195441] = {
       ap = {
@@ -652,6 +667,10 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       gain = { [17] = 15 },
       n = "felblade",
       r = 15,
+    },
+    [218903] = {
+      gain = { [17] = 30 },
+      n = "disrupt",
     },
     [222031] = {
       n = "chaos_strike",
@@ -1103,6 +1122,9 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
     demonsurge = {
       a = { 451266, 452416, 453323, 1238696, 451258, 451263 },
       b = { 452416, 451258, 451263, 451266, 452435, 452443 },
+    },
+    disrupt = {
+      a = { 183752, 218903, 195439 },
     },
     essence_break = {
       a = { 258860, 320338, 1245759 },

@@ -895,6 +895,13 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       n = "poisoned_knife",
       pas = true,
     },
+    [425609] = {
+      cd = 15,
+      d = 3,
+      gcd = 1,
+      n = "rebuke",
+      r = 5,
+    },
     [436608] = {
       n = "fan_of_knives",
       pas = true,
@@ -971,6 +978,9 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
     },
     poisoned_knife = {
       a = { 425012, 425013, 425100 },
+    },
+    rebuke = {
+      a = { 425609 },
     },
     rupture = {
       a = { 1943, 8639, 8640, 11273, 11274, 11275 },

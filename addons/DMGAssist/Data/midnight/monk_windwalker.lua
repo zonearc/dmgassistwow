@@ -1144,6 +1144,13 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       pas = true,
       tal = true,
     },
+    [116705] = {
+      cd = 15,
+      d = 5,
+      n = "spear_hand_strike",
+      r = 5,
+      tal = true,
+    },
     [116768] = {
       ap = {
         { 116768, "self" },
@@ -1752,6 +1759,9 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
     slicing_winds = {
       a = { 1217413, 1217407, 1217408, 1217409, 1217410, 1217411 },
       t = { 1217413 },
+    },
+    spear_hand_strike = {
+      a = { 116705 },
     },
     spinning_crane_kick = {
       a = { 101546, 212142, 322729, 107270, 212141, 330903 },

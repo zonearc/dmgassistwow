@@ -49,6 +49,7 @@ local function Reset()
   mock.overrides, mock.inRange, mock.boss, mock.classification, mock.instance = nil, nil, nil, nil, nil
   mock.actionInfo, mock.macroSpell, mock.powerCost, mock.cdmInfo, mock.timeline = nil, nil, nil, nil, nil
   mock.bindings, mock.actionSlots, mock.bonusBar = nil, nil, nil
+  mock.targetCast, mock.important = nil, nil
   DBM, BigWigsLoader, BT4Button1, BuffIconCooldownViewer = nil, nil, nil, nil
   mock.class, mock.specs, mock.specIndex = { "Druid", "DRUID", 11 }, { [1] = 102, [2] = 103, [3] = 104, [4] = 105 }, 2
   mock.book = FERAL_BOOK
@@ -1104,6 +1105,68 @@ test("free combo point proc: 'v or v+1', and a finisher makes the count exact ag
   mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "f", 22568) -- Ferocious Bite spends up to 5
   mock.Fire("UNIT_POWER_UPDATE", "player", "COMBO_POINTS")
   eq(S.Resolve("combo_points", {}), 0, "exact again after the finisher")
+end)
+
+---------------------------------------------------------------------------
+-- Rendering secrets: the game picks between two spells; interrupt reminder
+---------------------------------------------------------------------------
+test("secret branch: Bite-at-5 vs Shred, both shown, the game's curve picks the visible one", function()
+  Reset()
+  local ns = Boot()
+  local rec = QRecord({ { a = "ferocious_bite", k = "R", c = "combo_points>=5" }, { a = "shred", k = "R" } })
+  ns.SpellMap.SetData(rec)
+  mock.power[4], mock.powerMax[4] = 4, 5
+  mock.power[3], mock.powerMax[3] = 100, 100
+  ns.State.PowerMax(4) -- seen while readable: 5
+  Restrict()
+  local r = ns.Engine.Recommend(rec, {})
+  eq(r.main.token, "shred", "the engine's own pick: Bite can't be confirmed")
+  eq(type(r.branch), "table", "branch detected")
+  eq(r.branch.pick.token, "ferocious_bite")
+  eq(r.branch.otherwise.token, "shred")
+  eq(r.branch.truth[4], false)
+  eq(r.branch.truth[5], true)
+  -- HUD: both icons; alphas are the (secret) curve results: Bite visible only at 5
+  ns.Display.Create()
+  ns.Display.Update(r, true)
+  local f = ns.Display.frame
+  eq(f.branchShown, true)
+  eq(mock.IsSecret(f.branch.alpha), true, "alpha set from a secret, never read by us")
+  mock.restricted = false -- peek like the game would render it
+  r = ns.Engine.Recommend(rec, {})
+  ns.Display.Update(r, true)
+  eq(r.branch, nil, "readable: no branch needed")
+  -- render the branch with readable values to check the curve maths
+  local branch = { pt = 4, max = 5, truth = { [0] = false, false, false, false, false, true },
+    pick = { id = 22568, token = "ferocious_bite" }, otherwise = { id = 5221, token = "shred" } }
+  for cp = 0, 5 do
+    mock.power[4] = cp
+    ns.Display.Update({ main = branch.otherwise, queue = { branch.otherwise }, branch = branch }, true)
+    eq(f.branch.alpha, cp == 5 and 1 or 0, "Bite at " .. cp)
+    eq(f.slots[1].alpha, cp == 5 and 0 or 1, "Shred at " .. cp)
+  end
+end)
+
+test("interrupt reminder: shown while the target casts, hidden by the game if uninterruptible", function()
+  Reset()
+  mock.book = { { spellID = 106839, name = "Skull Bash" } }
+  local ns = Boot()
+  local f = ns.Display.Create()
+  ns.Display.Update({ main = { id = 5221 }, queue = {} }, true)
+  eq(f.kick:IsShown(), false, "no cast")
+  mock.targetCast = { notInterruptible = false, id = 9999 }
+  mock.important = { [9999] = true }
+  ns.Display.Update({ main = { id = 5221 }, queue = {} }, true)
+  eq(f.kick:IsShown(), true)
+  eq(f.kick.alpha, 1)
+  eq(f.kick.important:IsShown(), true, "important cast highlighted")
+  Restrict() -- in combat both flags are secret: alpha comes from the secret boolean
+  ns.Display.Update({ main = { id = 5221 }, queue = {} }, true)
+  eq(type(f.kick.alpha), "table")
+  eq(mock.IsSecret(f.kick.alpha.fromBoolean), true)
+  mock.cooldowns[106839] = { active = true }
+  ns.Display.Update({ main = { id = 5221 }, queue = {} }, true)
+  eq(f.kick:IsShown(), false, "interrupt on cooldown")
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

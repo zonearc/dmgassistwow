@@ -870,6 +870,13 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
       n = "lightning_bolt",
       r = 45,
     },
+    [57994] = {
+      cd = 12,
+      d = 4,
+      n = "wind_shear",
+      r = 30,
+      tal = true,
+    },
     [60103] = {
       cd = 18,
       gcd = 1.5,
@@ -1571,6 +1578,9 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
     whirling_fire = {
       a = { 453405 },
       b = { 453405 },
+    },
+    wind_shear = {
+      a = { 57994 },
     },
     windfury_weapon = {
       a = { 33757, 319773 },

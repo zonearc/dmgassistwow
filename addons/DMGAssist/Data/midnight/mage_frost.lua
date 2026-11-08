@@ -594,6 +594,12 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       n = "arcane_intellect",
       r = 40,
     },
+    [2139] = {
+      cd = 25,
+      d = 7,
+      n = "counterspell",
+      r = 40,
+    },
     [12486] = {
       ap = {
         { 12486, "enemy" },
@@ -999,6 +1005,9 @@ ns.RegisterSpecData("midnight", "mage_frost", {
     },
     cone_of_frost = {
       t = { 1247090 },
+    },
+    counterspell = {
+      a = { 2139 },
     },
     crystalline_refraction = {
       t = { 1247544 },

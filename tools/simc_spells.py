@@ -291,6 +291,9 @@ def select(spells, refs, other_specs=()):
     return ids, info
 
 
+INTERRUPTS = {"kick", "counterspell", "pummel", "wind_shear", "mind_freeze", "skull_bash", "solar_beam", "rebuke",
+              "spear_hand_strike", "disrupt", "counter_shot", "muzzle", "silence", "quell", "spell_lock", "axe_toss"}
+
 REF_PATTERNS = {
     "aura": re.compile(r"\b(?:buff|debuff|dot|active_dot)\.([a-z0-9_]+)"),
     "action": re.compile(r"\b(?:cooldown|action|prev_gcd\.\d+|prev|prev_off_gcd\.\d+|prev_off_gcd)\.([a-z0-9_]+)"),
@@ -311,6 +314,8 @@ def references(lists_list):
                     for kind, pat in REF_PATTERNS.items():
                         for m in pat.finditer(text):
                             refs[kind].add(m.group(1))
+    # Interrupts are rarely in SimC's lists but the HUD's interrupt reminder needs their IDs (any language).
+    refs["action"] |= INTERRUPTS
     # Buffs/dots are often named after the spell that applies them: make the action ids available too.
     refs["action"] |= {t for t in refs["aura"]}
     return refs

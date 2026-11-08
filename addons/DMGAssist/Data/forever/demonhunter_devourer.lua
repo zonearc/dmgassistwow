@@ -1135,6 +1135,12 @@ ns.RegisterSpecData("forever", "demonhunter_devourer", {
       d = 20,
       n = "metamorphosis",
     },
+    [183752] = {
+      cd = 15,
+      d = 5,
+      n = "disrupt",
+      r = 5,
+    },
     [187827] = {
       ap = {
         { 187827, "self" },
@@ -1154,6 +1160,15 @@ ns.RegisterSpecData("forever", "demonhunter_devourer", {
       gcd = 1.5,
       n = "metamorphosis",
       r = 40,
+    },
+    [195439] = {
+      ap = {
+        { 195439, "self" },
+      },
+      cd = 15,
+      d = 0.8,
+      n = "disrupt",
+      r = 5,
     },
     [198793] = {
       ap = {
@@ -1199,6 +1214,10 @@ ns.RegisterSpecData("forever", "demonhunter_devourer", {
       },
       d = 25,
       n = "soul_fragments",
+    },
+    [218903] = {
+      gain = { [17] = 30 },
+      n = "disrupt",
     },
     [232709] = {
       ap = {
@@ -1690,6 +1709,9 @@ ns.RegisterSpecData("forever", "demonhunter_devourer", {
     },
     devourers_bite = {
       t = { 1240201 },
+    },
+    disrupt = {
+      a = { 183752, 218903, 195439 },
     },
     eradicate = {
       a = { 1225826, 1225827, 1239524, 1279200, 1226033 },

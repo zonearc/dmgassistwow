@@ -22,6 +22,7 @@ globals = {
 -- WoW API we read. Keep this list to what the code actually uses, so a typo
 -- in an API name shows up as an undefined global.
 read_globals = {
+  "C_CurveUtil", "UnitPowerPercent",
   "CreateSettingsButtonInitializer",
   "BuffIconCooldownViewer",
   "C_CooldownViewer", "C_EncounterTimeline", "GetActionInfo", "GetMacroSpell", "DBM", "BigWigsLoader",

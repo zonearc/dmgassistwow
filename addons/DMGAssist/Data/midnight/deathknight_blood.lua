@@ -527,6 +527,14 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       r = 30,
       tal = true,
     },
+    [47528] = {
+      cd = 15,
+      cost = { [6] = 0 },
+      d = 5,
+      n = "mind_freeze",
+      r = 15,
+      tal = true,
+    },
     [49028] = {
       ap = {
         { 49028, "self" },
@@ -979,6 +987,9 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
     },
     marrowrend = {
       a = { 195182, 316746 },
+    },
+    mind_freeze = {
+      a = { 47528 },
     },
     raise_dead = {
       a = { 46584, 46585, 1242866 },

@@ -145,6 +145,10 @@ function O.Register()
   s.nameSize = Slider(display, HUD, "nameSize", "Spell name size", H.nameSize, 8, 18, 1)
   s.labels = Check(display, HUD, "labels", "NOW / NEXT labels", H.labels)
   s.gcdBar = Check(display, HUD, "gcdBar", "GCD bar", H.gcdBar)
+  s.secretBranches = Check(display, HUD, "secretBranches", "Let the game pick between two spells", H.secretBranches,
+    "When a hidden resource decides (e.g. 4 or 5 combo points), show both spells; the game makes the right one visible.")
+  s.interrupt = Check(display, HUD, "interrupt", "Interrupt reminder", H.interrupt,
+    "Your interrupt appears while the target casts something interruptible; red border = Blizzard marks it important.")
   s.pressCue = Check(display, HUD, "pressCue", "Press-now cue", H.pressCue,
     "Brightens the main icon when your GCD or cast ends within the spell queue window: press now for no gap.")
   s.glow = Choice(display, HUD, "glow", "Main icon glow", H.glow,

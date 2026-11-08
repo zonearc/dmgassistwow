@@ -548,6 +548,12 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       n = "shadow_bolt",
       r = 40,
     },
+    [19647] = {
+      cd = 24,
+      d = 7,
+      n = "spell_lock",
+      r = 40,
+    },
     [30146] = {
       cost = { [7] = 1 },
       ct = 6,
@@ -557,6 +563,15 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
     },
     [86040] = {
       n = "hand_of_guldan",
+    },
+    [89766] = {
+      ap = {
+        { 89766, "enemy" },
+      },
+      cd = 30,
+      d = 4,
+      n = "axe_toss",
+      r = 30,
     },
     [104316] = {
       cd = 20,
@@ -573,6 +588,12 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       gcd = 1.5,
       n = "hand_of_guldan",
       r = 40,
+    },
+    [119910] = {
+      n = "spell_lock",
+    },
+    [119914] = {
+      n = "axe_toss",
     },
     [193331] = {
       d = 12,
@@ -681,6 +702,12 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       d = 20,
       n = "power_siphon",
       st = 2,
+    },
+    [347008] = {
+      cd = 30,
+      d = 5,
+      n = "axe_toss",
+      r = 30,
     },
     [370371] = {
       n = "implosion",
@@ -833,6 +860,9 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
     },
   },
   spells = {
+    axe_toss = {
+      a = { 89766, 347008, 119914 },
+    },
     call_dreadstalkers = {
       a = { 104316, 193331, 193332, 196273, 196274, 196281 },
     },
@@ -888,6 +918,9 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
     },
     shadow_bolt = {
       a = { 686, 194192, 196657, 394238 },
+    },
+    spell_lock = {
+      a = { 19647, 119910 },
     },
     summon_demonic_tyrant = {
       a = { 265187 },

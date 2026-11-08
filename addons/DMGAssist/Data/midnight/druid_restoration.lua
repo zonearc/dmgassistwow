@@ -489,11 +489,26 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       r = 40,
       tal = true,
     },
+    [78675] = {
+      cd = 60,
+      d = 8,
+      n = "solar_beam",
+      r = 40,
+      tal = true,
+    },
     [93402] = {
       gcd = 1.5,
       n = "sunfire",
       r = 40,
       tal = true,
+    },
+    [93985] = {
+      d = 5,
+      n = "skull_bash",
+    },
+    [97547] = {
+      d = 7,
+      n = "solar_beam",
     },
     [102547] = {
       cd = 6,
@@ -517,6 +532,12 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       gcd = 1,
       n = "thrash",
       r = 8,
+    },
+    [106839] = {
+      cd = 15,
+      n = "skull_bash",
+      r = 13,
+      tal = true,
     },
     [106840] = {
       n = "cat_form",
@@ -683,6 +704,9 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       n = "master_shapeshifter",
       pas = true,
       tal = true,
+    },
+    [314330] = {
+      n = "skull_bash",
     },
     [319454] = {
       ap = {
@@ -884,6 +908,12 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
     },
     shred = {
       a = { 5221 },
+    },
+    skull_bash = {
+      a = { 106839, 93985, 314330 },
+    },
+    solar_beam = {
+      a = { 97547, 78675 },
     },
     starfire = {
       a = { 197628, 194153 },

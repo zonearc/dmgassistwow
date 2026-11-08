@@ -623,6 +623,21 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
       n = "thrash",
       r = 8,
     },
+    [78675] = {
+      cd = 60,
+      d = 8,
+      n = "solar_beam",
+      r = 40,
+      tal = true,
+    },
+    [93985] = {
+      d = 5,
+      n = "skull_bash",
+    },
+    [97547] = {
+      d = 7,
+      n = "solar_beam",
+    },
     [102543] = {
       ap = {
         { 102543, "self" },
@@ -650,6 +665,12 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
       gcd = 1,
       n = "thrash",
       r = 8,
+    },
+    [106839] = {
+      cd = 15,
+      n = "skull_bash",
+      r = 13,
+      tal = true,
     },
     [106840] = {
       n = "cat_form",
@@ -868,6 +889,9 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
       cd = 180,
       gcd = 1,
       n = "berserk",
+    },
+    [314330] = {
+      n = "skull_bash",
     },
     [323764] = {
       ap = {
@@ -1268,6 +1292,12 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
     },
     shred = {
       a = { 5221 },
+    },
+    skull_bash = {
+      a = { 106839, 93985, 314330 },
+    },
+    solar_beam = {
+      a = { 97547, 78675 },
     },
     soul_of_the_forest = {
       t = { 114107, 158476, 158477, 158478 },

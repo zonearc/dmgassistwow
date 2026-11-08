@@ -1083,12 +1083,23 @@ ns.RegisterSpecData("forever", "druid_feral", {
       n = "ferocious_bite",
       r = 5,
     },
+    [410176] = {
+      cd = 10,
+      cost = { [1] = 10, [3] = 25 },
+      gcd = 1,
+      n = "skull_bash",
+      r = 13,
+    },
     [411128] = {
       cost = { [3] = 50 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "swipe",
       r = 5,
+    },
+    [414621] = {
+      d = 2,
+      n = "skull_bash",
     },
     [417045] = {
       gain = { [3] = 60 },
@@ -1155,6 +1166,9 @@ ns.RegisterSpecData("forever", "druid_feral", {
     },
     shred = {
       a = { 5221, 6800, 8992, 9829, 9830 },
+    },
+    skull_bash = {
+      a = { 410176, 414621 },
     },
     swipe = {
       a = { 769, 779, 780, 9754, 9908, 411128 },

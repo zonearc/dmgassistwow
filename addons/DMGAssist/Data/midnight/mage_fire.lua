@@ -787,6 +787,12 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       r = 40,
       tal = true,
     },
+    [2139] = {
+      cd = 25,
+      d = 7,
+      n = "counterspell",
+      r = 40,
+    },
     [2948] = {
       ct = 1.5,
       gcd = 1.5,
@@ -1111,6 +1117,9 @@ ns.RegisterSpecData("midnight", "mage_fire", {
     combustion = {
       a = { 190319 },
       b = { 190319 },
+    },
+    counterspell = {
+      a = { 2139 },
     },
     fire_blast = {
       a = { 108853, 319836, 231568 },

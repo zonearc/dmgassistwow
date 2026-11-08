@@ -1055,6 +1055,36 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       r = 30,
       tal = true,
     },
+    [19244] = {
+      ap = {
+        { 24259, "enemy" },
+      },
+      cd = 30,
+      cost = { [0] = 120 },
+      d = 6,
+      gcd = 1.5,
+      n = "spell_lock",
+      r = 30,
+    },
+    [19647] = {
+      ap = {
+        { 24259, "enemy" },
+      },
+      cd = 30,
+      cost = { [0] = 200 },
+      d = 8,
+      gcd = 1.5,
+      n = "spell_lock",
+      r = 30,
+    },
+    [24259] = {
+      ap = {
+        { 24259, "enemy" },
+      },
+      d = 3,
+      n = "spell_lock",
+      r = 30,
+    },
     [403501] = {
       ap = {
         { 403501, "enemy" },
@@ -1120,6 +1150,9 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
     },
     siphon_life = {
       t = { 18265 },
+    },
+    spell_lock = {
+      a = { 19244, 19647, 24259 },
     },
     unstable_affliction = {
       a = { 427717, 427719, 431748 },

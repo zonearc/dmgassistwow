@@ -514,6 +514,38 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       n = "backstab",
       r = 5,
     },
+    [1766] = {
+      cd = 10,
+      cost = { [3] = 25 },
+      d = 5,
+      gcd = 1,
+      n = "kick",
+      r = 5,
+    },
+    [1767] = {
+      cd = 10,
+      cost = { [3] = 25 },
+      d = 5,
+      gcd = 1,
+      n = "kick",
+      r = 5,
+    },
+    [1768] = {
+      cd = 10,
+      cost = { [3] = 25 },
+      d = 5,
+      gcd = 1,
+      n = "kick",
+      r = 5,
+    },
+    [1769] = {
+      cd = 10,
+      cost = { [3] = 25 },
+      d = 5,
+      gcd = 1,
+      n = "kick",
+      r = 5,
+    },
     [1784] = {
       cd = 10,
       n = "stealth",
@@ -702,6 +734,13 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       n = "shuriken_toss",
       pas = true,
     },
+    [425609] = {
+      cd = 15,
+      d = 3,
+      gcd = 1,
+      n = "rebuke",
+      r = 5,
+    },
     [457437] = {
       ap = {
         { 457437, "self" },
@@ -725,9 +764,15 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
     eviscerate = {
       a = { 2098, 6760, 6761, 6762, 8623, 8624 },
     },
+    kick = {
+      a = { 1766, 1767, 1768, 1769 },
+    },
     premeditation = {
       a = { 14183 },
       b = { 14183 },
+    },
+    rebuke = {
+      a = { 425609 },
     },
     shadowstrike = {
       a = { 399985, 400031 },

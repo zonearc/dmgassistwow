@@ -71,6 +71,17 @@ local function PowerType(name)
   return enum or POWER_FALLBACK[key]
 end
 
+-- Largest value a resource can have: readable max, else the last one seen (kept per spec), else nil.
+function S.PowerMax(pt)
+  local max = U.Read(U.Call(UnitPowerMax, "player", pt))
+  S.learned.powerMax = S.learned.powerMax or {}
+  if type(max) == "number" and max > 0 then
+    S.learned.powerMax[pt] = max
+    return max
+  end
+  return S.learned.powerMax[pt]
+end
+
 -- Power type for a bare resource name ("combo_points" -> 4), nil for anything else.
 function S.PowerTypeOf(name)
   return PowerType(name)
@@ -774,12 +785,15 @@ local function PowerNow(pt)
 end
 S.PowerNow = PowerNow
 
-local function Power(name, field)
+local function Power(name, field, ctx)
   local pt = PowerType(name)
   if not pt then
     return nil
   end
   local cur, max = PowerNow(pt)
+  if ctx and ctx.powerOverride and ctx.powerOverride[pt] then
+    cur = ctx.powerOverride[pt] -- "what if" evaluation for a secret-rendered branch (Engine)
+  end
   if field == "max" then
     return type(max) == "number" and max or UNKNOWN
   end
@@ -1060,7 +1074,7 @@ function S.Resolve(name, ctx)
   local head = p[1]
 
   if POWER[head] then
-    return Power(head, p[2])
+    return Power(head, p[2], ctx)
   elseif head == "talent" then
     local r = M.TalentRank(p[2] or "")
     if r == nil then

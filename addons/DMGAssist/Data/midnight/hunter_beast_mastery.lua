@@ -531,6 +531,13 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       n = "beast_cleave",
       r = 5,
     },
+    [147362] = {
+      cd = 24,
+      d = 5,
+      n = "counter_shot",
+      r = 40,
+      tal = true,
+    },
     [185358] = {
       cost = { [2] = 40 },
       gcd = 1.5,
@@ -541,6 +548,13 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       cd = 90,
       d = 15,
       n = "bestial_wrath",
+    },
+    [187707] = {
+      cd = 15,
+      d = 5,
+      n = "muzzle",
+      r = 5,
+      tal = true,
     },
     [193455] = {
       cost = { [2] = 35 },
@@ -827,6 +841,9 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
     cobra_shot = {
       a = { 193455 },
     },
+    counter_shot = {
+      a = { 147362 },
+    },
     jagged_wounds = {
       t = { 1265044 },
     },
@@ -838,6 +855,9 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
     },
     master_handler = {
       t = { 424558 },
+    },
+    muzzle = {
+      a = { 187707 },
     },
     natures_ally = {
       a = { 1273144, 1273145, 1276720, 1282474, 1273043, 1273065 },

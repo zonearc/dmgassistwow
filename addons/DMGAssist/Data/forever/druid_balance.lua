@@ -1013,6 +1013,17 @@ ns.RegisterSpecData("forever", "druid_balance", {
       n = "eclipse",
       pas = true,
     },
+    [410176] = {
+      cd = 10,
+      cost = { [1] = 10, [3] = 25 },
+      gcd = 1,
+      n = "skull_bash",
+      r = 13,
+    },
+    [414621] = {
+      d = 2,
+      n = "skull_bash",
+    },
     [414684] = {
       ap = {
         { 414684, "enemy" },
@@ -1105,6 +1116,9 @@ ns.RegisterSpecData("forever", "druid_balance", {
     moonkin_form = {
       a = { 24858 },
       b = { 24858 },
+    },
+    skull_bash = {
+      a = { 410176, 414621 },
     },
     starfall = {
       a = { 439748, 439753, 439756, 439755, 439768 },

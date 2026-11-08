@@ -25,7 +25,7 @@ D.DEFAULTS = {
   spellNames = false, nameSize = 10, labels = false,
   gcdBar = true, glow = "pulse",
   hideOutOfCombat = true, showWithTarget = true,
-  debugText = false, callout = true, pressCue = true,
+  debugText = false, callout = true, pressCue = true, secretBranches = true, interrupt = true,
 }
 
 local GOLD = { 1, 0.69, 0 }
@@ -300,6 +300,9 @@ local function Layout(f, cfg)
   f.cd:ClearAllPoints()
   f.cd:SetSize(cfg.cdSize, cfg.cdSize)
   f.cd:SetPoint("TOPLEFT", f, "TOPLEFT", pad, -(y + gap))
+  f.kick:ClearAllPoints()
+  f.kick:SetSize(cfg.cdSize, cfg.cdSize)
+  f.kick:SetPoint("LEFT", f.cd, "RIGHT", gap, 0)
   y = y + gap + cfg.cdSize
   f.debug:ClearAllPoints()
   f.debug:SetPoint("TOPLEFT", f, "TOPLEFT", pad, -(y + 2))
@@ -367,6 +370,16 @@ function D.Create()
   end
   f.main = f.slots[1]
   f.glow = Glow(f.main)
+  -- The other pick of a branch, stacked on the main icon; the game sets which one is visible (see D.Update).
+  f.branch = Icon(f, cfg.iconSize, cfg)
+  f.branch:SetAllPoints(f.slots[1])
+  -- Interrupt reminder: our interrupt's icon while the target casts something interruptible.
+  f.kick = Icon(f, cfg.cdSize, cfg)
+  f.kick.important = f.kick:CreateTexture(nil, "OVERLAY")
+  f.kick.important:SetPoint("TOPLEFT", f.kick, "TOPLEFT", -2, 2)
+  f.kick.important:SetPoint("BOTTOMRIGHT", f.kick, "BOTTOMRIGHT", 2, -2)
+  f.kick.important:SetColorTexture(1, 0.1, 0.1, 0.6)
+  f.kick.important:SetDrawLayer("BACKGROUND")
   f.cd = Icon(f, cfg.cdSize, cfg)
   f.gcdBg = f:CreateTexture(nil, "BACKGROUND")
   f.gcdBg:SetColorTexture(0, 0, 0, 0.6)
@@ -438,6 +451,122 @@ local function Translate(label)
   end))
 end
 
+---------------------------------------------------------------------------
+-- Rendering secrets without reading them
+---------------------------------------------------------------------------
+-- Widgets accept secret values (SetAlpha/SetText/SetValue: SecretArguments "AllowedWhenTainted"), and curves
+-- evaluate secret inputs (UnitPowerPercent(unit, powerType, unmodified, curve), input 0..1). So for a pick that
+-- depends on one hidden resource, a step curve over that resource yields the icon's alpha: the game shows the
+-- right icon, and DMGAssist never learns the value.
+local curveCache = {}
+
+local function BranchCurve(branch, wantTrue)
+  if not (C_CurveUtil and C_CurveUtil.CreateCurve) then
+    return nil
+  end
+  local key = branch.pt .. ":" .. branch.max .. ":" .. tostring(wantTrue)
+  for v = 0, branch.max do
+    key = key .. (branch.truth[v] and "1" or "0")
+  end
+  local c = curveCache[key]
+  if not c then
+    c = U.Call(C_CurveUtil.CreateCurve)
+    if not c then
+      return nil
+    end
+    local step = Enum and Enum.LuaCurveType and Enum.LuaCurveType.Step or 1
+    c:SetType(step)
+    for v = 0, branch.max do
+      local on = branch.truth[v] == wantTrue
+      -- points half a step early so floating point percentages never land on the previous value
+      local x = v == 0 and 0 or (v - 0.5) / branch.max
+      c:AddPoint(x, on and 1 or 0)
+    end
+    curveCache[key] = c
+  end
+  return c
+end
+
+local function RenderBranch(f, result, cfg)
+  local b = result.branch
+  if not (cfg.secretBranches and b and b.otherwise) then
+    f.branch:Hide()
+    return false
+  end
+  local curveTrue, curveFalse = BranchCurve(b, true), BranchCurve(b, false)
+  local alphaTrue = curveTrue and U.Call(UnitPowerPercent, "player", b.pt, false, curveTrue)
+  local alphaFalse = curveFalse and U.Call(UnitPowerPercent, "player", b.pt, false, curveFalse)
+  if alphaTrue == nil or alphaFalse == nil then
+    f.branch:Hide()
+    return false
+  end
+  SetIcon(f.branch, b.pick, cfg, true, L["NOW"])
+  SetIcon(f.slots[1], b.otherwise, cfg, true, L["NOW"])
+  f.branch:SetAlpha(alphaTrue)       -- possibly secret: only the game knows which one is visible
+  f.slots[1]:SetAlpha(alphaFalse)
+  f.branch.source:SetText("")
+  f.slots[1].source:SetText("")
+  return true
+end
+
+-- Our interrupt, shown while the target casts. Interruptible and "important" (Blizzard: lethal if not
+-- interrupted) may be secret; they drive alpha directly (SetAlphaFromBoolean accepts secret booleans).
+local INTERRUPT_TOKENS = { "kick", "counterspell", "pummel", "wind_shear", "mind_freeze", "skull_bash", "rebuke",
+  "spear_hand_strike", "disrupt", "counter_shot", "muzzle", "silence", "quell", "solar_beam", "spell_lock",
+  "axe_toss" }
+
+function D.InterruptSpell()
+  local M = ns.SpellMap
+  for _, token in ipairs(INTERRUPT_TOKENS) do
+    local id = M.SpellID(token)
+    if id then
+      M.unresolved[token] = nil
+      return id
+    end
+    M.unresolved[token] = nil
+  end
+  return nil
+end
+
+local function TargetCast()
+  local c = { U.Call(UnitCastingInfo, "target") }
+  if c[1] ~= nil then
+    return true, c[8], c[9]   -- casting, notInterruptible, spellID (either may be secret)
+  end
+  c = { U.Call(UnitChannelInfo, "target") }
+  if c[1] ~= nil then
+    return true, c[7], c[8]
+  end
+  return false
+end
+D.TargetCast = TargetCast
+
+local function RenderInterrupt(f, cfg)
+  local id = cfg.interrupt and D.InterruptSpell()
+  local casting, notInterruptible, spellID = TargetCast()
+  if not (id and casting) or ns.State.CooldownReady(id) == false then
+    f.kick:Hide()
+    return
+  end
+  SetIcon(f.kick, { id = id, source = "simc" }, cfg, true, L["INTERRUPT"])
+  if U.IsSecret(notInterruptible) then
+    U.Call(f.kick.SetAlphaFromBoolean, f.kick, notInterruptible, 0, 1)
+  else
+    f.kick:SetAlpha(notInterruptible and 0 or 1)
+  end
+  local important = spellID ~= nil and U.Call(C_Spell and C_Spell.IsSpellImportant, spellID)
+  if important == nil or important == false then
+    f.kick.important:Hide()
+  else
+    f.kick.important:Show()
+    if U.IsSecret(important) then
+      U.Call(f.kick.important.SetAlphaFromBoolean, f.kick.important, important, 0.6, 0)
+    else
+      f.kick.important:SetAlpha(0.6)
+    end
+  end
+end
+
 function D.ShouldShow(inCombat, hasEnemyTarget)
   local cfg = D.Settings()
   if not cfg.hideOutOfCombat then
@@ -459,6 +588,8 @@ function D.Update(result, visible)
     SetIcon(f.slots[i], i <= depth and queue[i] or nil, cfg, i == 1, i == 1 and L["NOW"] or L["NEXT"])
   end
   SetIcon(f.cd, result.cd, cfg, true, L["COOLDOWN"])
+  f.branchShown = RenderBranch(f, result, cfg)
+  RenderInterrupt(f, cfg)
   -- "Press now" cue: the GCD (or the current cast) ends within the game's spell queue window, so pressing now
   -- queues the spell with no gap. Timing uses the haste-adjusted GCD we track.
   local queueWindow = (tonumber(U.Read(U.Call(C_CVar and C_CVar.GetCVar, "SpellQueueWindow"))) or 400) / 1000

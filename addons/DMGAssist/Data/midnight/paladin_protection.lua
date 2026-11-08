@@ -558,6 +558,13 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       },
       n = "hammer_of_the_righteous",
     },
+    [96231] = {
+      cd = 15,
+      d = 5,
+      n = "rebuke",
+      r = 5,
+      tal = true,
+    },
     [132331] = {
       cd = 4.5,
       gain = { [9] = 1 },
@@ -1087,6 +1094,9 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
     judgment = {
       a = { 20271, 275773, 275779, 406957, 197277, 214222 },
       b = { 20271, 197277, 214222, 406957, 220637, 275773 },
+    },
+    rebuke = {
+      a = { 96231 },
     },
     rite_of_adjuration = {
       a = { 433583, 433584, 433682 },

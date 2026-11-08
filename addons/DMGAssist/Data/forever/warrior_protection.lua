@@ -671,6 +671,22 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       n = "rend",
       r = 5,
     },
+    [6552] = {
+      cd = 10,
+      cost = { [1] = 10 },
+      d = 4,
+      gcd = 1.5,
+      n = "pummel",
+      r = 5,
+    },
+    [6554] = {
+      cd = 10,
+      cost = { [1] = 10 },
+      d = 4,
+      gcd = 1.5,
+      n = "pummel",
+      r = 5,
+    },
     [6572] = {
       cd = 5,
       cost = { [1] = 5 },
@@ -1008,6 +1024,9 @@ ns.RegisterSpecData("forever", "warrior_protection", {
     },
     execute = {
       a = { 5308, 20647, 20658, 20660, 20661, 20662 },
+    },
+    pummel = {
+      a = { 6552, 6554 },
     },
     rend_dot = {
       a = { 772, 6546, 6547, 6548, 11572, 11573 },
