@@ -47,6 +47,9 @@ local function Reset()
   mock.power, mock.powerMax, mock.powerReadable = {}, {}, {}
   mock.casting, mock.nameplates, mock.locale = nil, 0, "enUS"
   mock.overrides, mock.inRange, mock.boss, mock.classification, mock.instance = nil, nil, nil, nil, nil
+  mock.actionInfo, mock.macroSpell, mock.powerCost, mock.cdmInfo, mock.timeline = nil, nil, nil, nil, nil
+  mock.bindings, mock.actionSlots, mock.bonusBar = nil, nil, nil
+  DBM, BigWigsLoader, BT4Button1, BuffIconCooldownViewer = nil, nil, nil, nil
   mock.class, mock.specs, mock.specIndex = { "Druid", "DRUID", 11 }, { [1] = 102, [2] = 103, [3] = 104, [4] = 105 }, 2
   mock.book = FERAL_BOOK
   DMGAssistDB = nil
@@ -942,6 +945,165 @@ test("oracle: a skipped execute-style rule bounds the target's health", function
   ns.Engine.Recommend(rec, { useAssisted = true })
   local lo = ns.State.Bounds("target.health.pct")
   eq(lo, 20, "Rake's <20% rule was skipped although castable: health >= 20%")
+end)
+
+---------------------------------------------------------------------------
+-- Boss mods, keybinds from macros and bar addons, calibration, stacking, press cue, Cooldown Manager
+---------------------------------------------------------------------------
+local function FakeBossMods()
+  local dbm, bw = {}, {}
+  DBM = { RegisterCallback = function(_, event, fn) dbm[event] = fn end }
+  BigWigsLoader = { RegisterMessage = function(_, message, fn) bw[message] = fn end }
+  return dbm, bw
+end
+
+test("DBM: timers by type feed SimC's raid_event.adds and the HUD callout", function()
+  Reset()
+  local dbm = FakeBossMods()
+  local ns = Boot()
+  local B, S = ns.BossMods, ns.State
+  eq(table.concat(B.Detected(), ","), "DBM,BigWigs")
+  dbm.DBM_Pull("DBM_Pull")
+  dbm.DBM_TimerBegin("DBM_TimerBegin", "t1", "Adds", 20, 0, "cd", 1234, 1)       -- colorId 1 = adds
+  dbm.DBM_TimerBegin("DBM_TimerBegin", "t2", "Shadow Nova", 5, 0, "cd", 5678, 2) -- colorId 2 = AoE
+  eq(math.floor(S.Resolve("raid_event.adds.in", {}) + 0.5), 20, "adds in 20 s")
+  eq(S.Resolve("raid_event.adds.exists", {}), 1)
+  local c = B.Callout()
+  eq(c.label, "AOE")
+  eq(math.floor(c.seconds + 0.5), 5)
+  dbm.DBM_Announce("DBM_Announce", "Interrupt Shadow Bolt!", 0, "interrupt", 999, 1, true)
+  eq(B.Callout().label, "INTERRUPT", "alerts outrank timers")
+  dbm.DBM_TimerStop("DBM_TimerStop", "t1")
+  eq(S.Resolve("raid_event.adds.in", {}), 10000, "no adds expected -> SimC's default")
+  ns.db.bossMods = false
+  eq(B.Callout(), nil, "switched off in settings")
+end)
+
+test("BigWigs: bars with its 'adds'/'stages' keys, stop and wipe", function()
+  Reset()
+  local _, bw = FakeBossMods()
+  local ns = Boot()
+  local B = ns.BossMods
+  bw.BigWigs_OnBossEngage("BigWigs_OnBossEngage")
+  bw.BigWigs_StartBar("BigWigs_StartBar", {}, "adds", "Adds (2)", 12, 0)
+  bw.BigWigs_StartBar("BigWigs_StartBar", {}, 4321, "Crushing Blow", 30, 0)
+  eq(math.floor(B.Next("adds") + 0.5), 12)
+  bw.BigWigs_StopBar("BigWigs_StopBar", {}, "Adds (2)")
+  eq(B.Next("adds"), nil)
+  bw.BigWigs_OnBossWipe("BigWigs_OnBossWipe")
+  eq(B.Next(), nil, "wipe clears timers")
+end)
+
+test("no boss mod: Blizzard's encounter timeline still gives the next boss event", function()
+  Reset()
+  local ns = Boot()
+  mock.timeline = { [7] = 6.5 }
+  local left, t = ns.BossMods.Next()
+  eq(left, 6.5)
+  eq(t.source, "Blizzard")
+end)
+
+test("keybinds: spells in macros and on Bartender bars", function()
+  Reset()
+  mock.actionInfo = { [5] = { "macro", 3 }, [50] = { "spell", 1822 } }
+  mock.macroSpell = { [3] = 5221 }  -- a macro that casts Shred, on main bar slot 5
+  mock.bindings = { ACTIONBUTTON5 = "Q", ["CLICK BT4Button50:LeftButton"] = "SHIFT-E" }
+  BT4Button50 = { _state_action = 50 }
+  local ns = Boot()
+  ns.Display.BuildKeymap()
+  eq(ns.Display.Keybind(5221), "Q", "macro on the main bar")
+  eq(ns.Display.Keybind(1822), "SE", "Bartender button bound with CLICK binding")
+  mock.bindings.ACTIONBUTTON5 = "R"
+  SlashCmdList.DMGASSIST("keys")
+  eq(ns.Display.Keybind(5221), "R", "/dmga keys rebuilds")
+  BT4Button50 = nil
+end)
+
+test("calibration: live costs from the game replace SimC's base costs", function()
+  Reset()
+  mock.powerCost = { [5221] = { { type = 3, cost = 32 } } } -- talented Shred costs 32, not 40
+  local ns = Boot()
+  local info = ns.SpellMap.Info(5221)
+  eq(info.costLive[3], 32)
+  eq(ns.SpellMap.Cost(info)[3], 32)
+end)
+
+test("stacking own buffs (Ironfur): learned from a readable scan, then tracked per cast", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  ns.SpellMap.applied = { ironfur = true }
+  ns.SpellMap.info[192081] = { n = "ironfur", d = 7, ap = { { 192081, "self" } }, cost = { [1] = 40 }, cd = 0.5 }
+  mock.auras.player = { { name = "Ironfur", spellId = 192081, duration = 7, expirationTime = mock.now + 7,
+    applications = 2 } }
+  mock.Fire("UNIT_AURA", "player")
+  eq(S.IsStacking("ironfur"), true)
+  Restrict()
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "a", 192081)
+  mock.Advance(2)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "b", 192081)
+  eq(S.Resolve("buff.ironfur.stack", {}), 2)
+  mock.Advance(5.5) -- first one expired (7 s), second has 1.5 s left
+  eq(S.Resolve("buff.ironfur.stack", {}), 1)
+  eq(math.floor(S.Resolve("buff.ironfur.remains", {}) * 10 + 0.5), 15)
+end)
+
+test("press-now cue lights when the GCD ends within the spell queue window; spell_haste", function()
+  Reset()
+  local ns = Boot()
+  mock.cvars.SpellQueueWindow = "400" -- the game's default
+  mock.cooldowns[61304] = { active = true, start = mock.now, duration = 1.5 }
+  ns.Update()
+  eq(ns.Display.frame.pressNow, false, "1.5 s left")
+  mock.Advance(1.2)
+  ns.Update()
+  eq(ns.Display.frame.pressNow, true, "0.3 s left, inside the default 400 ms window")
+  mock.haste = 25
+  eq(math.floor(ns.State.Resolve("spell_haste", {}) * 100 + 0.5), 80)
+end)
+
+test("Cooldown Manager: tracked buffs read from its frames when readable, graded against the truth", function()
+  Reset()
+  local ns = Boot()
+  local item = { cooldownID = 11, isActive = true }
+  BuffIconCooldownViewer = { GetChildren = function() return item end }
+  mock.cdmInfo = { [11] = { spellID = 135700 } }
+  ns.SpellMap.info[135700] = { n = "clearcasting", d = 15 }
+  -- readable now: graded, not used
+  mock.auras.player = { { name = "Clearcasting", spellId = 135700, duration = 15, expirationTime = mock.now + 15 } }
+  mock.Fire("UNIT_AURA", "player")
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  eq(ns.Clues.stats.cdm.checks, 1)
+  eq(ns.Clues.stats.cdm.wrong, 0)
+  -- in combat (auras hidden) its active flag is used
+  Restrict()
+  mock.Advance(16) -- our own clock from the readable scan has run out: unknown without the Cooldown Manager
+  eq(ns.State.Resolve("buff.clearcasting.up", {}), ns.Expr.UNKNOWN)
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  eq(ns.State.Resolve("buff.clearcasting.up", {}), 1)
+  item.isActive = mock.Secret() -- if Blizzard hides it, we simply get nothing
+  mock.Advance(1)
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  eq(ns.State.Resolve("buff.clearcasting.up", {}), ns.Expr.UNKNOWN)
+end)
+
+test("free combo point proc: 'v or v+1', and a finisher makes the count exact again", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  mock.power[4], mock.powerMax[4] = 4, 5
+  S.VerifyPowers()
+  Restrict()
+  mock.Fire("UNIT_POWER_UPDATE", "player", "COMBO_POINTS") -- a point we didn't cause
+  local lo, hi = S.Bounds("combo_points")
+  eq(lo, 4)
+  eq(hi, 5)
+  eq(ns.Expr.Test("combo_points>=4", function() return ns.Expr.UNKNOWN end, S.Bounds), true)
+  eq(ns.Expr.Test("combo_points>=5", function() return ns.Expr.UNKNOWN end, S.Bounds), ns.Expr.UNKNOWN,
+    "can't claim 5: needs the assistant (Midnight) or shows as uncertain")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "f", 22568) -- Ferocious Bite spends up to 5
+  mock.Fire("UNIT_POWER_UPDATE", "player", "COMBO_POINTS")
+  eq(S.Resolve("combo_points", {}), 0, "exact again after the finisher")
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

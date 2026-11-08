@@ -16,6 +16,19 @@ ns.L = L
 local T = {}
 
 T.esES = {
+  ["INTERRUPT"] = "INTERRUMPIR",
+  ["DEFENSIVE"] = "DEFENSIVO",
+  ["TAUNT"] = "PROVOCAR",
+  ["SWITCH"] = "CAMBIAR",
+  ["MOVE"] = "MOVERSE",
+  ["DODGE"] = "ESQUIVAR",
+  ["SOAK"] = "ABSORBER",
+  ["TANK HIT"] = "GOLPE AL TANQUE",
+  ["ADDS"] = "ESBIRROS",
+  ["PHASE"] = "FASE",
+  ["TARGETED"] = "OBJETIVO",
+  ["BOSS"] = "JEFE",
+  ["Boss mods: %s."] = "Addons de jefes: %s.",
   NOW = "AHORA", NEXT = "SIGUIENTE", COOLDOWN = "REUTILIZACIÓN",
   ["open the settings panel"] = "abrir el panel de opciones",
   ST = "UNO", AOE = "ÁREA", AUTO = "AUTO",
@@ -65,6 +78,19 @@ T.esES = {
 T.esMX = T.esES
 
 T.deDE = {
+  ["INTERRUPT"] = "UNTERBRECHEN",
+  ["DEFENSIVE"] = "DEFENSIV",
+  ["TAUNT"] = "SPOTTEN",
+  ["SWITCH"] = "ZIELWECHSEL",
+  ["MOVE"] = "BEWEGEN",
+  ["DODGE"] = "AUSWEICHEN",
+  ["SOAK"] = "SOAKEN",
+  ["TANK HIT"] = "TANKSCHLAG",
+  ["ADDS"] = "ADDS",
+  ["PHASE"] = "PHASE",
+  ["TARGETED"] = "ZIEL",
+  ["BOSS"] = "BOSS",
+  ["Boss mods: %s."] = "Boss-Mods: %s.",
   NOW = "JETZT", NEXT = "DANACH", COOLDOWN = "ABKLINGZEIT",
   ["open the settings panel"] = "Einstellungen öffnen",
   ST = "EZ", AOE = "AOE", AUTO = "AUTO",
@@ -113,6 +139,19 @@ T.deDE = {
 }
 
 T.frFR = {
+  ["INTERRUPT"] = "INTERROMPRE",
+  ["DEFENSIVE"] = "DÉFENSIF",
+  ["TAUNT"] = "PROVOQUER",
+  ["SWITCH"] = "CHANGER",
+  ["MOVE"] = "BOUGER",
+  ["DODGE"] = "ESQUIVER",
+  ["SOAK"] = "ABSORBER",
+  ["TANK HIT"] = "FRAPPE TANK",
+  ["ADDS"] = "ADDS",
+  ["PHASE"] = "PHASE",
+  ["TARGETED"] = "CIBLÉ",
+  ["BOSS"] = "BOSS",
+  ["Boss mods: %s."] = "Addons de boss : %s.",
   NOW = "MAINTENANT", NEXT = "ENSUITE", COOLDOWN = "RECHARGE",
   ["open the settings panel"] = "ouvrir les options",
   ST = "MONO", AOE = "ZONE", AUTO = "AUTO",
@@ -161,6 +200,19 @@ T.frFR = {
 }
 
 T.ptBR = {
+  ["INTERRUPT"] = "INTERROMPER",
+  ["DEFENSIVE"] = "DEFENSIVO",
+  ["TAUNT"] = "PROVOCAR",
+  ["SWITCH"] = "TROCAR",
+  ["MOVE"] = "MOVER",
+  ["DODGE"] = "ESQUIVAR",
+  ["SOAK"] = "ABSORVER",
+  ["TANK HIT"] = "GOLPE NO TANQUE",
+  ["ADDS"] = "ADDS",
+  ["PHASE"] = "FASE",
+  ["TARGETED"] = "ALVO",
+  ["BOSS"] = "CHEFE",
+  ["Boss mods: %s."] = "Addons de chefe: %s.",
   NOW = "AGORA", NEXT = "PRÓXIMO", COOLDOWN = "RECARGA",
   ["open the settings panel"] = "abrir as opções",
   ST = "ÚNICO", AOE = "ÁREA", AUTO = "AUTO",
@@ -209,6 +261,19 @@ T.ptBR = {
 }
 
 T.ruRU = {
+  ["INTERRUPT"] = "ПРЕРВАТЬ",
+  ["DEFENSIVE"] = "ЗАЩИТА",
+  ["TAUNT"] = "ТАУНТ",
+  ["SWITCH"] = "СМЕНА ЦЕЛИ",
+  ["MOVE"] = "ОТОЙТИ",
+  ["DODGE"] = "УКЛОНИТЬСЯ",
+  ["SOAK"] = "ПРИНЯТЬ",
+  ["TANK HIT"] = "УДАР ПО ТАНКУ",
+  ["ADDS"] = "АДДЫ",
+  ["PHASE"] = "ФАЗА",
+  ["TARGETED"] = "ЦЕЛЬ",
+  ["BOSS"] = "БОСС",
+  ["Boss mods: %s."] = "Боссмоды: %s.",
   NOW = "СЕЙЧАС", NEXT = "ДАЛЕЕ", COOLDOWN = "КУЛДАУН",
   ["open the settings panel"] = "открыть настройки",
   ST = "ОДНА", AOE = "АОЕ", AUTO = "АВТО",
@@ -257,6 +322,19 @@ T.ruRU = {
 }
 
 T.zhCN = {
+  ["INTERRUPT"] = "打断",
+  ["DEFENSIVE"] = "减伤",
+  ["TAUNT"] = "嘲讽",
+  ["SWITCH"] = "转火",
+  ["MOVE"] = "移动",
+  ["DODGE"] = "躲避",
+  ["SOAK"] = "分摊",
+  ["TANK HIT"] = "坦克重击",
+  ["ADDS"] = "小怪",
+  ["PHASE"] = "转阶段",
+  ["TARGETED"] = "点名",
+  ["BOSS"] = "首领",
+  ["Boss mods: %s."] = "首领插件：%s。",
   NOW = "现在", NEXT = "下一个", COOLDOWN = "大技能",
   ["open the settings panel"] = "打开设置面板",
   ST = "单体", AOE = "群体", AUTO = "自动",
@@ -302,6 +380,19 @@ T.zhCN = {
 }
 
 T.zhTW = {
+  ["INTERRUPT"] = "打斷",
+  ["DEFENSIVE"] = "減傷",
+  ["TAUNT"] = "嘲諷",
+  ["SWITCH"] = "轉火",
+  ["MOVE"] = "移動",
+  ["DODGE"] = "躲避",
+  ["SOAK"] = "分攤",
+  ["TANK HIT"] = "坦克重擊",
+  ["ADDS"] = "小怪",
+  ["PHASE"] = "轉階段",
+  ["TARGETED"] = "點名",
+  ["BOSS"] = "首領",
+  ["Boss mods: %s."] = "首領插件：%s。",
   NOW = "現在", NEXT = "下一個", COOLDOWN = "大招",
   ["open the settings panel"] = "開啟設定面板",
   ST = "單體", AOE = "群體", AUTO = "自動",
@@ -347,6 +438,19 @@ T.zhTW = {
 }
 
 T.koKR = {
+  ["INTERRUPT"] = "차단",
+  ["DEFENSIVE"] = "생존기",
+  ["TAUNT"] = "도발",
+  ["SWITCH"] = "대상 전환",
+  ["MOVE"] = "이동",
+  ["DODGE"] = "회피",
+  ["SOAK"] = "받기",
+  ["TANK HIT"] = "탱커 강타",
+  ["ADDS"] = "쫄",
+  ["PHASE"] = "페이즈",
+  ["TARGETED"] = "대상 지정",
+  ["BOSS"] = "우두머리",
+  ["Boss mods: %s."] = "보스 애드온: %s.",
   NOW = "지금", NEXT = "다음", COOLDOWN = "쿨기",
   ["open the settings panel"] = "설정 창 열기",
   ST = "단일", AOE = "광역", AUTO = "자동",

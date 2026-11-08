@@ -288,6 +288,31 @@ function mock.Install(env)
     end,
   }
   env.MinimalSliderWithSteppersMixin = { Label = { Right = 3 } }
+  env.CreateSettingsButtonInitializer = function(name, text, click)
+    return { name = name, text = text, click = click }
+  end
+  env.GetActionInfo = function(slot)
+    local a = mock.actionInfo and mock.actionInfo[slot]
+    if a then
+      return a[1], a[2]
+    end
+    return nil
+  end
+  env.GetMacroSpell = function(id)
+    return mock.macroSpell and mock.macroSpell[id]
+  end
+  env.C_EncounterTimeline = {
+    GetEventList = function()
+      local ids = {}
+      for id in pairs(mock.timeline or {}) do
+        ids[#ids + 1] = id
+      end
+      return ids
+    end,
+    GetEventTimeRemaining = function(id)
+      return (mock.timeline or {})[id]
+    end,
+  }
   env.GetBindingKey = function(command)
     return mock.bindings and mock.bindings[command]
   end
@@ -447,6 +472,9 @@ function mock.Install(env)
     IsCooldownViewerAvailable = function()
       return true, ""
     end,
+    GetCooldownViewerCooldownInfo = function(id)
+      return mock.cdmInfo and mock.cdmInfo[id]
+    end,
   }
   env.C_RestrictedActions = {
     GetAddOnRestrictionState = function(rtype)
@@ -547,6 +575,9 @@ function mock.Install(env)
         return mock.inRange[id]
       end
       return nil
+    end,
+    GetSpellPowerCost = function(id)
+      return mock.powerCost and mock.powerCost[id]
     end,
     GetSpellInfo = function(id)
       return { name = "x", spellID = id, castTime = 0 }

@@ -81,3 +81,19 @@ Readable combat inputs for the engine: usable/affordable, on-cooldown yes/no, on
 - No `io`/`os` file access; persistence only via SavedVariables.
 - WoW extras: `bit.*`, `wipe`, `strsplit`, `C_Timer.After/NewTicker`, `tContains`, `math.clamp`, `string.join`, `issecretvalue`, `canaccessvalue`, `canaccessallvalues`, `hasanysecretvalues`, `scrubsecretvalues`, `secretwrap`.
 - Local test runtime: PUC Lua 5.1.5 + luacheck 1.2.0 (installed in the session; add to environment setup script).
+
+## 6. Reading Blizzard's own UI is closed off (verified, live 12.1.5)
+
+Widgets carry **secret aspects** (`Enum.SecretAspect`: Shown, Alpha, Text, VertexColor, Desaturation, BarValue,
+Cooldown, …). When Blizzard code drives a frame with a secret value, `IsShown`/`IsVisible`/`GetAlpha`/`GetText`/
+`GetValue`/`GetVertexColor`/`IsDesaturated` return secrets to addons (`SecretReturnsForAspect`). So scraping action
+buttons, the Cooldown Manager or nameplate auras gives nothing secret APIs wouldn't.
+Open question for the Watchdog probe (`cooldownManager`): the Cooldown Manager's buff items compute `isActive` in
+plain Lua and store it on the frame (`Blizzard_CooldownViewer/CooldownViewer.lua`); aura instance IDs are secret there
+(`CreateSecureAuraInstanceMap`). If `item.isActive` reads as a plain boolean in combat, DMGAssist uses it (graded
+source "cdm"); otherwise it is ignored.
+Also secret in combat: `GetSpellCastCount`, `GetSpellDisplayCount`, `GetSpellCharges` (cooldown restriction),
+`GetTotemInfo` (per slot), `UnitThreatSituation`, `UnitStagger` (`Secret = true`), `GetHaste`/`GetCritChance`.
+Not secret: `C_Spell.GetSpellPowerCost` (live costs; used for calibration), `C_Spell.GetOverrideSpell`,
+`C_Spell.IsSpellInRange`, `UnitIsBossMob`, `UnitClassification`, `UNIT_POWER_UPDATE` payload, `UNIT_SPELL_HASTE`,
+`PLAYER_TOTEM_UPDATE(slot)`, `C_EncounterTimeline.GetEventTimeRemaining`.

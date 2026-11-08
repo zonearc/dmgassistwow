@@ -347,10 +347,27 @@ end
 ---------------------------------------------------------------------------
 -- Casts
 ---------------------------------------------------------------------------
+S.stackUntil = {} -- token -> { expiry, expiry, ... } for buffs where every cast is its own stack (Ironfur)
+
+function S.IsStacking(token)
+  return (S.learned.stacking and S.learned.stacking[token]) or false
+end
+
 local function StartAuraClock(token, auraID, target, from)
   local d = AuraLength(token, auraID)
   if not d then
     return
+  end
+  if target ~= "enemy" and S.IsStacking(token) then
+    local list = S.stackUntil[token] or {}
+    local alive = {}
+    for _, e in ipairs(list) do
+      if e > from then
+        alive[#alive + 1] = e
+      end
+    end
+    alive[#alive + 1] = from + d
+    S.stackUntil[token] = alive
   end
   if target == "enemy" then
     S.dotUntil[token] = from + d
@@ -561,11 +578,24 @@ function S.OnAura(unit)
   end
   for token, a in pairs(now) do
     clocks[token] = a.expires
+    -- More than one stack of a buff our own casts apply: each cast is its own stack (Ironfur-style).
+    if unit == "player" and a.stacks > 1 and (M.IsOwnAura(token) or S.learnedOwn(token)) then
+      S.learned.stacking = S.learned.stacking or {}
+      S.learned.stacking[token] = true
+    end
   end
 end
 
 function S.AurasReadable()
   return readAuras.player ~= nil
+end
+
+-- The last readable scans ({ player = {...} | nil, target = {...} | nil }), for grading clue sources.
+function S.ReadableAuras()
+  if readAuras.player or readAuras.target then
+    return readAuras
+  end
+  return nil
 end
 
 function S.OnTargetChanged()
@@ -604,6 +634,22 @@ local function AuraState(unit, token)
         return true, read[t].expires - now, read[t].stacks
       end
       return false, 0, 0
+    end
+  end
+  if unit == "player" and not read then
+    for _, t in ipairs(list) do
+      local stacks = S.stackUntil[t]
+      if stacks then
+        local n, last = 0, 0
+        for _, e in ipairs(stacks) do
+          if e > now then
+            n, last = n + 1, math.max(last, e)
+          end
+        end
+        if n > 0 then
+          return true, last - now, n
+        end
+      end
     end
   end
   local clocks = unit == "player" and S.auraUntil or S.dotUntil
@@ -759,11 +805,12 @@ end
 -- Can we afford this spell (by SimC's cost data) at the overlay's moment? true/false/UNKNOWN.
 function S.Affordable(id)
   local info = M.Info(id)
-  if not (info and info.cost) then
+  local cost = M.Cost(info)
+  if not cost then
     return UNKNOWN
   end
   local result = true
-  for pt, amount in pairs(info.cost) do
+  for pt, amount in pairs(cost) do
     local cur = PowerNow(pt)
     if type(cur) ~= "number" then
       result = UNKNOWN
@@ -864,8 +911,9 @@ function S.Apply(id)
   if cd and not (info.ch and info.ch > 1) then
     V.cd[id] = at + cd
   end
-  if info.cost then
-    for pt, amount in pairs(info.cost) do
+  local cost = M.Cost(info)
+  if cost then
+    for pt, amount in pairs(cost) do
       local spend = amount
       local cmax = info.cmax and info.cmax[pt]
       if cmax then
@@ -957,8 +1005,8 @@ local function CooldownTerm(token, field)
   end
   if field == "max_charges" then
     local info = M.Info(id)
-    if info and info.ch then
-      return info.ch
+    if info and (info.chLive or info.ch) then
+      return info.chLive or info.ch
     end
   end
   return UNKNOWN
@@ -1068,6 +1116,8 @@ function S.Resolve(name, ctx)
       return U.Read(U.Call(UnitLevel, "target")) or UNKNOWN
     end
     return UNKNOWN
+  elseif head == "spell_haste" or head == "attack_haste" then
+    return 1 / HasteFactor() -- SimC: the haste multiplier (0.8 at 25% haste)
   elseif head == "gcd" then
     if p[2] == "remains" then
       return S.GCDRemains()
@@ -1104,6 +1154,10 @@ function S.Resolve(name, ctx)
     return p[2] == "patchwerk" and 1 or 0
   elseif head == "raid_event" then
     local f = p[3]
+    local fromMods = ns.BossMods and ns.BossMods.RaidEvent(p[2], f)
+    if fromMods then
+      return fromMods
+    end
     if f == "in" or f == "cooldown" then
       return 10000
     end
@@ -1149,8 +1203,9 @@ function S.Resolve(name, ctx)
       return UNKNOWN
     elseif f == "cost" then
       local info = M.Info(id)
-      if info and info.cost then
-        local _, amount = next(info.cost)
+      local cost = M.Cost(info)
+      if cost then
+        local _, amount = next(cost)
         return amount or 0
       end
       return 0
@@ -1175,6 +1230,43 @@ function S.Resolve(name, ctx)
     end
   end
   return UNKNOWN
+end
+
+---------------------------------------------------------------------------
+-- Out-of-combat calibration: read the real numbers for this character (talents, gear and buffs included)
+---------------------------------------------------------------------------
+-- C_Spell.GetSpellPowerCost (not secret) -> live resource costs; C_Spell.GetSpellCharges (readable out of combat)
+-- -> live max charges; UnitSpellHaste -> haste. Run after login, spec/talent changes and at the end of each fight.
+function S.Calibrate()
+  if S.combatStart then
+    return 0
+  end
+  local n = 0
+  for id, b in pairs(M.book) do
+    local info = b.id == id and not b.passive and M.Info(id)
+    if info then
+      local costs = U.Read(U.Call(C_Spell and C_Spell.GetSpellPowerCost, id))
+      if type(costs) == "table" then
+        local live
+        for _, c in ipairs(costs) do
+          local pt, amount = U.Read(c.type), U.Read(c.cost)
+          if type(pt) == "number" and type(amount) == "number" and amount > 0 then
+            live = live or {}
+            live[pt] = amount
+          end
+        end
+        info.costLive = live
+        n = n + 1
+      end
+      local charges = U.Read(U.Call(C_Spell and C_Spell.GetSpellCharges, id))
+      local maxC = type(charges) == "table" and U.Read(charges.maxCharges)
+      if type(maxC) == "number" then
+        info.chLive = maxC
+      end
+    end
+  end
+  HasteFactor()
+  return n
 end
 
 ---------------------------------------------------------------------------
@@ -1211,5 +1303,7 @@ function S.Bind(key)
   S.learned = l
   ns.Clues.Reset(l.glowAura)
   S.auraUntil, S.dotUntil, S.lastCast, S.wasActive, S.glow = {}, {}, {}, {}, {}
+  S.stackUntil = {}
+  l.stacking = type(l.stacking) == "table" and l.stacking or {}
   readAuras.player, readAuras.target = nil, nil
 end

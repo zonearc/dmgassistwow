@@ -25,7 +25,7 @@ D.DEFAULTS = {
   spellNames = false, nameSize = 10, labels = false,
   gcdBar = true, glow = "pulse",
   hideOutOfCombat = true, showWithTarget = true,
-  debugText = false,
+  debugText = false, callout = true, pressCue = true,
 }
 
 local GOLD = { 1, 0.69, 0 }
@@ -57,9 +57,11 @@ local PAGE_COMMAND = { [6] = "MULTIACTIONBAR1BUTTON", [5] = "MULTIACTIONBAR2BUTT
   [4] = "MULTIACTIONBAR4BUTTON", [13] = "MULTIACTIONBAR5BUTTON", [14] = "MULTIACTIONBAR6BUTTON",
   [15] = "MULTIACTIONBAR7BUTTON" }
 local keyCache = {}
+local keymap, keymapAt = nil, 0
 
 function D.InvalidateKeybinds()
   keyCache = {}
+  keymap = nil
 end
 
 local function Shorten(text)
@@ -88,6 +90,84 @@ local function BindingFor(slot, mainPage)
   return Shorten(type(text) == "string" and text or key), page == mainPage
 end
 
+-- Action bar addons bind keys to their own buttons ("CLICK <button>:LeftButton"); the button's action slot is an
+-- attribute. Patterns for the common ones (LibActionButton-based Bartender4/ElvUI, and Dominos).
+local ADDON_BUTTONS = {
+  { pattern = "BT4Button%d", count = 180 },
+  { pattern = "DominosActionButton%d", count = 180 },
+}
+for bar = 1, 15 do
+  ADDON_BUTTONS[#ADDON_BUTTONS + 1] = { pattern = "ElvUI_Bar" .. bar .. "Button%d", count = 12 }
+end
+
+local function MainPage()
+  local bonus = U.Read(U.Call(C_ActionBar and C_ActionBar.GetBonusBarOffset))
+  if type(bonus) == "number" and bonus > 0 then
+    return 6 + bonus
+  end
+  return U.Read(U.Call(C_ActionBar and C_ActionBar.GetActionBarPage)) or 1
+end
+
+-- What spell an action slot casts: a spell, or the spell a macro currently shows.
+local function SlotSpell(slot)
+  local kind, id = U.Call(GetActionInfo, slot)
+  kind, id = U.Read(kind), U.Read(id)
+  if kind == "spell" and type(id) == "number" then
+    return id
+  elseif kind == "macro" and id then
+    local a, b, c = U.Call(GetMacroSpell, id)
+    a, b, c = U.Read(a), U.Read(b), U.Read(c)
+    for _, v in ipairs({ a, b, c }) do
+      if type(v) == "number" then
+        return v
+      end
+    end
+  end
+  return nil
+end
+
+D.KEYMAP_REFRESH = 10 -- seconds, out of combat
+
+-- Build spellID -> key text for every bar: Blizzard bars (pages), macros on them, and bar addons' buttons.
+function D.BuildKeymap()
+  local map, onMain = {}, {}
+  local mainPage = MainPage()
+  local function Put(spellID, text, main)
+    if spellID and text and (not map[spellID] or (main and not onMain[spellID])) then
+      map[spellID], onMain[spellID] = text, main
+    end
+  end
+  for slot = 1, 180 do
+    local sid = SlotSpell(slot)
+    if sid then
+      local text, main = BindingFor(slot, mainPage)
+      Put(sid, text, main)
+    end
+  end
+  for _, def in ipairs(ADDON_BUTTONS) do
+    for i = 1, def.count do
+      local name = def.pattern:format(i)
+      local button = _G[name]
+      if type(button) == "table" then
+        local slot = U.Read(button._state_action) or U.Read(button.action)
+        if not slot and button.GetAttribute then
+          slot = U.Read(U.Call(button.GetAttribute, button, "action"))
+        end
+        slot = tonumber(slot)
+        local key = U.Read(U.Call(GetBindingKey, "CLICK " .. name .. ":LeftButton"))
+          or U.Read(U.Call(GetBindingKey, "CLICK " .. name .. ":Keybind"))
+        if slot and type(key) == "string" then
+          local text = U.Read(U.Call(GetBindingText, key, 1))
+          Put(SlotSpell(slot), Shorten(type(text) == "string" and text or key), false)
+        end
+      end
+    end
+  end
+  keymap, keymapAt = map, GetTime()
+  keyCache = {}
+  return map
+end
+
 function D.Keybind(spellID)
   if not spellID then
     return nil
@@ -96,28 +176,39 @@ function D.Keybind(spellID)
   if cached ~= nil then
     return cached or nil
   end
-  local slots = U.Read(U.Call(C_ActionBar and C_ActionBar.FindSpellActionButtons, spellID))
-  local best
-  if type(slots) == "table" then
-    local mainPage
-    local bonus = U.Read(U.Call(C_ActionBar and C_ActionBar.GetBonusBarOffset))
-    if type(bonus) == "number" and bonus > 0 then
-      mainPage = 6 + bonus
-    else
-      mainPage = U.Read(U.Call(C_ActionBar and C_ActionBar.GetActionBarPage)) or 1
-    end
-    for _, slot in ipairs(slots) do
-      local text, onMain = BindingFor(slot, mainPage)
-      if text and (onMain or not best) then
-        best = text
-        if onMain then
-          break
+  if not keymap then
+    D.BuildKeymap()
+  end
+  local best = keymap[spellID]
+  local base = ns.SpellMap and ns.SpellMap.baseOf[spellID]
+  if not best and base then
+    best = keymap[base]
+  end
+  if not best then
+    -- Slots the game knows hold this spell (covers overrides and flyouts).
+    local slots = U.Read(U.Call(C_ActionBar and C_ActionBar.FindSpellActionButtons, spellID))
+    if type(slots) == "table" then
+      local mainPage = MainPage()
+      for _, slot in ipairs(slots) do
+        local text, main = BindingFor(slot, mainPage)
+        if text and (main or not best) then
+          best = text
+          if main then
+            break
+          end
         end
       end
     end
   end
   keyCache[spellID] = best or false
   return best
+end
+
+-- Out of combat, rebuild now and then even without an event (bar addons sometimes change bindings silently).
+function D.MaybeRefreshKeymap(inCombat)
+  if not inCombat and GetTime() - keymapAt > D.KEYMAP_REFRESH then
+    D.BuildKeymap()
+  end
 end
 
 ---------------------------------------------------------------------------
@@ -283,6 +374,10 @@ function D.Create()
   f.gcd:SetStatusBarTexture("Interface\\Buttons\\WHITE8x8")
   f.gcd:SetStatusBarColor(GOLD[1], GOLD[2], GOLD[3], 0.9)
   f.gcd:SetMinMaxValues(0, 1)
+  f.callout = f:CreateFontString(nil, "OVERLAY")
+  SetFont(f.callout, 13)
+  f.callout:SetPoint("BOTTOMLEFT", f, "TOPLEFT", 2, 3)
+  f.callout:SetTextColor(1, 0.25, 0.2)
   f.debug = f:CreateFontString(nil, "OVERLAY")
   SetFont(f.debug, 9)
   f.debug:SetJustifyH("LEFT")
@@ -364,8 +459,18 @@ function D.Update(result, visible)
     SetIcon(f.slots[i], i <= depth and queue[i] or nil, cfg, i == 1, i == 1 and L["NOW"] or L["NEXT"])
   end
   SetIcon(f.cd, result.cd, cfg, true, L["COOLDOWN"])
+  -- "Press now" cue: the GCD (or the current cast) ends within the game's spell queue window, so pressing now
+  -- queues the spell with no gap. Timing uses the haste-adjusted GCD we track.
+  local queueWindow = (tonumber(U.Read(U.Call(C_CVar and C_CVar.GetCVar, "SpellQueueWindow"))) or 400) / 1000
+  local castLeft = select(2, ns.State.CurrentCast()) or 0
+  local wait = math.max(ns.State.GCDRemains(), castLeft)
+  local pressNow = cfg.pressCue and wait <= queueWindow
+  f.pressNow = pressNow
   -- glow on the main icon
-  if cfg.glow == "none" then
+  if pressNow and cfg.glow ~= "none" then
+    f.glow:Show()
+    f.glow:SetColorTexture(GOLD[1], GOLD[2], GOLD[3], 0.8)
+  elseif cfg.glow == "none" then
     f.glow:Hide()
   else
     f.glow:Show()
@@ -389,6 +494,21 @@ function D.Update(result, visible)
     local state = ns.Specs and ns.Specs.current
     f.header:SetText(string.format("DMGAssist · %s · %s", tostring(state and (state.specName or state.key) or "-"),
       Translate(result.modeLabel)))
+  end
+  local c = result.callout
+  if cfg.callout and c then
+    local icon = c.spellID and U.Read(U.Call(C_Spell and C_Spell.GetSpellTexture, c.spellID))
+    local text = L[c.label]
+    if c.seconds then
+      text = string.format("%s %d", text, math.ceil(c.seconds))
+    end
+    if icon then
+      text = "|T" .. icon .. ":16|t " .. text
+    end
+    f.callout:SetText(text)
+    f.callout:Show()
+  else
+    f.callout:Hide()
   end
   if cfg.debugText then
     local parts = {}

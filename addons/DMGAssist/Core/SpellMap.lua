@@ -89,6 +89,15 @@ function M.SetData(record)
   end
 end
 
+-- Resource cost for a spell's data: the live cost read from the game out of combat (talents and buffs that change
+-- costs are included), else SimC's base cost.
+function M.Cost(info)
+  if not info then
+    return nil
+  end
+  return info.costLive or info.cost
+end
+
 function M.IsOwnAura(token)
   for _, t in ipairs(M.Candidates(token)) do
     if M.applied and M.applied[t] then

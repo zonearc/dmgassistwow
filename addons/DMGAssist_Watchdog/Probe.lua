@@ -319,6 +319,66 @@ local function SpellSweep()
 end
 
 -- label: "login", "combat", "manual"
+-- Can addons read Blizzard's Cooldown Manager frames (item.isActive / IsShown) and the encounter timeline?
+-- Records types only ("boolean", "number", "secret", "nil") so nothing secret is ever stored.
+local function Kind(v)
+  if v == nil then
+    return "nil"
+  end
+  if U.IsSecret(v) then
+    return "secret"
+  end
+  return type(v)
+end
+
+local function CooldownManager()
+  local out = {}
+  for _, name in ipairs({ "BuffIconCooldownViewer", "BuffBarCooldownViewer", "EssentialCooldownViewer",
+    "UtilityCooldownViewer" }) do
+    local viewer = _G[name]
+    local entry = { exists = type(viewer) == "table" }
+    if entry.exists and type(viewer.GetChildren) == "function" then
+      local ok, kids = pcall(function()
+        return { viewer:GetChildren() }
+      end)
+      kids = ok and kids or {}
+      entry.children = #kids
+      entry.items = {}
+      for i = 1, math.min(#kids, 6) do
+        local item = kids[i]
+        local shownOk, shown = pcall(item.IsShown, item)
+        entry.items[i] = {
+          cooldownID = Kind(item.cooldownID),
+          isActive = Kind(item.isActive),
+          auraInstanceID = Kind(item.auraInstanceID),
+          shown = shownOk and Kind(shown) or "error",
+        }
+      end
+    end
+    out[name] = entry
+  end
+  return out
+end
+
+local function Timeline()
+  local out = { available = type(C_EncounterTimeline) == "table" }
+  if out.available then
+    local ok, list = pcall(C_EncounterTimeline.GetEventList)
+    out.listKind = ok and Kind(list) or "error"
+    if ok and type(list) == "table" and not U.IsSecret(list) then
+      out.events = #list
+      local id = list[1]
+      if id ~= nil then
+        local okR, remaining = pcall(C_EncounterTimeline.GetEventTimeRemaining, id)
+        out.remainingKind = okR and Kind(remaining) or "error"
+      end
+    end
+  end
+  out.dbm = type(DBM) == "table" and Kind(DBM.Revision or DBM.DisplayVersion) or "absent"
+  out.bigwigs = type(BigWigsLoader) == "table" and "present" or "absent"
+  return out
+end
+
 function P.Run(label)
   local db = ns.db
   if not db then
@@ -335,6 +395,10 @@ function P.Run(label)
     secretSelfTest = SecretSelfTest(),
     powers = Powers(),
   }
+  local okC, cdm = pcall(CooldownManager)
+  result.cooldownManager = okC and cdm or { error = U.Safe(cdm) }
+  local okT, tl = pcall(Timeline)
+  result.timeline = okT and tl or { error = U.Safe(tl) }
   result.spells, result.spellNote = SpellSweep()
   if started then
     result.costMs = U.Round2(debugprofilestop() - started)
