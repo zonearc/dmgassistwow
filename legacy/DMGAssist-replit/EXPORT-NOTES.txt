@@ -1,0 +1,20 @@
+DMGAssist project review export
+
+Snapshot of the current workspace files, including source code, generators,
+frontend, backend, tests, configuration, lockfile, project-specific instructions,
+build output, and all attached assets (including historical logs/screenshots).
+Existing build output may be older than the source; source is authoritative.
+
+Excluded: Git history, installed dependencies (node_modules), caches, Replit
+internal tooling/state (.local, .config, .upm), the exports directory, symlinks,
+and credential/environment files. Runtime secret values were not accessed.
+Attached assets are included as-is; review them before sharing externally.
+
+This is a file snapshot, not a database backup. Database records and hosted
+service configuration are not included. Existing issues are preserved as-is.
+No application code was changed or repaired for this export.
+
+For source review, start with replit.md, package.json, server/generators/README.md,
+and the client/, server/, shared/, and tests/ directories.
+Dependencies can be restored with npm ci. Running the app also requires the
+appropriate environment variables and database configuration.
