@@ -2193,6 +2193,32 @@ test("enemy count: nameplates up but none counted -> the hostile target is one e
   mock.inCombat, mock.plateCombat = false, nil
 end)
 
+test("pets: pet.any.active is read from the game; Call Pet is skipped while a pet is out", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local exists = UnitExists
+  UnitExists = function(unit) -- luacheck: ignore 121
+    if unit == "pet" then
+      return mock.petOut == true
+    end
+    return exists(unit)
+  end
+  mock.petOut = true
+  eq(S.Resolve("pet.any.active", { vars = {} }), 1)
+  local rec = Record()
+  rec.simc.default = { { a = "call_pet_1", k = "R" }, { a = "shred", k = "R" } }
+  rec.simc.finisher = {}
+  rec.spells = rec.spells or {}
+  ns.SpellMap.data.call_pet_1 = { a = { 5221 } } -- a stand-in button
+  local r = ns.Engine.Recommend(rec, {})
+  eq(r.main.token ~= "call_pet_1", true, "pet out: no Call Pet")
+  mock.petOut = false
+  eq(S.Resolve("pet.any.active", { vars = {} }), 0)
+  UnitExists = exists -- luacheck: ignore 121
+  mock.petOut = nil
+end)
+
 test("title row: colour-coded ST / AOE with the live count", function()
   Reset()
   local ns = Boot()

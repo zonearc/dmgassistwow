@@ -1063,6 +1063,15 @@ function S.OnTargetChanged()
 end
 
 -- up, remains, stacks for an aura token on "player" or "target": overlay, read, our clock, else UNKNOWN.
+-- A living pet, or nil when the game won't say.
+function S.PetActive()
+  local exists = U.Get(UnitExists, "pet")
+  if exists == nil then
+    return nil
+  end
+  return exists == true and U.Get(UnitIsDead, "pet") ~= true
+end
+
 -- Stealth buffs: the game tells us whether we are stealthed (IsStealthed), and attacking ends them. Our own clock
 -- for them never ends by itself (Prowl has no duration), so without this a Prowl cast before the pull stayed "up"
 -- all fight and Feral's "rake if buff.prowl.up" opener line won every decision (2026-11-08).
@@ -1732,6 +1741,10 @@ function S.Resolve(name, ctx)
     return 0
   elseif head == "level" then
     return U.Get(UnitLevel, "player") or UNKNOWN
+  elseif head == "pet" and (name:find("%.active$") or name == "pet.active") then
+    -- pet.active, pet.any.active, pet.main.active, pet.<name>.active: whether the player has a living pet (the game
+    -- tells us). Without it, Call Pet stayed undecided and filled slots 2-3 with a pet out (Beast Mastery).
+    return Bool(S.PetActive())
   elseif head == "stealthed" then
     local st = U.Get(IsStealthed)
     if st == nil then

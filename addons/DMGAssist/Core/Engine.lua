@@ -405,7 +405,12 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
     elseif not G.SKIP[a] and not (isBlizzard and not run.burst and (e.x or run.cooldowns[a])) then
       -- (Blizzard's excluded lines are the major cooldowns: left out only when major cooldowns are off.)
       local id = M.SpellID(a)
-      if id and G.held[id] then
+      if id and (a:find("^call_pet") or a == "summon_pet") and S.PetActive() then
+        -- SimC only summons when there is no pet: with one out, the line does nothing.
+        if run.trace then
+          run.trace[#run.trace + 1] = string.format("%s:%s pet already out", name, a)
+        end
+      elseif id and G.held[id] then
         if run.trace then
           run.trace[#run.trace + 1] = string.format("%s:%s held (you skipped it)", name, a)
         end
