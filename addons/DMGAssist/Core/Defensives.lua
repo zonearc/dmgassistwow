@@ -1,6 +1,6 @@
 -- Defensives.lua: when to suggest a personal defensive, and which one.
 --
--- Mode (DMGAssistDB.defensiveMode, Options > Combat): "smart" (default) = boss mod calls + low health,
+-- Mode (DMGAssistDB.defensiveMode, Options > Combat > Defensives): "smart" (default) = boss mod calls + low health,
 -- "bossmods" = only boss mod calls, "health" = only low health, "off".
 --   Boss mods: a DBM/BigWigs "defensive" alert, or an AoE / tank-hit timer (tank hits only for tanks) landing within
 --   defensiveLead seconds (default 3) -> a real decision.
