@@ -16,6 +16,7 @@ on:
 
 permissions:
   contents: write
+  actions: read
 
 concurrency:
   group: weekly-release
@@ -33,15 +34,18 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          # The whole nightly run for this commit (zips, then the compiled updater) must be finished: checking for
+          # an existing exe let an earlier build's exe into a release.
           for i in $(seq 1 40); do
-            git fetch -q -f origin 'refs/tags/nightly:refs/tags/nightly' || true
-            if [ "$(git rev-list -n 1 nightly 2>/dev/null)" = "$GITHUB_SHA" ] && \
-               gh release view nightly --json assets --jq '.assets[].name' | grep -q DMGAssistUpdater.exe; then
-              exit 0
-            fi
+            state=$(gh run list --workflow nightly.yml --commit "$GITHUB_SHA" --json status,conclusion \
+              --jq '.[0] | "\(.status)/\(.conclusion)"' 2>/dev/null || true)
+            case "$state" in
+              completed/success) exit 0 ;;
+              completed/*) echo "The nightly build for $GITHUB_SHA ended: $state"; exit 1 ;;
+            esac
             sleep 30
           done
-          echo "The nightly build for $GITHUB_SHA did not appear in 20 minutes"; exit 1
+          echo "The nightly build for $GITHUB_SHA did not finish in 20 minutes"; exit 1
       - name: Promote the nightly build
         env:
           GH_TOKEN: ${{ github.token }}
