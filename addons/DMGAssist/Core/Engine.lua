@@ -195,6 +195,32 @@ end
 -- "power" (not enough resources: a pooling candidate) or "moving" (has a cast time and we are moving).
 -- Spells the game reports usable whatever the target, that only work on some targets.
 -- Touch of Death: only on a target with less health than your maximum; the button glows when it can be used.
+-- Damage-reduction spells SimC casts on cooldown because its fights always have a boss hitting the tank. With
+-- nothing hurting the player (a dummy, between pulls) they are skipped. Purifying Brew only clears Stagger, so it
+-- needs Stagger when the game shows it.
+G.WHEN_HURT = {
+  purifying_brew = "stagger", celestial_brew = true, fortifying_brew = true, black_ox_brew = "stagger",
+  shield_block = true, demon_spikes = true, ignore_pain = true, rune_tap = true, survival_instincts = true,
+  barkskin = true, frenzied_regeneration = true, ardent_defender = true, guardian_of_ancient_kings = true,
+  shield_wall = true, last_stand = true, icebound_fortitude = true, vampiric_blood = true, fiery_brand = true,
+  word_of_glory = "hurt", expel_harm = "hurt", healing_elixir = "hurt", dampen_harm = true,
+}
+
+local function NotHurtSkip(token)
+  local rule = G.WHEN_HURT[token]
+  if not rule then
+    return false
+  end
+  if rule == "stagger" then
+    local st = S.Stagger()
+    if st ~= nil then
+      return st <= 0
+    end
+  end
+  return S.Unhurt() == true
+end
+G.NotHurtSkip = NotHurtSkip
+
 G.TARGET_RULES = {
   [322109] = function(id)
     local hp, maxHp = U.Get(UnitHealth, "target"), U.Get(UnitHealthMax, "player")
@@ -475,6 +501,10 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         -- SimC only summons when there is no pet: with one out, the line does nothing.
         if run.trace then
           run.trace[#run.trace + 1] = string.format("%s:%s pet already out", name, a)
+        end
+      elseif id and NotHurtSkip(a) then
+        if run.trace then
+          run.trace[#run.trace + 1] = string.format("%s:%s nothing to mitigate", name, a)
         end
       elseif id and G.held[id] then
         if run.trace then

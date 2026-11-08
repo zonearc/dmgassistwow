@@ -125,6 +125,29 @@ local function RangeProbe()
 end
 S.RangeProbe = RangeProbe
 
+-- Is anything hurting the player? Stagger (Brewmaster) or missing health, when the game shows either.
+-- true = readably untouched (full health, no stagger); false = being hurt; nil = can't tell.
+function S.Unhurt()
+  local st = U.Get(UnitStagger, "player")
+  if type(st) == "number" and st > 0 then
+    return false
+  end
+  local hp, max = U.Get(UnitHealth, "player"), U.Get(UnitHealthMax, "player")
+  if type(hp) == "number" and type(max) == "number" and max > 0 then
+    return hp >= max
+  end
+  if type(st) == "number" then
+    return true
+  end
+  return nil
+end
+
+-- Stagger the player carries (Brewmaster), when readable.
+function S.Stagger()
+  local st = U.Get(UnitStagger, "player")
+  return type(st) == "number" and st or nil
+end
+
 -- Hostile enemies in combat with a nameplate, within range of the player's usual spell when the game says;
 -- nil when it won't tell us at all.
 -- Remembered: an enemy counted once keeps counting for ENEMY_MEMORY seconds while its nameplate is up, alive and

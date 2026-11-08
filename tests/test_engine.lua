@@ -481,6 +481,26 @@ test("hero tree names: SimC's shadopan matches the game's Shado-Pan", function()
   M.talentsRead, M.hero, M.heroTree = saved[1], saved[2], saved[3]
 end)
 
+test("tank damage reduction only when something is hurting you (Purifying Brew on a dummy)", function()
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  local st, hp = 0, 1000
+  local old = { UnitStagger, UnitHealth, UnitHealthMax }
+  UnitStagger = function() return st end
+  UnitHealth = function() return hp end
+  UnitHealthMax = function() return 1000 end
+  eq(G.NotHurtSkip("purifying_brew"), true, "no stagger: nothing to purify")
+  eq(G.NotHurtSkip("celestial_brew"), true, "full health, no stagger")
+  eq(G.NotHurtSkip("keg_smash"), false, "not a mitigation spell")
+  st = 500
+  eq(G.NotHurtSkip("purifying_brew"), false, "stagger to clear")
+  st, hp = 0, 800
+  eq(G.NotHurtSkip("celestial_brew"), false, "taking damage")
+  eq(G.NotHurtSkip("purifying_brew"), true, "Purifying Brew still needs stagger")
+  UnitStagger, UnitHealth, UnitHealthMax = old[1], old[2], old[3]
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()
