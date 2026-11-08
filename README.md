@@ -59,9 +59,15 @@ DMGAssist counts enemies in combat from their nameplates and switches by itself 
 (nameplates hidden), it uses your primary mode and shows `ST?` / `AOE?`. Bind a key under
 Key Bindings → AddOns → DMGAssist → "Switch target mode" to cycle Auto → Single → AoE mid-fight.
 
+**Settings:** Options → AddOns → DMGAssist (or the gear on the HUD, or `/dmga config`): General, Combat, Display
+(scale, opacity, icon sizes, spacing, background/border, header, keybind text size/position, spell names,
+NOW/NEXT labels, GCD bar, glow style, dim uncertain picks) and Advanced (decision text under the HUD).
+Right-click the HUD to cycle the target mode.
+
 | Command | |
 |---|---|
 | `/dmga` | status: client, spec, data version, spells matched |
+| `/dmga config` | open the settings panel |
 | `/dmga on` / `off` | show or hide (also a key binding) |
 | `/dmga burst` | major cooldowns on/off (also a key binding) |
 | `/dmga mode st` / `aoe` | primary target mode; `/dmga mode` alone cycles like the key |

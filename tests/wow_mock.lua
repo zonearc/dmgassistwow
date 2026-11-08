@@ -192,8 +192,22 @@ function mock.Install(env)
   function FrameMethods:GetPoint()
     return "CENTER", nil, "CENTER", 0, -150
   end
+  function FrameMethods:SetValue(v)
+    self.value = v
+  end
+  function FrameMethods:SetAlpha(a)
+    self.alpha = a
+  end
+  function FrameMethods:SetScale(v)
+    self.scale = v
+  end
+  function FrameMethods:SetBackdrop(b)
+    self.backdrop = b
+  end
   local noop = function() end
-  for _, name in ipairs({ "SetAllPoints", "SetPoint", "SetFrameStrata", "SetMovable", "RegisterForDrag",
+  for _, name in ipairs({ "SetFont", "SetTexCoord", "SetColorTexture", "SetDrawLayer", "SetBackdropColor",
+    "SetBackdropBorderColor", "ClearAllPoints", "SetStatusBarTexture", "SetStatusBarColor", "SetMinMaxValues",
+    "SetJustifyH", "SetTextColor", "SetAllPoints", "SetPoint", "SetFrameStrata", "SetMovable", "RegisterForDrag",
     "SetClampedToScreen", "SetMultiLine", "SetAutoFocus", "SetFontObject", "SetWidth", "SetScrollChild",
     "SetCursorPosition", "SetFocus", "HighlightText", "ClearFocus", "StartMoving", "StopMovingOrSizing" }) do
     FrameMethods[name] = noop
@@ -208,6 +222,78 @@ function mock.Install(env)
   end
 
   env.UIParent = setmetatable({ events = {}, scripts = {} }, FrameMethods)
+  env.STANDARD_TEXT_FONT = "Fonts\\FRIZQT__.TTF"
+
+  -- Blizzard Settings API (the parts DMGAssist uses). mock.settings[variable] = { get, set, control, options }.
+  mock.settings, mock.settingsCategories, mock.openedCategory = {}, {}, nil
+  local function Category(name, parent)
+    local c = { name = name, parent = parent, id = #mock.settingsCategories + 1 }
+    function c.GetID()
+      return c.id
+    end
+    mock.settingsCategories[#mock.settingsCategories + 1] = c
+    return c
+  end
+  env.Settings = {
+    VarType = { Boolean = "boolean", String = "string", Number = "number" },
+    RegisterVerticalLayoutCategory = function(name)
+      return Category(name), {}
+    end,
+    RegisterVerticalLayoutSubcategory = function(parent, name)
+      return Category(name, parent), {}
+    end,
+    RegisterProxySetting = function(category, variable, varType, name, default, get, set)
+      local setting = { category = category, variable = variable, varType = varType, name = name, default = default,
+        get = get, set = set }
+      function setting.GetValue()
+        return get()
+      end
+      function setting.SetValue(_, v)
+        set(v)
+      end
+      mock.settings[variable] = setting
+      return setting
+    end,
+    CreateSliderOptions = function(minV, maxV, step)
+      local o = { minValue = minV, maxValue = maxV, step = step }
+      function o.SetLabelFormatter(self, _, fn)
+        self.formatter = fn
+      end
+      return o
+    end,
+    CreateControlTextContainer = function()
+      local c = { data = {} }
+      function c.Add(self, value, label)
+        self.data[#self.data + 1] = { value = value, label = label }
+      end
+      function c.GetData(self)
+        return self.data
+      end
+      return c
+    end,
+    CreateCheckbox = function(_, setting)
+      setting.control = "checkbox"
+    end,
+    CreateSlider = function(_, setting, options)
+      setting.control, setting.options = "slider", options
+    end,
+    CreateDropdown = function(_, setting, options)
+      setting.control, setting.options = "dropdown", options
+    end,
+    RegisterAddOnCategory = function(category)
+      category.registered = true
+    end,
+    OpenToCategory = function(id)
+      mock.openedCategory = id
+    end,
+  }
+  env.MinimalSliderWithSteppersMixin = { Label = { Right = 3 } }
+  env.GetBindingKey = function(command)
+    return mock.bindings and mock.bindings[command]
+  end
+  env.GetBindingText = function(key)
+    return key
+  end
   env.C_Timer = {
     After = function(delay, fn)
       mock.timers[#mock.timers + 1] = { at = mock.now + delay, fn = fn }
@@ -336,10 +422,19 @@ function mock.Install(env)
       return false
     end,
     FindSpellActionButtons = function(id)
+      if mock.actionSlots and mock.actionSlots[id] then
+        return mock.actionSlots[id]
+      end
       if id == 35395 then
         return { 1 }
       end
       return {}
+    end,
+    GetBonusBarOffset = function()
+      return mock.bonusBar or 0
+    end,
+    GetActionBarPage = function()
+      return 1
     end,
     IsUsableAction = function()
       return true, false
