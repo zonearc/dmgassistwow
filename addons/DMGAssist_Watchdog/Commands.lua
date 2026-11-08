@@ -4,11 +4,9 @@ local _, ns = ...
 local U = ns.U
 
 local HELP = {
-  "/dmgw              open the report, selected: Ctrl+C, then paste it into the chat",
-  "/dmgw probe        run an API probe now (out of combat)",
-  "/dmgw export       export everything as one copyable string",
-  "/dmgw export last  export only the latest session and probes",
-  "/dmgw status       print the summary to chat",
+  "/dmgw              the report, already selected: Ctrl+C, then paste it into the chat (that's all you need)",
+  "/dmgw status       print a readable summary to chat",
+  "/dmgw probe        run an API probe now (out of combat; also automatic)",
   "/dmgw force on|off force addon restrictions on/off for testing (if the client supports it)",
   "/dmgw taint on|off write the game's taint log (Logs/taint.log) for blocked/forbidden actions",
   "/dmgw testing on|off test-build logging (taint log, more events, notices); on by default while we test",
@@ -65,13 +63,12 @@ SlashCmdList.DMGASSISTWATCHDOG = function(msg)
     local ok, err = pcall(ns.Probe.Run, "manual")
     if ok then
       U.Print("Probe stored.")
-      ns.UI.ShowSummary()
     else
       ns.Errors.Record("probe", err)
       U.Print("Probe failed: %s", tostring(U.Safe(err)))
     end
   elseif cmd == "export" then
-    ns.UI.ShowExport(rest == "last" and "last" or "all")
+    ns.UI.ShowReport() -- old name for the same report
   elseif cmd == "status" then
     for line in string.gmatch(ns.Export.Summary(), "[^\n]+") do
       print(line)
@@ -123,7 +120,7 @@ DMGAssistWatchdog = {
   end,
   -- Open the panel with the report selected (DMGAssist's minimap button, shift-click).
   OpenReport = function()
-    ns.UI.ShowExport("last")
+    ns.UI.ShowReport()
   end,
   version = ns.VERSION,
 }

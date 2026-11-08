@@ -168,6 +168,9 @@ function mock.Install(env)
   function FrameMethods:SetText(t)
     self.text = t
   end
+  function FrameMethods:GetText()
+    return self.text
+  end
   function FrameMethods:CreateFontString()
     return setmetatable({ events = {}, scripts = {} }, FrameMethods)
   end

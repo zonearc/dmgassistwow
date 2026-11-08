@@ -155,7 +155,7 @@ test("events per session are capped and drops are counted", function()
 end)
 
 test("fallback export round-trips as a Lua table", function()
-  local str, fmt = ns.Export.Encode("all")
+  local str, fmt = ns.Export.Encode()
   eq(fmt, "lua")
   eq(str:sub(1, 6), "DMGW0:")
   local data = assert(loadstring("return " .. str:sub(7)))()
@@ -176,7 +176,7 @@ test("encoded export is used when C_EncodingUtil exists", function()
       return "b64(" .. s .. ")"
     end,
   }
-  local str, fmt = ns.Export.Encode("last")
+  local str, fmt = ns.Export.Encode()
   eq(fmt, "json+deflate+base64")
   eq(str, "DMGW1:b64(z{})")
   C_EncodingUtil = nil
@@ -247,6 +247,51 @@ test("/dmgw opens the report already selected, and DMGAssist can open it too", f
   DMGAssistWatchdog.OpenReport()
   eq(frame:IsShown(), true)
   frame:Hide()
+end)
+
+test("one report: fits the size limit, keeps the newest fights, never leaves old text behind", function()
+  for i = 1, 12 do
+    mock.Fire("PLAYER_REGEN_DISABLED")
+    for j = 1, 300 do
+      DMGAssistWatchdog.Log("pick", "main=moonfire next=sunfire fight=" .. i .. " n=" .. j)
+    end
+    mock.Fire("PLAYER_REGEN_ENABLED")
+  end
+  local limit = ns.Export.REPORT_LIMIT
+  ns.Export.REPORT_LIMIT = 20000
+  local str = ns.Export.Encode()
+  truthy(#str <= 20000, "report trimmed to the limit: " .. #str)
+  local data = assert(loadstring("return " .. str:sub(7)))()
+  truthy(data.trimmed, "marked as trimmed")
+  local last = data.sessions[#data.sessions]
+  eq(last.id, DMGAssistWatchdogDB.sessions[#DMGAssistWatchdogDB.sessions].id, "newest fight kept")
+  ns.Export.REPORT_LIMIT = limit
+  -- the panel: one button; a box that keeps only part of the text makes the report smaller, never half-copied
+  ns.UI.ShowSummary()
+  local box
+  for _, f in ipairs(mock.frames) do
+    if f.type == "EditBox" then
+      box = f
+    end
+  end
+  local realSet = box.SetText
+  box.SetText = function(self, t)
+    realSet(self, string.sub(t, 1, 16000)) -- a box that holds less than the full report
+  end
+  box.GetText = function(self)
+    return self.text
+  end
+  eq(ns.UI.ShowReport(), true, "fits after shrinking")
+  truthy(#box.text <= 16000)
+  eq(box.text:sub(1, 5), "DMGW0", "the box holds a whole report, not the summary")
+  -- a box that can't hold even the smallest report: a clear message, no partial string
+  box.SetText = function(self, t)
+    realSet(self, string.sub(t, 1, 500))
+  end
+  eq(ns.UI.ShowReport(), false)
+  eq(box.text:sub(1, 4) ~= "DMGW", true, "no half report left to copy")
+  box.SetText = realSet
+  ns.Export.REPORT_LIMIT = limit
 end)
 
 test("no internal watchdog errors were recorded", function()

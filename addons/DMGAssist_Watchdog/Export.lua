@@ -23,14 +23,54 @@ local function Tail(list, n)
   return out
 end
 
--- scope: "all" (default) or "last" (latest probe + latest session + errors)
-function X.Build(scope)
+-- The report: everything needed to debug, sized to paste into a chat. Errors (stacks trimmed), the latest
+-- launch snapshot, the latest login and combat probes, the latest fights, recent notes. `keep` sets how much
+-- history goes in (Encode lowers it until the string fits REPORT_LIMIT).
+X.REPORT_LIMIT = 30000
+local DEFAULT_KEEP = { sessions = 4, notes = 120, probes = 2, stack = 900, events = 2000 }
+
+-- Fights with only their newest `n` events (a long fight can be most of the report on its own).
+local function TrimSessions(sessions, n)
+  local out = {}
+  for i, s in ipairs(sessions) do
+    if #(s.events or {}) > n then
+      local c = {}
+      for k, v in pairs(s) do
+        c[k] = v
+      end
+      c.events = Tail(s.events, n)
+      c.eventsCut = #s.events - n
+      out[i] = c
+    else
+      out[i] = s
+    end
+  end
+  return out
+end
+
+local function TrimErrors(errors, stackLen)
+  local out = {}
+  for i, e in ipairs(errors) do
+    local c = {}
+    for k, v in pairs(e) do
+      c[k] = v
+    end
+    if type(c.stack) == "string" and #c.stack > stackLen then
+      c.stack = string.sub(c.stack, 1, stackLen) .. "..."
+    end
+    out[i] = c
+  end
+  return out
+end
+
+function X.Build(keep)
   local db = ns.db
   if not db then
     return nil
   end
+  keep = keep or DEFAULT_KEEP
   ns.Errors.PullBugGrabber()
-  local data = {
+  return {
     format = "dmgassist-watchdog",
     schema = ns.SCHEMA,
     watchdogVersion = ns.VERSION,
@@ -38,20 +78,13 @@ function X.Build(scope)
     loginCount = db.loginCount,
     counters = db.counters,
     settings = db.settings,
-    errors = db.errors,
+    errors = TrimErrors(Tail(db.errors, 30), keep.stack),
+    sessions = TrimSessions(Tail(db.sessions, keep.sessions), keep.events),
+    probes = Tail(db.probes, keep.probes),
+    notes = Tail(db.notes, keep.notes),
+    launch = Tail(db.launch or {}, 1),
+    trimmed = keep ~= DEFAULT_KEEP or nil,
   }
-  if scope == "last" then
-    data.sessions = Tail(db.sessions, 1)
-    data.probes = Tail(db.probes, 2)
-    data.notes = Tail(db.notes, 60)
-    data.launch = Tail(db.launch or {}, 1)
-  else
-    data.sessions = db.sessions
-    data.probes = db.probes
-    data.notes = db.notes
-    data.launch = db.launch
-  end
-  return data
 end
 
 -- Minimal Lua-literal serializer for the fallback path.
@@ -88,12 +121,7 @@ function X.ToLua(data)
   return table.concat(out)
 end
 
--- Returns exportString, formatTag, byteLength  (or nil, errorMessage)
-function X.Encode(scope)
-  local data = X.Build(scope)
-  if not data then
-    return nil, "database not ready"
-  end
+local function EncodeData(data)
   local enc = C_EncodingUtil
   if enc and enc.SerializeJSON and enc.CompressString and enc.EncodeBase64 then
     local okJ, json = pcall(enc.SerializeJSON, data, { ignoreSerializationErrors = true })
@@ -103,13 +131,45 @@ function X.Encode(scope)
       if okC and type(compressed) == "string" then
         local okB, b64 = pcall(enc.EncodeBase64, compressed)
         if okB and type(b64) == "string" then
-          return "DMGW1:" .. b64, "json+deflate+base64", #b64
+          return "DMGW1:" .. b64, "json+deflate+base64"
         end
       end
     end
   end
-  local lua = X.ToLua(data)
-  return "DMGW0:" .. lua, "lua", #lua
+  return "DMGW0:" .. X.ToLua(data), "lua"
+end
+
+-- Returns reportString, formatTag, length  (or nil, errorMessage). Fewer fights / notes go in until it fits.
+function X.Encode()
+  local keep = {}
+  for k, v in pairs(DEFAULT_KEEP) do
+    keep[k] = v
+  end
+  local first = true
+  while true do
+    local data = X.Build(first and DEFAULT_KEEP or keep)
+    if not data then
+      return nil, "database not ready"
+    end
+    local str, fmt = EncodeData(data)
+    local small = keep.sessions <= 1 and keep.notes <= 20 and keep.probes <= 1 and keep.stack <= 300
+      and keep.events <= 60
+    if #str <= X.REPORT_LIMIT or small then
+      return str, fmt, #str
+    end
+    first = false
+    if keep.sessions > 1 then
+      keep.sessions = keep.sessions - 1
+    elseif keep.notes > 20 then
+      keep.notes = math.floor(keep.notes / 2)
+    elseif keep.probes > 1 then
+      keep.probes = 1
+    elseif keep.stack > 300 then
+      keep.stack = 300
+    else
+      keep.events = math.max(60, math.floor(math.min(keep.events, 1500) / 2))
+    end
+  end
 end
 
 -- One-screen text summary for the viewer and /dmgw status.
@@ -154,7 +214,7 @@ function X.Summary()
     add("No probe yet. Type /dmgw probe")
   end
   add("")
-  add("To share: press 'Copy report', then Ctrl+C and paste it into the chat. No /reload needed.")
+  add("To share: /dmgw, then Ctrl+C and paste it into the chat. No /reload needed.")
   local last = db.sessions[#db.sessions]
   if last then
     add("")

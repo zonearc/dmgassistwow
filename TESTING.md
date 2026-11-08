@@ -11,7 +11,8 @@ stores a decision snapshot a few seconds into every fight. Nothing to type.
    - Optional while playing: `/dmga why` (what and why), `/dmga snapshot` (store a full trace right now).
 4. Type `/dmgw` (or shift-click the DMGAssist minimap button). The report opens already selected: press Ctrl+C
    and paste it into the chat, with a line about what you did ("Balance, dummies, stuck on Moonfire").
-   No `/reload` needed; the report always holds everything up to now. "Copy everything" sends all fights.
+   No `/reload` needed; the report always holds everything up to now. It is the only thing to send: errors,
+   your setup, the latest fights and decision traces, trimmed to about 30,000 characters so it pastes.
 
 Errors BugSack catches are included (BugSack keeps the game's error handler to itself, so the Watchdog reads its list
 when the report is built).
