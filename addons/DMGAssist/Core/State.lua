@@ -125,31 +125,81 @@ local function RangeProbe()
 end
 
 -- Hostile enemies in combat with a nameplate, within range of the player's usual spell when the game says;
--- nil when it won't tell us. (Training dummies join as they are hit: they are in combat only then.)
+-- nil when it won't tell us at all.
+-- Remembered: an enemy counted once keeps counting for ENEMY_MEMORY seconds while its nameplate is up, alive and
+-- in range, so a combat flag that flickers or goes secret for a moment does not drop it. Training dummies leave
+-- combat within seconds of the last hit, so they are remembered for DUMMY_MEMORY (seen in game 2026-11-08: the
+-- count on cleave dummies fell from 3 to 1 between AoE casts). One unreadable unit no longer voids the count.
+S.ENEMY_MEMORY, S.DUMMY_MEMORY = 5, 12
+S.seenEnemies = {}
+S.lastCount = {}
+
+-- "Training Dummy" in the client languages (dummies have no flag of their own; their names are stable).
+local DUMMY_WORDS = { "dummy", "attrappe", "mannequin", "muñeco", "boneco", "manichino", "манекен", "假人",
+  "木樁", "허수아비" }
+
+function S.IsDummy(unit)
+  local name = U.Get(UnitName, unit)
+  if type(name) ~= "string" then
+    return nil
+  end
+  name = name:lower()
+  for _, w in ipairs(DUMMY_WORDS) do
+    if name:find(w, 1, true) then
+      return true
+    end
+  end
+  return false
+end
+
 function S.CountEnemies()
   local probe = RangeProbe()
-  local n = 0
+  local now = GetTime()
+  local n, fighting, remembered, unknown, dummies = 0, 0, 0, 0, 0
   for i = 1, MAX_NAMEPLATES do
     local unit = "nameplate" .. i
     local exists = U.Get(UnitExists, unit)
     if exists == nil then
-      return nil
-    end
-    if exists then
+      unknown = unknown + 1
+    elseif exists then
+      local key = U.Get(UnitGUID, unit)
+      key = type(key) == "string" and key or unit
       local hostile = U.Get(UnitCanAttack, "player", unit)
-      local fighting = U.Get(UnitAffectingCombat, unit)
-      if hostile == nil or fighting == nil then
-        return nil
-      end
-      if hostile and fighting then
-        local inRange = probe and U.Get(C_Spell and C_Spell.IsSpellInRange, probe, unit)
-        if inRange ~= false then -- out of range: someone else's fight; unknown: counted
-          n = n + 1
+      local inCombat = U.Get(UnitAffectingCombat, unit)
+      local dead = U.Get(UnitIsDead, unit)
+      local inRange = probe and U.Get(C_Spell and C_Spell.IsSpellInRange, probe, unit)
+      local seen = S.seenEnemies[key]
+      if hostile == false or dead == true or inRange == false then
+        S.seenEnemies[key] = nil -- not an enemy, dead, or someone else's fight far away
+      elseif hostile and inCombat then
+        if not seen then
+          seen = { dummy = S.IsDummy(unit) }
+          S.seenEnemies[key] = seen
         end
+        seen.t = now
+        n, fighting = n + 1, fighting + 1
+        if seen.dummy then
+          dummies = dummies + 1
+        end
+      elseif seen and now - seen.t <= (seen.dummy and S.DUMMY_MEMORY or S.ENEMY_MEMORY) then
+        n, remembered = n + 1, remembered + 1
+        if seen.dummy then
+          dummies = dummies + 1
+        end
+      elseif hostile == nil or inCombat == nil then
+        unknown = unknown + 1
       end
     end
   end
+  S.lastCount = { n = n, fighting = fighting, remembered = remembered, unknown = unknown, dummies = dummies }
+  if n == 0 and unknown > 0 then
+    return nil -- nothing readable about the nameplates that are up
+  end
   return n
+end
+
+function S.ForgetEnemies()
+  S.seenEnemies = {}
 end
 
 -- The spec's own AoE switch point, read from its priority list: the smallest target count at which it calls
@@ -1740,7 +1790,9 @@ function S.OnCombat(inCombat)
     S.timingLogged = 0
     S.drift = {}
     S.castsSeen, S.castsSecret, S.castsInferred = 0, 0, 0
+    S.ForgetEnemies()
   else
+    S.ForgetEnemies()
     U.Log("tracking", { seen = S.castsSeen, secret = S.castsSecret, inferred = S.castsInferred, drift = S.drift })
     if S.combatStart then
       RecordFight(S.fightContext, GetTime() - S.combatStart)

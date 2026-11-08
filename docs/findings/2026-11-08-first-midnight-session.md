@@ -86,3 +86,11 @@ Scrap, Threat Plates.
   (155625); the importer also matched the caster Moonfire (8921) by name, and every druid knows that one.
   Fix (general): the importer reads each spell's Stance Mask, and a `_cat` / `_bear` action keeps only the druid
   spells that work in that form (also corrected `swipe_cat` / `swipe_bear`, which each listed the other form's Swipe).
+
+## Training dummies and the enemy count
+- Export 7 on dummies: the count fell 3 -> 1 between AoE casts and was unreadable 28 times (`AOE?` / `ST?`).
+  Dummies are "in combat" only shortly after each hit, and in restricted combat one nameplate's combat flag can be
+  secret, which voided the whole count. Fix (all content): enemies counted once are remembered while their
+  nameplate is up, alive and in range (5 s; training dummies, recognised by name in every client language, 12 s);
+  an unreadable plate is skipped instead of voiding the count. The decision trace now shows
+  `(fighting, remembered, unreadable, dummies)`.

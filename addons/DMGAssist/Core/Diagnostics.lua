@@ -167,8 +167,12 @@ function G.Trace(result, traced)
     top[i] = unknown[i][1]
   end
   local targets, label = ns.State.Targets()
-  U.Log("decision_trace", string.format("show=%s | mode: %s targets=%s aoeAt=%s | res: %s | lines: %s | unknown: %s",
-    table.concat(q, " > "), tostring(label), tostring(targets), tostring(ns.State.AoeTargets()), G.ResourceText(),
+  local c = ns.State.lastCount or {}
+  local counted = string.format("(fighting %s, remembered %s, unreadable %s, dummies %s)", tostring(c.fighting),
+    tostring(c.remembered), tostring(c.unknown), tostring(c.dummies))
+  U.Log("decision_trace", string.format("show=%s | mode: %s targets=%s %s aoeAt=%s | res: %s | lines: %s | unknown: %s",
+    table.concat(q, " > "), tostring(label), tostring(targets), counted, tostring(ns.State.AoeTargets()),
+    G.ResourceText(),
     table.concat(traced or {}, "; "), table.concat(top, " ")))
 end
 
