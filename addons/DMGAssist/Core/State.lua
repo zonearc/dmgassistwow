@@ -156,13 +156,14 @@ end
 function S.CountEnemies()
   local probe = RangeProbe()
   local now = GetTime()
-  local n, fighting, remembered, unknown, dummies = 0, 0, 0, 0, 0
+  local n, fighting, remembered, unknown, dummies, plates = 0, 0, 0, 0, 0, 0
   for i = 1, MAX_NAMEPLATES do
     local unit = "nameplate" .. i
     local exists = U.Get(UnitExists, unit)
     if exists == nil then
       unknown = unknown + 1
     elseif exists then
+      plates = plates + 1
       local key = U.Get(UnitGUID, unit)
       key = type(key) == "string" and key or unit
       local hostile = U.Get(UnitCanAttack, "player", unit)
@@ -192,7 +193,8 @@ function S.CountEnemies()
       end
     end
   end
-  S.lastCount = { n = n, fighting = fighting, remembered = remembered, unknown = unknown, dummies = dummies }
+  S.lastCount = { n = n, fighting = fighting, remembered = remembered, unknown = unknown, dummies = dummies,
+    plates = plates }
   if n == 0 and unknown > 0 then
     return nil -- nothing readable about the nameplates that are up
   end
@@ -271,6 +273,13 @@ function S.Targets()
     local n = S.CountEnemies()
     if n and n > 0 then
       return n, "AUTO " .. n
+    end
+    -- Nameplates are up but none counted (a dummy that never shows as in combat, out of range of the probe): the
+    -- hostile target we are fighting is one enemy. Falling back to the AoE mode here ran Destruction's AoE list on
+    -- a single dummy (2026-11-08). Only with no nameplates at all is the count truly unknown.
+    if n == 0 and (S.lastCount.plates or 0) > 0 and S.combatStart and U.Get(UnitCanAttack, "player", "target") == true
+      and U.Get(UnitIsDead, "target") ~= true then
+      return 1, "AUTO 1"
     end
     -- Nothing counted (nameplates hidden, out of combat, or unreadable): the primary mode decides.
     if set.mode == "aoe" then

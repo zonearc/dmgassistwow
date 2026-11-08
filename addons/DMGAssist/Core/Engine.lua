@@ -249,6 +249,12 @@ function G.OnPlayerCast(castID, shown, enabled, queue)
       return nil
     end
   end
+  -- Only spells worth saving can be held: a major cooldown or one of G.KEY_COOLDOWN (20 s) or more. Skipping a DoT or
+  -- a builder means "not this GCD", not "save it": holding Immolate for a whole fight dropped the DoT (Destruction).
+  local shownCd = S.CooldownLength and S.CooldownLength(shown.id)
+  if not (shownCd and shownCd >= G.KEY_COOLDOWN) then
+    return nil
+  end
   local info = M.Info(castID)
   -- Off-GCD presses (no GCD in the data: Ironfur) are pressed alongside slot 1, not instead of it.
   if enabled == false or (info and (info.gcd == nil or info.gcd == 0)) or shown.source == "interrupt" or shown.source == "guess"

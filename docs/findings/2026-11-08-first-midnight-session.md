@@ -132,3 +132,12 @@ Scrap, Threat Plates.
   when the player cast it, as designed; its 60 s cooldown explains the rest of the report.)
 - Prowl: the player pressed it because slot 1 showed it (SimC's precombat line); the bug was our clock never ending
   it (fixed in 2840686).
+
+## Destruction warlock (0.1.0.34, Valdrakken dummy)
+- Ran the AoE list on a single dummy: the count was 0 (nameplates up, none counted as in combat), which fell back to
+  the AoE mode. Now a hostile target in combat counts as one enemy whenever nameplates are up; only with no
+  nameplates at all does the fallback mode apply.
+- Immolate held for the whole fight after two Incinerates: skip-hold now applies only to spells with a cooldown of
+  20 s or more (the big cooldowns it was meant for), never to DoTs and builders.
+- Otherwise normal for Destruction: Incinerate, Immolate, Conflagrate, Chaos Bolt (Rain of Fire in AoE); Summon
+  Infernal was never castable in this session (not known or on cooldown).

@@ -410,6 +410,12 @@ test("skipping the slot-1 spell twice holds it until combat ends; casting it bri
   mock.Fire("PLAYER_REGEN_DISABLED")
   local r = ns.Engine.Recommend(Record(), {})
   eq(r.main.token, "rip")
+  -- a spell without a long cooldown (a DoT, a builder) is never held: skipping it means "not this GCD"
+  eq(G.OnPlayerCast(106830, r.main), nil)
+  eq(G.OnPlayerCast(106830, r.main), nil)
+  eq(G.IsHeld(1079), false, "no cooldown: not held")
+  G.skips = {}
+  ns.State.learned.cd[1079] = 120 -- treat it as a big cooldown for the rest of the test
   eq(G.OnPlayerCast(5221, r.main, true, { r.main, { id = 5221 } }), nil, "casting slot 2 first is no skip")
   eq(G.OnPlayerCast(5221, r.main, true, { r.main, { id = 5221 } }), nil)
   eq(G.IsHeld(1079), false)
@@ -2168,6 +2174,23 @@ test("profiles: old settings become Default; per character, copy, delete; learne
   P.Delete(P.CharKey())
   eq(P.current, "Default", "back to Default")
   eq(#P.List(), 1)
+end)
+
+test("enemy count: nameplates up but none counted -> the hostile target is one enemy, not the AoE fallback", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  mock.inCombat, mock.nameplates, mock.hasTarget = true, 2, true
+  mock.plateCombat = { [1] = false, [2] = false } -- dummies that never show as in combat
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  local n, label = S.Targets()
+  eq(n, 1, label)
+  eq(label, "AUTO 1")
+  mock.nameplates = 0 -- no nameplates at all: truly unknown, the fallback mode decides
+  label = select(2, S.Targets())
+  eq(label, "AOE?")
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat, mock.plateCombat = false, nil
 end)
 
 test("title row: colour-coded ST / AOE with the live count", function()
