@@ -1139,6 +1139,10 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       d = 0.2,
       n = "flying_serpent_kick",
     },
+    [115203] = {
+      cd = 360,
+      n = "fortifying_brew",
+    },
     [115396] = {
       n = "ascension",
       pas = true,
@@ -1185,6 +1189,13 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       d = 4,
       n = "fists_of_fury",
       r = 5,
+    },
+    [120954] = {
+      ap = {
+        { 120954, "self" },
+      },
+      d = 15,
+      n = "fortifying_brew",
     },
     [122470] = {
       ap = {
@@ -1373,6 +1384,11 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       n = "shadowboxing_treads",
       pas = true,
       st = 3,
+      tal = true,
+    },
+    [388917] = {
+      n = "fortifying_brew",
+      pas = true,
       tal = true,
     },
     [391330] = {
@@ -1574,6 +1590,11 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       d = 8,
       n = "heart_of_the_jade_serpent",
     },
+    [1243287] = {
+      n = "diffuse_magic",
+      pas = true,
+      tal = true,
+    },
     [1248833] = {
       n = "airborne_rhythm",
       pas = true,
@@ -1700,6 +1721,9 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
     crackling_jade_lightning = {
       a = { 117952, 123333, 117959 },
     },
+    diffuse_magic = {
+      a = { 1243287 },
+    },
     drinking_horn_cover = {
       t = { 391370, 209256 },
     },
@@ -1717,6 +1741,9 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
     },
     flying_serpent_kick = {
       a = { 101545, 115057, 123586 },
+    },
+    fortifying_brew = {
+      a = { 115203, 120954, 388917 },
     },
     harmonic_combo = {
       t = { 1250041 },

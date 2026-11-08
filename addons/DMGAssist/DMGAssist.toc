@@ -19,6 +19,8 @@ Core\State.lua
 Core\Clues.lua
 Core\BossMods.lua
 Core\Interrupts.lua
+Core\Defensives.lua
+Core\Sounds.lua
 Core\Diagnostics.lua
 Core\Engine.lua
 Core\Display.lua

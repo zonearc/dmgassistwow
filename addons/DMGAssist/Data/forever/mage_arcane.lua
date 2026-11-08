@@ -592,6 +592,28 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       n = "arcane_missiles",
       r = 30,
     },
+    [11426] = {
+      ap = {
+        { 11426, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 305 },
+      d = 60,
+      gcd = 1.5,
+      n = "ice_barrier",
+      tal = true,
+    },
+    [11958] = {
+      ap = {
+        { 11958, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 15 },
+      d = 10,
+      gcd = 1.5,
+      n = "ice_block",
+      tal = true,
+    },
     [12043] = {
       cd = 180,
       n = "presence_of_mind",
@@ -614,6 +636,36 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       d = 15,
       n = "clearcasting",
       st = 1,
+    },
+    [13031] = {
+      ap = {
+        { 13031, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 360 },
+      d = 60,
+      gcd = 1.5,
+      n = "ice_barrier",
+    },
+    [13032] = {
+      ap = {
+        { 13032, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 420 },
+      d = 60,
+      gcd = 1.5,
+      n = "ice_barrier",
+    },
+    [13033] = {
+      ap = {
+        { 13033, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 480 },
+      d = 60,
+      gcd = 1.5,
+      n = "ice_barrier",
     },
     [18091] = {
       cd = 8,
@@ -642,6 +694,10 @@ ns.RegisterSpecData("forever", "mage_arcane", {
     },
     [401719] = {
       n = "arcane_barrage",
+      pas = true,
+    },
+    [415709] = {
+      n = "survival_of_the_fittest",
       pas = true,
     },
     [415759] = {
@@ -714,11 +770,20 @@ ns.RegisterSpecData("forever", "mage_arcane", {
     evocation = {
       a = { 12051 },
     },
+    ice_barrier = {
+      a = { 11426, 13031, 13032, 13033 },
+    },
+    ice_block = {
+      a = { 11958 },
+    },
     presence_of_mind = {
       a = { 12043 },
     },
     skull_bash = {
       a = { 415759 },
+    },
+    survival_of_the_fittest = {
+      a = { 415709 },
     },
   },
 })

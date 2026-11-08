@@ -38,6 +38,7 @@ S.unknownTerms = {}
 S.drift = {}
 S.castsSeen, S.castsSecret, S.castsInferred = 0, 0, 0
 S.modeOverride = nil -- "auto" / "st" / "aoe" set by the hotkey for this session
+S.moving = false     -- from PLAYER_STARTED_MOVING / PLAYER_STOPPED_MOVING
 
 local V = nil -- look-ahead overlay, nil = the real present
 
@@ -1197,7 +1198,7 @@ function S.Resolve(name, ctx)
     if type(speed) == "number" then
       return speed > 0 and 1 or 0
     end
-    return UNKNOWN
+    return S.moving and 1 or 0 -- PLAYER_STARTED/STOPPED_MOVING are never secret
   elseif head == "action" then
     local id = M.SpellID(p[2] or "")
     if not id then

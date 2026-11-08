@@ -598,6 +598,26 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       n = "rupture",
       r = 5,
     },
+    [1966] = {
+      ap = {
+        { 1966, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 15,
+      cost = { [3] = 35 },
+      d = 6,
+      n = "feint",
+    },
+    [5277] = {
+      ap = {
+        { 5277, "self" },
+      },
+      cd = 120,
+      d = 10,
+      n = "evasion",
+      tal = true,
+    },
     [5374] = {
       n = "mutilate",
       r = 5,
@@ -631,6 +651,16 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       n = "mutilate",
       r = 5,
     },
+    [31224] = {
+      ap = {
+        { 31224, "self" },
+        { 35729, "self" },
+      },
+      cd = 120,
+      d = 5,
+      n = "cloak_of_shadows",
+      tal = true,
+    },
     [32645] = {
       cmax = { [4] = 5 },
       cost = { [3] = 35, [4] = 1 },
@@ -638,6 +668,13 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       n = "envenom",
       r = 5,
       st = 1,
+    },
+    [35729] = {
+      ap = {
+        { 35729, "self" },
+      },
+      d = 1,
+      n = "cloak_of_shadows",
     },
     [51723] = {
       cost = { [3] = 35 },
@@ -667,6 +704,16 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
     [158188] = {
       n = "stealth",
     },
+    [185311] = {
+      ap = {
+        { 185311, "self" },
+      },
+      cd = 30,
+      cost = { [3] = 20 },
+      d = 4,
+      gcd = 1,
+      n = "crimson_vial",
+    },
     [185565] = {
       cost = { [3] = 40 },
       gain = { [4] = 1 },
@@ -682,11 +729,26 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
     [199672] = {
       n = "rupture",
     },
+    [212198] = {
+      ap = {
+        { 212198, "self" },
+      },
+      cd = 60,
+      d = 6,
+      n = "crimson_vial",
+    },
     [214320] = {
       cd = 45,
       gcd = 1,
       n = "kingsbane",
       pas = true,
+    },
+    [226364] = {
+      ap = {
+        { 226364, "self" },
+      },
+      d = 2,
+      n = "evasion",
     },
     [315496] = {
       ap = {
@@ -709,6 +771,10 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       n = "blindside",
       pas = true,
       tal = true,
+    },
+    [354494] = {
+      d = 4,
+      n = "crimson_vial",
     },
     [360194] = {
       ap = {
@@ -954,6 +1020,9 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
     [1270243] = {
       n = "rupture",
     },
+    [1293149] = {
+      n = "crimson_vial",
+    },
     [1298826] = {
       cd = 1,
       ch = 3,
@@ -975,12 +1044,18 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
     clear_the_witnesses = {
       t = { 1248793 },
     },
+    cloak_of_shadows = {
+      a = { 31224, 35729 },
+    },
     coup_de_grace = {
       a = { 441776, 450743, 441423, 462127, 462128 },
     },
     crimson_tempest = {
       a = { 1247227 },
       t = { 1247227 },
+    },
+    crimson_vial = {
+      a = { 185311, 212198, 354494, 1293149 },
     },
     darkest_night = {
       a = { 457280, 457058, 469637 },
@@ -998,8 +1073,14 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       a = { 32645 },
       b = { 32645 },
     },
+    evasion = {
+      a = { 5277, 226364 },
+    },
     fan_of_knives = {
       a = { 51723 },
+    },
+    feint = {
+      a = { 1966 },
     },
     garrote = {
       a = { 703, 360830 },

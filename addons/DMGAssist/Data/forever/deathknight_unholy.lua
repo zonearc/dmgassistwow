@@ -684,10 +684,34 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       n = "death_coil",
       r = 40,
     },
+    [48792] = {
+      ap = {
+        { 48792, "self" },
+      },
+      cd = 120,
+      d = 8,
+      n = "icebound_fortitude",
+      tal = true,
+    },
+    [49039] = {
+      ap = {
+        { 49039, "self" },
+      },
+      cd = 120,
+      d = 10,
+      n = "lichborne",
+    },
     [49530] = {
       n = "sudden_doom",
       pas = true,
       tal = true,
+    },
+    [50397] = {
+      ap = {
+        { 50397, "self" },
+      },
+      d = 30,
+      n = "lichborne",
     },
     [52212] = {
       n = "death_and_decay",
@@ -697,6 +721,15 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       gcd = 1.5,
       n = "scourge_strike",
       r = 30,
+      tal = true,
+    },
+    [55233] = {
+      ap = {
+        { 55233, "self" },
+      },
+      cd = 90,
+      d = 10,
+      n = "vampiric_blood",
       tal = true,
     },
     [63560] = {
@@ -1135,6 +1168,12 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       a = { 1242223, 1242158, 1256565, 1256566 },
       b = { 1242223, 1242158, 1256565, 1256566 },
     },
+    icebound_fortitude = {
+      a = { 48792 },
+    },
+    lichborne = {
+      a = { 49039, 50397 },
+    },
     mind_freeze = {
       a = { 47528 },
     },
@@ -1166,6 +1205,9 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
     sudden_doom = {
       a = { 81340, 461135, 49530 },
       b = { 81340, 461135, 49530 },
+    },
+    vampiric_blood = {
+      a = { 55233 },
     },
     vampiric_strike = {
       a = { 433895, 433899, 434422, 434674, 433901, 445669 },

@@ -852,6 +852,17 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       n = "azure_strike",
       r = 25,
     },
+    [363916] = {
+      ap = {
+        { 363916, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 90,
+      d = 12,
+      n = "obsidian_scales",
+      tal = true,
+    },
     [364664] = {
       d = 12,
       n = "living_flame",
@@ -917,6 +928,15 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
     },
     [373766] = {
       n = "emerald_blossom",
+    },
+    [374348] = {
+      n = "renewing_blaze",
+      pas = true,
+      tal = true,
+    },
+    [374349] = {
+      d = 8,
+      n = "renewing_blaze",
     },
     [375583] = {
       n = "ancient_flame",
@@ -1380,6 +1400,9 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       a = { 1297728 },
       b = { 1297728 },
     },
+    obsidian_scales = {
+      a = { 363916 },
+    },
     prescience = {
       a = { 409311, 410089 },
       b = { 410089, 409311 },
@@ -1389,6 +1412,9 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
     },
     quell = {
       a = { 351338 },
+    },
+    renewing_blaze = {
+      a = { 374349, 374348 },
     },
     temporal_burst = {
       t = { 431695 },

@@ -582,12 +582,29 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       r = 40,
       tal = true,
     },
+    [104773] = {
+      ap = {
+        { 104773, "self" },
+      },
+      cd = 180,
+      d = 8,
+      n = "unending_resolve",
+    },
     [105174] = {
       cost = { [7] = 3 },
       ct = 1.5,
       gcd = 1.5,
       n = "hand_of_guldan",
       r = 40,
+    },
+    [108416] = {
+      ap = {
+        { 108416, "self" },
+      },
+      cd = 60,
+      d = 20,
+      n = "dark_pact",
+      tal = true,
     },
     [119910] = {
       n = "spell_lock",
@@ -866,6 +883,9 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
     call_dreadstalkers = {
       a = { 104316, 193331, 193332, 196273, 196274, 196281 },
     },
+    dark_pact = {
+      a = { 108416 },
+    },
     demonbolt = {
       a = { 264178, 280127, 280381 },
     },
@@ -935,6 +955,9 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
     },
     to_hell_and_back = {
       t = { 1281511 },
+    },
+    unending_resolve = {
+      a = { 104773 },
     },
   },
 })

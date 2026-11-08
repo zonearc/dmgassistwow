@@ -706,6 +706,16 @@ ns.RegisterSpecData("forever", "priest_shadow", {
   simcOrder = { "precombat", "default", "aoe", "aoe_variables", "cds", "heal_for_tof", "main", "trinkets" },
   spec = "shadow",
   spellInfo = {
+    [586] = {
+      ap = {
+        { 586, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 40 },
+      d = 10,
+      gcd = 1.5,
+      n = "fade",
+    },
     [589] = {
       ap = {
         { 589, "enemy" },
@@ -832,6 +842,36 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       n = "mind_blast",
       r = 30,
     },
+    [9578] = {
+      ap = {
+        { 9578, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 75 },
+      d = 10,
+      gcd = 1.5,
+      n = "fade",
+    },
+    [9579] = {
+      ap = {
+        { 9579, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 125 },
+      d = 10,
+      gcd = 1.5,
+      n = "fade",
+    },
+    [9592] = {
+      ap = {
+        { 9592, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 175 },
+      d = 10,
+      gcd = 1.5,
+      n = "fade",
+    },
     [10060] = {
       cd = 180,
       d = 15,
@@ -863,6 +903,26 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       n = "power_word_fortitude",
       r = 30,
     },
+    [10941] = {
+      ap = {
+        { 10941, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 225 },
+      d = 10,
+      gcd = 1.5,
+      n = "fade",
+    },
+    [10942] = {
+      ap = {
+        { 10942, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 275 },
+      d = 10,
+      gcd = 1.5,
+      n = "fade",
+    },
     [13908] = {
       cd = 600,
       gcd = 1.5,
@@ -872,6 +932,11 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       cost = { [0] = 185 },
       gcd = 1.5,
       n = "holy_nova",
+      tal = true,
+    },
+    [15259] = {
+      n = "darkness",
+      pas = true,
       tal = true,
     },
     [15407] = {
@@ -1023,6 +1088,19 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       n = "shadowfiend",
       pas = true,
     },
+    [425294] = {
+      ap = {
+        { 425294, "self" },
+      },
+      cd = 120,
+      d = 6,
+      gcd = 1.5,
+      n = "dispersion",
+    },
+    [425307] = {
+      n = "dispersion",
+      pas = true,
+    },
     [1309595] = {
       cd = 18,
       cost = { [0] = 175 },
@@ -1061,8 +1139,17 @@ ns.RegisterSpecData("forever", "priest_shadow", {
     },
   },
   spells = {
+    darkness = {
+      a = { 15259 },
+    },
     desperate_prayer = {
       a = { 13908, 19236, 19238, 19240, 19241, 19242 },
+    },
+    dispersion = {
+      a = { 425294, 425307 },
+    },
+    fade = {
+      a = { 586, 9578, 9579, 9592, 10941, 10942 },
     },
     holy_nova = {
       a = { 15237, 15430, 15431, 27799, 27800, 27801 },

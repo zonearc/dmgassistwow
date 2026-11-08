@@ -722,6 +722,15 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
   simcOrder = { "precombat", "default", "aoe", "aoe_variables", "cds", "heal_for_tof", "main", "trinkets" },
   spec = "shadow",
   spellInfo = {
+    [586] = {
+      ap = {
+        { 586, "self" },
+      },
+      cd = 30,
+      d = 10,
+      n = "fade",
+      tal = true,
+    },
     [589] = {
       ap = {
         { 589, "enemy" },
@@ -811,6 +820,15 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       gcd = 1.5,
       n = "vampiric_touch",
       r = 40,
+    },
+    [47585] = {
+      ap = {
+        { 47585, "self" },
+      },
+      cd = 120,
+      d = 6,
+      gcd = 1.5,
+      n = "dispersion",
     },
     [120517] = {
       ap = {
@@ -1195,12 +1213,18 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
     devour_matter = {
       t = { 451840 },
     },
+    dispersion = {
+      a = { 47585 },
+    },
     distorted_reality = {
       t = { 409044 },
     },
     entropic_rift = {
       a = { 447445, 447448, 450193, 459314, 447444 },
       b = { 447445, 450193, 459314, 447448, 447444 },
+    },
+    fade = {
+      a = { 586 },
     },
     halo = {
       a = { 120517, 120644, 120692, 120696, 390964, 390971 },

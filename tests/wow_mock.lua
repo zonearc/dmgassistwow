@@ -208,7 +208,13 @@ function mock.Install(env)
     self.backdrop = b
   end
   local noop = function() end
-  for _, name in ipairs({ "SetFont", "SetTexCoord", "SetColorTexture", "SetDrawLayer", "SetBackdropColor",
+  function FrameMethods:SetFont()
+    return true
+  end
+  function FrameMethods:IsVisible()
+    return self.shown ~= false
+  end
+  for _, name in ipairs({ "SetBlendMode", "SetTexCoord", "SetColorTexture", "SetDrawLayer", "SetBackdropColor",
     "SetBackdropBorderColor", "ClearAllPoints", "SetStatusBarTexture", "SetStatusBarColor", "SetMinMaxValues",
     "SetJustifyH", "SetTextColor", "SetAllPoints", "SetPoint", "SetFrameStrata", "SetMovable", "RegisterForDrag",
     "SetClampedToScreen", "SetMultiLine", "SetAutoFocus", "SetFontObject", "SetWidth", "SetScrollChild",
@@ -230,7 +236,10 @@ function mock.Install(env)
   -- Blizzard Settings API (the parts DMGAssist uses). mock.settings[variable] = { get, set, control, options }.
   mock.settings, mock.settingsCategories, mock.openedCategory = {}, {}, nil
   local function Category(name, parent)
-    local c = { name = name, parent = parent, id = #mock.settingsCategories + 1 }
+    local c = { name = name, parent = parent, id = #mock.settingsCategories + 1, layout = { items = {} } }
+    function c.layout.AddInitializer(self, init)
+      self.items[#self.items + 1] = init
+    end
     function c.GetID()
       return c.id
     end
@@ -240,10 +249,12 @@ function mock.Install(env)
   env.Settings = {
     VarType = { Boolean = "boolean", String = "string", Number = "number" },
     RegisterVerticalLayoutCategory = function(name)
-      return Category(name), {}
+      local c = Category(name)
+      return c, c.layout
     end,
     RegisterVerticalLayoutSubcategory = function(parent, name)
-      return Category(name, parent), {}
+      local c = Category(name, parent)
+      return c, c.layout
     end,
     RegisterProxySetting = function(category, variable, varType, name, default, get, set)
       local setting = { category = category, variable = variable, varType = varType, name = name, default = default,
@@ -294,6 +305,9 @@ function mock.Install(env)
   env.CreateSettingsButtonInitializer = function(name, text, click)
     return { name = name, text = text, click = click }
   end
+  env.CreateSettingsListSectionHeaderInitializer = function(name)
+    return { header = name }
+  end
   env.GetActionInfo = function(slot)
     local a = mock.actionInfo and mock.actionInfo[slot]
     if a then
@@ -327,6 +341,24 @@ function mock.Install(env)
       return c
     end,
   }
+  env.UnitHealthPercent = function(unit, _, curve)
+    local pct = (mock.healthPct and mock.healthPct[unit]) or 1
+    if curve then
+      return ctx(curve:Evaluate(pct))
+    end
+    return ctx(pct)
+  end
+  env.IsMounted = function()
+    return mock.mounted == true
+  end
+  env.UnitInVehicle = function()
+    return false
+  end
+  env.SOUNDKIT = { RAID_WARNING = 8959, UI_RAID_BOSS_WHISPER_WARNING = 37666 }
+  mock.sounds = {}
+  env.PlaySound = function(kit, channel)
+    mock.sounds[#mock.sounds + 1] = { kit, channel }
+  end
   env.UnitPowerPercent = function(_, pt, _, curve)
     local cur = mock.power[pt] or 0
     local max = mock.powerMax[pt] or 1
@@ -629,7 +661,7 @@ function mock.Install(env)
       return mock.powerCost and mock.powerCost[id]
     end,
     GetSpellInfo = function(id)
-      return { name = "x", spellID = id, castTime = 0 }
+      return { name = "x", spellID = id, castTime = (mock.castTimes and mock.castTimes[id]) or 0 }
     end,
     GetSpellCharges = function()
       return nil

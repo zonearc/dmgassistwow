@@ -471,6 +471,46 @@ ns.RegisterSpecData("forever", "paladin_retribution", {
   simcOrder = { "precombat", "default", "cooldowns", "finishers", "generators" },
   spec = "retribution",
   spellInfo = {
+    [498] = {
+      ap = {
+        { 498, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 15 },
+      d = 6,
+      gcd = 1.5,
+      n = "divine_protection",
+    },
+    [642] = {
+      ap = {
+        { 642, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 75 },
+      d = 10,
+      gcd = 1.5,
+      n = "divine_shield",
+    },
+    [1020] = {
+      ap = {
+        { 1020, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 110 },
+      d = 12,
+      gcd = 1.5,
+      n = "divine_shield",
+    },
+    [5573] = {
+      ap = {
+        { 5573, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 35 },
+      d = 8,
+      gcd = 1.5,
+      n = "divine_protection",
+    },
     [24239] = {
       cd = 6,
       cost = { [0] = 425 },
@@ -548,6 +588,26 @@ ns.RegisterSpecData("forever", "paladin_retribution", {
       n = "rebuke",
       pas = true,
     },
+    [458312] = {
+      ap = {
+        { 458312, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 15 },
+      d = 9,
+      gcd = 1.5,
+      n = "divine_protection",
+    },
+    [458371] = {
+      ap = {
+        { 458371, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 35 },
+      d = 12,
+      gcd = 1.5,
+      n = "divine_protection",
+    },
   },
   spells = {
     avenging_wrath = {
@@ -556,6 +616,12 @@ ns.RegisterSpecData("forever", "paladin_retribution", {
     },
     crusader_strike = {
       a = { 409914 },
+    },
+    divine_protection = {
+      a = { 498, 5573, 458312, 458371 },
+    },
+    divine_shield = {
+      a = { 642, 1020 },
     },
     divine_storm = {
       a = { 407778, 407784, 409924 },

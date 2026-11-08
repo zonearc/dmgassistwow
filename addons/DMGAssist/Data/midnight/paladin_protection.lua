@@ -452,6 +452,23 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       gcd = 1.5,
       n = "devotion_aura",
     },
+    [498] = {
+      ap = {
+        { 498, "self" },
+      },
+      cd = 60,
+      d = 8,
+      n = "divine_protection",
+    },
+    [642] = {
+      ap = {
+        { 642, "self" },
+      },
+      cd = 300,
+      d = 8,
+      gcd = 1.5,
+      n = "divine_shield",
+    },
     [20271] = {
       ap = {
         { 20271, "self" },
@@ -552,6 +569,18 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       n = "word_of_glory",
       r = 40,
     },
+    [86659] = {
+      ap = {
+        { 86659, "self" },
+      },
+      cd = 8,
+      ch = 1,
+      chcd = 180,
+      d = 8,
+      n = "guardian_of_ancient_kings",
+      r = 30,
+      tal = true,
+    },
     [88263] = {
       ap = {
         { 1302139, "enemy" },
@@ -592,6 +621,17 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       gain = { [9] = 1 },
       gcd = 1.5,
       n = "arcane_torrent",
+    },
+    [184662] = {
+      ap = {
+        { 184662, "self" },
+      },
+      d = 10,
+      n = "shield_of_vengeance",
+    },
+    [184689] = {
+      n = "shield_of_vengeance",
+      r = 8,
     },
     [188370] = {
       n = "consecration",
@@ -653,6 +693,10 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       n = "divine_purpose",
       st = 1,
     },
+    [228050] = {
+      d = 6,
+      n = "divine_shield",
+    },
     [229976] = {
       n = "blessed_hammer",
       pas = true,
@@ -707,6 +751,9 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       n = "word_of_glory",
       pas = true,
     },
+    [317131] = {
+      n = "divine_shield",
+    },
     [317872] = {
       n = "avenging_wrath",
       pas = true,
@@ -721,6 +768,23 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
     [326730] = {
       n = "hammer_of_wrath",
       pas = true,
+    },
+    [337851] = {
+      ap = {
+        { 337851, "self" },
+        { 337852, "self" },
+      },
+      d = 4,
+      n = "guardian_of_ancient_kings",
+      r = 30,
+    },
+    [337852] = {
+      ap = {
+        { 337852, "self" },
+      },
+      d = 45,
+      n = "reign_of_ancient_kings",
+      r = 30,
     },
     [339044] = {
       ap = {
@@ -763,6 +827,31 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       n = "sentinel",
       st = 15,
       tal = true,
+    },
+    [393108] = {
+      ap = {
+        { 393108, "self" },
+        { 393879, "self" },
+      },
+      d = 4,
+      n = "guardian_of_ancient_kings",
+      r = 30,
+    },
+    [393879] = {
+      ap = {
+        { 393879, "self" },
+      },
+      d = 45,
+      n = "gift_of_the_golden_valkyr",
+      r = 30,
+    },
+    [403876] = {
+      ap = {
+        { 403876, "self" },
+      },
+      cd = 60,
+      d = 8,
+      n = "divine_protection",
     },
     [406647] = {
       gain = { [9] = 1 },
@@ -959,6 +1048,11 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       n = "hammer_of_light",
       st = 1,
     },
+    [1261562] = {
+      n = "shield_of_vengeance",
+      pas = true,
+      tal = true,
+    },
     [1268810] = {
       ap = {
         { 1268810, "self" },
@@ -1016,6 +1110,10 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
     [1289892] = {
       n = "holy_armaments",
     },
+    [1293918] = {
+      d = 10,
+      n = "divine_shield",
+    },
     [1302139] = {
       ap = {
         { 1302139, "enemy" },
@@ -1066,15 +1164,24 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       a = { 433807, 433808, 460822, 1310389, 433106, 1228455 },
       b = { 460822, 433807, 433808, 1228455, 1310389, 433106 },
     },
+    divine_protection = {
+      a = { 498, 403876 },
+    },
     divine_purpose = {
       a = { 223819, 408458, 223817, 408459 },
       b = { 223819, 408458, 223817, 408459 },
+    },
+    divine_shield = {
+      a = { 642, 228050, 1293918, 317131 },
     },
     divine_toll = {
       a = { 304971, 375576, 312952, 326011, 375609 },
     },
     eye_for_an_eye = {
       t = { 469309 },
+    },
+    guardian_of_ancient_kings = {
+      a = { 86659, 337851, 393108 },
     },
     hammer_of_light = {
       a = { 427453, 427441, 429826, 1235934, 1246643, 1217116 },
@@ -1110,6 +1217,9 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
     shield_of_the_righteous = {
       a = { 53600, 415091, 132403, 1270616, 1270617 },
       b = { 132403, 53600, 415091, 1270616, 1270617 },
+    },
+    shield_of_vengeance = {
+      a = { 184662, 184689, 1261562 },
     },
     templar_slash = {
       a = { 406647, 447142 },

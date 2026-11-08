@@ -991,10 +991,47 @@ ns.RegisterSpecData("forever", "druid_balance", {
       n = "starfire",
       r = 30,
     },
+    [22812] = {
+      ap = {
+        { 22812, "self" },
+      },
+      cd = 60,
+      d = 15,
+      gcd = 1.5,
+      n = "barkskin",
+    },
+    [22842] = {
+      ap = {
+        { 22842, "self" },
+      },
+      cd = 180,
+      cost = { [1] = 0 },
+      d = 10,
+      gcd = 1.5,
+      n = "frenzied_regeneration",
+    },
+    [22845] = {
+      n = "frenzied_regeneration",
+    },
     [24858] = {
       gcd = 1.5,
       n = "moonkin_form",
       tal = true,
+    },
+    [408024] = {
+      ap = {
+        { 408024, "self" },
+      },
+      cd = 180,
+      d = 20,
+      n = "survival_instincts",
+    },
+    [408025] = {
+      ap = {
+        { 408025, "self" },
+      },
+      d = 20,
+      n = "survival_instincts",
     },
     [408248] = {
       n = "eclipse",
@@ -1009,6 +1046,10 @@ ns.RegisterSpecData("forever", "druid_balance", {
       n = "eclipse",
       st = 4,
     },
+    [409809] = {
+      n = "survival_instincts",
+      pas = true,
+    },
     [409813] = {
       n = "eclipse",
       pas = true,
@@ -1019,6 +1060,13 @@ ns.RegisterSpecData("forever", "druid_balance", {
       gcd = 1,
       n = "skull_bash",
       r = 13,
+    },
+    [411115] = {
+      n = "survival_of_the_fittest",
+      pas = true,
+    },
+    [411124] = {
+      n = "survival_of_the_fittest",
     },
     [414621] = {
       d = 2,
@@ -1069,6 +1117,22 @@ ns.RegisterSpecData("forever", "druid_balance", {
       n = "starsurge",
       pas = true,
     },
+    [428708] = {
+      ap = {
+        { 428708, "self" },
+      },
+      cd = 180,
+      d = 10,
+      gcd = 1.5,
+      n = "frenzied_regeneration",
+    },
+    [428713] = {
+      cd = 60,
+      d = 15,
+      gcd = 1.5,
+      n = "barkskin",
+      r = 40,
+    },
     [439748] = {
       ap = {
         { 439748, "self" },
@@ -1101,6 +1165,9 @@ ns.RegisterSpecData("forever", "druid_balance", {
     },
   },
   spells = {
+    barkskin = {
+      a = { 22812, 428713 },
+    },
     eclipse = {
       a = { 408255, 408248, 409813 },
       b = { 408255, 409813, 408248 },
@@ -1108,6 +1175,9 @@ ns.RegisterSpecData("forever", "druid_balance", {
     },
     force_of_nature = {
       a = { 467079 },
+    },
+    frenzied_regeneration = {
+      a = { 22842, 428708, 22845 },
     },
     moonfire = {
       a = { 8921, 8924, 8925, 8926, 8927, 8928 },
@@ -1132,6 +1202,12 @@ ns.RegisterSpecData("forever", "druid_balance", {
     sunfire = {
       a = { 414684, 414687, 414689 },
       b = { 414684, 414687, 414689 },
+    },
+    survival_instincts = {
+      a = { 408024, 408025, 409809 },
+    },
+    survival_of_the_fittest = {
+      a = { 411115, 411124 },
     },
     wrath = {
       a = { 5176, 5177, 5178, 5179, 5180, 6780 },

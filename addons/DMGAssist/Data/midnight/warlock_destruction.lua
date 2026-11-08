@@ -836,6 +836,23 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       n = "axe_toss",
       r = 30,
     },
+    [104773] = {
+      ap = {
+        { 104773, "self" },
+      },
+      cd = 180,
+      d = 8,
+      n = "unending_resolve",
+    },
+    [108416] = {
+      ap = {
+        { 108416, "self" },
+      },
+      cd = 60,
+      d = 20,
+      n = "dark_pact",
+      tal = true,
+    },
     [108503] = {
       cd = 30,
       gcd = 1.5,
@@ -1235,6 +1252,9 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
     conflagration_of_chaos = {
       t = { 387108 },
     },
+    dark_pact = {
+      a = { 108416 },
+    },
     destructive_rapidity = {
       t = { 1244928 },
     },
@@ -1313,6 +1333,9 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
     summon_infernal = {
       a = { 1122, 111685, 335236 },
       t = { 1122 },
+    },
+    unending_resolve = {
+      a = { 104773 },
     },
     wither = {
       a = { 445468, 445474, 1279686, 445465 },

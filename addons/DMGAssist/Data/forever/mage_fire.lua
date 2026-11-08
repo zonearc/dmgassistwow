@@ -1036,6 +1036,28 @@ ns.RegisterSpecData("forever", "mage_fire", {
       r = 35,
       tal = true,
     },
+    [11426] = {
+      ap = {
+        { 11426, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 305 },
+      d = 60,
+      gcd = 1.5,
+      n = "ice_barrier",
+      tal = true,
+    },
+    [11958] = {
+      ap = {
+        { 11958, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 15 },
+      d = 10,
+      gcd = 1.5,
+      n = "ice_block",
+      tal = true,
+    },
     [12505] = {
       ap = {
         { 12505, "enemy" },
@@ -1091,6 +1113,36 @@ ns.RegisterSpecData("forever", "mage_fire", {
       n = "pyroblast",
       r = 35,
     },
+    [13031] = {
+      ap = {
+        { 13031, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 360 },
+      d = 60,
+      gcd = 1.5,
+      n = "ice_barrier",
+    },
+    [13032] = {
+      ap = {
+        { 13032, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 420 },
+      d = 60,
+      gcd = 1.5,
+      n = "ice_barrier",
+    },
+    [13033] = {
+      ap = {
+        { 13033, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 480 },
+      d = 60,
+      gcd = 1.5,
+      n = "ice_barrier",
+    },
     [28682] = {
       n = "combustion",
       st = 10,
@@ -1142,6 +1194,10 @@ ns.RegisterSpecData("forever", "mage_fire", {
     },
     [412286] = {
       n = "burnout",
+      pas = true,
+    },
+    [415709] = {
+      n = "survival_of_the_fittest",
       pas = true,
     },
     [415759] = {
@@ -1206,6 +1262,12 @@ ns.RegisterSpecData("forever", "mage_fire", {
       a = { 48108, 401724 },
       b = { 48108, 401724 },
     },
+    ice_barrier = {
+      a = { 11426, 13031, 13032, 13033 },
+    },
+    ice_block = {
+      a = { 11958 },
+    },
     pyroblast = {
       a = { 11366, 12505, 12522, 12523, 12524, 12525 },
     },
@@ -1214,6 +1276,9 @@ ns.RegisterSpecData("forever", "mage_fire", {
     },
     skull_bash = {
       a = { 415759 },
+    },
+    survival_of_the_fittest = {
+      a = { 415709 },
     },
   },
 })

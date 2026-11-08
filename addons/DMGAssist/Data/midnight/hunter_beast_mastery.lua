@@ -519,6 +519,12 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
     [83381] = {
       n = "kill_command",
     },
+    [109304] = {
+      cd = 120,
+      gcd = 1.5,
+      n = "exhilaration",
+      r = 45,
+    },
     [115939] = {
       n = "beast_cleave",
       pas = true,
@@ -530,6 +536,10 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
     [118459] = {
       n = "beast_cleave",
       r = 5,
+    },
+    [128594] = {
+      cd = 120,
+      n = "exhilaration",
     },
     [147362] = {
       cd = 24,
@@ -548,6 +558,14 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       cd = 90,
       d = 15,
       n = "bestial_wrath",
+    },
+    [186265] = {
+      ap = {
+        { 186265, "self" },
+      },
+      cd = 180,
+      d = 8,
+      n = "aspect_of_the_turtle",
     },
     [187707] = {
       cd = 15,
@@ -610,6 +628,17 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       gcd = 1.5,
       n = "kill_command",
       r = 50,
+      tal = true,
+    },
+    [264735] = {
+      ap = {
+        { 264735, "self" },
+      },
+      ch = 1,
+      chcd = 90,
+      d = 6,
+      gcd = 1.5,
+      n = "survival_of_the_fittest",
       tal = true,
     },
     [268877] = {
@@ -808,6 +837,9 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
     arcane_shot = {
       a = { 185358 },
     },
+    aspect_of_the_turtle = {
+      a = { 186265 },
+    },
     auto_shot = {
       a = { 75 },
     },
@@ -844,6 +876,9 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
     counter_shot = {
       a = { 147362 },
     },
+    exhilaration = {
+      a = { 109304, 128594 },
+    },
     jagged_wounds = {
       t = { 1265044 },
     },
@@ -874,6 +909,9 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
     },
     steady_shot = {
       a = { 56641, 77443 },
+    },
+    survival_of_the_fittest = {
+      a = { 264735 },
     },
     wailing_arrow = {
       a = { 355589, 392060, 354831, 355596, 392058, 392061 },

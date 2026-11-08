@@ -471,6 +471,23 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
   simcOrder = { "precombat", "default", "cooldowns", "finishers", "generators" },
   spec = "retribution",
   spellInfo = {
+    [498] = {
+      ap = {
+        { 498, "self" },
+      },
+      cd = 60,
+      d = 8,
+      n = "divine_protection",
+    },
+    [642] = {
+      ap = {
+        { 642, "self" },
+      },
+      cd = 300,
+      d = 8,
+      gcd = 1.5,
+      n = "divine_shield",
+    },
     [20271] = {
       ap = {
         { 20271, "self" },
@@ -493,6 +510,15 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       gcd = 1.5,
       n = "hammer_of_wrath",
       r = 30,
+    },
+    [31850] = {
+      ap = {
+        { 31850, "self" },
+      },
+      cd = 90,
+      d = 12,
+      n = "ardent_defender",
+      tal = true,
     },
     [31884] = {
       ap = {
@@ -529,11 +555,26 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       r = 5,
       tal = true,
     },
+    [66235] = {
+      n = "ardent_defender",
+    },
     [85256] = {
       cost = { [9] = 3 },
       gcd = 1.5,
       n = "templars_verdict",
       r = 5,
+    },
+    [86659] = {
+      ap = {
+        { 86659, "self" },
+      },
+      cd = 8,
+      ch = 1,
+      chcd = 180,
+      d = 8,
+      n = "guardian_of_ancient_kings",
+      r = 30,
+      tal = true,
     },
     [88263] = {
       ap = {
@@ -572,6 +613,17 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       n = "blade_of_justice",
       r = 12,
       tal = true,
+    },
+    [184662] = {
+      ap = {
+        { 184662, "self" },
+      },
+      d = 10,
+      n = "shield_of_vengeance",
+    },
+    [184689] = {
+      n = "shield_of_vengeance",
+      r = 8,
     },
     [197277] = {
       ap = {
@@ -635,6 +687,10 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
     },
     [224266] = {
       n = "templars_verdict",
+    },
+    [228050] = {
+      d = 6,
+      n = "divine_shield",
     },
     [229976] = {
       n = "blessed_hammer",
@@ -714,6 +770,9 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
     [312952] = {
       n = "divine_toll",
     },
+    [317131] = {
+      n = "divine_shield",
+    },
     [317872] = {
       n = "avenging_wrath",
       pas = true,
@@ -746,6 +805,23 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       gcd = 1.5,
       n = "final_verdict",
       pas = true,
+    },
+    [337851] = {
+      ap = {
+        { 337851, "self" },
+        { 337852, "self" },
+      },
+      d = 4,
+      n = "guardian_of_ancient_kings",
+      r = 30,
+    },
+    [337852] = {
+      ap = {
+        { 337852, "self" },
+      },
+      d = 45,
+      n = "reign_of_ancient_kings",
+      r = 30,
     },
     [339044] = {
       ap = {
@@ -845,6 +921,23 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       n = "empyrean_legacy",
       st = 1,
     },
+    [393108] = {
+      ap = {
+        { 393108, "self" },
+        { 393879, "self" },
+      },
+      d = 4,
+      n = "guardian_of_ancient_kings",
+      r = 30,
+    },
+    [393879] = {
+      ap = {
+        { 393879, "self" },
+      },
+      d = 45,
+      n = "gift_of_the_golden_valkyr",
+      r = 30,
+    },
     [402912] = {
       n = "righteous_cause",
       pas = true,
@@ -864,6 +957,14 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       },
       d = 9,
       n = "truths_wake",
+    },
+    [403876] = {
+      ap = {
+        { 403876, "self" },
+      },
+      cd = 60,
+      d = 8,
+      n = "divine_protection",
     },
     [404358] = {
       n = "blade_of_justice",
@@ -1058,6 +1159,11 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       n = "execution_sentence",
       r = 30,
     },
+    [1261562] = {
+      n = "shield_of_vengeance",
+      pas = true,
+      tal = true,
+    },
     [1263782] = {
       n = "walk_into_light",
       pas = true,
@@ -1079,6 +1185,10 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       n = "hammer_of_wrath",
       r = 30,
     },
+    [1293918] = {
+      d = 10,
+      n = "divine_shield",
+    },
     [1302139] = {
       ap = {
         { 1302139, "enemy" },
@@ -1087,10 +1197,21 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       n = "seal_of_reprisal",
       r = 40,
     },
+    [1310686] = {
+      ap = {
+        { 1310686, "self" },
+      },
+      cd = 90,
+      d = 12,
+      n = "ardent_defender",
+    },
   },
   spells = {
     arcane_torrent = {
       a = { 155145 },
+    },
+    ardent_defender = {
+      a = { 1310686, 66235, 31850 },
     },
     art_of_war = {
       a = { 406086, 406064 },
@@ -1114,6 +1235,12 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
     },
     crusading_strikes = {
       t = { 404542 },
+    },
+    divine_protection = {
+      a = { 498, 403876 },
+    },
+    divine_shield = {
+      a = { 642, 228050, 1293918, 317131 },
     },
     divine_storm = {
       a = { 53385, 224239, 423593 },
@@ -1145,6 +1272,9 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
     final_verdict = {
       t = { 383328, 337247 },
     },
+    guardian_of_ancient_kings = {
+      a = { 337851, 393108, 86659 },
+    },
     hammer_of_light = {
       a = { 427453, 427441, 429826, 1235934, 1246643, 1217116 },
     },
@@ -1169,6 +1299,9 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
     righteous_cause = {
       a = { 402916, 402912 },
       b = { 402916, 402912 },
+    },
+    shield_of_vengeance = {
+      a = { 184662, 184689, 1261562 },
     },
     templar_slash = {
       a = { 406647, 447142 },

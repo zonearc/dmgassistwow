@@ -600,6 +600,17 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       n = "counterspell",
       r = 40,
     },
+    [11426] = {
+      ap = {
+        { 11426, "self" },
+      },
+      ch = 1,
+      chcd = 30,
+      d = 60,
+      gcd = 0.75,
+      n = "ice_barrier",
+      tal = true,
+    },
     [12486] = {
       ap = {
         { 12486, "enemy" },
@@ -647,6 +658,17 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       r = 40,
       tal = true,
     },
+    [45438] = {
+      ap = {
+        { 45438, "self" },
+      },
+      ch = 1,
+      chcd = 240,
+      d = 10,
+      gcd = 1.5,
+      n = "ice_block",
+      tal = true,
+    },
     [59638] = {
       ap = {
         { 59638, "enemy" },
@@ -677,6 +699,21 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       n = "frostbolt",
       r = 35,
     },
+    [108978] = {
+      ap = {
+        { 110909, "self" },
+      },
+      cd = 60,
+      d = 20,
+      n = "alter_time",
+    },
+    [110909] = {
+      ap = {
+        { 110909, "self" },
+      },
+      d = 10,
+      n = "alter_time",
+    },
     [112965] = {
       n = "fingers_of_frost",
       pas = true,
@@ -689,6 +726,9 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       d = 15,
       n = "fingers_of_frost",
       st = 2,
+    },
+    [127140] = {
+      n = "alter_time",
     },
     [144251] = {
       ap = {
@@ -828,6 +868,31 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       d = 1,
       n = "flurry",
     },
+    [235313] = {
+      ap = {
+        { 235313, "self" },
+      },
+      ch = 1,
+      chcd = 30,
+      d = 60,
+      gcd = 0.75,
+      n = "blazing_barrier",
+      tal = true,
+    },
+    [235314] = {
+      n = "blazing_barrier",
+    },
+    [235450] = {
+      ap = {
+        { 235450, "self" },
+      },
+      ch = 1,
+      chcd = 30,
+      d = 60,
+      gcd = 0.75,
+      n = "prismatic_barrier",
+      tal = true,
+    },
     [250423] = {
       ap = {
         { 250423, "enemy" },
@@ -874,6 +939,25 @@ ns.RegisterSpecData("midnight", "mage_frost", {
     [327364] = {
       n = "freezing_winds",
       pas = true,
+    },
+    [342245] = {
+      ap = {
+        { 342246, "self" },
+      },
+      cd = 60,
+      d = 20,
+      n = "alter_time",
+      tal = true,
+    },
+    [342246] = {
+      ap = {
+        { 342246, "self" },
+      },
+      d = 10,
+      n = "alter_time",
+    },
+    [342247] = {
+      n = "alter_time",
     },
     [378406] = {
       n = "wintertide",
@@ -977,6 +1061,9 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       r = 40,
       tal = true,
     },
+    [1265927] = {
+      n = "blazing_barrier",
+    },
     [1310248] = {
       ap = {
         { 1310248, "self" },
@@ -986,8 +1073,14 @@ ns.RegisterSpecData("midnight", "mage_frost", {
     },
   },
   spells = {
+    alter_time = {
+      a = { 108978, 342245, 110909, 127140, 342246, 342247 },
+    },
     arcane_intellect = {
       a = { 1459 },
+    },
+    blazing_barrier = {
+      a = { 235314, 1265927, 235313 },
     },
     blizzard = {
       a = { 190356, 1248829, 12486, 190357, 250423 },
@@ -1048,6 +1141,12 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       a = { 199786, 1236209, 199844, 228600, 1222865, 1236211 },
       b = { 199844, 214325, 1222865, 199786, 228600, 1236209 },
     },
+    ice_barrier = {
+      a = { 11426 },
+    },
+    ice_block = {
+      a = { 45438 },
+    },
     ice_lance = {
       a = { 30455, 228598 },
     },
@@ -1057,6 +1156,9 @@ ns.RegisterSpecData("midnight", "mage_frost", {
     icicles = {
       a = { 205473, 1246832 },
       b = { 205473, 1246832 },
+    },
+    prismatic_barrier = {
+      a = { 235450 },
     },
     rapid_refreezing = {
       a = { 1310248 },

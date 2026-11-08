@@ -639,6 +639,13 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       n = "rupture",
       r = 5,
     },
+    [1966] = {
+      cd = 10,
+      cost = { [3] = 20 },
+      gcd = 1,
+      n = "feint",
+      r = 5,
+    },
     [5171] = {
       ap = {
         { 5171, "self" },
@@ -648,6 +655,22 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       d = 6,
       gcd = 1,
       n = "slice_and_dice",
+    },
+    [5277] = {
+      ap = {
+        { 5277, "self" },
+      },
+      cd = 300,
+      cost = { [3] = 0 },
+      d = 15,
+      n = "evasion",
+    },
+    [6768] = {
+      cd = 10,
+      cost = { [3] = 20 },
+      gcd = 1,
+      n = "feint",
+      r = 5,
     },
     [6774] = {
       ap = {
@@ -690,6 +713,13 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "garrote",
+      r = 5,
+    },
+    [8637] = {
+      cd = 10,
+      cost = { [3] = 20 },
+      gcd = 1,
+      n = "feint",
       r = 5,
     },
     [8639] = {
@@ -811,6 +841,13 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       n = "garrote",
       r = 5,
     },
+    [11303] = {
+      cd = 10,
+      cost = { [3] = 20 },
+      gcd = 1,
+      n = "feint",
+      r = 5,
+    },
     [11327] = {
       ap = {
         { 11327, "self" },
@@ -838,6 +875,13 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       },
       d = 1,
       n = "vanish_purge",
+    },
+    [25302] = {
+      cd = 10,
+      cost = { [3] = 20 },
+      gcd = 1,
+      n = "feint",
+      r = 5,
     },
     [399956] = {
       cost = { [3] = 60 },
@@ -960,8 +1004,14 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       a = { 399968 },
       b = { 399968 },
     },
+    evasion = {
+      a = { 5277 },
+    },
     fan_of_knives = {
       a = { 409240, 436608 },
+    },
+    feint = {
+      a = { 1966, 6768, 8637, 11303, 25302 },
     },
     garrote = {
       a = { 703, 8631, 8632, 8633, 11289, 11290 },

@@ -77,13 +77,65 @@ end)
 ns.last = nil
 local lastLogged
 
+-- Preview: while the settings panel is open, or the HUD is unlocked out of combat, it is shown even without a
+-- target so it can be placed and styled.
+function ns.Previewing()
+  if inCombat then
+    return false
+  end
+  if ns.db and ns.db.locked == false and ns.db.previewUnlocked ~= false then
+    return true
+  end
+  return SettingsPanel ~= nil and U.Read(U.Call(SettingsPanel.IsShown, SettingsPanel)) == true
+end
+
+local function Hidden()
+  local cfg = D.Settings()
+  if U.Read(U.Call(C_PetBattles and C_PetBattles.IsInBattle)) == true then
+    return true
+  end
+  if cfg.hideVehicle and U.Read(U.Call(UnitInVehicle, "player")) == true then
+    return true
+  end
+  if cfg.hideMounted and not inCombat and U.Read(U.Call(IsMounted)) == true then
+    return true
+  end
+  return false
+end
+
 local function ShouldShow()
   if not (ns.db and ns.db.enabled ~= false) then
+    return false
+  end
+  if ns.Previewing() then
+    return true
+  end
+  if Hidden() then
     return false
   end
   local enemy = U.Read(U.Call(UnitExists, "target")) == true and
     U.Read(U.Call(UnitCanAttack, "player", "target")) == true
   return D.ShouldShow(inCombat, enemy)
+end
+
+-- Sounds on the rising edge of each alert (each event is also throttled in Sounds).
+local alerted = {}
+function ns.Alerts(result)
+  local intr = result.interrupt and result.interrupt.how == "decided"
+  if intr and not alerted.interrupt then
+    ns.Sounds.Play("interrupt")
+  end
+  alerted.interrupt = intr
+  local call = result.callout and not result.callout.seconds and result.callout.kind or nil
+  if call and call ~= alerted.call then
+    ns.Sounds.Play("bosscall")
+  end
+  alerted.call = call
+  local cd = result.cd and result.cd.id or nil
+  if cd and cd ~= alerted.cd then
+    ns.Sounds.Play("burst")
+  end
+  alerted.cd = cd
 end
 
 function ns.Update()
@@ -110,6 +162,8 @@ function ns.Update()
   })
   result.callout = ns.BossMods.Callout()
   ns.Interrupts.Apply(result)
+  ns.Defensives.Apply(result)
+  ns.Alerts(result)
   ns.Diagnostics.OnPick(result)
   ns.last = result
   D.Update(result, true)
@@ -156,6 +210,8 @@ for _, event in ipairs(Specs.EVENTS) do
 end
 pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_SUCCEEDED", "player")
 pcall(frame.RegisterUnitEvent, frame, "UNIT_POWER_UPDATE", "player")
+pcall(frame.RegisterEvent, frame, "PLAYER_STARTED_MOVING")
+pcall(frame.RegisterEvent, frame, "PLAYER_STOPPED_MOVING")
 pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_START", "target")
 pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_CHANNEL_START", "target")
 pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELL_HASTE", "player")
@@ -166,7 +222,9 @@ end
 pcall(frame.RegisterUnitEvent, frame, "UNIT_AURA", "player", "target")
 
 local DEFAULTS = { enabled = true, burst = true, mode = "st", autoDetect = true, aoeTargets = 3, fightLength = 300,
-  useAssisted = true, queue = 3, smartFight = true, bossMods = true, interruptMode = "smart" }
+  useAssisted = true, queue = 3, smartFight = true, bossMods = true, interruptMode = "smart",
+  defensiveMode = "smart", defensiveHealth = 35, defensiveLead = 3, sounds = true, locked = true }
+ns.DEFAULTS = DEFAULTS
 
 frame:SetScript("OnEvent", function(_, event, ...)
   local arg1, _, arg3 = ...
@@ -214,6 +272,10 @@ frame:SetScript("OnEvent", function(_, event, ...)
     end
   elseif event == "UNIT_SPELLCAST_START" or event == "UNIT_SPELLCAST_CHANNEL_START" then
     ns.Interrupts.OnTargetCastStart()
+  elseif event == "PLAYER_STARTED_MOVING" then
+    S.moving = true
+  elseif event == "PLAYER_STOPPED_MOVING" then
+    S.moving = false
   elseif event == "UNIT_POWER_UPDATE" then
     ns.Clues.OnPowerEvent(U.Read(select(2, ...)))
   elseif event == "UNIT_SPELL_HASTE" then
@@ -347,6 +409,36 @@ function commands.keys()
   U.Print(L["Keybinds refreshed: %d spells on your bars."], n)
 end
 
+-- Full decision trace for troubleshooting (like Hekili's snapshots): every line looked at, castable or not and
+-- why, its condition result, the inputs that were unknown; printed short in chat and stored in the Watchdog log.
+function commands.snapshot()
+  local state = Specs.current
+  if not (state and state.data) then
+    U.Print(L["No recommendation right now."])
+    return
+  end
+  S.unknownTerms = {}
+  local r = G.Recommend(state.data, { burst = ns.db.burst ~= false, trace = true,
+    useAssisted = state.branch == "midnight" and ns.db.useAssisted ~= false })
+  local lines = r.trace or {}
+  U.Log("snapshot", { spec = state.key, pick = r.main and r.main.token, source = r.main and r.main.source,
+    lines = #lines, mode = r.modeLabel })
+  for i, line in ipairs(lines) do
+    U.Log("snapshot_line", i .. " " .. line)
+  end
+  local unknown = {}
+  for name, n in pairs(S.unknownTerms) do
+    unknown[#unknown + 1] = name .. "x" .. n
+  end
+  table.sort(unknown)
+  U.Log("snapshot_unknown", table.concat(unknown, " "))
+  U.Print(L["Snapshot: %s (%s), %d lines checked. Stored in the Watchdog log; /reload and send it."],
+    tostring(r.main and r.main.token), tostring(r.main and r.main.source), #lines)
+  for i = 1, math.min(#lines, 8) do
+    U.Print("  %s", lines[i])
+  end
+end
+
 function commands.config()
   ns.Options.Open()
 end
@@ -390,6 +482,7 @@ function commands.help()
     { "/dmga why", "explain the current pick" },
     { "/dmga config", "open the settings panel" },
     { "/dmga keys", "refresh keybinds" },
+    { "/dmga snapshot", "store a full decision trace for troubleshooting" },
   }
   for _, line in ipairs(lines) do
     U.Print("%s — %s", line[1], L[line[2]])

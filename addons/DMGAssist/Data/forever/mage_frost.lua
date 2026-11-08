@@ -780,6 +780,58 @@ ns.RegisterSpecData("forever", "mage_frost", {
       n = "blizzard",
       r = 30,
     },
+    [11426] = {
+      ap = {
+        { 11426, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 305 },
+      d = 60,
+      gcd = 1.5,
+      n = "ice_barrier",
+      tal = true,
+    },
+    [11958] = {
+      ap = {
+        { 11958, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 15 },
+      d = 10,
+      gcd = 1.5,
+      n = "ice_block",
+      tal = true,
+    },
+    [13031] = {
+      ap = {
+        { 13031, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 360 },
+      d = 60,
+      gcd = 1.5,
+      n = "ice_barrier",
+    },
+    [13032] = {
+      ap = {
+        { 13032, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 420 },
+      d = 60,
+      gcd = 1.5,
+      n = "ice_barrier",
+    },
+    [13033] = {
+      ap = {
+        { 13033, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 480 },
+      d = 60,
+      gcd = 1.5,
+      n = "ice_barrier",
+    },
     [29443] = {
       d = 10,
       n = "counterspell",
@@ -817,6 +869,10 @@ ns.RegisterSpecData("forever", "mage_frost", {
     },
     [401741] = {
       n = "fingers_of_frost",
+      pas = true,
+    },
+    [415709] = {
+      n = "survival_of_the_fittest",
       pas = true,
     },
     [415759] = {
@@ -908,11 +964,20 @@ ns.RegisterSpecData("forever", "mage_frost", {
     frozen_orb = {
       a = { 440802, 440809, 440804, 440859 },
     },
+    ice_barrier = {
+      a = { 11426, 13031, 13032, 13033 },
+    },
+    ice_block = {
+      a = { 11958 },
+    },
     ice_lance = {
       a = { 400640, 1240044, 1240045, 1240046, 1240047, 1312002 },
     },
     skull_bash = {
       a = { 415759 },
+    },
+    survival_of_the_fittest = {
+      a = { 415709 },
     },
   },
 })

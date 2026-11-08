@@ -516,6 +516,17 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       n = "arcane_missiles",
       r = 60,
     },
+    [11426] = {
+      ap = {
+        { 11426, "self" },
+      },
+      ch = 1,
+      chcd = 30,
+      d = 60,
+      gcd = 0.75,
+      n = "ice_barrier",
+      tal = true,
+    },
     [12051] = {
       ap = {
         { 12051, "self" },
@@ -555,6 +566,17 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       n = "arcane_barrage",
       r = 40,
     },
+    [45438] = {
+      ap = {
+        { 45438, "self" },
+      },
+      ch = 1,
+      chcd = 240,
+      d = 10,
+      gcd = 1.5,
+      n = "ice_block",
+      tal = true,
+    },
     [79684] = {
       n = "clearcasting",
       pas = true,
@@ -564,6 +586,24 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       gcd = 1.5,
       n = "arcane_blast",
       r = 40,
+    },
+    [108978] = {
+      ap = {
+        { 110909, "self" },
+      },
+      cd = 60,
+      d = 20,
+      n = "alter_time",
+    },
+    [110909] = {
+      ap = {
+        { 110909, "self" },
+      },
+      d = 10,
+      n = "alter_time",
+    },
+    [127140] = {
+      n = "alter_time",
     },
     [139678] = {
       n = "arcane_missiles",
@@ -612,6 +652,31 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       n = "arcane_blast",
       r = 30,
     },
+    [235313] = {
+      ap = {
+        { 235313, "self" },
+      },
+      ch = 1,
+      chcd = 30,
+      d = 60,
+      gcd = 0.75,
+      n = "blazing_barrier",
+      tal = true,
+    },
+    [235314] = {
+      n = "blazing_barrier",
+    },
+    [235450] = {
+      ap = {
+        { 235450, "self" },
+      },
+      ch = 1,
+      chcd = 30,
+      d = 60,
+      gcd = 0.75,
+      n = "prismatic_barrier",
+      tal = true,
+    },
     [236628] = {
       n = "amplification",
       pas = true,
@@ -658,6 +723,25 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
     },
     [321529] = {
       n = "arcane_barrage",
+    },
+    [342245] = {
+      ap = {
+        { 342246, "self" },
+      },
+      cd = 60,
+      d = 20,
+      n = "alter_time",
+      tal = true,
+    },
+    [342246] = {
+      ap = {
+        { 342246, "self" },
+      },
+      d = 10,
+      n = "alter_time",
+    },
+    [342247] = {
+      n = "alter_time",
     },
     [365265] = {
       gain = { [0] = 15 },
@@ -770,6 +854,9 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       pas = true,
       tal = true,
     },
+    [1265927] = {
+      n = "blazing_barrier",
+    },
     [1277009] = {
       ap = {
         { 1277009, "self" },
@@ -822,6 +909,9 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
     },
   },
   spells = {
+    alter_time = {
+      a = { 108978, 342245, 110909, 127140, 342246, 342247 },
+    },
     amplification = {
       t = { 236628 },
     },
@@ -860,6 +950,9 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       a = { 365350, 365362, 453326, 365265 },
       b = { 365362, 365265, 365350, 453326 },
     },
+    blazing_barrier = {
+      a = { 235314, 1265927, 235313 },
+    },
     charged_orb = {
       t = { 384651 },
     },
@@ -880,6 +973,12 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
     high_voltage = {
       t = { 461248 },
     },
+    ice_barrier = {
+      a = { 11426 },
+    },
+    ice_block = {
+      a = { 45438 },
+    },
     orb_barrage = {
       t = { 384858 },
     },
@@ -892,6 +991,9 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
     },
     presence_of_mind = {
       a = { 205025 },
+    },
+    prismatic_barrier = {
+      a = { 235450 },
     },
     prismatic_bolt = {
       a = { 1295924, 1295939, 1295942, 1295923, 1295944, 1295946 },

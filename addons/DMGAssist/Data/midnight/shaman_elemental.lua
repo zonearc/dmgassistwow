@@ -802,6 +802,15 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       n = "lightning_bolt",
       r = 45,
     },
+    [108271] = {
+      ap = {
+        { 108271, "self" },
+      },
+      cd = 120,
+      d = 12,
+      n = "astral_shift",
+      tal = true,
+    },
     [114050] = {
       cd = 180,
       gcd = 1.5,
@@ -1299,6 +1308,9 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     ascendance = {
       a = { 114050, 114052, 1219480, 344548, 467263, 114051 },
       b = { 114051, 114052, 1219480, 114050, 344548, 467263 },
+    },
+    astral_shift = {
+      a = { 108271 },
     },
     bloodlust = {
       a = { 2825, 32182 },

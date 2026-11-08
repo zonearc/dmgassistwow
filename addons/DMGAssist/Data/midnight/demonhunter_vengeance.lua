@@ -979,6 +979,25 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       n = "throw_glaive",
       r = 30,
     },
+    [196718] = {
+      ap = {
+        { 196718, "self" },
+      },
+      cd = 300,
+      d = 8,
+      gcd = 1.5,
+      n = "darkness",
+      tal = true,
+    },
+    [198589] = {
+      ap = {
+        { 212800, "self" },
+      },
+      cd = 0.5,
+      ch = 1,
+      chcd = 60,
+      n = "blur",
+    },
     [200166] = {
       ap = {
         { 200166, "enemy" },
@@ -992,6 +1011,13 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       },
       d = 1,
       n = "metamorphosis",
+    },
+    [202818] = {
+      ap = {
+        { 202818, "self" },
+      },
+      d = 2,
+      n = "blur",
     },
     [203557] = {
       n = "felblade",
@@ -1096,6 +1122,10 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       n = "fiery_brand",
       r = 40,
     },
+    [209426] = {
+      d = 8,
+      n = "darkness",
+    },
     [210788] = {
       ap = {
         { 210788, "self" },
@@ -1120,6 +1150,14 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
     },
     [212106] = {
       n = "fel_devastation",
+    },
+    [212800] = {
+      ap = {
+        { 212800, "self" },
+      },
+      cd = 60,
+      d = 10,
+      n = "blur",
     },
     [213241] = {
       n = "felblade",
@@ -1431,8 +1469,14 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       a = { 444661, 444810, 442290 },
       b = { 444661, 444810, 442290 },
     },
+    blur = {
+      a = { 198589, 212800, 202818 },
+    },
     charred_flesh = {
       t = { 336639 },
+    },
+    darkness = {
+      a = { 196718, 209426 },
     },
     demon_spikes = {
       a = { 203720, 203819, 391159, 321028 },

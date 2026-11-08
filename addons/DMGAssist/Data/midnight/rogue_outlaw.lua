@@ -503,12 +503,32 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       chcd = 120,
       n = "vanish",
     },
+    [1966] = {
+      ap = {
+        { 1966, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 15,
+      cost = { [3] = 35 },
+      d = 6,
+      n = "feint",
+    },
     [2098] = {
       cmax = { [4] = 5 },
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "dispatch",
       r = 5,
+    },
+    [5277] = {
+      ap = {
+        { 5277, "self" },
+      },
+      cd = 120,
+      d = 10,
+      n = "evasion",
+      tal = true,
     },
     [8676] = {
       cost = { [3] = 50 },
@@ -558,6 +578,23 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       gcd = 1,
       n = "arcane_torrent",
     },
+    [31224] = {
+      ap = {
+        { 31224, "self" },
+        { 35729, "self" },
+      },
+      cd = 120,
+      d = 5,
+      n = "cloak_of_shadows",
+      tal = true,
+    },
+    [35729] = {
+      ap = {
+        { 35729, "self" },
+      },
+      d = 1,
+      n = "cloak_of_shadows",
+    },
     [51690] = {
       cd = 180,
       cmax = { [4] = 7 },
@@ -582,6 +619,16 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
     },
     [158188] = {
       n = "stealth",
+    },
+    [185311] = {
+      ap = {
+        { 185311, "self" },
+      },
+      cd = 30,
+      cost = { [3] = 20 },
+      d = 4,
+      gcd = 1,
+      n = "crimson_vial",
     },
     [185763] = {
       ap = {
@@ -626,6 +673,21 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "sinister_strike",
+    },
+    [212198] = {
+      ap = {
+        { 212198, "self" },
+      },
+      cd = 60,
+      d = 6,
+      n = "crimson_vial",
+    },
+    [226364] = {
+      ap = {
+        { 226364, "self" },
+      },
+      d = 2,
+      n = "evasion",
     },
     [256170] = {
       n = "loaded_dice",
@@ -697,6 +759,10 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
     [341541] = {
       gcd = 1,
       n = "sinister_strike",
+    },
+    [354494] = {
+      d = 4,
+      n = "crimson_vial",
     },
     [381620] = {
       n = "improved_ambush",
@@ -898,6 +964,9 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       n = "preparation",
       tal = true,
     },
+    [1293149] = {
+      n = "crimson_vial",
+    },
     [1301405] = {
       ap = {
         { 1301405, "self" },
@@ -934,8 +1003,14 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
     blade_rush = {
       a = { 271877, 271878, 271881, 271896 },
     },
+    cloak_of_shadows = {
+      a = { 31224, 35729 },
+    },
     coup_de_grace = {
       a = { 441776, 450743, 441423, 462127, 462128 },
+    },
+    crimson_vial = {
+      a = { 185311, 212198, 354494, 1293149 },
     },
     deal_fate = {
       t = { 454419 },
@@ -950,12 +1025,18 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       a = { 1214934 },
       b = { 1214934 },
     },
+    evasion = {
+      a = { 5277, 226364 },
+    },
     fan_the_hammer = {
       t = { 381846 },
     },
     fang_strike = {
       a = { 1301405 },
       b = { 1301405 },
+    },
+    feint = {
+      a = { 1966 },
     },
     hidden_opportunity = {
       t = { 383281 },

@@ -580,6 +580,13 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       cost = { [3] = 0 },
       n = "vanish",
     },
+    [1966] = {
+      cd = 10,
+      cost = { [3] = 20 },
+      gcd = 1,
+      n = "feint",
+      r = 5,
+    },
     [2098] = {
       cmax = { [4] = 5 },
       cost = { [3] = 35, [4] = 1 },
@@ -618,6 +625,15 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       gcd = 1,
       n = "slice_and_dice",
     },
+    [5277] = {
+      ap = {
+        { 5277, "self" },
+      },
+      cd = 300,
+      cost = { [3] = 0 },
+      d = 15,
+      n = "evasion",
+    },
     [6760] = {
       cmax = { [4] = 5 },
       cost = { [3] = 35, [4] = 1 },
@@ -637,6 +653,13 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "eviscerate",
+      r = 5,
+    },
+    [6768] = {
+      cd = 10,
+      cost = { [3] = 20 },
+      gcd = 1,
+      n = "feint",
       r = 5,
     },
     [6774] = {
@@ -663,6 +686,13 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       n = "eviscerate",
       r = 5,
     },
+    [8637] = {
+      cd = 10,
+      cost = { [3] = 20 },
+      gcd = 1,
+      n = "feint",
+      r = 5,
+    },
     [8721] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
@@ -675,6 +705,13 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "backstab",
+      r = 5,
+    },
+    [11303] = {
+      cd = 10,
+      cost = { [3] = 20 },
+      gcd = 1,
+      n = "feint",
       r = 5,
     },
     [11327] = {
@@ -710,6 +747,13 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       },
       d = 1,
       n = "vanish_purge",
+    },
+    [25302] = {
+      cd = 10,
+      cost = { [3] = 20 },
+      gcd = 1,
+      n = "feint",
+      r = 5,
     },
     [399985] = {
       cost = { [3] = 20 },
@@ -761,8 +805,14 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
     coup_de_grace = {
       a = { 1310709 },
     },
+    evasion = {
+      a = { 5277 },
+    },
     eviscerate = {
       a = { 2098, 6760, 6761, 6762, 8623, 8624 },
+    },
+    feint = {
+      a = { 1966, 6768, 8637, 11303, 25302 },
     },
     kick = {
       a = { 1766, 1767, 1768, 1769 },
