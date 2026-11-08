@@ -159,6 +159,9 @@ function mock.Install(env)
   function FrameMethods:SetScript(name, fn)
     self.scripts[name] = fn
   end
+  function FrameMethods:GetScript(name)
+    return self.scripts[name]
+  end
   function FrameMethods:GetWidth()
     return self.width or 0
   end
@@ -222,7 +225,7 @@ function mock.Install(env)
     "SetJustifyH", "SetTextColor", "SetAllPoints", "SetPoint", "SetFrameStrata", "SetMovable", "RegisterForDrag",
     "SetClampedToScreen", "SetMultiLine", "SetAutoFocus", "SetFontObject", "SetWidth", "SetScrollChild",
     "SetCursorPosition", "SetFocus", "HighlightText", "ClearFocus", "StartMoving", "StopMovingOrSizing",
-    "RegisterForClicks", "SetHighlightTexture", "SetOwner", "AddLine" }) do
+    "RegisterForClicks", "SetSpacing", "SetHighlightTexture", "SetOwner", "AddLine" }) do
     FrameMethods[name] = noop
   end
   env.CreateFrame = function(frameType, name)
@@ -287,6 +290,11 @@ function mock.Install(env)
     end,
     RegisterVerticalLayoutSubcategory = function(parent, name)
       local c = Category(name, parent)
+      return c, c.layout
+    end,
+    RegisterCanvasLayoutSubcategory = function(parent, frame, name)
+      local c = Category(name, parent)
+      c.frame = frame
       return c, c.layout
     end,
     RegisterProxySetting = function(category, variable, varType, name, default, get, set)

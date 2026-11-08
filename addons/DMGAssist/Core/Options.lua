@@ -158,7 +158,7 @@ function O.Register()
   Check(main, DB, "burst", "Major cooldowns", true,
     "Show the next major cooldown (the spells Blizzard's assistant leaves out) in its own icon.")
   Header(main, "Targets")
-  Choice(main, DB, "mode", "Primary target mode", "st", { { "st", "Single target" }, { "aoe", "AoE" } },
+  Choice(main, DB, "mode", "Primary target mode", "aoe", { { "st", "Single target" }, { "aoe", "AoE" } },
     "Used when targets can't be counted. The key binding switches during a fight.")
   Check(main, DB, "autoDetect", "Auto-detect targets", true,
     "Count enemies in combat from their nameplates (enemy nameplates must be shown).")
@@ -185,6 +185,7 @@ function O.Register()
   Button(main, "Defaults", "Reset to defaults", O.ResetAll, "Every setting on every DMGAssist page.")
 
   ---------------------------------------------------------------- display
+  O.RegisterStatus(main)
   local display = Category("Display", main)
   Header(display, "Layout")
   Slider(display, HUD, "iconSize", "Main icon size", H.iconSize, 24, 96, 1)
@@ -277,6 +278,91 @@ function O.Register()
   Settings.RegisterAddOnCategory(main)
   O.category = main
   return main
+end
+
+---------------------------------------------------------------------------
+-- Status page: what DMGAssist sees right now (ns.StatusLines), where to get help, and a reset of everything.
+-- A canvas page (Settings.RegisterCanvasLayoutSubcategory, live 12.1.5 and forever 1.60.1), refreshed whenever
+-- it is shown. Links are in read-only boxes to copy: the game cannot open web pages.
+---------------------------------------------------------------------------
+local function CopyBox(parent, text, width)
+  local box = CreateFrame("EditBox", nil, parent, "InputBoxTemplate")
+  box:SetSize(width, 20)
+  box:SetAutoFocus(false)
+  box:SetText(text)
+  box:SetCursorPosition(0)
+  box:SetScript("OnTextChanged", function(self, user)
+    if user then
+      self:SetText(text) -- read-only: put the link back
+      self:HighlightText()
+    end
+  end)
+  box:SetScript("OnEditFocusGained", function(self)
+    self:HighlightText()
+  end)
+  box:SetScript("OnEscapePressed", function(self)
+    self:ClearFocus()
+  end)
+  return box
+end
+
+function O.RegisterStatus(parent)
+  local frame = CreateFrame("Frame")
+  frame:SetSize(600, 560)
+  local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+  title:SetPoint("TOPLEFT", 16, -16)
+  title:SetText(L["Status"])
+  local body = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+  body:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -12)
+  body:SetWidth(560)
+  body:SetJustifyH("LEFT")
+  body:SetSpacing(4)
+
+  local help = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+  help:SetPoint("TOPLEFT", body, "BOTTOMLEFT", 0, -18)
+  help:SetText(L["Help and updates"])
+  local rows = {
+    { "Project page", ns.LINKS.home },
+    { "Report a problem", ns.LINKS.issues },
+    { "Latest build", ns.LINKS.downloads },
+  }
+  local anchor = help
+  for _, row in ipairs(rows) do
+    local label = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+    label:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -10)
+    label:SetWidth(130)
+    label:SetJustifyH("LEFT")
+    label:SetText(L[row[1]])
+    local box = CopyBox(frame, row[2], 400)
+    box:SetPoint("LEFT", label, "RIGHT", 8, 0)
+    anchor = label
+  end
+  local how = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+  how:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -12)
+  how:SetWidth(560)
+  how:SetJustifyH("LEFT")
+  how:SetText(L["To report a problem: type /dmgw, press Ctrl+C, open the Report a problem link and paste it "
+    .. "into a new issue with a line about what happened. (Click a link box, Ctrl+C to copy it.)"])
+
+  local reset = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+  reset:SetSize(220, 24)
+  reset:SetPoint("TOPLEFT", how, "BOTTOMLEFT", 0, -16)
+  reset:SetText(L["Reset everything to defaults"])
+  reset:SetScript("OnClick", function()
+    O.ResetAll()
+    frame:GetScript("OnShow")(frame)
+  end)
+
+  frame:SetScript("OnShow", function()
+    local lines = {}
+    for _, kv in ipairs(ns.StatusLines and ns.StatusLines() or {}) do
+      lines[#lines + 1] = "|cffffd100" .. kv[1] .. ":|r  " .. kv[2]
+    end
+    body:SetText(table.concat(lines, "\n"))
+  end)
+  local category = Settings.RegisterCanvasLayoutSubcategory(parent, frame, L["Status"])
+  O.statusFrame, O.statusBody = frame, body
+  return category
 end
 
 -- The game won't let an addon open the Settings panel in combat (OpenSettingsPanel is protected), so a

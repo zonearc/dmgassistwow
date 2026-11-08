@@ -94,15 +94,40 @@ end
 function S.Settings()
   local db = ns.db or {}
   return {
-    mode = db.mode or "st",
+    mode = db.mode or "aoe",
     autoDetect = db.autoDetect ~= false,
     aoeTargets = tonumber(db.aoeTargets) or 3,
     fightLength = tonumber(db.fightLength) or 300,
   }
 end
 
--- Hostile, in-combat enemies with a nameplate; nil when the game won't tell us.
+-- The spell that sets "in range" for counting: the most common range among the player's known spells
+-- (40 yd for a caster, melee for Feral), so the count fits the spec without per-class tables.
+local rangeProbe = { book = nil }
+local function RangeProbe()
+  if rangeProbe.book == M.book then
+    return rangeProbe.id
+  end
+  local byRange, best, bestN = {}, nil, 0
+  for id, b in pairs(M.book or {}) do
+    local info = b.id == id and not b.passive and M.Info(id)
+    if info and info.r and info.r > 0 then
+      local entry = byRange[info.r] or { n = 0, id = id }
+      entry.n = entry.n + 1
+      byRange[info.r] = entry
+      if entry.n > bestN then
+        best, bestN = entry.id, entry.n
+      end
+    end
+  end
+  rangeProbe.book, rangeProbe.id = M.book, best
+  return best
+end
+
+-- Hostile enemies in combat with a nameplate, within range of the player's usual spell when the game says;
+-- nil when it won't tell us. (Training dummies join as they are hit: they are in combat only then.)
 function S.CountEnemies()
+  local probe = RangeProbe()
   local n = 0
   for i = 1, MAX_NAMEPLATES do
     local unit = "nameplate" .. i
@@ -117,7 +142,10 @@ function S.CountEnemies()
         return nil
       end
       if hostile and fighting then
-        n = n + 1
+        local inRange = probe and U.Get(C_Spell and C_Spell.IsSpellInRange, probe, unit)
+        if inRange ~= false then -- out of range: someone else's fight; unknown: counted
+          n = n + 1
+        end
       end
     end
   end

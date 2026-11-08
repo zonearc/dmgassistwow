@@ -653,7 +653,8 @@ test("HUD shows three icons, the mode in the header, keybinds and the GCD bar", 
   eq(f.slots[1]:IsShown(), true)
   eq(f.slots[2]:IsShown(), r.queue[2] ~= nil)
   eq(type(f.header.text), "string")
-  eq(f.header.text:find("ST", 1, true) ~= nil or f.header.text:find("AUTO", 1, true) ~= nil, true, f.header.text)
+  local hdr = f.header.text
+  eq(hdr:find("AOE", 1, true) ~= nil or hdr:find("ST", 1, true) ~= nil or hdr:find("AUTO", 1, true) ~= nil, true, hdr)
   eq(type(f.gcd.value), "number")
   -- keybinds: main bar slot 3 -> ACTIONBUTTON3; bar page 6 slot 62 -> MULTIACTIONBAR1BUTTON2; cat form bonus page 7
   mock.actionSlots = { [5221] = { 3 }, [1822] = { 62 }, [1079] = { 75 } }
@@ -1503,7 +1504,7 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   local headers = 0
   local cats = mock.settingsCategories
   local mine = {}
-  for i = #cats - 4, #cats do
+  for i = #cats - 5, #cats do
     mine[#mine + 1] = cats[i]
   end
   for _, c in ipairs(mine) do
@@ -1515,7 +1516,8 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   end
   eq(headers >= 12, true, "section headers: " .. headers)
   eq(mine[1].name, "DMGAssist", "basic page first")
-  eq(mine[5].parent, mine[1], "four sub-pages: Display, Alerts & Sounds, Combat, Advanced")
+  eq(mine[2].name, "Status", "Status page right after the main page")
+  eq(mine[6].parent, mine[1], "five sub-pages: Status, Display, Alerts & Sounds, Combat, Advanced")
   local fonts = mock.settings.DMGASSIST_FONT.options()
   eq(fonts[1].value, "default")
   mock.settings.DMGASSIST_ICONSIZE:SetValue(80)

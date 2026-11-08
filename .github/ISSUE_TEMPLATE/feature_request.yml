@@ -1,0 +1,18 @@
+name: Feature request
+description: An idea that would make DMGAssist better.
+labels: ["enhancement", "untriaged"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like DMGAssist to do?
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why would it help you?
+  - type: input
+    id: spec
+    attributes:
+      label: Class and spec (if it matters)
