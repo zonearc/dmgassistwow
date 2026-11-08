@@ -33,6 +33,13 @@ local function Build()
   frame:SetScript("OnDragStop", frame.StopMovingOrSizing)
   frame:SetClampedToScreen(true)
   tinsert(UISpecialFrames, "DMGAssistWatchdogFrame") -- Escape closes it
+  -- The template's X did not close the window in game (2026-11-08): close it ourselves.
+  local close = frame.CloseButton or _G["DMGAssistWatchdogFrameCloseButton"]
+  if close and close.SetScript then
+    close:SetScript("OnClick", function()
+      frame:Hide()
+    end)
+  end
 
   local title = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
   title:SetPoint("TOP", 0, -6)

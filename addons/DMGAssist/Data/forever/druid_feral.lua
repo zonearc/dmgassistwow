@@ -474,7 +474,7 @@ ns.RegisterSpecData("forever", "druid_feral", {
         k = "R",
         p = {
           name = "mana_potion_fits_and_is_needed",
-          value = "(0&(gcd.remains<=0)&(wowsims.spelltimetoready<=0)&((mana.max-mana)>=(2250+(wowsims.currentmanaregen*5)))&(!((known.judgement_of_wisdom&debuff.judgement_of_wisdom.up))|(mana<((((fight_remains<?120)%1)*20)+action.shifting_power.cost))))",
+          value = "(0&(gcd.remains<=0)&(wowsims.spelltimetoready<=0)&((mana.max-mana)>=(2250+(wowsims.currentmanaregen*5)))&(!((known.judgement_of_wisdom&debuff.judgement_of_wisdom.up))|(mana<((((fight_remains>?120)%1)*20)+action.shifting_power.cost))))",
         },
       },
       {

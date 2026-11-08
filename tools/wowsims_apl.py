@@ -115,7 +115,7 @@ class Converter:
             vals = [self.value(v) for v in body.get("vals", [])]
             if not vals:
                 return self.unknown_term(kind)
-            joiner = "<?" if kind == "min" else ">?"
+            joiner = ">?" if kind == "min" else "<?"  # SimC: "<?" is max, ">?" is min (engine/sim/expressions.cpp)
             return "(" + joiner.join(vals) + ")"
         if kind in ("auraRemainingTime", "auraNumStacks"):
             tok = self.spell_token(body.get("auraId"))
