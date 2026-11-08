@@ -25,7 +25,9 @@ POWER = {
     "chi": 12, "insanity": 13, "arcane_charges": 16, "fury": 17, "pain": 18, "essence": 19,
 }
 # Resources whose effect values are stored x10 or x100 in game data (SimC prints raw values).
-POWER_DIVISOR = {7: 10, 8: 10}
+# Spell data stores some resources in smaller units: rage, runic power, soul shards, astral power in tenths,
+# insanity in hundredths (Mind Blast 600 = 6 Insanity, Bloodthirst 80 = 8 Rage). Fury and Maelstrom are whole.
+POWER_DIVISOR = {1: 10, 6: 10, 7: 10, 8: 10, 13: 100}
 
 HEADER = re.compile(r"^Name\s*:\s*(.+?) \(id=(\d+)\)\s*(\[(.*)\])?")
 FIELD = re.compile(r"^([A-Z][A-Za-z ]*?)\s*:\s?(.*)$")
@@ -70,7 +72,7 @@ def parse_dump(text):
             continue
         m = EFFECT.match(line)
         if m:
-            effect = {"text": m.group(2), "detail": ""}
+            effect = {"n": int(m.group(1)), "text": m.group(2), "detail": ""}
             cur["effects"].append(effect)
             continue
         if raw.startswith(" ") and effect is not None:
@@ -131,9 +133,38 @@ def parse_dump(text):
                 cur["hastedCooldown"] = True
             if "Hasted Global Cooldown" in val:
                 cur["hastedGcd"] = True
+    _baseline_energize(spells)
     for s in spells.values():
         _effects(s)
     return spells
+
+
+FLAT_EFFECT = re.compile(r"Add Flat Modifier \(107\): Spell Effect (\d+)")
+AFFECTED = re.compile(r"Affected Spells: (.*?)(?:\s+Family Flags|\s+Modified By|$)")
+
+
+def _baseline_energize(spells):
+    """A spec's built-in passive (no talent needed) can set another spell's resource gain: Balance's hidden
+    "Astral Power" (197911) adds 60 (6 Astral Power) to Wrath's and Moonfire/Sunfire's energize effects, whose
+    own base value is 0. Fold those into the energize effect so the gain is known. Talents are left out, so
+    the gain we know never exceeds the real one."""
+    for p in spells.values():
+        if not p["passive"] or p.get("talent"):
+            continue
+        for e in p["effects"]:
+            m = FLAT_EFFECT.search(e["text"])
+            v = re.search(r"Base Value: (-?[\d.]+)", e["detail"])
+            a = AFFECTED.search(e["detail"])
+            if not (m and v and a):
+                continue
+            index, amount = int(m.group(1)), _num(v.group(1))
+            for sid in re.findall(r"\((\d+)\)", a.group(1)):
+                target = spells.get(int(sid))
+                for te in (target or {}).get("effects", []):
+                    if te.get("n") == index and te["text"].startswith("Energize Power"):
+                        te["detail"] = re.sub(r"Base Value: (-?[\d.]+)",
+                                              lambda b: "Base Value: %g" % (_num(b.group(1)) + amount),
+                                              te["detail"], count=1)
 
 
 def _effects(spell):

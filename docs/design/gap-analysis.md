@@ -9,7 +9,7 @@ Legend: ✅ have · 🟡 partial · ❌ missing · ⛔ impossible in Midnight co
 | Feature | Hekili / others | DMGAssist | Notes |
 |---|---|---|---|
 | SimC priority lists, auto-updated | Hekili (hand-maintained packs) | ✅ weekly import from SimC itself | Hekili lagged patches; ours follows SimC's own repo |
-| Major cooldowns in their own display | Hekili Cooldowns display | ✅ cooldown icon + burst toggle | |
+| Major cooldowns in their own display | Hekili Cooldowns display | ➖ by design | Three slots only: cooldowns, interrupts and defensives all go in the queue in priority order (toggle: cooldowns off = never shown). The game's Cooldown Manager shows what is ready. |
 | Queue length | up to 10 | 🟡 3 | Past ~3 the look-ahead is mostly guesswork under secrets |
 | Look-ahead / forecasting | ✅ | ✅ cooldowns, auras, costs, gains, current cast | Not modelled: passive regen, procs, charges, CDR |
 | Pooling | ✅ pooling time | ✅ SimC `pool_resource` → "pool" pick | |

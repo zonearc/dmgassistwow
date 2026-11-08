@@ -904,6 +904,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       r = 40,
     },
     [8921] = {
+      gain = { [8] = 6 },
       gcd = 1.5,
       n = "moonfire",
       r = 40,
@@ -1014,6 +1015,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       n = "wild_mushroom",
     },
     [93402] = {
+      gain = { [8] = 6 },
       gcd = 1.5,
       n = "sunfire",
       r = 40,
@@ -1077,6 +1079,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     },
     [190984] = {
       ct = 1.5,
+      gain = { [8] = 6 },
       gcd = 1.5,
       n = "wrath",
       r = 40,

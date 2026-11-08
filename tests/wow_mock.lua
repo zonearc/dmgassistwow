@@ -222,7 +222,7 @@ function mock.Install(env)
     "SetJustifyH", "SetTextColor", "SetAllPoints", "SetPoint", "SetFrameStrata", "SetMovable", "RegisterForDrag",
     "SetClampedToScreen", "SetMultiLine", "SetAutoFocus", "SetFontObject", "SetWidth", "SetScrollChild",
     "SetCursorPosition", "SetFocus", "HighlightText", "ClearFocus", "StartMoving", "StopMovingOrSizing",
-    "SetFrameLevel", "RegisterForClicks", "SetHighlightTexture", "SetOwner", "AddLine" }) do
+    "RegisterForClicks", "SetHighlightTexture", "SetOwner", "AddLine" }) do
     FrameMethods[name] = noop
   end
   env.CreateFrame = function(frameType, name)
@@ -236,6 +236,12 @@ function mock.Install(env)
 
   function FrameMethods:SetShown(on)
     self.shown = on and true or false
+  end
+  function FrameMethods:GetFrameLevel()
+    return self.level or 1
+  end
+  function FrameMethods:SetFrameLevel(n)
+    self.level = n
   end
   function FrameMethods:GetCenter()
     return 100, 100

@@ -646,7 +646,7 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       cd = 90,
       cost = { [5] = 1 },
       d = 30,
-      gain = { [6] = 400 },
+      gain = { [6] = 40 },
       gcd = 1.5,
       n = "army_of_the_dead",
       tal = true,
@@ -775,7 +775,7 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
     },
     [85948] = {
       cost = { [5] = 2 },
-      gain = { [6] = 200 },
+      gain = { [6] = 20 },
       gcd = 1.5,
       n = "festering_strike",
       r = 5,
@@ -979,6 +979,7 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
     [1233448] = {
       cd = 45,
       d = 15,
+      gain = { [3] = 100 },
       gcd = 1.5,
       n = "dark_transformation",
       tal = true,

@@ -791,6 +791,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       r = 5,
     },
     [8921] = {
+      gain = { [8] = 6 },
       gcd = 1.5,
       n = "moonfire",
       r = 40,

@@ -293,8 +293,8 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
       if not isBlizzard and e.p and tostring(e.p.for_next) == "1" and not maybe then
         run.poolNext = Test(e.c, run) == true or nil
       end
-    elseif not G.SKIP[a] and not (isBlizzard and (e.x or run.cooldowns[a])) then
-      -- (Blizzard's excluded lines are the major cooldowns: never a main pick from the fallback.)
+    elseif not G.SKIP[a] and not (isBlizzard and not run.burst and (e.x or run.cooldowns[a])) then
+      -- (Blizzard's excluded lines are the major cooldowns: left out only when major cooldowns are off.)
       local id = M.SpellID(a)
       if id and LineOnCooldown(e, id) then
         if run.trace then
@@ -322,11 +322,12 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
           end
           if t ~= false then
             local certain = t == true and castable == true and not maybe
-            if run.cooldowns[a] then
-              if run.burst and not run.cd then
-                if certain or Corroborated(id, a, run) == "rules" then
-                  run.cd = { id = id, token = a }
-                end
+            if run.cooldowns[a] and not run.burst then
+              -- Major cooldowns switched off: they are not recommended at all. Switched on (the default) they
+              -- are ordinary lines in SimC's order, in the same three slots as everything else; lists such as
+              -- Balance's opener wait for them, so they must never be set aside.
+              if run.trace then
+                run.trace[#run.trace] = run.trace[#run.trace] .. " (major cooldowns off)"
               end
             elseif certain then
               run.visiting[name] = nil
@@ -403,7 +404,7 @@ local function Decide(record, opts, targets, first)
     unresolved = {},
     cooldowns = prep.cooldowns,
     blizzardByAction = prep.blizzardByAction,
-    burst = first and opts.burst ~= false,
+    burst = opts.burst ~= false,
     override = {},
     trace = (first and opts.trace) and {} or nil,
   }
@@ -472,6 +473,9 @@ local function Decide(record, opts, targets, first)
     end
   end
   pick = pick or run.firstMaybe or run.firstRuleMaybe
+  if pick and pick.token and run.cooldowns[pick.token] then
+    pick.major = true -- a major cooldown (for the "burst" sound); shown in the queue like any other spell
+  end
   if first then
     pendingVars = CopyVars(run.ctx.vars)
   end
@@ -481,7 +485,7 @@ local function Decide(record, opts, targets, first)
   else
     branch = nil
   end
-  return { main = pick, cd = run.cd, acSpell = run.acSpell, unresolved = run.unresolved, vars = run.ctx.vars,
+  return { main = pick, acSpell = run.acSpell, unresolved = run.unresolved, vars = run.ctx.vars,
     branch = branch, trace = run.trace }
 end
 

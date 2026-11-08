@@ -1019,7 +1019,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       cd = 1.5,
       ch = 1,
       chcd = 20,
-      gain = { [1] = 200 },
+      gain = { [1] = 20 },
       n = "charge",
       r = 25,
     },
@@ -1051,6 +1051,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
     },
     [1464] = {
       cost = { [1] = 20 },
+      gain = { [1] = 10 },
       gcd = 1.5,
       n = "slam",
       r = 5,
@@ -1118,7 +1119,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       tal = true,
     },
     [50622] = {
-      gain = { [1] = 50 },
+      gain = { [1] = 5 },
       n = "bladestorm",
     },
     [52437] = {
@@ -1137,7 +1138,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
     },
     [69179] = {
       cd = 120,
-      gain = { [1] = 150 },
+      gain = { [1] = 15 },
       gcd = 1.5,
       n = "arcane_torrent",
     },
@@ -1169,6 +1170,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       },
       cd = 90,
       d = 20,
+      gain = { [1] = 1 },
       n = "avatar",
       tal = true,
     },
@@ -1428,7 +1430,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       st = 3,
     },
     [334934] = {
-      gain = { [1] = 100 },
+      gain = { [1] = 10 },
       n = "ravager",
     },
     [339385] = {
@@ -1456,7 +1458,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
         { 376080, "enemy" },
       },
       d = 6,
-      gain = { [1] = 100 },
+      gain = { [1] = 10 },
       n = "champions_spear",
     },
     [376081] = {

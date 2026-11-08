@@ -441,6 +441,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       n = "bear_form",
     },
     [8921] = {
+      gain = { [8] = 6 },
       gcd = 1.5,
       n = "moonfire",
       r = 40,
@@ -450,7 +451,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
         { 17057, "self" },
       },
       d = 6,
-      gain = { [1] = 250 },
+      gain = { [1] = 25 },
       n = "bear_form",
     },
     [18104] = {
@@ -494,7 +495,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
     [33917] = {
       ch = 1,
       chcd = 6,
-      gain = { [1] = 120 },
+      gain = { [1] = 12 },
       gcd = 1.5,
       n = "mangle",
       r = 5,
@@ -522,7 +523,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
     },
     [77758] = {
       cd = 6,
-      gain = { [1] = 50 },
+      gain = { [1] = 5 },
       gcd = 1.5,
       n = "thrash",
       r = 8,
@@ -542,6 +543,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       tal = true,
     },
     [93402] = {
+      gain = { [8] = 6 },
       gcd = 1.5,
       n = "sunfire",
       r = 40,
@@ -654,7 +656,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       n = "rake",
     },
     [158723] = {
-      gain = { [1] = 10 },
+      gain = { [1] = 1 },
       n = "thrash",
     },
     [159286] = {
@@ -685,6 +687,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
     },
     [190984] = {
       ct = 1.5,
+      gain = { [8] = 6 },
       gcd = 1.5,
       n = "wrath",
       r = 40,

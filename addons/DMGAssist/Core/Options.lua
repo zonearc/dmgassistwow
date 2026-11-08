@@ -174,7 +174,7 @@ function O.Register()
   Check(main, HUD, "highlight", "Highlight the button on your action bars", H.highlight,
     "Glows the real action button for the next spell (Blizzard bars, Bartender, ElvUI, Dominos).")
   Check(main, DB, "minimap", "Minimap button", true,
-    "Left-click: settings. Right-click: menu. Shift-click: Watchdog report. Drag to move it.")
+    "Left-click: show / hide. Right-click: menu and settings. Drag to move it.")
   Check(main, DB, "locked", "Lock position", true,
     "Unlock to drag the icons; they are also shown while this panel is open.")
   Button(main, "Keybinds", "Refresh keybinds", function()
@@ -189,7 +189,6 @@ function O.Register()
   Header(display, "Layout")
   Slider(display, HUD, "iconSize", "Main icon size", H.iconSize, 24, 96, 1)
   Slider(display, HUD, "nextSize", "Next icon size", H.nextSize, 16, 80, 1)
-  Slider(display, HUD, "cdSize", "Cooldown and defensive icon size", H.cdSize, 16, 80, 1)
   Slider(display, HUD, "spacing", "Icon spacing", H.spacing, 0, 24, 1)
   Slider(display, HUD, "padding", "Frame padding", H.padding, 0, 24, 1)
   Slider(display, HUD, "alpha", "Opacity", H.alpha, 0.2, 1, 0.05)

@@ -855,7 +855,7 @@ ns.RegisterSpecData("midnight", "deathknight_frost", {
     },
     [49020] = {
       cost = { [5] = 2 },
-      gain = { [6] = 200 },
+      gain = { [6] = 20 },
       gcd = 1.5,
       n = "obliterate",
       r = 5,
@@ -980,7 +980,7 @@ ns.RegisterSpecData("midnight", "deathknight_frost", {
       n = "glacial_advance",
     },
     [195617] = {
-      gain = { [6] = 40 },
+      gain = { [6] = 4 },
       n = "frost_fever",
     },
     [195621] = {
@@ -1010,7 +1010,7 @@ ns.RegisterSpecData("midnight", "deathknight_frost", {
     },
     [207230] = {
       cost = { [5] = 2 },
-      gain = { [6] = 200 },
+      gain = { [6] = 20 },
       gcd = 1.5,
       n = "frostscythe",
       r = 8,
@@ -1152,7 +1152,7 @@ ns.RegisterSpecData("midnight", "deathknight_frost", {
       },
       cd = 45,
       cost = { [5] = 2 },
-      gain = { [6] = 200 },
+      gain = { [6] = 20 },
       gcd = 1.5,
       n = "reapers_mark",
       r = 5,
@@ -1269,7 +1269,7 @@ ns.RegisterSpecData("midnight", "deathknight_frost", {
         { 1230959, "self" },
       },
       d = 30,
-      gain = { [6] = 400 },
+      gain = { [6] = 40 },
       n = "empower_rune_weapon",
       st = 1,
     },
@@ -1294,7 +1294,7 @@ ns.RegisterSpecData("midnight", "deathknight_frost", {
       n = "breath_of_sindragosa",
     },
     [1237388] = {
-      gain = { [6] = 200 },
+      gain = { [6] = 20 },
       n = "frostscythe",
       r = 8,
     },

@@ -174,63 +174,67 @@ test("every SimC spec in the data maps from a Blizzard spec ID", function()
   end
 end)
 
-test("minimap button: settings, show/hide, Watchdog report, saved position, can be turned off", function()
+test("minimap button: left-click shows/hides, drag moves, right-click menu has settings and toggles", function()
   local ns = Boot("standard")
   local b = DMGAssistMinimapButton
   eq(type(b), "table", "button created")
   eq(b:IsShown(), true)
-  local opened = 0
-  local open = ns.Options.Open
-  ns.Options.Open = function() opened = opened + 1 end
+  -- left-click: show / hide
+  local before = ns.db.enabled ~= false
   b.scripts.OnClick(b, "LeftButton")
-  eq(opened, 1, "left-click opens settings")
-  -- right-click: a menu with Settings, Watchdog report, Show out of combat, Enabled
+  eq(ns.db.enabled ~= false, not before, "left-click toggles")
+  b.scripts.OnClick(b, "LeftButton")
+  -- drag: moves, and the mouse-up that ends the drag is not a click
+  b.scripts.OnDragStart(b)
+  b.scripts.OnUpdate(b)
+  b.scripts.OnDragStop(b)
+  eq(ns.db.minimapAngle, 0, "dragging saves the angle")
+  before = ns.db.enabled ~= false
+  b.scripts.OnClick(b, "LeftButton")
+  eq(ns.db.enabled ~= false, before, "end of drag does not toggle")
+  -- right-click: the menu
   local items = {}
   local root = {
     CreateTitle = function(_, t) items[#items + 1] = { kind = "title", text = t } end,
     CreateButton = function(_, t, fn) items[#items + 1] = { kind = "button", text = t, fn = fn } end,
     CreateDivider = function() end,
     CreateCheckbox = function(_, t, get, set) items[#items + 1] = { kind = "check", text = t, get = get, set = set } end,
+    CreateRadio = function(_, t, get, set) items[#items + 1] = { kind = "radio", text = t, get = get, set = set } end,
   }
+  DMGAssistWatchdog = { OpenReport = function() end }
   MenuUtil = { CreateContextMenu = function(owner, gen) eq(owner, b) gen(owner, root) end }
   b.scripts.OnClick(b, "RightButton")
-  MenuUtil = nil
-  local byText = {}
+  MenuUtil, DMGAssistWatchdog = nil, nil
+  local by = {}
   for _, it in ipairs(items) do
-    byText[it.text] = it
+    by[it.text] = it
   end
-  eq(byText["Settings"].kind, "button")
-  eq(byText["Watchdog report"].kind, "button")
-  local ooc = byText["Show out of combat"]
-  local was = ooc.get()
-  ooc.set()
-  eq(ooc.get(), not was, "out-of-combat display flips")
-  eq(ns.Display.Settings().hideOutOfCombat, was, "stored as hideOutOfCombat")
-  local en = byText["Enabled"]
-  local before = en.get()
-  en.set()
-  eq(en.get(), not before, "enabled flips")
-  en.set()
-  byText["Settings"].fn()
-  eq(opened, 2, "menu opens settings")
-  DMGAssist_OnCompartmentClick("DMGAssist", "LeftButton")
-  eq(opened, 3, "compartment opens settings")
+  for _, name in ipairs({ "Settings", "Watchdog report", "Hide minimap button" }) do
+    eq(by[name] and by[name].kind, "button", name)
+  end
+  for _, name in ipairs({ "Show recommendations", "Show out of combat", "Major cooldowns", "Lock position",
+    "Sound alerts" }) do
+    local it = by[name]
+    eq(it and it.kind, "check", name)
+    local was = it.get()
+    it.set()
+    eq(it.get(), not was, name .. " flips")
+    it.set()
+  end
+  by["Single target"].set()
+  eq(by["Single target"].get(), true)
+  eq(by["Auto-detect"].get(), false)
+  by["Auto-detect"].set()
+  eq(by["Auto-detect"].get(), true)
+  local opened = 0
+  local open = ns.Options.Open
+  ns.Options.Open = function() opened = opened + 1 end
+  by["Settings"].fn()
   ns.Options.Open = open
-  local reports = 0
-  DMGAssistWatchdog = { OpenReport = function() reports = reports + 1 end }
-  mock.shift = true
-  b.scripts.OnClick(b, "LeftButton")
-  mock.shift = nil
-  DMGAssistWatchdog = nil
-  eq(reports, 1, "shift-click opens the Watchdog report")
-  b.scripts.OnDragStart(b)
-  b.scripts.OnUpdate(b)
-  eq(ns.db.minimapAngle, 0, "dragging saves the angle")
-  b.scripts.OnDragStop(b)
-  b.scripts.OnEnter(b)
-  ns.db.minimap = false
-  ns.Minimap.Apply()
-  eq(b:IsShown(), false, "setting hides it")
+  eq(opened, 1, "menu opens settings")
+  DMGAssist_OnCompartmentClick("DMGAssist", "LeftButton")
+  by["Hide minimap button"].fn()
+  eq(b:IsShown(), false, "hidden from the menu")
 end)
 
 test("sounds: removed choices fall back to the default; keybind color applies", function()

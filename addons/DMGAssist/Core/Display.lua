@@ -20,7 +20,7 @@ ns.Display = D
 -- press-now cue, boss callouts, interrupts and defensives, the real action button highlighted.
 D.DEFAULTS = {
   scale = 1.0, alpha = 1.0,
-  iconSize = 52, nextSize = 38, cdSize = 34, spacing = 6, padding = 6,
+  iconSize = 52, nextSize = 38, spacing = 6, padding = 6,
   queueAlpha = 0.85, dimGuesses = true,
   background = false, bgAlpha = 0.55, border = "none", borderAlpha = 0.6,
   header = false, keybind = true, keybindSize = 14, keybindPos = "TOPRIGHT", keybindColor = "white",
@@ -397,14 +397,8 @@ local function Layout(f, cfg)
     f.gcdBg:SetAllPoints(f.gcd)
     y = y + 8
   end
-  f.cd:ClearAllPoints()
-  f.cd:SetSize(cfg.cdSize, cfg.cdSize)
-  f.cd:SetPoint("TOPLEFT", f, "TOPLEFT", pad, -(y + gap))
-
-  f.def:ClearAllPoints()
-  f.def:SetSize(cfg.cdSize, cfg.cdSize)
-  f.def:SetPoint("LEFT", f.cd, "RIGHT", gap, 0)
-  y = y + gap + cfg.cdSize
+  -- Nothing below the three slots: interrupts and defensives use slot 1, cooldowns are in the queue, and the
+  -- game's own Cooldown Manager shows what is ready.
   f.debug:ClearAllPoints()
   f.debug:SetPoint("TOPLEFT", f, "TOPLEFT", pad, -(y + 2))
   f.debug:SetWidth(width - 2 * pad)
@@ -486,8 +480,11 @@ function D.Create()
   f.kick.border:SetPoint("BOTTOMRIGHT", f.kick, "BOTTOMRIGHT", 3, -3)
   f.kick.border:SetColorTexture(1, 0.1, 0.1, 0.7)
   f.kick.border:SetDrawLayer("BACKGROUND")
-  -- Defensive suggestion, next to the cooldown icon.
-  f.def = Icon(f, cfg.cdSize, cfg)
+  -- Defensive that depends on hidden health: drawn over slot 1, visible only when low (decided ones are in
+  -- the queue itself, see Defensives.Apply).
+  f.def = Icon(f, cfg.iconSize, cfg)
+  f.def:SetAllPoints(f.slots[1])
+  f.def:SetFrameLevel((f.slots[1]:GetFrameLevel() or 1) + 6)
   -- Highlight on the real action button that casts slot 1 (our own frame anchored over it; theirs is untouched).
   f.hl = CreateFrame("Frame", nil, UIParent)
   f.hl:SetFrameStrata("HIGH")
@@ -498,7 +495,6 @@ function D.Create()
     f.hl.tex:SetBlendMode("ADD")
   end
   f.hl:Hide()
-  f.cd = Icon(f, cfg.cdSize, cfg)
   f.gcdBg = f:CreateTexture(nil, "BACKGROUND")
   f.gcdBg:SetColorTexture(0, 0, 0, 0.6)
   f.gcd = CreateFrame("StatusBar", nil, f)
@@ -529,7 +525,7 @@ function D.Rebuild()
   f:SetScale(cfg.scale)
   f:SetAlpha(cfg.alpha)
   ApplyBackdrop(f, cfg)
-  for _, icon in ipairs({ f.slots[1], f.slots[2], f.slots[3], f.cd }) do
+  for _, icon in ipairs({ f.slots[1], f.slots[2], f.slots[3] }) do
     SetFont(icon.key, cfg.keybindSize)
     icon.key:ClearAllPoints()
     icon.key:SetPoint(cfg.keybindPos, icon, cfg.keybindPos, cfg.keybindPos:find("LEFT") and 2 or -2,
@@ -707,7 +703,7 @@ local healthCurves = {}
 
 local function RenderDefensive(f, result, cfg)
   local d = result.defensive
-  if not (cfg.defensive and d) then
+  if not (cfg.defensive and d and d.how == "render") then
     f.def:Hide()
     return
   end
@@ -773,7 +769,6 @@ function D.Update(result, visible)
   for i = 1, 3 do
     SetIcon(f.slots[i], i <= depth and queue[i] or nil, cfg, i == 1, i == 1 and L["NOW"] or L["NEXT"])
   end
-  SetIcon(f.cd, result.cd, cfg, true, L["COOLDOWN"])
   f.branchShown = RenderBranch(f, result, cfg)
   RenderInterrupt(f, result, cfg)
   RenderDefensive(f, result, cfg)
