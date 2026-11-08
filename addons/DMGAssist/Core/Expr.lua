@@ -7,7 +7,8 @@
 --   unary ! - +   atoms: number, identifier, ( ... ), floor(...), ceil(...)
 --
 -- Values are numbers (SimC is numeric: true = 1, false = 0) or E.UNKNOWN. Logic is Kleene's:
---   FALSE & UNKNOWN = FALSE, TRUE | UNKNOWN = TRUE, everything else touching UNKNOWN is UNKNOWN.
+--   FALSE & UNKNOWN = FALSE, TRUE | UNKNOWN = TRUE. Unknown values keep their known limits (see Ranges), so
+--   arithmetic and comparisons on them are decided whenever the limits allow.
 -- A parse failure makes the whole condition UNKNOWN rather than raising.
 
 local _, ns = ...
@@ -171,11 +172,51 @@ function E.Compile(s)
   return node
 end
 
-local function Truth(v)
-  if v == UNKNOWN then
+-- Ranges. An unknown value often still has known limits: "buff.x.up" is 0 or 1, a remaining time is never
+-- negative, a hidden resource is narrowed down by bounds(name). Inside an evaluation such a value is a range
+-- { lo, hi } and arithmetic, MAX / MIN and comparisons work on the limits, so "the longest of these cooldowns
+-- < 1" is decided as soon as one known term is >= 1, or every term is certainly < 1, even when another term
+-- mixes in a hidden proc. UNKNOWN is the range with no limits. Outside Eval a range is reported as UNKNOWN.
+local INF = math.huge
+local RANGE = {}
+
+local function Range(lo, hi)
+  if lo ~= lo or hi ~= hi then -- NaN
     return UNKNOWN
   end
-  return v ~= 0
+  if lo == hi then
+    return lo
+  end
+  if lo == -INF and hi == INF then
+    return UNKNOWN
+  end
+  return setmetatable({ lo, hi }, RANGE)
+end
+
+local function Lim(v)
+  if v == UNKNOWN then
+    return -INF, INF
+  elseif type(v) == "table" then
+    return v[1], v[2]
+  end
+  return v, v
+end
+
+local function Exact(v)
+  return type(v) == "number"
+end
+
+local function Truth(v)
+  if type(v) == "number" then
+    return v ~= 0
+  end
+  local lo, hi = Lim(v)
+  if lo > 0 or hi < 0 then
+    return true
+  elseif lo == 0 and hi == 0 then
+    return false
+  end
+  return UNKNOWN
 end
 
 local function Num(b)
@@ -183,6 +224,40 @@ local function Num(b)
     return 1
   end
   return 0
+end
+
+-- Limits of an identifier whose value is unknown, from the shape of its name (SimC's conventions).
+local FLAG_SUFFIX = { up = true, down = true, ticking = true, refreshable = true, enabled = true, ready = true }
+local FLAG_HEAD = { talent = true, hero_tree = true, prev_gcd = true, prev = true, prev_off_gcd = true,
+  set_bonus = true }
+local NONNEG_SUFFIX = { remains = true, duration = true, stack = true, react = true, deficit = true,
+  charges = true, charges_fractional = true, recharge_time = true, full_recharge_time = true,
+  time_to_die = true, max_stack = true, elapsed = true }
+local NONNEG_NAME = { fight_remains = true, time = true, active_enemies = true, spell_targets = true }
+
+local function ShapeLimits(name)
+  local head = name:match("^([%w_]+)")
+  local last = name:match("([%w_]+)$")
+  if FLAG_SUFFIX[last] or FLAG_HEAD[head] then
+    return 0, 1
+  end
+  if NONNEG_SUFFIX[last] or NONNEG_NAME[name] or head == "active_dot" or head == "active_dots"
+    or name:find("^spell_targets%.") then
+    return 0, INF
+  end
+  return nil
+end
+E.ShapeLimits = ShapeLimits
+
+local function Mul(alo, ahi, blo, bhi)
+  local function m(x, y)
+    if x == 0 or y == 0 then
+      return 0 -- 0 * anything is 0, also against an unlimited side
+    end
+    return x * y
+  end
+  local p1, p2, p3, p4 = m(alo, blo), m(alo, bhi), m(ahi, blo), m(ahi, bhi)
+  return math.min(p1, p2, p3, p4), math.max(p1, p2, p3, p4)
 end
 
 -- Decide a comparison from a known range: value in [lo, hi] compared with constant c. 1 / 0 / nil (undecided).
@@ -210,11 +285,33 @@ local function CmpRange(op, lo, hi, c)
 end
 E.CmpRange = CmpRange
 
-local MIRROR = { [">="] = "<=", [">"] = "<", ["<="] = ">=", ["<"] = ">", ["="] = "=", ["!="] = "!=" }
+-- Compare two ranges: 1 / 0 / UNKNOWN-as-range.
+local function Compare(op, alo, ahi, blo, bhi)
+  local r
+  if op == "<" then
+    if ahi < blo then r = 1 elseif alo >= bhi then r = 0 end
+  elseif op == "<=" then
+    if ahi <= blo then r = 1 elseif alo > bhi then r = 0 end
+  elseif op == ">" then
+    if alo > bhi then r = 1 elseif ahi <= blo then r = 0 end
+  elseif op == ">=" then
+    if alo >= bhi then r = 1 elseif ahi < blo then r = 0 end
+  elseif op == "=" then
+    if alo == ahi and blo == bhi and alo == blo then r = 1 elseif ahi < blo or bhi < alo then r = 0 end
+  elseif op == "!=" then
+    if ahi < blo or bhi < alo then r = 1 elseif alo == ahi and blo == bhi and alo == blo then r = 0 end
+  end
+  if r then
+    return r
+  end
+  return Range(0, 1)
+end
+
+local COMPARE = { ["="] = true, ["!="] = true, ["<"] = true, ["<="] = true, [">"] = true, [">="] = true }
 
 -- Evaluate a node. resolve(name) returns a number, a boolean, or UNKNOWN for an identifier.
 -- bounds(name), optional, returns lo, hi for an identifier whose exact value is unknown (e.g. a hidden resource
--- narrowed down by which spells are affordable); comparisons against a constant can then still be decided.
+-- narrowed down by which spells are affordable). Returns a number, a range (inside) or UNKNOWN.
 local Eval
 function Eval(node, resolve, bounds)
   local kind = node[1]
@@ -227,28 +324,47 @@ function Eval(node, resolve, bounds)
     elseif v == false or v == nil then
       return 0
     end
+    if v == UNKNOWN then
+      local lo, hi
+      if bounds then
+        lo, hi = bounds(node[2])
+      end
+      local slo, shi = ShapeLimits(node[2])
+      if lo and hi then
+        if slo then
+          lo, hi = math.max(lo, slo), math.min(hi, shi)
+        end
+        return Range(lo, hi)
+      elseif slo then
+        return Range(slo, shi)
+      end
+    end
     return v
   elseif kind == "un" then
     local v = Eval(node[3], resolve, bounds)
-    if v == UNKNOWN then
-      return UNKNOWN
-    end
     local op = node[2]
     if op == "!" then
-      return Num(v == 0)
+      local t = Truth(v)
+      if t == UNKNOWN then
+        return Range(0, 1)
+      end
+      return Num(not t)
     elseif op == "-" then
-      return -v
+      if Exact(v) then
+        return -v
+      end
+      local lo, hi = Lim(v)
+      return Range(-hi, -lo)
     end
     return v
   elseif kind == "fn" then
     local v = Eval(node[3], resolve, bounds)
-    if v == UNKNOWN then
-      return UNKNOWN
+    local f = node[2] == "floor" and math.floor or math.ceil
+    if Exact(v) then
+      return f(v)
     end
-    if node[2] == "floor" then
-      return math.floor(v)
-    end
-    return math.ceil(v)
+    local lo, hi = Lim(v)
+    return Range(f(lo), f(hi))
   end
 
   -- binary
@@ -263,7 +379,7 @@ function Eval(node, resolve, bounds)
       return 0
     end
     if a == UNKNOWN or b == UNKNOWN then
-      return UNKNOWN
+      return Range(0, 1)
     end
     return 1
   elseif op == "|" or op == "||" then
@@ -276,71 +392,98 @@ function Eval(node, resolve, bounds)
       return 1
     end
     if a == UNKNOWN or b == UNKNOWN then
-      return UNKNOWN
+      return Range(0, 1)
     end
     return 0
   end
 
   local a = Eval(node[3], resolve, bounds)
   local b = Eval(node[4], resolve, bounds)
-  if a == UNKNOWN or b == UNKNOWN then
-    if bounds and MIRROR[op] then
-      local idNode, c, cmp = nil, nil, op
-      if a == UNKNOWN and b ~= UNKNOWN and node[3][1] == "id" then
-        idNode, c = node[3], b
-      elseif b == UNKNOWN and a ~= UNKNOWN and node[4][1] == "id" then
-        idNode, c, cmp = node[4], a, MIRROR[op]
+  if Exact(a) and Exact(b) then
+    if op == "^" then
+      return Num((a ~= 0) ~= (b ~= 0))
+    elseif op == "=" then
+      return Num(a == b)
+    elseif op == "!=" then
+      return Num(a ~= b)
+    elseif op == "<" then
+      return Num(a < b)
+    elseif op == "<=" then
+      return Num(a <= b)
+    elseif op == ">" then
+      return Num(a > b)
+    elseif op == ">=" then
+      return Num(a >= b)
+    elseif op == "<?" then
+      return math.max(a, b) -- SimC: a<?b is the larger
+    elseif op == ">?" then
+      return math.min(a, b) -- SimC: a>?b is the smaller
+    elseif op == "+" then
+      return a + b
+    elseif op == "-" then
+      return a - b
+    elseif op == "*" then
+      return a * b
+    elseif op == "%" then
+      if b == 0 then
+        return 0
       end
-      if idNode then
-        local lo, hi = bounds(idNode[2])
-        if lo and hi then
-          local r = CmpRange(cmp, lo, hi, c)
-          if r then
-            return r
-          end
-        end
+      return a / b
+    elseif op == "%%" then
+      if b == 0 then
+        return 0
       end
+      return math.fmod(a, b)
     end
     return UNKNOWN
   end
-  if op == "^" then
-    return Num((a ~= 0) ~= (b ~= 0))
-  elseif op == "=" then
-    return Num(a == b)
-  elseif op == "!=" then
-    return Num(a ~= b)
-  elseif op == "<" then
-    return Num(a < b)
-  elseif op == "<=" then
-    return Num(a <= b)
-  elseif op == ">" then
-    return Num(a > b)
-  elseif op == ">=" then
-    return Num(a >= b)
+
+  -- At least one side is a range.
+  local alo, ahi = Lim(a)
+  local blo, bhi = Lim(b)
+  if COMPARE[op] then
+    return Compare(op, alo, ahi, blo, bhi)
+  elseif op == "^" then
+    local ta, tb = Truth(a), Truth(b)
+    if ta == UNKNOWN or tb == UNKNOWN then
+      return Range(0, 1)
+    end
+    return Num(ta ~= tb)
   elseif op == "<?" then
-    return math.max(a, b) -- SimC: a<?b is the larger
+    return Range(math.max(alo, blo), math.max(ahi, bhi))
   elseif op == ">?" then
-    return math.min(a, b) -- SimC: a>?b is the smaller
+    return Range(math.min(alo, blo), math.min(ahi, bhi))
   elseif op == "+" then
-    return a + b
+    return Range(alo + blo, ahi + bhi)
   elseif op == "-" then
-    return a - b
+    return Range(alo - bhi, ahi - blo)
   elseif op == "*" then
-    return a * b
+    return Range(Mul(alo, ahi, blo, bhi))
   elseif op == "%" then
-    if b == 0 then
-      return 0
+    if blo > 0 or bhi < 0 then
+      return Range(Mul(alo, ahi, 1 / bhi, 1 / blo))
     end
-    return a / b
-  elseif op == "%%" then
-    if b == 0 then
-      return 0
-    end
-    return math.fmod(a, b)
+    return UNKNOWN
   end
   return UNKNOWN
 end
-E.Eval = Eval
+
+-- Eval for callers outside this file: a range is reported as UNKNOWN (Truth still decides it).
+local function Outer(v)
+  if type(v) == "table" and getmetatable(v) == RANGE then
+    return UNKNOWN
+  end
+  return v
+end
+
+function E.Eval(node, resolve, bounds)
+  local v = Eval(node, resolve, bounds)
+  local t = type(v) == "table" and getmetatable(v) == RANGE and Truth(v)
+  if t == true or t == false then
+    return v -- a decided truth: keep the range so Truth() sees it
+  end
+  return Outer(v)
+end
 
 -- Evaluate a condition string to TRUE (true), FALSE (false) or UNKNOWN. Empty/nil condition is TRUE.
 function E.Test(cond, resolve, bounds)
@@ -364,5 +507,5 @@ function E.Value(expr, resolve, bounds)
   if not node then
     return UNKNOWN
   end
-  return Eval(node, resolve, bounds)
+  return Outer(Eval(node, resolve, bounds))
 end

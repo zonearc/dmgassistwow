@@ -387,6 +387,7 @@ end
 local function CooldownLength(id)
   return S.learned.cd[id] or DataCooldown(id)
 end
+S.CooldownLength = CooldownLength
 
 local function AuraLength(token, auraID)
   local l = S.learned.aura[token]

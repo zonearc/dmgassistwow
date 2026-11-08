@@ -154,6 +154,31 @@ test("expressions: unknown follows Kleene logic", function()
   eq(E.Test("y=1", r), true)
 end)
 
+test("expressions: unknown values keep their limits (flags 0..1, times >= 0)", function()
+  Reset()
+  local ns = Boot()
+  local E = ns.Expr
+  local function r(name)
+    if name == "buff.eclipse.remains" then
+      return 0
+    elseif name == "cooldown.fury.remains" then
+      return 5
+    end
+    return E.UNKNOWN
+  end
+  -- Balance's variable.cds: "the longest of these < 1", one term mixing in hidden procs.
+  eq(E.Test("(0<?(buff.eclipse.remains-(10*(buff.bloodlust.up*buff.ascendant_stars.down))))<1", r), true,
+    "the hidden term is at most eclipse.remains (0)")
+  eq(E.Test("(cooldown.fury.remains<?buff.hidden.remains)<1", r), false, "a known term >= 1 decides MAX < 1")
+  eq(E.Test("(cooldown.fury.remains>?buff.hidden.remains)<6", r), true, "MIN is at most the known term")
+  eq(E.Test("buff.hidden.up<=1", r), true)
+  eq(E.Test("buff.hidden.up*0=0", r), true)
+  eq(E.Test("buff.hidden.remains>=0", r), true)
+  eq(E.Test("buff.hidden.remains>3", r), E.UNKNOWN)
+  eq(E.Test("x>3", r), E.UNKNOWN, "no limits from an unknown name")
+  eq(E.Value("buff.hidden.up+1", r), E.UNKNOWN, "a range leaves Eval as UNKNOWN")
+end)
+
 test("expressions: a malformed condition is UNKNOWN, not an error", function()
   Reset()
   local ns = Boot()
@@ -311,6 +336,70 @@ test("an UNKNOWN line wins only when the assistant agrees", function()
   local r = ns.Engine.Recommend(Record(), { useAssisted = true })
   eq(r.main.token, "rip")
   eq(r.main.source, "simc+assisted")
+end)
+
+test("major cooldowns: the assistant never names them, so Blizzard's rules confirm them", function()
+  Reset()
+  local ns = Boot()
+  local rec = Record()
+  rec.simc.default[1].c = "debuff.someone_elses.up" -- hidden in combat: berserk's line is UNKNOWN
+  Restrict()
+  mock.acSpell = 106830 -- the assistant says Thrash (it never says Berserk)
+  local r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(r.main.token, "berserk")
+  eq(r.main.source, "simc+rules")
+end)
+
+test("a key spell SimC keeps wanting comes in once it has waited long enough", function()
+  Reset()
+  local ns = Boot()
+  local rec = Record()
+  rec.simc.finisher = {}
+  rec.simc.default[4].c = "!debuff.someone_elses.up" -- rake: UNKNOWN in combat
+  Restrict()
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  ns.State.learned.cd[1822] = 30 -- rake as a 30 s cooldown: a "key" spell
+  mock.acSpell = 106830           -- the assistant keeps saying Thrash
+  local r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(r.main.token ~= "rake", true, "not yet: " .. tostring(r.main.token))
+  for _ = 1, 5 do
+    mock.now = mock.now + 1
+    r = ns.Engine.Recommend(rec, { useAssisted = true })
+  end
+  eq(r.main.token, "rake")
+  eq(r.main.source, "simc+waited")
+  -- a filler (no cooldown) never escalates
+  Reset()
+  ns = Boot()
+  Restrict()
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.acSpell = 106830
+  for _ = 1, 8 do
+    mock.now = mock.now + 1
+    r = ns.Engine.Recommend(rec, { useAssisted = true })
+  end
+  eq(r.main.token ~= "rake", true, "filler stayed out: " .. tostring(r.main.token))
+end)
+
+test("steady slot 1: close to the press, slot 1 holds and a new pick goes to slot 2", function()
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  G.ResetSteady()
+  local rip, shred, rake = { id = 1079, token = "rip" }, { id = 5221, token = "shred" }, { id = 1822, token = "rake" }
+  local r = G.Steady({ main = rip, queue = { rip, shred, rake } })
+  eq(r.main.token, "rip")
+  mock.now = mock.now + 0.2
+  r = G.Steady({ main = shred, queue = { shred, rip, rake } })
+  eq(r.main.token, "rip", "locked")
+  eq(r.queue[2].token, "shred", "the new pick is next")
+  eq(r.queue[3].token, "rake")
+  eq(#r.queue, 3)
+  mock.now = mock.now + 2
+  r = G.Steady({ main = shred, queue = { shred, rip, rake } })
+  eq(r.main.token, "shred", "the lock does not outlive LOCK_MAX")
+  mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
 test("on Forever an UNKNOWN line can be corroborated by Blizzard's rule", function()
@@ -651,6 +740,10 @@ test("HUD shows three icons, the mode in the header, keybinds and the GCD bar", 
   local ns = Boot()
   ns.db.hud.header = true -- off by default (icons only); switched on here to check its text
   ns.Display.Rebuild()
+  ns.Update()
+  eq(ns.Display.frame.modeText.text, "", "no mode shown before combat")
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
   local r = ns.Update()
   local f = ns.Display.frame
   eq(f.slots[1]:IsShown(), true)
@@ -1832,7 +1925,9 @@ test("title row: colour-coded ST / AOE with the live count", function()
   Reset()
   local ns = Boot()
   local D = ns.Display
+  eq(D.ModeText(), "", "out of combat: nothing")
   mock.inCombat, mock.nameplates = true, 1
+  mock.Fire("PLAYER_REGEN_DISABLED")
   local text = D.ModeText()
   eq(text:find("ST 1 target", 1, true) ~= nil, true, text)
   eq(text:find("66ccff", 1, true) ~= nil, true, "ST is light blue")

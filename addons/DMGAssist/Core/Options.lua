@@ -141,7 +141,7 @@ local DEFENSIVE_CHOICES = {
   { "off", "Off" },
 }
 local SOUND_LABELS = { interrupt = "Interrupt", defensive = "Defensive", bosscall = "Boss mod call",
-  burst = "Major cooldown ready" }
+  burst = "Cooldown ready" }
 
 local KEYS_TIP = "Bind keys in Options > Keybindings > AddOns > DMGAssist: switch target mode (Auto / Single / "
   .. "AoE), major cooldowns on/off, show/hide."
@@ -173,20 +173,21 @@ function O.Register()
   local combat = Category("Combat", main)
   Header(combat, "Recommendations")
   Slider(combat, DB, "queue", "Spells shown", G.queue or 3, 1, 3, 1, "The next spell, plus up to two after it.")
-  Check(combat, DB, "burst", "Major cooldowns in the rotation", true,
+  Check(combat, DB, "burst", "Major cooldowns", true,
     "On: big cooldowns show in the three slots in SimC's order. Off: they are never shown.")
-  Check(combat, DB, "castWhileMoving", "Suggest cast-time spells while moving", false,
+  Check(combat, DB, "castWhileMoving", "Casts while moving", false,
     "Off: while you move, spells with a cast time are skipped (instants and procs still show).")
   Header(combat, "Targets")
   Check(combat, DB, "autoDetect", "Auto-detect targets", true,
     "Counts enemies in combat with you, within range of your spells, from their nameplates (enemy nameplates "
     .. "must be on). Training dummies count once you have hit them.")
-  Choice(combat, DB, "mode", "When targets can't be counted", "aoe", { { "st", "Single target" }, { "aoe", "AoE" } },
+  Choice(combat, DB, "mode", "Fallback mode", "aoe", { { "st", "Single target" }, { "aoe", "AoE" } },
     "Used when the count isn't available. The key binding switches during a fight.")
   Choice(combat, DB, "aoeCount", "AoE target count", "spec", { { "spec", "Your spec's switch point" },
     { "custom", "Custom (slider below)" } },
     "Your spec's switch point comes from its SimC list (when it uses an AoE list): the count where it changes.")
-  Slider(combat, DB, "aoeTargets", "Custom AoE target count", G.aoeTargets or 3, 2, 10, 1)
+  Slider(combat, DB, "aoeTargets", "Custom AoE count", G.aoeTargets or 3, 2, 10, 1,
+    "Used when \"AoE target count\" is Custom: this many targets or more counts as AoE.")
   Button(combat, "Switch with a key", "Set key bindings", O.OpenKeybindings, KEYS_TIP)
   Header(combat, "Fight length")
   Choice(combat, DB, "fightMode", "Fight length", "learned", {
@@ -204,10 +205,11 @@ function O.Register()
   Choice(combat, DB, "defensiveMode", "When", "smart", DEFENSIVE_CHOICES,
     "Before big hits your boss mod warns about, and when you are low.")
   Slider(combat, DB, "defensiveHealth", "Low health", G.defensiveHealth or 35, 10, 70, 5, nil, "%")
-  Slider(combat, DB, "defensiveLead", "Warn this long before a big hit", G.defensiveLead or 3, 1, 8, 1, nil, "s")
+  Slider(combat, DB, "defensiveLead", "Big hit warning", G.defensiveLead or 3, 1, 8, 1,
+    "Suggest a defensive this long before a big hit that a boss mod announces.", "s")
   Header(combat, "When to show")
   Check(combat, HUD, "hideOutOfCombat", "Hide out of combat", H.hideOutOfCombat)
-  Check(combat, HUD, "showWithTarget", "Show when targeting an enemy", H.showWithTarget)
+  Check(combat, HUD, "showWithTarget", "Show with a target", H.showWithTarget, "Show the HUD out of combat while an enemy is targeted.")
   Check(combat, HUD, "hideMounted", "Hide while mounted", H.hideMounted)
   Check(combat, HUD, "hideVehicle", "Hide in vehicles", H.hideVehicle)
 
@@ -222,9 +224,9 @@ function O.Register()
   Slider(display, HUD, "alpha", "Opacity", H.alpha, 0.2, 1, 0.05)
   Slider(display, HUD, "queueAlpha", "Next icons opacity", H.queueAlpha, 0.2, 1, 0.05)
   Header(display, "Frame")
-  Check(display, HUD, "modeBar", "Target mode above the icons", H.modeBar,
-    "ST (blue) or AOE (orange) with the number of targets counted, so you can see auto-detect working.")
-  Check(display, HUD, "header", "Header (spec, settings button)", H.header)
+  Check(display, HUD, "modeBar", "Mode title", H.modeBar,
+    "In combat: ST (blue) or AOE (orange) with the number of targets counted, so you can see auto-detect work.")
+  Check(display, HUD, "header", "Header", H.header, "A line above the icons with your spec and a settings button.")
   Check(display, HUD, "background", "Background", H.background)
   Slider(display, HUD, "bgAlpha", "Background opacity", H.bgAlpha, 0, 1, 0.05)
   Choice(display, HUD, "border", "Border", H.border, { { "none", "None" }, { "thin", "Thin" }, { "thick", "Thick" } })
@@ -251,9 +253,9 @@ function O.Register()
     "How long before the exact moment the flash comes, for reaction time.", " ms")
   Check(display, HUD, "gcdBar", "GCD bar", H.gcdBar)
   Check(display, HUD, "dimGuesses", "Dim uncertain picks", H.dimGuesses)
-  Check(display, HUD, "highlight", "Highlight the button on your action bars", H.highlight,
+  Check(display, HUD, "highlight", "Action bar highlight", H.highlight,
     "Glows the real action button for the next spell (Blizzard bars, Bartender, ElvUI, Dominos).")
-  Check(display, HUD, "callout", "Boss callouts above the icons", H.callout,
+  Check(display, HUD, "callout", "Boss callouts", H.callout,
     "'AOE 3', 'TANK HIT 2', 'ADDS 8', 'INTERRUPT', 'DEFENSIVE' from your boss mod or Blizzard's timeline.")
   Slider(display, HUD, "calloutSize", "Callout text size", H.calloutSize, 10, 28, 1)
 
@@ -271,10 +273,10 @@ function O.Register()
   ---------------------------------------------------------------- integrations: Blizzard and other addons
   local integrations = Category("Integrations", main)
   Header(integrations, "Blizzard")
-  Check(integrations, DB, "useAssisted", "Blizzard's assisted combat as a second opinion", true,
+  Check(integrations, DB, "useAssisted", "Assisted Combat", true,
     "Midnight only: it sees hidden procs and resources, so it confirms uncertain SimC lines. Forever has none.")
   Header(integrations, "Boss mods")
-  Check(integrations, DB, "bossMods", "Use DBM / BigWigs / LittleWigs timers", true,
+  Check(integrations, DB, "bossMods", "Boss mod timers", true,
     "Upcoming adds, AoE, tank hits and interrupts: used for defensives, interrupts and SimC's add timing.")
   Header(integrations, "Action bars")
   Button(integrations, "Keybinds", "Refresh keybinds", function()
@@ -286,10 +288,10 @@ function O.Register()
   ---------------------------------------------------------------- advanced
   local advanced = Category("Advanced", main)
   Header(advanced, "Hidden values")
-  Check(advanced, HUD, "secretBranches", "Let the game pick between two spells", H.secretBranches,
+  Check(advanced, HUD, "secretBranches", "Two-spell branches", H.secretBranches,
     "When a hidden resource decides (e.g. 4 or 5 combo points), show both spells; the game makes the right one visible.")
   Header(advanced, "Troubleshooting")
-  Check(advanced, HUD, "debugText", "Show decision text under the HUD", H.debugText,
+  Check(advanced, HUD, "debugText", "Decision text", H.debugText,
     "The queue with where each pick came from (SimC, assistant, Blizzard rules, guess).")
   Button(advanced, "Snapshot", "Store a decision snapshot", function()
     if SlashCmdList.DMGASSIST then

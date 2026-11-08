@@ -384,7 +384,7 @@ local function Layout(f, cfg)
   end
   f.modeText:SetShown(cfg.modeBar ~= false)
   if cfg.header or cfg.modeBar ~= false then
-    top = top + 16
+    top = top + 22 -- the 12 px title plus a clear gap above the icons
   end
   local depth = (ns.db and tonumber(ns.db.queue)) or 3
   local x = pad
@@ -610,6 +610,9 @@ local MODE_COLOR = { ST = "|cff66ccff", AOE = "|cffff9933" }
 
 function D.ModeText()
   local S = ns.State
+  if not S.combatStart then
+    return "" -- the mode only matters in a fight: nothing until combat starts
+  end
   local n, label = S.Targets()
   label = tostring(label or "")
   local effective = n >= S.AoeTargets() and "AOE" or "ST"
@@ -618,8 +621,6 @@ function D.ModeText()
   if label:find("^AUTO") then
     local unit = n == 1 and L["target"] or L["targets"]
     return string.format("|cff999999%s ·|r %s%s %d %s|r", L["AUTO"], color, word, n, unit)
-  elseif label:find("%?$") then
-    return string.format("%s%s ?|r", color, word)
   elseif S.modeOverride then
     return string.format("%s%s|r |cff999999(%s)|r", color, word, L["manual"])
   end
@@ -887,10 +888,14 @@ function D.Update(result, visible)
   D.RenderTiming(f, cfg)
   if cfg.header then
     local state = ns.Specs and ns.Specs.current
-    f.header:SetText(string.format("DMGAssist · %s ·", tostring(state and (state.specName or state.key) or "-")))
+    f.header:SetText(string.format("DMGAssist · %s", tostring(state and (state.specName or state.key) or "-")))
   end
   if cfg.modeBar ~= false then
-    f.modeText:SetText(D.ModeText())
+    local mode = D.ModeText()
+    if cfg.header and mode ~= "" then
+      mode = "|cff999999·|r " .. mode
+    end
+    f.modeText:SetText(mode)
   end
   local c = result.callout
   if cfg.callout and c then
