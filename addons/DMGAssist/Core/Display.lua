@@ -23,7 +23,7 @@ D.DEFAULTS = {
   iconSize = 52, nextSize = 38, spacing = 6, padding = 6,
   queueAlpha = 0.85, dimGuesses = true,
   background = false, bgAlpha = 0.55, border = "none", borderAlpha = 0.6,
-  header = false, modeBar = true, keybind = true, keybindSize = 14, keybindPos = "TOPRIGHT", keybindColor = "white",
+  header = false, modeBar = true, keybind = true, keybindSize = 18, keybindPos = "CENTER", keybindColor = "white",
   nameColor = "white",
   spellNames = false, nameSize = 10, labels = false,
   font = "default", outline = "OUTLINE", calloutSize = 14,
@@ -328,6 +328,14 @@ local function SetFont(fs, size)
   end
 end
 
+-- Keybind text offset from its anchor: inset from a corner, none when centred.
+local function KeyX(pos)
+  return pos:find("LEFT") and 2 or (pos:find("RIGHT") and -2 or 0)
+end
+local function KeyY(pos)
+  return pos:find("TOP") and -2 or (pos:find("BOTTOM") and 2 or 0)
+end
+
 local function Icon(parent, size, cfg)
   local f = CreateFrame("Frame", nil, parent)
   f:SetSize(size, size)
@@ -340,8 +348,7 @@ local function Icon(parent, size, cfg)
   f.key = f:CreateFontString(nil, "OVERLAY")
   SetFont(f.key, cfg.keybindSize)
   SetColor(f.key, cfg.keybindColor)
-  f.key:SetPoint(cfg.keybindPos, f, cfg.keybindPos, cfg.keybindPos:find("LEFT") and 2 or -2,
-    cfg.keybindPos:find("TOP") and -2 or 2)
+  f.key:SetPoint(cfg.keybindPos, f, cfg.keybindPos, KeyX(cfg.keybindPos), KeyY(cfg.keybindPos))
   f.name = f:CreateFontString(nil, "OVERLAY")
   SetFont(f.name, cfg.nameSize)
   SetColor(f.name, cfg.nameColor)
@@ -586,8 +593,7 @@ function D.Rebuild()
   for _, icon in ipairs({ f.slots[1], f.slots[2], f.slots[3] }) do
     SetFont(icon.key, cfg.keybindSize)
     icon.key:ClearAllPoints()
-    icon.key:SetPoint(cfg.keybindPos, icon, cfg.keybindPos, cfg.keybindPos:find("LEFT") and 2 or -2,
-      cfg.keybindPos:find("TOP") and -2 or 2)
+    icon.key:SetPoint(cfg.keybindPos, icon, cfg.keybindPos, KeyX(cfg.keybindPos), KeyY(cfg.keybindPos))
     SetFont(icon.name, cfg.nameSize)
     SetColor(icon.key, cfg.keybindColor)
     SetColor(icon.name, cfg.nameColor)

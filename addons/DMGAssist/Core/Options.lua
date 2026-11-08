@@ -117,6 +117,64 @@ local function Category(name, parent)
   return category
 end
 
+-- Re-read every control (after a profile switch the values come from another table).
+function O.Refresh()
+  for _, setting in pairs(O.settings) do
+    if setting.NotifyUpdate then
+      pcall(setting.NotifyUpdate, setting)
+    end
+  end
+end
+
+-- Profiles: shared "Default" for every character, or one per character; copy and delete.
+function O.RegisterProfiles(main)
+  local P = ns.Profiles
+  Header(main, "Profile")
+  local function Options(withNone)
+    return function()
+      local container = Settings.CreateControlTextContainer()
+      if withNone then
+        container:Add("", L["Choose a profile..."])
+      end
+      for _, name in ipairs(P.List()) do
+        container:Add(name, name)
+      end
+      return container:GetData()
+    end
+  end
+  local use = Settings.RegisterProxySetting(main, "DMGASSIST_PROFILE", Settings.VarType.String, L["Profile in use"],
+    P.DEFAULT, function()
+      return P.current or P.DEFAULT
+    end, function(value)
+      if value ~= P.current then
+        P.Use(value)
+      end
+    end)
+  Settings.CreateDropdown(main, use, Options(false),
+    L["Settings this character uses. \"Default\" is shared by every character that has no profile of its own."])
+  Button(main, "This character", "Use a profile for this character only", function()
+    P.UseCharacterProfile()
+    U.Print(L["This character now has its own profile: %s."], P.current)
+  end, "Starts as a copy of the current settings; other characters are not affected.")
+  local copy = Settings.RegisterProxySetting(main, "DMGASSIST_PROFILE_COPY", Settings.VarType.String,
+    L["Copy settings from"], "", function()
+      return ""
+    end, function(value)
+      if value ~= "" and P.CopyFrom(value) then
+        U.Print(L["Settings copied from %s into %s."], value, P.current)
+      end
+    end)
+  Settings.CreateDropdown(main, copy, Options(true), L["Replaces the settings of the profile in use."])
+  Button(main, "Delete", "Delete the profile in use", function()
+    local name = P.current
+    if name == P.DEFAULT then
+      U.Print(L["The Default profile can't be deleted."])
+    elseif P.Delete(name) then
+      U.Print(L["Profile %s deleted; this character uses Default again."], name)
+    end
+  end, "Characters that used it go back to Default.")
+end
+
 function O.ResetAll()
   for key, setting in pairs(O.settings) do
     if setting.SetValue then
@@ -165,7 +223,9 @@ function O.Register()
   Check(main, DB, "locked", "Lock position", true,
     "Unlock to drag the icons; they are also shown while this panel is open.")
   Button(main, "Key bindings", "Set key bindings", O.OpenKeybindings, KEYS_TIP)
-  Button(main, "Defaults", "Reset everything to defaults", O.ResetAll, "Every setting on every DMGAssist page.")
+  Button(main, "Defaults", "Reset everything to defaults", O.ResetAll,
+    "Every setting on every DMGAssist page, in the profile in use.")
+  O.RegisterProfiles(main)
 
   O.RegisterStatus(main)
 
@@ -261,7 +321,8 @@ function O.Register()
   Check(display, HUD, "keybind", "Keybind on icons", H.keybind)
   Slider(display, HUD, "keybindSize", "Keybind text size", H.keybindSize, 8, 24, 1)
   Choice(display, HUD, "keybindPos", "Keybind position", H.keybindPos,
-    { { "TOPRIGHT", "Top right" }, { "TOPLEFT", "Top left" }, { "BOTTOMLEFT", "Bottom left" }, { "CENTER", "Center" } })
+    { { "CENTER", "Center" }, { "TOPRIGHT", "Top right" }, { "TOPLEFT", "Top left" }, { "BOTTOMLEFT", "Bottom left" },
+      { "BOTTOMRIGHT", "Bottom right" } })
   Choice(display, HUD, "keybindColor", "Keybind color", H.keybindColor, ns.Display.TEXT_COLORS)
   Check(display, HUD, "spellNames", "Spell names under icons", H.spellNames)
   Slider(display, HUD, "nameSize", "Spell name size", H.nameSize, 8, 18, 1)

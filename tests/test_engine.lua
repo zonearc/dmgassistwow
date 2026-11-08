@@ -2143,6 +2143,33 @@ test("stealth buffs end with stealth; talent-gated actions need their talent", f
   eq(M.SpellID("moonfire_cat"), 8921, "with the talent")
 end)
 
+test("profiles: old settings become Default; per character, copy, delete; learned data shared", function()
+  Reset()
+  DMGAssistDB = { queue = 2, hud = { iconSize = 70 }, fights = { world = { 20 } } } -- saved before profiles
+  local ns = Boot()
+  local P = ns.Profiles
+  eq(P.current, "Default")
+  eq(ns.db.queue, 2, "old settings kept, as the Default profile")
+  eq(ns.db.hud.iconSize, 70)
+  eq(DMGAssistDB.fights.world[1], 20, "learned data stays account-wide")
+  eq(DMGAssistDB.queue, nil, "moved into the profile")
+  P.UseCharacterProfile()
+  eq(P.current, P.CharKey())
+  eq(ns.db.queue, 2, "starts as a copy")
+  ns.db.queue = 1
+  eq(DMGAssistDB.profiles.Default.queue, 2, "Default untouched")
+  P.Use("Default")
+  eq(ns.db.queue, 2)
+  P.Use(P.CharKey())
+  eq(ns.db.queue, 1, "this character's own settings")
+  P.CopyFrom("Default")
+  eq(ns.db.queue, 2, "copied from Default")
+  eq(P.Delete("Default"), false, "Default can't be deleted")
+  P.Delete(P.CharKey())
+  eq(P.current, "Default", "back to Default")
+  eq(#P.List(), 1)
+end)
+
 test("title row: colour-coded ST / AOE with the live count", function()
   Reset()
   local ns = Boot()

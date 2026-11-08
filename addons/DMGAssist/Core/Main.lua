@@ -420,13 +420,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
   local arg1, _, arg3 = ...
   if event == "ADDON_LOADED" then
     if arg1 == ADDON_NAME then
-      DMGAssistDB = type(DMGAssistDB) == "table" and DMGAssistDB or {}
-      for k, v in pairs(DEFAULTS) do
-        if DMGAssistDB[k] == nil then
-          DMGAssistDB[k] = v
-        end
-      end
-      ns.db = DMGAssistDB
+      ns.Profiles.Load(DEFAULTS) -- ns.db: this character's profile (shared "Default" unless chosen otherwise)
       ns.Sounds.Migrate()
       ns.Client.Detect()
     end

@@ -14,6 +14,7 @@ Core\Locales.lua
 Core\Client.lua
 Core\Data.lua
 Core\Specs.lua
+Core\Profiles.lua
 Core\Expr.lua
 Core\SpellMap.lua
 Core\State.lua

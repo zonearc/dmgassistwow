@@ -327,7 +327,8 @@ end
 -- last 30 per kind, fights of 4 s or more). nil until there are 5.
 local LEARN_KEEP, LEARN_MIN, LEARN_SHORTEST = 30, 5, 4
 function S.LearnedFightLength(context)
-  local list = ns.db and type(ns.db.fights) == "table" and ns.db.fights[context]
+  local g = ns.global or ns.db
+  local list = g and type(g.fights) == "table" and g.fights[context]
   if type(list) ~= "table" or #list < LEARN_MIN then
     return nil
   end
@@ -343,9 +344,10 @@ local function RecordFight(context, seconds)
   if not (ns.db and context and seconds >= LEARN_SHORTEST) then
     return
   end
-  ns.db.fights = type(ns.db.fights) == "table" and ns.db.fights or {}
-  local list = ns.db.fights[context] or {}
-  ns.db.fights[context] = list
+  local g = ns.global or ns.db -- learned data is shared by every profile
+  g.fights = type(g.fights) == "table" and g.fights or {}
+  local list = g.fights[context] or {}
+  g.fights[context] = list
   list[#list + 1] = math.floor(seconds + 0.5)
   while #list > LEARN_KEEP do
     table.remove(list, 1)
@@ -1853,7 +1855,7 @@ end
 
 -- Learned durations are kept per spec in DMGAssistDB.learned[key].
 function S.Bind(key)
-  local db = ns.db
+  local db = ns.global or ns.db
   if type(db) ~= "table" then
     return
   end
