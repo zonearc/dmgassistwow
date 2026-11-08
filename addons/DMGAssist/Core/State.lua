@@ -123,6 +123,7 @@ local function RangeProbe()
   rangeProbe.book, rangeProbe.id = M.book, best
   return best
 end
+S.RangeProbe = RangeProbe
 
 -- Hostile enemies in combat with a nameplate, within range of the player's usual spell when the game says;
 -- nil when it won't tell us at all.
@@ -629,6 +630,19 @@ local function OnChargeSpent(id)
   list[#list + 1] = math.max(from, GetTime()) + info.chcd
 end
 
+-- Ready by our own clock (last cast + cooldown length): true / false, or UNKNOWN without a cast this fight.
+function S.OwnClockReady(id)
+  local last, length = S.lastCast[id], CooldownLength(id)
+  if not (last and length) or last < (S.combatStart or 0) - 3 then
+    return UNKNOWN
+  end
+  local glowAt = S.glowAt and S.glowAt[id]
+  if S.glow[id] and glowAt and glowAt >= last then
+    return true
+  end
+  return Now() - last >= length - 0.05
+end
+
 function S.CooldownReady(id)
   if ChargeInfo(id) then
     local c = S.Charges(id)
@@ -645,7 +659,11 @@ function S.CooldownReady(id)
   end
   local active, onGCD = U.Read(info.isActive), U.Read(info.isOnGCD)
   if active == nil then
-    return UNKNOWN
+    -- The game's flag is unreadable (in restricted combat it blinks between readable and not about once a
+    -- second). Our own clock decides then: without it a spell cast 0.3 s ago looked ready again, because
+    -- IsSpellUsable ignores cooldowns, and slot 1 flipped between it and the right spell (Guardian Thrash /
+    -- Mangle, Balance, 2026-11-08). A proc glow (Gore on Mangle) means it was reset: ready.
+    return S.OwnClockReady(id)
   end
   if active == false or onGCD == true then
     return true
@@ -825,6 +843,10 @@ function S.OnGlow(spellID, shown)
   local id = U.Read(spellID)
   if type(id) == "number" then
     S.glow[id] = shown or nil
+    if shown then
+      S.glowAt = S.glowAt or {}
+      S.glowAt[id] = GetTime()
+    end
     ns.Clues.OnGlow(id, shown, S.AurasReadable())
   end
 end

@@ -36,7 +36,7 @@ read_globals = {
   "UnitIsBossMob", "UnitClassification",
   "Settings", "MinimalSliderWithSteppersMixin", "STANDARD_TEXT_FONT", "GetBindingKey", "GetBindingText",
   "C_ActionBar", "C_AddOnProfiler", "C_AddOns", "C_AssistedCombat", "C_CVar", "C_ClassTalents", "C_CooldownViewer",
-  "C_NamePlate", "C_Traits", "C_UnitAuras", "GetUnitSpeed", "IsStealthed", "UnitAffectingCombat", "UnitCanAttack", "UnitName", "UnitGUID", "UnitIsDead",
+  "C_NamePlate", "C_Traits", "C_UnitAuras", "GetUnitSpeed", "IsStealthed", "UnitAffectingCombat", "UnitCanAttack", "UnitName", "UnitGUID", "UnitIsDead", "IsPlayerSpell",
   "UnitExists", "UnitHealthMax", "UnitSpellHaste", "UnitCastingInfo", "UnitChannelInfo",
   "C_DamageMeter", "C_EncodingUtil", "C_GameRules", "C_RestrictedActions", "C_Secrets",
   "C_Spell", "C_SpellActivationOverlay", "C_SpellBook", "C_SpecializationInfo", "C_Timer",
