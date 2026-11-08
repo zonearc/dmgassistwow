@@ -8,6 +8,8 @@ on:
   schedule:
     - cron: "41 16 * * 2"   # Tuesdays 16:41 UTC
   workflow_dispatch:
+  push:
+    tags: ["release-now-*"]  # a release right away, from any branch (schedules only run from the default branch)
 
 permissions:
   contents: write
