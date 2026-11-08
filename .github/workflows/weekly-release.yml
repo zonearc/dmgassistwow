@@ -80,5 +80,7 @@ jobs:
             echo
             echo "### Install"
             echo "Unzip **DMGAssist-$version.zip** into \`World of Warcraft/_retail_/Interface/AddOns/\` (it holds DMGAssist and its Watchdog), or install it with WowUp from this repository's link: it updates by itself."
+            echo
+            echo "Stand-alone Windows updater (AutoHotkey v2 script, keeps retail and Forever up to date): [DMGAssist_Updater.zip](https://github.com/${{ github.repository }}/releases/download/nightly/DMGAssist_Updater.zip)."
           } > notes.md
           gh release create "$tag" assets/* --target "$sha" --title "DMGAssist $version" --notes-file notes.md --latest

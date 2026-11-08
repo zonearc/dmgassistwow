@@ -2,7 +2,7 @@ name: Nightly build
 
 # Builds downloadable zips with the newest data and publishes them to one rolling release, "nightly":
 #   https://github.com/<owner>/<repo>/releases/tag/nightly
-#   stable links: .../releases/download/nightly/DMGAssist.zip and .../DMGAssist_Watchdog.zip
+#   stable link: .../releases/download/nightly/DMGAssist.zip (DMGAssist and its Watchdog in one package)
 # Runs on every push to main/foundation (so new work is downloadable minutes later), every night, and on demand.
 # Data is regenerated from the latest SimulationCraft and WoWSims before the checks run; the weekly sync PRs keep
 # the committed data in step. Versions: <toc version>.<run number>, e.g. 0.1.0.57.
@@ -74,33 +74,32 @@ jobs:
           git push -f origin refs/tags/nightly
           if gh release view nightly >/dev/null 2>&1; then
             old=$(gh release view nightly --json assets --jq '.assets[].name' | grep -E -- '-[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\.zip$' || true)
-            gh release upload nightly dist/DMGAssist.zip dist/DMGAssist_Watchdog.zip dist/DMGAssist_Updater.zip \
-              "dist/DMGAssist-$VERSION.zip" "dist/DMGAssist_Watchdog-$VERSION.zip" --clobber
+            gh release upload nightly dist/DMGAssist.zip dist/DMGAssist_Updater.zip \
+              "dist/DMGAssist-$VERSION.zip" --clobber
             gh release edit nightly --prerelease --title "Nightly build ($VERSION)" --notes-file release-notes.md
             for a in $old; do
               case "$a" in *"-$VERSION.zip") ;; *) gh release delete-asset nightly "$a" --yes || true ;; esac
             done
           else
-            gh release create nightly dist/DMGAssist.zip dist/DMGAssist_Watchdog.zip dist/DMGAssist_Updater.zip \
-              "dist/DMGAssist-$VERSION.zip" "dist/DMGAssist_Watchdog-$VERSION.zip" \
+            gh release create nightly dist/DMGAssist.zip dist/DMGAssist_Updater.zip \
+              "dist/DMGAssist-$VERSION.zip" \
               --target "$GITHUB_SHA" --prerelease --title "Nightly build ($VERSION)" --notes-file release-notes.md
           fi
 
 
-  # No compiled updater exe: Microsoft Defender flags compiled AutoHotkey programs that run as admin, create a
-  # scheduled task and run PowerShell (a false positive, but unsigned builds can't avoid it). Remove copies published
-  # before this change.
-  remove-updater-exe:
+  # Only one package is published: remove what earlier builds put in the releases (the compiled updater exe, which
+  # Defender flags as a false positive, and the stand-alone Watchdog zips).
+  clean-old-assets:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Delete DMGAssistUpdater.exe from the releases
+      - name: Delete old assets from the releases
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
         run: |
           for tag in $(gh release list --limit 100 --json tagName --jq '.[].tagName'); do
-            if gh release view "$tag" --json assets --jq '.assets[].name' | grep -qx DMGAssistUpdater.exe; then
-              gh release delete-asset "$tag" DMGAssistUpdater.exe --yes && echo "removed from $tag"
-            fi
+            for a in $(gh release view "$tag" --json assets --jq '.assets[].name' | grep -E '^(DMGAssistUpdater\.exe|DMGAssist_Watchdog.*\.zip)$' || true); do
+              gh release delete-asset "$tag" "$a" --yes && echo "removed $a from $tag"
+            done
           done
