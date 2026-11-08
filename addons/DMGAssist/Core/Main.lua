@@ -157,6 +157,51 @@ local function ShouldShow()
   return D.ShouldShow(inCombat, enemy)
 end
 
+-- What is going on right now, as label / value pairs, for the Status page in the settings.
+ns.LINKS = {
+  home = "https://github.com/zonearc/dmgassistwow",
+  issues = "https://github.com/zonearc/dmgassistwow/issues",
+  downloads = "https://github.com/zonearc/dmgassistwow/releases/tag/nightly",
+}
+
+function ns.StatusLines()
+  local state = Specs.current or {}
+  local out = {}
+  local function add(label, value)
+    out[#out + 1] = { L[label], tostring(value) }
+  end
+  add("Version", ns.VERSION .. (ns.TESTING and " (test build)" or ""))
+  add("Game", tostring(state.client or "?"))
+  add("Class and spec", string.format("%s, %s", tostring(state.class or "?"), tostring(state.specName or state.key
+    or "-")))
+  add("Status", L[STATUS_TEXT[state.status] or tostring(state.status or "?")])
+  if state.data then
+    local have, total = ns.ListMatch(state)
+    local src = state.data.simcSource == "wowsims" and "WoWSims" or "SimulationCraft"
+    add("Rotation from", src .. (state.source and (" " .. tostring(state.source.commit) .. ", " ..
+      tostring(state.source.date)) or ""))
+    if have then
+      add("Spells of the rotation you have", string.format("%d of %d", have, total))
+    end
+  end
+  local n, label = S.Targets()
+  add("Target mode", string.format("%s (%s targets now)", tostring(label), tostring(n)))
+  local mods = ns.BossMods.Detected()
+  add("Boss mods found", #mods > 0 and table.concat(mods, ", ") or L["none"])
+  local keys = 0
+  for _ in pairs(D.BuildKeymap()) do
+    keys = keys + 1
+  end
+  add("Keybinds read from your bars", keys)
+  local ac = C_AssistedCombat and U.Get(C_AssistedCombat.IsAvailable)
+  add("Blizzard's assisted combat", ac == true and L["available (used as a second opinion)"] or L["not available"])
+  add("Talents read", M.talentsRead and L["yes"] or L["no"])
+  add("Interrupt spell", tostring(D.InterruptSpell() and U.Get(C_Spell and C_Spell.GetSpellName, D.InterruptSpell())
+    or "-"))
+  add("Watchdog (diagnostics)", type(_G.DMGAssistWatchdog) == "table" and L["installed"] or L["not installed"])
+  return out
+end
+
 -- What DMGAssist looked like at launch (the Watchdog records the rest of the environment).
 function ns.LogLaunchState()
   local state = Specs.current or {}
@@ -330,7 +375,7 @@ for _, event in ipairs({ "SPELL_UPDATE_USABLE", "SPELL_UPDATE_ICON", "COOLDOWN_V
 end
 pcall(frame.RegisterUnitEvent, frame, "UNIT_AURA", "player", "target")
 
-local DEFAULTS = { enabled = true, burst = true, mode = "st", autoDetect = true, aoeTargets = 3, fightLength = 300,
+local DEFAULTS = { enabled = true, burst = true, mode = "aoe", autoDetect = true, aoeTargets = 3, fightLength = 300,
   useAssisted = true, queue = 3, smartFight = true, bossMods = true, interruptMode = "smart",
   defensiveMode = "smart", defensiveHealth = 35, defensiveLead = 3, sounds = true, locked = true,
   minimap = true, minimapAngle = 220 }

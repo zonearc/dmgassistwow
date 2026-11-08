@@ -83,6 +83,13 @@ IDs, so it works on every client language; only messages are translated.
 With DMGAssist_Watchdog installed, every pick change (with the queue and mode), inferred cast and per-fight tracking
 summary is logged for diagnosis.
 
+## Reporting problems
+
+Players: `/dmgw`, Ctrl+C, and paste into a new issue at
+<https://github.com/zonearc/dmgassistwow/issues> (the Bug report form asks for it). Issues are triaged nightly
+by a scheduled session following [docs/process/issue-triage.md](docs/process/issue-triage.md). The CurseForge
+page text is in [docs/curseforge-description.md](docs/curseforge-description.md).
+
 ## Windows tray updater
 
 `tools/updater` (also **DMGAssist_Updater.zip** on the nightly release): a tray icon whose right-click menu

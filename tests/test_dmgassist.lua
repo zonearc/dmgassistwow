@@ -269,6 +269,28 @@ test("settings asked for in combat open when the fight ends (the game blocks the
   eq(opened, 1, "only once")
 end)
 
+test("Status page: live summary, help links, and a reset of everything", function()
+  local ns = Boot("standard")
+  local f = ns.Options.statusFrame
+  eq(type(f), "table", "status page registered")
+  f.scripts.OnShow(f)
+  local text = ns.Options.statusBody.text
+  eq(type(text), "string", "summary shown")
+  for _, needle in ipairs({ "Version:", "Game:", "Target mode:", "Boss mods found:", "Keybinds read" }) do
+    eq(text:find(needle, 1, true) ~= nil, true, needle)
+  end
+  local links = 0
+  for _, child in ipairs(mock.frames) do
+    if type(child.text) == "string" and child.text:find("github.com/zonearc/dmgassistwow", 1, true) then
+      links = links + 1
+    end
+  end
+  eq(links >= 3, true, "three copyable links")
+  ns.db.mode = "st"
+  ns.Options.ResetAll()
+  eq(ns.db.mode, "aoe", "reset everything: AoE is the default target mode")
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)
