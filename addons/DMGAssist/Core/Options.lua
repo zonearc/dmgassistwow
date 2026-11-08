@@ -106,6 +106,8 @@ function O.Register()
   s.aoeTargets = Slider(combat, DB, "aoeTargets", "Targets assumed in AoE mode", G.aoeTargets, 2, 10, 1)
   s.fightLength = Slider(combat, DB, "fightLength", "Assumed fight length (seconds)", G.fightLength, 30, 600, 10,
     "SimC holds or uses cooldowns based on how long the fight lasts.")
+  s.smartFight = Check(combat, DB, "smartFight", "Smart fight length", true,
+    "Bosses and encounters use the length above; dungeon and raid trash is assumed short so cooldowns aren't held.")
   s.hideOutOfCombat = Check(combat, HUD, "hideOutOfCombat", "Hide out of combat", H.hideOutOfCombat)
   s.showWithTarget = Check(combat, HUD, "showWithTarget", "Show when targeting an enemy", H.showWithTarget)
 

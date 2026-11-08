@@ -509,6 +509,7 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       d = 10,
       gcd = 1.5,
       n = "death_and_decay",
+      r = 30,
     },
     [45470] = {
       n = "death_strike",
@@ -517,11 +518,13 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       cd = 30,
       gcd = 1.5,
       n = "raise_dead",
+      r = 30,
     },
     [46585] = {
       cd = 120,
       d = 60,
       n = "raise_dead",
+      r = 30,
       tal = true,
     },
     [49028] = {
@@ -532,12 +535,14 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       d = 8,
       gcd = 1.5,
       n = "dancing_rune_weapon",
+      r = 30,
       tal = true,
     },
     [49998] = {
       cost = { [6] = 45 },
       gcd = 1.5,
       n = "death_strike",
+      r = 5,
       tal = true,
     },
     [50613] = {
@@ -606,6 +611,7 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       cost = { [5] = 2 },
       gcd = 1.5,
       n = "marrowrend",
+      r = 5,
       tal = true,
     },
     [195292] = {
@@ -613,11 +619,13 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       cost = { [5] = 1 },
       gcd = 1.5,
       n = "deaths_caress",
+      r = 30,
     },
     [205223] = {
       cd = 45,
       gcd = 1.5,
       n = "consumption",
+      r = 5,
     },
     [205224] = {
       n = "consumption",
@@ -630,10 +638,12 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       d = 8,
       gcd = 1.5,
       n = "heart_strike",
+      r = 5,
       tal = true,
     },
     [224685] = {
       n = "consumption",
+      r = 30,
     },
     [228645] = {
       ap = {
@@ -643,9 +653,11 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       d = 8,
       gcd = 1.5,
       n = "heart_strike",
+      r = 5,
     },
     [274893] = {
       n = "consumption",
+      r = 30,
     },
     [316575] = {
       n = "heart_strike",
@@ -661,6 +673,7 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       },
       d = 6,
       n = "dancing_rune_weapon",
+      r = 30,
     },
     [433895] = {
       ap = {
@@ -669,6 +682,7 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       cost = { [5] = 1 },
       gcd = 1.5,
       n = "vampiric_strike",
+      r = 5,
     },
     [433899] = {
       n = "vampiric_strike",
@@ -739,6 +753,7 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       gain = { [6] = 200 },
       gcd = 1.5,
       n = "reapers_mark",
+      r = 5,
       tal = true,
     },
     [441378] = {
@@ -768,10 +783,12 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       d = 10,
       gcd = 1.5,
       n = "death_and_decay",
+      r = 30,
     },
     [445504] = {
       cd = 3,
       n = "heart_strike",
+      r = 5,
     },
     [445669] = {
       n = "vampiric_strike",
@@ -791,6 +808,7 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       },
       d = 8,
       n = "heart_strike",
+      r = 5,
     },
     [461130] = {
       ap = {
@@ -805,6 +823,7 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       },
       d = 1,
       n = "death_and_decay",
+      r = 30,
     },
     [1234532] = {
       ap = {
@@ -818,6 +837,7 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       },
       d = 8,
       n = "dancing_rune_weapon",
+      r = 30,
     },
     [1237128] = {
       ap = {
@@ -825,6 +845,7 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       },
       d = 8,
       n = "dancing_rune_weapon",
+      r = 30,
     },
     [1237848] = {
       ap = {
@@ -836,6 +857,7 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
     },
     [1242866] = {
       n = "raise_dead",
+      r = 30,
     },
     [1251951] = {
       n = "death_and_decay",
@@ -849,10 +871,12 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       d = 2,
       gcd = 0.5,
       n = "consumption",
+      r = 5,
       tal = true,
     },
     [1263825] = {
       n = "consumption",
+      r = 5,
     },
     [1263861] = {
       ap = {
@@ -867,6 +891,7 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       },
       d = 8,
       n = "dancing_rune_weapon",
+      r = 30,
     },
     [1265790] = {
       n = "boiling_point",

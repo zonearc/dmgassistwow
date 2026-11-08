@@ -389,16 +389,19 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "swipe",
+      r = 5,
     },
     [779] = {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "swipe",
+      r = 5,
     },
     [780] = {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "swipe",
+      r = 5,
     },
     [1079] = {
       ap = {
@@ -409,6 +412,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       d = 12,
       gcd = 1,
       n = "rip",
+      r = 5,
     },
     [1822] = {
       ap = {
@@ -419,6 +423,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "rake",
+      r = 5,
     },
     [1823] = {
       ap = {
@@ -429,6 +434,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "rake",
+      r = 5,
     },
     [1824] = {
       ap = {
@@ -439,42 +445,49 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "rake",
+      r = 5,
     },
     [2912] = {
       cost = { [0] = 95 },
       ct = 3.5,
       gcd = 1.5,
       n = "starfire",
+      r = 30,
     },
     [5176] = {
       cost = { [0] = 10 },
       ct = 1.5,
       gcd = 1.5,
       n = "wrath",
+      r = 30,
     },
     [5177] = {
       cost = { [0] = 20 },
       ct = 1.7,
       gcd = 1.5,
       n = "wrath",
+      r = 30,
     },
     [5178] = {
       cost = { [0] = 40 },
       ct = 2,
       gcd = 1.5,
       n = "wrath",
+      r = 30,
     },
     [5179] = {
       cost = { [0] = 50 },
       ct = 2,
       gcd = 1.5,
       n = "wrath",
+      r = 30,
     },
     [5180] = {
       cost = { [0] = 70 },
       ct = 2,
       gcd = 1.5,
       n = "wrath",
+      r = 30,
     },
     [5215] = {
       cd = 10,
@@ -486,6 +499,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "shred",
+      r = 5,
     },
     [5487] = {
       gcd = 1.5,
@@ -496,6 +510,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       ct = 2,
       gcd = 1.5,
       n = "wrath",
+      r = 30,
     },
     [6783] = {
       cd = 10,
@@ -507,6 +522,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "shred",
+      r = 5,
     },
     [8921] = {
       ap = {
@@ -516,6 +532,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       d = 9,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8924] = {
       ap = {
@@ -525,6 +542,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       d = 12,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8925] = {
       ap = {
@@ -534,6 +552,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       d = 12,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8926] = {
       ap = {
@@ -543,6 +562,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       d = 12,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8927] = {
       ap = {
@@ -552,6 +572,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       d = 12,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8928] = {
       ap = {
@@ -561,30 +582,35 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       d = 12,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8949] = {
       cost = { [0] = 135 },
       ct = 3.5,
       gcd = 1.5,
       n = "starfire",
+      r = 30,
     },
     [8950] = {
       cost = { [0] = 180 },
       ct = 3.5,
       gcd = 1.5,
       n = "starfire",
+      r = 30,
     },
     [8951] = {
       cost = { [0] = 230 },
       ct = 3.5,
       gcd = 1.5,
       n = "starfire",
+      r = 30,
     },
     [8992] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "shred",
+      r = 5,
     },
     [9492] = {
       ap = {
@@ -595,6 +621,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       d = 12,
       gcd = 1,
       n = "rip",
+      r = 5,
     },
     [9493] = {
       ap = {
@@ -605,6 +632,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       d = 12,
       gcd = 1,
       n = "rip",
+      r = 5,
     },
     [9752] = {
       ap = {
@@ -615,35 +643,41 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       d = 12,
       gcd = 1,
       n = "rip",
+      r = 5,
     },
     [9754] = {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "swipe",
+      r = 5,
     },
     [9829] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "shred",
+      r = 5,
     },
     [9830] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "shred",
+      r = 5,
     },
     [9875] = {
       cost = { [0] = 275 },
       ct = 3.5,
       gcd = 1.5,
       n = "starfire",
+      r = 30,
     },
     [9876] = {
       cost = { [0] = 315 },
       ct = 3.5,
       gcd = 1.5,
       n = "starfire",
+      r = 30,
     },
     [9894] = {
       ap = {
@@ -654,6 +688,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       d = 12,
       gcd = 1,
       n = "rip",
+      r = 5,
     },
     [9896] = {
       ap = {
@@ -664,6 +699,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       d = 12,
       gcd = 1,
       n = "rip",
+      r = 5,
     },
     [9904] = {
       ap = {
@@ -674,11 +710,13 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "rake",
+      r = 5,
     },
     [9908] = {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "swipe",
+      r = 5,
     },
     [9913] = {
       cd = 10,
@@ -695,24 +733,28 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "ferocious_bite",
+      r = 5,
     },
     [22827] = {
       cmax = { [4] = 5 },
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "ferocious_bite",
+      r = 5,
     },
     [22828] = {
       cmax = { [4] = 5 },
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "ferocious_bite",
+      r = 5,
     },
     [22829] = {
       cmax = { [4] = 5 },
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "ferocious_bite",
+      r = 5,
     },
     [24858] = {
       gcd = 1.5,
@@ -724,12 +766,14 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "ferocious_bite",
+      r = 5,
     },
     [411128] = {
       cost = { [3] = 50 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "swipe",
+      r = 5,
     },
     [414684] = {
       ap = {
@@ -738,6 +782,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       d = 12,
       gcd = 1.5,
       n = "sunfire",
+      r = 30,
     },
     [414687] = {
       ap = {
@@ -747,6 +792,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       d = 12,
       gcd = 1.5,
       n = "sunfire",
+      r = 30,
     },
     [414689] = {
       ap = {
@@ -757,6 +803,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       gain = { [4] = 1 },
       gcd = 1.5,
       n = "sunfire",
+      r = 30,
     },
     [417157] = {
       ap = {
@@ -766,6 +813,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       d = 15,
       gcd = 1.5,
       n = "starsurge",
+      r = 30,
       st = 1,
     },
     [424715] = {

@@ -161,10 +161,62 @@ function S.CycleMode()
   return nextMode
 end
 
+-- Fight length: your setting for bosses and encounters; in dungeons/raids trash dies fast, so cooldowns
+-- aren't held for a long fight that won't happen. Open world (including target dummies) uses the setting.
+S.inEncounter = false
+local TRASH_FIGHT = 30
+
+function S.FightLength()
+  local set = S.Settings()
+  local db = ns.db or {}
+  if db.smartFight == false or S.inEncounter then
+    return set.fightLength
+  end
+  if U.Read(U.Call(UnitIsBossMob, "target")) == true then
+    return set.fightLength
+  end
+  local class = U.Read(U.Call(UnitClassification, "target"))
+  if class == "worldboss" then
+    return set.fightLength
+  end
+  local inInstance = U.Read(U.Call(IsInInstance))
+  if inInstance == true then
+    return math.min(set.fightLength, TRASH_FIGHT)
+  end
+  return set.fightLength
+end
+
 ---------------------------------------------------------------------------
 -- Spell data helpers (SimC dump numbers, adjusted by haste where the game hastes them)
 ---------------------------------------------------------------------------
 local lastHaste = 0
+S.hasteSource = "default"
+
+-- UNIT_SPELL_HASTE: haste changed (Bloodlust, a proc). If the value is readable we use it directly;
+-- otherwise the next measured GCD updates it.
+function S.OnHasteChanged()
+  local h = U.Read(U.Call(UnitSpellHaste, "player"))
+  if type(h) == "number" then
+    lastHaste, S.hasteSource = h, "read"
+  else
+    S.hasteStale = true
+  end
+end
+
+-- A measured 1.5s-base GCD (from the GCD's on/off edges, which are never secret) gives haste back.
+function S.OnMeasuredGCD(seconds, base)
+  if base ~= 1.5 or seconds < 0.74 or seconds > 1.6 then
+    return
+  end
+  if type(U.Read(U.Call(UnitSpellHaste, "player"))) == "number" then
+    return -- readable: no need to estimate
+  end
+  local h = (1.5 / seconds - 1) * 100
+  if seconds <= 0.76 then
+    return -- at the 0.75s floor haste can't be read off the GCD
+  end
+  lastHaste, S.hasteSource, S.hasteStale = h, "measured", false
+end
 
 local function HasteFactor()
   local h = U.Read(U.Call(UnitSpellHaste, "player"))
@@ -319,6 +371,7 @@ local function RecordCast(id, how)
   end
   S.lastCast[id] = GetTime()
   ns.Clues.OnCast()
+  ns.Clues.OnOwnCast(id)
   -- Start our clocks for the auras this spell applies (SimC data, else what we learned in game).
   local started = false
   if info and info.ap then
@@ -359,7 +412,25 @@ function S.OnSpellcastSucceeded(spellID)
 end
 
 -- SPELL_UPDATE_COOLDOWN: infer casts of cooldown spells from isActive edges (works with secret cast events).
+local gcdStart, gcdBase = nil, nil
+
 function S.OnCooldownUpdate()
+  local g = CooldownInfo(GCD_SPELL)
+  local gActive = g and U.Read(g.isActive)
+  if gActive == true and not gcdStart then
+    gcdStart = GetTime()
+    local last = S.history[1]
+    local info = last and M.Info(last.id)
+    gcdBase = (info and info.gcd) or 1.5
+    if info and info.gcd and info.gcd <= 1 and not info.hg then
+      gcdBase = nil -- fixed 1s GCD tells nothing about haste
+    end
+  elseif gActive == false and gcdStart then
+    if gcdBase then
+      S.OnMeasuredGCD(GetTime() - gcdStart, gcdBase)
+    end
+    gcdStart = nil
+  end
   for id, b in pairs(M.book) do
     if b.id == id and not b.passive then
       local info = CooldownInfo(id)
@@ -586,6 +657,7 @@ end
 local lastGCD = 1.5
 
 -- GCD of a spell (or the default 1.5s GCD), hasted unless SimC's data says it is a fixed 1.0s GCD.
+-- Haste: read when readable, else the last value read or measured (S.hasteSource), else the GCD's own duration.
 function S.GCD(id)
   local info = id and M.Info(id)
   if info and info.gcd and info.gcd <= 1 and not info.hg then
@@ -594,7 +666,10 @@ function S.GCD(id)
   local base = (info and info.gcd) or 1.5
   local haste = U.Read(U.Call(UnitSpellHaste, "player"))
   if type(haste) == "number" then
-    lastGCD = math.max(0.75, base / (1 + haste / 100))
+    lastHaste, S.hasteSource = haste, "read"
+  end
+  if S.hasteSource ~= "default" then
+    lastGCD = math.max(0.75, base / (1 + lastHaste / 100))
     return lastGCD
   end
   local cd = CooldownInfo(GCD_SPELL)
@@ -632,6 +707,9 @@ end
 local function PowerNow(pt)
   local cur = U.Read(U.Call(UnitPower, "player", pt))
   local max = U.Read(U.Call(UnitPowerMax, "player", pt))
+  if type(cur) ~= "number" then
+    cur = ns.Clues.ShadowValue(pt) -- counted from our casts, confirmed by power events
+  end
   if V then
     if V.powerAbs[pt] then
       cur = V.powerAbs[pt]
@@ -698,6 +776,11 @@ end
 
 -- lo, hi for a resource term whose exact value is hidden ("combo_points", "energy.deficit"); nil otherwise.
 function S.Bounds(name)
+  if name == "target.distance" then
+    return ns.Clues.DistanceBounds()
+  elseif name == "target.health.pct" then
+    return ns.Clues.NamedBounds(name)
+  end
   local head, field = name:match("^([%w_]+)%.?([%w_]*)$")
   local pt = head and PowerType(head)
   if not pt or (field ~= "" and field ~= "deficit") then
@@ -731,6 +814,12 @@ end
 function S.VerifyPowers()
   if V then
     return
+  end
+  for _, pt in pairs(ns.Clues.DISCRETE) do
+    local cur = U.Read(U.Call(UnitPower, "player", pt))
+    if type(cur) == "number" then
+      ns.Clues.SyncPower(pt, cur, U.Read(U.Call(UnitPowerMax, "player", pt)))
+    end
   end
   local seen = {}
   for pt in pairs(ns.Clues.bounds) do
@@ -959,13 +1048,16 @@ function S.Resolve(name, ctx)
     end
     return (S.Targets())
   elseif head == "fight_remains" or head == "time_to_die" or head == "expected_combat_length" then
-    return math.max(1, S.Settings().fightLength - CombatTime())
+    return math.max(1, S.FightLength() - CombatTime())
   elseif head == "target" then
     local f = p[2]
     if f == "time_to_die" then
-      return math.max(1, S.Settings().fightLength - CombatTime())
+      return math.max(1, S.FightLength() - CombatTime())
     elseif f == "distance" then
-      return 5 -- SimC's own default: the player stands where the spec wants to stand
+      if ns.Clues.DistanceBounds() then
+        return UNKNOWN -- decided from the range bounds in comparisons
+      end
+      return 5 -- no range info: SimC's own default (the player stands where the spec wants to stand)
     elseif f == "health" and p[3] == "pct" then
       local hp, max = U.Read(U.Call(UnitHealth, "target")), U.Read(U.Call(UnitHealthMax, "target"))
       if type(hp) == "number" and type(max) == "number" and max > 0 then

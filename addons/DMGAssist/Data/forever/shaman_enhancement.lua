@@ -852,6 +852,7 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       ct = 1.5,
       gcd = 1.5,
       n = "lightning_bolt",
+      r = 30,
     },
     [421] = {
       cd = 6,
@@ -859,18 +860,21 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       ct = 2,
       gcd = 1.5,
       n = "chain_lightning",
+      r = 30,
     },
     [529] = {
       cost = { [0] = 30 },
       ct = 2,
       gcd = 1.5,
       n = "lightning_bolt",
+      r = 30,
     },
     [548] = {
       cost = { [0] = 45 },
       ct = 2.5,
       gcd = 1.5,
       n = "lightning_bolt",
+      r = 30,
     },
     [905] = {
       ap = {
@@ -887,6 +891,7 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       ct = 2.5,
       gcd = 1.5,
       n = "lightning_bolt",
+      r = 30,
     },
     [930] = {
       cd = 6,
@@ -894,12 +899,14 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       ct = 2,
       gcd = 1.5,
       n = "chain_lightning",
+      r = 30,
     },
     [943] = {
       cost = { [0] = 85 },
       ct = 2.5,
       gcd = 1.5,
       n = "lightning_bolt",
+      r = 30,
     },
     [945] = {
       ap = {
@@ -917,12 +924,14 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       ct = 2,
       gcd = 1.5,
       n = "chain_lightning",
+      r = 30,
     },
     [6041] = {
       cost = { [0] = 110 },
       ct = 2.5,
       gcd = 1.5,
       n = "lightning_bolt",
+      r = 30,
     },
     [8024] = {
       cost = { [0] = 30 },
@@ -948,6 +957,7 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 12,
       gcd = 1.5,
       n = "flame_shock",
+      r = 20,
     },
     [8052] = {
       ap = {
@@ -958,6 +968,7 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 12,
       gcd = 1.5,
       n = "flame_shock",
+      r = 20,
     },
     [8053] = {
       ap = {
@@ -968,6 +979,7 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 12,
       gcd = 1.5,
       n = "flame_shock",
+      r = 20,
     },
     [8056] = {
       ap = {
@@ -978,6 +990,7 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 8,
       gcd = 1.5,
       n = "frost_shock",
+      r = 20,
     },
     [8058] = {
       ap = {
@@ -988,6 +1001,7 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 8,
       gcd = 1.5,
       n = "frost_shock",
+      r = 20,
     },
     [8134] = {
       ap = {
@@ -1044,6 +1058,7 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 12,
       gcd = 1.5,
       n = "flame_shock",
+      r = 20,
     },
     [10448] = {
       ap = {
@@ -1054,6 +1069,7 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 12,
       gcd = 1.5,
       n = "flame_shock",
+      r = 20,
     },
     [10472] = {
       ap = {
@@ -1064,6 +1080,7 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 8,
       gcd = 1.5,
       n = "frost_shock",
+      r = 20,
     },
     [10473] = {
       ap = {
@@ -1074,6 +1091,7 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 8,
       gcd = 1.5,
       n = "frost_shock",
+      r = 20,
     },
     [10484] = {
       ap = {
@@ -1094,6 +1112,7 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       ct = 2,
       gcd = 1.5,
       n = "chain_lightning",
+      r = 30,
     },
     [16339] = {
       cost = { [0] = 105 },
@@ -1131,6 +1150,7 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 12,
       gcd = 1.5,
       n = "stormstrike",
+      r = 5,
       st = 1,
       tal = true,
     },
@@ -1143,6 +1163,7 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       d = 12,
       gcd = 1.5,
       n = "flame_shock",
+      r = 20,
     },
     [408339] = {
       n = "fire_nova",
@@ -1150,9 +1171,11 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
     },
     [408479] = {
       n = "chain_lightning",
+      r = 30,
     },
     [408481] = {
       n = "chain_lightning",
+      r = 30,
     },
     [408498] = {
       n = "maelstrom_weapon",
@@ -1171,6 +1194,7 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       cd = 6,
       gcd = 1.5,
       n = "lava_lash",
+      r = 5,
     },
     [409938] = {
       n = "fire_nova",

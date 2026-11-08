@@ -694,6 +694,7 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
   spellInfo = {
     [75] = {
       n = "auto_shot",
+      r = 35,
     },
     [1510] = {
       ap = {
@@ -703,12 +704,14 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       d = 6,
       gcd = 1.5,
       n = "volley",
+      r = 35,
     },
     [3044] = {
       cd = 6,
       cost = { [0] = 25 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [3045] = {
       ap = {
@@ -726,36 +729,42 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       d = 30,
       gcd = 1.5,
       n = "black_arrow",
+      r = 35,
     },
     [14281] = {
       cd = 6,
       cost = { [0] = 35 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [14282] = {
       cd = 6,
       cost = { [0] = 50 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [14283] = {
       cd = 6,
       cost = { [0] = 80 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [14284] = {
       cd = 6,
       cost = { [0] = 105 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [14285] = {
       cd = 6,
       cost = { [0] = 135 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [14294] = {
       ap = {
@@ -765,6 +774,7 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       d = 6,
       gcd = 1.5,
       n = "volley",
+      r = 35,
     },
     [14295] = {
       ap = {
@@ -774,6 +784,7 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       d = 6,
       gcd = 1.5,
       n = "volley",
+      r = 35,
     },
     [14296] = {
       ap = {
@@ -782,6 +793,7 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       d = 30,
       gcd = 1.5,
       n = "black_arrow",
+      r = 35,
     },
     [19434] = {
       cd = 6,
@@ -789,6 +801,7 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       ct = 2,
       gcd = 1.5,
       n = "aimed_shot",
+      r = 35,
     },
     [20900] = {
       cd = 6,
@@ -796,6 +809,7 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       ct = 2,
       gcd = 1.5,
       n = "aimed_shot",
+      r = 35,
     },
     [20901] = {
       cd = 6,
@@ -803,6 +817,7 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       ct = 2,
       gcd = 1.5,
       n = "aimed_shot",
+      r = 35,
     },
     [20902] = {
       cd = 6,
@@ -810,6 +825,7 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       ct = 2,
       gcd = 1.5,
       n = "aimed_shot",
+      r = 35,
     },
     [20903] = {
       cd = 6,
@@ -817,6 +833,7 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       ct = 2,
       gcd = 1.5,
       n = "aimed_shot",
+      r = 35,
     },
     [20904] = {
       cd = 6,
@@ -824,11 +841,13 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       ct = 2,
       gcd = 1.5,
       n = "aimed_shot",
+      r = 35,
     },
     [409593] = {
       cd = 12,
       gcd = 1.5,
       n = "kill_shot",
+      r = 35,
     },
     [409957] = {
       n = "steady_shot",
@@ -854,6 +873,7 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       ct = 1.5,
       gcd = 1.5,
       n = "steady_shot",
+      r = 35,
     },
     [1218240] = {
       n = "kill_shot",

@@ -453,16 +453,19 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "swipe",
+      r = 5,
     },
     [779] = {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "swipe",
+      r = 5,
     },
     [780] = {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "swipe",
+      r = 5,
     },
     [1079] = {
       ap = {
@@ -473,6 +476,7 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       d = 12,
       gcd = 1,
       n = "rip",
+      r = 5,
     },
     [1822] = {
       ap = {
@@ -483,6 +487,7 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "rake",
+      r = 5,
     },
     [1823] = {
       ap = {
@@ -493,6 +498,7 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "rake",
+      r = 5,
     },
     [1824] = {
       ap = {
@@ -503,12 +509,14 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "rake",
+      r = 5,
     },
     [5221] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "shred",
+      r = 5,
     },
     [5487] = {
       gcd = 1.5,
@@ -519,30 +527,36 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "ravage",
+      r = 5,
     },
     [6787] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "ravage",
+      r = 5,
     },
     [6800] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "shred",
+      r = 5,
     },
     [6807] = {
       cost = { [1] = 15 },
       n = "maul",
+      r = 5,
     },
     [6808] = {
       cost = { [1] = 15 },
       n = "maul",
+      r = 5,
     },
     [6809] = {
       cost = { [1] = 15 },
       n = "maul",
+      r = 5,
     },
     [8921] = {
       ap = {
@@ -552,6 +566,7 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       d = 9,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8924] = {
       ap = {
@@ -561,6 +576,7 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       d = 12,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8925] = {
       ap = {
@@ -570,6 +586,7 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       d = 12,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8926] = {
       ap = {
@@ -579,6 +596,7 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       d = 12,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8927] = {
       ap = {
@@ -588,6 +606,7 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       d = 12,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8928] = {
       ap = {
@@ -597,16 +616,19 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       d = 12,
       gcd = 1.5,
       n = "moonfire",
+      r = 30,
     },
     [8972] = {
       cost = { [1] = 15 },
       n = "maul",
+      r = 5,
     },
     [8992] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "shred",
+      r = 5,
     },
     [9492] = {
       ap = {
@@ -617,6 +639,7 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       d = 12,
       gcd = 1,
       n = "rip",
+      r = 5,
     },
     [9493] = {
       ap = {
@@ -627,10 +650,12 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       d = 12,
       gcd = 1,
       n = "rip",
+      r = 5,
     },
     [9745] = {
       cost = { [1] = 15 },
       n = "maul",
+      r = 5,
     },
     [9752] = {
       ap = {
@@ -641,39 +666,46 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       d = 12,
       gcd = 1,
       n = "rip",
+      r = 5,
     },
     [9754] = {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "swipe",
+      r = 5,
     },
     [9829] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "shred",
+      r = 5,
     },
     [9830] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "shred",
+      r = 5,
     },
     [9866] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "ravage",
+      r = 5,
     },
     [9867] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "ravage",
+      r = 5,
     },
     [9880] = {
       cost = { [1] = 15 },
       n = "maul",
+      r = 5,
     },
     [9894] = {
       ap = {
@@ -684,6 +716,7 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       d = 12,
       gcd = 1,
       n = "rip",
+      r = 5,
     },
     [9896] = {
       ap = {
@@ -694,6 +727,7 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       d = 12,
       gcd = 1,
       n = "rip",
+      r = 5,
     },
     [9904] = {
       ap = {
@@ -704,11 +738,13 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "rake",
+      r = 5,
     },
     [9908] = {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "swipe",
+      r = 5,
     },
     [17003] = {
       n = "heart_of_the_wild",
@@ -720,6 +756,7 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "ferocious_bite",
+      r = 5,
     },
     [22812] = {
       ap = {
@@ -735,18 +772,21 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "ferocious_bite",
+      r = 5,
     },
     [22828] = {
       cmax = { [4] = 5 },
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "ferocious_bite",
+      r = 5,
     },
     [22829] = {
       cmax = { [4] = 5 },
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "ferocious_bite",
+      r = 5,
     },
     [24858] = {
       gcd = 1.5,
@@ -758,12 +798,14 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "ferocious_bite",
+      r = 5,
     },
     [411128] = {
       cost = { [3] = 50 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "swipe",
+      r = 5,
     },
     [417141] = {
       ap = {
@@ -783,6 +825,7 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       d = 15,
       gcd = 1.5,
       n = "barkskin",
+      r = 40,
     },
   },
   spells = {

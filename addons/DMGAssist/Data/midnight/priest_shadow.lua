@@ -730,6 +730,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       gain = { [13] = 300 },
       gcd = 1.5,
       n = "shadow_word_pain",
+      r = 40,
     },
     [8092] = {
       ch = 1,
@@ -737,12 +738,14 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       ct = 1.5,
       gcd = 1.5,
       n = "mind_blast",
+      r = 40,
       tal = true,
     },
     [10060] = {
       cd = 120,
       d = 15,
       n = "power_infusion",
+      r = 40,
       tal = true,
     },
     [15407] = {
@@ -752,6 +755,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       d = 4.5,
       gcd = 1.5,
       n = "mind_flay",
+      r = 40,
     },
     [19236] = {
       ap = {
@@ -766,6 +770,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       d = 3600,
       gcd = 1.5,
       n = "power_word_fortitude",
+      r = 40,
     },
     [23455] = {
       n = "holy_nova",
@@ -775,6 +780,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       chcd = 10,
       gcd = 1.5,
       n = "shadow_word_death",
+      r = 40,
       tal = true,
     },
     [32409] = {
@@ -795,6 +801,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       gain = { [13] = 400 },
       gcd = 1.5,
       n = "vampiric_touch",
+      r = 40,
     },
     [120517] = {
       ap = {
@@ -805,6 +812,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       d = 2.5,
       gcd = 1.5,
       n = "halo",
+      r = 40,
       tal = true,
     },
     [120644] = {
@@ -817,6 +825,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       gain = { [13] = 500 },
       gcd = 1.5,
       n = "halo",
+      r = 40,
       tal = true,
     },
     [120692] = {
@@ -836,6 +845,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       },
       d = 10,
       n = "mind_flay",
+      r = 55,
     },
     [193635] = {
       n = "mind_flay",
@@ -856,6 +866,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       d = 4,
       gcd = 1.5,
       n = "void_torrent",
+      r = 40,
     },
     [218413] = {
       n = "voidform",
@@ -865,6 +876,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       ct = 1.5,
       gcd = 1.5,
       n = "voidform",
+      r = 40,
       tal = true,
     },
     [228264] = {
@@ -899,6 +911,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       d = 3,
       gcd = 1.5,
       n = "void_torrent",
+      r = 40,
       tal = true,
     },
     [281265] = {
@@ -929,6 +942,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       d = 6,
       gcd = 1.5,
       n = "shadow_word_madness",
+      r = 40,
       tal = true,
     },
     [373202] = {
@@ -986,6 +1000,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       d = 1.5,
       gcd = 1.5,
       n = "mind_flay_insanity",
+      r = 40,
     },
     [392507] = {
       n = "deathspeaker",
@@ -1030,6 +1045,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       ct = 1.5,
       gcd = 1.5,
       n = "void_blast",
+      r = 40,
     },
     [450404] = {
       ap = {
@@ -1049,6 +1065,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       ct = 1.5,
       gcd = 1.5,
       n = "void_blast",
+      r = 40,
     },
     [451840] = {
       n = "devour_matter",
@@ -1073,6 +1090,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       gain = { [13] = 600 },
       gcd = 1.5,
       n = "tentacle_slam",
+      r = 40,
       tal = true,
     },
     [1227621] = {
@@ -1095,6 +1113,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       gain = { [13] = 1000 },
       gcd = 1.5,
       n = "void_volley",
+      r = 40,
     },
     [1242189] = {
       n = "void_volley",

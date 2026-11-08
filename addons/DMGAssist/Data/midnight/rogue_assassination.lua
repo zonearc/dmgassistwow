@@ -561,17 +561,20 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "garrote",
+      r = 5,
     },
     [1329] = {
       cost = { [3] = 50 },
       gain = { [4] = 2 },
       gcd = 1,
       n = "mutilate",
+      r = 5,
     },
     [1766] = {
       cd = 15,
       d = 6,
       n = "kick",
+      r = 5,
     },
     [1784] = {
       cd = 2,
@@ -593,9 +596,11 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       d = 4,
       gcd = 1,
       n = "rupture",
+      r = 5,
     },
     [5374] = {
       n = "mutilate",
+      r = 5,
     },
     [5938] = {
       ch = 1,
@@ -604,6 +609,7 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "shiv",
+      r = 5,
       tal = true,
     },
     [8676] = {
@@ -611,6 +617,7 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       gain = { [4] = 2 },
       gcd = 1,
       n = "ambush",
+      r = 5,
     },
     [11327] = {
       ap = {
@@ -622,12 +629,14 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
     },
     [27576] = {
       n = "mutilate",
+      r = 5,
     },
     [32645] = {
       cmax = { [4] = 5 },
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "envenom",
+      r = 5,
       st = 1,
     },
     [51723] = {
@@ -640,6 +649,7 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "blindside",
+      r = 5,
     },
     [115191] = {
       cd = 2,
@@ -662,6 +672,7 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "poisoned_knife",
+      r = 30,
     },
     [193531] = {
       n = "deeper_stratagem",
@@ -707,6 +718,7 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       d = 16,
       gcd = 1,
       n = "deathmark",
+      r = 5,
       tal = true,
     },
     [360826] = {
@@ -760,6 +772,7 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "kingsbane",
+      r = 5,
       tal = true,
     },
     [385794] = {
@@ -820,6 +833,7 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       gain = { [4] = 2 },
       gcd = 1,
       n = "ambush",
+      r = 5,
     },
     [441423] = {
       n = "coup_de_grace",
@@ -831,9 +845,11 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       cost = { [3] = 35, [4] = 1 },
       gcd = 1.2,
       n = "coup_de_grace",
+      r = 5,
     },
     [450743] = {
       n = "coup_de_grace",
+      r = 30,
     },
     [457056] = {
       n = "lingering_darkness",

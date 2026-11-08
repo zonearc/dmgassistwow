@@ -546,6 +546,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       ct = 2,
       gcd = 1.5,
       n = "shadow_bolt",
+      r = 40,
     },
     [30146] = {
       cost = { [7] = 1 },
@@ -563,6 +564,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       ct = 2,
       gcd = 1.5,
       n = "call_dreadstalkers",
+      r = 40,
       tal = true,
     },
     [105174] = {
@@ -570,6 +572,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       ct = 1.5,
       gcd = 1.5,
       n = "hand_of_guldan",
+      r = 40,
     },
     [193331] = {
       d = 12,
@@ -582,6 +585,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
     [194192] = {
       gain = { [7] = 1 },
       n = "shadow_bolt",
+      r = 40,
     },
     [196273] = {
       d = 12,
@@ -595,6 +599,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       cd = 15,
       gcd = 1.5,
       n = "implosion",
+      r = 40,
       tal = true,
     },
     [196278] = {
@@ -629,6 +634,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       ct = 4.5,
       gcd = 1.5,
       n = "demonbolt",
+      r = 40,
     },
     [265187] = {
       ap = {
@@ -639,6 +645,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       d = 15,
       gcd = 1.5,
       n = "summon_demonic_tyrant",
+      r = 40,
       tal = true,
     },
     [267102] = {
@@ -661,9 +668,11 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
     [280127] = {
       gain = { [7] = 2 },
       n = "demonbolt",
+      r = 40,
     },
     [280381] = {
       n = "demonbolt",
+      r = 40,
     },
     [334581] = {
       ap = {
@@ -710,11 +719,13 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       gain = { [7] = 3 },
       gcd = 1.5,
       n = "infernal_bolt",
+      r = 40,
     },
     [434635] = {
       ct = 1.5,
       gcd = 1.5,
       n = "ruination",
+      r = 40,
     },
     [434636] = {
       n = "ruination",
@@ -786,6 +797,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       d = 20,
       gcd = 1.5,
       n = "grimoire_imp_lord",
+      r = 40,
       tal = true,
     },
     [1276467] = {
@@ -794,6 +806,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       d = 20,
       gcd = 1.5,
       n = "grimoire_fel_ravager",
+      r = 40,
       tal = true,
     },
     [1276672] = {
@@ -805,6 +818,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       d = 12,
       gcd = 1.5,
       n = "summon_doomguard",
+      r = 40,
       tal = true,
     },
     [1276748] = {

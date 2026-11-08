@@ -480,6 +480,7 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
   spellInfo = {
     [75] = {
       n = "auto_shot",
+      r = 40,
     },
     [883] = {
       gcd = 1.5,
@@ -502,12 +503,14 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       cost = { [2] = 30 },
       gcd = 1.5,
       n = "kill_command",
+      r = 50,
       tal = true,
     },
     [56641] = {
       ct = 1.7,
       gcd = 1.5,
       n = "steady_shot",
+      r = 40,
     },
     [77443] = {
       gain = { [2] = 20 },
@@ -526,11 +529,13 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
     },
     [118459] = {
       n = "beast_cleave",
+      r = 5,
     },
     [185358] = {
       cost = { [2] = 40 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 40,
     },
     [186254] = {
       cd = 90,
@@ -541,6 +546,7 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       cost = { [2] = 35 },
       gcd = 1.5,
       n = "cobra_shot",
+      r = 40,
       tal = true,
     },
     [199532] = {
@@ -562,6 +568,7 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       d = 12,
       gcd = 1.5,
       n = "barbed_shot",
+      r = 40,
       tal = true,
     },
     [246152] = {
@@ -588,6 +595,7 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       gain = { [2] = 15 },
       gcd = 1.5,
       n = "kill_command",
+      r = 50,
       tal = true,
     },
     [268877] = {
@@ -604,6 +612,7 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
     },
     [344572] = {
       n = "bestial_wrath",
+      r = 10,
     },
     [354831] = {
       ap = {
@@ -617,6 +626,7 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       ct = 2,
       gcd = 1.5,
       n = "wailing_arrow",
+      r = 40,
     },
     [355596] = {
       ap = {
@@ -633,6 +643,7 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       ct = 1,
       gcd = 1.5,
       n = "wailing_arrow",
+      r = 40,
     },
     [392061] = {
       ap = {
@@ -660,6 +671,7 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       cost = { [2] = 10 },
       gcd = 1.5,
       n = "black_arrow",
+      r = 40,
       tal = true,
     },
     [466932] = {
@@ -681,6 +693,7 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
     },
     [468037] = {
       n = "black_arrow",
+      r = 40,
     },
     [468572] = {
       ap = {
@@ -714,6 +727,7 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       cost = { [2] = 35 },
       gcd = 1.5,
       n = "wild_thrash",
+      r = 50,
       tal = true,
     },
     [1265044] = {
@@ -734,6 +748,7 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
     [1273144] = {
       d = 10,
       n = "natures_ally",
+      r = 40,
     },
     [1273145] = {
       ap = {
@@ -756,6 +771,7 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
     [1282474] = {
       d = 15,
       n = "natures_ally",
+      r = 40,
     },
     [1282660] = {
       gain = { [2] = 25 },

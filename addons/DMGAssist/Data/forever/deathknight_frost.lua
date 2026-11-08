@@ -813,11 +813,13 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
       cd = 30,
       gcd = 1.5,
       n = "raise_dead",
+      r = 30,
     },
     [46585] = {
       cd = 120,
       d = 60,
       n = "raise_dead",
+      r = 30,
       tal = true,
     },
     [47528] = {
@@ -825,6 +827,7 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
       cost = { [6] = 0 },
       d = 5,
       n = "mind_freeze",
+      r = 15,
       tal = true,
     },
     [47568] = {
@@ -832,6 +835,7 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
       chcd = 30,
       gcd = 0.75,
       n = "empower_rune_weapon",
+      r = 30,
       tal = true,
     },
     [49020] = {
@@ -839,22 +843,26 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
       gain = { [6] = 200 },
       gcd = 1.5,
       n = "obliterate",
+      r = 5,
       tal = true,
     },
     [49143] = {
       cost = { [6] = 35 },
       gcd = 1.5,
       n = "frost_strike",
+      r = 5,
       tal = true,
     },
     [49184] = {
       cost = { [5] = 1 },
       gcd = 1.5,
       n = "howling_blast",
+      r = 30,
       tal = true,
     },
     [50401] = {
       n = "razorice",
+      r = 10,
     },
     [51124] = {
       ap = {
@@ -892,6 +900,7 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
       },
       d = 15,
       n = "unholy_strength",
+      r = 40,
       st = 1,
     },
     [55095] = {
@@ -965,6 +974,7 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
       gain = { [6] = 200 },
       gcd = 1.5,
       n = "frostscythe",
+      r = 8,
       tal = true,
     },
     [211793] = {
@@ -1048,6 +1058,7 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
       cost = { [5] = 1 },
       gcd = 1.5,
       n = "soul_reaper",
+      r = 5,
       tal = true,
     },
     [343295] = {
@@ -1105,6 +1116,7 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
       gain = { [6] = 200 },
       gcd = 1.5,
       n = "reapers_mark",
+      r = 5,
       tal = true,
     },
     [444040] = {
@@ -1115,6 +1127,7 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
     [445507] = {
       cd = 6,
       n = "obliterate",
+      r = 5,
     },
     [448229] = {
       ap = {
@@ -1125,6 +1138,7 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
       d = 5,
       gcd = 1.5,
       n = "soul_reaper",
+      r = 5,
     },
     [455993] = {
       n = "frostbane",
@@ -1146,6 +1160,7 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
       d = 0.75,
       gcd = 1.5,
       n = "frostbane",
+      r = 40,
     },
     [1228436] = {
       ap = {
@@ -1235,6 +1250,7 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
     [1237388] = {
       gain = { [6] = 200 },
       n = "frostscythe",
+      r = 8,
     },
     [1238680] = {
       n = "frostbound_will",
@@ -1250,6 +1266,7 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
     },
     [1242866] = {
       n = "raise_dead",
+      r = 30,
     },
     [1249658] = {
       ap = {

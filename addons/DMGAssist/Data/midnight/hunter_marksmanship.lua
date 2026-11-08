@@ -688,6 +688,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
   spellInfo = {
     [75] = {
       n = "auto_shot",
+      r = 40,
     },
     [19434] = {
       ch = 2,
@@ -696,6 +697,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       ct = 2.5,
       gcd = 1.5,
       n = "aimed_shot",
+      r = 40,
       tal = true,
     },
     [53351] = {
@@ -704,12 +706,14 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       cost = { [2] = 10 },
       gcd = 1.5,
       n = "kill_shot",
+      r = 40,
       tal = true,
     },
     [56641] = {
       ct = 1.7,
       gcd = 1.5,
       n = "steady_shot",
+      r = 40,
     },
     [77443] = {
       gain = { [2] = 20 },
@@ -719,6 +723,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       cost = { [2] = 40 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 40,
     },
     [194594] = {
       ap = {
@@ -755,6 +760,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       d = 3,
       gcd = 1.5,
       n = "explosive_shot",
+      r = 40,
       tal = true,
     },
     [212680] = {
@@ -768,10 +774,12 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       d = 2,
       gcd = 1.5,
       n = "rapid_fire",
+      r = 40,
       tal = true,
     },
     [257045] = {
       n = "rapid_fire",
+      r = 40,
     },
     [257621] = {
       n = "trick_shots",
@@ -806,6 +814,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       d = 6,
       gcd = 1.5,
       n = "volley",
+      r = 40,
       tal = true,
     },
     [260247] = {
@@ -819,6 +828,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
     [263585] = {
       gain = { [2] = 3 },
       n = "rapid_fire",
+      r = 40,
     },
     [264667] = {
       cd = 360,
@@ -862,6 +872,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       cost = { [2] = 10 },
       gcd = 1.5,
       n = "kill_shot",
+      r = 40,
     },
     [354831] = {
       ap = {
@@ -875,6 +886,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       ct = 2,
       gcd = 1.5,
       n = "wailing_arrow",
+      r = 40,
     },
     [355596] = {
       ap = {
@@ -909,6 +921,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       ct = 1,
       gcd = 1.5,
       n = "wailing_arrow",
+      r = 40,
     },
     [392061] = {
       ap = {
@@ -919,6 +932,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
     },
     [460496] = {
       n = "rapid_fire",
+      r = 40,
     },
     [464618] = {
       n = "explosive_shot",
@@ -929,6 +943,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       },
       d = 12,
       n = "spotters_mark",
+      r = 40,
     },
     [466930] = {
       ch = 1,
@@ -936,6 +951,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       cost = { [2] = 10 },
       gcd = 1.5,
       n = "black_arrow",
+      r = 40,
       tal = true,
     },
     [466932] = {
@@ -945,6 +961,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
     },
     [468037] = {
       n = "black_arrow",
+      r = 40,
     },
     [468572] = {
       ap = {
@@ -960,6 +977,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
     },
     [471429] = {
       n = "spotters_mark",
+      r = 40,
     },
     [473385] = {
       n = "no_scope",
@@ -972,6 +990,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       },
       d = 12,
       n = "spotters_mark",
+      r = 40,
     },
     [1219616] = {
       n = "spotters_mark",
@@ -988,6 +1007,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       },
       d = 16,
       n = "sentinels_mark",
+      r = 40,
     },
     [1257703] = {
       ap = {
@@ -1012,6 +1032,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
     [1264949] = {
       gcd = 1.5,
       n = "moonlight_chakram",
+      r = 40,
     },
     [1266081] = {
       n = "moonlight_chakram",
@@ -1022,6 +1043,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       },
       d = 16,
       n = "sentinels_mark",
+      r = 40,
     },
     [1301406] = {
       n = "tactical_reload",

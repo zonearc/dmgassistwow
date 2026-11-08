@@ -484,11 +484,13 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "sinister_strike",
+      r = 5,
     },
     [1766] = {
       cd = 15,
       d = 6,
       n = "kick",
+      r = 5,
     },
     [1784] = {
       cd = 2,
@@ -506,12 +508,14 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "dispatch",
+      r = 5,
     },
     [8676] = {
       cost = { [3] = 50 },
       gain = { [4] = 2 },
       gcd = 1,
       n = "ambush",
+      r = 5,
     },
     [11327] = {
       ap = {
@@ -560,13 +564,16 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       cost = { [3] = 45, [4] = 1 },
       gcd = 1,
       n = "killing_spree",
+      r = 8,
       tal = true,
     },
     [57841] = {
       n = "killing_spree",
+      r = 10,
     },
     [57842] = {
       n = "killing_spree",
+      r = 10,
     },
     [115191] = {
       cd = 2,
@@ -585,6 +592,7 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "pistol_shot",
+      r = 20,
     },
     [186286] = {
       ap = {
@@ -599,6 +607,7 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "sinister_strike",
+      r = 5,
     },
     [195627] = {
       ap = {
@@ -635,13 +644,16 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       cd = 60,
       gcd = 1,
       n = "blade_rush",
+      r = 20,
       tal = true,
     },
     [271878] = {
       n = "blade_rush",
+      r = 20,
     },
     [271881] = {
       n = "blade_rush",
+      r = 20,
     },
     [271896] = {
       ap = {
@@ -665,6 +677,7 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       d = 2,
       gcd = 1,
       n = "between_the_eyes",
+      r = 20,
       st = 20,
     },
     [315496] = {
@@ -679,6 +692,7 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
     },
     [331850] = {
       n = "blade_flurry",
+      r = 20,
     },
     [341541] = {
       gcd = 1,
@@ -741,6 +755,7 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       },
       d = 0.5,
       n = "killing_spree",
+      r = 10,
     },
     [424562] = {
       ap = {
@@ -761,12 +776,14 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
     },
     [429951] = {
       n = "blade_flurry",
+      r = 20,
     },
     [430023] = {
       cost = { [3] = 50 },
       gain = { [4] = 2 },
       gcd = 1,
       n = "ambush",
+      r = 5,
     },
     [441423] = {
       n = "coup_de_grace",
@@ -778,9 +795,11 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       cost = { [3] = 35, [4] = 1 },
       gcd = 1.2,
       n = "coup_de_grace",
+      r = 5,
     },
     [450743] = {
       n = "coup_de_grace",
+      r = 30,
     },
     [454419] = {
       n = "deal_fate",
@@ -798,6 +817,7 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       cost = { [3] = 35, [4] = 1 },
       gcd = 1,
       n = "dispatch",
+      r = 5,
     },
     [470347] = {
       n = "supercharger",

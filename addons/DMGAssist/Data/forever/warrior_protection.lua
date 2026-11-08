@@ -545,6 +545,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       cost = { [1] = 0 },
       gain = { [1] = 90 },
       n = "charge",
+      r = 25,
     },
     [772] = {
       ap = {
@@ -554,6 +555,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       d = 9,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [871] = {
       ap = {
@@ -602,6 +604,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [6178] = {
       ap = {
@@ -611,6 +614,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       cost = { [1] = 0 },
       gain = { [1] = 120 },
       n = "charge",
+      r = 25,
     },
     [6190] = {
       ap = {
@@ -645,6 +649,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       d = 12,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [6547] = {
       ap = {
@@ -654,6 +659,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       d = 15,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [6548] = {
       ap = {
@@ -663,18 +669,21 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       d = 18,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [6572] = {
       cd = 5,
       cost = { [1] = 5 },
       gcd = 1.5,
       n = "revenge",
+      r = 5,
     },
     [6574] = {
       cd = 5,
       cost = { [1] = 5 },
       gcd = 1.5,
       n = "revenge",
+      r = 5,
     },
     [6673] = {
       cost = { [1] = 10 },
@@ -687,6 +696,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       cost = { [1] = 5 },
       gcd = 1.5,
       n = "revenge",
+      r = 5,
     },
     [7922] = {
       ap = {
@@ -695,6 +705,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       cost = { [1] = 0 },
       d = 1,
       n = "charge_stun",
+      r = 25,
     },
     [8198] = {
       ap = {
@@ -779,6 +790,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       d = 21,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [11573] = {
       ap = {
@@ -788,6 +800,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       d = 21,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [11578] = {
       ap = {
@@ -797,6 +810,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       cost = { [1] = 0 },
       gain = { [1] = 150 },
       n = "charge",
+      r = 25,
     },
     [11580] = {
       ap = {
@@ -823,12 +837,14 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       cost = { [1] = 5 },
       gcd = 1.5,
       n = "revenge",
+      r = 5,
     },
     [11601] = {
       cd = 5,
       cost = { [1] = 5 },
       gcd = 1.5,
       n = "revenge",
+      r = 5,
     },
     [12321] = {
       n = "booming_voice",
@@ -846,6 +862,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [20660] = {
       ap = {
@@ -854,6 +871,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [20661] = {
       ap = {
@@ -862,6 +880,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [20662] = {
       ap = {
@@ -870,12 +889,14 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [23922] = {
       cd = 6,
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "shield_slam",
+      r = 5,
       tal = true,
     },
     [23923] = {
@@ -883,24 +904,28 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "shield_slam",
+      r = 5,
     },
     [23924] = {
       cd = 6,
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "shield_slam",
+      r = 5,
     },
     [23925] = {
       cd = 6,
       cost = { [1] = 20 },
       gcd = 1.5,
       n = "shield_slam",
+      r = 5,
     },
     [25288] = {
       cd = 5,
       cost = { [1] = 5 },
       gcd = 1.5,
       n = "revenge",
+      r = 5,
     },
     [26651] = {
       ap = {
@@ -939,6 +964,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       cost = { [1] = 0 },
       gain = { [1] = 90 },
       n = "charge",
+      r = 25,
     },
     [1240288] = {
       ap = {
@@ -948,6 +974,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       cost = { [1] = 0 },
       gain = { [1] = 120 },
       n = "charge",
+      r = 25,
     },
     [1240289] = {
       ap = {
@@ -957,6 +984,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       cost = { [1] = 0 },
       gain = { [1] = 150 },
       n = "charge",
+      r = 25,
     },
   },
   spells = {

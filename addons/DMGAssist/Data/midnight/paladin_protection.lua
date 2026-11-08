@@ -461,6 +461,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       d = 5,
       gcd = 1.5,
       n = "judgment",
+      r = 30,
     },
     [24275] = {
       ap = {
@@ -472,6 +473,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       gain = { [9] = 1 },
       gcd = 1.5,
       n = "hammer_of_wrath",
+      r = 30,
     },
     [26573] = {
       ap = {
@@ -508,6 +510,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       d = 3,
       gcd = 1.5,
       n = "avengers_shield",
+      r = 30,
       tal = true,
     },
     [35395] = {
@@ -516,6 +519,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       gain = { [9] = 1 },
       gcd = 1.5,
       n = "crusader_strike",
+      r = 5,
     },
     [53595] = {
       ap = {
@@ -526,6 +530,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       gain = { [9] = 1 },
       gcd = 1.5,
       n = "hammer_of_the_righteous",
+      r = 5,
       tal = true,
     },
     [53600] = {
@@ -533,6 +538,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       cmax = { [9] = 5 },
       cost = { [9] = 3 },
       n = "shield_of_the_righteous",
+      r = 5,
     },
     [66235] = {
       n = "ardent_defender",
@@ -544,6 +550,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       cost = { [9] = 3 },
       gcd = 1.5,
       n = "word_of_glory",
+      r = 40,
     },
     [88263] = {
       ap = {
@@ -556,6 +563,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       gain = { [9] = 1 },
       gcd = 1.5,
       n = "crusader_strike",
+      r = 5,
     },
     [132403] = {
       ap = {
@@ -563,12 +571,14 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       },
       d = 4.5,
       n = "shield_of_the_righteous",
+      r = 5,
     },
     [150627] = {
       n = "hammer_of_the_righteous",
     },
     [150631] = {
       n = "word_of_glory",
+      r = 40,
     },
     [155145] = {
       cd = 120,
@@ -585,6 +595,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       },
       d = 18,
       n = "judgment",
+      r = 30,
       st = 20,
     },
     [204019] = {
@@ -660,12 +671,14 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       chcd = 11,
       gcd = 1.5,
       n = "judgment",
+      r = 30,
     },
     [275779] = {
       ch = 1,
       chcd = 11,
       gcd = 1.5,
       n = "judgment",
+      r = 30,
     },
     [290497] = {
       ap = {
@@ -678,6 +691,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       cd = 60,
       gcd = 1.5,
       n = "divine_toll",
+      r = 30,
     },
     [312952] = {
       n = "divine_toll",
@@ -719,6 +733,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       cd = 60,
       gcd = 1.5,
       n = "divine_toll",
+      r = 30,
       tal = true,
     },
     [375609] = {
@@ -746,6 +761,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       gain = { [9] = 1 },
       gcd = 1,
       n = "templar_slash",
+      r = 5,
     },
     [406648] = {
       ap = {
@@ -764,6 +780,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       d = 5,
       gcd = 1.5,
       n = "judgment",
+      r = 30,
     },
     [407480] = {
       ap = {
@@ -774,6 +791,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       gain = { [9] = 1 },
       gcd = 1,
       n = "templar_strike",
+      r = 5,
     },
     [408458] = {
       ap = {
@@ -793,6 +811,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       cost = { [9] = 3 },
       gcd = 1.5,
       n = "shield_of_the_righteous",
+      r = 5,
     },
     [427441] = {
       ap = {
@@ -809,6 +828,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       cost = { [9] = 3 },
       gcd = 1.5,
       n = "hammer_of_light",
+      r = 14,
     },
     [429826] = {
       n = "hammer_of_light",
@@ -856,9 +876,11 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
     },
     [433682] = {
       n = "rite_of_adjuration",
+      r = 40,
     },
     [433807] = {
       n = "divine_guidance",
+      r = 40,
     },
     [433808] = {
       n = "divine_guidance",
@@ -920,6 +942,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       gain = { [9] = 1 },
       gcd = 1.5,
       n = "hammer_of_wrath",
+      r = 30,
     },
     [1246643] = {
       ap = {
@@ -935,6 +958,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       },
       d = 20,
       n = "vanguard",
+      r = 30,
       st = 5,
     },
     [1269179] = {
@@ -943,6 +967,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       },
       d = 20,
       n = "valor",
+      r = 30,
       st = 5,
     },
     [1270616] = {
@@ -966,10 +991,12 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       gain = { [9] = 1 },
       gcd = 1.5,
       n = "crusader_strike",
+      r = 5,
     },
     [1279408] = {
       gain = { [9] = 1 },
       n = "hammer_of_wrath",
+      r = 30,
     },
     [1289728] = {
       n = "holy_armaments",
@@ -988,6 +1015,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       },
       d = 8,
       n = "seal_of_reprisal",
+      r = 40,
     },
     [1310389] = {
       n = "divine_guidance",

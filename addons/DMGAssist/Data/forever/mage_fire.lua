@@ -769,6 +769,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 4,
       gcd = 1.5,
       n = "fireball",
+      r = 35,
     },
     [143] = {
       ap = {
@@ -779,6 +780,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 6,
       gcd = 1.5,
       n = "fireball",
+      r = 35,
     },
     [145] = {
       ap = {
@@ -789,24 +791,28 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 6,
       gcd = 1.5,
       n = "fireball",
+      r = 35,
     },
     [1459] = {
       cost = { [0] = 60 },
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 30,
     },
     [1460] = {
       cost = { [0] = 185 },
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 30,
     },
     [1461] = {
       cost = { [0] = 520 },
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 30,
     },
     [2120] = {
       ap = {
@@ -817,6 +823,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 8,
       gcd = 1.5,
       n = "flamestrike",
+      r = 30,
     },
     [2121] = {
       ap = {
@@ -827,30 +834,35 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 8,
       gcd = 1.5,
       n = "flamestrike",
+      r = 30,
     },
     [2136] = {
       cd = 8,
       cost = { [0] = 40 },
       gcd = 1.5,
       n = "fire_blast",
+      r = 20,
     },
     [2137] = {
       cd = 8,
       cost = { [0] = 75 },
       gcd = 1.5,
       n = "fire_blast",
+      r = 20,
     },
     [2138] = {
       cd = 8,
       cost = { [0] = 115 },
       gcd = 1.5,
       n = "fire_blast",
+      r = 20,
     },
     [2948] = {
       cost = { [0] = 50 },
       ct = 1.5,
       gcd = 1.5,
       n = "scorch",
+      r = 30,
     },
     [3140] = {
       ap = {
@@ -861,6 +873,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 8,
       gcd = 1.5,
       n = "fireball",
+      r = 35,
     },
     [8400] = {
       ap = {
@@ -871,6 +884,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 8,
       gcd = 1.5,
       n = "fireball",
+      r = 35,
     },
     [8401] = {
       ap = {
@@ -881,18 +895,21 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 8,
       gcd = 1.5,
       n = "fireball",
+      r = 35,
     },
     [8412] = {
       cd = 8,
       cost = { [0] = 165 },
       gcd = 1.5,
       n = "fire_blast",
+      r = 20,
     },
     [8413] = {
       cd = 8,
       cost = { [0] = 220 },
       gcd = 1.5,
       n = "fire_blast",
+      r = 20,
     },
     [8422] = {
       ap = {
@@ -903,6 +920,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 8,
       gcd = 1.5,
       n = "flamestrike",
+      r = 30,
     },
     [8423] = {
       ap = {
@@ -913,54 +931,63 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 8,
       gcd = 1.5,
       n = "flamestrike",
+      r = 30,
     },
     [8444] = {
       cost = { [0] = 65 },
       ct = 1.5,
       gcd = 1.5,
       n = "scorch",
+      r = 30,
     },
     [8445] = {
       cost = { [0] = 80 },
       ct = 1.5,
       gcd = 1.5,
       n = "scorch",
+      r = 30,
     },
     [8446] = {
       cost = { [0] = 100 },
       ct = 1.5,
       gcd = 1.5,
       n = "scorch",
+      r = 30,
     },
     [10156] = {
       cost = { [0] = 945 },
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 30,
     },
     [10157] = {
       cost = { [0] = 1510 },
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 30,
     },
     [10197] = {
       cd = 8,
       cost = { [0] = 280 },
       gcd = 1.5,
       n = "fire_blast",
+      r = 20,
     },
     [10205] = {
       cost = { [0] = 115 },
       ct = 1.5,
       gcd = 1.5,
       n = "scorch",
+      r = 30,
     },
     [10206] = {
       cost = { [0] = 135 },
       ct = 1.5,
       gcd = 1.5,
       n = "scorch",
+      r = 30,
     },
     [10215] = {
       ap = {
@@ -971,6 +998,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 8,
       gcd = 1.5,
       n = "flamestrike",
+      r = 30,
     },
     [10216] = {
       ap = {
@@ -981,6 +1009,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 8,
       gcd = 1.5,
       n = "flamestrike",
+      r = 30,
     },
     [11129] = {
       cd = 180,
@@ -997,6 +1026,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 12,
       gcd = 1.5,
       n = "pyroblast",
+      r = 35,
       tal = true,
     },
     [12505] = {
@@ -1008,6 +1038,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 12,
       gcd = 1.5,
       n = "pyroblast",
+      r = 35,
     },
     [12522] = {
       ap = {
@@ -1018,6 +1049,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 12,
       gcd = 1.5,
       n = "pyroblast",
+      r = 35,
     },
     [12523] = {
       ap = {
@@ -1028,6 +1060,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 12,
       gcd = 1.5,
       n = "pyroblast",
+      r = 35,
     },
     [12524] = {
       ap = {
@@ -1038,6 +1071,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 12,
       gcd = 1.5,
       n = "pyroblast",
+      r = 35,
     },
     [12525] = {
       ap = {
@@ -1048,6 +1082,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 12,
       gcd = 1.5,
       n = "pyroblast",
+      r = 35,
     },
     [28682] = {
       n = "combustion",
@@ -1083,6 +1118,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 9,
       gcd = 1.5,
       n = "frostfire_bolt",
+      r = 35,
     },
     [401724] = {
       n = "hot_streak",
@@ -1105,6 +1141,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 9,
       gcd = 1.5,
       n = "frostfire_bolt",
+      r = 35,
     },
     [1237313] = {
       ap = {
@@ -1115,6 +1152,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 9,
       gcd = 1.5,
       n = "frostfire_bolt",
+      r = 35,
     },
   },
   spells = {

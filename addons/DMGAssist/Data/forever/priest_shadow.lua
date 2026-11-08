@@ -714,6 +714,7 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       d = 18,
       gcd = 1.5,
       n = "shadow_word_pain",
+      r = 30,
     },
     [594] = {
       ap = {
@@ -723,6 +724,7 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       d = 18,
       gcd = 1.5,
       n = "shadow_word_pain",
+      r = 30,
     },
     [970] = {
       ap = {
@@ -732,6 +734,7 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       d = 18,
       gcd = 1.5,
       n = "shadow_word_pain",
+      r = 30,
     },
     [992] = {
       ap = {
@@ -741,24 +744,28 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       d = 18,
       gcd = 1.5,
       n = "shadow_word_pain",
+      r = 30,
     },
     [1243] = {
       cost = { [0] = 60 },
       d = 3600,
       gcd = 1.5,
       n = "power_word_fortitude",
+      r = 30,
     },
     [1244] = {
       cost = { [0] = 155 },
       d = 3600,
       gcd = 1.5,
       n = "power_word_fortitude",
+      r = 30,
     },
     [1245] = {
       cost = { [0] = 400 },
       d = 3600,
       gcd = 1.5,
       n = "power_word_fortitude",
+      r = 30,
     },
     [2767] = {
       ap = {
@@ -768,12 +775,14 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       d = 18,
       gcd = 1.5,
       n = "shadow_word_pain",
+      r = 30,
     },
     [2791] = {
       cost = { [0] = 745 },
       d = 3600,
       gcd = 1.5,
       n = "power_word_fortitude",
+      r = 30,
     },
     [8092] = {
       cd = 8,
@@ -781,6 +790,7 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       ct = 1.5,
       gcd = 1.5,
       n = "mind_blast",
+      r = 30,
     },
     [8102] = {
       cd = 8,
@@ -788,6 +798,7 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       ct = 1.5,
       gcd = 1.5,
       n = "mind_blast",
+      r = 30,
     },
     [8103] = {
       cd = 8,
@@ -795,6 +806,7 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       ct = 1.5,
       gcd = 1.5,
       n = "mind_blast",
+      r = 30,
     },
     [8104] = {
       cd = 8,
@@ -802,6 +814,7 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       ct = 1.5,
       gcd = 1.5,
       n = "mind_blast",
+      r = 30,
     },
     [8105] = {
       cd = 8,
@@ -809,6 +822,7 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       ct = 1.5,
       gcd = 1.5,
       n = "mind_blast",
+      r = 30,
     },
     [8106] = {
       cd = 8,
@@ -816,11 +830,13 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       ct = 1.5,
       gcd = 1.5,
       n = "mind_blast",
+      r = 30,
     },
     [10060] = {
       cd = 180,
       d = 15,
       n = "power_infusion",
+      r = 30,
       tal = true,
     },
     [10892] = {
@@ -831,18 +847,21 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       d = 18,
       gcd = 1.5,
       n = "shadow_word_pain",
+      r = 30,
     },
     [10937] = {
       cost = { [0] = 1170 },
       d = 3600,
       gcd = 1.5,
       n = "power_word_fortitude",
+      r = 30,
     },
     [10938] = {
       cost = { [0] = 1695 },
       d = 3600,
       gcd = 1.5,
       n = "power_word_fortitude",
+      r = 30,
     },
     [13908] = {
       cd = 600,
@@ -863,6 +882,7 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       d = 3,
       gcd = 1.5,
       n = "mind_flay",
+      r = 20,
       tal = true,
     },
     [15430] = {
@@ -889,6 +909,7 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       d = 3,
       gcd = 1.5,
       n = "mind_flay",
+      r = 20,
     },
     [17312] = {
       ap = {
@@ -898,6 +919,7 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       d = 3,
       gcd = 1.5,
       n = "mind_flay",
+      r = 20,
     },
     [17313] = {
       ap = {
@@ -907,6 +929,7 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       d = 3,
       gcd = 1.5,
       n = "mind_flay",
+      r = 20,
     },
     [17314] = {
       ap = {
@@ -916,6 +939,7 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       d = 3,
       gcd = 1.5,
       n = "mind_flay",
+      r = 20,
     },
     [18807] = {
       ap = {
@@ -925,6 +949,7 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       d = 3,
       gcd = 1.5,
       n = "mind_flay",
+      r = 20,
     },
     [19236] = {
       cd = 600,
@@ -970,6 +995,7 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       cd = 12,
       gcd = 1.5,
       n = "shadow_word_death",
+      r = 30,
     },
     [402668] = {
       ap = {
@@ -979,6 +1005,7 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       d = 15,
       gcd = 1.5,
       n = "vampiric_touch",
+      r = 30,
     },
     [402843] = {
       n = "shadowfiend",
@@ -989,24 +1016,28 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       cost = { [0] = 175 },
       gcd = 1.5,
       n = "shadow_word_death",
+      r = 30,
     },
     [1309633] = {
       cd = 18,
       cost = { [0] = 205 },
       gcd = 1.5,
       n = "shadow_word_death",
+      r = 30,
     },
     [1309635] = {
       cd = 18,
       cost = { [0] = 250 },
       gcd = 1.5,
       n = "shadow_word_death",
+      r = 30,
     },
     [1309636] = {
       cd = 18,
       cost = { [0] = 340 },
       gcd = 1.5,
       n = "shadow_word_death",
+      r = 30,
     },
   },
   spells = {

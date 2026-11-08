@@ -878,6 +878,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       cost = { [1] = 0 },
       gain = { [1] = 90 },
       n = "charge",
+      r = 25,
     },
     [772] = {
       ap = {
@@ -887,6 +888,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       d = 9,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [1464] = {
       cd = 18,
@@ -894,6 +896,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       ct = 1.5,
       gcd = 1.5,
       n = "slam",
+      r = 5,
     },
     [1680] = {
       cd = 10,
@@ -929,6 +932,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [6178] = {
       ap = {
@@ -938,6 +942,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       cost = { [1] = 0 },
       gain = { [1] = 120 },
       n = "charge",
+      r = 25,
     },
     [6192] = {
       cost = { [1] = 10 },
@@ -963,6 +968,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       d = 12,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [6547] = {
       ap = {
@@ -972,6 +978,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       d = 15,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [6548] = {
       ap = {
@@ -981,6 +988,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       d = 18,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [6552] = {
       cd = 10,
@@ -988,6 +996,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       d = 4,
       gcd = 1.5,
       n = "pummel",
+      r = 5,
     },
     [6554] = {
       cd = 10,
@@ -995,6 +1004,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       d = 4,
       gcd = 1.5,
       n = "pummel",
+      r = 5,
     },
     [6673] = {
       cost = { [1] = 10 },
@@ -1009,6 +1019,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       cost = { [1] = 0 },
       d = 1,
       n = "charge_stun",
+      r = 25,
     },
     [8198] = {
       ap = {
@@ -1046,6 +1057,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       ct = 1.5,
       gcd = 1.5,
       n = "slam",
+      r = 5,
     },
     [11549] = {
       cost = { [1] = 10 },
@@ -1073,6 +1085,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       d = 21,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [11573] = {
       ap = {
@@ -1082,6 +1095,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       d = 21,
       gcd = 1.5,
       n = "rend",
+      r = 5,
     },
     [11578] = {
       ap = {
@@ -1091,6 +1105,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       cost = { [1] = 0 },
       gain = { [1] = 150 },
       n = "charge",
+      r = 25,
     },
     [11580] = {
       ap = {
@@ -1118,6 +1133,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       ct = 1.5,
       gcd = 1.5,
       n = "slam",
+      r = 5,
     },
     [11605] = {
       cd = 18,
@@ -1125,6 +1141,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       ct = 1.5,
       gcd = 1.5,
       n = "slam",
+      r = 5,
     },
     [12317] = {
       n = "enrage",
@@ -1154,6 +1171,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [20660] = {
       ap = {
@@ -1162,6 +1180,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [20661] = {
       ap = {
@@ -1170,6 +1189,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [20662] = {
       ap = {
@@ -1178,6 +1198,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
     },
     [23881] = {
       ap = {
@@ -1188,6 +1209,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       d = 10,
       gcd = 1.5,
       n = "bloodthirst",
+      r = 5,
       tal = true,
     },
     [23892] = {
@@ -1199,6 +1221,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       d = 10,
       gcd = 1.5,
       n = "bloodthirst",
+      r = 5,
     },
     [23893] = {
       ap = {
@@ -1209,6 +1232,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       d = 10,
       gcd = 1.5,
       n = "bloodthirst",
+      r = 5,
     },
     [23894] = {
       ap = {
@@ -1219,6 +1243,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       d = 10,
       gcd = 1.5,
       n = "bloodthirst",
+      r = 5,
     },
     [26651] = {
       ap = {
@@ -1231,6 +1256,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       cd = 8,
       gcd = 1.5,
       n = "raging_blow",
+      r = 5,
     },
     [425415] = {
       ap = {
@@ -1290,6 +1316,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       ct = 1.5,
       gcd = 1.5,
       n = "slam",
+      r = 5,
     },
     [1240287] = {
       ap = {
@@ -1299,6 +1326,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       cost = { [1] = 0 },
       gain = { [1] = 90 },
       n = "charge",
+      r = 25,
     },
     [1240288] = {
       ap = {
@@ -1308,6 +1336,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       cost = { [1] = 0 },
       gain = { [1] = 120 },
       n = "charge",
+      r = 25,
     },
     [1240289] = {
       ap = {
@@ -1317,6 +1346,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       cost = { [1] = 0 },
       gain = { [1] = 150 },
       n = "charge",
+      r = 25,
     },
     [1310196] = {
       cd = 18,
@@ -1324,6 +1354,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
       ct = 1.5,
       gcd = 1.5,
       n = "slam",
+      r = 5,
     },
   },
   spells = {

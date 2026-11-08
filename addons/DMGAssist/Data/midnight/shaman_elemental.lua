@@ -726,6 +726,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       cost = { [11] = 60 },
       gcd = 1.5,
       n = "earth_shock",
+      r = 40,
       tal = true,
     },
     [16166] = {
@@ -740,6 +741,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     },
     [37661] = {
       n = "lightning_bolt",
+      r = 45,
     },
     [51505] = {
       ch = 1,
@@ -747,15 +749,18 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       ct = 2,
       gcd = 1.5,
       n = "lava_burst",
+      r = 40,
       tal = true,
     },
     [54843] = {
       n = "lightning_bolt",
+      r = 45,
     },
     [57994] = {
       cd = 12,
       d = 4,
       n = "wind_shear",
+      r = 30,
       tal = true,
     },
     [61882] = {
@@ -766,6 +771,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       d = 6,
       gcd = 1.5,
       n = "earthquake",
+      r = 40,
       tal = true,
     },
     [77478] = {
@@ -794,11 +800,13 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     },
     [96891] = {
       n = "lightning_bolt",
+      r = 45,
     },
     [114050] = {
       cd = 180,
       gcd = 1.5,
       n = "ascendance",
+      r = 40,
       tal = true,
     },
     [114051] = {
@@ -828,6 +836,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       ct = 2,
       gcd = 1.5,
       n = "elemental_blast",
+      r = 40,
       tal = true,
     },
     [118522] = {
@@ -836,6 +845,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       },
       d = 10,
       n = "elemental_blast_critical_strike",
+      r = 40,
     },
     [157299] = {
       ap = {
@@ -848,6 +858,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       ct = 2,
       gcd = 0.5,
       n = "wind_gust",
+      r = 40,
     },
     [173183] = {
       ap = {
@@ -855,6 +866,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       },
       d = 10,
       n = "elemental_blast_haste",
+      r = 40,
     },
     [173184] = {
       ap = {
@@ -862,11 +874,13 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       },
       d = 10,
       n = "elemental_blast_mastery",
+      r = 40,
     },
     [188196] = {
       ct = 2.5,
       gcd = 1.5,
       n = "lightning_bolt",
+      r = 40,
     },
     [188389] = {
       ap = {
@@ -874,11 +888,13 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       },
       d = 18,
       n = "flame_shock",
+      r = 40,
     },
     [188443] = {
       ct = 2,
       gcd = 1.5,
       n = "chain_lightning",
+      r = 40,
       tal = true,
     },
     [188592] = {
@@ -888,6 +904,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       d = 20,
       gcd = 1,
       n = "fire_elemental",
+      r = 30,
     },
     [191634] = {
       ap = {
@@ -904,6 +921,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     [191732] = {
       ct = 1.5,
       n = "chain_lightning",
+      r = 40,
     },
     [192106] = {
       ap = {
@@ -915,12 +933,14 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     },
     [192109] = {
       n = "lightning_shield",
+      r = 10,
     },
     [192249] = {
       ch = 1,
       chcd = 120,
       gcd = 1.5,
       n = "storm_elemental",
+      r = 40,
     },
     [196840] = {
       ap = {
@@ -929,6 +949,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       d = 6,
       gcd = 1.5,
       n = "frost_shock",
+      r = 40,
       tal = true,
     },
     [197209] = {
@@ -937,6 +958,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       },
       d = 8,
       n = "lightning_rod",
+      r = 40,
     },
     [197568] = {
       n = "lightning_rod",
@@ -946,6 +968,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       chcd = 120,
       gcd = 1.5,
       n = "fire_elemental",
+      r = 40,
     },
     [205495] = {
       ap = {
@@ -966,10 +989,12 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     },
     [211094] = {
       n = "chain_lightning",
+      r = 40,
     },
     [214815] = {
       gain = { [11] = 6 },
       n = "lightning_bolt",
+      r = 30,
     },
     [226180] = {
       gain = { [11] = 10 },
@@ -990,6 +1015,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       gain = { [11] = 3 },
       gcd = 1,
       n = "fire_elemental",
+      r = 30,
     },
     [273324] = {
       n = "lightning_shield",
@@ -999,6 +1025,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     },
     [289439] = {
       n = "frost_shock",
+      r = 40,
     },
     [290431] = {
       ap = {
@@ -1035,12 +1062,14 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     },
     [344174] = {
       n = "lightning_shield",
+      r = 10,
     },
     [344548] = {
       n = "ascendance",
     },
     [344645] = {
       n = "elemental_blast",
+      r = 40,
     },
     [378081] = {
       cd = 60,
@@ -1142,6 +1171,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       ct = 2,
       gcd = 1.5,
       n = "tempest",
+      r = 40,
     },
     [454009] = {
       n = "tempest",
@@ -1164,6 +1194,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       d = 6,
       gcd = 1.5,
       n = "earthquake",
+      r = 40,
       tal = true,
     },
     [462742] = {
@@ -1195,6 +1226,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       cd = 10,
       gcd = 1.5,
       n = "voltaic_blaze",
+      r = 40,
       tal = true,
     },
     [470411] = {
@@ -1204,6 +1236,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       cd = 6,
       gcd = 1.5,
       n = "flame_shock",
+      r = 40,
     },
     [1219480] = {
       ap = {
@@ -1230,6 +1263,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     },
     [1259101] = {
       n = "voltaic_blaze",
+      r = 40,
     },
     [1259471] = {
       n = "purging_flames",

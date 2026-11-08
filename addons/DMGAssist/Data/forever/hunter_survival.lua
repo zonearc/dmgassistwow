@@ -482,67 +482,79 @@ ns.RegisterSpecData("forever", "hunter_survival", {
       cd = 6,
       cost = { [0] = 10 },
       n = "raptor_strike",
+      r = 5,
     },
     [3044] = {
       cd = 6,
       cost = { [0] = 25 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [14260] = {
       cd = 6,
       cost = { [0] = 25 },
       n = "raptor_strike",
+      r = 5,
     },
     [14261] = {
       cd = 6,
       cost = { [0] = 35 },
       n = "raptor_strike",
+      r = 5,
     },
     [14262] = {
       cd = 6,
       cost = { [0] = 45 },
       n = "raptor_strike",
+      r = 5,
     },
     [14263] = {
       cd = 6,
       cost = { [0] = 55 },
       n = "raptor_strike",
+      r = 5,
     },
     [14264] = {
       cd = 6,
       cost = { [0] = 70 },
       n = "raptor_strike",
+      r = 5,
     },
     [14281] = {
       cd = 6,
       cost = { [0] = 35 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [14282] = {
       cd = 6,
       cost = { [0] = 50 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [14283] = {
       cd = 6,
       cost = { [0] = 80 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [14284] = {
       cd = 6,
       cost = { [0] = 105 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [14285] = {
       cd = 6,
       cost = { [0] = 135 },
       gcd = 1.5,
       n = "arcane_shot",
+      r = 35,
     },
     [409379] = {
       ap = {
@@ -551,6 +563,7 @@ ns.RegisterSpecData("forever", "hunter_survival", {
       cd = 60,
       d = 30,
       n = "kill_command",
+      r = 45,
     },
     [409396] = {
       ap = {
@@ -558,6 +571,7 @@ ns.RegisterSpecData("forever", "hunter_survival", {
       },
       d = 30,
       n = "kill_command",
+      r = 45,
       st = 3,
     },
     [409418] = {
@@ -574,6 +588,7 @@ ns.RegisterSpecData("forever", "hunter_survival", {
       ct = 1.5,
       gcd = 1.5,
       n = "steady_shot",
+      r = 35,
     },
   },
   spells = {

@@ -748,12 +748,14 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       ct = 1.5,
       gcd = 1.5,
       n = "immolate",
+      r = 40,
     },
     [1122] = {
       cd = 120,
       d = 0.25,
       gcd = 1.5,
       n = "summon_infernal",
+      r = 30,
       tal = true,
     },
     [5740] = {
@@ -764,6 +766,7 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       d = 8,
       gcd = 1.5,
       n = "rain_of_fire",
+      r = 40,
       tal = true,
     },
     [6353] = {
@@ -771,6 +774,7 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       ct = 3,
       gcd = 1.5,
       n = "soul_fire",
+      r = 40,
       tal = true,
     },
     [17877] = {
@@ -780,6 +784,7 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       cost = { [7] = 1 },
       gcd = 1.5,
       n = "shadowburn",
+      r = 40,
       tal = true,
     },
     [17962] = {
@@ -787,6 +792,7 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       chcd = 12.96,
       gcd = 1.5,
       n = "conflagrate",
+      r = 40,
       tal = true,
     },
     [29341] = {
@@ -797,6 +803,7 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       ct = 2,
       gcd = 1.5,
       n = "incinerate",
+      r = 40,
       st = 5,
     },
     [42223] = {
@@ -810,6 +817,7 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       d = 15,
       gcd = 1.5,
       n = "havoc",
+      r = 40,
       st = 1,
       tal = true,
     },
@@ -831,6 +839,7 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       ct = 3,
       gcd = 1.5,
       n = "chaos_bolt",
+      r = 40,
       tal = true,
     },
     [117828] = {
@@ -846,6 +855,7 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       ct = 2,
       gcd = 1.5,
       n = "cataclysm",
+      r = 40,
       tal = true,
     },
     [157736] = {
@@ -887,6 +897,7 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       d = 3,
       gcd = 1.5,
       n = "channel_demonfire",
+      r = 40,
       tal = true,
     },
     [196448] = {
@@ -894,6 +905,7 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
     },
     [196449] = {
       n = "channel_demonfire",
+      r = 40,
     },
     [213229] = {
       n = "chaos_bolt",
@@ -910,6 +922,7 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
     },
     [224322] = {
       n = "channel_demonfire",
+      r = 40,
     },
     [228312] = {
       ap = {
@@ -1033,15 +1046,18 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       gain = { [7] = 3 },
       gcd = 1.5,
       n = "infernal_bolt",
+      r = 40,
     },
     [434589] = {
       ct = 3,
       n = "chaos_bolt",
+      r = 40,
     },
     [434635] = {
       ct = 1.5,
       gcd = 1.5,
       n = "ruination",
+      r = 40,
     },
     [434636] = {
       n = "ruination",
@@ -1072,6 +1088,7 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       },
       gcd = 1.5,
       n = "wither",
+      r = 40,
     },
     [445474] = {
       ap = {
@@ -1096,6 +1113,7 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       d = 8,
       gcd = 1.5,
       n = "rain_of_fire",
+      r = 40,
       tal = true,
     },
     [1217787] = {

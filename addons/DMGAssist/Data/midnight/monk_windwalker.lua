@@ -1081,12 +1081,14 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       cost = { [3] = 50 },
       gcd = 1.5,
       n = "tiger_palm",
+      r = 5,
     },
     [100784] = {
       cd = 3,
       cost = { [12] = 3 },
       gcd = 1.5,
       n = "blackout_kick",
+      r = 5,
     },
     [101545] = {
       ap = {
@@ -1115,6 +1117,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       cost = { [12] = 2 },
       gcd = 1.5,
       n = "rising_sun_kick",
+      r = 5,
       tal = true,
     },
     [113656] = {
@@ -1126,6 +1129,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       d = 4,
       gcd = 1,
       n = "fists_of_fury",
+      r = 8,
       tal = true,
     },
     [115057] = {
@@ -1150,6 +1154,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
     },
     [117418] = {
       n = "fists_of_fury",
+      r = 8,
     },
     [117952] = {
       ap = {
@@ -1159,6 +1164,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       d = 4,
       gcd = 1.5,
       n = "crackling_jade_lightning",
+      r = 40,
     },
     [117959] = {
       n = "crackling_jade_lightning",
@@ -1171,6 +1177,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
     [120086] = {
       d = 4,
       n = "fists_of_fury",
+      r = 5,
     },
     [122470] = {
       ap = {
@@ -1179,6 +1186,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       cd = 90,
       d = 10,
       n = "touch_of_karma",
+      r = 20,
     },
     [123333] = {
       gain = { [12] = 1 },
@@ -1199,6 +1207,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       d = 20,
       gcd = 1,
       n = "invoke_xuen_the_white_tiger",
+      r = 40,
       tal = true,
     },
     [123986] = {
@@ -1207,6 +1216,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       d = 1,
       gcd = 1.5,
       n = "chi_burst",
+      r = 40,
       tal = true,
     },
     [124280] = {
@@ -1256,6 +1266,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
     },
     [185099] = {
       n = "rising_sun_kick",
+      r = 5,
     },
     [196742] = {
       ap = {
@@ -1269,6 +1280,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       chcd = 4,
       gcd = 1.5,
       n = "blackout_kick",
+      r = 5,
     },
     [209256] = {
       n = "drinking_horn_cover",
@@ -1291,6 +1303,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
     [232055] = {
       d = 4,
       n = "fists_of_fury",
+      r = 8,
     },
     [261682] = {
       gain = { [12] = 1 },
@@ -1309,6 +1322,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       cd = 180,
       gcd = 1.5,
       n = "touch_of_death",
+      r = 5,
     },
     [322111] = {
       n = "touch_of_death",
@@ -1335,6 +1349,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
     },
     [331433] = {
       n = "tiger_palm",
+      r = 5,
     },
     [344360] = {
       n = "touch_of_death",
@@ -1377,13 +1392,16 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       d = 6,
       gcd = 1,
       n = "strike_of_the_windlord",
+      r = 9,
       tal = true,
     },
     [395519] = {
       n = "strike_of_the_windlord",
+      r = 12,
     },
     [395521] = {
       n = "strike_of_the_windlord",
+      r = 12,
     },
     [442719] = {
       n = "restore_balance",
@@ -1488,6 +1506,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       d = 1,
       gcd = 1.5,
       n = "chi_burst",
+      r = 40,
     },
     [467307] = {
       ch = 1,
@@ -1506,6 +1525,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       },
       d = 0.5,
       n = "slicing_winds",
+      r = 30,
     },
     [1217408] = {
       ap = {
@@ -1513,6 +1533,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       },
       d = 0.5,
       n = "slicing_winds",
+      r = 30,
     },
     [1217409] = {
       ap = {
@@ -1520,6 +1541,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       },
       d = 0.5,
       n = "slicing_winds",
+      r = 30,
     },
     [1217410] = {
       n = "slicing_winds",

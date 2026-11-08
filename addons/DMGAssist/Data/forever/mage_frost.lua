@@ -585,6 +585,7 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 8,
       gcd = 1.5,
       n = "blizzard",
+      r = 30,
     },
     [116] = {
       ap = {
@@ -595,6 +596,7 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 5,
       gcd = 1.5,
       n = "frostbolt",
+      r = 30,
     },
     [120] = {
       cd = 10,
@@ -612,6 +614,7 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 6,
       gcd = 1.5,
       n = "frostbolt",
+      r = 30,
     },
     [837] = {
       ap = {
@@ -622,24 +625,28 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 6,
       gcd = 1.5,
       n = "frostbolt",
+      r = 30,
     },
     [1459] = {
       cost = { [0] = 60 },
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 30,
     },
     [1460] = {
       cost = { [0] = 185 },
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 30,
     },
     [1461] = {
       cost = { [0] = 520 },
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 30,
     },
     [6141] = {
       ap = {
@@ -649,6 +656,7 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 8,
       gcd = 1.5,
       n = "blizzard",
+      r = 30,
     },
     [7322] = {
       ap = {
@@ -659,6 +667,7 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 7,
       gcd = 1.5,
       n = "frostbolt",
+      r = 30,
     },
     [8406] = {
       ap = {
@@ -669,6 +678,7 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 7,
       gcd = 1.5,
       n = "frostbolt",
+      r = 30,
     },
     [8407] = {
       ap = {
@@ -679,6 +689,7 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 8,
       gcd = 1.5,
       n = "frostbolt",
+      r = 30,
     },
     [8427] = {
       ap = {
@@ -688,6 +699,7 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 8,
       gcd = 1.5,
       n = "blizzard",
+      r = 30,
     },
     [8492] = {
       cd = 10,
@@ -701,12 +713,14 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 30,
     },
     [10157] = {
       cost = { [0] = 1510 },
       d = 3600,
       gcd = 1.5,
       n = "arcane_intellect",
+      r = 30,
     },
     [10159] = {
       cd = 10,
@@ -737,6 +751,7 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 8,
       gcd = 1.5,
       n = "blizzard",
+      r = 30,
     },
     [10186] = {
       ap = {
@@ -746,6 +761,7 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 8,
       gcd = 1.5,
       n = "blizzard",
+      r = 30,
     },
     [10187] = {
       ap = {
@@ -755,11 +771,13 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 8,
       gcd = 1.5,
       n = "blizzard",
+      r = 30,
     },
     [400640] = {
       cost = { [0] = 55 },
       gcd = 1.5,
       n = "ice_lance",
+      r = 30,
     },
     [400647] = {
       n = "fingers_of_frost",
@@ -794,6 +812,7 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 16,
       gcd = 1.5,
       n = "frozen_orb",
+      r = 40,
     },
     [440804] = {
       n = "frozen_orb",
@@ -815,26 +834,31 @@ ns.RegisterSpecData("forever", "mage_frost", {
       cost = { [0] = 70 },
       gcd = 1.5,
       n = "ice_lance",
+      r = 30,
     },
     [1240045] = {
       cost = { [0] = 105 },
       gcd = 1.5,
       n = "ice_lance",
+      r = 30,
     },
     [1240046] = {
       cost = { [0] = 120 },
       gcd = 1.5,
       n = "ice_lance",
+      r = 30,
     },
     [1240047] = {
       cost = { [0] = 160 },
       gcd = 1.5,
       n = "ice_lance",
+      r = 30,
     },
     [1312002] = {
       cost = { [0] = 45 },
       gcd = 1.5,
       n = "ice_lance",
+      r = 30,
       tal = true,
     },
   },

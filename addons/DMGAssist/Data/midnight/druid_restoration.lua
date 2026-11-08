@@ -394,6 +394,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       d = 4,
       gcd = 1,
       n = "rip",
+      r = 5,
       tal = true,
     },
     [1822] = {
@@ -404,6 +405,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "rake",
+      r = 5,
       tal = true,
     },
     [3025] = {
@@ -414,6 +416,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       ct = 1.5,
       gcd = 1.5,
       n = "wrath",
+      r = 40,
     },
     [5215] = {
       cd = 6,
@@ -425,6 +428,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "shred",
+      r = 5,
     },
     [5487] = {
       gcd = 1.5,
@@ -433,6 +437,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
     [8921] = {
       gcd = 1.5,
       n = "moonfire",
+      r = 40,
     },
     [17057] = {
       ap = {
@@ -445,12 +450,14 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
     [18104] = {
       gcd = 1.5,
       n = "wrath",
+      r = 5,
     },
     [22568] = {
       cmax = { [4] = 5 },
       cost = { [3] = 25, [4] = 1 },
       gcd = 1,
       n = "ferocious_bite",
+      r = 5,
     },
     [24858] = {
       gcd = 1.5,
@@ -463,6 +470,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       gain = { [1] = 120 },
       gcd = 1.5,
       n = "mangle",
+      r = 5,
     },
     [48629] = {
       n = "cat_form",
@@ -472,16 +480,19 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       gain = { [1] = 50 },
       gcd = 1.5,
       n = "thrash",
+      r = 8,
     },
     [78674] = {
       cost = { [8] = 40 },
       gcd = 1.5,
       n = "starsurge",
+      r = 40,
       tal = true,
     },
     [93402] = {
       gcd = 1.5,
       n = "sunfire",
+      r = 40,
       tal = true,
     },
     [102547] = {
@@ -494,6 +505,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "swipe",
+      r = 8,
     },
     [106829] = {
       n = "bear_form",
@@ -504,6 +516,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "thrash",
+      r = 8,
     },
     [106840] = {
       n = "cat_form",
@@ -562,6 +575,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "moonfire",
+      r = 40,
     },
     [155722] = {
       ap = {
@@ -604,6 +618,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       ct = 1.5,
       gcd = 1.5,
       n = "wrath",
+      r = 40,
     },
     [192090] = {
       ap = {
@@ -618,6 +633,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       gain = { [8] = 8 },
       gcd = 1.5,
       n = "starfire",
+      r = 40,
       tal = true,
     },
     [197625] = {
@@ -629,12 +645,14 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       cd = 10,
       gcd = 1.5,
       n = "starsurge",
+      r = 40,
       tal = true,
     },
     [197628] = {
       ct = 2.5,
       gcd = 1.5,
       n = "starfire",
+      r = 40,
       tal = true,
     },
     [211141] = {
@@ -645,11 +663,13 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
     [213764] = {
       gcd = 1,
       n = "swipe",
+      r = 8,
       tal = true,
     },
     [213771] = {
       gcd = 1.5,
       n = "swipe",
+      r = 8,
     },
     [231064] = {
       n = "mangle",
@@ -726,6 +746,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       cd = 5,
       gcd = 0.5,
       n = "moonfire",
+      r = 40,
     },
     [449193] = {
       n = "fluid_form",
@@ -766,6 +787,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       cd = 120,
       d = 1,
       n = "heart_of_the_wild",
+      r = 40,
       tal = true,
     },
     [1261868] = {
@@ -775,13 +797,16 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       cd = 120,
       d = 1,
       n = "heart_of_the_wild",
+      r = 8,
     },
     [1264677] = {
       ct = 2,
       n = "starsurge",
+      r = 40,
     },
     [1271222] = {
       n = "starsurge",
+      r = 60,
     },
     [1280133] = {
       ap = {
