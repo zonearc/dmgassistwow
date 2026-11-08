@@ -1,0 +1,74 @@
+# update.ps1: download the latest nightly build of DMGAssist and DMGAssist_Watchdog and install them.
+# Run by DMGAssistUpdater.ahk (the tray icon); can also be run by hand:
+#   powershell -ExecutionPolicy Bypass -File update.ps1 -AddOns "C:\...\Interface\AddOns" -Result "$env:TEMP\r.txt"
+#
+# The repository is private, so it needs a GitHub token with read access to zonearc/dmgassistwow
+# (fine-grained token, repository access: only that repository, permission Contents: Read-only), saved in
+# %APPDATA%\DMGAssistUpdater\token.txt by the tray icon's "Set GitHub token..." item.
+#
+# Safe order: both zips are downloaded and checked first; only then are the installed folders replaced.
+# The result ("OK <release name>" or "ERROR <message>") is written to -Result for the tray icon to show.
+
+param(
+  [Parameter(Mandatory = $true)][string]$AddOns,
+  [Parameter(Mandatory = $true)][string]$Result
+)
+
+$ErrorActionPreference = 'Stop'
+$ProgressPreference = 'SilentlyContinue' # the progress bar makes Invoke-WebRequest very slow on PowerShell 5
+$repo = 'zonearc/dmgassistwow'
+$addonNames = @('DMGAssist', 'DMGAssist_Watchdog')
+$work = $null
+
+try {
+  [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+  if (-not (Test-Path -LiteralPath $AddOns)) {
+    throw "The AddOns folder was not found: $AddOns"
+  }
+  $tokenFile = Join-Path $env:APPDATA 'DMGAssistUpdater\token.txt'
+  if (-not (Test-Path -LiteralPath $tokenFile)) {
+    throw 'No GitHub token saved yet: right-click the tray icon, "Set GitHub token...".'
+  }
+  $token = (Get-Content -LiteralPath $tokenFile -Raw).Trim()
+
+  $headers = @{
+    Authorization = "Bearer $token"
+    Accept        = 'application/vnd.github+json'
+    'User-Agent'  = 'DMGAssistUpdater'
+  }
+  try {
+    $release = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/tags/nightly" -Headers $headers
+  } catch {
+    throw "GitHub refused the request (token wrong or expired, or no access to $repo): $($_.Exception.Message)"
+  }
+
+  $work = Join-Path $env:TEMP ('dmgassist-update-' + [guid]::NewGuid().ToString('N'))
+  New-Item -ItemType Directory -Path $work | Out-Null
+
+  # 1. Download and check everything first.
+  foreach ($addon in $addonNames) {
+    $asset = $release.assets | Where-Object { $_.name -eq "$addon.zip" }
+    if (-not $asset) { throw "$addon.zip is not in the nightly release." }
+    $zip = Join-Path $work "$addon.zip"
+    $download = $headers.Clone()
+    $download.Accept = 'application/octet-stream' # the API URL of an asset returns the file itself
+    Invoke-WebRequest -Uri $asset.url -Headers $download -OutFile $zip -UseBasicParsing
+    Expand-Archive -LiteralPath $zip -DestinationPath (Join-Path $work "unzipped-$addon") -Force
+    $toc = Join-Path $work "unzipped-$addon\$addon\$addon.toc"
+    if (-not (Test-Path -LiteralPath $toc)) { throw "$addon.zip does not contain $addon\$addon.toc." }
+  }
+
+  # 2. Replace the installed copies.
+  foreach ($addon in $addonNames) {
+    $dest = Join-Path $AddOns $addon
+    if (Test-Path -LiteralPath $dest) { Remove-Item -LiteralPath $dest -Recurse -Force }
+    Copy-Item -LiteralPath (Join-Path $work "unzipped-$addon\$addon") -Destination $dest -Recurse
+  }
+
+  Set-Content -LiteralPath $Result -Value ("OK " + $release.name)
+} catch {
+  Set-Content -LiteralPath $Result -Value ("ERROR " + $_.Exception.Message)
+} finally {
+  if ($work -and (Test-Path -LiteralPath $work)) { Remove-Item -LiteralPath $work -Recurse -Force }
+}

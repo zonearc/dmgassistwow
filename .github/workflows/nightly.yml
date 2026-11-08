@@ -56,6 +56,8 @@ jobs:
             echo "2. Unzip both into \`World of Warcraft/_retail_/Interface/AddOns/\` (Forever: the same folder of the client you play)."
             echo "3. Restart the game (or /reload). Type \`/dmga\` to check it's loaded."
             echo
+            echo "Windows tray updater (one click instead of steps 1-2): **DMGAssist_Updater.zip**, see its README."
+            echo
             echo "### Data in this build"
             echo "- SimulationCraft midnight \`$simc_m\`, forever \`$simc_f\`"
             echo "- Forever rotations: [WoWSims](https://wowsims.com/forever) \`$ws\`, Forever game data \`$gd\`"
@@ -66,7 +68,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
+          (cd tools && zip -qr ../dist/DMGAssist_Updater.zip updater)
           gh release delete nightly --yes --cleanup-tag 2>/dev/null || true
-          gh release create nightly dist/DMGAssist.zip dist/DMGAssist_Watchdog.zip \
+          gh release create nightly dist/DMGAssist.zip dist/DMGAssist_Watchdog.zip dist/DMGAssist_Updater.zip \
             "dist/DMGAssist-$VERSION.zip" "dist/DMGAssist_Watchdog-$VERSION.zip" \
             --target "$GITHUB_SHA" --prerelease --title "Nightly build ($VERSION)" --notes-file release-notes.md
