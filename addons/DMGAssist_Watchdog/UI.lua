@@ -1,5 +1,5 @@
 -- UI.lua: a small viewer. One scrollable text box shows either the summary or
--- an export string (pre-selected, so Ctrl+C copies it). Created lazily, never
+-- the report string (pre-selected, so Ctrl+C copies it for pasting into the chat). Created lazily, never
 -- in combat-critical code.
 
 local _, ns = ...
@@ -62,14 +62,14 @@ local function Build()
     b:SetPoint("BOTTOMLEFT", x, 12)
     x = x + b:GetWidth() + 6
   end
-  place(Button(frame, "Summary", 90, function()
-    V.ShowSummary()
+  place(Button(frame, "Copy report", 110, function()
+    V.ShowExport("last")
   end))
-  place(Button(frame, "Export all", 100, function()
+  place(Button(frame, "Copy everything", 130, function()
     V.ShowExport("all")
   end))
-  place(Button(frame, "Export last", 100, function()
-    V.ShowExport("last")
+  place(Button(frame, "Summary", 90, function()
+    V.ShowSummary()
   end))
   place(Button(frame, "Run probe", 100, function()
     if InCombatLockdown() then
@@ -107,14 +107,15 @@ function V.ShowExport(scope)
     SetText("Export failed: " .. tostring(fmt), false)
     return
   end
-  U.Print("Export ready (%s, %d characters). Press Ctrl+C to copy.", fmt, len)
+  U.Print("Report ready (%d characters, already selected): press Ctrl+C, then paste it into the chat.", len)
   SetText(str, true)
 end
 
+-- /dmgw opens straight to the report, selected, ready for Ctrl+C.
 function V.Toggle()
   if frame and frame:IsShown() then
     frame:Hide()
   else
-    V.ShowSummary()
+    V.ShowExport("last")
   end
 end

@@ -23,7 +23,8 @@ D.DEFAULTS = {
   iconSize = 52, nextSize = 38, cdSize = 34, spacing = 6, padding = 6,
   queueAlpha = 0.85, dimGuesses = true,
   background = false, bgAlpha = 0.55, border = "none", borderAlpha = 0.6,
-  header = false, keybind = true, keybindSize = 14, keybindPos = "TOPRIGHT",
+  header = false, keybind = true, keybindSize = 14, keybindPos = "TOPRIGHT", keybindColor = "white",
+  nameColor = "white",
   spellNames = false, nameSize = 10, labels = false,
   font = "default", outline = "OUTLINE", calloutSize = 14,
   gcdBar = true, glow = "pulse",
@@ -70,6 +71,28 @@ local function FontPath(choice)
 end
 
 local GOLD = { 1, 0.69, 0 }
+
+-- Text colors offered for keybinds and spell names (Options > Display > Text).
+D.TEXT_COLORS = {
+  { "white", "White", { 1, 1, 1 } },
+  { "gold", "Gold", { 1, 0.82, 0 } },
+  { "yellow", "Yellow", { 1, 1, 0.2 } },
+  { "orange", "Orange", { 1, 0.55, 0.1 } },
+  { "red", "Red", { 1, 0.25, 0.2 } },
+  { "pink", "Pink", { 1, 0.45, 0.8 } },
+  { "cyan", "Cyan", { 0.3, 0.9, 1 } },
+  { "green", "Green", { 0.35, 1, 0.35 } },
+  { "grey", "Grey", { 0.7, 0.7, 0.7 } },
+}
+local COLOR_RGB = {}
+for _, c in ipairs(D.TEXT_COLORS) do
+  COLOR_RGB[c[1]] = c[3]
+end
+
+local function SetColor(fontString, name)
+  local rgb = COLOR_RGB[name] or COLOR_RGB.white
+  fontString:SetTextColor(rgb[1], rgb[2], rgb[3])
+end
 local SOURCE_TEXT = {
   simc = "", ["simc+assisted"] = "", ["simc+rules"] = "",
   assisted = "AC", rules = "B", ["rules?"] = "?", guess = "?", pool = "...",
@@ -304,10 +327,12 @@ local function Icon(parent, size, cfg)
   f.source:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -2, 2)
   f.key = f:CreateFontString(nil, "OVERLAY")
   SetFont(f.key, cfg.keybindSize)
+  SetColor(f.key, cfg.keybindColor)
   f.key:SetPoint(cfg.keybindPos, f, cfg.keybindPos, cfg.keybindPos:find("LEFT") and 2 or -2,
     cfg.keybindPos:find("TOP") and -2 or 2)
   f.name = f:CreateFontString(nil, "OVERLAY")
   SetFont(f.name, cfg.nameSize)
+  SetColor(f.name, cfg.nameColor)
   f.name:SetPoint("TOP", f, "BOTTOM", 0, -2)
   f.name:SetWidth(size + 24)
   f.label = f:CreateFontString(nil, "OVERLAY")
@@ -510,11 +535,15 @@ function D.Rebuild()
     icon.key:SetPoint(cfg.keybindPos, icon, cfg.keybindPos, cfg.keybindPos:find("LEFT") and 2 or -2,
       cfg.keybindPos:find("TOP") and -2 or 2)
     SetFont(icon.name, cfg.nameSize)
+    SetColor(icon.key, cfg.keybindColor)
+    SetColor(icon.name, cfg.nameColor)
   end
   for _, icon in ipairs({ f.branch, f.kick, f.def }) do
     if icon then
       SetFont(icon.key, cfg.keybindSize)
       SetFont(icon.name, cfg.nameSize)
+      SetColor(icon.key, cfg.keybindColor)
+      SetColor(icon.name, cfg.nameColor)
     end
   end
   SetFont(f.header, 11)

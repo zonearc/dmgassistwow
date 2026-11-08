@@ -401,6 +401,9 @@ local function RecordCast(id, how)
   S.lastCast[id] = GetTime()
   ns.Clues.OnCast()
   ns.Clues.OnOwnCast(id)
+  if ns.Engine then
+    ns.Engine.OnOwnCast()
+  end
   if ns.Interrupts then
     ns.Interrupts.OnOwnCast(id)
   end
@@ -688,8 +691,12 @@ local function AuraState(unit, token)
   if read then
     return false, 0, 0
   end
-  -- Never seen this fight: if it is one of ours with a known duration we would have started its clock.
+  -- Never seen this fight: if one of our own spells applies it (SimC's data says so), we would have seen that
+  -- cast and started its clock, so it is down. Same for links learned in game.
   for _, t in ipairs(list) do
+    if M.IsOwnAura(t) and AuraLength(t) then
+      return false, 0, 0
+    end
     if S.learned.aura[t] then
       for _, applied in pairs(S.learned.castAura) do
         if applied == t then
@@ -908,7 +915,7 @@ end
 -- Look-ahead overlay
 ---------------------------------------------------------------------------
 function S.BeginLookahead(dt)
-  V = { dt = dt or 0, cd = {}, aura = {}, dot = {}, power = {}, powerAbs = {}, prev = {} }
+  V = { dt = dt or 0, cd = {}, aura = {}, dot = {}, power = {}, powerAbs = {}, prev = {}, cast = {} }
   return V
 end
 
@@ -970,9 +977,25 @@ function S.Apply(id)
       end
     end
   end
+  V.cast[id] = at
   table.insert(V.prev, 1, info.n or M.TokenForID(id))
   local castTime = info.ct and info.ct / HasteFactor() or 0
   V.dt = V.dt + math.max(S.GCD(id), castTime)
+end
+
+-- Seconds since `id` was last cast in this fight (a predicted cast in the look-ahead counts), or nil if it
+-- has not been. Out of combat, casts since the last fight ended count, so a pre-pull cast is remembered.
+-- Used for SimC's line_cd ("this line at most once every N seconds").
+function S.SinceCast(id)
+  if V and V.cast[id] then
+    return Now() - V.cast[id]
+  end
+  local last = S.lastCast[id]
+  local from = (S.combatStart or S.combatEnd or 0) - 3
+  if last and last >= from then
+    return Now() - last
+  end
+  return nil
 end
 
 ---------------------------------------------------------------------------
@@ -1329,6 +1352,7 @@ function S.OnCombat(inCombat)
   else
     U.Log("tracking", { seen = S.castsSeen, secret = S.castsSecret, inferred = S.castsInferred, drift = S.drift })
     S.combatStart = nil
+    S.combatEnd = GetTime()
     S.history = {}
   end
 end

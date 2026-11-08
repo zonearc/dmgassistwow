@@ -208,6 +208,47 @@ test("public hook logs into the current session", function()
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("BugSack users: errors BugGrabber caught are pulled into the report", function()
+  local bugs = {
+    { message = "MainMenuBarMicroButtons.lua:425: attempt to call a nil value", stack = "[C]: ?", counter = 225,
+      session = 7, locals = "self=PlayerSpellsMicroButton" },
+    { message = "old session error", counter = 1, session = 6 },
+  }
+  BugGrabber = {
+    GetDB = function() return bugs end,
+    GetSessionId = function() return 7 end,
+  }
+  eq(ns.Errors.PullBugGrabber(), 1, "only this session's error")
+  local found
+  for _, e in ipairs(DMGAssistWatchdogDB.errors) do
+    if e.msg:find("MicroButtons", 1, true) then
+      found = e
+    end
+  end
+  eq(found and found.count, 225, "BugGrabber's count kept")
+  eq(found.source, "BugGrabber")
+  eq(ns.Errors.PullBugGrabber(), 0, "pulling again adds nothing")
+  bugs[1].counter = 230
+  ns.Errors.PullBugGrabber()
+  eq(found.count, 230, "count follows BugGrabber")
+  eq(ns.Export.Summary():find("via BugGrabber", 1, true) ~= nil, true, "summary shows it")
+  BugGrabber = { GetDB = function() error("changed API") end }
+  eq(ns.Errors.PullBugGrabber(), 0, "a broken BugGrabber is harmless")
+  BugGrabber = nil
+end)
+
+test("/dmgw opens the report already selected, and DMGAssist can open it too", function()
+  ns.UI.ShowSummary() -- make sure the panel exists, then start closed
+  local frame = DMGAssistWatchdogFrame
+  frame:Hide()
+  ns.UI.Toggle()
+  eq(frame:IsShown(), true)
+  frame:Hide()
+  DMGAssistWatchdog.OpenReport()
+  eq(frame:IsShown(), true)
+  frame:Hide()
+end)
+
 test("no internal watchdog errors were recorded", function()
   for _, e in ipairs(DMGAssistWatchdogDB.errors) do
     if e.kind == "watchdog_internal" or e.kind == "probe" then

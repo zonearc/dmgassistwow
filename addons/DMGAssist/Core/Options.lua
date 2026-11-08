@@ -25,6 +25,9 @@ local function Apply()
   if ns.State then
     ns.State.modeOverride = nil
   end
+  if ns.Minimap then
+    ns.Minimap.Apply()
+  end
 end
 
 local function DB()
@@ -170,6 +173,8 @@ function O.Register()
   Check(main, HUD, "keybind", "Keybind on icons", H.keybind)
   Check(main, HUD, "highlight", "Highlight the button on your action bars", H.highlight,
     "Glows the real action button for the next spell (Blizzard bars, Bartender, ElvUI, Dominos).")
+  Check(main, DB, "minimap", "Minimap button", true,
+    "Left-click: settings. Right-click: show / hide. Shift-click: Watchdog report. Drag to move it.")
   Check(main, DB, "locked", "Lock position", true,
     "Unlock to drag the icons; they are also shown while this panel is open.")
   Button(main, "Keybinds", "Refresh keybinds", function()
@@ -202,8 +207,10 @@ function O.Register()
   Slider(display, HUD, "keybindSize", "Keybind text size", H.keybindSize, 8, 24, 1)
   Choice(display, HUD, "keybindPos", "Keybind position", H.keybindPos,
     { { "TOPRIGHT", "Top right" }, { "TOPLEFT", "Top left" }, { "BOTTOMLEFT", "Bottom left" }, { "CENTER", "Center" } })
+  Choice(display, HUD, "keybindColor", "Keybind color", H.keybindColor, ns.Display.TEXT_COLORS)
   Check(display, HUD, "spellNames", "Spell names under icons", H.spellNames)
   Slider(display, HUD, "nameSize", "Spell name size", H.nameSize, 8, 18, 1)
+  Choice(display, HUD, "nameColor", "Spell name color", H.nameColor, ns.Display.TEXT_COLORS)
   Check(display, HUD, "labels", "NOW / NEXT labels", H.labels)
   Header(display, "Effects")
   Choice(display, HUD, "glow", "Main icon glow", H.glow,

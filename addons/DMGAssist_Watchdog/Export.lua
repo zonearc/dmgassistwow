@@ -29,6 +29,7 @@ function X.Build(scope)
   if not db then
     return nil
   end
+  ns.Errors.PullBugGrabber()
   local data = {
     format = "dmgassist-watchdog",
     schema = ns.SCHEMA,
@@ -42,7 +43,7 @@ function X.Build(scope)
   if scope == "last" then
     data.sessions = Tail(db.sessions, 1)
     data.probes = Tail(db.probes, 2)
-    data.notes = Tail(db.notes, 20)
+    data.notes = Tail(db.notes, 60)
     data.launch = Tail(db.launch or {}, 1)
   else
     data.sessions = db.sessions
@@ -148,13 +149,38 @@ function X.Summary()
   else
     add("No probe yet. Type /dmgw probe")
   end
+  add("")
+  add("To share: press 'Copy report', then Ctrl+C and paste it into the chat. No /reload needed.")
+  local last = db.sessions[#db.sessions]
+  if last then
+    add("")
+    add("Last fight: %s, %.0f s in %s, %d events%s", tostring(last.when), tonumber(last.duration) or 0,
+      tostring(last.zone), #(last.events or {}), (last.dropped or 0) > 0 and (" (" .. last.dropped .. " dropped)") or "")
+    local perf = last.perf and last.perf.DMGAssist
+    if perf then
+      add("  DMGAssist CPU: %.2f ms average, %.1f ms peak", perf.recentAvgMs or 0, perf.peakMs or 0)
+    end
+  end
+  local notes = Tail(db.notes, 12)
+  if #notes > 0 then
+    add("")
+    add("Latest DMGAssist notes:")
+    for i = #notes, 1, -1 do
+      local n = notes[i]
+      local d = n.data
+      local text = type(d) == "table" and (tostring(d.kind or "") .. " " .. tostring(d.data or "")) or tostring(d)
+      add("  %s %s %s", tostring(n.when), tostring(n.kind), string.sub(text, 1, 110))
+    end
+  end
+  ns.Errors.PullBugGrabber()
   local recent = Tail(db.errors, 5)
   if #recent > 0 then
     add("")
     add("Most recent errors:")
     for i = #recent, 1, -1 do
       local e = recent[i]
-      add("  [%s x%d%s] %s", tostring(e.kind), e.count or 1, e.ours and " OURS" or "",
+      add("  [%s x%d%s%s] %s", tostring(e.kind), e.count or 1, e.ours and " OURS" or "",
+        e.source and (" via " .. e.source) or "",
         string.sub(tostring(e.msg), 1, 120))
     end
   end

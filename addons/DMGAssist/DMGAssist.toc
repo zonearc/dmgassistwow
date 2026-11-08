@@ -4,6 +4,7 @@
 ## Author: zonearc
 ## Version: 0.1.0
 ## IconTexture: Interface\Icons\Spell_Holy_FistOfJustice
+## AddonCompartmentFunc: DMGAssist_OnCompartmentClick
 ## SavedVariables: DMGAssistDB
 ## OptionalDeps: DMGAssist_Watchdog
 ## X-Curse-Project-ID: 1481713
@@ -25,6 +26,7 @@ Core\Diagnostics.lua
 Core\Engine.lua
 Core\Display.lua
 Core\Options.lua
+Core\Minimap.lua
 
 # BEGIN GENERATED DATA (tools/simc_import.py)
 Data\midnight\Index.lua [AllowLoadGameType standard]

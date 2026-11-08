@@ -4,7 +4,7 @@ local _, ns = ...
 local U = ns.U
 
 local HELP = {
-  "/dmgw              open the viewer (summary)",
+  "/dmgw              open the report, selected: Ctrl+C, then paste it into the chat",
   "/dmgw probe        run an API probe now (out of combat)",
   "/dmgw export       export everything as one copyable string",
   "/dmgw export last  export only the latest session and probes",
@@ -14,7 +14,7 @@ local HELP = {
   "/dmgw testing on|off test-build logging (taint log, more events, notices); on by default while we test",
   "/dmgw launch      record the launch snapshot again (addons, CVars, client, restrictions)",
   "/dmgw clear        wipe all Watchdog data",
-  "Easiest export: /reload, then upload WTF/Account/<ACCOUNT>/SavedVariables/DMGAssist_Watchdog.lua",
+  "No /reload needed: the report always holds what happened up to now.",
 }
 
 -- Client settings (12.0.5+) that make the game behave as if restrictions were
@@ -120,6 +120,10 @@ DMGAssistWatchdog = {
   end,
   Error = function(message)
     ns.Errors.Record("dmgassist", message)
+  end,
+  -- Open the panel with the report selected (DMGAssist's minimap button, shift-click).
+  OpenReport = function()
+    ns.UI.ShowExport("last")
   end,
   version = ns.VERSION,
 }

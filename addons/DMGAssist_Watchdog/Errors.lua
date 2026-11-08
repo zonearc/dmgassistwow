@@ -132,6 +132,53 @@ function E.HandleEvent(event, arg1, arg2)
   end
 end
 
+-- BugSack users: !BugGrabber loads first and keeps the global error handler for itself, so ours never sees
+-- errors. Read what it caught instead, when building a report. Only BugGrabber's read calls that BugSack
+-- uses to list errors are touched (GetDB, GetSessionId), each guarded; unverified against its source here, so
+-- every pull logs whether it worked ("buggrabber_pull").
+local pulled = {}  -- BugGrabber error table -> counter already taken
+function E.PullBugGrabber()
+  local bg = _G.BugGrabber
+  if type(bg) ~= "table" or type(bg.GetDB) ~= "function" or not ns.db then
+    return 0
+  end
+  local ok, list = pcall(bg.GetDB, bg)
+  if not ok or type(list) ~= "table" then
+    S.Note("buggrabber_pull", { ok = false })
+    return 0
+  end
+  local session
+  if type(bg.GetSessionId) == "function" then
+    local okS, id = pcall(bg.GetSessionId, bg)
+    session = okS and id or nil
+  end
+  local added = 0
+  for _, err in ipairs(list) do
+    if type(err) == "table" and type(err.message) == "string" and (session == nil or err.session == session) then
+      local counter = tonumber(err.counter) or 1
+      local before = pulled[err] or 0
+      if counter > before then
+        pulled[err] = counter
+        local key = "lua:" .. string.sub(err.message, 1, 300)
+        local existing = byKey[key]
+        if existing then
+          existing.count = math.max(existing.count, counter)
+        else
+          E.Record("lua", err.message, err.stack)
+          local entry = byKey[key]
+          if entry then
+            entry.count = counter
+            entry.source = "BugGrabber"
+            entry.locals = U.Safe(err.locals, 600)
+          end
+          added = added + 1
+        end
+      end
+    end
+  end
+  return added
+end
+
 E.EVENTS = {
   "ADDON_ACTION_BLOCKED",
   "ADDON_ACTION_FORBIDDEN",

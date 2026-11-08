@@ -303,9 +303,10 @@ test("on Forever an UNKNOWN line can be corroborated by Blizzard's rule", functi
   local ns = Boot("camelot", 18)
   local rec = Record()
   rec.simc.finisher = {}
+  rec.simc.default[4].c = "!debuff.someone_elses.up" -- not our debuff: hidden in combat
   mock.cooldowns[5221] = { active = true, start = 999, duration = 10 } -- shred on cooldown
   Restrict()
-  -- rake's dot state is UNKNOWN; Blizzard's rake rule (combo_points<5) is UNKNOWN too: no corroboration.
+  -- rake's condition is UNKNOWN; Blizzard's rake rule (combo_points<5) is UNKNOWN too: no corroboration.
   local r = ns.Engine.Recommend(rec, {})
   eq(r.main.token, "thrash", "falls back to Blizzard's rules")
   eq(r.main.source, "rules")
@@ -322,8 +323,10 @@ test("restricted combat: secret resources become UNKNOWN, nothing errors", funct
   eq(ns.State.Resolve("combo_points", {}), ns.Expr.UNKNOWN)
   eq(ns.State.Resolve("cooldown.tigers_fury.ready", {}), 1, "isActive is never secret")
   eq(ns.State.Resolve("gcd", {}) > 0, true)
-  local r = ns.Engine.Recommend(Record(), { useAssisted = true })
-  -- finisher list is UNKNOWN (combo points), rake UNKNOWN, shred certain
+  local rec = Record()
+  rec.simc.default[4].c = "!debuff.someone_elses.up"
+  local r = ns.Engine.Recommend(rec, { useAssisted = true })
+  -- finisher list is UNKNOWN (combo points), rake UNKNOWN (someone else's debuff), shred certain
   eq(r.main.token, "shred")
 end)
 
@@ -1551,6 +1554,66 @@ test("Forever Feral switches to the bear list in Bear Form", function()
   mock.usable[6807] = { false, false }
   eq(ns.ActiveRecord(state).key, "druid_feral", "Maul unusable (not in bear) -> cat")
   GetShapeshiftFormID = nil
+end)
+
+-- Balance's opener, as SimC writes it: a once-per-fight Moonfire, a variable set before the pull and cleared
+-- by Celestial Alignment, and a target_if filter that only passes with more than one target.
+local function Opener()
+  return {
+    key = "druid_feral",
+    simc = {
+      precombat = { { a = "variable", k = "S", p = { name = "opener", value = "1" } } },
+      default = {
+        { a = "variable", k = "T", c = "buff.tigers_fury.up", p = { name = "opener", op = "set", value = "0" } },
+        { a = "run_action_list", k = "T", c = "variable.opener", p = { name = "opener" } },
+        { a = "shred", k = "R" },
+      },
+      opener = {
+        { a = "moonfire", k = "R", p = { line_cd = "999" } },
+        { a = "moonfire", k = "R", p = { target_if = "refreshable&spell_targets>1" } },
+        { a = "tigers_fury", k = "R" },
+      },
+    },
+    spells = { moonfire = { a = { 8921 } }, shred = { a = { 5221 } }, tigers_fury = { a = { 5217 } } },
+    spellInfo = {
+      [8921] = { n = "moonfire", gcd = 1, d = 16, ap = { { 8921, "enemy" } } },
+      [5221] = { n = "shred", gcd = 1 },
+      [5217] = { n = "tigers_fury", cd = 30, d = 10, ap = { { 5217, "self" } } },
+    },
+  }
+end
+
+test("line_cd, target_if and fight-long variables move an opener along", function()
+  Reset()
+  local ns = Boot()
+  local rec = Opener()
+  Feral(ns, rec)
+  Restrict()
+  eq(Tokens(ns.Engine.Recommend(rec, {})), "moonfire > tigers_fury > shred", "once-per-fight Moonfire, then on")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 8921)
+  mock.Advance(1.5)
+  eq(ns.Engine.Recommend(rec, {}).main.token, "tigers_fury", "Moonfire's line used; single target fails target_if")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  mock.Advance(1.5)
+  eq(ns.Engine.Recommend(rec, {}).main.token, "shred", "opener variable cleared by the buff")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5221)
+  mock.Advance(12)
+  eq(ns.Engine.Recommend(rec, {}).main.token, "shred", "buff gone, but the opener stays over for the fight")
+  mock.inCombat = false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.Advance(5)
+  eq(ns.Engine.Recommend(rec, {}).main.token, "moonfire", "a new fight starts with the opener again")
+end)
+
+test("hidden auras: one our spells apply and we never cast this fight is down", function()
+  Reset()
+  local ns = Boot()
+  Feral(ns, QRecord({ { a = "shred", k = "R" } }))
+  Restrict()
+  eq(ns.State.Resolve("buff.tigers_fury.up", {}), 0, "never cast -> down")
+  eq(ns.State.Resolve("buff.someone_elses.up", {}), ns.Expr.UNKNOWN, "not ours -> unknown")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  eq(ns.State.Resolve("buff.tigers_fury.up", {}), 1, "cast -> our clock runs")
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

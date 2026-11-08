@@ -318,7 +318,8 @@ pcall(frame.RegisterUnitEvent, frame, "UNIT_AURA", "player", "target")
 
 local DEFAULTS = { enabled = true, burst = true, mode = "st", autoDetect = true, aoeTargets = 3, fightLength = 300,
   useAssisted = true, queue = 3, smartFight = true, bossMods = true, interruptMode = "smart",
-  defensiveMode = "smart", defensiveHealth = 35, defensiveLead = 3, sounds = true, locked = true }
+  defensiveMode = "smart", defensiveHealth = 35, defensiveLead = 3, sounds = true, locked = true,
+  minimap = true, minimapAngle = 220 }
 ns.DEFAULTS = DEFAULTS
 
 frame:SetScript("OnEvent", function(_, event, ...)
@@ -332,11 +333,13 @@ frame:SetScript("OnEvent", function(_, event, ...)
         end
       end
       ns.db = DMGAssistDB
+      ns.Sounds.Migrate()
       ns.Client.Detect()
     end
     ns.BossMods.Hook() -- boss mods can load before us, after us, or on demand
     D.InvalidateKeybinds() -- a bar addon may have just loaded
   elseif event == "PLAYER_LOGIN" then
+    ns.Minimap.Apply()
     local state = Specs.Refresh("login")
     U.Print("%s", Describe(state))
     local loaded = ns.Data.LoadedBranches()
@@ -353,6 +356,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
   elseif event == "PLAYER_REGEN_DISABLED" then
     inCombat = true
     S.OnCombat(true)
+    ns.Engine.OnCombat()
     ns.Diagnostics.OnCombat(true)
     if ns.TESTING then
       -- test builds: one decision snapshot a few seconds into every fight, without chat output
@@ -365,6 +369,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
   elseif event == "PLAYER_REGEN_ENABLED" then
     inCombat = false
     S.OnCombat(false)
+    ns.Engine.OnCombat()
     ns.Diagnostics.OnCombat(false)
     S.Calibrate()
     if spellsDirty then
@@ -554,7 +559,7 @@ function commands.snapshot()
   if ns.snapshotQuiet then
     return
   end
-  U.Print(L["Snapshot: %s (%s), %d lines checked. Stored in the Watchdog log; /reload and send it."],
+  U.Print(L["Snapshot: %s (%s), %d lines checked. Stored in the Watchdog: /dmgw, then copy the report."],
     tostring(r.main and r.main.token), tostring(r.main and r.main.source), #lines)
   for i = 1, math.min(#lines, 8) do
     U.Print("  %s", lines[i])

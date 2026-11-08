@@ -33,6 +33,7 @@ diagnostics addon.
 | `Core/Diagnostics.lua` | `G` | Readability and range logging for the Watchdog. |
 | `Core/Engine.lua` | `G` | Walks the priority list and builds the queue. |
 | `Core/Display.lua`, `Core/Options.lua` | `D`, `O` | The HUD and the settings panel. |
+| `Core/Minimap.lua` | `MM` | Minimap button and the addon compartment entry. |
 | `Core/Main.lua` | — | Events, the update loop, slash commands, key bindings. |
 
 Conventions:
@@ -70,6 +71,6 @@ Conventions:
 
 ## Getting evidence from the game
 
-See [TESTING.md](TESTING.md): play with the Watchdog installed, `/reload`, run `tools/send-logs.py` (uploads the
-logs to branch `watchdog-logs` and opens an issue). Write conclusions into `docs/findings/YYYY-MM-DD-<topic>.md` and
+See [TESTING.md](TESTING.md): play with the Watchdog installed, `/dmgw`, copy the report (decode it with
+`tools/decode-export.py`), or `tools/send-logs.py` for the saved files. Write conclusions into `docs/findings/YYYY-MM-DD-<topic>.md` and
 fold confirmed facts into api-findings.
