@@ -49,21 +49,34 @@ Verified API facts: [docs/reference/api-findings.md](docs/reference/api-findings
 
 ## Using DMGAssist
 
-Shows the next spell (large icon) and the next major cooldown (small icon) in combat or with an enemy targeted.
-Small letters on the icon say where a pick came from: none = SimC, `AC` = Blizzard's Assisted Combat, `B` = Blizzard's
+Shows the next three spells (large icon = press this when your global cooldown ends) and, below, the next major
+cooldown. Visible in combat or with an enemy targeted. The small text above says the target mode.
+Letters on an icon say where a pick came from: none = SimC, `AC` = Blizzard's Assisted Combat, `B` = Blizzard's
 rules evaluated by DMGAssist (Forever), `?` = best guess.
+
+**Single target / AoE.** Set your primary mode (`/dmga mode st` or `aoe`). With auto-detect on (default),
+DMGAssist counts enemies in combat from their nameplates and switches by itself (`AUTO 4`); when it can't count
+(nameplates hidden), it uses your primary mode and shows `ST?` / `AOE?`. Bind a key under
+Key Bindings → AddOns → DMGAssist → "Switch target mode" to cycle Auto → Single → AoE mid-fight.
 
 | Command | |
 |---|---|
 | `/dmga` | status: client, spec, data version, spells matched |
-| `/dmga on` / `off` | show or hide |
-| `/dmga burst` | major cooldowns on/off |
-| `/dmga mode st` / `aoe` / `auto` | how many targets to assume (`/dmga targets 4` sets the AoE count) |
+| `/dmga on` / `off` | show or hide (also a key binding) |
+| `/dmga burst` | major cooldowns on/off (also a key binding) |
+| `/dmga mode st` / `aoe` | primary target mode; `/dmga mode` alone cycles like the key |
+| `/dmga auto on` / `off` | auto-detect targets from nameplates |
+| `/dmga targets 4` | targets assumed in AoE mode |
 | `/dmga fight 180` | assumed fight length in seconds |
-| `/dmga lock` | lock/unlock the icon (drag to move) |
-| `/dmga why` | why this spell, and which list spells you don't have |
+| `/dmga queue 1`–`3` | how many upcoming spells to show |
+| `/dmga lock` | lock/unlock the icons (drag to move) |
+| `/dmga why` | the queue, where it came from, and list spells you don't have |
 
-With DMGAssist_Watchdog installed, every pick change, cast and per-fight tracking summary is logged for diagnosis.
+Languages: English, Español, Deutsch, Français, Português, Русский, 简体中文, 繁體中文, 한국어. Spell matching uses spell
+IDs, so it works on every client language; only messages are translated.
+
+With DMGAssist_Watchdog installed, every pick change (with the queue and mode), inferred cast and per-fight tracking
+summary is logged for diagnosis.
 
 ## Automation (GitHub Actions)
 

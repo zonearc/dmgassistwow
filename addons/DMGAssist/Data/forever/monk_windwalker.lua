@@ -188,18 +188,10 @@ ns.RegisterSpecData("forever", "monk_windwalker", {
       },
     },
   },
-  blizzardExcluded = {
-    "celestial_conduit",
-    "flying_serpent_kick",
-    "zenith",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "celestial_conduit", "flying_serpent_kick", "zenith" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "monk",
+  heroTrees = {},
   key = "monk_windwalker",
   simc = {
     big_coc = {
@@ -1084,4 +1076,688 @@ ns.RegisterSpecData("forever", "monk_windwalker", {
     "zenith",
   },
   spec = "windwalker",
+  spellInfo = {
+    [100780] = {
+      cost = { [3] = 50 },
+      gcd = 1.5,
+      n = "tiger_palm",
+    },
+    [100784] = {
+      cd = 3,
+      cost = { [12] = 3 },
+      gcd = 1.5,
+      n = "blackout_kick",
+    },
+    [101545] = {
+      ap = {
+        { 101545, "self" },
+      },
+      cd = 30,
+      d = 1.5,
+      gcd = 1,
+      n = "flying_serpent_kick",
+    },
+    [101546] = {
+      ap = {
+        { 101546, "self" },
+      },
+      cost = { [3] = 40, [12] = 2 },
+      d = 1.5,
+      gcd = 1.5,
+      n = "spinning_crane_kick",
+    },
+    [107270] = {
+      n = "spinning_crane_kick",
+    },
+    [107428] = {
+      ch = 1,
+      chcd = 10,
+      cost = { [12] = 2 },
+      gcd = 1.5,
+      n = "rising_sun_kick",
+      tal = true,
+    },
+    [113656] = {
+      ap = {
+        { 113656, "self" },
+      },
+      cd = 24,
+      cost = { [12] = 3 },
+      d = 4,
+      gcd = 1,
+      n = "fists_of_fury",
+      tal = true,
+    },
+    [115057] = {
+      ap = {
+        { 115057, "self" },
+      },
+      d = 0.2,
+      n = "flying_serpent_kick",
+    },
+    [115396] = {
+      n = "ascension",
+      pas = true,
+      tal = true,
+    },
+    [116768] = {
+      ap = {
+        { 116768, "self" },
+      },
+      d = 15,
+      n = "blackout_kick",
+      st = 2,
+    },
+    [117418] = {
+      n = "fists_of_fury",
+    },
+    [117952] = {
+      ap = {
+        { 117952, "self" },
+      },
+      cost = { [3] = 20 },
+      d = 4,
+      gcd = 1.5,
+      n = "crackling_jade_lightning",
+    },
+    [117959] = {
+      n = "crackling_jade_lightning",
+      pas = true,
+    },
+    [118166] = {
+      gain = { [12] = 1 },
+      n = "blackout_kick",
+    },
+    [120086] = {
+      d = 4,
+      n = "fists_of_fury",
+    },
+    [122470] = {
+      ap = {
+        { 122470, "self" },
+      },
+      cd = 90,
+      d = 10,
+      n = "touch_of_karma",
+    },
+    [123333] = {
+      gain = { [12] = 1 },
+      n = "crackling_jade_lightning",
+    },
+    [123586] = {
+      ap = {
+        { 123586, "enemy" },
+      },
+      d = 4,
+      n = "flying_serpent_kick",
+    },
+    [123904] = {
+      ap = {
+        { 123904, "self" },
+      },
+      cd = 120,
+      d = 20,
+      gcd = 1,
+      n = "invoke_xuen_the_white_tiger",
+      tal = true,
+    },
+    [123986] = {
+      cd = 30,
+      ct = 1,
+      d = 1,
+      gcd = 1.5,
+      n = "chi_burst",
+      tal = true,
+    },
+    [124280] = {
+      ap = {
+        { 124280, "enemy" },
+      },
+      d = 6,
+      n = "touch_of_karma",
+    },
+    [125174] = {
+      ap = {
+        { 125174, "self" },
+      },
+      d = 10,
+      n = "touch_of_karma",
+    },
+    [130654] = {
+      n = "chi_burst",
+    },
+    [137384] = {
+      gcd = 1,
+      n = "combo_breaker",
+      pas = true,
+      tal = true,
+    },
+    [148135] = {
+      n = "chi_burst",
+    },
+    [152175] = {
+      ap = {
+        { 152175, "self" },
+      },
+      cd = 35,
+      d = 1,
+      gcd = 1,
+      n = "whirling_dragon_punch",
+      tal = true,
+    },
+    [158221] = {
+      n = "whirling_dragon_punch",
+    },
+    [185099] = {
+      n = "rising_sun_kick",
+    },
+    [196742] = {
+      ap = {
+        { 196742, "self" },
+      },
+      d = 1,
+      n = "whirling_dragon_punch",
+    },
+    [205523] = {
+      ch = 1,
+      chcd = 4,
+      gcd = 1.5,
+      n = "blackout_kick",
+    },
+    [209256] = {
+      n = "drinking_horn_cover",
+      pas = true,
+    },
+    [212141] = {
+      n = "spinning_crane_kick",
+    },
+    [212142] = {
+      ap = {
+        { 212142, "self" },
+      },
+      d = 3,
+      gcd = 1.5,
+      n = "spinning_crane_kick",
+    },
+    [228649] = {
+      n = "blackout_kick",
+    },
+    [232055] = {
+      d = 4,
+      n = "fists_of_fury",
+    },
+    [261682] = {
+      gain = { [12] = 1 },
+      n = "chi_burst",
+    },
+    [261916] = {
+      n = "blackout_kick",
+      pas = true,
+    },
+    [280197] = {
+      n = "spiritual_focus",
+      pas = true,
+      tal = true,
+    },
+    [322109] = {
+      cd = 180,
+      gcd = 1.5,
+      n = "touch_of_death",
+    },
+    [322111] = {
+      n = "touch_of_death",
+    },
+    [322729] = {
+      ap = {
+        { 322729, "self" },
+      },
+      cost = { [3] = 25 },
+      d = 1.5,
+      gcd = 1.5,
+      n = "spinning_crane_kick",
+    },
+    [325095] = {
+      n = "touch_of_death",
+      pas = true,
+    },
+    [325215] = {
+      n = "touch_of_death",
+      pas = true,
+    },
+    [330903] = {
+      n = "spinning_crane_kick",
+    },
+    [331433] = {
+      n = "tiger_palm",
+    },
+    [344360] = {
+      n = "touch_of_death",
+      pas = true,
+    },
+    [344361] = {
+      ap = {
+        { 344361, "self" },
+      },
+      d = 10,
+      n = "touch_of_death",
+    },
+    [387638] = {
+      n = "shadowboxing_treads",
+      pas = true,
+      st = 3,
+      tal = true,
+    },
+    [391330] = {
+      n = "meridian_strikes",
+      pas = true,
+      tal = true,
+    },
+    [391370] = {
+      n = "drinking_horn_cover",
+      pas = true,
+      tal = true,
+    },
+    [392982] = {
+      n = "shadowboxing_treads",
+      pas = true,
+      tal = true,
+    },
+    [392983] = {
+      ap = {
+        { 392983, "enemy" },
+      },
+      cd = 35,
+      cost = { [12] = 2 },
+      d = 6,
+      gcd = 1,
+      n = "strike_of_the_windlord",
+      tal = true,
+    },
+    [395519] = {
+      n = "strike_of_the_windlord",
+    },
+    [395521] = {
+      n = "strike_of_the_windlord",
+    },
+    [442719] = {
+      n = "restore_balance",
+      pas = true,
+      tal = true,
+    },
+    [443028] = {
+      ap = {
+        { 443028, "self" },
+      },
+      cd = 90,
+      d = 4,
+      gcd = 0.75,
+      n = "celestial_conduit",
+      tal = true,
+    },
+    [443038] = {
+      n = "celestial_conduit",
+    },
+    [443039] = {
+      n = "celestial_conduit",
+    },
+    [443421] = {
+      ap = {
+        { 443421, "self" },
+      },
+      d = 8,
+      n = "heart_of_the_jade_serpent",
+    },
+    [443424] = {
+      ap = {
+        { 443424, "self" },
+      },
+      d = 60,
+      n = "heart_of_the_jade_serpent",
+      st = 45,
+    },
+    [443506] = {
+      ap = {
+        { 443506, "self" },
+      },
+      d = 60,
+      n = "heart_of_the_jade_serpent",
+      st = 10,
+    },
+    [443616] = {
+      ap = {
+        { 443616, "self" },
+      },
+      d = 8,
+      n = "heart_of_the_jade_serpent",
+    },
+    [448380] = {
+      ap = {
+        { 448380, "self" },
+      },
+      d = 2,
+      n = "celestial_conduit",
+    },
+    [450615] = {
+      n = "flurry_strikes",
+      pas = true,
+      tal = true,
+    },
+    [451498] = {
+      n = "energy_burst",
+      pas = true,
+      tal = true,
+    },
+    [451515] = {
+      n = "sequenced_strikes",
+      pas = true,
+      tal = true,
+    },
+    [451524] = {
+      n = "revolving_whirl",
+      pas = true,
+      tal = true,
+    },
+    [451767] = {
+      n = "whirling_dragon_punch",
+    },
+    [456368] = {
+      ap = {
+        { 456368, "self" },
+      },
+      d = 120,
+      n = "heart_of_the_jade_serpent",
+      st = 2,
+    },
+    [460490] = {
+      ap = {
+        { 460490, "self" },
+      },
+      d = 30,
+      n = "chi_burst",
+      st = 2,
+    },
+    [461404] = {
+      cd = 0.1,
+      ct = 1,
+      d = 1,
+      gcd = 1.5,
+      n = "chi_burst",
+    },
+    [467307] = {
+      ch = 1,
+      chcd = 10,
+      cost = { [12] = 2 },
+      gcd = 1.5,
+      n = "rushing_wind_kick",
+      tal = true,
+    },
+    [468179] = {
+      n = "rushing_wind_kick",
+    },
+    [1217407] = {
+      ap = {
+        { 1217407, "self" },
+      },
+      d = 0.5,
+      n = "slicing_winds",
+    },
+    [1217408] = {
+      ap = {
+        { 1217408, "self" },
+      },
+      d = 0.5,
+      n = "slicing_winds",
+    },
+    [1217409] = {
+      ap = {
+        { 1217409, "self" },
+      },
+      d = 0.5,
+      n = "slicing_winds",
+    },
+    [1217410] = {
+      n = "slicing_winds",
+    },
+    [1217411] = {
+      n = "slicing_winds",
+    },
+    [1217413] = {
+      ap = {
+        { 1217413, "self" },
+      },
+      cd = 30,
+      cost = { [12] = 2 },
+      d = 1.4,
+      gcd = 1,
+      n = "slicing_winds",
+      tal = true,
+    },
+    [1238904] = {
+      ap = {
+        { 1238904, "self" },
+      },
+      d = 8,
+      n = "heart_of_the_jade_serpent",
+    },
+    [1248833] = {
+      n = "airborne_rhythm",
+      pas = true,
+      tal = true,
+    },
+    [1248989] = {
+      n = "celestial_conduit",
+      pas = true,
+      tal = true,
+    },
+    [1248992] = {
+      ap = {
+        { 1248992, "self" },
+      },
+      d = 60,
+      n = "celestial_conduit",
+    },
+    [1249625] = {
+      ap = {
+        { 1249625, "self" },
+      },
+      cd = 16,
+      ch = 2,
+      chcd = 90,
+      d = 15,
+      n = "zenith",
+      st = 1,
+      tal = true,
+    },
+    [1249832] = {
+      n = "obsidian_spiral",
+      pas = true,
+      tal = true,
+    },
+    [1250041] = {
+      n = "harmonic_combo",
+      pas = true,
+      tal = true,
+    },
+    [1250042] = {
+      n = "echo_technique",
+      pas = true,
+      tal = true,
+    },
+    [1250554] = {
+      ap = {
+        { 1250554, "self" },
+      },
+      d = 15,
+      n = "rushing_wind_kick",
+      st = 1,
+    },
+    [1250566] = {
+      n = "rushing_wind_kick",
+      pas = true,
+      tal = true,
+    },
+    [1269159] = {
+      n = "rushing_wind_kick",
+    },
+    [1272694] = {
+      n = "zenith_stomp",
+      pas = true,
+      tal = true,
+    },
+    [1272696] = {
+      cd = 1,
+      gain = { [12] = 2 },
+      gcd = 1,
+      n = "zenith_stomp",
+    },
+    [1291484] = {
+      ap = {
+        { 1291484, "self" },
+      },
+      d = 30,
+      n = "zenith_stomp",
+      st = 2,
+    },
+    [1296624] = {
+      n = "unbroken_rhythm",
+      pas = true,
+    },
+    [1296687] = {
+      ap = {
+        { 1296687, "self" },
+      },
+      d = 20,
+      n = "rising_sun_kick",
+    },
+    [1297033] = {
+      ap = {
+        { 1297033, "self" },
+      },
+      d = 20,
+      n = "unbroken_rhythm",
+      st = 6,
+    },
+  },
+  spells = {
+    airborne_rhythm = {
+      t = { 1248833 },
+    },
+    ascension = {
+      t = { 115396 },
+    },
+    blackout_kick = {
+      a = { 100784, 205523, 116768, 118166, 228649, 261916 },
+    },
+    celestial_conduit = {
+      a = { 443028, 443038, 443039, 1248992, 448380, 1248989 },
+      t = { 443028, 1248989 },
+    },
+    chi_burst = {
+      a = { 461404, 130654, 148135, 261682, 460490, 123986 },
+    },
+    combo_breaker = {
+      a = { 137384 },
+      b = { 137384 },
+    },
+    crackling_jade_lightning = {
+      a = { 117952, 123333, 117959 },
+    },
+    drinking_horn_cover = {
+      t = { 391370, 209256 },
+    },
+    echo_technique = {
+      t = { 1250042 },
+    },
+    energy_burst = {
+      t = { 451498 },
+    },
+    fists_of_fury = {
+      a = { 113656, 117418, 120086, 232055 },
+    },
+    flurry_strikes = {
+      t = { 450615 },
+    },
+    flying_serpent_kick = {
+      a = { 101545, 115057, 123586 },
+    },
+    harmonic_combo = {
+      t = { 1250041 },
+    },
+    heart_of_the_jade_serpent = {
+      a = { 443421, 443424, 443506, 443616, 456368, 1238904 },
+      b = { 443421, 443424, 443506, 443616, 456368, 1238904 },
+    },
+    invoke_xuen_the_white_tiger = {
+      a = { 123904 },
+      b = { 123904 },
+      t = { 123904 },
+    },
+    meridian_strikes = {
+      t = { 391330 },
+    },
+    obsidian_spiral = {
+      t = { 1249832 },
+    },
+    restore_balance = {
+      t = { 442719 },
+    },
+    revolving_whirl = {
+      t = { 451524 },
+    },
+    rising_sun_kick = {
+      a = { 107428, 185099, 1296687 },
+    },
+    rushing_wind_kick = {
+      a = { 467307, 468179, 1250554, 1269159, 1250566 },
+      b = { 1250554, 467307, 468179, 1269159, 1250566 },
+      t = { 467307, 1250566 },
+    },
+    sequenced_strikes = {
+      t = { 451515 },
+    },
+    shadowboxing_treads = {
+      t = { 387638, 392982 },
+    },
+    slicing_winds = {
+      a = { 1217413, 1217407, 1217408, 1217409, 1217410, 1217411 },
+      t = { 1217413 },
+    },
+    spinning_crane_kick = {
+      a = { 101546, 212142, 322729, 107270, 212141, 330903 },
+    },
+    spiritual_focus = {
+      t = { 280197 },
+    },
+    strike_of_the_windlord = {
+      a = { 392983, 395519, 395521 },
+      t = { 392983 },
+    },
+    tiger_palm = {
+      a = { 100780, 331433 },
+    },
+    touch_of_death = {
+      a = { 322109, 322111, 344361, 325095, 325215, 344360 },
+    },
+    touch_of_karma = {
+      a = { 122470, 124280, 125174 },
+    },
+    unbroken_rhythm = {
+      a = { 1297033, 1296624 },
+      b = { 1297033, 1296624 },
+    },
+    whirling_dragon_punch = {
+      a = { 152175, 158221, 196742, 451767 },
+      b = { 152175, 196742, 158221, 451767 },
+      t = { 152175 },
+    },
+    zenith = {
+      a = { 1249625 },
+      b = { 1249625 },
+    },
+    zenith_stomp = {
+      a = { 1272696, 1291484, 1272694 },
+      b = { 1291484, 1272696, 1272694 },
+      t = { 1272694 },
+    },
+  },
 })

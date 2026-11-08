@@ -215,16 +215,10 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       },
     },
   },
-  blizzardExcluded = {
-    "ascendance",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "ascendance" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "shaman",
+  heroTrees = {},
   key = "shaman_elemental",
   simc = {
     aoe = {
@@ -706,11 +700,395 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "aoe",
-    "single_target",
-  },
+  simcOrder = { "precombat", "default", "aoe", "single_target" },
   spec = "elemental",
+  spellInfo = {
+    [324] = {
+      ap = {
+        { 324, "self" },
+      },
+      cost = { [0] = 45 },
+      d = 600,
+      gcd = 1.5,
+      n = "lightning_shield",
+      st = 3,
+    },
+    [325] = {
+      ap = {
+        { 325, "self" },
+      },
+      cost = { [0] = 80 },
+      d = 600,
+      gcd = 1.5,
+      n = "lightning_shield",
+      st = 3,
+    },
+    [403] = {
+      cost = { [0] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "lightning_bolt",
+    },
+    [421] = {
+      cd = 6,
+      cost = { [0] = 145 },
+      ct = 2,
+      gcd = 1.5,
+      n = "chain_lightning",
+    },
+    [529] = {
+      cost = { [0] = 30 },
+      ct = 2,
+      gcd = 1.5,
+      n = "lightning_bolt",
+    },
+    [548] = {
+      cost = { [0] = 45 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lightning_bolt",
+    },
+    [905] = {
+      ap = {
+        { 905, "self" },
+      },
+      cost = { [0] = 125 },
+      d = 600,
+      gcd = 1.5,
+      n = "lightning_shield",
+      st = 3,
+    },
+    [915] = {
+      cost = { [0] = 60 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lightning_bolt",
+    },
+    [930] = {
+      cd = 6,
+      cost = { [0] = 200 },
+      ct = 2,
+      gcd = 1.5,
+      n = "chain_lightning",
+    },
+    [943] = {
+      cost = { [0] = 85 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lightning_bolt",
+    },
+    [945] = {
+      ap = {
+        { 945, "self" },
+      },
+      cost = { [0] = 180 },
+      d = 600,
+      gcd = 1.5,
+      n = "lightning_shield",
+      st = 3,
+    },
+    [2860] = {
+      cd = 6,
+      cost = { [0] = 250 },
+      ct = 2,
+      gcd = 1.5,
+      n = "chain_lightning",
+    },
+    [6041] = {
+      cost = { [0] = 110 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lightning_bolt",
+    },
+    [8024] = {
+      cost = { [0] = 30 },
+      gcd = 1.5,
+      n = "flametongue_weapon",
+    },
+    [8027] = {
+      cost = { [0] = 55 },
+      gcd = 1.5,
+      n = "flametongue_weapon",
+    },
+    [8030] = {
+      cost = { [0] = 80 },
+      gcd = 1.5,
+      n = "flametongue_weapon",
+    },
+    [8042] = {
+      cd = 6,
+      cost = { [0] = 30 },
+      d = 2,
+      gcd = 1.5,
+      n = "earth_shock",
+    },
+    [8044] = {
+      cd = 6,
+      cost = { [0] = 50 },
+      d = 2,
+      gcd = 1.5,
+      n = "earth_shock",
+    },
+    [8045] = {
+      cd = 6,
+      cost = { [0] = 85 },
+      d = 2,
+      gcd = 1.5,
+      n = "earth_shock",
+    },
+    [8046] = {
+      cd = 6,
+      cost = { [0] = 145 },
+      d = 2,
+      gcd = 1.5,
+      n = "earth_shock",
+    },
+    [8050] = {
+      ap = {
+        { 8050, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 55 },
+      d = 12,
+      gcd = 1.5,
+      n = "flame_shock",
+    },
+    [8052] = {
+      ap = {
+        { 8052, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 95 },
+      d = 12,
+      gcd = 1.5,
+      n = "flame_shock",
+    },
+    [8053] = {
+      ap = {
+        { 8053, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 160 },
+      d = 12,
+      gcd = 1.5,
+      n = "flame_shock",
+    },
+    [8056] = {
+      ap = {
+        { 8056, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 115 },
+      d = 8,
+      gcd = 1.5,
+      n = "frost_shock",
+    },
+    [8058] = {
+      ap = {
+        { 8058, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 225 },
+      d = 8,
+      gcd = 1.5,
+      n = "frost_shock",
+    },
+    [8134] = {
+      ap = {
+        { 8134, "self" },
+      },
+      cost = { [0] = 240 },
+      d = 600,
+      gcd = 1.5,
+      n = "lightning_shield",
+      st = 3,
+    },
+    [10412] = {
+      cd = 6,
+      cost = { [0] = 240 },
+      d = 2,
+      gcd = 1.5,
+      n = "earth_shock",
+    },
+    [10413] = {
+      cd = 6,
+      cost = { [0] = 345 },
+      d = 2,
+      gcd = 1.5,
+      n = "earth_shock",
+    },
+    [10431] = {
+      ap = {
+        { 10431, "self" },
+      },
+      cost = { [0] = 305 },
+      d = 600,
+      gcd = 1.5,
+      n = "lightning_shield",
+      st = 3,
+    },
+    [10447] = {
+      ap = {
+        { 10447, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 250 },
+      d = 12,
+      gcd = 1.5,
+      n = "flame_shock",
+    },
+    [10448] = {
+      ap = {
+        { 10448, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 345 },
+      d = 12,
+      gcd = 1.5,
+      n = "flame_shock",
+    },
+    [10472] = {
+      ap = {
+        { 10472, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 325 },
+      d = 8,
+      gcd = 1.5,
+      n = "frost_shock",
+    },
+    [10473] = {
+      ap = {
+        { 10473, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 430 },
+      d = 8,
+      gcd = 1.5,
+      n = "frost_shock",
+    },
+    [10605] = {
+      cd = 6,
+      cost = { [0] = 315 },
+      ct = 2,
+      gcd = 1.5,
+      n = "chain_lightning",
+    },
+    [16188] = {
+      cd = 180,
+      n = "natures_swiftness",
+      st = 1,
+      tal = true,
+    },
+    [16339] = {
+      cost = { [0] = 105 },
+      gcd = 1.5,
+      n = "flametongue_weapon",
+    },
+    [16341] = {
+      cost = { [0] = 130 },
+      gcd = 1.5,
+      n = "flametongue_weapon",
+    },
+    [16342] = {
+      cost = { [0] = 155 },
+      gcd = 1.5,
+      n = "flametongue_weapon",
+    },
+    [29062] = {
+      n = "eye_of_the_storm",
+      pas = true,
+      tal = true,
+    },
+    [29228] = {
+      ap = {
+        { 29228, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 410 },
+      d = 12,
+      gcd = 1.5,
+      n = "flame_shock",
+    },
+    [408479] = {
+      n = "chain_lightning",
+    },
+    [408481] = {
+      n = "chain_lightning",
+    },
+    [408490] = {
+      cd = 10,
+      cost = { [0] = 135 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lava_burst",
+      tal = true,
+    },
+    [408491] = {
+      n = "lava_burst",
+    },
+    [436519] = {
+      n = "flametongue_weapon",
+      pas = true,
+    },
+    [1238299] = {
+      cd = 10,
+      cost = { [0] = 165 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lava_burst",
+    },
+    [1238300] = {
+      cd = 10,
+      cost = { [0] = 230 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lava_burst",
+    },
+    [1238373] = {
+      n = "lava_burst",
+    },
+    [1326047] = {
+      cd = 10,
+      cost = { [0] = 265 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lava_burst",
+    },
+  },
+  spells = {
+    chain_lightning = {
+      a = { 421, 930, 2860, 10605, 408479, 408481 },
+    },
+    earth_shock = {
+      a = { 8042, 8044, 8045, 8046, 10412, 10413 },
+    },
+    eye_of_the_storm = {
+      t = { 29062 },
+    },
+    flame_shock = {
+      a = { 8050, 8052, 8053, 10447, 10448, 29228 },
+      b = { 8050, 8052, 8053, 10447, 10448, 29228 },
+    },
+    flametongue_weapon = {
+      a = { 8024, 8027, 8030, 16339, 16341, 16342 },
+      t = { 436519 },
+    },
+    frost_shock = {
+      a = { 8056, 8058, 10472, 10473 },
+    },
+    lava_burst = {
+      a = { 408490, 1238299, 1238300, 1326047, 408491, 1238373 },
+    },
+    lightning_bolt = {
+      a = { 403, 529, 548, 915, 943, 6041 },
+    },
+    lightning_shield = {
+      a = { 324, 325, 905, 945, 8134, 10431 },
+      b = { 324, 325, 905, 945, 8134, 10431 },
+    },
+    natures_swiftness = {
+      a = { 16188 },
+    },
+  },
 })

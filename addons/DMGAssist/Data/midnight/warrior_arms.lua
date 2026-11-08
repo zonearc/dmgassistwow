@@ -163,13 +163,9 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
     },
   },
   blizzardExcluded = {},
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warrior",
+  heroTrees = {},
   key = "warrior_arms",
   simc = {
     colossus_aoe = {
@@ -1012,4 +1008,682 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
     "variables",
   },
   spec = "arms",
+  spellInfo = {
+    [100] = {
+      cd = 1.5,
+      ch = 1,
+      chcd = 20,
+      gain = { [1] = 200 },
+      n = "charge",
+    },
+    [772] = {
+      cost = { [1] = 10 },
+      gcd = 1.5,
+      n = "rend",
+      tal = true,
+    },
+    [845] = {
+      cd = 4.5,
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "cleave",
+      tal = true,
+    },
+    [1464] = {
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "slam",
+    },
+    [1680] = {
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "whirlwind",
+    },
+    [5308] = {
+      cd = 6,
+      cmax = { [1] = 40 },
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [6552] = {
+      cd = 15,
+      d = 5,
+      n = "pummel",
+    },
+    [6673] = {
+      d = 3600,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [7384] = {
+      ch = 1,
+      chcd = 12,
+      gcd = 1.5,
+      n = "overpower",
+      st = 1,
+      tal = true,
+    },
+    [12294] = {
+      cd = 6,
+      cost = { [1] = 30 },
+      gcd = 1.5,
+      n = "mortal_strike",
+      tal = true,
+    },
+    [13491] = {
+      cd = 10,
+      cost = { [1] = 10 },
+      d = 5,
+      gcd = 1.5,
+      n = "pummel",
+    },
+    [29725] = {
+      n = "sudden_death",
+      pas = true,
+      tal = true,
+    },
+    [50622] = {
+      gain = { [1] = 50 },
+      n = "bladestorm",
+    },
+    [52437] = {
+      ap = {
+        { 52437, "self" },
+      },
+      d = 12,
+      n = "sudden_death",
+      st = 2,
+    },
+    [57755] = {
+      cd = 6,
+      gcd = 1.5,
+      n = "heroic_throw",
+    },
+    [69179] = {
+      cd = 120,
+      gain = { [1] = 150 },
+      gcd = 1.5,
+      n = "arcane_torrent",
+    },
+    [85739] = {
+      ap = {
+        { 85739, "self" },
+      },
+      d = 20,
+      n = "whirlwind",
+      st = 4,
+    },
+    [105771] = {
+      ap = {
+        { 105771, "enemy" },
+      },
+      d = 1,
+      n = "charge",
+    },
+    [107570] = {
+      cd = 30,
+      gcd = 1.5,
+      n = "storm_bolt",
+      tal = true,
+    },
+    [107574] = {
+      ap = {
+        { 107574, "self" },
+      },
+      cd = 90,
+      d = 20,
+      n = "avatar",
+      tal = true,
+    },
+    [126664] = {
+      n = "charge",
+    },
+    [132169] = {
+      ap = {
+        { 132169, "enemy" },
+      },
+      d = 4,
+      n = "storm_bolt",
+    },
+    [156287] = {
+      n = "ravager",
+    },
+    [163201] = {
+      cd = 6,
+      cmax = { [1] = 40 },
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [167105] = {
+      cd = 45,
+      gcd = 1.5,
+      n = "colossus_smash",
+      tal = true,
+    },
+    [190411] = {
+      gcd = 1.5,
+      n = "whirlwind",
+    },
+    [198337] = {
+      n = "charge",
+    },
+    [198819] = {
+      ap = {
+        { 198819, "enemy" },
+      },
+      d = 4,
+      n = "mortal_strike",
+    },
+    [199658] = {
+      n = "whirlwind",
+    },
+    [199667] = {
+      n = "whirlwind",
+    },
+    [199850] = {
+      n = "whirlwind",
+    },
+    [200951] = {
+      ap = {
+        { 200951, "self" },
+      },
+      d = 12,
+      n = "berserking",
+    },
+    [200953] = {
+      ap = {
+        { 200953, "self" },
+      },
+      d = 3,
+      n = "berserking",
+      st = 12,
+    },
+    [202316] = {
+      n = "fervor_of_battle",
+      pas = true,
+      tal = true,
+    },
+    [206315] = {
+      n = "massacre",
+      pas = true,
+      tal = true,
+    },
+    [208086] = {
+      ap = {
+        { 208086, "self" },
+      },
+      d = 10,
+      n = "colossus_smash",
+    },
+    [218104] = {
+      n = "charge",
+    },
+    [222634] = {
+      ap = {
+        { 222634, "self" },
+      },
+      cd = 60,
+      d = 6,
+      gcd = 1.5,
+      n = "bladestorm",
+    },
+    [227847] = {
+      ap = {
+        { 227847, "self" },
+      },
+      cd = 90,
+      ch = 1,
+      chcd = 90,
+      d = 6,
+      gcd = 1.5,
+      n = "bladestorm",
+      tal = true,
+    },
+    [228920] = {
+      ap = {
+        { 228920, "self" },
+      },
+      cd = 8,
+      ch = 1,
+      chcd = 90,
+      d = 12,
+      gcd = 1.5,
+      n = "ravager",
+      tal = true,
+    },
+    [236027] = {
+      ap = {
+        { 236027, "enemy" },
+      },
+      d = 6,
+      n = "charge",
+    },
+    [260708] = {
+      ap = {
+        { 260708, "self" },
+      },
+      cd = 30,
+      d = 30,
+      gcd = 0.75,
+      n = "sweeping_strikes",
+      st = 18,
+    },
+    [260798] = {
+      n = "execute",
+    },
+    [262128] = {
+      ap = {
+        { 262128, "enemy" },
+      },
+      d = 12,
+      n = "executioners_precision",
+      st = 2,
+    },
+    [262150] = {
+      n = "dreadnaught",
+      pas = true,
+      tal = true,
+    },
+    [280721] = {
+      n = "sudden_death",
+      pas = true,
+    },
+    [280735] = {
+      cd = 4.5,
+      cmax = { [1] = 40 },
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [280776] = {
+      ap = {
+        { 280776, "self" },
+      },
+      d = 12,
+      n = "sudden_death",
+      st = 2,
+    },
+    [280849] = {
+      n = "execute",
+    },
+    [281000] = {
+      cd = 6,
+      cmax = { [1] = 40 },
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [281001] = {
+      n = "massacre",
+      pas = true,
+      tal = true,
+    },
+    [315955] = {
+      ap = {
+        { 315955, "self" },
+      },
+      d = 6,
+      n = "cleave",
+      st = 1,
+    },
+    [334779] = {
+      n = "collateral_damage",
+      pas = true,
+      tal = true,
+    },
+    [334783] = {
+      ap = {
+        { 334783, "self" },
+      },
+      d = 12,
+      n = "collateral_damage",
+      st = 3,
+    },
+    [334934] = {
+      gain = { [1] = 100 },
+      n = "ravager",
+    },
+    [339385] = {
+      n = "mortal_strike",
+    },
+    [376079] = {
+      cd = 90,
+      gcd = 1.5,
+      n = "champions_spear",
+      tal = true,
+    },
+    [376080] = {
+      ap = {
+        { 376080, "enemy" },
+      },
+      d = 6,
+      gain = { [1] = 100 },
+      n = "champions_spear",
+    },
+    [376081] = {
+      ap = {
+        { 1271981, "self" },
+      },
+      d = 6,
+      n = "champions_spear",
+    },
+    [376083] = {
+      n = "champions_spear",
+    },
+    [383154] = {
+      n = "bloodletting",
+      pas = true,
+      tal = true,
+    },
+    [384110] = {
+      cd = 45,
+      gcd = 1.5,
+      n = "wrecking_throw",
+      tal = true,
+    },
+    [386164] = {
+      cd = 3,
+      n = "battle_stance",
+      tal = true,
+    },
+    [386633] = {
+      ap = {
+        { 386633, "self" },
+      },
+      d = 30,
+      n = "executioners_precision",
+      st = 2,
+    },
+    [386634] = {
+      n = "executioners_precision",
+      pas = true,
+      tal = true,
+    },
+    [388539] = {
+      ap = {
+        { 388539, "enemy" },
+      },
+      d = 15,
+      n = "rend",
+    },
+    [394354] = {
+      n = "wrecking_throw",
+    },
+    [429634] = {
+      n = "colossal_might",
+      pas = true,
+      tal = true,
+    },
+    [436358] = {
+      ap = {
+        { 436358, "self" },
+      },
+      cd = 30,
+      d = 2,
+      gcd = 1.5,
+      n = "demolish",
+      tal = true,
+    },
+    [440884] = {
+      n = "demolish",
+    },
+    [440886] = {
+      n = "demolish",
+    },
+    [440888] = {
+      n = "demolish",
+    },
+    [440989] = {
+      ap = {
+        { 440989, "self" },
+      },
+      d = 24,
+      n = "colossal_might",
+      st = 5,
+    },
+    [444767] = {
+      n = "slayers_dominance",
+      pas = true,
+      tal = true,
+    },
+    [444769] = {
+      n = "imminent_demise",
+      pas = true,
+      tal = true,
+    },
+    [444774] = {
+      n = "opportunist",
+      pas = true,
+      tal = true,
+    },
+    [445584] = {
+      ap = {
+        { 445584, "self" },
+      },
+      d = 12,
+      n = "executioner",
+      st = 5,
+    },
+    [445606] = {
+      ap = {
+        { 445606, "self" },
+      },
+      d = 60,
+      n = "imminent_demise",
+      st = 3,
+    },
+    [446035] = {
+      ap = {
+        { 446035, "self" },
+      },
+      cd = 90,
+      ch = 1,
+      chcd = 90,
+      d = 6,
+      gcd = 1.5,
+      n = "bladestorm",
+    },
+    [456120] = {
+      ap = {
+        { 456120, "self" },
+      },
+      d = 8,
+      n = "opportunist",
+      st = 2,
+    },
+    [458459] = {
+      n = "cleave",
+    },
+    [1261051] = {
+      n = "tactical_edge",
+      pas = true,
+      tal = true,
+    },
+    [1261060] = {
+      n = "deep_wounds",
+      pas = true,
+      tal = true,
+    },
+    [1269383] = {
+      ap = {
+        { 1269394, "self" },
+      },
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "heroic_strike",
+    },
+    [1269394] = {
+      ap = {
+        { 1269394, "self" },
+      },
+      d = 30,
+      n = "master_of_warfare",
+      st = 10,
+    },
+    [1271909] = {
+      ap = {
+        { 1271909, "self" },
+      },
+      d = 8,
+      n = "battle_shout_highlight",
+      st = 1,
+    },
+    [1271980] = {
+      cd = 6,
+      n = "champions_spear",
+    },
+    [1271981] = {
+      ap = {
+        { 1271981, "self" },
+      },
+      d = 6,
+      n = "champions_spear",
+    },
+    [1271982] = {
+      cd = 6,
+      n = "champions_spear",
+    },
+  },
+  spells = {
+    arcane_torrent = {
+      a = { 69179 },
+    },
+    avatar = {
+      a = { 107574 },
+      b = { 107574 },
+      t = { 107574 },
+    },
+    battle_shout = {
+      a = { 6673 },
+    },
+    battle_shout_highlight = {
+      a = { 1271909 },
+      b = { 1271909 },
+    },
+    battle_stance = {
+      a = { 386164 },
+    },
+    berserking = {
+      a = { 200953, 200951 },
+    },
+    bladestorm = {
+      a = { 222634, 446035, 50622, 227847 },
+      b = { 222634, 227847, 446035, 50622 },
+    },
+    bloodletting = {
+      t = { 383154 },
+    },
+    champions_spear = {
+      a = { 376079, 1271980, 1271982, 376080, 376081, 376083 },
+    },
+    charge = {
+      a = { 100, 105771, 126664, 198337, 218104, 236027 },
+    },
+    cleave = {
+      a = { 845, 315955, 458459 },
+      t = { 845 },
+    },
+    collateral_damage = {
+      a = { 334783, 334779 },
+      b = { 334783, 334779 },
+    },
+    colossal_might = {
+      a = { 440989, 429634 },
+      b = { 440989, 429634 },
+    },
+    colossus_smash = {
+      a = { 167105, 208086 },
+      b = { 208086, 167105 },
+    },
+    deep_wounds = {
+      t = { 1261060 },
+    },
+    demolish = {
+      a = { 436358, 440884, 440886, 440888 },
+      t = { 436358 },
+    },
+    dreadnaught = {
+      t = { 262150 },
+    },
+    execute = {
+      a = { 5308, 163201, 280735, 281000, 260798, 280849 },
+    },
+    executioner = {
+      a = { 445584 },
+      b = { 445584 },
+    },
+    executioners_precision = {
+      a = { 262128, 386633, 386634 },
+      b = { 262128, 386633, 386634 },
+    },
+    fervor_of_battle = {
+      t = { 202316 },
+    },
+    heroic_strike = {
+      a = { 1269383 },
+    },
+    heroic_throw = {
+      a = { 57755 },
+    },
+    imminent_demise = {
+      a = { 445606, 444769 },
+      b = { 445606, 444769 },
+    },
+    massacre = {
+      t = { 206315, 281001 },
+    },
+    mortal_strike = {
+      a = { 12294, 198819, 339385 },
+    },
+    opportunist = {
+      a = { 456120, 444774 },
+      b = { 456120, 444774 },
+      t = { 444774 },
+    },
+    overpower = {
+      a = { 7384 },
+    },
+    pummel = {
+      a = { 6552, 13491 },
+    },
+    ravager = {
+      a = { 156287, 334934, 228920 },
+    },
+    rend = {
+      a = { 772, 388539 },
+      t = { 772 },
+    },
+    rend_dot = {
+      a = { 772, 388539 },
+      b = { 388539, 772 },
+    },
+    slam = {
+      a = { 1464 },
+    },
+    slayers_dominance = {
+      t = { 444767 },
+    },
+    storm_bolt = {
+      a = { 107570, 132169 },
+    },
+    sudden_death = {
+      a = { 52437, 280776, 280721, 29725 },
+      b = { 52437, 280776, 280721, 29725 },
+    },
+    sweeping_strikes = {
+      a = { 260708 },
+      b = { 260708 },
+    },
+    tactical_edge = {
+      t = { 1261051 },
+    },
+    whirlwind = {
+      a = { 1680, 190411, 85739, 199658, 199667, 199850 },
+    },
+    wrecking_throw = {
+      a = { 384110, 394354 },
+    },
+  },
 })

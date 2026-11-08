@@ -196,16 +196,10 @@ ns.RegisterSpecData("forever", "paladin_retribution", {
       },
     },
   },
-  blizzardExcluded = {
-    "avenging_wrath",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "avenging_wrath" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "paladin",
+  heroTrees = {},
   key = "paladin_retribution",
   simc = {
     cooldowns = {
@@ -474,12 +468,101 @@ ns.RegisterSpecData("forever", "paladin_retribution", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "cooldowns",
-    "finishers",
-    "generators",
-  },
+  simcOrder = { "precombat", "default", "cooldowns", "finishers", "generators" },
   spec = "retribution",
+  spellInfo = {
+    [24239] = {
+      cd = 6,
+      cost = { [0] = 425 },
+      ct = 1,
+      gcd = 1,
+      n = "hammer_of_wrath",
+    },
+    [24274] = {
+      cd = 6,
+      cost = { [0] = 360 },
+      ct = 1,
+      gcd = 1,
+      n = "hammer_of_wrath",
+    },
+    [24275] = {
+      cd = 6,
+      cost = { [0] = 295 },
+      ct = 1,
+      gcd = 1,
+      n = "hammer_of_wrath",
+    },
+    [25771] = {
+      d = 60,
+      n = "forbearance",
+    },
+    [407632] = {
+      cd = 6,
+      gcd = 1.5,
+      n = "hammer_of_the_righteous",
+    },
+    [407778] = {
+      cd = 10,
+      gcd = 1.5,
+      n = "divine_storm",
+    },
+    [407784] = {
+      n = "divine_storm",
+    },
+    [407788] = {
+      ap = {
+        { 407788, "self" },
+      },
+      cd = 180,
+      d = 20,
+      n = "avenging_wrath",
+    },
+    [409914] = {
+      n = "crusader_strike",
+      pas = true,
+    },
+    [409922] = {
+      n = "hammer_of_the_righteous",
+      pas = true,
+    },
+    [409924] = {
+      n = "divine_storm",
+      pas = true,
+    },
+    [409934] = {
+      n = "avenging_wrath",
+      pas = true,
+    },
+    [425609] = {
+      cd = 15,
+      d = 3,
+      gcd = 1,
+      n = "rebuke",
+    },
+    [425616] = {
+      n = "rebuke",
+      pas = true,
+    },
+  },
+  spells = {
+    avenging_wrath = {
+      a = { 407788, 409934 },
+      b = { 407788, 409934 },
+    },
+    crusader_strike = {
+      a = { 409914 },
+    },
+    divine_storm = {
+      a = { 407778, 407784, 409924 },
+    },
+    hammer_of_the_righteous = {
+      a = { 407632, 409922 },
+    },
+    hammer_of_wrath = {
+      a = { 24239, 24274, 24275 },
+    },
+    rebuke = {
+      a = { 425609, 425616 },
+    },
+  },
 })

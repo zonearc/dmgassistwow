@@ -114,13 +114,9 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
     },
   },
   blizzardExcluded = {},
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "hunter",
+  heroTrees = {},
   key = "hunter_beast_mastery",
   simc = {
     cds = {
@@ -479,15 +475,380 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "cds",
-    "cleave",
-    "drcleave",
-    "drst",
-    "st",
-    "trinkets",
-  },
+  simcOrder = { "precombat", "default", "cds", "cleave", "drcleave", "drst", "st", "trinkets" },
   spec = "beast_mastery",
+  spellInfo = {
+    [75] = {
+      n = "auto_shot",
+    },
+    [883] = {
+      gcd = 1.5,
+      n = "call_pet_1",
+    },
+    [19574] = {
+      ap = {
+        { 19574, "self" },
+      },
+      cd = 90,
+      d = 15,
+      gcd = 1.5,
+      n = "bestial_wrath",
+      tal = true,
+    },
+    [34026] = {
+      cd = 0.5,
+      ch = 1,
+      chcd = 7.5,
+      cost = { [2] = 30 },
+      gcd = 1.5,
+      n = "kill_command",
+      tal = true,
+    },
+    [56641] = {
+      ct = 1.7,
+      gcd = 1.5,
+      n = "steady_shot",
+    },
+    [77443] = {
+      gain = { [2] = 20 },
+      n = "steady_shot",
+    },
+    [83381] = {
+      n = "kill_command",
+    },
+    [115939] = {
+      n = "beast_cleave",
+      pas = true,
+      tal = true,
+    },
+    [118455] = {
+      n = "beast_cleave",
+    },
+    [118459] = {
+      n = "beast_cleave",
+    },
+    [185358] = {
+      cost = { [2] = 40 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [186254] = {
+      cd = 90,
+      d = 15,
+      n = "bestial_wrath",
+    },
+    [193455] = {
+      cost = { [2] = 35 },
+      gcd = 1.5,
+      n = "cobra_shot",
+      tal = true,
+    },
+    [199532] = {
+      n = "killer_cobra",
+      pas = true,
+      tal = true,
+    },
+    [207033] = {
+      cd = 90,
+      d = 15,
+      n = "bestial_wrath",
+    },
+    [217200] = {
+      ap = {
+        { 217200, "enemy" },
+      },
+      ch = 2,
+      chcd = 18,
+      d = 12,
+      gcd = 1.5,
+      n = "barbed_shot",
+      tal = true,
+    },
+    [246152] = {
+      ap = {
+        { 246152, "self" },
+      },
+      d = 8,
+      n = "barbed_shot",
+      st = 20,
+    },
+    [259277] = {
+      n = "kill_command",
+    },
+    [259285] = {
+      ap = {
+        { 259285, "self" },
+      },
+      d = 3,
+      n = "kill_command",
+    },
+    [259489] = {
+      ch = 2,
+      chcd = 5,
+      gain = { [2] = 15 },
+      gcd = 1.5,
+      n = "kill_command",
+      tal = true,
+    },
+    [268877] = {
+      ap = {
+        { 268877, "self" },
+      },
+      d = 4,
+      n = "beast_cleave",
+    },
+    [321014] = {
+      n = "pack_tactics",
+      pas = true,
+      tal = true,
+    },
+    [344572] = {
+      n = "bestial_wrath",
+    },
+    [354831] = {
+      ap = {
+        { 355596, "enemy" },
+      },
+      n = "wailing_arrow",
+    },
+    [355589] = {
+      cd = 60,
+      cost = { [2] = 15 },
+      ct = 2,
+      gcd = 1.5,
+      n = "wailing_arrow",
+    },
+    [355596] = {
+      ap = {
+        { 355596, "enemy" },
+      },
+      d = 5,
+      n = "wailing_arrow",
+    },
+    [392058] = {
+      n = "wailing_arrow",
+    },
+    [392060] = {
+      cost = { [2] = 15 },
+      ct = 1,
+      gcd = 1.5,
+      n = "wailing_arrow",
+    },
+    [392061] = {
+      ap = {
+        { 392061, "enemy" },
+      },
+      d = 1,
+      n = "wailing_arrow",
+    },
+    [407412] = {
+      n = "bloody_frenzy",
+      pas = true,
+      tal = true,
+    },
+    [424558] = {
+      n = "master_handler",
+      pas = true,
+      tal = true,
+    },
+    [433984] = {
+      n = "beast_cleave",
+    },
+    [466930] = {
+      ch = 1,
+      chcd = 10,
+      cost = { [2] = 10 },
+      gcd = 1.5,
+      n = "black_arrow",
+      tal = true,
+    },
+    [466932] = {
+      n = "black_arrow",
+      pas = true,
+      tal = true,
+    },
+    [466990] = {
+      n = "withering_fire",
+      pas = true,
+      tal = true,
+    },
+    [466991] = {
+      ap = {
+        { 466991, "self" },
+      },
+      d = 10,
+      n = "withering_fire",
+    },
+    [468037] = {
+      n = "black_arrow",
+    },
+    [468572] = {
+      ap = {
+        { 468572, "enemy" },
+      },
+      d = 8,
+      n = "black_arrow",
+    },
+    [468695] = {
+      n = "snakeskin_quiver",
+      pas = true,
+      tal = true,
+    },
+    [468701] = {
+      n = "serpentine_strikes",
+      pas = true,
+      tal = true,
+    },
+    [1232922] = {
+      n = "kill_command",
+    },
+    [1235388] = {
+      d = 15,
+      n = "bestial_wrath",
+    },
+    [1264355] = {
+      n = "wild_thrash",
+    },
+    [1264359] = {
+      cd = 8,
+      cost = { [2] = 35 },
+      gcd = 1.5,
+      n = "wild_thrash",
+      tal = true,
+    },
+    [1265044] = {
+      n = "jagged_wounds",
+      pas = true,
+      tal = true,
+    },
+    [1273043] = {
+      n = "natures_ally",
+      pas = true,
+      tal = true,
+    },
+    [1273065] = {
+      n = "natures_ally",
+      pas = true,
+      tal = true,
+    },
+    [1273144] = {
+      d = 10,
+      n = "natures_ally",
+    },
+    [1273145] = {
+      ap = {
+        { 1273145, "enemy" },
+      },
+      d = 8,
+      n = "natures_ally",
+    },
+    [1276720] = {
+      ap = {
+        { 1276720, "self" },
+      },
+      d = 8,
+      n = "natures_ally",
+    },
+    [1281527] = {
+      d = 8,
+      n = "natures_ally",
+    },
+    [1282474] = {
+      d = 15,
+      n = "natures_ally",
+    },
+    [1282660] = {
+      gain = { [2] = 25 },
+      n = "barbed_shot",
+    },
+    [1285912] = {
+      d = 15,
+      n = "bestial_wrath",
+    },
+    [1299389] = {
+      ap = {
+        { 1299389, "self" },
+      },
+      d = 15,
+      n = "cobra_fang",
+      st = 4,
+    },
+  },
+  spells = {
+    arcane_shot = {
+      a = { 185358 },
+    },
+    auto_shot = {
+      a = { 75 },
+    },
+    barbed_shot = {
+      a = { 217200, 246152, 1282660 },
+      b = { 217200, 246152, 1282660 },
+    },
+    beast_cleave = {
+      a = { 118455, 118459, 268877, 433984, 115939 },
+      b = { 268877, 118455, 118459, 433984, 115939 },
+      t = { 115939 },
+    },
+    bestial_wrath = {
+      a = { 19574, 186254, 207033, 344572, 1235388, 1285912 },
+      b = { 19574, 186254, 207033, 1235388, 1285912, 344572 },
+    },
+    black_arrow = {
+      a = { 466930, 468037, 468572, 466932 },
+      t = { 466930, 466932 },
+    },
+    bloody_frenzy = {
+      t = { 407412 },
+    },
+    call_pet_1 = {
+      a = { 883 },
+    },
+    cobra_fang = {
+      a = { 1299389 },
+      b = { 1299389 },
+    },
+    cobra_shot = {
+      a = { 193455 },
+    },
+    jagged_wounds = {
+      t = { 1265044 },
+    },
+    kill_command = {
+      a = { 34026, 83381, 259277, 259285, 1232922, 259489 },
+    },
+    killer_cobra = {
+      t = { 199532 },
+    },
+    master_handler = {
+      t = { 424558 },
+    },
+    natures_ally = {
+      a = { 1273144, 1273145, 1276720, 1282474, 1273043, 1273065 },
+      b = { 1273144, 1273145, 1276720, 1281527, 1282474, 1273043 },
+    },
+    pack_tactics = {
+      t = { 321014 },
+    },
+    serpentine_strikes = {
+      t = { 468701 },
+    },
+    snakeskin_quiver = {
+      t = { 468695 },
+    },
+    steady_shot = {
+      a = { 56641, 77443 },
+    },
+    wailing_arrow = {
+      a = { 355589, 392060, 354831, 355596, 392058, 392061 },
+    },
+    wild_thrash = {
+      a = { 1264359, 1264355 },
+      t = { 1264359 },
+    },
+    withering_fire = {
+      a = { 466991, 466990 },
+      b = { 466991, 466990 },
+    },
+  },
 })

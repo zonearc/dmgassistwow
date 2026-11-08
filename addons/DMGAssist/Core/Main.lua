@@ -1,7 +1,7 @@
 -- Main.lua: startup, events, the update loop, slash commands. Loaded after the generated data.
 
 local ADDON_NAME, ns = ...
-local U, Specs, M, S, G, D = ns.U, ns.Specs, ns.SpellMap, ns.State, ns.Engine, ns.Display
+local U, L, Specs, M, S, G, D = ns.U, ns.L, ns.Specs, ns.SpellMap, ns.State, ns.Engine, ns.Display
 
 local UPDATE_INTERVAL = 0.1
 
@@ -20,7 +20,7 @@ local function Describe(state)
   end
   local parts = {
     string.format("%s, %s %s", tostring(state.client), tostring(state.class), tostring(state.key or state.specName or "-")),
-    STATUS_TEXT[state.status] or tostring(state.status),
+    L[STATUS_TEXT[state.status] or tostring(state.status)],
   }
   if state.source then
     parts[#parts + 1] = string.format("SimC %s %s (%s)", tostring(state.source.branch), tostring(state.source.commit),
@@ -60,12 +60,13 @@ local function RequestSpellRefresh()
 end
 
 Specs.OnChange(function(state, previous)
+  M.SetData(state.data)
   if state.key then
     S.Bind(state.key)
   end
   RefreshSpells()
   if previous then
-    U.Print("Spec changed: %s", Describe(state))
+    U.Print(L["Spec changed: %s"], Describe(state))
   end
 end)
 
@@ -107,11 +108,14 @@ function ns.Update()
   D.Update(result, true)
   -- Decision log: one line per change of pick (not every tick).
   local main, cd = result.main, result.cd
-  local sig = (main and (main.token or main.id) or "-") .. "/" .. (cd and cd.token or "-")
+  local q2, q3 = result.queue and result.queue[2], result.queue and result.queue[3]
+  local sig = (main and (main.token or main.id) or "-") .. "/" .. (cd and cd.token or "-") .. "/" ..
+    tostring(result.modeLabel)
   if sig ~= lastLogged then
     lastLogged = sig
     U.Log("pick", {
       main = main and main.token, source = main and main.source, cd = cd and cd.token, ac = result.acSpell,
+      next = q2 and q2.token, after = q3 and q3.token, mode = result.modeLabel,
     })
   end
   return result
@@ -140,7 +144,8 @@ end
 pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_SUCCEEDED", "player")
 pcall(frame.RegisterUnitEvent, frame, "UNIT_AURA", "player", "target")
 
-local DEFAULTS = { enabled = true, burst = true, mode = "st", aoeTargets = 3, fightLength = 300, useAssisted = true }
+local DEFAULTS = { enabled = true, burst = true, mode = "st", autoDetect = true, aoeTargets = 3, fightLength = 300,
+  useAssisted = true, queue = 3 }
 
 frame:SetScript("OnEvent", function(_, event, ...)
   local arg1, _, arg3 = ...
@@ -160,7 +165,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     U.Print("%s", Describe(state))
     local loaded = ns.Data.LoadedBranches()
     if #loaded > 1 then
-      U.Print("Warning: data for %s loaded at once; using %s.", table.concat(loaded, " and "), tostring(state.branch))
+      U.Print(L["Warning: data for %s loaded at once; using %s."], table.concat(loaded, " and "), tostring(state.branch))
       U.Log("data_gating", table.concat(loaded, ","))
     end
     D.Create()
@@ -211,36 +216,49 @@ end)
 ---------------------------------------------------------------------------
 -- Slash commands
 ---------------------------------------------------------------------------
-local function OnOff(v)
-  if v then
-    return "on"
-  end
-  return "off"
-end
-
 local commands = {}
 
 function commands.on()
   ns.db.enabled = true
-  U.Print("Recommendations on.")
+  U.Print(L["Recommendations on."])
 end
 
 function commands.off()
   ns.db.enabled = false
   D.Update(nil, false)
-  U.Print("Recommendations off.")
+  U.Print(L["Recommendations off."])
 end
 
 function commands.burst()
   ns.db.burst = ns.db.burst == false
-  U.Print("Major cooldowns %s.", OnOff(ns.db.burst))
+  U.Print(ns.db.burst and L["Major cooldowns on."] or L["Major cooldowns off."])
 end
 
+-- /dmga mode st|aoe sets the primary mode; /dmga mode alone cycles like the hotkey.
 function commands.mode(arg)
-  if arg == "st" or arg == "aoe" or arg == "auto" then
+  if arg == "st" or arg == "aoe" then
     ns.db.mode = arg
+    S.modeOverride = nil
+  elseif arg == "auto" then
+    ns.db.autoDetect = true
+    S.modeOverride = nil
+  else
+    S.CycleMode()
   end
-  U.Print("Target mode: %s.", tostring(ns.db.mode))
+  local _, label = S.Targets()
+  U.Print(L["Target mode: %s."], (label:gsub("%a+", function(w) return L[w] end)))
+end
+
+function commands.auto(arg)
+  if arg == "on" then
+    ns.db.autoDetect = true
+  elseif arg == "off" then
+    ns.db.autoDetect = false
+  else
+    ns.db.autoDetect = ns.db.autoDetect == false
+  end
+  S.modeOverride = nil
+  U.Print(ns.db.autoDetect and L["Auto-detect targets: on."] or L["Auto-detect targets: off."])
 end
 
 function commands.targets(arg)
@@ -248,7 +266,7 @@ function commands.targets(arg)
   if n and n >= 1 then
     ns.db.aoeTargets = math.floor(n)
   end
-  U.Print("AoE targets: %d.", ns.db.aoeTargets)
+  U.Print(L["AoE targets: %d."], ns.db.aoeTargets)
 end
 
 function commands.fight(arg)
@@ -256,46 +274,79 @@ function commands.fight(arg)
   if n and n >= 10 then
     ns.db.fightLength = math.floor(n)
   end
-  U.Print("Assumed fight length: %ds.", ns.db.fightLength)
+  U.Print(L["Assumed fight length: %ds."], ns.db.fightLength)
+end
+
+function commands.queue(arg)
+  local n = tonumber(arg)
+  if n and n >= 1 and n <= 3 then
+    ns.db.queue = math.floor(n)
+  end
+  U.Print(L["Queue length: %d."], tonumber(ns.db.queue) or 3)
 end
 
 function commands.lock()
   ns.db.locked = not ns.db.locked
   D.SetLocked(ns.db.locked)
-  U.Print("Icon %s.", ns.db.locked and "locked" or "unlocked (drag to move)")
+  U.Print(ns.db.locked and L["Icon locked."] or L["Icon unlocked (drag to move)."])
 end
 
 function commands.why()
   local r = ns.last
   if not r or not r.main then
-    U.Print("No recommendation right now.")
+    U.Print(L["No recommendation right now."])
     return
   end
-  U.Print("Next: %s (%s). Cooldown slot: %s. Assisted Combat says: %s.", tostring(r.main.token),
-    tostring(r.main.source), tostring(r.cd and r.cd.token or "-"), tostring(r.acSpell or "-"))
   local names = {}
-  for name in pairs(r.unresolved or {}) do
-    names[#names + 1] = name
+  for i, pick in ipairs(r.queue or {}) do
+    names[i] = tostring(pick.token)
   end
-  table.sort(names)
-  if #names > 0 then
-    U.Print("Spells in the list you don't have (or we can't match): %s", table.concat(names, ", "))
+  U.Print(L["Next: %s (%s). Cooldown slot: %s. Assisted Combat says: %s."], table.concat(names, " > "),
+    tostring(r.main.source), tostring(r.cd and r.cd.token or "-"), tostring(r.acSpell or "-"))
+  local missing = {}
+  for name in pairs(r.unresolved or {}) do
+    missing[#missing + 1] = name
+  end
+  table.sort(missing)
+  if #missing > 0 then
+    U.Print(L["Spells in the list you don't have (or we can't match): %s"], table.concat(missing, ", "))
   end
 end
 
 function commands.help()
+  U.Print(L["Commands:"])
   local lines = {
-    "/dmga — status",
-    "/dmga on | off — show or hide recommendations",
-    "/dmga burst — toggle major cooldowns (now " .. OnOff(ns.db.burst ~= false) .. ")",
-    "/dmga mode st | aoe | auto — target count (now " .. tostring(ns.db.mode) .. ")",
-    "/dmga targets <n> — targets assumed in aoe mode",
-    "/dmga fight <seconds> — assumed fight length",
-    "/dmga lock — lock or unlock the icon position",
-    "/dmga why — explain the current pick",
+    { "/dmga", "status" },
+    { "/dmga on | off", "show or hide recommendations" },
+    { "/dmga burst", "toggle major cooldowns" },
+    { "/dmga mode st | aoe", "primary target mode" },
+    { "/dmga mode", "cycle Auto / Single / AoE (also a key binding)" },
+    { "/dmga auto on | off", "auto-detect targets from nameplates" },
+    { "/dmga targets <n>", "targets assumed in AoE mode" },
+    { "/dmga fight <seconds>", "assumed fight length" },
+    { "/dmga queue 1-3", "icons shown (1-3)" },
+    { "/dmga lock", "lock or unlock the icon position" },
+    { "/dmga why", "explain the current pick" },
   }
   for _, line in ipairs(lines) do
-    U.Print("%s", line)
+    U.Print("%s — %s", line[1], L[line[2]])
+  end
+end
+
+-- Key bindings (Bindings.xml) call these globals.
+function DMGAssist_CycleMode()
+  commands.mode("")
+end
+
+function DMGAssist_ToggleBurst()
+  commands.burst()
+end
+
+function DMGAssist_Toggle()
+  if ns.db.enabled == false then
+    commands.on()
+  else
+    commands.off()
   end
 end
 
@@ -309,5 +360,5 @@ SlashCmdList.DMGASSIST = function(msg)
   end
   local state = Specs.Refresh("slash")
   U.Print("%s", Describe(state))
-  U.Print("Spells matched: %s. Type /dmga help for options.", tostring(M.count or 0))
+  U.Print(L["Spells matched: %s. Type /dmga help for options."], tostring(M.count or 0))
 end

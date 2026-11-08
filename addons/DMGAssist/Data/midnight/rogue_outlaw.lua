@@ -173,16 +173,25 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       },
     },
   },
-  blizzardExcluded = {
-    "adrenaline_rush",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "adrenaline_rush" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "rogue",
+  heroTrees = {
+    fatebound = {
+      452536,
+      453428,
+      453457,
+      454286,
+      454419,
+      454432,
+      454433,
+      454435,
+      1248970,
+      1249190,
+      1249194,
+      1249201,
+    },
+  },
   key = "rogue_outlaw",
   simc = {
     build = {
@@ -467,12 +476,539 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "build",
-    "cds",
-    "finish",
-  },
+  simcOrder = { "precombat", "default", "build", "cds", "finish" },
   spec = "outlaw",
+  spellInfo = {
+    [1752] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
+    },
+    [1766] = {
+      cd = 15,
+      d = 6,
+      n = "kick",
+    },
+    [1784] = {
+      cd = 2,
+      n = "stealth",
+      st = 1,
+    },
+    [1856] = {
+      cd = 1,
+      ch = 1,
+      chcd = 120,
+      n = "vanish",
+    },
+    [2098] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "dispatch",
+    },
+    [8676] = {
+      cost = { [3] = 50 },
+      gain = { [4] = 2 },
+      gcd = 1,
+      n = "ambush",
+    },
+    [11327] = {
+      ap = {
+        { 11327, "self" },
+      },
+      d = 3,
+      n = "vanish",
+      st = 1,
+    },
+    [13750] = {
+      ap = {
+        { 13750, "self" },
+      },
+      cd = 180,
+      d = 15,
+      n = "adrenaline_rush",
+      tal = true,
+    },
+    [13877] = {
+      ap = {
+        { 13877, "self" },
+      },
+      cd = 30,
+      cost = { [3] = 15 },
+      d = 10,
+      gcd = 1,
+      n = "blade_flurry",
+    },
+    [14983] = {
+      n = "vigor",
+      pas = true,
+      tal = true,
+    },
+    [22482] = {
+      n = "blade_flurry",
+    },
+    [25046] = {
+      cd = 120,
+      gain = { [3] = 15 },
+      gcd = 1,
+      n = "arcane_torrent",
+    },
+    [51690] = {
+      cd = 180,
+      cmax = { [4] = 7 },
+      cost = { [3] = 45, [4] = 1 },
+      gcd = 1,
+      n = "killing_spree",
+      tal = true,
+    },
+    [57841] = {
+      n = "killing_spree",
+    },
+    [57842] = {
+      n = "killing_spree",
+    },
+    [115191] = {
+      cd = 2,
+      n = "stealth",
+      st = 1,
+    },
+    [158188] = {
+      n = "stealth",
+    },
+    [185763] = {
+      ap = {
+        { 185763, "enemy" },
+      },
+      cost = { [3] = 40 },
+      d = 6,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "pistol_shot",
+    },
+    [186286] = {
+      ap = {
+        { 186286, "self" },
+      },
+      cd = 180,
+      d = 4,
+      n = "adrenaline_rush",
+    },
+    [193315] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
+    },
+    [195627] = {
+      ap = {
+        { 195627, "self" },
+      },
+      d = 12,
+      n = "opportunity",
+      st = 1,
+    },
+    [196938] = {
+      n = "quick_draw",
+      pas = true,
+      tal = true,
+    },
+    [197834] = {
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
+    },
+    [256170] = {
+      n = "loaded_dice",
+      pas = true,
+      tal = true,
+    },
+    [256171] = {
+      ap = {
+        { 256171, "self" },
+      },
+      d = 45,
+      n = "loaded_dice",
+      st = 1,
+    },
+    [271877] = {
+      cd = 60,
+      gcd = 1,
+      n = "blade_rush",
+      tal = true,
+    },
+    [271878] = {
+      n = "blade_rush",
+    },
+    [271881] = {
+      n = "blade_rush",
+    },
+    [271896] = {
+      ap = {
+        { 271896, "self" },
+      },
+      d = 5,
+      n = "blade_rush",
+    },
+    [279876] = {
+      n = "opportunity",
+      pas = true,
+      tal = true,
+    },
+    [315341] = {
+      ap = {
+        { 315341, "self" },
+      },
+      cd = 45,
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 2,
+      gcd = 1,
+      n = "between_the_eyes",
+      st = 20,
+    },
+    [315496] = {
+      ap = {
+        { 315496, "self" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "slice_and_dice",
+    },
+    [331850] = {
+      n = "blade_flurry",
+    },
+    [341541] = {
+      gcd = 1,
+      n = "sinister_strike",
+    },
+    [381620] = {
+      n = "improved_ambush",
+      pas = true,
+      tal = true,
+    },
+    [381845] = {
+      n = "audacity",
+      pas = true,
+      tal = true,
+    },
+    [381846] = {
+      n = "fan_the_hammer",
+      pas = true,
+      tal = true,
+    },
+    [381878] = {
+      n = "deft_maneuvers",
+      pas = true,
+      tal = true,
+    },
+    [381989] = {
+      cd = 360,
+      n = "keep_it_rolling",
+      tal = true,
+    },
+    [383281] = {
+      n = "hidden_opportunity",
+      pas = true,
+      tal = true,
+    },
+    [385794] = {
+      n = "ambush",
+    },
+    [385897] = {
+      gain = { [4] = 2 },
+      n = "ambush",
+    },
+    [386270] = {
+      ap = {
+        { 386270, "self" },
+      },
+      d = 10,
+      n = "audacity",
+      st = 1,
+    },
+    [395422] = {
+      n = "improved_adrenaline_rush",
+      pas = true,
+      tal = true,
+    },
+    [424556] = {
+      ap = {
+        { 424556, "self" },
+        { 424562, "self" },
+      },
+      d = 0.5,
+      n = "killing_spree",
+    },
+    [424562] = {
+      ap = {
+        { 424562, "self" },
+      },
+      d = 3,
+      n = "killing_spree",
+    },
+    [424564] = {
+      ap = {
+        { 424564, "self" },
+      },
+      d = 8,
+      n = "killing_spree",
+    },
+    [426605] = {
+      n = "slice_and_dice",
+    },
+    [429951] = {
+      n = "blade_flurry",
+    },
+    [430023] = {
+      cost = { [3] = 50 },
+      gain = { [4] = 2 },
+      gcd = 1,
+      n = "ambush",
+    },
+    [441423] = {
+      n = "coup_de_grace",
+      pas = true,
+      tal = true,
+    },
+    [441776] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1.2,
+      n = "coup_de_grace",
+    },
+    [450743] = {
+      n = "coup_de_grace",
+    },
+    [454419] = {
+      n = "deal_fate",
+      pas = true,
+      tal = true,
+    },
+    [462127] = {
+      n = "coup_de_grace",
+    },
+    [462128] = {
+      n = "coup_de_grace",
+    },
+    [467059] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "dispatch",
+    },
+    [470347] = {
+      n = "supercharger",
+      pas = true,
+      tal = true,
+    },
+    [470680] = {
+      cost = { [3] = 1 },
+      gain = { [3] = 1 },
+      n = "adrenaline_rush",
+    },
+    [473189] = {
+      gcd = 1,
+      n = "sinister_strike",
+    },
+    [473192] = {
+      ap = {
+        { 473192, "self" },
+      },
+      d = 12,
+      n = "opportunity",
+      st = 1,
+    },
+    [473257] = {
+      gcd = 1,
+      n = "sinister_strike",
+    },
+    [1214909] = {
+      ap = {
+        { 1214909, "self" },
+      },
+      cd = 45,
+      cost = { [3] = 25 },
+      d = 30,
+      gcd = 1,
+      n = "roll_the_bones",
+    },
+    [1214933] = {
+      ap = {
+        { 1214933, "self" },
+      },
+      d = 30,
+      n = "one_of_a_kind",
+    },
+    [1214934] = {
+      ap = {
+        { 1214934, "self" },
+      },
+      d = 30,
+      n = "double_trouble",
+    },
+    [1214935] = {
+      ap = {
+        { 1214935, "self" },
+      },
+      d = 30,
+      n = "triple_threat",
+    },
+    [1214937] = {
+      ap = {
+        { 1214937, "self" },
+      },
+      d = 30,
+      n = "jackpot",
+    },
+    [1254567] = {
+      gain = { [4] = 1 },
+      n = "opportunity",
+    },
+    [1256630] = {
+      n = "menacing_rush",
+      pas = true,
+      tal = true,
+    },
+    [1277933] = {
+      cd = 240,
+      gcd = 1,
+      n = "preparation",
+      tal = true,
+    },
+    [1301405] = {
+      ap = {
+        { 1301405, "self" },
+      },
+      d = 15,
+      n = "fang_strike",
+      st = 1,
+    },
+  },
+  spells = {
+    adrenaline_rush = {
+      a = { 13750, 186286, 470680 },
+      b = { 13750, 186286, 470680 },
+    },
+    ambush = {
+      a = { 8676, 430023, 385794, 385897 },
+    },
+    arcane_torrent = {
+      a = { 25046 },
+    },
+    audacity = {
+      a = { 386270, 381845 },
+      b = { 386270, 381845 },
+      t = { 381845 },
+    },
+    between_the_eyes = {
+      a = { 315341 },
+      b = { 315341 },
+    },
+    blade_flurry = {
+      a = { 13877, 22482, 331850, 429951 },
+      b = { 13877, 22482, 331850, 429951 },
+    },
+    blade_rush = {
+      a = { 271877, 271878, 271881, 271896 },
+    },
+    coup_de_grace = {
+      a = { 441776, 450743, 441423, 462127, 462128 },
+    },
+    deal_fate = {
+      t = { 454419 },
+    },
+    deft_maneuvers = {
+      t = { 381878 },
+    },
+    dispatch = {
+      a = { 2098, 467059 },
+    },
+    double_trouble = {
+      a = { 1214934 },
+      b = { 1214934 },
+    },
+    fan_the_hammer = {
+      t = { 381846 },
+    },
+    fang_strike = {
+      a = { 1301405 },
+      b = { 1301405 },
+    },
+    hidden_opportunity = {
+      t = { 383281 },
+    },
+    improved_adrenaline_rush = {
+      t = { 395422 },
+    },
+    improved_ambush = {
+      t = { 381620 },
+    },
+    jackpot = {
+      a = { 1214937 },
+      b = { 1214937 },
+    },
+    keep_it_rolling = {
+      a = { 381989 },
+      t = { 381989 },
+    },
+    kick = {
+      a = { 1766 },
+    },
+    killing_spree = {
+      a = { 51690, 57841, 57842, 424556, 424562, 424564 },
+    },
+    loaded_dice = {
+      a = { 256171, 256170 },
+      b = { 256171, 256170 },
+    },
+    menacing_rush = {
+      t = { 1256630 },
+    },
+    one_of_a_kind = {
+      a = { 1214933 },
+      b = { 1214933 },
+    },
+    opportunity = {
+      a = { 195627, 473192, 1254567, 279876 },
+      b = { 195627, 473192, 1254567, 279876 },
+    },
+    pistol_shot = {
+      a = { 185763 },
+    },
+    preparation = {
+      a = { 1277933 },
+    },
+    quick_draw = {
+      t = { 196938 },
+    },
+    roll_the_bones = {
+      a = { 1214909 },
+      b = { 1214909 },
+    },
+    sinister_strike = {
+      a = { 1752, 193315, 197834, 341541, 473189, 473257 },
+    },
+    slice_and_dice = {
+      a = { 315496, 426605 },
+    },
+    stealth = {
+      a = { 1784, 115191, 158188 },
+    },
+    supercharger = {
+      t = { 470347 },
+    },
+    triple_threat = {
+      a = { 1214935 },
+      b = { 1214935 },
+    },
+    vanish = {
+      a = { 1856, 11327 },
+    },
+    vigor = {
+      t = { 14983 },
+    },
+  },
 })

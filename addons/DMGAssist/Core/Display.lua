@@ -1,8 +1,11 @@
--- Display.lua: the HUD. One large icon (next spell) and one small icon (major cooldown, burst toggle on).
+-- Display.lua: the HUD.
+--   [ next ] [ then ] [ then ]   (first icon large: press this when the GCD ends)
+--   [ cooldown ]                  (major cooldown, while the burst toggle is on)
+--   mode label: ST / AOE / AUTO n  (hotkey or /dmga mode to switch)
 -- Shown in combat or with an attackable target. Drag to move while unlocked (/dmga lock).
 
 local _, ns = ...
-local U = ns.U
+local U, L = ns.U, ns.L
 
 local D = {}
 ns.Display = D
@@ -17,6 +20,8 @@ local SOURCE_TEXT = {
   guess = "?",
 }
 
+local MAIN_SIZE, NEXT_SIZE, CD_SIZE, GAP = 52, 34, 34, 4
+
 local function Icon(parent, size)
   local f = CreateFrame("Frame", nil, parent)
   f:SetSize(size, size)
@@ -24,6 +29,7 @@ local function Icon(parent, size)
   f.tex:SetAllPoints(f)
   f.label = f:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
   f.label:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", -2, 2)
+  f:Hide()
   return f
 end
 
@@ -33,7 +39,7 @@ function D.Create()
   end
   local db = ns.db or {}
   local f = CreateFrame("Frame", "DMGAssistDisplay", UIParent)
-  f:SetSize(52, 52)
+  f:SetSize(MAIN_SIZE, MAIN_SIZE)
   local pos = type(db.point) == "table" and db.point or nil
   if pos then
     f:SetPoint(pos[1] or "CENTER", UIParent, pos[2] or "CENTER", tonumber(pos[3]) or 0, tonumber(pos[4]) or -150)
@@ -56,11 +62,18 @@ function D.Create()
       ns.db.point = { p1, p2, x, y }
     end
   end)
-  f.main = Icon(f, 52)
-  f.main:SetPoint("CENTER", f, "CENTER", 0, 0)
-  f.cd = Icon(f, 34)
-  f.cd:SetPoint("BOTTOMLEFT", f, "BOTTOMRIGHT", 4, 0)
-  f.cd:Hide()
+  f.slots = {}
+  f.slots[1] = Icon(f, MAIN_SIZE)
+  f.slots[1]:SetPoint("TOPLEFT", f, "TOPLEFT", 0, 0)
+  for i = 2, 3 do
+    f.slots[i] = Icon(f, NEXT_SIZE)
+    f.slots[i]:SetPoint("BOTTOMLEFT", f.slots[i - 1], "BOTTOMRIGHT", GAP, 0)
+  end
+  f.main = f.slots[1]
+  f.cd = Icon(f, CD_SIZE)
+  f.cd:SetPoint("TOPLEFT", f.slots[1], "BOTTOMLEFT", 0, -GAP)
+  f.mode = f:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+  f.mode:SetPoint("BOTTOMLEFT", f.slots[1], "TOPLEFT", 0, 2)
   f:Hide()
   D.frame = f
   return f
@@ -83,8 +96,15 @@ function D.Update(result, visible)
     f:Hide()
     return
   end
-  SetIcon(f.main, result.main)
+  local depth = (ns.db and tonumber(ns.db.queue)) or 3
+  local queue = result.queue or { result.main }
+  for i = 1, 3 do
+    SetIcon(f.slots[i], i <= depth and queue[i] or nil)
+  end
   SetIcon(f.cd, result.cd)
+  f.mode:SetText((tostring(result.modeLabel or ""):gsub("%a+", function(word)
+    return L[word]
+  end)))
   f:Show()
 end
 

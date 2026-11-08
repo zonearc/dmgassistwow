@@ -139,13 +139,9 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
     },
   },
   blizzardExcluded = {},
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "evoker",
+  heroTrees = {},
   key = "evoker_devastation",
   simc = {
     default = {
@@ -869,4 +865,716 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
     "trinkets",
   },
   spec = "devastation",
+  spellInfo = {
+    [351338] = {
+      cd = 20,
+      d = 6,
+      n = "quell",
+      tal = true,
+    },
+    [353759] = {
+      ap = {
+        { 353759, "enemy" },
+      },
+      d = 1,
+      n = "deep_breath",
+    },
+    [355627] = {
+      ap = {
+        { 355627, "self" },
+      },
+      d = 2,
+      n = "azure_strike",
+    },
+    [355913] = {
+      cd = 30,
+      cost = { [19] = 3 },
+      d = 1.5,
+      gcd = 1.5,
+      n = "emerald_blossom",
+    },
+    [355916] = {
+      n = "emerald_blossom",
+    },
+    [356995] = {
+      ap = {
+        { 356995, "self" },
+      },
+      cost = { [19] = 3 },
+      d = 3,
+      gcd = 1.5,
+      n = "disintegrate",
+    },
+    [357208] = {
+      ap = {
+        { 357208, "self" },
+      },
+      ch = 1,
+      chcd = 30,
+      d = 2.5,
+      gcd = 0.5,
+      n = "fire_breath",
+    },
+    [357209] = {
+      ap = {
+        { 357209, "enemy" },
+      },
+      d = 2,
+      n = "fire_breath",
+    },
+    [357210] = {
+      ap = {
+        { 357210, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 120,
+      d = 6,
+      gcd = 1.5,
+      n = "deep_breath",
+    },
+    [357211] = {
+      cost = { [19] = 3 },
+      gcd = 1.5,
+      n = "pyre",
+      tal = true,
+    },
+    [357212] = {
+      n = "pyre",
+    },
+    [357302] = {
+      ap = {
+        { 357302, "self" },
+      },
+      d = 0.7,
+      n = "hover",
+    },
+    [357332] = {
+      ap = {
+        { 357332, "self" },
+      },
+      d = 0.7,
+      n = "hover",
+    },
+    [357377] = {
+      ap = {
+        { 357377, "self" },
+      },
+      d = 0.7,
+      n = "hover",
+    },
+    [357379] = {
+      ap = {
+        { 357379, "self" },
+      },
+      d = 0.7,
+      n = "hover",
+    },
+    [358267] = {
+      ap = {
+        { 358267, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 35,
+      d = 6,
+      n = "hover",
+    },
+    [358268] = {
+      ap = {
+        { 358268, "self" },
+      },
+      d = 2,
+      n = "hover",
+    },
+    [359073] = {
+      ap = {
+        { 359073, "enemy" },
+      },
+      cd = 30,
+      d = 2.5,
+      gcd = 0.5,
+      n = "eternity_surge",
+      tal = true,
+    },
+    [359077] = {
+      gcd = 1.5,
+      n = "eternity_surge",
+    },
+    [359565] = {
+      n = "essence_burst",
+      pas = true,
+    },
+    [359618] = {
+      ap = {
+        { 359618, "self" },
+      },
+      d = 15,
+      n = "essence_burst",
+      st = 1,
+    },
+    [360995] = {
+      cd = 0.5,
+      ch = 1,
+      chcd = 24,
+      gcd = 1.5,
+      n = "verdant_embrace",
+      tal = true,
+    },
+    [361195] = {
+      n = "verdant_embrace",
+    },
+    [361469] = {
+      ct = 2,
+      gcd = 1.5,
+      n = "living_flame",
+    },
+    [361500] = {
+      ap = {
+        { 361500, "enemy" },
+      },
+      d = 12,
+      gcd = 1.5,
+      n = "living_flame",
+      st = 3,
+    },
+    [361509] = {
+      d = 12,
+      n = "living_flame",
+      st = 3,
+    },
+    [361519] = {
+      ap = {
+        { 361519, "self" },
+      },
+      d = 15,
+      n = "essence_burst",
+    },
+    [362010] = {
+      ap = {
+        { 362010, "self" },
+      },
+      d = 5,
+      n = "deep_breath",
+    },
+    [362019] = {
+      ap = {
+        { 362019, "self" },
+      },
+      d = 0.4,
+      n = "deep_breath",
+    },
+    [362969] = {
+      ap = {
+        { 355627, "self" },
+      },
+      gcd = 1.5,
+      n = "azure_strike",
+    },
+    [364664] = {
+      d = 12,
+      n = "living_flame",
+      st = 3,
+    },
+    [365261] = {
+      n = "emerald_blossom",
+      pas = true,
+    },
+    [367106] = {
+      n = "fire_breath",
+    },
+    [369089] = {
+      n = "volatility",
+      pas = true,
+      tal = true,
+    },
+    [369299] = {
+      ap = {
+        { 369299, "self" },
+      },
+      d = 15,
+      n = "essence_burst",
+      st = 1,
+    },
+    [369398] = {
+      ap = {
+        { 369398, "enemy" },
+      },
+      d = 12,
+      n = "living_flame",
+      st = 3,
+    },
+    [369819] = {
+      n = "disintegrate",
+    },
+    [369846] = {
+      n = "feed_the_flames",
+      pas = true,
+      tal = true,
+    },
+    [369939] = {
+      n = "leaping_flames",
+      pas = true,
+      tal = true,
+    },
+    [369990] = {
+      n = "ancient_flame",
+      pas = true,
+      tal = true,
+    },
+    [370454] = {
+      ap = {
+        { 370454, "self" },
+      },
+      d = 30,
+      n = "charged_blast",
+      st = 20,
+    },
+    [370455] = {
+      n = "charged_blast",
+      pas = true,
+      tal = true,
+    },
+    [370553] = {
+      cd = 120,
+      n = "tip_the_scales",
+      st = 1,
+      tal = true,
+    },
+    [370781] = {
+      n = "imminent_destruction",
+      pas = true,
+      tal = true,
+    },
+    [370819] = {
+      n = "scorching_embers",
+      pas = true,
+      tal = true,
+    },
+    [370901] = {
+      ap = {
+        { 370901, "self" },
+      },
+      d = 30,
+      n = "leaping_flames",
+      st = 4,
+    },
+    [370917] = {
+      n = "leaping_flames",
+    },
+    [372469] = {
+      n = "scarlet_adaptation",
+      pas = true,
+      tal = true,
+    },
+    [372563] = {
+      ap = {
+        { 372563, "self" },
+      },
+      d = 0.7,
+      n = "hover",
+    },
+    [373766] = {
+      n = "emerald_blossom",
+    },
+    [375087] = {
+      ap = {
+        { 375087, "self" },
+      },
+      cd = 120,
+      d = 18,
+      gcd = 1.5,
+      n = "dragonrage",
+      tal = true,
+    },
+    [375088] = {
+      n = "dragonrage",
+    },
+    [375583] = {
+      n = "ancient_flame",
+    },
+    [375757] = {
+      n = "eternitys_span",
+      pas = true,
+      tal = true,
+    },
+    [375797] = {
+      n = "animosity",
+      pas = true,
+      tal = true,
+    },
+    [375801] = {
+      n = "burnout",
+      pas = true,
+      tal = true,
+    },
+    [375802] = {
+      ap = {
+        { 375802, "self" },
+      },
+      d = 15,
+      n = "burnout",
+      st = 2,
+    },
+    [382266] = {
+      ap = {
+        { 382266, "self" },
+      },
+      ch = 1,
+      chcd = 30,
+      d = 3.25,
+      gcd = 0.5,
+      n = "fire_breath",
+    },
+    [382411] = {
+      ap = {
+        { 382411, "enemy" },
+      },
+      cd = 30,
+      d = 3.25,
+      gcd = 0.5,
+      n = "eternity_surge",
+    },
+    [392268] = {
+      ap = {
+        { 392268, "self" },
+      },
+      d = 15,
+      n = "essence_burst",
+      st = 1,
+    },
+    [393568] = {
+      n = "pyre",
+    },
+    [409895] = {
+      d = 8,
+      n = "verdant_embrace",
+    },
+    [417402] = {
+      ap = {
+        { 417402, "self" },
+      },
+      d = 15,
+      n = "essence_burst",
+      st = 1,
+    },
+    [430806] = {
+      ap = {
+        { 430806, "enemy" },
+      },
+      d = 12,
+      gcd = 1.5,
+      n = "living_flame",
+      st = 3,
+    },
+    [430835] = {
+      ap = {
+        { 430835, "self" },
+      },
+      d = 15,
+      n = "essence_burst",
+      st = 2,
+    },
+    [431151] = {
+      n = "pyre",
+    },
+    [431152] = {
+      n = "pyre",
+    },
+    [431165] = {
+      cd = 30,
+      ct = 1,
+      gcd = 0.5,
+      n = "fire_breath",
+    },
+    [431192] = {
+      n = "eternity_surge",
+    },
+    [433871] = {
+      n = "maneuverability",
+      pas = true,
+      tal = true,
+    },
+    [433874] = {
+      ap = {
+        { 433874, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 120,
+      d = 3.75,
+      gcd = 1.5,
+      n = "deep_breath",
+    },
+    [436335] = {
+      n = "mass_disintegrate",
+      pas = true,
+      tal = true,
+    },
+    [441176] = {
+      n = "melt_armor",
+      pas = true,
+      tal = true,
+    },
+    [441257] = {
+      n = "slipstream",
+      pas = true,
+      tal = true,
+    },
+    [444088] = {
+      n = "consume_flame",
+      pas = true,
+      tal = true,
+    },
+    [459537] = {
+      n = "imminent_destruction",
+      pas = true,
+      tal = true,
+    },
+    [1236943] = {
+      ap = {
+        { 1236943, "self" },
+      },
+      cd = 120,
+      d = 4,
+      gcd = 1.5,
+      n = "deep_breath",
+    },
+    [1236949] = {
+      ap = {
+        { 1236949, "enemy" },
+      },
+      d = 2.5,
+      gcd = 1.5,
+      n = "disintegrate",
+    },
+    [1236970] = {
+      gcd = 1.5,
+      n = "pyre",
+    },
+    [1264269] = {
+      n = "legacy_of_the_lifebinder",
+      pas = true,
+      tal = true,
+    },
+    [1265826] = {
+      n = "star_salvo",
+      pas = true,
+      tal = true,
+    },
+    [1265867] = {
+      n = "azure_sweep",
+      pas = true,
+      tal = true,
+    },
+    [1265871] = {
+      ap = {
+        { 1265871, "self" },
+      },
+      d = 30,
+      n = "azure_sweep",
+      st = 2,
+    },
+    [1265872] = {
+      gcd = 1.5,
+      n = "azure_sweep",
+    },
+    [1266151] = {
+      n = "strafing_run",
+      pas = true,
+      tal = true,
+    },
+    [1266165] = {
+      ap = {
+        { 1266165, "self" },
+      },
+      d = 18,
+      n = "strafing_run",
+    },
+    [1271687] = {
+      n = "rising_fury",
+      pas = true,
+      tal = true,
+    },
+    [1271783] = {
+      n = "rising_fury",
+      st = 5,
+    },
+    [1271788] = {
+      n = "rising_fury",
+      pas = true,
+      tal = true,
+    },
+    [1271796] = {
+      n = "rising_fury",
+      pas = true,
+      tal = true,
+    },
+    [1279796] = {
+      ap = {
+        { 1279796, "self" },
+      },
+      d = 30,
+      n = "azure_sweep",
+      st = 2,
+    },
+    [1283718] = {
+      cd = 30,
+      ct = 1,
+      gcd = 0.5,
+      n = "fire_breath",
+    },
+    [1292321] = {
+      ap = {
+        { 359618, "self" },
+      },
+      gcd = 1.5,
+      n = "unbound_flame",
+    },
+    [1292322] = {
+      n = "unbound_flame",
+    },
+    [1292323] = {
+      ap = {
+        { 1292323, "self" },
+        { 1292325, "self" },
+      },
+      d = 60,
+      n = "unbound_flame",
+      st = 4,
+    },
+    [1292325] = {
+      ap = {
+        { 1292325, "self" },
+      },
+      d = 3,
+      n = "unbound_flame",
+    },
+  },
+  spells = {
+    ancient_flame = {
+      a = { 375583, 369990 },
+      b = { 375583, 369990 },
+      t = { 369990 },
+    },
+    animosity = {
+      t = { 375797 },
+    },
+    azure_strike = {
+      a = { 362969, 355627 },
+    },
+    azure_sweep = {
+      a = { 1265872, 1265871, 1265867, 1279796 },
+      b = { 1265871, 1279796, 1265872, 1265867 },
+    },
+    burnout = {
+      a = { 375802, 375801 },
+      b = { 375802, 375801 },
+    },
+    charged_blast = {
+      a = { 370454, 370455 },
+      b = { 370454, 370455 },
+      t = { 370455 },
+    },
+    consume_flame = {
+      t = { 444088 },
+    },
+    deep_breath = {
+      a = { 357210, 433874, 1236943, 353759, 362010, 362019 },
+    },
+    disintegrate = {
+      a = { 356995, 1236949, 369819 },
+    },
+    dragonrage = {
+      a = { 375087, 375088 },
+      b = { 375087, 375088 },
+      t = { 375087 },
+    },
+    emerald_blossom = {
+      a = { 355913, 355916, 373766, 365261 },
+    },
+    essence_burst = {
+      a = { 359618, 369299, 392268, 430835, 359565, 361519 },
+      b = { 359618, 361519, 369299, 392268, 417402, 430835 },
+    },
+    eternity_surge = {
+      a = { 359073, 359077, 382411, 431192 },
+    },
+    eternitys_span = {
+      t = { 375757 },
+    },
+    feed_the_flames = {
+      t = { 369846 },
+    },
+    fire_breath = {
+      a = { 357208, 382266, 431165, 1283718, 357209, 367106 },
+    },
+    hover = {
+      a = { 358267, 357302, 357332, 357377, 357379, 372563 },
+      b = { 357302, 357332, 357377, 357379, 358267, 358268 },
+    },
+    imminent_destruction = {
+      t = { 370781, 459537 },
+    },
+    leaping_flames = {
+      a = { 370901, 369939, 370917 },
+      b = { 370901, 370917, 369939 },
+    },
+    legacy_of_the_lifebinder = {
+      t = { 1264269 },
+    },
+    living_flame = {
+      a = { 361469, 361500, 430806, 361509, 364664, 369398 },
+    },
+    maneuverability = {
+      t = { 433871 },
+    },
+    mass_disintegrate = {
+      t = { 436335 },
+    },
+    melt_armor = {
+      t = { 441176 },
+    },
+    pyre = {
+      a = { 357211, 1236970, 357212, 431151, 393568, 431152 },
+    },
+    quell = {
+      a = { 351338 },
+    },
+    rising_fury = {
+      a = { 1271783, 1271687, 1271788, 1271796 },
+      b = { 1271783, 1271687, 1271788, 1271796 },
+      t = { 1271687, 1271788, 1271796 },
+    },
+    scarlet_adaptation = {
+      t = { 372469 },
+    },
+    scorching_embers = {
+      t = { 370819 },
+    },
+    slipstream = {
+      t = { 441257 },
+    },
+    star_salvo = {
+      t = { 1265826 },
+    },
+    strafing_run = {
+      a = { 1266165, 1266151 },
+      b = { 1266165, 1266151 },
+    },
+    tip_the_scales = {
+      a = { 370553 },
+      b = { 370553 },
+    },
+    unbound_flame = {
+      a = { 1292321, 1292322, 1292323, 1292325 },
+      b = { 1292323, 1292325, 1292321, 1292322 },
+    },
+    verdant_embrace = {
+      a = { 360995, 361195, 409895 },
+    },
+    volatility = {
+      t = { 369089 },
+    },
+  },
 })

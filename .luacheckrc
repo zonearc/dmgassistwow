@@ -15,6 +15,8 @@ globals = {
   "SLASH_DMGASSISTWATCHDOG2",
   "SlashCmdList",
   "UISpecialFrames",
+  "BINDING_HEADER_DMGASSIST", "BINDING_NAME_DMGASSIST_CYCLEMODE", "BINDING_NAME_DMGASSIST_BURST",
+  "BINDING_NAME_DMGASSIST_TOGGLE", "DMGAssist_CycleMode", "DMGAssist_ToggleBurst", "DMGAssist_Toggle",
 }
 
 -- WoW API we read. Keep this list to what the code actually uses, so a typo
@@ -22,7 +24,7 @@ globals = {
 read_globals = {
   "C_ActionBar", "C_AddOnProfiler", "C_AddOns", "C_AssistedCombat", "C_CVar", "C_ClassTalents", "C_CooldownViewer",
   "C_NamePlate", "C_Traits", "C_UnitAuras", "GetUnitSpeed", "IsStealthed", "UnitAffectingCombat", "UnitCanAttack",
-  "UnitExists", "UnitHealthMax", "UnitSpellHaste",
+  "UnitExists", "UnitHealthMax", "UnitSpellHaste", "UnitCastingInfo", "UnitChannelInfo",
   "C_DamageMeter", "C_EncodingUtil", "C_GameRules", "C_RestrictedActions", "C_Secrets",
   "C_Spell", "C_SpellActivationOverlay", "C_SpellBook", "C_SpecializationInfo", "C_Timer",
   "WOW_PROJECT_ID", "WOW_PROJECT_MAINLINE", "WOW_PROJECT_CAMELOT",

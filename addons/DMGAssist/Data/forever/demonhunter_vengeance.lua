@@ -122,16 +122,39 @@ ns.RegisterSpecData("forever", "demonhunter_vengeance", {
       },
     },
   },
-  blizzardExcluded = {
-    "metamorphosis",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "metamorphosis" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "demonhunter",
+  heroTrees = {
+    aldrachi_reaver = {
+      442290,
+      442492,
+      442497,
+      442502,
+      442679,
+      442683,
+      442686,
+      442714,
+      442718,
+      442736,
+      442806,
+      444926,
+    },
+    annihilator = {
+      1253304,
+      1253377,
+      1253391,
+      1253399,
+      1253402,
+      1253415,
+      1253668,
+      1253676,
+      1253769,
+      1253805,
+      1253817,
+      1256245,
+    },
+  },
   key = "demonhunter_vengeance",
   simc = {
     anni = {
@@ -1500,4 +1523,689 @@ ns.RegisterSpecData("forever", "demonhunter_vengeance", {
     "trinkets",
   },
   spec = "vengeance",
+  spellInfo = {
+    [162264] = {
+      ap = {
+        { 162264, "self" },
+      },
+      d = 20,
+      n = "metamorphosis",
+    },
+    [183752] = {
+      cd = 15,
+      d = 5,
+      n = "disrupt",
+    },
+    [185123] = {
+      ch = 1,
+      chcd = 9,
+      cost = { [17] = 25 },
+      gcd = 1.5,
+      n = "throw_glaive",
+    },
+    [187827] = {
+      ap = {
+        { 187827, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 120,
+      d = 15,
+      n = "metamorphosis",
+    },
+    [189110] = {
+      cd = 1,
+      ch = 1,
+      chcd = 15,
+      n = "infernal_strike",
+    },
+    [189112] = {
+      n = "infernal_strike",
+    },
+    [191427] = {
+      ap = {
+        { 162264, "self" },
+        { 201453, "self" },
+      },
+      cd = 120,
+      gcd = 1.5,
+      n = "metamorphosis",
+    },
+    [195439] = {
+      ap = {
+        { 195439, "self" },
+      },
+      cd = 15,
+      d = 0.8,
+      n = "disrupt",
+    },
+    [195441] = {
+      ap = {
+        { 195441, "self" },
+      },
+      cd = 9,
+      d = 0.8,
+      n = "throw_glaive",
+    },
+    [195447] = {
+      ap = {
+        { 195447, "self" },
+      },
+      cd = 30,
+      d = 0.8,
+      n = "immolation_aura",
+    },
+    [198793] = {
+      ap = {
+        { 198793, "self" },
+        { 198813, "enemy" },
+        { 232709, "self" },
+      },
+      cd = 0.75,
+      ch = 1,
+      chcd = 25,
+      d = 1,
+      n = "vengeful_retreat",
+      tal = true,
+    },
+    [198813] = {
+      ap = {
+        { 198813, "enemy" },
+      },
+      d = 3,
+      n = "vengeful_retreat",
+    },
+    [200166] = {
+      ap = {
+        { 200166, "enemy" },
+      },
+      d = 3,
+      n = "metamorphosis",
+    },
+    [201453] = {
+      ap = {
+        { 201453, "self" },
+      },
+      d = 1,
+      n = "metamorphosis",
+    },
+    [203557] = {
+      n = "felblade",
+      pas = true,
+    },
+    [203720] = {
+      cd = 1.5,
+      ch = 1,
+      chcd = 20,
+      n = "demon_spikes",
+    },
+    [203819] = {
+      ap = {
+        { 203819, "self" },
+      },
+      d = 12,
+      n = "demon_spikes",
+    },
+    [203981] = {
+      n = "soul_fragments",
+      st = 20,
+    },
+    [204021] = {
+      ch = 1,
+      chcd = 60,
+      gcd = 1.5,
+      n = "fiery_brand",
+      tal = true,
+    },
+    [204157] = {
+      ch = 1,
+      chcd = 9,
+      gcd = 1.5,
+      n = "throw_glaive",
+    },
+    [204497] = {
+      ap = {
+        { 204497, "self" },
+      },
+      d = 3,
+      n = "felblade",
+    },
+    [204596] = {
+      ch = 1,
+      chcd = 30,
+      d = 2,
+      gcd = 1.5,
+      n = "sigil_of_flame",
+    },
+    [204598] = {
+      ap = {
+        { 204598, "enemy" },
+      },
+      d = 8,
+      n = "sigil_of_flame",
+      st = 1,
+    },
+    [207407] = {
+      ap = {
+        { 207407, "enemy" },
+      },
+      cd = 60,
+      d = 3,
+      gcd = 1.5,
+      n = "soul_carver",
+      tal = true,
+    },
+    [207744] = {
+      ap = {
+        { 207744, "self" },
+      },
+      d = 12,
+      n = "fiery_brand",
+    },
+    [207771] = {
+      ap = {
+        { 207771, "self" },
+      },
+      d = 12,
+      n = "fiery_brand",
+    },
+    [209245] = {
+      ap = {
+        { 209245, "enemy" },
+        { 209247, "enemy" },
+      },
+      cd = 60,
+      d = 12,
+      gcd = 1.5,
+      n = "fiery_brand",
+    },
+    [209247] = {
+      ap = {
+        { 209247, "enemy" },
+      },
+      d = 30,
+      n = "fiery_brand",
+    },
+    [210788] = {
+      ap = {
+        { 210788, "self" },
+      },
+      d = 25,
+      n = "soul_fragments",
+    },
+    [212084] = {
+      ap = {
+        { 212084, "self" },
+      },
+      cd = 40,
+      cost = { [17] = 50 },
+      d = 2,
+      gcd = 1.5,
+      n = "fel_devastation",
+      tal = true,
+    },
+    [212105] = {
+      n = "fel_devastation",
+    },
+    [212106] = {
+      n = "fel_devastation",
+    },
+    [213241] = {
+      n = "felblade",
+    },
+    [213243] = {
+      gain = { [17] = 15 },
+      n = "felblade",
+    },
+    [214740] = {
+      n = "soul_carver",
+      pas = true,
+    },
+    [214743] = {
+      cd = 60,
+      gcd = 1.5,
+      n = "soul_carver",
+    },
+    [218903] = {
+      gain = { [17] = 30 },
+      n = "disrupt",
+    },
+    [225919] = {
+      n = "fracture",
+    },
+    [225921] = {
+      n = "fracture",
+    },
+    [227174] = {
+      n = "fallout",
+      pas = true,
+      tal = true,
+    },
+    [228477] = {
+      cost = { [17] = 35 },
+      gcd = 1.5,
+      n = "soul_cleave",
+    },
+    [228478] = {
+      n = "soul_cleave",
+    },
+    [232709] = {
+      ap = {
+        { 232709, "self" },
+      },
+      d = 0.1,
+      n = "vengeful_retreat",
+    },
+    [232893] = {
+      cd = 12,
+      gcd = 0.5,
+      n = "felblade",
+      tal = true,
+    },
+    [236167] = {
+      n = "felblade",
+      pas = true,
+    },
+    [247121] = {
+      ap = {
+        { 247121, "enemy" },
+      },
+      d = 3,
+      n = "metamorphosis",
+    },
+    [247454] = {
+      ap = {
+        { 247454, "self" },
+      },
+      cd = 25,
+      cost = { [17] = 40 },
+      d = 1.5,
+      gcd = 1.5,
+      n = "spirit_bomb",
+      tal = true,
+    },
+    [247455] = {
+      n = "spirit_bomb",
+    },
+    [258920] = {
+      ap = {
+        { 258920, "self" },
+      },
+      cd = 1.5,
+      ch = 1,
+      chcd = 30,
+      d = 6,
+      gain = { [17] = 28 },
+      gcd = 1.5,
+      n = "immolation_aura",
+    },
+    [258921] = {
+      n = "immolation_aura",
+    },
+    [258922] = {
+      gain = { [17] = 5 },
+      n = "immolation_aura",
+    },
+    [263642] = {
+      ch = 2,
+      chcd = 5.5,
+      gain = { [17] = 25 },
+      gcd = 1.5,
+      n = "fracture",
+    },
+    [320794] = {
+      n = "sigil_of_flame",
+      pas = true,
+    },
+    [320962] = {
+      n = "fiery_brand",
+      pas = true,
+    },
+    [321021] = {
+      n = "soul_cleave",
+      pas = true,
+    },
+    [321028] = {
+      n = "demon_spikes",
+      pas = true,
+    },
+    [333105] = {
+      ap = {
+        { 333105, "self" },
+      },
+      d = 2,
+      n = "fel_devastation",
+    },
+    [333110] = {
+      n = "fel_devastation",
+    },
+    [333120] = {
+      n = "fel_devastation",
+    },
+    [336639] = {
+      n = "charred_flesh",
+      pas = true,
+      tal = true,
+    },
+    [337819] = {
+      n = "throw_glaive",
+    },
+    [344866] = {
+      ap = {
+        { 198793, "self" },
+      },
+      cd = 25,
+      n = "vengeful_retreat",
+    },
+    [346665] = {
+      n = "throw_glaive",
+    },
+    [389220] = {
+      n = "fiery_demise",
+      pas = true,
+      tal = true,
+    },
+    [389787] = {
+      gain = { [17] = 25 },
+      n = "sigil_of_flame",
+    },
+    [389860] = {
+      n = "sigil_of_spite",
+    },
+    [390163] = {
+      ch = 1,
+      chcd = 60,
+      d = 2,
+      gcd = 1.5,
+      n = "sigil_of_spite",
+      tal = true,
+    },
+    [391159] = {
+      n = "demon_spikes",
+    },
+    [393035] = {
+      n = "throw_glaive",
+    },
+    [395446] = {
+      n = "soul_sigils",
+      pas = true,
+      tal = true,
+    },
+    [425672] = {
+      n = "sigil_of_flame",
+      st = 5,
+    },
+    [427904] = {
+      n = "immolation_aura",
+    },
+    [427905] = {
+      n = "immolation_aura",
+    },
+    [427913] = {
+      ap = {
+        { 427913, "self" },
+      },
+      d = 6,
+      gain = { [17] = 28 },
+      n = "immolation_aura",
+    },
+    [427914] = {
+      ap = {
+        { 427914, "self" },
+      },
+      d = 6,
+      gain = { [17] = 28 },
+      n = "immolation_aura",
+    },
+    [427915] = {
+      ap = {
+        { 427915, "self" },
+      },
+      d = 6,
+      gain = { [17] = 28 },
+      n = "immolation_aura",
+    },
+    [427917] = {
+      cd = 1.5,
+      ch = 1,
+      chcd = 30,
+      gcd = 1.5,
+      n = "immolation_aura",
+    },
+    [433721] = {
+      ap = {
+        { 433721, "self" },
+      },
+      d = 10,
+      n = "immolation_aura",
+    },
+    [442290] = {
+      n = "art_of_the_glaive",
+      pas = true,
+      tal = true,
+    },
+    [442294] = {
+      gcd = 1.5,
+      n = "reavers_glaive",
+    },
+    [442435] = {
+      ap = {
+        { 442435, "self" },
+      },
+      d = 30,
+      n = "glaive_flurry",
+    },
+    [442442] = {
+      ap = {
+        { 442442, "self" },
+      },
+      d = 30,
+      n = "rending_strike",
+    },
+    [442502] = {
+      n = "warblades_hunger",
+      pas = true,
+      tal = true,
+    },
+    [442503] = {
+      ap = {
+        { 442503, "self" },
+      },
+      d = 30,
+      n = "warblades_hunger",
+      st = 5,
+    },
+    [442507] = {
+      n = "warblades_hunger",
+    },
+    [442624] = {
+      ap = {
+        { 442624, "enemy" },
+      },
+      d = 20,
+      n = "reavers_mark",
+      st = 2,
+    },
+    [442679] = {
+      n = "reavers_mark",
+      pas = true,
+      tal = true,
+    },
+    [444661] = {
+      ap = {
+        { 444661, "self" },
+      },
+      d = 30,
+      n = "art_of_the_glaive",
+      st = 80,
+    },
+    [444686] = {
+      n = "reavers_glaive",
+    },
+    [444764] = {
+      n = "reavers_glaive",
+    },
+    [444810] = {
+      n = "art_of_the_glaive",
+    },
+    [444931] = {
+      n = "unhindered_assault",
+      pas = true,
+      tal = true,
+    },
+    [1245577] = {
+      n = "soul_fragments",
+      st = 15,
+    },
+    [1245584] = {
+      ap = {
+        { 1245584, "self" },
+      },
+      d = 25,
+      n = "soul_fragments",
+    },
+    [1270444] = {
+      n = "untethered_rage",
+      pas = true,
+      tal = true,
+    },
+    [1270448] = {
+      n = "untethered_rage",
+      pas = true,
+      tal = true,
+    },
+    [1270449] = {
+      n = "untethered_rage",
+      pas = true,
+      tal = true,
+    },
+    [1270476] = {
+      ap = {
+        { 1270476, "self" },
+      },
+      d = 12,
+      n = "untethered_rage",
+      st = 1,
+    },
+    [1270547] = {
+      ap = {
+        { 1270547, "self" },
+      },
+      d = 12,
+      n = "seething_anger",
+      st = 99,
+    },
+    [1283344] = {
+      gcd = 1.5,
+      n = "reavers_glaive",
+    },
+  },
+  spells = {
+    art_of_the_glaive = {
+      a = { 444661, 444810, 442290 },
+      b = { 444661, 444810, 442290 },
+    },
+    charred_flesh = {
+      t = { 336639 },
+    },
+    demon_spikes = {
+      a = { 203720, 203819, 391159, 321028 },
+      b = { 203819, 203720, 321028, 391159 },
+    },
+    disrupt = {
+      a = { 183752, 218903, 195439 },
+    },
+    fallout = {
+      t = { 227174 },
+    },
+    fel_devastation = {
+      a = { 212084, 212105, 212106, 333105, 333110, 333120 },
+    },
+    felblade = {
+      a = { 213241, 213243, 232893, 203557, 204497, 236167 },
+    },
+    fiery_brand = {
+      a = { 204021, 209245, 207744, 207771, 209247, 320962 },
+      b = { 207744, 207771, 209245, 209247, 204021, 320962 },
+    },
+    fiery_demise = {
+      t = { 389220 },
+    },
+    fracture = {
+      a = { 263642, 225919, 225921 },
+    },
+    glaive_flurry = {
+      a = { 442435 },
+      b = { 442435 },
+    },
+    immolation_aura = {
+      a = { 258920, 427917, 258921, 258922, 427904, 427905 },
+      b = { 195447, 258920, 427913, 427914, 427915, 433721 },
+    },
+    infernal_strike = {
+      a = { 189110, 189112 },
+    },
+    metamorphosis = {
+      a = { 187827, 191427, 162264, 200166, 247121, 201453 },
+      b = { 162264, 187827, 200166, 201453, 247121, 191427 },
+    },
+    reavers_glaive = {
+      a = { 442294, 1283344, 444686, 444764 },
+      b = { 442294, 444686, 444764, 1283344 },
+    },
+    reavers_mark = {
+      a = { 442624, 442679 },
+      b = { 442624, 442679 },
+    },
+    rending_strike = {
+      a = { 442442 },
+      b = { 442442 },
+    },
+    seething_anger = {
+      a = { 1270547 },
+      b = { 1270547 },
+    },
+    sigil_of_flame = {
+      a = { 204596, 204598, 389787, 425672, 320794 },
+      b = { 204596, 204598, 320794, 389787, 425672 },
+    },
+    sigil_of_spite = {
+      a = { 390163, 389860 },
+      t = { 390163 },
+    },
+    soul_carver = {
+      a = { 207407, 214743, 214740 },
+      t = { 207407, 214740 },
+    },
+    soul_cleave = {
+      a = { 228477, 228478, 321021 },
+    },
+    soul_fragments = {
+      a = { 203981, 1245577, 210788, 1245584 },
+      b = { 210788, 1245584, 203981, 1245577 },
+    },
+    soul_sigils = {
+      t = { 395446 },
+    },
+    spirit_bomb = {
+      a = { 247454, 247455 },
+    },
+    throw_glaive = {
+      a = { 185123, 204157, 337819, 346665, 393035, 195441 },
+    },
+    unhindered_assault = {
+      t = { 444931 },
+    },
+    untethered_rage = {
+      a = { 1270476, 1270444, 1270448, 1270449 },
+      b = { 1270476, 1270444, 1270448, 1270449 },
+    },
+    vengeful_retreat = {
+      a = { 198793, 344866, 198813, 232709 },
+    },
+    warblades_hunger = {
+      a = { 442503, 442507, 442502 },
+      b = { 442503, 442507, 442502 },
+    },
+  },
 })

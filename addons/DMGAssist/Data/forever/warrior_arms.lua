@@ -163,13 +163,9 @@ ns.RegisterSpecData("forever", "warrior_arms", {
     },
   },
   blizzardExcluded = {},
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warrior",
+  heroTrees = {},
   key = "warrior_arms",
   simc = {
     colossus_aoe = {
@@ -1012,4 +1008,485 @@ ns.RegisterSpecData("forever", "warrior_arms", {
     "variables",
   },
   spec = "arms",
+  spellInfo = {
+    [78] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+    },
+    [100] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 90 },
+      n = "charge",
+    },
+    [284] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+    },
+    [285] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+    },
+    [772] = {
+      ap = {
+        { 772, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 9,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [845] = {
+      cost = { [1] = 20 },
+      n = "cleave",
+    },
+    [1464] = {
+      cd = 18,
+      cost = { [1] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "slam",
+    },
+    [1608] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+    },
+    [1680] = {
+      cd = 10,
+      cost = { [1] = 25 },
+      gcd = 1.5,
+      n = "whirlwind",
+    },
+    [2457] = {
+      cd = 1,
+      cost = { [1] = 0 },
+      n = "battle_stance",
+    },
+    [5242] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [5308] = {
+      ap = {
+        { 26651, "self" },
+      },
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [6178] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 120 },
+      n = "charge",
+    },
+    [6192] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [6546] = {
+      ap = {
+        { 6546, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 12,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [6547] = {
+      ap = {
+        { 6547, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 15,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [6548] = {
+      ap = {
+        { 6548, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 18,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [6552] = {
+      cd = 10,
+      cost = { [1] = 10 },
+      d = 4,
+      gcd = 1.5,
+      n = "pummel",
+    },
+    [6554] = {
+      cd = 10,
+      cost = { [1] = 10 },
+      d = 4,
+      gcd = 1.5,
+      n = "pummel",
+    },
+    [6673] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [7369] = {
+      cost = { [1] = 20 },
+      n = "cleave",
+    },
+    [7384] = {
+      cd = 5,
+      cmax = { [4] = 5 },
+      cost = { [1] = 5, [4] = 1 },
+      gcd = 1.5,
+      n = "overpower",
+    },
+    [7887] = {
+      cd = 5,
+      cmax = { [4] = 5 },
+      cost = { [1] = 5, [4] = 1 },
+      gcd = 1.5,
+      n = "overpower",
+    },
+    [7922] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cost = { [1] = 0 },
+      d = 1,
+      n = "charge_stun",
+    },
+    [8820] = {
+      cd = 18,
+      cost = { [1] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "slam",
+    },
+    [11549] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [11550] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [11551] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [11564] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+    },
+    [11565] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+    },
+    [11572] = {
+      ap = {
+        { 11572, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 21,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [11573] = {
+      ap = {
+        { 11573, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 21,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [11578] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 150 },
+      n = "charge",
+    },
+    [11584] = {
+      cd = 5,
+      cmax = { [4] = 5 },
+      cost = { [1] = 5, [4] = 1 },
+      gcd = 1.5,
+      n = "overpower",
+    },
+    [11585] = {
+      cd = 5,
+      cmax = { [4] = 5 },
+      cost = { [1] = 5, [4] = 1 },
+      gcd = 1.5,
+      n = "overpower",
+    },
+    [11604] = {
+      cd = 18,
+      cost = { [1] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "slam",
+    },
+    [11605] = {
+      cd = 18,
+      cost = { [1] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "slam",
+    },
+    [11608] = {
+      cost = { [1] = 20 },
+      n = "cleave",
+    },
+    [11609] = {
+      cost = { [1] = 20 },
+      n = "cleave",
+    },
+    [12292] = {
+      ap = {
+        { 12292, "self" },
+      },
+      cd = 30,
+      cost = { [1] = 30 },
+      d = 20,
+      n = "sweeping_strikes",
+      st = 5,
+      tal = true,
+    },
+    [12294] = {
+      ap = {
+        { 12294, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 30 },
+      d = 10,
+      gcd = 1.5,
+      n = "mortal_strike",
+      tal = true,
+    },
+    [12723] = {
+      n = "sweeping_strikes",
+    },
+    [12834] = {
+      n = "deep_wounds",
+      pas = true,
+      tal = true,
+    },
+    [20569] = {
+      cost = { [1] = 20 },
+      n = "cleave",
+    },
+    [20647] = {
+      cost = { [1] = 0.1 },
+      n = "execute",
+    },
+    [20658] = {
+      ap = {
+        { 26651, "self" },
+      },
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [20660] = {
+      ap = {
+        { 26651, "self" },
+      },
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [20661] = {
+      ap = {
+        { 26651, "self" },
+      },
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [20662] = {
+      ap = {
+        { 26651, "self" },
+      },
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [21551] = {
+      ap = {
+        { 21551, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 30 },
+      d = 10,
+      gcd = 1.5,
+      n = "mortal_strike",
+    },
+    [21552] = {
+      ap = {
+        { 21552, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 30 },
+      d = 10,
+      gcd = 1.5,
+      n = "mortal_strike",
+    },
+    [21553] = {
+      ap = {
+        { 21553, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 30 },
+      d = 10,
+      gcd = 1.5,
+      n = "mortal_strike",
+    },
+    [26651] = {
+      ap = {
+        { 26651, "self" },
+      },
+      d = 1,
+      n = "execute",
+    },
+    [440113] = {
+      n = "sudden_death",
+      pas = true,
+    },
+    [440114] = {
+      ap = {
+        { 440114, "self" },
+      },
+      d = 10,
+      n = "sudden_death",
+    },
+    [440495] = {
+      n = "sudden_death",
+      pas = true,
+    },
+    [1240193] = {
+      cd = 18,
+      cost = { [1] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "slam",
+    },
+    [1240287] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 90 },
+      n = "charge",
+    },
+    [1240288] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 120 },
+      n = "charge",
+    },
+    [1240289] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 150 },
+      n = "charge",
+    },
+    [1282733] = {
+      ap = {
+        { 1282733, "self" },
+      },
+      d = 5,
+      gain = { [4] = 1 },
+      n = "overpower",
+    },
+    [1310196] = {
+      cd = 18,
+      cost = { [1] = 15 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "slam",
+    },
+  },
+  spells = {
+    battle_shout = {
+      a = { 5242, 6192, 6673, 11549, 11550, 11551 },
+    },
+    battle_stance = {
+      a = { 2457 },
+    },
+    charge = {
+      a = { 100, 6178, 11578, 1240287, 1240288, 1240289 },
+    },
+    cleave = {
+      a = { 845, 7369, 11608, 11609, 20569 },
+    },
+    deep_wounds = {
+      t = { 12834 },
+    },
+    execute = {
+      a = { 5308, 20647, 20658, 20660, 20661, 20662 },
+    },
+    heroic_strike = {
+      a = { 78, 284, 285, 1608, 11564, 11565 },
+    },
+    mortal_strike = {
+      a = { 12294, 21551, 21552, 21553 },
+    },
+    overpower = {
+      a = { 7384, 7887, 11584, 11585, 1282733 },
+    },
+    pummel = {
+      a = { 6552, 6554 },
+    },
+    rend = {
+      a = { 772, 6546, 6547, 6548, 11572, 11573 },
+      b = { 772, 6546, 6547, 6548, 11572, 11573 },
+    },
+    rend_dot = {
+      a = { 772, 6546, 6547, 6548, 11572, 11573 },
+      b = { 772, 6546, 6547, 6548, 11572, 11573 },
+    },
+    slam = {
+      a = { 1464, 8820, 11604, 11605, 1240193, 1310196 },
+    },
+    sudden_death = {
+      a = { 440114, 440113, 440495 },
+      b = { 440114, 440113, 440495 },
+    },
+    sweeping_strikes = {
+      a = { 12292, 12723 },
+      b = { 12292, 12723 },
+    },
+    whirlwind = {
+      a = { 1680 },
+    },
+  },
 })

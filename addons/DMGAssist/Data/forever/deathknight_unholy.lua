@@ -159,13 +159,9 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
     },
   },
   blizzardExcluded = {},
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "deathknight",
+  heroTrees = {},
   key = "deathknight_unholy",
   simc = {
     aoe = {
@@ -622,15 +618,528 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "aoe",
-    "cooldowns",
-    "racials",
-    "single_target",
-    "trinkets",
-    "variables",
-  },
+  simcOrder = { "precombat", "default", "aoe", "cooldowns", "racials", "single_target", "trinkets", "variables" },
   spec = "unholy",
+  spellInfo = {
+    [42650] = {
+      ap = {
+        { 42650, "self" },
+      },
+      cd = 90,
+      cost = { [5] = 1 },
+      d = 30,
+      gain = { [6] = 400 },
+      gcd = 1.5,
+      n = "army_of_the_dead",
+      tal = true,
+    },
+    [42651] = {
+      d = 30,
+      n = "army_of_the_dead",
+    },
+    [43265] = {
+      ap = {
+        { 43265, "self" },
+      },
+      ch = 1,
+      chcd = 30,
+      cost = { [5] = 1 },
+      d = 10,
+      gcd = 1.5,
+      n = "death_and_decay",
+    },
+    [46584] = {
+      cd = 30,
+      gcd = 1.5,
+      n = "raise_dead",
+    },
+    [46585] = {
+      cd = 120,
+      d = 60,
+      n = "raise_dead",
+      tal = true,
+    },
+    [47541] = {
+      cost = { [6] = 30 },
+      gcd = 1.5,
+      n = "death_coil",
+    },
+    [47632] = {
+      n = "death_coil",
+    },
+    [47633] = {
+      n = "death_coil",
+    },
+    [49530] = {
+      n = "sudden_doom",
+      pas = true,
+      tal = true,
+    },
+    [52212] = {
+      n = "death_and_decay",
+    },
+    [55090] = {
+      cost = { [5] = 1 },
+      gcd = 1.5,
+      n = "scourge_strike",
+      tal = true,
+    },
+    [63560] = {
+      n = "dark_transformation",
+      pas = true,
+    },
+    [77575] = {
+      ap = {
+        { 1240996, "enemy" },
+        { 191587, "enemy" },
+      },
+      cost = { [5] = 1 },
+      gcd = 1.5,
+      n = "outbreak",
+      tal = true,
+    },
+    [81340] = {
+      ap = {
+        { 81340, "self" },
+      },
+      d = 10,
+      n = "sudden_doom",
+      st = 1,
+    },
+    [85948] = {
+      cost = { [5] = 2 },
+      gain = { [6] = 200 },
+      gcd = 1.5,
+      n = "festering_strike",
+    },
+    [188290] = {
+      ap = {
+        { 188290, "self" },
+      },
+      d = 10,
+      n = "death_and_decay",
+    },
+    [191587] = {
+      ap = {
+        { 191587, "enemy" },
+      },
+      d = 24,
+      n = "virulent_plague",
+    },
+    [196780] = {
+      n = "outbreak",
+    },
+    [196782] = {
+      ap = {
+        { 196782, "enemy" },
+      },
+      d = 3,
+      n = "outbreak",
+    },
+    [205491] = {
+      d = 15,
+      n = "army_of_the_dead",
+    },
+    [207317] = {
+      cost = { [6] = 30 },
+      gcd = 1.5,
+      n = "epidemic",
+    },
+    [212739] = {
+      n = "epidemic",
+    },
+    [215969] = {
+      n = "epidemic",
+    },
+    [221180] = {
+      d = 20,
+      n = "army_of_the_dead",
+    },
+    [233112] = {
+      n = "army_of_the_dead",
+      pas = true,
+    },
+    [280447] = {
+      d = 30,
+      n = "army_of_the_dead",
+    },
+    [325554] = {
+      n = "dark_transformation",
+      pas = true,
+    },
+    [343294] = {
+      ap = {
+        { 1241521, "enemy" },
+      },
+      cd = 15,
+      cost = { [5] = 1 },
+      gcd = 1.5,
+      n = "soul_reaper",
+      tal = true,
+    },
+    [343295] = {
+      n = "soul_reaper",
+    },
+    [344955] = {
+      n = "dark_transformation",
+    },
+    [377514] = {
+      n = "reaping",
+      pas = true,
+      tal = true,
+    },
+    [390220] = {
+      n = "putrefy",
+    },
+    [433895] = {
+      ap = {
+        { 433925, "self" },
+      },
+      cost = { [5] = 1 },
+      gcd = 1.5,
+      n = "vampiric_strike",
+    },
+    [433899] = {
+      n = "vampiric_strike",
+    },
+    [433901] = {
+      n = "vampiric_strike",
+      pas = true,
+      tal = true,
+    },
+    [433925] = {
+      ap = {
+        { 433925, "self" },
+      },
+      d = 20,
+      n = "essence_of_the_blood_queen",
+      st = 5,
+    },
+    [434422] = {
+      n = "vampiric_strike",
+    },
+    [434674] = {
+      n = "vampiric_strike",
+    },
+    [444474] = {
+      ap = {
+        { 444474, "self" },
+        { 466066, "self" },
+      },
+      d = 10,
+      gcd = 1.5,
+      n = "death_and_decay",
+    },
+    [445508] = {
+      cd = 3,
+      n = "scourge_strike",
+    },
+    [445509] = {
+      n = "scourge_strike",
+    },
+    [445513] = {
+      cd = 5,
+      n = "death_coil",
+    },
+    [445669] = {
+      n = "vampiric_strike",
+      pas = true,
+    },
+    [448229] = {
+      ap = {
+        { 448229, "enemy" },
+      },
+      cd = 6,
+      cost = { [5] = 1 },
+      d = 5,
+      gcd = 1.5,
+      n = "soul_reaper",
+    },
+    [455397] = {
+      n = "festering_scythe",
+      pas = true,
+      tal = true,
+    },
+    [458123] = {
+      ap = {
+        { 458123, "self" },
+      },
+      d = 15,
+      n = "festering_scythe",
+      st = 1,
+    },
+    [458128] = {
+      gcd = 1.5,
+      n = "festering_scythe",
+    },
+    [459238] = {
+      ap = {
+        { 459238, "self" },
+      },
+      d = 30,
+      n = "festering_scythe",
+      st = 20,
+    },
+    [461135] = {
+      ap = {
+        { 461135, "self" },
+      },
+      d = 10,
+      n = "sudden_doom",
+      st = 1,
+    },
+    [466066] = {
+      ap = {
+        { 466066, "self" },
+      },
+      d = 1,
+      n = "death_and_decay",
+    },
+    [1233448] = {
+      cd = 45,
+      d = 15,
+      gcd = 1.5,
+      n = "dark_transformation",
+      tal = true,
+    },
+    [1235165] = {
+      ap = {
+        { 1235165, "self" },
+      },
+      d = 1.5,
+      n = "festering_scythe",
+      st = 1,
+    },
+    [1235261] = {
+      ap = {
+        { 1235261, "self" },
+      },
+      d = 8,
+      n = "reaping",
+    },
+    [1235391] = {
+      ap = {
+        { 1235391, "self" },
+      },
+      d = 15,
+      n = "dark_transformation",
+    },
+    [1237172] = {
+      n = "epidemic",
+    },
+    [1240994] = {
+      n = "festering_strike",
+    },
+    [1240996] = {
+      ap = {
+        { 1240996, "enemy" },
+      },
+      d = 24,
+      n = "dread_plague",
+    },
+    [1241077] = {
+      ap = {
+        { 1241077, "self" },
+      },
+      d = 25,
+      n = "festering_scythe",
+      st = 1,
+    },
+    [1241521] = {
+      ap = {
+        { 1241521, "enemy" },
+      },
+      d = 8,
+      n = "soul_reaper",
+    },
+    [1242158] = {
+      n = "forbidden_knowledge",
+      pas = true,
+      tal = true,
+    },
+    [1242223] = {
+      ap = {
+        { 1242223, "self" },
+      },
+      d = 30,
+      n = "forbidden_knowledge",
+    },
+    [1242564] = {
+      n = "dread_plague",
+    },
+    [1242654] = {
+      ap = {
+        { 1242654, "self" },
+        { 1244519, "self" },
+      },
+      d = 30,
+      n = "reaping",
+      st = 2,
+    },
+    [1242866] = {
+      n = "raise_dead",
+    },
+    [1244519] = {
+      ap = {
+        { 1244519, "self" },
+      },
+      d = 1.5,
+      n = "reaping",
+      st = 1,
+    },
+    [1247378] = {
+      ch = 1,
+      chcd = 30,
+      cost = { [5] = 1 },
+      gcd = 1.5,
+      n = "putrefy",
+      tal = true,
+    },
+    [1251951] = {
+      n = "death_and_decay",
+    },
+    [1254552] = {
+      n = "blightburst",
+      pas = true,
+      tal = true,
+    },
+    [1256565] = {
+      n = "forbidden_knowledge",
+      pas = true,
+      tal = true,
+    },
+    [1256566] = {
+      n = "forbidden_knowledge",
+      pas = true,
+      tal = true,
+    },
+    [1270443] = {
+      n = "putrefy",
+    },
+    [1271199] = {
+      ap = {
+        { 1271199, "self" },
+      },
+      d = 15,
+      n = "blighted",
+      st = 1,
+    },
+    [1271967] = {
+      ch = 0,
+      chcd = 0.75,
+      gcd = 1.5,
+      n = "blightfall",
+    },
+    [1271974] = {
+      n = "blightfall",
+      pas = true,
+      tal = true,
+    },
+    [1271975] = {
+      n = "blightfall",
+      st = 1,
+    },
+    [1272116] = {
+      n = "blightfall",
+    },
+    [1277016] = {
+      n = "putrefy",
+    },
+    [1290864] = {
+      n = "cycle_of_death",
+      pas = true,
+      tal = true,
+    },
+  },
+  spells = {
+    army_of_the_dead = {
+      a = { 42650, 42651, 205491, 221180, 280447, 233112 },
+      t = { 42650, 233112 },
+    },
+    blightburst = {
+      t = { 1254552 },
+    },
+    blighted = {
+      a = { 1271199 },
+      b = { 1271199 },
+    },
+    blightfall = {
+      a = { 1271967, 1271975, 1272116, 1271974 },
+      b = { 1271967, 1271975, 1272116, 1271974 },
+    },
+    cycle_of_death = {
+      t = { 1290864 },
+    },
+    dark_transformation = {
+      a = { 1233448, 344955, 1235391, 63560, 325554 },
+      b = { 1233448, 1235391, 63560, 325554, 344955 },
+      t = { 1233448, 63560, 325554 },
+    },
+    death_and_decay = {
+      a = { 43265, 444474, 52212, 188290, 1251951, 466066 },
+    },
+    death_coil = {
+      a = { 47541, 445513, 47632, 47633 },
+    },
+    dread_plague = {
+      a = { 1240996, 1242564 },
+      b = { 1240996, 1242564 },
+    },
+    epidemic = {
+      a = { 207317, 212739, 215969, 1237172 },
+    },
+    essence_of_the_blood_queen = {
+      a = { 433925 },
+      b = { 433925 },
+    },
+    festering_scythe = {
+      a = { 458128, 458123, 459238, 1241077, 455397, 1235165 },
+      b = { 458123, 459238, 1235165, 1241077, 458128, 455397 },
+      t = { 455397 },
+    },
+    festering_strike = {
+      a = { 85948, 1240994 },
+    },
+    forbidden_knowledge = {
+      a = { 1242223, 1242158, 1256565, 1256566 },
+      b = { 1242223, 1242158, 1256565, 1256566 },
+    },
+    outbreak = {
+      a = { 77575, 196780, 196782 },
+    },
+    putrefy = {
+      a = { 1247378, 390220, 1270443, 1277016 },
+    },
+    raise_dead = {
+      a = { 46584, 46585, 1242866 },
+    },
+    reaping = {
+      a = { 1235261, 1242654, 377514, 1244519 },
+      b = { 1235261, 1242654, 1244519, 377514 },
+      t = { 377514 },
+    },
+    scourge_strike = {
+      a = { 55090, 445508, 445509 },
+    },
+    soul_reaper = {
+      a = { 343294, 448229, 343295, 1241521 },
+      t = { 343294 },
+    },
+    soul_reaper_debuff = {
+      a = { 343294, 448229, 343295, 1241521 },
+      b = { 448229, 1241521, 343294, 343295 },
+    },
+    sudden_doom = {
+      a = { 81340, 461135, 49530 },
+      b = { 81340, 461135, 49530 },
+    },
+    vampiric_strike = {
+      a = { 433895, 433899, 434422, 434674, 433901, 445669 },
+      b = { 433895, 433899, 434422, 434674, 445669, 433901 },
+    },
+    virulent_plague = {
+      a = { 191587 },
+      b = { 191587 },
+    },
+  },
 })

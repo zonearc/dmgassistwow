@@ -163,17 +163,10 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       },
     },
   },
-  blizzardExcluded = {
-    "avatar",
-    "shield_charge",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "avatar", "shield_charge" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warrior",
+  heroTrees = {},
   key = "warrior_protection",
   simc = {
     colossus_aoe = {
@@ -541,14 +534,477 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "colossus_aoe",
-    "colossus_st",
-    "thane_aoe",
-    "thane_st",
-    "variables",
-  },
+  simcOrder = { "precombat", "default", "colossus_aoe", "colossus_st", "thane_aoe", "thane_st", "variables" },
   spec = "protection",
+  spellInfo = {
+    [100] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 90 },
+      n = "charge",
+    },
+    [772] = {
+      ap = {
+        { 772, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 9,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [871] = {
+      ap = {
+        { 871, "self" },
+      },
+      cd = 900,
+      cost = { [1] = 0 },
+      d = 12,
+      gcd = 1.5,
+      n = "shield_wall",
+    },
+    [1160] = {
+      ap = {
+        { 1160, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 45,
+      gcd = 1.5,
+      n = "demoralizing_shout",
+    },
+    [2457] = {
+      cd = 1,
+      cost = { [1] = 0 },
+      n = "battle_stance",
+    },
+    [2565] = {
+      ap = {
+        { 2565, "self" },
+      },
+      cd = 5,
+      cost = { [1] = 10 },
+      d = 7,
+      n = "shield_block",
+      st = 2,
+    },
+    [5242] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [5308] = {
+      ap = {
+        { 26651, "self" },
+      },
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [6178] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 120 },
+      n = "charge",
+    },
+    [6190] = {
+      ap = {
+        { 6190, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 45,
+      gcd = 1.5,
+      n = "demoralizing_shout",
+    },
+    [6192] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [6343] = {
+      ap = {
+        { 6343, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 20 },
+      d = 10,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [6546] = {
+      ap = {
+        { 6546, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 12,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [6547] = {
+      ap = {
+        { 6547, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 15,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [6548] = {
+      ap = {
+        { 6548, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 18,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [6572] = {
+      cd = 5,
+      cost = { [1] = 5 },
+      gcd = 1.5,
+      n = "revenge",
+    },
+    [6574] = {
+      cd = 5,
+      cost = { [1] = 5 },
+      gcd = 1.5,
+      n = "revenge",
+    },
+    [6673] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [7379] = {
+      cd = 5,
+      cost = { [1] = 5 },
+      gcd = 1.5,
+      n = "revenge",
+    },
+    [7922] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cost = { [1] = 0 },
+      d = 1,
+      n = "charge_stun",
+    },
+    [8198] = {
+      ap = {
+        { 8198, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 20 },
+      d = 14,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [8204] = {
+      ap = {
+        { 8204, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 20 },
+      d = 18,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [8205] = {
+      ap = {
+        { 8205, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 20 },
+      d = 22,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [11549] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [11550] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [11551] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [11554] = {
+      ap = {
+        { 11554, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 45,
+      gcd = 1.5,
+      n = "demoralizing_shout",
+    },
+    [11555] = {
+      ap = {
+        { 11555, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 45,
+      gcd = 1.5,
+      n = "demoralizing_shout",
+    },
+    [11556] = {
+      ap = {
+        { 11556, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 45,
+      gcd = 1.5,
+      n = "demoralizing_shout",
+    },
+    [11572] = {
+      ap = {
+        { 11572, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 21,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [11573] = {
+      ap = {
+        { 11573, "enemy" },
+      },
+      cost = { [1] = 10 },
+      d = 21,
+      gcd = 1.5,
+      n = "rend",
+    },
+    [11578] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 150 },
+      n = "charge",
+    },
+    [11580] = {
+      ap = {
+        { 11580, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 20 },
+      d = 26,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [11581] = {
+      ap = {
+        { 11581, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 20 },
+      d = 30,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [11600] = {
+      cd = 5,
+      cost = { [1] = 5 },
+      gcd = 1.5,
+      n = "revenge",
+    },
+    [11601] = {
+      cd = 5,
+      cost = { [1] = 5 },
+      gcd = 1.5,
+      n = "revenge",
+    },
+    [12321] = {
+      n = "booming_voice",
+      pas = true,
+      tal = true,
+    },
+    [20647] = {
+      cost = { [1] = 0.1 },
+      n = "execute",
+    },
+    [20658] = {
+      ap = {
+        { 26651, "self" },
+      },
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [20660] = {
+      ap = {
+        { 26651, "self" },
+      },
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [20661] = {
+      ap = {
+        { 26651, "self" },
+      },
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [20662] = {
+      ap = {
+        { 26651, "self" },
+      },
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [23922] = {
+      cd = 6,
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "shield_slam",
+      tal = true,
+    },
+    [23923] = {
+      cd = 6,
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "shield_slam",
+    },
+    [23924] = {
+      cd = 6,
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "shield_slam",
+    },
+    [23925] = {
+      cd = 6,
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "shield_slam",
+    },
+    [25288] = {
+      cd = 5,
+      cost = { [1] = 5 },
+      gcd = 1.5,
+      n = "revenge",
+    },
+    [26651] = {
+      ap = {
+        { 26651, "self" },
+      },
+      d = 1,
+      n = "execute",
+    },
+    [403195] = {
+      n = "devastate",
+      pas = true,
+    },
+    [403196] = {
+      n = "devastate",
+    },
+    [440113] = {
+      n = "sudden_death",
+      pas = true,
+    },
+    [440114] = {
+      ap = {
+        { 440114, "self" },
+      },
+      d = 10,
+      n = "sudden_death",
+    },
+    [440495] = {
+      n = "sudden_death",
+      pas = true,
+    },
+    [1240287] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 90 },
+      n = "charge",
+    },
+    [1240288] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 120 },
+      n = "charge",
+    },
+    [1240289] = {
+      ap = {
+        { 7922, "enemy" },
+      },
+      cd = 15,
+      cost = { [1] = 0 },
+      gain = { [1] = 150 },
+      n = "charge",
+    },
+  },
+  spells = {
+    battle_shout = {
+      a = { 5242, 6192, 6673, 11549, 11550, 11551 },
+    },
+    battle_stance = {
+      a = { 2457 },
+    },
+    booming_voice = {
+      t = { 12321 },
+    },
+    charge = {
+      a = { 100, 6178, 11578, 1240287, 1240288, 1240289 },
+    },
+    demoralizing_shout = {
+      a = { 1160, 6190, 11554, 11555, 11556 },
+    },
+    devastate = {
+      a = { 403196, 403195 },
+    },
+    execute = {
+      a = { 5308, 20647, 20658, 20660, 20661, 20662 },
+    },
+    rend_dot = {
+      a = { 772, 6546, 6547, 6548, 11572, 11573 },
+      b = { 772, 6546, 6547, 6548, 11572, 11573 },
+    },
+    revenge = {
+      a = { 6572, 6574, 7379, 11600, 11601, 25288 },
+      b = { 6572, 6574, 7379, 11600, 11601, 25288 },
+    },
+    shield_block = {
+      a = { 2565 },
+      b = { 2565 },
+    },
+    shield_slam = {
+      a = { 23922, 23923, 23924, 23925 },
+    },
+    shield_wall = {
+      a = { 871 },
+    },
+    sudden_death = {
+      a = { 440114, 440113, 440495 },
+      b = { 440114, 440113, 440495 },
+    },
+    thunder_clap = {
+      a = { 6343, 8198, 8204, 8205, 11580, 11581 },
+    },
+  },
 })

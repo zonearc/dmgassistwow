@@ -117,16 +117,10 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
       },
     },
   },
-  blizzardExcluded = {
-    "takedown",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "takedown" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "hunter",
+  heroTrees = {},
   key = "hunter_survival",
   simc = {
     cds = {
@@ -500,14 +494,363 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "cds",
-    "plcleave",
-    "plst",
-    "sentcleave",
-    "sentst",
-  },
+  simcOrder = { "precombat", "default", "cds", "plcleave", "plst", "sentcleave", "sentst" },
   spec = "survival",
+  spellInfo = {
+    [883] = {
+      gcd = 1.5,
+      n = "call_pet_1",
+    },
+    [34026] = {
+      cd = 0.5,
+      ch = 1,
+      chcd = 7.5,
+      cost = { [2] = 30 },
+      gcd = 1.5,
+      n = "kill_command",
+      tal = true,
+    },
+    [56641] = {
+      ct = 1.7,
+      gcd = 1.5,
+      n = "steady_shot",
+    },
+    [77443] = {
+      gain = { [2] = 20 },
+      n = "steady_shot",
+    },
+    [83381] = {
+      n = "kill_command",
+    },
+    [185358] = {
+      cost = { [2] = 40 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [186270] = {
+      cost = { [2] = 30 },
+      gcd = 1.5,
+      n = "raptor_strike",
+      tal = true,
+    },
+    [186289] = {
+      ap = {
+        { 186289, "self" },
+      },
+      cd = 90,
+      d = 15,
+      n = "aspect_of_the_eagle",
+    },
+    [187707] = {
+      cd = 15,
+      d = 5,
+      n = "muzzle",
+      tal = true,
+    },
+    [259277] = {
+      n = "kill_command",
+    },
+    [259285] = {
+      ap = {
+        { 259285, "self" },
+      },
+      d = 3,
+      n = "kill_command",
+    },
+    [259489] = {
+      ch = 2,
+      chcd = 5,
+      gain = { [2] = 15 },
+      gcd = 1.5,
+      n = "kill_command",
+      tal = true,
+    },
+    [259495] = {
+      ch = 1,
+      chcd = 18,
+      cost = { [2] = 10 },
+      gcd = 1.5,
+      n = "wildfire_bomb",
+      tal = true,
+    },
+    [259496] = {
+      ap = {
+        { 259496, "enemy" },
+      },
+      d = 6,
+      n = "wildfire_bomb",
+    },
+    [260285] = {
+      n = "tip_of_the_spear",
+      pas = true,
+      tal = true,
+    },
+    [260286] = {
+      ap = {
+        { 260286, "self" },
+      },
+      d = 10,
+      n = "tip_of_the_spear",
+      st = 3,
+    },
+    [265157] = {
+      n = "wildfire_bomb",
+    },
+    [265163] = {
+      d = 0.5,
+      n = "wildfire_bomb",
+    },
+    [265189] = {
+      cost = { [2] = 30 },
+      gcd = 1.5,
+      n = "raptor_strike",
+    },
+    [269747] = {
+      ap = {
+        { 269747, "enemy" },
+      },
+      d = 6,
+      n = "wildfire_bomb",
+    },
+    [460852] = {
+      ap = {
+        { 460852, "self" },
+      },
+      d = 10,
+      n = "tip_of_the_spear",
+      st = 5,
+    },
+    [471536] = {
+      ap = {
+        { 471536, "self" },
+      },
+      d = 5,
+      n = "tip_of_the_spear",
+      st = 1,
+    },
+    [471876] = {
+      n = "howl_of_the_pack_leader",
+      pas = true,
+      tal = true,
+    },
+    [471877] = {
+      ap = {
+        { 471877, "self" },
+      },
+      d = 30,
+      n = "howl_of_the_pack_leader",
+    },
+    [471878] = {
+      ap = {
+        { 471878, "self" },
+      },
+      d = 30,
+      n = "howl_of_the_pack_leader",
+      st = 1,
+    },
+    [472324] = {
+      ap = {
+        { 472324, "self" },
+      },
+      d = 30,
+      n = "howl_of_the_pack_leader",
+      st = 1,
+    },
+    [472325] = {
+      ap = {
+        { 472325, "self" },
+      },
+      d = 30,
+      n = "howl_of_the_pack_leader",
+      st = 1,
+    },
+    [1232922] = {
+      n = "kill_command",
+    },
+    [1250646] = {
+      ap = {
+        { 1250646, "self" },
+      },
+      cd = 90,
+      d = 8,
+      gcd = 1.5,
+      n = "takedown",
+      tal = true,
+    },
+    [1253171] = {
+      ap = {
+        { 1253171, "enemy" },
+      },
+      d = 6,
+      n = "wildfire_bomb",
+    },
+    [1253601] = {
+      ap = {
+        { 1253601, "enemy" },
+      },
+      d = 16,
+      n = "sentinels_mark",
+    },
+    [1253859] = {
+      n = "takedown",
+    },
+    [1253860] = {
+      n = "takedown",
+    },
+    [1253862] = {
+      gain = { [2] = 50 },
+      n = "takedown",
+    },
+    [1258571] = {
+      gain = { [2] = 50 },
+      n = "takedown",
+    },
+    [1259003] = {
+      n = "raptor_swipe",
+      pas = true,
+      tal = true,
+    },
+    [1261193] = {
+      ap = {
+        { 1261193, "self" },
+      },
+      cd = 60,
+      cost = { [2] = 50 },
+      d = 3,
+      gcd = 1.5,
+      n = "boomstick",
+      tal = true,
+    },
+    [1261215] = {
+      n = "boomstick",
+    },
+    [1262293] = {
+      cost = { [2] = 30 },
+      gcd = 1.5,
+      n = "raptor_swipe",
+    },
+    [1262343] = {
+      cost = { [2] = 30 },
+      gcd = 1.5,
+      n = "raptor_swipe",
+    },
+    [1262361] = {
+      gain = { [2] = 15 },
+      n = "raptor_swipe",
+    },
+    [1262409] = {
+      n = "lethal_calibration",
+      pas = true,
+      tal = true,
+    },
+    [1264902] = {
+      n = "moonlight_chakram",
+      pas = true,
+      tal = true,
+    },
+    [1264946] = {
+      ap = {
+        { 1264946, "self" },
+      },
+      d = 15,
+      n = "moonlight_chakram",
+    },
+    [1264949] = {
+      gcd = 1.5,
+      n = "moonlight_chakram",
+    },
+    [1266081] = {
+      n = "moonlight_chakram",
+    },
+    [1266960] = {
+      ap = {
+        { 1266960, "enemy" },
+      },
+      d = 16,
+      n = "sentinels_mark",
+    },
+    [1272139] = {
+      n = "twin_fangs",
+      pas = true,
+      tal = true,
+    },
+    [1273155] = {
+      n = "raptor_swipe",
+      st = 1,
+    },
+    [1275630] = {
+      n = "raptor_swipe",
+      st = 1,
+    },
+    [1280140] = {
+      ap = {
+        { 1280140, "self" },
+      },
+      d = 8,
+      n = "tip_of_the_spear",
+      st = 1,
+    },
+  },
+  spells = {
+    arcane_shot = {
+      a = { 185358 },
+    },
+    aspect_of_the_eagle = {
+      a = { 186289 },
+    },
+    boomstick = {
+      a = { 1261193, 1261215 },
+    },
+    call_pet_1 = {
+      a = { 883 },
+    },
+    howl_of_the_pack_leader = {
+      t = { 471876 },
+    },
+    howl_of_the_pack_leader_bear = {
+      a = { 471877, 471878, 472324, 472325, 471876 },
+      b = { 471877, 471878, 472324, 472325, 471876 },
+    },
+    kill_command = {
+      a = { 259489, 83381, 259277, 259285, 1232922, 34026 },
+    },
+    lethal_calibration = {
+      t = { 1262409 },
+    },
+    moonlight_chakram = {
+      a = { 1264949, 1264946, 1266081, 1264902 },
+    },
+    muzzle = {
+      a = { 187707 },
+    },
+    raptor_strike = {
+      a = { 186270, 265189 },
+    },
+    raptor_swipe = {
+      a = { 1262293, 1262343, 1262361, 1273155, 1275630, 1259003 },
+      b = { 1262293, 1262343, 1262361, 1273155, 1275630, 1259003 },
+    },
+    sentinels_mark = {
+      a = { 1253601, 1266960 },
+      b = { 1253601, 1266960 },
+    },
+    steady_shot = {
+      a = { 56641, 77443 },
+    },
+    takedown = {
+      a = { 1250646, 1253859, 1253860, 1253862, 1258571 },
+      b = { 1250646, 1253859, 1253860, 1253862, 1258571 },
+      t = { 1250646 },
+    },
+    tip_of_the_spear = {
+      a = { 260286, 260285, 460852, 471536, 1280140 },
+      b = { 260286, 460852, 471536, 1280140, 260285 },
+    },
+    twin_fangs = {
+      t = { 1272139 },
+    },
+    wildfire_bomb = {
+      a = { 259495, 259496, 265157, 265163, 269747, 1253171 },
+    },
+  },
 })

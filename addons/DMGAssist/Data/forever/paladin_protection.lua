@@ -138,17 +138,10 @@ ns.RegisterSpecData("forever", "paladin_protection", {
       },
     },
   },
-  blizzardExcluded = {
-    "avenging_wrath",
-    "sentinel",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "avenging_wrath", "sentinel" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "paladin",
+  heroTrees = {},
   key = "paladin_protection",
   simc = {
     default = {
@@ -357,9 +350,163 @@ ns.RegisterSpecData("forever", "paladin_protection", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-  },
+  simcOrder = { "precombat", "default" },
   spec = "protection",
+  spellInfo = {
+    [465] = {
+      gcd = 1.5,
+      n = "devotion_aura",
+    },
+    [643] = {
+      gcd = 1.5,
+      n = "devotion_aura",
+    },
+    [1032] = {
+      gcd = 1.5,
+      n = "devotion_aura",
+    },
+    [10290] = {
+      gcd = 1.5,
+      n = "devotion_aura",
+    },
+    [10291] = {
+      gcd = 1.5,
+      n = "devotion_aura",
+    },
+    [10292] = {
+      gcd = 1.5,
+      n = "devotion_aura",
+    },
+    [20116] = {
+      ap = {
+        { 20116, "self" },
+      },
+      cd = 8,
+      cost = { [0] = 235 },
+      d = 8,
+      gcd = 1.5,
+      n = "consecration",
+    },
+    [20922] = {
+      ap = {
+        { 20922, "self" },
+      },
+      cd = 8,
+      cost = { [0] = 320 },
+      d = 8,
+      gcd = 1.5,
+      n = "consecration",
+    },
+    [20923] = {
+      ap = {
+        { 20923, "self" },
+      },
+      cd = 8,
+      cost = { [0] = 435 },
+      d = 8,
+      gcd = 1.5,
+      n = "consecration",
+    },
+    [20924] = {
+      ap = {
+        { 20924, "self" },
+      },
+      cd = 8,
+      cost = { [0] = 565 },
+      d = 8,
+      gcd = 1.5,
+      n = "consecration",
+    },
+    [24239] = {
+      cd = 6,
+      cost = { [0] = 425 },
+      ct = 1,
+      gcd = 1,
+      n = "hammer_of_wrath",
+    },
+    [24274] = {
+      cd = 6,
+      cost = { [0] = 360 },
+      ct = 1,
+      gcd = 1,
+      n = "hammer_of_wrath",
+    },
+    [24275] = {
+      cd = 6,
+      cost = { [0] = 295 },
+      ct = 1,
+      gcd = 1,
+      n = "hammer_of_wrath",
+    },
+    [25771] = {
+      d = 60,
+      n = "forbearance",
+    },
+    [26573] = {
+      ap = {
+        { 26573, "self" },
+      },
+      cd = 8,
+      cost = { [0] = 135 },
+      d = 8,
+      gcd = 1.5,
+      n = "consecration",
+    },
+    [407632] = {
+      cd = 6,
+      gcd = 1.5,
+      n = "hammer_of_the_righteous",
+    },
+    [407788] = {
+      ap = {
+        { 407788, "self" },
+      },
+      cd = 180,
+      d = 20,
+      n = "avenging_wrath",
+    },
+    [409914] = {
+      n = "crusader_strike",
+      pas = true,
+    },
+    [409922] = {
+      n = "hammer_of_the_righteous",
+      pas = true,
+    },
+    [409933] = {
+      n = "avengers_shield",
+      pas = true,
+    },
+    [409934] = {
+      n = "avenging_wrath",
+      pas = true,
+    },
+    [1280345] = {
+      n = "consecration",
+    },
+  },
+  spells = {
+    avengers_shield = {
+      a = { 409933 },
+    },
+    avenging_wrath = {
+      a = { 407788, 409934 },
+      b = { 407788, 409934 },
+    },
+    consecration = {
+      a = { 20116, 20922, 20923, 20924, 26573, 1280345 },
+    },
+    crusader_strike = {
+      a = { 409914 },
+    },
+    devotion_aura = {
+      a = { 465, 643, 1032, 10290, 10291, 10292 },
+    },
+    hammer_of_the_righteous = {
+      a = { 407632, 409922 },
+    },
+    hammer_of_wrath = {
+      a = { 24239, 24274, 24275 },
+    },
+  },
 })

@@ -160,16 +160,10 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       },
     },
   },
-  blizzardExcluded = {
-    "trueshot",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "trueshot" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "hunter",
+  heroTrees = {},
   key = "hunter_marksmanship",
   simc = {
     cds = {
@@ -695,15 +689,213 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "cds",
-    "draoe",
-    "drst",
-    "sentaoe",
-    "sentst",
-    "trinkets",
-  },
+  simcOrder = { "precombat", "default", "cds", "draoe", "drst", "sentaoe", "sentst", "trinkets" },
   spec = "marksmanship",
+  spellInfo = {
+    [75] = {
+      n = "auto_shot",
+    },
+    [1510] = {
+      ap = {
+        { 1510, "self" },
+      },
+      cost = { [0] = 350 },
+      d = 6,
+      gcd = 1.5,
+      n = "volley",
+    },
+    [3044] = {
+      cd = 6,
+      cost = { [0] = 25 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [3045] = {
+      ap = {
+        { 3045, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 100 },
+      d = 15,
+      n = "rapid_fire",
+    },
+    [3674] = {
+      ap = {
+        { 3674, "enemy" },
+      },
+      d = 30,
+      gcd = 1.5,
+      n = "black_arrow",
+    },
+    [14281] = {
+      cd = 6,
+      cost = { [0] = 35 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [14282] = {
+      cd = 6,
+      cost = { [0] = 50 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [14283] = {
+      cd = 6,
+      cost = { [0] = 80 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [14284] = {
+      cd = 6,
+      cost = { [0] = 105 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [14285] = {
+      cd = 6,
+      cost = { [0] = 135 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [14294] = {
+      ap = {
+        { 14294, "self" },
+      },
+      cost = { [0] = 420 },
+      d = 6,
+      gcd = 1.5,
+      n = "volley",
+    },
+    [14295] = {
+      ap = {
+        { 14295, "self" },
+      },
+      cost = { [0] = 490 },
+      d = 6,
+      gcd = 1.5,
+      n = "volley",
+    },
+    [14296] = {
+      ap = {
+        { 14296, "enemy" },
+      },
+      d = 30,
+      gcd = 1.5,
+      n = "black_arrow",
+    },
+    [19434] = {
+      cd = 6,
+      cost = { [0] = 75 },
+      ct = 2,
+      gcd = 1.5,
+      n = "aimed_shot",
+    },
+    [20900] = {
+      cd = 6,
+      cost = { [0] = 115 },
+      ct = 2,
+      gcd = 1.5,
+      n = "aimed_shot",
+    },
+    [20901] = {
+      cd = 6,
+      cost = { [0] = 160 },
+      ct = 2,
+      gcd = 1.5,
+      n = "aimed_shot",
+    },
+    [20902] = {
+      cd = 6,
+      cost = { [0] = 210 },
+      ct = 2,
+      gcd = 1.5,
+      n = "aimed_shot",
+    },
+    [20903] = {
+      cd = 6,
+      cost = { [0] = 260 },
+      ct = 2,
+      gcd = 1.5,
+      n = "aimed_shot",
+    },
+    [20904] = {
+      cd = 6,
+      cost = { [0] = 310 },
+      ct = 2,
+      gcd = 1.5,
+      n = "aimed_shot",
+    },
+    [409593] = {
+      cd = 12,
+      gcd = 1.5,
+      n = "kill_shot",
+    },
+    [409957] = {
+      n = "steady_shot",
+      pas = true,
+    },
+    [409974] = {
+      n = "kill_shot",
+      pas = true,
+    },
+    [415413] = {
+      n = "lock_and_load",
+      pas = true,
+    },
+    [415414] = {
+      ap = {
+        { 415414, "self" },
+      },
+      d = 20,
+      n = "lock_and_load",
+      st = 1,
+    },
+    [437123] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "steady_shot",
+    },
+    [1218240] = {
+      n = "kill_shot",
+    },
+    [1279715] = {
+      n = "volley",
+    },
+    [1279719] = {
+      n = "volley",
+    },
+    [1279721] = {
+      n = "volley",
+    },
+  },
+  spells = {
+    aimed_shot = {
+      a = { 19434, 20900, 20901, 20902, 20903, 20904 },
+    },
+    arcane_shot = {
+      a = { 3044, 14281, 14282, 14283, 14284, 14285 },
+    },
+    auto_shot = {
+      a = { 75 },
+    },
+    black_arrow = {
+      a = { 3674, 14296 },
+    },
+    kill_shot = {
+      a = { 409593, 1218240, 409974 },
+    },
+    lock_and_load = {
+      a = { 415414, 415413 },
+      b = { 415414, 415413 },
+    },
+    rapid_fire = {
+      a = { 3045 },
+    },
+    steady_shot = {
+      a = { 437123, 409957 },
+    },
+    volley = {
+      a = { 1510, 14294, 14295, 1279715, 1279719, 1279721 },
+    },
+  },
 })

@@ -196,16 +196,10 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       },
     },
   },
-  blizzardExcluded = {
-    "avenging_wrath",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "avenging_wrath" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "paladin",
+  heroTrees = {},
   key = "paladin_retribution",
   simc = {
     cooldowns = {
@@ -474,12 +468,703 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "cooldowns",
-    "finishers",
-    "generators",
-  },
+  simcOrder = { "precombat", "default", "cooldowns", "finishers", "generators" },
   spec = "retribution",
+  spellInfo = {
+    [20271] = {
+      ap = {
+        { 20271, "self" },
+      },
+      ch = 1,
+      chcd = 11,
+      d = 5,
+      gcd = 1.5,
+      n = "judgment",
+    },
+    [24275] = {
+      ap = {
+        { 24275, "self" },
+      },
+      ch = 1,
+      chcd = 7.5,
+      d = 5,
+      gain = { [9] = 1 },
+      gcd = 1.5,
+      n = "hammer_of_wrath",
+    },
+    [31884] = {
+      ap = {
+        { 31884, "self" },
+      },
+      cd = 120,
+      d = 20,
+      n = "avenging_wrath",
+      tal = true,
+    },
+    [35395] = {
+      ch = 2,
+      chcd = 6,
+      gain = { [9] = 1 },
+      gcd = 1.5,
+      n = "crusader_strike",
+    },
+    [53385] = {
+      cost = { [9] = 3 },
+      gcd = 1.5,
+      n = "divine_storm",
+      tal = true,
+    },
+    [53595] = {
+      ap = {
+        { 1302139, "enemy" },
+      },
+      ch = 2,
+      chcd = 5,
+      gain = { [9] = 1 },
+      gcd = 1.5,
+      n = "hammer_of_the_righteous",
+      tal = true,
+    },
+    [85256] = {
+      cost = { [9] = 3 },
+      gcd = 1.5,
+      n = "templars_verdict",
+    },
+    [88263] = {
+      ap = {
+        { 1302139, "enemy" },
+      },
+      n = "hammer_of_the_righteous",
+    },
+    [96231] = {
+      cd = 15,
+      d = 5,
+      n = "rebuke",
+      tal = true,
+    },
+    [132331] = {
+      cd = 4.5,
+      gain = { [9] = 1 },
+      gcd = 1.5,
+      n = "crusader_strike",
+    },
+    [150627] = {
+      n = "hammer_of_the_righteous",
+    },
+    [155145] = {
+      cd = 120,
+      gain = { [9] = 1 },
+      gcd = 1.5,
+      n = "arcane_torrent",
+    },
+    [184575] = {
+      ch = 1,
+      chcd = 12,
+      gain = { [9] = 1 },
+      gcd = 1.5,
+      n = "blade_of_justice",
+      tal = true,
+    },
+    [197277] = {
+      ap = {
+        { 197277, "enemy" },
+      },
+      d = 18,
+      n = "judgment",
+      st = 20,
+    },
+    [204019] = {
+      ch = 3,
+      chcd = 5,
+      d = 5,
+      gain = { [9] = 1 },
+      gcd = 1.5,
+      n = "blessed_hammer",
+      tal = true,
+    },
+    [204301] = {
+      ap = {
+        { 204301, "enemy" },
+      },
+      d = 10,
+      n = "blessed_hammer",
+    },
+    [205273] = {
+      ap = {
+        { 205273, "enemy" },
+      },
+      cd = 30,
+      d = 6,
+      gcd = 1.5,
+      n = "wake_of_ashes",
+    },
+    [205290] = {
+      ap = {
+        { 205290, "enemy" },
+      },
+      d = 6,
+      n = "wake_of_ashes",
+    },
+    [209122] = {
+      gain = { [9] = 1 },
+      n = "wake_of_ashes",
+    },
+    [214222] = {
+      ap = {
+        { 214222, "enemy" },
+      },
+      d = 15,
+      n = "judgment",
+      st = 1,
+    },
+    [218001] = {
+      gain = { [9] = 5 },
+      n = "wake_of_ashes",
+    },
+    [224239] = {
+      n = "divine_storm",
+    },
+    [224266] = {
+      n = "templars_verdict",
+    },
+    [229976] = {
+      n = "blessed_hammer",
+      pas = true,
+    },
+    [231895] = {
+      ap = {
+        { 231895, "self" },
+      },
+      cd = 120,
+      d = 27,
+      n = "avenging_wrath",
+      st = 10,
+    },
+    [249690] = {
+      n = "hammer_of_the_righteous",
+    },
+    [255937] = {
+      ap = {
+        { 403695, "enemy" },
+      },
+      ch = 1,
+      chcd = 30,
+      gain = { [9] = 3 },
+      gcd = 1.5,
+      n = "wake_of_ashes",
+      tal = true,
+    },
+    [255941] = {
+      ap = {
+        { 255941, "enemy" },
+      },
+      d = 5,
+      n = "wake_of_ashes",
+    },
+    [273476] = {
+      n = "expurgation",
+    },
+    [273481] = {
+      ap = {
+        { 273481, "enemy" },
+      },
+      d = 6,
+      n = "expurgation",
+    },
+    [275773] = {
+      ch = 1,
+      chcd = 11,
+      gcd = 1.5,
+      n = "judgment",
+    },
+    [275779] = {
+      ch = 1,
+      chcd = 11,
+      gcd = 1.5,
+      n = "judgment",
+    },
+    [286392] = {
+      n = "empyrean_power",
+    },
+    [286393] = {
+      ap = {
+        { 286393, "self" },
+      },
+      d = 15,
+      n = "empyrean_power",
+      st = 1,
+    },
+    [304971] = {
+      cd = 60,
+      gcd = 1.5,
+      n = "divine_toll",
+    },
+    [312952] = {
+      n = "divine_toll",
+    },
+    [317872] = {
+      n = "avenging_wrath",
+      pas = true,
+    },
+    [326011] = {
+      ap = {
+        { 326011, "self" },
+      },
+      d = 0.75,
+      n = "divine_toll",
+    },
+    [326730] = {
+      n = "hammer_of_wrath",
+      pas = true,
+    },
+    [326732] = {
+      n = "empyrean_power",
+      pas = true,
+      tal = true,
+    },
+    [326733] = {
+      ap = {
+        { 326733, "self" },
+      },
+      d = 15,
+      n = "empyrean_power",
+      st = 1,
+    },
+    [337247] = {
+      gcd = 1.5,
+      n = "final_verdict",
+      pas = true,
+    },
+    [339044] = {
+      ap = {
+        { 339044, "self" },
+      },
+      d = 20,
+      n = "avenging_wrath",
+    },
+    [339538] = {
+      n = "templars_verdict",
+    },
+    [342348] = {
+      n = "crusader_strike",
+      pas = true,
+    },
+    [343527] = {
+      ap = {
+        { 343527, "enemy" },
+        { 1234189, "self" },
+        { 1260251, "enemy" },
+      },
+      cd = 60,
+      d = 10,
+      gcd = 0.75,
+      n = "execution_sentence",
+      tal = true,
+    },
+    [344067] = {
+      ap = {
+        { 344067, "enemy" },
+      },
+      d = 6,
+      n = "expurgation",
+    },
+    [375576] = {
+      cd = 60,
+      gcd = 1.5,
+      n = "divine_toll",
+      tal = true,
+    },
+    [375609] = {
+      ap = {
+        { 375609, "self" },
+      },
+      d = 0.75,
+      n = "divine_toll",
+    },
+    [383328] = {
+      cost = { [9] = 3 },
+      gcd = 1.5,
+      n = "final_verdict",
+      tal = true,
+    },
+    [383344] = {
+      n = "expurgation",
+      pas = true,
+      tal = true,
+    },
+    [383346] = {
+      ap = {
+        { 383346, "enemy" },
+      },
+      d = 9,
+      n = "expurgation",
+    },
+    [384392] = {
+      n = "crusade",
+      pas = true,
+    },
+    [387113] = {
+      n = "execution_sentence",
+    },
+    [387170] = {
+      n = "empyrean_legacy",
+      pas = true,
+      tal = true,
+    },
+    [387178] = {
+      ap = {
+        { 387178, "self" },
+      },
+      d = 20,
+      n = "empyrean_legacy",
+      st = 2,
+    },
+    [387200] = {
+      n = "execution_sentence",
+    },
+    [387441] = {
+      ap = {
+        { 387441, "self" },
+      },
+      d = 20,
+      n = "empyrean_legacy",
+      st = 1,
+    },
+    [402912] = {
+      n = "righteous_cause",
+      pas = true,
+      tal = true,
+    },
+    [402916] = {
+      ap = {
+        { 402916, "self" },
+      },
+      d = 20,
+      n = "righteous_cause",
+      st = 1,
+    },
+    [403695] = {
+      ap = {
+        { 403695, "enemy" },
+      },
+      d = 9,
+      n = "truths_wake",
+    },
+    [404358] = {
+      n = "blade_of_justice",
+    },
+    [404542] = {
+      n = "crusading_strikes",
+      pas = true,
+      tal = true,
+    },
+    [406064] = {
+      n = "art_of_war",
+      pas = true,
+      tal = true,
+    },
+    [406086] = {
+      ap = {
+        { 406086, "self" },
+      },
+      d = 20,
+      n = "art_of_war",
+      st = 1,
+    },
+    [406545] = {
+      n = "holy_flames",
+      pas = true,
+      tal = true,
+    },
+    [406646] = {
+      n = "templar_strikes",
+      pas = true,
+      tal = true,
+    },
+    [406647] = {
+      gain = { [9] = 1 },
+      gcd = 1,
+      n = "templar_slash",
+    },
+    [406648] = {
+      ap = {
+        { 406648, "self" },
+        { 1266331, "self" },
+      },
+      d = 30,
+      n = "templar_strikes",
+    },
+    [406957] = {
+      ap = {
+        { 406957, "self" },
+      },
+      ch = 1,
+      chcd = 11,
+      d = 5,
+      gcd = 1.5,
+      n = "judgment",
+    },
+    [407480] = {
+      ap = {
+        { 406648, "self" },
+      },
+      ch = 2,
+      chcd = 6,
+      gain = { [9] = 1 },
+      gcd = 1,
+      n = "templar_strike",
+    },
+    [423593] = {
+      n = "divine_storm",
+    },
+    [427441] = {
+      ap = {
+        { 427441, "self" },
+      },
+      d = 20,
+      n = "hammer_of_light",
+      st = 1,
+    },
+    [427453] = {
+      ap = {
+        { 1217116, "self" },
+      },
+      cost = { [9] = 3 },
+      gcd = 1.5,
+      n = "hammer_of_light",
+    },
+    [429826] = {
+      n = "hammer_of_light",
+    },
+    [432626] = {
+      n = "undisputed_ruling",
+      pas = true,
+      tal = true,
+    },
+    [432629] = {
+      ap = {
+        { 432629, "self" },
+      },
+      d = 6,
+      n = "undisputed_ruling",
+    },
+    [447142] = {
+      ap = {
+        { 447142, "enemy" },
+      },
+      d = 4,
+      n = "templar_slash",
+    },
+    [454351] = {
+      ap = {
+        { 454351, "self" },
+      },
+      d = 8,
+      n = "avenging_wrath",
+    },
+    [454353] = {
+      n = "radiant_glory",
+      pas = true,
+    },
+    [454373] = {
+      ap = {
+        { 454373, "self" },
+      },
+      d = 8,
+      n = "avenging_wrath",
+      st = 10,
+    },
+    [458359] = {
+      n = "radiant_glory",
+      pas = true,
+      tal = true,
+    },
+    [462048] = {
+      n = "radiant_glory",
+      pas = true,
+    },
+    [1217116] = {
+      ap = {
+        { 1217116, "self" },
+      },
+      d = 1.5,
+      n = "hammer_of_light",
+    },
+    [1234189] = {
+      ap = {
+        { 1234189, "self" },
+      },
+      d = 10,
+      n = "execution_sentence",
+    },
+    [1235934] = {
+      n = "hammer_of_light",
+    },
+    [1241358] = {
+      n = "empyrean_legacy",
+      pas = true,
+      tal = true,
+    },
+    [1241410] = {
+      n = "hammer_of_wrath",
+    },
+    [1241413] = {
+      ch = 1,
+      chcd = 11,
+      gain = { [9] = 1 },
+      gcd = 1.5,
+      n = "hammer_of_wrath",
+    },
+    [1246643] = {
+      ap = {
+        { 1246643, "self" },
+      },
+      d = 20,
+      n = "hammer_of_light",
+      st = 1,
+    },
+    [1253598] = {
+      n = "crusade",
+      pas = true,
+      tal = true,
+    },
+    [1260251] = {
+      ap = {
+        { 1260251, "enemy" },
+      },
+      d = 10,
+      n = "execution_sentence",
+    },
+    [1263782] = {
+      n = "walk_into_light",
+      pas = true,
+      tal = true,
+    },
+    [1277026] = {
+      n = "hammer_of_wrath",
+    },
+    [1279187] = {
+      ch = 2,
+      chcd = 6,
+      gain = { [9] = 1 },
+      gcd = 1.5,
+      n = "crusader_strike",
+    },
+    [1279408] = {
+      gain = { [9] = 1 },
+      n = "hammer_of_wrath",
+    },
+    [1302139] = {
+      ap = {
+        { 1302139, "enemy" },
+      },
+      d = 8,
+      n = "seal_of_reprisal",
+    },
+  },
+  spells = {
+    arcane_torrent = {
+      a = { 155145 },
+    },
+    art_of_war = {
+      a = { 406086, 406064 },
+      b = { 406086, 406064 },
+    },
+    avenging_wrath = {
+      a = { 231895, 339044, 454351, 454373, 31884, 317872 },
+      b = { 31884, 231895, 339044, 454351, 454373, 317872 },
+    },
+    blade_of_justice = {
+      a = { 184575, 404358 },
+    },
+    blessed_hammer = {
+      a = { 204301, 204019, 229976 },
+    },
+    crusade = {
+      t = { 1253598, 384392 },
+    },
+    crusader_strike = {
+      a = { 35395, 132331, 1279187, 342348 },
+    },
+    crusading_strikes = {
+      t = { 404542 },
+    },
+    divine_storm = {
+      a = { 53385, 224239, 423593 },
+    },
+    divine_toll = {
+      a = { 304971, 375576, 312952, 326011, 375609 },
+    },
+    empyrean_legacy = {
+      a = { 387178, 387441, 387170, 1241358 },
+      b = { 387178, 387441, 387170, 1241358 },
+    },
+    empyrean_power = {
+      a = { 286393, 326733, 286392, 326732 },
+      b = { 286393, 326733, 286392, 326732 },
+    },
+    execution_sentence = {
+      a = { 343527, 387113, 387200, 1234189, 1260251 },
+      t = { 343527 },
+    },
+    execution_sentence_debuff = {
+      a = { 343527, 387113, 387200, 1234189, 1260251 },
+      b = { 343527, 1234189, 1260251, 387113, 387200 },
+    },
+    expurgation = {
+      a = { 273481, 344067, 383346, 273476, 383344 },
+      b = { 273481, 344067, 383346, 273476, 383344 },
+      t = { 383344 },
+    },
+    final_verdict = {
+      t = { 383328, 337247 },
+    },
+    hammer_of_light = {
+      a = { 427453, 427441, 429826, 1235934, 1246643, 1217116 },
+    },
+    hammer_of_the_righteous = {
+      a = { 88263, 150627, 249690, 53595 },
+    },
+    hammer_of_wrath = {
+      a = { 24275, 1241413, 1241410, 1277026, 1279408, 326730 },
+    },
+    holy_flames = {
+      t = { 406545 },
+    },
+    judgment = {
+      a = { 20271, 275773, 275779, 406957, 197277, 214222 },
+    },
+    radiant_glory = {
+      t = { 458359, 454353, 462048 },
+    },
+    rebuke = {
+      a = { 96231 },
+    },
+    righteous_cause = {
+      a = { 402916, 402912 },
+      b = { 402916, 402912 },
+    },
+    templar_slash = {
+      a = { 406647, 447142 },
+    },
+    templar_strike = {
+      a = { 407480 },
+    },
+    templar_strikes = {
+      t = { 406646 },
+    },
+    templars_verdict = {
+      a = { 85256, 224266, 339538 },
+    },
+    undisputed_ruling = {
+      a = { 432629, 432626 },
+      b = { 432629, 432626 },
+    },
+    wake_of_ashes = {
+      a = { 205273, 255937, 205290, 209122, 218001, 255941 },
+    },
+    walk_into_light = {
+      t = { 1263782 },
+    },
+  },
 })

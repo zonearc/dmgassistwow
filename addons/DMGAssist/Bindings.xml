@@ -1,0 +1,11 @@
+<Bindings>
+	<Binding name="DMGASSIST_CYCLEMODE" header="DMGASSIST" category="ADDONS">
+		DMGAssist_CycleMode()
+	</Binding>
+	<Binding name="DMGASSIST_BURST" category="ADDONS">
+		DMGAssist_ToggleBurst()
+	</Binding>
+	<Binding name="DMGASSIST_TOGGLE" category="ADDONS">
+		DMGAssist_Toggle()
+	</Binding>
+</Bindings>

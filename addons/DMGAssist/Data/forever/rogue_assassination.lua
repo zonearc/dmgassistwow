@@ -197,16 +197,10 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       },
     },
   },
-  blizzardExcluded = {
-    "deathmark",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "deathmark" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "rogue",
+  heroTrees = {},
   key = "rogue_assassination",
   simc = {
     cds = {
@@ -556,4 +550,415 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
     "vanish",
   },
   spec = "assassination",
+  spellInfo = {
+    [703] = {
+      ap = {
+        { 703, "enemy" },
+      },
+      cost = { [3] = 50 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "garrote",
+    },
+    [1766] = {
+      cd = 10,
+      cost = { [3] = 25 },
+      d = 5,
+      gcd = 1,
+      n = "kick",
+    },
+    [1767] = {
+      cd = 10,
+      cost = { [3] = 25 },
+      d = 5,
+      gcd = 1,
+      n = "kick",
+    },
+    [1768] = {
+      cd = 10,
+      cost = { [3] = 25 },
+      d = 5,
+      gcd = 1,
+      n = "kick",
+    },
+    [1769] = {
+      cd = 10,
+      cost = { [3] = 25 },
+      d = 5,
+      gcd = 1,
+      n = "kick",
+    },
+    [1784] = {
+      cd = 10,
+      n = "stealth",
+    },
+    [1785] = {
+      cd = 10,
+      n = "stealth",
+    },
+    [1786] = {
+      cd = 10,
+      n = "stealth",
+    },
+    [1787] = {
+      cd = 10,
+      n = "stealth",
+    },
+    [1856] = {
+      ap = {
+        { 11327, "self" },
+        { 18461, "self" },
+      },
+      cd = 300,
+      cost = { [3] = 0 },
+      n = "vanish",
+    },
+    [1857] = {
+      ap = {
+        { 11329, "self" },
+        { 18461, "self" },
+      },
+      cd = 300,
+      cost = { [3] = 0 },
+      n = "vanish",
+    },
+    [1943] = {
+      ap = {
+        { 1943, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "rupture",
+    },
+    [5171] = {
+      ap = {
+        { 5171, "self" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "slice_and_dice",
+    },
+    [6774] = {
+      ap = {
+        { 6774, "self" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "slice_and_dice",
+    },
+    [8631] = {
+      ap = {
+        { 8631, "enemy" },
+      },
+      cost = { [3] = 50 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "garrote",
+    },
+    [8632] = {
+      ap = {
+        { 8632, "enemy" },
+      },
+      cost = { [3] = 50 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "garrote",
+    },
+    [8633] = {
+      ap = {
+        { 8633, "enemy" },
+      },
+      cost = { [3] = 50 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "garrote",
+    },
+    [8639] = {
+      ap = {
+        { 8639, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "rupture",
+    },
+    [8640] = {
+      ap = {
+        { 8640, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "rupture",
+    },
+    [8676] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+    },
+    [8724] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+    },
+    [8725] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+    },
+    [11267] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+    },
+    [11268] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+    },
+    [11269] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+    },
+    [11273] = {
+      ap = {
+        { 11273, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "rupture",
+    },
+    [11274] = {
+      ap = {
+        { 11274, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "rupture",
+    },
+    [11275] = {
+      ap = {
+        { 11275, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "rupture",
+    },
+    [11289] = {
+      ap = {
+        { 11289, "enemy" },
+      },
+      cost = { [3] = 50 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "garrote",
+    },
+    [11290] = {
+      ap = {
+        { 11290, "enemy" },
+      },
+      cost = { [3] = 50 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "garrote",
+    },
+    [11327] = {
+      ap = {
+        { 11327, "self" },
+      },
+      cost = { [3] = 0 },
+      d = 10,
+      n = "vanish",
+    },
+    [11329] = {
+      ap = {
+        { 11329, "self" },
+      },
+      cost = { [3] = 0 },
+      d = 10,
+      n = "vanish",
+    },
+    [14079] = {
+      n = "improved_ambush",
+      pas = true,
+      tal = true,
+    },
+    [18461] = {
+      ap = {
+        { 18461, "self" },
+      },
+      d = 1,
+      n = "vanish_purge",
+    },
+    [399956] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 2 },
+      gcd = 1,
+      n = "mutilate",
+    },
+    [399960] = {
+      n = "mutilate",
+    },
+    [399961] = {
+      n = "mutilate",
+    },
+    [399968] = {
+      n = "envenom",
+      pas = true,
+    },
+    [409240] = {
+      cost = { [3] = 50 },
+      gcd = 1,
+      n = "fan_of_knives",
+    },
+    [412096] = {
+      ap = {
+        { 412096, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      d = 2,
+      gcd = 1,
+      n = "crimson_tempest",
+    },
+    [424799] = {
+      cost = { [3] = 20 },
+      gcd = 1,
+      n = "shiv",
+    },
+    [425012] = {
+      cd = 6,
+      cost = { [3] = 25 },
+      gcd = 1,
+      n = "poisoned_knife",
+    },
+    [425013] = {
+      gain = { [4] = 1 },
+      n = "poisoned_knife",
+    },
+    [425100] = {
+      n = "poisoned_knife",
+      pas = true,
+    },
+    [436608] = {
+      n = "fan_of_knives",
+      pas = true,
+    },
+    [436611] = {
+      n = "crimson_tempest",
+      pas = true,
+    },
+    [457437] = {
+      ap = {
+        { 457437, "self" },
+      },
+      cd = 300,
+      d = 10,
+      n = "vanish",
+    },
+    [1241582] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 2 },
+      gcd = 1,
+      n = "mutilate",
+    },
+    [1241584] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 2 },
+      gcd = 1,
+      n = "mutilate",
+    },
+    [1310707] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 2 },
+      gcd = 1,
+      n = "mutilate",
+      tal = true,
+    },
+    [1310709] = {
+      n = "coup_de_grace",
+      pas = true,
+    },
+  },
+  spells = {
+    ambush = {
+      a = { 8676, 8724, 8725, 11267, 11268, 11269 },
+    },
+    coup_de_grace = {
+      a = { 1310709 },
+    },
+    crimson_tempest = {
+      a = { 412096, 436611 },
+      t = { 436611 },
+    },
+    envenom = {
+      a = { 399968 },
+      b = { 399968 },
+    },
+    fan_of_knives = {
+      a = { 409240, 436608 },
+    },
+    garrote = {
+      a = { 703, 8631, 8632, 8633, 11289, 11290 },
+      b = { 703, 8631, 8632, 8633, 11289, 11290 },
+    },
+    improved_ambush = {
+      t = { 14079 },
+    },
+    kick = {
+      a = { 1766, 1767, 1768, 1769 },
+    },
+    mutilate = {
+      a = { 399956, 1241582, 1241584, 1310707, 399960, 399961 },
+    },
+    poisoned_knife = {
+      a = { 425012, 425013, 425100 },
+    },
+    rupture = {
+      a = { 1943, 8639, 8640, 11273, 11274, 11275 },
+      b = { 1943, 8639, 8640, 11273, 11274, 11275 },
+    },
+    shiv = {
+      a = { 424799 },
+    },
+    slice_and_dice = {
+      a = { 5171, 6774 },
+      b = { 5171, 6774 },
+    },
+    stealth = {
+      a = { 1784, 1785, 1786, 1787 },
+      b = { 1784, 1785, 1786, 1787 },
+    },
+    vanish = {
+      a = { 1856, 1857, 11327, 11329, 457437 },
+      b = { 11327, 11329, 457437, 1856, 1857 },
+    },
+  },
 })

@@ -126,17 +126,10 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
       },
     },
   },
-  blizzardExcluded = {
-    "berserk",
-    "convoke_the_spirits",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "berserk", "convoke_the_spirits" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "druid",
+  heroTrees = {},
   key = "druid_guardian",
   simc = {
     bear = {
@@ -518,14 +511,764 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "bear",
-    "cooldowns",
-    "feline_potential",
-    "heart_of_the_wild",
-    "items",
-  },
+  simcOrder = { "precombat", "default", "bear", "cooldowns", "feline_potential", "heart_of_the_wild", "items" },
   spec = "guardian",
+  spellInfo = {
+    [768] = {
+      gcd = 1.5,
+      n = "cat_form",
+    },
+    [1079] = {
+      ap = {
+        { 1079, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 20, [4] = 1 },
+      d = 4,
+      gcd = 1,
+      n = "rip",
+      tal = true,
+    },
+    [1822] = {
+      ap = {
+        { 155722, "enemy" },
+      },
+      cost = { [3] = 35 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "rake",
+      tal = true,
+    },
+    [3025] = {
+      n = "cat_form",
+      pas = true,
+    },
+    [5221] = {
+      cost = { [3] = 40 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "shred",
+    },
+    [5487] = {
+      gcd = 1.5,
+      n = "bear_form",
+    },
+    [6807] = {
+      cost = { [1] = 40 },
+      gcd = 1.5,
+      n = "maul",
+      tal = true,
+    },
+    [8921] = {
+      gcd = 1.5,
+      n = "moonfire",
+    },
+    [17057] = {
+      ap = {
+        { 17057, "self" },
+      },
+      d = 6,
+      gain = { [1] = 250 },
+      n = "bear_form",
+    },
+    [22568] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      gcd = 1,
+      n = "ferocious_bite",
+    },
+    [22812] = {
+      ap = {
+        { 22812, "self" },
+      },
+      cd = 60,
+      d = 8,
+      n = "barkskin",
+    },
+    [24858] = {
+      gcd = 1.5,
+      n = "moonkin_form",
+      tal = true,
+    },
+    [33917] = {
+      ch = 1,
+      chcd = 6,
+      gain = { [1] = 120 },
+      gcd = 1.5,
+      n = "mangle",
+    },
+    [48629] = {
+      n = "cat_form",
+    },
+    [50334] = {
+      ap = {
+        { 50334, "self" },
+      },
+      cd = 180,
+      d = 15,
+      n = "berserk",
+      tal = true,
+    },
+    [77758] = {
+      cd = 6,
+      gain = { [1] = 50 },
+      gcd = 1.5,
+      n = "thrash",
+    },
+    [102543] = {
+      ap = {
+        { 102543, "self" },
+        { 252071, "self" },
+      },
+      cd = 180,
+      d = 20,
+      n = "incarnation_avatar_of_ashamane",
+      tal = true,
+    },
+    [106785] = {
+      cost = { [3] = 35 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "swipe",
+    },
+    [106829] = {
+      n = "bear_form",
+    },
+    [106830] = {
+      cd = 6,
+      cost = { [3] = 40 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "thrash",
+    },
+    [106840] = {
+      n = "cat_form",
+      pas = true,
+    },
+    [106899] = {
+      n = "bear_form",
+      pas = true,
+    },
+    [106951] = {
+      ap = {
+        { 106951, "self" },
+      },
+      cd = 180,
+      d = 15,
+      n = "berserk",
+    },
+    [108291] = {
+      ap = {
+        { 108291, "self" },
+      },
+      cd = 300,
+      d = 45,
+      gcd = 1.5,
+      n = "heart_of_the_wild",
+    },
+    [108292] = {
+      ap = {
+        { 108292, "self" },
+      },
+      cd = 300,
+      d = 45,
+      gcd = 1.5,
+      n = "heart_of_the_wild",
+    },
+    [108293] = {
+      ap = {
+        { 108293, "self" },
+      },
+      cd = 300,
+      d = 45,
+      gcd = 1.5,
+      n = "heart_of_the_wild",
+    },
+    [108294] = {
+      ap = {
+        { 108294, "self" },
+      },
+      cd = 300,
+      d = 45,
+      gcd = 1.5,
+      n = "heart_of_the_wild",
+    },
+    [113636] = {
+      n = "cat_form",
+      pas = true,
+    },
+    [114107] = {
+      n = "soul_of_the_forest",
+      pas = true,
+      tal = true,
+    },
+    [155625] = {
+      ap = {
+        { 155625, "enemy" },
+      },
+      cost = { [3] = 30 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "moonfire",
+    },
+    [155722] = {
+      ap = {
+        { 155722, "enemy" },
+      },
+      d = 15,
+      n = "rake",
+    },
+    [155835] = {
+      ap = {
+        { 155835, "self" },
+      },
+      cd = 40,
+      d = 8,
+      gcd = 1.5,
+      n = "bristling_fur",
+      tal = true,
+    },
+    [158476] = {
+      n = "soul_of_the_forest",
+      pas = true,
+      tal = true,
+    },
+    [158477] = {
+      n = "soul_of_the_forest",
+      pas = true,
+      tal = true,
+    },
+    [158478] = {
+      n = "soul_of_the_forest",
+      pas = true,
+      tal = true,
+    },
+    [158723] = {
+      gain = { [1] = 10 },
+      n = "thrash",
+    },
+    [163505] = {
+      ap = {
+        { 163505, "enemy" },
+      },
+      d = 4,
+      n = "rake",
+    },
+    [164812] = {
+      ap = {
+        { 164812, "enemy" },
+      },
+      d = 18,
+      n = "moonfire",
+    },
+    [192081] = {
+      ap = {
+        { 192081, "self" },
+      },
+      cd = 0.5,
+      cost = { [1] = 40 },
+      d = 7,
+      n = "ironfur",
+      st = 1,
+      tal = true,
+    },
+    [192090] = {
+      ap = {
+        { 192090, "enemy" },
+      },
+      d = 15,
+      n = "thrash",
+      st = 3,
+    },
+    [197625] = {
+      gcd = 1.5,
+      n = "moonkin_form",
+      tal = true,
+    },
+    [203964] = {
+      n = "galactic_guardian",
+      pas = true,
+      tal = true,
+    },
+    [204031] = {
+      cd = 30,
+      n = "bristling_fur",
+    },
+    [204066] = {
+      ap = {
+        { 204066, "self" },
+        { 1270292, "enemy" },
+      },
+      cd = 60,
+      d = 8.5,
+      gcd = 1.5,
+      n = "lunar_beam",
+      tal = true,
+    },
+    [204069] = {
+      n = "lunar_beam",
+    },
+    [211141] = {
+      gain = { [4] = 1 },
+      n = "thrash",
+      st = 3,
+    },
+    [213708] = {
+      ap = {
+        { 213708, "self" },
+      },
+      d = 15,
+      n = "galactic_guardian",
+      st = 1,
+    },
+    [213764] = {
+      gcd = 1,
+      n = "swipe",
+      tal = true,
+    },
+    [213771] = {
+      gcd = 1.5,
+      n = "swipe",
+    },
+    [231064] = {
+      n = "mangle",
+      pas = true,
+    },
+    [231070] = {
+      n = "ironfur",
+      pas = true,
+    },
+    [252071] = {
+      ap = {
+        { 252071, "self" },
+      },
+      d = 30,
+      n = "incarnation_avatar_of_ashamane",
+    },
+    [270100] = {
+      n = "bear_form",
+      pas = true,
+    },
+    [279526] = {
+      cd = 180,
+      gcd = 1,
+      n = "berserk",
+    },
+    [323764] = {
+      ap = {
+        { 323764, "self" },
+      },
+      cd = 120,
+      d = 4,
+      gcd = 1.5,
+      n = "convoke_the_spirits",
+      st = 99,
+    },
+    [326646] = {
+      n = "moonfire",
+      pas = true,
+    },
+    [343216] = {
+      gain = { [4] = 1 },
+      n = "berserk",
+    },
+    [343223] = {
+      n = "berserk",
+      pas = true,
+      tal = true,
+    },
+    [391528] = {
+      ap = {
+        { 391528, "self" },
+      },
+      cd = 120,
+      d = 4,
+      gcd = 1.5,
+      n = "convoke_the_spirits",
+      st = 99,
+      tal = true,
+    },
+    [393414] = {
+      n = "ursocs_guidance",
+      pas = true,
+      tal = true,
+    },
+    [393427] = {
+      n = "flashing_claws",
+      pas = true,
+      tal = true,
+    },
+    [400254] = {
+      cost = { [1] = 40 },
+      gcd = 1.5,
+      n = "raze",
+      tal = true,
+    },
+    [405233] = {
+      ap = {
+        { 405233, "enemy" },
+      },
+      d = 15,
+      n = "thrash",
+    },
+    [414613] = {
+      n = "lunar_beam",
+    },
+    [428545] = {
+      cd = 5,
+      gcd = 0.5,
+      n = "moonfire",
+    },
+    [429523] = {
+      n = "lunar_calling",
+      pas = true,
+      tal = true,
+    },
+    [429539] = {
+      n = "lunation",
+      pas = true,
+      tal = true,
+    },
+    [441583] = {
+      n = "ravage",
+      pas = true,
+      tal = true,
+    },
+    [441585] = {
+      ap = {
+        { 441585, "self" },
+      },
+      d = 20,
+      n = "ravage",
+      st = 1,
+    },
+    [441591] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      gcd = 1,
+      n = "ravage",
+    },
+    [441602] = {
+      ap = {
+        { 441602, "self" },
+      },
+      d = 20,
+      n = "ravage",
+      st = 1,
+    },
+    [441605] = {
+      cost = { [1] = 40 },
+      gcd = 1.5,
+      n = "ravage",
+    },
+    [441675] = {
+      n = "fount_of_strength",
+      pas = true,
+      tal = true,
+    },
+    [441691] = {
+      n = "wildpower_surge",
+      pas = true,
+      tal = true,
+    },
+    [441701] = {
+      ap = {
+        { 441701, "self" },
+      },
+      d = 15,
+      n = "feline_potential",
+      st = 6,
+    },
+    [441702] = {
+      ap = {
+        { 441702, "self" },
+      },
+      d = 15,
+      n = "feline_potential",
+      st = 1,
+    },
+    [449193] = {
+      n = "fluid_form",
+      pas = true,
+      tal = true,
+    },
+    [468873] = {
+      ap = {
+        { 468873, "enemy" },
+      },
+      d = 15,
+      n = "thrash",
+    },
+    [468934] = {
+      ap = {
+        { 468934, "enemy" },
+      },
+      d = 15,
+      n = "rake",
+    },
+    [1252871] = {
+      ap = {
+        { 1252871, "enemy" },
+      },
+      cd = 30,
+      d = 8,
+      gcd = 1.5,
+      n = "red_moon",
+      tal = true,
+    },
+    [1252994] = {
+      n = "killing_blow",
+      pas = true,
+      tal = true,
+    },
+    [1253582] = {
+      gain = { [1] = 80 },
+      n = "red_moon",
+    },
+    [1253799] = {
+      ap = {
+        { 1253799, "self" },
+      },
+      cd = 60,
+      d = 12,
+      gcd = 1.5,
+      n = "sundering_roar",
+      tal = true,
+    },
+    [1253982] = {
+      n = "sundering_roar",
+    },
+    [1261867] = {
+      ap = {
+        { 1261867, "self" },
+      },
+      cd = 120,
+      d = 1,
+      n = "heart_of_the_wild",
+      tal = true,
+    },
+    [1261868] = {
+      ap = {
+        { 1261868, "self" },
+      },
+      cd = 120,
+      d = 1,
+      n = "heart_of_the_wild",
+    },
+    [1269614] = {
+      n = "wild_guardian",
+      pas = true,
+      tal = true,
+    },
+    [1269616] = {
+      n = "wild_guardian",
+      st = 2,
+    },
+    [1269617] = {
+      n = "wild_guardian",
+      pas = true,
+      tal = true,
+    },
+    [1269619] = {
+      n = "wild_guardian",
+      pas = true,
+      tal = true,
+    },
+    [1269658] = {
+      ap = {
+        { 1308176, "self" },
+      },
+      cd = 8,
+      n = "wild_guardian",
+    },
+    [1270277] = {
+      n = "wild_guardian",
+    },
+    [1270292] = {
+      ap = {
+        { 1270292, "enemy" },
+      },
+      d = 8,
+      n = "lunar_beam",
+    },
+    [1280133] = {
+      ap = {
+        { 1280133, "self" },
+      },
+      d = 0.2,
+      n = "rake",
+    },
+    [1301286] = {
+      ap = {
+        { 1301286, "self" },
+      },
+      d = 15,
+      n = "gorestained_claws",
+      st = 1,
+    },
+    [1308176] = {
+      ap = {
+        { 1308176, "self" },
+      },
+      d = 60,
+      n = "dream_conduit",
+      st = 2,
+    },
+    [1308399] = {
+      d = 8,
+      n = "answered_calling",
+    },
+    [1308647] = {
+      ap = {
+        { 1308647, "self" },
+      },
+      d = 8,
+      n = "answered_calling",
+    },
+  },
+  spells = {
+    answered_calling = {
+      a = { 1308647, 1308399 },
+      b = { 1308399, 1308647 },
+    },
+    barkskin = {
+      a = { 22812 },
+    },
+    bear_form = {
+      a = { 5487, 17057, 106829, 106899, 270100 },
+      b = { 17057, 5487, 106829, 106899, 270100 },
+    },
+    berserk = {
+      a = { 50334, 106951, 279526, 343216, 343223 },
+    },
+    bristling_fur = {
+      a = { 155835, 204031 },
+    },
+    bs_inc = {
+      a = { 252071, 102543, 50334, 106951, 279526, 343216 },
+      b = { 102543, 252071, 50334, 106951, 279526, 343216 },
+    },
+    cat_form = {
+      a = { 768, 3025, 48629, 106840, 113636 },
+      b = { 768, 3025, 48629, 106840, 113636 },
+    },
+    convoke_the_spirits = {
+      a = { 323764, 391528 },
+      t = { 391528 },
+    },
+    dream_conduit = {
+      a = { 1308176 },
+      b = { 1308176 },
+    },
+    feline_potential = {
+      a = { 441701, 441702 },
+      b = { 441701, 441702 },
+    },
+    ferocious_bite = {
+      a = { 22568 },
+    },
+    flashing_claws = {
+      t = { 393427 },
+    },
+    fluid_form = {
+      t = { 449193 },
+    },
+    fount_of_strength = {
+      t = { 441675 },
+    },
+    galactic_guardian = {
+      a = { 213708, 203964 },
+      b = { 213708, 203964 },
+    },
+    gorestained_claws = {
+      a = { 1301286 },
+      b = { 1301286 },
+    },
+    heart_of_the_wild = {
+      a = { 108291, 108292, 108293, 108294, 1261867, 1261868 },
+      t = { 1261867 },
+    },
+    ironfur = {
+      a = { 192081, 231070 },
+      b = { 192081, 231070 },
+    },
+    killing_blow = {
+      t = { 1252994 },
+    },
+    lunar_beam = {
+      a = { 204066, 204069, 414613, 1270292 },
+      b = { 204066, 1270292, 204069, 414613 },
+    },
+    lunar_calling = {
+      t = { 429523 },
+    },
+    lunation = {
+      t = { 429539 },
+    },
+    mangle = {
+      a = { 33917, 231064 },
+    },
+    maul = {
+      a = { 6807 },
+    },
+    moonfire = {
+      a = { 8921, 155625, 428545, 164812, 326646 },
+      b = { 155625, 164812, 8921, 326646, 428545 },
+    },
+    moonkin_form = {
+      a = { 24858, 197625 },
+      b = { 24858, 197625 },
+      t = { 24858, 197625 },
+    },
+    rake = {
+      a = { 1822, 155722, 163505, 468934, 1280133 },
+      b = { 155722, 163505, 468934, 1280133, 1822 },
+    },
+    ravage = {
+      a = { 441591, 441605, 441585, 441602, 441583 },
+      b = { 441585, 441602, 441591, 441605, 441583 },
+      t = { 441583 },
+    },
+    raze = {
+      t = { 400254 },
+    },
+    red_moon = {
+      a = { 1252871, 1253582 },
+      b = { 1252871, 1253582 },
+      t = { 1252871 },
+    },
+    rip = {
+      a = { 1079 },
+      b = { 1079 },
+    },
+    shred = {
+      a = { 5221 },
+    },
+    soul_of_the_forest = {
+      t = { 114107, 158476, 158477, 158478 },
+    },
+    sundering_roar = {
+      a = { 1253799, 1253982 },
+    },
+    swipe = {
+      a = { 106785, 213764, 213771 },
+    },
+    swipe_bear = {
+      a = { 106785, 213764, 213771 },
+    },
+    thrash = {
+      a = { 77758, 106830, 158723, 192090, 211141, 405233 },
+      b = { 192090, 405233, 468873, 77758, 106830, 158723 },
+    },
+    ursocs_guidance = {
+      t = { 393414 },
+    },
+    wild_guardian = {
+      a = { 1269658, 1269616, 1270277, 1269614, 1269617, 1269619 },
+    },
+    wildpower_surge = {
+      t = { 441691 },
+    },
+  },
 })

@@ -117,16 +117,10 @@ ns.RegisterSpecData("forever", "hunter_survival", {
       },
     },
   },
-  blizzardExcluded = {
-    "takedown",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "takedown" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "hunter",
+  heroTrees = {},
   key = "hunter_survival",
   simc = {
     cds = {
@@ -481,14 +475,119 @@ ns.RegisterSpecData("forever", "hunter_survival", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "cds",
-    "plcleave",
-    "plst",
-    "sentcleave",
-    "sentst",
-  },
+  simcOrder = { "precombat", "default", "cds", "plcleave", "plst", "sentcleave", "sentst" },
   spec = "survival",
+  spellInfo = {
+    [2973] = {
+      cd = 6,
+      cost = { [0] = 10 },
+      n = "raptor_strike",
+    },
+    [3044] = {
+      cd = 6,
+      cost = { [0] = 25 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [14260] = {
+      cd = 6,
+      cost = { [0] = 25 },
+      n = "raptor_strike",
+    },
+    [14261] = {
+      cd = 6,
+      cost = { [0] = 35 },
+      n = "raptor_strike",
+    },
+    [14262] = {
+      cd = 6,
+      cost = { [0] = 45 },
+      n = "raptor_strike",
+    },
+    [14263] = {
+      cd = 6,
+      cost = { [0] = 55 },
+      n = "raptor_strike",
+    },
+    [14264] = {
+      cd = 6,
+      cost = { [0] = 70 },
+      n = "raptor_strike",
+    },
+    [14281] = {
+      cd = 6,
+      cost = { [0] = 35 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [14282] = {
+      cd = 6,
+      cost = { [0] = 50 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [14283] = {
+      cd = 6,
+      cost = { [0] = 80 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [14284] = {
+      cd = 6,
+      cost = { [0] = 105 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [14285] = {
+      cd = 6,
+      cost = { [0] = 135 },
+      gcd = 1.5,
+      n = "arcane_shot",
+    },
+    [409379] = {
+      ap = {
+        { 409379, "self" },
+      },
+      cd = 60,
+      d = 30,
+      n = "kill_command",
+    },
+    [409396] = {
+      ap = {
+        { 409396, "self" },
+      },
+      d = 30,
+      n = "kill_command",
+      st = 3,
+    },
+    [409418] = {
+      cd = 60,
+      d = 30,
+      n = "kill_command",
+      st = 3,
+    },
+    [409957] = {
+      n = "steady_shot",
+      pas = true,
+    },
+    [437123] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "steady_shot",
+    },
+  },
+  spells = {
+    arcane_shot = {
+      a = { 3044, 14281, 14282, 14283, 14284, 14285 },
+    },
+    kill_command = {
+      a = { 409379, 409418, 409396 },
+    },
+    raptor_strike = {
+      a = { 2973, 14260, 14261, 14262, 14263, 14264 },
+    },
+    steady_shot = {
+      a = { 437123, 409957 },
+    },
+  },
 })

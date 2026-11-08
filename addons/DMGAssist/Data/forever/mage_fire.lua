@@ -161,16 +161,10 @@ ns.RegisterSpecData("forever", "mage_fire", {
       },
     },
   },
-  blizzardExcluded = {
-    "combustion",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "combustion" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "mage",
+  heroTrees = {},
   key = "mage_fire",
   simc = {
     cds = {
@@ -763,15 +757,403 @@ ns.RegisterSpecData("forever", "mage_fire", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "cds",
-    "ff_combustion",
-    "ff_filler",
-    "fireblast",
-    "sf_combustion",
-    "sf_filler",
-  },
+  simcOrder = { "precombat", "default", "cds", "ff_combustion", "ff_filler", "fireblast", "sf_combustion", "sf_filler" },
   spec = "fire",
+  spellInfo = {
+    [133] = {
+      ap = {
+        { 133, "enemy" },
+      },
+      cost = { [0] = 30 },
+      ct = 1.5,
+      d = 4,
+      gcd = 1.5,
+      n = "fireball",
+    },
+    [143] = {
+      ap = {
+        { 143, "enemy" },
+      },
+      cost = { [0] = 45 },
+      ct = 2,
+      d = 6,
+      gcd = 1.5,
+      n = "fireball",
+    },
+    [145] = {
+      ap = {
+        { 145, "enemy" },
+      },
+      cost = { [0] = 65 },
+      ct = 2.5,
+      d = 6,
+      gcd = 1.5,
+      n = "fireball",
+    },
+    [1459] = {
+      cost = { [0] = 60 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [1460] = {
+      cost = { [0] = 185 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [1461] = {
+      cost = { [0] = 520 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [2120] = {
+      ap = {
+        { 2120, "self" },
+      },
+      cost = { [0] = 195 },
+      ct = 3,
+      d = 8,
+      gcd = 1.5,
+      n = "flamestrike",
+    },
+    [2121] = {
+      ap = {
+        { 2121, "self" },
+      },
+      cost = { [0] = 330 },
+      ct = 3,
+      d = 8,
+      gcd = 1.5,
+      n = "flamestrike",
+    },
+    [2136] = {
+      cd = 8,
+      cost = { [0] = 40 },
+      gcd = 1.5,
+      n = "fire_blast",
+    },
+    [2137] = {
+      cd = 8,
+      cost = { [0] = 75 },
+      gcd = 1.5,
+      n = "fire_blast",
+    },
+    [2138] = {
+      cd = 8,
+      cost = { [0] = 115 },
+      gcd = 1.5,
+      n = "fire_blast",
+    },
+    [2948] = {
+      cost = { [0] = 50 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "scorch",
+    },
+    [3140] = {
+      ap = {
+        { 3140, "enemy" },
+      },
+      cost = { [0] = 95 },
+      ct = 3,
+      d = 8,
+      gcd = 1.5,
+      n = "fireball",
+    },
+    [8400] = {
+      ap = {
+        { 8400, "enemy" },
+      },
+      cost = { [0] = 140 },
+      ct = 3.5,
+      d = 8,
+      gcd = 1.5,
+      n = "fireball",
+    },
+    [8401] = {
+      ap = {
+        { 8401, "enemy" },
+      },
+      cost = { [0] = 185 },
+      ct = 3.5,
+      d = 8,
+      gcd = 1.5,
+      n = "fireball",
+    },
+    [8412] = {
+      cd = 8,
+      cost = { [0] = 165 },
+      gcd = 1.5,
+      n = "fire_blast",
+    },
+    [8413] = {
+      cd = 8,
+      cost = { [0] = 220 },
+      gcd = 1.5,
+      n = "fire_blast",
+    },
+    [8422] = {
+      ap = {
+        { 8422, "self" },
+      },
+      cost = { [0] = 490 },
+      ct = 3,
+      d = 8,
+      gcd = 1.5,
+      n = "flamestrike",
+    },
+    [8423] = {
+      ap = {
+        { 8423, "self" },
+      },
+      cost = { [0] = 650 },
+      ct = 3,
+      d = 8,
+      gcd = 1.5,
+      n = "flamestrike",
+    },
+    [8444] = {
+      cost = { [0] = 65 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "scorch",
+    },
+    [8445] = {
+      cost = { [0] = 80 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "scorch",
+    },
+    [8446] = {
+      cost = { [0] = 100 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "scorch",
+    },
+    [10156] = {
+      cost = { [0] = 945 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [10157] = {
+      cost = { [0] = 1510 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [10197] = {
+      cd = 8,
+      cost = { [0] = 280 },
+      gcd = 1.5,
+      n = "fire_blast",
+    },
+    [10205] = {
+      cost = { [0] = 115 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "scorch",
+    },
+    [10206] = {
+      cost = { [0] = 135 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "scorch",
+    },
+    [10215] = {
+      ap = {
+        { 10215, "self" },
+      },
+      cost = { [0] = 815 },
+      ct = 3,
+      d = 8,
+      gcd = 1.5,
+      n = "flamestrike",
+    },
+    [10216] = {
+      ap = {
+        { 10216, "self" },
+      },
+      cost = { [0] = 990 },
+      ct = 3,
+      d = 8,
+      gcd = 1.5,
+      n = "flamestrike",
+    },
+    [11129] = {
+      cd = 180,
+      n = "combustion",
+      st = 3,
+      tal = true,
+    },
+    [11366] = {
+      ap = {
+        { 11366, "enemy" },
+      },
+      cost = { [0] = 125 },
+      ct = 6,
+      d = 12,
+      gcd = 1.5,
+      n = "pyroblast",
+      tal = true,
+    },
+    [12505] = {
+      ap = {
+        { 12505, "enemy" },
+      },
+      cost = { [0] = 150 },
+      ct = 6,
+      d = 12,
+      gcd = 1.5,
+      n = "pyroblast",
+    },
+    [12522] = {
+      ap = {
+        { 12522, "enemy" },
+      },
+      cost = { [0] = 195 },
+      ct = 6,
+      d = 12,
+      gcd = 1.5,
+      n = "pyroblast",
+    },
+    [12523] = {
+      ap = {
+        { 12523, "enemy" },
+      },
+      cost = { [0] = 240 },
+      ct = 6,
+      d = 12,
+      gcd = 1.5,
+      n = "pyroblast",
+    },
+    [12524] = {
+      ap = {
+        { 12524, "enemy" },
+      },
+      cost = { [0] = 285 },
+      ct = 6,
+      d = 12,
+      gcd = 1.5,
+      n = "pyroblast",
+    },
+    [12525] = {
+      ap = {
+        { 12525, "enemy" },
+      },
+      cost = { [0] = 335 },
+      ct = 6,
+      d = 12,
+      gcd = 1.5,
+      n = "pyroblast",
+    },
+    [28682] = {
+      n = "combustion",
+      st = 10,
+    },
+    [48108] = {
+      ap = {
+        { 48108, "self" },
+      },
+      d = 10,
+      n = "hot_streak",
+      st = 1,
+    },
+    [400624] = {
+      n = "heating_up",
+      pas = true,
+      tal = true,
+    },
+    [400625] = {
+      ap = {
+        { 400625, "self" },
+      },
+      d = 20,
+      n = "heating_up",
+      st = 3,
+    },
+    [401502] = {
+      ap = {
+        { 401502, "enemy" },
+      },
+      cost = { [0] = 205 },
+      ct = 3,
+      d = 9,
+      gcd = 1.5,
+      n = "frostfire_bolt",
+    },
+    [401724] = {
+      n = "hot_streak",
+      pas = true,
+    },
+    [401735] = {
+      n = "frostfire_bolt",
+      pas = true,
+    },
+    [412286] = {
+      n = "burnout",
+      pas = true,
+    },
+    [1237312] = {
+      ap = {
+        { 1237312, "enemy" },
+      },
+      cost = { [0] = 285 },
+      ct = 3,
+      d = 9,
+      gcd = 1.5,
+      n = "frostfire_bolt",
+    },
+    [1237313] = {
+      ap = {
+        { 1237313, "enemy" },
+      },
+      cost = { [0] = 370 },
+      ct = 3,
+      d = 9,
+      gcd = 1.5,
+      n = "frostfire_bolt",
+    },
+  },
+  spells = {
+    arcane_intellect = {
+      a = { 1459, 1460, 1461, 10156, 10157 },
+    },
+    burnout = {
+      t = { 412286 },
+    },
+    combustion = {
+      a = { 11129, 28682 },
+      b = { 11129, 28682 },
+    },
+    fire_blast = {
+      a = { 2136, 2137, 2138, 8412, 8413, 10197 },
+    },
+    fireball = {
+      a = { 133, 143, 145, 3140, 8400, 8401 },
+    },
+    flamestrike = {
+      a = { 2120, 2121, 8422, 8423, 10215, 10216 },
+    },
+    frostfire_bolt = {
+      a = { 401502, 1237312, 1237313, 401735 },
+      t = { 401735 },
+    },
+    heating_up = {
+      a = { 400625, 400624 },
+      b = { 400625, 400624 },
+    },
+    hot_streak = {
+      a = { 48108, 401724 },
+      b = { 48108, 401724 },
+    },
+    pyroblast = {
+      a = { 11366, 12505, 12522, 12523, 12524, 12525 },
+    },
+    scorch = {
+      a = { 2948, 8444, 8445, 8446, 10205, 10206 },
+    },
+  },
 })

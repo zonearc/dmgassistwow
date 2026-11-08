@@ -222,13 +222,9 @@ ns.RegisterSpecData("forever", "priest_shadow", {
     },
   },
   blizzardExcluded = {},
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "priest",
+  heroTrees = {},
   key = "priest_shadow",
   simc = {
     aoe = {
@@ -707,15 +703,349 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "aoe",
-    "aoe_variables",
-    "cds",
-    "heal_for_tof",
-    "main",
-    "trinkets",
-  },
+  simcOrder = { "precombat", "default", "aoe", "aoe_variables", "cds", "heal_for_tof", "main", "trinkets" },
   spec = "shadow",
+  spellInfo = {
+    [589] = {
+      ap = {
+        { 589, "enemy" },
+      },
+      cost = { [0] = 25 },
+      d = 18,
+      gcd = 1.5,
+      n = "shadow_word_pain",
+    },
+    [594] = {
+      ap = {
+        { 594, "enemy" },
+      },
+      cost = { [0] = 50 },
+      d = 18,
+      gcd = 1.5,
+      n = "shadow_word_pain",
+    },
+    [970] = {
+      ap = {
+        { 970, "enemy" },
+      },
+      cost = { [0] = 95 },
+      d = 18,
+      gcd = 1.5,
+      n = "shadow_word_pain",
+    },
+    [992] = {
+      ap = {
+        { 992, "enemy" },
+      },
+      cost = { [0] = 155 },
+      d = 18,
+      gcd = 1.5,
+      n = "shadow_word_pain",
+    },
+    [1243] = {
+      cost = { [0] = 60 },
+      d = 3600,
+      gcd = 1.5,
+      n = "power_word_fortitude",
+    },
+    [1244] = {
+      cost = { [0] = 155 },
+      d = 3600,
+      gcd = 1.5,
+      n = "power_word_fortitude",
+    },
+    [1245] = {
+      cost = { [0] = 400 },
+      d = 3600,
+      gcd = 1.5,
+      n = "power_word_fortitude",
+    },
+    [2767] = {
+      ap = {
+        { 2767, "enemy" },
+      },
+      cost = { [0] = 230 },
+      d = 18,
+      gcd = 1.5,
+      n = "shadow_word_pain",
+    },
+    [2791] = {
+      cost = { [0] = 745 },
+      d = 3600,
+      gcd = 1.5,
+      n = "power_word_fortitude",
+    },
+    [8092] = {
+      cd = 8,
+      cost = { [0] = 50 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "mind_blast",
+    },
+    [8102] = {
+      cd = 8,
+      cost = { [0] = 80 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "mind_blast",
+    },
+    [8103] = {
+      cd = 8,
+      cost = { [0] = 110 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "mind_blast",
+    },
+    [8104] = {
+      cd = 8,
+      cost = { [0] = 150 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "mind_blast",
+    },
+    [8105] = {
+      cd = 8,
+      cost = { [0] = 185 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "mind_blast",
+    },
+    [8106] = {
+      cd = 8,
+      cost = { [0] = 225 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "mind_blast",
+    },
+    [10060] = {
+      cd = 180,
+      d = 15,
+      n = "power_infusion",
+      tal = true,
+    },
+    [10892] = {
+      ap = {
+        { 10892, "enemy" },
+      },
+      cost = { [0] = 305 },
+      d = 18,
+      gcd = 1.5,
+      n = "shadow_word_pain",
+    },
+    [10937] = {
+      cost = { [0] = 1170 },
+      d = 3600,
+      gcd = 1.5,
+      n = "power_word_fortitude",
+    },
+    [10938] = {
+      cost = { [0] = 1695 },
+      d = 3600,
+      gcd = 1.5,
+      n = "power_word_fortitude",
+    },
+    [13908] = {
+      cd = 600,
+      gcd = 1.5,
+      n = "desperate_prayer",
+    },
+    [15237] = {
+      cost = { [0] = 185 },
+      gcd = 1.5,
+      n = "holy_nova",
+      tal = true,
+    },
+    [15407] = {
+      ap = {
+        { 15407, "enemy" },
+      },
+      cost = { [0] = 45 },
+      d = 3,
+      gcd = 1.5,
+      n = "mind_flay",
+      tal = true,
+    },
+    [15430] = {
+      cost = { [0] = 290 },
+      gcd = 1.5,
+      n = "holy_nova",
+    },
+    [15431] = {
+      cost = { [0] = 400 },
+      gcd = 1.5,
+      n = "holy_nova",
+    },
+    [15473] = {
+      cd = 1.5,
+      gcd = 1.5,
+      n = "shadowform",
+      tal = true,
+    },
+    [17311] = {
+      ap = {
+        { 17311, "enemy" },
+      },
+      cost = { [0] = 70 },
+      d = 3,
+      gcd = 1.5,
+      n = "mind_flay",
+    },
+    [17312] = {
+      ap = {
+        { 17312, "enemy" },
+      },
+      cost = { [0] = 100 },
+      d = 3,
+      gcd = 1.5,
+      n = "mind_flay",
+    },
+    [17313] = {
+      ap = {
+        { 17313, "enemy" },
+      },
+      cost = { [0] = 135 },
+      d = 3,
+      gcd = 1.5,
+      n = "mind_flay",
+    },
+    [17314] = {
+      ap = {
+        { 17314, "enemy" },
+      },
+      cost = { [0] = 165 },
+      d = 3,
+      gcd = 1.5,
+      n = "mind_flay",
+    },
+    [18807] = {
+      ap = {
+        { 18807, "enemy" },
+      },
+      cost = { [0] = 205 },
+      d = 3,
+      gcd = 1.5,
+      n = "mind_flay",
+    },
+    [19236] = {
+      cd = 600,
+      gcd = 1.5,
+      n = "desperate_prayer",
+    },
+    [19238] = {
+      cd = 600,
+      gcd = 1.5,
+      n = "desperate_prayer",
+    },
+    [19240] = {
+      cd = 600,
+      gcd = 1.5,
+      n = "desperate_prayer",
+    },
+    [19241] = {
+      cd = 600,
+      gcd = 1.5,
+      n = "desperate_prayer",
+    },
+    [19242] = {
+      cd = 600,
+      gcd = 1.5,
+      n = "desperate_prayer",
+    },
+    [27799] = {
+      cost = { [0] = 520 },
+      gcd = 1.5,
+      n = "holy_nova",
+    },
+    [27800] = {
+      cost = { [0] = 635 },
+      gcd = 1.5,
+      n = "holy_nova",
+    },
+    [27801] = {
+      cost = { [0] = 750 },
+      gcd = 1.5,
+      n = "holy_nova",
+    },
+    [401955] = {
+      cd = 12,
+      gcd = 1.5,
+      n = "shadow_word_death",
+    },
+    [402668] = {
+      ap = {
+        { 402668, "enemy" },
+      },
+      ct = 1.5,
+      d = 15,
+      gcd = 1.5,
+      n = "vampiric_touch",
+    },
+    [402843] = {
+      n = "shadowfiend",
+      pas = true,
+    },
+    [1309595] = {
+      cd = 18,
+      cost = { [0] = 175 },
+      gcd = 1.5,
+      n = "shadow_word_death",
+    },
+    [1309633] = {
+      cd = 18,
+      cost = { [0] = 205 },
+      gcd = 1.5,
+      n = "shadow_word_death",
+    },
+    [1309635] = {
+      cd = 18,
+      cost = { [0] = 250 },
+      gcd = 1.5,
+      n = "shadow_word_death",
+    },
+    [1309636] = {
+      cd = 18,
+      cost = { [0] = 340 },
+      gcd = 1.5,
+      n = "shadow_word_death",
+    },
+  },
+  spells = {
+    desperate_prayer = {
+      a = { 13908, 19236, 19238, 19240, 19241, 19242 },
+    },
+    holy_nova = {
+      a = { 15237, 15430, 15431, 27799, 27800, 27801 },
+    },
+    mind_blast = {
+      a = { 8092, 8102, 8103, 8104, 8105, 8106 },
+    },
+    mind_flay = {
+      a = { 15407, 17311, 17312, 17313, 17314, 18807 },
+    },
+    power_infusion = {
+      a = { 10060 },
+      b = { 10060 },
+    },
+    power_word_fortitude = {
+      a = { 1243, 1244, 1245, 2791, 10937, 10938 },
+    },
+    shadow_word_death = {
+      a = { 401955, 1309595, 1309633, 1309635, 1309636 },
+    },
+    shadow_word_pain = {
+      a = { 589, 594, 970, 992, 2767, 10892 },
+      b = { 589, 594, 970, 992, 2767, 10892 },
+    },
+    shadowfiend = {
+      t = { 402843 },
+    },
+    shadowform = {
+      a = { 15473 },
+      b = { 15473 },
+    },
+    vampiric_touch = {
+      a = { 402668 },
+      b = { 402668 },
+    },
+  },
 })

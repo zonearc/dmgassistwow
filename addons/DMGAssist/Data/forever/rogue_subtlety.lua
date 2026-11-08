@@ -170,16 +170,10 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       },
     },
   },
-  blizzardExcluded = {
-    "shadow_blades",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "shadow_blades" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "rogue",
+  heroTrees = {},
   key = "rogue_subtlety",
   simc = {
     build = {
@@ -510,15 +504,233 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "build",
-    "cds",
-    "fill",
-    "finish",
-    "item",
-    "race",
-  },
+  simcOrder = { "precombat", "default", "build", "cds", "fill", "finish", "item", "race" },
   spec = "subtlety",
+  spellInfo = {
+    [53] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+    },
+    [1784] = {
+      cd = 10,
+      n = "stealth",
+    },
+    [1785] = {
+      cd = 10,
+      n = "stealth",
+    },
+    [1786] = {
+      cd = 10,
+      n = "stealth",
+    },
+    [1787] = {
+      cd = 10,
+      n = "stealth",
+    },
+    [1856] = {
+      ap = {
+        { 11327, "self" },
+        { 18461, "self" },
+      },
+      cd = 300,
+      cost = { [3] = 0 },
+      n = "vanish",
+    },
+    [1857] = {
+      ap = {
+        { 11329, "self" },
+        { 18461, "self" },
+      },
+      cd = 300,
+      cost = { [3] = 0 },
+      n = "vanish",
+    },
+    [2098] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "eviscerate",
+    },
+    [2589] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+    },
+    [2590] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+    },
+    [2591] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+    },
+    [5171] = {
+      ap = {
+        { 5171, "self" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "slice_and_dice",
+    },
+    [6760] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "eviscerate",
+    },
+    [6761] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "eviscerate",
+    },
+    [6762] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "eviscerate",
+    },
+    [6774] = {
+      ap = {
+        { 6774, "self" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "slice_and_dice",
+    },
+    [8623] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "eviscerate",
+    },
+    [8624] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "eviscerate",
+    },
+    [8721] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+    },
+    [11279] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+    },
+    [11327] = {
+      ap = {
+        { 11327, "self" },
+      },
+      cost = { [3] = 0 },
+      d = 10,
+      n = "vanish",
+    },
+    [11329] = {
+      ap = {
+        { 11329, "self" },
+      },
+      cost = { [3] = 0 },
+      d = 10,
+      n = "vanish",
+    },
+    [14183] = {
+      ap = {
+        { 14183, "self" },
+      },
+      cd = 120,
+      d = 20,
+      gain = { [4] = 2 },
+      n = "premeditation",
+      tal = true,
+    },
+    [18461] = {
+      ap = {
+        { 18461, "self" },
+      },
+      d = 1,
+      n = "vanish_purge",
+    },
+    [399985] = {
+      cost = { [3] = 20 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "shadowstrike",
+    },
+    [399986] = {
+      cd = 20,
+      cost = { [3] = 30 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "shuriken_toss",
+    },
+    [400031] = {
+      n = "shadowstrike",
+      pas = true,
+    },
+    [400032] = {
+      n = "shuriken_toss",
+      pas = true,
+    },
+    [457437] = {
+      ap = {
+        { 457437, "self" },
+      },
+      cd = 300,
+      d = 10,
+      n = "vanish",
+    },
+    [1310709] = {
+      n = "coup_de_grace",
+      pas = true,
+    },
+  },
+  spells = {
+    backstab = {
+      a = { 53, 2589, 2590, 2591, 8721, 11279 },
+    },
+    coup_de_grace = {
+      a = { 1310709 },
+    },
+    eviscerate = {
+      a = { 2098, 6760, 6761, 6762, 8623, 8624 },
+    },
+    premeditation = {
+      a = { 14183 },
+      b = { 14183 },
+    },
+    shadowstrike = {
+      a = { 399985, 400031 },
+    },
+    shuriken_toss = {
+      a = { 399986, 400032 },
+    },
+    slice_and_dice = {
+      a = { 5171, 6774 },
+      b = { 5171, 6774 },
+    },
+    stealth = {
+      a = { 1784, 1785, 1786, 1787 },
+      b = { 1784, 1785, 1786, 1787 },
+    },
+    vanish = {
+      a = { 1856, 1857, 11327, 11329, 457437 },
+      b = { 11327, 11329, 457437, 1856, 1857 },
+    },
+  },
 })

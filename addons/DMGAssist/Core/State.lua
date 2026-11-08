@@ -1,9 +1,13 @@
--- State.lua: everything the engine can know about "now", and the trackers that fill the gaps in combat.
+-- State.lua: everything the engine can know about "now" (or about a predicted moment a few GCDs ahead).
 --
 -- Three sources, best first:
 --   1. Read  — the game tells us (out of combat nearly everything; in combat the NeverSecret/whitelisted bits).
---   2. Track — our own clock: casts we saw, cooldown/aura durations we learned while they were readable.
+--   2. Track — our own clock: casts we saw, durations from SimC's spell data or learned while readable.
 --   3. Unknown — E.UNKNOWN; the engine needs corroboration before acting on it.
+--
+-- Prediction: S.BeginLookahead() installs an overlay (V) that shifts the clock forward and records the
+-- effects of spells we expect to be cast (cooldowns started, auras applied, resources spent/gained, prev_gcd).
+-- Every read below goes through Now() and the overlay, so the same SimC evaluation answers "what next, after that".
 --
 -- Own casts come from UNIT_SPELLCAST_SUCCEEDED, whose payload is SecretWhenUnitSpellCastRestricted. When the
 -- spell ID is secret we still see casts of spells with a real cooldown: SpellCooldownInfo.isActive is NeverSecret,
@@ -20,8 +24,8 @@ ns.State = S
 
 local GCD_SPELL = 61304
 local TRACK_WINDOW = 0.5   -- seconds: an aura appearing this soon after a cast is linked to that cast
+local MAX_NAMEPLATES = 40
 
--- Learned facts survive between fights (saved in DMGAssistDB.learned per spec key).
 S.learned = { cd = {}, aura = {}, castAura = {} }
 S.history = {}      -- recent own casts, newest first: { id=, token=, t= }
 S.auraUntil = {}    -- token -> expiry (tracked from casts; player buffs)
@@ -31,8 +35,11 @@ S.wasActive = {}    -- spellID -> last isActive (for cast inference)
 S.glow = {}         -- spellID -> true while the proc glow is shown
 S.combatStart = nil
 S.unknownTerms = {}
-S.drift = {}        -- token -> count of times a tracked value disagreed with an observed truth
+S.drift = {}
 S.castsSeen, S.castsSecret, S.castsInferred = 0, 0, 0
+S.modeOverride = nil -- "auto" / "st" / "aoe" set by the hotkey for this session
+
+local V = nil -- look-ahead overlay, nil = the real present
 
 local POWER = {
   mana = "Mana", rage = "Rage", focus = "Focus", energy = "Energy", combo_points = "ComboPoints",
@@ -48,8 +55,12 @@ local POWER_FALLBACK = {
 }
 
 local function Now()
+  if V then
+    return GetTime() + V.dt
+  end
   return GetTime()
 end
+S.Now = Now
 
 local function PowerType(name)
   local key = POWER[name]
@@ -61,38 +72,141 @@ local function PowerType(name)
 end
 
 ---------------------------------------------------------------------------
--- Settings that stand in for things we cannot read (see docs/design/engine-priority.md, class M)
+-- Target count: auto-detect from nameplates when readable, else the user's mode (hotkey switchable)
 ---------------------------------------------------------------------------
 function S.Settings()
   local db = ns.db or {}
   return {
     mode = db.mode or "st",
+    autoDetect = db.autoDetect ~= false,
     aoeTargets = tonumber(db.aoeTargets) or 3,
     fightLength = tonumber(db.fightLength) or 300,
   }
 end
 
-function S.Targets()
-  local set = S.Settings()
-  if set.mode == "aoe" then
-    return set.aoeTargets
-  end
-  if set.mode == "auto" then
-    local plates = U.Read(U.Call(C_NamePlate and C_NamePlate.GetNamePlates))
-    if type(plates) == "table" then
-      local n = 0
-      for _, plate in ipairs(plates) do
-        local unit = type(plate) == "table" and U.Read(plate.namePlateUnitToken)
-        if unit and U.Read(U.Call(UnitCanAttack, "player", unit)) and U.Read(U.Call(UnitAffectingCombat, unit)) then
-          n = n + 1
-        end
+-- Hostile, in-combat enemies with a nameplate; nil when the game won't tell us.
+function S.CountEnemies()
+  local n = 0
+  for i = 1, MAX_NAMEPLATES do
+    local unit = "nameplate" .. i
+    local exists = U.Read(U.Call(UnitExists, unit))
+    if exists == nil then
+      return nil
+    end
+    if exists then
+      local hostile = U.Read(U.Call(UnitCanAttack, "player", unit))
+      local fighting = U.Read(U.Call(UnitAffectingCombat, unit))
+      if hostile == nil or fighting == nil then
+        return nil
       end
-      if n > 0 then
-        return n
+      if hostile and fighting then
+        n = n + 1
       end
     end
   end
-  return 1
+  return n
+end
+
+-- The mode in force: hotkey override > auto (when enabled) > the primary mode.
+function S.ActiveMode()
+  if S.modeOverride then
+    return S.modeOverride
+  end
+  local set = S.Settings()
+  if set.autoDetect then
+    return "auto"
+  end
+  return set.mode
+end
+
+-- Returns targets, label ("ST", "AOE", "AUTO 3", "ST?" = auto could not read, primary mode used).
+function S.Targets()
+  local set = S.Settings()
+  local mode = S.ActiveMode()
+  if mode == "auto" then
+    local n = S.CountEnemies()
+    if n and n > 0 then
+      return n, "AUTO " .. n
+    end
+    -- Nothing counted (nameplates hidden, out of combat, or unreadable): the primary mode decides.
+    if set.mode == "aoe" then
+      return set.aoeTargets, "AOE?"
+    end
+    return 1, "ST?"
+  elseif mode == "aoe" then
+    return set.aoeTargets, "AOE"
+  end
+  return 1, "ST"
+end
+
+-- Hotkey: cycle AUTO -> ST -> AOE -> AUTO (or ST <-> AOE when auto-detect is off).
+function S.CycleMode()
+  local cur = S.ActiveMode()
+  local nextMode
+  if cur == "auto" then
+    nextMode = "st"
+  elseif cur == "st" then
+    nextMode = "aoe"
+  elseif S.Settings().autoDetect then
+    nextMode = "auto"
+  else
+    nextMode = "st"
+  end
+  S.modeOverride = nextMode
+  return nextMode
+end
+
+---------------------------------------------------------------------------
+-- Spell data helpers (SimC dump numbers, adjusted by haste where the game hastes them)
+---------------------------------------------------------------------------
+local lastHaste = 0
+
+local function HasteFactor()
+  local h = U.Read(U.Call(UnitSpellHaste, "player"))
+  if type(h) == "number" then
+    lastHaste = h
+  end
+  return 1 + lastHaste / 100
+end
+
+local function DataCooldown(id)
+  local info = M.Info(id)
+  if not info then
+    return nil
+  end
+  local cd = info.cd or info.chcd
+  if not cd or cd <= 0 then
+    return nil
+  end
+  if info.hc then
+    cd = cd / HasteFactor()
+  end
+  return cd
+end
+
+local function CooldownLength(id)
+  return S.learned.cd[id] or DataCooldown(id)
+end
+
+local function AuraLength(token, auraID)
+  local l = S.learned.aura[token]
+  if l and l.duration then
+    return l.duration
+  end
+  local info = auraID and M.Info(auraID)
+  if info and info.d and info.d > 0 then
+    return info.d
+  end
+  local ids = M.AuraIDs(token)
+  if ids then
+    for _, id in ipairs(ids) do
+      local i = M.Info(id)
+      if i and i.d and i.d > 0 then
+        return i.d
+      end
+    end
+  end
+  return nil
 end
 
 ---------------------------------------------------------------------------
@@ -106,7 +220,6 @@ local function CooldownInfo(id)
   return info
 end
 
--- Learn a spell's cooldown duration while it is readable (out of combat or whitelisted).
 local function LearnCooldown(id, info)
   info = info or CooldownInfo(id)
   if not info then
@@ -118,19 +231,10 @@ local function LearnCooldown(id, info)
   end
 end
 
-function S.CooldownReady(id)
-  local info = CooldownInfo(id)
-  if not info then
-    return UNKNOWN
-  end
-  local active, onGCD = U.Read(info.isActive), U.Read(info.isOnGCD)
-  if active == nil then
-    return UNKNOWN
-  end
-  return active == false or onGCD == true
-end
-
 function S.CooldownRemains(id)
+  if V and V.cd[id] then
+    return math.max(0, V.cd[id] - Now())
+  end
   local info = CooldownInfo(id)
   if not info then
     return UNKNOWN
@@ -143,48 +247,88 @@ function S.CooldownRemains(id)
   if type(start) == "number" and type(dur) == "number" then
     return math.max(0, start + dur - Now())
   end
-  local last, learned = S.lastCast[id], S.learned.cd[id]
-  if last and learned then
-    local left = learned - (Now() - last)
+  local last, length = S.lastCast[id], CooldownLength(id)
+  if last and length then
+    local left = length - (Now() - last)
     if left > 0 then
       return left
     end
-    -- Our clock says ready, the game says active: we are out of sync (haste, cooldown reduction, reset).
-    S.drift[id] = (S.drift[id] or 0) + 1
+    if not V then
+      -- Our clock says ready, the game says active: out of sync (cooldown reduction, haste, reset).
+      S.drift[id] = (S.drift[id] or 0) + 1
+    end
   end
   return UNKNOWN
+end
+
+function S.CooldownReady(id)
+  if V and V.cd[id] then
+    return V.cd[id] <= Now()
+  end
+  local info = CooldownInfo(id)
+  if not info then
+    return UNKNOWN
+  end
+  local active, onGCD = U.Read(info.isActive), U.Read(info.isOnGCD)
+  if active == nil then
+    return UNKNOWN
+  end
+  if active == false or onGCD == true then
+    return true
+  end
+  if V and V.dt > 0 then
+    -- Looking ahead: will it be back by then?
+    local r = S.CooldownRemains(id)
+    if r == UNKNOWN then
+      return UNKNOWN
+    end
+    return r <= 0
+  end
+  return false
 end
 
 ---------------------------------------------------------------------------
 -- Casts
 ---------------------------------------------------------------------------
+local function StartAuraClock(token, auraID, target, from)
+  local d = AuraLength(token, auraID)
+  if not d then
+    return
+  end
+  if target == "enemy" then
+    S.dotUntil[token] = from + d
+  else
+    S.auraUntil[token] = from + d
+  end
+end
+
 local function RecordCast(id, how)
-  local token = M.TokenForID and M.TokenForID(id)
-  table.insert(S.history, 1, { id = id, token = token, t = Now(), how = how })
+  local token = M.TokenForID(id)
+  local info = M.Info(id)
+  if info and info.n then
+    token = info.n
+  end
+  table.insert(S.history, 1, { id = id, token = token, t = GetTime(), how = how })
   if #S.history > 10 then
     S.history[#S.history] = nil
   end
-  S.lastCast[id] = Now()
-  -- Buffs we learned this spell applies: start our own clock for them.
-  local auraToken = S.learned.castAura[id]
-  if auraToken then
-    local d = S.learned.aura[auraToken]
-    if d then
-      if d.harmful then
-        S.dotUntil[auraToken] = Now() + d.duration
-      else
-        S.auraUntil[auraToken] = Now() + d.duration
+  S.lastCast[id] = GetTime()
+  -- Start our clocks for the auras this spell applies (SimC data, else what we learned in game).
+  local started = false
+  if info and info.ap then
+    for _, ap in ipairs(info.ap) do
+      local ai = M.Info(ap[1])
+      if ai and ai.n then
+        StartAuraClock(ai.n, ap[1], ap[2], GetTime())
+        started = true
       end
     end
   end
-  if token then
-    local d = S.learned.aura[token]
-    if d and not auraToken then
-      if d.harmful then
-        S.dotUntil[token] = Now() + d.duration
-      else
-        S.auraUntil[token] = Now() + d.duration
-      end
+  if not started then
+    local auraToken = S.learned.castAura[id] or token
+    local l = auraToken and S.learned.aura[auraToken]
+    if l then
+      StartAuraClock(auraToken, nil, l.harmful and "enemy" or "self", GetTime())
     end
   end
   if how ~= "event" then
@@ -210,20 +354,22 @@ end
 
 -- SPELL_UPDATE_COOLDOWN: infer casts of cooldown spells from isActive edges (works with secret cast events).
 function S.OnCooldownUpdate()
-  for _, id in pairs(M.spells) do
-    local info = CooldownInfo(id)
-    if info then
-      local active, onGCD = U.Read(info.isActive), U.Read(info.isOnGCD)
-      if active ~= nil then
-        if active == true and onGCD ~= true and S.wasActive[id] == false then
-          local last = S.lastCast[id]
-          if not last or Now() - last > 0.5 then
-            S.castsInferred = S.castsInferred + 1
-            RecordCast(id, "cooldown")
+  for id, b in pairs(M.book) do
+    if b.id == id and not b.passive then
+      local info = CooldownInfo(id)
+      if info then
+        local active, onGCD = U.Read(info.isActive), U.Read(info.isOnGCD)
+        if active ~= nil then
+          if active == true and onGCD ~= true and S.wasActive[id] == false then
+            local last = S.lastCast[id]
+            if not last or GetTime() - last > 0.5 then
+              S.castsInferred = S.castsInferred + 1
+              RecordCast(id, "cooldown")
+            end
+            LearnCooldown(id, info)
           end
-          LearnCooldown(id, info)
+          S.wasActive[id] = active == true and onGCD ~= true
         end
-        S.wasActive[id] = active == true and onGCD ~= true
       end
     end
   end
@@ -236,10 +382,26 @@ function S.OnGlow(spellID, shown)
   end
 end
 
+-- The spell being cast or channelled right now, if the game tells us: id, seconds left.
+-- UnitCastingInfo returns ..., endTimeMs (5th), ..., castingSpellID (9th);
+-- UnitChannelInfo returns ..., endTimeMs (5th), ..., spellID (8th). Both SecretWhenUnitSpellCastRestricted.
+function S.CurrentCast()
+  local c = { U.Call(UnitCastingInfo, "player") }
+  local endMs, id = U.Read(c[5]), U.Read(c[9])
+  if type(endMs) ~= "number" or type(id) ~= "number" then
+    c = { U.Call(UnitChannelInfo, "player") }
+    endMs, id = U.Read(c[5]), U.Read(c[8])
+  end
+  if type(endMs) == "number" and type(id) == "number" then
+    return id, math.max(0, endMs / 1000 - GetTime())
+  end
+  return nil
+end
+
 ---------------------------------------------------------------------------
--- Auras (read while readable, learn durations and which cast applies which aura)
+-- Auras: read while readable (by spell ID, so any language), learn durations and cast -> aura links
 ---------------------------------------------------------------------------
-local readAuras = { player = nil, target = nil }  -- token -> { expires, stacks } when the last scan was readable
+local readAuras = { player = nil, target = nil }
 
 local function ScanAuras(unit, filter, harmful)
   local getter = C_UnitAuras and C_UnitAuras.GetAuraDataByIndex
@@ -259,18 +421,21 @@ local function ScanAuras(unit, filter, harmful)
     if U.IsSecret(aura) then
       return nil
     end
-    local name, dur, exp = U.Read(aura.name), U.Read(aura.duration), U.Read(aura.expirationTime)
-    if name == nil then
-      return nil -- fields are secret: this scan tells us nothing
+    local name, sid = U.Read(aura.name), U.Read(aura.spellId)
+    local dur, exp = U.Read(aura.duration), U.Read(aura.expirationTime)
+    if name == nil and sid == nil then
+      return nil
     end
-    local token = M.Token(name)
-    local stacks = U.Read(aura.applications)
-    out[token] = { expires = (type(exp) == "number" and exp > 0) and exp or math.huge,
-      stacks = (type(stacks) == "number" and stacks > 0) and stacks or 1 }
-    if type(dur) == "number" and dur > 0 then
-      local known = S.learned.aura[token]
-      if not known or known.duration ~= dur then
-        S.learned.aura[token] = { duration = dur, harmful = harmful or nil }
+    local token = M.AuraToken(sid, name)
+    if token then
+      local stacks = U.Read(aura.applications)
+      out[token] = { expires = (type(exp) == "number" and exp > 0) and exp or math.huge,
+        stacks = (type(stacks) == "number" and stacks > 0) and stacks or 1 }
+      if type(dur) == "number" and dur > 0 then
+        local known = S.learned.aura[token]
+        if not known or known.duration ~= dur then
+          S.learned.aura[token] = { duration = dur, harmful = harmful or nil }
+        end
       end
     end
   end
@@ -292,20 +457,18 @@ function S.OnAura(unit)
   if not now then
     return
   end
-  -- Link a new aura to the cast just before it.
   local last = S.history[1]
-  if last and Now() - last.t <= TRACK_WINDOW then
+  if last and GetTime() - last.t <= TRACK_WINDOW then
     for token in pairs(now) do
       if not (before and before[token]) and last.token ~= token then
         S.learned.castAura[last.id] = token
       end
     end
   end
-  -- Resync our clocks with the truth while we can see it.
   local clocks = unit == "player" and S.auraUntil or S.dotUntil
   for token, untilT in pairs(clocks) do
     local seen = now[token]
-    if (seen == nil) ~= (untilT <= Now()) then
+    if (seen == nil) ~= (untilT <= GetTime()) then
       S.drift[token] = (S.drift[token] or 0) + 1
     end
     clocks[token] = seen and seen.expires or 0
@@ -321,17 +484,31 @@ function S.OnTargetChanged()
   S.OnAura("target")
 end
 
--- Up/remains for an aura token on "player" or "target": read if possible, else our own clock, else UNKNOWN.
+-- up, remains, stacks for an aura token on "player" or "target": overlay, read, our clock, else UNKNOWN.
 local function AuraState(unit, token)
   local list = M.Candidates(token)
-  local read = readAuras[unit]
-  local clocks = unit == "player" and S.auraUntil or S.dotUntil
   local now = Now()
-  for _, t in ipairs(list) do
-    if read and read[t] then
-      return true, read[t].expires - now, read[t].stacks
+  if V then
+    local vt = unit == "player" and V.aura or V.dot
+    for _, t in ipairs(list) do
+      if vt[t] then
+        if vt[t] > now then
+          return true, vt[t] - now, 1
+        end
+        return false, 0, 0
+      end
     end
   end
+  local read = readAuras[unit]
+  for _, t in ipairs(list) do
+    if read and read[t] then
+      if read[t].expires > now then
+        return true, read[t].expires - now, read[t].stacks
+      end
+      return false, 0, 0
+    end
+  end
+  local clocks = unit == "player" and S.auraUntil or S.dotUntil
   for _, t in ipairs(list) do
     local untilT = clocks[t]
     if untilT then
@@ -341,11 +518,10 @@ local function AuraState(unit, token)
       return false, 0, 0
     end
   end
-  -- A readable scan without the aura means it is down; otherwise if we know its duration but never saw it
-  -- applied this fight, it is down as far as our clock knows (we would have seen our own cast).
   if read then
     return false, 0, 0
   end
+  -- Never seen this fight: if it is one of ours with a known duration we would have started its clock.
   for _, t in ipairs(list) do
     if S.learned.aura[t] then
       for _, applied in pairs(S.learned.castAura) do
@@ -360,13 +536,7 @@ end
 S.AuraState = AuraState
 
 local function AuraDuration(token)
-  for _, t in ipairs(M.Candidates(token)) do
-    local d = S.learned.aura[t]
-    if d then
-      return d.duration
-    end
-  end
-  return UNKNOWN
+  return AuraLength(token) or UNKNOWN
 end
 
 ---------------------------------------------------------------------------
@@ -374,26 +544,35 @@ end
 ---------------------------------------------------------------------------
 local lastGCD = 1.5
 
-function S.GCD()
+-- GCD of a spell (or the default 1.5s GCD), hasted unless SimC's data says it is a fixed 1.0s GCD.
+function S.GCD(id)
+  local info = id and M.Info(id)
+  if info and info.gcd and info.gcd <= 1 and not info.hg then
+    return info.gcd
+  end
+  local base = (info and info.gcd) or 1.5
   local haste = U.Read(U.Call(UnitSpellHaste, "player"))
   if type(haste) == "number" then
-    lastGCD = math.max(0.75, 1.5 / (1 + haste / 100))
-  else
-    local info = CooldownInfo(GCD_SPELL)
-    local dur = info and U.Read(info.duration)
-    if type(dur) == "number" and dur > 0 then
-      lastGCD = dur
-    end
+    lastGCD = math.max(0.75, base / (1 + haste / 100))
+    return lastGCD
+  end
+  local cd = CooldownInfo(GCD_SPELL)
+  local dur = cd and U.Read(cd.duration)
+  if type(dur) == "number" and dur > 0 then
+    lastGCD = dur
   end
   return lastGCD
 end
 
 function S.GCDRemains()
+  if V then
+    return 0
+  end
   local info = CooldownInfo(GCD_SPELL)
   if info then
     local start, dur = U.Read(info.startTime), U.Read(info.duration)
     if type(start) == "number" and type(dur) == "number" and dur > 0 then
-      return math.max(0, start + dur - Now())
+      return math.max(0, start + dur - GetTime())
     end
     if U.Read(info.isActive) == false then
       return 0
@@ -401,7 +580,7 @@ function S.GCDRemains()
   end
   local last = S.history[1]
   if last then
-    return math.max(0, S.GCD() - (Now() - last.t))
+    return math.max(0, S.GCD(last.id) - (GetTime() - last.t))
   end
   return 0
 end
@@ -409,13 +588,33 @@ end
 ---------------------------------------------------------------------------
 -- Resources
 ---------------------------------------------------------------------------
+local function PowerNow(pt)
+  local cur = U.Read(U.Call(UnitPower, "player", pt))
+  local max = U.Read(U.Call(UnitPowerMax, "player", pt))
+  if V then
+    if V.powerAbs[pt] then
+      cur = V.powerAbs[pt]
+    end
+    if type(cur) == "number" and V.power[pt] then
+      cur = cur + V.power[pt]
+    end
+    if type(cur) == "number" then
+      cur = math.max(0, cur)
+      if type(max) == "number" and max > 0 then
+        cur = math.min(cur, max)
+      end
+    end
+  end
+  return cur, max
+end
+S.PowerNow = PowerNow
+
 local function Power(name, field)
   local pt = PowerType(name)
   if not pt then
     return nil
   end
-  local cur = U.Read(U.Call(UnitPower, "player", pt))
-  local max = U.Read(U.Call(UnitPowerMax, "player", pt))
+  local cur, max = PowerNow(pt)
   if field == "max" then
     return type(max) == "number" and max or UNKNOWN
   end
@@ -436,6 +635,94 @@ local function Power(name, field)
     return cur
   end
   return UNKNOWN
+end
+
+-- Can we afford this spell (by SimC's cost data) at the overlay's moment? true/false/UNKNOWN.
+function S.Affordable(id)
+  local info = M.Info(id)
+  if not (info and info.cost) then
+    return UNKNOWN
+  end
+  local result = true
+  for pt, amount in pairs(info.cost) do
+    local cur = PowerNow(pt)
+    if type(cur) ~= "number" then
+      result = UNKNOWN
+    elseif cur < amount then
+      return false
+    end
+  end
+  return result
+end
+
+---------------------------------------------------------------------------
+-- Look-ahead overlay
+---------------------------------------------------------------------------
+function S.BeginLookahead(dt)
+  V = { dt = dt or 0, cd = {}, aura = {}, dot = {}, power = {}, powerAbs = {}, prev = {} }
+  return V
+end
+
+function S.EndLookahead()
+  V = nil
+end
+
+function S.Lookahead()
+  return V
+end
+
+-- Pretend `id` is cast at the overlay's moment: start its cooldown, apply its auras, pay its cost,
+-- grant its resources, push it on prev_gcd, and move the clock past its GCD / cast time.
+function S.Apply(id)
+  if not V then
+    return
+  end
+  local info = M.Info(id) or {}
+  local at = Now()
+  local cd = CooldownLength(id)
+  if cd and not (info.ch and info.ch > 1) then
+    V.cd[id] = at + cd
+  end
+  if info.cost then
+    for pt, amount in pairs(info.cost) do
+      local spend = amount
+      local cmax = info.cmax and info.cmax[pt]
+      if cmax then
+        local cur, max = PowerNow(pt)
+        if type(cur) == "number" then
+          spend = math.min(cur, cmax)
+        elseif type(max) == "number" and cmax >= max then
+          -- A finisher spends everything: we know the result even without seeing the value.
+          V.powerAbs[pt] = 0
+          V.power[pt] = 0
+          spend = 0
+        end
+      end
+      V.power[pt] = (V.power[pt] or 0) - spend
+    end
+  end
+  if info.gain then
+    for pt, amount in pairs(info.gain) do
+      V.power[pt] = (V.power[pt] or 0) + amount
+    end
+  end
+  if info.ap then
+    for _, ap in ipairs(info.ap) do
+      local ai = M.Info(ap[1])
+      local tok = ai and ai.n
+      local d = tok and AuraLength(tok, ap[1])
+      if tok and d then
+        if ap[2] == "enemy" then
+          V.dot[tok] = at + d
+        else
+          V.aura[tok] = at + d
+        end
+      end
+    end
+  end
+  table.insert(V.prev, 1, info.n or M.TokenForID(id))
+  local castTime = info.ct and info.ct / HasteFactor() or 0
+  V.dt = V.dt + math.max(S.GCD(id), castTime)
 end
 
 ---------------------------------------------------------------------------
@@ -472,7 +759,7 @@ local function CooldownTerm(token, field)
     end
     return r and 0 or 1
   elseif field == "duration" then
-    return S.learned.cd[id] or UNKNOWN
+    return CooldownLength(id) or UNKNOWN
   end
   local charges = U.Read(U.Call(C_Spell and C_Spell.GetSpellCharges, id))
   if type(charges) == "table" then
@@ -485,6 +772,12 @@ local function CooldownTerm(token, field)
       if type(max) == "number" then
         return max
       end
+    end
+  end
+  if field == "max_charges" then
+    local info = M.Info(id)
+    if info and info.ch then
+      return info.ch
     end
   end
   return UNKNOWN
@@ -517,8 +810,6 @@ local function AuraTerm(unit, token, field)
       return UNKNOWN
     end
     return Bool(remains < 0.3 * d)
-  elseif field == "pmultiplier" or field == "value" then
-    return UNKNOWN
   end
   return UNKNOWN
 end
@@ -526,6 +817,13 @@ end
 local STATIC_ZERO = { set_bonus = true, equipped = true, trinket = true, main_hand = true, off_hand = true,
   item = true, bugs = true, covenant = true, runeforge = true, this_trinket = true, other_trinket = true,
   consumable = true, potion = true, apex = true }
+
+local function CombatTime()
+  if S.combatStart then
+    return Now() - S.combatStart
+  end
+  return V and V.dt or 0
+end
 
 -- ctx: { action = token of the line being evaluated, vars = table, targets = n }
 function S.Resolve(name, ctx)
@@ -544,10 +842,11 @@ function S.Resolve(name, ctx)
     end
     return r > 0 and 1 or 0
   elseif head == "hero_tree" then
-    if not M.talentsRead then
+    local h = M.HeroTree(p[2] or "")
+    if h == nil then
       return UNKNOWN
     end
-    return M.heroTree == p[2] and 1 or 0
+    return h
   elseif head == "cooldown" then
     return CooldownTerm(p[2] or "", p[3] or "ready")
   elseif head == "buff" then
@@ -563,15 +862,16 @@ function S.Resolve(name, ctx)
     end
     return v
   elseif head == "active_enemies" or head == "spell_targets" or head == "enemies" then
-    return (ctx and ctx.targets) or S.Targets()
+    if ctx and ctx.targets then
+      return ctx.targets
+    end
+    return (S.Targets())
   elseif head == "fight_remains" or head == "time_to_die" or head == "expected_combat_length" then
-    local elapsed = S.combatStart and (Now() - S.combatStart) or 0
-    return math.max(1, S.Settings().fightLength - elapsed)
+    return math.max(1, S.Settings().fightLength - CombatTime())
   elseif head == "target" then
     local f = p[2]
     if f == "time_to_die" then
-      local elapsed = S.combatStart and (Now() - S.combatStart) or 0
-      return math.max(1, S.Settings().fightLength - elapsed)
+      return math.max(1, S.Settings().fightLength - CombatTime())
     elseif f == "distance" then
       return 5 -- SimC's own default: the player stands where the spec wants to stand
     elseif f == "health" and p[3] == "pct" then
@@ -590,21 +890,28 @@ function S.Resolve(name, ctx)
     end
     return S.GCD()
   elseif head == "time" or head == "combat_time" then
-    return S.combatStart and (Now() - S.combatStart) or 0
+    return CombatTime()
   elseif head == "prev_gcd" or head == "prev" or head == "prev_off_gcd" then
     local n, token = 1, p[2]
     if tonumber(p[2]) then
       n, token = tonumber(p[2]), p[3]
     end
-    local h = S.history[n]
-    if not h then
-      return 0
+    local tok
+    local vprev = V and #V.prev or 0
+    if n <= vprev then
+      tok = V.prev[n]
+    else
+      local h = S.history[n - vprev]
+      if not h then
+        return 0
+      end
+      tok = h.token
     end
-    if not h.token then
+    if not tok then
       return UNKNOWN
     end
     for _, t in ipairs(M.Candidates(token or "")) do
-      if t == h.token then
+      if t == tok then
         return 1
       end
     end
@@ -649,11 +956,20 @@ function S.Resolve(name, ctx)
       end
       return Bool(S.CooldownReady(id))
     elseif f == "execute_time" then
-      return S.GCD()
+      return S.GCD(id)
     elseif f == "cast_time" then
-      local info = U.Read(U.Call(C_Spell and C_Spell.GetSpellInfo, id))
-      local ms = type(info) == "table" and U.Read(info.castTime)
-      return type(ms) == "number" and ms / 1000 or UNKNOWN
+      local info = M.Info(id)
+      if info then
+        return (info.ct or 0) / HasteFactor()
+      end
+      return UNKNOWN
+    elseif f == "cost" then
+      local info = M.Info(id)
+      if info and info.cost then
+        local _, amount = next(info.cost)
+        return amount or 0
+      end
+      return 0
     end
     return CooldownTerm(p[2], f)
   end
@@ -661,7 +977,7 @@ function S.Resolve(name, ctx)
   -- Bare names refer to the line's own action (dot / cooldown of the spell being considered).
   local own = ctx and ctx.action
   if own and #p == 1 then
-    if head == "ticking" or head == "refreshable" or head == "remains" or head == "pmultiplier" then
+    if head == "ticking" or head == "refreshable" or head == "remains" then
       return AuraTerm("target", own, head)
     elseif head == "charges" or head == "charges_fractional" or head == "full_recharge_time"
       or head == "max_charges" then
@@ -669,8 +985,8 @@ function S.Resolve(name, ctx)
     elseif head == "cooldown_react" then
       return CooldownTerm(own, "ready")
     elseif head == "execute_time" or head == "cast_time" then
-      return S.GCD()
-    elseif head == "persistent_multiplier" then
+      return S.GCD(M.SpellID(own))
+    elseif head == "persistent_multiplier" or head == "pmultiplier" then
       return 1
     end
   end
@@ -682,7 +998,7 @@ end
 ---------------------------------------------------------------------------
 function S.OnCombat(inCombat)
   if inCombat then
-    S.combatStart = Now()
+    S.combatStart = GetTime()
     S.drift = {}
     S.castsSeen, S.castsSecret, S.castsInferred = 0, 0, 0
   else

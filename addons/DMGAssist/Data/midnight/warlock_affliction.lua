@@ -201,16 +201,39 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       },
     },
   },
-  blizzardExcluded = {
-    "summon_darkglare",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "summon_darkglare" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warlock",
+  heroTrees = {
+    hellcaller = {
+      430014,
+      440040,
+      440043,
+      440044,
+      440045,
+      440046,
+      440048,
+      440051,
+      440055,
+      440057,
+      440059,
+      440065,
+    },
+    soul_harvester = {
+      389623,
+      449614,
+      449620,
+      449624,
+      449629,
+      449631,
+      449634,
+      449637,
+      449638,
+      449701,
+      449703,
+      449704,
+    },
+  },
   key = "warlock_affliction",
   simc = {
     HC_aoe = {
@@ -892,4 +915,463 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
     "variables",
   },
   spec = "affliction",
+  spellInfo = {
+    [172] = {
+      gcd = 1.5,
+      n = "corruption",
+    },
+    [686] = {
+      ct = 2,
+      gcd = 1.5,
+      n = "shadow_bolt",
+    },
+    [980] = {
+      ap = {
+        { 980, "enemy" },
+      },
+      d = 18,
+      gcd = 1.5,
+      n = "agony",
+      st = 8,
+      tal = true,
+    },
+    [17941] = {
+      gain = { [7] = 1 },
+      n = "agony",
+    },
+    [27243] = {
+      ap = {
+        { 27243, "enemy" },
+      },
+      cost = { [7] = 1 },
+      ct = 2,
+      d = 12,
+      gcd = 1.5,
+      n = "seed_of_corruption",
+      tal = true,
+    },
+    [27285] = {
+      n = "seed_of_corruption",
+    },
+    [30108] = {
+      cost = { [7] = 1 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "unstable_affliction",
+      st = 10,
+    },
+    [31117] = {
+      gain = { [7] = 1 },
+      n = "unstable_affliction",
+    },
+    [37826] = {
+      n = "seed_of_corruption",
+    },
+    [43991] = {
+      n = "seed_of_corruption",
+    },
+    [48181] = {
+      ap = {
+        { 48181, "enemy" },
+      },
+      cd = 15,
+      ct = 1.5,
+      d = 18,
+      gcd = 1.5,
+      n = "haunt",
+      tal = true,
+    },
+    [108503] = {
+      cd = 30,
+      gcd = 1.5,
+      n = "grimoire_of_sacrifice",
+      tal = true,
+    },
+    [108558] = {
+      n = "nightfall",
+      pas = true,
+      tal = true,
+    },
+    [146739] = {
+      d = 14,
+      n = "corruption",
+    },
+    [194192] = {
+      gain = { [7] = 1 },
+      n = "shadow_bolt",
+    },
+    [196099] = {
+      n = "grimoire_of_sacrifice",
+    },
+    [196100] = {
+      n = "grimoire_of_sacrifice",
+    },
+    [196226] = {
+      n = "sow_the_seeds",
+      pas = true,
+      tal = true,
+    },
+    [196364] = {
+      d = 4,
+      n = "unstable_affliction",
+    },
+    [196657] = {
+      n = "shadow_bolt",
+    },
+    [198590] = {
+      ap = {
+        { 198590, "enemy" },
+      },
+      d = 5,
+      gcd = 1.5,
+      n = "drain_soul",
+    },
+    [205180] = {
+      ap = {
+        { 205180, "self" },
+      },
+      cd = 120,
+      d = 20,
+      gcd = 1.5,
+      n = "summon_darkglare",
+      tal = true,
+    },
+    [205292] = {
+      gain = { [7] = 1 },
+      n = "drain_soul",
+    },
+    [210067] = {
+      gain = { [7] = 1 },
+      n = "agony",
+    },
+    [233490] = {
+      ap = {
+        { 233490, "enemy" },
+      },
+      d = 8,
+      n = "unstable_affliction",
+      st = 1,
+    },
+    [233496] = {
+      ap = {
+        { 233496, "enemy" },
+      },
+      d = 8,
+      n = "unstable_affliction",
+      st = 1,
+    },
+    [233497] = {
+      ap = {
+        { 233497, "enemy" },
+      },
+      d = 8,
+      n = "unstable_affliction",
+      st = 1,
+    },
+    [233498] = {
+      ap = {
+        { 233498, "enemy" },
+      },
+      d = 8,
+      n = "unstable_affliction",
+      st = 1,
+    },
+    [233499] = {
+      ap = {
+        { 233499, "enemy" },
+      },
+      d = 8,
+      n = "unstable_affliction",
+      st = 1,
+    },
+    [264571] = {
+      ap = {
+        { 264571, "self" },
+      },
+      d = 12,
+      n = "nightfall",
+      st = 2,
+    },
+    [275376] = {
+      n = "cascading_calamity",
+    },
+    [388667] = {
+      n = "drain_soul",
+      pas = true,
+      tal = true,
+    },
+    [394238] = {
+      n = "shadow_bolt",
+    },
+    [430014] = {
+      n = "malevolence",
+      pas = true,
+      tal = true,
+    },
+    [433891] = {
+      ap = {
+        { 433891, "self" },
+      },
+      d = 20,
+      n = "infernal_bolt",
+      st = 1,
+    },
+    [434506] = {
+      ct = 2,
+      gain = { [7] = 3 },
+      gcd = 1.5,
+      n = "infernal_bolt",
+    },
+    [442708] = {
+      n = "malevolence",
+    },
+    [442726] = {
+      ap = {
+        { 442726, "self" },
+      },
+      cd = 60,
+      d = 20,
+      gcd = 1.5,
+      n = "malevolence",
+    },
+    [443371] = {
+      n = "malevolence",
+    },
+    [445465] = {
+      n = "wither",
+      pas = true,
+      tal = true,
+    },
+    [445468] = {
+      ap = {
+        { 445474, "enemy" },
+      },
+      gcd = 1.5,
+      n = "wither",
+    },
+    [445474] = {
+      ap = {
+        { 445474, "enemy" },
+      },
+      d = 18,
+      n = "wither",
+      st = 99,
+    },
+    [446285] = {
+      n = "malevolence",
+    },
+    [449793] = {
+      ap = {
+        { 449793, "self" },
+      },
+      d = 30,
+      n = "succulent_soul",
+      st = 5,
+    },
+    [452999] = {
+      n = "siphon_life",
+      pas = true,
+      tal = true,
+    },
+    [1219045] = {
+      ap = {
+        { 1219045, "enemy" },
+      },
+      d = 12,
+      gcd = 1.5,
+      n = "unstable_affliction",
+      st = 1,
+    },
+    [1257052] = {
+      ap = {
+        { 1257052, "self" },
+      },
+      cd = 60,
+      d = 3,
+      gcd = 1.5,
+      n = "dark_harvest",
+      tal = true,
+    },
+    [1257065] = {
+      n = "dark_harvest",
+    },
+    [1259790] = {
+      ap = {
+        { 1259790, "enemy" },
+      },
+      cost = { [7] = 1 },
+      ct = 1.5,
+      d = 8,
+      gcd = 1.5,
+      n = "unstable_affliction",
+      st = 99,
+      tal = true,
+    },
+    [1260264] = {
+      n = "shard_instability",
+      pas = true,
+      tal = true,
+    },
+    [1260269] = {
+      ap = {
+        { 1260269, "self" },
+      },
+      d = 30,
+      n = "shard_instability",
+      st = 3,
+    },
+    [1260279] = {
+      ap = {
+        { 1260279, "self" },
+      },
+      d = 12,
+      n = "nightfall",
+      st = 2,
+    },
+    [1261124] = {
+      n = "cascading_calamity",
+      pas = true,
+      tal = true,
+    },
+    [1261125] = {
+      ap = {
+        { 1261125, "self" },
+      },
+      d = 15,
+      n = "cascading_calamity",
+    },
+    [1261149] = {
+      n = "malefic_grasp",
+      pas = true,
+      tal = true,
+    },
+    [1261153] = {
+      ap = {
+        { 1261153, "enemy" },
+      },
+      d = 4,
+      gcd = 1.5,
+      n = "malefic_grasp",
+    },
+    [1261158] = {
+      n = "corruption",
+    },
+    [1261166] = {
+      n = "agony",
+    },
+    [1279521] = {
+      n = "eye_contract",
+      pas = true,
+      tal = true,
+    },
+    [1279659] = {
+      ap = {
+        { 1279659, "self" },
+      },
+      d = 20,
+      n = "malefic_grasp",
+    },
+    [1279686] = {
+      n = "wither",
+    },
+    [1279998] = {
+      ap = {
+        { 1279998, "self" },
+      },
+      d = 2,
+      n = "seed_of_corruption_is_out_dnt",
+    },
+    [1305774] = {
+      n = "unstable_empowerment",
+      st = 3,
+    },
+  },
+  spells = {
+    agony = {
+      a = { 980, 17941, 1261166, 210067 },
+      b = { 980, 17941, 210067, 1261166 },
+    },
+    cascading_calamity = {
+      a = { 1261125, 275376, 1261124 },
+      b = { 1261125, 275376, 1261124 },
+      t = { 1261124 },
+    },
+    corruption = {
+      a = { 172, 146739, 1261158 },
+      b = { 146739, 172, 1261158 },
+    },
+    dark_harvest = {
+      a = { 1257052, 1257065 },
+    },
+    drain_soul = {
+      a = { 198590, 205292, 388667 },
+    },
+    eye_contract = {
+      t = { 1279521 },
+    },
+    grimoire_of_sacrifice = {
+      a = { 196099, 196100, 108503 },
+      b = { 108503, 196099, 196100 },
+      t = { 108503 },
+    },
+    haunt = {
+      a = { 48181 },
+    },
+    infernal_bolt = {
+      a = { 434506, 433891 },
+    },
+    malefic_grasp = {
+      a = { 1261153, 1261149, 1279659 },
+    },
+    malevolence = {
+      a = { 442726, 446285, 430014, 442708, 443371 },
+      b = { 442726, 442708, 443371, 446285, 430014 },
+    },
+    nightfall = {
+      a = { 264571, 1260279, 108558 },
+      b = { 264571, 1260279, 108558 },
+    },
+    seed_of_corruption = {
+      a = { 27243, 27285, 43991, 37826 },
+      b = { 27243, 27285, 37826, 43991 },
+    },
+    seed_of_corruption_is_out_dnt = {
+      a = { 1279998 },
+      b = { 1279998 },
+    },
+    shadow_bolt = {
+      a = { 686, 194192, 196657, 394238 },
+    },
+    shard_instability = {
+      a = { 1260269, 1260264 },
+      b = { 1260269, 1260264 },
+    },
+    siphon_life = {
+      t = { 452999 },
+    },
+    sow_the_seeds = {
+      t = { 196226 },
+    },
+    succulent_soul = {
+      a = { 449793 },
+      b = { 449793 },
+    },
+    summon_darkglare = {
+      a = { 205180 },
+      t = { 205180 },
+    },
+    unstable_affliction = {
+      a = { 30108, 1219045, 1259790, 31117, 196364, 233490 },
+      b = { 196364, 233490, 233496, 233497, 233498, 233499 },
+    },
+    unstable_empowerment = {
+      a = { 1305774 },
+      b = { 1305774 },
+    },
+    wither = {
+      a = { 445468, 445474, 1279686, 445465 },
+      b = { 445474, 445468, 1279686, 445465 },
+      t = { 445465 },
+    },
+  },
 })

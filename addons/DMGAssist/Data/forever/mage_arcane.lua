@@ -156,16 +156,10 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       },
     },
   },
-  blizzardExcluded = {
-    "arcane_surge",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "arcane_surge" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "mage",
+  heroTrees = {},
   key = "mage_arcane",
   simc = {
     cooldowns = {
@@ -493,12 +487,210 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "cooldowns",
-    "spellslinger",
-    "sunfury",
-  },
+  simcOrder = { "precombat", "default", "cooldowns", "spellslinger", "sunfury" },
   spec = "arcane",
+  spellInfo = {
+    [1459] = {
+      cost = { [0] = 60 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [1460] = {
+      cost = { [0] = 185 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [1461] = {
+      cost = { [0] = 520 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [2139] = {
+      cd = 30,
+      cost = { [0] = 100 },
+      d = 10,
+      n = "counterspell",
+    },
+    [5143] = {
+      ap = {
+        { 5143, "self" },
+      },
+      cost = { [0] = 85 },
+      d = 3,
+      gcd = 1.5,
+      n = "arcane_missiles",
+    },
+    [5144] = {
+      ap = {
+        { 5144, "self" },
+      },
+      cost = { [0] = 140 },
+      d = 4,
+      gcd = 1.5,
+      n = "arcane_missiles",
+    },
+    [5145] = {
+      ap = {
+        { 5145, "self" },
+      },
+      cost = { [0] = 235 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+    },
+    [8416] = {
+      ap = {
+        { 8416, "self" },
+      },
+      cost = { [0] = 320 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+    },
+    [8417] = {
+      ap = {
+        { 8417, "self" },
+      },
+      cost = { [0] = 410 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+    },
+    [10156] = {
+      cost = { [0] = 945 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [10157] = {
+      cost = { [0] = 1510 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [10211] = {
+      ap = {
+        { 10211, "self" },
+      },
+      cost = { [0] = 500 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+    },
+    [12043] = {
+      cd = 180,
+      n = "presence_of_mind",
+      st = 1,
+      tal = true,
+    },
+    [12051] = {
+      ap = {
+        { 12051, "self" },
+      },
+      cd = 480,
+      d = 8,
+      gcd = 1.5,
+      n = "evocation",
+    },
+    [12536] = {
+      ap = {
+        { 12536, "self" },
+      },
+      d = 15,
+      n = "clearcasting",
+      st = 1,
+    },
+    [18091] = {
+      cd = 8,
+      cost = { [0] = 80 },
+      gcd = 1.5,
+      n = "arcane_blast",
+    },
+    [29443] = {
+      d = 10,
+      n = "counterspell",
+    },
+    [400574] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "arcane_blast",
+      tal = true,
+    },
+    [400610] = {
+      cd = 3,
+      gcd = 1.5,
+      n = "arcane_barrage",
+    },
+    [401719] = {
+      n = "arcane_barrage",
+      pas = true,
+    },
+    [425124] = {
+      ap = {
+        { 425124, "self" },
+      },
+      cd = 120,
+      d = 8,
+      gcd = 1.5,
+      n = "arcane_surge",
+    },
+    [425168] = {
+      n = "arcane_surge",
+      pas = true,
+    },
+    [1239696] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "arcane_blast",
+    },
+    [1239697] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "arcane_blast",
+    },
+    [1239699] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "arcane_blast",
+    },
+    [1239700] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "arcane_blast",
+    },
+  },
+  spells = {
+    arcane_barrage = {
+      a = { 400610, 401719 },
+    },
+    arcane_blast = {
+      a = { 18091, 400574, 1239696, 1239697, 1239699, 1239700 },
+    },
+    arcane_intellect = {
+      a = { 1459, 1460, 1461, 10156, 10157 },
+    },
+    arcane_missiles = {
+      a = { 5143, 5144, 5145, 8416, 8417, 10211 },
+    },
+    arcane_surge = {
+      a = { 425124, 425168 },
+      b = { 425124, 425168 },
+    },
+    clearcasting = {
+      a = { 12536 },
+      b = { 12536 },
+    },
+    counterspell = {
+      a = { 2139, 29443 },
+    },
+    evocation = {
+      a = { 12051 },
+    },
+    presence_of_mind = {
+      a = { 12043 },
+    },
+  },
 })

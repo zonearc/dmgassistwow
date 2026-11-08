@@ -103,15 +103,25 @@ local function DoVariable(e, run)
   vars[name] = v
 end
 
--- Is the spell castable right now? true / false / UNKNOWN.
+-- Is the spell castable (now, or at the look-ahead moment)? true / false / UNKNOWN.
 local function Castable(id)
   local usable, noPower = U.Call(C_Spell and C_Spell.IsSpellUsable, id)
   usable, noPower = U.Read(usable), U.Read(noPower)
   if usable == nil then
     return UNKNOWN
   end
+  local ahead = S.Lookahead()
   if not usable then
-    return false, noPower == true
+    if noPower ~= true or not ahead then
+      return false
+    end
+    -- Can't afford it now; by the look-ahead moment we may (resources gained in between).
+    local afford = S.Affordable(id)
+    if afford ~= true then
+      return false
+    end
+  elseif ahead and S.Affordable(id) == false then
+    return false
   end
   local ready = S.CooldownReady(id)
   if ready == false then
@@ -241,17 +251,16 @@ local function Prepare(record)
   return p
 end
 
--- opts: { burst = bool, useAssisted = bool }
-function G.Recommend(record, opts)
-  opts = opts or {}
+-- One decision at the current overlay moment.
+local function Decide(record, opts, targets, first)
   local prep = Prepare(record)
   local run = {
-    ctx = { vars = {}, targets = S.Targets() },
+    ctx = { vars = {}, targets = targets },
     visiting = {},
     unresolved = {},
     cooldowns = prep.cooldowns,
     blizzardByAction = prep.blizzardByAction,
-    burst = opts.burst ~= false,
+    burst = first and opts.burst ~= false,
     override = {},
   }
   run.resolve = function(name)
@@ -261,7 +270,7 @@ function G.Recommend(record, opts)
     end
     return v
   end
-  if opts.useAssisted then
+  if first and opts.useAssisted then
     local ac = U.Read(U.Call(C_AssistedCombat and C_AssistedCombat.GetNextCastSpell, false))
     if type(ac) == "number" then
       run.acSpell = ac
@@ -293,19 +302,52 @@ function G.Recommend(record, opts)
     pick = { id = run.acSpell, token = M.TokenForID(run.acSpell), source = "assisted" }
   end
   if not pick and type(record.blizzard) == "table" then
-    local order = record.blizzardOrder or { "default" }
-    local r = Walk(record.blizzard, order[1] or "default", false, 0, run, true)
+    local start = record.blizzard.default and "default" or (record.blizzardOrder or {})[1]
+    local r = start and Walk(record.blizzard, start, false, 0, run, true)
     if r and r ~= STOP then
       pick = r
     end
   end
   pick = pick or run.firstMaybe or run.firstRuleMaybe
+  return { main = pick, cd = run.cd, acSpell = run.acSpell, unresolved = run.unresolved, vars = run.ctx.vars }
+end
 
-  return {
-    main = pick,
-    cd = run.cd,
-    acSpell = run.acSpell,
-    unresolved = run.unresolved,
-    vars = run.ctx.vars,
-  }
+local function Queue(record, opts, targets)
+  local depth = opts.depth or 3
+  -- Slot 1 is what to press when the GCD (or the current cast) ends, with that cast already counted.
+  local castID, castLeft = S.CurrentCast()
+  local dt = math.max(S.GCDRemains(), castLeft or 0)
+  local v = S.BeginLookahead(dt)
+  if castID then
+    S.Apply(castID)
+    v.dt = dt
+  end
+  local result = Decide(record, opts, targets, true)
+  result.queue = { result.main }
+  local last = result.main
+  for slot = 2, depth do
+    if not (last and last.id) then
+      break
+    end
+    S.Apply(last.id)
+    local nextPick = Decide(record, opts, targets, false).main
+    result.queue[slot] = nextPick
+    last = nextPick
+  end
+  result.casting = castID
+  return result
+end
+
+-- opts: { burst = bool, useAssisted = bool, depth = 1..3 }
+-- Returns { main, queue = {pick, pick, pick}, cd, acSpell, unresolved, vars, targets, modeLabel }.
+function G.Recommend(record, opts)
+  opts = opts or {}
+  local targets, label = S.Targets()
+  local ok, result = pcall(Queue, record, opts, targets)
+  S.EndLookahead()
+  if not ok then
+    error(result, 0)
+  end
+  result.targets, result.modeLabel = targets, label
+  return result
 end

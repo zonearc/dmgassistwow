@@ -114,18 +114,25 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       },
     },
   },
-  blizzardExcluded = {
-    "metamorphosis",
-    "the_hunt",
-    "voidblade",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "metamorphosis", "the_hunt", "voidblade" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "demonhunter",
+  heroTrees = {
+    annihilator = {
+      1253304,
+      1253377,
+      1253391,
+      1253399,
+      1253402,
+      1253415,
+      1253668,
+      1253676,
+      1253769,
+      1253805,
+      1253817,
+      1256245,
+    },
+  },
   key = "demonhunter_devourer",
   simc = {
     annihilator = {
@@ -792,4 +799,599 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
     "voidscarred_out",
   },
   spec = "devourer",
+  spellInfo = {
+    [162264] = {
+      ap = {
+        { 162264, "self" },
+      },
+      d = 20,
+      n = "metamorphosis",
+    },
+    [187827] = {
+      ap = {
+        { 187827, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 120,
+      d = 15,
+      n = "metamorphosis",
+    },
+    [191427] = {
+      ap = {
+        { 162264, "self" },
+        { 201453, "self" },
+      },
+      cd = 120,
+      gcd = 1.5,
+      n = "metamorphosis",
+    },
+    [198793] = {
+      ap = {
+        { 198793, "self" },
+        { 198813, "enemy" },
+        { 232709, "self" },
+      },
+      cd = 0.75,
+      ch = 1,
+      chcd = 25,
+      d = 1,
+      n = "vengeful_retreat",
+      tal = true,
+    },
+    [198813] = {
+      ap = {
+        { 198813, "enemy" },
+      },
+      d = 3,
+      n = "vengeful_retreat",
+    },
+    [200166] = {
+      ap = {
+        { 200166, "enemy" },
+      },
+      d = 3,
+      n = "metamorphosis",
+    },
+    [201453] = {
+      ap = {
+        { 201453, "self" },
+      },
+      d = 1,
+      n = "metamorphosis",
+    },
+    [202719] = {
+      cd = 120,
+      gain = { [17] = 15 },
+      gcd = 1.5,
+      n = "arcane_torrent",
+    },
+    [203981] = {
+      n = "soul_fragments",
+      st = 20,
+    },
+    [210788] = {
+      ap = {
+        { 210788, "self" },
+      },
+      d = 25,
+      n = "soul_fragments",
+    },
+    [232709] = {
+      ap = {
+        { 232709, "self" },
+      },
+      d = 0.1,
+      n = "vengeful_retreat",
+    },
+    [247121] = {
+      ap = {
+        { 247121, "enemy" },
+      },
+      d = 3,
+      n = "metamorphosis",
+    },
+    [258920] = {
+      ap = {
+        { 258920, "self" },
+      },
+      cd = 1.5,
+      ch = 1,
+      chcd = 30,
+      d = 6,
+      gain = { [17] = 28 },
+      gcd = 1.5,
+      n = "immolation_aura",
+    },
+    [258921] = {
+      n = "immolation_aura",
+    },
+    [258922] = {
+      gain = { [17] = 5 },
+      n = "immolation_aura",
+    },
+    [272801] = {
+      n = "devour",
+    },
+    [323639] = {
+      ap = {
+        { 345396, "self" },
+        { 345422, "self" },
+        { 345335, "enemy" },
+      },
+      cd = 90,
+      ct = 1,
+      gcd = 1.5,
+      n = "the_hunt",
+    },
+    [323802] = {
+      ap = {
+        { 323802, "enemy" },
+        { 323996, "enemy" },
+        { 333762, "enemy" },
+      },
+      d = 30,
+      n = "the_hunt",
+    },
+    [323996] = {
+      ap = {
+        { 323996, "enemy" },
+      },
+      d = 1.5,
+      n = "the_hunt",
+    },
+    [333762] = {
+      ap = {
+        { 333762, "enemy" },
+      },
+      d = 3,
+      n = "the_hunt",
+    },
+    [344866] = {
+      ap = {
+        { 198793, "self" },
+      },
+      cd = 25,
+      n = "vengeful_retreat",
+    },
+    [345335] = {
+      ap = {
+        { 345335, "enemy" },
+      },
+      d = 6,
+      n = "the_hunt",
+    },
+    [345396] = {
+      ap = {
+        { 345396, "self" },
+      },
+      d = 1.5,
+      n = "the_hunt",
+    },
+    [345422] = {
+      ap = {
+        { 345422, "self" },
+      },
+      d = 30,
+      n = "the_hunt",
+    },
+    [370965] = {
+      ap = {
+        { 370965, "self" },
+        { 370967, "self" },
+      },
+      cd = 90,
+      ct = 1,
+      d = 2,
+      gcd = 1.5,
+      n = "the_hunt",
+      tal = true,
+    },
+    [370967] = {
+      ap = {
+        { 370967, "self" },
+      },
+      d = 1.5,
+      n = "the_hunt",
+    },
+    [427904] = {
+      n = "immolation_aura",
+    },
+    [427905] = {
+      n = "immolation_aura",
+    },
+    [427917] = {
+      cd = 1.5,
+      ch = 1,
+      chcd = 30,
+      gcd = 1.5,
+      n = "immolation_aura",
+    },
+    [473662] = {
+      ct = 2,
+      gcd = 1.5,
+      n = "consume",
+    },
+    [473728] = {
+      ap = {
+        { 473728, "self" },
+      },
+      cost = { [17] = 100 },
+      d = 3,
+      gcd = 1.5,
+      n = "void_ray",
+      tal = true,
+    },
+    [1213649] = {
+      cost = { [17] = 5 },
+      n = "void_ray",
+    },
+    [1214595] = {
+      n = "void_ray",
+    },
+    [1217610] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "devour",
+    },
+    [1221150] = {
+      ct = 3,
+      gcd = 1.5,
+      n = "collapsing_star",
+    },
+    [1221162] = {
+      n = "collapsing_star",
+    },
+    [1221167] = {
+      n = "collapsing_star",
+      pas = true,
+      tal = true,
+    },
+    [1221171] = {
+      n = "collapsing_star",
+    },
+    [1223157] = {
+      ap = {
+        { 1223157, "self" },
+      },
+      d = 6,
+      n = "voidstep",
+    },
+    [1225823] = {
+      n = "reap",
+    },
+    [1225826] = {
+      ap = {
+        { 1225826, "self" },
+      },
+      ch = 1,
+      chcd = 8,
+      d = 1.5,
+      gcd = 1.5,
+      n = "eradicate",
+    },
+    [1225827] = {
+      n = "eradicate",
+    },
+    [1226019] = {
+      ap = {
+        { 1226019, "self" },
+      },
+      ch = 1,
+      chcd = 8,
+      d = 1,
+      gcd = 1.5,
+      n = "reap",
+    },
+    [1226033] = {
+      n = "eradicate",
+      pas = true,
+      tal = true,
+    },
+    [1227338] = {
+      n = "impending_apocalypse",
+      st = 10,
+    },
+    [1227702] = {
+      n = "collapsing_star",
+      st = 40,
+    },
+    [1227707] = {
+      n = "impending_apocalypse",
+      pas = true,
+      tal = true,
+    },
+    [1238488] = {
+      n = "moment_of_craving",
+      pas = true,
+      tal = true,
+    },
+    [1238495] = {
+      ap = {
+        { 1238495, "self" },
+      },
+      d = 8,
+      n = "moment_of_craving",
+      st = 1,
+    },
+    [1239123] = {
+      ap = {
+        { 1239123, "self" },
+      },
+      d = 1,
+      gcd = 1.5,
+      n = "hungering_slash",
+    },
+    [1239127] = {
+      n = "hungering_slash",
+    },
+    [1239507] = {
+      gain = { [17] = 10 },
+      n = "hungering_slash",
+    },
+    [1239519] = {
+      n = "hungering_slash",
+      pas = true,
+      tal = true,
+    },
+    [1239520] = {
+      n = "voidstep",
+      pas = true,
+    },
+    [1239524] = {
+      n = "eradicate",
+    },
+    [1239525] = {
+      ap = {
+        { 1239525, "self" },
+      },
+      d = 6,
+      n = "hungering_slash",
+    },
+    [1239526] = {
+      n = "voidstep",
+    },
+    [1240201] = {
+      n = "devourers_bite",
+      pas = true,
+      tal = true,
+    },
+    [1241285] = {
+      n = "voidblade",
+    },
+    [1241937] = {
+      ap = {
+        { 1241937, "self" },
+      },
+      ch = 1,
+      chcd = 60,
+      d = 5,
+      gcd = 1.5,
+      n = "soul_immolation",
+      tal = true,
+    },
+    [1242475] = {
+      gain = { [17] = 5 },
+      n = "soul_immolation",
+    },
+    [1245412] = {
+      ch = 1,
+      chcd = 30,
+      gcd = 0.5,
+      n = "voidblade",
+      tal = true,
+    },
+    [1245414] = {
+      n = "voidblade",
+    },
+    [1245453] = {
+      ap = {
+        { 1245453, "self" },
+      },
+      ch = 1,
+      chcd = 8,
+      d = 1,
+      gcd = 1.5,
+      n = "cull",
+    },
+    [1245455] = {
+      n = "cull",
+    },
+    [1245470] = {
+      ap = {
+        { 1245470, "self" },
+      },
+      d = 1,
+      gcd = 1.5,
+      n = "reapers_toll",
+    },
+    [1245483] = {
+      ch = 1,
+      chcd = 30,
+      gcd = 0.5,
+      n = "pierce_the_veil",
+    },
+    [1245523] = {
+      ap = {
+        { 1245523, "self" },
+      },
+      d = 6,
+      n = "reapers_toll",
+    },
+    [1245577] = {
+      n = "soul_fragments",
+      st = 15,
+    },
+    [1245584] = {
+      ap = {
+        { 1245584, "self" },
+      },
+      d = 25,
+      n = "soul_fragments",
+    },
+    [1246167] = {
+      ap = {
+        { 1246167, "self" },
+        { 370967, "self" },
+      },
+      cd = 90,
+      ct = 1,
+      d = 2,
+      gcd = 1.5,
+      n = "the_hunt",
+      tal = true,
+    },
+    [1246556] = {
+      n = "spontaneous_immolation",
+      pas = true,
+      tal = true,
+    },
+    [1246558] = {
+      n = "scythes_embrace",
+      pas = true,
+      tal = true,
+    },
+    [1259431] = {
+      ap = {
+        { 1259431, "self" },
+        { 370967, "self" },
+      },
+      cd = 90,
+      ct = 1,
+      d = 2,
+      gcd = 1.5,
+      n = "predators_wake",
+    },
+    [1261679] = {
+      gain = { [17] = 10 },
+      n = "reap",
+    },
+    [1261710] = {
+      gain = { [17] = 8 },
+      n = "consume",
+    },
+    [1272422] = {
+      n = "voidrush",
+      pas = true,
+      tal = true,
+    },
+    [1279200] = {
+      n = "eradicate",
+    },
+    [1288123] = {
+      gain = { [17] = 16 },
+      n = "devour",
+    },
+    [1297432] = {
+      n = "soulburst",
+    },
+    [1297433] = {
+      ap = {
+        { 1297433, "self" },
+      },
+      d = 10,
+      n = "soulburst",
+    },
+    [1319061] = {
+      n = "collapsing_star",
+    },
+    [1319066] = {
+      n = "collapsing_star",
+    },
+  },
+  spells = {
+    arcane_torrent = {
+      a = { 202719 },
+    },
+    collapsing_star = {
+      a = { 1221150, 1221162, 1227702, 1221167, 1221171, 1319061 },
+      b = { 1221150, 1221162, 1221171, 1227702, 1319061, 1319066 },
+    },
+    consume = {
+      a = { 473662, 1261710 },
+    },
+    cull = {
+      a = { 1245453, 1245455 },
+    },
+    devour = {
+      a = { 1217610, 1288123, 272801 },
+    },
+    devourers_bite = {
+      t = { 1240201 },
+    },
+    eradicate = {
+      a = { 1225826, 1225827, 1239524, 1279200, 1226033 },
+      b = { 1225826, 1225827, 1239524, 1279200, 1226033 },
+      t = { 1226033 },
+    },
+    hungering_slash = {
+      a = { 1239123, 1239127, 1239507, 1239525, 1239519 },
+      b = { 1239123, 1239525, 1239127, 1239507, 1239519 },
+    },
+    immolation_aura = {
+      a = { 258920, 427917, 258921, 258922, 427904, 427905 },
+    },
+    impending_apocalypse = {
+      a = { 1227338, 1227707 },
+      b = { 1227338, 1227707 },
+    },
+    metamorphosis = {
+      a = { 187827, 191427, 162264, 200166, 247121, 201453 },
+      b = { 162264, 187827, 200166, 201453, 247121, 191427 },
+    },
+    moment_of_craving = {
+      a = { 1238495, 1238488 },
+      b = { 1238495, 1238488 },
+    },
+    pierce_the_veil = {
+      a = { 1245483 },
+    },
+    predators_wake = {
+      a = { 1259431 },
+    },
+    reap = {
+      a = { 1226019, 1225823, 1261679 },
+    },
+    reapers_toll = {
+      a = { 1245470, 1245523 },
+    },
+    scythes_embrace = {
+      t = { 1246558 },
+    },
+    soul_fragments = {
+      a = { 203981, 1245577, 210788, 1245584 },
+      b = { 210788, 1245584, 203981, 1245577 },
+    },
+    soul_immolation = {
+      a = { 1241937, 1242475 },
+      b = { 1241937, 1242475 },
+    },
+    soulburst = {
+      a = { 1297432, 1297433 },
+      b = { 1297433, 1297432 },
+    },
+    spontaneous_immolation = {
+      t = { 1246556 },
+    },
+    the_hunt = {
+      a = { 323639, 1246167, 323802, 323996, 333762, 345335 },
+      t = { 370965, 1246167 },
+    },
+    vengeful_retreat = {
+      a = { 198793, 344866, 198813, 232709 },
+    },
+    void_ray = {
+      a = { 473728, 1213649, 1214595 },
+    },
+    voidblade = {
+      a = { 1245412, 1241285, 1245414 },
+    },
+    voidrush = {
+      t = { 1272422 },
+    },
+    voidstep = {
+      a = { 1223157, 1239526, 1239520 },
+      b = { 1223157, 1239520, 1239526 },
+    },
+  },
 })

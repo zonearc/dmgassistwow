@@ -161,16 +161,10 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       },
     },
   },
-  blizzardExcluded = {
-    "combustion",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "combustion" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "mage",
+  heroTrees = {},
   key = "mage_fire",
   simc = {
     cds = {
@@ -771,15 +765,397 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "cds",
-    "ff_combustion",
-    "ff_filler",
-    "fireblast",
-    "sf_combustion",
-    "sf_filler",
-  },
+  simcOrder = { "precombat", "default", "cds", "ff_combustion", "ff_filler", "fireblast", "sf_combustion", "sf_filler" },
   spec = "fire",
+  spellInfo = {
+    [133] = {
+      ct = 1.75,
+      gcd = 1.5,
+      n = "fireball",
+    },
+    [1459] = {
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [2120] = {
+      ct = 3.5,
+      gcd = 1.5,
+      n = "flamestrike",
+      tal = true,
+    },
+    [2948] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "scorch",
+      tal = true,
+    },
+    [11366] = {
+      ct = 4,
+      gcd = 1.5,
+      n = "pyroblast",
+      tal = true,
+    },
+    [13438] = {
+      ap = {
+        { 13438, "enemy" },
+      },
+      cost = { [0] = 45 },
+      ct = 2,
+      d = 6,
+      gcd = 1.5,
+      n = "fireball",
+    },
+    [16415] = {
+      ap = {
+        { 16415, "enemy" },
+      },
+      cost = { [0] = 45 },
+      ct = 2,
+      d = 8,
+      gcd = 1.5,
+      n = "fireball",
+    },
+    [18082] = {
+      ap = {
+        { 18082, "enemy" },
+      },
+      cost = { [0] = 45 },
+      ct = 2,
+      d = 6,
+      gcd = 1.5,
+      n = "fireball",
+    },
+    [18199] = {
+      ap = {
+        { 18199, "enemy" },
+      },
+      cost = { [0] = 45 },
+      ct = 2,
+      d = 6,
+      gcd = 1.5,
+      n = "fireball",
+    },
+    [18796] = {
+      ap = {
+        { 18796, "enemy" },
+      },
+      d = 6,
+      gcd = 1.5,
+      n = "fireball",
+    },
+    [48107] = {
+      ap = {
+        { 48107, "self" },
+      },
+      d = 10,
+      n = "heating_up",
+      st = 2,
+    },
+    [48108] = {
+      ap = {
+        { 48108, "self" },
+      },
+      d = 15,
+      n = "hot_streak",
+      st = 1,
+    },
+    [80353] = {
+      ap = {
+        { 80353, "self" },
+      },
+      cd = 300,
+      d = 40,
+      n = "time_warp",
+    },
+    [108853] = {
+      cd = 0.5,
+      ch = 1,
+      chcd = 14,
+      n = "fire_blast",
+      tal = true,
+    },
+    [153561] = {
+      cd = 45,
+      gcd = 1.5,
+      n = "meteor",
+      tal = true,
+    },
+    [153564] = {
+      n = "meteor",
+    },
+    [190319] = {
+      ap = {
+        { 190319, "self" },
+      },
+      cd = 120,
+      d = 10,
+      n = "combustion",
+      tal = true,
+    },
+    [195283] = {
+      n = "hot_streak",
+      pas = true,
+      st = 1,
+    },
+    [205026] = {
+      n = "firestarter",
+      pas = true,
+      tal = true,
+    },
+    [231568] = {
+      n = "fire_blast",
+      pas = true,
+    },
+    [269650] = {
+      n = "pyroclasm",
+      pas = true,
+      tal = true,
+    },
+    [269651] = {
+      ap = {
+        { 269651, "self" },
+      },
+      d = 20,
+      n = "pyroclasm",
+      st = 2,
+    },
+    [319836] = {
+      cd = 0.5,
+      ch = 1,
+      chcd = 14,
+      gcd = 1.5,
+      n = "fire_blast",
+    },
+    [321711] = {
+      n = "pyroblast",
+      pas = true,
+    },
+    [321712] = {
+      ap = {
+        { 321712, "enemy" },
+      },
+      cd = 30,
+      d = 6,
+      n = "pyroblast",
+    },
+    [351140] = {
+      n = "meteor",
+    },
+    [383860] = {
+      n = "hyperthermia",
+      pas = true,
+    },
+    [383874] = {
+      ap = {
+        { 383874, "self" },
+      },
+      d = 5,
+      n = "hyperthermia",
+    },
+    [416094] = {
+      n = "fuel_the_fire",
+      pas = true,
+      tal = true,
+    },
+    [416719] = {
+      n = "blast_zone",
+      pas = true,
+      tal = true,
+    },
+    [420218] = {
+      n = "meteor",
+    },
+    [420221] = {
+      n = "meteor",
+    },
+    [431044] = {
+      ct = 1.75,
+      gcd = 1.5,
+      n = "frostfire_bolt",
+      tal = true,
+    },
+    [431176] = {
+      n = "frostfire_empowerment",
+      pas = true,
+      st = 1,
+      tal = true,
+    },
+    [431177] = {
+      ap = {
+        { 431177, "self" },
+      },
+      d = 20,
+      n = "frostfire_empowerment",
+      st = 2,
+    },
+    [431186] = {
+      n = "frostfire_empowerment",
+    },
+    [438607] = {
+      n = "meteor",
+    },
+    [448601] = {
+      n = "spellfire_spheres",
+      pas = true,
+      tal = true,
+    },
+    [449349] = {
+      n = "sunfury_execution",
+      pas = true,
+      tal = true,
+    },
+    [450461] = {
+      n = "pyroblast",
+    },
+    [450462] = {
+      ct = 3.5,
+      gcd = 1.5,
+      n = "flamestrike",
+    },
+    [450746] = {
+      n = "scald",
+      pas = true,
+      tal = true,
+    },
+    [451875] = {
+      n = "spontaneous_combustion",
+      pas = true,
+      tal = true,
+    },
+    [457735] = {
+      n = "heat_shimmer",
+      pas = true,
+      tal = true,
+    },
+    [458964] = {
+      ap = {
+        { 458964, "self" },
+      },
+      d = 10,
+      n = "heat_shimmer",
+    },
+    [460475] = {
+      n = "pyroblast",
+    },
+    [460476] = {
+      ct = 3.5,
+      n = "flamestrike",
+    },
+    [468655] = {
+      ap = {
+        { 468655, "enemy" },
+      },
+      d = 8,
+      n = "frostfire_bolt",
+    },
+    [1242220] = {
+      ap = {
+        { 1242220, "self" },
+      },
+      d = 5,
+      n = "hyperthermia",
+      st = 10,
+    },
+    [1254851] = {
+      ct = 3.5,
+      gcd = 1.5,
+      n = "flamestrike",
+      tal = true,
+    },
+    [1262863] = {
+      ct = 4,
+      n = "pyroblast",
+    },
+    [1271177] = {
+      n = "burnout",
+      pas = true,
+      tal = true,
+    },
+  },
+  spells = {
+    arcane_intellect = {
+      a = { 1459 },
+    },
+    blast_zone = {
+      t = { 416719 },
+    },
+    bloodlust = {
+      a = { 80353 },
+      b = { 80353 },
+    },
+    burnout = {
+      t = { 1271177 },
+    },
+    combustion = {
+      a = { 190319 },
+      b = { 190319 },
+    },
+    fire_blast = {
+      a = { 108853, 319836, 231568 },
+    },
+    fireball = {
+      a = { 133, 13438, 16415, 18082, 18199, 18796 },
+    },
+    firestarter = {
+      t = { 205026 },
+    },
+    flamestrike = {
+      a = { 2120, 450462, 1254851, 460476 },
+    },
+    frostfire_bolt = {
+      a = { 431044, 468655 },
+      t = { 431044 },
+    },
+    frostfire_empowerment = {
+      a = { 431177, 431186, 431176 },
+      b = { 431177, 431186, 431176 },
+    },
+    fuel_the_fire = {
+      t = { 416094 },
+    },
+    heat_shimmer = {
+      a = { 458964, 457735 },
+      b = { 458964, 457735 },
+    },
+    heating_up = {
+      a = { 48107 },
+      b = { 48107 },
+    },
+    hot_streak = {
+      a = { 48108, 195283 },
+      b = { 48108, 195283 },
+    },
+    hyperthermia = {
+      a = { 383874, 1242220, 383860 },
+      b = { 383874, 1242220, 383860 },
+    },
+    meteor = {
+      a = { 153561, 153564, 351140, 420218, 420221, 438607 },
+    },
+    pyroblast = {
+      a = { 11366, 321712, 450461, 460475, 1262863, 321711 },
+    },
+    pyroclasm = {
+      a = { 269651, 269650 },
+      b = { 269651, 269650 },
+      t = { 269650 },
+    },
+    scald = {
+      t = { 450746 },
+    },
+    scorch = {
+      a = { 2948 },
+      t = { 2948 },
+    },
+    spellfire_spheres = {
+      t = { 448601 },
+    },
+    spontaneous_combustion = {
+      t = { 451875 },
+    },
+    sunfury_execution = {
+      t = { 449349 },
+    },
+  },
 })

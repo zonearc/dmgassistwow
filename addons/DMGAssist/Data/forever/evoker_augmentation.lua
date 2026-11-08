@@ -154,13 +154,9 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
     },
   },
   blizzardExcluded = {},
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "evoker",
+  heroTrees = {},
   key = "evoker_augmentation",
   simc = {
     default = {
@@ -681,11 +677,716 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "filler",
-    "items",
-  },
+  simcOrder = { "precombat", "default", "filler", "items" },
   spec = "augmentation",
+  spellInfo = {
+    [353759] = {
+      ap = {
+        { 353759, "enemy" },
+      },
+      d = 1,
+      n = "deep_breath",
+    },
+    [355627] = {
+      ap = {
+        { 355627, "self" },
+      },
+      d = 2,
+      n = "azure_strike",
+    },
+    [355913] = {
+      cd = 30,
+      cost = { [19] = 3 },
+      d = 1.5,
+      gcd = 1.5,
+      n = "emerald_blossom",
+    },
+    [355916] = {
+      n = "emerald_blossom",
+    },
+    [357208] = {
+      ap = {
+        { 357208, "self" },
+      },
+      ch = 1,
+      chcd = 30,
+      d = 2.5,
+      gcd = 0.5,
+      n = "fire_breath",
+    },
+    [357209] = {
+      ap = {
+        { 357209, "enemy" },
+      },
+      d = 2,
+      n = "fire_breath",
+    },
+    [357210] = {
+      ap = {
+        { 357210, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 120,
+      d = 6,
+      gcd = 1.5,
+      n = "deep_breath",
+    },
+    [357302] = {
+      ap = {
+        { 357302, "self" },
+      },
+      d = 0.7,
+      n = "hover",
+    },
+    [357332] = {
+      ap = {
+        { 357332, "self" },
+      },
+      d = 0.7,
+      n = "hover",
+    },
+    [357377] = {
+      ap = {
+        { 357377, "self" },
+      },
+      d = 0.7,
+      n = "hover",
+    },
+    [357379] = {
+      ap = {
+        { 357379, "self" },
+      },
+      d = 0.7,
+      n = "hover",
+    },
+    [358267] = {
+      ap = {
+        { 358267, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 35,
+      d = 6,
+      n = "hover",
+    },
+    [359565] = {
+      n = "essence_burst",
+      pas = true,
+    },
+    [359618] = {
+      ap = {
+        { 359618, "self" },
+      },
+      d = 15,
+      n = "essence_burst",
+      st = 1,
+    },
+    [360827] = {
+      cd = 30,
+      d = 3600,
+      gcd = 1.5,
+      n = "blistering_scales",
+      st = 15,
+      tal = true,
+    },
+    [360828] = {
+      n = "blistering_scales",
+    },
+    [361469] = {
+      ct = 2,
+      gcd = 1.5,
+      n = "living_flame",
+    },
+    [361500] = {
+      ap = {
+        { 361500, "enemy" },
+      },
+      d = 12,
+      gcd = 1.5,
+      n = "living_flame",
+      st = 3,
+    },
+    [361509] = {
+      d = 12,
+      n = "living_flame",
+      st = 3,
+    },
+    [361519] = {
+      ap = {
+        { 361519, "self" },
+      },
+      d = 15,
+      n = "essence_burst",
+    },
+    [362010] = {
+      ap = {
+        { 362010, "self" },
+      },
+      d = 5,
+      n = "deep_breath",
+    },
+    [362019] = {
+      ap = {
+        { 362019, "self" },
+      },
+      d = 0.4,
+      n = "deep_breath",
+    },
+    [362969] = {
+      ap = {
+        { 355627, "self" },
+      },
+      gcd = 1.5,
+      n = "azure_strike",
+    },
+    [364664] = {
+      d = 12,
+      n = "living_flame",
+      st = 3,
+    },
+    [365261] = {
+      n = "emerald_blossom",
+      pas = true,
+    },
+    [367106] = {
+      n = "fire_breath",
+    },
+    [369299] = {
+      ap = {
+        { 369299, "self" },
+      },
+      d = 15,
+      n = "essence_burst",
+      st = 1,
+    },
+    [369398] = {
+      ap = {
+        { 369398, "enemy" },
+      },
+      d = 12,
+      n = "living_flame",
+      st = 3,
+    },
+    [369939] = {
+      n = "leaping_flames",
+      pas = true,
+      tal = true,
+    },
+    [369990] = {
+      n = "ancient_flame",
+      pas = true,
+      tal = true,
+    },
+    [370553] = {
+      cd = 120,
+      n = "tip_the_scales",
+      st = 1,
+      tal = true,
+    },
+    [370901] = {
+      ap = {
+        { 370901, "self" },
+      },
+      d = 30,
+      n = "leaping_flames",
+      st = 4,
+    },
+    [370917] = {
+      n = "leaping_flames",
+    },
+    [372563] = {
+      ap = {
+        { 372563, "self" },
+      },
+      d = 0.7,
+      n = "hover",
+    },
+    [373766] = {
+      n = "emerald_blossom",
+    },
+    [375583] = {
+      n = "ancient_flame",
+    },
+    [382266] = {
+      ap = {
+        { 382266, "self" },
+      },
+      ch = 1,
+      chcd = 30,
+      d = 3.25,
+      gcd = 0.5,
+      n = "fire_breath",
+    },
+    [390386] = {
+      cd = 300,
+      d = 40,
+      n = "fury_of_the_aspects",
+    },
+    [392268] = {
+      ap = {
+        { 392268, "self" },
+      },
+      d = 15,
+      n = "essence_burst",
+      st = 1,
+    },
+    [395152] = {
+      cd = 30,
+      ct = 1.5,
+      d = 10,
+      gcd = 1.5,
+      n = "ebon_might",
+      tal = true,
+    },
+    [395160] = {
+      cost = { [19] = 3 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "eruption",
+      tal = true,
+    },
+    [395296] = {
+      ap = {
+        { 395296, "self" },
+      },
+      d = 10,
+      n = "ebon_might",
+    },
+    [396286] = {
+      ap = {
+        { 396286, "enemy" },
+      },
+      cd = 40,
+      d = 2.5,
+      gcd = 0.5,
+      n = "upheaval",
+      tal = true,
+    },
+    [396288] = {
+      ap = {
+        { 396288, "enemy" },
+      },
+      d = 3,
+      gcd = 1.5,
+      n = "upheaval",
+      st = 2,
+    },
+    [403631] = {
+      ap = {
+        { 403631, "self" },
+      },
+      cd = 120,
+      d = 6,
+      gcd = 1.5,
+      n = "breath_of_eons",
+      tal = true,
+    },
+    [403755] = {
+      ap = {
+        { 403755, "self" },
+      },
+      d = 5,
+      n = "breath_of_eons",
+    },
+    [403758] = {
+      n = "breath_of_eons",
+    },
+    [404977] = {
+      ap = {
+        { 404977, "self" },
+      },
+      cd = 180,
+      d = 2,
+      gcd = 1.5,
+      n = "time_skip",
+      tal = true,
+    },
+    [407814] = {
+      n = "pupil_of_alexstrasza",
+      pas = true,
+      tal = true,
+    },
+    [407869] = {
+      n = "anachronism",
+      pas = true,
+      tal = true,
+    },
+    [408092] = {
+      ap = {
+        { 408092, "enemy" },
+      },
+      cd = 40,
+      d = 3.25,
+      gcd = 0.5,
+      n = "upheaval",
+    },
+    [409311] = {
+      ch = 2,
+      chcd = 12,
+      gcd = 1.5,
+      n = "prescience",
+      tal = true,
+    },
+    [409560] = {
+      ap = {
+        { 409560, "enemy" },
+      },
+      d = 10,
+      n = "temporal_wound",
+    },
+    [409632] = {
+      n = "breath_of_eons",
+    },
+    [409722] = {
+      ap = {
+        { 409722, "enemy" },
+      },
+      d = 10,
+      n = "temporal_wound",
+    },
+    [409990] = {
+      n = "breath_of_eons",
+    },
+    [409992] = {
+      ap = {
+        { 409992, "enemy" },
+      },
+      d = 10,
+      n = "temporal_wound",
+    },
+    [409993] = {
+      ap = {
+        { 409993, "enemy" },
+      },
+      d = 10,
+      n = "temporal_wound",
+    },
+    [409994] = {
+      ap = {
+        { 409994, "enemy" },
+      },
+      d = 10,
+      n = "temporal_wound",
+    },
+    [410089] = {
+      d = 18,
+      n = "prescience",
+    },
+    [410295] = {
+      n = "upheaval",
+    },
+    [410296] = {
+      n = "upheaval",
+    },
+    [410784] = {
+      n = "echoing_strike",
+      pas = true,
+      tal = true,
+    },
+    [412707] = {
+      n = "ebon_might",
+      pas = true,
+    },
+    [412713] = {
+      n = "interwoven_threads",
+      pas = true,
+      tal = true,
+    },
+    [413654] = {
+      d = 10,
+      n = "ebon_might",
+    },
+    [414969] = {
+      n = "dream_of_spring",
+      pas = true,
+      tal = true,
+    },
+    [417402] = {
+      ap = {
+        { 417402, "self" },
+      },
+      d = 15,
+      n = "essence_burst",
+      st = 1,
+    },
+    [423803] = {
+      d = 10,
+      n = "ebon_might",
+    },
+    [424428] = {
+      ct = 2.5,
+      n = "eruption",
+    },
+    [426404] = {
+      d = 10,
+      n = "ebon_might",
+    },
+    [430806] = {
+      ap = {
+        { 430806, "enemy" },
+      },
+      d = 12,
+      gcd = 1.5,
+      n = "living_flame",
+      st = 3,
+    },
+    [430835] = {
+      ap = {
+        { 430835, "self" },
+      },
+      d = 15,
+      n = "essence_burst",
+      st = 2,
+    },
+    [431165] = {
+      cd = 30,
+      ct = 1,
+      gcd = 0.5,
+      n = "fire_breath",
+    },
+    [431442] = {
+      n = "chrono_flame",
+      pas = true,
+      tal = true,
+    },
+    [431620] = {
+      ap = {
+        { 431620, "enemy" },
+      },
+      d = 8,
+      n = "upheaval",
+      st = 1,
+    },
+    [431695] = {
+      n = "temporal_burst",
+      pas = true,
+      tal = true,
+    },
+    [431875] = {
+      n = "afterimage",
+      pas = true,
+      tal = true,
+    },
+    [431984] = {
+      n = "time_convergence",
+      pas = true,
+      tal = true,
+    },
+    [433874] = {
+      ap = {
+        { 433874, "self" },
+      },
+      cd = 1,
+      ch = 1,
+      chcd = 120,
+      d = 3.75,
+      gcd = 1.5,
+      n = "deep_breath",
+    },
+    [434300] = {
+      n = "bombardments",
+      pas = true,
+      tal = true,
+    },
+    [434473] = {
+      ap = {
+        { 434473, "enemy" },
+      },
+      d = 6,
+      n = "bombardments",
+    },
+    [434481] = {
+      n = "bombardments",
+    },
+    [438653] = {
+      n = "eruption",
+    },
+    [441661] = {
+      n = "bombardments",
+    },
+    [442161] = {
+      n = "bombardments",
+    },
+    [442204] = {
+      ap = {
+        { 442204, "self" },
+      },
+      cd = 120,
+      d = 3.75,
+      gcd = 1.5,
+      n = "breath_of_eons",
+    },
+    [443788] = {
+      n = "bombardments",
+    },
+    [1236943] = {
+      ap = {
+        { 1236943, "self" },
+      },
+      cd = 120,
+      d = 4,
+      gcd = 1.5,
+      n = "deep_breath",
+    },
+    [1259171] = {
+      ap = {
+        { 1259171, "self" },
+      },
+      d = 20,
+      n = "duplicate",
+    },
+    [1259172] = {
+      ct = 2.5,
+      gcd = 1.5,
+      n = "eruption",
+    },
+    [1259173] = {
+      cd = 120,
+      n = "duplicate",
+      pas = true,
+      tal = true,
+    },
+    [1259174] = {
+      cd = 120,
+      n = "duplicate",
+      pas = true,
+      tal = true,
+    },
+    [1259175] = {
+      cd = 120,
+      n = "duplicate",
+      pas = true,
+      tal = true,
+    },
+    [1260484] = {
+      n = "chronoboon",
+      pas = true,
+      tal = true,
+    },
+    [1283718] = {
+      cd = 30,
+      ct = 1,
+      gcd = 0.5,
+      n = "fire_breath",
+    },
+    [1297728] = {
+      ap = {
+        { 1297728, "self" },
+      },
+      d = 8,
+      n = "magnified_fate",
+    },
+  },
+  spells = {
+    afterimage = {
+      t = { 431875 },
+    },
+    anachronism = {
+      t = { 407869 },
+    },
+    ancient_flame = {
+      a = { 375583, 369990 },
+      b = { 375583, 369990 },
+      t = { 369990 },
+    },
+    azure_strike = {
+      a = { 362969, 355627 },
+    },
+    blistering_scales = {
+      a = { 360827, 360828 },
+      t = { 360827 },
+    },
+    bombardments = {
+      a = { 434473, 434481, 441661, 442161, 443788, 434300 },
+      b = { 434473, 434481, 441661, 442161, 443788, 434300 },
+    },
+    breath_of_eons = {
+      a = { 403631, 442204, 409632, 403755, 403758, 409990 },
+      t = { 403631 },
+    },
+    chrono_flame = {
+      t = { 431442 },
+    },
+    chronoboon = {
+      t = { 1260484 },
+    },
+    deep_breath = {
+      a = { 357210, 433874, 1236943, 353759, 362010, 362019 },
+    },
+    dream_of_spring = {
+      t = { 414969 },
+    },
+    duplicate = {
+      a = { 1259171, 1259173, 1259174, 1259175 },
+      b = { 1259171, 1259173, 1259174, 1259175 },
+    },
+    ebon_might = {
+      a = { 395152, 395296, 413654, 423803, 426404, 412707 },
+    },
+    echoing_strike = {
+      t = { 410784 },
+    },
+    emerald_blossom = {
+      a = { 355913, 355916, 373766, 365261 },
+    },
+    eruption = {
+      a = { 395160, 1259172, 424428, 438653 },
+    },
+    essence_burst = {
+      a = { 359618, 369299, 392268, 430835, 359565, 361519 },
+      b = { 359618, 361519, 369299, 392268, 417402, 430835 },
+    },
+    fire_breath = {
+      a = { 357208, 382266, 431165, 1283718, 357209, 367106 },
+    },
+    fury_of_the_aspects = {
+      a = { 390386 },
+    },
+    hover = {
+      a = { 358267, 357302, 357332, 357377, 357379, 372563 },
+    },
+    interwoven_threads = {
+      t = { 412713 },
+    },
+    leaping_flames = {
+      a = { 370901, 369939, 370917 },
+      b = { 370901, 370917, 369939 },
+    },
+    living_flame = {
+      a = { 361469, 361500, 430806, 361509, 364664, 369398 },
+    },
+    magnified_fate = {
+      a = { 1297728 },
+      b = { 1297728 },
+    },
+    prescience = {
+      a = { 409311, 410089 },
+      b = { 410089, 409311 },
+    },
+    pupil_of_alexstrasza = {
+      t = { 407814 },
+    },
+    temporal_burst = {
+      t = { 431695 },
+    },
+    temporal_wound = {
+      a = { 409560, 409722, 409992, 409993, 409994 },
+      b = { 409560, 409722, 409992, 409993, 409994 },
+    },
+    time_convergence = {
+      t = { 431984 },
+    },
+    time_skip = {
+      a = { 404977 },
+      t = { 404977 },
+    },
+    tip_the_scales = {
+      a = { 370553 },
+      b = { 370553 },
+    },
+    upheaval = {
+      a = { 396286, 396288, 408092, 431620, 410295, 410296 },
+    },
+  },
 })

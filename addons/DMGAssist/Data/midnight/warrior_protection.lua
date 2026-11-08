@@ -163,17 +163,39 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       },
     },
   },
-  blizzardExcluded = {
-    "avatar",
-    "shield_charge",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "avatar", "shield_charge" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warrior",
+  heroTrees = {
+    colossus = {
+      429634,
+      429636,
+      429637,
+      429638,
+      429639,
+      429641,
+      429642,
+      429644,
+      429647,
+      431548,
+      436358,
+      440992,
+    },
+    mountain_thane = {
+      275336,
+      434969,
+      434970,
+      435607,
+      436148,
+      436152,
+      436162,
+      436201,
+      436707,
+      437068,
+      437079,
+      437118,
+    },
+  },
   key = "warrior_protection",
   simc = {
     colossus_aoe = {
@@ -541,14 +563,678 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "colossus_aoe",
-    "colossus_st",
-    "thane_aoe",
-    "thane_st",
-    "variables",
-  },
+  simcOrder = { "precombat", "default", "colossus_aoe", "colossus_st", "thane_aoe", "thane_st", "variables" },
   spec = "protection",
+  spellInfo = {
+    [100] = {
+      cd = 1.5,
+      ch = 1,
+      chcd = 20,
+      gain = { [1] = 200 },
+      n = "charge",
+    },
+    [772] = {
+      cost = { [1] = 10 },
+      gcd = 1.5,
+      n = "rend",
+      tal = true,
+    },
+    [871] = {
+      ap = {
+        { 871, "self" },
+      },
+      cd = 8,
+      ch = 1,
+      chcd = 180,
+      d = 8,
+      n = "shield_wall",
+      tal = true,
+    },
+    [1160] = {
+      ap = {
+        { 1160, "enemy" },
+      },
+      cd = 45,
+      d = 8,
+      gcd = 1.5,
+      n = "demoralizing_shout",
+      tal = true,
+    },
+    [2565] = {
+      cd = 1,
+      ch = 1,
+      chcd = 16,
+      cost = { [1] = 30 },
+      n = "shield_block",
+    },
+    [5302] = {
+      ap = {
+        { 5302, "self" },
+      },
+      d = 6,
+      n = "revenge",
+      st = 1,
+    },
+    [5308] = {
+      cd = 6,
+      cmax = { [1] = 40 },
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [6343] = {
+      cd = 6,
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "thunder_clap",
+      tal = true,
+    },
+    [6572] = {
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "revenge",
+      tal = true,
+    },
+    [6673] = {
+      d = 3600,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [20243] = {
+      gcd = 1.5,
+      n = "devastate",
+      st = 3,
+    },
+    [23922] = {
+      ap = {
+        { 23922, "self" },
+      },
+      cd = 9,
+      d = 8,
+      gain = { [1] = 150 },
+      gcd = 1.5,
+      n = "shield_slam",
+    },
+    [29725] = {
+      n = "sudden_death",
+      pas = true,
+      tal = true,
+    },
+    [52437] = {
+      ap = {
+        { 52437, "self" },
+      },
+      d = 12,
+      n = "sudden_death",
+      st = 2,
+    },
+    [57755] = {
+      cd = 6,
+      gcd = 1.5,
+      n = "heroic_throw",
+    },
+    [64380] = {
+      n = "shattering_throw",
+    },
+    [64382] = {
+      cd = 180,
+      ct = 1.5,
+      gcd = 1.5,
+      n = "shattering_throw",
+      tal = true,
+    },
+    [69179] = {
+      cd = 120,
+      gain = { [1] = 150 },
+      gcd = 1.5,
+      n = "arcane_torrent",
+    },
+    [105771] = {
+      ap = {
+        { 105771, "enemy" },
+      },
+      d = 1,
+      n = "charge",
+    },
+    [107574] = {
+      ap = {
+        { 107574, "self" },
+      },
+      cd = 90,
+      d = 20,
+      n = "avatar",
+      tal = true,
+    },
+    [126664] = {
+      n = "charge",
+    },
+    [132404] = {
+      ap = {
+        { 132404, "self" },
+      },
+      d = 6,
+      n = "shield_block",
+    },
+    [156287] = {
+      n = "ravager",
+    },
+    [163201] = {
+      cd = 6,
+      cmax = { [1] = 40 },
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [190456] = {
+      ap = {
+        { 190456, "self" },
+      },
+      cd = 1,
+      cost = { [1] = 35 },
+      d = 12,
+      n = "ignore_pain",
+      tal = true,
+    },
+    [198337] = {
+      n = "charge",
+    },
+    [200951] = {
+      ap = {
+        { 200951, "self" },
+      },
+      d = 12,
+      n = "berserking",
+    },
+    [200953] = {
+      ap = {
+        { 200953, "self" },
+      },
+      d = 3,
+      n = "berserking",
+      st = 12,
+    },
+    [202743] = {
+      n = "booming_voice",
+      pas = true,
+      tal = true,
+    },
+    [203177] = {
+      n = "heavy_repercussions",
+      pas = true,
+      tal = true,
+    },
+    [206315] = {
+      n = "massacre",
+      pas = true,
+      tal = true,
+    },
+    [218104] = {
+      n = "charge",
+    },
+    [228920] = {
+      ap = {
+        { 228920, "self" },
+      },
+      cd = 8,
+      ch = 1,
+      chcd = 90,
+      d = 12,
+      gcd = 1.5,
+      n = "ravager",
+      tal = true,
+    },
+    [231834] = {
+      n = "shield_slam",
+      pas = true,
+    },
+    [231847] = {
+      n = "shield_block",
+      pas = true,
+    },
+    [236027] = {
+      ap = {
+        { 236027, "enemy" },
+      },
+      d = 6,
+      n = "charge",
+    },
+    [236279] = {
+      n = "devastator",
+      pas = true,
+      tal = true,
+    },
+    [260798] = {
+      n = "execute",
+    },
+    [280721] = {
+      n = "sudden_death",
+      pas = true,
+    },
+    [280735] = {
+      cd = 4.5,
+      cmax = { [1] = 40 },
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [280776] = {
+      ap = {
+        { 280776, "self" },
+      },
+      d = 12,
+      n = "sudden_death",
+      st = 2,
+    },
+    [280849] = {
+      n = "execute",
+    },
+    [281000] = {
+      cd = 6,
+      cmax = { [1] = 40 },
+      cost = { [1] = 20 },
+      gcd = 1.5,
+      n = "execute",
+    },
+    [281001] = {
+      n = "massacre",
+      pas = true,
+      tal = true,
+    },
+    [334934] = {
+      gain = { [1] = 100 },
+      n = "ravager",
+    },
+    [364006] = {
+      ap = {
+        { 364006, "self" },
+      },
+      d = 30,
+      n = "seeing_red",
+      st = 8,
+    },
+    [376079] = {
+      cd = 90,
+      gcd = 1.5,
+      n = "champions_spear",
+      tal = true,
+    },
+    [376080] = {
+      ap = {
+        { 376080, "enemy" },
+      },
+      d = 6,
+      gain = { [1] = 100 },
+      n = "champions_spear",
+    },
+    [376081] = {
+      ap = {
+        { 1271981, "self" },
+      },
+      d = 6,
+      n = "champions_spear",
+    },
+    [376083] = {
+      n = "champions_spear",
+    },
+    [384110] = {
+      cd = 45,
+      gcd = 1.5,
+      n = "wrecking_throw",
+      tal = true,
+    },
+    [385952] = {
+      cd = 45,
+      gcd = 1.5,
+      n = "shield_charge",
+      tal = true,
+    },
+    [385953] = {
+      n = "shield_charge",
+    },
+    [385954] = {
+      ap = {
+        { 385954, "enemy" },
+      },
+      d = 4,
+      gain = { [1] = 200 },
+      n = "shield_charge",
+    },
+    [386164] = {
+      cd = 3,
+      n = "battle_stance",
+      tal = true,
+    },
+    [386477] = {
+      n = "violent_outburst",
+      pas = true,
+      tal = true,
+    },
+    [386478] = {
+      ap = {
+        { 386478, "self" },
+      },
+      d = 30,
+      n = "violent_outburst",
+      st = 1,
+    },
+    [386486] = {
+      ap = {
+        { 386486, "self" },
+      },
+      d = 30,
+      n = "seeing_red",
+      st = 99,
+    },
+    [388539] = {
+      ap = {
+        { 388539, "enemy" },
+      },
+      d = 15,
+      n = "rend",
+    },
+    [394352] = {
+      n = "shattering_throw",
+    },
+    [394354] = {
+      n = "wrecking_throw",
+    },
+    [429634] = {
+      n = "colossal_might",
+      pas = true,
+      tal = true,
+    },
+    [429647] = {
+      n = "practiced_strikes",
+      pas = true,
+      tal = true,
+    },
+    [434969] = {
+      n = "lightning_strikes",
+      pas = true,
+      tal = true,
+    },
+    [435203] = {
+      ap = {
+        { 435203, "enemy" },
+      },
+      d = 10,
+      n = "thunder_clap",
+    },
+    [435222] = {
+      cd = 6,
+      gain = { [1] = 20 },
+      gcd = 1.5,
+      n = "thunder_blast",
+    },
+    [435607] = {
+      n = "thunder_blast",
+      pas = true,
+      tal = true,
+    },
+    [435615] = {
+      ap = {
+        { 435615, "self" },
+      },
+      d = 15,
+      n = "thunder_blast",
+      st = 2,
+    },
+    [436358] = {
+      ap = {
+        { 436358, "self" },
+      },
+      cd = 30,
+      d = 2,
+      gcd = 1.5,
+      n = "demolish",
+      tal = true,
+    },
+    [440884] = {
+      n = "demolish",
+    },
+    [440886] = {
+      n = "demolish",
+    },
+    [440888] = {
+      n = "demolish",
+    },
+    [440989] = {
+      ap = {
+        { 440989, "self" },
+      },
+      d = 24,
+      n = "colossal_might",
+      st = 5,
+    },
+    [456270] = {
+      n = "snap_induction",
+      pas = true,
+      tal = true,
+    },
+    [458045] = {
+      ap = {
+        { 458045, "self" },
+      },
+      d = 8,
+      n = "shield_block",
+    },
+    [1215174] = {
+      cost = { [1] = 20 },
+      n = "revenge",
+    },
+    [1235088] = {
+      n = "heavy_handed",
+      pas = true,
+      tal = true,
+    },
+    [1269311] = {
+      n = "phalanx",
+      pas = true,
+      tal = true,
+    },
+    [1269312] = {
+      n = "phalanx",
+      pas = true,
+      st = 2,
+      tal = true,
+    },
+    [1269313] = {
+      n = "phalanx",
+      pas = true,
+      tal = true,
+    },
+    [1270116] = {
+      n = "phalanx",
+    },
+    [1271909] = {
+      ap = {
+        { 1271909, "self" },
+      },
+      d = 8,
+      n = "battle_shout_highlight",
+      st = 1,
+    },
+    [1271948] = {
+      n = "javelineer",
+      pas = true,
+      tal = true,
+    },
+    [1271980] = {
+      cd = 6,
+      n = "champions_spear",
+    },
+    [1271981] = {
+      ap = {
+        { 1271981, "self" },
+      },
+      d = 6,
+      n = "champions_spear",
+    },
+    [1271982] = {
+      cd = 6,
+      n = "champions_spear",
+    },
+    [1271985] = {
+      n = "champions_leap",
+    },
+    [1277297] = {
+      ap = {
+        { 1277297, "self" },
+      },
+      cd = 20,
+      d = 12,
+      gcd = 1.5,
+      n = "ignore_pain",
+      tal = true,
+    },
+    [1278009] = {
+      ap = {
+        { 1278009, "self" },
+      },
+      d = 12,
+      n = "phalanx",
+    },
+    [1292071] = {
+      ap = {
+        { 1292071, "enemy" },
+      },
+      d = 8,
+      n = "phalanx",
+    },
+  },
+  spells = {
+    arcane_torrent = {
+      a = { 69179 },
+    },
+    avatar = {
+      a = { 107574 },
+      b = { 107574 },
+    },
+    battle_shout = {
+      a = { 6673 },
+    },
+    battle_shout_highlight = {
+      a = { 1271909 },
+      b = { 1271909 },
+    },
+    battle_stance = {
+      a = { 386164 },
+    },
+    berserking = {
+      a = { 200953, 200951 },
+    },
+    booming_voice = {
+      t = { 202743 },
+    },
+    champions_leap = {
+      a = { 1271985 },
+    },
+    champions_spear = {
+      a = { 376079, 1271980, 1271982, 376080, 376081, 376083 },
+    },
+    charge = {
+      a = { 100, 105771, 126664, 198337, 218104, 236027 },
+    },
+    colossal_might = {
+      a = { 440989, 429634 },
+      b = { 440989, 429634 },
+    },
+    demolish = {
+      a = { 436358, 440884, 440886, 440888 },
+      t = { 436358 },
+    },
+    demoralizing_shout = {
+      a = { 1160 },
+    },
+    devastate = {
+      a = { 20243 },
+    },
+    devastator = {
+      t = { 236279 },
+    },
+    execute = {
+      a = { 5308, 163201, 280735, 281000, 260798, 280849 },
+    },
+    heavy_handed = {
+      t = { 1235088 },
+    },
+    heavy_repercussions = {
+      t = { 203177 },
+    },
+    heroic_throw = {
+      a = { 57755 },
+    },
+    ignore_pain = {
+      a = { 190456, 1277297 },
+    },
+    javelineer = {
+      t = { 1271948 },
+    },
+    lightning_strikes = {
+      t = { 434969 },
+    },
+    massacre = {
+      t = { 206315, 281001 },
+    },
+    phalanx = {
+      a = { 1270116, 1278009, 1292071, 1269311, 1269312, 1269313 },
+      b = { 1278009, 1292071, 1270116, 1269311, 1269312, 1269313 },
+    },
+    practiced_strikes = {
+      t = { 429647 },
+    },
+    ravager = {
+      a = { 228920, 156287, 334934 },
+      b = { 228920, 156287, 334934 },
+    },
+    rend_dot = {
+      a = { 388539, 772 },
+      b = { 388539, 772 },
+    },
+    revenge = {
+      a = { 6572, 1215174, 5302 },
+      b = { 5302, 6572, 1215174 },
+    },
+    seeing_red = {
+      a = { 364006, 386486 },
+      b = { 364006, 386486 },
+    },
+    shattering_throw = {
+      a = { 64382, 64380, 394352 },
+    },
+    shield_block = {
+      a = { 2565, 132404, 458045, 231847 },
+      b = { 132404, 458045, 2565, 231847 },
+    },
+    shield_charge = {
+      a = { 385952, 385953, 385954 },
+    },
+    shield_slam = {
+      a = { 23922, 231834 },
+    },
+    shield_wall = {
+      a = { 871 },
+    },
+    snap_induction = {
+      t = { 456270 },
+    },
+    sudden_death = {
+      a = { 52437, 280776, 29725, 280721 },
+      b = { 52437, 280776, 280721, 29725 },
+    },
+    thunder_blast = {
+      a = { 435222, 435615, 435607 },
+      b = { 435615, 435222, 435607 },
+    },
+    thunder_clap = {
+      a = { 6343, 435203 },
+    },
+    violent_outburst = {
+      a = { 386478, 386477 },
+      b = { 386478, 386477 },
+    },
+    wrecking_throw = {
+      a = { 384110, 394354 },
+    },
+  },
 })

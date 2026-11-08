@@ -205,16 +205,10 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
       },
     },
   },
-  blizzardExcluded = {
-    "doom_winds",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "doom_winds" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "shaman",
+  heroTrees = {},
   key = "shaman_enhancement",
   simc = {
     aoe = {
@@ -835,13 +829,723 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "aoe",
-    "cooldowns",
-    "single_sb",
-    "single_totemic",
-  },
+  simcOrder = { "precombat", "default", "aoe", "cooldowns", "single_sb", "single_totemic" },
   spec = "enhancement",
+  spellInfo = {
+    [2825] = {
+      cd = 300,
+      d = 40,
+      n = "bloodlust",
+    },
+    [17364] = {
+      ap = {
+        { 195573, "self" },
+      },
+      ch = 1,
+      chcd = 7.5,
+      gcd = 1.5,
+      n = "stormstrike",
+    },
+    [32175] = {
+      n = "stormstrike",
+      st = 2,
+    },
+    [32182] = {
+      cd = 300,
+      d = 40,
+      n = "heroism",
+    },
+    [33757] = {
+      gcd = 1.5,
+      n = "windfury_weapon",
+      tal = true,
+    },
+    [37661] = {
+      n = "lightning_bolt",
+    },
+    [54843] = {
+      n = "lightning_bolt",
+    },
+    [60103] = {
+      cd = 18,
+      gcd = 1.5,
+      n = "lava_lash",
+      tal = true,
+    },
+    [96891] = {
+      n = "lightning_bolt",
+    },
+    [114050] = {
+      cd = 180,
+      gcd = 1.5,
+      n = "ascendance",
+      tal = true,
+    },
+    [114051] = {
+      ap = {
+        { 114051, "self" },
+      },
+      cd = 180,
+      d = 15,
+      gcd = 1.5,
+      n = "ascendance",
+      tal = true,
+    },
+    [114052] = {
+      ap = {
+        { 114052, "self" },
+      },
+      cd = 180,
+      d = 15,
+      gcd = 1.5,
+      n = "ascendance",
+      tal = true,
+    },
+    [115356] = {
+      ch = 1,
+      chcd = 7.5,
+      gcd = 1.5,
+      n = "windstrike",
+    },
+    [115357] = {
+      n = "windstrike",
+    },
+    [187874] = {
+      ch = 1,
+      chcd = 15,
+      gcd = 1.5,
+      n = "crash_lightning",
+      tal = true,
+    },
+    [187878] = {
+      ap = {
+        { 187878, "self" },
+      },
+      d = 12,
+      n = "crash_lightning",
+    },
+    [187880] = {
+      n = "maelstrom_weapon",
+      pas = true,
+      tal = true,
+    },
+    [187881] = {
+      ap = {
+        { 187881, "self" },
+      },
+      d = 30,
+      n = "maelstrom_weapon",
+      st = 5,
+    },
+    [187890] = {
+      ap = {
+        { 187890, "self" },
+      },
+      d = 30,
+      n = "maelstrom_weapon",
+    },
+    [188196] = {
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lightning_bolt",
+    },
+    [188389] = {
+      ap = {
+        { 188389, "enemy" },
+      },
+      d = 18,
+      n = "flame_shock",
+    },
+    [188435] = {
+      n = "stormstrike",
+      st = 2,
+    },
+    [188443] = {
+      ct = 2,
+      gcd = 1.5,
+      n = "chain_lightning",
+      tal = true,
+    },
+    [191732] = {
+      ct = 1.5,
+      n = "chain_lightning",
+    },
+    [192106] = {
+      ap = {
+        { 192106, "self" },
+      },
+      d = 3600,
+      gcd = 1.5,
+      n = "lightning_shield",
+    },
+    [192109] = {
+      n = "lightning_shield",
+    },
+    [195573] = {
+      ap = {
+        { 195573, "self" },
+      },
+      d = 2,
+      n = "stormstrike",
+      st = 3,
+    },
+    [195592] = {
+      n = "crash_lightning",
+    },
+    [196840] = {
+      ap = {
+        { 196840, "enemy" },
+      },
+      d = 6,
+      gcd = 1.5,
+      n = "frost_shock",
+      tal = true,
+    },
+    [197209] = {
+      ap = {
+        { 197209, "enemy" },
+      },
+      d = 8,
+      n = "lightning_rod",
+    },
+    [197214] = {
+      cd = 30,
+      gcd = 1.5,
+      n = "sundering",
+      tal = true,
+    },
+    [197568] = {
+      n = "lightning_rod",
+    },
+    [198300] = {
+      ap = {
+        { 198300, "self" },
+      },
+      d = 12,
+      n = "converging_storms",
+      st = 6,
+    },
+    [201900] = {
+      n = "hot_hand",
+      pas = true,
+      tal = true,
+    },
+    [210689] = {
+      gcd = 1.5,
+      n = "lightning_rod",
+      pas = true,
+      tal = true,
+    },
+    [211094] = {
+      n = "chain_lightning",
+    },
+    [214284] = {
+      cd = 45,
+      n = "doom_winds",
+      pas = true,
+    },
+    [214815] = {
+      gain = { [11] = 6 },
+      n = "lightning_bolt",
+    },
+    [215785] = {
+      ap = {
+        { 215785, "self" },
+      },
+      d = 8,
+      n = "hot_hand",
+    },
+    [216170] = {
+      n = "sundering",
+    },
+    [273324] = {
+      n = "lightning_shield",
+    },
+    [289439] = {
+      n = "frost_shock",
+    },
+    [318038] = {
+      gcd = 1.5,
+      n = "flametongue_weapon",
+      tal = true,
+    },
+    [318044] = {
+      n = "lightning_bolt",
+      pas = true,
+    },
+    [319773] = {
+      ap = {
+        { 319773, "self" },
+      },
+      d = 3600,
+      n = "windfury_weapon",
+    },
+    [319778] = {
+      ap = {
+        { 319778, "self" },
+      },
+      d = 3600,
+      n = "flametongue_weapon",
+    },
+    [333964] = {
+      ap = {
+        { 333964, "self" },
+      },
+      d = 15,
+      n = "crash_lightning",
+      st = 3,
+    },
+    [334046] = {
+      n = "lashing_flames",
+      pas = true,
+      tal = true,
+    },
+    [334168] = {
+      ap = {
+        { 334168, "enemy" },
+      },
+      d = 20,
+      n = "lashing_flames",
+    },
+    [335902] = {
+      n = "doom_winds",
+      pas = true,
+    },
+    [335903] = {
+      ap = {
+        { 335903, "self" },
+        { 335904, "self" },
+      },
+      d = 12,
+      n = "doom_winds",
+    },
+    [335904] = {
+      ap = {
+        { 335904, "self" },
+      },
+      d = 60,
+      n = "doom_winds",
+    },
+    [336738] = {
+      n = "deeply_rooted_elements",
+      pas = true,
+    },
+    [344174] = {
+      n = "lightning_shield",
+    },
+    [344179] = {
+      ap = {
+        { 344179, "self" },
+      },
+      d = 30,
+      n = "maelstrom_weapon",
+      st = 5,
+    },
+    [344548] = {
+      n = "ascendance",
+    },
+    [378270] = {
+      n = "deeply_rooted_elements",
+      pas = true,
+      tal = true,
+    },
+    [382042] = {
+      n = "surging_elements",
+      pas = true,
+      tal = true,
+    },
+    [384149] = {
+      n = "raging_maelstrom",
+      pas = true,
+      tal = true,
+    },
+    [384352] = {
+      ap = {
+        { 466772, "self" },
+      },
+      cd = 60,
+      n = "doom_winds",
+      tal = true,
+    },
+    [384363] = {
+      n = "converging_storms",
+      pas = true,
+      tal = true,
+    },
+    [384444] = {
+      n = "thorims_invocation",
+      pas = true,
+      tal = true,
+    },
+    [412692] = {
+      ap = {
+        { 412692, "self" },
+      },
+      d = 30,
+      n = "maelstrom_weapon",
+    },
+    [420266] = {
+      ap = {
+        { 420266, "self" },
+      },
+      d = 30,
+      n = "maelstrom_weapon",
+      st = 10,
+    },
+    [420305] = {
+      ap = {
+        { 420305, "self" },
+      },
+      d = 12,
+      n = "converging_storms",
+      st = 6,
+    },
+    [420312] = {
+      cd = 6,
+      gcd = 1.5,
+      n = "stormstrike",
+    },
+    [444995] = {
+      cd = 25,
+      d = 25,
+      gcd = 1,
+      n = "surging_totem",
+    },
+    [445034] = {
+      n = "lively_totems",
+      pas = true,
+      tal = true,
+    },
+    [445035] = {
+      n = "splitstream",
+      pas = true,
+      tal = true,
+    },
+    [447425] = {
+      n = "chain_lightning",
+    },
+    [452201] = {
+      ct = 2,
+      gcd = 1.5,
+      n = "tempest",
+    },
+    [453405] = {
+      ap = {
+        { 453405, "self" },
+      },
+      d = 24,
+      n = "whirling_fire",
+    },
+    [453406] = {
+      ap = {
+        { 453406, "self" },
+      },
+      d = 24,
+      n = "whirling_earth",
+    },
+    [453409] = {
+      ap = {
+        { 453409, "self" },
+      },
+      d = 24,
+      n = "whirling_air",
+    },
+    [454009] = {
+      n = "tempest",
+      pas = true,
+      tal = true,
+    },
+    [454015] = {
+      ap = {
+        { 454015, "self" },
+      },
+      d = 30,
+      n = "tempest",
+      st = 2,
+    },
+    [455593] = {
+      ap = {
+        { 455593, "self" },
+      },
+      d = 24,
+      n = "surging_totem",
+    },
+    [455630] = {
+      n = "surging_totem",
+      pas = true,
+      tal = true,
+    },
+    [456359] = {
+      n = "surging_totem",
+      pas = true,
+    },
+    [458221] = {
+      n = "lively_totems",
+      pas = true,
+    },
+    [466772] = {
+      ap = {
+        { 466772, "self" },
+      },
+      d = 8,
+      n = "doom_winds",
+    },
+    [467263] = {
+      n = "ascendance",
+    },
+    [467283] = {
+      n = "sundering",
+    },
+    [467306] = {
+      n = "lively_totems",
+      pas = true,
+    },
+    [467442] = {
+      ap = {
+        { 467442, "self" },
+      },
+      d = 30,
+      n = "maelstrom_weapon",
+    },
+    [469270] = {
+      n = "doom_winds",
+    },
+    [469314] = {
+      n = "feral_spirit",
+      pas = true,
+      tal = true,
+    },
+    [470057] = {
+      cd = 10,
+      gcd = 1.5,
+      n = "voltaic_blaze",
+      tal = true,
+    },
+    [470411] = {
+      ap = {
+        { 188389, "enemy" },
+      },
+      cd = 6,
+      gcd = 1.5,
+      n = "flame_shock",
+    },
+    [1218047] = {
+      n = "primordial_storm",
+      pas = true,
+      tal = true,
+    },
+    [1218090] = {
+      gcd = 1.5,
+      n = "primordial_storm",
+    },
+    [1218125] = {
+      ap = {
+        { 1218125, "self" },
+      },
+      d = 15,
+      n = "primordial_storm",
+      st = 1,
+    },
+    [1219480] = {
+      ap = {
+        { 1219480, "self" },
+      },
+      cd = 180,
+      d = 15,
+      gcd = 1.5,
+      n = "ascendance",
+    },
+    [1221347] = {
+      ap = {
+        { 1221347, "self" },
+      },
+      d = 24,
+      n = "surging_totem",
+    },
+    [1221348] = {
+      cd = 6,
+      n = "surging_totem",
+    },
+    [1250364] = {
+      n = "elemental_tempo",
+      pas = true,
+      tal = true,
+    },
+    [1252197] = {
+      n = "ascendance",
+      pas = true,
+    },
+    [1252373] = {
+      n = "storm_unleashed",
+      pas = true,
+      tal = true,
+    },
+    [1252415] = {
+      ap = {
+        { 1252415, "self" },
+      },
+      d = 12,
+      n = "crash_lightning",
+      st = 20,
+    },
+    [1252433] = {
+      cd = 16,
+      d = 2,
+      gcd = 1.5,
+      n = "crash_lightning",
+    },
+    [1259101] = {
+      n = "voltaic_blaze",
+    },
+    [1260666] = {
+      n = "fire_nova",
+      pas = true,
+      tal = true,
+    },
+    [1262713] = {
+      n = "storm_unleashed",
+      pas = true,
+      tal = true,
+    },
+    [1262761] = {
+      n = "storm_unleashed",
+      pas = true,
+      tal = true,
+    },
+  },
+  spells = {
+    ascendance = {
+      a = { 114051, 114052, 1219480, 344548, 467263, 114050 },
+      b = { 114051, 114052, 1219480, 114050, 344548, 467263 },
+      t = { 114050, 114051, 114052, 1252197 },
+    },
+    bloodlust = {
+      a = { 2825, 32182 },
+      b = { 2825, 32182 },
+    },
+    chain_lightning = {
+      a = { 188443, 191732, 211094, 447425 },
+    },
+    converging_storms = {
+      a = { 198300, 420305, 384363 },
+      b = { 198300, 420305, 384363 },
+    },
+    crash_lightning = {
+      a = { 187874, 1252433, 187878, 195592, 333964, 1252415 },
+      b = { 187878, 333964, 1252415, 1252433, 187874, 195592 },
+    },
+    deeply_rooted_elements = {
+      t = { 378270, 336738 },
+    },
+    doom_winds = {
+      a = { 384352, 335903, 335904, 466772, 469270, 214284 },
+      b = { 335903, 335904, 466772, 214284, 335902, 384352 },
+      t = { 384352, 214284, 335902 },
+    },
+    elemental_tempo = {
+      t = { 1250364 },
+    },
+    feral_spirit = {
+      t = { 469314 },
+    },
+    fire_nova = {
+      t = { 1260666 },
+    },
+    flame_shock = {
+      a = { 470411, 188389 },
+      b = { 188389, 470411 },
+    },
+    flametongue_weapon = {
+      a = { 318038, 319778 },
+      t = { 318038 },
+    },
+    frost_shock = {
+      a = { 196840, 289439 },
+    },
+    hot_hand = {
+      a = { 215785, 201900 },
+      b = { 215785, 201900 },
+    },
+    lashing_flames = {
+      a = { 334168, 334046 },
+      b = { 334168, 334046 },
+      t = { 334046 },
+    },
+    lava_lash = {
+      a = { 60103 },
+    },
+    lightning_bolt = {
+      a = { 188196, 37661, 54843, 96891, 214815, 318044 },
+    },
+    lightning_rod = {
+      a = { 197209, 197568, 210689 },
+      b = { 197209, 197568, 210689 },
+    },
+    lightning_shield = {
+      a = { 192106, 192109, 273324, 344174 },
+      b = { 192106, 192109, 273324, 344174 },
+    },
+    lively_totems = {
+      t = { 445034, 458221, 467306 },
+    },
+    maelstrom_weapon = {
+      a = { 344179, 420266, 187880, 187881, 187890, 412692 },
+      b = { 187881, 187890, 344179, 412692, 420266, 467442 },
+    },
+    primordial_storm = {
+      a = { 1218090, 1218125, 1218047 },
+      b = { 1218125, 1218090, 1218047 },
+    },
+    raging_maelstrom = {
+      t = { 384149 },
+    },
+    splitstream = {
+      t = { 445035 },
+    },
+    storm_unleashed = {
+      t = { 1252373, 1262713, 1262761 },
+    },
+    stormstrike = {
+      a = { 17364, 420312, 32175, 188435, 195573 },
+    },
+    sundering = {
+      a = { 197214, 467283, 216170 },
+    },
+    surging_elements = {
+      t = { 382042 },
+    },
+    surging_totem = {
+      a = { 444995, 1221348, 455593, 455630, 456359, 1221347 },
+      b = { 444995, 455593, 1221347, 456359, 1221348, 455630 },
+      t = { 455630, 456359 },
+    },
+    tempest = {
+      a = { 452201, 454015, 454009 },
+    },
+    thorims_invocation = {
+      t = { 384444 },
+    },
+    voltaic_blaze = {
+      a = { 470057, 1259101 },
+    },
+    whirling_air = {
+      a = { 453409 },
+      b = { 453409 },
+    },
+    whirling_earth = {
+      a = { 453406 },
+      b = { 453406 },
+    },
+    whirling_fire = {
+      a = { 453405 },
+      b = { 453405 },
+    },
+    windfury_weapon = {
+      a = { 33757, 319773 },
+      b = { 319773, 33757 },
+    },
+    windstrike = {
+      a = { 115356, 115357 },
+    },
+  },
 })

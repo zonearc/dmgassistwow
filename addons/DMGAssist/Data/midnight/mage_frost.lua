@@ -140,13 +140,9 @@ ns.RegisterSpecData("midnight", "mage_frost", {
     },
   },
   blizzardExcluded = {},
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "mage",
+  heroTrees = {},
   key = "mage_frost",
   simc = {
     cds = {
@@ -578,13 +574,478 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       },
     },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "cds",
-    "frostfire",
-    "movement",
-    "spellslinger",
-  },
+  simcOrder = { "precombat", "default", "cds", "frostfire", "movement", "spellslinger" },
   spec = "frost",
+  spellInfo = {
+    [116] = {
+      ct = 1.75,
+      gcd = 1.5,
+      n = "frostbolt",
+    },
+    [120] = {
+      cd = 25,
+      gcd = 1.5,
+      n = "cone_of_cold",
+    },
+    [1459] = {
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+    },
+    [12486] = {
+      ap = {
+        { 12486, "enemy" },
+      },
+      d = 3,
+      n = "blizzard",
+    },
+    [13439] = {
+      ap = {
+        { 13439, "enemy" },
+      },
+      cost = { [0] = 25 },
+      ct = 1.5,
+      d = 5,
+      gcd = 1.5,
+      n = "frostbolt",
+    },
+    [30455] = {
+      gcd = 1.5,
+      n = "ice_lance",
+      tal = true,
+    },
+    [31687] = {
+      cd = 15,
+      ct = 1.5,
+      gcd = 1.5,
+      n = "summon_water_elemental",
+      tal = true,
+    },
+    [44544] = {
+      ap = {
+        { 44544, "self" },
+      },
+      d = 15,
+      n = "fingers_of_frost",
+      st = 2,
+    },
+    [44614] = {
+      ch = 2,
+      chcd = 30,
+      gcd = 1.5,
+      n = "flurry",
+      tal = true,
+    },
+    [59638] = {
+      ap = {
+        { 59638, "enemy" },
+      },
+      ct = 2,
+      d = 4,
+      n = "frostbolt",
+    },
+    [84714] = {
+      cd = 60,
+      d = 15,
+      gcd = 1.5,
+      n = "frozen_orb",
+      tal = true,
+    },
+    [84721] = {
+      n = "frozen_orb",
+    },
+    [96089] = {
+      ap = {
+        { 96089, "enemy" },
+      },
+      ct = 1.5,
+      d = 9,
+      gcd = 1.5,
+      n = "frostbolt",
+    },
+    [112965] = {
+      n = "fingers_of_frost",
+      pas = true,
+      tal = true,
+    },
+    [126084] = {
+      ap = {
+        { 126084, "self" },
+      },
+      d = 15,
+      n = "fingers_of_frost",
+      st = 2,
+    },
+    [144251] = {
+      ap = {
+        { 144251, "enemy" },
+      },
+      cost = { [0] = 25 },
+      ct = 1.5,
+      d = 5,
+      gcd = 1.5,
+      n = "frostbolt",
+    },
+    [153595] = {
+      gcd = 1.5,
+      n = "comet_storm",
+    },
+    [153596] = {
+      n = "comet_storm",
+    },
+    [157997] = {
+      ap = {
+        { 157997, "enemy" },
+      },
+      cd = 25,
+      d = 2,
+      gcd = 1.5,
+      n = "ice_nova",
+      tal = true,
+    },
+    [190356] = {
+      cd = 12,
+      ct = 2,
+      d = 12,
+      gcd = 1.5,
+      n = "blizzard",
+      tal = true,
+    },
+    [190357] = {
+      n = "blizzard",
+    },
+    [190446] = {
+      ap = {
+        { 190446, "self" },
+      },
+      d = 15,
+      n = "brain_freeze",
+      st = 1,
+    },
+    [190447] = {
+      n = "brain_freeze",
+      pas = true,
+      tal = true,
+    },
+    [199786] = {
+      ct = 1.75,
+      gcd = 1.5,
+      n = "glacial_spike",
+    },
+    [199844] = {
+      ap = {
+        { 199844, "self" },
+      },
+      d = 60,
+      n = "glacial_spike",
+    },
+    [205021] = {
+      ap = {
+        { 205021, "enemy" },
+      },
+      ch = 1,
+      chcd = 60,
+      d = 4,
+      gcd = 1.5,
+      n = "ray_of_frost",
+      tal = true,
+    },
+    [205473] = {
+      ap = {
+        { 205473, "self" },
+      },
+      d = 60,
+      n = "icicles",
+      st = 5,
+    },
+    [208141] = {
+      ap = {
+        { 208141, "self" },
+      },
+      d = 10,
+      n = "ray_of_frost",
+      st = 6,
+    },
+    [214325] = {
+      ap = {
+        { 214325, "self" },
+      },
+      d = 3,
+      n = "glacial_spike",
+    },
+    [222320] = {
+      ap = {
+        { 222320, "enemy" },
+      },
+      d = 5,
+      n = "frostbolt",
+    },
+    [228354] = {
+      n = "flurry",
+    },
+    [228596] = {
+      n = "flurry",
+    },
+    [228598] = {
+      gcd = 1.5,
+      n = "ice_lance",
+    },
+    [228600] = {
+      n = "glacial_spike",
+    },
+    [228601] = {
+      n = "comet_storm",
+    },
+    [228671] = {
+      n = "flurry",
+    },
+    [228672] = {
+      ap = {
+        { 228672, "enemy" },
+      },
+      d = 1,
+      n = "flurry",
+    },
+    [250423] = {
+      ap = {
+        { 250423, "enemy" },
+      },
+      d = 1.5,
+      n = "blizzard",
+    },
+    [250440] = {
+      ap = {
+        { 250440, "enemy" },
+      },
+      d = 1.5,
+      n = "frozen_orb",
+    },
+    [269748] = {
+      ap = {
+        { 269748, "self" },
+      },
+      d = 4,
+      n = "ray_of_frost",
+    },
+    [270232] = {
+      ap = {
+        { 270232, "self" },
+      },
+      d = 15,
+      n = "freezing_rain",
+    },
+    [270233] = {
+      n = "freezing_rain",
+      pas = true,
+      tal = true,
+    },
+    [285126] = {
+      n = "comet_storm",
+    },
+    [289308] = {
+      ap = {
+        { 289308, "enemy" },
+      },
+      d = 3,
+      n = "frozen_orb",
+    },
+    [327364] = {
+      n = "freezing_winds",
+      pas = true,
+    },
+    [378406] = {
+      n = "wintertide",
+      pas = true,
+      tal = true,
+    },
+    [431044] = {
+      ct = 1.75,
+      gcd = 1.5,
+      n = "frostfire_bolt",
+      tal = true,
+    },
+    [431176] = {
+      n = "frostfire_empowerment",
+      pas = true,
+      st = 1,
+      tal = true,
+    },
+    [431177] = {
+      ap = {
+        { 431177, "self" },
+      },
+      d = 20,
+      n = "frostfire_empowerment",
+      st = 2,
+    },
+    [431186] = {
+      n = "frostfire_empowerment",
+    },
+    [438609] = {
+      n = "comet_storm",
+    },
+    [1216953] = {
+      n = "freezing_winds",
+      pas = true,
+      tal = true,
+    },
+    [1221389] = {
+      ap = {
+        { 1221389, "enemy" },
+      },
+      d = 15,
+      n = "freezing",
+      st = 20,
+    },
+    [1222865] = {
+      ap = {
+        { 1222865, "self" },
+      },
+      d = 60,
+      n = "glacial_spike",
+      st = 1,
+    },
+    [1236209] = {
+      ct = 2.75,
+      gcd = 1.5,
+      n = "glacial_spike",
+    },
+    [1236211] = {
+      n = "glacial_spike",
+    },
+    [1246832] = {
+      n = "icicles",
+      pas = true,
+      tal = true,
+    },
+    [1247090] = {
+      n = "cone_of_frost",
+      pas = true,
+      tal = true,
+    },
+    [1247544] = {
+      n = "crystalline_refraction",
+      pas = true,
+      tal = true,
+    },
+    [1247729] = {
+      n = "thermal_void",
+      pas = true,
+      tal = true,
+    },
+    [1247730] = {
+      ap = {
+        { 1247730, "self" },
+      },
+      d = 8,
+      n = "thermal_void",
+      st = 1,
+    },
+    [1247778] = {
+      n = "comet_storm",
+    },
+    [1248829] = {
+      cd = 12,
+      ct = 2,
+      d = 12,
+      gcd = 1.5,
+      n = "blizzard",
+      tal = true,
+    },
+    [1310248] = {
+      ap = {
+        { 1310248, "self" },
+      },
+      d = 1,
+      n = "rapid_refreezing",
+    },
+  },
+  spells = {
+    arcane_intellect = {
+      a = { 1459 },
+    },
+    blizzard = {
+      a = { 190356, 1248829, 12486, 190357, 250423 },
+    },
+    brain_freeze = {
+      a = { 190446, 190447 },
+      b = { 190446, 190447 },
+    },
+    comet_storm = {
+      a = { 153595, 153596, 228601, 285126, 438609, 1247778 },
+      b = { 153595, 153596, 228601, 285126, 438609, 1247778 },
+    },
+    cone_of_cold = {
+      a = { 120 },
+    },
+    cone_of_frost = {
+      t = { 1247090 },
+    },
+    crystalline_refraction = {
+      t = { 1247544 },
+    },
+    fingers_of_frost = {
+      a = { 44544, 112965, 126084 },
+      b = { 44544, 126084, 112965 },
+    },
+    flurry = {
+      a = { 44614, 228354, 228596, 228671, 228672 },
+    },
+    freezing = {
+      a = { 1221389 },
+      b = { 1221389 },
+    },
+    freezing_rain = {
+      a = { 270232, 270233 },
+      b = { 270232, 270233 },
+      t = { 270233 },
+    },
+    freezing_winds = {
+      t = { 1216953, 327364 },
+    },
+    frostbolt = {
+      a = { 116, 13439, 96089, 144251, 59638, 222320 },
+    },
+    frostfire_bolt = {
+      t = { 431044 },
+    },
+    frostfire_empowerment = {
+      a = { 431177, 431186, 431176 },
+      b = { 431177, 431186, 431176 },
+    },
+    frozen_orb = {
+      a = { 84714, 84721, 250440, 289308 },
+    },
+    glacial_spike = {
+      a = { 199786, 1236209, 199844, 228600, 1222865, 1236211 },
+      b = { 199844, 214325, 1222865, 199786, 228600, 1236209 },
+    },
+    ice_lance = {
+      a = { 30455, 228598 },
+    },
+    ice_nova = {
+      a = { 157997 },
+    },
+    icicles = {
+      a = { 205473, 1246832 },
+      b = { 205473, 1246832 },
+    },
+    rapid_refreezing = {
+      a = { 1310248 },
+      b = { 1310248 },
+    },
+    ray_of_frost = {
+      a = { 205021, 269748, 208141 },
+    },
+    summon_water_elemental = {
+      a = { 31687 },
+    },
+    thermal_void = {
+      a = { 1247730, 1247729 },
+      b = { 1247730, 1247729 },
+    },
+    wintertide = {
+      t = { 378406 },
+    },
+  },
 })

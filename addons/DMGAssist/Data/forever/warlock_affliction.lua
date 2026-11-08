@@ -201,16 +201,10 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       },
     },
   },
-  blizzardExcluded = {
-    "summon_darkglare",
-  },
-  blizzardOrder = {
-    "precombat",
-    "default",
-    "assisted_combat",
-    "cooldowns",
-  },
+  blizzardExcluded = { "summon_darkglare" },
+  blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warlock",
+  heroTrees = {},
   key = "warlock_affliction",
   simc = {
     HC_aoe = {
@@ -892,4 +886,225 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
     "variables",
   },
   spec = "affliction",
+  spellInfo = {
+    [172] = {
+      ap = {
+        { 172, "enemy" },
+      },
+      cost = { [0] = 35 },
+      ct = 2,
+      d = 12,
+      gcd = 1.5,
+      n = "corruption",
+    },
+    [686] = {
+      cost = { [0] = 25 },
+      ct = 1.7,
+      gcd = 1.5,
+      n = "shadow_bolt",
+    },
+    [695] = {
+      cost = { [0] = 40 },
+      ct = 2.2,
+      gcd = 1.5,
+      n = "shadow_bolt",
+    },
+    [705] = {
+      cost = { [0] = 70 },
+      ct = 2.8,
+      gcd = 1.5,
+      n = "shadow_bolt",
+    },
+    [1088] = {
+      cost = { [0] = 110 },
+      ct = 3,
+      gcd = 1.5,
+      n = "shadow_bolt",
+    },
+    [1106] = {
+      cost = { [0] = 160 },
+      ct = 3,
+      gcd = 1.5,
+      n = "shadow_bolt",
+    },
+    [1120] = {
+      ap = {
+        { 1120, "enemy" },
+      },
+      cost = { [0] = 55 },
+      d = 15,
+      gcd = 1.5,
+      n = "drain_soul",
+      st = 1,
+    },
+    [6222] = {
+      ap = {
+        { 6222, "enemy" },
+      },
+      cost = { [0] = 55 },
+      ct = 2,
+      d = 15,
+      gcd = 1.5,
+      n = "corruption",
+    },
+    [6223] = {
+      ap = {
+        { 6223, "enemy" },
+      },
+      cost = { [0] = 100 },
+      ct = 2,
+      d = 18,
+      gcd = 1.5,
+      n = "corruption",
+    },
+    [7641] = {
+      cost = { [0] = 210 },
+      ct = 3,
+      gcd = 1.5,
+      n = "shadow_bolt",
+    },
+    [7648] = {
+      ap = {
+        { 7648, "enemy" },
+      },
+      cost = { [0] = 160 },
+      ct = 2,
+      d = 18,
+      gcd = 1.5,
+      n = "corruption",
+    },
+    [8288] = {
+      ap = {
+        { 8288, "enemy" },
+      },
+      cost = { [0] = 125 },
+      d = 15,
+      gcd = 1.5,
+      n = "drain_soul",
+      st = 1,
+    },
+    [8289] = {
+      ap = {
+        { 8289, "enemy" },
+      },
+      cost = { [0] = 210 },
+      d = 15,
+      gcd = 1.5,
+      n = "drain_soul",
+      st = 1,
+    },
+    [11671] = {
+      ap = {
+        { 11671, "enemy" },
+      },
+      cost = { [0] = 225 },
+      ct = 2,
+      d = 18,
+      gcd = 1.5,
+      n = "corruption",
+    },
+    [11672] = {
+      ap = {
+        { 11672, "enemy" },
+      },
+      cost = { [0] = 290 },
+      ct = 2,
+      d = 18,
+      gcd = 1.5,
+      n = "corruption",
+    },
+    [11675] = {
+      ap = {
+        { 11675, "enemy" },
+      },
+      cost = { [0] = 290 },
+      d = 15,
+      gcd = 1.5,
+      n = "drain_soul",
+      st = 1,
+    },
+    [18094] = {
+      n = "nightfall",
+      pas = true,
+      tal = true,
+    },
+    [18265] = {
+      ap = {
+        { 18265, "enemy" },
+      },
+      cost = { [0] = 150 },
+      d = 30,
+      gcd = 1.5,
+      n = "siphon_life",
+      tal = true,
+    },
+    [403501] = {
+      ap = {
+        { 403501, "enemy" },
+      },
+      cd = 15,
+      cost = { [0] = 170 },
+      ct = 1.5,
+      d = 12,
+      gcd = 1.5,
+      n = "haunt",
+    },
+    [403858] = {
+      n = "haunt",
+      pas = true,
+    },
+    [427717] = {
+      ap = {
+        { 427717, "enemy" },
+      },
+      cost = { [0] = 200 },
+      ct = 1.5,
+      d = 18,
+      gcd = 1.5,
+      n = "unstable_affliction",
+    },
+    [427719] = {
+      d = 5,
+      n = "unstable_affliction",
+    },
+    [431748] = {
+      n = "unstable_affliction",
+      pas = true,
+    },
+    [1310949] = {
+      n = "malevolence",
+      pas = true,
+      tal = true,
+    },
+  },
+  spells = {
+    corruption = {
+      a = { 172, 6222, 6223, 7648, 11671, 11672 },
+      b = { 172, 6222, 6223, 7648, 11671, 11672 },
+    },
+    drain_soul = {
+      a = { 1120, 8288, 8289, 11675 },
+    },
+    haunt = {
+      a = { 403501, 403858 },
+    },
+    malevolence = {
+      a = { 1310949 },
+      b = { 1310949 },
+    },
+    nightfall = {
+      a = { 18094 },
+      b = { 18094 },
+    },
+    shadow_bolt = {
+      a = { 686, 695, 705, 1088, 1106, 7641 },
+    },
+    siphon_life = {
+      t = { 18265 },
+    },
+    unstable_affliction = {
+      a = { 427717, 427719, 431748 },
+      b = { 427717, 427719, 431748 },
+    },
+  },
 })
