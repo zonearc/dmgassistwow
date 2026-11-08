@@ -209,8 +209,15 @@ G.Castable = Castable
 
 -- Does Blizzard (live assistant, or our evaluation of its rules) agree with this spell?
 local function Corroborated(id, token, run)
-  if run.acSpell and (run.acSpell == id or run.acSpell == run.override[id]) then
-    return "assisted"
+  if run.acSpell then
+    -- Blizzard's live assistant sees the hidden state (procs, resources); our evaluation of its rules does
+    -- not. When it is there, only it can confirm an uncertain line: otherwise a rule that happens to hold
+    -- would let an uncertain filler shadow the certain lines below it (Balance: an uncertain Starfire over
+    -- Fury of Elune while the assistant was saying Fury of Elune, seen in game 2026-11-08).
+    if run.acSpell == id or run.acSpell == run.override[id] then
+      return "assisted"
+    end
+    return nil
   end
   local rules = run.blizzardByAction[token]
   if rules then

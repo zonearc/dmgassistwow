@@ -734,6 +734,9 @@ ns.RegisterSpecData("midnight", "deathknight_unholy", {
       n = "arcane_torrent",
     },
     [52212] = {
+      ap = {
+        { 43265, "self" },
+      },
       n = "death_and_decay",
     },
     [55090] = {
@@ -951,6 +954,9 @@ ns.RegisterSpecData("midnight", "deathknight_unholy", {
       st = 1,
     },
     [458128] = {
+      ap = {
+        { 1241077, "self" },
+      },
       gcd = 1.5,
       n = "festering_scythe",
     },
@@ -1083,6 +1089,9 @@ ns.RegisterSpecData("midnight", "deathknight_unholy", {
       tal = true,
     },
     [1251951] = {
+      ap = {
+        { 43265, "self" },
+      },
       n = "death_and_decay",
     },
     [1254552] = {

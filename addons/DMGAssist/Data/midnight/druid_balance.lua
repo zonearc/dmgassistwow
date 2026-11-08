@@ -1409,6 +1409,9 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       st = 1,
     },
     [1233272] = {
+      ap = {
+        { 48518, "self" },
+      },
       cd = 1,
       ch = 1,
       chcd = 32,
@@ -1416,6 +1419,9 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       n = "lunar_eclipse",
     },
     [1233346] = {
+      ap = {
+        { 48517, "self" },
+      },
       cd = 1,
       ch = 1,
       chcd = 32,
@@ -1547,7 +1553,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     },
     eclipse = {
       a = { 1233272, 1233346, 1239669 },
-      b = { 1239669 },
+      b = { 1239669, 48518, 48517 },
       t = { 1239669 },
     },
     eclipse_lunar = {

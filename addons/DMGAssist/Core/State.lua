@@ -268,9 +268,9 @@ local function AuraLength(token, auraID)
   if info and info.d and info.d > 0 then
     return info.d
   end
-  local ids = M.AuraIDs(token)
-  if ids then
-    for _, id in ipairs(ids) do
+  -- the token's own aura IDs, then its aliases' (buff.eclipse -> the Lunar / Solar Eclipse buffs)
+  for _, t in ipairs(M.Candidates(token)) do
+    for _, id in ipairs(M.AuraIDs(t) or {}) do
       local i = M.Info(id)
       if i and i.d and i.d > 0 then
         return i.d

@@ -1206,6 +1206,9 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       r = 5,
     },
     [167105] = {
+      ap = {
+        { 208086, "self" },
+      },
       cd = 45,
       gcd = 1.5,
       n = "colossus_smash",

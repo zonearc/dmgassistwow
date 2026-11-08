@@ -609,6 +609,9 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       tal = true,
     },
     [2565] = {
+      ap = {
+        { 132404, "self" },
+      },
       cd = 1,
       ch = 1,
       chcd = 16,
