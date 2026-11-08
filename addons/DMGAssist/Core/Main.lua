@@ -186,6 +186,8 @@ function ns.StatusLines()
   end
   local n, label = S.Targets()
   add("Target mode", string.format("%s (%s targets now)", tostring(label), tostring(n)))
+  local key = U.Get(GetBindingKey, "DMGASSIST_CYCLEMODE")
+  add("Key to switch target mode", type(key) == "string" and key or L["none set (Settings > DMGAssist > Set key bindings)"])
   local specAoe = S.SpecAoeTargets(state.data)
   if ns.db.aoeCount == "custom" then
     add("AoE target count", string.format("%d (custom)", S.AoeTargets()))

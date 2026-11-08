@@ -23,7 +23,7 @@ D.DEFAULTS = {
   iconSize = 52, nextSize = 38, spacing = 6, padding = 6,
   queueAlpha = 0.85, dimGuesses = true,
   background = false, bgAlpha = 0.55, border = "none", borderAlpha = 0.6,
-  header = false, keybind = true, keybindSize = 14, keybindPos = "TOPRIGHT", keybindColor = "white",
+  header = false, modeBar = true, keybind = true, keybindSize = 14, keybindPos = "TOPRIGHT", keybindColor = "white",
   nameColor = "white",
   spellNames = false, nameSize = 10, labels = false,
   font = "default", outline = "OUTLINE", calloutSize = 14,
@@ -371,10 +371,20 @@ local function Layout(f, cfg)
   if cfg.header then
     f.header:Show()
     f.gear:Show()
-    top = top + 16
   else
     f.header:Hide()
     f.gear:Hide()
+  end
+  -- Title row: the target mode in force (colour-coded), after the header text when the header is on.
+  f.modeText:ClearAllPoints()
+  if cfg.header then
+    f.modeText:SetPoint("LEFT", f.header, "RIGHT", 6, 0)
+  else
+    f.modeText:SetPoint("TOPLEFT", f, "TOPLEFT", pad, -3)
+  end
+  f.modeText:SetShown(cfg.modeBar ~= false)
+  if cfg.header or cfg.modeBar ~= false then
+    top = top + 16
   end
   local depth = (ns.db and tonumber(ns.db.queue)) or 3
   local x = pad
@@ -443,6 +453,8 @@ function D.Create()
     end
   end)
 
+  f.modeText = f:CreateFontString(nil, "OVERLAY")
+  SetFont(f.modeText, 12)
   f.header = f:CreateFontString(nil, "OVERLAY")
   SetFont(f.header, 11)
   f.header:SetPoint("TOPLEFT", f, "TOPLEFT", cfg.padding, -3)
@@ -591,10 +603,27 @@ local function SetIcon(icon, pick, cfg, isMain, labelText)
   icon:Show()
 end
 
-local function Translate(label)
-  return (tostring(label or ""):gsub("%a+", function(word)
-    return L[word]
-  end))
+-- The target mode in force, for the title row: "AUTO · AOE 5 targets" (orange) / "AUTO · ST 1 target" (light
+-- blue); "AOE (manual)" after the key binding; "AOE ?" when nothing can be counted (the fallback mode is used).
+-- AOE once the count reaches the spec's switch point (State.AoeTargets).
+local MODE_COLOR = { ST = "|cff66ccff", AOE = "|cffff9933" }
+
+function D.ModeText()
+  local S = ns.State
+  local n, label = S.Targets()
+  label = tostring(label or "")
+  local effective = n >= S.AoeTargets() and "AOE" or "ST"
+  local color = MODE_COLOR[effective]
+  local word = L[effective]
+  if label:find("^AUTO") then
+    local unit = n == 1 and L["target"] or L["targets"]
+    return string.format("|cff999999%s ·|r %s%s %d %s|r", L["AUTO"], color, word, n, unit)
+  elseif label:find("%?$") then
+    return string.format("%s%s ?|r", color, word)
+  elseif S.modeOverride then
+    return string.format("%s%s|r |cff999999(%s)|r", color, word, L["manual"])
+  end
+  return string.format("%s%s|r", color, word)
 end
 
 ---------------------------------------------------------------------------
@@ -858,8 +887,10 @@ function D.Update(result, visible)
   D.RenderTiming(f, cfg)
   if cfg.header then
     local state = ns.Specs and ns.Specs.current
-    f.header:SetText(string.format("DMGAssist · %s · %s", tostring(state and (state.specName or state.key) or "-"),
-      Translate(result.modeLabel)))
+    f.header:SetText(string.format("DMGAssist · %s ·", tostring(state and (state.specName or state.key) or "-")))
+  end
+  if cfg.modeBar ~= false then
+    f.modeText:SetText(D.ModeText())
   end
   local c = result.callout
   if cfg.callout and c then

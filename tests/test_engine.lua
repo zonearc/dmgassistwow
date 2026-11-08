@@ -657,7 +657,9 @@ test("HUD shows three icons, the mode in the header, keybinds and the GCD bar", 
   eq(f.slots[2]:IsShown(), r.queue[2] ~= nil)
   eq(type(f.header.text), "string")
   local hdr = f.header.text
-  eq(hdr:find("AOE", 1, true) ~= nil or hdr:find("ST", 1, true) ~= nil or hdr:find("AUTO", 1, true) ~= nil, true, hdr)
+  eq(hdr:find("DMGAssist", 1, true) ~= nil, true, hdr)
+  local mode = f.modeText.text
+  eq(mode:find("AOE", 1, true) ~= nil or mode:find("ST", 1, true) ~= nil, true, "mode in the title row: " .. mode)
   eq(type(f.gcd.value), "number")
   -- keybinds: main bar slot 3 -> ACTIONBUTTON3; bar page 6 slot 62 -> MULTIACTIONBAR1BUTTON2; cat form bonus page 7
   mock.actionSlots = { [5221] = { 3 }, [1822] = { 62 }, [1079] = { 75 } }
@@ -1824,6 +1826,24 @@ test("fight length: learned per kind of fight from your own fights; SimC default
   ns.db.fightMode, ns.db.fightLength = "custom", 120
   eq(S.FightLength(), 120)
   eq(S.LearnedFightLength("boss"), nil, "bosses learned separately")
+end)
+
+test("title row: colour-coded ST / AOE with the live count", function()
+  Reset()
+  local ns = Boot()
+  local D = ns.Display
+  mock.inCombat, mock.nameplates = true, 1
+  local text = D.ModeText()
+  eq(text:find("ST 1 target", 1, true) ~= nil, true, text)
+  eq(text:find("66ccff", 1, true) ~= nil, true, "ST is light blue")
+  mock.nameplates = 4
+  text = D.ModeText()
+  eq(text:find("AOE 4 targets", 1, true) ~= nil, true, text)
+  eq(text:find("ff9933", 1, true) ~= nil, true, "AOE is orange")
+  DMGAssist_CycleMode() -- the key: auto -> ST (manual)
+  text = D.ModeText()
+  eq(text:find("manual", 1, true) ~= nil, true, text)
+  mock.inCombat, mock.nameplates = false, 0
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

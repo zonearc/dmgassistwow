@@ -143,6 +143,9 @@ local DEFENSIVE_CHOICES = {
 local SOUND_LABELS = { interrupt = "Interrupt", defensive = "Defensive", bosscall = "Boss mod call",
   burst = "Major cooldown ready" }
 
+local KEYS_TIP = "Bind keys in Options > Keybindings > AddOns > DMGAssist: switch target mode (Auto / Single / "
+  .. "AoE), major cooldowns on/off, show/hide."
+
 function O.Register()
   if O.category or not (Settings and Settings.RegisterVerticalLayoutCategory and ns.db) then
     return O.category
@@ -161,6 +164,7 @@ function O.Register()
     "Left-click: show / hide. Right-click: menu and settings. Drag to move it.")
   Check(main, DB, "locked", "Lock position", true,
     "Unlock to drag the icons; they are also shown while this panel is open.")
+  Button(main, "Key bindings", "Set key bindings", O.OpenKeybindings, KEYS_TIP)
   Button(main, "Defaults", "Reset everything to defaults", O.ResetAll, "Every setting on every DMGAssist page.")
 
   O.RegisterStatus(main)
@@ -183,6 +187,7 @@ function O.Register()
     { "custom", "Custom (slider below)" } },
     "Your spec's switch point comes from its SimC list (when it uses an AoE list): the count where it changes.")
   Slider(combat, DB, "aoeTargets", "Custom AoE target count", G.aoeTargets or 3, 2, 10, 1)
+  Button(combat, "Switch with a key", "Set key bindings", O.OpenKeybindings, KEYS_TIP)
   Header(combat, "Fight length")
   Choice(combat, DB, "fightMode", "Fight length", "learned", {
     { "learned", "Learned from your fights" }, { "simc", "SimC default (300 s bosses, short trash)" },
@@ -217,7 +222,9 @@ function O.Register()
   Slider(display, HUD, "alpha", "Opacity", H.alpha, 0.2, 1, 0.05)
   Slider(display, HUD, "queueAlpha", "Next icons opacity", H.queueAlpha, 0.2, 1, 0.05)
   Header(display, "Frame")
-  Check(display, HUD, "header", "Header (spec, mode, settings button)", H.header)
+  Check(display, HUD, "modeBar", "Target mode above the icons", H.modeBar,
+    "ST (blue) or AOE (orange) with the number of targets counted, so you can see auto-detect working.")
+  Check(display, HUD, "header", "Header (spec, settings button)", H.header)
   Check(display, HUD, "background", "Background", H.background)
   Slider(display, HUD, "bgAlpha", "Background opacity", H.bgAlpha, 0, 1, 0.05)
   Choice(display, HUD, "border", "Border", H.border, { { "none", "None" }, { "thin", "Thin" }, { "thick", "Thick" } })
@@ -398,6 +405,21 @@ function O.Open()
     Settings.OpenToCategory(cat:GetID())
   end
   return true
+end
+
+-- Blizzard's Keybindings page, scrolled to DMGAssist's section (the same call Blizzard's Ping settings use:
+-- Blizzard_SettingsDefinitions_Frame/PingSystem.lua, live and forever).
+function O.OpenKeybindings()
+  if InCombatLockdown() then
+    U.Print("%s", L["Key bindings can be changed after combat."])
+    return false
+  end
+  if Settings.KEYBINDINGS_CATEGORY_ID and Settings.OpenToCategory then
+    Settings.OpenToCategory(Settings.KEYBINDINGS_CATEGORY_ID, BINDING_HEADER_DMGASSIST)
+    return true
+  end
+  U.Print("%s", L["Options > Keybindings > AddOns > DMGAssist."])
+  return false
 end
 
 function O.OnCombatEnded()
