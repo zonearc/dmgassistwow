@@ -21,6 +21,10 @@ Persistent
 ;@Ahk2Exe-SetName DMGAssist Updater
 ;@Ahk2Exe-SetDescription Keeps DMGAssist up to date
 ;@Ahk2Exe-SetCompanyName zonearc
+;@Ahk2Exe-SetMainIcon dmgassist.ico
+
+if !A_IsCompiled && FileExist(A_ScriptDir "\dmgassist.ico")
+    TraySetIcon(A_ScriptDir "\dmgassist.ico") ; the compiled exe carries the icon itself
 
 if !A_IsAdmin {
     try {
@@ -180,6 +184,8 @@ SelfInstall() {
         }
         FileCopy(A_ScriptFullPath, target, true)
         FileCopy(A_ScriptDir "\update.ps1", InstallDir "\update.ps1", true)
+        if FileExist(A_ScriptDir "\dmgassist.ico")
+            FileCopy(A_ScriptDir "\dmgassist.ico", InstallDir "\dmgassist.ico", true)
     }
     SetStartup(true, target)
     if A_IsCompiled
