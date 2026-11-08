@@ -1074,16 +1074,24 @@ test("stacking own buffs (Ironfur): learned from a readable scan, then tracked p
   eq(math.floor(S.Resolve("buff.ironfur.remains", {}) * 10 + 0.5), 15)
 end)
 
-test("press-now cue lights when the GCD ends within the spell queue window; spell_haste", function()
+test("press-now cue lights just before the GCD ends (50 ms lead, adjustable); spell_haste", function()
   Reset()
   local ns = Boot()
-  mock.cvars.SpellQueueWindow = "400" -- the game's default
   mock.cooldowns[61304] = { active = true, start = mock.now, duration = 1.5 }
   ns.Update()
   eq(ns.Display.frame.pressNow, false, "1.5 s left")
   mock.Advance(1.2)
   ns.Update()
-  eq(ns.Display.frame.pressNow, true, "0.3 s left, inside the default 400 ms window")
+  eq(ns.Display.frame.pressNow, false, "0.3 s left: not yet")
+  mock.Advance(0.26)
+  ns.Update()
+  eq(ns.Display.frame.pressNow, true, "40 ms left: inside the 50 ms lead")
+  ns.Display.Settings().pressLead = 300
+  mock.cooldowns[61304] = { active = true, start = mock.now, duration = 1.5 }
+  mock.Advance(1.25)
+  ns.Update()
+  eq(ns.Display.frame.pressNow, true, "250 ms left with a 300 ms lead")
+  ns.Display.Settings().pressLead = 50
   mock.haste = 25
   eq(math.floor(ns.State.Resolve("spell_haste", {}) * 100 + 0.5), 80)
 end)
@@ -1671,6 +1679,32 @@ test("priority in the three slots: interrupt, then defensive, then the rotation"
   eq(r.queue[2].source, "defensive", "slot 2: defensive")
   eq(#r.queue, 3)
   eq(ns.Display.frame.def:IsShown(), false, "no extra icon outside the three slots")
+end)
+
+test("timing: our cast is timed from its start event when the game hides it; wipe, then flash just before ready", function()
+  Reset()
+  local ns = Boot()
+  ns.Update()
+  Restrict()
+  mock.castTimes = { [5221] = 2000 } -- shred given a 2 s cast for this test (readable cast time)
+  mock.Fire("UNIT_SPELLCAST_START", "player", "guid", 5221)
+  local id, left = ns.State.CurrentCast()
+  eq(id, 5221, "the cast we started")
+  eq(math.abs(left - 2) < 0.01, true, "2 s left: " .. tostring(left))
+  local f = ns.Display.frame
+  ns.Update()
+  eq(f.wipe:IsShown(), true, "not ready: slot 1 darkened")
+  eq(f.pressNow, false)
+  mock.Advance(1.96) -- 40 ms before the end: inside the 50 ms lead
+  ns.Display.RenderTiming(f, ns.Display.Settings())
+  eq(f.pressNow, true, "ready 50 ms early")
+  eq(f.flash:IsShown(), true, "flash")
+  eq(f.wipe:IsShown(), false)
+  mock.Advance(0.04)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5221)
+  mock.Fire("UNIT_SPELLCAST_STOP", "player", "guid", 5221)
+  eq(ns.State.CurrentCast(), nil, "cast over")
+  mock.castTimes = nil
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

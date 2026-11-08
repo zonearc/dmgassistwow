@@ -120,6 +120,16 @@ function G.Tick(force)
   local gcd = U.Call(C_Spell and C_Spell.GetSpellCooldown, 61304)
   G.Observe("cooldown_duration", type(gcd) == "table", type(gcd) == "table" and gcd.duration or nil)
   G.Observe("cooldown_isActive", type(gcd) == "table", type(gcd) == "table" and gcd.isActive or nil)
+  local gcdDur = U.Call(C_Spell and C_Spell.GetSpellCooldownDuration, 61304)
+  if type(gcdDur) == "table" and not U.IsSecret(gcdDur) and gcdDur.GetRemainingDuration then
+    Probe("gcd_duration_remaining", gcdDur.GetRemainingDuration, gcdDur)
+  else
+    G.Observe("gcd_duration_remaining", true, gcdDur)
+  end
+  local cast = { U.Call(UnitCastingInfo, "player") }
+  if cast[1] ~= nil then
+    G.Observe("player_cast_end", true, cast[5])
+  end
   -- Asking for auras while the game hides them raises an error inside the call, so ask first.
   if U.Get(C_Secrets and C_Secrets.ShouldAurasBeSecret) == true then
     G.Observe("player_aura", true, nil, "secret")

@@ -310,8 +310,12 @@ pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_SUCCEEDED", "player")
 pcall(frame.RegisterUnitEvent, frame, "UNIT_POWER_UPDATE", "player")
 pcall(frame.RegisterEvent, frame, "PLAYER_STARTED_MOVING")
 pcall(frame.RegisterEvent, frame, "PLAYER_STOPPED_MOVING")
-pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_START", "target")
-pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_CHANNEL_START", "target")
+pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_START", "target", "player")
+pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_CHANNEL_START", "target", "player")
+for _, event in ipairs({ "UNIT_SPELLCAST_STOP", "UNIT_SPELLCAST_INTERRUPTED", "UNIT_SPELLCAST_FAILED",
+  "UNIT_SPELLCAST_CHANNEL_STOP" }) do
+  pcall(frame.RegisterUnitEvent, frame, event, "player")
+end
 pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELL_HASTE", "player")
 for _, event in ipairs({ "SPELL_UPDATE_USABLE", "SPELL_UPDATE_ICON", "COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED",
   "ENCOUNTER_START", "ENCOUNTER_END" }) do
@@ -385,7 +389,16 @@ frame:SetScript("OnEvent", function(_, event, ...)
       S.OnSpellcastSucceeded(arg3)
     end
   elseif event == "UNIT_SPELLCAST_START" or event == "UNIT_SPELLCAST_CHANNEL_START" then
-    ns.Interrupts.OnTargetCastStart()
+    if arg1 == "player" then
+      S.OnOwnCastStart(arg3)
+    else
+      ns.Interrupts.OnTargetCastStart()
+    end
+  elseif event == "UNIT_SPELLCAST_STOP" then
+    S.OnOwnCastEnded() -- the bar ended; SUCCEEDED (before or after) still matches it
+  elseif event == "UNIT_SPELLCAST_INTERRUPTED" or event == "UNIT_SPELLCAST_FAILED"
+    or event == "UNIT_SPELLCAST_CHANNEL_STOP" then
+    S.OnOwnCastStop(nil)
   elseif event == "PLAYER_STARTED_MOVING" then
     S.moving = true
   elseif event == "PLAYER_STOPPED_MOVING" then

@@ -53,6 +53,14 @@ local function Build()
   editBox:SetScript("OnEscapePressed", function(self)
     self:ClearFocus()
   end)
+  -- Clicking the box (or it getting focus back) selects everything again, so Ctrl+C always copies all of it.
+  editBox:SetScript("OnEditFocusGained", function(self)
+    self:HighlightText()
+  end)
+  editBox:SetScript("OnMouseUp", function(self)
+    self:SetFocus()
+    self:HighlightText()
+  end)
   scroll:SetScrollChild(editBox)
 
   local button = TryCreate("Button", nil, frame, "UIPanelButtonTemplate")
@@ -78,6 +86,16 @@ local function Fill(text, select, note)
   if select then
     editBox:SetFocus()
     editBox:HighlightText()
+    -- A menu that opened this window (the minimap menu) takes keyboard focus back when it closes, which leaves
+    -- the text looking selected while Ctrl+C goes nowhere. Take focus again on the next frame.
+    if C_Timer and C_Timer.After then
+      C_Timer.After(0, function()
+        if frame:IsShown() then
+          editBox:SetFocus()
+          editBox:HighlightText()
+        end
+      end)
+    end
   end
   status:SetText(note or "")
 end
@@ -93,10 +111,14 @@ function V.ShowReport()
       Fill("The report could not be built: " .. why, false, "Report failed")
       return false
     end
-    Fill(str, true, string.format("%d characters, selected: press Ctrl+C, then paste into the chat.", len))
+    -- The report's time is shown, so a paste can be matched to the report (a stale clipboard is easy to spot).
+    local stamp = date("%H:%M:%S")
+    Fill(str, true, string.format("Report %s, %d characters. Press Ctrl+C now (click the text first if unsure).",
+      stamp, len))
     local held = editBox:GetText()
     if type(held) == "string" and #held == #str then
-      U.Print("Report ready (%d characters, already selected): press Ctrl+C, then paste it into the chat.", len)
+      U.Print("Report %s ready (%d characters, already selected): press Ctrl+C, then paste it into the chat.",
+        stamp, len)
       ns.Export.REPORT_LIMIT = limit
       return true
     end
