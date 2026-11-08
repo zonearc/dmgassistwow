@@ -1118,10 +1118,40 @@ local function Bool(v)
   return v and 1 or 0
 end
 
+-- A spell the player doesn't have (talents read, not known) is never on cooldown, as in SimC.
+local NOT_KNOWN_CD = { ready = 1, up = 1, remains = 0, remains_expected = 0, remains_guess = 0, down = 0,
+  full_recharge_time = 0, recharge_time = 0, charges = 1, charges_fractional = 1, max_charges = 1, duration = 0 }
+
 local function CooldownTerm(token, field)
   local id = M.AnySpellID(token)
   if not id then
     return UNKNOWN
+  end
+  if M.talentsRead and not M.SpellID(token) then
+    M.unresolved[token] = nil
+    local v = NOT_KNOWN_CD[field]
+    if v ~= nil then
+      return v
+    end
+    return UNKNOWN
+  end
+  -- One-charge spells (Celestial Alignment, Eclipse): their recharge is their cooldown.
+  local info = M.Info(id)
+  local single = info and info.ch == 1
+  if single and (field == "full_recharge_time" or field == "recharge_time") then
+    return S.CooldownRemains(id)
+  elseif single and field == "charges_fractional" then
+    local r, len = S.CooldownRemains(id), CooldownLength(id)
+    if r == UNKNOWN or not len or len <= 0 then
+      return UNKNOWN
+    end
+    return 1 - math.min(1, r / len)
+  elseif single and field == "charges" then
+    local r = S.CooldownReady(id)
+    if r == UNKNOWN then
+      return UNKNOWN
+    end
+    return r and 1 or 0
   end
   if field == "ready" or field == "up" then
     return Bool(S.CooldownReady(id))
@@ -1149,11 +1179,8 @@ local function CooldownTerm(token, field)
       end
     end
   end
-  if field == "max_charges" then
-    local info = M.Info(id)
-    if info and (info.chLive or info.ch) then
-      return info.chLive or info.ch
-    end
+  if field == "max_charges" and info and (info.chLive or info.ch) then
+    return info.chLive or info.ch
   end
   return UNKNOWN
 end

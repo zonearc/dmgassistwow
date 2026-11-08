@@ -106,8 +106,9 @@ end
 -- current combat session:  DMGAssistWatchdog.Log("rec", spellID)
 DMGAssistWatchdog = {
   Log = function(kind, data)
-    -- end-of-fight summaries are long single lines; everything else stays short
-    local limit = (type(kind) == "string" and kind:find("_summary$")) and 2000 or 200
+    -- end-of-fight summaries and decision traces are long single lines; everything else stays short
+    local long = type(kind) == "string" and (kind:find("_summary$") or kind:find("_trace$"))
+    local limit = long and 2000 or 200
     kind, data = U.Safe(kind, 40), U.Safe(data, limit)
     if ns.Sessions.Active() then
       ns.Sessions.Add("D", kind, data)
