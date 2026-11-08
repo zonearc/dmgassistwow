@@ -907,6 +907,9 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       n = "voidform",
     },
     [228260] = {
+      ap = {
+        { 194249, "self" },
+      },
       cd = 120,
       ct = 1.5,
       gcd = 1.5,

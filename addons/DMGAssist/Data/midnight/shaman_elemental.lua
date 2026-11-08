@@ -953,6 +953,9 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       r = 10,
     },
     [192249] = {
+      ap = {
+        { 157299, "self" },
+      },
       ch = 1,
       chcd = 120,
       gcd = 1.5,
@@ -982,6 +985,9 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       n = "lightning_rod",
     },
     [198067] = {
+      ap = {
+        { 188592, "self" },
+      },
       ch = 1,
       chcd = 120,
       gcd = 1.5,
@@ -1063,6 +1069,9 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       n = "earthquake",
     },
     [318038] = {
+      ap = {
+        { 319778, "self" },
+      },
       gcd = 1.5,
       n = "flametongue_weapon",
       tal = true,

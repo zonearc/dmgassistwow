@@ -83,7 +83,9 @@ def parse_dump(text):
             continue
         key, val = m.group(1).strip(), m.group(2).strip()
         effect = None
-        if key == "Class":
+        if key == "Description":
+            cur["descRefs"] = [int(x) for x in re.findall(r"\$(\d+)d\b", val)]
+        elif key == "Class":
             cur["class"] = val.replace(" ", "").lower()  # "Death Knight" -> "deathknight"
         elif key == "Talent Entry":
             cur["talent"] = re.sub(r"\s*\(.*?\)", "", val.split(" [")[0]).strip()
@@ -136,7 +138,26 @@ def parse_dump(text):
     _baseline_energize(spells)
     for s in spells.values():
         _effects(s)
+    _description_auras(spells)
     return spells
+
+
+def _description_auras(spells):
+    """A castable spell that applies nothing in its effects but whose description quotes another spell's
+    duration ("Enter a Lunar Eclipse, empowering Starfire for $48518d") applies that aura: Lunar Eclipse
+    1233272 -> Eclipse (Lunar) 48518. Only self-auras with a duration and the same name words count."""
+    for s in spells.values():
+        refs = s.pop("descRefs", [])
+        if s["passive"] or s.get("aura") or s.get("triggers"):
+            continue
+        words = set(s["token"].split("_"))
+        # Only the same name in other words ("Lunar Eclipse" / "Eclipse (Lunar)"): descriptions also quote
+        # random or conditional buffs (Elemental Blast's three), which a cast does not always apply.
+        found = [(r, "self") for r in refs
+                 if r in spells and r != s["id"] and spells[r].get("duration") and spells[r].get("aura") == "self"
+                 and set(spells[r]["token"].split("_")) == words]
+        if found:
+            s["triggers"] = found
 
 
 FLAT_EFFECT = re.compile(r"Add Flat Modifier \(107\): Spell Effect (\d+)")
@@ -212,6 +233,10 @@ ALIASES = {
                     "incarnation_tree_of_life"],
     "bloodlust": ["bloodlust", "heroism", "time_warp", "primal_rage", "fury_of_the_aspects"],
 }
+# Aura-only aliases (actions use UNLOCKS): SimC's buff.eclipse is the Lunar or Solar Eclipse buff.
+AURA_ALIASES = {
+    "eclipse": ["eclipse_lunar", "eclipse_solar"],
+}
 # SimC actions whose name is only a passive talent in the game data; the buttons are these spells instead
 # (Midnight Balance: the Eclipse talent 1239669 gives Lunar Eclipse 1233272 / Solar Eclipse 1233346).
 UNLOCKS = {
@@ -281,6 +306,10 @@ def select(spells, refs, other_specs=()):
             keep.update(f)
     for tok in sorted(refs["aura"]):
         f = pick(tok, _aura_rank)
+        for alias in AURA_ALIASES.get(tok, []):
+            for i in pick(alias, _aura_rank):
+                if i not in f:
+                    f.append(i)
         if f:
             ids.setdefault(tok, {})["b"] = f
             keep.update(f)

@@ -864,6 +864,9 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
       n = "heroism",
     },
     [33757] = {
+      ap = {
+        { 319773, "self" },
+      },
       gcd = 1.5,
       n = "windfury_weapon",
       tal = true,
@@ -1110,6 +1113,9 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
       r = 40,
     },
     [318038] = {
+      ap = {
+        { 319778, "self" },
+      },
       gcd = 1.5,
       n = "flametongue_weapon",
       tal = true,

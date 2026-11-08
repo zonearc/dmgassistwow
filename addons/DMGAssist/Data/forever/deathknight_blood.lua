@@ -604,6 +604,9 @@ ns.RegisterSpecData("forever", "deathknight_blood", {
       tal = true,
     },
     [52212] = {
+      ap = {
+        { 43265, "self" },
+      },
       n = "death_and_decay",
     },
     [55078] = {
@@ -905,6 +908,9 @@ ns.RegisterSpecData("forever", "deathknight_blood", {
       r = 30,
     },
     [1251951] = {
+      ap = {
+        { 43265, "self" },
+      },
       n = "death_and_decay",
     },
     [1263824] = {

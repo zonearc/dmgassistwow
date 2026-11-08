@@ -665,6 +665,10 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       pas = true,
     },
     [204021] = {
+      ap = {
+        { 207771, "self" },
+        { 207771, "self" },
+      },
       ch = 1,
       chcd = 60,
       gcd = 1.5,

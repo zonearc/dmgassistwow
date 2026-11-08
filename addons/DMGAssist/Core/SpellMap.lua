@@ -38,6 +38,8 @@ M.ALIASES = {
   incarnation = { "incarnation_avatar_of_ashamane", "incarnation_chosen_of_elune", "incarnation_guardian_of_ursoc",
     "incarnation_tree_of_life" },
   bloodlust = { "bloodlust", "heroism", "time_warp", "primal_rage", "fury_of_the_aspects" },
+  -- Midnight Balance: SimC's buff.eclipse is whichever Eclipse buff is up (Lunar 48518 / Solar 48517).
+  eclipse = { "eclipse_lunar", "eclipse_solar" },
 }
 
 -- Generic suffixes SimC adds to tell variants apart ("moonfire_cat", "swipe_bear", "rend_dot").

@@ -732,6 +732,9 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       n = "lichborne",
     },
     [52212] = {
+      ap = {
+        { 43265, "self" },
+      },
       n = "death_and_decay",
     },
     [55090] = {
@@ -949,6 +952,9 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       st = 1,
     },
     [458128] = {
+      ap = {
+        { 1241077, "self" },
+      },
       gcd = 1.5,
       n = "festering_scythe",
     },
@@ -1081,6 +1087,9 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
       tal = true,
     },
     [1251951] = {
+      ap = {
+        { 43265, "self" },
+      },
       n = "death_and_decay",
     },
     [1254552] = {

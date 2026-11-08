@@ -1685,6 +1685,9 @@ ns.RegisterSpecData("forever", "demonhunter_vengeance", {
       pas = true,
     },
     [203720] = {
+      ap = {
+        { 203819, "self" },
+      },
       cd = 1.5,
       ch = 1,
       chcd = 20,
@@ -1702,6 +1705,10 @@ ns.RegisterSpecData("forever", "demonhunter_vengeance", {
       st = 20,
     },
     [204021] = {
+      ap = {
+        { 207771, "self" },
+        { 207771, "self" },
+      },
       ch = 1,
       chcd = 60,
       gcd = 1.5,

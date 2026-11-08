@@ -1756,6 +1756,23 @@ test("resource floors: energy regenerates at least at base rate, spenders cost, 
   eq(ns.Clues.stats.floor.wrong, 0, "floor (10) was below the real 35")
 end)
 
+test("with the live assistant, only it confirms an uncertain line; a matching rule no longer does", function()
+  Reset()
+  local ns = Boot()
+  local rec = Record()
+  rec.simc.finisher = {}
+  rec.simc.default[4].c = "!debuff.someone_elses.up" -- rake: uncertain
+  rec.blizzard.default[2].c = "level>10"              -- Blizzard's rake rule: true
+  Restrict()
+  mock.acSpell = 5221                                 -- the live assistant says shred
+  local r = ns.Engine.Recommend(rec, { useAssisted = true, burst = false })
+  eq(r.main.token, "shred", "rake not taken on the rule's word; the walk reaches shred")
+  mock.acSpell = 1822                                 -- the assistant says rake
+  r = ns.Engine.Recommend(rec, { useAssisted = true, burst = false })
+  eq(r.main.token, "rake")
+  eq(r.main.source, "simc+assisted")
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

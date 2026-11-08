@@ -65,7 +65,7 @@ local function Build()
 
   local button = TryCreate("Button", nil, frame, "UIPanelButtonTemplate")
   button:SetSize(140, 22)
-  button:SetText("Copy report")
+  button:SetText("Refresh report") -- addons can't write to the clipboard: this rebuilds and selects it
   button:SetScript("OnClick", function()
     V.ShowReport()
   end)
@@ -113,7 +113,7 @@ function V.ShowReport()
     end
     -- The report's time is shown, so a paste can be matched to the report (a stale clipboard is easy to spot).
     local stamp = date("%H:%M:%S")
-    Fill(str, true, string.format("Report %s, %d characters. Press Ctrl+C now (click the text first if unsure).",
+    Fill(str, true, string.format("Report %s, %d characters, selected: press Ctrl+C to copy it.",
       stamp, len))
     local held = editBox:GetText()
     if type(held) == "string" and #held == #str then

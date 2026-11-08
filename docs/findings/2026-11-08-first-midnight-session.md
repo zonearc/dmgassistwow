@@ -41,3 +41,12 @@ Scrap, Threat Plates.
 | Sunfire/Moonfire DoT clocks never started | The button and its DoT are separate spells with no link in the data. | Casting starts the same-named aura's clock (State.AppliedAuras). |
 | Celestial Alignment looked ready again 1 s after use in the look-ahead | Data has cd 1 + one 180 s charge; the 1 s was used. | Cooldown = max(cd, recharge). |
 | Blizzard Minimap.lua:286 `GameTooltip:Hide()` "attempt to call a nil value" (541x) | Same as the micro-button error: something broke the game tooltip. Not DMGAssist (no tooltip hooks). | Launch snapshot records the tooltip's fields and who changed them (issecurevariable). |
+
+## Fourth session (0.1.0.8, Balance Elune's Chosen, decision traces)
+- Timing: predicted vs real Starfire cast within ~50 ms (1845 vs 1766-1936 ms) once cast events drive it.
+- After Lunar Eclipse the opener's Starfire line was UNKNOWN (buff.ascendant_fires is a hidden proc) and was
+  taken because our evaluation of a Blizzard rule held, while Blizzard's live assistant said Fury of Elune
+  (ac=202770) / Starfall (ac=191034). Fury of Elune and Celestial Alignment, later in the opener, were never
+  reached. Fix: with the live assistant present only it confirms an uncertain line (Engine.Corroborated).
+- buff.eclipse was always UNKNOWN: Lunar/Solar Eclipse casts had no link to the Eclipse (Lunar/Solar) buffs.
+  Importer links a cast to the same-named aura its description quotes ($48518d); buff.eclipse aliases both.
