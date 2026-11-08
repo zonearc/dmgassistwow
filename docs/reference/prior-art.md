@@ -56,3 +56,20 @@ A Hekili-style simulator whose `reset` is rebuilt from what's still readable:
    `isActive == false`), snap the model to the truth and log the drift to the Watchdog. Drift logs tell us which
    models need fixing — that's the feedback loop the old project lacked.
 4. `advance()` then simulates forward from that state to produce the queue.
+
+## "MaxDPS Midnight" (external program — out of scope)
+
+Not the MaxDps addon: a separate desktop program that *presses keys for the player* (polls ~100 ms, hides itself
+from screen capture). That is input automation, against Blizzard's terms, and DMGAssist will never do it —
+we only display recommendations. Reviewed from its public rotation guide only. Ideas worth borrowing (concepts, no code):
+
+- **Decision log with reasons** — every pick records the winning line and, for each line checked above it, why it lost:
+  CONDITION false / COOLDOWN (seconds left) / NO RESOURCE (have vs need) / UNAVAILABLE (not learned, form, range,
+  moving) / SKIPPED (disabled by user). Our engine should emit exactly this into the Watchdog via
+  `DMGAssistWatchdog.Log`, so a pasted export explains every recommendation.
+- **Burst toggle** — a `burst` flag (hotkey) gating big cooldowns; `cooldown.X.remains` reads as "far away" while burst is off
+  so dependent conditions keep working.
+- **Mode toggle AUTO / ST / AOE** — manual override for target count; important now that enemy counting is limited.
+- **Click an ability icon to disable it** for the current fight.
+- **`pool_resource,for_next=1` and `wait`** — hold fillers when the next important ability only lacks resource / is about to come up.
+- **`use_off_gcd`** marking, **empower level** (`empower_to`), and **proc replacement awareness** (base spell → current override).

@@ -14,12 +14,17 @@ rules, with **WoW Forever** as the first target and Mainline (Midnight) second.
 ## Install the Watchdog
 
 1. Download `DMGAssist_Watchdog-<version>.zip` from the latest CI run (Actions → artifacts), or run `./scripts/package.sh`.
-2. Unzip into `World of Warcraft/_<your Forever or retail folder>_/Interface/AddOns/`.
+2. Unzip into `World of Warcraft/_retail_/Interface/AddOns/` (and/or the Forever install's `Interface/AddOns/`).
 3. Log in. It records automatically: Lua errors (with stacks), blocked/forbidden actions, every combat as a
    session (your casts, proc glows, restriction changes), and two API probes per login (one out of combat,
    one a few seconds into your first fight).
 
 ## What to do in game (first test)
+
+Midnight (retail) is the main test bed: the secret-value rules are identical to Forever (verified in Blizzard's
+API docs), and a max-level character gives the probe a full spellbook. Forever only needs a short visit on any
+character to confirm the Forever-only switches (Assisted Combat off, restriction CVars).
+
 
 1. Log in, wait ~10 seconds, then `/dmgw` — check the summary shows a probe.
 2. Run `/dmgw force on`, then `/dmgw probe`, then `/dmgw force off`
