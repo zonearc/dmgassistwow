@@ -65,9 +65,10 @@ jobs:
             echo "No changes since $prev"; exit 0
           fi
           mkdir assets
-          # One package (DMGAssist + DMGAssist_Watchdog) and release.json, the packager metadata addon managers
-          # (WowUp and others) read to pick the zip: nothing else, so they can't pick the wrong file.
-          gh release download nightly --dir assets --pattern 'DMGAssist.zip'
+          # One package (DMGAssist + DMGAssist_Watchdog), release.json (the packager metadata addon managers such as
+          # WowUp read to pick the zip, so they never pick the updater), and the Windows updater for people who
+          # download by hand.
+          gh release download nightly --dir assets --pattern 'DMGAssist.zip' --pattern 'DMGAssist_Updater.zip'
           mv assets/DMGAssist.zip "assets/DMGAssist-$version.zip"
           cat > assets/release.json <<JSON
           {"releases":[{"name":"DMGAssist","version":"$version","filename":"DMGAssist-$version.zip","nolib":false,
@@ -83,7 +84,7 @@ jobs:
             echo "### Install"
             echo "Unzip **DMGAssist-$version.zip** into \`World of Warcraft/_retail_/Interface/AddOns/\` (it holds DMGAssist and its Watchdog), or install it with WowUp from this repository's link: it updates by itself."
             echo
-            echo "Stand-alone Windows updater (AutoHotkey v2 script, keeps retail and Forever up to date): [DMGAssist_Updater.zip](https://github.com/${{ github.repository }}/releases/download/nightly/DMGAssist_Updater.zip)."
+            echo "Stand-alone Windows updater (AutoHotkey v2 script, keeps retail and Forever up to date): **DMGAssist_Updater.zip** (below)."
           } > notes.md
           # GitHub has answered the first try with a 403 right after a build (a re-run passed): retry a few times.
           for try in 1 2 3; do
