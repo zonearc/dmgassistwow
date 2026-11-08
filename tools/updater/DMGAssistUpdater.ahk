@@ -13,7 +13,6 @@
 ;   Check and update now        (double-click the icon does the same)
 ;   Installed version
 ;   Automatic updates           on/off (every 10 minutes)
-;   Set GitHub token...         one-time setup (the repository is private): a read-only token, kept on this PC
 ;   Change AddOns folder...     if WoW is not in the default place
 ;   Open AddOns folder
 ;   Start with Windows          on/off
@@ -35,7 +34,7 @@ DirCreate(ConfigDir)
 IniFile := ConfigDir "\settings.ini"
 TokenFile := ConfigDir "\token.txt"
 DefaultAddOns := "C:\Program Files (x86)\World of Warcraft\_retail_\Interface\AddOns"
-AddOnsDir := IniRead(IniFile, "paths", "addons", DefaultAddOns)
+AddOnsDir := IniRead(IniFile, "paths", "addons", FindAddOns())
 AutoUpdate := IniRead(IniFile, "options", "auto", "1") = "1"
 TaskName := "DMGAssistUpdater"
 OldStartupLink := A_Startup "\DMGAssistUpdater.lnk"
@@ -56,13 +55,27 @@ UpdateScript := A_ScriptDir "\update.ps1"
 BuildMenu()
 RefreshTip()
 SetTimer(AutoCheck, CheckEveryMs)
-if !FileExist(TokenFile) {
-    TrayTip("Right-click this icon and choose `"Set GitHub token...`" once. After that it updates by itself.",
-        AppName)
-} else {
-    SetTimer(FirstCheck, -5000) ; first check shortly after start (a separate function: re-setting AutoCheck's
-}                               ; timer would replace its 10-minute period)
+; The repository is public: no token. One saved in the private-repo days is removed (an expired one only fails).
+try FileDelete(TokenFile)
+SetTimer(FirstCheck, -5000) ; first check shortly after start (a separate function: re-setting AutoCheck's
+                            ; timer would replace its 10-minute period)
 return
+
+; The retail AddOns folder: Blizzard's install path from the registry, else the default location.
+FindAddOns() {
+    for key in ["HKLM\SOFTWARE\WOW6432Node\Blizzard Entertainment\World of Warcraft",
+        "HKLM\SOFTWARE\Blizzard Entertainment\World of Warcraft"] {
+        try {
+            path := RegRead(key, "InstallPath")
+            path := RTrim(path, "\")
+            if !InStr(path, "_retail_")
+                path .= "\_retail_"
+            if DirExist(path)
+                return path "\Interface\AddOns"
+        }
+    }
+    return DefaultAddOns
+}
 
 SelfInstall() {
     if !FileExist(A_ScriptDir "\update.ps1") {
@@ -118,7 +131,6 @@ BuildMenu() {
     if StartupOn()
         tray.Check("Start with Windows")
     tray.Add()
-    tray.Add("Set GitHub token...", SetToken)
     tray.Add("Change AddOns folder...", SetFolder)
     tray.Add("Open AddOns folder", (*) => Run('"' AddOnsDir '"'))
     tray.Add()
@@ -169,12 +181,6 @@ RunUpdate(manual) {
     global Busy, LastCheck, LastError
     if Busy
         return
-    if !FileExist(TokenFile) {
-        if manual
-            SetToken()
-        if !FileExist(TokenFile)
-            return
-    }
     if !DirExist(AddOnsDir) {
         if manual
             MsgBox("The AddOns folder was not found:`n" AddOnsDir "`n`nUse `"Change AddOns folder...`".", AppName,
@@ -232,19 +238,6 @@ ToggleStartup(*) {
         SetStartup(true)
         A_TrayMenu.Check("Start with Windows")
     }
-}
-
-SetToken(*) {
-    ib := InputBox("Paste a GitHub token with read access to zonearc/dmgassistwow.`n"
-        . "(GitHub > Settings > Developer settings > Fine-grained tokens: only that repository, "
-        . "Contents: Read-only.)`n`nKept only on this PC, in " TokenFile,
-        AppName, "Password w520 h190")
-    if ib.Result != "OK" || Trim(ib.Value) = ""
-        return
-    try FileDelete(TokenFile)
-    FileAppend(Trim(ib.Value), TokenFile)
-    TrayTip("Token saved. Checking for a new build...", AppName)
-    RunUpdate(true)
 }
 
 SetFolder(*) {

@@ -29,21 +29,31 @@ try {
   if (-not (Test-Path -LiteralPath $AddOns)) {
     throw "The AddOns folder was not found: $AddOns"
   }
-  $tokenFile = Join-Path $env:APPDATA 'DMGAssistUpdater\token.txt'
-  if (-not (Test-Path -LiteralPath $tokenFile)) {
-    throw 'No GitHub token saved yet: right-click the tray icon, "Set GitHub token...".'
-  }
-  $token = (Get-Content -LiteralPath $tokenFile -Raw).Trim()
-
+  # The repository is public: no token needed. A token saved earlier (private-repo days) is still sent if present.
   $headers = @{
-    Authorization = "Bearer $token"
-    Accept        = 'application/vnd.github+json'
-    'User-Agent'  = 'DMGAssistUpdater'
+    Accept       = 'application/vnd.github+json'
+    'User-Agent' = 'DMGAssistUpdater'
   }
-  try {
-    $release = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/tags/nightly" -Headers $headers
-  } catch {
-    throw "GitHub refused the request (token wrong or expired, or no access to $repo): $($_.Exception.Message)"
+  $tokenFile = Join-Path $env:APPDATA 'DMGAssistUpdater\token.txt'
+  if (Test-Path -LiteralPath $tokenFile) {
+    $token = (Get-Content -LiteralPath $tokenFile -Raw).Trim()
+    if ($token) { $headers.Authorization = "Bearer $token" }
+  }
+  $release = $null
+  for ($try = 1; $try -le 3 -and -not $release; $try++) {
+    try {
+      $release = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/tags/nightly" -Headers $headers
+    } catch {
+      $code = 0
+      if ($_.Exception.Response) { $code = [int]$_.Exception.Response.StatusCode }
+      if ($code -eq 401 -or $code -eq 403) {
+        throw "GitHub refused the saved token ($code). Delete it (right-click > Set GitHub token..., leave empty) or replace it."
+      }
+      if ($try -eq 3) {
+        throw "The nightly build is not available right now ($code): a new one may be publishing. Trying again later."
+      }
+      Start-Sleep -Seconds 20 # a build being published, or a network blip
+    }
   }
 
   if ($Installed -and $release.name -match '(\d+(\.\d+)+)' -and $Matches[1] -eq $Installed) {
