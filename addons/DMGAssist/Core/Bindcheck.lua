@@ -101,6 +101,7 @@ function B.Describe(entry)
 end
 
 function B.Print()
+  ns.Display.InvalidateKeybinds()
   local list = B.Missing()
   if #list == 0 then
     U.Print("%s", L["Every spell DMGAssist can recommend has a key binding."])

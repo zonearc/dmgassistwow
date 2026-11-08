@@ -592,7 +592,8 @@ function O.RegisterBindcheck(parent)
     end
     return row
   end
-  frame:SetScript("OnShow", function()
+  local function Refresh()
+    ns.Display.InvalidateKeybinds()
     local list = ns.Bindcheck.Missing()
     if #list == 0 then
       intro:SetText(L["Every spell DMGAssist can recommend has a key binding."])
@@ -610,7 +611,30 @@ function O.RegisterBindcheck(parent)
       rows[i]:Hide()
     end
     content:SetHeight(math.max(10, #list * 30))
+  end
+  frame:SetScript("OnShow", Refresh)
+  -- Keeps up while open: binding a key or moving a spell onto a bar updates the list.
+  for _, event in ipairs({ "UPDATE_BINDINGS", "ACTIONBAR_SLOT_CHANGED", "ACTIONBAR_PAGE_CHANGED", "UPDATE_MACROS",
+    "PLAYER_EQUIPMENT_CHANGED", "SPELLS_CHANGED" }) do
+    pcall(frame.RegisterEvent, frame, event)
+  end
+  local pending = false
+  frame:SetScript("OnEvent", function(self)
+    if self:IsShown() and not pending then
+      pending = true
+      C_Timer.After(0.3, function() -- bar addons update their buttons right after the event
+        pending = false
+        if self:IsShown() then
+          Refresh()
+        end
+      end)
+    end
   end)
+  local again = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+  again:SetSize(120, 22)
+  again:SetPoint("TOPRIGHT", -24, -14)
+  again:SetText(L["Refresh"])
+  again:SetScript("OnClick", Refresh)
   local category = Settings.RegisterCanvasLayoutSubcategory(parent, frame, L["Missing keybinds"])
   O.bindFrame = frame
   return category
