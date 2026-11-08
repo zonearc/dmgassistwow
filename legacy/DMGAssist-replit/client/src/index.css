@@ -1,0 +1,191 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* WoW Combat Filter — Dark theme (always dark, WoW aesthetic) */
+:root {
+  --button-outline: rgba(255,255,255, .10);
+  --badge-outline: rgba(255,255,255, .05);
+  --opaque-button-border-intensity: 9;
+  --elevate-1: rgba(255,255,255, .04);
+  --elevate-2: rgba(255,255,255, .09);
+
+  /* Near-black WoW UI background */
+  --background: 225 15% 6%;
+  --foreground: 40 20% 92%;
+  --border: 225 12% 14%;
+
+  /* Card — dark panels */
+  --card: 225 14% 9%;
+  --card-foreground: 40 20% 92%;
+  --card-border: 225 12% 13%;
+
+  /* Sidebar */
+  --sidebar: 225 15% 7%;
+  --sidebar-foreground: 40 20% 90%;
+  --sidebar-border: 225 12% 12%;
+  --sidebar-primary: 43 85% 52%;
+  --sidebar-primary-foreground: 225 15% 6%;
+  --sidebar-accent: 225 13% 13%;
+  --sidebar-accent-foreground: 40 20% 90%;
+  --sidebar-ring: 43 85% 52%;
+
+  /* Popover */
+  --popover: 225 14% 11%;
+  --popover-foreground: 40 20% 92%;
+  --popover-border: 225 12% 16%;
+
+  /* Gold primary — WoW legendary color */
+  --primary: 43 85% 52%;
+  --primary-foreground: 225 15% 6%;
+
+  /* Secondary */
+  --secondary: 225 13% 16%;
+  --secondary-foreground: 40 20% 88%;
+
+  /* Muted */
+  --muted: 225 12% 18%;
+  --muted-foreground: 225 8% 52%;
+
+  /* Accent */
+  --accent: 225 14% 15%;
+  --accent-foreground: 40 20% 88%;
+
+  /* Destructive */
+  --destructive: 0 78% 50%;
+  --destructive-foreground: 0 0% 98%;
+
+  --input: 225 12% 22%;
+  --ring: 43 85% 52%;
+
+  /* Gold palette */
+  --gold: 43 85% 52%;
+  --gold-dim: 43 60% 40%;
+  --gold-muted: 43 30% 25%;
+
+  /* Charts */
+  --chart-1: 43 85% 52%;
+  --chart-2: 262 70% 60%;
+  --chart-3: 173 55% 45%;
+  --chart-4: 0 78% 50%;
+  --chart-5: 200 70% 55%;
+
+  --font-sans: "Open Sans", sans-serif;
+  --font-serif: Georgia, serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --radius: .5rem;
+  --shadow-2xs: 0px 1px 2px 0px rgba(0,0,0,0.4);
+  --shadow-xs: 0px 2px 4px 0px rgba(0,0,0,0.4);
+  --shadow-sm: 0px 2px 6px 0px rgba(0,0,0,0.5), 0px 1px 3px -1px rgba(0,0,0,0.3);
+  --shadow: 0px 3px 8px 0px rgba(0,0,0,0.5);
+  --shadow-md: 0px 4px 12px 0px rgba(0,0,0,0.55);
+  --shadow-lg: 0px 6px 20px 0px rgba(0,0,0,0.6);
+  --shadow-xl: 0px 8px 28px 0px rgba(0,0,0,0.65);
+  --shadow-2xl: 0px 12px 40px 0px rgba(0,0,0,0.7);
+  --tracking-normal: 0em;
+  --spacing: 0.25rem;
+
+  --sidebar-primary-border: hsl(var(--sidebar-primary));
+  --sidebar-primary-border: hsl(from hsl(var(--sidebar-primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --sidebar-accent-border: hsl(var(--sidebar-accent));
+  --sidebar-accent-border: hsl(from hsl(var(--sidebar-accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --primary-border: hsl(var(--primary));
+  --primary-border: hsl(from hsl(var(--primary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --secondary-border: hsl(var(--secondary));
+  --secondary-border: hsl(from hsl(var(--secondary)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --muted-border: hsl(var(--muted));
+  --muted-border: hsl(from hsl(var(--muted)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --accent-border: hsl(var(--accent));
+  --accent-border: hsl(from hsl(var(--accent)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+  --destructive-border: hsl(var(--destructive));
+  --destructive-border: hsl(from hsl(var(--destructive)) h s calc(l + var(--opaque-button-border-intensity)) / alpha);
+}
+
+/* Force dark — this is always a dark app */
+html {
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: "Oxanium", sans-serif;
+    letter-spacing: 0.02em;
+  }
+}
+
+/* WoW-style gold border glow utility */
+@layer utilities {
+  input[type="search"]::-webkit-search-cancel-button { @apply hidden; }
+  [contenteditable][data-placeholder]:empty::before {
+    content: attr(data-placeholder);
+    color: hsl(var(--muted-foreground));
+    pointer-events: none;
+  }
+
+  .no-default-hover-elevate {}
+  .no-default-active-elevate {}
+
+  .toggle-elevate::before,
+  .toggle-elevate-2::before {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0px;
+    border-radius: inherit;
+    z-index: -1;
+  }
+  .toggle-elevate.toggle-elevated::before { background-color: var(--elevate-2); }
+  .border.toggle-elevate::before { inset: -1px; }
+
+  .hover-elevate:not(.no-default-hover-elevate),
+  .active-elevate:not(.no-default-active-elevate),
+  .hover-elevate-2:not(.no-default-hover-elevate),
+  .active-elevate-2:not(.no-default-active-elevate) {
+    position: relative;
+    z-index: 0;
+  }
+  .hover-elevate:not(.no-default-hover-elevate)::after,
+  .active-elevate:not(.no-default-active-elevate)::after,
+  .hover-elevate-2:not(.no-default-hover-elevate)::after,
+  .active-elevate-2:not(.no-default-active-elevate)::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    inset: 0px;
+    border-radius: inherit;
+    z-index: 999;
+  }
+  .hover-elevate:hover:not(.no-default-hover-elevate)::after,
+  .active-elevate:active:not(.no-default-active-elevate)::after { background-color: var(--elevate-1); }
+  .hover-elevate-2:hover:not(.no-default-hover-elevate)::after,
+  .active-elevate-2:active:not(.no-default-active-elevate)::after { background-color: var(--elevate-2); }
+  .border.hover-elevate:not(.no-hover-interaction-elevate)::after,
+  .border.active-elevate:not(.no-active-interaction-elevate)::after,
+  .border.hover-elevate-2:not(.no-hover-interaction-elevate)::after,
+  .border.active-elevate-2:not(.no-active-interaction-elevate)::after,
+  .border.hover-elevate:not(.no-hover-interaction-elevate)::after { inset: -1px; }
+
+  /* Gold glow for active HUD slots */
+  .gold-glow {
+    box-shadow: 0 0 12px 3px rgba(212, 166, 50, 0.5), inset 0 0 8px rgba(212, 166, 50, 0.1);
+  }
+
+  /* Class color border accent */
+  .class-accent {
+    border-top: 2px solid var(--class-color, hsl(var(--primary)));
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: hsl(var(--background)); }
+  ::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground)); }
+}

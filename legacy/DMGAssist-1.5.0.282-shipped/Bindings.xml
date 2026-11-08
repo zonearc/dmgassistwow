@@ -1,0 +1,8 @@
+<Bindings>
+  <Binding name="DMGASSIST_CYCLE_MODE" header="DMGASSIST" category="ADDONS">
+    if CLF and CLF.CycleMode then CLF.CycleMode() end
+  </Binding>
+  <Binding name="DMGASSIST_TOGGLE_ROLE" header="DMGASSIST" category="ADDONS">
+    if CLF and CLF.ToggleCombatRole then CLF.ToggleCombatRole() end
+  </Binding>
+</Bindings>
