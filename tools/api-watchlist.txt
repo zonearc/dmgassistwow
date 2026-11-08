@@ -1,0 +1,76 @@
+# Game APIs and events DMGAssist depends on (or plans to). The weekly API watch snapshots Blizzard's
+# documentation for each entry on the forever and live branches into docs/reference/api-snapshot.json
+# and opens a pull request when anything changes (new secrecy markings, removed functions, new args).
+# One name per line: either a function (Namespace.Function or GlobalFunction) or an EVENT_NAME.
+
+# Assisted Combat
+C_AssistedCombat.GetNextCastSpell
+C_AssistedCombat.GetRotationSpells
+C_AssistedCombat.GetActionSpell
+C_AssistedCombat.IsAvailable
+C_ActionBar.HasAssistedCombatActionButtons
+
+# Cooldowns, charges, usability
+C_Spell.GetSpellCooldown
+C_Spell.GetSpellCooldownDuration
+C_Spell.GetSpellCharges
+C_Spell.IsSpellUsable
+C_Spell.IsSpellInRange
+C_Spell.GetSpellName
+C_Spell.GetOverrideSpell
+C_Spell.GetSpellPowerCost
+C_ActionBar.GetActionCooldown
+C_ActionBar.GetActionCooldownDuration
+C_ActionBar.IsUsableAction
+C_ActionBar.FindSpellActionButtons
+C_SpellActivationOverlay.IsSpellOverlayed
+
+# Auras and power
+C_UnitAuras.GetPlayerAuraBySpellID
+C_UnitAuras.GetAuraDataByIndex
+C_UnitAuras.GetUnitAuras
+UnitPower
+UnitPowerMax
+UnitHealth
+UnitHealthPercent
+UnitCastingInfo
+UnitChannelInfo
+GetHaste
+UnitSpellHaste
+
+# Secrecy and restrictions
+C_Secrets.ShouldSpellCooldownBeSecret
+C_Secrets.ShouldSpellAuraBeSecret
+C_Secrets.ShouldUnitPowerBeSecret
+C_Secrets.GetSpellCooldownSecrecy
+C_Secrets.GetSpellAuraSecrecy
+C_RestrictedActions.GetAddOnRestrictionState
+issecretvalue
+canaccessvalue
+
+# Specs and client
+C_SpecializationInfo.GetSpecialization
+C_SpecializationInfo.GetSpecializationInfo
+GetBuildInfo
+
+# Export
+C_EncodingUtil.SerializeJSON
+C_EncodingUtil.CompressString
+C_EncodingUtil.EncodeBase64
+
+# Events
+UNIT_SPELLCAST_SUCCEEDED
+UNIT_SPELLCAST_START
+UNIT_SPELLCAST_STOP
+SPELL_UPDATE_COOLDOWN
+SPELL_ACTIVATION_OVERLAY_GLOW_SHOW
+SPELL_ACTIVATION_OVERLAY_GLOW_HIDE
+ADDON_RESTRICTION_STATE_CHANGED
+ADDON_ACTION_FORBIDDEN
+ADDON_ACTION_BLOCKED
+PLAYER_SPECIALIZATION_CHANGED
+ACTIVE_PLAYER_SPECIALIZATION_CHANGED
+TRAIT_CONFIG_UPDATED
+UNIT_AURA
+UNIT_POWER_FREQUENT
+COMBAT_LOG_EVENT_UNFILTERED

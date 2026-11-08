@@ -1,0 +1,49 @@
+name: Weekly SimC sync
+
+# Pulls the latest SimulationCraft priority lists (midnight + forever branches), regenerates
+# addons/DMGAssist/Data and the coverage reports, runs every check, and opens a pull request
+# when anything changed. Nothing is published; merging the PR is the review step.
+
+on:
+  schedule:
+    - cron: "17 15 * * 3"   # Wednesdays 15:17 UTC, after the US/EU weekly resets
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: simc-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lua 5.1 and luacheck
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lua5.1 liblua5.1-0-dev luarocks zip
+          sudo luarocks install luacheck
+      - name: Fetch SimC
+        run: ./scripts/fetch-simc.sh .libraries/simc
+      - name: Import
+        run: python3 tools/simc_import.py --simc .libraries/simc --summary .libraries/simc-summary.md
+      - name: Check
+        run: ./scripts/check.sh
+      - name: Open or update pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/simc-sync
+          delete-branch: true
+          commit-message: "Weekly SimC sync"
+          title: "Weekly SimC sync"
+          body-path: .libraries/simc-summary.md
+          labels: automation, simc
+          add-paths: |
+            addons/DMGAssist/Data/**
+            addons/DMGAssist/DMGAssist.toc
+            data/**
+            docs/coverage/**

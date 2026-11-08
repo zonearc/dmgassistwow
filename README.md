@@ -46,3 +46,19 @@ python3 tools/decode-export.py export.txt
 
 Needs Lua 5.1 (`lua5.1`, `luac5.1`) and `luacheck`. Project rules: [CONTRIBUTING.md](CONTRIBUTING.md).
 Verified API facts: [docs/reference/api-findings.md](docs/reference/api-findings.md).
+
+## Automation (GitHub Actions)
+
+| Workflow | When | What |
+|---|---|---|
+| `ci.yml` | every push / PR | `scripts/check.sh` + build zips as an artifact |
+| `simc-sync.yml` | Wednesdays 15:17 UTC, or manual | pull SimC `midnight` + `forever`, regenerate `addons/DMGAssist/Data`, run checks, open a PR |
+| `api-watch.yml` | Wednesdays 16:41 UTC, or manual | re-read Blizzard's API docs for `tools/api-watchlist.txt`, open a PR if anything changed |
+| `release.yml` | push a tag `vX.Y.Z` | verify versions, build, GitHub Release; CurseForge upload only if enabled |
+
+One-time repo settings:
+- Settings → Actions → General → "Allow GitHub Actions to create and approve pull requests" (for the two sync PRs).
+- Secret `CF_API_TOKEN` (CurseForge API token) and variable `CURSEFORGE_PUBLISH=true` to enable uploads.
+- Scheduled workflows only run from the default branch.
+
+Release: `scripts/bump-version.sh 0.2.0`, commit, `git tag v0.2.0`, push the tag.

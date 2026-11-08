@@ -1,0 +1,51 @@
+name: Weekly Blizzard API watch
+
+# Re-reads Blizzard's API documentation (Gethe/wow-ui-source, forever + live branches) for every
+# function/event in tools/api-watchlist.txt and opens a pull request when any entry changed —
+# e.g. a hotfix that marks another API as secret, or a removed function.
+
+on:
+  schedule:
+    - cron: "41 16 * * 3"   # Wednesdays 16:41 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lua 5.1
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq lua5.1
+      - name: Fetch Blizzard UI source
+        run: ./scripts/fetch-ui-source.sh
+      - name: Snapshot watched APIs
+        run: |
+          lua5.1 tools/api_snapshot.lua .libraries/wow-ui-source tools/api-watchlist.txt \
+            docs/reference/api-snapshot.json 2> .libraries/api-watch.log | tee .libraries/api-watch-summary.txt
+          {
+            echo "## Blizzard API documentation changed"
+            echo
+            echo "One or more watched APIs/events changed in Blizzard's generated documentation."
+            echo "Review the diff of \`docs/reference/api-snapshot.json\`; update \`docs/reference/api-findings.md\`"
+            echo "and the code if secrecy or signatures changed."
+            echo
+            echo '```'
+            cat .libraries/api-watch-summary.txt
+            echo '```'
+          } > .libraries/api-watch-body.md
+      - name: Open or update pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/api-watch
+          delete-branch: true
+          commit-message: "Blizzard API documentation changed"
+          title: "Blizzard API documentation changed"
+          body-path: .libraries/api-watch-body.md
+          labels: automation, api
+          add-paths: docs/reference/api-snapshot.json

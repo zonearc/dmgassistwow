@@ -1,0 +1,3194 @@
+{
+  "branches": {
+    "forever": {
+      "entries": {
+        "ACTIVE_PLAYER_SPECIALIZATION_CHANGED": {
+          "LiteralName": "ACTIVE_PLAYER_SPECIALIZATION_CHANGED",
+          "Name": "ActivePlayerSpecializationChanged",
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "ADDON_ACTION_BLOCKED": {
+          "LiteralName": "ADDON_ACTION_BLOCKED",
+          "Name": "AddonActionBlocked",
+          "Payload": [
+            {
+              "Name": "isTainted",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "function",
+              "Nilable": false,
+              "Type": "cstring"
+            }
+          ],
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "ADDON_ACTION_FORBIDDEN": {
+          "LiteralName": "ADDON_ACTION_FORBIDDEN",
+          "Name": "AddonActionForbidden",
+          "Payload": [
+            {
+              "Name": "isTainted",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "function",
+              "Nilable": false,
+              "Type": "cstring"
+            }
+          ],
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "ADDON_RESTRICTION_STATE_CHANGED": {
+          "Documentation": [
+            "Fired when the state of an addon restriction type is changing. This event is sequenced such that it will always be fired before a restriction becomes active, or after it is deactivated."
+          ],
+          "LiteralName": "ADDON_RESTRICTION_STATE_CHANGED",
+          "Name": "AddonRestrictionStateChanged",
+          "Payload": [
+            {
+              "Name": "type",
+              "Nilable": false,
+              "Type": "AddOnRestrictionType"
+            },
+            {
+              "Name": "state",
+              "Nilable": false,
+              "Type": "AddOnRestrictionState"
+            }
+          ],
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "COMBAT_LOG_EVENT_UNFILTERED": {
+          "CallbackEvent": true,
+          "HasRestrictions": true,
+          "LiteralName": "COMBAT_LOG_EVENT_UNFILTERED",
+          "Name": "CombatLogEventUnfiltered",
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "C_ActionBar.FindSpellActionButtons": {
+          "Arguments": [
+            {
+              "Documentation": [
+                "Expects a base spell, so if a spell is overridden the base ID should be provided."
+              ],
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            },
+            {
+              "Default": "All",
+              "Name": "setToSearch",
+              "NeverSecret": true,
+              "Nilable": false,
+              "Type": "ActionBarSet"
+            }
+          ],
+          "Documentation": [
+            "Returns the list of action bar slots that contain a specified spell."
+          ],
+          "MayReturnNothing": true,
+          "Name": "FindSpellActionButtons",
+          "Returns": [
+            {
+              "InnerType": "luaIndex",
+              "Name": "slots",
+              "Nilable": false,
+              "Type": "table"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "Type": "Function"
+        },
+        "C_ActionBar.GetActionCooldown": {
+          "Arguments": [
+            {
+              "Name": "actionID",
+              "Nilable": false,
+              "Type": "luaIndex"
+            }
+          ],
+          "Name": "GetActionCooldown",
+          "RequiresValidActionSlot": true,
+          "Returns": [
+            {
+              "Name": "cooldownInfo",
+              "Nilable": false,
+              "Type": "SpellCooldownInfo"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretWhenCooldownsRestricted": true,
+          "Type": "Function"
+        },
+        "C_ActionBar.GetActionCooldownDuration": {
+          "Arguments": [
+            {
+              "Name": "actionID",
+              "Nilable": false,
+              "Type": "luaIndex"
+            },
+            {
+              "Default": false,
+              "Name": "ignoreGCD",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "Documentation": [
+            "Returns a duration object describing the active cooldown duration for an action."
+          ],
+          "Name": "GetActionCooldownDuration",
+          "RequiresValidActionSlot": true,
+          "Returns": [
+            {
+              "Name": "duration",
+              "Nilable": false,
+              "Type": "LuaDurationObject"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_ActionBar.HasAssistedCombatActionButtons": {
+          "Arguments": [
+            {
+              "Default": "All",
+              "Name": "setToSearch",
+              "Nilable": false,
+              "Type": "ActionBarSet"
+            }
+          ],
+          "Name": "HasAssistedCombatActionButtons",
+          "Returns": [
+            {
+              "Name": "hasButtons",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_ActionBar.IsUsableAction": {
+          "Arguments": [
+            {
+              "Name": "actionID",
+              "Nilable": false,
+              "Type": "luaIndex"
+            }
+          ],
+          "Name": "IsUsableAction",
+          "RequiresValidActionSlot": true,
+          "Returns": [
+            {
+              "Name": "isUsable",
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Name": "isLackingResources",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_AssistedCombat.GetActionSpell": {
+          "Name": "GetActionSpell",
+          "Returns": [
+            {
+              "Name": "spellID",
+              "Nilable": true,
+              "Type": "number"
+            }
+          ],
+          "Type": "Function"
+        },
+        "C_AssistedCombat.GetNextCastSpell": {
+          "Arguments": [
+            {
+              "Default": false,
+              "Name": "checkForVisibleButton",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "Name": "GetNextCastSpell",
+          "Returns": [
+            {
+              "Name": "spellID",
+              "Nilable": true,
+              "Type": "number"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_AssistedCombat.GetRotationSpells": {
+          "Name": "GetRotationSpells",
+          "Returns": [
+            {
+              "InnerType": "number",
+              "Name": "spellIDs",
+              "Nilable": false,
+              "Type": "table"
+            }
+          ],
+          "Type": "Function"
+        },
+        "C_AssistedCombat.IsAvailable": {
+          "Name": "IsAvailable",
+          "Returns": [
+            {
+              "Name": "isAvailable",
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Name": "failureReason",
+              "Nilable": false,
+              "Type": "string"
+            }
+          ],
+          "Type": "Function"
+        },
+        "C_EncodingUtil.CompressString": {
+          "Arguments": [
+            {
+              "Name": "source",
+              "Nilable": false,
+              "Type": "stringView"
+            },
+            {
+              "Default": "Deflate",
+              "Name": "method",
+              "Nilable": false,
+              "Type": "CompressionMethod"
+            },
+            {
+              "Default": "Default",
+              "Name": "level",
+              "Nilable": false,
+              "Type": "CompressionLevel"
+            }
+          ],
+          "MayReturnNothing": true,
+          "Name": "CompressString",
+          "Returns": [
+            {
+              "Name": "output",
+              "Nilable": false,
+              "Type": "string"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_EncodingUtil.EncodeBase64": {
+          "Arguments": [
+            {
+              "Name": "source",
+              "Nilable": false,
+              "Type": "stringView"
+            },
+            {
+              "Default": "Standard",
+              "Name": "variant",
+              "Nilable": false,
+              "Type": "Base64Variant"
+            }
+          ],
+          "MayReturnNothing": true,
+          "Name": "EncodeBase64",
+          "Returns": [
+            {
+              "Name": "output",
+              "Nilable": false,
+              "Type": "string"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_EncodingUtil.SerializeJSON": {
+          "Arguments": [
+            {
+              "Name": "value",
+              "Nilable": true,
+              "Type": "LuaValueVariant"
+            },
+            {
+              "Name": "options",
+              "Nilable": true,
+              "Type": "JSONSerializationOptions"
+            }
+          ],
+          "Name": "SerializeJSON",
+          "Returns": [
+            {
+              "Name": "output",
+              "Nilable": false,
+              "Type": "string"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_RestrictedActions.GetAddOnRestrictionState": {
+          "Arguments": [
+            {
+              "Name": "type",
+              "Nilable": false,
+              "Type": "AddOnRestrictionType"
+            }
+          ],
+          "Documentation": [
+            "Returns the current state of an addon restriction type."
+          ],
+          "Name": "GetAddOnRestrictionState",
+          "Returns": [
+            {
+              "Name": "state",
+              "Nilable": false,
+              "Type": "AddOnRestrictionState"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_Secrets.GetSpellAuraSecrecy": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Queries the base secrecy for a spell if queried as an aura."
+          ],
+          "Name": "GetSpellAuraSecrecy",
+          "Returns": [
+            {
+              "Name": "secrecy",
+              "Nilable": false,
+              "Type": "SecrecyLevel"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_Secrets.GetSpellCooldownSecrecy": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Queries the base secrecy for a spell if queried as a cooldown."
+          ],
+          "Name": "GetSpellCooldownSecrecy",
+          "Returns": [
+            {
+              "Name": "secrecy",
+              "Nilable": false,
+              "Type": "SecrecyLevel"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_Secrets.ShouldSpellAuraBeSecret": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Returns true if a given spell identifier would, if applied as an aura, produce secret values when queried."
+          ],
+          "Name": "ShouldSpellAuraBeSecret",
+          "Returns": [
+            {
+              "Name": "isAuraSecret",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_Secrets.ShouldSpellCooldownBeSecret": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Returns true if a given spell identifier will produce secret values for cooldowns if queried."
+          ],
+          "Name": "ShouldSpellCooldownBeSecret",
+          "Returns": [
+            {
+              "Name": "isCooldownSecret",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_Secrets.ShouldUnitPowerBeSecret": {
+          "Arguments": [
+            {
+              "Name": "unit",
+              "Nilable": false,
+              "Type": "UnitToken"
+            },
+            {
+              "Name": "powerType",
+              "Nilable": true,
+              "Type": "PowerType"
+            }
+          ],
+          "Documentation": [
+            "Returns true if queries for unit power will produce secret values."
+          ],
+          "Name": "ShouldUnitPowerBeSecret",
+          "Returns": [
+            {
+              "Name": "isUnitPowerSecret",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_SpecializationInfo.GetSpecialization": {
+          "Arguments": [
+            {
+              "Name": "isInspect",
+              "Nilable": true,
+              "Type": "bool"
+            },
+            {
+              "Name": "isPet",
+              "Nilable": true,
+              "Type": "bool"
+            },
+            {
+              "Name": "specGroupIndex",
+              "Nilable": true,
+              "Type": "luaIndex"
+            }
+          ],
+          "Name": "GetSpecialization",
+          "Returns": [
+            {
+              "Name": "specializationIndex",
+              "Nilable": false,
+              "Type": "luaIndex"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_SpecializationInfo.GetSpecializationInfo": {
+          "Arguments": [
+            {
+              "Name": "specializationIndex",
+              "Nilable": false,
+              "Type": "luaIndex"
+            },
+            {
+              "Default": false,
+              "Name": "isInspect",
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Default": false,
+              "Name": "isPet",
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Name": "inspectTarget",
+              "Nilable": true,
+              "Type": "string"
+            },
+            {
+              "Name": "sex",
+              "Nilable": true,
+              "Type": "number"
+            },
+            {
+              "Name": "groupIndex",
+              "Nilable": true,
+              "Type": "luaIndex"
+            },
+            {
+              "Name": "classID",
+              "Nilable": true,
+              "Type": "number"
+            }
+          ],
+          "Name": "GetSpecializationInfo",
+          "Returns": [
+            {
+              "Default": 0,
+              "Name": "specId",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "name",
+              "Nilable": true,
+              "Type": "string"
+            },
+            {
+              "Name": "description",
+              "Nilable": true,
+              "Type": "string"
+            },
+            {
+              "Name": "icon",
+              "Nilable": true,
+              "Type": "fileID"
+            },
+            {
+              "Name": "role",
+              "Nilable": true,
+              "Type": "string"
+            },
+            {
+              "Name": "primaryStat",
+              "Nilable": true,
+              "Type": "luaIndex"
+            },
+            {
+              "Default": 0,
+              "Name": "pointsSpent",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "background",
+              "Nilable": true,
+              "Type": "string"
+            },
+            {
+              "Default": 0,
+              "Name": "previewPointsSpent",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Default": true,
+              "Name": "isUnlocked",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_Spell.GetOverrideSpell": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            },
+            {
+              "Default": 0,
+              "Documentation": [
+                "Which Class Specialization to consider, as overrides may vary by Spec; Defaults to player's current Spec"
+              ],
+              "Name": "spec",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Default": true,
+              "Name": "onlyKnown",
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Default": 0,
+              "Name": "ignoreOverrideSpellID",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "Name": "GetOverrideSpell",
+          "Returns": [
+            {
+              "Documentation": [
+                "Returns the spellID passed in if there is no override"
+              ],
+              "Name": "overrideSpellID",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_Spell.GetSpellCharges": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Returns a table of info about the charges of a charge-accumulating spell; May return nil if spell is not found or is not charge-based"
+          ],
+          "MayReturnNothing": true,
+          "Name": "GetSpellCharges",
+          "Returns": [
+            {
+              "Name": "chargeInfo",
+              "Nilable": false,
+              "Type": "SpellChargeInfo"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "SecretWhenCooldownsRestricted": true,
+          "Type": "Function"
+        },
+        "C_Spell.GetSpellCooldown": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Returns nil if spell is not found"
+          ],
+          "MayReturnNothing": true,
+          "Name": "GetSpellCooldown",
+          "Returns": [
+            {
+              "Name": "spellCooldownInfo",
+              "Nilable": false,
+              "Type": "SpellCooldownInfo"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "SecretWhenCooldownsRestricted": true,
+          "Type": "Function"
+        },
+        "C_Spell.GetSpellCooldownDuration": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            },
+            {
+              "Default": false,
+              "Name": "ignoreGCD",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "Documentation": [
+            "Returns a duration object describing the active cooldown duration for a spell."
+          ],
+          "MayReturnNothing": true,
+          "Name": "GetSpellCooldownDuration",
+          "Returns": [
+            {
+              "Name": "duration",
+              "Nilable": false,
+              "Type": "LuaDurationObject"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "Type": "Function"
+        },
+        "C_Spell.GetSpellName": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Returns nil if spell is not found"
+          ],
+          "MayReturnNothing": true,
+          "Name": "GetSpellName",
+          "Returns": [
+            {
+              "Name": "name",
+              "Nilable": false,
+              "Type": "cstring"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "Type": "Function"
+        },
+        "C_Spell.GetSpellPowerCost": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Returns a table containing one or more SpellPowerCostInfos, one for each power type this spell costs; May return nil if spell is not found or has no resource costs"
+          ],
+          "MayReturnNothing": true,
+          "Name": "GetSpellPowerCost",
+          "Returns": [
+            {
+              "InnerType": "SpellPowerCostInfo",
+              "Name": "powerCosts",
+              "Nilable": false,
+              "Type": "table"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "Type": "Function"
+        },
+        "C_Spell.IsSpellInRange": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            },
+            {
+              "Documentation": [
+                "Optional specific target; If not supplied, player's current target (if any) will be used"
+              ],
+              "Name": "targetUnit",
+              "Nilable": true,
+              "Type": "UnitToken"
+            }
+          ],
+          "Documentation": [
+            "Returns true if the current target is within range of the spell; False if out of range; Nil if range check was invalid"
+          ],
+          "Name": "IsSpellInRange",
+          "Returns": [
+            {
+              "Documentation": [
+                "May be nil if the range check was invalid, ie due to unknown/invalid spell, missing/invalid target, etc"
+              ],
+              "Name": "inRange",
+              "Nilable": true,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "Type": "Function"
+        },
+        "C_Spell.IsSpellUsable": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Returns whether the spell is currently castable; Typically based on things like learned status, required resources, etc"
+          ],
+          "Name": "IsSpellUsable",
+          "Returns": [
+            {
+              "Name": "isUsable",
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Documentation": [
+                "True if spell is specifically unusable due to insufficient power (ie MANA, RAGE, etc)"
+              ],
+              "Name": "insufficientPower",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "Type": "Function"
+        },
+        "C_SpellActivationOverlay.IsSpellOverlayed": {
+          "Arguments": [
+            {
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "Name": "IsSpellOverlayed",
+          "Returns": [
+            {
+              "Name": "isSpellOverlayed",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_UnitAuras.GetAuraDataByIndex": {
+          "Arguments": [
+            {
+              "Name": "unit",
+              "Nilable": false,
+              "Type": "UnitTokenRestrictedForAddOns"
+            },
+            {
+              "Name": "index",
+              "Nilable": false,
+              "Type": "luaIndex"
+            },
+            {
+              "Name": "filter",
+              "Nilable": true,
+              "Type": "AuraFilters"
+            }
+          ],
+          "Name": "GetAuraDataByIndex",
+          "RequiresUnitAuraAccess": true,
+          "Returns": [
+            {
+              "Name": "aura",
+              "Nilable": true,
+              "Type": "AuraData"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretWhenUnitAuraRestricted": true,
+          "Type": "Function"
+        },
+        "C_UnitAuras.GetPlayerAuraBySpellID": {
+          "Arguments": [
+            {
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Name": "GetPlayerAuraBySpellID",
+          "RequiresNonSecretAura": true,
+          "Returns": [
+            {
+              "Name": "aura",
+              "Nilable": true,
+              "Type": "AuraData"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "SecretWhenUnitAuraRestricted": true,
+          "Type": "Function"
+        },
+        "C_UnitAuras.GetUnitAuras": {
+          "Arguments": [
+            {
+              "Name": "unit",
+              "NeverSecret": true,
+              "Nilable": false,
+              "Type": "UnitTokenRestrictedForAddOns"
+            },
+            {
+              "Name": "filter",
+              "Nilable": false,
+              "Type": "AuraFilters"
+            },
+            {
+              "Name": "maxCount",
+              "Nilable": true,
+              "Type": "number"
+            },
+            {
+              "Default": "Unsorted",
+              "Name": "sortRule",
+              "Nilable": false,
+              "Type": "UnitAuraSortRule"
+            },
+            {
+              "Default": "Normal",
+              "Name": "sortDirection",
+              "Nilable": false,
+              "Type": "UnitAuraSortDirection"
+            }
+          ],
+          "Name": "GetUnitAuras",
+          "RequiresUnitAuraAccess": true,
+          "Returns": [
+            {
+              "ConditionalSecretContents": true,
+              "InnerType": "AuraData",
+              "Name": "auras",
+              "Nilable": false,
+              "Type": "table"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "GetBuildInfo": {
+          "Name": "GetBuildInfo",
+          "Returns": [
+            {
+              "Name": "buildVersion",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "buildNumber",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "buildDate",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "interfaceVersion",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "localizedVersion",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "buildInfo",
+              "Nilable": false,
+              "Type": "string"
+            }
+          ],
+          "Type": "Function"
+        },
+        "GetHaste": {
+          "Name": "GetHaste",
+          "Returns": [
+            {
+              "Name": "result",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SecretWhenUnitStatsRestricted": true,
+          "Type": "Function"
+        },
+        "PLAYER_SPECIALIZATION_CHANGED": {
+          "LiteralName": "PLAYER_SPECIALIZATION_CHANGED",
+          "Name": "PlayerSpecializationChanged",
+          "Payload": [
+            {
+              "Name": "unitTarget",
+              "Nilable": false,
+              "Type": "UnitTokenVariant"
+            }
+          ],
+          "SynchronousEvent": true,
+          "Type": "Event",
+          "UniqueEvent": true
+        },
+        "SPELL_ACTIVATION_OVERLAY_GLOW_HIDE": {
+          "LiteralName": "SPELL_ACTIVATION_OVERLAY_GLOW_HIDE",
+          "Name": "SpellActivationOverlayGlowHide",
+          "Payload": [
+            {
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "SPELL_ACTIVATION_OVERLAY_GLOW_SHOW": {
+          "LiteralName": "SPELL_ACTIVATION_OVERLAY_GLOW_SHOW",
+          "Name": "SpellActivationOverlayGlowShow",
+          "Payload": [
+            {
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "SPELL_UPDATE_COOLDOWN": {
+          "LiteralName": "SPELL_UPDATE_COOLDOWN",
+          "Name": "SpellUpdateCooldown",
+          "Payload": [
+            {
+              "Documentation": [
+                "Can be a base spell or an override spell. A nil value indicates that all cooldowns should be updated, rather than just a specific one."
+              ],
+              "Name": "spellID",
+              "Nilable": true,
+              "Type": "number"
+            },
+            {
+              "Documentation": [
+                "Will be set to the base spell if the spellID parameter is an override spell."
+              ],
+              "Name": "baseSpellID",
+              "Nilable": true,
+              "Type": "number"
+            },
+            {
+              "Documentation": [
+                "If the spellID parameter is set, the cooldown category of the spell. A nil value indicates the spell does not have a cooldown category."
+              ],
+              "Name": "category",
+              "Nilable": true,
+              "Type": "number"
+            },
+            {
+              "Documentation": [
+                "If the spellID parameter is set, the cooldown start recovery category of the spell. A nil value indicates the spell does not have a cooldown start recovery category."
+              ],
+              "Name": "startRecoveryCategory",
+              "Nilable": true,
+              "Type": "number"
+            },
+            {
+              "Documentation": [
+                "If the itemID parameter is set, it's the itemID associated with the cast of the spell."
+              ],
+              "Name": "itemID",
+              "Nilable": true,
+              "Type": "number"
+            }
+          ],
+          "Type": "Event",
+          "UniqueEvent": true
+        },
+        "TRAIT_CONFIG_UPDATED": {
+          "LiteralName": "TRAIT_CONFIG_UPDATED",
+          "Name": "TraitConfigUpdated",
+          "Payload": [
+            {
+              "Name": "configID",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "UNIT_AURA": {
+          "LiteralName": "UNIT_AURA",
+          "Name": "UnitAura",
+          "Payload": [
+            {
+              "Name": "unitTarget",
+              "Nilable": false,
+              "Type": "UnitTokenVariant"
+            },
+            {
+              "Name": "updateInfo",
+              "Nilable": false,
+              "Type": "UnitAuraUpdateInfo"
+            }
+          ],
+          "SecretWhenAurasRestricted": true,
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "UNIT_POWER_FREQUENT": {
+          "LiteralName": "UNIT_POWER_FREQUENT",
+          "Name": "UnitPowerFrequent",
+          "Payload": [
+            {
+              "Name": "unitTarget",
+              "Nilable": false,
+              "Type": "UnitTokenVariant"
+            },
+            {
+              "Name": "powerType",
+              "Nilable": false,
+              "Type": "cstring"
+            }
+          ],
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "UNIT_SPELLCAST_START": {
+          "LiteralName": "UNIT_SPELLCAST_START",
+          "Name": "UnitSpellcastStart",
+          "Payload": [
+            {
+              "Name": "unitTarget",
+              "Nilable": false,
+              "Type": "UnitTokenVariant"
+            },
+            {
+              "Name": "castGUID",
+              "Nilable": false,
+              "Type": "WOWGUID"
+            },
+            {
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "castBarID",
+              "NeverSecret": true,
+              "Nilable": true,
+              "Type": "UnitCastBarID"
+            }
+          ],
+          "SecretWhenUnitSpellCastRestricted": true,
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "UNIT_SPELLCAST_STOP": {
+          "LiteralName": "UNIT_SPELLCAST_STOP",
+          "Name": "UnitSpellcastStop",
+          "Payload": [
+            {
+              "Name": "unitTarget",
+              "Nilable": false,
+              "Type": "UnitTokenVariant"
+            },
+            {
+              "Name": "castGUID",
+              "Nilable": false,
+              "Type": "WOWGUID"
+            },
+            {
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "castBarID",
+              "NeverSecret": true,
+              "Nilable": true,
+              "Type": "UnitCastBarID"
+            }
+          ],
+          "SecretWhenUnitSpellCastRestricted": true,
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "UNIT_SPELLCAST_SUCCEEDED": {
+          "LiteralName": "UNIT_SPELLCAST_SUCCEEDED",
+          "Name": "UnitSpellcastSucceeded",
+          "Payload": [
+            {
+              "Name": "unitTarget",
+              "Nilable": false,
+              "Type": "UnitTokenVariant"
+            },
+            {
+              "Name": "castGUID",
+              "Nilable": false,
+              "Type": "WOWGUID"
+            },
+            {
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "castBarID",
+              "NeverSecret": true,
+              "Nilable": true,
+              "Type": "UnitCastBarID"
+            }
+          ],
+          "SecretWhenUnitSpellCastRestricted": true,
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "UnitCastingInfo": {
+          "Arguments": [
+            {
+              "Name": "unit",
+              "Nilable": false,
+              "Type": "UnitTokenPvPRestrictedForAddOns"
+            }
+          ],
+          "Name": "UnitCastingInfo",
+          "Returns": [
+            {
+              "Name": "name",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "displayName",
+              "Nilable": false,
+              "Type": "string"
+            },
+            {
+              "Name": "textureID",
+              "Nilable": false,
+              "Type": "fileID"
+            },
+            {
+              "Name": "startTimeMs",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "endTimeMs",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "isTradeskill",
+              "NeverSecret": true,
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Name": "castID",
+              "Nilable": false,
+              "Type": "WOWGUID"
+            },
+            {
+              "Name": "notInterruptible",
+              "Nilable": true,
+              "Type": "bool"
+            },
+            {
+              "Name": "castingSpellID",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "castBarID",
+              "NeverSecret": true,
+              "Nilable": true,
+              "Type": "UnitCastBarID"
+            },
+            {
+              "Name": "delayTimeMs",
+              "NeverSecret": true,
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretWhenUnitSpellCastRestricted": true,
+          "Type": "Function"
+        },
+        "UnitChannelInfo": {
+          "Arguments": [
+            {
+              "Name": "unit",
+              "Nilable": false,
+              "Type": "UnitTokenPvPRestrictedForAddOns"
+            }
+          ],
+          "Name": "UnitChannelInfo",
+          "Returns": [
+            {
+              "Name": "name",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "displayName",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "textureID",
+              "Nilable": false,
+              "Type": "fileID"
+            },
+            {
+              "Name": "startTimeMs",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "endTimeMs",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "isTradeskill",
+              "NeverSecret": true,
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Name": "notInterruptible",
+              "Nilable": true,
+              "Type": "bool"
+            },
+            {
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "isEmpowered",
+              "NeverSecret": true,
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Name": "numEmpowerStages",
+              "NeverSecret": true,
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "castBarID",
+              "NeverSecret": true,
+              "Nilable": true,
+              "Type": "UnitCastBarID"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretWhenUnitSpellCastRestricted": true,
+          "Type": "Function"
+        },
+        "UnitHealth": {
+          "Arguments": [
+            {
+              "Name": "unit",
+              "Nilable": false,
+              "Type": "UnitTokenPvPRestrictedForAddOns"
+            },
+            {
+              "Default": true,
+              "Name": "usePredicted",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "Name": "UnitHealth",
+          "Returns": [
+            {
+              "Name": "result",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretReturns": true,
+          "Type": "Function"
+        },
+        "UnitHealthPercent": {
+          "Arguments": [
+            {
+              "Name": "unit",
+              "Nilable": false,
+              "Type": "UnitTokenPvPRestrictedForAddOns"
+            },
+            {
+              "Default": true,
+              "Name": "usePredicted",
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Name": "curve",
+              "Nilable": true,
+              "Type": "LuaCurveObjectBase"
+            }
+          ],
+          "Documentation": [
+            "Returns percent of health remaining - can be scaled via a curve for display purposes"
+          ],
+          "Name": "UnitHealthPercent",
+          "Returns": [
+            {
+              "Documentation": [
+                "If no curve is specified, a floating point percentage value. Else, the result of evaluating the curve with the percentage as the input."
+              ],
+              "Name": "result",
+              "Nilable": false,
+              "Type": "LuaCurveEvaluatedResult"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretReturns": true,
+          "SecretWhenCurveSecret": true,
+          "Type": "Function"
+        },
+        "UnitPower": {
+          "Arguments": [
+            {
+              "Name": "unitToken",
+              "Nilable": false,
+              "Type": "UnitTokenPvPRestrictedForAddOns"
+            },
+            {
+              "Name": "powerType",
+              "Nilable": true,
+              "Type": "PowerType"
+            },
+            {
+              "Default": false,
+              "Name": "unmodified",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "Name": "UnitPower",
+          "Returns": [
+            {
+              "Name": "power",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretWhenUnitPowerRestricted": true,
+          "Type": "Function"
+        },
+        "UnitPowerMax": {
+          "Arguments": [
+            {
+              "Name": "unitToken",
+              "Nilable": false,
+              "Type": "UnitTokenPvPRestrictedForAddOns"
+            },
+            {
+              "Name": "powerType",
+              "Nilable": true,
+              "Type": "PowerType"
+            },
+            {
+              "Default": false,
+              "Name": "unmodified",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "Name": "UnitPowerMax",
+          "Returns": [
+            {
+              "Name": "maxPower",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretWhenUnitPowerMaxRestricted": true,
+          "Type": "Function"
+        },
+        "UnitSpellHaste": {
+          "Arguments": [
+            {
+              "Name": "unit",
+              "Nilable": false,
+              "Type": "UnitToken"
+            }
+          ],
+          "Name": "UnitSpellHaste",
+          "Returns": [
+            {
+              "Name": "result",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretWhenUnitStatsRestricted": true,
+          "Type": "Function"
+        },
+        "canaccessvalue": {
+          "Arguments": [
+            {
+              "Name": "value",
+              "Nilable": false,
+              "Type": "LuaValueReference"
+            }
+          ],
+          "Documentation": [
+            "Returns true if the immediate calling function has appropriate permissions to access and operate on a specific value."
+          ],
+          "Name": "canaccessvalue",
+          "Returns": [
+            {
+              "Name": "canAccessValue",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecureHooksAllowed": false,
+          "Type": "Function"
+        },
+        "issecretvalue": {
+          "Arguments": [
+            {
+              "Name": "value",
+              "Nilable": false,
+              "Type": "LuaValueReference"
+            }
+          ],
+          "Documentation": [
+            "Returns true if a supplied value is a secret value."
+          ],
+          "Name": "issecretvalue",
+          "Returns": [
+            {
+              "Name": "isSecret",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecureHooksAllowed": false,
+          "Type": "Function"
+        }
+      },
+      "source": "2026-11-07 1.60.1 (70862)"
+    },
+    "live": {
+      "entries": {
+        "ACTIVE_PLAYER_SPECIALIZATION_CHANGED": {
+          "LiteralName": "ACTIVE_PLAYER_SPECIALIZATION_CHANGED",
+          "Name": "ActivePlayerSpecializationChanged",
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "ADDON_ACTION_BLOCKED": {
+          "LiteralName": "ADDON_ACTION_BLOCKED",
+          "Name": "AddonActionBlocked",
+          "Payload": [
+            {
+              "Name": "isTainted",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "function",
+              "Nilable": false,
+              "Type": "cstring"
+            }
+          ],
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "ADDON_ACTION_FORBIDDEN": {
+          "LiteralName": "ADDON_ACTION_FORBIDDEN",
+          "Name": "AddonActionForbidden",
+          "Payload": [
+            {
+              "Name": "isTainted",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "function",
+              "Nilable": false,
+              "Type": "cstring"
+            }
+          ],
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "ADDON_RESTRICTION_STATE_CHANGED": {
+          "Documentation": [
+            "Fired when the state of an addon restriction type is changing. This event is sequenced such that it will always be fired before a restriction becomes active, or after it is deactivated."
+          ],
+          "LiteralName": "ADDON_RESTRICTION_STATE_CHANGED",
+          "Name": "AddonRestrictionStateChanged",
+          "Payload": [
+            {
+              "Name": "type",
+              "Nilable": false,
+              "Type": "AddOnRestrictionType"
+            },
+            {
+              "Name": "state",
+              "Nilable": false,
+              "Type": "AddOnRestrictionState"
+            }
+          ],
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "COMBAT_LOG_EVENT_UNFILTERED": {
+          "CallbackEvent": true,
+          "HasRestrictions": true,
+          "LiteralName": "COMBAT_LOG_EVENT_UNFILTERED",
+          "Name": "CombatLogEventUnfiltered",
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "C_ActionBar.FindSpellActionButtons": {
+          "Arguments": [
+            {
+              "Documentation": [
+                "Expects a base spell, so if a spell is overridden the base ID should be provided."
+              ],
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Returns the list of action bar slots that contain a specified spell."
+          ],
+          "MayReturnNothing": true,
+          "Name": "FindSpellActionButtons",
+          "Returns": [
+            {
+              "InnerType": "luaIndex",
+              "Name": "slots",
+              "Nilable": false,
+              "Type": "table"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "Type": "Function"
+        },
+        "C_ActionBar.GetActionCooldown": {
+          "Arguments": [
+            {
+              "Name": "actionID",
+              "Nilable": false,
+              "Type": "luaIndex"
+            }
+          ],
+          "Name": "GetActionCooldown",
+          "RequiresValidActionSlot": true,
+          "Returns": [
+            {
+              "Name": "cooldownInfo",
+              "Nilable": false,
+              "Type": "SpellCooldownInfo"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretWhenCooldownsRestricted": true,
+          "Type": "Function"
+        },
+        "C_ActionBar.GetActionCooldownDuration": {
+          "Arguments": [
+            {
+              "Name": "actionID",
+              "Nilable": false,
+              "Type": "luaIndex"
+            },
+            {
+              "Default": false,
+              "Name": "ignoreGCD",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "Documentation": [
+            "Returns a duration object describing the active cooldown duration for an action."
+          ],
+          "Name": "GetActionCooldownDuration",
+          "RequiresValidActionSlot": true,
+          "Returns": [
+            {
+              "Name": "duration",
+              "Nilable": false,
+              "Type": "LuaDurationObject"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_ActionBar.HasAssistedCombatActionButtons": {
+          "Name": "HasAssistedCombatActionButtons",
+          "Returns": [
+            {
+              "Name": "hasButtons",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "Type": "Function"
+        },
+        "C_ActionBar.IsUsableAction": {
+          "Arguments": [
+            {
+              "Name": "actionID",
+              "Nilable": false,
+              "Type": "luaIndex"
+            }
+          ],
+          "Name": "IsUsableAction",
+          "RequiresValidActionSlot": true,
+          "Returns": [
+            {
+              "Name": "isUsable",
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Name": "isLackingResources",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_AssistedCombat.GetActionSpell": {
+          "Name": "GetActionSpell",
+          "Returns": [
+            {
+              "Name": "spellID",
+              "Nilable": true,
+              "Type": "number"
+            }
+          ],
+          "Type": "Function"
+        },
+        "C_AssistedCombat.GetNextCastSpell": {
+          "Arguments": [
+            {
+              "Default": false,
+              "Name": "checkForVisibleButton",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "Name": "GetNextCastSpell",
+          "Returns": [
+            {
+              "Name": "spellID",
+              "Nilable": true,
+              "Type": "number"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_AssistedCombat.GetRotationSpells": {
+          "Name": "GetRotationSpells",
+          "Returns": [
+            {
+              "InnerType": "number",
+              "Name": "spellIDs",
+              "Nilable": false,
+              "Type": "table"
+            }
+          ],
+          "Type": "Function"
+        },
+        "C_AssistedCombat.IsAvailable": {
+          "Name": "IsAvailable",
+          "Returns": [
+            {
+              "Name": "isAvailable",
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Name": "failureReason",
+              "Nilable": false,
+              "Type": "string"
+            }
+          ],
+          "Type": "Function"
+        },
+        "C_EncodingUtil.CompressString": {
+          "Arguments": [
+            {
+              "Name": "source",
+              "Nilable": false,
+              "Type": "stringView"
+            },
+            {
+              "Default": "Deflate",
+              "Name": "method",
+              "Nilable": false,
+              "Type": "CompressionMethod"
+            },
+            {
+              "Default": "Default",
+              "Name": "level",
+              "Nilable": false,
+              "Type": "CompressionLevel"
+            }
+          ],
+          "MayReturnNothing": true,
+          "Name": "CompressString",
+          "Returns": [
+            {
+              "Name": "output",
+              "Nilable": false,
+              "Type": "string"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_EncodingUtil.EncodeBase64": {
+          "Arguments": [
+            {
+              "Name": "source",
+              "Nilable": false,
+              "Type": "stringView"
+            },
+            {
+              "Default": "Standard",
+              "Name": "variant",
+              "Nilable": false,
+              "Type": "Base64Variant"
+            }
+          ],
+          "MayReturnNothing": true,
+          "Name": "EncodeBase64",
+          "Returns": [
+            {
+              "Name": "output",
+              "Nilable": false,
+              "Type": "string"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_EncodingUtil.SerializeJSON": {
+          "Arguments": [
+            {
+              "Name": "value",
+              "Nilable": true,
+              "Type": "LuaValueVariant"
+            },
+            {
+              "Name": "options",
+              "Nilable": true,
+              "Type": "JSONSerializationOptions"
+            }
+          ],
+          "Name": "SerializeJSON",
+          "Returns": [
+            {
+              "Name": "output",
+              "Nilable": false,
+              "Type": "string"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_RestrictedActions.GetAddOnRestrictionState": {
+          "Arguments": [
+            {
+              "Name": "type",
+              "Nilable": false,
+              "Type": "AddOnRestrictionType"
+            }
+          ],
+          "Documentation": [
+            "Returns the current state of an addon restriction type."
+          ],
+          "Name": "GetAddOnRestrictionState",
+          "Returns": [
+            {
+              "Name": "state",
+              "Nilable": false,
+              "Type": "AddOnRestrictionState"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_Secrets.GetSpellAuraSecrecy": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Queries the base secrecy for a spell if queried as an aura."
+          ],
+          "Name": "GetSpellAuraSecrecy",
+          "Returns": [
+            {
+              "Name": "secrecy",
+              "Nilable": false,
+              "Type": "SecrecyLevel"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_Secrets.GetSpellCooldownSecrecy": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Queries the base secrecy for a spell if queried as a cooldown."
+          ],
+          "Name": "GetSpellCooldownSecrecy",
+          "Returns": [
+            {
+              "Name": "secrecy",
+              "Nilable": false,
+              "Type": "SecrecyLevel"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_Secrets.ShouldSpellAuraBeSecret": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Returns true if a given spell identifier would, if applied as an aura, produce secret values when queried."
+          ],
+          "Name": "ShouldSpellAuraBeSecret",
+          "Returns": [
+            {
+              "Name": "isAuraSecret",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_Secrets.ShouldSpellCooldownBeSecret": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Returns true if a given spell identifier will produce secret values for cooldowns if queried."
+          ],
+          "Name": "ShouldSpellCooldownBeSecret",
+          "Returns": [
+            {
+              "Name": "isCooldownSecret",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_Secrets.ShouldUnitPowerBeSecret": {
+          "Arguments": [
+            {
+              "Name": "unit",
+              "Nilable": false,
+              "Type": "UnitToken"
+            },
+            {
+              "Name": "powerType",
+              "Nilable": true,
+              "Type": "PowerType"
+            }
+          ],
+          "Documentation": [
+            "Returns true if queries for unit power will produce secret values."
+          ],
+          "Name": "ShouldUnitPowerBeSecret",
+          "Returns": [
+            {
+              "Name": "isUnitPowerSecret",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_SpecializationInfo.GetSpecialization": {
+          "Arguments": [
+            {
+              "Name": "isInspect",
+              "Nilable": true,
+              "Type": "bool"
+            },
+            {
+              "Name": "isPet",
+              "Nilable": true,
+              "Type": "bool"
+            },
+            {
+              "Name": "specGroupIndex",
+              "Nilable": true,
+              "Type": "luaIndex"
+            }
+          ],
+          "Name": "GetSpecialization",
+          "Returns": [
+            {
+              "Name": "specializationIndex",
+              "Nilable": false,
+              "Type": "luaIndex"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_SpecializationInfo.GetSpecializationInfo": {
+          "Arguments": [
+            {
+              "Name": "specializationIndex",
+              "Nilable": false,
+              "Type": "luaIndex"
+            },
+            {
+              "Default": false,
+              "Name": "isInspect",
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Default": false,
+              "Name": "isPet",
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Name": "inspectTarget",
+              "Nilable": true,
+              "Type": "string"
+            },
+            {
+              "Name": "sex",
+              "Nilable": true,
+              "Type": "number"
+            },
+            {
+              "Name": "groupIndex",
+              "Nilable": true,
+              "Type": "luaIndex"
+            },
+            {
+              "Name": "classID",
+              "Nilable": true,
+              "Type": "number"
+            }
+          ],
+          "Name": "GetSpecializationInfo",
+          "Returns": [
+            {
+              "Default": 0,
+              "Name": "specId",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "name",
+              "Nilable": true,
+              "Type": "string"
+            },
+            {
+              "Name": "description",
+              "Nilable": true,
+              "Type": "string"
+            },
+            {
+              "Name": "icon",
+              "Nilable": true,
+              "Type": "fileID"
+            },
+            {
+              "Name": "role",
+              "Nilable": true,
+              "Type": "string"
+            },
+            {
+              "Name": "primaryStat",
+              "Nilable": true,
+              "Type": "luaIndex"
+            },
+            {
+              "Default": 0,
+              "Name": "pointsSpent",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "background",
+              "Nilable": true,
+              "Type": "string"
+            },
+            {
+              "Default": 0,
+              "Name": "previewPointsSpent",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Default": true,
+              "Name": "isUnlocked",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_Spell.GetOverrideSpell": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            },
+            {
+              "Default": 0,
+              "Documentation": [
+                "Which Class Specialization to consider, as overrides may vary by Spec; Defaults to player's current Spec"
+              ],
+              "Name": "spec",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Default": true,
+              "Name": "onlyKnown",
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Default": 0,
+              "Name": "ignoreOverrideSpellID",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "Name": "GetOverrideSpell",
+          "Returns": [
+            {
+              "Documentation": [
+                "Returns the spellID passed in if there is no override"
+              ],
+              "Name": "overrideSpellID",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_Spell.GetSpellCharges": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Returns a table of info about the charges of a charge-accumulating spell; May return nil if spell is not found or is not charge-based"
+          ],
+          "MayReturnNothing": true,
+          "Name": "GetSpellCharges",
+          "Returns": [
+            {
+              "Name": "chargeInfo",
+              "Nilable": false,
+              "Type": "SpellChargeInfo"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "SecretWhenCooldownsRestricted": true,
+          "Type": "Function"
+        },
+        "C_Spell.GetSpellCooldown": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Returns nil if spell is not found"
+          ],
+          "MayReturnNothing": true,
+          "Name": "GetSpellCooldown",
+          "Returns": [
+            {
+              "Name": "spellCooldownInfo",
+              "Nilable": false,
+              "Type": "SpellCooldownInfo"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "SecretWhenCooldownsRestricted": true,
+          "Type": "Function"
+        },
+        "C_Spell.GetSpellCooldownDuration": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            },
+            {
+              "Default": false,
+              "Name": "ignoreGCD",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "Documentation": [
+            "Returns a duration object describing the active cooldown duration for a spell."
+          ],
+          "MayReturnNothing": true,
+          "Name": "GetSpellCooldownDuration",
+          "Returns": [
+            {
+              "Name": "duration",
+              "Nilable": false,
+              "Type": "LuaDurationObject"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "Type": "Function"
+        },
+        "C_Spell.GetSpellName": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Returns nil if spell is not found"
+          ],
+          "MayReturnNothing": true,
+          "Name": "GetSpellName",
+          "Returns": [
+            {
+              "Name": "name",
+              "Nilable": false,
+              "Type": "cstring"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "Type": "Function"
+        },
+        "C_Spell.GetSpellPowerCost": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Returns a table containing one or more SpellPowerCostInfos, one for each power type this spell costs; May return nil if spell is not found or has no resource costs"
+          ],
+          "MayReturnNothing": true,
+          "Name": "GetSpellPowerCost",
+          "Returns": [
+            {
+              "InnerType": "SpellPowerCostInfo",
+              "Name": "powerCosts",
+              "Nilable": false,
+              "Type": "table"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "Type": "Function"
+        },
+        "C_Spell.IsSpellInRange": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            },
+            {
+              "Documentation": [
+                "Optional specific target; If not supplied, player's current target (if any) will be used"
+              ],
+              "Name": "targetUnit",
+              "Nilable": true,
+              "Type": "UnitToken"
+            }
+          ],
+          "Documentation": [
+            "Returns true if the current target is within range of the spell; False if out of range; Nil if range check was invalid"
+          ],
+          "Name": "IsSpellInRange",
+          "Returns": [
+            {
+              "Documentation": [
+                "May be nil if the range check was invalid, ie due to unknown/invalid spell, missing/invalid target, etc"
+              ],
+              "Name": "inRange",
+              "Nilable": true,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "Type": "Function"
+        },
+        "C_Spell.IsSpellUsable": {
+          "Arguments": [
+            {
+              "Name": "spellIdentifier",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Documentation": [
+            "Returns whether the spell is currently castable; Typically based on things like learned status, required resources, etc"
+          ],
+          "Name": "IsSpellUsable",
+          "Returns": [
+            {
+              "Name": "isUsable",
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Documentation": [
+                "True if spell is specifically unusable due to insufficient power (ie MANA, RAGE, etc)"
+              ],
+              "Name": "insufficientPower",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "Type": "Function"
+        },
+        "C_SpellActivationOverlay.IsSpellOverlayed": {
+          "Arguments": [
+            {
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "Name": "IsSpellOverlayed",
+          "Returns": [
+            {
+              "Name": "isSpellOverlayed",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "C_UnitAuras.GetAuraDataByIndex": {
+          "Arguments": [
+            {
+              "Name": "unit",
+              "Nilable": false,
+              "Type": "UnitTokenRestrictedForAddOns"
+            },
+            {
+              "Name": "index",
+              "Nilable": false,
+              "Type": "luaIndex"
+            },
+            {
+              "Name": "filter",
+              "Nilable": true,
+              "Type": "AuraFilters"
+            }
+          ],
+          "Name": "GetAuraDataByIndex",
+          "RequiresUnitAuraAccess": true,
+          "Returns": [
+            {
+              "Name": "aura",
+              "Nilable": true,
+              "Type": "AuraData"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretWhenUnitAuraRestricted": true,
+          "Type": "Function"
+        },
+        "C_UnitAuras.GetPlayerAuraBySpellID": {
+          "Arguments": [
+            {
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "SpellIdentifier"
+            }
+          ],
+          "Name": "GetPlayerAuraBySpellID",
+          "RequiresNonSecretAura": true,
+          "Returns": [
+            {
+              "Name": "aura",
+              "Nilable": true,
+              "Type": "AuraData"
+            }
+          ],
+          "SecretArguments": "AllowedWhenTainted",
+          "SecretWhenUnitAuraRestricted": true,
+          "Type": "Function"
+        },
+        "C_UnitAuras.GetUnitAuras": {
+          "Arguments": [
+            {
+              "Name": "unit",
+              "NeverSecret": true,
+              "Nilable": false,
+              "Type": "UnitTokenRestrictedForAddOns"
+            },
+            {
+              "Name": "filter",
+              "Nilable": false,
+              "Type": "AuraFilters"
+            },
+            {
+              "Name": "maxCount",
+              "Nilable": true,
+              "Type": "number"
+            },
+            {
+              "Default": "Unsorted",
+              "Name": "sortRule",
+              "Nilable": false,
+              "Type": "UnitAuraSortRule"
+            },
+            {
+              "Default": "Normal",
+              "Name": "sortDirection",
+              "Nilable": false,
+              "Type": "UnitAuraSortDirection"
+            }
+          ],
+          "Name": "GetUnitAuras",
+          "RequiresUnitAuraAccess": true,
+          "Returns": [
+            {
+              "ConditionalSecretContents": true,
+              "InnerType": "AuraData",
+              "Name": "auras",
+              "Nilable": false,
+              "Type": "table"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "Type": "Function"
+        },
+        "GetBuildInfo": {
+          "Name": "GetBuildInfo",
+          "Returns": [
+            {
+              "Name": "buildVersion",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "buildNumber",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "buildDate",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "interfaceVersion",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "localizedVersion",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "buildInfo",
+              "Nilable": false,
+              "Type": "string"
+            }
+          ],
+          "Type": "Function"
+        },
+        "GetHaste": {
+          "Name": "GetHaste",
+          "Returns": [
+            {
+              "Name": "result",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SecretWhenUnitStatsRestricted": true,
+          "Type": "Function"
+        },
+        "PLAYER_SPECIALIZATION_CHANGED": {
+          "LiteralName": "PLAYER_SPECIALIZATION_CHANGED",
+          "Name": "PlayerSpecializationChanged",
+          "Payload": [
+            {
+              "Name": "unitTarget",
+              "Nilable": false,
+              "Type": "UnitTokenVariant"
+            }
+          ],
+          "SynchronousEvent": true,
+          "Type": "Event",
+          "UniqueEvent": true
+        },
+        "SPELL_ACTIVATION_OVERLAY_GLOW_HIDE": {
+          "LiteralName": "SPELL_ACTIVATION_OVERLAY_GLOW_HIDE",
+          "Name": "SpellActivationOverlayGlowHide",
+          "Payload": [
+            {
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "SPELL_ACTIVATION_OVERLAY_GLOW_SHOW": {
+          "LiteralName": "SPELL_ACTIVATION_OVERLAY_GLOW_SHOW",
+          "Name": "SpellActivationOverlayGlowShow",
+          "Payload": [
+            {
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "SPELL_UPDATE_COOLDOWN": {
+          "LiteralName": "SPELL_UPDATE_COOLDOWN",
+          "Name": "SpellUpdateCooldown",
+          "Payload": [
+            {
+              "Documentation": [
+                "Can be a base spell or an override spell. A nil value indicates that all cooldowns should be updated, rather than just a specific one."
+              ],
+              "Name": "spellID",
+              "Nilable": true,
+              "Type": "number"
+            },
+            {
+              "Documentation": [
+                "Will be set to the base spell if the spellID parameter is an override spell."
+              ],
+              "Name": "baseSpellID",
+              "Nilable": true,
+              "Type": "number"
+            },
+            {
+              "Documentation": [
+                "If the spellID parameter is set, the cooldown category of the spell. A nil value indicates the spell does not have a cooldown category."
+              ],
+              "Name": "category",
+              "Nilable": true,
+              "Type": "number"
+            },
+            {
+              "Documentation": [
+                "If the spellID parameter is set, the cooldown start recovery category of the spell. A nil value indicates the spell does not have a cooldown start recovery category."
+              ],
+              "Name": "startRecoveryCategory",
+              "Nilable": true,
+              "Type": "number"
+            },
+            {
+              "Documentation": [
+                "If the itemID parameter is set, it's the itemID associated with the cast of the spell."
+              ],
+              "Name": "itemID",
+              "Nilable": true,
+              "Type": "number"
+            }
+          ],
+          "Type": "Event",
+          "UniqueEvent": true
+        },
+        "TRAIT_CONFIG_UPDATED": {
+          "LiteralName": "TRAIT_CONFIG_UPDATED",
+          "Name": "TraitConfigUpdated",
+          "Payload": [
+            {
+              "Name": "configID",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "UNIT_AURA": {
+          "LiteralName": "UNIT_AURA",
+          "Name": "UnitAura",
+          "Payload": [
+            {
+              "Name": "unitTarget",
+              "Nilable": false,
+              "Type": "UnitTokenVariant"
+            },
+            {
+              "Name": "updateInfo",
+              "Nilable": false,
+              "Type": "UnitAuraUpdateInfo"
+            }
+          ],
+          "SecretWhenAurasRestricted": true,
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "UNIT_POWER_FREQUENT": {
+          "LiteralName": "UNIT_POWER_FREQUENT",
+          "Name": "UnitPowerFrequent",
+          "Payload": [
+            {
+              "Name": "unitTarget",
+              "Nilable": false,
+              "Type": "UnitTokenVariant"
+            },
+            {
+              "Name": "powerType",
+              "Nilable": false,
+              "Type": "cstring"
+            }
+          ],
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "UNIT_SPELLCAST_START": {
+          "LiteralName": "UNIT_SPELLCAST_START",
+          "Name": "UnitSpellcastStart",
+          "Payload": [
+            {
+              "Name": "unitTarget",
+              "Nilable": false,
+              "Type": "UnitTokenVariant"
+            },
+            {
+              "Name": "castGUID",
+              "Nilable": false,
+              "Type": "WOWGUID"
+            },
+            {
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "castBarID",
+              "NeverSecret": true,
+              "Nilable": true,
+              "Type": "UnitCastBarID"
+            }
+          ],
+          "SecretWhenUnitSpellCastRestricted": true,
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "UNIT_SPELLCAST_STOP": {
+          "LiteralName": "UNIT_SPELLCAST_STOP",
+          "Name": "UnitSpellcastStop",
+          "Payload": [
+            {
+              "Name": "unitTarget",
+              "Nilable": false,
+              "Type": "UnitTokenVariant"
+            },
+            {
+              "Name": "castGUID",
+              "Nilable": false,
+              "Type": "WOWGUID"
+            },
+            {
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "castBarID",
+              "NeverSecret": true,
+              "Nilable": true,
+              "Type": "UnitCastBarID"
+            }
+          ],
+          "SecretWhenUnitSpellCastRestricted": true,
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "UNIT_SPELLCAST_SUCCEEDED": {
+          "LiteralName": "UNIT_SPELLCAST_SUCCEEDED",
+          "Name": "UnitSpellcastSucceeded",
+          "Payload": [
+            {
+              "Name": "unitTarget",
+              "Nilable": false,
+              "Type": "UnitTokenVariant"
+            },
+            {
+              "Name": "castGUID",
+              "Nilable": false,
+              "Type": "WOWGUID"
+            },
+            {
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "castBarID",
+              "NeverSecret": true,
+              "Nilable": true,
+              "Type": "UnitCastBarID"
+            }
+          ],
+          "SecretWhenUnitSpellCastRestricted": true,
+          "SynchronousEvent": true,
+          "Type": "Event"
+        },
+        "UnitCastingInfo": {
+          "Arguments": [
+            {
+              "Name": "unit",
+              "Nilable": false,
+              "Type": "UnitTokenPvPRestrictedForAddOns"
+            }
+          ],
+          "Name": "UnitCastingInfo",
+          "Returns": [
+            {
+              "Name": "name",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "displayName",
+              "Nilable": false,
+              "Type": "string"
+            },
+            {
+              "Name": "textureID",
+              "Nilable": false,
+              "Type": "fileID"
+            },
+            {
+              "Name": "startTimeMs",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "endTimeMs",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "isTradeskill",
+              "NeverSecret": true,
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Name": "castID",
+              "Nilable": false,
+              "Type": "WOWGUID"
+            },
+            {
+              "Name": "notInterruptible",
+              "Nilable": true,
+              "Type": "bool"
+            },
+            {
+              "Name": "castingSpellID",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "castBarID",
+              "NeverSecret": true,
+              "Nilable": true,
+              "Type": "UnitCastBarID"
+            },
+            {
+              "Name": "delayTimeMs",
+              "NeverSecret": true,
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretWhenUnitSpellCastRestricted": true,
+          "Type": "Function"
+        },
+        "UnitChannelInfo": {
+          "Arguments": [
+            {
+              "Name": "unit",
+              "Nilable": false,
+              "Type": "UnitTokenPvPRestrictedForAddOns"
+            }
+          ],
+          "Name": "UnitChannelInfo",
+          "Returns": [
+            {
+              "Name": "name",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "displayName",
+              "Nilable": false,
+              "Type": "cstring"
+            },
+            {
+              "Name": "textureID",
+              "Nilable": false,
+              "Type": "fileID"
+            },
+            {
+              "Name": "startTimeMs",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "endTimeMs",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "isTradeskill",
+              "NeverSecret": true,
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Name": "notInterruptible",
+              "Nilable": true,
+              "Type": "bool"
+            },
+            {
+              "Name": "spellID",
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "isEmpowered",
+              "NeverSecret": true,
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Name": "numEmpowerStages",
+              "NeverSecret": true,
+              "Nilable": false,
+              "Type": "number"
+            },
+            {
+              "Name": "castBarID",
+              "NeverSecret": true,
+              "Nilable": true,
+              "Type": "UnitCastBarID"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretWhenUnitSpellCastRestricted": true,
+          "Type": "Function"
+        },
+        "UnitHealth": {
+          "Arguments": [
+            {
+              "Name": "unit",
+              "Nilable": false,
+              "Type": "UnitTokenPvPRestrictedForAddOns"
+            },
+            {
+              "Default": true,
+              "Name": "usePredicted",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "Name": "UnitHealth",
+          "Returns": [
+            {
+              "Name": "result",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretReturns": true,
+          "Type": "Function"
+        },
+        "UnitHealthPercent": {
+          "Arguments": [
+            {
+              "Name": "unit",
+              "Nilable": false,
+              "Type": "UnitTokenPvPRestrictedForAddOns"
+            },
+            {
+              "Default": true,
+              "Name": "usePredicted",
+              "Nilable": false,
+              "Type": "bool"
+            },
+            {
+              "Name": "curve",
+              "Nilable": true,
+              "Type": "LuaCurveObjectBase"
+            }
+          ],
+          "Documentation": [
+            "Returns percent of health remaining - can be scaled via a curve for display purposes"
+          ],
+          "Name": "UnitHealthPercent",
+          "Returns": [
+            {
+              "Documentation": [
+                "If no curve is specified, a floating point percentage value. Else, the result of evaluating the curve with the percentage as the input."
+              ],
+              "Name": "result",
+              "Nilable": false,
+              "Type": "LuaCurveEvaluatedResult"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretReturns": true,
+          "SecretWhenCurveSecret": true,
+          "Type": "Function"
+        },
+        "UnitPower": {
+          "Arguments": [
+            {
+              "Name": "unitToken",
+              "Nilable": false,
+              "Type": "UnitTokenPvPRestrictedForAddOns"
+            },
+            {
+              "Name": "powerType",
+              "Nilable": true,
+              "Type": "PowerType"
+            },
+            {
+              "Default": false,
+              "Name": "unmodified",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "Name": "UnitPower",
+          "Returns": [
+            {
+              "Name": "power",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretWhenUnitPowerRestricted": true,
+          "Type": "Function"
+        },
+        "UnitPowerMax": {
+          "Arguments": [
+            {
+              "Name": "unitToken",
+              "Nilable": false,
+              "Type": "UnitTokenPvPRestrictedForAddOns"
+            },
+            {
+              "Name": "powerType",
+              "Nilable": true,
+              "Type": "PowerType"
+            },
+            {
+              "Default": false,
+              "Name": "unmodified",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "Name": "UnitPowerMax",
+          "Returns": [
+            {
+              "Name": "maxPower",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretWhenUnitPowerMaxRestricted": true,
+          "Type": "Function"
+        },
+        "UnitSpellHaste": {
+          "Arguments": [
+            {
+              "Name": "unit",
+              "Nilable": false,
+              "Type": "UnitToken"
+            }
+          ],
+          "Name": "UnitSpellHaste",
+          "Returns": [
+            {
+              "Name": "result",
+              "Nilable": false,
+              "Type": "number"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecretWhenUnitStatsRestricted": true,
+          "Type": "Function"
+        },
+        "canaccessvalue": {
+          "Arguments": [
+            {
+              "Name": "value",
+              "Nilable": false,
+              "Type": "LuaValueReference"
+            }
+          ],
+          "Documentation": [
+            "Returns true if the immediate calling function has appropriate permissions to access and operate on a specific value."
+          ],
+          "Name": "canaccessvalue",
+          "Returns": [
+            {
+              "Name": "canAccessValue",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecureHooksAllowed": false,
+          "Type": "Function"
+        },
+        "issecretvalue": {
+          "Arguments": [
+            {
+              "Name": "value",
+              "Nilable": false,
+              "Type": "LuaValueReference"
+            }
+          ],
+          "Documentation": [
+            "Returns true if a supplied value is a secret value."
+          ],
+          "Name": "issecretvalue",
+          "Returns": [
+            {
+              "Name": "isSecret",
+              "Nilable": false,
+              "Type": "bool"
+            }
+          ],
+          "SecretArguments": "AllowedWhenUntainted",
+          "SecureHooksAllowed": false,
+          "Type": "Function"
+        }
+      },
+      "source": "2026-11-04 12.1.5 (70783)"
+    }
+  },
+  "watchlist": [
+    "C_AssistedCombat.GetNextCastSpell",
+    "C_AssistedCombat.GetRotationSpells",
+    "C_AssistedCombat.GetActionSpell",
+    "C_AssistedCombat.IsAvailable",
+    "C_ActionBar.HasAssistedCombatActionButtons",
+    "C_Spell.GetSpellCooldown",
+    "C_Spell.GetSpellCooldownDuration",
+    "C_Spell.GetSpellCharges",
+    "C_Spell.IsSpellUsable",
+    "C_Spell.IsSpellInRange",
+    "C_Spell.GetSpellName",
+    "C_Spell.GetOverrideSpell",
+    "C_Spell.GetSpellPowerCost",
+    "C_ActionBar.GetActionCooldown",
+    "C_ActionBar.GetActionCooldownDuration",
+    "C_ActionBar.IsUsableAction",
+    "C_ActionBar.FindSpellActionButtons",
+    "C_SpellActivationOverlay.IsSpellOverlayed",
+    "C_UnitAuras.GetPlayerAuraBySpellID",
+    "C_UnitAuras.GetAuraDataByIndex",
+    "C_UnitAuras.GetUnitAuras",
+    "UnitPower",
+    "UnitPowerMax",
+    "UnitHealth",
+    "UnitHealthPercent",
+    "UnitCastingInfo",
+    "UnitChannelInfo",
+    "GetHaste",
+    "UnitSpellHaste",
+    "C_Secrets.ShouldSpellCooldownBeSecret",
+    "C_Secrets.ShouldSpellAuraBeSecret",
+    "C_Secrets.ShouldUnitPowerBeSecret",
+    "C_Secrets.GetSpellCooldownSecrecy",
+    "C_Secrets.GetSpellAuraSecrecy",
+    "C_RestrictedActions.GetAddOnRestrictionState",
+    "issecretvalue",
+    "canaccessvalue",
+    "C_SpecializationInfo.GetSpecialization",
+    "C_SpecializationInfo.GetSpecializationInfo",
+    "GetBuildInfo",
+    "C_EncodingUtil.SerializeJSON",
+    "C_EncodingUtil.CompressString",
+    "C_EncodingUtil.EncodeBase64",
+    "UNIT_SPELLCAST_SUCCEEDED",
+    "UNIT_SPELLCAST_START",
+    "UNIT_SPELLCAST_STOP",
+    "SPELL_UPDATE_COOLDOWN",
+    "SPELL_ACTIVATION_OVERLAY_GLOW_SHOW",
+    "SPELL_ACTIVATION_OVERLAY_GLOW_HIDE",
+    "ADDON_RESTRICTION_STATE_CHANGED",
+    "ADDON_ACTION_FORBIDDEN",
+    "ADDON_ACTION_BLOCKED",
+    "PLAYER_SPECIALIZATION_CHANGED",
+    "ACTIVE_PLAYER_SPECIALIZATION_CHANGED",
+    "TRAIT_CONFIG_UPDATED",
+    "UNIT_AURA",
+    "UNIT_POWER_FREQUENT",
+    "COMBAT_LOG_EVENT_UNFILTERED"
+  ]
+}
