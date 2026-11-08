@@ -936,6 +936,13 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       r = 40,
       tal = true,
     },
+    [78675] = {
+      cd = 60,
+      d = 8,
+      n = "solar_beam",
+      r = 40,
+      tal = true,
+    },
     [81281] = {
       ap = {
         { 81281, "enemy" },
@@ -964,6 +971,14 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       r = 40,
       tal = true,
     },
+    [93985] = {
+      d = 5,
+      n = "skull_bash",
+    },
+    [97547] = {
+      d = 7,
+      n = "solar_beam",
+    },
     [102560] = {
       ap = {
         { 102560, "self" },
@@ -973,6 +988,12 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       chcd = 180,
       d = 20,
       n = "incarnation_chosen_of_elune",
+    },
+    [106839] = {
+      cd = 15,
+      n = "skull_bash",
+      r = 13,
+      tal = true,
     },
     [155625] = {
       ap = {
@@ -1126,6 +1147,9 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     },
     [281871] = {
       n = "fury_of_elune",
+    },
+    [314330] = {
+      n = "skull_bash",
     },
     [323764] = {
       ap = {
@@ -1510,6 +1534,12 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     },
     rattle_the_stars = {
       t = { 393954 },
+    },
+    skull_bash = {
+      a = { 106839, 93985, 314330 },
+    },
+    solar_beam = {
+      a = { 78675, 97547 },
     },
     starfall = {
       a = { 191034, 191037, 359399, 1264671, 1264676, 1286243 },

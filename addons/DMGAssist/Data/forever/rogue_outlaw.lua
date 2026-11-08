@@ -716,6 +716,13 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
       n = "between_the_eyes",
       pas = true,
     },
+    [425609] = {
+      cd = 15,
+      d = 3,
+      gcd = 1,
+      n = "rebuke",
+      r = 5,
+    },
     [457437] = {
       ap = {
         { 457437, "self" },
@@ -763,6 +770,9 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
     },
     quick_draw = {
       t = { 398197 },
+    },
+    rebuke = {
+      a = { 425609 },
     },
     sinister_strike = {
       a = { 1752, 1757, 1758, 1759, 1760, 8621 },

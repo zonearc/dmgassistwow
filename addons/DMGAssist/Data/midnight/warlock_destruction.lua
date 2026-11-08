@@ -795,6 +795,12 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       r = 40,
       tal = true,
     },
+    [19647] = {
+      cd = 24,
+      d = 7,
+      n = "spell_lock",
+      r = 40,
+    },
     [29341] = {
       gain = { [7] = 0.5 },
       n = "shadowburn",
@@ -820,6 +826,15 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       r = 40,
       st = 1,
       tal = true,
+    },
+    [89766] = {
+      ap = {
+        { 89766, "enemy" },
+      },
+      cd = 30,
+      d = 4,
+      n = "axe_toss",
+      r = 30,
     },
     [108503] = {
       cd = 30,
@@ -849,6 +864,12 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       d = 10,
       n = "backdraft",
       st = 2,
+    },
+    [119910] = {
+      n = "spell_lock",
+    },
+    [119914] = {
+      n = "axe_toss",
     },
     [152108] = {
       cd = 30,
@@ -973,6 +994,12 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
     [335236] = {
       d = 8,
       n = "summon_infernal",
+    },
+    [347008] = {
+      cd = 30,
+      d = 5,
+      n = "axe_toss",
+      r = 30,
     },
     [363950] = {
       n = "avatar_of_destruction",
@@ -1184,6 +1211,9 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
     avatar_of_destruction = {
       t = { 1245089, 363950, 456975 },
     },
+    axe_toss = {
+      a = { 89766, 347008, 119914 },
+    },
     backdraft = {
       a = { 117828, 295419, 196406 },
       b = { 117828, 295419, 196406 },
@@ -1276,6 +1306,9 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
     soul_fire = {
       a = { 6353, 281440, 281490, 335004 },
       t = { 6353 },
+    },
+    spell_lock = {
+      a = { 19647, 119910 },
     },
     summon_infernal = {
       a = { 1122, 111685, 335236 },

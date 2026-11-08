@@ -147,6 +147,46 @@ local function Corroborated(id, token, run)
   return nil
 end
 
+-- A line that is UNKNOWN only because one hidden resource is unknown ("ferocious_bite if combo_points>=5"):
+-- evaluate it for every possible value of that resource. If the answer depends on the value, the HUD can show
+-- this spell and the next pick together and let the game render whichever is right: the alpha of each icon is a
+-- step curve evaluated on the secret resource (UnitPowerPercent with a curve) - we never read the value.
+function G.Branch(cond, run, id, token)
+  if not cond then
+    return nil
+  end
+  run.lineUnknown = {}
+  E.Test(cond, run.resolve, run.bounds)
+  local names = run.lineUnknown
+  run.lineUnknown = nil
+  local only, count = nil, 0
+  for n in pairs(names) do
+    only, count = n, count + 1
+  end
+  local pt = count == 1 and S.PowerTypeOf(only)
+  local max = pt and S.PowerMax(pt)
+  if not (pt and max and max <= 200) then
+    return nil
+  end
+  local truth, anyTrue, anyFalse = {}, false, false
+  run.ctx.powerOverride = { [pt] = 0 }
+  for v = 0, max do
+    run.ctx.powerOverride[pt] = v
+    local t = E.Test(cond, run.resolve, run.bounds)
+    if t == UNKNOWN then
+      run.ctx.powerOverride = nil
+      return nil
+    end
+    truth[v] = t
+    anyTrue, anyFalse = anyTrue or t, anyFalse or not t
+  end
+  run.ctx.powerOverride = nil
+  if not (anyTrue and anyFalse) then
+    return nil
+  end
+  return { pt = pt, max = max, truth = truth, pick = { id = id, token = token, source = "branch" } }
+end
+
 local function Walk(lists, name, maybe, depth, run, isBlizzard)
   local list = lists[name]
   if not list or depth > MAX_DEPTH or run.visiting[name] then
@@ -199,6 +239,9 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
               end
               if not run.firstMaybe then
                 run.firstMaybe = { id = id, token = a, source = "guess" }
+              end
+              if run.first and not run.branch and not maybe and castable == true then
+                run.branch = G.Branch(e.c, run, id, a)
               end
             elseif not run.firstRuleMaybe then
               run.firstRuleMaybe = { id = id, token = a, source = "rules?" }
@@ -263,10 +306,14 @@ local function Decide(record, opts, targets, first)
     burst = first and opts.burst ~= false,
     override = {},
   }
+  run.first = first
   run.resolve = function(name)
     local v = S.Resolve(name, run.ctx)
     if v == UNKNOWN then
       S.unknownTerms[name] = (S.unknownTerms[name] or 0) + 1
+      if run.lineUnknown then
+        run.lineUnknown[name] = true
+      end
     end
     return v
   end
@@ -322,7 +369,14 @@ local function Decide(record, opts, targets, first)
     end
   end
   pick = pick or run.firstMaybe or run.firstRuleMaybe
-  return { main = pick, cd = run.cd, acSpell = run.acSpell, unresolved = run.unresolved, vars = run.ctx.vars }
+  local branch = run.branch
+  if branch and pick and pick.id ~= branch.pick.id and pick.source ~= "guess" then
+    branch.otherwise = pick
+  else
+    branch = nil
+  end
+  return { main = pick, cd = run.cd, acSpell = run.acSpell, unresolved = run.unresolved, vars = run.ctx.vars,
+    branch = branch }
 end
 
 local function Queue(record, opts, targets)

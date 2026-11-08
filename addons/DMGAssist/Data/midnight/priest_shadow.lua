@@ -757,6 +757,15 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       n = "mind_flay",
       r = 40,
     },
+    [15487] = {
+      ap = {
+        { 15487, "enemy" },
+      },
+      cd = 30,
+      d = 5,
+      n = "silence",
+      r = 40,
+    },
     [19236] = {
       ap = {
         { 19236, "self" },
@@ -913,6 +922,10 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       n = "void_torrent",
       r = 40,
       tal = true,
+    },
+    [263715] = {
+      d = 4,
+      n = "silence",
     },
     [281265] = {
       n = "holy_nova",
@@ -1255,6 +1268,9 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
     shadowform = {
       a = { 232698 },
       b = { 232698 },
+    },
+    silence = {
+      a = { 15487, 263715 },
     },
     tentacle_slam = {
       a = { 1227280, 1227621 },

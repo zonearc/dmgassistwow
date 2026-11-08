@@ -632,6 +632,12 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       n = "thunder_clap",
       tal = true,
     },
+    [6552] = {
+      cd = 15,
+      d = 5,
+      n = "pummel",
+      r = 5,
+    },
     [6572] = {
       cost = { [1] = 20 },
       gcd = 1.5,
@@ -643,6 +649,14 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       d = 3600,
       gcd = 1.5,
       n = "battle_shout",
+    },
+    [13491] = {
+      cd = 10,
+      cost = { [1] = 10 },
+      d = 5,
+      gcd = 1.5,
+      n = "pummel",
+      r = 5,
     },
     [20243] = {
       gcd = 1.5,
@@ -1212,6 +1226,9 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
     },
     practiced_strikes = {
       t = { 429647 },
+    },
+    pummel = {
+      a = { 6552, 13491 },
     },
     ravager = {
       a = { 228920, 156287, 334934 },

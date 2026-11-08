@@ -966,6 +966,36 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       n = "conflagrate",
       r = 30,
     },
+    [19244] = {
+      ap = {
+        { 24259, "enemy" },
+      },
+      cd = 30,
+      cost = { [0] = 120 },
+      d = 6,
+      gcd = 1.5,
+      n = "spell_lock",
+      r = 30,
+    },
+    [19647] = {
+      ap = {
+        { 24259, "enemy" },
+      },
+      cd = 30,
+      cost = { [0] = 200 },
+      d = 8,
+      gcd = 1.5,
+      n = "spell_lock",
+      r = 30,
+    },
+    [24259] = {
+      ap = {
+        { 24259, "enemy" },
+      },
+      d = 3,
+      n = "spell_lock",
+      r = 30,
+    },
     [403629] = {
       cd = 12,
       ct = 2.5,
@@ -1124,6 +1154,9 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
     },
     soul_fire = {
       a = { 6353, 17924, 457643 },
+    },
+    spell_lock = {
+      a = { 19244, 19647, 24259 },
     },
   },
 })

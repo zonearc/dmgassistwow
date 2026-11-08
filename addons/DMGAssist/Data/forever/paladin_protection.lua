@@ -485,6 +485,17 @@ ns.RegisterSpecData("forever", "paladin_protection", {
       n = "avenging_wrath",
       pas = true,
     },
+    [425609] = {
+      cd = 15,
+      d = 3,
+      gcd = 1,
+      n = "rebuke",
+      r = 5,
+    },
+    [425616] = {
+      n = "rebuke",
+      pas = true,
+    },
     [1280345] = {
       n = "consecration",
     },
@@ -511,6 +522,9 @@ ns.RegisterSpecData("forever", "paladin_protection", {
     },
     hammer_of_wrath = {
       a = { 24239, 24274, 24275 },
+    },
+    rebuke = {
+      a = { 425609, 425616 },
     },
   },
 })

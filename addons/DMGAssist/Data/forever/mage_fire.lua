@@ -857,6 +857,13 @@ ns.RegisterSpecData("forever", "mage_fire", {
       n = "fire_blast",
       r = 20,
     },
+    [2139] = {
+      cd = 30,
+      cost = { [0] = 100 },
+      d = 10,
+      n = "counterspell",
+      r = 30,
+    },
     [2948] = {
       cost = { [0] = 50 },
       ct = 1.5,
@@ -1088,6 +1095,11 @@ ns.RegisterSpecData("forever", "mage_fire", {
       n = "combustion",
       st = 10,
     },
+    [29443] = {
+      d = 10,
+      n = "counterspell",
+      r = 30,
+    },
     [48108] = {
       ap = {
         { 48108, "self" },
@@ -1132,6 +1144,10 @@ ns.RegisterSpecData("forever", "mage_fire", {
       n = "burnout",
       pas = true,
     },
+    [415759] = {
+      n = "skull_bash",
+      pas = true,
+    },
     [1237312] = {
       ap = {
         { 1237312, "enemy" },
@@ -1166,6 +1182,9 @@ ns.RegisterSpecData("forever", "mage_fire", {
       a = { 11129, 28682 },
       b = { 11129, 28682 },
     },
+    counterspell = {
+      a = { 2139, 29443 },
+    },
     fire_blast = {
       a = { 2136, 2137, 2138, 8412, 8413, 10197 },
     },
@@ -1192,6 +1211,9 @@ ns.RegisterSpecData("forever", "mage_fire", {
     },
     scorch = {
       a = { 2948, 8444, 8445, 8446, 10205, 10206 },
+    },
+    skull_bash = {
+      a = { 415759 },
     },
   },
 })

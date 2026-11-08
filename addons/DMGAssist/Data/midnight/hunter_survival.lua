@@ -524,6 +524,13 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
     [83381] = {
       n = "kill_command",
     },
+    [147362] = {
+      cd = 24,
+      d = 5,
+      n = "counter_shot",
+      r = 40,
+      tal = true,
+    },
     [185358] = {
       cost = { [2] = 40 },
       gcd = 1.5,
@@ -819,6 +826,9 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
     },
     call_pet_1 = {
       a = { 883 },
+    },
+    counter_shot = {
+      a = { 147362 },
     },
     howl_of_the_pack_leader = {
       t = { 471876 },

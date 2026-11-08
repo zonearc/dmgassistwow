@@ -644,6 +644,10 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       n = "arcane_barrage",
       pas = true,
     },
+    [415759] = {
+      n = "skull_bash",
+      pas = true,
+    },
     [425124] = {
       ap = {
         { 425124, "self" },
@@ -712,6 +716,9 @@ ns.RegisterSpecData("forever", "mage_arcane", {
     },
     presence_of_mind = {
       a = { 12043 },
+    },
+    skull_bash = {
+      a = { 415759 },
     },
   },
 })

@@ -942,6 +942,12 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       gain = { [7] = 1 },
       n = "agony",
     },
+    [19647] = {
+      cd = 24,
+      d = 7,
+      n = "spell_lock",
+      r = 40,
+    },
     [27243] = {
       ap = {
         { 27243, "enemy" },
@@ -987,6 +993,15 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       r = 40,
       tal = true,
     },
+    [89766] = {
+      ap = {
+        { 89766, "enemy" },
+      },
+      cd = 30,
+      d = 4,
+      n = "axe_toss",
+      r = 30,
+    },
     [108503] = {
       cd = 30,
       gcd = 1.5,
@@ -997,6 +1012,12 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       n = "nightfall",
       pas = true,
       tal = true,
+    },
+    [119910] = {
+      n = "spell_lock",
+    },
+    [119914] = {
+      n = "axe_toss",
     },
     [146739] = {
       d = 14,
@@ -1103,6 +1124,12 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
     },
     [275376] = {
       n = "cascading_calamity",
+    },
+    [347008] = {
+      cd = 30,
+      d = 5,
+      n = "axe_toss",
+      r = 30,
     },
     [388667] = {
       n = "drain_soul",
@@ -1305,6 +1332,9 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       a = { 980, 17941, 1261166, 210067 },
       b = { 980, 17941, 210067, 1261166 },
     },
+    axe_toss = {
+      a = { 89766, 347008, 119914 },
+    },
     cascading_calamity = {
       a = { 1261125, 275376, 1261124 },
       b = { 1261125, 275376, 1261124 },
@@ -1365,6 +1395,9 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
     },
     sow_the_seeds = {
       t = { 196226 },
+    },
+    spell_lock = {
+      a = { 19647, 119910 },
     },
     succulent_soul = {
       a = { 449793 },

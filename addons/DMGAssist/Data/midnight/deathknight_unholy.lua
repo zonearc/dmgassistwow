@@ -670,6 +670,14 @@ ns.RegisterSpecData("midnight", "deathknight_unholy", {
       r = 30,
       tal = true,
     },
+    [47528] = {
+      cd = 15,
+      cost = { [6] = 0 },
+      d = 5,
+      n = "mind_freeze",
+      r = 15,
+      tal = true,
+    },
     [47541] = {
       cost = { [6] = 30 },
       gcd = 1.5,
@@ -1143,6 +1151,9 @@ ns.RegisterSpecData("midnight", "deathknight_unholy", {
     forbidden_knowledge = {
       a = { 1242223, 1242158, 1256565, 1256566 },
       b = { 1242223, 1242158, 1256565, 1256566 },
+    },
+    mind_freeze = {
+      a = { 47528 },
     },
     outbreak = {
       a = { 77575, 196780, 196782 },

@@ -514,6 +514,12 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       n = "backstab",
       r = 5,
     },
+    [1766] = {
+      cd = 15,
+      d = 6,
+      n = "kick",
+      r = 5,
+    },
     [1784] = {
       cd = 2,
       n = "stealth",
@@ -986,6 +992,9 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
     },
     goremaws_bite = {
       a = { 426591, 426592, 426593, 1269217, 1269674, 1309309 },
+    },
+    kick = {
+      a = { 1766 },
     },
     lingering_shadow = {
       a = { 385960, 386081, 382524 },

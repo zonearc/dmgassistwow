@@ -198,6 +198,9 @@ function mock.Install(env)
   function FrameMethods:SetAlpha(a)
     self.alpha = a
   end
+  function FrameMethods:SetAlphaFromBoolean(value, ifTrue, ifFalse)
+    self.alpha = { fromBoolean = value, ifTrue = ifTrue, ifFalse = ifFalse }
+  end
   function FrameMethods:SetScale(v)
     self.scale = v
   end
@@ -301,6 +304,38 @@ function mock.Install(env)
   env.GetMacroSpell = function(id)
     return mock.macroSpell and mock.macroSpell[id]
   end
+  -- Curves: step/linear evaluation like the client; UnitPowerPercent feeds power/max (0..1) through a curve.
+  env.C_CurveUtil = {
+    CreateCurve = function()
+      local c = { points = {} }
+      function c.SetType(self, t)
+        self.type = t
+      end
+      function c.AddPoint(self, x, y)
+        self.points[#self.points + 1] = { x, y }
+        table.sort(self.points, function(a, b) return a[1] < b[1] end)
+      end
+      function c.Evaluate(self, x)
+        local y = self.points[1] and self.points[1][2] or 0
+        for _, p in ipairs(self.points) do
+          if x >= p[1] then
+            y = p[2]
+          end
+        end
+        return y
+      end
+      return c
+    end,
+  }
+  env.UnitPowerPercent = function(_, pt, _, curve)
+    local cur = mock.power[pt] or 0
+    local max = mock.powerMax[pt] or 1
+    local pct = cur / max
+    if curve then
+      return ctx(curve:Evaluate(pct))
+    end
+    return ctx(pct)
+  end
   env.C_EncounterTimeline = {
     GetEventList = function()
       local ids = {}
@@ -386,7 +421,14 @@ function mock.Install(env)
     return 0
   end
   -- mock.casting = { id =, endsIn = seconds }
-  env.UnitCastingInfo = function()
+  env.UnitCastingInfo = function(unit)
+    if unit == "target" then
+      local t = mock.targetCast
+      if not t then
+        return nil
+      end
+      return ctx("Bolt"), ctx("Bolt"), ctx(1), ctx(0), ctx(1000), false, ctx("guid"), ctx(t.notInterruptible), ctx(t.id)
+    end
     local c = mock.casting
     if not c then
       return nil
@@ -405,6 +447,7 @@ function mock.Install(env)
     SpellBookItemType = { None = 0, Spell = 1 },
     CompressionMethod = { Deflate = 0 },
     AddOnProfilerMetric = { RecentAverageTime = 1, PeakTime = 4 },
+    LuaCurveType = { Linear = 0, Step = 1 },
   }
 
   env.C_CVar = {
@@ -575,6 +618,12 @@ function mock.Install(env)
         return mock.inRange[id]
       end
       return nil
+    end,
+    IsSpellImportant = function(id)
+      if mock.restricted then
+        return mock.Secret()
+      end
+      return mock.important and mock.important[id] or false
     end,
     GetSpellPowerCost = function(id)
       return mock.powerCost and mock.powerCost[id]

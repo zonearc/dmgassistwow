@@ -648,6 +648,13 @@ ns.RegisterSpecData("forever", "mage_frost", {
       n = "arcane_intellect",
       r = 30,
     },
+    [2139] = {
+      cd = 30,
+      cost = { [0] = 100 },
+      d = 10,
+      n = "counterspell",
+      r = 30,
+    },
     [6141] = {
       ap = {
         { 6141, "self" },
@@ -773,6 +780,11 @@ ns.RegisterSpecData("forever", "mage_frost", {
       n = "blizzard",
       r = 30,
     },
+    [29443] = {
+      d = 10,
+      n = "counterspell",
+      r = 30,
+    },
     [400640] = {
       cost = { [0] = 55 },
       gcd = 1.5,
@@ -805,6 +817,10 @@ ns.RegisterSpecData("forever", "mage_frost", {
     },
     [401741] = {
       n = "fingers_of_frost",
+      pas = true,
+    },
+    [415759] = {
+      n = "skull_bash",
       pas = true,
     },
     [440802] = {
@@ -876,6 +892,9 @@ ns.RegisterSpecData("forever", "mage_frost", {
     cone_of_cold = {
       a = { 120, 8492, 10159, 10160, 10161 },
     },
+    counterspell = {
+      a = { 2139, 29443 },
+    },
     fingers_of_frost = {
       a = { 400647, 400669, 401741 },
       b = { 400669, 401741, 400647 },
@@ -891,6 +910,9 @@ ns.RegisterSpecData("forever", "mage_frost", {
     },
     ice_lance = {
       a = { 400640, 1240044, 1240045, 1240046, 1240047, 1312002 },
+    },
+    skull_bash = {
+      a = { 415759 },
     },
   },
 })

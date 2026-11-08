@@ -901,6 +901,18 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       n = "shadowform",
       tal = true,
     },
+    [15487] = {
+      ap = {
+        { 15487, "enemy" },
+      },
+      cd = 45,
+      cost = { [0] = 225 },
+      d = 5,
+      gcd = 1.5,
+      n = "silence",
+      r = 20,
+      tal = true,
+    },
     [17311] = {
       ap = {
         { 17311, "enemy" },
@@ -1039,6 +1051,14 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       n = "shadow_word_death",
       r = 30,
     },
+    [1324427] = {
+      ap = {
+        { 1324427, "self" },
+      },
+      d = 5,
+      n = "silence",
+      r = 20,
+    },
   },
   spells = {
     desperate_prayer = {
@@ -1073,6 +1093,9 @@ ns.RegisterSpecData("forever", "priest_shadow", {
     shadowform = {
       a = { 15473 },
       b = { 15473 },
+    },
+    silence = {
+      a = { 15487, 1324427 },
     },
     vampiric_touch = {
       a = { 402668 },

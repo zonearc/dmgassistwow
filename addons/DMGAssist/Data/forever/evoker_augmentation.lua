@@ -680,6 +680,13 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
   simcOrder = { "precombat", "default", "filler", "items" },
   spec = "augmentation",
   spellInfo = {
+    [351338] = {
+      cd = 20,
+      d = 6,
+      n = "quell",
+      r = 25,
+      tal = true,
+    },
     [353759] = {
       ap = {
         { 353759, "enemy" },
@@ -1379,6 +1386,9 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
     },
     pupil_of_alexstrasza = {
       t = { 407814 },
+    },
+    quell = {
+      a = { 351338 },
     },
     temporal_burst = {
       t = { 431695 },

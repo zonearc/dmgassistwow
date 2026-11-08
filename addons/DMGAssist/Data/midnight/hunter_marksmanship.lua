@@ -719,11 +719,25 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       gain = { [2] = 20 },
       n = "steady_shot",
     },
+    [147362] = {
+      cd = 24,
+      d = 5,
+      n = "counter_shot",
+      r = 40,
+      tal = true,
+    },
     [185358] = {
       cost = { [2] = 40 },
       gcd = 1.5,
       n = "arcane_shot",
       r = 40,
+    },
+    [187707] = {
+      cd = 15,
+      d = 5,
+      n = "muzzle",
+      r = 5,
+      tal = true,
     },
     [194594] = {
       ap = {
@@ -1084,6 +1098,9 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
     calling_the_shots = {
       t = { 260404 },
     },
+    counter_shot = {
+      a = { 147362 },
+    },
     explosive_shot = {
       a = { 212431, 212680, 269850, 464618 },
       b = { 212431, 212680, 269850, 464618 },
@@ -1098,6 +1115,9 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
     moonlight_chakram = {
       a = { 1264949, 1264946, 1266081, 1264902 },
       b = { 1264946, 1264949, 1266081, 1264902 },
+    },
+    muzzle = {
+      a = { 187707 },
     },
     no_scope = {
       t = { 473385 },

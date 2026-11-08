@@ -584,6 +584,36 @@ ns.RegisterSpecData("forever", "warlock_demonology", {
       n = "shadow_bolt",
       r = 30,
     },
+    [19244] = {
+      ap = {
+        { 24259, "enemy" },
+      },
+      cd = 30,
+      cost = { [0] = 120 },
+      d = 6,
+      gcd = 1.5,
+      n = "spell_lock",
+      r = 30,
+    },
+    [19647] = {
+      ap = {
+        { 24259, "enemy" },
+      },
+      cd = 30,
+      cost = { [0] = 200 },
+      d = 8,
+      gcd = 1.5,
+      n = "spell_lock",
+      r = 30,
+    },
+    [24259] = {
+      ap = {
+        { 24259, "enemy" },
+      },
+      d = 3,
+      n = "spell_lock",
+      r = 30,
+    },
     [427733] = {
       ct = 10,
       gcd = 1.5,
@@ -597,6 +627,9 @@ ns.RegisterSpecData("forever", "warlock_demonology", {
   spells = {
     shadow_bolt = {
       a = { 686, 695, 705, 1088, 1106, 7641 },
+    },
+    spell_lock = {
+      a = { 19244, 19647, 24259 },
     },
     summon_felguard = {
       a = { 427733, 431754 },
