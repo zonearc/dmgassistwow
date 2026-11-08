@@ -324,6 +324,7 @@ test("interrupt lines in a SimC list are never rotation picks (the Interrupts mo
   local ns = Boot()
   eq(ns.Engine.SKIP.skull_bash, true)
   eq(ns.Engine.SKIP.muzzle, true)
+  eq(ns.Engine.SKIP.charge, true, "movement lines are left to the gap closer")
   local rec = Record()
   table.insert(rec.simc.default, 1, { a = "skull_bash", k = "R" })
   local r = ns.Engine.Recommend(rec, {})

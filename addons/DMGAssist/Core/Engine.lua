@@ -36,6 +36,14 @@ for _, token in ipairs({
   G.SKIP[token] = true
 end
 
+-- Movement: SimC's charge / leap lines test time<=0.5 or a movement distance it simulates, so they read as
+-- "now" out of combat and in melee. Essentials.GapCloser shows these only when the target is out of melee range
+-- and within the spell's own range.
+for _, token in ipairs({ "charge", "heroic_leap", "wild_charge", "harpoon", "shadowstep", "feral_lunge",
+  "intervene" }) do
+  G.SKIP[token] = true
+end
+
 local STOP = {}
 local MAX_DEPTH = 8
 
