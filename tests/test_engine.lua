@@ -438,6 +438,20 @@ test("Touch of Death only on a target with less health than your maximum", funct
   eq(why, "target")
   hp = 900
   eq(G.Castable(322109) ~= false, true, "below your max health")
+  -- the assistant's own fallback suggestion goes through the same rule, and through holds
+  hp = 5000
+  mock.acSpell = 322109
+  local rec = Record()
+  rec.simc = { default = {} }
+  rec.blizzard = nil
+  local r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(r.main == nil or r.main.id ~= 322109, true, "assistant's Touch of Death on a full-health dummy: dropped")
+  mock.acSpell = 5221
+  G.held[5221] = true
+  r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(r.main == nil or r.main.id ~= 5221, true, "a held spell is not brought back by the assistant")
+  G.held = {}
+  mock.acSpell = nil
   UnitHealth, UnitHealthMax = oldHealth, oldMax
 end)
 

@@ -635,8 +635,15 @@ local function Decide(record, opts, targets, first)
   if pick == STOP then
     pick = nil
   end
-  if not pick and run.acSpell then
-    pick = { id = run.acSpell, token = M.TokenForID(run.acSpell), source = "assisted" }
+  -- Blizzard's assistant as the fallback: still subject to our target rules (it suggests Touch of Death on a
+  -- full-health dummy) and to spells the player is holding.
+  if not pick and run.acSpell and not G.held[run.acSpell] then
+    local castable, why = Castable(run.acSpell)
+    if not (castable == false and why == "target") then
+      pick = { id = run.acSpell, token = M.TokenForID(run.acSpell), source = "assisted" }
+    elseif run.trace then
+      run.trace[#run.trace + 1] = "assisted:" .. tostring(run.acSpell) .. " invalid target"
+    end
   end
   if not pick and type(record.blizzard) == "table" then
     local start = record.blizzard.default and "default" or (record.blizzardOrder or {})[1]
