@@ -237,6 +237,12 @@ function mock.Install(env)
   function FrameMethods:SetShown(on)
     self.shown = on and true or false
   end
+  function FrameMethods:GetHeight()
+    return self.height or 0
+  end
+  function FrameMethods:SetHeight(h)
+    self.height = h
+  end
   function FrameMethods:GetFrameLevel()
     return self.level or 1
   end

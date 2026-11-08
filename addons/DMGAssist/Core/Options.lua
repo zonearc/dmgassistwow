@@ -215,7 +215,9 @@ function O.Register()
   Choice(display, HUD, "glow", "Main icon glow", H.glow,
     { { "none", "None" }, { "border", "Steady" }, { "pulse", "Pulse" } })
   Check(display, HUD, "pressCue", "Press-now cue", H.pressCue,
-    "Brightens the main icon when your GCD or cast ends within the spell queue window: press now for no gap.")
+    "The main icon is darkened until your GCD or cast is about to end, then flashes: press it then.")
+  Slider(display, HUD, "pressLead", "Flash this early", H.pressLead, 0, 300, 10,
+    "How long before the exact moment the flash comes, for reaction time.", " ms")
   Check(display, HUD, "gcdBar", "GCD bar", H.gcdBar)
   Check(display, HUD, "dimGuesses", "Dim uncertain picks", H.dimGuesses)
 

@@ -29,7 +29,7 @@ D.DEFAULTS = {
   font = "default", outline = "OUTLINE", calloutSize = 14,
   gcdBar = true, glow = "pulse",
   hideOutOfCombat = true, showWithTarget = true, hideMounted = true, hideVehicle = true,
-  debugText = false, callout = true, pressCue = true, secretBranches = true, interrupt = true, defensive = true,
+  debugText = false, callout = true, pressCue = true, pressLead = 50, secretBranches = true, interrupt = true, defensive = true,
   highlight = true,
 }
 
@@ -465,6 +465,25 @@ function D.Create()
   end
   f.main = f.slots[1]
   f.glow = Glow(f.main)
+  -- "not ready yet" wipe and the "press now" flash on slot 1 (see D.RenderTiming)
+  f.wipe = f.main:CreateTexture(nil, "OVERLAY")
+  f.wipe:SetColorTexture(0, 0, 0, 0.55)
+  f.wipe:SetPoint("TOPLEFT", f.main, "TOPLEFT", 0, 0)
+  f.wipe:SetPoint("TOPRIGHT", f.main, "TOPRIGHT", 0, 0)
+  f.wipe:Hide()
+  f.flash = f.main:CreateTexture(nil, "OVERLAY")
+  f.flash:SetAllPoints(f.main)
+  f.flash:SetColorTexture(1, 1, 0.8, 1)
+  if f.flash.SetBlendMode then
+    f.flash:SetBlendMode("ADD")
+  end
+  f.flash:Hide()
+  -- every frame while shown: only the timing visuals (cheap), so the flash is on time
+  f:SetScript("OnUpdate", function(self)
+    if self.timingCfg then
+      D.RenderTiming(self, self.timingCfg)
+    end
+  end)
   -- The other pick of a branch, stacked on the main icon; the game sets which one is visible (see D.Update).
   f.branch = Icon(f, cfg.iconSize, cfg)
   f.branch:SetAllPoints(f.slots[1])
@@ -746,6 +765,69 @@ local function RenderHighlight(f, result, cfg)
   f.hl:Show()
 end
 
+-- Timing on slot 1, redrawn every frame (OnUpdate) so the cue lands on the right moment:
+--   wait   = the longer of the GCD and our cast still running (both timed by State, see S.GCDRemains /
+--            S.CurrentCast: the game hides them in combat, so they come from our cast events and measured haste)
+--   not ready: a dark wipe over slot 1 that drains as the wait runs out (and the GCD bar fills)
+--   ready:  a bright flash `pressLead` seconds before the moment (default 50 ms: reaction time), then a steady glow
+local FLASH = 0.35
+
+function D.RenderTiming(f, cfg)
+  local castLeft = select(2, ns.State.CurrentCast()) or 0
+  local wait = math.max(ns.State.GCDRemains(), castLeft)
+  -- Length of this wait period, for the wipe and the bar: a jump up means a new GCD or cast started.
+  if not f.waitTotal or wait > (f.lastWait or 0) + 0.05 then
+    f.waitTotal = math.max(wait, 0.01)
+  end
+  f.lastWait = wait
+  local lead = (tonumber(cfg.pressLead) or 50) / 1000
+  local ready = wait <= lead
+  local now = GetTime()
+  if ready and not f.pressNow then
+    f.flashAt = now -- the moment it became ready: flash
+  end
+  f.pressNow = ready
+  local frac = ready and 0 or math.min(1, wait / f.waitTotal)
+  -- dark wipe: the remaining part of the wait, from the top of the icon down
+  if cfg.pressCue and frac > 0 then
+    f.wipe:SetHeight(math.max(1, f.main:GetHeight() * frac))
+    f.wipe:Show()
+  else
+    f.wipe:Hide()
+  end
+  -- glow / flash
+  if cfg.pressCue and ready and f.flashAt and now - f.flashAt < FLASH then
+    local t = (now - f.flashAt) / FLASH
+    f.glow:Show()
+    f.glow:SetColorTexture(1, 1, 0.75, 1 - 0.5 * t)
+    f.flash:SetAlpha(0.9 * (1 - t))
+    f.flash:Show()
+  else
+    f.flash:Hide()
+    if cfg.glow == "none" then
+      f.glow:Hide()
+    elseif ready and cfg.pressCue then
+      f.glow:Show()
+      f.glow:SetColorTexture(GOLD[1], GOLD[2], GOLD[3], 0.8)
+    else
+      f.glow:Show()
+      local a = 0.35
+      if cfg.glow == "pulse" then
+        a = 0.2 + 0.25 * (0.5 + 0.5 * math.sin(now * 5))
+      end
+      f.glow:SetColorTexture(GOLD[1], GOLD[2], GOLD[3], ready and a or a * 0.5)
+    end
+  end
+  if cfg.gcdBar then
+    f.gcd:SetValue(1 - frac)
+    f.gcd:Show()
+    f.gcdBg:Show()
+  else
+    f.gcd:Hide()
+    f.gcdBg:Hide()
+  end
+end
+
 function D.ShouldShow(inCombat, hasEnemyTarget)
   local cfg = D.Settings()
   if not cfg.hideOutOfCombat then
@@ -772,37 +854,8 @@ function D.Update(result, visible)
   f.branchShown = RenderBranch(f, result, cfg)
   RenderInterrupt(f, result, cfg)
   RenderDefensive(f, result, cfg)
-  -- "Press now" cue: the GCD (or the current cast) ends within the game's spell queue window, so pressing now
-  -- queues the spell with no gap. Timing uses the haste-adjusted GCD we track.
-  local queueWindow = (tonumber(U.Get(C_CVar and C_CVar.GetCVar, "SpellQueueWindow")) or 400) / 1000
-  local castLeft = select(2, ns.State.CurrentCast()) or 0
-  local wait = math.max(ns.State.GCDRemains(), castLeft)
-  local pressNow = cfg.pressCue and wait <= queueWindow
-  f.pressNow = pressNow
-  -- glow on the main icon
-  if pressNow and cfg.glow ~= "none" then
-    f.glow:Show()
-    f.glow:SetColorTexture(GOLD[1], GOLD[2], GOLD[3], 0.8)
-  elseif cfg.glow == "none" then
-    f.glow:Hide()
-  else
-    f.glow:Show()
-    local a = 0.35
-    if cfg.glow == "pulse" then
-      a = 0.2 + 0.25 * (0.5 + 0.5 * math.sin(GetTime() * 5))
-    end
-    f.glow:SetColorTexture(GOLD[1], GOLD[2], GOLD[3], a)
-  end
-  -- GCD bar
-  if cfg.gcdBar then
-    local remains, total = ns.State.GCDRemains(), ns.State.GCD()
-    f.gcd:SetValue(total > 0 and math.max(0, 1 - remains / total) or 1)
-    f.gcd:Show()
-    f.gcdBg:Show()
-  else
-    f.gcd:Hide()
-    f.gcdBg:Hide()
-  end
+  f.timingCfg = cfg
+  D.RenderTiming(f, cfg)
   if cfg.header then
     local state = ns.Specs and ns.Specs.current
     f.header:SetText(string.format("DMGAssist · %s · %s", tostring(state and (state.specName or state.key) or "-"),

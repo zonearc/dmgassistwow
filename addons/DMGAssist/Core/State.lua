@@ -460,6 +460,10 @@ function S.OnSpellcastSucceeded(spellID)
     return
   end
   S.castsSeen = S.castsSeen + 1
+  if not (S.myCast and S.myCast.id == id) then
+    S.gcdFrom = { id = id, t = GetTime() } -- an instant: the GCD starts now
+  end
+  S.OnOwnCastStop(id)
   RecordCast(id, "event")
   if C_Timer and C_Timer.After then
     C_Timer.After(0.1, function()
@@ -524,6 +528,54 @@ end
 -- The spell being cast or channelled right now, if the game tells us: id, seconds left.
 -- UnitCastingInfo returns ..., endTimeMs (5th), ..., castingSpellID (9th);
 -- UnitChannelInfo returns ..., endTimeMs (5th), ..., spellID (8th). Both SecretWhenUnitSpellCastRestricted.
+-- Our own cast, timed from its start event when the game hides UnitCastingInfo in combat (it does on
+-- Midnight 12.1.5: the HUD's bar ran ahead of the real cast bar). Expected length = SimC's cast time / haste;
+-- every finished cast measures the real length and corrects the haste estimate.
+S.myCast = nil      -- { id =, t = start, len = expected seconds }
+S.gcdFrom = nil     -- { id =, t = } when the latest GCD started (a cast's start, or an instant's success)
+
+function S.OnOwnCastStart(spellID)
+  local id = U.Read(spellID)
+  if type(id) ~= "number" then
+    return
+  end
+  local info = M.Info(id)
+  local ct = info and info.ct or 0
+  local live = U.Get(C_Spell and C_Spell.GetSpellInfo, id)
+  local ms = type(live) == "table" and U.Read(live.castTime)
+  local len = type(ms) == "number" and ms / 1000 or ct / HasteFactor()
+  S.myCast = { id = id, t = GetTime(), len = len, base = ct }
+  S.gcdFrom = { id = id, t = GetTime() }
+end
+
+-- The cast bar ended (UNIT_SPELLCAST_STOP): not casting any more; kept until SUCCEEDED measures it.
+function S.OnOwnCastEnded()
+  if S.myCast then
+    S.myCast.ended = GetTime()
+  end
+end
+
+function S.OnOwnCastStop(succeededID)
+  local c = S.myCast
+  S.myCast = nil
+  if not (c and succeededID and c.id == succeededID and c.base and c.base > 0) then
+    return
+  end
+  local actual = (c.ended or GetTime()) - c.t
+  -- First casts of each fight: predicted vs real length, so a report shows how far off the timing is.
+  S.timingLogged = (S.timingLogged or 0) + 1
+  if S.timingLogged <= 10 then
+    U.Log("cast_timing", { id = c.id, predicted = math.floor(c.len * 1000), actual = math.floor(actual * 1000),
+      haste = S.hasteSource })
+  end
+  if actual > 0.4 and type(U.Get(UnitSpellHaste, "player")) ~= "number" then
+    local h = (c.base / actual - 1) * 100
+    if h > -20 and h < 200 then
+      lastHaste, S.hasteSource, S.hasteStale = h, "measured", false
+    end
+  end
+end
+
 function S.CurrentCast()
   local c = { U.Call(UnitCastingInfo, "player") }
   local endMs, id = U.Read(c[5]), U.Read(c[9])
@@ -533,6 +585,20 @@ function S.CurrentCast()
   end
   if type(endMs) == "number" and type(id) == "number" then
     return id, math.max(0, endMs / 1000 - GetTime())
+  end
+  local mine = S.myCast
+  if mine and mine.ended then
+    if GetTime() - mine.ended > 1 then
+      S.myCast = nil
+    end
+    return nil
+  end
+  if mine then
+    local left = mine.t + mine.len - GetTime()
+    if left > -0.3 then
+      return mine.id, math.max(0, left)
+    end
+    S.myCast = nil -- no stop event came (a missed event): forget it
   end
   return nil
 end
@@ -778,6 +844,14 @@ function S.GCDRemains()
   if V then
     return 0
   end
+  -- The game's own GCD timer, if its duration object is readable.
+  local gcdDur = U.Call(C_Spell and C_Spell.GetSpellCooldownDuration, GCD_SPELL)
+  if type(gcdDur) == "table" and not U.IsSecret(gcdDur) and gcdDur.GetRemainingDuration then
+    local left = U.Get(gcdDur.GetRemainingDuration, gcdDur)
+    if type(left) == "number" then
+      return math.max(0, left)
+    end
+  end
   local info = CooldownInfo(GCD_SPELL)
   if info then
     local start, dur = U.Read(info.startTime), U.Read(info.duration)
@@ -788,9 +862,14 @@ function S.GCDRemains()
       return 0
     end
   end
+  -- Our own clock: the GCD started at the latest cast's start (or an instant's success).
   local last = S.history[1]
-  if last then
-    return math.max(0, S.GCD(last.id) - (GetTime() - last.t))
+  local from = S.gcdFrom
+  if last and not (from and from.t >= last.t - 0.05) then
+    from = last
+  end
+  if from then
+    return math.max(0, S.GCD(from.id) - (GetTime() - from.t))
   end
   return 0
 end
@@ -1376,6 +1455,7 @@ end
 function S.OnCombat(inCombat)
   if inCombat then
     S.combatStart = GetTime()
+    S.timingLogged = 0
     S.drift = {}
     S.castsSeen, S.castsSecret, S.castsInferred = 0, 0, 0
   else
