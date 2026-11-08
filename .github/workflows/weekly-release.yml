@@ -100,7 +100,7 @@ jobs:
       - name: CurseForge
         if: steps.promote.outputs.version != '' && vars.CURSEFORGE_PUBLISH == 'true'
         env:
-          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN || secrets.CF_API_TOKEN2 }}
           RELEASE_TYPE: ${{ vars.CURSEFORGE_RELEASE_TYPE || 'alpha' }}
         run: |
           if [ -z "$CF_API_TOKEN" ]; then echo "CF_API_TOKEN secret is not set: nothing uploaded"; exit 0; fi
