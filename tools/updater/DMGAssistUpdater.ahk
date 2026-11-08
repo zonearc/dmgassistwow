@@ -331,42 +331,100 @@ RunUpdate(manual) {
     }
     Busy := true
     before := VersionsText(", ")
-    if manual
-        TrayTip("Checking for a new build...", AppName)
     list := ""
     for f in Folders
         list .= (list = "" ? "" : "|") f
     resultFile := A_Temp "\dmgassist-update-result.txt"
+    statusFile := A_Temp "\dmgassist-update-status.txt"
     try FileDelete(resultFile)
-    RunWait('powershell.exe -NoProfile -ExecutionPolicy Bypass -File "' UpdateScript '" -AddOns "' list
-        '" -Result "' resultFile '"' (manual ? " -Force" : ""), , "Hide")
+    try FileDelete(statusFile)
+    cmd := 'powershell.exe -NoProfile -ExecutionPolicy Bypass -File "' UpdateScript '" -AddOns "' list
+        . '" -Result "' resultFile '"' (manual ? ' -Force -Status "' statusFile '"' : "")
+    win := ""
+    if manual {
+        ; A manual check shows its progress: checking, found, downloading, installing, and how it ended.
+        win := ProgressWindow()
+        pid := 0
+        Run(cmd, , "Hide", &pid)
+        while ProcessExist(pid) {
+            ShowStatus(win, statusFile)
+            Sleep(200)
+        }
+        ShowStatus(win, statusFile)
+    } else {
+        RunWait(cmd, , "Hide")
+    }
     result := FileExist(resultFile) ? Trim(FileRead(resultFile)) : "ERROR PowerShell did not run."
     LastCheck := FormatTime(, "HH:mm")
     Busy := false
-    if (!A_IsCompiled && FileGetTime(A_ScriptFullPath, "M") != ScriptStamp) {
-        TrayTip("The updater updated itself and is restarting.", AppName)
-        Sleep(1500)
-        Reload()
-    }
+    restart := !A_IsCompiled && FileGetTime(A_ScriptFullPath, "M") != ScriptStamp
     if SubStr(result, 1, 3) = "OK " {
         LastError := ""
         RefreshTip()
-        TrayTip("Now: " VersionsText(", ") "`nIn game: /reload", "DMGAssist updated")
+        if manual
+            Finish(win, 100, "Updated.`n`nNow: " VersionsText(", ") "`n`nIn game: type /reload.", restart)
+        else
+            TrayTip("Now: " VersionsText(", ") "`nIn game: /reload", "DMGAssist updated")
     } else if SubStr(result, 1, 5) = "SAME " {
         LastError := ""
         RefreshTip()
         if manual
-            TrayTip("Up to date: " before, AppName)
+            Finish(win, 100, "Already up to date.`n`n" before, restart)
     } else {
         msg := SubStr(result, 7)
         isNew := msg != LastError
         LastError := msg
         RefreshTip()
         if manual
-            MsgBox(msg, "DMGAssist update failed", "Icon!")
+            Finish(win, 0, "The update failed:`n`n" msg, restart)
         else if isNew
             TrayTip(msg, "DMGAssist update failed")
     }
+    if (restart && !manual) {
+        TrayTip("The updater updated itself and is restarting.", AppName)
+        Sleep(1500)
+        Reload()
+    }
+}
+
+; The progress window for a manual check: a line of text, a bar, and an OK button once it is done.
+ProgressWindow() {
+    g := Gui("+AlwaysOnTop -MinimizeBox -MaximizeBox", AppName)
+    g.SetFont("s10")
+    text := g.Add("Text", "w460 h130", "Checking GitHub for the newest build...")
+    bar := g.Add("Progress", "w460 h18 Range0-100", 5)
+    ok := g.Add("Button", "w90 x+-90 y+12 Default Disabled", "OK")
+    ok.OnEvent("Click", (*) => g.Destroy())
+    g.OnEvent("Close", (*) => g.Destroy())
+    g.Show("AutoSize")
+    return { gui: g, text: text, bar: bar, ok: ok }
+}
+
+ShowStatus(win, statusFile) {
+    if !FileExist(statusFile)
+        return
+    try line := Trim(FileRead(statusFile))
+    catch
+        return
+    parts := StrSplit(line, "|", , 2)
+    if (parts.Length = 2) {
+        try win.bar.Value := Integer(parts[1])
+        try win.text.Value := parts[2]
+    }
+}
+
+Finish(win, pct, text, restart) {
+    if restart
+        text .= "`n`nThe updater also updated itself and restarts when you press OK."
+    try {
+        win.bar.Value := pct
+        win.text.Value := text
+        win.ok.Enabled := true
+        win.ok.Focus()
+        WinWaitClose("ahk_id " win.gui.Hwnd)
+    }
+    if restart
+        Reload()
 }
 
 ToggleAuto(*) {
