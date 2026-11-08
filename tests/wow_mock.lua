@@ -398,6 +398,15 @@ function mock.Install(env)
   env.GetBuildInfo = function()
     return "1.60.1", "70862", "Nov 7 2026", 16001, "1.60.1", "release"
   end
+  env.GetPhysicalScreenSize = function()
+    return 2560, 1440
+  end
+  env.GetFramerate = function()
+    return 120
+  end
+  env.GetNumGroupMembers = function()
+    return 0
+  end
   env.GetLocale = function()
     return mock.locale or "enUS"
   end
@@ -501,9 +510,32 @@ function mock.Install(env)
       return 7
     end,
   }
+  mock.addons = { { "DMGAssist", "1.0", true }, { "DMGAssist_Watchdog", "0.1.0", true }, { "BigWigs", "v400", true },
+    { "Details", "2026", false } }
   env.C_AddOns = {
-    IsAddOnLoaded = function()
+    IsAddOnLoaded = function(i)
+      local a = type(i) == "number" and mock.addons[i]
+      return a and a[3] or false
+    end,
+    GetNumAddOns = function()
+      return #mock.addons
+    end,
+    GetAddOnInfo = function(i)
+      local a = mock.addons[i]
+      return a[1], a[1], "", true, nil, "INSECURE"
+    end,
+    GetAddOnMetadata = function(name, field)
+      for _, a in ipairs(mock.addons) do
+        if a[1] == name and field == "Version" then
+          return a[2]
+        end
+      end
+    end,
+    IsAddOnLoadOnDemand = function()
       return false
+    end,
+    GetAddOnEnableState = function()
+      return 2
     end,
   }
   env.C_AssistedCombat = {

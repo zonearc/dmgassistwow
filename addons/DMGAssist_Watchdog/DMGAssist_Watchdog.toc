@@ -11,6 +11,7 @@ Store.lua
 Errors.lua
 Sessions.lua
 Probe.lua
+Launch.lua
 Export.lua
 UI.lua
 Commands.lua

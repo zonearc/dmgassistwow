@@ -23,8 +23,18 @@ for v in "${versions[@]}"; do
     exit 1
   fi
 done
-if [ -n "$tag" ] && [ "v$first" != "$tag" ]; then
+# v0.2.0-beta1 is a pre-release of 0.2.0: compare without the suffix
+if [ -n "$tag" ] && [ "v$first" != "${tag%%-*}" ]; then
   echo "tag $tag does not match addon version $first (run scripts/bump-version.sh)" >&2
   exit 1
+fi
+# Testing switches must be off in a real release (tags without a suffix; v0.2.0-beta1 may keep them on).
+if [ -n "$tag" ] && [[ "$tag" != *-* ]]; then
+  if grep -q 'ns.TESTING = true' addons/DMGAssist/Core/Util.lua \
+    || grep -q 'testingMode = true' addons/DMGAssist_Watchdog/Store.lua; then
+    echo "testing mode is still on (ns.TESTING in DMGAssist/Core/Util.lua, testingMode in Watchdog/Store.lua);" \
+      "turn it off for release $tag, or tag a pre-release like $tag-beta1" >&2
+    exit 1
+  fi
 fi
 echo "version $first"

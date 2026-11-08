@@ -17,8 +17,16 @@ local function Register(list, handler)
   end
 end
 
-Register({ "ADDON_LOADED", "PLAYER_LOGIN", "PLAYER_ENTERING_WORLD", "PLAYER_LOGOUT" }, function(event, arg1, arg2)
+local Launch = ns.Launch
+
+Register({ "ADDON_LOADED", "PLAYER_LOGIN", "PLAYER_ENTERING_WORLD", "PLAYER_LOGOUT", "LOADING_SCREEN_ENABLED",
+  "LOADING_SCREEN_DISABLED" }, function(event, arg1, arg2)
+  if event == "LOADING_SCREEN_ENABLED" or event == "LOADING_SCREEN_DISABLED" then
+    Launch.Mark(event == "LOADING_SCREEN_ENABLED" and "loading_screen_on" or "loading_screen_off")
+    return
+  end
   if event == "ADDON_LOADED" then
+    Launch.OnAddonLoaded(arg1)
     if arg1 == ADDON_NAME then
       S.Init()
       E.OnDatabaseReady()
@@ -28,6 +36,17 @@ Register({ "ADDON_LOADED", "PLAYER_LOGIN", "PLAYER_ENTERING_WORLD", "PLAYER_LOGO
     E.Install()
   elseif event == "PLAYER_LOGIN" then
     E.Install()
+    Launch.Mark("player_login")
+    if C_Timer and C_Timer.After then
+      C_Timer.After(4, function()
+        Launch.Mark("launch_snapshot")
+        local ok, err = pcall(Launch.Snapshot, "login")
+        if not ok then
+          E.Record("launch", err)
+        end
+        pcall(Launch.ApplyTesting, true)
+      end)
+    end
     if ns.db and ns.db.settings.autoProbe and C_Timer and C_Timer.After then
       C_Timer.After(6, function()
         if InCombatLockdown() then
@@ -40,6 +59,7 @@ Register({ "ADDON_LOADED", "PLAYER_LOGIN", "PLAYER_ENTERING_WORLD", "PLAYER_LOGO
       end)
     end
   elseif event == "PLAYER_ENTERING_WORLD" then
+    Launch.Mark(arg2 and "entering_world_reload" or "entering_world")
     S.Note("entering_world", { initialLogin = U.Safe(arg1), reload = U.Safe(arg2), zone = U.Safe(GetRealZoneText()) })
   elseif event == "PLAYER_LOGOUT" then
     M.Stop("logout")

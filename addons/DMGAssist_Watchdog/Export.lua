@@ -43,10 +43,12 @@ function X.Build(scope)
     data.sessions = Tail(db.sessions, 1)
     data.probes = Tail(db.probes, 2)
     data.notes = Tail(db.notes, 20)
+    data.launch = Tail(db.launch or {}, 1)
   else
     data.sessions = db.sessions
     data.probes = db.probes
     data.notes = db.notes
+    data.launch = db.launch
   end
   return data
 end
