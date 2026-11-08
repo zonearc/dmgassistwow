@@ -31,7 +31,7 @@ local MAX_DEPTH = 8
 
 local function Test(cond, run, action)
   run.ctx.action = action
-  local t = E.Test(cond, run.resolve)
+  local t = E.Test(cond, run.resolve, run.bounds)
   if t == UNKNOWN then
     run.anyUnknown = true
   end
@@ -40,7 +40,7 @@ end
 
 local function Value(expr, run)
   run.ctx.action = nil
-  return E.Value(expr, run.resolve)
+  return E.Value(expr, run.resolve, run.bounds)
 end
 
 local function Combine(op, cur, v)
@@ -270,6 +270,7 @@ local function Decide(record, opts, targets, first)
     end
     return v
   end
+  run.bounds = S.Bounds
   if first and opts.useAssisted then
     local ac = U.Read(U.Call(C_AssistedCombat and C_AssistedCombat.GetNextCastSpell, false))
     if type(ac) == "number" then
@@ -280,6 +281,18 @@ local function Decide(record, opts, targets, first)
         return t[id]
       end })
     end
+  end
+
+  -- What the assistant's pick tells us about hidden state (facts feed the resolver for this decision on).
+  if run.acSpell then
+    run.oracleLine = ns.Clues.ObserveAssisted(record, run.acSpell, {
+      resolve = run.resolve,
+      bounds = run.bounds,
+      castable = Castable,
+      same = function(id, ac)
+        return id == ac or run.override[id] == ac
+      end,
+    })
   end
 
   -- Precombat variables feed the main list (SimC evaluates them once; they are cheap, so every time).
