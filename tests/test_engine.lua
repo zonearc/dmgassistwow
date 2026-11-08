@@ -665,6 +665,106 @@ test("key bindings file calls functions that exist", function()
   end
 end)
 
+---------------------------------------------------------------------------
+-- Clues: what the assistant, glows and affordability reveal about hidden state
+---------------------------------------------------------------------------
+test("oracle: the assistant's pick reveals Clearcasting and a ticking Rake", function()
+  Reset()
+  local ns = Boot()
+  local rec = Record()
+  rec.blizzard = { default = {
+    { a = "rake", k = "T", c = "!dot.rake.ticking" },
+    { a = "shred", k = "T", c = "buff.clearcasting.react" },
+    { a = "thrash", k = "R" },
+  } }
+  rec.simc.default = { { a = "rake", k = "T", c = "!dot.rake.ticking" }, { a = "shred", k = "T", c = "buff.clearcasting.react" } }
+  rec.simc.precombat = nil
+  Restrict()
+  local S, UNKNOWN = ns.State, ns.Expr.UNKNOWN
+  eq(S.Resolve("buff.clearcasting.react", {}), UNKNOWN, "hidden before the oracle")
+  mock.acSpell = 5221 -- the assistant says Shred
+  local r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(S.Resolve("buff.clearcasting.react", {}), 1, "Shred's rule was true: Clearcasting is up")
+  eq(S.Resolve("dot.rake.ticking", {}), 1, "Rake was castable but skipped: Rake is ticking")
+  eq(r.main.token, "shred")
+  eq(r.main.source, "simc", "SimC's own line is now certain, not just corroborated")
+  -- our cast changes the state: those conclusions are dropped until the assistant speaks again
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5221)
+  eq(S.Resolve("buff.clearcasting.react", {}), UNKNOWN)
+end)
+
+test("oracle: a skipped finisher bounds hidden combo points", function()
+  Reset()
+  local ns = Boot()
+  local rec = Record()
+  rec.blizzard = { default = { { a = "ferocious_bite", k = "R", c = "combo_points>=5" }, { a = "shred", k = "R" } } }
+  Restrict()
+  mock.acSpell = 5221
+  ns.Engine.Recommend(rec, { useAssisted = true })
+  local lo, hi = ns.State.Bounds("combo_points")
+  eq(lo, 0)
+  eq(hi, 4)
+  eq(ns.Expr.Test("combo_points<5", function() return ns.Expr.UNKNOWN end, ns.State.Bounds), true)
+  eq(ns.Expr.Test("combo_points>=5|combo_points=2", function() return ns.Expr.UNKNOWN end, ns.State.Bounds),
+    ns.Expr.UNKNOWN, "still unknown where the range can't decide")
+end)
+
+test("affordability brackets hidden energy, and is graded when energy is readable", function()
+  Reset()
+  local ns = Boot()
+  local rec = QRecord({ { a = "shred", k = "R" } })
+  rec.spells.rake = { a = { 1822 } }
+  rec.spellInfo[1822] = { n = "rake", cost = { [3] = 35 }, gcd = 1 }
+  ns.SpellMap.SetData(rec)
+  mock.usable[5221] = { false, true } -- Shred (40): not enough energy
+  mock.usable[1822] = { true, false } -- Rake (35): affordable
+  Restrict()
+  local lo, hi = ns.State.Bounds("energy")
+  eq(lo, 35)
+  eq(hi, 39)
+  -- out of combat the real value is readable: the bracket is checked against it
+  mock.restricted = false
+  mock.power[3], mock.powerReadable[3] = 37, true
+  mock.Advance(0.01)
+  ns.State.VerifyPowers()
+  eq(ns.Clues.stats.usable.checks, 1)
+  eq(ns.Clues.stats.usable.wrong, 0)
+end)
+
+test("glows: learned out of combat, then reveal the proc in combat", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  mock.Fire("SPELL_ACTIVATION_OVERLAY_GLOW_SHOW", 5221)
+  mock.auras.player = { { name = "Clearcasting", spellId = 135700, duration = 15, expirationTime = mock.now + 15 } }
+  mock.Fire("UNIT_AURA", "player")
+  eq(ns.Clues.links[5221], "clearcasting", "glow on Shred = Clearcasting")
+  mock.auras.player = {}
+  mock.Fire("SPELL_ACTIVATION_OVERLAY_GLOW_HIDE", 5221)
+  mock.Fire("UNIT_AURA", "player")
+  Restrict()
+  mock.Advance(2)
+  eq(S.Resolve("buff.clearcasting.up", {}), ns.Expr.UNKNOWN)
+  mock.Fire("SPELL_ACTIVATION_OVERLAY_GLOW_SHOW", 5221)
+  eq(S.Resolve("buff.clearcasting.up", {}), 1)
+  mock.Fire("SPELL_ACTIVATION_OVERLAY_GLOW_HIDE", 5221)
+  eq(S.Resolve("buff.clearcasting.up", {}), 0)
+  -- the link is saved for next time
+  eq(DMGAssistDB.learned.druid_feral.glowAura[5221], "clearcasting")
+end)
+
+test("an inference source that keeps being wrong switches itself off", function()
+  Reset()
+  local ns = Boot()
+  local Cl = ns.Clues
+  for _ = 1, 25 do
+    Cl.SetAura("player", "phantom", true, 1, "assisted")
+    Cl.Verify("player", {}) -- readable truth: no such buff
+  end
+  eq(Cl.Enabled("assisted"), false)
+  eq(Cl.AuraFact("player", "phantom"), nil, "facts from a disabled source are ignored")
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

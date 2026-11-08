@@ -71,6 +71,11 @@ local function PowerType(name)
   return enum or POWER_FALLBACK[key]
 end
 
+-- Power type for a bare resource name ("combo_points" -> 4), nil for anything else.
+function S.PowerTypeOf(name)
+  return PowerType(name)
+end
+
 ---------------------------------------------------------------------------
 -- Target count: auto-detect from nameplates when readable, else the user's mode (hotkey switchable)
 ---------------------------------------------------------------------------
@@ -313,6 +318,7 @@ local function RecordCast(id, how)
     S.history[#S.history] = nil
   end
   S.lastCast[id] = GetTime()
+  ns.Clues.OnCast()
   -- Start our clocks for the auras this spell applies (SimC data, else what we learned in game).
   local started = false
   if info and info.ap then
@@ -379,6 +385,7 @@ function S.OnGlow(spellID, shown)
   local id = U.Read(spellID)
   if type(id) == "number" then
     S.glow[id] = shown or nil
+    ns.Clues.OnGlow(id, shown, S.AurasReadable())
   end
 end
 
@@ -457,6 +464,14 @@ function S.OnAura(unit)
   if not now then
     return
   end
+  ns.Clues.Verify(unit, now)
+  if unit == "player" then
+    for token in pairs(now) do
+      if not (before and before[token]) then
+        ns.Clues.OnNewAura(token)
+      end
+    end
+  end
   local last = S.history[1]
   if last and GetTime() - last.t <= TRACK_WINDOW then
     for token in pairs(now) do
@@ -478,7 +493,12 @@ function S.OnAura(unit)
   end
 end
 
+function S.AurasReadable()
+  return readAuras.player ~= nil
+end
+
 function S.OnTargetChanged()
+  ns.Clues.OnTargetChanged()
   S.dotUntil = {}
   readAuras.target = nil
   S.OnAura("target")
@@ -500,6 +520,13 @@ local function AuraState(unit, token)
     end
   end
   local read = readAuras[unit]
+  -- Inferred facts (assistant oracle, glows) about the present, when the game won't show the aura itself.
+  if not read and not (V and #V.prev > 0) then
+    local up, remains = ns.Clues.AuraFact(unit, token)
+    if up ~= nil then
+      return up, remains, up and 1 or 0
+    end
+  end
   for _, t in ipairs(list) do
     if read and read[t] then
       if read[t].expires > now then
@@ -515,7 +542,12 @@ local function AuraState(unit, token)
       if untilT > now then
         return true, untilT - now, 1
       end
-      return false, 0, 0
+      -- Expired on our clock. Certain only for auras our own casts apply (we'd have seen the cast);
+      -- a proc can come back unseen, so without a readable scan it is unknown.
+      if read or M.IsOwnAura(t) or S.learnedOwn(t) then
+        return false, 0, 0
+      end
+      return UNKNOWN, UNKNOWN, UNKNOWN
     end
   end
   if read then
@@ -534,6 +566,15 @@ local function AuraState(unit, token)
   return UNKNOWN, UNKNOWN, UNKNOWN
 end
 S.AuraState = AuraState
+
+function S.learnedOwn(token)
+  for _, applied in pairs(S.learned.castAura) do
+    if applied == token then
+      return true
+    end
+  end
+  return false
+end
 
 local function AuraDuration(token)
   return AuraLength(token) or UNKNOWN
@@ -653,6 +694,57 @@ function S.Affordable(id)
     end
   end
   return result
+end
+
+-- lo, hi for a resource term whose exact value is hidden ("combo_points", "energy.deficit"); nil otherwise.
+function S.Bounds(name)
+  local head, field = name:match("^([%w_]+)%.?([%w_]*)$")
+  local pt = head and PowerType(head)
+  if not pt or (field ~= "" and field ~= "deficit") then
+    return nil
+  end
+  local cur, max = PowerNow(pt)
+  if type(cur) == "number" then
+    return nil -- exact value known; the resolver already returns it
+  end
+  local lo, hi = ns.Clues.ResourceBounds(pt)
+  if not lo then
+    return nil
+  end
+  if V and V.power[pt] then
+    lo, hi = math.max(0, lo + V.power[pt]), hi + V.power[pt]
+  end
+  if type(max) == "number" and max > 0 then
+    hi = math.min(hi, max)
+    lo = math.min(lo, max)
+  end
+  if field == "deficit" then
+    if type(max) ~= "number" then
+      return nil
+    end
+    return max - hi, max - lo
+  end
+  return lo, hi
+end
+
+-- Grade inferred resource ranges whenever the real value is readable (out of combat, unrestricted resources).
+function S.VerifyPowers()
+  if V then
+    return
+  end
+  local seen = {}
+  for pt in pairs(ns.Clues.bounds) do
+    seen[pt] = true
+  end
+  for pt in pairs(ns.Clues.Affordability()) do
+    seen[pt] = true
+  end
+  for pt in pairs(seen) do
+    local cur = U.Read(U.Call(UnitPower, "player", pt))
+    if type(cur) == "number" then
+      ns.Clues.VerifyPower(pt, cur)
+    end
+  end
 end
 
 ---------------------------------------------------------------------------
@@ -1023,7 +1115,9 @@ function S.Bind(key)
   l.cd = type(l.cd) == "table" and l.cd or {}
   l.aura = type(l.aura) == "table" and l.aura or {}
   l.castAura = type(l.castAura) == "table" and l.castAura or {}
+  l.glowAura = type(l.glowAura) == "table" and l.glowAura or {}
   S.learned = l
+  ns.Clues.Reset(l.glowAura)
   S.auraUntil, S.dotUntil, S.lastCast, S.wasActive, S.glow = {}, {}, {}, {}, {}
   readAuras.player, readAuras.target = nil, nil
 end

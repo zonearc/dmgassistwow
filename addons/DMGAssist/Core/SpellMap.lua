@@ -73,6 +73,29 @@ function M.SetData(record)
   M.data = type(record.spells) == "table" and record.spells or {}
   M.info = type(record.spellInfo) == "table" and record.spellInfo or {}
   M.hero = type(record.heroTrees) == "table" and record.heroTrees or {}
+  -- Auras our own casts apply (by SimC data): for these "not seen = down" is safe; procs are not.
+  M.applied = {}
+  for _, info in pairs(M.info) do
+    -- Only spells we press (GCD / cooldown / cost / cast time); a proc buff's own entry lists itself.
+    local castable = not info.pas and (info.gcd or info.cd or info.cost or info.ct or info.ch)
+    if info.ap and castable then
+      for _, ap in ipairs(info.ap) do
+        local ai = M.info[ap[1]]
+        if ai and ai.n then
+          M.applied[ai.n] = true
+        end
+      end
+    end
+  end
+end
+
+function M.IsOwnAura(token)
+  for _, t in ipairs(M.Candidates(token)) do
+    if M.applied and M.applied[t] then
+      return true
+    end
+  end
+  return false
 end
 
 -- SimC data for a spell ID (also for an override of a spell we have data for).

@@ -183,8 +183,38 @@ local function Num(b)
   return 0
 end
 
+-- Decide a comparison from a known range: value in [lo, hi] compared with constant c. 1 / 0 / nil (undecided).
+local function CmpRange(op, lo, hi, c)
+  if op == ">=" then
+    if lo >= c then return 1 end
+    if hi < c then return 0 end
+  elseif op == ">" then
+    if lo > c then return 1 end
+    if hi <= c then return 0 end
+  elseif op == "<=" then
+    if hi <= c then return 1 end
+    if lo > c then return 0 end
+  elseif op == "<" then
+    if hi < c then return 1 end
+    if lo >= c then return 0 end
+  elseif op == "=" then
+    if lo == c and hi == c then return 1 end
+    if c < lo or c > hi then return 0 end
+  elseif op == "!=" then
+    if c < lo or c > hi then return 1 end
+    if lo == c and hi == c then return 0 end
+  end
+  return nil
+end
+E.CmpRange = CmpRange
+
+local MIRROR = { [">="] = "<=", [">"] = "<", ["<="] = ">=", ["<"] = ">", ["="] = "=", ["!="] = "!=" }
+
 -- Evaluate a node. resolve(name) returns a number, a boolean, or UNKNOWN for an identifier.
-local function Eval(node, resolve)
+-- bounds(name), optional, returns lo, hi for an identifier whose exact value is unknown (e.g. a hidden resource
+-- narrowed down by which spells are affordable); comparisons against a constant can then still be decided.
+local Eval
+function Eval(node, resolve, bounds)
   local kind = node[1]
   if kind == "num" then
     return node[2]
@@ -197,7 +227,7 @@ local function Eval(node, resolve)
     end
     return v
   elseif kind == "un" then
-    local v = Eval(node[3], resolve)
+    local v = Eval(node[3], resolve, bounds)
     if v == UNKNOWN then
       return UNKNOWN
     end
@@ -209,7 +239,7 @@ local function Eval(node, resolve)
     end
     return v
   elseif kind == "fn" then
-    local v = Eval(node[3], resolve)
+    local v = Eval(node[3], resolve, bounds)
     if v == UNKNOWN then
       return UNKNOWN
     end
@@ -222,11 +252,11 @@ local function Eval(node, resolve)
   -- binary
   local op = node[2]
   if op == "&" or op == "&&" then
-    local a = Truth(Eval(node[3], resolve))
+    local a = Truth(Eval(node[3], resolve, bounds))
     if a == false then
       return 0
     end
-    local b = Truth(Eval(node[4], resolve))
+    local b = Truth(Eval(node[4], resolve, bounds))
     if b == false then
       return 0
     end
@@ -235,11 +265,11 @@ local function Eval(node, resolve)
     end
     return 1
   elseif op == "|" or op == "||" then
-    local a = Truth(Eval(node[3], resolve))
+    local a = Truth(Eval(node[3], resolve, bounds))
     if a == true then
       return 1
     end
-    local b = Truth(Eval(node[4], resolve))
+    local b = Truth(Eval(node[4], resolve, bounds))
     if b == true then
       return 1
     end
@@ -249,9 +279,26 @@ local function Eval(node, resolve)
     return 0
   end
 
-  local a = Eval(node[3], resolve)
-  local b = Eval(node[4], resolve)
+  local a = Eval(node[3], resolve, bounds)
+  local b = Eval(node[4], resolve, bounds)
   if a == UNKNOWN or b == UNKNOWN then
+    if bounds and MIRROR[op] then
+      local idNode, c, cmp = nil, nil, op
+      if a == UNKNOWN and b ~= UNKNOWN and node[3][1] == "id" then
+        idNode, c = node[3], b
+      elseif b == UNKNOWN and a ~= UNKNOWN and node[4][1] == "id" then
+        idNode, c, cmp = node[4], a, MIRROR[op]
+      end
+      if idNode then
+        local lo, hi = bounds(idNode[2])
+        if lo and hi then
+          local r = CmpRange(cmp, lo, hi, c)
+          if r then
+            return r
+          end
+        end
+      end
+    end
     return UNKNOWN
   end
   if op == "^" then
@@ -294,7 +341,7 @@ end
 E.Eval = Eval
 
 -- Evaluate a condition string to TRUE (true), FALSE (false) or UNKNOWN. Empty/nil condition is TRUE.
-function E.Test(cond, resolve)
+function E.Test(cond, resolve, bounds)
   if cond == nil or cond == "" then
     return true
   end
@@ -302,11 +349,12 @@ function E.Test(cond, resolve)
   if not node then
     return UNKNOWN
   end
-  return Truth(Eval(node, resolve))
+  return Truth(Eval(node, resolve, bounds))
 end
+E.Truth = Truth
 
 -- Evaluate a condition string to a number or UNKNOWN (for variable values).
-function E.Value(expr, resolve)
+function E.Value(expr, resolve, bounds)
   if expr == nil or expr == "" then
     return 0
   end
@@ -314,5 +362,5 @@ function E.Value(expr, resolve)
   if not node then
     return UNKNOWN
   end
-  return Eval(node, resolve)
+  return Eval(node, resolve, bounds)
 end

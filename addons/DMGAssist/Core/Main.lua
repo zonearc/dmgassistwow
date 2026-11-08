@@ -100,6 +100,7 @@ function ns.Update()
     D.Update(nil, false)
     return nil
   end
+  S.VerifyPowers()
   local result = G.Recommend(state.data, {
     burst = ns.db.burst ~= false,
     useAssisted = state.branch == "midnight" and ns.db.useAssisted ~= false,

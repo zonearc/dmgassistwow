@@ -106,3 +106,19 @@ Not yet: queue slots 2–3 (state advance), using glows as proc evidence, the as
 - **Target modes.** Primary mode ST/AoE (user setting), auto-detect from hostile in-combat nameplates (`nameplate1..40`)
   when readable, a key binding to cycle Auto → ST → AoE. When auto can't count, the primary mode applies.
 - **Languages.** Messages and key-binding names in 9 locales (`Core/Locales.lua`); missing strings fall back to English.
+
+## Clues: inferring hidden state (Core/Clues.lua)
+
+| Clue | Where it comes from | What we learn | Checked against |
+|---|---|---|---|
+| Assistant oracle (Midnight) | `C_AssistedCombat.GetNextCastSpell` + Blizzard's rules in our data | The rule for its pick is TRUE; every earlier rule whose spell is castable is FALSE → buff/DoT up/down, resource ranges (`combo_points>=5` false → ≤ 4) | Readable aura scans and resource values (out of combat, where the assistant also works) |
+| Proc glows | `SPELL_ACTIVATION_OVERLAY_GLOW_SHOW/HIDE` (plain spell IDs) | Which buff each glow means (learned out of combat, saved per spec); in combat glow = buff up, glow gone = buff consumed | Readable aura scans |
+| Affordability | `C_Spell.IsSpellUsable` (isUsable, insufficientPower), not secret | Hidden resource ranges from single-cost spells (SimC costs); glowing spells skipped (procs make them free) | Readable resource values |
+
+Expressions use the ranges directly: `combo_points<5` is decided when combo points are known to be 0–4.
+Oracle facts live 1 s and are dropped when we cast; glow facts last until the glow ends. Every source is graded each time
+the truth is readable; one that is wrong > 20 % of the time (after 20 checks) is switched off for the session and logged.
+Remembered "buff is down" is certain only for auras our own casts apply; for procs it decays to unknown.
+
+Haste/crit: haste is read when `UnitSpellHaste` is readable (and remembered when not) to scale GCDs, cast times and
+hasted cooldowns; crit only changes proc odds, which these clues observe directly rather than predict.
