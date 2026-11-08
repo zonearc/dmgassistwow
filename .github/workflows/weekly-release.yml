@@ -83,4 +83,11 @@ jobs:
             echo
             echo "Stand-alone Windows updater (AutoHotkey v2 script, keeps retail and Forever up to date): [DMGAssist_Updater.zip](https://github.com/${{ github.repository }}/releases/download/nightly/DMGAssist_Updater.zip)."
           } > notes.md
-          gh release create "$tag" assets/* --target "$sha" --title "DMGAssist $version" --notes-file notes.md --latest
+          # GitHub has answered the first try with a 403 right after a build (a re-run passed): retry a few times.
+          for try in 1 2 3; do
+            if gh release create "$tag" assets/* --target "$sha" --title "DMGAssist $version" --notes-file notes.md --latest; then
+              exit 0
+            fi
+            sleep 60
+          done
+          exit 1
