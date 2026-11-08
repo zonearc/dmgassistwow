@@ -50,6 +50,7 @@ local function Reset()
   mock.actionInfo, mock.macroSpell, mock.powerCost, mock.cdmInfo, mock.timeline = nil, nil, nil, nil, nil
   mock.bindings, mock.actionSlots, mock.bonusBar = nil, nil, nil
   mock.targetCast, mock.important = nil, nil
+  mock.plateCombat, mock.plateNames = nil, nil
   mock.healthPct, mock.mounted, mock.sounds, mock.castTimes = nil, nil, {}, nil
   SettingsPanel, ActionButton3 = nil, nil
   DBM, BigWigsLoader, BT4Button1, BuffIconCooldownViewer = nil, nil, nil, nil
@@ -1965,6 +1966,47 @@ test("fight length: learned per kind of fight from your own fights; SimC default
   ns.db.fightMode, ns.db.fightLength = "custom", 120
   eq(S.FightLength(), 120)
   eq(S.LearnedFightLength("boss"), nil, "bosses learned separately")
+end)
+
+test("enemy count: remembered through combat-flag gaps; dummies longer; one unreadable plate is not fatal", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  mock.inCombat, mock.nameplates = true, 3
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.plateNames = { "Cleave Training Dummy", "Cleave Training Dummy", "Cleave Training Dummy" }
+  eq(S.CountEnemies(), 3, "three dummies hit")
+  eq(S.lastCount.dummies, 3)
+  -- two of them drop the combat flag between AoE casts
+  mock.plateCombat = { [2] = false, [3] = false }
+  mock.now = mock.now + 6
+  eq(S.CountEnemies(), 3, "dummies are remembered")
+  eq(S.lastCount.remembered, 2)
+  mock.now = mock.now + 10
+  eq(S.CountEnemies(), 1, "not hit for a while: dropped")
+  -- ordinary mobs: shorter memory
+  ns.State.ForgetEnemies()
+  mock.plateNames, mock.plateCombat = nil, nil
+  eq(S.CountEnemies(), 3)
+  mock.plateCombat = { [3] = false }
+  mock.now = mock.now + 3
+  eq(S.CountEnemies(), 3, "a flicker does not drop it")
+  mock.now = mock.now + 4
+  eq(S.CountEnemies(), 2)
+  -- one plate unreadable: the others still count
+  local real = UnitAffectingCombat
+  UnitAffectingCombat = function(unit)
+    if unit == "nameplate2" then
+      return nil
+    end
+    return real(unit)
+  end
+  ns.State.ForgetEnemies()
+  eq(S.CountEnemies(), 1, "plate 1 counts; 2 unreadable; 3 out of combat")
+  eq(S.lastCount.unknown, 1)
+  UnitAffectingCombat = real
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat, mock.nameplates = false, 0
 end)
 
 test("title row: colour-coded ST / AOE with the live count", function()

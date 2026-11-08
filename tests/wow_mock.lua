@@ -807,8 +807,29 @@ function mock.Install(env)
     end
     return unit == "target" and mock.hasTarget == true
   end
-  env.UnitAffectingCombat = function()
+  env.UnitAffectingCombat = function(unit)
+    local i = PlateIndex(unit)
+    if i and mock.plateCombat and mock.plateCombat[i] ~= nil then
+      return mock.plateCombat[i]
+    end
     return mock.inCombat == true
+  end
+  env.UnitGUID = function(unit)
+    local i = PlateIndex(unit)
+    if i then
+      return "Creature-0-0-0-0-" .. i
+    end
+    return unit == "player" and "Player-0-1" or nil
+  end
+  env.UnitName = function(unit)
+    local i = PlateIndex(unit)
+    if i then
+      return mock.plateNames and mock.plateNames[i] or "Enemy"
+    end
+    return unit == "player" and "Tester" or nil
+  end
+  env.UnitIsDead = function()
+    return false
   end
   env.UnitIsBossMob = function()
     return mock.boss == true
