@@ -56,7 +56,7 @@ jobs:
             echo "2. Unzip both into \`World of Warcraft/_retail_/Interface/AddOns/\` (Forever: the same folder of the client you play)."
             echo "3. Restart the game (or /reload). Type \`/dmga\` to check it's loaded."
             echo
-            echo "Windows: run **DMGAssistUpdater.exe** once instead of steps 1-2; it installs itself, starts with Windows and keeps both addons up to date (retail and Forever)."
+            echo "Windows: the updater in **DMGAssist_Updater.zip** keeps both addons up to date (see its README)."
             echo
             echo "### Data in this build"
             echo "- SimulationCraft midnight \`$simc_m\`, forever \`$simc_f\`"
@@ -86,27 +86,21 @@ jobs:
               --target "$GITHUB_SHA" --prerelease --title "Nightly build ($VERSION)" --notes-file release-notes.md
           fi
 
-  # The tray updater as a stand-alone Windows program (no AutoHotkey needed), added to the same release.
-  updater-exe:
+
+  # No compiled updater exe: Microsoft Defender flags compiled AutoHotkey programs that run as admin, create a
+  # scheduled task and run PowerShell (a false positive, but unsigned builds can't avoid it). Remove copies published
+  # before this change.
+  remove-updater-exe:
     needs: build
-    runs-on: windows-latest
-    continue-on-error: true
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Compile DMGAssistUpdater.exe
+      - name: Delete DMGAssistUpdater.exe from the releases
         env:
           GH_TOKEN: ${{ github.token }}
-        shell: pwsh
+          GH_REPO: ${{ github.repository }}
         run: |
-          New-Item -ItemType Directory ahk | Out-Null
-          gh release download --repo AutoHotkey/AutoHotkey --pattern "AutoHotkey_2*.zip" --dir ahk
-          gh release download --repo AutoHotkey/Ahk2Exe --pattern "Ahk2Exe*.zip" --dir ahk
-          Get-ChildItem ahk -Filter *.zip | ForEach-Object { Expand-Archive $_.FullName -DestinationPath ahk -Force }
-          $compiler = Get-ChildItem ahk -Recurse -Filter Ahk2Exe.exe | Select-Object -First 1
-          $base = Get-ChildItem ahk -Recurse -Filter AutoHotkey64.exe | Select-Object -First 1
-          Push-Location tools/updater
-          & $compiler.FullName /in DMGAssistUpdater.ahk /out DMGAssistUpdater.exe /base $base.FullName /silent verbose | Out-Host
-          Start-Sleep -Seconds 2
-          if (-not (Test-Path DMGAssistUpdater.exe)) { throw "Ahk2Exe produced no exe" }
-          Pop-Location
-          gh release upload nightly tools/updater/DMGAssistUpdater.exe --clobber
+          for tag in $(gh release list --limit 100 --json tagName --jq '.[].tagName'); do
+            if gh release view "$tag" --json assets --jq '.assets[].name' | grep -qx DMGAssistUpdater.exe; then
+              gh release delete-asset "$tag" DMGAssistUpdater.exe --yes && echo "removed from $tag"
+            fi
+          done

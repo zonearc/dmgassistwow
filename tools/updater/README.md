@@ -5,10 +5,11 @@ install on the PC it supports: **retail (`_retail_`) and WoW Forever**. It check
 newer build by itself. Hover the icon to see the version in each folder and the time of the last check.
 
 ## Install (once)
-1. Download **DMGAssistUpdater.exe** from the [nightly release](https://github.com/zonearc/dmgassistwow/releases/tag/nightly)
-   (or the latest weekly release) and run it. Nothing else is needed.
-   - Windows may say "Windows protected your PC" (the program isn't code-signed): **More info → Run anyway**.
-   - It asks for admin rights once: AddOns folders under Program Files need them.
+1. Install [AutoHotkey v2](https://www.autohotkey.com/), download **DMGAssist_Updater.zip** from the
+   [nightly release](https://github.com/zonearc/dmgassistwow/releases/tag/nightly), unzip it anywhere and double-click
+   **DMGAssistUpdater.ahk**. It asks for admin rights once: AddOns folders under Program Files need them.
+   (There is no compiled .exe: Microsoft Defender flags unsigned compiled AutoHotkey programs that do this kind of
+   work, a false positive we can't avoid without paid code signing.)
 2. That's it. It:
    - installs itself to `%LOCALAPPDATA%\DMGAssistUpdater`, replacing and closing an older copy (including the old
      AutoHotkey script version),
@@ -26,9 +27,8 @@ Right-click the icon for **Check and update now** (double-click does the same), 
 **Open AddOns folders**, and **Uninstall the updater**.
 
 ## Uninstall
-Right-click → **Uninstall the updater**. For the old AutoHotkey script version (before the .exe), run
-`Uninstall-DMGAssistUpdater.ahk` from `DMGAssist_Updater.zip` (needs AutoHotkey v2), or simply run the new
-DMGAssistUpdater.exe, which replaces the old version. The addons themselves stay in your AddOns folders.
+Right-click → **Uninstall the updater**, or run `Uninstall-DMGAssistUpdater.ahk` from `DMGAssist_Updater.zip`
+(it also removes older versions of the updater). The addons themselves stay in your AddOns folders.
 
 ## What it does
 `update.ps1` asks GitHub for the `nightly` release. Folders already on that version are left alone. Otherwise it
@@ -36,6 +36,3 @@ downloads `DMGAssist.zip` and `DMGAssist_Watchdog.zip`, checks each contains its
 replaces the two folders in each AddOns folder that needs it. Nothing else in AddOns is touched. If anything fails,
 the installed addons are left as they were; an automatic check reports a new error once, a manual check always.
 
-## Running from source
-`DMGAssistUpdater.ahk` (AutoHotkey v2) with `update.ps1` next to it works the same way; the nightly build compiles
-it into the .exe.

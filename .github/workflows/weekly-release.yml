@@ -64,7 +64,7 @@ jobs:
           fi
           mkdir assets
           gh release download nightly --dir assets --pattern 'DMGAssist.zip' --pattern 'DMGAssist_Watchdog.zip' \
-            --pattern 'DMGAssist_Updater.zip' --pattern 'DMGAssistUpdater.exe'
+            --pattern 'DMGAssist_Updater.zip'
           (cd assets && for f in DMGAssist DMGAssist_Watchdog; do mv "$f.zip" "$f-$version.zip"; done)
           {
             echo "**DMGAssist $version**: this week's build (the newest one is always the [nightly build](https://github.com/${{ github.repository }}/releases/tag/nightly))."
@@ -74,6 +74,6 @@ jobs:
             git log --no-merges --format='- %s' $range | head -60
             echo
             echo "### Install"
-            echo "Unzip **DMGAssist** and **DMGAssist_Watchdog** into \`World of Warcraft/_retail_/Interface/AddOns/\`, or run **DMGAssistUpdater.exe** once to keep them up to date automatically."
+            echo "Unzip **DMGAssist** and **DMGAssist_Watchdog** into \`World of Warcraft/_retail_/Interface/AddOns/\`."
           } > notes.md
           gh release create "$tag" assets/* --target "$sha" --title "DMGAssist $version" --notes-file notes.md --latest
