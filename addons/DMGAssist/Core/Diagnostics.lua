@@ -41,9 +41,10 @@ local function Class(ok, v)
   return "ok"
 end
 
--- Record one observation of an input. ok = the call succeeded; v = its value (may be secret).
-function G.Observe(input, ok, v)
-  local class = Class(ok, v)
+-- Record one observation of an input. ok = the call succeeded; v = its value (may be secret); class = force a
+-- class (when we know the answer is hidden without asking).
+function G.Observe(input, ok, v, class)
+  class = class or Class(ok, v)
   local r = G.range[input]
   if not r then
     r = { ok = 0, secret = 0, nilc = 0, err = 0 }
@@ -65,7 +66,9 @@ function G.Observe(input, ok, v)
   local before = G.state[input]
   if before ~= class then
     G.state[input] = class
-    if before ~= nil then
+    -- (The assistant's pick comes and goes with the target out of combat: only its in-combat changes matter.)
+    local noise = input == "assisted_pick" and ns.State.combatStart == nil
+    if before ~= nil and not noise then
       U.Log("readability", { input = input, from = before, to = class, combat = ns.State.combatStart ~= nil,
         restricted = Restriction() })
     end
@@ -117,11 +120,16 @@ function G.Tick(force)
   local gcd = U.Call(C_Spell and C_Spell.GetSpellCooldown, 61304)
   G.Observe("cooldown_duration", type(gcd) == "table", type(gcd) == "table" and gcd.duration or nil)
   G.Observe("cooldown_isActive", type(gcd) == "table", type(gcd) == "table" and gcd.isActive or nil)
-  local aura = U.Call(C_UnitAuras and C_UnitAuras.GetAuraDataByIndex, "player", 1, "HELPFUL")
-  if U.IsSecret(aura) or type(aura) ~= "table" then
-    G.Observe("player_aura", true, aura)
+  -- Asking for auras while the game hides them raises an error inside the call, so ask first.
+  if U.Get(C_Secrets and C_Secrets.ShouldAurasBeSecret) == true then
+    G.Observe("player_aura", true, nil, "secret")
   else
-    G.Observe("player_aura", true, aura.spellId)
+    local aura = U.Call(C_UnitAuras and C_UnitAuras.GetAuraDataByIndex, "player", 1, "HELPFUL")
+    if U.IsSecret(aura) or type(aura) ~= "table" then
+      G.Observe("player_aura", true, aura)
+    else
+      G.Observe("player_aura", true, aura.spellId)
+    end
   end
   G.Observe("aura_scan", true, ns.State.AurasReadable() and true or nil)
   Probe("assisted_pick", C_AssistedCombat and C_AssistedCombat.GetNextCastSpell, false)

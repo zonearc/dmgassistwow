@@ -29,6 +29,62 @@ G.SKIP = {
 local STOP = {}
 local MAX_DEPTH = 8
 
+-- Priority-list variables live for the whole fight, as in SimC (e.g. Balance's "opener" stays 0 once
+-- Celestial Alignment has been used). SimC runs the list once per action it takes, so the values from the
+-- latest live decision are committed when the player actually casts something; look-ahead and repeated
+-- refreshes between casts work on copies and never change them.
+G.fightVars = {}
+local pendingVars
+
+local function CopyVars(from)
+  local out = {}
+  for k, v in pairs(from) do
+    if v ~= UNKNOWN then
+      out[k] = v
+    end
+  end
+  return out
+end
+
+function G.OnOwnCast()
+  if pendingVars and S.combatStart then
+    G.fightVars = pendingVars
+    pendingVars = nil
+  end
+end
+
+function G.OnCombat()
+  G.fightVars, pendingVars = {}, nil
+end
+
+-- SimC's target_if: "min:expr" / "max:expr" choose among targets (we only see the current one, so they add
+-- nothing); a bare expression or "first:expr" is a filter the target must pass, so it joins the condition.
+local filterCache = {}
+local function Condition(e)
+  local f = e.p and e.p.target_if
+  if type(f) ~= "string" or f:find("^min:") or f:find("^max:") then
+    return e.c
+  end
+  f = f:gsub("^first:", "")
+  local key = (e.c or "") .. "\0" .. f
+  local c = filterCache[key]
+  if not c then
+    c = e.c and ("(" .. e.c .. ")&(" .. f .. ")") or f
+    filterCache[key] = c
+  end
+  return c
+end
+
+-- SimC's line_cd: this line may fire at most once every N seconds (999 = once per fight).
+local function LineOnCooldown(e, id)
+  local n = e.p and tonumber(e.p.line_cd)
+  if not n then
+    return false
+  end
+  local since = S.SinceCast(id)
+  return since ~= nil and since < n
+end
+
 local function Test(cond, run, action)
   run.ctx.action = action
   local t = E.Test(cond, run.resolve, run.bounds)
@@ -240,7 +296,12 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
     elseif not G.SKIP[a] and not (isBlizzard and (e.x or run.cooldowns[a])) then
       -- (Blizzard's excluded lines are the major cooldowns: never a main pick from the fallback.)
       local id = M.SpellID(a)
-      if id then
+      if id and LineOnCooldown(e, id) then
+        if run.trace then
+          run.trace[#run.trace + 1] = string.format("%s:%s line_cd", name, a)
+        end
+      elseif id then
+        local cond = Condition(e)
         local castable, why = Castable(id)
         local pooling = run.poolNext
         run.poolNext = nil
@@ -249,13 +310,13 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
             why and ("(" .. why .. ")") or "")
         end
         if castable == false and why == "power" and pooling and not isBlizzard and not maybe
-          and Test(e.c, run, a) == true then
+          and Test(cond, run, a) == true then
           -- SimC said "pool for the next action" and this is it: wait for the resource instead of a filler.
           run.visiting[name] = nil
           return { id = id, token = a, source = "pool" }
         end
         if castable ~= false then
-          local t = Test(e.c, run, a)
+          local t = Test(cond, run, a)
           if run.trace then
             run.trace[#run.trace] = run.trace[#run.trace] .. " cond=" .. tostring(t)
           end
@@ -280,7 +341,7 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
                 run.firstMaybe = { id = id, token = a, source = "guess" }
               end
               if run.first and not run.branch and not maybe and castable == true then
-                run.branch = G.Branch(e.c, run, id, a)
+                run.branch = G.Branch(cond, run, id, a)
               end
             elseif not run.firstRuleMaybe then
               run.firstRuleMaybe = { id = id, token = a, source = "rules?" }
@@ -337,7 +398,7 @@ end
 local function Decide(record, opts, targets, first)
   local prep = Prepare(record)
   local run = {
-    ctx = { vars = {}, targets = targets },
+    ctx = { vars = CopyVars(G.fightVars), targets = targets },
     visiting = {},
     unresolved = {},
     cooldowns = prep.cooldowns,
@@ -382,10 +443,12 @@ local function Decide(record, opts, targets, first)
     })
   end
 
-  -- Precombat variables feed the main list (SimC evaluates them once; they are cheap, so every time).
+  -- Precombat variables feed the main list. Out of combat they are worked out fresh every time; in combat
+  -- only the ones the fight has no value for yet (SimC sets them once, before the pull).
   if type(record.simc) == "table" and record.simc.precombat then
+    local inCombat = S.combatStart ~= nil
     for _, e in ipairs(record.simc.precombat) do
-      if e.a == "variable" then
+      if e.a == "variable" and not (inCombat and e.p and run.ctx.vars[e.p.name] ~= nil) then
         DoVariable(e, run)
       end
     end
@@ -409,6 +472,9 @@ local function Decide(record, opts, targets, first)
     end
   end
   pick = pick or run.firstMaybe or run.firstRuleMaybe
+  if first then
+    pendingVars = CopyVars(run.ctx.vars)
+  end
   local branch = run.branch
   if branch and pick and pick.id ~= branch.pick.id and pick.source ~= "guess" then
     branch.otherwise = pick

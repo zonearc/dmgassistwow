@@ -218,7 +218,8 @@ function mock.Install(env)
     "SetBackdropBorderColor", "ClearAllPoints", "SetStatusBarTexture", "SetStatusBarColor", "SetMinMaxValues",
     "SetJustifyH", "SetTextColor", "SetAllPoints", "SetPoint", "SetFrameStrata", "SetMovable", "RegisterForDrag",
     "SetClampedToScreen", "SetMultiLine", "SetAutoFocus", "SetFontObject", "SetWidth", "SetScrollChild",
-    "SetCursorPosition", "SetFocus", "HighlightText", "ClearFocus", "StartMoving", "StopMovingOrSizing" }) do
+    "SetCursorPosition", "SetFocus", "HighlightText", "ClearFocus", "StartMoving", "StopMovingOrSizing",
+    "SetFrameLevel", "RegisterForClicks", "SetHighlightTexture", "SetOwner", "AddLine" }) do
     FrameMethods[name] = noop
   end
   env.CreateFrame = function(frameType, name)
@@ -230,7 +231,24 @@ function mock.Install(env)
     return f
   end
 
+  function FrameMethods:SetShown(on)
+    self.shown = on and true or false
+  end
+  function FrameMethods:GetCenter()
+    return 100, 100
+  end
+  function FrameMethods:GetEffectiveScale()
+    return 1
+  end
   env.UIParent = setmetatable({ events = {}, scripts = {} }, FrameMethods)
+  env.Minimap = setmetatable({ events = {}, scripts = {}, width = 140 }, FrameMethods)
+  env.GameTooltip = setmetatable({ events = {}, scripts = {} }, FrameMethods)
+  env.GetCursorPosition = function()
+    return 160, 100
+  end
+  env.IsShiftKeyDown = function()
+    return mock.shift == true
+  end
   env.STANDARD_TEXT_FONT = "Fonts\\FRIZQT__.TTF"
 
   -- Blizzard Settings API (the parts DMGAssist uses). mock.settings[variable] = { get, set, control, options }.
@@ -354,7 +372,8 @@ function mock.Install(env)
   env.UnitInVehicle = function()
     return false
   end
-  env.SOUNDKIT = { RAID_WARNING = 8959, UI_RAID_BOSS_WHISPER_WARNING = 37666 }
+  env.SOUNDKIT = { RAID_WARNING = 8959, READY_CHECK = 8960, ALARM_CLOCK_WARNING_3 = 12889, ALARM_CLOCK_WARNING_2 = 12867,
+    PVP_THROUGH_QUEUE = 8459, UI_BNET_TOAST = 18019, TELL_MESSAGE = 3081 }
   mock.sounds = {}
   env.PlaySound = function(kit, channel)
     mock.sounds[#mock.sounds + 1] = { kit, channel }

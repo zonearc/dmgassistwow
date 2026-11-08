@@ -109,3 +109,17 @@ show the truth. DMGAssist uses this for two-spell branches (one hidden resource 
 (secret `notInterruptible`, `C_Spell.IsSpellImportant`), and the low-health defensive.
 Duration objects (`C_Spell.GetSpellCooldownDuration`, `C_UnitAuras.GetAuraDuration`) can drive cooldown swipes the
 same way (not used yet).
+
+## 8. Asking before reading auras (verified: API docs live 12.1.5 and forever 1.60.1; in game 2026-11-08)
+
+`C_Secrets.ShouldAurasBeSecret()` ("queries for aura data will generally produce secret values") exists on both
+clients. In restricted combat on Midnight, calling `C_UnitAuras.GetAuraDataByIndex` anyway raises
+"Auras cannot be accessed when secret while tainted by '<addon>'" inside the call (seen in game; caught by `U.Call`).
+Check `ShouldAurasBeSecret()` first and treat the auras as hidden. See
+docs/findings/2026-11-08-first-midnight-session.md.
+
+Addon compartment (Midnight): Blizzard_Minimap/Mainline/AddonCompartment.lua reads the TOC field
+`AddonCompartmentFunc` and calls `_G[name](addonName, mouseButtonName)`; the icon comes from `IconTexture`.
+
+BugGrabber (BugSack) keeps the global error handler; read its list with `BugGrabber:GetDB()` /
+`BugGrabber:GetSessionId()` (unverified here against its source; every call guarded, outcome logged).

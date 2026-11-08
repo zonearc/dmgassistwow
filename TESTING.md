@@ -5,13 +5,18 @@ state (client, every addon and version, CVars, restrictions, load order), keeps 
 stores a decision snapshot a few seconds into every fight. Nothing to type.
 
 ## Each session
-1. Install `DMGAssist` and `DMGAssist_Watchdog` (zips from the latest CI run or release).
+1. Install `DMGAssist` and `DMGAssist_Watchdog` (zips from the `nightly` release).
 2. Log in. You'll see one line: *"Test build: logging is on ..."*.
 3. Play: target dummies, dungeons, anything. Switch specs freely.
    - Optional while playing: `/dmga why` (what and why), `/dmga snapshot` (store a full trace right now).
-4. `/reload` (or log out) — that's when the game writes the log files.
-5. On your PC: `python tools/send-logs.py --note "Feral, dummies, felt slow on Rip"`
-   (or keep `python tools/send-logs.py --watch` running and every `/reload` is sent automatically).
+4. Type `/dmgw` (or shift-click the DMGAssist minimap button). The report opens already selected: press Ctrl+C
+   and paste it into the chat, with a line about what you did ("Balance, dummies, stuck on Moonfire").
+   No `/reload` needed; the report always holds everything up to now. "Copy everything" sends all fights.
+
+Errors BugSack catches are included (BugSack keeps the game's error handler to itself, so the Watchdog reads its list
+when the report is built).
+
+(Files instead of copy/paste: after a `/reload`, `python tools/send-logs.py` uploads the saved logs to GitHub.)
 
 ## What gets recorded
 - Launch: client and build, game type, locale, screen and UI scale, every installed addon (version, loaded,

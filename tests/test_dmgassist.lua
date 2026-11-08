@@ -174,6 +174,57 @@ test("every SimC spec in the data maps from a Blizzard spec ID", function()
   end
 end)
 
+test("minimap button: settings, show/hide, Watchdog report, saved position, can be turned off", function()
+  local ns = Boot("standard")
+  local b = DMGAssistMinimapButton
+  eq(type(b), "table", "button created")
+  eq(b:IsShown(), true)
+  local opened = 0
+  local open = ns.Options.Open
+  ns.Options.Open = function() opened = opened + 1 end
+  b.scripts.OnClick(b, "LeftButton")
+  eq(opened, 1, "left-click opens settings")
+  local before = ns.db.enabled
+  b.scripts.OnClick(b, "RightButton")
+  eq(ns.db.enabled, not before, "right-click toggles")
+  DMGAssist_OnCompartmentClick("DMGAssist", "LeftButton")
+  eq(opened, 2, "compartment opens settings")
+  ns.Options.Open = open
+  local reports = 0
+  DMGAssistWatchdog = { OpenReport = function() reports = reports + 1 end }
+  mock.shift = true
+  b.scripts.OnClick(b, "LeftButton")
+  mock.shift = nil
+  DMGAssistWatchdog = nil
+  eq(reports, 1, "shift-click opens the Watchdog report")
+  b.scripts.OnDragStart(b)
+  b.scripts.OnUpdate(b)
+  eq(ns.db.minimapAngle, 0, "dragging saves the angle")
+  b.scripts.OnDragStop(b)
+  b.scripts.OnEnter(b)
+  ns.db.minimap = false
+  ns.Minimap.Apply()
+  eq(b:IsShown(), false, "setting hides it")
+end)
+
+test("sounds: removed choices fall back to the default; keybind color applies", function()
+  DMGAssistDB = { sound_interrupt = "UI_RAID_BOSS_WHISPER_WARNING", sound_defensive = "RAID_WARNING" }
+  local ns = Boot("standard")
+  eq(ns.db.sound_interrupt, nil, "silent sound forgotten")
+  eq(ns.Sounds.Choice("interrupt"), "READY_CHECK")
+  eq(ns.Sounds.Choice("defensive"), "RAID_WARNING")
+  for _, c in ipairs(ns.Sounds.CHOICES) do
+    eq(c[1] == "none" or SOUNDKIT[c[1]] ~= nil, true, c[1] .. " is in the mock's SOUNDKIT")
+  end
+  ns.db.hud = ns.db.hud or {}
+  ns.db.hud.keybindColor = "cyan"
+  local colors = {}
+  for _, c in ipairs(ns.Display.TEXT_COLORS) do
+    colors[c[1]] = true
+  end
+  eq(colors.cyan, true)
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

@@ -11,19 +11,24 @@ ns.Sounds = S
 S.CHOICES = {
   { "none", "None" },
   { "RAID_WARNING", "Raid warning" },
-  { "UI_RAID_BOSS_WHISPER_WARNING", "Boss whisper" },
-  { "RAID_BOSS_EMOTE_WARNING", "Boss emote" },
-  { "ALARM_CLOCK_WARNING_3", "Alarm" },
   { "READY_CHECK", "Ready check" },
-  { "MAP_PING", "Map ping" },
+  { "ALARM_CLOCK_WARNING_3", "Alarm" },
+  { "ALARM_CLOCK_WARNING_2", "Alarm (short)" },
+  { "PVP_THROUGH_QUEUE", "Queue pop" },
+  { "UI_BNET_TOAST", "Friend toast" },
   { "TELL_MESSAGE", "Whisper" },
 }
-local FALLBACK = { RAID_WARNING = 8959, UI_RAID_BOSS_WHISPER_WARNING = 37666, RAID_BOSS_EMOTE_WARNING = 12197,
-  ALARM_CLOCK_WARNING_3 = 12889, READY_CHECK = 8960, MAP_PING = 3175, TELL_MESSAGE = 3081 }
+-- (Boss whisper / boss emote are silent when an addon plays them, and map ping is too quiet: tested in game.)
+local FALLBACK = { RAID_WARNING = 8959, READY_CHECK = 8960, ALARM_CLOCK_WARNING_3 = 12889,
+  ALARM_CLOCK_WARNING_2 = 12867, PVP_THROUGH_QUEUE = 8459, UI_BNET_TOAST = 18019, TELL_MESSAGE = 3081 }
+local VALID = {}
+for _, c in ipairs(S.CHOICES) do
+  VALID[c[1]] = true
+end
 
 -- event -> default sound
 S.DEFAULTS = {
-  interrupt = "UI_RAID_BOSS_WHISPER_WARNING",
+  interrupt = "READY_CHECK",
   defensive = "RAID_WARNING",
   bosscall = "none",
   burst = "none",
@@ -36,10 +41,22 @@ local last = {}
 function S.Choice(event)
   local db = ns.db or {}
   local v = db["sound_" .. event]
-  if v == nil then
+  if v == nil or not VALID[v] then
+    -- unset, or a sound that has since been removed from the list
     return S.DEFAULTS[event]
   end
   return v
+end
+
+-- Forget saved choices of sounds that are no longer offered (the dropdown would show them blank).
+function S.Migrate()
+  local db = ns.db or {}
+  for _, event in ipairs(S.EVENTS) do
+    local v = db["sound_" .. event]
+    if v ~= nil and not VALID[v] then
+      db["sound_" .. event] = nil
+    end
+  end
 end
 
 function S.Play(event)

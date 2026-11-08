@@ -209,8 +209,8 @@ function L.ApplyTesting(announce)
     s.maxSessions = math.max(s.maxSessions or 8, 12)
     s.autoProbe, s.logCasts, s.logGlows = true, true, true
     if announce then
-      U.Print("Test build: logging is on (launch, combat, taint log). After playing: /reload, then run "
-        .. "tools/send-logs.py. /dmgw testing off to stop.")
+      U.Print("Test build: logging is on. After a fight: /dmgw, Ctrl+C, paste into the chat. "
+        .. "/dmgw testing off to stop.")
     end
   else
     if s.taintLogBefore then
