@@ -1,7 +1,9 @@
--- Main.lua: startup, events, slash commands. Loaded after the generated data.
+-- Main.lua: startup, events, the update loop, slash commands. Loaded after the generated data.
 
 local ADDON_NAME, ns = ...
-local U, Specs = ns.U, ns.Specs
+local U, Specs, M, S, G, D = ns.U, ns.Specs, ns.SpellMap, ns.State, ns.Engine, ns.Display
+
+local UPDATE_INTERVAL = 0.1
 
 local STATUS_TEXT = {
   ready = "ready",
@@ -28,17 +30,106 @@ local function Describe(state)
 end
 ns.Describe = Describe
 
+---------------------------------------------------------------------------
+-- Spell map refresh: out of combat only (spellbook and talents can't change in combat)
+---------------------------------------------------------------------------
+local spellsDirty = true
+local inCombat = false
+
+local function RefreshSpells()
+  if inCombat then
+    spellsDirty = true
+    return
+  end
+  spellsDirty = false
+  M.Refresh()
+  S.OnAura("player")
+  S.OnTargetChanged()
+end
+
+local spellRefreshPending = false
+local function RequestSpellRefresh()
+  if spellRefreshPending then
+    return
+  end
+  spellRefreshPending = true
+  C_Timer.After(0.3, function()
+    spellRefreshPending = false
+    RefreshSpells()
+  end)
+end
+
 Specs.OnChange(function(state, previous)
+  if state.key then
+    S.Bind(state.key)
+  end
+  RefreshSpells()
   if previous then
     U.Print("Spec changed: %s", Describe(state))
   end
 end)
 
+---------------------------------------------------------------------------
+-- The loop
+---------------------------------------------------------------------------
+ns.last = nil
+local lastLogged
+
+local function ShouldShow()
+  if not (ns.db and ns.db.enabled ~= false) then
+    return false
+  end
+  if inCombat then
+    return true
+  end
+  return U.Read(U.Call(UnitExists, "target")) == true and U.Read(U.Call(UnitCanAttack, "player", "target")) == true
+end
+
+function ns.Update()
+  local state = Specs.current
+  if not state or state.status ~= "ready" or not state.data then
+    D.Update(nil, false)
+    return nil
+  end
+  if spellsDirty and not inCombat then
+    RefreshSpells()
+  end
+  local show = ShouldShow()
+  if not show then
+    D.Update(nil, false)
+    return nil
+  end
+  local result = G.Recommend(state.data, {
+    burst = ns.db.burst ~= false,
+    useAssisted = state.branch == "midnight" and ns.db.useAssisted ~= false,
+  })
+  ns.last = result
+  D.Update(result, true)
+  -- Decision log: one line per change of pick (not every tick).
+  local main, cd = result.main, result.cd
+  local sig = (main and (main.token or main.id) or "-") .. "/" .. (cd and cd.token or "-")
+  if sig ~= lastLogged then
+    lastLogged = sig
+    U.Log("pick", {
+      main = main and main.token, source = main and main.source, cd = cd and cd.token, ac = result.acSpell,
+    })
+  end
+  return result
+end
+
+---------------------------------------------------------------------------
+-- Events
+---------------------------------------------------------------------------
+local SPELL_EVENTS = { SPELLS_CHANGED = true, TRAIT_CONFIG_UPDATED = true, PLAYER_TALENT_UPDATE = true,
+  ACTIVE_TALENT_GROUP_CHANGED = true, PLAYER_LEVEL_UP = true }
+
 local frame = CreateFrame("Frame")
 ns.eventFrame = frame
-frame:RegisterEvent("ADDON_LOADED")
-frame:RegisterEvent("PLAYER_LOGIN")
-frame:RegisterEvent("PLAYER_ENTERING_WORLD")
+for _, event in ipairs({ "ADDON_LOADED", "PLAYER_LOGIN", "PLAYER_ENTERING_WORLD", "PLAYER_REGEN_DISABLED",
+  "PLAYER_REGEN_ENABLED", "PLAYER_TARGET_CHANGED", "SPELL_UPDATE_COOLDOWN", "SPELL_ACTIVATION_OVERLAY_GLOW_SHOW",
+  "SPELL_ACTIVATION_OVERLAY_GLOW_HIDE" }) do
+  frame:RegisterEvent(event)
+end
 for _, event in ipairs(Specs.EVENTS) do
   if event == "PLAYER_SPECIALIZATION_CHANGED" then
     pcall(frame.RegisterUnitEvent, frame, event, "player")
@@ -46,11 +137,21 @@ for _, event in ipairs(Specs.EVENTS) do
     pcall(frame.RegisterEvent, frame, event)
   end
 end
+pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_SUCCEEDED", "player")
+pcall(frame.RegisterUnitEvent, frame, "UNIT_AURA", "player", "target")
 
-frame:SetScript("OnEvent", function(_, event, arg1)
+local DEFAULTS = { enabled = true, burst = true, mode = "st", aoeTargets = 3, fightLength = 300, useAssisted = true }
+
+frame:SetScript("OnEvent", function(_, event, ...)
+  local arg1, _, arg3 = ...
   if event == "ADDON_LOADED" then
     if arg1 == ADDON_NAME then
       DMGAssistDB = type(DMGAssistDB) == "table" and DMGAssistDB or {}
+      for k, v in pairs(DEFAULTS) do
+        if DMGAssistDB[k] == nil then
+          DMGAssistDB[k] = v
+        end
+      end
       ns.db = DMGAssistDB
       ns.Client.Detect()
     end
@@ -62,15 +163,151 @@ frame:SetScript("OnEvent", function(_, event, arg1)
       U.Print("Warning: data for %s loaded at once; using %s.", table.concat(loaded, " and "), tostring(state.branch))
       U.Log("data_gating", table.concat(loaded, ","))
     end
+    D.Create()
+  elseif event == "PLAYER_REGEN_DISABLED" then
+    inCombat = true
+    S.OnCombat(true)
+  elseif event == "PLAYER_REGEN_ENABLED" then
+    inCombat = false
+    S.OnCombat(false)
+    if spellsDirty then
+      RequestSpellRefresh()
+    end
+  elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
+    if arg1 == "player" then
+      S.OnSpellcastSucceeded(arg3)
+    end
+  elseif event == "SPELL_UPDATE_COOLDOWN" then
+    S.OnCooldownUpdate()
+  elseif event == "SPELL_ACTIVATION_OVERLAY_GLOW_SHOW" then
+    S.OnGlow(arg1, true)
+  elseif event == "SPELL_ACTIVATION_OVERLAY_GLOW_HIDE" then
+    S.OnGlow(arg1, false)
+  elseif event == "UNIT_AURA" then
+    S.OnAura(U.Read(arg1))
+  elseif event == "PLAYER_TARGET_CHANGED" then
+    S.OnTargetChanged()
   else
     Specs.RequestRefresh(event)
+    if SPELL_EVENTS[event] then
+      RequestSpellRefresh()
+    end
   end
 end)
 
+local elapsed = 0
+frame:SetScript("OnUpdate", function(_, dt)
+  elapsed = elapsed + (dt or 0)
+  if elapsed < UPDATE_INTERVAL then
+    return
+  end
+  elapsed = 0
+  local ok, err = pcall(ns.Update)
+  if not ok then
+    U.Log("engine_error", U.Safe(err))
+  end
+end)
+
+---------------------------------------------------------------------------
+-- Slash commands
+---------------------------------------------------------------------------
+local function OnOff(v)
+  if v then
+    return "on"
+  end
+  return "off"
+end
+
+local commands = {}
+
+function commands.on()
+  ns.db.enabled = true
+  U.Print("Recommendations on.")
+end
+
+function commands.off()
+  ns.db.enabled = false
+  D.Update(nil, false)
+  U.Print("Recommendations off.")
+end
+
+function commands.burst()
+  ns.db.burst = ns.db.burst == false
+  U.Print("Major cooldowns %s.", OnOff(ns.db.burst))
+end
+
+function commands.mode(arg)
+  if arg == "st" or arg == "aoe" or arg == "auto" then
+    ns.db.mode = arg
+  end
+  U.Print("Target mode: %s.", tostring(ns.db.mode))
+end
+
+function commands.targets(arg)
+  local n = tonumber(arg)
+  if n and n >= 1 then
+    ns.db.aoeTargets = math.floor(n)
+  end
+  U.Print("AoE targets: %d.", ns.db.aoeTargets)
+end
+
+function commands.fight(arg)
+  local n = tonumber(arg)
+  if n and n >= 10 then
+    ns.db.fightLength = math.floor(n)
+  end
+  U.Print("Assumed fight length: %ds.", ns.db.fightLength)
+end
+
+function commands.lock()
+  ns.db.locked = not ns.db.locked
+  D.SetLocked(ns.db.locked)
+  U.Print("Icon %s.", ns.db.locked and "locked" or "unlocked (drag to move)")
+end
+
+function commands.why()
+  local r = ns.last
+  if not r or not r.main then
+    U.Print("No recommendation right now.")
+    return
+  end
+  U.Print("Next: %s (%s). Cooldown slot: %s. Assisted Combat says: %s.", tostring(r.main.token),
+    tostring(r.main.source), tostring(r.cd and r.cd.token or "-"), tostring(r.acSpell or "-"))
+  local names = {}
+  for name in pairs(r.unresolved or {}) do
+    names[#names + 1] = name
+  end
+  table.sort(names)
+  if #names > 0 then
+    U.Print("Spells in the list you don't have (or we can't match): %s", table.concat(names, ", "))
+  end
+end
+
+function commands.help()
+  local lines = {
+    "/dmga — status",
+    "/dmga on | off — show or hide recommendations",
+    "/dmga burst — toggle major cooldowns (now " .. OnOff(ns.db.burst ~= false) .. ")",
+    "/dmga mode st | aoe | auto — target count (now " .. tostring(ns.db.mode) .. ")",
+    "/dmga targets <n> — targets assumed in aoe mode",
+    "/dmga fight <seconds> — assumed fight length",
+    "/dmga lock — lock or unlock the icon position",
+    "/dmga why — explain the current pick",
+  }
+  for _, line in ipairs(lines) do
+    U.Print("%s", line)
+  end
+end
+
 SLASH_DMGASSIST1 = "/dmga"
 SLASH_DMGASSIST2 = "/dmgassist"
-SlashCmdList.DMGASSIST = function()
+SlashCmdList.DMGASSIST = function(msg)
+  local cmd, arg = tostring(msg or ""):lower():match("^%s*(%S*)%s*(.-)%s*$")
+  if commands[cmd] then
+    commands[cmd](arg)
+    return
+  end
   local state = Specs.Refresh("slash")
   U.Print("%s", Describe(state))
-  U.Print("Recommendations are not switched on yet in this build; this version checks client, spec and data.")
+  U.Print("Spells matched: %s. Type /dmga help for options.", tostring(M.count or 0))
 end

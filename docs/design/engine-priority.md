@@ -71,3 +71,20 @@ and the UNKNOWN terms on the path. Agreement rate per spec and per term shows wh
 
 The 2026 engine ranked the assistant first ("AC Recommendation Is the Highest Authority", hand-tuned scores -12000 /
 -11500 / -11000 ...). That inverted the owner's intent and is the likely reason SimC-only spells were starved.
+
+## Implementation (0.1.0, 2026-11-08)
+
+| File | Job |
+|---|---|
+| `Core/Expr.lua` | SimC expression parser (same grammar as the importer) + three-valued evaluator; parses every condition in both data branches (tested) |
+| `Core/SpellMap.lua` | SimC names -> the player's spell IDs and talents, by tokenizing spellbook and talent-tree names like SimC; aliases (`bs_inc`) and suffixes (`_cat`) |
+| `Core/State.lua` | Resolver for SimC terms; trackers: own casts (event, or cooldown-edge inference when the event is secret), learned cooldown and aura durations (saved per spec), cast -> aura links, clock resync + drift counts, haste-based GCD |
+| `Core/Engine.lua` | The decision procedure above: SimC walk with variables and action lists, corroboration, Blizzard fallback, cooldown slot |
+| `Core/Display.lua` | Main icon + cooldown icon; labels `AC` (assistant), `B` (Blizzard rules), `?` (guess) |
+
+Assumptions standing in for unreadable facts (class M): `target.distance` = 5 (SimC's own default), target count from
+`/dmga mode st|aoe|auto` (`auto` counts hostile nameplates in combat when readable), fight length from `/dmga fight`,
+`fight_style.patchwerk`, no raid events, items/trinkets/set bonuses = 0 (items are not recommended yet).
+
+Not yet: queue slots 2–3 (state advance), using glows as proc evidence, the assistant-as-oracle inference, pooling
+(`pool_resource`), `target_if` multi-target selection, healer/defensive/interrupt advice (task: legacy review).

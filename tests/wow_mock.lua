@@ -20,6 +20,12 @@ mock.cvarsMissing = {}
 mock.gameType = "standard"     -- "standard" = Midnight; anything else (e.g. "camelot") behaves like Forever
 mock.project = 1               -- WOW_PROJECT_ID
 mock.class = { "Paladin", "PALADIN", 2 }
+mock.usable = {}       -- spellID -> { isUsable, insufficientPower }
+mock.cooldowns = {}    -- spellID -> { active =, onGCD =, start =, duration = }
+mock.talents = {}
+mock.auras = {}
+mock.acSpell = nil
+mock.hasTarget = false
 mock.specIndex = 3
 mock.specs = { [1] = 65, [2] = 66, [3] = 70 }  -- index -> specID
 
@@ -170,8 +176,20 @@ function mock.Install(env)
   function FrameMethods:Hide()
     self.shown = false
   end
+  function FrameMethods:CreateTexture()
+    return setmetatable({ events = {}, scripts = {} }, FrameMethods)
+  end
+  function FrameMethods:SetTexture(t)
+    self.texture = t
+  end
+  function FrameMethods:EnableMouse(on)
+    self.mouse = on
+  end
+  function FrameMethods:GetPoint()
+    return "CENTER", nil, "CENTER", 0, -150
+  end
   local noop = function() end
-  for _, name in ipairs({ "SetPoint", "SetFrameStrata", "SetMovable", "EnableMouse", "RegisterForDrag",
+  for _, name in ipairs({ "SetAllPoints", "SetPoint", "SetFrameStrata", "SetMovable", "RegisterForDrag",
     "SetClampedToScreen", "SetMultiLine", "SetAutoFocus", "SetFontObject", "SetWidth", "SetScrollChild",
     "SetCursorPosition", "SetFocus", "HighlightText", "ClearFocus", "StartMoving", "StopMovingOrSizing" }) do
     FrameMethods[name] = noop
@@ -185,6 +203,7 @@ function mock.Install(env)
     return f
   end
 
+  env.UIParent = setmetatable({ events = {}, scripts = {} }, FrameMethods)
   env.C_Timer = {
     After = function(delay, fn)
       mock.timers[#mock.timers + 1] = { at = mock.now + delay, fn = fn }
@@ -281,7 +300,7 @@ function mock.Install(env)
       return nil
     end,
     GetNextCastSpell = function()
-      return nil
+      return mock.acSpell
     end,
     GetRotationSpells = function()
       return {}
@@ -351,41 +370,133 @@ function mock.Install(env)
   }
 
   -- Spellbook: one skill line with two active spells and one passive.
-  local book = {
+  mock.book = mock.book or {
     { spellID = 35395, name = "Crusader Strike" },
     { spellID = 20271, name = "Judgment" },
     { spellID = 99999, name = "Passive Thing", isPassive = true },
   }
+  local function book()
+    return mock.book
+  end
   env.C_SpellBook = {
     GetNumSpellBookSkillLines = function()
       return 1
     end,
     GetSpellBookSkillLineInfo = function()
-      return { name = "Paladin", itemIndexOffset = 0, numSpellBookItems = #book, shouldHide = false }
+      return { name = "Paladin", itemIndexOffset = 0, numSpellBookItems = #book(), shouldHide = false }
     end,
     GetSpellBookItemInfo = function(slot)
-      local b = book[slot]
+      local b = book()[slot]
       return { actionID = b.spellID, spellID = b.spellID, itemType = 1, name = b.name, isPassive = b.isPassive == true, isOffSpec = false }
     end,
   }
   env.C_Spell = {
     GetSpellName = function(id)
-      for _, b in ipairs(book) do
+      for _, b in ipairs(book()) do
         if b.spellID == id then
           return b.name
         end
       end
     end,
-    IsSpellUsable = function()
+    IsSpellUsable = function(id)
+      local u = mock.usable[id]
+      if u then
+        return u[1], u[2]
+      end
       return true, false
     end,
-    GetSpellCooldown = function()
+    GetSpellCooldown = function(id)
+      local c = mock.cooldowns[id]
+      if c then
+        return { startTime = ctx(c.start or 0), duration = ctx(c.duration or 0), isEnabled = true,
+          isActive = c.active == true, modRate = ctx(1), isOnGCD = c.onGCD == true }
+      end
       return { startTime = ctx(0), duration = ctx(0), isEnabled = true, isActive = false, modRate = ctx(1), isOnGCD = false }
+    end,
+    GetSpellTexture = function(id)
+      return 1000000 + id
+    end,
+    GetOverrideSpell = function(id)
+      return id
+    end,
+    GetSpellInfo = function(id)
+      return { name = "x", spellID = id, castTime = 0 }
     end,
     GetSpellCharges = function()
       return nil
     end,
   }
+  -- Talents: mock.talents = { { name = "Lunar Inspiration", spellID = 1, rank = 1 }, ... }; one tree, one node each.
+  env.C_ClassTalents = {
+    GetActiveConfigID = function()
+      return 1
+    end,
+    GetActiveHeroTalentSpec = function()
+      return mock.heroTree and 7 or nil
+    end,
+  }
+  env.C_Traits = {
+    GetConfigInfo = function()
+      return { ID = 1, treeIDs = { 100 } }
+    end,
+    GetTreeNodes = function()
+      local ids = {}
+      for i = 1, #mock.talents do
+        ids[i] = i
+      end
+      return ids
+    end,
+    GetNodeInfo = function(_, nodeID)
+      local t = mock.talents[nodeID]
+      return { ID = nodeID, entryIDs = { nodeID }, activeEntry = { entryID = nodeID, rank = t.rank },
+        activeRank = t.rank, ranksPurchased = t.rank }
+    end,
+    GetEntryInfo = function(_, entryID)
+      return { definitionID = entryID }
+    end,
+    GetDefinitionInfo = function(defID)
+      return { spellID = mock.talents[defID].spellID }
+    end,
+    GetSubTreeInfo = function()
+      return { ID = 7, name = mock.heroTree }
+    end,
+  }
+  -- Auras: mock.auras[unit] = { { name =, spellId =, duration =, expirationTime =, applications = } }
+  env.C_UnitAuras = {
+    GetAuraDataByIndex = function(unit, index)
+      local list = mock.auras[unit] or {}
+      local a = list[index]
+      if not a then
+        return nil
+      end
+      if mock.restricted then
+        return { name = mock.Secret(), spellId = mock.Secret(), duration = mock.Secret(),
+          expirationTime = mock.Secret(), applications = mock.Secret() }
+      end
+      return a
+    end,
+  }
+  env.UnitExists = function(unit)
+    return unit == "player" or (unit == "target" and mock.hasTarget == true)
+  end
+  env.UnitCanAttack = function(_, unit)
+    return unit == "target" and mock.hasTarget == true
+  end
+  env.UnitAffectingCombat = function()
+    return mock.inCombat == true
+  end
+  env.UnitHealthMax = function()
+    return 1000
+  end
+  env.UnitSpellHaste = function()
+    return ctx(mock.haste or 0)
+  end
+  env.IsStealthed = function()
+    return false
+  end
+  env.GetUnitSpeed = function()
+    return ctx(0)
+  end
   env.C_SpellActivationOverlay = {
     IsSpellOverlayed = function()
       return false

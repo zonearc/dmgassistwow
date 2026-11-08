@@ -47,6 +47,24 @@ python3 tools/decode-export.py export.txt
 Needs Lua 5.1 (`lua5.1`, `luac5.1`) and `luacheck`. Project rules: [CLAUDE.md](CLAUDE.md).
 Verified API facts: [docs/reference/api-findings.md](docs/reference/api-findings.md).
 
+## Using DMGAssist
+
+Shows the next spell (large icon) and the next major cooldown (small icon) in combat or with an enemy targeted.
+Small letters on the icon say where a pick came from: none = SimC, `AC` = Blizzard's Assisted Combat, `B` = Blizzard's
+rules evaluated by DMGAssist (Forever), `?` = best guess.
+
+| Command | |
+|---|---|
+| `/dmga` | status: client, spec, data version, spells matched |
+| `/dmga on` / `off` | show or hide |
+| `/dmga burst` | major cooldowns on/off |
+| `/dmga mode st` / `aoe` / `auto` | how many targets to assume (`/dmga targets 4` sets the AoE count) |
+| `/dmga fight 180` | assumed fight length in seconds |
+| `/dmga lock` | lock/unlock the icon (drag to move) |
+| `/dmga why` | why this spell, and which list spells you don't have |
+
+With DMGAssist_Watchdog installed, every pick change, cast and per-fight tracking summary is logged for diagnosis.
+
 ## Automation (GitHub Actions)
 
 | Workflow | When | What |

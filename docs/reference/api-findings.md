@@ -25,6 +25,16 @@ plus warcraft.wiki.gg pages pasted by the project owner (marked "up to date as o
 | `UnitPower` / `UnitPowerMax` | `SecretWhenUnitPowerRestricted` (secondary resources are exempt per community reports — probe to confirm) |
 | `UnitHealth` | `SecretReturns` |
 
+| `UNIT_SPELLCAST_SUCCEEDED` (unit, castGUID, spellID) | `SecretWhenUnitSpellCastRestricted` — own-cast spell IDs may be secret in combat |
+| `UNIT_AURA` | `SecretWhenAurasRestricted` |
+| `UnitSpellHaste`, `GetUnitSpeed` | `SecretWhenUnitStatsRestricted` |
+| `UnitHealthPercent` | `SecretReturns`, `SecretWhenCurveSecret` |
+| `UnitGUID`, `UnitRace` | `SecretWhenUnitIdentityRestricted` |
+| `C_Traits.*`, `C_ClassTalents.GetActiveConfigID/GetActiveHeroTalentSpec`, `C_SpellBook.*` | no secrecy markers (talents/spellbook read out of combat anyway) |
+
+Because own-cast events can be secret, the engine also infers casts from cooldown edges: a spell whose
+`SpellCooldownInfo.isActive` (NeverSecret) turns true while `isOnGCD` is false was just cast (`Core/State.lua`).
+
 Readable combat inputs for the engine: usable/affordable, on-cooldown yes/no, on-GCD, proc glows, own casts (`UNIT_SPELLCAST_SUCCEEDED` → spellID), secondary resources, whitelisted auras.
 
 ## 3. Tools the Watchdog / probe should use
@@ -59,6 +69,10 @@ Readable combat inputs for the engine: usable/affordable, on-cooldown yes/no, on
 - Do the `addon*RestrictionsForced` CVars exist on Forever? (`restrictions.cvars`, `/dmgw force on`)
 - Which of the class's spells have secret cooldowns / auras in combat? (`spells[].cdSecret`, `auraSecret`)
 - Are secondary resources readable in combat on Forever? (`powers`)
+- While auras are restricted, does `C_UnitAuras.GetAuraDataByIndex` return `nil` or a table of secrets? (The engine treats
+  every scan as unreadable while `C_Secrets.ShouldAurasBeSecret()` is true, so either is safe.)
+- How often are own-cast spell IDs secret? DMGAssist logs `tracking` per fight to the Watchdog: `seen` / `secret` /
+  `inferred` cast counts and `drift` (tracked clocks that disagreed with the game).
 
 ## 5. Lua environment notes
 
