@@ -410,6 +410,9 @@ test("skipping the slot-1 spell twice holds it until combat ends; casting it bri
   mock.Fire("PLAYER_REGEN_DISABLED")
   local r = ns.Engine.Recommend(Record(), {})
   eq(r.main.token, "rip")
+  eq(G.OnPlayerCast(5221, r.main, true, { r.main, { id = 5221 } }), nil, "casting slot 2 first is no skip")
+  eq(G.OnPlayerCast(5221, r.main, true, { r.main, { id = 5221 } }), nil)
+  eq(G.IsHeld(1079), false)
   eq(G.OnPlayerCast(106830, r.main), nil, "one skip is not enough")
   eq(G.OnPlayerCast(106830, r.main), "held", "second skip holds it")
   r = ns.Engine.Recommend(Record(), {})
@@ -1945,6 +1948,15 @@ test("charges: counted from casts, shared between spells of one entry, recharge 
   eq(ns.State.Charges(5217), 1, "one charge back after 32 s")
   mock.now = mock.now + 32
   eq(ns.State.Charges(5217), 2, "the second 32 s later")
+  -- the game's readable count says one is left right after we spent both: our count wins
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5221)
+  local real = C_Spell.GetSpellCharges
+  C_Spell.GetSpellCharges = function() -- luacheck: ignore 122
+    return { currentCharges = 1, maxCharges = 2 }
+  end
+  eq(ns.State.Charges(5217), 0, "a wrong readable charge is ignored")
+  C_Spell.GetSpellCharges = real -- luacheck: ignore 122
 end)
 
 test("fight length: learned per kind of fight from your own fights; SimC default until 5; custom", function()

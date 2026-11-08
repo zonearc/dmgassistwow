@@ -582,15 +582,17 @@ function S.Charges(id)
   if not info then
     return nil
   end
+  local group = GroupOf(id)
+  local n = (info.chLive or info.ch) - #PendingRecharges(group, Now())
   if not V then
     local c = U.Get(C_Spell and C_Spell.GetSpellCharges, id)
     local cur = type(c) == "table" and U.Read(c.currentCharges)
     if type(cur) == "number" then
-      return cur
+      -- The game's count, unless our own casts say fewer are left: in restricted combat it reported an Eclipse
+      -- charge 2 s after the only one was spent (Balance, 2026-11-08). The same rule as cooldowns.
+      return math.max(0, math.min(cur, n))
     end
   end
-  local group = GroupOf(id)
-  local n = (info.chLive or info.ch) - #PendingRecharges(group, Now())
   if V and V.cast then
     for castID in pairs(V.cast) do
       if GroupOf(castID) == group then

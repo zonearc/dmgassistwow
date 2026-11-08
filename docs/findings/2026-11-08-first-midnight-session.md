@@ -123,3 +123,12 @@ Scrap, Threat Plates.
   requirements (REQUIRES) and the action is skipped without the talent.
 - Wild Guardian (Guardian) never considered: its button only exists mid-fight as an override; buttons are now
   checked for live overrides.
+
+## Balance report (still 0.1.0.24)
+- Eclipse shown 2 s after the only charge was spent: the game's readable charge count said 1. Our own count from
+  casts now wins when it is lower (same rule as cooldowns).
+- Fury of Elune held after the player cast Eclipse (shown in slot 2) and Starsurge: casting what slots 2 / 3
+  show is choosing an order, not skipping; only casts of spells not on the HUD count as skips now. (It was released
+  when the player cast it, as designed; its 60 s cooldown explains the rest of the report.)
+- Prowl: the player pressed it because slot 1 showed it (SimC's precombat line); the bug was our clock never ending
+  it (fixed in 2840686).

@@ -644,7 +644,7 @@ function ns.OnOwnCast(id)
   local shown = ns.last and ns.last.main
   ns.Essentials.OnOwnCast(id)
   if inCombat then
-    local what, spell = G.OnPlayerCast(id, shown, ns.db.skipHold ~= false)
+    local what, spell = G.OnPlayerCast(id, shown, ns.db.skipHold ~= false, ns.last and ns.last.queue)
     if what then
       U.Log(what == "held" and "hold" or "hold_released", { spell = spell, cast = id })
     end

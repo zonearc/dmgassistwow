@@ -223,8 +223,9 @@ local function Base(id)
   return (M.baseOf and M.baseOf[id]) or id
 end
 
--- castID: the spell the player cast; shown: what slot 1 showed at that moment.
-function G.OnPlayerCast(castID, shown, enabled)
+-- castID: the spell the player cast; shown: what slot 1 showed at that moment; queue: the slots shown.
+-- Casting what slots 2 / 3 showed is choosing an order, not skipping (Eclipse from slot 2 held Fury of Elune).
+function G.OnPlayerCast(castID, shown, enabled, queue)
   if not castID then
     return nil
   end
@@ -242,6 +243,11 @@ function G.OnPlayerCast(castID, shown, enabled)
   if Base(shown.id) == cast then
     G.skips[shown.id] = nil
     return nil
+  end
+  for i, p in ipairs(queue or {}) do
+    if i > 1 and p.id and Base(p.id) == cast then
+      return nil
+    end
   end
   local info = M.Info(castID)
   -- Off-GCD presses (no GCD in the data: Ironfur) are pressed alongside slot 1, not instead of it.
