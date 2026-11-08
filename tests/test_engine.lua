@@ -402,6 +402,52 @@ test("steady slot 1: close to the press, slot 1 holds and a new pick goes to slo
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("skipping the slot-1 spell twice holds it until combat ends; casting it brings it back", function()
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  local r = ns.Engine.Recommend(Record(), {})
+  eq(r.main.token, "rip")
+  eq(G.OnPlayerCast(106830, r.main), nil, "one skip is not enough")
+  eq(G.OnPlayerCast(106830, r.main), "held", "second skip holds it")
+  r = ns.Engine.Recommend(Record(), {})
+  for _, p in ipairs(r.queue) do
+    eq(p.token ~= "rip", true, "held: in no slot")
+  end
+  eq(ns.Display.HeldText():find("1 held", 1, true) ~= nil, true)
+  eq(G.OnPlayerCast(1079, r.main), "released", "cast it yourself: it is back")
+  r = ns.Engine.Recommend(Record(), {})
+  eq(r.main.token, "rip")
+  -- interrupts, guesses and switched off: no skips counted
+  eq(G.OnPlayerCast(106830, { id = 1079, source = "interrupt" }), nil)
+  eq(G.OnPlayerCast(106830, { id = 1079, source = "interrupt" }), nil)
+  eq(G.OnPlayerCast(106830, r.main, false), nil)
+  eq(G.OnPlayerCast(106830, r.main, false), nil)
+  eq(G.IsHeld(1079), false)
+  -- a new fight starts clean
+  G.OnPlayerCast(106830, r.main)
+  G.OnPlayerCast(106830, r.main)
+  eq(G.IsHeld(1079), true)
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  eq(G.IsHeld(1079), false, "combat ended: released")
+end)
+
+test("major cooldowns on bosses and big pulls only (optional)", function()
+  Reset()
+  local ns = Boot()
+  eq(ns.BurstAllowed(), true, "default: every fight")
+  ns.db.burstWhen = "big"
+  mock.inCombat, mock.nameplates = true, 2
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  eq(ns.BurstAllowed(), false, "two enemies: trash, save them")
+  mock.nameplates = 6
+  eq(ns.BurstAllowed(), true, "a big pull")
+  ns.db.burst = false
+  eq(ns.BurstAllowed(), false, "off is off")
+  mock.inCombat, mock.nameplates = false, 0
+end)
+
 test("on Forever an UNKNOWN line can be corroborated by Blizzard's rule", function()
   Reset()
   local ns = Boot("camelot", 18)

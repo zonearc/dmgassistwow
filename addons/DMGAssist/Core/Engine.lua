@@ -56,6 +56,7 @@ end
 function G.OnCombat()
   G.fightVars, pendingVars = {}, nil
   G.waiting = {}
+  G.held, G.skips = {}, {}
 end
 
 -- SimC's target_if: "min:expr" / "max:expr" choose among targets (we only see the current one, so they add
@@ -213,6 +214,54 @@ G.Castable = Castable
 -- spell (a real cooldown) that SimC keeps reaching while the assistant says something else is promoted once it
 -- has waited long enough: "the assistant is clearly ignoring this, SimC says it matters, use it now". Fillers
 -- (no cooldown) never escalate: that is what let an uncertain Starfire shadow Fury of Elune before.
+-- Held spells. Skipping the spell in slot 1 twice in a fight ("not now, I'm saving it") holds it until the
+-- fight ends: it is left out of every slot. Casting it yourself at any point releases it again.
+G.SKIPS_TO_HOLD = 2
+G.held, G.skips = {}, {}
+
+local function Base(id)
+  return (M.baseOf and M.baseOf[id]) or id
+end
+
+-- castID: the spell the player cast; shown: what slot 1 showed at that moment.
+function G.OnPlayerCast(castID, shown, enabled)
+  if not castID then
+    return nil
+  end
+  local cast = Base(castID)
+  for id in pairs(G.held) do
+    if Base(id) == cast then
+      G.held[id] = nil
+      G.skips[id] = nil
+      return "released", id
+    end
+  end
+  if not (shown and shown.id) then
+    return nil
+  end
+  if Base(shown.id) == cast then
+    G.skips[shown.id] = nil
+    return nil
+  end
+  local info = M.Info(castID)
+  if enabled == false or (info and info.gcd == 0) or shown.source == "interrupt" or shown.source == "guess"
+    or shown.source == "pool" then
+    return nil -- off-GCD presses are no skip; a kick is tied to one enemy cast
+  end
+  local n = (G.skips[shown.id] or 0) + 1
+  G.skips[shown.id] = n
+  if n >= G.SKIPS_TO_HOLD then
+    G.held[shown.id] = true
+    G.skips[shown.id] = nil
+    return "held", shown.id
+  end
+  return nil
+end
+
+function G.IsHeld(id)
+  return id and G.held[id] or false
+end
+
 G.KEY_COOLDOWN = 20 -- seconds of cooldown that make a spell "key"
 G.WAIT = 4          -- seconds SimC must have wanted it, uncorroborated, before it comes in anyway
 G.LAPSE = 1.5       -- a gap longer than this between sightings starts the wait again
@@ -343,7 +392,11 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
     elseif not G.SKIP[a] and not (isBlizzard and not run.burst and (e.x or run.cooldowns[a])) then
       -- (Blizzard's excluded lines are the major cooldowns: left out only when major cooldowns are off.)
       local id = M.SpellID(a)
-      if id and LineOnCooldown(e, id) then
+      if id and G.held[id] then
+        if run.trace then
+          run.trace[#run.trace + 1] = string.format("%s:%s held (you skipped it)", name, a)
+        end
+      elseif id and LineOnCooldown(e, id) then
         if run.trace then
           run.trace[#run.trace + 1] = string.format("%s:%s line_cd", name, a)
         end
