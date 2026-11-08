@@ -90,7 +90,12 @@ end
 -- current combat session:  DMGAssistWatchdog.Log("rec", spellID)
 DMGAssistWatchdog = {
   Log = function(kind, data)
-    ns.Sessions.Add("D", U.Safe(kind, 40), U.Safe(data, 200))
+    kind, data = U.Safe(kind, 40), U.Safe(data, 200)
+    if ns.Sessions.Active() then
+      ns.Sessions.Add("D", kind, data)
+    else
+      ns.Store.Note("dmgassist", { kind = kind, data = data }) -- outside combat (e.g. end-of-fight summaries)
+    end
   end,
   Error = function(message)
     ns.Errors.Record("dmgassist", message)

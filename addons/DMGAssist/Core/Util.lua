@@ -6,7 +6,7 @@ ns.U = U
 ns.VERSION = "0.1.0"
 ns.SECRET = "<secret>"
 
-local issecretvalue, pcall, type, select = issecretvalue, pcall, type, select
+local issecretvalue, pcall, type, select, unpack = issecretvalue, pcall, type, select, unpack
 
 function U.IsSecret(v)
   if issecretvalue == nil then
@@ -53,15 +53,68 @@ function U.Try(fn, ...)
   return out
 end
 
+-- The value itself when readable (any type); nil when it is secret. Use before comparing or indexing.
+function U.Read(v)
+  if v == nil or U.IsSecret(v) then
+    return nil
+  end
+  return v
+end
+
+-- Call fn and return its results unchanged (they may be secret: pass them through U.Read).
+-- Returns nothing when fn is missing or raised an error.
+function U.Call(fn, ...)
+  if type(fn) ~= "function" then
+    return nil
+  end
+  local p = Pack(pcall(fn, ...))
+  if not p[1] then
+    return nil
+  end
+  return unpack(p, 2, p.n)
+end
+
 function U.Print(fmt, ...)
   local msg = select("#", ...) > 0 and string.format(fmt, ...) or fmt
   print("|cffffb000[DMGAssist]|r " .. msg)
 end
 
 -- Send a line to DMGAssist_Watchdog if it is installed (it records it into the current combat session).
+-- Tables are flattened to "k=v k=v" (sorted keys, one level, secret-safe) so the Watchdog stores them as text.
+local function Flatten(data)
+  if type(data) ~= "table" then
+    return data
+  end
+  local keys = {}
+  for k in pairs(data) do
+    keys[#keys + 1] = tostring(k)
+  end
+  table.sort(keys)
+  local parts = {}
+  for _, k in ipairs(keys) do
+    local v = data[k]
+    if v == nil then
+      v = data[tonumber(k)]
+    end
+    if type(v) == "table" then
+      local inner = {}
+      for ik, iv in pairs(v) do
+        inner[#inner + 1] = tostring(U.Safe(ik)) .. ":" .. tostring(U.Safe(iv))
+      end
+      table.sort(inner)
+      v = "{" .. table.concat(inner, ",") .. "}"
+    else
+      v = tostring(U.Safe(v))
+    end
+    parts[#parts + 1] = k .. "=" .. v
+  end
+  return table.concat(parts, " ")
+end
+U.Flatten = Flatten
+
 function U.Log(kind, data)
   local wd = DMGAssistWatchdog
   if type(wd) == "table" and type(wd.Log) == "function" then
-    pcall(wd.Log, kind, data)
+    pcall(wd.Log, kind, Flatten(data))
   end
 end
