@@ -117,6 +117,11 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
   blizzardExcluded = { "metamorphosis", "the_hunt", "voidblade" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "demonhunter",
+  gameMatch = {
+    matched = 16,
+    missing = {},
+    total = 16,
+  },
   heroTrees = {
     annihilator = {
       1253304,
@@ -798,6 +803,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
     "voidscarred_meta",
     "voidscarred_out",
   },
+  simcSource = "simc",
   spec = "devourer",
   spellInfo = {
     [162264] = {

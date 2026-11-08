@@ -170,6 +170,24 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
   blizzardExcluded = { "breath_of_sindragosa" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "deathknight",
+  gameMatch = {
+    matched = 0,
+    missing = {
+      "antimagic_shell",
+      "breath_of_sindragosa",
+      "empower_rune_weapon",
+      "frost_strike",
+      "frostscythe",
+      "frostwyrms_fury",
+      "glacial_advance",
+      "howling_blast",
+      "mind_freeze",
+      "obliterate",
+      "pillar_of_frost",
+      "raise_dead",
+    },
+    total = 14,
+  },
   heroTrees = {
     deathbringer = {
       434905,
@@ -807,6 +825,7 @@ ns.RegisterSpecData("forever", "deathknight_frost", {
     "trinkets",
     "variables",
   },
+  simcSource = "simc",
   spec = "frost",
   spellInfo = {
     [46584] = {

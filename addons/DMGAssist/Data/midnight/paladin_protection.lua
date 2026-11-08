@@ -141,6 +141,11 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
   blizzardExcluded = { "avenging_wrath", "sentinel" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "paladin",
+  gameMatch = {
+    matched = 16,
+    missing = {},
+    total = 16,
+  },
   heroTrees = {},
   key = "paladin_protection",
   simc = {
@@ -446,6 +451,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
     },
   },
   simcOrder = { "precombat", "default", "trinkets" },
+  simcSource = "simc",
   spec = "protection",
   spellInfo = {
     [465] = {

@@ -142,6 +142,11 @@ ns.RegisterSpecData("forever", "mage_frost", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "mage",
+  gameMatch = {
+    matched = 6,
+    missing = { "any_blink", "comet_storm", "flurry", "glacial_spike", "ice_nova", "ray_of_frost", "summon_water_elemental" },
+    total = 13,
+  },
   heroTrees = {},
   key = "mage_frost",
   simc = {
@@ -575,6 +580,7 @@ ns.RegisterSpecData("forever", "mage_frost", {
     },
   },
   simcOrder = { "precombat", "default", "cds", "frostfire", "movement", "spellslinger" },
+  simcSource = "simc",
   spec = "frost",
   spellInfo = {
     [10] = {

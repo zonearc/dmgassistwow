@@ -176,6 +176,11 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
   blizzardExcluded = { "adrenaline_rush" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "rogue",
+  gameMatch = {
+    matched = 17,
+    missing = {},
+    total = 17,
+  },
   heroTrees = {
     fatebound = {
       452536,
@@ -477,6 +482,7 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
     },
   },
   simcOrder = { "precombat", "default", "build", "cds", "finish" },
+  simcSource = "simc",
   spec = "outlaw",
   spellInfo = {
     [1752] = {

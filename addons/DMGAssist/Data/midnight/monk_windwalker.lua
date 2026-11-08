@@ -191,6 +191,11 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
   blizzardExcluded = { "celestial_conduit", "flying_serpent_kick", "zenith" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "monk",
+  gameMatch = {
+    matched = 15,
+    missing = { "thorn_bloom" },
+    total = 16,
+  },
   heroTrees = {},
   key = "monk_windwalker",
   simc = {
@@ -1075,6 +1080,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
     "trinket",
     "zenith",
   },
+  simcSource = "simc",
   spec = "windwalker",
   spellInfo = {
     [100780] = {

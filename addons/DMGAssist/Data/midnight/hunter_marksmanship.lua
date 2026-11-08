@@ -163,6 +163,11 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
   blizzardExcluded = { "trueshot" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "hunter",
+  gameMatch = {
+    matched = 12,
+    missing = { "multishot" },
+    total = 13,
+  },
   heroTrees = {
     dark_ranger = {
       430709,
@@ -684,6 +689,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
     },
   },
   simcOrder = { "precombat", "default", "cds", "draoe", "drst", "sentaoe", "sentst", "trinkets" },
+  simcSource = "simc",
   spec = "marksmanship",
   spellInfo = {
     [75] = {

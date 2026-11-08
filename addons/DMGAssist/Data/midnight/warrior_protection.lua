@@ -166,6 +166,11 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
   blizzardExcluded = { "avatar", "shield_charge" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warrior",
+  gameMatch = {
+    matched = 20,
+    missing = {},
+    total = 20,
+  },
   heroTrees = {
     colossus = {
       429634,
@@ -564,6 +569,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
     },
   },
   simcOrder = { "precombat", "default", "colossus_aoe", "colossus_st", "thane_aoe", "thane_st", "variables" },
+  simcSource = "simc",
   spec = "protection",
   spellInfo = {
     [100] = {

@@ -129,6 +129,21 @@ ns.RegisterSpecData("forever", "druid_guardian", {
   blizzardExcluded = { "berserk", "convoke_the_spirits" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "druid",
+  gameMatch = {
+    matched = 13,
+    missing = {
+      "bristling_fur",
+      "convoke_the_spirits",
+      "ironfur",
+      "lunar_beam",
+      "mangle",
+      "red_moon",
+      "sundering_roar",
+      "thrash",
+      "wild_guardian",
+    },
+    total = 22,
+  },
   heroTrees = {},
   key = "druid_guardian",
   simc = {
@@ -443,6 +458,7 @@ ns.RegisterSpecData("forever", "druid_guardian", {
     },
   },
   simcOrder = { "precombat", "default", "bear", "cooldowns" },
+  simcSource = "simc",
   spec = "guardian",
   spellInfo = {
     [768] = {

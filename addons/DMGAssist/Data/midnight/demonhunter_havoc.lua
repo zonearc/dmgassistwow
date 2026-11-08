@@ -160,6 +160,11 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
   blizzardExcluded = { "fel_rush", "felblade", "metamorphosis", "the_hunt", "vengeful_retreat" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "demonhunter",
+  gameMatch = {
+    matched = 14,
+    missing = {},
+    total = 14,
+  },
   heroTrees = {},
   key = "demonhunter_havoc",
   simc = {
@@ -455,6 +460,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
     },
   },
   simcOrder = { "precombat", "default", "items" },
+  simcSource = "simc",
   spec = "havoc",
   spellInfo = {
     [162264] = {

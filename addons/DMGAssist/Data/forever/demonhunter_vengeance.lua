@@ -125,6 +125,24 @@ ns.RegisterSpecData("forever", "demonhunter_vengeance", {
   blizzardExcluded = { "metamorphosis" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "demonhunter",
+  gameMatch = {
+    matched = 0,
+    missing = {
+      "demon_spikes",
+      "disrupt",
+      "fel_devastation",
+      "felblade",
+      "fiery_brand",
+      "fracture",
+      "immolation_aura",
+      "infernal_strike",
+      "metamorphosis",
+      "reavers_glaive",
+      "sigil_of_flame",
+      "sigil_of_spite",
+    },
+    total = 17,
+  },
   heroTrees = {
     aldrachi_reaver = {
       442290,
@@ -1522,6 +1540,7 @@ ns.RegisterSpecData("forever", "demonhunter_vengeance", {
     "ar_quick_consume",
     "trinkets",
   },
+  simcSource = "simc",
   spec = "vengeance",
   spellInfo = {
     [162264] = {

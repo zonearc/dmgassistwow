@@ -208,6 +208,11 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
   blizzardExcluded = { "doom_winds" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "shaman",
+  gameMatch = {
+    matched = 18,
+    missing = {},
+    total = 18,
+  },
   heroTrees = {},
   key = "shaman_enhancement",
   simc = {
@@ -830,6 +835,7 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
     },
   },
   simcOrder = { "precombat", "default", "aoe", "cooldowns", "single_sb", "single_totemic" },
+  simcSource = "simc",
   spec = "enhancement",
   spellInfo = {
     [2825] = {

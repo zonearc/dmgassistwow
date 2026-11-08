@@ -120,6 +120,11 @@ ns.RegisterSpecData("forever", "hunter_survival", {
   blizzardExcluded = { "takedown" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "hunter",
+  gameMatch = {
+    matched = 2,
+    missing = { "aspect_of_the_eagle", "boomstick", "moonlight_chakram", "muzzle", "takedown", "wildfire_bomb" },
+    total = 8,
+  },
   heroTrees = {},
   key = "hunter_survival",
   simc = {
@@ -476,6 +481,7 @@ ns.RegisterSpecData("forever", "hunter_survival", {
     },
   },
   simcOrder = { "precombat", "default", "cds", "plcleave", "plst", "sentcleave", "sentst" },
+  simcSource = "simc",
   spec = "survival",
   spellInfo = {
     [2973] = {

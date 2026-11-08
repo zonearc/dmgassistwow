@@ -164,6 +164,11 @@ ns.RegisterSpecData("midnight", "mage_fire", {
   blizzardExcluded = { "combustion" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "mage",
+  gameMatch = {
+    matched = 8,
+    missing = { "mirror_image" },
+    total = 9,
+  },
   heroTrees = {},
   key = "mage_fire",
   simc = {
@@ -766,6 +771,7 @@ ns.RegisterSpecData("midnight", "mage_fire", {
     },
   },
   simcOrder = { "precombat", "default", "cds", "ff_combustion", "ff_filler", "fireblast", "sf_combustion", "sf_filler" },
+  simcSource = "simc",
   spec = "fire",
   spellInfo = {
     [133] = {

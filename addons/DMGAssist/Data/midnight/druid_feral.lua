@@ -174,6 +174,11 @@ ns.RegisterSpecData("midnight", "druid_feral", {
   blizzardExcluded = { "berserk" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "druid",
+  gameMatch = {
+    matched = 16,
+    missing = {},
+    total = 16,
+  },
   heroTrees = {
     druid_of_the_claw = {
       441583,
@@ -729,6 +734,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
     },
   },
   simcOrder = { "precombat", "default", "aoe_builder", "aoe_finisher", "builder", "cd_variable", "cooldown", "finisher" },
+  simcSource = "simc",
   spec = "feral",
   spellInfo = {
     [768] = {

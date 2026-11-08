@@ -149,6 +149,11 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
   blizzardExcluded = { "summon_demonic_tyrant" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warlock",
+  gameMatch = {
+    matched = 12,
+    missing = {},
+    total = 12,
+  },
   heroTrees = {},
   key = "warlock_demonology",
   simc = {
@@ -540,6 +545,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
     },
   },
   simcOrder = { "precombat", "default", "diabolist", "items", "racials", "soulharvest" },
+  simcSource = "simc",
   spec = "demonology",
   spellInfo = {
     [686] = {

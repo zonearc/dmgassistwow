@@ -206,6 +206,11 @@ ns.RegisterSpecData("midnight", "druid_balance", {
   blizzardExcluded = { "celestial_alignment" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "druid",
+  gameMatch = {
+    matched = 16,
+    missing = {},
+    total = 16,
+  },
   heroTrees = {
     elunes_chosen = {
       424058,
@@ -889,6 +894,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     },
   },
   simcOrder = { "precombat", "default", "aoe", "cooldowns", "ec_st", "kotg_st", "mini", "opener" },
+  simcSource = "simc",
   spec = "balance",
   spellInfo = {
     [5176] = {

@@ -116,6 +116,11 @@ ns.RegisterSpecData("forever", "hunter_beast_mastery", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "hunter",
+  gameMatch = {
+    matched = 4,
+    missing = { "barbed_shot", "cobra_shot", "wailing_arrow", "wild_thrash" },
+    total = 8,
+  },
   heroTrees = {},
   key = "hunter_beast_mastery",
   simc = {
@@ -454,6 +459,7 @@ ns.RegisterSpecData("forever", "hunter_beast_mastery", {
     },
   },
   simcOrder = { "precombat", "default", "cds", "cleave", "drcleave", "drst", "st", "trinkets" },
+  simcSource = "simc",
   spec = "beast_mastery",
   spellInfo = {
     [75] = {

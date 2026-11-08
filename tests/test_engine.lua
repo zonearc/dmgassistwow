@@ -888,6 +888,7 @@ test("button changes and requirement-only spells are learned as buff signals", f
   mock.Advance(1)
   mock.usable[5215] = { false, false }
   mock.Fire("SPELL_UPDATE_USABLE")
+  mock.Advance(0.2) -- the scan is throttled to 10x per second
   mock.usable[5215] = { true, false }
   mock.Fire("SPELL_UPDATE_USABLE")
   mock.auras.player = { { name = "Ravage!", spellId = 999001, duration = 15, expirationTime = mock.now + 15 },
@@ -902,6 +903,7 @@ test("button changes and requirement-only spells are learned as buff signals", f
   mock.overrides = { [22568] = 441591 }
   mock.Fire("SPELL_UPDATE_ICON", 22568)
   eq(S.Resolve("buff.ravage.up", {}), 1)
+  mock.Advance(0.2)
   mock.usable[5215] = { false, false }
   mock.Fire("SPELL_UPDATE_USABLE")
   eq(S.Resolve("buff.shadowmeld_ready.up", {}), 0)

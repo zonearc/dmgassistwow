@@ -125,6 +125,11 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
   blizzardExcluded = { "metamorphosis" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "demonhunter",
+  gameMatch = {
+    matched = 16,
+    missing = {},
+    total = 16,
+  },
   heroTrees = {
     aldrachi_reaver = {
       442290,
@@ -908,6 +913,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
     "ar_quick_consume",
     "trinkets",
   },
+  simcSource = "simc",
   spec = "vengeance",
   spellInfo = {
     [162264] = {

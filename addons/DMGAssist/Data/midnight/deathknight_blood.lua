@@ -146,6 +146,11 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "deathknight",
+  gameMatch = {
+    matched = 11,
+    missing = { "any_dnd" },
+    total = 12,
+  },
   heroTrees = {
     deathbringer = {
       434905,
@@ -497,6 +502,7 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
     },
   },
   simcOrder = { "precombat", "default", "deathbringer", "high_prio_actions", "san_gift", "sanlayn" },
+  simcSource = "simc",
   spec = "blood",
   spellInfo = {
     [43265] = {

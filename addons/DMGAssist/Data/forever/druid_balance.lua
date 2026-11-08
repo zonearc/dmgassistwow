@@ -206,6 +206,11 @@ ns.RegisterSpecData("forever", "druid_balance", {
   blizzardExcluded = { "celestial_alignment" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "druid",
+  gameMatch = {
+    matched = 9,
+    missing = { "celestial_alignment", "convoke_the_spirits", "full_moon", "fury_of_elune", "half_moon", "new_moon", "wild_mushroom" },
+    total = 16,
+  },
   heroTrees = {},
   key = "druid_balance",
   simc = {
@@ -845,6 +850,7 @@ ns.RegisterSpecData("forever", "druid_balance", {
     },
   },
   simcOrder = { "precombat", "default", "aoe", "cooldowns", "ec_st", "kotg_st", "mini", "opener" },
+  simcSource = "simc",
   spec = "balance",
   spellInfo = {
     [2912] = {

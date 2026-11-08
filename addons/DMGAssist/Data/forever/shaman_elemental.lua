@@ -218,6 +218,22 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
   blizzardExcluded = { "ascendance" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "shaman",
+  gameMatch = {
+    matched = 9,
+    missing = {
+      "ancestral_swiftness",
+      "ascendance",
+      "earthquake",
+      "elemental_blast",
+      "spiritwalkers_grace",
+      "stormkeeper",
+      "tempest",
+      "thunderstrike_ward",
+      "voltaic_blaze",
+      "wind_shear",
+    },
+    total = 19,
+  },
   heroTrees = {},
   key = "shaman_elemental",
   simc = {
@@ -701,6 +717,7 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
     },
   },
   simcOrder = { "precombat", "default", "aoe", "single_target" },
+  simcSource = "simc",
   spec = "elemental",
   spellInfo = {
     [324] = {

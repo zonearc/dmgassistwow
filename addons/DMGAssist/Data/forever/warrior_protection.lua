@@ -166,6 +166,22 @@ ns.RegisterSpecData("forever", "warrior_protection", {
   blizzardExcluded = { "avatar", "shield_charge" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warrior",
+  gameMatch = {
+    matched = 10,
+    missing = {
+      "avatar",
+      "champions_leap",
+      "champions_spear",
+      "demolish",
+      "ignore_pain",
+      "ravager",
+      "shattering_throw",
+      "shield_charge",
+      "thunder_blast",
+      "wrecking_throw",
+    },
+    total = 20,
+  },
   heroTrees = {},
   key = "warrior_protection",
   simc = {
@@ -535,6 +551,7 @@ ns.RegisterSpecData("forever", "warrior_protection", {
     },
   },
   simcOrder = { "precombat", "default", "colossus_aoe", "colossus_st", "thane_aoe", "thane_st", "variables" },
+  simcSource = "simc",
   spec = "protection",
   spellInfo = {
     [100] = {

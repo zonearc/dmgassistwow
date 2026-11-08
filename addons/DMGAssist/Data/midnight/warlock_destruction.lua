@@ -225,6 +225,11 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
   blizzardExcluded = { "summon_infernal" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warlock",
+  gameMatch = {
+    matched = 15,
+    missing = {},
+    total = 15,
+  },
   heroTrees = {},
   key = "warlock_destruction",
   simc = {
@@ -742,6 +747,7 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
     },
   },
   simcOrder = { "precombat", "default", "aoe_dia", "aoe_hc", "items", "ogcd", "variables" },
+  simcSource = "simc",
   spec = "destruction",
   spellInfo = {
     [348] = {

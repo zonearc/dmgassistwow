@@ -177,6 +177,11 @@ ns.RegisterSpecData("forever", "warrior_fury", {
   blizzardExcluded = { "avatar", "recklessness" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warrior",
+  gameMatch = {
+    matched = 10,
+    missing = { "avatar", "bladestorm", "bloodbath", "crushing_blow", "heroic_leap", "odyns_fury", "storm_bolt", "thunder_blast" },
+    total = 18,
+  },
   heroTrees = {},
   key = "warrior_fury",
   simc = {
@@ -868,6 +873,7 @@ ns.RegisterSpecData("forever", "warrior_fury", {
     },
   },
   simcOrder = { "precombat", "default", "slayer", "slayer_aoe", "thane", "thane_aoe", "trinkets", "variables" },
+  simcSource = "simc",
   spec = "fury",
   spellInfo = {
     [100] = {

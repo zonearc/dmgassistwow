@@ -141,6 +141,21 @@ ns.RegisterSpecData("forever", "paladin_protection", {
   blizzardExcluded = { "avenging_wrath", "sentinel" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "paladin",
+  gameMatch = {
+    matched = 6,
+    missing = {
+      "blessed_hammer",
+      "divine_toll",
+      "hammer_of_light",
+      "holy_armaments",
+      "judgment",
+      "rite_of_adjuration",
+      "rite_of_sanctification",
+      "shield_of_the_righteous",
+      "word_of_glory",
+    },
+    total = 15,
+  },
   heroTrees = {},
   key = "paladin_protection",
   simc = {
@@ -351,6 +366,7 @@ ns.RegisterSpecData("forever", "paladin_protection", {
     },
   },
   simcOrder = { "precombat", "default" },
+  simcSource = "simc",
   spec = "protection",
   spellInfo = {
     [465] = {

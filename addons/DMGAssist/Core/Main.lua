@@ -60,12 +60,49 @@ local function RequestSpellRefresh()
   end)
 end
 
+-- How much of the priority list this character can actually cast (level, talents, and on Forever: lists that SimC
+-- wrote for Midnight). Logged always; told to the player when it's under half.
+function ns.ListMatch(state)
+  local record = state and state.data
+  if not (record and record.simc) then
+    return nil
+  end
+  local seen, have, total, missing = {}, 0, 0, {}
+  for _, list in pairs(record.simc) do
+    for _, e in ipairs(list) do
+      local a = e.a
+      if not G.SKIP[a] and not seen[a] then
+        seen[a] = true
+        total = total + 1
+        if M.SpellID(a) then
+          have = have + 1
+        else
+          missing[#missing + 1] = a
+        end
+        M.unresolved[a] = nil
+      end
+    end
+  end
+  table.sort(missing)
+  return have, total, missing
+end
+
 Specs.OnChange(function(state, previous)
   M.SetData(state.data)
   if state.key then
     S.Bind(state.key)
   end
   RefreshSpells()
+  local have, total, missing = ns.ListMatch(state)
+  if have then
+    local gm = state.data.gameMatch
+    U.Log("list_match", { spec = state.key, have = have, total = total, gameData = gm and (gm.matched .. "/" .. gm.total),
+      source = state.data.simcSource, missing = table.concat(missing, ","):sub(1, 150) })
+    if total >= 5 and have / total < 0.5 then
+      U.Print(L["Only %d of %d spells in this priority list are in your spellbook. Recommendations use what you have, "
+        .. "so expect gaps (low level, talents, or a list written for another game version)."], have, total)
+    end
+  end
   if previous then
     U.Print(L["Spec changed: %s"], Describe(state))
   end
@@ -281,7 +318,12 @@ frame:SetScript("OnEvent", function(_, event, ...)
   elseif event == "UNIT_SPELL_HASTE" then
     S.OnHasteChanged()
   elseif event == "SPELL_UPDATE_USABLE" then
-    ns.Clues.ScanRequirements(S.AurasReadable())
+    -- fires many times a second (every resource tick): scan at most 10x per second
+    local now = GetTime()
+    if now - (ns.lastUsableScan or 0) >= 0.1 then
+      ns.lastUsableScan = now
+      ns.Clues.ScanRequirements(S.AurasReadable())
+    end
   elseif event == "SPELL_UPDATE_ICON" or event == "COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED" then
     ns.Clues.ScanOverrides(S.AurasReadable())
   elseif event == "ENCOUNTER_START" then
@@ -318,6 +360,10 @@ frame:SetScript("OnUpdate", function(_, dt)
   local ok, err = pcall(ns.Update)
   if not ok then
     U.Log("engine_error", U.Safe(err))
+    if ns.TESTING and not ns.shownEngineError then
+      ns.shownEngineError = true
+      U.Print("Engine error (logged for the Watchdog; shown once per session): %s", tostring(U.Safe(err)))
+    end
   end
 end)
 

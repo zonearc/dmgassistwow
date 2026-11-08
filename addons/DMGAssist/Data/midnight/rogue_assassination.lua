@@ -200,6 +200,11 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
   blizzardExcluded = { "deathmark" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "rogue",
+  gameMatch = {
+    matched = 15,
+    missing = {},
+    total = 15,
+  },
   heroTrees = {},
   key = "rogue_assassination",
   simc = {
@@ -549,6 +554,7 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
     "spend",
     "vanish",
   },
+  simcSource = "simc",
   spec = "assassination",
   spellInfo = {
     [703] = {

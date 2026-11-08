@@ -204,6 +204,11 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
   blizzardExcluded = { "summon_darkglare" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warlock",
+  gameMatch = {
+    matched = 13,
+    missing = {},
+    total = 13,
+  },
   heroTrees = {
     hellcaller = {
       430014,
@@ -914,6 +919,7 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
     "soul_harvester",
     "variables",
   },
+  simcSource = "simc",
   spec = "affliction",
   spellInfo = {
     [172] = {

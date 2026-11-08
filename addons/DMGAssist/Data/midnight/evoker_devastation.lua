@@ -141,6 +141,11 @@ ns.RegisterSpecData("midnight", "evoker_devastation", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "evoker",
+  gameMatch = {
+    matched = 15,
+    missing = {},
+    total = 15,
+  },
   heroTrees = {},
   key = "evoker_devastation",
   simc = {
@@ -864,6 +869,7 @@ ns.RegisterSpecData("midnight", "evoker_devastation", {
     "sc",
     "trinkets",
   },
+  simcSource = "simc",
   spec = "devastation",
   spellInfo = {
     [351338] = {

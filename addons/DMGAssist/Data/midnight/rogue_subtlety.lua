@@ -173,6 +173,11 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
   blizzardExcluded = { "shadow_blades" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "rogue",
+  gameMatch = {
+    matched = 13,
+    missing = {},
+    total = 13,
+  },
   heroTrees = {},
   key = "rogue_subtlety",
   simc = {
@@ -505,6 +510,7 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
     },
   },
   simcOrder = { "precombat", "default", "build", "cds", "fill", "finish", "item", "race" },
+  simcSource = "simc",
   spec = "subtlety",
   spellInfo = {
     [53] = {

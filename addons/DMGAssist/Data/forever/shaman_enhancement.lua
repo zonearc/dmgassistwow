@@ -208,6 +208,22 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
   blizzardExcluded = { "doom_winds" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "shaman",
+  gameMatch = {
+    matched = 8,
+    missing = {
+      "ascendance",
+      "bloodlust",
+      "crash_lightning",
+      "doom_winds",
+      "primordial_storm",
+      "sundering",
+      "surging_totem",
+      "tempest",
+      "voltaic_blaze",
+      "windstrike",
+    },
+    total = 18,
+  },
   heroTrees = {},
   key = "shaman_enhancement",
   simc = {
@@ -825,6 +841,7 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
     },
   },
   simcOrder = { "precombat", "default", "aoe", "cooldowns", "single_sb", "single_totemic" },
+  simcSource = "simc",
   spec = "enhancement",
   spellInfo = {
     [324] = {
