@@ -1,7 +1,9 @@
 -- Expr.lua: SimC condition expressions, parsed at runtime and evaluated three-valued.
 --
 -- Mirrors the parser in tools/simc_import.py (same precedence, lowest first):
---   |  ^  &  comparisons (= != < <= > >=)  >? <? (max/min)  + -  * % %% (% is DIVISION in SimC, %% is modulo)
+--   |  ^  &  comparisons (= != < <= > >=)  <? >? (MAX / MIN)  + -  * % %% (% is DIVISION in SimC, %% is modulo)
+-- SimC's own tokenizer (engine/sim/expressions.cpp): "<?" is TOK_MAX and ">?" is TOK_MIN, the reverse of GCC's
+-- old operators. (We had them reversed until 2026-11-08: Balance's eclipse_timings came out wrong.)
 --   unary ! - +   atoms: number, identifier, ( ... ), floor(...), ceil(...)
 --
 -- Values are numbers (SimC is numeric: true = 1, false = 0) or E.UNKNOWN. Logic is Kleene's:
@@ -315,10 +317,10 @@ function Eval(node, resolve, bounds)
     return Num(a > b)
   elseif op == ">=" then
     return Num(a >= b)
-  elseif op == ">?" then
-    return math.max(a, b)
   elseif op == "<?" then
-    return math.min(a, b)
+    return math.max(a, b) -- SimC: a<?b is the larger
+  elseif op == ">?" then
+    return math.min(a, b) -- SimC: a>?b is the smaller
   elseif op == "+" then
     return a + b
   elseif op == "-" then

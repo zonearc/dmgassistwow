@@ -50,3 +50,14 @@ Scrap, Threat Plates.
   reached. Fix: with the live assistant present only it confirms an uncertain line (Engine.Corroborated).
 - buff.eclipse was always UNKNOWN: Lunar/Solar Eclipse casts had no link to the Eclipse (Lunar/Solar) buffs.
   Importer links a cast to the same-named aura its description quotes ($48518d); buff.eclipse aliases both.
+
+## Fifth session (0.1.0.10, two reports)
+- Eclipse shown while the game would not cast it (no charge left): the cooldown API reports a charge spell
+  with charges as not on cooldown and IsSpellUsable ignores charges. Charges are now counted from casts
+  (GetSpellCharges when readable), shared by the spells of one list entry (Lunar/Solar Eclipse).
+- 100-117 s: Blizzard's assistant said Lunar Eclipse, SimC's eclipse line was certainly false. Cause: our
+  expression engine had SimC's max/min operators reversed. SimC (engine/sim/expressions.cpp): "<?" is
+  TOK_MAX, ">?" is TOK_MIN. eclipse_timings ("the longest of these cooldowns") was computed as the shortest.
+  Affects 10 Midnight lists (Feral 10 uses, Balance, Elemental, Havoc 3 each, Destruction, Affliction,
+  Devastation 2, Assassination ...) and the WoWSims converter's min/max. Fixed and tested.
+- Watchdog window's X did not close it: wired explicitly.

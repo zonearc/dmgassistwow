@@ -303,6 +303,10 @@ local function LearnCooldown(id, info)
 end
 
 function S.CooldownRemains(id)
+  local charged = S.ChargeRemains(id)
+  if charged then
+    return charged
+  end
   if V and V.cd[id] then
     return math.max(0, V.cd[id] - Now())
   end
@@ -332,7 +336,126 @@ function S.CooldownRemains(id)
   return UNKNOWN
 end
 
+---------------------------------------------------------------------------
+-- Charges: counted from our casts (C_Spell.GetSpellCharges when readable). The cooldown API calls a charge
+-- spell with charges left "not on cooldown", and IsSpellUsable ignores charges, so without this a spent
+-- Eclipse looked ready (seen in game 2026-11-08). Spells that share charges (Lunar / Solar Eclipse) are
+-- one group: the smallest charge-spell ID among the priority-list entries that contain them.
+---------------------------------------------------------------------------
+S.chargeUse = {}   -- group -> { recharge end times, oldest first }
+local chargeGroup  -- id -> group (built lazily per data set)
+
+local function ChargeInfo(id)
+  local info = M.Info(id)
+  if info and (info.ch or info.chLive) and (info.chcd or 0) > 0 then
+    return info
+  end
+  return nil
+end
+
+local function GroupOf(id)
+  if not chargeGroup or chargeGroup.data ~= M.data then
+    chargeGroup = { data = M.data, map = {} }
+    for _, e in pairs(M.data or {}) do
+      local ids = type(e) == "table" and e.a
+      if ids then
+        local low
+        for _, i in ipairs(ids) do
+          if ChargeInfo(i) and (not low or i < low) then
+            low = i
+          end
+        end
+        if low then
+          for _, i in ipairs(ids) do
+            if ChargeInfo(i) and (not chargeGroup.map[i] or low < chargeGroup.map[i]) then
+              chargeGroup.map[i] = low
+            end
+          end
+        end
+      end
+    end
+  end
+  return chargeGroup.map[id] or id
+end
+
+local function PendingRecharges(group, at)
+  local list = S.chargeUse[group]
+  if not list then
+    return {}
+  end
+  while list[1] and list[1] <= GetTime() do
+    table.remove(list, 1)
+  end
+  local out = {}
+  for _, t in ipairs(list) do
+    if t > at then
+      out[#out + 1] = t
+    end
+  end
+  return out
+end
+
+-- Charges available now (or at the look-ahead moment), or nil for a spell without charges.
+function S.Charges(id)
+  local info = ChargeInfo(id)
+  if not info then
+    return nil
+  end
+  if not V then
+    local c = U.Get(C_Spell and C_Spell.GetSpellCharges, id)
+    local cur = type(c) == "table" and U.Read(c.currentCharges)
+    if type(cur) == "number" then
+      return cur
+    end
+  end
+  local group = GroupOf(id)
+  local n = (info.chLive or info.ch) - #PendingRecharges(group, Now())
+  if V and V.cast then
+    for castID in pairs(V.cast) do
+      if GroupOf(castID) == group then
+        n = n - 1
+      end
+    end
+  end
+  return math.max(0, n)
+end
+
+-- Seconds until a charge is available (0 with one ready), or nil for a spell without charges.
+function S.ChargeRemains(id)
+  local c = S.Charges(id)
+  if c == nil then
+    return nil
+  end
+  if c > 0 then
+    return 0
+  end
+  local pending = PendingRecharges(GroupOf(id), Now())
+  if pending[1] then
+    return math.max(0, pending[1] - Now())
+  end
+  return nil -- the game says none left but we saw no cast: unknown, fall back to the cooldown API
+end
+
+local function OnChargeSpent(id)
+  local info = ChargeInfo(id)
+  if not info then
+    return
+  end
+  local group = GroupOf(id)
+  local list = S.chargeUse[group] or {}
+  S.chargeUse[group] = list
+  PendingRecharges(group, GetTime())
+  local from = list[#list] or GetTime() -- one charge recharges at a time
+  list[#list + 1] = math.max(from, GetTime()) + info.chcd
+end
+
 function S.CooldownReady(id)
+  if ChargeInfo(id) then
+    local c = S.Charges(id)
+    if c then
+      return c > 0
+    end
+  end
   if V and V.cd[id] then
     return V.cd[id] <= Now()
   end
@@ -421,6 +544,7 @@ local function RecordCast(id, how)
     S.history[#S.history] = nil
   end
   S.lastCast[id] = GetTime()
+  OnChargeSpent(id)
   ns.Clues.OnCast()
   ns.Clues.OnOwnCast(id)
   if ns.Engine then
