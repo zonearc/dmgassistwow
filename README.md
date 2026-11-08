@@ -83,6 +83,12 @@ IDs, so it works on every client language; only messages are translated.
 With DMGAssist_Watchdog installed, every pick change (with the queue and mode), inferred cast and per-fight tracking
 summary is logged for diagnosis.
 
+## Windows tray updater
+
+`tools/updater` (also **DMGAssist_Updater.zip** on the nightly release): a tray icon whose right-click menu
+has **Update DMGAssist now**, which downloads the latest nightly build and installs it. See
+[tools/updater/README.md](tools/updater/README.md).
+
 ## Testing
 
 See [TESTING.md](TESTING.md): test builds log everything needed automatically; play, type `/dmgw`, Ctrl+C,
