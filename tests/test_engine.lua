@@ -455,6 +455,21 @@ test("Touch of Death only on a target with less health than your maximum", funct
   UnitHealth, UnitHealthMax = oldHealth, oldMax
 end)
 
+test("nothing castable now: the slot shows the first spell ready within a few seconds, not nothing", function()
+  Reset()
+  local ns = Boot()
+  mock.cooldowns[5221] = { active = true, start = mock.now - 9, duration = 10 } -- Shred back in 1 s
+  local rec = Record()
+  rec.simc = { default = { { a = "shred", k = "R" } } }
+  rec.blizzard = nil
+  local r = ns.Engine.Recommend(rec, {})
+  eq(r.main and r.main.token, "shred", "shown ahead of time")
+  eq(r.main.wait ~= nil and r.main.wait <= 1.5, true, "marked as a short wait")
+  mock.cooldowns[5221] = { active = true, start = mock.now, duration = 60 }
+  r = ns.Engine.Recommend(rec, {})
+  eq(r.main == nil or r.main.token ~= "shred", true, "a long cooldown is not shown")
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()

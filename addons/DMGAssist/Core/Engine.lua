@@ -679,6 +679,32 @@ local function Decide(record, opts, targets, first)
     branch = branch, trace = run.trace, useItems = run.useItems }
 end
 
+-- Nothing castable at this moment (energy-starved, everything on cooldown): look a little further ahead, in
+-- steps, and show the first spell that becomes ready, instead of an empty slot (Brewmaster at 15 energy).
+G.WAIT_STEP = 0.5
+G.WAIT_MAX = 3
+
+local function DecideAhead(record, opts, targets, first)
+  local r = Decide(record, opts, targets, first)
+  local v = S.Lookahead()
+  if (r.main and r.main.id) or not v then
+    return r
+  end
+  local base = v.dt
+  local waited = 0
+  while waited < G.WAIT_MAX do
+    waited = waited + G.WAIT_STEP
+    v.dt = base + waited
+    local later = Decide(record, opts, targets, first)
+    if later.main and later.main.id then
+      later.main.wait = waited
+      return later
+    end
+  end
+  v.dt = base
+  return r
+end
+
 local function Queue(record, opts, targets)
   local depth = opts.depth or 3
   -- Slot 1 is what to press when the GCD (or the current cast) ends, with that cast already counted.
@@ -689,7 +715,7 @@ local function Queue(record, opts, targets)
     S.Apply(castID)
     v.dt = dt
   end
-  local result = Decide(record, opts, targets, true)
+  local result = DecideAhead(record, opts, targets, true)
   result.queue = { result.main }
   local last = result.main
   for slot = 2, depth do
@@ -697,7 +723,7 @@ local function Queue(record, opts, targets)
       break
     end
     S.Apply(last.id)
-    local nextPick = Decide(record, opts, targets, false).main
+    local nextPick = DecideAhead(record, opts, targets, false).main
     result.queue[slot] = nextPick
     last = nextPick
   end
