@@ -839,26 +839,38 @@ function S.OnCooldownUpdate()
     end
     gcdStart = nil
   end
+  -- A cast starts one cooldown (two with a shared one). Many starting in the same update is the GCD with its
+  -- "on GCD" flag unreadable, a lockout or a silence: no casts (inferring them once restarted our cooldown
+  -- clocks for twenty spells and emptied slots 2 and 3, Brewmaster).
+  local started = {}
   for id, b in pairs(M.book) do
     if b.id == id and not b.passive then
       local info = CooldownInfo(id)
       if info then
         local active, onGCD = U.Read(info.isActive), U.Read(info.isOnGCD)
         if active ~= nil then
-          if active == true and onGCD ~= true and S.wasActive[id] == false then
-            local last = S.lastCast[id]
-            if not last or GetTime() - last > 0.5 then
-              S.castsInferred = S.castsInferred + 1
-              RecordCast(id, "cooldown")
-            end
-            LearnCooldown(id, info)
+          if active == true and onGCD == false and S.wasActive[id] == false then
+            started[#started + 1] = { id = id, info = info }
           end
-          S.wasActive[id] = active == true and onGCD ~= true
+          S.wasActive[id] = active == true and onGCD == false
         end
       end
     end
   end
+  if #started > S.MAX_INFERRED then
+    S.inferBursts = (S.inferBursts or 0) + 1
+    return
+  end
+  for _, c in ipairs(started) do
+    local last = S.lastCast[c.id]
+    if not last or GetTime() - last > 0.5 then
+      S.castsInferred = S.castsInferred + 1
+      RecordCast(c.id, "cooldown")
+    end
+    LearnCooldown(c.id, c.info)
+  end
 end
+S.MAX_INFERRED = 2
 
 function S.OnGlow(spellID, shown)
   local id = U.Read(spellID)

@@ -424,6 +424,13 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
     elseif a == "call_action_list" or a == "run_action_list" then
       local sub = e.p and e.p.name
       local t = Test(e.c, run)
+      if sub and t == false and not isBlizzard and not run.heroFallback and type(e.c) == "string"
+        and e.c:match("^hero_tree%.[%w_]+$") and M.NoHeroTree() then
+        -- Lists split by hero tree (Brewmaster: run_action_list,name=shado_pan,if=hero_tree.shadopan). Without a
+        -- hero tree yet (levelling), none would run and SimC would have nothing to say: the first one is used
+        -- (spells the player doesn't have are skipped as usual).
+        run.heroFallback = sub
+      end
       if sub and t ~= false then
         local r = Walk(lists, sub, maybe or t == UNKNOWN, depth + 1, run, isBlizzard)
         if r then
@@ -631,6 +638,9 @@ local function Decide(record, opts, targets, first)
   local pick
   if type(record.simc) == "table" then
     pick = Walk(record.simc, "default", false, 0, run, false)
+    if not pick and run.heroFallback and record.simc[run.heroFallback] then
+      pick = Walk(record.simc, run.heroFallback, false, 1, run, false)
+    end
   end
   if pick == STOP then
     pick = nil

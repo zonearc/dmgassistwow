@@ -271,6 +271,21 @@ function M.HeroTree(token)
   return nil
 end
 
+-- True when the player has none of the spec's hero trees (below the level they unlock, or none picked yet).
+function M.NoHeroTree()
+  if not M.talentsRead or M.heroTree then
+    return false
+  end
+  local any = false
+  for token in pairs(M.hero or {}) do
+    any = true
+    if M.HeroTree(token) ~= 0 then
+      return false
+    end
+  end
+  return any
+end
+
 local function ScanSpellbook()
   local spells, passives, book, baseOf = {}, {}, {}, {}
   local n = U.Get(C_SpellBook and C_SpellBook.GetNumSpellBookSkillLines)
