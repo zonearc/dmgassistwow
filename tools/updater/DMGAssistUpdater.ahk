@@ -1,29 +1,34 @@
-; DMGAssistUpdater.ahk: a tray icon that keeps DMGAssist and DMGAssist_Watchdog on the latest nightly build.
-; AutoHotkey v2. Keep update.ps1 in the same folder.
+; DMGAssistUpdater: a tray icon that keeps DMGAssist and DMGAssist_Watchdog on the latest nightly build, in every
+; supported World of Warcraft install on this PC (retail and WoW Forever). AutoHotkey v2; the nightly build also
+; ships it compiled as DMGAssistUpdater.exe, which needs nothing installed.
 ;
-; Double-click this file once (from wherever you unzipped it):
-;   - it installs itself to %LOCALAPPDATA%\DMGAssistUpdater (replacing an older copy, which it closes),
-;   - registers itself to start when you log in to Windows (a scheduled task with admin rights, so there is no
-;     Windows prompt at every start; the AddOns folder under Program Files needs admin rights to write),
-;   - and starts from there. The unzipped copy can be deleted afterwards.
-; Then, every 10 minutes, it checks the nightly release and installs it when it is newer than what you have.
-; Hover the icon: installed version and the time of the last check.
+; Run it once (double-click), from wherever it was downloaded:
+;   - it installs itself to %LOCALAPPDATA%\DMGAssistUpdater, replacing and closing any older copy (the old AutoHotkey
+;     script version included),
+;   - starts with Windows (a scheduled task with admin rights, so there is no prompt at every start: AddOns folders
+;     under Program Files need admin rights to write),
+;   - finds the WoW folders by itself (Blizzard's registry entry and the usual install locations): _retail_ and any
+;     game folder whose name contains "forever",
+;   - and checks the nightly release every 10 minutes, installing it into every folder that is not up to date.
+; Hover the icon: the version in each folder and the time of the last check.
 ;
-; Right-click the tray icon:
-;   Check and update now        (double-click the icon does the same)
-;   Installed version
-;   Automatic updates           on/off (every 10 minutes)
-;   Change AddOns folder...     if WoW is not in the default place
-;   Open AddOns folder
-;   Start with Windows          on/off
-;   Exit
+; Right-click: Check and update now (double-click does the same), Automatic updates, Start with Windows,
+; Folders..., Open AddOns folders, Uninstall the updater, Exit.
 
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 Persistent
+;@Ahk2Exe-SetName DMGAssist Updater
+;@Ahk2Exe-SetDescription Keeps DMGAssist up to date
+;@Ahk2Exe-SetCompanyName zonearc
 
 if !A_IsAdmin {
-    try Run('*RunAs "' A_AhkPath '" /restart "' A_ScriptFullPath '"')
+    try {
+        if A_IsCompiled
+            Run('*RunAs "' A_ScriptFullPath '" /restart')
+        else
+            Run('*RunAs "' A_AhkPath '" /restart "' A_ScriptFullPath '"')
+    }
     ExitApp
 }
 
@@ -33,114 +38,106 @@ ConfigDir := A_AppData "\DMGAssistUpdater"
 DirCreate(ConfigDir)
 IniFile := ConfigDir "\settings.ini"
 TokenFile := ConfigDir "\token.txt"
-DefaultAddOns := "C:\Program Files (x86)\World of Warcraft\_retail_\Interface\AddOns"
-AddOnsDir := IniRead(IniFile, "paths", "addons", FindAddOns())
-AutoUpdate := IniRead(IniFile, "options", "auto", "1") = "1"
 TaskName := "DMGAssistUpdater"
 OldStartupLink := A_Startup "\DMGAssistUpdater.lnk"
 CheckEveryMs := 10 * 60 * 1000
 LastCheck := "not yet"
 LastError := ""
 Busy := false
+AutoUpdate := IniRead(IniFile, "options", "auto", "1") = "1"
+Folders := LoadFolders()
 
-; ---------------------------------------------------------------------------
-; Install: a copy started from anywhere else moves itself into InstallDir and hands over to that copy.
-; ---------------------------------------------------------------------------
+; A copy started from anywhere else installs itself and hands over to the installed copy.
 if (A_ScriptDir != InstallDir) {
     SelfInstall()
     ExitApp
 }
 
 UpdateScript := A_ScriptDir "\update.ps1"
+try FileDelete(TokenFile) ; the repository is public: no token (one saved by the old version is removed)
 BuildMenu()
 RefreshTip()
 SetTimer(AutoCheck, CheckEveryMs)
-; The repository is public: no token. One saved in the private-repo days is removed (an expired one only fails).
-try FileDelete(TokenFile)
-SetTimer(FirstCheck, -5000) ; first check shortly after start (a separate function: re-setting AutoCheck's
-                            ; timer would replace its 10-minute period)
+SetTimer(FirstCheck, -5000) ; a separate function: re-setting AutoCheck's timer would replace its 10-minute period
 return
 
-; The retail AddOns folder: Blizzard's install path from the registry, else the default location.
-FindAddOns() {
+; ---------------------------------------------------------------------------
+; Folders
+; ---------------------------------------------------------------------------
+
+; Every supported AddOns folder on this PC: game folders (with a Wow*.exe) named _retail_ or containing "forever",
+; under the WoW roots from Blizzard's registry entries and the usual install locations.
+FindFolders() {
+    roots := Map()
     for key in ["HKLM\SOFTWARE\WOW6432Node\Blizzard Entertainment\World of Warcraft",
         "HKLM\SOFTWARE\Blizzard Entertainment\World of Warcraft"] {
         try {
-            path := RegRead(key, "InstallPath")
-            path := RTrim(path, "\")
-            if !InStr(path, "_retail_")
-                path .= "\_retail_"
-            if DirExist(path)
-                return path "\Interface\AddOns"
+            path := RTrim(RegRead(key, "InstallPath"), "\")
+            if RegExMatch(path, "i)\\_[a-z_]+_$")
+                path := RegExReplace(path, "\\[^\\]+$") ; ...\World of Warcraft\_retail_ -> ...\World of Warcraft
+            roots[path] := true
         }
     }
-    return DefaultAddOns
-}
-
-SelfInstall() {
-    if !FileExist(A_ScriptDir "\update.ps1") {
-        MsgBox("update.ps1 must be next to this file to install it:`n" A_ScriptDir, AppName, "Icon!")
-        return
+    for base in [EnvGet("ProgramFiles(x86)"), EnvGet("ProgramFiles"), "C:\Games", "D:\Games", "D:\", "E:\"] {
+        base := RTrim(base, "\")
+        if (base = "")
+            continue
+        loop files base "\World of Warcraft*", "D"
+            roots[A_LoopFileFullPath] := true
     }
-    DirCreate(InstallDir)
-    target := InstallDir "\DMGAssistUpdater.ahk"
-    ; Close any other running updater (an installed copy, or an older one started from elsewhere).
-    DetectHiddenWindows(true)
-    SetTitleMatchMode(2)
-    for hwnd in WinGetList("DMGAssistUpdater.ahk ahk_class AutoHotkey") {
-        if (hwnd != A_ScriptHwnd)
-            try WinClose(hwnd)
+    found := []
+    for root in roots {
+        loop files root "\_*_", "D" {
+            name := A_LoopFileName
+            if !(name = "_retail_" || InStr(name, "forever"))
+                continue
+            hasGame := false
+            loop files A_LoopFileFullPath "\Wow*.exe"
+                hasGame := true
+            if hasGame
+                found.Push(A_LoopFileFullPath "\Interface\AddOns")
+        }
     }
-    Sleep(500)
-    FileCopy(A_ScriptFullPath, target, true)
-    FileCopy(A_ScriptDir "\update.ps1", InstallDir "\update.ps1", true)
-    SetStartup(true, target)
-    Run('"' A_AhkPath '" "' target '"', InstallDir)
-    TrayTip("Installed to " InstallDir "`nIt starts with Windows and updates DMGAssist every 10 minutes.",
-        AppName)
-    Sleep(1500)
+    return found
 }
 
-; Start at login through Task Scheduler with the highest rights (no Windows prompt each time).
-SetStartup(on, script := "") {
-    if (script = "")
-        script := A_ScriptFullPath
-    if on {
-        RunWait('schtasks.exe /Create /F /TN "' TaskName '" /SC ONLOGON /RL HIGHEST /TR "\"' A_AhkPath '\" \"'
-            script '\""', , "Hide")
-    } else {
-        RunWait('schtasks.exe /Delete /F /TN "' TaskName '"', , "Hide")
+LoadFolders() {
+    saved := IniRead(IniFile, "paths", "folders", "")
+    if (saved = "")
+        saved := IniRead(IniFile, "paths", "addons", "") ; the old version's single folder
+    list := []
+    if (saved != "") {
+        for p in StrSplit(saved, "|")
+            if (Trim(p) != "")
+                list.Push(Trim(p))
     }
-    try FileDelete(OldStartupLink) ; the older updater used a Startup-folder shortcut
+    ; Folders found now are added (a Forever install made later is picked up by itself).
+    for p in FindFolders() {
+        known := false
+        for q in list
+            if (q = p)
+                known := true
+        if !known
+            list.Push(p)
+    }
+    SaveFolders(list)
+    return list
 }
 
-StartupOn() {
-    return RunWait('schtasks.exe /Query /TN "' TaskName '"', , "Hide") = 0
+SaveFolders(list) {
+    s := ""
+    for p in list
+        s .= (s = "" ? "" : "|") p
+    IniWrite(s, IniFile, "paths", "folders")
 }
 
-BuildMenu() {
-    tray := A_TrayMenu
-    tray.Delete()
-    tray.Add("Check and update now", ManualUpdate)
-    tray.Add("Installed version", ShowVersion)
-    tray.Add()
-    tray.Add("Automatic updates (every 10 min)", ToggleAuto)
-    if AutoUpdate
-        tray.Check("Automatic updates (every 10 min)")
-    tray.Add("Start with Windows", ToggleStartup)
-    if StartupOn()
-        tray.Check("Start with Windows")
-    tray.Add()
-    tray.Add("Change AddOns folder...", SetFolder)
-    tray.Add("Open AddOns folder", (*) => Run('"' AddOnsDir '"'))
-    tray.Add()
-    tray.Add("Exit", (*) => ExitApp())
-    tray.Default := "Check and update now" ; double-click the icon
+Flavor(folder) {
+    return RegExMatch(folder, "i)\\(_[a-z_]+_)\\Interface", &m) ? m[1] : folder
 }
 
 ; "## Version:" from the installed DMGAssist.toc (the nightly build stamps its version there).
-InstalledVersion() {
-    toc := AddOnsDir "\DMGAssist\DMGAssist.toc"
+InstalledVersion(folder) {
+    toc := folder "\DMGAssist\DMGAssist.toc"
     if !FileExist(toc)
         return "not installed"
     loop read toc {
@@ -150,18 +147,156 @@ InstalledVersion() {
     return "unknown"
 }
 
+; ---------------------------------------------------------------------------
+; Install, start with Windows, uninstall
+; ---------------------------------------------------------------------------
+
+TargetPath() {
+    return InstallDir "\DMGAssistUpdater" (A_IsCompiled ? ".exe" : ".ahk")
+}
+
+CloseOthers() {
+    DetectHiddenWindows(true)
+    SetTitleMatchMode(2)
+    for hwnd in WinGetList("DMGAssistUpdater ahk_class AutoHotkey") {
+        if (hwnd != A_ScriptHwnd)
+            try WinClose(hwnd)
+    }
+    Sleep(700)
+}
+
+SelfInstall() {
+    DirCreate(InstallDir)
+    CloseOthers()
+    target := TargetPath()
+    if A_IsCompiled {
+        FileCopy(A_ScriptFullPath, target, true)
+        FileInstall("update.ps1", InstallDir "\update.ps1", 1)
+        try FileDelete(InstallDir "\DMGAssistUpdater.ahk") ; the old script version
+    } else {
+        if !FileExist(A_ScriptDir "\update.ps1") {
+            MsgBox("update.ps1 must be next to this file to install it:`n" A_ScriptDir, AppName, "Icon!")
+            return
+        }
+        FileCopy(A_ScriptFullPath, target, true)
+        FileCopy(A_ScriptDir "\update.ps1", InstallDir "\update.ps1", true)
+    }
+    SetStartup(true, target)
+    if A_IsCompiled
+        Run('"' target '"', InstallDir)
+    else
+        Run('"' A_AhkPath '" "' target '"', InstallDir)
+    msg := "Installed. It starts with Windows and keeps DMGAssist up to date every 10 minutes."
+    if (Folders.Length = 0)
+        msg .= "`nNo World of Warcraft folder was found: right-click the icon > Folders... to add one."
+    TrayTip(msg, AppName)
+    Sleep(1500)
+}
+
+; Start at login through Task Scheduler with the highest rights (no Windows prompt each time).
+SetStartup(on, target := "") {
+    if (target = "")
+        target := TargetPath()
+    if on {
+        cmdLine := A_IsCompiled ? '\"' target '\"' : '\"' A_AhkPath '\" \"' target '\"'
+        RunWait('schtasks.exe /Create /F /TN "' TaskName '" /SC ONLOGON /RL HIGHEST /TR "' cmdLine '"', , "Hide")
+    } else {
+        RunWait('schtasks.exe /Delete /F /TN "' TaskName '"', , "Hide")
+    }
+    try FileDelete(OldStartupLink) ; the first version used a Startup-folder shortcut
+}
+
+StartupOn() {
+    return RunWait('schtasks.exe /Query /TN "' TaskName '"', , "Hide") = 0
+}
+
+Uninstall(*) {
+    if MsgBox("Remove the DMGAssist updater from this PC?`n`nThe DMGAssist addons stay installed in your AddOns "
+        . "folders; delete them there if you want them gone too.", AppName, "YesNo Icon?") != "Yes"
+        return
+    SetStartup(false)
+    try DirDelete(ConfigDir, true)
+    ; This program runs from InstallDir: remove it a few seconds after exiting.
+    Run(A_ComSpec ' /c timeout /t 3 /nobreak >nul & rmdir /s /q "' InstallDir '"', , "Hide")
+    ExitApp
+}
+
+; ---------------------------------------------------------------------------
+; Tray
+; ---------------------------------------------------------------------------
+
+BuildMenu() {
+    tray := A_TrayMenu
+    tray.Delete()
+    tray.Add("Check and update now", ManualUpdate)
+    tray.Add("Installed versions", ShowVersion)
+    tray.Add()
+    tray.Add("Automatic updates (every 10 min)", ToggleAuto)
+    if AutoUpdate
+        tray.Check("Automatic updates (every 10 min)")
+    tray.Add("Start with Windows", ToggleStartup)
+    if StartupOn()
+        tray.Check("Start with Windows")
+    tray.Add()
+    tray.Add("Folders...", EditFolders)
+    tray.Add("Open AddOns folders", OpenFolders)
+    tray.Add()
+    tray.Add("Uninstall the updater", Uninstall)
+    tray.Add("Exit", (*) => ExitApp())
+    tray.Default := "Check and update now" ; double-click the icon
+}
+
+VersionsText(sep) {
+    s := ""
+    for f in Folders
+        s .= (s = "" ? "" : sep) Flavor(f) ": " InstalledVersion(f)
+    return s = "" ? "no WoW folder found" : s
+}
+
 RefreshTip() {
-    tip := "DMGAssist " InstalledVersion() "`nLast check: " LastCheck
+    tip := "DMGAssist`n" VersionsText("`n") "`nLast check: " LastCheck
     if !AutoUpdate
         tip .= " (automatic updates off)"
     if (LastError != "")
-        tip .= "`n" SubStr(LastError, 1, 60)
+        tip .= "`n" SubStr(LastError, 1, 50)
     A_IconTip := SubStr(tip, 1, 127) ; Windows limits the tooltip to 127 characters
 }
 
 ShowVersion(*) {
-    MsgBox("Installed: " InstalledVersion() "`nLast check: " LastCheck "`nFolder: " AddOnsDir, AppName)
+    s := ""
+    for f in Folders
+        s .= InstalledVersion(f) "   " f "`n"
+    MsgBox((s = "" ? "No World of Warcraft folder found.`n" : s) "`nLast check: " LastCheck, AppName)
 }
+
+OpenFolders(*) {
+    for f in Folders {
+        DirCreate(f)
+        Run('"' f '"')
+    }
+}
+
+EditFolders(*) {
+    global Folders
+    s := ""
+    for f in Folders
+        s .= f "`n"
+    r := MsgBox("Installing into:`n`n" (s = "" ? "(none found)`n" : s) "`nAdd another AddOns folder?", AppName,
+        "YesNo")
+    if (r != "Yes")
+        return
+    picked := DirSelect("*C:\", 0, "Pick World of Warcraft\<game folder>\Interface\AddOns")
+    if (picked = "")
+        return
+    Folders.Push(picked)
+    SaveFolders(Folders)
+    RefreshTip()
+    RunUpdate(true)
+}
+
+; ---------------------------------------------------------------------------
+; Updating
+; ---------------------------------------------------------------------------
 
 FirstCheck() {
     AutoCheck()
@@ -181,32 +316,35 @@ RunUpdate(manual) {
     global Busy, LastCheck, LastError
     if Busy
         return
-    if !DirExist(AddOnsDir) {
+    if (Folders.Length = 0) {
         if manual
-            MsgBox("The AddOns folder was not found:`n" AddOnsDir "`n`nUse `"Change AddOns folder...`".", AppName,
+            MsgBox("No World of Warcraft folder was found. Use `"Folders...`" to add your AddOns folder.", AppName,
                 "Icon!")
         return
     }
     Busy := true
-    before := InstalledVersion()
+    before := VersionsText(", ")
     if manual
         TrayTip("Checking for a new build...", AppName)
+    list := ""
+    for f in Folders
+        list .= (list = "" ? "" : "|") f
     resultFile := A_Temp "\dmgassist-update-result.txt"
     try FileDelete(resultFile)
-    RunWait('powershell.exe -NoProfile -ExecutionPolicy Bypass -File "' UpdateScript '" -AddOns "' AddOnsDir
-        '" -Result "' resultFile '" -Installed "' before '"', , "Hide")
+    RunWait('powershell.exe -NoProfile -ExecutionPolicy Bypass -File "' UpdateScript '" -AddOns "' list
+        '" -Result "' resultFile '"', , "Hide")
     result := FileExist(resultFile) ? Trim(FileRead(resultFile)) : "ERROR PowerShell did not run."
     LastCheck := FormatTime(, "HH:mm")
     Busy := false
     if SubStr(result, 1, 3) = "OK " {
         LastError := ""
         RefreshTip()
-        TrayTip("Now " InstalledVersion() " (was " before ").`nIn game: /reload", "DMGAssist updated")
+        TrayTip("Now: " VersionsText(", ") "`nIn game: /reload", "DMGAssist updated")
     } else if SubStr(result, 1, 5) = "SAME " {
         LastError := ""
         RefreshTip()
         if manual
-            TrayTip("You have the latest build: " before, AppName)
+            TrayTip("Up to date: " before, AppName)
     } else {
         msg := SubStr(result, 7)
         isNew := msg != LastError
@@ -238,14 +376,4 @@ ToggleStartup(*) {
         SetStartup(true)
         A_TrayMenu.Check("Start with Windows")
     }
-}
-
-SetFolder(*) {
-    global AddOnsDir
-    picked := DirSelect("*" AddOnsDir, 0, "Pick World of Warcraft\_retail_\Interface\AddOns")
-    if picked = ""
-        return
-    AddOnsDir := picked
-    IniWrite(picked, IniFile, "paths", "addons")
-    RefreshTip()
 }

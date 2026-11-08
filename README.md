@@ -38,7 +38,7 @@ nothing automated. You press every button.
 **Manual:** download `DMGAssist.zip` (and `DMGAssist_Watchdog.zip`, recommended) from the
 [nightly release](../../releases/tag/nightly) and unzip both into `World of Warcraft/_retail_/Interface/AddOns/`.
 
-**Windows, automatic:** `DMGAssist_Updater.zip` on the same release is a tray icon that installs itself, starts
+**Windows, automatic:** **DMGAssistUpdater.exe** on the same release is a tray app that installs itself, starts
 with Windows and keeps both addons up to date every 10 minutes. See [tools/updater](tools/updater/README.md).
 
 ## Using it

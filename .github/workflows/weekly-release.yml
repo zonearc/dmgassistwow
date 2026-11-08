@@ -1,0 +1,55 @@
+name: Weekly release
+
+# Once a week, the current nightly build becomes a numbered GitHub release (the repository's "Latest release"), with
+# the list of changes since the previous weekly release. Skipped when nothing changed. Nothing is uploaded to
+# CurseForge: that stays a manual, tagged release (release.yml).
+
+on:
+  schedule:
+    - cron: "41 16 * * 2"   # Tuesdays 16:41 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weekly-release
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Promote the nightly build
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -e
+          title=$(gh release view nightly --json name --jq .name)
+          version=$(echo "$title" | grep -oE '[0-9]+(\.[0-9]+)+' | head -1)
+          sha=$(git rev-list -n 1 nightly)
+          tag="build-$version"
+          if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+            echo "Already released: $tag"; exit 0
+          fi
+          prev=$(git tag --list 'build-*' --sort=-creatordate | head -1)
+          if [ -n "$prev" ] && [ "$(git rev-list -n 1 "$prev")" = "$sha" ]; then
+            echo "No changes since $prev"; exit 0
+          fi
+          mkdir assets
+          gh release download nightly --dir assets --pattern 'DMGAssist.zip' --pattern 'DMGAssist_Watchdog.zip' \
+            --pattern 'DMGAssist_Updater.zip' --pattern 'DMGAssistUpdater.exe'
+          (cd assets && for f in DMGAssist DMGAssist_Watchdog; do mv "$f.zip" "$f-$version.zip"; done)
+          {
+            echo "**DMGAssist $version**: this week's build (the newest one is always the [nightly build](https://github.com/${{ github.repository }}/releases/tag/nightly))."
+            echo
+            echo "### Changes"
+            if [ -n "$prev" ]; then range="$prev..$sha"; else range="$sha"; fi
+            git log --no-merges --format='- %s' $range | head -60
+            echo
+            echo "### Install"
+            echo "Unzip **DMGAssist** and **DMGAssist_Watchdog** into \`World of Warcraft/_retail_/Interface/AddOns/\`, or run **DMGAssistUpdater.exe** once to keep them up to date automatically."
+          } > notes.md
+          gh release create "$tag" assets/* --target "$sha" --title "DMGAssist $version" --notes-file notes.md --latest
