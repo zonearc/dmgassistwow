@@ -26,6 +26,11 @@ nothing automated. You press every button.
   comes back. Optionally, keep major cooldowns for bosses and big pulls.
 - **Tank and melee essentials.** Guardian keeps Ironfur stacks (default 3) and Moonfire up. Melee specs out of
   range get their charge or leap first (Wild Charge, Charge, Shadowstep, Harpoon, Feral Lunge, Death Grip).
+- **On-use trinkets.** Every equipped on-use trinket is shown when it is ready, alongside your cooldowns (and
+  when SimC's list says to use it). Switch off any trinket you'd rather press yourself; the choice follows the
+  trinket through gear and spec swaps.
+- **Missing keybinds check.** Lists every spell and trinket it can recommend that has no key binding, with
+  icons (Settings > DMGAssist > Missing keybinds, or `/dmga unbound`), so you find out before the pull.
 - **Works with what you have.** DBM, BigWigs and LittleWigs timers (or Blizzard's encounter timeline) for adds,
   AoE and tank hits; keybinds read from Blizzard's bars, Bartender and macros; Blizzard's Assisted Combat as a
   second opinion where the game hides information.

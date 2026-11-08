@@ -193,7 +193,23 @@ end
 
 -- Is the spell castable (now, or at the look-ahead moment)? true / false / UNKNOWN, plus a reason when false:
 -- "power" (not enough resources: a pooling candidate) or "moving" (has a cast time and we are moving).
+-- Spells the game reports usable whatever the target, that only work on some targets.
+-- Touch of Death: only on a target with less health than your maximum; the button glows when it can be used.
+G.TARGET_RULES = {
+  [322109] = function(id)
+    local hp, maxHp = U.Get(UnitHealth, "target"), U.Get(UnitHealthMax, "player")
+    if type(hp) == "number" and type(maxHp) == "number" and hp > 0 then
+      return hp <= maxHp or S.glow[id] == true
+    end
+    return S.glow[id] == true
+  end,
+}
+
 local function Castable(id)
+  local rule = G.TARGET_RULES[id] or G.TARGET_RULES[(M.baseOf and M.baseOf[id]) or id]
+  if rule and not rule(id) then
+    return false, "target"
+  end
   local usable, noPower = U.Call(C_Spell and C_Spell.IsSpellUsable, id)
   usable, noPower = U.Read(usable), U.Read(noPower)
   if usable == nil then
@@ -262,8 +278,11 @@ function G.OnPlayerCast(castID, shown, enabled, queue)
     G.skips[shown.id] = nil
     return nil
   end
+  -- Casting another cooldown shown in slot 2 or 3 is choosing an order (Eclipse before Fury of Elune), not a skip.
+  -- Casting a filler from slot 2/3 while a cooldown sits in slot 1 is a skip (Touch of Death, Monk).
+  local castCd = S.CooldownLength and S.CooldownLength(castID)
   for i, p in ipairs(queue or {}) do
-    if i > 1 and p.id and Base(p.id) == cast then
+    if i > 1 and p.id and Base(p.id) == cast and castCd and castCd >= G.KEY_COOLDOWN then
       return nil
     end
   end
@@ -414,6 +433,24 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         if a == "run_action_list" and t == true and not maybe then
           run.visiting[name] = nil
           return STOP
+        end
+      end
+    elseif (a == "use_items" or a == "use_item") and not isBlizzard then
+      -- On-use trinkets are shown by the Trinkets module; here we only note what the list says about them.
+      local p = e.p or {}
+      local key = a == "use_items" and "all" or (p.slot and tostring(p.slot))
+        or (p.name and ("name:" .. tostring(p.name)))
+      if key then
+        run.useItems = run.useItems or {}
+        local was = run.useItems[key]
+        if was ~= true then -- several lines for one item: any "yes" is a yes
+          local t = Test(e.c, run)
+          if maybe and t == true then
+            t = UNKNOWN
+          end
+          if was == nil or t ~= false then
+            run.useItems[key] = t
+          end
         end
       end
     elseif a == "pool_resource" then
@@ -622,7 +659,7 @@ local function Decide(record, opts, targets, first)
     branch = nil
   end
   return { main = pick, acSpell = run.acSpell, unresolved = run.unresolved, vars = run.ctx.vars,
-    branch = branch, trace = run.trace }
+    branch = branch, trace = run.trace, useItems = run.useItems }
 end
 
 local function Queue(record, opts, targets)

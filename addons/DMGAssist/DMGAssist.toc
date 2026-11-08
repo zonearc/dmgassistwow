@@ -23,6 +23,8 @@ Core\BossMods.lua
 Core\Interrupts.lua
 Core\Defensives.lua
 Core\Essentials.lua
+Core\Trinkets.lua
+Core\Bindcheck.lua
 Core\Sounds.lua
 Core\Diagnostics.lua
 Core\Engine.lua

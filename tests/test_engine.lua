@@ -344,6 +344,103 @@ test("gap closer: melee specs probe with a melee spell even when most of their s
   eq(info.r <= 8, true, "the probe is a melee-range spell")
 end)
 
+test("on-use trinkets: every equipped one by default, switched off per trinket, SimC's use_items respected", function()
+  Reset()
+  local ns = Boot()
+  local T = ns.Trinkets
+  local cd = { [13] = { 0, 0, 1 }, [14] = { 0, 0, 1 } }
+  GetInventoryItemID = function(_, slot)
+    return ({ [13] = 1001, [14] = 1002 })[slot]
+  end
+  C_Item = { GetItemSpell = function(item)
+    if item == 1001 then
+      return "Use: Power", 9001
+    end
+    return nil -- 1002: a passive trinket
+  end, GetItemNameByID = function(item)
+    return item == 1001 and "Mirror of Fractured Tomorrows" or "Passive Thing"
+  end }
+  GetInventoryItemCooldown = function(_, slot)
+    return cd[slot][1], cd[slot][2], cd[slot][3]
+  end
+  eq(#T.List(), 1, "only the on-use trinket is listed")
+  eq(T.Token("Mirror of Fractured Tomorrows"), "mirror_of_fractured_tomorrows")
+  local main = { id = 5221, token = "shred" }
+  local r = T.Apply({ main = main, queue = { main } })
+  eq(r.weave, nil, "out of combat: nothing")
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  r = T.Apply({ main = main, queue = { main } })
+  eq(r.weave and r.weave.item, 1001, "in combat at a hostile target: the off-GCD badge")
+  eq(r.weave.source, "trinket")
+  r = T.Apply({ main = main, queue = { main }, useItems = { all = false } })
+  eq(r.weave, nil, "SimC says not now")
+  r = T.Apply({ main = main, queue = { main }, useItems = { all = false, trinket1 = true } })
+  eq(r.weave and r.weave.item, 1001, "a line for this slot says yes")
+  r = T.Apply({ main = main, queue = { main, { id = 1822 } }, weave = { id = 192081 } })
+  eq(r.queue[2].item, 1001, "badge taken: slot 2")
+  cd[13] = { GetTime() - 10, 120, 1 }
+  r = T.Apply({ main = main, queue = { main } })
+  eq(r.weave, nil, "on cooldown")
+  cd[13] = { 0, 0, 1 }
+  T.SetOff(1001, true)
+  r = T.Apply({ main = main, queue = { main } })
+  eq(r.weave, nil, "switched off: you press it yourself")
+  T.SetOff(1001, false)
+  ns.db.trinkets = false
+  r = T.Apply({ main = main, queue = { main } })
+  eq(r.weave, nil, "master switch off")
+  ns.db.trinkets = true
+  -- the key binding check lists it while it has no key
+  local missing = ns.Bindcheck.Missing()
+  local found
+  for _, m in ipairs(missing) do
+    if m.item == 1001 then
+      found = m
+    end
+  end
+  eq(found ~= nil, true, "unbound trinket listed")
+  eq(found.onBar, false)
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat = false
+  GetInventoryItemID, C_Item, GetInventoryItemCooldown = nil, nil, nil
+end)
+
+test("key binding check: rotation spells without a key are listed; bound ones are not", function()
+  Reset()
+  mock.bindings = { ACTIONBUTTON3 = "3" }
+  mock.actionInfo = { [3] = { "spell", 5221 } }
+  local ns = Boot()
+  ns.Display.InvalidateKeybinds()
+  local names = {}
+  for _, m in ipairs(ns.Bindcheck.Missing()) do
+    names[m.id] = true
+  end
+  eq(names[5221], nil, "Shred is bound")
+  eq(names[1822], true, "Rake has no key")
+  mock.actionInfo = nil
+end)
+
+test("Touch of Death only on a target with less health than your maximum", function()
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  local hp = 5000
+  local oldHealth, oldMax = UnitHealth, UnitHealthMax
+  UnitHealth = function(unit)
+    return unit == "target" and hp or 1000
+  end
+  UnitHealthMax = function()
+    return 1000
+  end
+  local ok, why = G.Castable(322109)
+  eq(ok, false, "dummy with more health than you")
+  eq(why, "target")
+  hp = 900
+  eq(G.Castable(322109) ~= false, true, "below your max health")
+  UnitHealth, UnitHealthMax = oldHealth, oldMax
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()
@@ -447,9 +544,14 @@ test("skipping the slot-1 spell twice holds it until combat ends; casting it bri
   eq(G.IsHeld(1079), false, "no cooldown: not held")
   G.skips = {}
   ns.State.learned.cd[1079] = 120 -- treat it as a big cooldown for the rest of the test
-  eq(G.OnPlayerCast(5221, r.main, true, { r.main, { id = 5221 } }), nil, "casting slot 2 first is no skip")
+  ns.State.learned.cd[5221] = 30 -- slot 2 is another cooldown
+  eq(G.OnPlayerCast(5221, r.main, true, { r.main, { id = 5221 } }), nil, "casting another cooldown from slot 2 is no skip")
   eq(G.OnPlayerCast(5221, r.main, true, { r.main, { id = 5221 } }), nil)
   eq(G.IsHeld(1079), false)
+  ns.State.learned.cd[5221] = nil
+  eq(G.OnPlayerCast(5221, r.main, true, { r.main, { id = 5221 } }), nil, "a filler from slot 2: first skip")
+  eq(G.OnPlayerCast(5221, r.main, true, { r.main, { id = 5221 } }), "held", "a filler from slot 2 twice holds it")
+  G.held, G.skips = {}, {}
   eq(G.OnPlayerCast(106830, r.main), nil, "one skip is not enough")
   eq(G.OnPlayerCast(106830, r.main), "held", "second skip holds it")
   r = ns.Engine.Recommend(Record(), {})
@@ -1689,7 +1791,7 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   local headers = 0
   local cats = mock.settingsCategories
   local mine = {}
-  for i = #cats - 6, #cats do
+  for i = #cats - 8, #cats do
     mine[#mine + 1] = cats[i]
   end
   for _, c in ipairs(mine) do
@@ -1705,7 +1807,7 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   for i, c in ipairs(mine) do
     names[i] = c.name
   end
-  eq(table.concat(names, ","), "DMGAssist,Status,Combat,Display,Sounds,Integrations,Advanced")
+  eq(table.concat(names, ","), "DMGAssist,Status,Combat,Display,Sounds,Integrations,Advanced,Trinkets,Missing keybinds")
   eq(mine[7].parent, mine[1], "every page under DMGAssist")
   local fonts = mock.settings.DMGASSIST_FONT.options()
   eq(fonts[1].value, "default")

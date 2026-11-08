@@ -31,6 +31,11 @@ allows, never presses anything for you, and tells you honestly when it is unsure
   big pulls only.
 - **Tank and melee essentials.** Guardian Druids keep Ironfur stacks (3 by default) and Moonfire up. Melee specs
   out of range get their charge or leap first: Wild Charge, Charge, Shadowstep, Harpoon, Feral Lunge, Death Grip.
+- **On-use trinkets.** Every equipped on-use trinket is shown when it is ready, alongside your cooldowns (and
+  when SimC's list says to use it). Switch off any trinket you'd rather press yourself; the choice follows the
+  trinket through gear and spec swaps.
+- **Missing keybinds check.** Lists every spell and trinket it can recommend that has no key binding, with
+  icons (Settings > DMGAssist > Missing keybinds, or `/dmga unbound`), so you find out before the pull.
 - **Plays well with your setup.** DBM, BigWigs and LittleWigs timers (or Blizzard's encounter timeline) for adds,
   AoE and tank hits; keybinds shown on the icons from Blizzard's bars, Bartender and macros; sounds for
   interrupts, defensives and cooldowns.

@@ -321,6 +321,7 @@ function ns.Update()
     RefreshSpells()
   end
   D.MaybeRefreshKeymap(inCombat)
+  ns.Bindcheck.MaybeNotice(inCombat)
   ns.Diagnostics.Tick()
   local show = ShouldShow()
   if not show then
@@ -336,6 +337,7 @@ function ns.Update()
   result.callout = ns.BossMods.Callout()
   G.Steady(result)
   ns.Essentials.Apply(result)
+  ns.Trinkets.Apply(result)
   ns.Interrupts.Apply(result)
   ns.Defensives.Apply(result)
   ns.Alerts(result)
@@ -380,7 +382,8 @@ for _, event in ipairs({ "ADDON_LOADED", "PLAYER_LOGIN", "PLAYER_ENTERING_WORLD"
 end
 -- Keybind text on the icons follows action bar and binding changes.
 local KEYBIND_EVENTS = { ACTIONBAR_SLOT_CHANGED = true, UPDATE_BINDINGS = true, ACTIONBAR_PAGE_CHANGED = true,
-  UPDATE_BONUS_ACTIONBAR = true, UPDATE_MACROS = true, UPDATE_SHAPESHIFT_FORM = true }
+  UPDATE_BONUS_ACTIONBAR = true, UPDATE_MACROS = true, UPDATE_SHAPESHIFT_FORM = true,
+  PLAYER_EQUIPMENT_CHANGED = true }
 for event in pairs(KEYBIND_EVENTS) do
   pcall(frame.RegisterEvent, frame, event)
 end
@@ -410,7 +413,8 @@ pcall(frame.RegisterUnitEvent, frame, "UNIT_AURA", "player", "target")
 
 local DEFAULTS = { enabled = true, burst = true,
   burstWhen = "always", bigPull = 5, skipHold = true, ironfurStacks = 3, tankEssentials = true,
-  gapClosers = true, mode = "aoe", autoDetect = true, aoeTargets = 3, fightLength = 300,
+  gapClosers = true, trinkets = true, bindWarn = true,
+  mode = "aoe", autoDetect = true, aoeTargets = 3, fightLength = 300,
   useAssisted = true, queue = 3, smartFight = true, fightMode = "learned", aoeCount = "spec", bossMods = true, interruptMode = "smart",
   defensiveMode = "smart", defensiveHealth = 35, defensiveLead = 3, sounds = true, locked = true,
   minimap = true, minimapAngle = 220 }
@@ -621,6 +625,11 @@ function commands.lock()
   U.Print(ns.db.locked and L["Icon locked."] or L["Icon unlocked (drag to move)."])
 end
 
+function commands.unbound()
+  D.BuildKeymap()
+  ns.Bindcheck.Print()
+end
+
 function commands.keys()
   local map = D.BuildKeymap()
   local n = 0
@@ -637,6 +646,7 @@ end
 function ns.OnOwnCast(id)
   local shown = ns.last and ns.last.main
   ns.Essentials.OnOwnCast(id)
+  ns.Trinkets.OnOwnCast(id)
   if inCombat then
     local what, spell = G.OnPlayerCast(id, shown, ns.db.skipHold ~= false, ns.last and ns.last.queue)
     if what then
@@ -738,6 +748,7 @@ function commands.help()
     { "/dmga why", "explain the current pick" },
     { "/dmga config", "open the settings panel" },
     { "/dmga keys", "refresh keybinds" },
+    { "/dmga unbound", "list spells you can be told to cast that have no key binding" },
     { "/dmga snapshot", "store a full decision trace for troubleshooting" },
   }
   for _, line in ipairs(lines) do

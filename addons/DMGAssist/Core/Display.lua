@@ -220,6 +220,31 @@ local function SlotSpell(slot)
   return nil
 end
 
+-- What item an action slot uses: an item, or the item a macro shows (/use 13, /use <name>).
+local function SlotItem(slot)
+  local kind, id = U.Call(GetActionInfo, slot)
+  kind, id = U.Read(kind), U.Read(id)
+  if kind == "item" and type(id) == "number" then
+    return id
+  elseif kind == "macro" and id then
+    local _, link = U.Call(GetMacroItem, id)
+    link = U.Read(link)
+    local item = type(link) == "string" and tonumber(link:match("item:(%d+)"))
+    return item
+  end
+  return nil
+end
+
+local itemsOnBar = {}
+
+-- Is this item on an action bar (any slot, bound or not)?
+function D.ItemOnBar(item)
+  if not keymap then
+    D.BuildKeymap()
+  end
+  return itemsOnBar[item] == true
+end
+
 D.KEYMAP_REFRESH = 10 -- seconds, out of combat
 
 -- Build spellID -> key text for every bar: Blizzard bars (pages), macros on them, and bar addons' buttons.
@@ -231,11 +256,18 @@ function D.BuildKeymap()
       map[spellID], onMain[spellID] = text, main
     end
   end
+  itemsOnBar = {}
   for slot = 1, 180 do
     local sid = SlotSpell(slot)
     if sid then
       local text, main = BindingFor(slot, mainPage)
       Put(sid, text, main)
+    end
+    local item = SlotItem(slot)
+    if item then
+      itemsOnBar[item] = true
+      local text, main = BindingFor(slot, mainPage)
+      Put("item:" .. item, text, main)
     end
   end
   -- Every button frame we know: Blizzard bars (<BarName>Button<i>, slot in button.action, binding in
@@ -252,7 +284,7 @@ function D.BuildKeymap()
           slot = U.Get(button.GetAttribute, button, "action")
         end
         slot = tonumber(slot)
-        local sid = slot and SlotSpell(slot)
+        local sid = slot and (SlotSpell(slot) or (SlotItem(slot) and ("item:" .. SlotItem(slot))))
         if sid then
           local visible = U.Get(button.IsVisible, button) == true
           if visible or not buttonsBySpell[sid] then
@@ -273,6 +305,25 @@ function D.BuildKeymap()
   keymap, keymapAt = map, GetTime()
   keyCache = {}
   return map
+end
+
+-- The key for an item (on-use trinket) on the bars.
+function D.ItemKeybind(item)
+  if not item then
+    return nil
+  end
+  if not keymap then
+    D.BuildKeymap()
+  end
+  return keymap["item:" .. item]
+end
+
+-- The key for a pick: its item's when it is one, else its spell's.
+function D.PickKeybind(pick)
+  if pick and pick.item then
+    return D.ItemKeybind(pick.item)
+  end
+  return D.Keybind(pick and pick.id)
 end
 
 function D.Keybind(spellID)
@@ -621,10 +672,10 @@ local function SetIcon(icon, pick, cfg, isMain, labelText)
     icon:Hide()
     return
   end
-  local tex = U.Get(C_Spell and C_Spell.GetSpellTexture, pick.id)
+  local tex = pick.texture or U.Get(C_Spell and C_Spell.GetSpellTexture, pick.id)
   icon.tex:SetTexture(tex or 134400) -- 134400: question mark icon
   icon.source:SetText(SOURCE_TEXT[pick.source] or "")
-  icon.key:SetText(cfg.keybind and D.Keybind(pick.id) or "")
+  icon.key:SetText(cfg.keybind and D.PickKeybind(pick) or "")
   local name = cfg.spellNames and U.Get(C_Spell and C_Spell.GetSpellName, pick.id) or ""
   icon.name:SetText(name or "")
   icon.label:SetText(cfg.labels and labelText or "")

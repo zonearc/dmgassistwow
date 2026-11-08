@@ -250,6 +250,14 @@ function O.Register()
     "Skip the spell in the first slot twice and it is held until combat ends. Cast it yourself to bring it back.")
   Check(combat, DB, "castWhileMoving", "Casts while moving", false,
     "Off: while you move, spells with a cast time are skipped (instants and procs still show).")
+  Header(combat, "Trinkets")
+  Check(combat, DB, "trinkets", "On-use trinkets", true,
+    "Show your on-use trinkets (off-GCD badge on slot 1) when they are ready, with your cooldowns, in combat.")
+  Button(combat, "Each trinket", "Choose trinkets", function()
+    if O.trinketCategory and Settings.OpenToCategory then
+      Settings.OpenToCategory(O.trinketCategory:GetID())
+    end
+  end, "Every equipped on-use trinket is used; switch off the ones you want to press yourself.")
   Header(combat, "Targets")
   Check(combat, DB, "autoDetect", "Auto-detect targets", true,
     "Counts enemies in combat with you, within range of your spells, from their nameplates (enemy nameplates "
@@ -368,6 +376,8 @@ function O.Register()
       SlashCmdList.DMGASSIST("keys")
     end
   end, "Keybinds are read from Blizzard bars, Bartender, ElvUI and Dominos automatically; this re-reads them now.")
+  Check(integrations, DB, "bindWarn", "Warn about missing keybinds", true,
+    "Once per spec each session: a chat line when spells DMGAssist can recommend have no key binding.")
 
   ---------------------------------------------------------------- advanced
   local advanced = Category("Advanced", main)
@@ -382,6 +392,9 @@ function O.Register()
       SlashCmdList.DMGASSIST("snapshot")
     end
   end, "Saves every line the engine checked into the Watchdog log (same as /dmga snapshot).")
+
+  O.RegisterTrinkets(main)
+  O.RegisterBindcheck(main)
 
   Settings.RegisterAddOnCategory(main)
   O.category = main
@@ -470,6 +483,136 @@ function O.RegisterStatus(parent)
   end)
   local category = Settings.RegisterCanvasLayoutSubcategory(parent, frame, L["Status"])
   O.statusFrame, O.statusBody = frame, body
+  return category
+end
+
+---------------------------------------------------------------------------
+-- Trinkets page: the on-use trinkets equipped right now (read again whenever the page is shown or gear changes,
+-- so a spec swap that changes trinkets is reflected), each with a checkbox. Unchecked = DMGAssist never shows
+-- it (you press it yourself). The choice is kept per trinket, so it holds in every gear set.
+---------------------------------------------------------------------------
+function O.RegisterTrinkets(parent)
+  local frame = CreateFrame("Frame")
+  frame:SetSize(600, 400)
+  local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+  title:SetPoint("TOPLEFT", 16, -16)
+  title:SetText(L["Trinkets"])
+  local intro = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+  intro:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -10)
+  intro:SetWidth(560)
+  intro:SetJustifyH("LEFT")
+  local rows = {}
+  local function Row(i)
+    local row = rows[i]
+    if not row then
+      row = CreateFrame("CheckButton", nil, frame, "UICheckButtonTemplate")
+      row:SetPoint("TOPLEFT", intro, "BOTTOMLEFT", 0, -12 - (i - 1) * 34)
+      row.icon = row:CreateTexture(nil, "ARTWORK")
+      row.icon:SetSize(28, 28)
+      row.icon:SetPoint("LEFT", row, "RIGHT", 4, 0)
+      row.label = row:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+      row.label:SetPoint("LEFT", row.icon, "RIGHT", 8, 0)
+      row:SetScript("OnClick", function(self)
+        ns.Trinkets.SetOff(self.item, not self:GetChecked())
+      end)
+      rows[i] = row
+    end
+    return row
+  end
+  local function Refresh()
+    local list = ns.Trinkets.List()
+    if ns.db and ns.db.trinkets == false then
+      intro:SetText(L["On-use trinkets are switched off (Combat > Trinkets)."])
+    elseif #list == 0 then
+      intro:SetText(L["No on-use trinket equipped. Passive trinkets need nothing from you."])
+    else
+      intro:SetText(L["Equipped on-use trinkets. Checked: shown when ready, with your cooldowns. Unchecked: you "
+        .. "press it yourself. Remembered per trinket, so it holds when you swap gear or spec."])
+    end
+    for i, info in ipairs(list) do
+      local row = Row(i)
+      row.item = info.item
+      row:SetChecked(not ns.Trinkets.IsOff(info.item))
+      row.icon:SetTexture(info.texture or 134400)
+      row.label:SetText(string.format("%s |cff999999(%s)|r", tostring(info.name),
+        info.slot == 13 and L["top slot"] or L["bottom slot"]))
+      row:Show()
+    end
+    for i = #list + 1, #rows do
+      rows[i]:Hide()
+    end
+  end
+  frame:SetScript("OnShow", Refresh)
+  frame:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+  frame:SetScript("OnEvent", function(self)
+    if self:IsShown() then
+      Refresh()
+    end
+  end)
+  local category = Settings.RegisterCanvasLayoutSubcategory(parent, frame, L["Trinkets"])
+  O.trinketCategory, O.trinketFrame = category, frame
+  return category
+end
+
+---------------------------------------------------------------------------
+-- Missing keybinds page: every spell (and on-use trinket) DMGAssist can recommend that has no key, with its icon,
+-- so you can bind them before the pull instead of finding out mid-fight. Refreshed whenever it is shown.
+---------------------------------------------------------------------------
+function O.RegisterBindcheck(parent)
+  local frame = CreateFrame("Frame")
+  frame:SetSize(600, 560)
+  local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+  title:SetPoint("TOPLEFT", 16, -16)
+  title:SetText(L["Missing keybinds"])
+  local intro = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+  intro:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -10)
+  intro:SetWidth(560)
+  intro:SetJustifyH("LEFT")
+  local scroll = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
+  scroll:SetPoint("TOPLEFT", intro, "BOTTOMLEFT", 0, -12)
+  scroll:SetSize(540, 420)
+  local content = CreateFrame("Frame", nil, scroll)
+  content:SetSize(520, 10)
+  scroll:SetScrollChild(content)
+  local rows = {}
+  local function Row(i)
+    local row = rows[i]
+    if not row then
+      row = CreateFrame("Frame", nil, content)
+      row:SetSize(520, 28)
+      row:SetPoint("TOPLEFT", 0, -(i - 1) * 30)
+      row.icon = row:CreateTexture(nil, "ARTWORK")
+      row.icon:SetSize(26, 26)
+      row.icon:SetPoint("LEFT")
+      row.text = row:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+      row.text:SetPoint("LEFT", row.icon, "RIGHT", 8, 0)
+      row.text:SetWidth(480)
+      row.text:SetJustifyH("LEFT")
+      rows[i] = row
+    end
+    return row
+  end
+  frame:SetScript("OnShow", function()
+    local list = ns.Bindcheck.Missing()
+    if #list == 0 then
+      intro:SetText(L["Every spell DMGAssist can recommend has a key binding."])
+    else
+      intro:SetText(string.format(L["%d spells DMGAssist can recommend have no key binding. Put them on a bar "
+        .. "and bind a key (Options > Keybindings, or your bar addon's key binding mode)."], #list))
+    end
+    for i, entry in ipairs(list) do
+      local row = Row(i)
+      row.icon:SetTexture(entry.texture or 134400)
+      row.text:SetText(ns.Bindcheck.Describe(entry))
+      row:Show()
+    end
+    for i = #list + 1, #rows do
+      rows[i]:Hide()
+    end
+    content:SetHeight(math.max(10, #list * 30))
+  end)
+  local category = Settings.RegisterCanvasLayoutSubcategory(parent, frame, L["Missing keybinds"])
+  O.bindFrame = frame
   return category
 end
 
