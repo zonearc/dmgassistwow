@@ -1,2 +1,43 @@
 # dmgassistwow
-A WoW Damage Rotation Addon that works for Midnight and Forever. 
+
+A WoW damage-rotation addon that works for Midnight and Forever — rebuilt for the 12.x "secret values"
+rules, with **WoW Forever** as the first target and Mainline (Midnight) second.
+
+## Status
+
+| Piece | State |
+|---|---|
+| `DMGAssist_Watchdog` (diagnostics + API probe) | **v0.1.0 — ready to test in game** |
+| `DMGAssist` (rotation HUD) | Not started in this repo; waits on Watchdog evidence from Forever |
+| Legacy generator (2026, Replit) and last shipped build 1.5.0.282 | Archived in `legacy/` for reference |
+
+## Install the Watchdog
+
+1. Download `DMGAssist_Watchdog-<version>.zip` from the latest CI run (Actions → artifacts), or run `./scripts/package.sh`.
+2. Unzip into `World of Warcraft/_<your Forever or retail folder>_/Interface/AddOns/`.
+3. Log in. It records automatically: Lua errors (with stacks), blocked/forbidden actions, every combat as a
+   session (your casts, proc glows, restriction changes), and two API probes per login (one out of combat,
+   one a few seconds into your first fight).
+
+## What to do in game (first test)
+
+1. Log in, wait ~10 seconds, then `/dmgw` — check the summary shows a probe.
+2. Run `/dmgw force on`, then `/dmgw probe`, then `/dmgw force off`
+   (tests whether the client can fake combat restrictions — if it says the setting doesn't exist, that's an answer too).
+3. Fight something for 15+ seconds (a training dummy is perfect). Do it twice.
+4. `/reload`, then send `WTF/Account/<ACCOUNT>/SavedVariables/DMGAssist_Watchdog.lua`.
+   No file access? `/dmgw export`, Ctrl+C, paste.
+
+Commands: `/dmgw` · `/dmgw probe` · `/dmgw export [last]` · `/dmgw status` · `/dmgw force on|off` · `/dmgw clear`
+
+## Development
+
+```
+./scripts/fetch-ui-source.sh   # Blizzard UI source (forever + live) into .libraries/
+./scripts/check.sh             # luac -p, luacheck, tests — required before every commit
+./scripts/package.sh           # zips into dist/
+python3 tools/decode-export.py export.txt
+```
+
+Needs Lua 5.1 (`lua5.1`, `luac5.1`) and `luacheck`. Project rules: [CONTRIBUTING.md](CONTRIBUTING.md).
+Verified API facts: [docs/reference/api-findings.md](docs/reference/api-findings.md).

@@ -1,0 +1,6 @@
+.libraries/
+dist/
+*.zip
+!legacy/**/*.zip
+.DS_Store
+__pycache__/
