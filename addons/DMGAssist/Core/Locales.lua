@@ -16,6 +16,8 @@ ns.L = L
 local T = {}
 
 T.esES = {
+  NOW = "AHORA", NEXT = "SIGUIENTE", COOLDOWN = "REUTILIZACIÓN",
+  ["open the settings panel"] = "abrir el panel de opciones",
   ST = "UNO", AOE = "ÁREA", AUTO = "AUTO",
   ["ready"] = "listo",
   ["no specialization chosen yet"] = "aún no has elegido especialización",
@@ -63,6 +65,8 @@ T.esES = {
 T.esMX = T.esES
 
 T.deDE = {
+  NOW = "JETZT", NEXT = "DANACH", COOLDOWN = "ABKLINGZEIT",
+  ["open the settings panel"] = "Einstellungen öffnen",
   ST = "EZ", AOE = "AOE", AUTO = "AUTO",
   ["ready"] = "bereit",
   ["no specialization chosen yet"] = "noch keine Spezialisierung gewählt",
@@ -109,6 +113,8 @@ T.deDE = {
 }
 
 T.frFR = {
+  NOW = "MAINTENANT", NEXT = "ENSUITE", COOLDOWN = "RECHARGE",
+  ["open the settings panel"] = "ouvrir les options",
   ST = "MONO", AOE = "ZONE", AUTO = "AUTO",
   ["ready"] = "prêt",
   ["no specialization chosen yet"] = "aucune spécialisation choisie",
@@ -155,6 +161,8 @@ T.frFR = {
 }
 
 T.ptBR = {
+  NOW = "AGORA", NEXT = "PRÓXIMO", COOLDOWN = "RECARGA",
+  ["open the settings panel"] = "abrir as opções",
   ST = "ÚNICO", AOE = "ÁREA", AUTO = "AUTO",
   ["ready"] = "pronto",
   ["no specialization chosen yet"] = "nenhuma especialização escolhida ainda",
@@ -201,6 +209,8 @@ T.ptBR = {
 }
 
 T.ruRU = {
+  NOW = "СЕЙЧАС", NEXT = "ДАЛЕЕ", COOLDOWN = "КУЛДАУН",
+  ["open the settings panel"] = "открыть настройки",
   ST = "ОДНА", AOE = "АОЕ", AUTO = "АВТО",
   ["ready"] = "готово",
   ["no specialization chosen yet"] = "специализация ещё не выбрана",
@@ -247,6 +257,8 @@ T.ruRU = {
 }
 
 T.zhCN = {
+  NOW = "现在", NEXT = "下一个", COOLDOWN = "大技能",
+  ["open the settings panel"] = "打开设置面板",
   ST = "单体", AOE = "群体", AUTO = "自动",
   ["ready"] = "就绪",
   ["no specialization chosen yet"] = "尚未选择专精",
@@ -290,6 +302,8 @@ T.zhCN = {
 }
 
 T.zhTW = {
+  NOW = "現在", NEXT = "下一個", COOLDOWN = "大招",
+  ["open the settings panel"] = "開啟設定面板",
   ST = "單體", AOE = "群體", AUTO = "自動",
   ["ready"] = "就緒",
   ["no specialization chosen yet"] = "尚未選擇專精",
@@ -333,6 +347,8 @@ T.zhTW = {
 }
 
 T.koKR = {
+  NOW = "지금", NEXT = "다음", COOLDOWN = "쿨기",
+  ["open the settings panel"] = "설정 창 열기",
   ST = "단일", AOE = "광역", AUTO = "자동",
   ["ready"] = "준비됨",
   ["no specialization chosen yet"] = "아직 전문화를 선택하지 않았습니다",

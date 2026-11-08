@@ -80,10 +80,9 @@ local function ShouldShow()
   if not (ns.db and ns.db.enabled ~= false) then
     return false
   end
-  if inCombat then
-    return true
-  end
-  return U.Read(U.Call(UnitExists, "target")) == true and U.Read(U.Call(UnitCanAttack, "player", "target")) == true
+  local enemy = U.Read(U.Call(UnitExists, "target")) == true and
+    U.Read(U.Call(UnitCanAttack, "player", "target")) == true
+  return D.ShouldShow(inCombat, enemy)
 end
 
 function ns.Update()
@@ -135,6 +134,12 @@ for _, event in ipairs({ "ADDON_LOADED", "PLAYER_LOGIN", "PLAYER_ENTERING_WORLD"
   "SPELL_ACTIVATION_OVERLAY_GLOW_HIDE" }) do
   frame:RegisterEvent(event)
 end
+-- Keybind text on the icons follows action bar and binding changes.
+local KEYBIND_EVENTS = { ACTIONBAR_SLOT_CHANGED = true, UPDATE_BINDINGS = true, ACTIONBAR_PAGE_CHANGED = true,
+  UPDATE_BONUS_ACTIONBAR = true }
+for event in pairs(KEYBIND_EVENTS) do
+  pcall(frame.RegisterEvent, frame, event)
+end
 for _, event in ipairs(Specs.EVENTS) do
   if event == "PLAYER_SPECIALIZATION_CHANGED" then
     pcall(frame.RegisterUnitEvent, frame, event, "player")
@@ -170,6 +175,9 @@ frame:SetScript("OnEvent", function(_, event, ...)
       U.Log("data_gating", table.concat(loaded, ","))
     end
     D.Create()
+    ns.Options.Register()
+  elseif KEYBIND_EVENTS[event] then
+    D.InvalidateKeybinds()
   elseif event == "PLAYER_REGEN_DISABLED" then
     inCombat = true
     S.OnCombat(true)
@@ -289,8 +297,14 @@ end
 function commands.lock()
   ns.db.locked = not ns.db.locked
   D.SetLocked(ns.db.locked)
+  D.Rebuild()
   U.Print(ns.db.locked and L["Icon locked."] or L["Icon unlocked (drag to move)."])
 end
+
+function commands.config()
+  ns.Options.Open()
+end
+commands.options = commands.config
 
 function commands.why()
   local r = ns.last
@@ -328,6 +342,7 @@ function commands.help()
     { "/dmga queue 1-3", "icons shown (1-3)" },
     { "/dmga lock", "lock or unlock the icon position" },
     { "/dmga why", "explain the current pick" },
+    { "/dmga config", "open the settings panel" },
   }
   for _, line in ipairs(lines) do
     U.Print("%s — %s", line[1], L[line[2]])

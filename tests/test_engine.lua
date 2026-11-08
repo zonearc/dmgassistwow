@@ -616,18 +616,68 @@ test("modes: auto-detect counts enemies, hotkey cycles, primary mode is the fall
   eq(ns.db.enabled, true)
 end)
 
-test("HUD shows three icons and the mode", function()
+test("HUD shows three icons, the mode in the header, keybinds and the GCD bar", function()
   Reset()
+  mock.bindings = { ACTIONBUTTON3 = "SHIFT-3", MULTIACTIONBAR1BUTTON2 = "CTRL-F" }
   local ns = Boot()
   local r = ns.Update()
   local f = ns.Display.frame
   eq(f.slots[1]:IsShown(), true)
   eq(f.slots[2]:IsShown(), r.queue[2] ~= nil)
-  eq(type(f.mode.text), "string")
-  eq(f.mode.text:find("ST", 1, true) ~= nil or f.mode.text:find("AUTO", 1, true) ~= nil, true, f.mode.text)
+  eq(type(f.header.text), "string")
+  eq(f.header.text:find("ST", 1, true) ~= nil or f.header.text:find("AUTO", 1, true) ~= nil, true, f.header.text)
+  eq(type(f.gcd.value), "number")
+  -- keybinds: main bar slot 3 -> ACTIONBUTTON3; bar page 6 slot 62 -> MULTIACTIONBAR1BUTTON2; cat form bonus page 7
+  mock.actionSlots = { [5221] = { 3 }, [1822] = { 62 }, [1079] = { 75 } }
+  ns.Display.InvalidateKeybinds()
+  eq(ns.Display.Keybind(5221), "S3")
+  eq(ns.Display.Keybind(1822), "CF")
+  mock.bindings.ACTIONBUTTON3 = nil
+  mock.Fire("UPDATE_BINDINGS")
+  eq(ns.Display.Keybind(5221), nil, "binding removed -> no text")
+  mock.bonusBar = 1
+  mock.bindings.ACTIONBUTTON3 = "3"
+  mock.Fire("UPDATE_BONUS_ACTIONBAR")
+  eq(ns.Display.Keybind(1079), "3", "cat form bar slot 75 uses the main bar key")
+  mock.bonusBar, mock.actionSlots, mock.bindings = nil, nil, nil
   SlashCmdList.DMGASSIST("queue 1")
   ns.Update()
   eq(f.slots[2]:IsShown(), false)
+end)
+
+test("settings panel: every option is registered, reads and writes DMGAssistDB, and applies live", function()
+  Reset()
+  local ns = Boot()
+  local s = mock.settings
+  eq(type(s.DMGASSIST_ICONSIZE), "table", "icon size slider registered")
+  eq(s.DMGASSIST_ICONSIZE.control, "slider")
+  eq(s.DMGASSIST_MODE.control, "dropdown")
+  local modes = s.DMGASSIST_MODE.options()
+  eq(modes[1].value, "st")
+  eq(modes[2].value, "aoe")
+  -- every setting round-trips its own value without errors
+  local count = 0
+  for _, setting in pairs(s) do
+    local v = setting:GetValue()
+    eq(type(v), setting.varType, setting.variable)
+    setting:SetValue(v)
+    count = count + 1
+  end
+  eq(count >= 34, true, "expected the full set of options, got " .. count)
+  s.DMGASSIST_ICONSIZE:SetValue(70)
+  eq(ns.db.hud.iconSize, 70)
+  eq(ns.Display.frame.slots[1].width, 70, "applied without reload")
+  s.DMGASSIST_MODE:SetValue("aoe")
+  eq(ns.db.mode, "aoe")
+  s.DMGASSIST_HIDEOUTOFCOMBAT:SetValue(false)
+  mock.hasTarget = false
+  eq(type(ns.Update()), "table", "shown without a target when auto-hide is off")
+  -- gear button and /dmga config open the panel
+  ns.Display.frame.gear.scripts.OnClick()
+  eq(mock.openedCategory, ns.Options.category:GetID())
+  mock.openedCategory = nil
+  SlashCmdList.DMGASSIST("config")
+  eq(mock.openedCategory, ns.Options.category:GetID())
 end)
 
 test("translations: every language covers the same strings, Chinese client shows Chinese", function()
