@@ -1363,7 +1363,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       b = { 155625, 164812, 8921, 326646, 428545 },
     },
     moonfire_cat = {
-      a = { 8921, 155625, 428545, 164812, 326646 },
+      a = { 155625, 164812, 326646 },
     },
     panthers_guile = {
       t = { 1280316 },
@@ -1422,7 +1422,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       a = { 106785, 213764, 213771 },
     },
     swipe_cat = {
-      a = { 106785, 213764, 213771 },
+      a = { 106785, 213764 },
     },
     tigers_fury = {
       a = { 5217 },

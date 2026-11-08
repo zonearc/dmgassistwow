@@ -80,3 +80,9 @@ Scrap, Threat Plates.
   (on by default, "Hold skipped spells"); casting it yourself releases it at once. Off-GCD presses, interrupts and
   guesses never count as skips. Optional "Use cooldowns on: Bosses and big pulls" (off by default) keeps major
   cooldowns for bosses, PvP and pulls of 5+ enemies (adjustable).
+
+## Seventh session (Feral)
+- Suggested Moonfire, which takes you out of Cat Form. SimC's `moonfire_cat` is Lunar Inspiration's cat Moonfire
+  (155625); the importer also matched the caster Moonfire (8921) by name, and every druid knows that one.
+  Fix (general): the importer reads each spell's Stance Mask, and a `_cat` / `_bear` action keeps only the druid
+  spells that work in that form (also corrected `swipe_cat` / `swipe_bear`, which each listed the other form's Swipe).
