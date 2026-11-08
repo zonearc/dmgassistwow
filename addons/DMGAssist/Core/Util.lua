@@ -5,7 +5,7 @@ local U = {}
 ns.U = U
 ns.VERSION = "1.6.0"
 -- Testing build: extra logging and chat notices while we test with players. Set to false for a release.
-ns.TESTING = true
+ns.TESTING = false
 ns.SECRET = "<secret>"
 
 local issecretvalue, pcall, type, select, unpack = issecretvalue, pcall, type, select, unpack
