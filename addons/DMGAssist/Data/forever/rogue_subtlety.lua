@@ -173,6 +173,11 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
   blizzardExcluded = { "shadow_blades" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "rogue",
+  gameMatch = {
+    matched = 6,
+    missing = { "black_powder", "gloomblade", "goremaws_bite", "secret_technique", "shadow_blades", "shadow_dance", "shuriken_storm" },
+    total = 13,
+  },
   heroTrees = {},
   key = "rogue_subtlety",
   simc = {
@@ -505,6 +510,7 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
     },
   },
   simcOrder = { "precombat", "default", "build", "cds", "fill", "finish", "item", "race" },
+  simcSource = "simc",
   spec = "subtlety",
   spellInfo = {
     [53] = {

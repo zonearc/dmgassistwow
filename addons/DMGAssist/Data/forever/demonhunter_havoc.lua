@@ -160,6 +160,24 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
   blizzardExcluded = { "fel_rush", "felblade", "metamorphosis", "the_hunt", "vengeful_retreat" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "demonhunter",
+  gameMatch = {
+    matched = 0,
+    missing = {
+      "annihilation",
+      "blade_dance",
+      "chaos_strike",
+      "death_sweep",
+      "essence_break",
+      "eye_beam",
+      "felblade",
+      "immolation_aura",
+      "metamorphosis",
+      "reavers_glaive",
+      "the_hunt",
+      "throw_glaive",
+    },
+    total = 13,
+  },
   heroTrees = {},
   key = "demonhunter_havoc",
   simc = {
@@ -450,6 +468,7 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
     },
   },
   simcOrder = { "precombat", "default", "items" },
+  simcSource = "simc",
   spec = "havoc",
   spellInfo = {
     [162264] = {

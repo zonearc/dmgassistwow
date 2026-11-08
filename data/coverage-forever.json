@@ -14,10 +14,29 @@
     "usablePct": 96
    },
    "blizzardExcluded": [],
+   "gameMatch": {
+    "matched": 0,
+    "missing": [
+     "any_dnd",
+     "blood_boil",
+     "consumption",
+     "dancing_rune_weapon",
+     "death_and_decay",
+     "death_strike",
+     "deaths_caress",
+     "heart_strike",
+     "marrowrend",
+     "raise_dead",
+     "reapers_mark",
+     "vampiric_blood"
+    ],
+    "total": 12
+   },
    "lines": 54,
    "mode": 0,
    "read": 19,
    "readPct": 35,
+   "simcSource": "simc",
    "topUnknown": [],
    "tracked": 35,
    "unknown": 0,
@@ -36,10 +55,29 @@
    "blizzardExcluded": [
     "breath_of_sindragosa"
    ],
+   "gameMatch": {
+    "matched": 0,
+    "missing": [
+     "antimagic_shell",
+     "breath_of_sindragosa",
+     "empower_rune_weapon",
+     "frost_strike",
+     "frostscythe",
+     "frostwyrms_fury",
+     "glacial_advance",
+     "howling_blast",
+     "mind_freeze",
+     "obliterate",
+     "pillar_of_frost",
+     "raise_dead"
+    ],
+    "total": 14
+   },
    "lines": 65,
    "mode": 2,
    "read": 8,
    "readPct": 12,
+   "simcSource": "simc",
    "topUnknown": [
     "target.debuff.casting.react",
     "death_knight.first_ams_cast"
@@ -59,10 +97,28 @@
     "usablePct": 86
    },
    "blizzardExcluded": [],
+   "gameMatch": {
+    "matched": 0,
+    "missing": [
+     "army_of_the_dead",
+     "dark_transformation",
+     "death_and_decay",
+     "death_coil",
+     "epidemic",
+     "festering_strike",
+     "outbreak",
+     "putrefy",
+     "raise_dead",
+     "scourge_strike",
+     "soul_reaper"
+    ],
+    "total": 11
+   },
    "lines": 47,
    "mode": 2,
    "read": 9,
    "readPct": 19,
+   "simcSource": "simc",
    "topUnknown": [
     "variable.cds_active",
     "variable.spending_rp",
@@ -90,10 +146,29 @@
     "the_hunt",
     "voidblade"
    ],
+   "gameMatch": {
+    "matched": 0,
+    "missing": [
+     "collapsing_star",
+     "consume",
+     "cull",
+     "devour",
+     "eradicate",
+     "hungering_slash",
+     "metamorphosis",
+     "pierce_the_veil",
+     "predators_wake",
+     "reap",
+     "reapers_toll",
+     "soul_immolation"
+    ],
+    "total": 16
+   },
    "lines": 133,
    "mode": 5,
    "read": 35,
    "readPct": 26,
+   "simcSource": "simc",
    "topUnknown": [
     "void_metamorphosis_base_drain_ps",
     "variable.wont_drop_meta"
@@ -119,10 +194,29 @@
     "the_hunt",
     "vengeful_retreat"
    ],
+   "gameMatch": {
+    "matched": 0,
+    "missing": [
+     "annihilation",
+     "blade_dance",
+     "chaos_strike",
+     "death_sweep",
+     "essence_break",
+     "eye_beam",
+     "felblade",
+     "immolation_aura",
+     "metamorphosis",
+     "reavers_glaive",
+     "the_hunt",
+     "throw_glaive"
+    ],
+    "total": 13
+   },
    "lines": 35,
    "mode": 4,
    "read": 10,
    "readPct": 29,
+   "simcSource": "simc",
    "topUnknown": [],
    "tracked": 21,
    "unknown": 0,
@@ -141,10 +235,29 @@
    "blizzardExcluded": [
     "metamorphosis"
    ],
+   "gameMatch": {
+    "matched": 0,
+    "missing": [
+     "demon_spikes",
+     "disrupt",
+     "fel_devastation",
+     "felblade",
+     "fiery_brand",
+     "fracture",
+     "immolation_aura",
+     "infernal_strike",
+     "metamorphosis",
+     "reavers_glaive",
+     "sigil_of_flame",
+     "sigil_of_spite"
+    ],
+    "total": 17
+   },
    "lines": 136,
    "mode": 7,
    "read": 61,
    "readPct": 45,
+   "simcSource": "simc",
    "topUnknown": [
     "variable.prio_slashes",
     "variable.dung_cd_ok",
@@ -169,10 +282,24 @@
    "blizzardExcluded": [
     "celestial_alignment"
    ],
+   "gameMatch": {
+    "matched": 9,
+    "missing": [
+     "celestial_alignment",
+     "convoke_the_spirits",
+     "full_moon",
+     "fury_of_elune",
+     "half_moon",
+     "new_moon",
+     "wild_mushroom"
+    ],
+    "total": 16
+   },
    "lines": 83,
    "mode": 8,
    "read": 23,
    "readPct": 28,
+   "simcSource": "simc",
    "topUnknown": [
     "energize_amount",
     "active_dots.moonfire",
@@ -196,10 +323,22 @@
    "blizzardExcluded": [
     "berserk"
    ],
+   "gameMatch": {
+    "matched": 11,
+    "missing": [
+     "chomp",
+     "convoke_the_spirits",
+     "feral_frenzy",
+     "frantic_frenzy",
+     "primal_wrath"
+    ],
+    "total": 16
+   },
    "lines": 54,
    "mode": 9,
    "read": 9,
    "readPct": 17,
+   "simcSource": "simc",
    "topUnknown": [],
    "tracked": 36,
    "unknown": 0,
@@ -219,10 +358,26 @@
     "berserk",
     "convoke_the_spirits"
    ],
+   "gameMatch": {
+    "matched": 13,
+    "missing": [
+     "bristling_fur",
+     "convoke_the_spirits",
+     "ironfur",
+     "lunar_beam",
+     "mangle",
+     "red_moon",
+     "sundering_roar",
+     "thrash",
+     "wild_guardian"
+    ],
+    "total": 22
+   },
    "lines": 51,
    "mode": 2,
    "read": 12,
    "readPct": 24,
+   "simcSource": "simc",
    "topUnknown": [
     "target.cooldown.pause_action.remains"
    ],
@@ -241,10 +396,20 @@
     "usablePct": 100
    },
    "blizzardExcluded": [],
+   "gameMatch": {
+    "matched": 13,
+    "missing": [
+     "convoke_the_spirits",
+     "mangle",
+     "thrash"
+    ],
+    "total": 16
+   },
    "lines": 39,
    "mode": 3,
    "read": 18,
    "readPct": 46,
+   "simcSource": "simc",
    "topUnknown": [
     "druid.time_spend_healing"
    ],
@@ -263,10 +428,29 @@
     "usablePct": 96
    },
    "blizzardExcluded": [],
+   "gameMatch": {
+    "matched": 0,
+    "missing": [
+     "azure_strike",
+     "blistering_scales",
+     "breath_of_eons",
+     "deep_breath",
+     "ebon_might",
+     "emerald_blossom",
+     "eruption",
+     "fire_breath",
+     "fury_of_the_aspects",
+     "hover",
+     "living_flame",
+     "prescience"
+    ],
+    "total": 15
+   },
    "lines": 36,
    "mode": 1,
    "read": 10,
    "readPct": 28,
+   "simcSource": "simc",
    "topUnknown": [
     "evoker.shifting_buffs",
     "evoker.allied_cds_up"
@@ -286,10 +470,29 @@
     "usablePct": 100
    },
    "blizzardExcluded": [],
+   "gameMatch": {
+    "matched": 0,
+    "missing": [
+     "azure_strike",
+     "azure_sweep",
+     "deep_breath",
+     "disintegrate",
+     "dragonrage",
+     "emerald_blossom",
+     "eternity_surge",
+     "fire_breath",
+     "hover",
+     "living_flame",
+     "pyre",
+     "quell"
+    ],
+    "total": 15
+   },
    "lines": 59,
    "mode": 13,
    "read": 13,
    "readPct": 22,
+   "simcSource": "simc",
    "topUnknown": [
     "target.debuff.casting.react"
    ],
@@ -308,10 +511,21 @@
     "usablePct": 95
    },
    "blizzardExcluded": [],
+   "gameMatch": {
+    "matched": 4,
+    "missing": [
+     "barbed_shot",
+     "cobra_shot",
+     "wailing_arrow",
+     "wild_thrash"
+    ],
+    "total": 8
+   },
    "lines": 52,
    "mode": 10,
    "read": 13,
    "readPct": 25,
+   "simcSource": "simc",
    "topUnknown": [
     "howl_summon.ready"
    ],
@@ -332,10 +546,22 @@
    "blizzardExcluded": [
     "trueshot"
    ],
+   "gameMatch": {
+    "matched": 8,
+    "missing": [
+     "explosive_shot",
+     "moonlight_chakram",
+     "multishot",
+     "trueshot",
+     "wailing_arrow"
+    ],
+    "total": 13
+   },
    "lines": 74,
    "mode": 2,
    "read": 27,
    "readPct": 36,
+   "simcSource": "simc",
    "topUnknown": [
     "max_prio_damage",
     "cost"
@@ -357,10 +583,23 @@
    "blizzardExcluded": [
     "takedown"
    ],
+   "gameMatch": {
+    "matched": 2,
+    "missing": [
+     "aspect_of_the_eagle",
+     "boomstick",
+     "moonlight_chakram",
+     "muzzle",
+     "takedown",
+     "wildfire_bomb"
+    ],
+    "total": 8
+   },
    "lines": 56,
    "mode": 5,
    "read": 15,
    "readPct": 27,
+   "simcSource": "simc",
    "topUnknown": [
     "howl_summon.ready"
    ],
@@ -381,10 +620,21 @@
    "blizzardExcluded": [
     "arcane_surge"
    ],
+   "gameMatch": {
+    "matched": 8,
+    "missing": [
+     "arcane_orb",
+     "mirror_image",
+     "prismatic_bolt",
+     "touch_of_the_magi"
+    ],
+    "total": 12
+   },
    "lines": 38,
    "mode": 2,
    "read": 9,
    "readPct": 24,
+   "simcSource": "simc",
    "topUnknown": [],
    "tracked": 27,
    "unknown": 0,
@@ -403,10 +653,19 @@
    "blizzardExcluded": [
     "combustion"
    ],
+   "gameMatch": {
+    "matched": 7,
+    "missing": [
+     "meteor",
+     "mirror_image"
+    ],
+    "total": 9
+   },
    "lines": 73,
    "mode": 3,
    "read": 9,
    "readPct": 12,
+   "simcSource": "simc",
    "topUnknown": [
     "scorch_execute.active",
     "hot_streak_spells_in_flight",
@@ -428,10 +687,24 @@
     "usablePct": 96
    },
    "blizzardExcluded": [],
+   "gameMatch": {
+    "matched": 6,
+    "missing": [
+     "any_blink",
+     "comet_storm",
+     "flurry",
+     "glacial_spike",
+     "ice_nova",
+     "ray_of_frost",
+     "summon_water_elemental"
+    ],
+    "total": 13
+   },
    "lines": 63,
    "mode": 4,
    "read": 24,
    "readPct": 38,
+   "simcSource": "simc",
    "topUnknown": [],
    "tracked": 35,
    "unknown": 0,
@@ -448,10 +721,29 @@
     "usablePct": 100
    },
    "blizzardExcluded": [],
+   "gameMatch": {
+    "matched": 0,
+    "missing": [
+     "black_ox_brew",
+     "blackout_kick",
+     "breath_of_fire",
+     "celestial_brew",
+     "chi_burst",
+     "empty_the_cellar",
+     "expel_harm",
+     "exploding_keg",
+     "fortifying_brew",
+     "invoke_niuzao",
+     "keg_smash",
+     "purifying_brew"
+    ],
+    "total": 14
+   },
    "lines": 60,
    "mode": 0,
    "read": 31,
    "readPct": 52,
+   "simcSource": "simc",
    "topUnknown": [
     "health.max"
    ],
@@ -474,10 +766,29 @@
     "flying_serpent_kick",
     "zenith"
    ],
+   "gameMatch": {
+    "matched": 0,
+    "missing": [
+     "blackout_kick",
+     "celestial_conduit",
+     "fists_of_fury",
+     "invoke_xuen_the_white_tiger",
+     "rising_sun_kick",
+     "rushing_wind_kick",
+     "slicing_winds",
+     "spinning_crane_kick",
+     "strike_of_the_windlord",
+     "thorn_bloom",
+     "tiger_palm",
+     "touch_of_death"
+    ],
+    "total": 16
+   },
    "lines": 128,
    "mode": 5,
    "read": 24,
    "readPct": 19,
+   "simcSource": "simc",
    "topUnknown": [
     "combo_strike",
     "pet.xuen_the_white_tiger.active"
@@ -500,10 +811,26 @@
     "avenging_wrath",
     "sentinel"
    ],
+   "gameMatch": {
+    "matched": 6,
+    "missing": [
+     "blessed_hammer",
+     "divine_toll",
+     "hammer_of_light",
+     "holy_armaments",
+     "judgment",
+     "rite_of_adjuration",
+     "rite_of_sanctification",
+     "shield_of_the_righteous",
+     "word_of_glory"
+    ],
+    "total": 15
+   },
    "lines": 36,
    "mode": 0,
    "read": 11,
    "readPct": 31,
+   "simcSource": "simc",
    "topUnknown": [
     "next_armament",
     "holy_bulwark",
@@ -527,10 +854,26 @@
    "blizzardExcluded": [
     "avenging_wrath"
    ],
+   "gameMatch": {
+    "matched": 5,
+    "missing": [
+     "blade_of_justice",
+     "divine_toll",
+     "execution_sentence",
+     "hammer_of_light",
+     "judgment",
+     "templar_slash",
+     "templar_strike",
+     "templars_verdict",
+     "wake_of_ashes"
+    ],
+    "total": 14
+   },
    "lines": 32,
    "mode": 0,
    "read": 15,
    "readPct": 47,
+   "simcSource": "simc",
    "topUnknown": [],
    "tracked": 17,
    "unknown": 0,
@@ -547,10 +890,25 @@
     "usablePct": 92
    },
    "blizzardExcluded": [],
+   "gameMatch": {
+    "matched": 9,
+    "missing": [
+     "halo",
+     "mind_flay_insanity",
+     "shadow_word_madness",
+     "tentacle_slam",
+     "void_blast",
+     "void_torrent",
+     "void_volley",
+     "voidform"
+    ],
+    "total": 17
+   },
    "lines": 44,
    "mode": 1,
    "read": 15,
    "readPct": 34,
+   "simcSource": "simc",
    "topUnknown": [
     "target.health.pct",
     "time_to_bloodlust",
@@ -576,10 +934,20 @@
    "blizzardExcluded": [
     "deathmark"
    ],
+   "gameMatch": {
+    "matched": 12,
+    "missing": [
+     "deathmark",
+     "kingsbane",
+     "thistle_tea"
+    ],
+    "total": 15
+   },
    "lines": 41,
    "mode": 4,
    "read": 6,
    "readPct": 15,
+   "simcSource": "simc",
    "topUnknown": [],
    "tracked": 31,
    "unknown": 0,
@@ -598,10 +966,23 @@
    "blizzardExcluded": [
     "adrenaline_rush"
    ],
+   "gameMatch": {
+    "matched": 11,
+    "missing": [
+     "blade_rush",
+     "dispatch",
+     "keep_it_rolling",
+     "killing_spree",
+     "pistol_shot",
+     "roll_the_bones"
+    ],
+    "total": 17
+   },
    "lines": 38,
    "mode": 1,
    "read": 17,
    "readPct": 45,
+   "simcSource": "simc",
    "topUnknown": [
     "rtb_buffs"
    ],
@@ -622,10 +1003,24 @@
    "blizzardExcluded": [
     "shadow_blades"
    ],
+   "gameMatch": {
+    "matched": 6,
+    "missing": [
+     "black_powder",
+     "gloomblade",
+     "goremaws_bite",
+     "secret_technique",
+     "shadow_blades",
+     "shadow_dance",
+     "shuriken_storm"
+    ],
+    "total": 13
+   },
    "lines": 42,
    "mode": 2,
    "read": 7,
    "readPct": 17,
+   "simcSource": "simc",
    "topUnknown": [
     "cp_max_spend",
     "variable.priority_rotation"
@@ -647,10 +1042,27 @@
    "blizzardExcluded": [
     "ascendance"
    ],
+   "gameMatch": {
+    "matched": 9,
+    "missing": [
+     "ancestral_swiftness",
+     "ascendance",
+     "earthquake",
+     "elemental_blast",
+     "spiritwalkers_grace",
+     "stormkeeper",
+     "tempest",
+     "thunderstrike_ward",
+     "voltaic_blaze",
+     "wind_shear"
+    ],
+    "total": 19
+   },
    "lines": 71,
    "mode": 2,
    "read": 23,
    "readPct": 32,
+   "simcSource": "simc",
    "topUnknown": [
     "lightning_rod"
    ],
@@ -671,10 +1083,27 @@
    "blizzardExcluded": [
     "doom_winds"
    ],
+   "gameMatch": {
+    "matched": 8,
+    "missing": [
+     "ascendance",
+     "bloodlust",
+     "crash_lightning",
+     "doom_winds",
+     "primordial_storm",
+     "sundering",
+     "surging_totem",
+     "tempest",
+     "voltaic_blaze",
+     "windstrike"
+    ],
+    "total": 18
+   },
    "lines": 100,
    "mode": 9,
    "read": 31,
    "readPct": 31,
+   "simcSource": "simc",
    "topUnknown": [
     "pet.surging_totem.active",
     "ti_chain_lightning",
@@ -698,10 +1127,24 @@
    "blizzardExcluded": [
     "summon_darkglare"
    ],
+   "gameMatch": {
+    "matched": 6,
+    "missing": [
+     "agony",
+     "dark_harvest",
+     "grimoire_of_sacrifice",
+     "malefic_grasp",
+     "seed_of_corruption",
+     "summon_darkglare",
+     "wither"
+    ],
+    "total": 13
+   },
    "lines": 94,
    "mode": 11,
    "read": 32,
    "readPct": 34,
+   "simcSource": "simc",
    "topUnknown": [
     "pet.darkglare.remains",
     "pet.darkglare.active",
@@ -724,10 +1167,28 @@
    "blizzardExcluded": [
     "summon_demonic_tyrant"
    ],
+   "gameMatch": {
+    "matched": 1,
+    "missing": [
+     "call_dreadstalkers",
+     "demonbolt",
+     "grimoire_fel_ravager",
+     "grimoire_imp_lord",
+     "hand_of_guldan",
+     "implosion",
+     "infernal_bolt",
+     "power_siphon",
+     "ruination",
+     "summon_demonic_tyrant",
+     "summon_doomguard"
+    ],
+    "total": 12
+   },
    "lines": 47,
    "mode": 0,
    "read": 27,
    "readPct": 57,
+   "simcSource": "simc",
    "topUnknown": [
     "pet.demonic_tyrant.active"
    ],
@@ -748,10 +1209,23 @@
    "blizzardExcluded": [
     "summon_infernal"
    ],
+   "gameMatch": {
+    "matched": 9,
+    "missing": [
+     "grimoire_of_sacrifice",
+     "havoc",
+     "infernal_bolt",
+     "ruination",
+     "summon_infernal",
+     "wither"
+    ],
+    "total": 15
+   },
    "lines": 61,
    "mode": 7,
    "read": 20,
    "readPct": 33,
+   "simcSource": "simc",
    "topUnknown": [
     "variable.infernal_active",
     "demonic_art",
@@ -775,10 +1249,25 @@
     "usablePct": 100
    },
    "blizzardExcluded": [],
+   "gameMatch": {
+    "matched": 12,
+    "missing": [
+     "avatar",
+     "bladestorm",
+     "champions_spear",
+     "colossus_smash",
+     "demolish",
+     "ravager",
+     "storm_bolt",
+     "wrecking_throw"
+    ],
+    "total": 20
+   },
    "lines": 131,
    "mode": 9,
    "read": 58,
    "readPct": 44,
+   "simcSource": "simc",
    "topUnknown": [
     "variable.execute_phase",
     "target.debuff.casting.react"
@@ -801,10 +1290,25 @@
     "avatar",
     "recklessness"
    ],
+   "gameMatch": {
+    "matched": 10,
+    "missing": [
+     "avatar",
+     "bladestorm",
+     "bloodbath",
+     "crushing_blow",
+     "heroic_leap",
+     "odyns_fury",
+     "storm_bolt",
+     "thunder_blast"
+    ],
+    "total": 18
+   },
    "lines": 101,
    "mode": 4,
    "read": 55,
    "readPct": 54,
+   "simcSource": "simc",
    "topUnknown": [
     "variable.on_gcd_racials",
     "target.debuff.casting.react",
@@ -828,10 +1332,27 @@
     "avatar",
     "shield_charge"
    ],
+   "gameMatch": {
+    "matched": 10,
+    "missing": [
+     "avatar",
+     "champions_leap",
+     "champions_spear",
+     "demolish",
+     "ignore_pain",
+     "ravager",
+     "shattering_throw",
+     "shield_charge",
+     "thunder_blast",
+     "wrecking_throw"
+    ],
+    "total": 20
+   },
    "lines": 67,
    "mode": 3,
    "read": 40,
    "readPct": 60,
+   "simcSource": "simc",
    "topUnknown": [
     "variable.execute_phase",
     "target.health.pct"

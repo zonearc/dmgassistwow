@@ -163,6 +163,11 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
   blizzardExcluded = { "trueshot" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "hunter",
+  gameMatch = {
+    matched = 8,
+    missing = { "explosive_shot", "moonlight_chakram", "multishot", "trueshot", "wailing_arrow" },
+    total = 13,
+  },
   heroTrees = {},
   key = "hunter_marksmanship",
   simc = {
@@ -690,6 +695,7 @@ ns.RegisterSpecData("forever", "hunter_marksmanship", {
     },
   },
   simcOrder = { "precombat", "default", "cds", "draoe", "drst", "sentaoe", "sentst", "trinkets" },
+  simcSource = "simc",
   spec = "marksmanship",
   spellInfo = {
     [75] = {

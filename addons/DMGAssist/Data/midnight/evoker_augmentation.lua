@@ -156,6 +156,11 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "evoker",
+  gameMatch = {
+    matched = 15,
+    missing = {},
+    total = 15,
+  },
   heroTrees = {},
   key = "evoker_augmentation",
   simc = {
@@ -678,6 +683,7 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
     },
   },
   simcOrder = { "precombat", "default", "filler", "items" },
+  simcSource = "simc",
   spec = "augmentation",
   spellInfo = {
     [351338] = {

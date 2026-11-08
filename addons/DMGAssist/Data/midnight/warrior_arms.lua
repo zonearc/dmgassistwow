@@ -165,6 +165,11 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warrior",
+  gameMatch = {
+    matched = 20,
+    missing = {},
+    total = 20,
+  },
   heroTrees = {},
   key = "warrior_arms",
   simc = {
@@ -1007,6 +1012,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
     "trinkets",
     "variables",
   },
+  simcSource = "simc",
   spec = "arms",
   spellInfo = {
     [100] = {

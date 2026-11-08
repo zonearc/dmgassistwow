@@ -116,6 +116,11 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "hunter",
+  gameMatch = {
+    matched = 8,
+    missing = {},
+    total = 8,
+  },
   heroTrees = {},
   key = "hunter_beast_mastery",
   simc = {
@@ -476,6 +481,7 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
     },
   },
   simcOrder = { "precombat", "default", "cds", "cleave", "drcleave", "drst", "st", "trinkets" },
+  simcSource = "simc",
   spec = "beast_mastery",
   spellInfo = {
     [75] = {

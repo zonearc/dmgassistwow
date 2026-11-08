@@ -161,6 +161,11 @@ ns.RegisterSpecData("midnight", "deathknight_unholy", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "deathknight",
+  gameMatch = {
+    matched = 11,
+    missing = {},
+    total = 11,
+  },
   heroTrees = {},
   key = "deathknight_unholy",
   simc = {
@@ -627,6 +632,7 @@ ns.RegisterSpecData("midnight", "deathknight_unholy", {
     "trinkets",
     "variables",
   },
+  simcSource = "simc",
   spec = "unholy",
   spellInfo = {
     [42650] = {

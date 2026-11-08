@@ -146,6 +146,24 @@ ns.RegisterSpecData("forever", "deathknight_blood", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "deathknight",
+  gameMatch = {
+    matched = 0,
+    missing = {
+      "any_dnd",
+      "blood_boil",
+      "consumption",
+      "dancing_rune_weapon",
+      "death_and_decay",
+      "death_strike",
+      "deaths_caress",
+      "heart_strike",
+      "marrowrend",
+      "raise_dead",
+      "reapers_mark",
+      "vampiric_blood",
+    },
+    total = 12,
+  },
   heroTrees = {
     deathbringer = {
       434905,
@@ -497,6 +515,7 @@ ns.RegisterSpecData("forever", "deathknight_blood", {
     },
   },
   simcOrder = { "precombat", "default", "deathbringer", "high_prio_actions", "san_gift", "sanlayn" },
+  simcSource = "simc",
   spec = "blood",
   spellInfo = {
     [43265] = {

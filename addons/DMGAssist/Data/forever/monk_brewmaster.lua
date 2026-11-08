@@ -124,6 +124,24 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "monk",
+  gameMatch = {
+    matched = 0,
+    missing = {
+      "black_ox_brew",
+      "blackout_kick",
+      "breath_of_fire",
+      "celestial_brew",
+      "chi_burst",
+      "empty_the_cellar",
+      "expel_harm",
+      "exploding_keg",
+      "fortifying_brew",
+      "invoke_niuzao",
+      "keg_smash",
+      "purifying_brew",
+    },
+    total = 14,
+  },
   heroTrees = {
     master_of_harmony = {
       450508,
@@ -447,6 +465,7 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
     },
   },
   simcOrder = { "precombat", "default", "item_actions", "master_of_harmony", "race_actions", "shado_pan" },
+  simcSource = "simc",
   spec = "brewmaster",
   spellInfo = {
     [100780] = {

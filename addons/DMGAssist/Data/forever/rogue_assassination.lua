@@ -200,6 +200,11 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
   blizzardExcluded = { "deathmark" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "rogue",
+  gameMatch = {
+    matched = 12,
+    missing = { "deathmark", "kingsbane", "thistle_tea" },
+    total = 15,
+  },
   heroTrees = {},
   key = "rogue_assassination",
   simc = {
@@ -549,6 +554,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
     "spend",
     "vanish",
   },
+  simcSource = "simc",
   spec = "assassination",
   spellInfo = {
     [703] = {

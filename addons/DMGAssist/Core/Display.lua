@@ -404,7 +404,7 @@ function D.Create()
   end
   f:SetClampedToScreen(true)
   f:SetMovable(true)
-  f:EnableMouse(true)
+  f:EnableMouse(not db.locked)
   f:RegisterForDrag("LeftButton")
   f:SetScript("OnDragStart", function(self)
     if not (ns.db and ns.db.locked) then
@@ -813,8 +813,10 @@ function D.Update(result, visible)
   f:Show()
 end
 
+-- Locked = click-through (never blocks clicks on the world behind it). Unlocked = drag to move, right-click
+-- cycles the target mode; the gear (header) stays clickable either way.
 function D.SetLocked(locked)
   local f = D.Create()
-  f:EnableMouse(true) -- right-click mode switching works locked or not; dragging only when unlocked
+  f:EnableMouse(not locked)
   f.locked = locked
 end

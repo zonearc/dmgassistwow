@@ -129,6 +129,11 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
   blizzardExcluded = { "berserk", "convoke_the_spirits" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "druid",
+  gameMatch = {
+    matched = 22,
+    missing = {},
+    total = 22,
+  },
   heroTrees = {},
   key = "druid_guardian",
   simc = {
@@ -512,6 +517,7 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
     },
   },
   simcOrder = { "precombat", "default", "bear", "cooldowns", "feline_potential", "heart_of_the_wild", "items" },
+  simcSource = "simc",
   spec = "guardian",
   spellInfo = {
     [768] = {

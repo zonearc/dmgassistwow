@@ -224,6 +224,11 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "priest",
+  gameMatch = {
+    matched = 17,
+    missing = {},
+    total = 17,
+  },
   heroTrees = {},
   key = "priest_shadow",
   simc = {
@@ -720,6 +725,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
     },
   },
   simcOrder = { "precombat", "default", "aoe", "aoe_variables", "cds", "heal_for_tof", "main", "trinkets" },
+  simcSource = "simc",
   spec = "shadow",
   spellInfo = {
     [586] = {

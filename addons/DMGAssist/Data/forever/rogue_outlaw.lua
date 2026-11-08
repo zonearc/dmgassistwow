@@ -176,6 +176,11 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
   blizzardExcluded = { "adrenaline_rush" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "rogue",
+  gameMatch = {
+    matched = 11,
+    missing = { "blade_rush", "dispatch", "keep_it_rolling", "killing_spree", "pistol_shot", "roll_the_bones" },
+    total = 17,
+  },
   heroTrees = {},
   key = "rogue_outlaw",
   simc = {
@@ -462,6 +467,7 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
     },
   },
   simcOrder = { "precombat", "default", "build", "cds", "finish" },
+  simcSource = "simc",
   spec = "outlaw",
   spellInfo = {
     [1752] = {

@@ -199,6 +199,11 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
   blizzardExcluded = { "avenging_wrath" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "paladin",
+  gameMatch = {
+    matched = 14,
+    missing = {},
+    total = 14,
+  },
   heroTrees = {},
   key = "paladin_retribution",
   simc = {
@@ -469,6 +474,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
     },
   },
   simcOrder = { "precombat", "default", "cooldowns", "finishers", "generators" },
+  simcSource = "simc",
   spec = "retribution",
   spellInfo = {
     [498] = {

@@ -149,6 +149,23 @@ ns.RegisterSpecData("forever", "warlock_demonology", {
   blizzardExcluded = { "summon_demonic_tyrant" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warlock",
+  gameMatch = {
+    matched = 1,
+    missing = {
+      "call_dreadstalkers",
+      "demonbolt",
+      "grimoire_fel_ravager",
+      "grimoire_imp_lord",
+      "hand_of_guldan",
+      "implosion",
+      "infernal_bolt",
+      "power_siphon",
+      "ruination",
+      "summon_demonic_tyrant",
+      "summon_doomguard",
+    },
+    total = 12,
+  },
   heroTrees = {},
   key = "warlock_demonology",
   simc = {
@@ -540,6 +557,7 @@ ns.RegisterSpecData("forever", "warlock_demonology", {
     },
   },
   simcOrder = { "precombat", "default", "diabolist", "items", "racials", "soulharvest" },
+  simcSource = "simc",
   spec = "demonology",
   spellInfo = {
     [686] = {

@@ -124,6 +124,11 @@ ns.RegisterSpecData("midnight", "monk_brewmaster", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "monk",
+  gameMatch = {
+    matched = 13,
+    missing = { "invoke_niuzao" },
+    total = 14,
+  },
   heroTrees = {
     master_of_harmony = {
       450508,
@@ -447,6 +452,7 @@ ns.RegisterSpecData("midnight", "monk_brewmaster", {
     },
   },
   simcOrder = { "precombat", "default", "item_actions", "master_of_harmony", "race_actions", "shado_pan" },
+  simcSource = "simc",
   spec = "brewmaster",
   spellInfo = {
     [100780] = {

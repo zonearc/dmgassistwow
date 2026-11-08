@@ -156,6 +156,24 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "evoker",
+  gameMatch = {
+    matched = 0,
+    missing = {
+      "azure_strike",
+      "blistering_scales",
+      "breath_of_eons",
+      "deep_breath",
+      "ebon_might",
+      "emerald_blossom",
+      "eruption",
+      "fire_breath",
+      "fury_of_the_aspects",
+      "hover",
+      "living_flame",
+      "prescience",
+    },
+    total = 15,
+  },
   heroTrees = {},
   key = "evoker_augmentation",
   simc = {
@@ -678,6 +696,7 @@ ns.RegisterSpecData("forever", "evoker_augmentation", {
     },
   },
   simcOrder = { "precombat", "default", "filler", "items" },
+  simcSource = "simc",
   spec = "augmentation",
   spellInfo = {
     [351338] = {

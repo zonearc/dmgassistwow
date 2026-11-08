@@ -120,6 +120,11 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
   blizzardExcluded = { "takedown" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "hunter",
+  gameMatch = {
+    matched = 8,
+    missing = {},
+    total = 8,
+  },
   heroTrees = {},
   key = "hunter_survival",
   simc = {
@@ -495,6 +500,7 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
     },
   },
   simcOrder = { "precombat", "default", "cds", "plcleave", "plst", "sentcleave", "sentst" },
+  simcSource = "simc",
   spec = "survival",
   spellInfo = {
     [883] = {

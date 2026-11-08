@@ -170,6 +170,11 @@ ns.RegisterSpecData("midnight", "deathknight_frost", {
   blizzardExcluded = { "breath_of_sindragosa" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "deathknight",
+  gameMatch = {
+    matched = 13,
+    missing = { "antimagic_shell" },
+    total = 14,
+  },
   heroTrees = {
     deathbringer = {
       434905,
@@ -807,6 +812,7 @@ ns.RegisterSpecData("midnight", "deathknight_frost", {
     "trinkets",
     "variables",
   },
+  simcSource = "simc",
   spec = "frost",
   spellInfo = {
     [46584] = {

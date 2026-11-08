@@ -161,6 +161,23 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "deathknight",
+  gameMatch = {
+    matched = 0,
+    missing = {
+      "army_of_the_dead",
+      "dark_transformation",
+      "death_and_decay",
+      "death_coil",
+      "epidemic",
+      "festering_strike",
+      "outbreak",
+      "putrefy",
+      "raise_dead",
+      "scourge_strike",
+      "soul_reaper",
+    },
+    total = 11,
+  },
   heroTrees = {},
   key = "deathknight_unholy",
   simc = {
@@ -619,6 +636,7 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
     },
   },
   simcOrder = { "precombat", "default", "aoe", "cooldowns", "racials", "single_target", "trinkets", "variables" },
+  simcSource = "simc",
   spec = "unholy",
   spellInfo = {
     [42650] = {

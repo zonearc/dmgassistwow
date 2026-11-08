@@ -177,6 +177,11 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
   blizzardExcluded = { "avatar", "recklessness" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warrior",
+  gameMatch = {
+    matched = 18,
+    missing = {},
+    total = 18,
+  },
   heroTrees = {},
   key = "warrior_fury",
   simc = {
@@ -868,6 +873,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     },
   },
   simcOrder = { "precombat", "default", "slayer", "slayer_aoe", "thane", "thane_aoe", "trinkets", "variables" },
+  simcSource = "simc",
   spec = "fury",
   spellInfo = {
     [100] = {

@@ -199,6 +199,21 @@ ns.RegisterSpecData("forever", "paladin_retribution", {
   blizzardExcluded = { "avenging_wrath" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "paladin",
+  gameMatch = {
+    matched = 5,
+    missing = {
+      "blade_of_justice",
+      "divine_toll",
+      "execution_sentence",
+      "hammer_of_light",
+      "judgment",
+      "templar_slash",
+      "templar_strike",
+      "templars_verdict",
+      "wake_of_ashes",
+    },
+    total = 14,
+  },
   heroTrees = {},
   key = "paladin_retribution",
   simc = {
@@ -469,6 +484,7 @@ ns.RegisterSpecData("forever", "paladin_retribution", {
     },
   },
   simcOrder = { "precombat", "default", "cooldowns", "finishers", "generators" },
+  simcSource = "simc",
   spec = "retribution",
   spellInfo = {
     [498] = {

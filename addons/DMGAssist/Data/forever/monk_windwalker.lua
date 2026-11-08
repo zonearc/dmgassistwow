@@ -191,6 +191,24 @@ ns.RegisterSpecData("forever", "monk_windwalker", {
   blizzardExcluded = { "celestial_conduit", "flying_serpent_kick", "zenith" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "monk",
+  gameMatch = {
+    matched = 0,
+    missing = {
+      "blackout_kick",
+      "celestial_conduit",
+      "fists_of_fury",
+      "invoke_xuen_the_white_tiger",
+      "rising_sun_kick",
+      "rushing_wind_kick",
+      "slicing_winds",
+      "spinning_crane_kick",
+      "strike_of_the_windlord",
+      "thorn_bloom",
+      "tiger_palm",
+      "touch_of_death",
+    },
+    total = 16,
+  },
   heroTrees = {},
   key = "monk_windwalker",
   simc = {
@@ -1075,6 +1093,7 @@ ns.RegisterSpecData("forever", "monk_windwalker", {
     "trinket",
     "zenith",
   },
+  simcSource = "simc",
   spec = "windwalker",
   spellInfo = {
     [100780] = {

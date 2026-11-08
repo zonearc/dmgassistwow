@@ -218,6 +218,11 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
   blizzardExcluded = { "ascendance" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "shaman",
+  gameMatch = {
+    matched = 19,
+    missing = {},
+    total = 19,
+  },
   heroTrees = {},
   key = "shaman_elemental",
   simc = {
@@ -715,6 +720,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     },
   },
   simcOrder = { "precombat", "default", "aoe", "single_target" },
+  simcSource = "simc",
   spec = "elemental",
   spellInfo = {
     [2825] = {

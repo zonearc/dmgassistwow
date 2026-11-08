@@ -141,6 +141,24 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "evoker",
+  gameMatch = {
+    matched = 0,
+    missing = {
+      "azure_strike",
+      "azure_sweep",
+      "deep_breath",
+      "disintegrate",
+      "dragonrage",
+      "emerald_blossom",
+      "eternity_surge",
+      "fire_breath",
+      "hover",
+      "living_flame",
+      "pyre",
+      "quell",
+    },
+    total = 15,
+  },
   heroTrees = {},
   key = "evoker_devastation",
   simc = {
@@ -864,6 +882,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
     "sc",
     "trinkets",
   },
+  simcSource = "simc",
   spec = "devastation",
   spellInfo = {
     [351338] = {

@@ -174,6 +174,11 @@ ns.RegisterSpecData("forever", "druid_feral", {
   blizzardExcluded = { "berserk" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "druid",
+  gameMatch = {
+    matched = 11,
+    missing = { "chomp", "convoke_the_spirits", "feral_frenzy", "frantic_frenzy", "primal_wrath" },
+    total = 16,
+  },
   heroTrees = {},
   key = "druid_feral",
   simc = {
@@ -700,6 +705,7 @@ ns.RegisterSpecData("forever", "druid_feral", {
     },
   },
   simcOrder = { "precombat", "default", "aoe_builder", "aoe_finisher", "builder", "cd_variable", "cooldown", "finisher" },
+  simcSource = "simc",
   spec = "feral",
   spellInfo = {
     [768] = {

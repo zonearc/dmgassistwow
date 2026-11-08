@@ -142,6 +142,11 @@ ns.RegisterSpecData("midnight", "mage_frost", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "mage",
+  gameMatch = {
+    matched = 12,
+    missing = { "any_blink" },
+    total = 13,
+  },
   heroTrees = {},
   key = "mage_frost",
   simc = {
@@ -575,6 +580,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
     },
   },
   simcOrder = { "precombat", "default", "cds", "frostfire", "movement", "spellslinger" },
+  simcSource = "simc",
   spec = "frost",
   spellInfo = {
     [116] = {

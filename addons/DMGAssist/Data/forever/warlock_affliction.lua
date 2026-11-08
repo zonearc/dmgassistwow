@@ -204,6 +204,11 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
   blizzardExcluded = { "summon_darkglare" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warlock",
+  gameMatch = {
+    matched = 6,
+    missing = { "agony", "dark_harvest", "grimoire_of_sacrifice", "malefic_grasp", "seed_of_corruption", "summon_darkglare", "wither" },
+    total = 13,
+  },
   heroTrees = {},
   key = "warlock_affliction",
   simc = {
@@ -885,6 +890,7 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
     "soul_harvester",
     "variables",
   },
+  simcSource = "simc",
   spec = "affliction",
   spellInfo = {
     [172] = {

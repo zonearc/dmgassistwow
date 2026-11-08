@@ -165,6 +165,11 @@ ns.RegisterSpecData("forever", "warrior_arms", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warrior",
+  gameMatch = {
+    matched = 12,
+    missing = { "avatar", "bladestorm", "champions_spear", "colossus_smash", "demolish", "ravager", "storm_bolt", "wrecking_throw" },
+    total = 20,
+  },
   heroTrees = {},
   key = "warrior_arms",
   simc = {
@@ -1007,6 +1012,7 @@ ns.RegisterSpecData("forever", "warrior_arms", {
     "trinkets",
     "variables",
   },
+  simcSource = "simc",
   spec = "arms",
   spellInfo = {
     [78] = {

@@ -159,6 +159,11 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
   blizzardExcluded = { "arcane_surge" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "mage",
+  gameMatch = {
+    matched = 11,
+    missing = { "mirror_image" },
+    total = 12,
+  },
   heroTrees = {},
   key = "mage_arcane",
   simc = {
@@ -488,6 +493,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
     },
   },
   simcOrder = { "precombat", "default", "cooldowns", "spellslinger", "sunfury" },
+  simcSource = "simc",
   spec = "arcane",
   spellInfo = {
     [1459] = {

@@ -117,6 +117,24 @@ ns.RegisterSpecData("forever", "demonhunter_devourer", {
   blizzardExcluded = { "metamorphosis", "the_hunt", "voidblade" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "demonhunter",
+  gameMatch = {
+    matched = 0,
+    missing = {
+      "collapsing_star",
+      "consume",
+      "cull",
+      "devour",
+      "eradicate",
+      "hungering_slash",
+      "metamorphosis",
+      "pierce_the_veil",
+      "predators_wake",
+      "reap",
+      "reapers_toll",
+      "soul_immolation",
+    },
+    total = 16,
+  },
   heroTrees = {
     annihilator = {
       1253304,
@@ -1126,6 +1144,7 @@ ns.RegisterSpecData("forever", "demonhunter_devourer", {
     "vsm_out",
     "vsm_st",
   },
+  simcSource = "simc",
   spec = "devourer",
   spellInfo = {
     [162264] = {

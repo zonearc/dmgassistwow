@@ -122,6 +122,11 @@ ns.RegisterSpecData("forever", "druid_restoration", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "druid",
+  gameMatch = {
+    matched = 13,
+    missing = { "convoke_the_spirits", "mangle", "thrash" },
+    total = 16,
+  },
   heroTrees = {},
   key = "druid_restoration",
   simc = {
@@ -379,6 +384,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
     },
   },
   simcOrder = { "precombat", "default", "cat", "healing" },
+  simcSource = "simc",
   spec = "restoration",
   spellInfo = {
     [768] = {
