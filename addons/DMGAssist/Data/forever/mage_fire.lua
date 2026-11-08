@@ -164,606 +164,74 @@ ns.RegisterSpecData("forever", "mage_fire", {
   blizzardExcluded = { "combustion" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "mage",
+  credit = "WoWSims (wowsims.com/forever)",
   gameMatch = {
     matched = 7,
-    missing = { "meteor", "mirror_image" },
-    total = 9,
+    missing = { "spell_1259705" },
+    total = 8,
   },
   heroTrees = {},
   key = "mage_fire",
   simc = {
-    cds = {
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "combustion_precast_time",
-          value = "(action.scorch.cast_time*!buff.pyroclasm.up*scorch_execute.active)+(action.fireball.cast_time*!buff.pyroclasm.up*!scorch_execute.active)+(action.pyroblast.cast_time*buff.pyroclasm.up)-variable.cast_remains_time",
-        },
-      },
-      {
-        a = "potion",
-        c = "time>=(8*(talent.firestarter&talent.spellfire_spheres))|buff.combustion.remains>6|fight_remains<35",
-        k = "T",
-      },
-      {
-        a = "use_item",
-        c = "buff.combustion.remains>6|fight_remains<20",
-        k = "T",
-        p = {
-          name = "vile_vial_of_volatile_venom",
-        },
-      },
-      {
-        a = "use_item",
-        c = "time>=variable.combustion_delay&cooldown.combustion.remains<2&buff.combustion.down&(buff.bloodlust.down|gcd.max>0.76&!equipped.hex_lords_dooming_idol&(!equipped.vile_vial_of_volatile_venom|trinket.1.is.vile_vial_of_volatile_venom&trinket.1.cooldown.remains>20|trinket.2.is.vile_vial_of_volatile_venom&trinket.2.cooldown.remains>20))|fight_remains<25",
-        k = "T",
-        p = {
-          name = "stormbound_emblem_of_dazar",
-        },
-      },
-      {
-        a = "use_item",
-        c = "buff.combustion.remains>6|fight_remains<20",
-        k = "T",
-        p = {
-          name = "sethraliss_defiled_relic",
-        },
-      },
-      {
-        a = "use_item",
-        c = "buff.combustion.remains>6|fight_remains<30",
-        k = "T",
-        p = {
-          name = "hex_lords_dooming_idol",
-        },
-      },
-      {
-        a = "use_item",
-        c = "buff.combustion.remains>6|fight_remains<20",
-        k = "T",
-        p = {
-          name = "vaelgors_final_stare",
-        },
-      },
-      {
-        a = "use_item",
-        c = "buff.combustion.remains>6|fight_remains<20",
-        k = "T",
-        p = {
-          name = "emberwing_feather",
-        },
-      },
-      {
-        a = "use_item",
-        c = "buff.combustion.remains>6|fight_remains<20",
-        k = "T",
-        p = {
-          name = "venomous_gladiators_badge_of_ferocity",
-        },
-      },
-      {
-        a = "use_item",
-        c = "buff.combustion.remains>6|fight_remains<20",
-        k = "T",
-        p = {
-          name = "galactic_gladiators_badge_of_ferocity",
-        },
-      },
-      {
-        a = "use_item",
-        c = "buff.combustion.remains>6|fight_remains<20",
-        k = "T",
-        p = {
-          name = "ever_collapsing_void_fissure",
-        },
-      },
-      {
-        a = "use_item",
-        c = "buff.combustion.remains>6|fight_remains<20",
-        k = "T",
-        p = {
-          name = "freightrunners_flask",
-        },
-      },
-      {
-        a = "use_items",
-        c = "variable.nonsteroid_trinket_equipped&(time>variable.combustion_delay&cooldown.combustion.remains>20|time<=variable.combustion_delay&(variable.combustion_delay>=18|!variable.steroid_trinket_equipped))&buff.combustion.down&buff.hyperthermia.down",
-        k = "T",
-      },
-      {
-        a = "ancestral_call",
-        c = "buff.combustion.remains>6|fight_remains<20",
-        k = "T",
-      },
-      {
-        a = "berserking",
-        c = "buff.combustion.remains>6|fight_remains<20",
-        k = "T",
-      },
-      {
-        a = "blood_fury",
-        c = "buff.combustion.remains>6|fight_remains<20",
-        k = "T",
-      },
-      {
-        a = "fireblood",
-        c = "buff.combustion.remains>6|fight_remains<10",
-        k = "T",
-      },
-      {
-        a = "invoke_external_buff",
-        c = "buff.power_infusion.down&(buff.combustion.remains>6|fight_remains<25)",
-        k = "T",
-        p = {
-          name = "power_infusion",
-        },
-      },
-    },
     default = {
       {
         a = "call_action_list",
-        k = "R",
+        c = "(mana<action.pyroblast.cost)",
+        k = "T",
         p = {
-          name = "cds",
+          name = "evocation",
         },
       },
       {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "flamestriking_active",
-          op = "set",
-          value = "variable.flamestriking&(time>variable.combustion_delay|talent.firestarter&buff.pyroclasm.up&buff.hot_streak.react=0)",
-        },
-      },
-      {
-        a = "variable",
-        c = "!talent.spellfire_spheres",
-        k = "R",
-        p = {
-          name = "ff_combustion_flamestrike",
-          op = "set",
-          value = "3+(999*!talent.fuel_the_fire+999*!variable.flamestriking_active)",
-        },
-      },
-      {
-        a = "variable",
-        c = "!talent.spellfire_spheres",
-        k = "R",
-        p = {
-          name = "ff_filler_flamestrike",
-          op = "set",
-          value = "3+(999*!talent.fuel_the_fire+999*!variable.flamestriking_active)",
-        },
-      },
-      {
-        a = "variable",
-        c = "talent.spellfire_spheres",
-        k = "R",
-        p = {
-          name = "sf_combustion_flamestrike",
-          op = "set",
-          value = "3+(999*!talent.fuel_the_fire+999*!variable.flamestriking_active)",
-        },
-      },
-      {
-        a = "variable",
-        c = "talent.spellfire_spheres",
-        k = "R",
-        p = {
-          name = "sf_filler_flamestrike",
-          op = "set",
-          value = "3+(999*!talent.fuel_the_fire+999*!variable.flamestriking_active)",
-        },
-      },
-      {
-        a = "run_action_list",
-        c = "talent.frostfire_bolt&((time>=variable.combustion_delay)&(cooldown.combustion.remains<=variable.combustion_precast_time|buff.combustion.up|cooldown.combustion.ready))",
+        a = "pyroblast",
+        c = "((buff.heating_up.stack=3)&!(casting.pyroblast))",
         k = "U",
-        p = {
-          name = "ff_combustion",
-        },
       },
       {
-        a = "run_action_list",
-        c = "!talent.frostfire_bolt&((time>=variable.combustion_delay)&(cooldown.combustion.remains<=variable.combustion_precast_time+gcd.max*(talent.sunfury_execution&cooldown.meteor.remains<gcd.max)|buff.combustion.up|cooldown.combustion.ready))",
-        k = "U",
-        p = {
-          name = "sf_combustion",
-        },
-      },
-      {
-        a = "run_action_list",
-        c = "talent.frostfire_bolt",
+        a = "fire_blast",
         k = "R",
-        p = {
-          name = "ff_filler",
-        },
-      },
-      {
-        a = "run_action_list",
-        k = "R",
-        p = {
-          name = "sf_filler",
-        },
-      },
-    },
-    ff_combustion = {
-      {
-        a = "combustion",
-        c = "buff.combustion.down&action.fireball.executing&(action.fireball.execute_remains<variable.cast_remains_time)|action.meteor.in_flight&(action.meteor.in_flight_remains<0.3)|action.pyroblast.executing&(action.pyroblast.execute_remains<variable.cast_remains_time)|prev_gcd.1.meteor",
-        k = "T",
-        p = {
-          use_off_gcd = "1",
-          use_while_casting = "1",
-        },
-      },
-      {
-        a = "flamestrike",
-        c = "buff.pyroclasm.up&!buff.hot_streak.react&buff.combustion.down&active_enemies>=variable.ff_combustion_flamestrike",
-        k = "T",
-      },
-      {
-        a = "pyroblast",
-        c = "buff.pyroclasm.up&!buff.hot_streak.react&buff.combustion.down",
-        k = "T",
-      },
-      {
-        a = "fireball",
-        c = "buff.combustion.down",
-        k = "T",
-      },
-      {
-        a = "meteor",
-        c = "talent.burnout&buff.combustion.remains<8|!talent.burnout&buff.combustion.remains>2",
-        k = "T",
-      },
-      {
-        a = "flamestrike",
-        c = "buff.hot_streak.react&active_enemies>=variable.ff_combustion_flamestrike",
-        k = "T",
-      },
-      {
-        a = "pyroblast",
-        c = "buff.hot_streak.react",
-        k = "T",
-      },
-      {
-        a = "flamestrike",
-        c = "buff.pyroclasm.up&cast_time<buff.combustion.remains&active_enemies>=(variable.ff_filler_flamestrike-1)",
-        k = "T",
-      },
-      {
-        a = "pyroblast",
-        c = "buff.pyroclasm.up&cast_time<buff.combustion.remains",
-        k = "T",
       },
       {
         a = "scorch",
-        c = "buff.heat_shimmer.react|talent.scald&scorch_execute.active&buff.frostfire_empowerment.down",
+        c = "(((debuff.fire_vulnerability.stack<5)|(debuff.fire_vulnerability.remains<5))&((debuff.fire_vulnerability.stack<4)|!(casting.scorch)))",
         k = "U",
       },
       {
-        a = "fireball",
-        k = "R",
+        a = "arcane_blast",
+        c = "((buff.arcane_blast.down|(buff.arcane_blast.remains<action.arcane_blast.cast_time))&!(casting.arcane_blast))",
+        k = "U",
       },
       {
-        a = "call_action_list",
-        c = "!talent.pyroclasm|(buff.pyroclasm.stack<2|action.pyroblast.executing&action.pyroblast.execute_remains>0.2&buff.pyroclasm.stack=2|cooldown.fire_blast.charges_fractional>=2.9|buff.combustion.remains<action.pyroblast.cast_time)&(active_enemies<variable.sf_combustion_flamestrike|buff.pyroclasm.down|!action.flamestrike.executing)",
-        k = "T",
-        p = {
-          name = "fireblast",
-        },
-      },
-    },
-    ff_filler = {
-      {
-        a = "meteor",
-        c = "time>=(variable.combustion_delay-gcd.max)",
-        k = "M",
-      },
-      {
-        a = "flamestrike",
-        c = "(buff.hot_streak.react&(cooldown.combustion.remains>=5|time<variable.combustion_delay))&active_enemies>=variable.ff_filler_flamestrike",
-        k = "T",
-      },
-      {
-        a = "pyroblast",
-        c = "buff.hot_streak.react&(cooldown.combustion.remains>=(5-5*buff.pyroclasm.up)|time<variable.combustion_delay)",
-        k = "T",
-      },
-      {
-        a = "flamestrike",
-        c = "(buff.pyroclasm.up&cooldown.combustion.remains>12|buff.pyroclasm.stack=2)&active_enemies>=variable.ff_filler_flamestrike",
-        k = "T",
-      },
-      {
-        a = "pyroblast",
-        c = "buff.pyroclasm.up&cooldown.combustion.remains>12|buff.pyroclasm.stack=2",
-        k = "T",
-      },
-      {
-        a = "scorch",
-        c = "buff.heat_shimmer.react",
+        a = "arcane_missiles",
+        c = "buff.missile_barrage.up",
         k = "T",
       },
       {
         a = "fireball",
-        k = "R",
-      },
-      {
-        a = "call_action_list",
-        k = "R",
-        p = {
-          name = "fireblast",
-        },
-      },
-    },
-    fireblast = {
-      {
-        a = "fire_blast",
-        c = "cooldown_react&cooldown.fire_blast.charges_fractional>=2.9&talent.firestarter",
-        k = "T",
-        p = {
-          use_off_gcd = "1",
-          use_while_casting = "1",
-        },
-      },
-      {
-        a = "fire_blast",
-        c = "cooldown_react&!buff.hot_streak.react&(buff.combustion.up|buff.hyperthermia.up)&(hot_streak_spells_in_flight+buff.heating_up.react=1)&gcd.remains<gcd.max",
-        k = "U",
-        p = {
-          use_off_gcd = "1",
-          use_while_casting = "1",
-        },
-      },
-      {
-        a = "fire_blast",
-        c = "cooldown_react&!buff.hot_streak.react&action.pyroblast.executing&buff.pyroclasm.up&gcd.remains<gcd.max",
-        k = "T",
-        p = {
-          use_off_gcd = "1",
-          use_while_casting = "1",
-        },
-      },
-      {
-        a = "fire_blast",
-        c = "cooldown_react&!buff.hot_streak.react&(action.fireball.executing&action.fireball.execute_remains>0.1|buff.pyroclasm.react&action.pyroblast.executing&action.pyroblast.execute_remains>0.1|action.flamestrike.executing&action.flamestrike.execute_remains>0.1)&(!scorch_execute.active|!talent.scorch)&buff.heating_up.react&(hot_streak_spells_in_flight+buff.heating_up.react=1)&gcd.remains<gcd.max",
-        k = "U",
-        p = {
-          use_off_gcd = "1",
-          use_while_casting = "1",
-        },
-      },
-      {
-        a = "fire_blast",
-        c = "cooldown_react&!buff.hot_streak.react&scorch_execute.active&(hot_streak_spells_in_flight+buff.heating_up.react=0)&(action.scorch.executing&buff.heat_shimmer.down|action.pyroblast.executing&buff.pyroclasm.up&set_bonus.midnight_season_2_2pc)&gcd.remains<gcd.max",
-        k = "U",
-        p = {
-          use_off_gcd = "1",
-          use_while_casting = "1",
-        },
-      },
-      {
-        a = "fire_blast",
-        c = "cooldown_react&!buff.hot_streak.react&time<variable.combustion_delay&(talent.firestarter|action.fireball.executing&action.fireball.execute_remains>0.1|buff.pyroclasm.react&action.pyroblast.executing&action.pyroblast.execute_remains>0.1)&(hot_streak_spells_in_flight+buff.heating_up.react=1)&gcd.remains<gcd.max&cooldown.combustion.ready",
-        k = "U",
-        p = {
-          use_off_gcd = "1",
-          use_while_casting = "1",
-        },
-      },
-      {
-        a = "fire_blast",
-        c = "cooldown_react&(time>=variable.combustion_delay&(cooldown.combustion.remains<=variable.combustion_precast_time))&buff.combustion.down&talent.spontaneous_combustion&(action.scorch.executing|action.fireball.executing|action.pyroblast.executing|action.flamestrike.executing)",
-        k = "U",
-        p = {
-          use_off_gcd = "1",
-          use_while_casting = "1",
-        },
-      },
-      {
-        a = "fire_blast",
-        c = "fight_remains<1",
-        k = "M",
-        p = {
-          use_off_gcd = "1",
-          use_while_casting = "1",
-        },
-      },
-    },
-    precombat = {
-      {
-        a = "arcane_intellect",
-        k = "R",
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "cast_remains_time",
-          value = "0.2",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          default = "1",
-          name = "flamestriking",
-          op = "reset",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "combustion_delay",
-          value = "(18*talent.firestarter)-(10*(expected_combat_length<60)+10*(expected_combat_length<30))-10*(((expected_combat_length%%60)>=25)&((expected_combat_length%%60)<=40))",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "steroid_trinket_equipped",
-          op = "set",
-          value = "equipped.freightrunners_flask|equipped.emberwing_feather|equipped.vaelgors_final_stare|equipped.galactic_gladiators_badge_of_ferocity|equipped.nevermelting_ice_crystal|equipped.ever_collapsing_void_fissure|equipped.signet_of_the_priory|equipped.sealed_chaos_urn|equipped.stormbound_emblem_of_dazar|equipped.hex_lords_dooming_idol|equipped.vile_vial_of_volatile_venom|equipped.venomous_gladiators_badge_of_ferocity",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "nonsteroid_trinket_equipped",
-          op = "set",
-          value = "equipped.wraps_of_cosmic_madness|equipped.astalors_anguish_agitator|equipped.font_of_venomous_rage|equipped.vexhuls_everflowing_gland|equipped.spiritrending_poison|equipped.ophidian_bone_whistle",
-        },
-      },
-      {
-        a = "snapshot_stats",
-        k = "R",
-      },
-      {
-        a = "mirror_image",
-        k = "R",
-      },
-      {
-        a = "pyroblast",
-        k = "R",
-      },
-    },
-    sf_combustion = {
-      {
-        a = "combustion",
-        c = "action.scorch.executing&(action.scorch.execute_remains<variable.cast_remains_time)|action.fireball.executing&(action.fireball.execute_remains<variable.cast_remains_time)|action.pyroblast.executing&(action.pyroblast.execute_remains<variable.cast_remains_time)&!cooldown.meteor.ready|action.flamestrike.executing&(action.flamestrike.execute_remains<variable.cast_remains_time)|action.meteor.in_flight&action.meteor.in_flight_remains<0.3&(action.pyroblast.executing|action.flamestrike.executing|buff.pyroclasm.down)",
-        k = "T",
-        p = {
-          use_off_gcd = "1",
-          use_while_casting = "1",
-        },
-      },
-      {
-        a = "flamestrike",
-        c = "buff.combustion.down&buff.hot_streak.react&active_enemies>=variable.sf_combustion_flamestrike",
-        k = "T",
-      },
-      {
-        a = "pyroblast",
-        c = "buff.combustion.down&buff.hot_streak.react",
-        k = "T",
-      },
-      {
-        a = "meteor",
-        c = "buff.combustion.down&talent.sunfury_execution",
-        k = "T",
-      },
-      {
-        a = "flamestrike",
-        c = "active_enemies>=variable.sf_combustion_flamestrike&(buff.combustion.down&!buff.hot_streak.react&buff.pyroclasm.up)",
-        k = "T",
-      },
-      {
-        a = "pyroblast",
-        c = "buff.combustion.down&!buff.hot_streak.react&buff.pyroclasm.up",
-        k = "T",
-      },
-      {
-        a = "scorch",
-        c = "buff.combustion.down&(scorch_execute.active|active_enemies>=4)",
-        k = "U",
-      },
-      {
-        a = "fireball",
-        c = "buff.combustion.down&(!prev_gcd.1.meteor|buff.bloodlust.down)",
-        k = "T",
-      },
-      {
-        a = "meteor",
-        c = "buff.combustion.remains>2",
-        k = "T",
-      },
-      {
-        a = "flamestrike",
-        c = "(buff.hot_streak.react|prev_gcd.1.scorch&buff.heating_up.react&time-action.scorch.last_used<0.2)&active_enemies>=variable.sf_combustion_flamestrike",
-        k = "T",
-      },
-      {
-        a = "pyroblast",
-        c = "buff.hot_streak.react|prev_gcd.1.scorch&buff.heating_up.react&time-action.scorch.last_used<0.2",
-        k = "T",
-      },
-      {
-        a = "flamestrike",
-        c = "buff.pyroclasm.react&cast_time<buff.combustion.remains&active_enemies>=variable.sf_combustion_flamestrike",
-        k = "T",
-      },
-      {
-        a = "pyroblast",
-        c = "buff.pyroclasm.react&cast_time<buff.combustion.remains",
+        c = "(cooldown.fire_blast.remains>=action.fireball.cast_time)",
         k = "T",
       },
       {
         a = "scorch",
         k = "R",
       },
-      {
-        a = "call_action_list",
-        c = "!talent.pyroclasm|(buff.pyroclasm.stack<2|action.pyroblast.executing&action.pyroblast.execute_remains>0.2&buff.pyroclasm.stack=2|cooldown.fire_blast.charges_fractional>=2.9|buff.combustion.remains<action.pyroblast.cast_time)&(active_enemies<variable.sf_combustion_flamestrike|buff.pyroclasm.down|!action.flamestrike.executing)",
-        k = "T",
-        p = {
-          name = "fireblast",
-        },
-      },
     },
-    sf_filler = {
+    evocation = {
       {
-        a = "meteor",
-        c = "talent.blast_zone&time>variable.combustion_delay",
-        k = "M",
-      },
-      {
-        a = "flamestrike",
-        c = "(buff.hot_streak.react|prev_gcd.1.scorch&buff.heating_up.react&time-action.scorch.last_used<0.2|buff.hyperthermia.up)&active_enemies>=variable.sf_filler_flamestrike",
-        k = "T",
-      },
-      {
-        a = "pyroblast",
-        c = "buff.hot_streak.react|prev_gcd.1.scorch&buff.heating_up.react&time-action.scorch.last_used<0.2|buff.hyperthermia.up",
-        k = "T",
-      },
-      {
-        a = "flamestrike",
-        c = "buff.pyroclasm.up&active_enemies>=variable.sf_filler_flamestrike",
-        k = "T",
-      },
-      {
-        a = "pyroblast",
-        c = "buff.pyroclasm.up",
-        k = "T",
-      },
-      {
-        a = "scorch",
-        c = "talent.scald&scorch_execute.active|buff.heat_shimmer.react&(firestarter.active|prev_gcd.1.pyroblast|prev_gcd.1.flamestrike)",
+        a = "spell_1259705",
+        c = "(!(buff.spell_1270842.up)&known.spell_1259705)",
         k = "U",
       },
       {
-        a = "fireball",
-        k = "R",
-      },
-      {
-        a = "call_action_list",
-        k = "R",
-        p = {
-          name = "fireblast",
-        },
+        a = "evocation",
+        c = "(!(known.spell_1259705)|!(cooldown.spell_1259705.ready)|buff.spell_1270842.up)",
+        k = "U",
       },
     },
+    precombat = {},
   },
-  simcOrder = { "precombat", "default", "cds", "ff_combustion", "ff_filler", "fireblast", "sf_combustion", "sf_filler" },
-  simcSource = "simc",
+  simcOrder = { "precombat", "default", "evocation" },
+  simcSource = "wowsims",
   spec = "fire",
   spellInfo = {
     [133] = {
@@ -842,13 +310,6 @@ ns.RegisterSpecData("forever", "mage_fire", {
       n = "flamestrike",
       r = 30,
     },
-    [2136] = {
-      cd = 8,
-      cost = { [0] = 40 },
-      gcd = 1.5,
-      n = "fire_blast",
-      r = 20,
-    },
     [2137] = {
       cd = 8,
       cost = { [0] = 75 },
@@ -888,6 +349,36 @@ ns.RegisterSpecData("forever", "mage_fire", {
       n = "fireball",
       r = 35,
     },
+    [5143] = {
+      ap = {
+        { 5143, "self" },
+      },
+      cost = { [0] = 85 },
+      d = 3,
+      gcd = 1.5,
+      n = "arcane_missiles",
+      r = 30,
+    },
+    [5144] = {
+      ap = {
+        { 5144, "self" },
+      },
+      cost = { [0] = 140 },
+      d = 4,
+      gcd = 1.5,
+      n = "arcane_missiles",
+      r = 30,
+    },
+    [5145] = {
+      ap = {
+        { 5145, "self" },
+      },
+      cost = { [0] = 235 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+      r = 30,
+    },
     [8400] = {
       ap = {
         { 8400, "enemy" },
@@ -910,6 +401,17 @@ ns.RegisterSpecData("forever", "mage_fire", {
       n = "fireball",
       r = 35,
     },
+    [8402] = {
+      ap = {
+        { 8402, "enemy" },
+      },
+      cost = { [0] = 220 },
+      ct = 3.5,
+      d = 8,
+      gcd = 1.5,
+      n = "fireball",
+      r = 35,
+    },
     [8412] = {
       cd = 8,
       cost = { [0] = 165 },
@@ -923,6 +425,26 @@ ns.RegisterSpecData("forever", "mage_fire", {
       gcd = 1.5,
       n = "fire_blast",
       r = 20,
+    },
+    [8416] = {
+      ap = {
+        { 8416, "self" },
+      },
+      cost = { [0] = 320 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+      r = 30,
+    },
+    [8417] = {
+      ap = {
+        { 8417, "self" },
+      },
+      cost = { [0] = 410 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+      r = 30,
     },
     [8422] = {
       ap = {
@@ -967,6 +489,50 @@ ns.RegisterSpecData("forever", "mage_fire", {
       n = "scorch",
       r = 30,
     },
+    [10148] = {
+      ap = {
+        { 10148, "enemy" },
+      },
+      cost = { [0] = 260 },
+      ct = 3.5,
+      d = 8,
+      gcd = 1.5,
+      n = "fireball",
+      r = 35,
+    },
+    [10149] = {
+      ap = {
+        { 10149, "enemy" },
+      },
+      cost = { [0] = 305 },
+      ct = 3.5,
+      d = 8,
+      gcd = 1.5,
+      n = "fireball",
+      r = 35,
+    },
+    [10150] = {
+      ap = {
+        { 10150, "enemy" },
+      },
+      cost = { [0] = 350 },
+      ct = 3.5,
+      d = 8,
+      gcd = 1.5,
+      n = "fireball",
+      r = 35,
+    },
+    [10151] = {
+      ap = {
+        { 10151, "enemy" },
+      },
+      cost = { [0] = 395 },
+      ct = 3.5,
+      d = 8,
+      gcd = 1.5,
+      n = "fireball",
+      r = 35,
+    },
     [10156] = {
       cost = { [0] = 945 },
       d = 3600,
@@ -988,6 +554,13 @@ ns.RegisterSpecData("forever", "mage_fire", {
       n = "fire_blast",
       r = 20,
     },
+    [10199] = {
+      cd = 8,
+      cost = { [0] = 340 },
+      gcd = 1.5,
+      n = "fire_blast",
+      r = 20,
+    },
     [10205] = {
       cost = { [0] = 115 },
       ct = 1.5,
@@ -1000,6 +573,33 @@ ns.RegisterSpecData("forever", "mage_fire", {
       ct = 1.5,
       gcd = 1.5,
       n = "scorch",
+      r = 30,
+    },
+    [10207] = {
+      cost = { [0] = 150 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "scorch",
+      r = 30,
+    },
+    [10211] = {
+      ap = {
+        { 10211, "self" },
+      },
+      cost = { [0] = 500 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+      r = 30,
+    },
+    [10212] = {
+      ap = {
+        { 10212, "self" },
+      },
+      cost = { [0] = 595 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
       r = 30,
     },
     [10215] = {
@@ -1027,8 +627,6 @@ ns.RegisterSpecData("forever", "mage_fire", {
     [11129] = {
       cd = 180,
       n = "combustion",
-      st = 3,
-      tal = true,
     },
     [11366] = {
       ap = {
@@ -1040,7 +638,6 @@ ns.RegisterSpecData("forever", "mage_fire", {
       gcd = 1.5,
       n = "pyroblast",
       r = 35,
-      tal = true,
     },
     [11426] = {
       ap = {
@@ -1051,7 +648,6 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 60,
       gcd = 1.5,
       n = "ice_barrier",
-      tal = true,
     },
     [11958] = {
       ap = {
@@ -1062,7 +658,15 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 10,
       gcd = 1.5,
       n = "ice_block",
-      tal = true,
+    },
+    [12051] = {
+      ap = {
+        { 12051, "self" },
+      },
+      cd = 480,
+      d = 8,
+      gcd = 1.5,
+      n = "evocation",
     },
     [12505] = {
       ap = {
@@ -1119,6 +723,17 @@ ns.RegisterSpecData("forever", "mage_fire", {
       n = "pyroblast",
       r = 35,
     },
+    [12526] = {
+      ap = {
+        { 12526, "enemy" },
+      },
+      cost = { [0] = 385 },
+      ct = 6,
+      d = 12,
+      gcd = 1.5,
+      n = "pyroblast",
+      r = 35,
+    },
     [13031] = {
       ap = {
         { 13031, "self" },
@@ -1149,13 +764,204 @@ ns.RegisterSpecData("forever", "mage_fire", {
       gcd = 1.5,
       n = "ice_barrier",
     },
+    [13326] = {
+      cost = { [0] = 90 },
+      d = 1800,
+      n = "arcane_intellect",
+      r = 30,
+    },
+    [13878] = {
+      cost = { [0] = 50 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "scorch",
+      r = 30,
+    },
+    [15122] = {
+      cost = { [0] = 100 },
+      d = 15,
+      n = "counterspell",
+      r = 30,
+    },
+    [15241] = {
+      cost = { [0] = 50 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "scorch",
+      r = 30,
+    },
+    [15735] = {
+      ap = {
+        { 15735, "self" },
+      },
+      cost = { [0] = 235 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+      r = 30,
+    },
+    [15790] = {
+      ap = {
+        { 15790, "self" },
+      },
+      cost = { [0] = 235 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+      r = 30,
+    },
+    [16067] = {
+      cd = 8,
+      cost = { [0] = 80 },
+      gcd = 1.5,
+      n = "arcane_blast",
+      r = 30,
+    },
+    [16876] = {
+      d = 1800,
+      gcd = 1.5,
+      n = "arcane_intellect",
+      r = 30,
+    },
+    [17195] = {
+      cost = { [0] = 50 },
+      ct = 1.5,
+      gcd = 1.5,
+      n = "scorch",
+      r = 30,
+    },
+    [17273] = {
+      ap = {
+        { 17273, "enemy" },
+      },
+      cost = { [0] = 130 },
+      ct = 6,
+      d = 12,
+      n = "pyroblast",
+      r = 35,
+    },
+    [17274] = {
+      ap = {
+        { 17274, "enemy" },
+      },
+      cost = { [0] = 130 },
+      ct = 6,
+      d = 12,
+      n = "pyroblast",
+      r = 35,
+    },
+    [18091] = {
+      cd = 8,
+      cost = { [0] = 80 },
+      gcd = 1.5,
+      n = "arcane_blast",
+      r = 30,
+    },
+    [18809] = {
+      ap = {
+        { 18809, "enemy" },
+      },
+      cost = { [0] = 440 },
+      ct = 6,
+      d = 12,
+      gcd = 1.5,
+      n = "pyroblast",
+      r = 35,
+    },
+    [19715] = {
+      d = 10,
+      n = "counterspell",
+      r = 30,
+    },
+    [20228] = {
+      ap = {
+        { 20228, "enemy" },
+      },
+      d = 12,
+      n = "pyroblast",
+      r = 40,
+    },
+    [20537] = {
+      cd = 30,
+      d = 15,
+      n = "counterspell",
+      r = 30,
+    },
+    [20788] = {
+      d = 0.001,
+      n = "counterspell",
+      r = 10,
+    },
+    [22272] = {
+      ap = {
+        { 22272, "self" },
+      },
+      cost = { [0] = 235 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+      r = 30,
+    },
+    [22959] = {
+      ap = {
+        { 22959, "enemy" },
+      },
+      d = 30,
+      n = "fire_vulnerability",
+      st = 5,
+    },
+    [25306] = {
+      ap = {
+        { 25306, "enemy" },
+      },
+      cost = { [0] = 410 },
+      ct = 3.5,
+      d = 8,
+      gcd = 1.5,
+      n = "fireball",
+      r = 35,
+    },
+    [25345] = {
+      ap = {
+        { 25345, "self" },
+      },
+      cost = { [0] = 655 },
+      d = 5,
+      gcd = 1.5,
+      n = "arcane_missiles",
+      r = 30,
+    },
+    [25346] = {
+      n = "arcane_missiles",
+      r = 30,
+    },
+    [27619] = {
+      ap = {
+        { 27619, "self" },
+      },
+      cd = 300,
+      cost = { [0] = 15 },
+      d = 10,
+      gcd = 1.5,
+      n = "ice_block",
+    },
     [28682] = {
       n = "combustion",
       st = 10,
     },
+    [28763] = {
+      n = "evocation",
+      pas = true,
+    },
     [29443] = {
       d = 10,
       n = "counterspell",
+      r = 30,
+    },
+    [42896] = {
+      ct = 2.5,
+      gcd = 1.5,
+      n = "arcane_blast",
       r = 30,
     },
     [48108] = {
@@ -1166,10 +972,86 @@ ns.RegisterSpecData("forever", "mage_fire", {
       n = "hot_streak",
       st = 1,
     },
+    [364161] = {
+      cost = { [0] = 185 },
+      d = 3600,
+      gcd = 1.5,
+      n = "arcane_intellect",
+      r = 30,
+    },
+    [400573] = {
+      ap = {
+        { 400573, "self" },
+      },
+      d = 18,
+      n = "arcane_blast",
+      st = 4,
+    },
+    [400574] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "arcane_blast",
+      r = 30,
+    },
+    [400586] = {
+      ap = {
+        { 400586, "self" },
+      },
+      cd = 180,
+      d = 8,
+      n = "arcane_blast",
+      st = 4,
+    },
+    [400588] = {
+      n = "missile_barrage",
+      pas = true,
+    },
+    [400589] = {
+      ap = {
+        { 400589, "self" },
+      },
+      d = 15,
+      n = "missile_barrage",
+    },
+    [400616] = {
+      cd = 15,
+      cost = { [0] = 115 },
+      n = "fire_blast",
+      r = 20,
+    },
+    [400619] = {
+      cd = 15,
+      cost = { [0] = 75 },
+      n = "fire_blast",
+      r = 20,
+    },
+    [400620] = {
+      cd = 15,
+      cost = { [0] = 165 },
+      n = "fire_blast",
+      r = 20,
+    },
+    [400621] = {
+      cd = 15,
+      cost = { [0] = 220 },
+      n = "fire_blast",
+      r = 20,
+    },
+    [400622] = {
+      cd = 15,
+      cost = { [0] = 280 },
+      n = "fire_blast",
+      r = 20,
+    },
+    [400623] = {
+      cd = 15,
+      cost = { [0] = 340 },
+      n = "fire_blast",
+      r = 20,
+    },
     [400624] = {
       n = "heating_up",
       pas = true,
-      tal = true,
     },
     [400625] = {
       ap = {
@@ -1198,8 +1080,8 @@ ns.RegisterSpecData("forever", "mage_fire", {
       n = "frostfire_bolt",
       pas = true,
     },
-    [412286] = {
-      n = "burnout",
+    [401736] = {
+      n = "missile_barrage",
       pas = true,
     },
     [415709] = {
@@ -1209,6 +1091,46 @@ ns.RegisterSpecData("forever", "mage_fire", {
     [415759] = {
       n = "skull_bash",
       pas = true,
+    },
+    [456397] = {
+      ap = {
+        { 456397, "self" },
+      },
+      d = 8,
+      n = "evocation",
+    },
+    [467409] = {
+      ap = {
+        { 467409, "self" },
+      },
+      d = 15,
+      n = "missile_barrage",
+    },
+    [1213278] = {
+      ap = {
+        { 1213278, "self" },
+      },
+      cd = 30,
+      cost = { [0] = 480 },
+      d = 60,
+      gcd = 1.5,
+      n = "ice_barrier",
+    },
+    [1233255] = {
+      cost = { [0] = 100 },
+      d = 6,
+      n = "counterspell",
+      r = 30,
+    },
+    [1236173] = {
+      ap = {
+        { 1236173, "enemy" },
+      },
+      cost = { [0] = 130 },
+      ct = 6,
+      d = 12,
+      n = "pyroblast",
+      r = 35,
     },
     [1237312] = {
       ap = {
@@ -1232,33 +1154,187 @@ ns.RegisterSpecData("forever", "mage_fire", {
       n = "frostfire_bolt",
       r = 35,
     },
+    [1239696] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "arcane_blast",
+      r = 30,
+    },
+    [1239697] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "arcane_blast",
+      r = 30,
+    },
+    [1239699] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "arcane_blast",
+      r = 30,
+    },
+    [1239700] = {
+      ct = 1.5,
+      gcd = 1.5,
+      n = "arcane_blast",
+      r = 30,
+    },
+    [1279983] = {
+      n = "flamestrike",
+    },
+    [1279985] = {
+      n = "flamestrike",
+    },
+    [1279987] = {
+      n = "flamestrike",
+    },
+    [1279988] = {
+      n = "flamestrike",
+    },
+    [1279989] = {
+      n = "flamestrike",
+    },
+    [1279990] = {
+      n = "flamestrike",
+    },
+    [1300176] = {
+      ap = {
+        { 1300176, "self" },
+      },
+      cd = 180,
+      d = 8,
+      n = "arcane_blast",
+      st = 4,
+    },
+    [1300177] = {
+      ap = {
+        { 1300177, "self" },
+      },
+      cd = 180,
+      d = 8,
+      n = "arcane_blast",
+      st = 4,
+    },
+    [1326083] = {
+      ap = {
+        { 1326083, "self" },
+      },
+      d = 15,
+      n = "missile_barrage",
+    },
   },
   spells = {
-    arcane_intellect = {
-      a = { 1459, 1460, 1461, 10156, 10157 },
+    arcane_blast = {
+      a = {
+        1239700,
+        1239699,
+        42896,
+        1239697,
+        1239696,
+        400574,
+        16067,
+        18091,
+        400586,
+        1300176,
+        1300177,
+        400573,
+      },
+      b = {
+        400573,
+        400586,
+        1300176,
+        1300177,
+        1239700,
+        1239699,
+        42896,
+        1239697,
+        1239696,
+        400574,
+        16067,
+        18091,
+      },
     },
-    burnout = {
-      t = { 412286 },
+    arcane_intellect = {
+      a = { 10157, 16876, 10156, 1461, 1460, 364161, 1459, 13326 },
+    },
+    arcane_missiles = {
+      a = {
+        25345,
+        10212,
+        10211,
+        8417,
+        8416,
+        5145,
+        5144,
+        5143,
+        15735,
+        15790,
+        22272,
+        25346,
+      },
     },
     combustion = {
       a = { 11129, 28682 },
-      b = { 11129, 28682 },
     },
     counterspell = {
-      a = { 2139, 29443 },
+      a = { 2139, 15122, 20537, 1233255, 19715, 20788, 29443 },
+    },
+    evocation = {
+      a = { 12051, 456397, 28763 },
     },
     fire_blast = {
-      a = { 2136, 2137, 2138, 8412, 8413, 10197 },
+      a = {
+        10199,
+        400623,
+        10197,
+        400622,
+        8413,
+        400621,
+        8412,
+        400620,
+        2138,
+        400616,
+        2137,
+        400619,
+      },
+    },
+    fire_vulnerability = {
+      a = { 22959 },
+      b = { 22959 },
     },
     fireball = {
-      a = { 133, 143, 145, 3140, 8400, 8401 },
+      a = {
+        25306,
+        10151,
+        10150,
+        10149,
+        10148,
+        8402,
+        8401,
+        8400,
+        3140,
+        145,
+        143,
+        133,
+      },
     },
     flamestrike = {
-      a = { 2120, 2121, 8422, 8423, 10215, 10216 },
+      a = {
+        10216,
+        10215,
+        8423,
+        8422,
+        2121,
+        2120,
+        1279990,
+        1279989,
+        1279988,
+        1279987,
+        1279985,
+        1279983,
+      },
     },
     frostfire_bolt = {
-      a = { 401502, 1237312, 1237313, 401735 },
-      t = { 401735 },
+      a = { 1237313, 1237312, 401502, 401735 },
     },
     heating_up = {
       a = { 400625, 400624 },
@@ -1269,16 +1345,44 @@ ns.RegisterSpecData("forever", "mage_fire", {
       b = { 48108, 401724 },
     },
     ice_barrier = {
-      a = { 11426, 13031, 13032, 13033 },
+      a = { 13033, 1213278, 13032, 13031, 11426 },
     },
     ice_block = {
-      a = { 11958 },
+      a = { 11958, 27619 },
+    },
+    missile_barrage = {
+      a = { 400589, 467409, 1326083, 400588, 401736 },
+      b = { 400589, 467409, 1326083, 400588, 401736 },
     },
     pyroblast = {
-      a = { 11366, 12505, 12522, 12523, 12524, 12525 },
+      a = {
+        18809,
+        12526,
+        12525,
+        12524,
+        12523,
+        12522,
+        12505,
+        11366,
+        17273,
+        17274,
+        1236173,
+        20228,
+      },
     },
     scorch = {
-      a = { 2948, 8444, 8445, 8446, 10205, 10206 },
+      a = {
+        10207,
+        10206,
+        10205,
+        8446,
+        8445,
+        8444,
+        2948,
+        13878,
+        15241,
+        17195,
+      },
     },
     skull_bash = {
       a = { 415759 },

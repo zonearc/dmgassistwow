@@ -862,6 +862,9 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
     [390220] = {
       n = "putrefy",
     },
+    [418189] = {
+      n = "army_of_the_dead",
+    },
     [433895] = {
       ap = {
         { 433925, "self" },
@@ -1135,7 +1138,7 @@ ns.RegisterSpecData("forever", "deathknight_unholy", {
   },
   spells = {
     army_of_the_dead = {
-      a = { 42650, 42651, 205491, 221180, 280447, 233112 },
+      a = { 42650, 42651, 205491, 221180, 280447, 233112, 418189 },
       t = { 42650, 233112 },
     },
     blightburst = {

@@ -205,16 +205,17 @@ def _castable_rank(s, other_specs):
         s["passive"] or s["hidden"],
         s.get("talent") in other_specs,
         not (s.get("gcd") is not None or s.get("cooldown") or s.get("cost")),
+        -s.get("rank", 0),  # ranked spells (Forever): highest rank first; the addon picks the best one known
         s["id"],
     )
 
 
 def _aura_rank(s):
     """Lower is better for a buff/debuff: has a duration, is not a talent passive."""
-    return (s.get("duration") is None, bool(s.get("talent")) and s["passive"], s["id"])
+    return (s.get("duration") is None, bool(s.get("talent")) and s["passive"], -s.get("rank", 0), s["id"])
 
 
-MAX_IDS = 6
+MAX_IDS = 12  # ranked spells (Forever) can have up to ~10 ranks
 
 
 def select(spells, refs, other_specs=()):
@@ -306,7 +307,8 @@ DEFENSIVES = {"barkskin", "survival_instincts", "frenzied_regeneration", "renewa
 
 REF_PATTERNS = {
     "aura": re.compile(r"\b(?:buff|debuff|dot|active_dot)\.([a-z0-9_]+)"),
-    "action": re.compile(r"\b(?:cooldown|action|prev_gcd\.\d+|prev|prev_off_gcd\.\d+|prev_off_gcd)\.([a-z0-9_]+)"),
+    "action": re.compile(r"\b(?:cooldown|action|known|casting|prev_gcd\.\d+|prev|prev_off_gcd\.\d+|prev_off_gcd)"
+                         r"\.([a-z0-9_]+)"),
     "talent": re.compile(r"\btalent\.([a-z0-9_]+)"),
     "hero": re.compile(r"\bhero_tree\.([a-z0-9_]+)"),
 }

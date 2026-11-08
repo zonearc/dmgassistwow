@@ -200,361 +200,330 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
   blizzardExcluded = { "deathmark" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "rogue",
+  credit = "WoWSims (wowsims.com/forever)",
   gameMatch = {
-    matched = 12,
-    missing = { "deathmark", "kingsbane", "thistle_tea" },
-    total = 15,
+    matched = 19,
+    missing = { "spell_1259799", "spell_20572" },
+    total = 21,
   },
   heroTrees = {},
   key = "rogue_assassination",
   simc = {
-    cds = {
-      {
-        a = "deathmark",
-        c = "dot.garrote.ticking&dot.rupture.ticking&cooldown.kingsbane.remains<=2&buff.envenom.remains>2&(target.time_to_die>10|fight_remains<20)",
-        k = "T",
-      },
-      {
-        a = "invoke_external_buff",
-        c = "dot.deathmark.ticking",
-        k = "T",
-        p = {
-          name = "power_infusion",
-        },
-      },
-      {
-        a = "call_action_list",
-        k = "R",
-        p = {
-          name = "items",
-        },
-      },
-      {
-        a = "call_action_list",
-        k = "R",
-        p = {
-          name = "misc_cds",
-        },
-      },
-      {
-        a = "kingsbane",
-        c = "dot.garrote.ticking&dot.rupture.ticking&(dot.deathmark.ticking|cooldown.deathmark.remains>52)&buff.envenom.up&(target.time_to_die>10|fight_remains<20)",
-        k = "T",
-      },
-      {
-        a = "call_action_list",
-        c = "!stealthed.rogue",
-        k = "T",
-        p = {
-          name = "vanish",
-        },
-      },
-    },
-    core_dot = {
-      {
-        a = "garrote",
-        c = "(buff.improved_garrote.up|stealthed.rogue)&(pmultiplier<=1|remains<=14+6*talent.razor_wire+4*!variable.single_target)",
-        k = "T",
-      },
-      {
-        a = "garrote",
-        c = "combo_points.deficit>=1&(pmultiplier<=1|!variable.single_target)&refreshable&target.time_to_die-remains>12",
-        k = "T",
-      },
-      {
-        a = "garrote",
-        c = "!talent.crimson_tempest&combo_points.deficit>=1&(pmultiplier<=1|!variable.single_target)&refreshable&target.time_to_die-remains>12",
-        k = "T",
-        p = {
-          cycle_targets = "1",
-        },
-      },
-      {
-        a = "rupture",
-        c = "combo_points>=5&refreshable&target.time_to_die-remains>12&(!buff.darkest_night.up|!dot.rupture.ticking)",
-        k = "T",
-      },
-      {
-        a = "rupture",
-        c = "!talent.crimson_tempest&combo_points>=5&refreshable&target.time_to_die-remains>12&(!buff.darkest_night.up|!dot.rupture.ticking)",
-        k = "T",
-        p = {
-          cycle_targets = "1",
-        },
-      },
-    },
     default = {
       {
-        a = "stealth",
-        k = "R",
-      },
-      {
-        a = "kick",
-        k = "R",
-      },
-      {
-        a = "variable",
+        a = "call_action_list",
+        c = "variable.use_expose_armor",
         k = "R",
         p = {
-          name = "single_target",
-          value = "spell_targets.fan_of_knives=1",
+          name = "maintain_expose",
         },
-      },
-      {
-        a = "thistle_tea",
-        c = "energy.pct<30|fight_remains<10",
-        k = "T",
       },
       {
         a = "ambush",
-        c = "stealthed.rogue&variable.single_target&talent.blindside&talent.improved_ambush&!talent.shrouded_suffocation",
+        c = "(variable.use_vanish_for_damage&variable.use_ambush_opener&variable.current_points_less_than_5)",
+        k = "R",
+      },
+      {
+        a = "garrote",
+        c = "(!(variable.use_ambush_opener)&variable.use_vanish_for_damage&variable.current_points_less_than_5&!(dot.garrote.ticking))",
         k = "T",
       },
       {
-        a = "call_action_list",
-        c = "variable.single_target|!talent.scent_of_blood|buff.scent_of_blood.stack>=(2*talent.scent_of_blood.rank*spell_targets.fan_of_knives>?20)",
+        a = "vanish",
+        c = "(!(dot.garrote.ticking)&(energy>=action.garrote.cost)&!(variable.use_ambush_opener)&variable.use_vanish_for_damage&variable.current_points_less_than_5&!(variable.snd_fall_imminent)&(time>=1))",
         k = "T",
-        p = {
-          name = "cds",
-        },
+      },
+      {
+        a = "vanish",
+        c = "((energy>=action.ambush.cost)&variable.use_ambush_opener&variable.use_vanish_for_damage&variable.current_points_less_than_5&!(variable.snd_fall_imminent)&(time>=1))",
+        k = "T",
+      },
+      {
+        a = "preparation",
+        c = "(!(cooldown.vanish.ready))",
+        k = "R",
+      },
+      {
+        a = "spell_20572",
+        c = "(!(known.blade_flurry)|buff.blade_flurry.up)",
+        k = "U",
+      },
+      {
+        a = "spell_20572",
+        c = "(cooldown.blade_flurry.ready&known.spell_20572)",
+        k = "U",
       },
       {
         a = "call_action_list",
         k = "R",
         p = {
-          name = "core_dot",
+          name = "energy_pooling_checks",
         },
       },
       {
-        a = "call_action_list",
-        c = "!buff.darkest_night.up&combo_points<5|buff.darkest_night.up&combo_points.deficit>0",
-        k = "T",
-        p = {
-          name = "generate",
-        },
+        a = "shank",
+        c = "((variable.boot_knife_known&(combo_points<=3)&(energy<=80))|(!(variable.boot_knife_known)&(energy<=80)))",
+        k = "U",
       },
       {
-        a = "call_action_list",
-        c = "!buff.darkest_night.up&combo_points>=5|buff.darkest_night.up&combo_points.deficit=0",
-        k = "T",
-        p = {
-          name = "spend",
-        },
-      },
-    },
-    generate = {
-      {
-        a = "crimson_tempest",
-        c = "!variable.single_target&(active_dot.garrote<spell_targets.fan_of_knives|active_dot.rupture<spell_targets.fan_of_knives)&(dot.rupture.remains>5|energy.regen_combined>40)",
-        k = "T",
-        p = {
-          target_if = "max:dot.rupture.remains",
-        },
+        a = "adrenaline_rush",
+        c = "((energy<=50)&buff.slice_and_dice.up&!(known.spell_1259799)&!(known.spell_20572))",
+        k = "U",
       },
       {
-        a = "shiv",
-        c = "spell_targets.fan_of_knives<=1&talent.toxic_stiletto&talent.darkest_night",
-        k = "M",
+        a = "spell_20572",
+        c = "(cooldown.adrenaline_rush.ready&(known.spell_20572&cooldown.spell_20572.ready)&(known.spell_1259799&cooldown.spell_1259799.ready)&buff.slice_and_dice.up)",
+        k = "U",
       },
       {
-        a = "fan_of_knives",
-        c = "buff.darkest_night.up&combo_points.deficit=1&spell_targets.fan_of_knives<=1",
+        a = "spell_1259799",
+        c = "(cooldown.adrenaline_rush.ready&cooldown.spell_1259799.ready&buff.slice_and_dice.up)",
         k = "T",
       },
       {
-        a = "fan_of_knives",
-        c = "spell_targets.fan_of_knives>1+(talent.blindside&!talent.clear_the_witnesses)",
-        k = "M",
+        a = "spell_1259799",
+        c = "(cooldown.adrenaline_rush.remains>=114)",
+        k = "T",
       },
       {
-        a = "ambush",
-        c = "spell_targets.fan_of_knives<=1+(talent.blindside&!talent.clear_the_witnesses)",
-        k = "M",
+        a = "eureka",
+        c = "variable.gnome_eureka_should_cast",
+        k = "U",
+      },
+      {
+        a = "premeditation",
+        c = "(combo_points<=3)",
+        k = "R",
+      },
+      {
+        a = "death_mark",
+        c = "((combo_points>=4))",
+        k = "R",
+      },
+      {
+        a = "rupture",
+        c = "(((talentid.1329256>=1)|(talentid.16511>=1))&((combo_points>=3))&!(dot.rupture.ticking)&!(variable.fight_about_to_end)&!(variable.expose_prevent_other_finishers)&!((talentid.1310711>=1)))",
+        k = "U",
+      },
+      {
+        a = "slice_and_dice",
+        c = "(variable.at_or_below_snd_clipping_threshold&variable.above_snd_point_threshold&!(variable.fight_about_to_end)&!(variable.expose_prevent_other_finishers))",
+        k = "T",
+      },
+      {
+        a = "cold_blood",
+        c = "((combo_points=5)&!(variable.snd_fall_imminent)&(energy>=action.eviscerate.cost)&!(variable.expose_prevent_other_finishers)&!(buff.spell_1259799.up))",
+        k = "T",
+      },
+      {
+        a = "eviscerate",
+        c = "(((combo_points>=5)|((combo_points=4)&known.mutilate)|((combo_points>=4)&(buff.slice_and_dice.remains<=6)&!(variable.snd_fall_imminent))|((combo_points>=3)&variable.fight_about_to_end))&!(variable.expose_prevent_other_finishers)&!((talentid.1316709>=1)))",
+        k = "U",
+      },
+      {
+        a = "ghostly_strike",
+        c = "(variable.current_points_less_than_5&(!(wowsims.frontoftarget)|variable.dirty_deeds_known)&(dot.garrote.remains<=4))",
+        k = "U",
+      },
+      {
+        a = "hemorrhage",
+        c = "(variable.use_backstab&!(debuff.hemorrhage.up)&variable.current_points_less_than_5)",
+        k = "T",
+      },
+      {
+        a = "backstab",
+        c = "(!(buff.ghostly_strike.up)&variable.use_backstab&variable.current_points_less_than_5&(!(variable.snd_fall_imminent)|((energy>(action.slice_and_dice.cost+action.backstab.cost))&!(variable.snd_fall_imminent))|!(variable.above_snd_point_threshold)|variable.in_danger_of_energy_capping|variable.expose_low_duration)&variable.gnome_eureka_active_or_not_ready)",
+        k = "U",
       },
       {
         a = "mutilate",
-        c = "spell_targets.fan_of_knives<=1+(talent.blindside&!talent.clear_the_witnesses)",
-        k = "M",
+        c = "(variable.current_points_less_than_5&(!(variable.snd_fall_imminent)|((energy>(action.slice_and_dice.cost+action.mutilate.cost))&!(variable.snd_fall_imminent))|!(variable.above_snd_point_threshold)|variable.in_danger_of_energy_capping|variable.expose_low_duration)&variable.gnome_eureka_active_or_not_ready)",
+        k = "U",
       },
       {
-        a = "fan_of_knives",
-        c = "!(main_hand.dagger&off_hand.dagger)",
-        k = "R",
-      },
-    },
-    items = {
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "base_trinket_condition",
-          value = "dot.rupture.ticking&cooldown.deathmark.remains<2|dot.deathmark.ticking|fight_remains<=22",
-        },
+        a = "hemorrhage",
+        c = "(!(variable.use_backstab)&variable.current_points_less_than_5&(!(variable.snd_fall_imminent)|((energy>(action.slice_and_dice.cost+action.hemorrhage.cost))&!(variable.snd_fall_imminent))|!(variable.above_snd_point_threshold)|variable.in_danger_of_energy_capping|variable.expose_low_duration)&variable.gnome_eureka_active_or_not_ready&((dot.garrote.remains>=8)|!((talentid.14278>=1))))",
+        k = "U",
       },
       {
-        a = "use_item",
-        c = "dot.kingsbane.ticking|dot.deathmark.ticking|(cooldown.kingsbane.remains>60|cooldown.deathmark.remains>60)",
-        k = "T",
-        p = {
-          name = "astral_gladiators_badge_of_ferocity",
-          use_off_gcd = "1",
-        },
-      },
-      {
-        a = "use_item",
-        c = "variable.base_trinket_condition&buff.envenom.up&(target.time_to_die>10|fight_remains<20)",
-        k = "T",
-        p = {
-          name = "algethar_puzzle_box",
-          use_off_gcd = "1",
-        },
-      },
-      {
-        a = "use_item",
-        c = "buff.lingering_darkness.up|!dot.deathmark.ticking&!cooldown.deathmark.ready&cooldown.deathmark.remains>20",
-        k = "T",
-        p = {
-          name = "font_of_venomous_rage",
-          use_off_gcd = "1",
-        },
-      },
-      {
-        a = "use_items",
-        c = "(variable.trinket_sync_slot=1&(debuff.deathmark.up)|(variable.trinket_sync_slot=2&!trinket.2.cooldown.ready&cooldown.deathmark.remains>20))|!variable.trinket_sync_slot|fight_remains<=20",
-        k = "T",
-        p = {
-          slots = "trinket1",
-        },
-      },
-      {
-        a = "use_items",
-        c = "(variable.trinket_sync_slot=2&(debuff.deathmark.up)|(variable.trinket_sync_slot=1&!trinket.1.cooldown.ready&cooldown.deathmark.remains>20))|!variable.trinket_sync_slot|fight_remains<=20",
-        k = "T",
-        p = {
-          slots = "trinket2",
-        },
+        a = "sinister_strike",
+        c = "(!(known.mutilate)&!(known.hemorrhage)&!(variable.use_backstab)&variable.current_points_less_than_5&(!(variable.snd_fall_imminent)|((energy>(action.slice_and_dice.cost+action.sinister_strike.cost))&!(variable.snd_fall_imminent))|!(variable.above_snd_point_threshold)|variable.in_danger_of_energy_capping|variable.expose_low_duration)&variable.gnome_eureka_active_or_not_ready)",
+        k = "U",
       },
     },
-    misc_cds = {
+    energy_pooling_checks = {},
+    maintain_expose = {
       {
-        a = "potion",
-        c = "dot.rupture.ticking&(buff.bloodlust.react|fight_remains<30|debuff.deathmark.up)",
+        a = "expose_armor",
+        c = "variable.expose_should_cast_check",
         k = "T",
-      },
-      {
-        a = "blood_fury",
-        c = "debuff.deathmark.up",
-        k = "T",
-        p = {
-          use_off_gcd = "1",
-        },
-      },
-      {
-        a = "berserking",
-        c = "debuff.deathmark.up",
-        k = "T",
-        p = {
-          use_off_gcd = "1",
-        },
-      },
-      {
-        a = "fireblood",
-        c = "debuff.deathmark.up",
-        k = "T",
-        p = {
-          use_off_gcd = "1",
-        },
-      },
-      {
-        a = "ancestral_call",
-        c = "debuff.deathmark.up",
-        k = "T",
-        p = {
-          use_off_gcd = "1",
-        },
       },
     },
     precombat = {
       {
-        a = "apply_poison",
+        a = "variable",
         k = "R",
-      },
-      {
-        a = "snapshot_stats",
-        k = "R",
+        p = {
+          name = "start_in_stealth",
+          value = "0",
+        },
       },
       {
         a = "variable",
-        c = "trinket.1.has_use_buff&(!trinket.2.has_use_buff|trinket.1.cooldown.duration>=trinket.2.cooldown.duration)",
         k = "R",
         p = {
-          name = "trinket_sync_slot",
+          name = "use_backstab",
+          value = "0",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "use_expose_armor",
+          value = "0",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "use_vanish_for_damage",
           value = "1",
         },
       },
       {
         a = "variable",
-        c = "trinket.2.has_use_buff&(!trinket.1.has_use_buff|trinket.2.cooldown.duration>trinket.1.cooldown.duration)",
         k = "R",
         p = {
-          name = "trinket_sync_slot",
-          value = "2",
+          name = "use_ambush_opener",
+          value = "0",
         },
       },
       {
-        a = "stealth",
-        k = "R",
-      },
-      {
-        a = "slice_and_dice",
+        a = "variable",
         k = "R",
         p = {
-          precombat_seconds = "1",
+          name = "prio_slice_and_dice",
+          value = "0",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "current_points_less_than_5",
+          value = "(combo_points<5)",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "snd_fall_imminent",
+          value = "((buff.slice_and_dice.remains<=2)&variable.prio_slice_and_dice)",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "current_points_is_0",
+          value = "(combo_points=0)",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "above_snd_point_threshold",
+          value = "((combo_points>=1)|variable.prio_slice_and_dice)",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "at_or_below_snd_clipping_threshold",
+          value = "(buff.slice_and_dice.remains<=0)",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "in_danger_of_energy_capping",
+          value = "(energy>=75)",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "fight_about_to_end",
+          value = "(fight_remains<=6)",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "expose_low_duration",
+          value = "(variable.use_expose_armor&(!(debuff.expose_armor.up)|(debuff.expose_armor.remains<=16)))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "expose_should_cast_check",
+          value = "((combo_points=5)&variable.expose_low_duration)",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "expose_prevent_other_finishers",
+          value = "(variable.use_expose_armor&variable.expose_low_duration)",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "gnome_eureka_active_or_not_ready",
+          value = "(!(known.eureka)|buff.eureka.up|!(cooldown.eureka.ready)|(cooldown.eureka.ready&(cooldown.adrenaline_rush.remains<=cooldown.eureka.duration)))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "gnome_eureka_should_cast",
+          value = "(known.eureka&cooldown.eureka.ready&(!(known.adrenaline_rush)|buff.adrenaline_rush.up|(cooldown.adrenaline_rush.remains>cooldown.eureka.duration)|(fight_remains<cooldown.adrenaline_rush.remains)))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "boot_knife_known",
+          value = "((talentid.1329286>=5)|(talentid.1329286>=4)|(talentid.1329286>=3)|(talentid.1329286>=2)|(talentid.1329286>=1))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "dirty_deeds_known",
+          value = "(talentid.14082>=2)",
         },
       },
     },
-    spend = {
-      {
-        a = "envenom",
-        c = "buff.envenom.remains<=1|buff.deathmark.up",
-        k = "T",
-      },
-      {
-        a = "envenom",
-        c = "energy.pct>70|fight_remains<15",
-        k = "T",
-      },
-      {
-        a = "envenom",
-        c = "energy.pct>30&(target.time_to_die<12|spell_targets.fan_of_knives>=4)",
-        k = "T",
-      },
-    },
-    vanish = {
-      {
-        a = "vanish",
-        c = "variable.single_target&talent.improved_garrote&dot.garrote.pmultiplier<=1&(dot.deathmark.ticking|cooldown.deathmark.remains>target.time_to_die-10)&!raid_event.adds.in<=30",
-        k = "T",
-      },
-      {
-        a = "vanish",
-        c = "!variable.single_target&talent.improved_garrote&dot.garrote.pmultiplier<=1&(raid_event.adds.remains>=10|!raid_event.adds.in<=30)",
-        k = "T",
-      },
-    },
   },
-  simcOrder = {
-    "precombat",
-    "default",
-    "cds",
-    "core_dot",
-    "generate",
-    "items",
-    "misc_cds",
-    "spend",
-    "vanish",
-  },
-  simcSource = "simc",
+  simcOrder = { "precombat", "default", "maintain_expose", "energy_pooling_checks" },
+  simcSource = "wowsims",
   spec = "assassination",
   spellInfo = {
     [703] = {
@@ -566,6 +535,48 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "garrote",
+      r = 5,
+    },
+    [1329] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 2 },
+      gcd = 1,
+      n = "mutilate",
+      r = 5,
+    },
+    [1752] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
+      r = 5,
+    },
+    [1757] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
+      r = 5,
+    },
+    [1758] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
+      r = 5,
+    },
+    [1759] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
+      r = 5,
+    },
+    [1760] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
       r = 5,
     },
     [1766] = {
@@ -617,21 +628,11 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       n = "stealth",
     },
     [1856] = {
-      ap = {
-        { 11327, "self" },
-        { 18461, "self" },
-      },
       cd = 300,
-      cost = { [3] = 0 },
       n = "vanish",
     },
     [1857] = {
-      ap = {
-        { 11329, "self" },
-        { 18461, "self" },
-      },
       cd = 300,
-      cost = { [3] = 0 },
       n = "vanish",
     },
     [1943] = {
@@ -652,6 +653,20 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       n = "feint",
       r = 5,
     },
+    [2098] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "eviscerate",
+      r = 5,
+    },
+    [2591] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+      r = 5,
+    },
     [5171] = {
       ap = {
         { 5171, "self" },
@@ -667,9 +682,29 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
         { 5277, "self" },
       },
       cd = 300,
-      cost = { [3] = 0 },
       d = 15,
       n = "evasion",
+    },
+    [6760] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "eviscerate",
+      r = 5,
+    },
+    [6761] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "eviscerate",
+      r = 5,
+    },
+    [6762] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "eviscerate",
+      r = 5,
     },
     [6768] = {
       cd = 10,
@@ -687,6 +722,27 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       d = 6,
       gcd = 1,
       n = "slice_and_dice",
+    },
+    [8621] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
+      r = 5,
+    },
+    [8623] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "eviscerate",
+      r = 5,
+    },
+    [8624] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "eviscerate",
+      r = 5,
     },
     [8631] = {
       ap = {
@@ -750,11 +806,51 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       n = "rupture",
       r = 5,
     },
+    [8647] = {
+      ap = {
+        { 8647, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 30,
+      gcd = 1,
+      n = "expose_armor",
+      r = 5,
+    },
+    [8649] = {
+      ap = {
+        { 8649, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 30,
+      gcd = 1,
+      n = "expose_armor",
+      r = 5,
+    },
+    [8650] = {
+      ap = {
+        { 8650, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 30,
+      gcd = 1,
+      n = "expose_armor",
+      r = 5,
+    },
     [8676] = {
       cost = { [3] = 60 },
       gain = { [4] = 1 },
       gcd = 1,
       n = "ambush",
+      r = 5,
+    },
+    [8721] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
       r = 5,
     },
     [8724] = {
@@ -769,6 +865,28 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "ambush",
+      r = 5,
+    },
+    [11197] = {
+      ap = {
+        { 11197, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 30,
+      gcd = 1,
+      n = "expose_armor",
+      r = 5,
+    },
+    [11198] = {
+      ap = {
+        { 11198, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 30,
+      gcd = 1,
+      n = "expose_armor",
       r = 5,
     },
     [11267] = {
@@ -825,6 +943,27 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       n = "rupture",
       r = 5,
     },
+    [11279] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+      r = 5,
+    },
+    [11280] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+      r = 5,
+    },
+    [11281] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+      r = 5,
+    },
     [11289] = {
       ap = {
         { 11289, "enemy" },
@@ -847,6 +986,34 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       n = "garrote",
       r = 5,
     },
+    [11293] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
+      r = 5,
+    },
+    [11294] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "sinister_strike",
+      r = 5,
+    },
+    [11299] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "eviscerate",
+      r = 5,
+    },
+    [11300] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "eviscerate",
+      r = 5,
+    },
     [11303] = {
       cd = 10,
       cost = { [3] = 20 },
@@ -858,7 +1025,6 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       ap = {
         { 11327, "self" },
       },
-      cost = { [3] = 0 },
       d = 10,
       n = "vanish",
     },
@@ -866,27 +1032,164 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       ap = {
         { 11329, "self" },
       },
-      cost = { [3] = 0 },
       d = 10,
       n = "vanish",
     },
-    [14079] = {
-      n = "improved_ambush",
-      pas = true,
-      tal = true,
-    },
-    [18461] = {
+    [13750] = {
       ap = {
-        { 18461, "self" },
+        { 13750, "self" },
       },
-      d = 1,
-      n = "vanish_purge",
+      cd = 300,
+      d = 15,
+      gcd = 1,
+      n = "adrenaline_rush",
+    },
+    [13877] = {
+      ap = {
+        { 13877, "self" },
+      },
+      cd = 120,
+      cost = { [3] = 25 },
+      d = 15,
+      gcd = 1,
+      n = "blade_flurry",
+    },
+    [14162] = {
+      n = "coup_de_grace",
+      pas = true,
+    },
+    [14177] = {
+      cd = 180,
+      n = "cold_blood",
+    },
+    [14183] = {
+      ap = {
+        { 14183, "self" },
+      },
+      cd = 120,
+      d = 20,
+      gain = { [4] = 2 },
+      n = "premeditation",
+      r = 20,
+    },
+    [14185] = {
+      cd = 600,
+      gcd = 1,
+      n = "preparation",
+    },
+    [14278] = {
+      ap = {
+        { 14278, "self" },
+      },
+      cd = 20,
+      cost = { [3] = 40 },
+      d = 7,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ghostly_strike",
+      r = 5,
+    },
+    [14873] = {
+      n = "sinister_strike",
+      r = 5,
+    },
+    [14874] = {
+      ap = {
+        { 14874, "enemy" },
+      },
+      d = 10,
+      gcd = 1,
+      n = "rupture",
+      r = 5,
+    },
+    [14903] = {
+      ap = {
+        { 14903, "enemy" },
+      },
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 2,
+      gcd = 1,
+      n = "rupture",
+      r = 5,
+    },
+    [15087] = {
+      ap = {
+        { 15087, "self" },
+      },
+      d = 15,
+      n = "evasion",
+    },
+    [15581] = {
+      n = "sinister_strike",
+      r = 5,
+    },
+    [15583] = {
+      ap = {
+        { 15583, "enemy" },
+      },
+      d = 10,
+      gcd = 1,
+      n = "rupture",
+      r = 5,
+    },
+    [15667] = {
+      n = "sinister_strike",
+      r = 5,
+    },
+    [15691] = {
+      gcd = 1,
+      n = "eviscerate",
+      r = 5,
+    },
+    [15692] = {
+      gcd = 1,
+      n = "eviscerate",
+      r = 5,
+    },
+    [16511] = {
+      ap = {
+        { 16511, "enemy" },
+      },
+      cost = { [3] = 35 },
+      d = 15,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "hemorrhage",
+      r = 5,
+    },
+    [19472] = {
+      n = "sinister_strike",
+      r = 5,
+    },
+    [25300] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+      r = 5,
     },
     [25302] = {
       cd = 10,
       cost = { [3] = 20 },
       gcd = 1,
       n = "feint",
+      r = 5,
+    },
+    [27611] = {
+      gcd = 1,
+      n = "eviscerate",
+      r = 5,
+    },
+    [27617] = {
+      cd = 300,
+      n = "vanish",
+    },
+    [31016] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "eviscerate",
       r = 5,
     },
     [399956] = {
@@ -908,15 +1211,16 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       n = "envenom",
       pas = true,
     },
+    [409239] = {
+      n = "fan_of_knives",
+      r = 5,
+    },
     [409240] = {
       cost = { [3] = 50 },
       gcd = 1,
       n = "fan_of_knives",
     },
     [412096] = {
-      ap = {
-        { 412096, "enemy" },
-      },
       cmax = { [4] = 5 },
       cost = { [3] = 35, [4] = 1 },
       d = 2,
@@ -924,11 +1228,9 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       n = "crimson_tempest",
       r = 8,
     },
-    [424799] = {
-      cost = { [3] = 20 },
-      gcd = 1,
-      n = "shiv",
-      r = 5,
+    [415457] = {
+      n = "fan_of_knives",
+      pas = true,
     },
     [425012] = {
       cd = 6,
@@ -960,6 +1262,9 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       n = "crimson_tempest",
       pas = true,
     },
+    [450667] = {
+      n = "stealth",
+    },
     [457437] = {
       ap = {
         { 457437, "self" },
@@ -967,6 +1272,156 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       cd = 300,
       d = 10,
       n = "vanish",
+    },
+    [462712] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+      r = 5,
+    },
+    [462713] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+      r = 5,
+    },
+    [462714] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+      r = 5,
+    },
+    [462715] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+      r = 5,
+    },
+    [462716] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+      r = 5,
+    },
+    [462717] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "backstab",
+      r = 5,
+    },
+    [462718] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+      r = 5,
+    },
+    [462719] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+      r = 5,
+    },
+    [462720] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+      r = 5,
+    },
+    [462721] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+      r = 5,
+    },
+    [462722] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+      r = 5,
+    },
+    [462723] = {
+      cost = { [3] = 60 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "ambush",
+      r = 5,
+    },
+    [462724] = {
+      ap = {
+        { 462724, "enemy" },
+      },
+      cost = { [3] = 50 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "garrote",
+      r = 5,
+    },
+    [462726] = {
+      ap = {
+        { 462726, "enemy" },
+      },
+      cost = { [3] = 50 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "garrote",
+      r = 5,
+    },
+    [462727] = {
+      ap = {
+        { 462727, "enemy" },
+      },
+      cost = { [3] = 50 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "garrote",
+      r = 5,
+    },
+    [462728] = {
+      ap = {
+        { 462728, "enemy" },
+      },
+      cost = { [3] = 50 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "garrote",
+      r = 5,
+    },
+    [462729] = {
+      ap = {
+        { 462729, "enemy" },
+      },
+      cost = { [3] = 50 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "garrote",
+      r = 5,
+    },
+    [462730] = {
+      ap = {
+        { 462730, "enemy" },
+      },
+      cost = { [3] = 50 },
+      d = 18,
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "garrote",
+      r = 5,
     },
     [1241582] = {
       cost = { [3] = 60 },
@@ -982,6 +1437,65 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       n = "mutilate",
       r = 5,
     },
+    [1241585] = {
+      n = "mutilate",
+      r = 5,
+    },
+    [1241586] = {
+      n = "mutilate",
+      r = 5,
+    },
+    [1241588] = {
+      n = "mutilate",
+      r = 5,
+    },
+    [1241590] = {
+      n = "mutilate",
+      r = 5,
+    },
+    [1256867] = {
+      cd = 10,
+      n = "stealth",
+    },
+    [1259812] = {
+      ap = {
+        { 1259812, "self" },
+      },
+      cd = 120,
+      d = 8,
+      n = "eureka",
+    },
+    [1271514] = {
+      ap = {
+        { 1271514, "enemy" },
+      },
+      d = 10,
+      gcd = 1,
+      n = "rupture",
+      r = 5,
+    },
+    [1285372] = {
+      ap = {
+        { 1285372, "self" },
+      },
+      cd = 300,
+      d = 6,
+      n = "vanish",
+    },
+    [1287162] = {
+      n = "stealth",
+    },
+    [1290708] = {
+      ap = {
+        { 1290708, "self" },
+      },
+      d = 300,
+      n = "stealth",
+    },
+    [1310705] = {
+      n = "mutilate",
+      r = 5,
+    },
     [1310707] = {
       cost = { [3] = 60 },
       gain = { [4] = 2 },
@@ -994,68 +1508,317 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       n = "coup_de_grace",
       pas = true,
     },
+    [1316709] = {
+      ap = {
+        { 1316709, "enemy" },
+      },
+      cd = 10,
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "death_mark",
+      r = 20,
+    },
+    [1318151] = {
+      n = "stealth",
+    },
+    [1325756] = {
+      ap = {
+        { 1325756, "enemy" },
+      },
+      cd = 10,
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "death_mark",
+      r = 20,
+    },
+    [1325757] = {
+      ap = {
+        { 1325757, "enemy" },
+      },
+      cd = 10,
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "death_mark",
+      r = 20,
+    },
+    [1325758] = {
+      ap = {
+        { 1325758, "enemy" },
+      },
+      cd = 10,
+      cmax = { [4] = 5 },
+      cost = { [3] = 25, [4] = 1 },
+      d = 6,
+      gcd = 1,
+      n = "death_mark",
+      r = 20,
+    },
+    [1326175] = {
+      n = "stealth",
+    },
+    [1329283] = {
+      cd = 10,
+      cost = { [3] = 5 },
+      gain = { [3] = 15 },
+      gcd = 1,
+      n = "shank",
+      r = 5,
+    },
+    [1329326] = {
+      d = 7,
+      n = "ghostly_strike",
+    },
+    [1329549] = {
+      cd = 10,
+      cost = { [3] = 5 },
+      gain = { [3] = 25 },
+      gcd = 1,
+      n = "shank",
+      r = 5,
+    },
   },
   spells = {
+    adrenaline_rush = {
+      a = { 13750 },
+      b = { 13750 },
+    },
     ambush = {
-      a = { 8676, 8724, 8725, 11267, 11268, 11269 },
+      a = {
+        11269,
+        462723,
+        11268,
+        462722,
+        11267,
+        462721,
+        8725,
+        462720,
+        8724,
+        462719,
+        8676,
+        462718,
+      },
+    },
+    backstab = {
+      a = {
+        25300,
+        462717,
+        11281,
+        462716,
+        11280,
+        462715,
+        11279,
+        462714,
+        8721,
+        462713,
+        2591,
+        462712,
+      },
+    },
+    blade_flurry = {
+      a = { 13877 },
+      b = { 13877 },
+    },
+    cold_blood = {
+      a = { 14177 },
     },
     coup_de_grace = {
-      a = { 1310709 },
+      a = { 14162, 1310709 },
     },
     crimson_tempest = {
       a = { 412096, 436611 },
-      t = { 436611 },
+    },
+    death_mark = {
+      a = { 1325758, 1325757, 1325756, 1316709 },
     },
     envenom = {
       a = { 399968 },
-      b = { 399968 },
+    },
+    eureka = {
+      a = { 1259812 },
+      b = { 1259812 },
     },
     evasion = {
-      a = { 5277 },
+      a = { 5277, 15087 },
+    },
+    eviscerate = {
+      a = {
+        31016,
+        11300,
+        11299,
+        8624,
+        8623,
+        6762,
+        6761,
+        6760,
+        2098,
+        15691,
+        15692,
+        27611,
+      },
+    },
+    expose_armor = {
+      a = { 11198, 11197, 8650, 8649, 8647 },
+      b = { 11198, 11197, 8650, 8649, 8647 },
     },
     fan_of_knives = {
-      a = { 409240, 436608 },
+      a = { 409240, 409239, 415457, 436608 },
     },
     feint = {
-      a = { 1966, 6768, 8637, 11303, 25302 },
+      a = { 25302, 11303, 8637, 6768, 1966 },
     },
     garrote = {
-      a = { 703, 8631, 8632, 8633, 11289, 11290 },
-      b = { 703, 8631, 8632, 8633, 11289, 11290 },
+      a = {
+        11290,
+        462730,
+        11289,
+        462729,
+        8633,
+        462728,
+        8632,
+        462727,
+        8631,
+        462726,
+        703,
+        462724,
+      },
+      b = {
+        11290,
+        462730,
+        11289,
+        462729,
+        8633,
+        462728,
+        8632,
+        462727,
+        8631,
+        462726,
+        703,
+        462724,
+      },
     },
-    improved_ambush = {
-      t = { 14079 },
+    ghostly_strike = {
+      a = { 14278, 1329326 },
+      b = { 14278, 1329326 },
+    },
+    hemorrhage = {
+      a = { 16511 },
+      b = { 16511 },
     },
     kick = {
-      a = { 1766, 1767, 1768, 1769 },
+      a = { 1769, 1768, 1767, 1766 },
     },
     mutilate = {
-      a = { 399956, 1241582, 1241584, 1310707, 399960, 399961 },
+      a = {
+        1241584,
+        1241582,
+        1329,
+        399956,
+        1310707,
+        1241586,
+        1241590,
+        1241585,
+        1241588,
+        399960,
+        399961,
+        1310705,
+      },
     },
     poisoned_knife = {
       a = { 425012, 425013, 425100 },
+    },
+    premeditation = {
+      a = { 14183 },
+    },
+    preparation = {
+      a = { 14185 },
     },
     rebuke = {
       a = { 425609 },
     },
     rupture = {
-      a = { 1943, 8639, 8640, 11273, 11274, 11275 },
-      b = { 1943, 8639, 8640, 11273, 11274, 11275 },
+      a = {
+        11275,
+        11274,
+        11273,
+        8640,
+        8639,
+        1943,
+        14874,
+        14903,
+        15583,
+        1271514,
+      },
+      b = {
+        11275,
+        11274,
+        11273,
+        8640,
+        8639,
+        1943,
+        14874,
+        14903,
+        15583,
+        1271514,
+      },
     },
-    shiv = {
-      a = { 424799 },
+    shank = {
+      a = { 1329549, 1329283 },
+    },
+    sinister_strike = {
+      a = {
+        11294,
+        11293,
+        8621,
+        1760,
+        1759,
+        1758,
+        1757,
+        1752,
+        14873,
+        15581,
+        15667,
+        19472,
+      },
     },
     slice_and_dice = {
-      a = { 5171, 6774 },
-      b = { 5171, 6774 },
+      a = { 6774, 5171 },
+      b = { 6774, 5171 },
     },
     stealth = {
-      a = { 1784, 1785, 1786, 1787 },
-      b = { 1784, 1785, 1786, 1787 },
+      a = {
+        1787,
+        1786,
+        1785,
+        1784,
+        1256867,
+        450667,
+        1290708,
+        1287162,
+        1318151,
+        1326175,
+      },
+      b = {
+        1290708,
+        1787,
+        1786,
+        1785,
+        1784,
+        450667,
+        1256867,
+        1287162,
+        1318151,
+        1326175,
+      },
     },
     vanish = {
-      a = { 1856, 1857, 11327, 11329, 457437 },
-      b = { 11327, 11329, 457437, 1856, 1857 },
+      a = { 1285372, 1857, 27617, 1856, 457437, 11329, 11327 },
+      b = { 1285372, 11329, 11327, 457437, 1857, 27617, 1856 },
     },
   },
 })

@@ -106,7 +106,7 @@ end
 -- Is the spell castable (now, or at the look-ahead moment)? true / false / UNKNOWN.
 -- Cast time right now in seconds (live from the game when readable, else SimC's data), for the movement check.
 local function CastTime(id)
-  local info = U.Read(U.Call(C_Spell and C_Spell.GetSpellInfo, id))
+  local info = U.Get(C_Spell and C_Spell.GetSpellInfo, id)
   local ms = type(info) == "table" and U.Read(info.castTime)
   if type(ms) == "number" then
     return ms / 1000
@@ -359,11 +359,11 @@ local function Decide(record, opts, targets, first)
   end
   run.bounds = S.Bounds
   if first and opts.useAssisted then
-    local ac = U.Read(U.Call(C_AssistedCombat and C_AssistedCombat.GetNextCastSpell, false))
+    local ac = U.Get(C_AssistedCombat and C_AssistedCombat.GetNextCastSpell, false)
     if type(ac) == "number" then
       run.acSpell = ac
       setmetatable(run.override, { __index = function(t, id)
-        local o = U.Read(U.Call(C_Spell and C_Spell.GetOverrideSpell, id))
+        local o = U.Get(C_Spell and C_Spell.GetOverrideSpell, id)
         t[id] = o or false
         return t[id]
       end })

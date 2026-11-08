@@ -854,6 +854,9 @@ ns.RegisterSpecData("midnight", "mage_frost", {
     [228596] = {
       n = "flurry",
     },
+    [228597] = {
+      n = "frostbolt",
+    },
     [228598] = {
       gcd = 1.5,
       n = "ice_lance",
@@ -1002,6 +1005,9 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       pas = true,
       tal = true,
     },
+    [1219545] = {
+      n = "alter_time",
+    },
     [1221389] = {
       ap = {
         { 1221389, "enemy" },
@@ -1055,6 +1061,11 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       n = "thermal_void",
       st = 1,
     },
+    [1247777] = {
+      n = "comet_storm",
+      pas = true,
+      tal = true,
+    },
     [1247778] = {
       n = "comet_storm",
     },
@@ -1066,6 +1077,14 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       n = "blizzard",
       r = 40,
       tal = true,
+    },
+    [1262860] = {
+      ct = 2.75,
+      n = "glacial_spike",
+      r = 40,
+    },
+    [1262862] = {
+      n = "glacial_spike",
     },
     [1265927] = {
       n = "blazing_barrier",
@@ -1080,7 +1099,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
   },
   spells = {
     alter_time = {
-      a = { 108978, 342245, 110909, 127140, 342246, 342247 },
+      a = { 108978, 342245, 110909, 127140, 342246, 342247, 1219545 },
     },
     arcane_intellect = {
       a = { 1459 },
@@ -1096,8 +1115,8 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       b = { 190446, 190447 },
     },
     comet_storm = {
-      a = { 153595, 153596, 228601, 285126, 438609, 1247778 },
-      b = { 153595, 153596, 228601, 285126, 438609, 1247778 },
+      a = { 153595, 153596, 228601, 285126, 438609, 1247778, 1247777 },
+      b = { 153595, 153596, 228601, 285126, 438609, 1247778, 1247777 },
     },
     cone_of_cold = {
       a = { 120 },
@@ -1131,7 +1150,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       t = { 1216953, 327364 },
     },
     frostbolt = {
-      a = { 116, 13439, 96089, 144251, 59638, 222320 },
+      a = { 116, 13439, 96089, 144251, 59638, 222320, 228597 },
     },
     frostfire_bolt = {
       t = { 431044 },
@@ -1144,8 +1163,28 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       a = { 84714, 84721, 250440, 289308 },
     },
     glacial_spike = {
-      a = { 199786, 1236209, 199844, 228600, 1222865, 1236211 },
-      b = { 199844, 214325, 1222865, 199786, 228600, 1236209 },
+      a = {
+        199786,
+        1236209,
+        199844,
+        228600,
+        1222865,
+        1236211,
+        1262860,
+        1262862,
+        214325,
+      },
+      b = {
+        199844,
+        214325,
+        1222865,
+        199786,
+        228600,
+        1236209,
+        1236211,
+        1262860,
+        1262862,
+      },
     },
     ice_barrier = {
       a = { 11426 },

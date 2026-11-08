@@ -166,403 +166,264 @@ ns.RegisterSpecData("forever", "warrior_protection", {
   blizzardExcluded = { "avatar", "shield_charge" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "warrior",
+  credit = "WoWSims (wowsims.com/forever)",
   gameMatch = {
-    matched = 10,
-    missing = {
-      "avatar",
-      "champions_leap",
-      "champions_spear",
-      "demolish",
-      "ignore_pain",
-      "ravager",
-      "shattering_throw",
-      "shield_charge",
-      "thunder_blast",
-      "wrecking_throw",
-    },
-    total = 20,
+    matched = 22,
+    missing = { "spell_1259799", "spell_12723", "spell_1299026", "spell_20554", "spell_20572", "spell_20594" },
+    total = 28,
   },
   heroTrees = {},
   key = "warrior_protection",
   simc = {
-    colossus_aoe = {
+    cd_offensive_trinkets = {},
+    cd_racials = {
       {
-        a = "thunder_clap",
-        c = "buff.ravager.up&!dot.rend_dot.ticking",
-        k = "T",
-      },
-      {
-        a = "revenge",
-        c = "buff.revenge.up",
-        k = "T",
-      },
-      {
-        a = "shield_slam",
-        c = "buff.phalanx.up&(buff.violent_outburst.up|rage<30)",
-        k = "T",
-      },
-      {
-        a = "thunder_clap",
-        c = "rage<30",
-        k = "T",
-      },
-      {
-        a = "revenge",
-        c = "spell_targets.revenge>=3",
-        k = "M",
-      },
-      {
-        a = "shield_slam",
+        a = "spell_20572",
         k = "R",
       },
       {
-        a = "thunder_clap",
+        a = "spell_20554",
         k = "R",
       },
       {
-        a = "revenge",
-        c = "rage>=30",
-        k = "T",
+        a = "eureka",
+        k = "R",
       },
       {
-        a = "execute",
-        c = "spell_targets.execute>=2&(rage>=50|buff.sudden_death.up)&talent.heavy_handed.enabled",
-        k = "T",
+        a = "spell_1259799",
+        k = "R",
       },
     },
-    colossus_st = {
+    cd_shield_wall_dual_wield = {
       {
-        a = "shield_slam",
-        k = "R",
-      },
-      {
-        a = "thunder_clap",
-        c = "!buff.phalanx.up",
-        k = "T",
-      },
-      {
-        a = "execute",
-        k = "R",
-      },
-      {
-        a = "revenge",
-        c = "buff.revenge.up",
-        k = "T",
-      },
-      {
-        a = "thunder_clap",
-        k = "R",
-      },
-      {
-        a = "revenge",
-        k = "R",
-      },
-      {
-        a = "thunder_clap",
-        c = "(spell_targets.thunder_clap>=1|cooldown.shield_slam.remains)&hero_tree.mountain_thane&rage<=80",
-        k = "T",
-      },
-      {
-        a = "revenge",
-        c = "rage>=80&!variable.execute_phase|buff.revenge.up&variable.execute_phase&rage<=18&cooldown.shield_slam.remains|buff.revenge.up&!variable.execute_phase",
+        a = "shield_wall",
+        c = "(!(variable.shield_equipped)&!(variable.defensive_cooldown_active)&(health.pct<=35)&cooldown.shield_wall.ready)",
         k = "U",
-      },
-      {
-        a = "wrecking_throw",
-        c = "talent.javelineer.enabled",
-        k = "R",
-      },
-      {
-        a = "shattering_throw",
-        c = "talent.javelineer.enabled",
-        k = "R",
-      },
-      {
-        a = "devastate",
-        k = "R",
-      },
-      {
-        a = "thunder_clap",
-        c = "!buff.phalanx.up",
-        k = "T",
       },
     },
     default = {
       {
-        a = "auto_attack",
+        a = "call_action_list",
+        k = "R",
+        p = {
+          name = "engineering",
+        },
+      },
+      {
+        a = "call_action_list",
+        k = "R",
+        p = {
+          name = "cd_offensive_trinkets",
+        },
+      },
+      {
+        a = "last_stand",
+        c = "(!(variable.defensive_cooldown_active)&(health.pct<=40))",
+        k = "U",
+      },
+      {
+        a = "call_action_list",
+        k = "R",
+        p = {
+          name = "cd_shield_wall_dual_wield",
+        },
+      },
+      {
+        a = "shield_wall",
+        c = "((health.pct<=35)&!(variable.defensive_cooldown_active))",
+        k = "U",
+      },
+      {
+        a = "spell_20594",
+        c = "(!(variable.defensive_cooldown_active)&(health.pct<=50))",
+        k = "U",
+      },
+      {
+        a = "spell_1299026",
+        c = "(!(variable.defensive_cooldown_active)&(health.pct<=50))",
+        k = "U",
+      },
+      {
+        a = "reckless_swings",
+        k = "R",
+      },
+      {
+        a = "death_wish",
         k = "R",
       },
       {
         a = "call_action_list",
         k = "R",
         p = {
-          name = "variables",
+          name = "cd_racials",
         },
-      },
-      {
-        a = "charge",
-        c = "time=0",
-        k = "R",
-      },
-      {
-        a = "use_item",
-        c = "buff.inner_resilience.up",
-        k = "T",
-        p = {
-          name = "tome_of_lights_devotion",
-        },
-      },
-      {
-        a = "use_items",
-        k = "R",
-      },
-      {
-        a = "avatar",
-        c = "buff.thunder_blast.down|buff.thunder_blast.stack<=2",
-        k = "T",
-      },
-      {
-        a = "shield_wall",
-        k = "R",
-      },
-      {
-        a = "blood_fury",
-        k = "R",
-      },
-      {
-        a = "berserking",
-        k = "R",
-      },
-      {
-        a = "arcane_torrent",
-        k = "R",
-      },
-      {
-        a = "lights_judgment",
-        k = "R",
-      },
-      {
-        a = "fireblood",
-        k = "R",
-      },
-      {
-        a = "ancestral_call",
-        k = "R",
-      },
-      {
-        a = "bag_of_tricks",
-        k = "R",
-      },
-      {
-        a = "potion",
-        c = "buff.avatar.up|buff.avatar.up&target.health.pct<=20",
-        k = "U",
-      },
-      {
-        a = "ignore_pain",
-        c = "target.health.pct>=20&(rage.deficit<=15&cooldown.shield_slam.ready|rage.deficit<=20&cooldown.shield_charge.ready|rage.deficit<=20&cooldown.demoralizing_shout.ready&talent.booming_voice.enabled|rage.deficit<=15|rage.deficit<=40&cooldown.shield_slam.ready&buff.violent_outburst.up&talent.heavy_repercussions.enabled&talent.practiced_strikes.enabled|rage.deficit<=17&cooldown.shield_slam.ready&talent.heavy_repercussions.enabled|rage.deficit<=18&cooldown.shield_slam.ready&talent.practiced_strikes.enabled)|(rage>=70|buff.seeing_red.stack=7&rage>=35)&cooldown.shield_slam.remains<=1&buff.shield_block.remains",
-        k = "U",
-        p = {
-          use_off_gcd = "1",
-        },
-      },
-      {
-        a = "ravager",
-        k = "R",
-      },
-      {
-        a = "thunder_blast",
-        c = "talent.booming_voice.enabled&buff.thunder_blast.stack=2&talent.snap_induction.enabled",
-        k = "T",
-      },
-      {
-        a = "demoralizing_shout",
-        c = "talent.booming_voice.enabled",
-        k = "R",
-      },
-      {
-        a = "champions_leap",
-        k = "R",
-      },
-      {
-        a = "champions_spear",
-        k = "R",
-      },
-      {
-        a = "thunder_blast",
-        c = "spell_targets.thunder_blast>=2&buff.thunder_blast.stack=2",
-        k = "T",
-      },
-      {
-        a = "demolish",
-        c = "buff.colossal_might.stack>=3",
-        k = "T",
-      },
-      {
-        a = "shield_charge",
-        k = "R",
       },
       {
         a = "shield_block",
-        c = "buff.shield_block.remains<=10",
+        c = "((rage>=40)|(buff.revenge.down&(cooldown.revenge.remains<=1.5)))",
         k = "T",
       },
       {
-        a = "run_action_list",
-        c = "hero_tree.colossus&spell_targets.thunder_clap>=3",
+        a = "spell_12723",
+        c = "((active_enemies>1))",
         k = "M",
-        p = {
-          name = "colossus_aoe",
-        },
       },
       {
-        a = "run_action_list",
-        c = "hero_tree.mountain_thane&spell_targets.thunder_clap>=3",
+        a = "thunder_clap",
+        c = "((active_enemies>2))",
         k = "M",
-        p = {
-          name = "thane_aoe",
-        },
       },
       {
-        a = "run_action_list",
-        c = "talent.demolish",
+        a = "revenge",
         k = "R",
-        p = {
-          name = "colossus_st",
-        },
       },
       {
-        a = "run_action_list",
-        c = "talent.lightning_strikes",
+        a = "shield_slam",
         k = "R",
-        p = {
-          name = "thane_st",
-        },
+      },
+      {
+        a = "bloodthirst",
+        k = "R",
+      },
+      {
+        a = "mortal_strike",
+        k = "R",
+      },
+      {
+        a = "thunder_clap",
+        c = "((active_enemies>1))",
+        k = "M",
+      },
+      {
+        a = "demoralizing_shout",
+        c = "((debuff.demoralizing_shout.remains<=6))",
+        k = "T",
+      },
+      {
+        a = "thunder_clap",
+        c = "(debuff.spell_27648.down&(debuff.thunder_clap.remains<=6))",
+        k = "T",
+      },
+      {
+        a = "battle_shout",
+        c = "(!(known.battle_shout)&!(known.battle_shout)&(buff.battle_shout.remains<=10))",
+        k = "U",
+      },
+      {
+        a = "rend",
+        c = "(debuff.rend.down&((!(variable.shield_equipped))|(variable.shield_equipped&variable.delay_check)))",
+        k = "U",
+      },
+      {
+        a = "sunder_armor",
+        c = "((debuff.sunder_armor.stack<5)|(variable.delay_check&(debuff.sunder_armor.remains<=10)))",
+        k = "T",
+      },
+      {
+        a = "heroic_strike",
+        c = "((active_enemies=1)&(rage>=20))",
+        k = "T",
+      },
+      {
+        a = "cleave",
+        c = "((active_enemies>1)&(rage>=40))",
+        k = "T",
+      },
+      {
+        a = "bloodrage",
+        c = "(rage<90)",
+        k = "T",
+      },
+      {
+        a = "recklessness",
+        c = "0",
+        k = "R",
+      },
+      {
+        a = "retaliation",
+        c = "0",
+        k = "R",
+      },
+    },
+    engineering = {},
+    execute = {
+      {
+        a = "berserker_stance",
+        c = "(target.health.pct<20)",
+        k = "U",
+      },
+      {
+        a = "recklessness",
+        c = "(target.health.pct<20)",
+        k = "U",
+      },
+      {
+        a = "execute",
+        c = "(target.health.pct<20)",
+        k = "U",
       },
     },
     precombat = {
       {
-        a = "snapshot_stats",
-        k = "R",
-      },
-      {
-        a = "battle_stance",
+        a = "variable",
         k = "R",
         p = {
-          toggle = "on",
+          name = "delay_check",
+          value = "((cooldown.shield_slam.remains>=1.5))",
         },
       },
-      {
-        a = "use_item",
-        k = "R",
-        p = {
-          name = "algethar_puzzle_box",
-        },
-      },
-    },
-    thane_aoe = {
-      {
-        a = "thunder_blast",
-        k = "R",
-      },
-      {
-        a = "shield_slam",
-        c = "buff.phalanx.up",
-        k = "T",
-      },
-      {
-        a = "thunder_clap",
-        k = "R",
-      },
-      {
-        a = "revenge",
-        c = "buff.revenge.up",
-        k = "T",
-      },
-      {
-        a = "shield_slam",
-        k = "R",
-      },
-      {
-        a = "revenge",
-        k = "R",
-      },
-      {
-        a = "execute",
-        c = "spell_targets.execute=3&(rage>=50|buff.sudden_death.up)&talent.heavy_handed.enabled",
-        k = "T",
-      },
-    },
-    thane_st = {
-      {
-        a = "thunder_blast",
-        k = "R",
-      },
-      {
-        a = "shield_slam",
-        k = "R",
-      },
-      {
-        a = "execute",
-        k = "R",
-      },
-      {
-        a = "revenge",
-        c = "buff.revenge.up",
-        k = "T",
-      },
-      {
-        a = "thunder_clap",
-        k = "R",
-      },
-      {
-        a = "thunder_blast",
-        c = "(spell_targets.thunder_clap>=1|cooldown.shield_slam.remains)",
-        k = "T",
-      },
-      {
-        a = "wrecking_throw",
-        c = "talent.javelineer.enabled",
-        k = "R",
-      },
-      {
-        a = "shattering_throw",
-        c = "talent.javelineer.enabled",
-        k = "R",
-      },
-      {
-        a = "revenge",
-        k = "R",
-      },
-      {
-        a = "devastate",
-        k = "R",
-      },
-    },
-    variables = {
       {
         a = "variable",
         k = "R",
         p = {
-          name = "execute_phase",
-          value = "(talent.massacre.enabled&target.health.pct<35)|target.health.pct<20",
+          name = "shield_equipped",
+          value = "(wowsims.autoswingtime=0)",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "defensive_cooldown_active",
+          value = "(buff.last_stand.up|buff.shield_wall.up|1)",
         },
       },
     },
+    recklessness_onoff = {},
   },
-  simcOrder = { "precombat", "default", "colossus_aoe", "colossus_st", "thane_aoe", "thane_st", "variables" },
-  simcSource = "simc",
+  simcOrder = {
+    "precombat",
+    "default",
+    "recklessness_onoff",
+    "engineering",
+    "cd_offensive_trinkets",
+    "cd_racials",
+    "execute",
+    "cd_shield_wall_dual_wield",
+  },
+  simcSource = "wowsims",
   spec = "protection",
   spellInfo = {
+    [78] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
+    },
     [100] = {
-      ap = {
-        { 7922, "enemy" },
-      },
       cd = 15,
-      cost = { [1] = 0 },
       gain = { [1] = 90 },
       n = "charge",
       r = 25,
+    },
+    [284] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
+    },
+    [285] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
     },
     [772] = {
       ap = {
@@ -574,29 +435,47 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       n = "rend",
       r = 5,
     },
+    [845] = {
+      cost = { [1] = 20 },
+      n = "cleave",
+      r = 5,
+    },
     [871] = {
       ap = {
         { 871, "self" },
       },
       cd = 900,
-      cost = { [1] = 0 },
       d = 12,
       gcd = 1.5,
       n = "shield_wall",
     },
     [1160] = {
-      ap = {
-        { 1160, "enemy" },
-      },
       cost = { [1] = 10 },
       d = 45,
       gcd = 1.5,
       n = "demoralizing_shout",
     },
+    [1608] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
+    },
+    [1719] = {
+      ap = {
+        { 1719, "self" },
+      },
+      cd = 1800,
+      d = 15,
+      gcd = 1.5,
+      n = "recklessness",
+    },
     [2457] = {
       cd = 1,
-      cost = { [1] = 0 },
       n = "battle_stance",
+    },
+    [2458] = {
+      cd = 1,
+      n = "berserker_stance",
     },
     [2565] = {
       ap = {
@@ -606,7 +485,11 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       cost = { [1] = 10 },
       d = 7,
       n = "shield_block",
-      st = 2,
+    },
+    [2687] = {
+      cd = 60,
+      gain = { [1] = 100 },
+      n = "bloodrage",
     },
     [5242] = {
       cost = { [1] = 10 },
@@ -615,28 +498,18 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       n = "battle_shout",
     },
     [5308] = {
-      ap = {
-        { 26651, "self" },
-      },
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
       r = 5,
     },
     [6178] = {
-      ap = {
-        { 7922, "enemy" },
-      },
       cd = 15,
-      cost = { [1] = 0 },
       gain = { [1] = 120 },
       n = "charge",
       r = 25,
     },
     [6190] = {
-      ap = {
-        { 6190, "enemy" },
-      },
       cost = { [1] = 10 },
       d = 45,
       gcd = 1.5,
@@ -649,9 +522,6 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       n = "battle_shout",
     },
     [6343] = {
-      ap = {
-        { 6343, "enemy" },
-      },
       cd = 6,
       cost = { [1] = 20 },
       d = 10,
@@ -724,6 +594,11 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       gcd = 1.5,
       n = "battle_shout",
     },
+    [7369] = {
+      cost = { [1] = 20 },
+      n = "cleave",
+      r = 5,
+    },
     [7379] = {
       cd = 5,
       cost = { [1] = 5 },
@@ -731,19 +606,29 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       n = "revenge",
       r = 5,
     },
-    [7922] = {
+    [7386] = {
       ap = {
-        { 7922, "enemy" },
+        { 7386, "enemy" },
       },
-      cost = { [1] = 0 },
-      d = 1,
-      n = "charge_stun",
-      r = 25,
+      cost = { [1] = 15 },
+      d = 30,
+      gcd = 1.5,
+      n = "sunder_armor",
+      r = 5,
+      st = 5,
+    },
+    [7405] = {
+      ap = {
+        { 7405, "enemy" },
+      },
+      cost = { [1] = 15 },
+      d = 30,
+      gcd = 1.5,
+      n = "sunder_armor",
+      r = 5,
+      st = 5,
     },
     [8198] = {
-      ap = {
-        { 8198, "enemy" },
-      },
       cd = 6,
       cost = { [1] = 20 },
       d = 14,
@@ -751,9 +636,6 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       n = "thunder_clap",
     },
     [8204] = {
-      ap = {
-        { 8204, "enemy" },
-      },
       cd = 6,
       cost = { [1] = 20 },
       d = 18,
@@ -761,14 +643,22 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       n = "thunder_clap",
     },
     [8205] = {
-      ap = {
-        { 8205, "enemy" },
-      },
       cd = 6,
       cost = { [1] = 20 },
       d = 22,
       gcd = 1.5,
       n = "thunder_clap",
+    },
+    [8380] = {
+      ap = {
+        { 8380, "enemy" },
+      },
+      cost = { [1] = 15 },
+      d = 30,
+      gcd = 1.5,
+      n = "sunder_armor",
+      r = 5,
+      st = 5,
     },
     [11549] = {
       cost = { [1] = 10 },
@@ -789,31 +679,42 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       n = "battle_shout",
     },
     [11554] = {
-      ap = {
-        { 11554, "enemy" },
-      },
       cost = { [1] = 10 },
       d = 45,
       gcd = 1.5,
       n = "demoralizing_shout",
     },
     [11555] = {
-      ap = {
-        { 11555, "enemy" },
-      },
       cost = { [1] = 10 },
       d = 45,
       gcd = 1.5,
       n = "demoralizing_shout",
     },
     [11556] = {
-      ap = {
-        { 11556, "enemy" },
-      },
       cost = { [1] = 10 },
       d = 45,
       gcd = 1.5,
       n = "demoralizing_shout",
+    },
+    [11564] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
+    },
+    [11565] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
+    },
+    [11566] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
+    },
+    [11567] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
     },
     [11572] = {
       ap = {
@@ -835,20 +736,23 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       n = "rend",
       r = 5,
     },
-    [11578] = {
+    [11574] = {
       ap = {
-        { 7922, "enemy" },
+        { 11574, "enemy" },
       },
+      cost = { [1] = 10 },
+      d = 21,
+      gcd = 1.5,
+      n = "rend",
+      r = 5,
+    },
+    [11578] = {
       cd = 15,
-      cost = { [1] = 0 },
       gain = { [1] = 150 },
       n = "charge",
       r = 25,
     },
     [11580] = {
-      ap = {
-        { 11580, "enemy" },
-      },
       cd = 6,
       cost = { [1] = 20 },
       d = 26,
@@ -856,14 +760,33 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       n = "thunder_clap",
     },
     [11581] = {
-      ap = {
-        { 11581, "enemy" },
-      },
       cd = 6,
       cost = { [1] = 20 },
       d = 30,
       gcd = 1.5,
       n = "thunder_clap",
+    },
+    [11596] = {
+      ap = {
+        { 11596, "enemy" },
+      },
+      cost = { [1] = 15 },
+      d = 30,
+      gcd = 1.5,
+      n = "sunder_armor",
+      r = 5,
+      st = 5,
+    },
+    [11597] = {
+      ap = {
+        { 11597, "enemy" },
+      },
+      cost = { [1] = 15 },
+      d = 30,
+      gcd = 1.5,
+      n = "sunder_armor",
+      r = 5,
+      st = 5,
     },
     [11600] = {
       cd = 5,
@@ -879,15 +802,49 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       n = "revenge",
       r = 5,
     },
+    [11608] = {
+      cost = { [1] = 20 },
+      n = "cleave",
+      r = 5,
+    },
+    [11609] = {
+      cost = { [1] = 20 },
+      n = "cleave",
+      r = 5,
+    },
+    [12294] = {
+      ap = {
+        { 12294, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 30 },
+      d = 10,
+      gcd = 1.5,
+      n = "mortal_strike",
+      r = 5,
+    },
     [12321] = {
       n = "booming_voice",
       pas = true,
-      tal = true,
+    },
+    [12328] = {
+      ap = {
+        { 12328, "self" },
+      },
+      cd = 180,
+      cost = { [1] = 10 },
+      d = 30,
+      gcd = 1.5,
+      n = "death_wish",
+    },
+    [12555] = {
+      d = 5,
+      n = "pummel",
+      r = 5,
     },
     [12975] = {
       cd = 180,
       n = "last_stand",
-      tal = true,
     },
     [12976] = {
       ap = {
@@ -896,44 +853,205 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       d = 20,
       n = "last_stand",
     },
+    [13730] = {
+      d = 30,
+      gcd = 1.5,
+      n = "demoralizing_shout",
+    },
+    [13847] = {
+      ap = {
+        { 13847, "self" },
+      },
+      d = 15,
+      n = "recklessness",
+    },
+    [15062] = {
+      ap = {
+        { 15062, "self" },
+      },
+      d = 10,
+      n = "shield_wall",
+    },
+    [15615] = {
+      d = 5,
+      n = "pummel",
+      r = 5,
+    },
+    [15749] = {
+      n = "shield_charge",
+      r = 25,
+    },
+    [16244] = {
+      d = 30,
+      gcd = 1.5,
+      n = "demoralizing_shout",
+    },
+    [19131] = {
+      n = "shield_charge",
+      r = 25,
+    },
+    [19639] = {
+      d = 5,
+      n = "pummel",
+      r = 5,
+    },
+    [19778] = {
+      d = 30,
+      gcd = 1.5,
+      n = "demoralizing_shout",
+    },
+    [20230] = {
+      ap = {
+        { 20230, "self" },
+      },
+      cd = 900,
+      d = 15,
+      gcd = 1.5,
+      n = "retaliation",
+    },
+    [20240] = {
+      cost = { [1] = 0.1 },
+      n = "retaliation",
+      r = 5,
+    },
+    [20243] = {
+      cost = { [1] = 15 },
+      gcd = 1.5,
+      n = "devastate",
+      r = 5,
+      st = 5,
+    },
+    [20508] = {
+      ap = {
+        { 20508, "enemy" },
+      },
+      d = 0.001,
+      n = "charge",
+      r = 45,
+    },
+    [20569] = {
+      cost = { [1] = 20 },
+      n = "cleave",
+      r = 5,
+    },
     [20647] = {
       cost = { [1] = 0.1 },
       n = "execute",
     },
     [20658] = {
-      ap = {
-        { 26651, "self" },
-      },
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
       r = 5,
     },
     [20660] = {
-      ap = {
-        { 26651, "self" },
-      },
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
       r = 5,
     },
     [20661] = {
-      ap = {
-        { 26651, "self" },
-      },
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
       r = 5,
     },
     [20662] = {
-      ap = {
-        { 26651, "self" },
-      },
       cost = { [1] = 15 },
       gcd = 1.5,
       n = "execute",
+      r = 5,
+    },
+    [21551] = {
+      ap = {
+        { 21551, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 30 },
+      d = 10,
+      gcd = 1.5,
+      n = "mortal_strike",
+      r = 5,
+    },
+    [21552] = {
+      ap = {
+        { 21552, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 30 },
+      d = 10,
+      gcd = 1.5,
+      n = "mortal_strike",
+      r = 5,
+    },
+    [21553] = {
+      ap = {
+        { 21553, "enemy" },
+      },
+      cd = 6,
+      cost = { [1] = 30 },
+      d = 10,
+      gcd = 1.5,
+      n = "mortal_strike",
+      r = 5,
+    },
+    [22120] = {
+      n = "charge",
+      r = 25,
+    },
+    [22858] = {
+      n = "retaliation",
+    },
+    [22911] = {
+      ap = {
+        { 22911, "enemy" },
+      },
+      d = 2,
+      n = "charge",
+      r = 25,
+    },
+    [23881] = {
+      ap = {
+        { 23881, "self" },
+      },
+      cd = 6,
+      cost = { [1] = 30 },
+      d = 10,
+      gcd = 1.5,
+      n = "bloodthirst",
+      r = 5,
+    },
+    [23892] = {
+      ap = {
+        { 23892, "self" },
+      },
+      cd = 6,
+      cost = { [1] = 30 },
+      d = 10,
+      gcd = 1.5,
+      n = "bloodthirst",
+      r = 5,
+    },
+    [23893] = {
+      ap = {
+        { 23893, "self" },
+      },
+      cd = 6,
+      cost = { [1] = 30 },
+      d = 10,
+      gcd = 1.5,
+      n = "bloodthirst",
+      r = 5,
+    },
+    [23894] = {
+      ap = {
+        { 23894, "self" },
+      },
+      cd = 6,
+      cost = { [1] = 30 },
+      d = 10,
+      gcd = 1.5,
+      n = "bloodthirst",
       r = 5,
     },
     [23922] = {
@@ -942,7 +1060,6 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       gcd = 1.5,
       n = "shield_slam",
       r = 5,
-      tal = true,
     },
     [23923] = {
       cd = 6,
@@ -965,11 +1082,42 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       n = "shield_slam",
       r = 5,
     },
+    [24023] = {
+      n = "charge",
+      r = 25,
+    },
+    [24193] = {
+      ap = {
+        { 24193, "enemy" },
+      },
+      d = 2,
+      n = "charge",
+      r = 25,
+    },
+    [25286] = {
+      cost = { [1] = 15 },
+      n = "heroic_strike",
+      r = 5,
+    },
     [25288] = {
       cd = 5,
       cost = { [1] = 5 },
       gcd = 1.5,
       n = "revenge",
+      r = 5,
+    },
+    [25289] = {
+      cost = { [1] = 10 },
+      d = 180,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [25710] = {
+      n = "heroic_strike",
+      r = 5,
+    },
+    [25712] = {
+      n = "heroic_strike",
       r = 5,
     },
     [26651] = {
@@ -978,6 +1126,45 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       },
       d = 1,
       n = "execute",
+    },
+    [27578] = {
+      d = 120,
+      gcd = 1.5,
+      n = "battle_shout",
+    },
+    [27579] = {
+      d = 30,
+      gcd = 1.5,
+      n = "demoralizing_shout",
+    },
+    [27580] = {
+      ap = {
+        { 27580, "enemy" },
+      },
+      cd = 6,
+      d = 10,
+      gcd = 1.5,
+      n = "mortal_strike",
+      r = 5,
+    },
+    [28844] = {
+      n = "revenge",
+      pas = true,
+    },
+    [29061] = {
+      ap = {
+        { 29061, "self" },
+      },
+      cd = 30,
+      d = 20,
+      n = "shield_wall",
+    },
+    [29131] = {
+      ap = {
+        { 29131, "self" },
+      },
+      d = 10,
+      n = "bloodrage",
     },
     [402913] = {
       ap = {
@@ -999,107 +1186,275 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       n = "enraged_regeneration",
       pas = true,
     },
-    [440113] = {
-      n = "sudden_death",
-      pas = true,
-    },
-    [440114] = {
+    [411684] = {
       ap = {
-        { 440114, "self" },
-      },
-      d = 10,
-      n = "sudden_death",
-    },
-    [440495] = {
-      n = "sudden_death",
-      pas = true,
-    },
-    [1240287] = {
-      ap = {
-        { 7922, "enemy" },
+        { 411684, "self" },
       },
       cd = 15,
-      cost = { [1] = 0 },
+      d = 0.1,
+      n = "charge",
+      r = 25,
+    },
+    [461810] = {
+      cd = 4,
+      cost = { [1] = 20 },
+      d = 30,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [461826] = {
+      cd = 4,
+      cost = { [1] = 20 },
+      d = 26,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [461827] = {
+      cd = 4,
+      cost = { [1] = 20 },
+      d = 22,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [461828] = {
+      cd = 4,
+      cost = { [1] = 20 },
+      d = 18,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [461829] = {
+      cd = 4,
+      cost = { [1] = 20 },
+      d = 14,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [461830] = {
+      cd = 4,
+      cost = { [1] = 20 },
+      d = 10,
+      gcd = 1.5,
+      n = "thunder_clap",
+    },
+    [1240287] = {
+      cd = 15,
       gain = { [1] = 90 },
       n = "charge",
       r = 25,
     },
     [1240288] = {
-      ap = {
-        { 7922, "enemy" },
-      },
       cd = 15,
-      cost = { [1] = 0 },
       gain = { [1] = 120 },
       n = "charge",
       r = 25,
     },
     [1240289] = {
-      ap = {
-        { 7922, "enemy" },
-      },
       cd = 15,
-      cost = { [1] = 0 },
       gain = { [1] = 150 },
       n = "charge",
       r = 25,
     },
+    [1259813] = {
+      ap = {
+        { 1259813, "self" },
+      },
+      cd = 120,
+      d = 8,
+      n = "eureka",
+    },
+    [1277424] = {
+      ap = {
+        { 1277424, "self" },
+      },
+      d = 10,
+      n = "shield_wall",
+    },
+    [1283407] = {
+      n = "shield_charge",
+      r = 25,
+    },
+    [1329554] = {
+      gain = { [1] = 50 },
+      n = "reckless_swings",
+    },
+    [1329555] = {
+      ap = {
+        { 1329555, "self" },
+      },
+      cd = 15,
+      d = 8,
+      gcd = 1,
+      n = "reckless_swings",
+    },
   },
   spells = {
     battle_shout = {
-      a = { 5242, 6192, 6673, 11549, 11550, 11551 },
+      a = { 25289, 11551, 27578, 11550, 11549, 6192, 5242, 6673 },
+      b = { 25289, 11551, 27578, 11550, 11549, 6192, 5242, 6673 },
     },
     battle_stance = {
       a = { 2457 },
+    },
+    berserker_stance = {
+      a = { 2458 },
+    },
+    bloodrage = {
+      a = { 2687, 29131 },
+    },
+    bloodthirst = {
+      a = { 23894, 23893, 23892, 23881 },
     },
     booming_voice = {
       t = { 12321 },
     },
     charge = {
-      a = { 100, 6178, 11578, 1240287, 1240288, 1240289 },
+      a = {
+        11578,
+        1240289,
+        6178,
+        1240288,
+        100,
+        1240287,
+        411684,
+        20508,
+        22120,
+        22911,
+        24023,
+        24193,
+      },
+    },
+    cleave = {
+      a = { 20569, 11609, 11608, 7369, 845 },
+    },
+    death_wish = {
+      a = { 12328 },
     },
     demoralizing_shout = {
-      a = { 1160, 6190, 11554, 11555, 11556 },
+      a = {
+        11556,
+        27579,
+        11555,
+        11554,
+        6190,
+        1160,
+        13730,
+        16244,
+        19778,
+      },
+      b = {
+        11556,
+        27579,
+        11555,
+        11554,
+        6190,
+        1160,
+        13730,
+        16244,
+        19778,
+      },
     },
     devastate = {
-      a = { 403196, 403195 },
+      a = { 20243, 403196, 403195 },
     },
     enraged_regeneration = {
       a = { 402913, 403359 },
     },
+    eureka = {
+      a = { 1259813 },
+    },
     execute = {
-      a = { 5308, 20647, 20658, 20660, 20661, 20662 },
+      a = { 20662, 20661, 20660, 20658, 5308, 20647, 26651 },
+    },
+    heroic_strike = {
+      a = {
+        25286,
+        11567,
+        11566,
+        11565,
+        11564,
+        1608,
+        285,
+        284,
+        78,
+        25712,
+        25710,
+      },
     },
     last_stand = {
       a = { 12975, 12976 },
+      b = { 12976, 12975 },
+    },
+    mortal_strike = {
+      a = { 21553, 27580, 21552, 21551, 12294 },
     },
     pummel = {
-      a = { 6552, 6554 },
+      a = { 6554, 6552, 12555, 15615, 19639 },
     },
-    rend_dot = {
-      a = { 772, 6546, 6547, 6548, 11572, 11573 },
-      b = { 772, 6546, 6547, 6548, 11572, 11573 },
+    reckless_swings = {
+      a = { 1329555, 1329554 },
+    },
+    recklessness = {
+      a = { 1719, 13847 },
+    },
+    rend = {
+      a = { 11574, 11573, 11572, 6548, 6547, 6546, 772 },
+      b = { 11574, 11573, 11572, 6548, 6547, 6546, 772 },
+    },
+    retaliation = {
+      a = { 20230, 20240, 22858 },
     },
     revenge = {
-      a = { 6572, 6574, 7379, 11600, 11601, 25288 },
-      b = { 6572, 6574, 7379, 11600, 11601, 25288 },
+      a = { 25288, 11601, 11600, 7379, 6574, 6572, 28844 },
+      b = { 25288, 11601, 11600, 7379, 6574, 6572, 28844 },
     },
     shield_block = {
       a = { 2565 },
       b = { 2565 },
     },
+    shield_charge = {
+      a = { 15749, 19131, 1283407 },
+    },
     shield_slam = {
-      a = { 23922, 23923, 23924, 23925 },
+      a = { 23925, 23924, 23923, 23922 },
     },
     shield_wall = {
-      a = { 871 },
+      a = { 871, 29061, 15062, 1277424 },
+      b = { 871, 15062, 29061, 1277424 },
     },
-    sudden_death = {
-      a = { 440114, 440113, 440495 },
-      b = { 440114, 440113, 440495 },
+    sunder_armor = {
+      a = { 11597, 11596, 8380, 7405, 7386 },
+      b = { 11597, 11596, 8380, 7405, 7386 },
     },
     thunder_clap = {
-      a = { 6343, 8198, 8204, 8205, 11580, 11581 },
+      a = {
+        11581,
+        461810,
+        11580,
+        461826,
+        8205,
+        461827,
+        8204,
+        461828,
+        8198,
+        461829,
+        6343,
+        461830,
+      },
+      b = {
+        11581,
+        461810,
+        11580,
+        461826,
+        8205,
+        461827,
+        8204,
+        461828,
+        8198,
+        461829,
+        6343,
+        461830,
+      },
     },
   },
 })

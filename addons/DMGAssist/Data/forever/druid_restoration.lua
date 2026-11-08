@@ -124,7 +124,7 @@ ns.RegisterSpecData("forever", "druid_restoration", {
   class = "druid",
   gameMatch = {
     matched = 13,
-    missing = { "convoke_the_spirits", "mangle", "thrash" },
+    missing = { "convoke_the_spirits", "heart_of_the_wild", "mangle" },
     total = 16,
   },
   heroTrees = {},
@@ -420,6 +420,10 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       n = "rip",
       r = 5,
     },
+    [1178] = {
+      n = "bear_form",
+      pas = true,
+    },
     [1822] = {
       ap = {
         { 1822, "enemy" },
@@ -460,6 +464,10 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       n = "starfire",
       r = 30,
     },
+    [3025] = {
+      n = "cat_form",
+      pas = true,
+    },
     [5176] = {
       cost = { [0] = 10 },
       ct = 1.5,
@@ -497,7 +505,6 @@ ns.RegisterSpecData("forever", "druid_restoration", {
     },
     [5215] = {
       cd = 10,
-      cost = { [3] = 0 },
       n = "prowl",
     },
     [5221] = {
@@ -520,7 +527,6 @@ ns.RegisterSpecData("forever", "druid_restoration", {
     },
     [6783] = {
       cd = 10,
-      cost = { [3] = 0 },
       n = "prowl",
     },
     [6800] = {
@@ -529,6 +535,13 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       gcd = 1,
       n = "shred",
       r = 5,
+    },
+    [8905] = {
+      cost = { [0] = 100 },
+      ct = 2,
+      gcd = 1.5,
+      n = "wrath",
+      r = 30,
     },
     [8921] = {
       ap = {
@@ -585,6 +598,16 @@ ns.RegisterSpecData("forever", "druid_restoration", {
         { 8928, "enemy" },
       },
       cost = { [0] = 190 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+      r = 30,
+    },
+    [8929] = {
+      ap = {
+        { 8929, "enemy" },
+      },
+      cost = { [0] = 235 },
       d = 12,
       gcd = 1.5,
       n = "moonfire",
@@ -671,6 +694,36 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       n = "shred",
       r = 5,
     },
+    [9833] = {
+      ap = {
+        { 9833, "enemy" },
+      },
+      cost = { [0] = 280 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+      r = 30,
+    },
+    [9834] = {
+      ap = {
+        { 9834, "enemy" },
+      },
+      cost = { [0] = 325 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+      r = 30,
+    },
+    [9835] = {
+      ap = {
+        { 9835, "enemy" },
+      },
+      cost = { [0] = 375 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+      r = 30,
+    },
     [9875] = {
       cost = { [0] = 275 },
       ct = 3.5,
@@ -724,15 +777,59 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       n = "swipe",
       r = 5,
     },
+    [9912] = {
+      cost = { [0] = 120 },
+      ct = 2,
+      gcd = 1.5,
+      n = "wrath",
+      r = 30,
+    },
     [9913] = {
       cd = 10,
-      cost = { [3] = 0 },
       n = "prowl",
     },
     [17003] = {
       n = "heart_of_the_wild",
       pas = true,
       tal = true,
+    },
+    [17144] = {
+      gcd = 1.5,
+      n = "wrath",
+      r = 5,
+    },
+    [18104] = {
+      n = "wrath",
+      r = 10,
+    },
+    [20690] = {
+      ap = {
+        { 20690, "enemy" },
+      },
+      cost = { [0] = 375 },
+      d = 12,
+      n = "moonfire",
+      r = 50,
+    },
+    [21178] = {
+      n = "bear_form",
+      pas = true,
+    },
+    [21668] = {
+      cost = { [0] = 100 },
+      ct = 2,
+      gcd = 1.5,
+      n = "starfire",
+      r = 30,
+    },
+    [21669] = {
+      ap = {
+        { 21669, "enemy" },
+      },
+      cost = { [0] = 150 },
+      d = 12,
+      n = "moonfire",
+      r = 40,
     },
     [22568] = {
       cmax = { [4] = 5 },
@@ -776,7 +873,6 @@ ns.RegisterSpecData("forever", "druid_restoration", {
         { 22842, "self" },
       },
       cd = 180,
-      cost = { [1] = 0 },
       d = 10,
       gcd = 1.5,
       n = "frenzied_regeneration",
@@ -784,10 +880,77 @@ ns.RegisterSpecData("forever", "druid_restoration", {
     [22845] = {
       n = "frenzied_regeneration",
     },
+    [24331] = {
+      ap = {
+        { 24331, "enemy" },
+      },
+      d = 9,
+      gcd = 1,
+      n = "rake",
+      r = 5,
+    },
+    [24332] = {
+      ap = {
+        { 24332, "enemy" },
+      },
+      d = 9,
+      gcd = 1,
+      n = "rake",
+      r = 5,
+    },
     [24858] = {
       gcd = 1.5,
       n = "moonkin_form",
-      tal = true,
+    },
+    [24905] = {
+      n = "moonkin_form",
+      pas = true,
+    },
+    [25298] = {
+      cost = { [0] = 340 },
+      ct = 3.5,
+      gcd = 1.5,
+      n = "starfire",
+      r = 30,
+    },
+    [27554] = {
+      gcd = 1.5,
+      n = "swipe",
+      r = 5,
+    },
+    [27555] = {
+      ap = {
+        { 27555, "enemy" },
+      },
+      d = 10,
+      gcd = 1,
+      n = "shred",
+      r = 5,
+    },
+    [27556] = {
+      ap = {
+        { 27556, "enemy" },
+      },
+      d = 15,
+      gcd = 1,
+      n = "rake",
+      r = 5,
+      st = 100,
+    },
+    [27557] = {
+      gcd = 1,
+      n = "ferocious_bite",
+      r = 5,
+    },
+    [27638] = {
+      ap = {
+        { 27638, "enemy" },
+      },
+      d = 15,
+      gcd = 1,
+      n = "rake",
+      r = 5,
+      st = 100,
     },
     [31018] = {
       cmax = { [4] = 5 },
@@ -870,6 +1033,12 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       n = "sunfire",
       r = 30,
     },
+    [414696] = {
+      n = "sunfire",
+    },
+    [414700] = {
+      n = "sunfire",
+    },
     [417157] = {
       ap = {
         { 417157, "self" },
@@ -879,7 +1048,38 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       gcd = 1.5,
       n = "starsurge",
       r = 30,
-      st = 1,
+    },
+    [417159] = {
+      cd = 90,
+      gcd = 1.5,
+      n = "renewal",
+    },
+    [417440] = {
+      cd = 6,
+      cost = { [1] = 10 },
+      gcd = 1.5,
+      n = "thrash",
+      r = 8,
+    },
+    [417441] = {
+      ap = {
+        { 417441, "enemy" },
+      },
+      d = 15,
+      gcd = 1,
+      n = "thrash",
+      st = 3,
+    },
+    [417448] = {
+      cost = { [3] = 40 },
+      d = 15,
+      gcd = 1,
+      n = "thrash",
+      r = 8,
+    },
+    [417453] = {
+      n = "thrash",
+      pas = true,
     },
     [424715] = {
       n = "starsurge",
@@ -901,21 +1101,42 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       n = "barkskin",
       r = 40,
     },
+    [439512] = {
+      n = "swipe",
+    },
+    [443359] = {
+      n = "moonkin_form",
+      pas = true,
+    },
+    [463285] = {
+      cost = { [0] = 100 },
+      ct = 3.5,
+      gcd = 1.5,
+      n = "starfire",
+      r = 30,
+    },
+    [1328618] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "ferocious_bite",
+      r = 5,
+    },
   },
   spells = {
     barkskin = {
       a = { 22812, 428713 },
     },
     bear_form = {
-      a = { 5487 },
-      b = { 5487 },
+      a = { 5487, 1178, 21178 },
+      b = { 1178, 5487, 21178 },
     },
     cat_form = {
-      a = { 768 },
-      b = { 768 },
+      a = { 768, 3025 },
+      b = { 768, 3025 },
     },
     ferocious_bite = {
-      a = { 22568, 22827, 22828, 22829, 31018 },
+      a = { 31018, 22829, 22828, 22827, 22568, 1328618, 27557 },
     },
     frenzied_regeneration = {
       a = { 22842, 428708, 22845 },
@@ -925,40 +1146,79 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       b = { 17003 },
     },
     moonfire = {
-      a = { 8921, 8924, 8925, 8926, 8927, 8928 },
-      b = { 8921, 8924, 8925, 8926, 8927, 8928 },
+      a = {
+        9835,
+        9834,
+        9833,
+        8929,
+        8928,
+        8927,
+        8926,
+        8925,
+        8924,
+        8921,
+        20690,
+        21669,
+      },
+      b = {
+        9835,
+        9834,
+        9833,
+        8929,
+        8928,
+        8927,
+        8926,
+        8925,
+        8924,
+        8921,
+        20690,
+        21669,
+      },
     },
     moonkin_form = {
-      a = { 24858 },
-      b = { 24858 },
+      a = { 24858, 24905, 443359 },
+      b = { 24858, 24905, 443359 },
     },
     prowl = {
-      a = { 5215, 6783, 9913 },
-      b = { 5215, 6783, 9913 },
+      a = { 9913, 6783, 5215 },
+      b = { 9913, 6783, 5215 },
     },
     rake = {
-      a = { 1822, 1823, 1824, 9904 },
-      b = { 1822, 1823, 1824, 9904 },
+      a = { 9904, 1824, 1823, 1822, 24331, 24332, 27556, 27638 },
+      b = { 9904, 1824, 1823, 1822, 24331, 24332, 27556, 27638 },
+    },
+    renewal = {
+      a = { 417159 },
     },
     rip = {
-      a = { 1079, 9492, 9493, 9752, 9894, 9896 },
-      b = { 1079, 9492, 9493, 9752, 9894, 9896 },
+      a = { 9896, 9894, 9752, 9493, 9492, 1079 },
+      b = { 9896, 9894, 9752, 9493, 9492, 1079 },
     },
     shred = {
-      a = { 5221, 6800, 8992, 9829, 9830 },
+      a = { 9830, 9829, 8992, 6800, 5221, 27555 },
     },
     skull_bash = {
       a = { 410176, 414621 },
     },
     starfire = {
-      a = { 2912, 8949, 8950, 8951, 9875, 9876 },
+      a = {
+        25298,
+        9876,
+        9875,
+        8951,
+        8950,
+        8949,
+        2912,
+        21668,
+        463285,
+      },
     },
     starsurge = {
       a = { 417157, 424715 },
     },
     sunfire = {
-      a = { 414684, 414687, 414689 },
-      b = { 414684, 414687, 414689 },
+      a = { 414684, 414687, 414689, 414696, 414700 },
+      b = { 414684, 414687, 414689, 414696, 414700 },
     },
     survival_instincts = {
       a = { 408024, 408025, 409809 },
@@ -967,13 +1227,28 @@ ns.RegisterSpecData("forever", "druid_restoration", {
       a = { 411115, 411124 },
     },
     swipe = {
-      a = { 769, 779, 780, 9754, 9908, 411128 },
+      a = { 9908, 9754, 769, 780, 779, 27554, 411128, 439512 },
     },
     swipe_cat = {
-      a = { 769, 779, 780, 9754, 9908, 411128 },
+      a = { 9908, 9754, 769, 780, 779, 27554, 411128, 439512 },
+    },
+    thrash = {
+      a = { 417440, 417441, 417448, 417453 },
+      b = { 417441, 417448, 417440, 417453 },
     },
     wrath = {
-      a = { 5176, 5177, 5178, 5179, 5180, 6780 },
+      a = {
+        9912,
+        8905,
+        6780,
+        5180,
+        5179,
+        5178,
+        5177,
+        5176,
+        17144,
+        18104,
+      },
     },
   },
 })

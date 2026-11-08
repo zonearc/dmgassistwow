@@ -844,6 +844,17 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       n = "immolate",
       r = 30,
     },
+    [11668] = {
+      ap = {
+        { 11668, "enemy" },
+      },
+      cost = { [0] = 370 },
+      ct = 2,
+      d = 15,
+      gcd = 1.5,
+      n = "immolate",
+      r = 30,
+    },
     [11677] = {
       ap = {
         { 11677, "self" },
@@ -867,7 +878,6 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
     [17778] = {
       n = "cataclysm",
       pas = true,
-      tal = true,
     },
     [17877] = {
       ap = {
@@ -879,7 +889,6 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       gcd = 1.5,
       n = "shadowburn",
       r = 30,
-      tal = true,
     },
     [17924] = {
       cd = 60,
@@ -973,9 +982,6 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       r = 30,
     },
     [19244] = {
-      ap = {
-        { 24259, "enemy" },
-      },
       cd = 30,
       cost = { [0] = 120 },
       d = 6,
@@ -983,10 +989,17 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       n = "spell_lock",
       r = 30,
     },
-    [19647] = {
+    [19474] = {
       ap = {
-        { 24259, "enemy" },
+        { 19474, "self" },
       },
+      cost = { [0] = 850 },
+      d = 8,
+      gcd = 1.5,
+      n = "rain_of_fire",
+      r = 30,
+    },
+    [19647] = {
       cd = 30,
       cost = { [0] = 200 },
       d = 8,
@@ -1000,6 +1013,17 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       },
       d = 3,
       n = "spell_lock",
+      r = 30,
+    },
+    [25309] = {
+      ap = {
+        { 25309, "enemy" },
+      },
+      cost = { [0] = 380 },
+      ct = 2,
+      d = 15,
+      gcd = 1.5,
+      n = "immolate",
       r = 30,
     },
     [403629] = {
@@ -1028,7 +1052,6 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
     [412751] = {
       n = "fire_and_brimstone",
       pas = true,
-      tal = true,
     },
     [412758] = {
       cost = { [0] = 205 },
@@ -1036,7 +1059,13 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       gcd = 1.5,
       n = "incinerate",
       r = 30,
-      tal = true,
+    },
+    [412787] = {
+      cd = 10,
+      d = 5,
+      gcd = 1,
+      n = "disrupt",
+      r = 5,
     },
     [427713] = {
       n = "backdraft",
@@ -1059,7 +1088,6 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       },
       d = 10,
       n = "soul_fire",
-      st = 1,
     },
     [460692] = {
       ap = {
@@ -1083,6 +1111,41 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       n = "rain_of_fire",
       r = 30,
     },
+    [460699] = {
+      ap = {
+        { 460699, "self" },
+      },
+      cd = 8,
+      cost = { [0] = 885 },
+      d = 8,
+      gcd = 1.5,
+      n = "rain_of_fire",
+      r = 30,
+    },
+    [460700] = {
+      ap = {
+        { 460700, "self" },
+      },
+      cd = 8,
+      cost = { [0] = 1185 },
+      d = 8,
+      gcd = 1.5,
+      n = "rain_of_fire",
+      r = 30,
+    },
+    [1219425] = {
+      n = "immolate",
+      st = 1,
+    },
+    [1282383] = {
+      n = "rain_of_fire",
+    },
+    [1282384] = {
+      n = "rain_of_fire",
+    },
+    [1282385] = {
+      n = "rain_of_fire",
+    },
     [1293812] = {
       cost = { [0] = 265 },
       ct = 2.5,
@@ -1103,7 +1166,6 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       gcd = 1.5,
       n = "conflagrate",
       r = 30,
-      tal = true,
     },
     [1293818] = {
       cd = 10,
@@ -1115,7 +1177,6 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
     [1310949] = {
       n = "malevolence",
       pas = true,
-      tal = true,
     },
   },
   spells = {
@@ -1132,17 +1193,40 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       a = { 403629, 403630, 403860 },
     },
     conflagrate = {
-      a = { 17962, 18930, 18931, 18932, 1293817, 1293818 },
+      a = { 18932, 18931, 18930, 17962, 1293818, 1293817 },
+    },
+    disrupt = {
+      a = { 412787 },
     },
     fire_and_brimstone = {
       t = { 412751 },
     },
     immolate = {
-      a = { 348, 707, 1094, 2941, 11665, 11667 },
-      b = { 348, 707, 1094, 2941, 11665, 11667 },
+      a = {
+        25309,
+        11668,
+        11667,
+        11665,
+        2941,
+        1094,
+        707,
+        348,
+        1219425,
+      },
+      b = {
+        25309,
+        11668,
+        11667,
+        11665,
+        2941,
+        1094,
+        707,
+        348,
+        1219425,
+      },
     },
     incinerate = {
-      a = { 412758, 1293812, 1293813 },
+      a = { 1293813, 1293812, 412758 },
     },
     lake_of_fire = {
       t = { 403666, 403872 },
@@ -1153,16 +1237,29 @@ ns.RegisterSpecData("forever", "warlock_destruction", {
       t = { 1310949 },
     },
     rain_of_fire = {
-      a = { 5740, 6219, 11677, 11678, 460692, 460698 },
+      a = {
+        11678,
+        460700,
+        11677,
+        460699,
+        6219,
+        460698,
+        5740,
+        19474,
+        460692,
+        1282385,
+        1282384,
+        1282383,
+      },
     },
     shadowburn = {
-      a = { 17877, 18867, 18868, 18869, 18870, 18871 },
+      a = { 18871, 18870, 18869, 18868, 18867, 17877 },
     },
     soul_fire = {
-      a = { 6353, 17924, 457643 },
+      a = { 17924, 6353, 457643 },
     },
     spell_lock = {
-      a = { 19244, 19647, 24259 },
+      a = { 19647, 19244, 24259 },
     },
   },
 })

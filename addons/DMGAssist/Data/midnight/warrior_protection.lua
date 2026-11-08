@@ -902,6 +902,9 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       pas = true,
       tal = true,
     },
+    [317073] = {
+      n = "execute",
+    },
     [334934] = {
       gain = { [1] = 100 },
       n = "ravager",
@@ -938,6 +941,9 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       r = 25,
     },
     [376083] = {
+      n = "champions_spear",
+    },
+    [376084] = {
       n = "champions_spear",
     },
     [384110] = {
@@ -1083,6 +1089,10 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       pas = true,
       tal = true,
     },
+    [457998] = {
+      n = "charge",
+      r = 30,
+    },
     [458045] = {
       ap = {
         { 458045, "self" },
@@ -1104,6 +1114,9 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       n = "last_stand",
       pas = true,
       tal = true,
+    },
+    [1261759] = {
+      n = "champions_spear",
     },
     [1269311] = {
       n = "phalanx",
@@ -1211,10 +1224,20 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       a = { 1271985 },
     },
     champions_spear = {
-      a = { 376079, 1271980, 1271982, 376080, 376081, 376083 },
+      a = {
+        376079,
+        1271980,
+        1271982,
+        376080,
+        376081,
+        376083,
+        376084,
+        1261759,
+        1271981,
+      },
     },
     charge = {
-      a = { 100, 105771, 126664, 198337, 218104, 236027 },
+      a = { 100, 105771, 126664, 198337, 218104, 236027, 457998 },
     },
     colossal_might = {
       a = { 440989, 429634 },
@@ -1240,7 +1263,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       a = { 184364 },
     },
     execute = {
-      a = { 5308, 163201, 280735, 281000, 260798, 280849 },
+      a = { 5308, 163201, 280735, 281000, 260798, 280849, 317073 },
     },
     heavy_handed = {
       t = { 1235088 },

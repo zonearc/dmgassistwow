@@ -206,651 +206,50 @@ ns.RegisterSpecData("forever", "druid_balance", {
   blizzardExcluded = { "celestial_alignment" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "druid",
+  credit = "WoWSims (wowsims.com/forever)",
   gameMatch = {
-    matched = 9,
-    missing = { "celestial_alignment", "convoke_the_spirits", "full_moon", "fury_of_elune", "half_moon", "new_moon", "wild_mushroom" },
-    total = 16,
+    matched = 6,
+    missing = {},
+    total = 6,
   },
   heroTrees = {},
   key = "druid_balance",
   simc = {
-    aoe = {
-      {
-        a = "celestial_alignment",
-        c = "fight_remains<20",
-        k = "M",
-      },
-      {
-        a = "wrath",
-        c = "eclipse.lunar&spell_targets<=2&hero_tree.keeper_of_the_grove&buff.eclipse.down",
-        k = "U",
-      },
-      {
-        a = "starfire",
-        c = "eclipse.solar&spell_targets>2&hero_tree.keeper_of_the_grove&buff.eclipse.down",
-        k = "U",
-      },
-      {
-        a = "eclipse",
-        c = "!variable.opener&(cooldown.eclipse.full_recharge_time<gcd.max)",
-        k = "T",
-      },
-      {
-        a = "moonfire",
-        k = "R",
-        p = {
-          target_if = "refreshable&(target.time_to_die-remains)>6&active_dots.moonfire<10&buff.eclipse.down",
-        },
-      },
-      {
-        a = "sunfire",
-        k = "R",
-        p = {
-          target_if = "(remains<2|refreshable&buff.eclipse.down)&target.time_to_die>5",
-        },
-      },
-      {
-        a = "fury_of_elune",
-        c = "fight_remains<10|cooldown.ca_inc.remains>10|talent.lunation",
-        k = "T",
-      },
-      {
-        a = "force_of_nature",
-        c = "hero_tree.elunes_chosen&astral_power<50&cooldown.ca_inc.remains>10&buff.eclipse.up|fight_remains<15",
-        k = "T",
-      },
-      {
-        a = "eclipse",
-        c = "variable.eclipse_timings",
-        k = "T",
-      },
-      {
-        a = "convoke_the_spirits",
-        c = "(buff.ca_inc.up&astral_power<40|cooldown.ca_inc.remains>50&buff.harmony_of_the_grove.up&buff.ca_inc.down)&(buff.orbit_breaker.stack<10|hero_tree.keeper_of_the_grove)",
-        k = "T",
-      },
-      {
-        a = "starsurge",
-        c = "(astral_power>80|buff.eclipse.up&action.starsurge.cost>1)&variable.Starfall_talents&!buff.starweavers_warp.react&!buff.touch_the_cosmos.react|buff.starweavers_weft.react",
-        k = "T",
-      },
-      {
-        a = "starfall",
-        c = "((astral_power>80-79*hero_tree.elunes_chosen|buff.eclipse.up&action.starfall.cost>1)&spell_targets>=2|buff.starweavers_warp.react|buff.touch_the_cosmos.react)&target.time_to_die>5",
-        k = "T",
-      },
-      {
-        a = "starfire",
-        c = "buff.ascendant_fires.up&buff.eclipse_lunar.up",
-        k = "T",
-      },
-      {
-        a = "new_moon",
-        c = "astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5",
-        k = "U",
-      },
-      {
-        a = "half_moon",
-        c = "astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5",
-        k = "U",
-      },
-      {
-        a = "full_moon",
-        c = "astral_power.deficit>energize_amount&debuff.atmospheric_exposure.remains<execute_time+0.5",
-        k = "U",
-      },
-      {
-        a = "wild_mushroom",
-        c = "buff.eclipse_solar.up|cooldown.wild_mushroom.full_recharge_time<cooldown.ca_inc.remains",
-        k = "T",
-      },
-      {
-        a = "starfire",
-        c = "hero_tree.elunes_chosen|buff.eclipse.down&spell_targets.starfire>2|buff.eclipse_lunar.up&spell_targets.starfire>2",
-        k = "T",
-      },
-      {
-        a = "wrath",
-        c = "spell_targets<=2",
-        k = "M",
-      },
-    },
-    cooldowns = {
-      {
-        a = "moonfire",
-        k = "R",
-        p = {
-          line_cd = "20",
-          target_if = "hero_tree.elunes_chosen&dot.moonfire.remains<12&spell_targets=1",
-        },
-      },
-      {
-        a = "moonfire",
-        k = "R",
-        p = {
-          target_if = "refreshable&(target.time_to_die-remains)>6&active_dots.moonfire<10&spell_targets>1",
-        },
-      },
-      {
-        a = "sunfire",
-        c = "dot.sunfire.remains<15",
-        k = "T",
-        p = {
-          line_cd = "10",
-        },
-      },
-      {
-        a = "fury_of_elune",
-        k = "R",
-      },
-      {
-        a = "force_of_nature",
-        c = "hero_tree.keeper_of_the_grove",
-        k = "R",
-      },
-      {
-        a = "celestial_alignment",
-        k = "R",
-        p = {
-          add_queue_lag = "1",
-        },
-      },
-    },
     default = {
       {
-        a = "potion",
-        c = "buff.harmony_of_the_grove.up&buff.ca_inc.up&hero_tree.keeper_of_the_grove|buff.ca_inc.up&hero_tree.elunes_chosen|variable.opener&prev_gcd.1.eclipse|fight_remains<=30",
-        k = "T",
-      },
-      {
-        a = "use_items",
-        c = "!trinket.1.is.wraps_of_cosmic_madness&!trinket.2.is.wraps_of_cosmic_madness&!trinket.1.is.font_of_venomous_rage&!trinket.2.is.font_of_venomous_rage&buff.ca_inc.up&(buff.harmony_of_the_grove.up|hero_tree.elunes_chosen)|fight_remains<20",
-        k = "T",
-      },
-      {
-        a = "use_item",
-        c = "!buff.eclipse.up",
-        k = "T",
-        p = {
-          name = "wraps_of_cosmic_madness",
-        },
-      },
-      {
-        a = "use_item",
-        c = "!buff.eclipse.up",
-        k = "T",
-        p = {
-          name = "font_of_venomous_rage",
-        },
-      },
-      {
-        a = "berserking",
-        c = "buff.ca_inc.up&(buff.harmony_of_the_grove.up|!talent.dream_surge)|fight_remains<cooldown.ca_inc.remains",
-        k = "T",
-      },
-      {
-        a = "invoke_external_buff",
-        c = "buff.ca_inc.up",
-        k = "T",
-        p = {
-          name = "power_infusion",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "eclipse_timings",
-          value = "((cooldown.eclipse.full_recharge_time<(cooldown.force_of_nature.remains<?(cooldown.fury_of_elune.remains*hero_tree.elunes_chosen*!talent.lunation)<?((buff.eclipse.duration+2)))|cooldown.ca_inc.remains<(cooldown.force_of_nature.remains<?(cooldown.fury_of_elune.remains*hero_tree.elunes_chosen*!talent.lunation)<?(buff.eclipse.duration+2)))|fight_remains<buff.eclipse.duration)&(buff.eclipse.remains<2&fight_style.dungeonroute|!fight_style.dungeonroute)",
-        },
-      },
-      {
-        a = "variable",
-        c = "buff.ca_inc.up",
-        k = "T",
-        p = {
-          name = "opener",
-          op = "set",
-          value = "0",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "starfall_cosmos",
-          value = "(talent.starweaver&(talent.meteorites&(talent.incarnation_chosen_of_elune&talent.meteor_storm&!talent.power_of_goldrinn|buff.ca_inc.down&(talent.incarnation_chosen_of_elune|talent.stellar_amplification|!talent.power_of_goldrinn))|buff.eclipse.down&(talent.meteorites|talent.aetherial_kindling|talent.stellar_amplification&!talent.power_of_goldrinn))|buff.ca_inc.down&talent.meteorites&talent.aetherial_kindling&talent.stellar_amplification&!talent.power_of_goldrinn|buff.eclipse.down&talent.meteorites&(talent.aetherial_kindling|talent.stellar_amplification|!talent.power_of_goldrinn))&buff.touch_the_cosmos.react&!buff.starweavers_weft.react",
-        },
-      },
-      {
-        a = "variable",
-        c = "((((cooldown.force_of_nature.remains*hero_tree.keeper_of_the_grove)<?(cooldown.fury_of_elune.remains*hero_tree.elunes_chosen*!talent.lunation)<?cooldown.ca_inc.remains<?(buff.eclipse.remains-(10*(buff.bloodlust.up*buff.ascendant_stars.down)))<?buff.ca_inc.remains)<1)&(active_dot.moonfire>=active_enemies|active_dots.moonfire>=10|spell_targets=1&hero_tree.keeper_of_the_grove|hero_tree.elunes_chosen&variable.opener&spell_targets=1))&target.time_to_die>20",
-        k = "U",
-        p = {
-          name = "cds",
-          op = "set",
-          value = "1",
-        },
-      },
-      {
-        a = "variable",
-        c = "buff.ca_inc.up",
-        k = "T",
-        p = {
-          name = "cds",
-          op = "set",
-          value = "0",
-        },
-      },
-      {
-        a = "variable",
-        c = "(((cooldown.eclipse.remains<?cooldown.force_of_nature.remains<?cooldown.fury_of_elune.remains-15<?buff.eclipse.remains)<1)&(cooldown.ca_inc.remains+10>(cooldown.force_of_nature.duration<?cooldown.fury_of_elune.duration-15)))&hero_tree.keeper_of_the_grove",
-        k = "T",
-        p = {
-          name = "mini",
-          op = "set",
-          value = "1",
-        },
-      },
-      {
-        a = "variable",
-        c = "prev_gcd.1.eclipse",
-        k = "R",
-        p = {
-          name = "mini",
-          op = "set",
-          value = "0",
-        },
-      },
-      {
-        a = "run_action_list",
-        c = "variable.opener",
-        k = "T",
-        p = {
-          name = "opener",
-        },
-      },
-      {
-        a = "run_action_list",
-        c = "variable.mini&!variable.opener",
-        k = "T",
-        p = {
-          name = "mini",
-        },
-      },
-      {
-        a = "run_action_list",
-        c = "variable.cds&!variable.opener",
-        k = "T",
-        p = {
-          name = "cooldowns",
-        },
-      },
-      {
-        a = "run_action_list",
-        c = "hero_tree.elunes_chosen&spell_targets=1",
-        k = "M",
-        p = {
-          name = "ec_st",
-        },
-      },
-      {
-        a = "run_action_list",
-        c = "spell_targets=1",
-        k = "M",
-        p = {
-          name = "kotg_st",
-        },
-      },
-      {
-        a = "run_action_list",
-        c = "spell_targets>1",
-        k = "M",
-        p = {
-          name = "aoe",
-        },
-      },
-    },
-    ec_st = {
-      {
-        a = "sunfire",
-        k = "R",
-        p = {
-          target_if = "remains<2|refreshable&buff.eclipse.down&target.time_to_die>10",
-        },
-      },
-      {
-        a = "moonfire",
-        k = "R",
-        p = {
-          target_if = "(remains<2|refreshable&!buff.eclipse.up&!cooldown.force_of_nature.remains<dot.moonfire.remains)&target.time_to_die>10",
-        },
-      },
-      {
-        a = "celestial_alignment",
-        c = "fight_remains<20",
-        k = "M",
-      },
-      {
-        a = "convoke_the_spirits",
-        c = "(buff.balance_of_all_things_arcane.stack<5|buff.balance_of_all_things_nature.stack<5|astral_power<40)&buff.ca_inc.up|cooldown.ca_inc.remains>40&buff.eclipse.up",
-        k = "T",
-      },
-      {
-        a = "fury_of_elune",
-        c = "fight_remains<10|cooldown.ca_inc.remains>cooldown.fury_of_elune.duration-5|talent.lunation",
-        k = "T",
-      },
-      {
-        a = "force_of_nature",
-        c = "fight_remains<10|cooldown.force_of_nature.duration<cooldown.ca_inc.remains",
-        k = "T",
-      },
-      {
-        a = "eclipse",
-        c = "variable.eclipse_timings",
-        k = "T",
-      },
-      {
-        a = "starfall",
-        c = "buff.starweavers_warp.react",
-        k = "T",
-      },
-      {
-        a = "starfall",
-        c = "variable.starfall_cosmos",
-        k = "T",
-      },
-      {
-        a = "starsurge",
-        c = "buff.eclipse.down&astral_power.deficit<20|buff.eclipse.up&action.starsurge.cost>1|buff.touch_the_cosmos.react|buff.starweavers_weft.react",
-        k = "T",
-      },
-      {
-        a = "new_moon",
-        c = "astral_power.deficit>energize_amount",
-        k = "U",
-      },
-      {
-        a = "half_moon",
-        c = "astral_power.deficit>energize_amount",
-        k = "U",
-      },
-      {
-        a = "full_moon",
-        c = "astral_power.deficit>energize_amount",
-        k = "U",
-      },
-      {
-        a = "wild_mushroom",
-        c = "buff.eclipse.up|cooldown.wild_mushroom.full_recharge_time<cooldown.ca_inc.remains",
-        k = "T",
-      },
-      {
-        a = "starfire",
-        k = "R",
-      },
-    },
-    kotg_st = {
-      {
-        a = "sunfire",
-        k = "R",
-        p = {
-          target_if = "remains<2|refreshable&buff.eclipse.down&target.time_to_die>10",
-        },
-      },
-      {
-        a = "moonfire",
-        k = "R",
-        p = {
-          target_if = "buff.harmony_of_the_grove.down&(remains<2|refreshable&!buff.eclipse.up&!cooldown.force_of_nature.remains<dot.moonfire.remains)&target.time_to_die>10",
-        },
-      },
-      {
-        a = "celestial_alignment",
-        c = "fight_remains<25",
-        k = "M",
-      },
-      {
-        a = "fury_of_elune",
-        c = "fight_remains<10|cooldown.force_of_nature.remains>5|!talent.radiant_moonlight",
-        k = "T",
-      },
-      {
-        a = "force_of_nature",
-        c = "fight_remains<10",
-        k = "M",
-      },
-      {
-        a = "convoke_the_spirits",
-        c = "astral_power<40&buff.harmony_of_the_grove.up|fight_remains<10",
-        k = "T",
-      },
-      {
-        a = "eclipse",
-        c = "variable.eclipse_timings&(astral_power>60|charges_fractional=2)",
-        k = "T",
-      },
-      {
-        a = "starfall",
-        c = "buff.starweavers_warp.react",
-        k = "T",
-      },
-      {
-        a = "starfall",
-        c = "variable.starfall_cosmos",
-        k = "T",
-      },
-      {
-        a = "starsurge",
-        c = "buff.eclipse.down&astral_power.deficit<20|buff.eclipse.up&action.starsurge.cost>1&(astral_power.deficit<10|cooldown.force_of_nature.remains>5+buff.eclipse.remains|buff.ascendant_stars.up)|buff.touch_the_cosmos.react|buff.starweavers_weft.react",
-        k = "T",
-      },
-      {
-        a = "new_moon",
-        c = "astral_power.deficit>energize_amount",
-        k = "U",
-      },
-      {
-        a = "half_moon",
-        c = "astral_power.deficit>energize_amount",
-        k = "U",
-      },
-      {
-        a = "full_moon",
-        c = "astral_power.deficit>energize_amount",
-        k = "U",
-      },
-      {
-        a = "wild_mushroom",
-        c = "buff.eclipse.up|cooldown.wild_mushroom.full_recharge_time<cooldown.ca_inc.remains",
-        k = "T",
-      },
-      {
-        a = "wrath",
-        k = "R",
-      },
-    },
-    mini = {
-      {
-        a = "fury_of_elune",
-        k = "R",
-      },
-      {
-        a = "force_of_nature",
-        k = "R",
-      },
-      {
-        a = "eclipse",
-        k = "R",
-      },
-    },
-    opener = {
-      {
-        a = "moonfire",
-        c = "!talent.convoke_the_spirits",
-        k = "R",
-        p = {
-          line_cd = "999",
-        },
-      },
-      {
-        a = "moonfire",
-        k = "R",
-        p = {
-          target_if = "refreshable&(target.time_to_die-remains)>6&active_dots.moonfire<10&spell_targets>1",
-        },
-      },
-      {
-        a = "sunfire",
-        k = "R",
-        p = {
-          line_cd = "999",
-        },
-      },
-      {
-        a = "eclipse",
-        c = "!talent.convoke_the_spirits",
-        k = "R",
-        p = {
-          line_cd = "999",
-        },
-      },
-      {
-        a = "starsurge",
-        c = "buff.ascendant_stars.up&!talent.convoke_the_spirits&((variable.Starfall_talents&!buff.starweavers_warp.react&!buff.touch_the_cosmos.react|buff.starweavers_weft.react)&spell_targets>1|spell_targets=1)",
-        k = "T",
-      },
-      {
-        a = "starfall",
-        c = "buff.ascendant_stars.up&!talent.convoke_the_spirits&((action.starfall.cost>1)|buff.starweavers_warp.react|buff.touch_the_cosmos.react)&spell_targets>=2",
-        k = "T",
-      },
-      {
-        a = "wrath",
-        c = "(buff.ascendant_stars.up|buff.ascendant_stars.down&astral_power<80)&!talent.convoke_the_spirits&hero_tree.keeper_of_the_grove&spell_targets.starfire<3",
-        k = "T",
-      },
-      {
-        a = "starfire",
-        c = "(buff.ascendant_stars.up|buff.ascendant_stars.down&astral_power<80)&!talent.convoke_the_spirits&(hero_tree.elunes_chosen|spell_targets.starfire>=3)",
+        a = "innervate",
+        c = "(((fight_remains>380)&(mana.pct<70))|((mana.pct<40)&(fight_remains>30)))",
         k = "T",
       },
       {
         a = "moonfire",
-        c = "buff.ascendant_stars.down&hero_tree.elunes_chosen",
+        c = "!(dot.moonfire.ticking)",
         k = "T",
-        p = {
-          line_cd = "999",
-        },
       },
       {
-        a = "sunfire",
-        c = "buff.ascendant_stars.down&!talent.convoke_the_spirits",
+        a = "insect_swarm",
+        c = "!(dot.insect_swarm.ticking)",
         k = "T",
-        p = {
-          line_cd = "999",
-        },
       },
       {
-        a = "fury_of_elune",
-        k = "R",
-      },
-      {
-        a = "force_of_nature",
-        k = "R",
-      },
-      {
-        a = "celestial_alignment",
-        k = "R",
-        p = {
-          add_queue_lag = "1",
-        },
-      },
-    },
-    precombat = {
-      {
-        a = "snapshot_stats",
-        k = "R",
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "Starfall_talents",
-          value = "(spell_targets<3&(talent.starweaver&!talent.aetherial_kindling&!talent.meteorites&(talent.stellar_amplification&talent.power_of_goldrinn|talent.stellar_amplification&talent.power_of_goldrinn&talent.meteor_storm|talent.power_of_goldrinn&!talent.meteor_storm))|(talent.rattle_the_stars&!talent.meteorites&((talent.stellar_amplification|talent.power_of_goldrinn)&!talent.aetherial_kindling)))",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "no_cd_talent",
-          value = "!talent.celestial_alignment&!talent.incarnation_chosen_of_elune|druid.no_cds",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "ca_opener",
-          op = "set",
-          value = "1",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "opener",
-          op = "set",
-          value = "1",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "on_use_trinket",
-          op = "add",
-          value = "trinket.1.has_use_buff",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "on_use_trinket",
-          op = "add",
-          value = "(trinket.2.has_use_buff)*2",
-        },
-      },
-      {
-        a = "moonkin_form",
-        k = "R",
-      },
-      {
-        a = "wrath",
-        k = "R",
-      },
-      {
-        a = "wrath",
-        k = "R",
-      },
-      {
-        a = "wrath",
-        c = "talent.dream_surge&enemies<=2",
+        a = "hurricane",
+        c = "(active_enemies>=4)",
         k = "M",
       },
       {
         a = "starfire",
-        c = "hero_tree.elunes_chosen|enemies>2",
-        k = "M",
+        c = "(buff.eclipse.up&((buff.eclipse.stack>1)|!(casting.starfire)))",
+        k = "U",
+      },
+      {
+        a = "wrath",
+        k = "R",
       },
     },
+    precombat = {},
   },
-  simcOrder = { "precombat", "default", "aoe", "cooldowns", "ec_st", "kotg_st", "mini", "opener" },
-  simcSource = "simc",
+  simcOrder = { "precombat", "default" },
+  simcSource = "wowsims",
   spec = "balance",
   spellInfo = {
     [2912] = {
@@ -895,8 +294,25 @@ ns.RegisterSpecData("forever", "druid_balance", {
       n = "wrath",
       r = 30,
     },
+    [5570] = {
+      ap = {
+        { 5570, "enemy" },
+      },
+      cost = { [0] = 45 },
+      d = 12,
+      gcd = 1.5,
+      n = "insect_swarm",
+      r = 30,
+    },
     [6780] = {
       cost = { [0] = 80 },
+      ct = 2,
+      gcd = 1.5,
+      n = "wrath",
+      r = 30,
+    },
+    [8905] = {
+      cost = { [0] = 100 },
       ct = 2,
       gcd = 1.5,
       n = "wrath",
@@ -962,6 +378,16 @@ ns.RegisterSpecData("forever", "druid_balance", {
       n = "moonfire",
       r = 30,
     },
+    [8929] = {
+      ap = {
+        { 8929, "enemy" },
+      },
+      cost = { [0] = 235 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+      r = 30,
+    },
     [8949] = {
       cost = { [0] = 135 },
       ct = 3.5,
@@ -983,6 +409,36 @@ ns.RegisterSpecData("forever", "druid_balance", {
       n = "starfire",
       r = 30,
     },
+    [9833] = {
+      ap = {
+        { 9833, "enemy" },
+      },
+      cost = { [0] = 280 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+      r = 30,
+    },
+    [9834] = {
+      ap = {
+        { 9834, "enemy" },
+      },
+      cost = { [0] = 325 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+      r = 30,
+    },
+    [9835] = {
+      ap = {
+        { 9835, "enemy" },
+      },
+      cost = { [0] = 375 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+      r = 30,
+    },
     [9875] = {
       cost = { [0] = 275 },
       ct = 3.5,
@@ -996,6 +452,83 @@ ns.RegisterSpecData("forever", "druid_balance", {
       gcd = 1.5,
       n = "starfire",
       r = 30,
+    },
+    [9912] = {
+      cost = { [0] = 120 },
+      ct = 2,
+      gcd = 1.5,
+      n = "wrath",
+      r = 30,
+    },
+    [16914] = {
+      ap = {
+        { 16914, "self" },
+      },
+      cost = { [0] = 880 },
+      d = 10,
+      gcd = 1.5,
+      n = "hurricane",
+      r = 30,
+    },
+    [17144] = {
+      gcd = 1.5,
+      n = "wrath",
+      r = 5,
+    },
+    [17401] = {
+      ap = {
+        { 17401, "self" },
+      },
+      cost = { [0] = 1180 },
+      d = 10,
+      gcd = 1.5,
+      n = "hurricane",
+      r = 30,
+    },
+    [17402] = {
+      ap = {
+        { 17402, "self" },
+      },
+      cost = { [0] = 1495 },
+      d = 10,
+      gcd = 1.5,
+      n = "hurricane",
+      r = 30,
+    },
+    [18104] = {
+      n = "wrath",
+      r = 10,
+    },
+    [20687] = {
+      cost = { [0] = 500 },
+      d = 10,
+      n = "starfall",
+      r = 30,
+    },
+    [20690] = {
+      ap = {
+        { 20690, "enemy" },
+      },
+      cost = { [0] = 375 },
+      d = 12,
+      n = "moonfire",
+      r = 50,
+    },
+    [21668] = {
+      cost = { [0] = 100 },
+      ct = 2,
+      gcd = 1.5,
+      n = "starfire",
+      r = 30,
+    },
+    [21669] = {
+      ap = {
+        { 21669, "enemy" },
+      },
+      cost = { [0] = 150 },
+      d = 12,
+      n = "moonfire",
+      r = 40,
     },
     [22812] = {
       ap = {
@@ -1011,7 +544,6 @@ ns.RegisterSpecData("forever", "druid_balance", {
         { 22842, "self" },
       },
       cd = 180,
-      cost = { [1] = 0 },
       d = 10,
       gcd = 1.5,
       n = "frenzied_regeneration",
@@ -1022,7 +554,70 @@ ns.RegisterSpecData("forever", "druid_balance", {
     [24858] = {
       gcd = 1.5,
       n = "moonkin_form",
-      tal = true,
+    },
+    [24905] = {
+      n = "moonkin_form",
+      pas = true,
+    },
+    [24974] = {
+      ap = {
+        { 24974, "enemy" },
+      },
+      cost = { [0] = 85 },
+      d = 12,
+      gcd = 1.5,
+      n = "insect_swarm",
+      r = 30,
+    },
+    [24975] = {
+      ap = {
+        { 24975, "enemy" },
+      },
+      cost = { [0] = 100 },
+      d = 12,
+      gcd = 1.5,
+      n = "insect_swarm",
+      r = 30,
+    },
+    [24976] = {
+      ap = {
+        { 24976, "enemy" },
+      },
+      cost = { [0] = 140 },
+      d = 12,
+      gcd = 1.5,
+      n = "insect_swarm",
+      r = 30,
+    },
+    [24977] = {
+      ap = {
+        { 24977, "enemy" },
+      },
+      cost = { [0] = 160 },
+      d = 12,
+      gcd = 1.5,
+      n = "insect_swarm",
+      r = 30,
+    },
+    [25298] = {
+      cost = { [0] = 340 },
+      ct = 3.5,
+      gcd = 1.5,
+      n = "starfire",
+      r = 30,
+    },
+    [27530] = {
+      cost = { [0] = 500 },
+      d = 10,
+      n = "hurricane",
+      r = 30,
+    },
+    [29166] = {
+      cd = 360,
+      d = 20,
+      gcd = 1.5,
+      n = "innervate",
+      r = 30,
     },
     [408024] = {
       ap = {
@@ -1042,7 +637,6 @@ ns.RegisterSpecData("forever", "druid_balance", {
     [408248] = {
       n = "eclipse",
       pas = true,
-      tal = true,
     },
     [408255] = {
       ap = {
@@ -1108,6 +702,12 @@ ns.RegisterSpecData("forever", "druid_balance", {
       n = "sunfire",
       r = 30,
     },
+    [414696] = {
+      n = "sunfire",
+    },
+    [414700] = {
+      n = "sunfire",
+    },
     [417157] = {
       ap = {
         { 417157, "self" },
@@ -1117,7 +717,11 @@ ns.RegisterSpecData("forever", "druid_balance", {
       gcd = 1.5,
       n = "starsurge",
       r = 30,
-      st = 1,
+    },
+    [417159] = {
+      cd = 90,
+      gcd = 1.5,
+      n = "renewal",
     },
     [424715] = {
       n = "starsurge",
@@ -1138,6 +742,11 @@ ns.RegisterSpecData("forever", "druid_balance", {
       gcd = 1.5,
       n = "barkskin",
       r = 40,
+    },
+    [429820] = {
+      d = 10,
+      n = "starfall",
+      r = 30,
     },
     [439748] = {
       ap = {
@@ -1161,6 +770,34 @@ ns.RegisterSpecData("forever", "druid_balance", {
       n = "starfall",
       pas = true,
     },
+    [441260] = {
+      n = "eclipse",
+      st = 1,
+    },
+    [443359] = {
+      n = "moonkin_form",
+      pas = true,
+    },
+    [449431] = {
+      d = 8,
+      n = "starfall",
+      r = 30,
+    },
+    [456195] = {
+      ap = {
+        { 456195, "self" },
+      },
+      d = 20,
+      n = "innervate",
+      r = 30,
+    },
+    [463285] = {
+      cost = { [0] = 100 },
+      ct = 3.5,
+      gcd = 1.5,
+      n = "starfire",
+      r = 30,
+    },
     [467079] = {
       ap = {
         { 467079, "self" },
@@ -1169,14 +806,29 @@ ns.RegisterSpecData("forever", "druid_balance", {
       n = "force_of_nature",
       r = 30,
     },
+    [1278759] = {
+      d = 10,
+      gcd = 1.5,
+      n = "hurricane",
+    },
+    [1278965] = {
+      d = 10,
+      gcd = 1.5,
+      n = "hurricane",
+    },
+    [1278968] = {
+      d = 10,
+      gcd = 1.5,
+      n = "hurricane",
+    },
   },
   spells = {
     barkskin = {
       a = { 22812, 428713 },
     },
     eclipse = {
-      a = { 408255, 408248, 409813 },
-      b = { 408255, 409813, 408248 },
+      a = { 408255, 441260, 408248, 409813 },
+      b = { 408255, 408248, 409813, 441260 },
       t = { 408248, 409813 },
     },
     force_of_nature = {
@@ -1185,29 +837,78 @@ ns.RegisterSpecData("forever", "druid_balance", {
     frenzied_regeneration = {
       a = { 22842, 428708, 22845 },
     },
+    hurricane = {
+      a = { 17402, 1278759, 17401, 1278968, 16914, 1278965, 27530 },
+    },
+    innervate = {
+      a = { 29166, 456195 },
+    },
+    insect_swarm = {
+      a = { 24977, 24976, 24975, 24974, 5570 },
+      b = { 24977, 24976, 24975, 24974, 5570 },
+    },
     moonfire = {
-      a = { 8921, 8924, 8925, 8926, 8927, 8928 },
-      b = { 8921, 8924, 8925, 8926, 8927, 8928 },
+      a = {
+        9835,
+        9834,
+        9833,
+        8929,
+        8928,
+        8927,
+        8926,
+        8925,
+        8924,
+        8921,
+        20690,
+        21669,
+      },
+      b = {
+        9835,
+        9834,
+        9833,
+        8929,
+        8928,
+        8927,
+        8926,
+        8925,
+        8924,
+        8921,
+        20690,
+        21669,
+      },
     },
     moonkin_form = {
-      a = { 24858 },
-      b = { 24858 },
+      a = { 24858, 24905, 443359 },
+      b = { 24858, 24905, 443359 },
+    },
+    renewal = {
+      a = { 417159 },
     },
     skull_bash = {
       a = { 410176, 414621 },
     },
     starfall = {
-      a = { 439748, 439753, 439756, 439755, 439768 },
+      a = { 20687, 439748, 429820, 439753, 439755, 439756, 449431, 439768 },
     },
     starfire = {
-      a = { 2912, 8949, 8950, 8951, 9875, 9876 },
+      a = {
+        25298,
+        9876,
+        9875,
+        8951,
+        8950,
+        8949,
+        2912,
+        21668,
+        463285,
+      },
     },
     starsurge = {
       a = { 417157, 424715 },
     },
     sunfire = {
-      a = { 414684, 414687, 414689 },
-      b = { 414684, 414687, 414689 },
+      a = { 414684, 414687, 414689, 414696, 414700 },
+      b = { 414684, 414687, 414689, 414696, 414700 },
     },
     survival_instincts = {
       a = { 408024, 408025, 409809 },
@@ -1216,7 +917,18 @@ ns.RegisterSpecData("forever", "druid_balance", {
       a = { 411115, 411124 },
     },
     wrath = {
-      a = { 5176, 5177, 5178, 5179, 5180, 6780 },
+      a = {
+        9912,
+        8905,
+        6780,
+        5180,
+        5179,
+        5178,
+        5177,
+        5176,
+        17144,
+        18104,
+      },
     },
   },
 })

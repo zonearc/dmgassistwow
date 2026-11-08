@@ -1,7 +1,7 @@
 # Boss mods and Blizzard's encounter timeline (researched 2026-11-08)
 
-Sources: DeadlyBossMods/DeadlyBossMods and BigWigsMods/BigWigs (shallow clones in `.libraries/reference/`,
-read for their public APIs only; DBM is "All Rights Reserved", nothing is copied), Blizzard UI source live 12.1.5.
+Sources: the public callback APIs of Deadly Boss Mods and BigWigs (as documented in their projects), and Blizzard's
+UI source (live 12.1.5). DMGAssist only listens to these callbacks; it contains no boss mod code.
 
 ## What changed in Midnight
 Boss mods can't read the combat log either. Blizzard added an **encounter timeline** (`C_EncounterTimeline`, also on

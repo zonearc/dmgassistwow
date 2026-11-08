@@ -74,7 +74,7 @@ end
 
 -- Largest value a resource can have: readable max, else the last one seen (kept per spec), else nil.
 function S.PowerMax(pt)
-  local max = U.Read(U.Call(UnitPowerMax, "player", pt))
+  local max = U.Get(UnitPowerMax, "player", pt)
   S.learned.powerMax = S.learned.powerMax or {}
   if type(max) == "number" and max > 0 then
     S.learned.powerMax[pt] = max
@@ -106,13 +106,13 @@ function S.CountEnemies()
   local n = 0
   for i = 1, MAX_NAMEPLATES do
     local unit = "nameplate" .. i
-    local exists = U.Read(U.Call(UnitExists, unit))
+    local exists = U.Get(UnitExists, unit)
     if exists == nil then
       return nil
     end
     if exists then
-      local hostile = U.Read(U.Call(UnitCanAttack, "player", unit))
-      local fighting = U.Read(U.Call(UnitAffectingCombat, unit))
+      local hostile = U.Get(UnitCanAttack, "player", unit)
+      local fighting = U.Get(UnitAffectingCombat, unit)
       if hostile == nil or fighting == nil then
         return nil
       end
@@ -184,14 +184,14 @@ function S.FightLength()
   if db.smartFight == false or S.inEncounter then
     return set.fightLength
   end
-  if U.Read(U.Call(UnitIsBossMob, "target")) == true then
+  if U.Get(UnitIsBossMob, "target") == true then
     return set.fightLength
   end
-  local class = U.Read(U.Call(UnitClassification, "target"))
+  local class = U.Get(UnitClassification, "target")
   if class == "worldboss" then
     return set.fightLength
   end
-  local inInstance = U.Read(U.Call(IsInInstance))
+  local inInstance = U.Get(IsInInstance)
   if inInstance == true then
     return math.min(set.fightLength, TRASH_FIGHT)
   end
@@ -207,7 +207,7 @@ S.hasteSource = "default"
 -- UNIT_SPELL_HASTE: haste changed (Bloodlust, a proc). If the value is readable we use it directly;
 -- otherwise the next measured GCD updates it.
 function S.OnHasteChanged()
-  local h = U.Read(U.Call(UnitSpellHaste, "player"))
+  local h = U.Get(UnitSpellHaste, "player")
   if type(h) == "number" then
     lastHaste, S.hasteSource = h, "read"
   else
@@ -220,7 +220,7 @@ function S.OnMeasuredGCD(seconds, base)
   if base ~= 1.5 or seconds < 0.74 or seconds > 1.6 then
     return
   end
-  if type(U.Read(U.Call(UnitSpellHaste, "player"))) == "number" then
+  if type(U.Get(UnitSpellHaste, "player")) == "number" then
     return -- readable: no need to estimate
   end
   local h = (1.5 / seconds - 1) * 100
@@ -231,7 +231,7 @@ function S.OnMeasuredGCD(seconds, base)
 end
 
 local function HasteFactor()
-  local h = U.Read(U.Call(UnitSpellHaste, "player"))
+  local h = U.Get(UnitSpellHaste, "player")
   if type(h) == "number" then
     lastHaste = h
   end
@@ -282,7 +282,7 @@ end
 -- Cooldowns
 ---------------------------------------------------------------------------
 local function CooldownInfo(id)
-  local info = U.Read(U.Call(C_Spell and C_Spell.GetSpellCooldown, id))
+  local info = U.Get(C_Spell and C_Spell.GetSpellCooldown, id)
   if type(info) ~= "table" then
     return nil
   end
@@ -522,7 +522,7 @@ local function ScanAuras(unit, filter, harmful)
     return nil
   end
   -- While auras are secret an empty scan proves nothing, so the whole scan counts as unreadable.
-  if U.Read(U.Call(C_Secrets and C_Secrets.ShouldAurasBeSecret)) == true then
+  if U.Get(C_Secrets and C_Secrets.ShouldAurasBeSecret) == true then
     return nil
   end
   local out = {}
@@ -728,7 +728,7 @@ function S.GCD(id)
     return info.gcd
   end
   local base = (info and info.gcd) or 1.5
-  local haste = U.Read(U.Call(UnitSpellHaste, "player"))
+  local haste = U.Get(UnitSpellHaste, "player")
   if type(haste) == "number" then
     lastHaste, S.hasteSource = haste, "read"
   end
@@ -769,8 +769,8 @@ end
 -- Resources
 ---------------------------------------------------------------------------
 local function PowerNow(pt)
-  local cur = U.Read(U.Call(UnitPower, "player", pt))
-  local max = U.Read(U.Call(UnitPowerMax, "player", pt))
+  local cur = U.Get(UnitPower, "player", pt)
+  local max = U.Get(UnitPowerMax, "player", pt)
   if type(cur) ~= "number" then
     cur = ns.Clues.ShadowValue(pt) -- counted from our casts, confirmed by power events
   end
@@ -884,9 +884,9 @@ function S.VerifyPowers()
     return
   end
   for _, pt in pairs(ns.Clues.DISCRETE) do
-    local cur = U.Read(U.Call(UnitPower, "player", pt))
+    local cur = U.Get(UnitPower, "player", pt)
     if type(cur) == "number" then
-      ns.Clues.SyncPower(pt, cur, U.Read(U.Call(UnitPowerMax, "player", pt)))
+      ns.Clues.SyncPower(pt, cur, U.Get(UnitPowerMax, "player", pt))
     end
   end
   local seen = {}
@@ -897,7 +897,7 @@ function S.VerifyPowers()
     seen[pt] = true
   end
   for pt in pairs(seen) do
-    local cur = U.Read(U.Call(UnitPower, "player", pt))
+    local cur = U.Get(UnitPower, "player", pt)
     if type(cur) == "number" then
       ns.Clues.VerifyPower(pt, cur)
     end
@@ -978,13 +978,7 @@ end
 ---------------------------------------------------------------------------
 -- The resolver: SimC identifier -> number / boolean / UNKNOWN
 ---------------------------------------------------------------------------
-local function Split(name)
-  local parts = {}
-  for p in name:gmatch("[^%.]+") do
-    parts[#parts + 1] = p
-  end
-  return parts
-end
+local Split = U.SplitDots
 
 local function Bool(v)
   if v == UNKNOWN then
@@ -1011,7 +1005,7 @@ local function CooldownTerm(token, field)
   elseif field == "duration" then
     return CooldownLength(id) or UNKNOWN
   end
-  local charges = U.Read(U.Call(C_Spell and C_Spell.GetSpellCharges, id))
+  local charges = U.Get(C_Spell and C_Spell.GetSpellCharges, id)
   if type(charges) == "table" then
     local cur, max = U.Read(charges.currentCharges), U.Read(charges.maxCharges)
     if field == "charges" or field == "charges_fractional" then
@@ -1128,13 +1122,13 @@ function S.Resolve(name, ctx)
       end
       return 5 -- no range info: SimC's own default (the player stands where the spec wants to stand)
     elseif f == "health" and p[3] == "pct" then
-      local hp, max = U.Read(U.Call(UnitHealth, "target")), U.Read(U.Call(UnitHealthMax, "target"))
+      local hp, max = U.Get(UnitHealth, "target"), U.Get(UnitHealthMax, "target")
       if type(hp) == "number" and type(max) == "number" and max > 0 then
         return 100 * hp / max
       end
       return UNKNOWN
     elseif f == "level" then
-      return U.Read(U.Call(UnitLevel, "target")) or UNKNOWN
+      return U.Get(UnitLevel, "target") or UNKNOWN
     end
     return UNKNOWN
   elseif head == "spell_haste" or head == "attack_haste" then
@@ -1171,6 +1165,40 @@ function S.Resolve(name, ctx)
       end
     end
     return 0
+  elseif head == "known" then
+    -- WoWSims lists: is this spell (any rank) in the player's spellbook / talents?
+    if M.SpellID(p[2] or "") or M.AnySpellID(p[2] or "") then
+      M.unresolved[p[2]] = nil
+      return 1
+    end
+    M.unresolved[p[2] or ""] = nil
+    return 0
+  elseif head == "talentid" then
+    -- WoWSims lists: talent by spell ID -> purchased rank (0 when the tree was read and it isn't taken).
+    local id = tonumber(p[2])
+    if not (id and M.talentsRead) then
+      return UNKNOWN
+    end
+    return M.talentIDs[id] or 0
+  elseif head == "casting" then
+    local castID = S.CurrentCast()
+    if not castID then
+      return 0
+    end
+    local info = M.Info(castID)
+    local tok = (info and info.n) or M.TokenForID(castID)
+    for _, t in ipairs(M.Candidates(p[2] or "")) do
+      if t == tok then
+        return 1
+      end
+    end
+    return 0
+  elseif head == "health" and p[2] == "pct" then
+    local hp, max = U.Get(UnitHealth, "player"), U.Get(UnitHealthMax, "player")
+    if type(hp) == "number" and type(max) == "number" and max > 0 then
+      return 100 * hp / max
+    end
+    return UNKNOWN
   elseif head == "fight_style" then
     return p[2] == "patchwerk" and 1 or 0
   elseif head == "raid_event" then
@@ -1186,15 +1214,15 @@ function S.Resolve(name, ctx)
   elseif STATIC_ZERO[head] then
     return 0
   elseif head == "level" then
-    return U.Read(U.Call(UnitLevel, "player")) or UNKNOWN
+    return U.Get(UnitLevel, "player") or UNKNOWN
   elseif head == "stealthed" then
-    local st = U.Read(U.Call(IsStealthed))
+    local st = U.Get(IsStealthed)
     if st == nil then
       return UNKNOWN
     end
     return Bool(st == true)
   elseif head == "moving" then
-    local speed = U.Read(U.Call(GetUnitSpeed, "player"))
+    local speed = U.Get(GetUnitSpeed, "player")
     if type(speed) == "number" then
       return speed > 0 and 1 or 0
     end
@@ -1206,7 +1234,7 @@ function S.Resolve(name, ctx)
     end
     local f = p[3]
     if f == "ready" or f == "usable" then
-      local usable = U.Read(U.Call(C_Spell and C_Spell.IsSpellUsable, id))
+      local usable = U.Get(C_Spell and C_Spell.IsSpellUsable, id)
       if usable == nil then
         return UNKNOWN
       end
@@ -1266,7 +1294,7 @@ function S.Calibrate()
   for id, b in pairs(M.book) do
     local info = b.id == id and not b.passive and M.Info(id)
     if info then
-      local costs = U.Read(U.Call(C_Spell and C_Spell.GetSpellPowerCost, id))
+      local costs = U.Get(C_Spell and C_Spell.GetSpellPowerCost, id)
       if type(costs) == "table" then
         local live
         for _, c in ipairs(costs) do
@@ -1279,7 +1307,7 @@ function S.Calibrate()
         info.costLive = live
         n = n + 1
       end
-      local charges = U.Read(U.Call(C_Spell and C_Spell.GetSpellCharges, id))
+      local charges = U.Get(C_Spell and C_Spell.GetSpellCharges, id)
       local maxC = type(charges) == "table" and U.Read(charges.maxCharges)
       if type(maxC) == "number" then
         info.chLive = maxC

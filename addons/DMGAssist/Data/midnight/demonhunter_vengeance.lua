@@ -1271,6 +1271,14 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       n = "fracture",
       r = 5,
     },
+    [320639] = {
+      n = "fel_devastation",
+      pas = true,
+    },
+    [320645] = {
+      n = "metamorphosis",
+      pas = true,
+    },
     [320794] = {
       n = "sigil_of_flame",
       pas = true,
@@ -1285,6 +1293,14 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
     },
     [321028] = {
       n = "demon_spikes",
+      pas = true,
+    },
+    [321067] = {
+      n = "metamorphosis",
+      pas = true,
+    },
+    [321068] = {
+      n = "metamorphosis",
       pas = true,
     },
     [333105] = {
@@ -1309,6 +1325,17 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
     [337819] = {
       n = "throw_glaive",
       r = 30,
+    },
+    [346502] = {
+      ap = {
+        { 346502, "self" },
+      },
+      d = 2,
+      n = "fel_devastation",
+      r = 20,
+    },
+    [346503] = {
+      n = "fel_devastation",
     },
     [346665] = {
       n = "throw_glaive",
@@ -1341,6 +1368,17 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
     [393035] = {
       n = "throw_glaive",
     },
+    [393831] = {
+      ap = {
+        { 393831, "self" },
+      },
+      d = 2,
+      n = "fel_devastation",
+      r = 20,
+    },
+    [393834] = {
+      n = "fel_devastation",
+    },
     [395446] = {
       n = "soul_sigils",
       pas = true,
@@ -1354,6 +1392,32 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       n = "immolation_aura",
     },
     [427905] = {
+      n = "immolation_aura",
+    },
+    [427906] = {
+      n = "immolation_aura",
+    },
+    [427907] = {
+      n = "immolation_aura",
+    },
+    [427908] = {
+      gain = { [17] = 5 },
+      n = "immolation_aura",
+    },
+    [427910] = {
+      gain = { [17] = 5 },
+      n = "immolation_aura",
+    },
+    [427911] = {
+      gain = { [17] = 5 },
+      n = "immolation_aura",
+    },
+    [427913] = {
+      ap = {
+        { 427913, "self" },
+      },
+      d = 6,
+      gain = { [17] = 28 },
       n = "immolation_aura",
     },
     [427917] = {
@@ -1495,7 +1559,19 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       t = { 227174 },
     },
     fel_devastation = {
-      a = { 212084, 212105, 212106, 333105, 333110, 333120 },
+      a = {
+        212084,
+        212105,
+        212106,
+        333105,
+        333110,
+        333120,
+        346502,
+        346503,
+        393831,
+        393834,
+        320639,
+      },
     },
     felblade = {
       a = { 213241, 213243, 232893, 203557, 204497, 236167 },
@@ -1515,14 +1591,47 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       b = { 442435 },
     },
     immolation_aura = {
-      a = { 258920, 427917, 258921, 258922, 427904, 427905 },
+      a = {
+        258920,
+        427917,
+        258921,
+        258922,
+        427904,
+        427905,
+        427906,
+        427907,
+        427908,
+        427910,
+        427911,
+        427913,
+      },
     },
     infernal_strike = {
       a = { 189110, 189112 },
     },
     metamorphosis = {
-      a = { 187827, 191427, 162264, 200166, 247121, 201453 },
-      b = { 162264, 187827, 200166, 201453, 247121, 191427 },
+      a = {
+        187827,
+        191427,
+        162264,
+        200166,
+        247121,
+        201453,
+        320645,
+        321067,
+        321068,
+      },
+      b = {
+        162264,
+        187827,
+        200166,
+        201453,
+        247121,
+        191427,
+        320645,
+        321067,
+        321068,
+      },
     },
     reavers_glaive = {
       a = { 442294, 1283344, 444686, 444764 },

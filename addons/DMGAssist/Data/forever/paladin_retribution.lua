@@ -551,10 +551,6 @@ ns.RegisterSpecData("forever", "paladin_retribution", {
       n = "hammer_of_wrath",
       r = 30,
     },
-    [25771] = {
-      d = 60,
-      n = "forbearance",
-    },
     [407632] = {
       cd = 6,
       gcd = 1.5,
@@ -566,6 +562,9 @@ ns.RegisterSpecData("forever", "paladin_retribution", {
       gcd = 1.5,
       n = "divine_storm",
     },
+    [407782] = {
+      n = "divine_storm",
+    },
     [407784] = {
       n = "divine_storm",
     },
@@ -575,6 +574,10 @@ ns.RegisterSpecData("forever", "paladin_retribution", {
       },
       cd = 180,
       d = 20,
+      n = "avenging_wrath",
+    },
+    [407957] = {
+      d = 30,
       n = "avenging_wrath",
     },
     [409914] = {
@@ -604,6 +607,10 @@ ns.RegisterSpecData("forever", "paladin_retribution", {
       n = "rebuke",
       pas = true,
     },
+    [429151] = {
+      n = "hammer_of_wrath",
+      r = 30,
+    },
     [458312] = {
       ap = {
         { 458312, "self" },
@@ -624,29 +631,36 @@ ns.RegisterSpecData("forever", "paladin_retribution", {
       gcd = 1.5,
       n = "divine_protection",
     },
+    [1311083] = {
+      n = "crusade",
+      pas = true,
+    },
   },
   spells = {
     avenging_wrath = {
-      a = { 407788, 409934 },
-      b = { 407788, 409934 },
+      a = { 407788, 407957, 409934 },
+      b = { 407788, 407957, 409934 },
+    },
+    crusade = {
+      t = { 1311083 },
     },
     crusader_strike = {
       a = { 409914 },
     },
     divine_protection = {
-      a = { 498, 5573, 458312, 458371 },
+      a = { 5573, 458371, 498, 458312 },
     },
     divine_shield = {
-      a = { 642, 1020 },
+      a = { 1020, 642 },
     },
     divine_storm = {
-      a = { 407778, 407784, 409924 },
+      a = { 407778, 407782, 407784, 409924 },
     },
     hammer_of_the_righteous = {
       a = { 407632, 409922 },
     },
     hammer_of_wrath = {
-      a = { 24239, 24274, 24275 },
+      a = { 24239, 24274, 24275, 429151 },
     },
     rebuke = {
       a = { 425609, 425616 },

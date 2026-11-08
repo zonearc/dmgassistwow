@@ -570,6 +570,10 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       n = "darkness",
       tal = true,
     },
+    [197125] = {
+      n = "chaos_strike",
+      pas = true,
+    },
     [198013] = {
       ap = {
         { 198013, "self" },
@@ -826,8 +830,24 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       d = 4,
       n = "essence_break",
     },
+    [320402] = {
+      n = "blade_dance",
+      pas = true,
+    },
+    [320645] = {
+      n = "metamorphosis",
+      pas = true,
+    },
     [320962] = {
       n = "fiery_brand",
+      pas = true,
+    },
+    [321067] = {
+      n = "metamorphosis",
+      pas = true,
+    },
+    [321068] = {
+      n = "metamorphosis",
       pas = true,
     },
     [323639] = {
@@ -941,9 +961,28 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       n = "eye_beam",
       r = 20,
     },
+    [346505] = {
+      n = "eye_beam",
+    },
     [346665] = {
       n = "throw_glaive",
       r = 30,
+    },
+    [362177] = {
+      n = "eye_beam",
+    },
+    [362222] = {
+      ap = {
+        { 362222, "enemy" },
+      },
+      d = 6,
+      n = "the_hunt",
+    },
+    [362224] = {
+      ap = {
+        { 323996, "enemy" },
+      },
+      n = "the_hunt",
     },
     [370965] = {
       ap = {
@@ -958,6 +997,13 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       r = 50,
       tal = true,
     },
+    [370966] = {
+      ap = {
+        { 370970, "enemy" },
+        { 370969, "enemy" },
+      },
+      n = "the_hunt",
+    },
     [370967] = {
       ap = {
         { 370967, "self" },
@@ -965,6 +1011,23 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       d = 1.5,
       n = "the_hunt",
       r = 50,
+    },
+    [370969] = {
+      ap = {
+        { 370969, "enemy" },
+      },
+      d = 6,
+      n = "the_hunt",
+    },
+    [370970] = {
+      ap = {
+        { 370970, "enemy" },
+      },
+      d = 1.5,
+      n = "the_hunt",
+    },
+    [370971] = {
+      n = "the_hunt",
     },
     [388108] = {
       n = "initiative",
@@ -975,6 +1038,16 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       n = "chaotic_transformation",
       pas = true,
       tal = true,
+    },
+    [391057] = {
+      ap = {
+        { 391057, "self" },
+      },
+      d = 2,
+      n = "eye_beam",
+    },
+    [391058] = {
+      n = "eye_beam",
     },
     [391189] = {
       n = "burning_wound",
@@ -1029,6 +1102,32 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       n = "immolation_aura",
     },
     [427905] = {
+      n = "immolation_aura",
+    },
+    [427906] = {
+      n = "immolation_aura",
+    },
+    [427907] = {
+      n = "immolation_aura",
+    },
+    [427908] = {
+      gain = { [17] = 5 },
+      n = "immolation_aura",
+    },
+    [427910] = {
+      gain = { [17] = 5 },
+      n = "immolation_aura",
+    },
+    [427911] = {
+      gain = { [17] = 5 },
+      n = "immolation_aura",
+    },
+    [427913] = {
+      ap = {
+        { 427913, "self" },
+      },
+      d = 6,
+      gain = { [17] = 28 },
       n = "immolation_aura",
     },
     [427917] = {
@@ -1088,6 +1187,11 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
     [451266] = {
       n = "demonsurge",
     },
+    [452402] = {
+      n = "demonsurge",
+      pas = true,
+      tal = true,
+    },
     [452409] = {
       n = "violent_transformation",
       pas = true,
@@ -1107,6 +1211,24 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
     [452443] = {
       n = "demonsurge",
     },
+    [452449] = {
+      n = "demonsurge",
+    },
+    [452452] = {
+      n = "demonsurge",
+    },
+    [452462] = {
+      n = "demonsurge",
+    },
+    [452463] = {
+      n = "demonsurge",
+    },
+    [452489] = {
+      n = "demonsurge",
+    },
+    [452491] = {
+      n = "demonsurge",
+    },
     [453323] = {
       ap = {
         { 452416, "self" },
@@ -1117,7 +1239,14 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
     [472559] = {
       n = "blade_dance",
     },
+    [472560] = {
+      n = "blade_dance",
+    },
     [472562] = {
+      n = "chaos_strike",
+      r = 15,
+    },
+    [472563] = {
       n = "chaos_strike",
       r = 15,
     },
@@ -1168,6 +1297,9 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       n = "reavers_glaive",
       r = 40,
     },
+    [1287949] = {
+      n = "eye_beam",
+    },
   },
   spells = {
     a_fire_inside = {
@@ -1177,7 +1309,7 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       a = { 201427, 201428, 227518 },
     },
     blade_dance = {
-      a = { 188499, 199552, 200685, 391374, 391378, 472559 },
+      a = { 188499, 199552, 200685, 391374, 391378, 472559, 472560, 320402 },
     },
     blur = {
       a = { 198589, 212800, 202818 },
@@ -1188,7 +1320,7 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       t = { 391189, 346279 },
     },
     chaos_strike = {
-      a = { 162794, 344862, 193840, 199547, 222031, 472562 },
+      a = { 162794, 344862, 193840, 199547, 222031, 472562, 472563, 197125 },
     },
     chaotic_transformation = {
       t = { 388112 },
@@ -1200,8 +1332,34 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       a = { 210152, 210153, 210155, 393054, 393055 },
     },
     demonsurge = {
-      a = { 451266, 452416, 453323, 1238696, 451258, 451263 },
-      b = { 452416, 451258, 451263, 451266, 452435, 452443 },
+      a = {
+        451266,
+        452416,
+        453323,
+        1238696,
+        451258,
+        451263,
+        452402,
+        452435,
+        452443,
+        452449,
+        452452,
+        452462,
+      },
+      b = {
+        452416,
+        451258,
+        451263,
+        451266,
+        452435,
+        452443,
+        452449,
+        452452,
+        452462,
+        452463,
+        452489,
+        452491,
+      },
     },
     disrupt = {
       a = { 183752, 218903, 195439 },
@@ -1219,7 +1377,19 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       t = { 206476 },
     },
     eye_beam = {
-      a = { 198013, 198030, 203040, 333386, 333389, 346504 },
+      a = {
+        198013,
+        198030,
+        203040,
+        333386,
+        333389,
+        346504,
+        346505,
+        362177,
+        391058,
+        1287949,
+        391057,
+      },
     },
     fel_rush = {
       a = { 195072, 344865, 427785, 192611 },
@@ -1235,7 +1405,20 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       b = { 442435 },
     },
     immolation_aura = {
-      a = { 258920, 427917, 258921, 258922, 427904, 427905 },
+      a = {
+        258920,
+        427917,
+        258921,
+        258922,
+        427904,
+        427905,
+        427906,
+        427907,
+        427908,
+        427910,
+        427911,
+        427913,
+      },
     },
     inertia = {
       t = { 427640 },
@@ -1246,8 +1429,28 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       t = { 388108 },
     },
     metamorphosis = {
-      a = { 187827, 191427, 162264, 200166, 247121, 201453 },
-      b = { 162264, 187827, 200166, 201453, 247121, 191427 },
+      a = {
+        187827,
+        191427,
+        162264,
+        200166,
+        247121,
+        201453,
+        320645,
+        321067,
+        321068,
+      },
+      b = {
+        162264,
+        187827,
+        200166,
+        201453,
+        247121,
+        191427,
+        320645,
+        321067,
+        321068,
+      },
     },
     reavers_glaive = {
       a = { 442294, 1283344, 444686, 444764 },
@@ -1265,7 +1468,20 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       t = { 1220506 },
     },
     the_hunt = {
-      a = { 323639, 370965, 323802, 323996, 333762, 345335 },
+      a = {
+        323639,
+        370965,
+        323802,
+        323996,
+        333762,
+        345335,
+        362222,
+        362224,
+        370966,
+        370969,
+        370970,
+        370971,
+      },
     },
     throw_glaive = {
       a = { 185123, 204157, 337819, 346665, 393035, 195441 },

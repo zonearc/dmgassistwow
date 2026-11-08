@@ -749,6 +749,24 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
     [280720] = {
       n = "secret_technique",
     },
+    [282438] = {
+      n = "secret_technique",
+    },
+    [282439] = {
+      n = "secret_technique",
+    },
+    [282440] = {
+      d = 6,
+      n = "secret_technique",
+    },
+    [282448] = {
+      ap = {
+        { 282448, "enemy" },
+      },
+      d = 30,
+      n = "secret_technique",
+      r = 30,
+    },
     [282449] = {
       n = "secret_technique",
     },
@@ -1019,6 +1037,9 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
     [1293149] = {
       n = "crimson_vial",
     },
+    [1305994] = {
+      n = "secret_technique",
+    },
     [1309274] = {
       ap = {
         { 1309274, "self" },
@@ -1032,8 +1053,8 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
   },
   spells = {
     ancient_arts = {
-      a = { 1269163, 1268932, 1268936, 1268939, 1269579, 1269584 },
-      b = { 1269163, 1269592, 1269579, 1269584, 1268932, 1268936 },
+      a = { 1269163, 1268932, 1268936, 1268939, 1269579, 1269584, 1269592 },
+      b = { 1269163, 1269592, 1269579, 1269584, 1268932, 1268936, 1268939 },
     },
     arcane_torrent = {
       a = { 25046 },
@@ -1078,7 +1099,7 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       a = { 200758, 246332, 1269214, 1269669 },
     },
     goremaws_bite = {
-      a = { 426591, 426592, 426593, 1269217, 1269674, 1309309 },
+      a = { 426591, 426592, 426593, 1269217, 1269674, 1309309, 1309274 },
     },
     kick = {
       a = { 1766 },
@@ -1098,7 +1119,19 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       t = { 394320 },
     },
     secret_technique = {
-      a = { 280719, 280720, 282449, 282480, 1269560, 1269663 },
+      a = {
+        280719,
+        280720,
+        282449,
+        282480,
+        1269560,
+        1269663,
+        1305994,
+        282438,
+        282439,
+        282440,
+        282448,
+      },
     },
     shadow_blades = {
       a = { 121471, 279043 },

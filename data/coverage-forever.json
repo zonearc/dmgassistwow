@@ -283,32 +283,21 @@
     "celestial_alignment"
    ],
    "gameMatch": {
-    "matched": 9,
-    "missing": [
-     "celestial_alignment",
-     "convoke_the_spirits",
-     "full_moon",
-     "fury_of_elune",
-     "half_moon",
-     "new_moon",
-     "wild_mushroom"
-    ],
-    "total": 16
+    "matched": 6,
+    "missing": [],
+    "total": 6
    },
-   "lines": 83,
-   "mode": 8,
-   "read": 23,
-   "readPct": 28,
-   "simcSource": "simc",
+   "lines": 6,
+   "mode": 1,
+   "read": 1,
+   "readPct": 17,
+   "simcSource": "wowsims",
    "topUnknown": [
-    "energize_amount",
-    "active_dots.moonfire",
-    "eclipse.lunar",
-    "eclipse.solar"
+    "casting.starfire"
    ],
-   "tracked": 41,
-   "unknown": 11,
-   "usablePct": 87
+   "tracked": 3,
+   "unknown": 1,
+   "usablePct": 83
   },
   "druid_feral": {
    "blizzard": {
@@ -324,25 +313,28 @@
     "berserk"
    ],
    "gameMatch": {
-    "matched": 11,
+    "matched": 10,
     "missing": [
-     "chomp",
-     "convoke_the_spirits",
-     "feral_frenzy",
-     "frantic_frenzy",
-     "primal_wrath"
+     "spell_1259799"
     ],
-    "total": 16
+    "total": 11
    },
-   "lines": 54,
-   "mode": 9,
-   "read": 9,
-   "readPct": 17,
-   "simcSource": "simc",
-   "topUnknown": [],
-   "tracked": 36,
-   "unknown": 0,
-   "usablePct": 100
+   "lines": 14,
+   "mode": 0,
+   "read": 0,
+   "readPct": 0,
+   "simcSource": "wowsims",
+   "topUnknown": [
+    "variable.pool_energy_for_bite",
+    "known.faerie_fire",
+    "variable.ready_to_use_elunes_light",
+    "variable.midfight_bite_is_worthwhile",
+    "variable.fight_end_bite_is_worthwhile",
+    "variable.rip_due"
+   ],
+   "tracked": 5,
+   "unknown": 9,
+   "usablePct": 36
   },
   "druid_guardian": {
    "blizzard": {
@@ -359,31 +351,28 @@
     "convoke_the_spirits"
    ],
    "gameMatch": {
-    "matched": 13,
+    "matched": 10,
     "missing": [
-     "bristling_fur",
-     "convoke_the_spirits",
-     "ironfur",
-     "lunar_beam",
-     "mangle",
-     "red_moon",
-     "sundering_roar",
-     "thrash",
-     "wild_guardian"
+     "spell_1259799"
     ],
-    "total": 22
+    "total": 11
    },
-   "lines": 51,
-   "mode": 2,
-   "read": 12,
-   "readPct": 24,
-   "simcSource": "simc",
+   "lines": 12,
+   "mode": 0,
+   "read": 2,
+   "readPct": 17,
+   "simcSource": "wowsims",
    "topUnknown": [
-    "target.cooldown.pause_action.remains"
+    "health.pct",
+    "variable.ready_to_use_elunes_light",
+    "variable.enrage_can_rescue_the_next_attack",
+    "variable.faerie_fire_needs_refreshing",
+    "variable.attack_power_reduction_is_covered",
+    "known.primal_bite"
    ],
-   "tracked": 36,
-   "unknown": 1,
-   "usablePct": 98
+   "tracked": 1,
+   "unknown": 9,
+   "usablePct": 25
   },
   "druid_restoration": {
    "blizzard": {
@@ -400,8 +389,8 @@
     "matched": 13,
     "missing": [
      "convoke_the_spirits",
-     "mangle",
-     "thrash"
+     "heart_of_the_wild",
+     "mangle"
     ],
     "total": 16
    },
@@ -512,9 +501,10 @@
    },
    "blizzardExcluded": [],
    "gameMatch": {
-    "matched": 4,
+    "matched": 3,
     "missing": [
      "barbed_shot",
+     "black_arrow",
      "cobra_shot",
      "wailing_arrow",
      "wild_thrash"
@@ -547,8 +537,9 @@
     "trueshot"
    ],
    "gameMatch": {
-    "matched": 8,
+    "matched": 7,
     "missing": [
+     "black_arrow",
      "explosive_shot",
      "moonlight_chakram",
      "multishot",
@@ -621,24 +612,23 @@
     "arcane_surge"
    ],
    "gameMatch": {
-    "matched": 8,
+    "matched": 6,
     "missing": [
-     "arcane_orb",
-     "mirror_image",
-     "prismatic_bolt",
-     "touch_of_the_magi"
+     "spell_1259705"
     ],
-    "total": 12
+    "total": 7
    },
-   "lines": 38,
-   "mode": 2,
-   "read": 9,
-   "readPct": 24,
-   "simcSource": "simc",
-   "topUnknown": [],
-   "tracked": 27,
-   "unknown": 0,
-   "usablePct": 100
+   "lines": 8,
+   "mode": 0,
+   "read": 4,
+   "readPct": 50,
+   "simcSource": "wowsims",
+   "topUnknown": [
+    "known.spell_1259705"
+   ],
+   "tracked": 2,
+   "unknown": 2,
+   "usablePct": 75
   },
   "mage_fire": {
    "blizzard": {
@@ -656,25 +646,24 @@
    "gameMatch": {
     "matched": 7,
     "missing": [
-     "meteor",
-     "mirror_image"
+     "spell_1259705"
     ],
-    "total": 9
+    "total": 8
    },
-   "lines": 73,
-   "mode": 3,
-   "read": 9,
-   "readPct": 12,
-   "simcSource": "simc",
+   "lines": 10,
+   "mode": 0,
+   "read": 2,
+   "readPct": 20,
+   "simcSource": "wowsims",
    "topUnknown": [
-    "scorch_execute.active",
-    "hot_streak_spells_in_flight",
-    "variable.combustion_precast_time",
-    "firestarter.active"
+    "known.spell_1259705",
+    "casting.pyroblast",
+    "casting.scorch",
+    "casting.arcane_blast"
    ],
-   "tracked": 51,
-   "unknown": 10,
-   "usablePct": 86
+   "tracked": 3,
+   "unknown": 5,
+   "usablePct": 50
   },
   "mage_frost": {
    "blizzard": {
@@ -688,27 +677,23 @@
    },
    "blizzardExcluded": [],
    "gameMatch": {
-    "matched": 6,
+    "matched": 7,
     "missing": [
-     "any_blink",
-     "comet_storm",
-     "flurry",
-     "glacial_spike",
-     "ice_nova",
-     "ray_of_frost",
-     "summon_water_elemental"
+     "spell_1259705"
     ],
-    "total": 13
+    "total": 8
    },
-   "lines": 63,
-   "mode": 4,
-   "read": 24,
-   "readPct": 38,
-   "simcSource": "simc",
-   "topUnknown": [],
-   "tracked": 35,
-   "unknown": 0,
-   "usablePct": 100
+   "lines": 14,
+   "mode": 1,
+   "read": 4,
+   "readPct": 29,
+   "simcSource": "wowsims",
+   "topUnknown": [
+    "casting.frostbolt"
+   ],
+   "tracked": 8,
+   "unknown": 1,
+   "usablePct": 93
   },
   "monk_brewmaster": {
    "blizzard": {
@@ -935,23 +920,29 @@
     "deathmark"
    ],
    "gameMatch": {
-    "matched": 12,
+    "matched": 19,
     "missing": [
-     "deathmark",
-     "kingsbane",
-     "thistle_tea"
+     "spell_1259799",
+     "spell_20572"
     ],
-    "total": 15
+    "total": 21
    },
-   "lines": 41,
-   "mode": 4,
+   "lines": 28,
+   "mode": 0,
    "read": 6,
-   "readPct": 15,
-   "simcSource": "simc",
-   "topUnknown": [],
-   "tracked": 31,
-   "unknown": 0,
-   "usablePct": 100
+   "readPct": 21,
+   "simcSource": "wowsims",
+   "topUnknown": [
+    "variable.gnome_eureka_active_or_not_ready",
+    "known.spell_20572",
+    "variable.boot_knife_known",
+    "known.spell_1259799",
+    "known.mutilate",
+    "known.blade_flurry"
+   ],
+   "tracked": 9,
+   "unknown": 13,
+   "usablePct": 54
   },
   "rogue_outlaw": {
    "blizzard": {
@@ -967,28 +958,29 @@
     "adrenaline_rush"
    ],
    "gameMatch": {
-    "matched": 11,
+    "matched": 19,
     "missing": [
-     "blade_rush",
-     "dispatch",
-     "keep_it_rolling",
-     "killing_spree",
-     "pistol_shot",
-     "roll_the_bones"
+     "spell_1259799",
+     "spell_20572"
     ],
-    "total": 17
+    "total": 21
    },
-   "lines": 38,
-   "mode": 1,
-   "read": 17,
-   "readPct": 45,
-   "simcSource": "simc",
+   "lines": 28,
+   "mode": 0,
+   "read": 6,
+   "readPct": 21,
+   "simcSource": "wowsims",
    "topUnknown": [
-    "rtb_buffs"
+    "variable.gnome_eureka_active_or_not_ready",
+    "known.spell_20572",
+    "variable.boot_knife_known",
+    "known.spell_1259799",
+    "known.mutilate",
+    "known.blade_flurry"
    ],
-   "tracked": 17,
-   "unknown": 3,
-   "usablePct": 92
+   "tracked": 9,
+   "unknown": 13,
+   "usablePct": 54
   },
   "rogue_subtlety": {
    "blizzard": {
@@ -1004,30 +996,29 @@
     "shadow_blades"
    ],
    "gameMatch": {
-    "matched": 6,
+    "matched": 19,
     "missing": [
-     "black_powder",
-     "gloomblade",
-     "goremaws_bite",
-     "secret_technique",
-     "shadow_blades",
-     "shadow_dance",
-     "shuriken_storm"
+     "spell_1259799",
+     "spell_20572"
     ],
-    "total": 13
+    "total": 21
    },
-   "lines": 42,
-   "mode": 2,
-   "read": 7,
-   "readPct": 17,
-   "simcSource": "simc",
+   "lines": 28,
+   "mode": 0,
+   "read": 6,
+   "readPct": 21,
+   "simcSource": "wowsims",
    "topUnknown": [
-    "cp_max_spend",
-    "variable.priority_rotation"
+    "variable.gnome_eureka_active_or_not_ready",
+    "known.spell_20572",
+    "variable.boot_knife_known",
+    "known.spell_1259799",
+    "known.mutilate",
+    "known.blade_flurry"
    ],
-   "tracked": 31,
-   "unknown": 2,
-   "usablePct": 95
+   "tracked": 9,
+   "unknown": 13,
+   "usablePct": 54
   },
   "shaman_elemental": {
    "blizzard": {
@@ -1250,31 +1241,32 @@
    },
    "blizzardExcluded": [],
    "gameMatch": {
-    "matched": 12,
+    "matched": 20,
     "missing": [
-     "avatar",
-     "bladestorm",
-     "champions_spear",
-     "colossus_smash",
-     "demolish",
-     "ravager",
-     "storm_bolt",
-     "wrecking_throw"
+     "spell_1259799",
+     "spell_12723",
+     "spell_20554",
+     "spell_20572",
+     "spell_29602"
     ],
-    "total": 20
+    "total": 25
    },
-   "lines": 131,
-   "mode": 9,
-   "read": 58,
-   "readPct": 44,
-   "simcSource": "simc",
+   "lines": 40,
+   "mode": 2,
+   "read": 5,
+   "readPct": 12,
+   "simcSource": "wowsims",
    "topUnknown": [
-    "variable.execute_phase",
-    "target.debuff.casting.react"
+    "wowsims.actiongroupused",
+    "wowsims.multiplecdusages",
+    "target.health.pct",
+    "variable.recklessness_used",
+    "variable.whirlwind_weave_ready",
+    "variable.battle_stance_swap_ready"
    ],
-   "tracked": 59,
-   "unknown": 5,
-   "usablePct": 96
+   "tracked": 8,
+   "unknown": 25,
+   "usablePct": 38
   },
   "warrior_fury": {
    "blizzard": {
@@ -1291,32 +1283,32 @@
     "recklessness"
    ],
    "gameMatch": {
-    "matched": 10,
+    "matched": 21,
     "missing": [
-     "avatar",
-     "bladestorm",
-     "bloodbath",
-     "crushing_blow",
-     "heroic_leap",
-     "odyns_fury",
-     "storm_bolt",
-     "thunder_blast"
+     "spell_1259799",
+     "spell_12723",
+     "spell_20554",
+     "spell_20572",
+     "spell_29602"
     ],
-    "total": 18
+    "total": 26
    },
-   "lines": 101,
-   "mode": 4,
-   "read": 55,
-   "readPct": 54,
-   "simcSource": "simc",
+   "lines": 38,
+   "mode": 3,
+   "read": 10,
+   "readPct": 26,
+   "simcSource": "wowsims",
    "topUnknown": [
-    "variable.on_gcd_racials",
-    "target.debuff.casting.react",
-    "variable.execute_phase"
+    "wowsims.multiplecdusages",
+    "target.health.pct",
+    "wowsims.actiongroupused",
+    "wowsims.targetismobtype",
+    "variable.rend_can_cast",
+    "variable.overpower_can_cast"
    ],
-   "tracked": 38,
-   "unknown": 4,
-   "usablePct": 96
+   "tracked": 6,
+   "unknown": 19,
+   "usablePct": 50
   },
   "warrior_protection": {
    "blizzard": {
@@ -1333,33 +1325,31 @@
     "shield_charge"
    ],
    "gameMatch": {
-    "matched": 10,
+    "matched": 22,
     "missing": [
-     "avatar",
-     "champions_leap",
-     "champions_spear",
-     "demolish",
-     "ignore_pain",
-     "ravager",
-     "shattering_throw",
-     "shield_charge",
-     "thunder_blast",
-     "wrecking_throw"
+     "spell_1259799",
+     "spell_12723",
+     "spell_1299026",
+     "spell_20554",
+     "spell_20572",
+     "spell_20594"
     ],
-    "total": 20
+    "total": 28
    },
-   "lines": 67,
+   "lines": 36,
    "mode": 3,
-   "read": 40,
-   "readPct": 60,
-   "simcSource": "simc",
+   "read": 16,
+   "readPct": 44,
+   "simcSource": "wowsims",
    "topUnknown": [
-    "variable.execute_phase",
-    "target.health.pct"
+    "health.pct",
+    "variable.shield_equipped",
+    "target.health.pct",
+    "known.battle_shout"
    ],
-   "tracked": 21,
-   "unknown": 3,
-   "usablePct": 96
+   "tracked": 7,
+   "unknown": 10,
+   "usablePct": 72
   }
  }
 }

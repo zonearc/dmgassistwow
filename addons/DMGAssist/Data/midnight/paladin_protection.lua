@@ -753,6 +753,10 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
     [312952] = {
       n = "divine_toll",
     },
+    [315867] = {
+      n = "judgment",
+      pas = true,
+    },
     [315921] = {
       n = "word_of_glory",
       pas = true,
@@ -773,6 +777,14 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
     },
     [326730] = {
       n = "hammer_of_wrath",
+      pas = true,
+    },
+    [327977] = {
+      n = "judgment",
+      pas = true,
+    },
+    [327980] = {
+      n = "consecration",
       pas = true,
     },
     [337851] = {
@@ -820,9 +832,20 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       d = 0.75,
       n = "divine_toll",
     },
+    [383991] = {
+      n = "judgment",
+    },
+    [384376] = {
+      n = "avenging_wrath",
+      pas = true,
+    },
     [385438] = {
       n = "sentinel",
       pas = true,
+    },
+    [387881] = {
+      d = 12,
+      n = "consecration",
     },
     [389539] = {
       ap = {
@@ -908,12 +931,30 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       pas = true,
       tal = true,
     },
+    [413267] = {
+      ap = {
+        { 413267, "enemy" },
+      },
+      d = 12,
+      n = "consecration",
+    },
     [415091] = {
       cd = 1,
       cost = { [9] = 3 },
       gcd = 1.5,
       n = "shield_of_the_righteous",
       r = 5,
+    },
+    [419810] = {
+      d = 12,
+      n = "consecration",
+    },
+    [420378] = {
+      ap = {
+        { 420378, "enemy" },
+      },
+      d = 12,
+      n = "consecration",
     },
     [427441] = {
       ap = {
@@ -1035,6 +1076,11 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
     [1235934] = {
       n = "hammer_of_light",
     },
+    [1241288] = {
+      n = "hammer_of_wrath",
+      pas = true,
+      tal = true,
+    },
     [1241410] = {
       n = "hammer_of_wrath",
     },
@@ -1151,14 +1197,26 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       a = { 31935 },
     },
     avenging_wrath = {
-      a = { 31884, 231895, 339044, 454351, 454373, 317872 },
-      b = { 31884, 231895, 339044, 454351, 454373, 317872 },
+      a = { 31884, 231895, 339044, 454351, 454373, 317872, 384376 },
+      b = { 31884, 231895, 339044, 454351, 454373, 317872, 384376 },
     },
     blessed_hammer = {
       a = { 204019, 204301, 229976 },
     },
     consecration = {
-      a = { 26573, 81297, 188370, 204242, 243597, 290497 },
+      a = {
+        26573,
+        81297,
+        188370,
+        204242,
+        243597,
+        290497,
+        387881,
+        419810,
+        420378,
+        327980,
+        413267,
+      },
     },
     crusader_strike = {
       a = { 35395, 132331, 1279187, 342348 },
@@ -1196,7 +1254,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       a = { 53595, 88263, 150627, 249690 },
     },
     hammer_of_wrath = {
-      a = { 24275, 1241413, 1241410, 1277026, 1279408, 326730 },
+      a = { 24275, 1241413, 1241410, 1277026, 1279408, 326730, 1241288 },
     },
     holy_armaments = {
       a = { 1289728, 1289890, 1289892 },
@@ -1205,8 +1263,30 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       t = { 1277162 },
     },
     judgment = {
-      a = { 20271, 275773, 275779, 406957, 197277, 214222 },
-      b = { 20271, 197277, 214222, 406957, 220637, 275773 },
+      a = {
+        20271,
+        275773,
+        275779,
+        406957,
+        197277,
+        214222,
+        220637,
+        383991,
+        315867,
+        327977,
+      },
+      b = {
+        20271,
+        197277,
+        214222,
+        406957,
+        220637,
+        275773,
+        275779,
+        315867,
+        327977,
+        383991,
+      },
     },
     rebuke = {
       a = { 96231 },

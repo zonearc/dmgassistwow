@@ -433,6 +433,10 @@ ns.RegisterSpecData("forever", "paladin_protection", {
       gcd = 1.5,
       n = "devotion_aura",
     },
+    [10293] = {
+      gcd = 1.5,
+      n = "devotion_aura",
+    },
     [20116] = {
       ap = {
         { 20116, "self" },
@@ -497,10 +501,6 @@ ns.RegisterSpecData("forever", "paladin_protection", {
       n = "hammer_of_wrath",
       r = 30,
     },
-    [25771] = {
-      d = 60,
-      n = "forbearance",
-    },
     [26573] = {
       ap = {
         { 26573, "self" },
@@ -523,6 +523,10 @@ ns.RegisterSpecData("forever", "paladin_protection", {
       },
       cd = 180,
       d = 20,
+      n = "avenging_wrath",
+    },
+    [407957] = {
+      d = 30,
       n = "avenging_wrath",
     },
     [409914] = {
@@ -552,6 +556,21 @@ ns.RegisterSpecData("forever", "paladin_protection", {
       n = "rebuke",
       pas = true,
     },
+    [429151] = {
+      n = "hammer_of_wrath",
+      r = 30,
+    },
+    [458285] = {
+      ap = {
+        { 458285, "self" },
+      },
+      d = 8,
+      n = "consecration",
+    },
+    [458286] = {
+      n = "consecration",
+      r = 40,
+    },
     [458312] = {
       ap = {
         { 458312, "self" },
@@ -575,35 +594,60 @@ ns.RegisterSpecData("forever", "paladin_protection", {
     [1280345] = {
       n = "consecration",
     },
+    [1280346] = {
+      n = "consecration",
+    },
+    [1280347] = {
+      n = "consecration",
+    },
+    [1280348] = {
+      n = "consecration",
+    },
+    [1280349] = {
+      n = "consecration",
+    },
   },
   spells = {
     avengers_shield = {
       a = { 409933 },
     },
     avenging_wrath = {
-      a = { 407788, 409934 },
-      b = { 407788, 409934 },
+      a = { 407788, 407957, 409934 },
+      b = { 407788, 407957, 409934 },
     },
     consecration = {
-      a = { 20116, 20922, 20923, 20924, 26573, 1280345 },
+      a = {
+        20924,
+        20923,
+        20922,
+        20116,
+        26573,
+        1280349,
+        1280348,
+        1280347,
+        1280346,
+        1280345,
+        458285,
+        458286,
+      },
     },
     crusader_strike = {
       a = { 409914 },
     },
     devotion_aura = {
-      a = { 465, 643, 1032, 10290, 10291, 10292 },
+      a = { 10293, 10292, 1032, 10291, 643, 10290, 465 },
     },
     divine_protection = {
-      a = { 498, 5573, 458312, 458371 },
+      a = { 5573, 458371, 498, 458312 },
     },
     divine_shield = {
-      a = { 642, 1020 },
+      a = { 1020, 642 },
     },
     hammer_of_the_righteous = {
       a = { 407632, 409922 },
     },
     hammer_of_wrath = {
-      a = { 24239, 24274, 24275 },
+      a = { 24239, 24274, 24275, 429151 },
     },
     rebuke = {
       a = { 425609, 425616 },

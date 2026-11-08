@@ -930,6 +930,9 @@ ns.RegisterSpecData("forever", "deathknight_blood", {
       d = 4.5,
       n = "consumption",
     },
+    [1263872] = {
+      n = "consumption",
+    },
     [1264353] = {
       ap = {
         { 1264353, "self" },
@@ -984,7 +987,7 @@ ns.RegisterSpecData("forever", "deathknight_blood", {
       b = { 195181 },
     },
     consumption = {
-      a = { 205223, 1263824, 205224, 224685, 274893, 1263825 },
+      a = { 205223, 1263824, 205224, 224685, 274893, 1263825, 1263861, 1263872 },
     },
     crimson_scourge = {
       a = { 81141, 81136 },

@@ -728,7 +728,6 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 600,
       gcd = 1.5,
       n = "lightning_shield",
-      st = 3,
     },
     [325] = {
       ap = {
@@ -738,7 +737,6 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 600,
       gcd = 1.5,
       n = "lightning_shield",
-      st = 3,
     },
     [403] = {
       cost = { [0] = 15 },
@@ -749,8 +747,8 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
     },
     [421] = {
       cd = 6,
-      cost = { [0] = 145 },
-      ct = 2,
+      cost = { [0] = 245 },
+      ct = 2.5,
       gcd = 1.5,
       n = "chain_lightning",
       r = 30,
@@ -777,7 +775,6 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 600,
       gcd = 1.5,
       n = "lightning_shield",
-      st = 3,
     },
     [915] = {
       cost = { [0] = 60 },
@@ -788,8 +785,8 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
     },
     [930] = {
       cd = 6,
-      cost = { [0] = 200 },
-      ct = 2,
+      cost = { [0] = 360 },
+      ct = 2.5,
       gcd = 1.5,
       n = "chain_lightning",
       r = 30,
@@ -809,12 +806,11 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 600,
       gcd = 1.5,
       n = "lightning_shield",
-      st = 3,
     },
     [2860] = {
       cd = 6,
-      cost = { [0] = 250 },
-      ct = 2,
+      cost = { [0] = 425 },
+      ct = 2.5,
       gcd = 1.5,
       n = "chain_lightning",
       r = 30,
@@ -840,30 +836,6 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       cost = { [0] = 80 },
       gcd = 1.5,
       n = "flametongue_weapon",
-    },
-    [8042] = {
-      cd = 6,
-      cost = { [0] = 30 },
-      d = 2,
-      gcd = 1.5,
-      n = "earth_shock",
-      r = 20,
-    },
-    [8044] = {
-      cd = 6,
-      cost = { [0] = 50 },
-      d = 2,
-      gcd = 1.5,
-      n = "earth_shock",
-      r = 20,
-    },
-    [8045] = {
-      cd = 6,
-      cost = { [0] = 85 },
-      d = 2,
-      gcd = 1.5,
-      n = "earth_shock",
-      r = 20,
     },
     [8046] = {
       cd = 6,
@@ -936,7 +908,20 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 600,
       gcd = 1.5,
       n = "lightning_shield",
-      st = 3,
+    },
+    [10391] = {
+      cost = { [0] = 135 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lightning_bolt",
+      r = 30,
+    },
+    [10392] = {
+      cost = { [0] = 160 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lightning_bolt",
+      r = 30,
     },
     [10412] = {
       cd = 6,
@@ -954,6 +939,14 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       n = "earth_shock",
       r = 20,
     },
+    [10414] = {
+      cd = 6,
+      cost = { [0] = 450 },
+      d = 2,
+      gcd = 1.5,
+      n = "earth_shock",
+      r = 20,
+    },
     [10431] = {
       ap = {
         { 10431, "self" },
@@ -962,7 +955,15 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       d = 600,
       gcd = 1.5,
       n = "lightning_shield",
-      st = 3,
+    },
+    [10432] = {
+      ap = {
+        { 10432, "self" },
+      },
+      cost = { [0] = 370 },
+      d = 600,
+      gcd = 1.5,
+      n = "lightning_shield",
     },
     [10447] = {
       ap = {
@@ -1010,17 +1011,29 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
     },
     [10605] = {
       cd = 6,
-      cost = { [0] = 315 },
-      ct = 2,
+      cost = { [0] = 495 },
+      ct = 2.5,
       gcd = 1.5,
       n = "chain_lightning",
+      r = 30,
+    },
+    [15207] = {
+      cost = { [0] = 190 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lightning_bolt",
+      r = 30,
+    },
+    [15208] = {
+      cost = { [0] = 220 },
+      ct = 2.5,
+      gcd = 1.5,
+      n = "lightning_bolt",
       r = 30,
     },
     [16188] = {
       cd = 180,
       n = "natures_swiftness",
-      st = 1,
-      tal = true,
     },
     [16339] = {
       cost = { [0] = 105 },
@@ -1037,10 +1050,15 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       gcd = 1.5,
       n = "flametongue_weapon",
     },
+    [26363] = {
+      n = "lightning_shield",
+    },
+    [26370] = {
+      n = "lightning_shield",
+    },
     [29062] = {
       n = "eye_of_the_storm",
       pas = true,
-      tal = true,
     },
     [29228] = {
       ap = {
@@ -1053,11 +1071,32 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       n = "flame_shock",
       r = 20,
     },
+    [66843] = {
+      ct = 3,
+      gcd = 1.5,
+      n = "call_of_the_ancestors",
+    },
+    [408475] = {
+      n = "lightning_bolt",
+      r = 30,
+    },
+    [408477] = {
+      n = "lightning_bolt",
+      r = 30,
+    },
     [408479] = {
       n = "chain_lightning",
       r = 30,
     },
     [408481] = {
+      n = "chain_lightning",
+      r = 30,
+    },
+    [408482] = {
+      n = "chain_lightning",
+      r = 30,
+    },
+    [408484] = {
       n = "chain_lightning",
       r = 30,
     },
@@ -1068,15 +1107,157 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       gcd = 1.5,
       n = "lava_burst",
       r = 30,
-      tal = true,
     },
     [408491] = {
       n = "lava_burst",
       r = 30,
     },
+    [408687] = {
+      ap = {
+        { 408687, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 145 },
+      d = 2,
+      gcd = 1.5,
+      n = "earth_shock",
+      r = 5,
+    },
+    [408688] = {
+      ap = {
+        { 408688, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 240 },
+      d = 2,
+      gcd = 1.5,
+      n = "earth_shock",
+      r = 5,
+    },
+    [408689] = {
+      ap = {
+        { 408689, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 345 },
+      d = 2,
+      gcd = 1.5,
+      n = "earth_shock",
+      r = 5,
+    },
+    [408690] = {
+      ap = {
+        { 408690, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 450 },
+      d = 2,
+      gcd = 1.5,
+      n = "earth_shock",
+      r = 5,
+    },
+    [409952] = {
+      n = "lava_burst",
+      pas = true,
+    },
+    [432144] = {
+      ap = {
+        { 432144, "self" },
+      },
+      d = 3,
+      n = "lightning_shield",
+    },
+    [432145] = {
+      ap = {
+        { 432145, "self" },
+      },
+      d = 3,
+      n = "lightning_shield",
+    },
+    [432146] = {
+      ap = {
+        { 432146, "self" },
+      },
+      d = 3,
+      n = "lightning_shield",
+    },
+    [432147] = {
+      ap = {
+        { 432147, "self" },
+      },
+      d = 3,
+      n = "lightning_shield",
+    },
+    [432148] = {
+      ap = {
+        { 432148, "self" },
+      },
+      d = 3,
+      n = "lightning_shield",
+    },
+    [432149] = {
+      ap = {
+        { 432149, "self" },
+      },
+      d = 3,
+      n = "lightning_shield",
+    },
     [436519] = {
       n = "flametongue_weapon",
       pas = true,
+    },
+    [470753] = {
+      n = "lightning_shield",
+    },
+    [1220748] = {
+      ap = {
+        { 1220748, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 145 },
+      d = 2,
+      gcd = 1.5,
+      n = "earth_shock",
+      r = 5,
+    },
+    [1220749] = {
+      ap = {
+        { 1220749, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 240 },
+      d = 2,
+      gcd = 1.5,
+      n = "earth_shock",
+      r = 5,
+    },
+    [1220750] = {
+      ap = {
+        { 1220750, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 345 },
+      d = 2,
+      gcd = 1.5,
+      n = "earth_shock",
+      r = 5,
+    },
+    [1220751] = {
+      ap = {
+        { 1220751, "enemy" },
+      },
+      cd = 6,
+      cost = { [0] = 450 },
+      d = 2,
+      gcd = 1.5,
+      n = "earth_shock",
+      r = 5,
+    },
+    [1226963] = {
+      n = "flame_shock",
+    },
+    [1226972] = {
+      n = "flame_shock",
     },
     [1238299] = {
       cd = 10,
@@ -1098,6 +1279,10 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       n = "lava_burst",
       r = 30,
     },
+    [1238376] = {
+      n = "lava_burst",
+      r = 30,
+    },
     [1326047] = {
       cd = 10,
       cost = { [0] = 265 },
@@ -1108,35 +1293,91 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
     },
   },
   spells = {
+    call_of_the_ancestors = {
+      a = { 66843 },
+      b = { 66843 },
+    },
     chain_lightning = {
-      a = { 421, 930, 2860, 10605, 408479, 408481 },
+      a = { 10605, 2860, 930, 421, 408484, 408482, 408481, 408479 },
     },
     earth_shock = {
-      a = { 8042, 8044, 8045, 8046, 10412, 10413 },
+      a = {
+        10414,
+        408690,
+        1220751,
+        10413,
+        408689,
+        1220750,
+        10412,
+        408688,
+        1220749,
+        8046,
+        408687,
+        1220748,
+      },
     },
     eye_of_the_storm = {
       t = { 29062 },
     },
     flame_shock = {
-      a = { 8050, 8052, 8053, 10447, 10448, 29228 },
-      b = { 8050, 8052, 8053, 10447, 10448, 29228 },
+      a = { 29228, 10448, 10447, 8053, 8052, 8050, 1226963, 1226972 },
+      b = { 29228, 10448, 10447, 8053, 8052, 8050, 1226963, 1226972 },
     },
     flametongue_weapon = {
-      a = { 8024, 8027, 8030, 16339, 16341, 16342 },
+      a = { 8024, 8027, 8030, 16339, 16341, 16342, 436519 },
       t = { 436519 },
     },
     frost_shock = {
-      a = { 8056, 8058, 10472, 10473 },
+      a = { 10473, 10472, 8058, 8056 },
     },
     lava_burst = {
-      a = { 408490, 1238299, 1238300, 1326047, 408491, 1238373 },
+      a = { 1326047, 1238300, 1238299, 408490, 408491, 1238373, 1238376, 409952 },
     },
     lightning_bolt = {
-      a = { 403, 529, 548, 915, 943, 6041 },
+      a = {
+        15208,
+        15207,
+        10392,
+        10391,
+        6041,
+        943,
+        915,
+        548,
+        529,
+        403,
+        408477,
+        408475,
+      },
     },
     lightning_shield = {
-      a = { 324, 325, 905, 945, 8134, 10431 },
-      b = { 324, 325, 905, 945, 8134, 10431 },
+      a = {
+        10432,
+        10431,
+        8134,
+        945,
+        905,
+        325,
+        324,
+        26363,
+        432149,
+        470753,
+        26370,
+        432148,
+      },
+      b = {
+        10432,
+        432149,
+        10431,
+        432148,
+        8134,
+        432147,
+        945,
+        432146,
+        905,
+        432145,
+        325,
+        432144,
+      },
     },
     natures_swiftness = {
       a = { 16188 },

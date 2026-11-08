@@ -992,6 +992,9 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       pas = true,
       tal = true,
     },
+    [281362] = {
+      n = "channel_demonfire",
+    },
     [281440] = {
       ap = {
         { 281440, "self" },
@@ -1033,8 +1036,18 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       pas = true,
       tal = true,
     },
+    [394244] = {
+      ap = {
+        { 394244, "self" },
+      },
+      d = 6,
+      n = "chaos_bolt",
+    },
     [394246] = {
       n = "chaos_bolt",
+    },
+    [409889] = {
+      n = "channel_demonfire",
     },
     [409890] = {
       n = "channel_demonfire",
@@ -1166,6 +1179,13 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       r = 40,
       tal = true,
     },
+    [1217771] = {
+      n = "channel_demonfire",
+      r = 40,
+    },
+    [1217786] = {
+      n = "channel_demonfire",
+    },
     [1217787] = {
       n = "channel_demonfire",
     },
@@ -1247,10 +1267,21 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       t = { 152108 },
     },
     channel_demonfire = {
-      a = { 196447, 196448, 409890, 1217787, 196449, 224322 },
+      a = {
+        196447,
+        196448,
+        409890,
+        1217787,
+        196449,
+        224322,
+        281362,
+        409889,
+        1217771,
+        1217786,
+      },
     },
     chaos_bolt = {
-      a = { 116858, 213229, 215279, 394246, 434589, 215409 },
+      a = { 116858, 213229, 215279, 394246, 434589, 215409, 394244 },
     },
     conflagrate = {
       a = { 17962, 245330 },

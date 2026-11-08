@@ -117,8 +117,8 @@ ns.RegisterSpecData("forever", "hunter_beast_mastery", {
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "hunter",
   gameMatch = {
-    matched = 4,
-    missing = { "barbed_shot", "cobra_shot", "wailing_arrow", "wild_thrash" },
+    matched = 3,
+    missing = { "barbed_shot", "black_arrow", "cobra_shot", "wailing_arrow", "wild_thrash" },
     total = 8,
   },
   heroTrees = {},
@@ -517,6 +517,20 @@ ns.RegisterSpecData("forever", "hunter_beast_mastery", {
       n = "arcane_shot",
       r = 35,
     },
+    [14286] = {
+      cd = 6,
+      cost = { [0] = 160 },
+      gcd = 1.5,
+      n = "arcane_shot",
+      r = 35,
+    },
+    [14287] = {
+      cd = 6,
+      cost = { [0] = 190 },
+      gcd = 1.5,
+      n = "arcane_shot",
+      r = 35,
+    },
     [14296] = {
       ap = {
         { 14296, "enemy" },
@@ -530,7 +544,6 @@ ns.RegisterSpecData("forever", "hunter_beast_mastery", {
       cd = 120,
       d = 18,
       n = "bestial_wrath",
-      tal = true,
     },
     [409379] = {
       ap = {
@@ -560,6 +573,10 @@ ns.RegisterSpecData("forever", "hunter_beast_mastery", {
       n = "steady_shot",
       pas = true,
     },
+    [413446] = {
+      n = "auto_shot",
+      r = 35,
+    },
     [437123] = {
       ct = 1.5,
       gcd = 1.5,
@@ -569,10 +586,10 @@ ns.RegisterSpecData("forever", "hunter_beast_mastery", {
   },
   spells = {
     arcane_shot = {
-      a = { 3044, 14281, 14282, 14283, 14284, 14285 },
+      a = { 14287, 14286, 14285, 14284, 14283, 14282, 14281, 3044 },
     },
     auto_shot = {
-      a = { 75 },
+      a = { 75, 413446 },
     },
     bestial_wrath = {
       a = { 19574 },

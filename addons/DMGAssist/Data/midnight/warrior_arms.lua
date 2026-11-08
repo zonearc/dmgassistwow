@@ -1252,6 +1252,9 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
     [199850] = {
       n = "whirlwind",
     },
+    [199852] = {
+      n = "whirlwind",
+    },
     [200951] = {
       ap = {
         { 200951, "self" },
@@ -1330,6 +1333,9 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       d = 6,
       n = "charge",
     },
+    [250392] = {
+      n = "whirlwind",
+    },
     [260708] = {
       ap = {
         { 260708, "self" },
@@ -1356,6 +1362,9 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       n = "dreadnaught",
       pas = true,
       tal = true,
+    },
+    [280715] = {
+      n = "whirlwind",
     },
     [280721] = {
       n = "sudden_death",
@@ -1402,6 +1411,9 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       n = "cleave",
       st = 1,
     },
+    [317073] = {
+      n = "execute",
+    },
     [334779] = {
       n = "collateral_damage",
       pas = true,
@@ -1422,6 +1434,15 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
     [339385] = {
       n = "mortal_strike",
       r = 5,
+    },
+    [347360] = {
+      n = "whirlwind",
+    },
+    [347363] = {
+      n = "whirlwind",
+    },
+    [361904] = {
+      n = "whirlwind",
     },
     [376079] = {
       cd = 90,
@@ -1447,6 +1468,9 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       r = 25,
     },
     [376083] = {
+      n = "champions_spear",
+    },
+    [376084] = {
       n = "champions_spear",
     },
     [383154] = {
@@ -1577,6 +1601,10 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       n = "opportunist",
       st = 2,
     },
+    [457998] = {
+      n = "charge",
+      r = 30,
+    },
     [458459] = {
       n = "cleave",
       r = 5,
@@ -1595,6 +1623,9 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       n = "deep_wounds",
       pas = true,
       tal = true,
+    },
+    [1261759] = {
+      n = "champions_spear",
     },
     [1269383] = {
       ap = {
@@ -1679,10 +1710,20 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       t = { 383154 },
     },
     champions_spear = {
-      a = { 376079, 1271980, 1271982, 376080, 376081, 376083 },
+      a = {
+        376079,
+        1271980,
+        1271982,
+        376080,
+        376081,
+        376083,
+        376084,
+        1261759,
+        1271981,
+      },
     },
     charge = {
-      a = { 100, 105771, 126664, 198337, 218104, 236027 },
+      a = { 100, 105771, 126664, 198337, 218104, 236027, 457998 },
     },
     cleave = {
       a = { 845, 315955, 458459 },
@@ -1717,7 +1758,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       a = { 184364 },
     },
     execute = {
-      a = { 5308, 163201, 280735, 281000, 260798, 280849 },
+      a = { 5308, 163201, 280735, 281000, 260798, 280849, 317073 },
     },
     executioner = {
       a = { 445584 },
@@ -1798,7 +1839,20 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       t = { 1261051 },
     },
     whirlwind = {
-      a = { 1680, 190411, 85739, 199658, 199667, 199850 },
+      a = {
+        1680,
+        190411,
+        85739,
+        199658,
+        199667,
+        199850,
+        199852,
+        250392,
+        280715,
+        347360,
+        347363,
+        361904,
+      },
     },
     wrecking_throw = {
       a = { 384110, 394354 },

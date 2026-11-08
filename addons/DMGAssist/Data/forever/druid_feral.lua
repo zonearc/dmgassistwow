@@ -2,6 +2,11 @@
 -- Data only. k = how DMGAssist can know the condition in combat: R read, S static, M mode toggle, T tracked by us, U unknown.
 local _, ns = ...
 ns.RegisterSpecData("forever", "druid_feral", {
+  alternate = {
+    form = 5,
+    key = "druid_guardian",
+    probe = "maul",
+  },
   blizzard = {
     assisted_combat = {
       {
@@ -174,538 +179,428 @@ ns.RegisterSpecData("forever", "druid_feral", {
   blizzardExcluded = { "berserk" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   class = "druid",
+  credit = "WoWSims (wowsims.com/forever)",
   gameMatch = {
-    matched = 11,
-    missing = { "chomp", "convoke_the_spirits", "feral_frenzy", "frantic_frenzy", "primal_wrath" },
-    total = 16,
+    matched = 10,
+    missing = { "spell_1259799" },
+    total = 11,
   },
   heroTrees = {},
   key = "druid_feral",
   simc = {
-    aoe_builder = {
-      {
-        a = "prowl",
-        c = "!buff.shadowmeld.up",
-        k = "T",
-        p = {
-          target_if = "dot.rake.refreshable",
-        },
-      },
-      {
-        a = "shadowmeld",
-        c = "!buff.prowl.up",
-        k = "T",
-        p = {
-          target_if = "dot.rake.refreshable",
-        },
-      },
-      {
-        a = "rake",
-        c = "(talent.doubleclawed_rake&(!talent.lunar_inspiration|!talent.panthers_guile|active_dot.rake<5))|hero_tree.wildstalker&(active_dot.rake<2+!talent.panthers_guile+talent.lunar_inspiration)",
-        k = "T",
-        p = {
-          target_if = "refreshable",
-        },
-      },
-      {
-        a = "moonfire_cat",
-        k = "R",
-        p = {
-          target_if = "refreshable",
-        },
-      },
-      {
-        a = "shred",
-        c = "spell_targets=2&talent.panthers_guile&buff.clearcasting.react",
-        k = "T",
-      },
-      {
-        a = "swipe_cat",
-        c = "hero_tree.druid_of_the_claw&buff.bs_inc.up|buff.clearcasting.react&(hero_tree.druid_of_the_claw|spell_targets<7)",
-        k = "T",
-      },
-      {
-        a = "swipe_cat",
-        c = "buff.sudden_ambush.up&spell_targets.swipe_cat>=5+(2*hero_tree.wildstalker)",
-        k = "T",
-      },
-      {
-        a = "rake",
-        c = "hero_tree.wildstalker|spell_targets.swipe_cat<=variable.dotc_rake_threshold",
-        k = "M",
-        p = {
-          target_if = "refreshable",
-        },
-      },
-      {
-        a = "rake",
-        c = "persistent_multiplier>pmultiplier&spell_targets=2",
-        k = "T",
-        p = {
-          target_if = "min:pmultiplier",
-        },
-      },
-      {
-        a = "shred",
-        c = "spell_targets=2&talent.panthers_guile",
-        k = "M",
-      },
-      {
-        a = "swipe_cat",
-        c = "spell_targets>2|!talent.panthers_guile",
-        k = "M",
-      },
-    },
-    aoe_finisher = {
-      {
-        a = "primal_wrath",
-        c = "combo_points>=5&spell_targets.primal_wrath>1&(dot.primal_wrath.remains<6.5&!buff.bs_inc.up|dot.primal_wrath.refreshable)",
-        k = "T",
-        p = {
-          target_if = "min:remains",
-        },
-      },
-      {
-        a = "ferocious_bite",
-        c = "buff.ravage.up&combo_points>=5&!talent.primal_wrath&spell_targets>=2+(3*!talent.rampant_ferocity)",
-        k = "T",
-      },
-      {
-        a = "rip",
-        c = "combo_points>=5&!talent.primal_wrath&refreshable",
-        k = "T",
-        p = {
-          target_if = "min:remains",
-        },
-      },
-      {
-        a = "ferocious_bite",
-        c = "combo_points>=5&(talent.rampant_ferocity|buff.ravage.up&spell_targets<8|dot.bloodseeker_vines.ticking&spell_targets<5)",
-        k = "T",
-        p = {
-          target_if = "min:dot.rip.remains",
-        },
-      },
-      {
-        a = "primal_wrath",
-        c = "combo_points>=5",
-        k = "R",
-      },
-      {
-        a = "ferocious_bite",
-        c = "combo_points>=5",
-        k = "R",
-        p = {
-          target_if = "min:dot.rip.remains",
-        },
-      },
-    },
-    builder = {
-      {
-        a = "prowl",
-        c = "!buff.shadowmeld.up&(action.rake.pmultiplier<1.6|dot.rake.refreshable)",
-        k = "T",
-      },
-      {
-        a = "shadowmeld",
-        c = "!buff.prowl.up&(action.rake.pmultiplier<1.6|dot.rake.refreshable)",
-        k = "T",
-      },
-      {
-        a = "shred",
-        c = "buff.sudden_ambush.up&hero_tree.druid_of_the_claw",
-        k = "T",
-      },
-      {
-        a = "rake",
-        c = "(buff.tigers_fury.up|remains<cooldown.tigers_fury.remains)&(refreshable&persistent_multiplier>=pmultiplier|remains<2|persistent_multiplier>pmultiplier)",
-        k = "T",
-      },
-      {
-        a = "moonfire_cat",
-        c = "(buff.tigers_fury.up|remains<cooldown.tigers_fury.remains)&(refreshable&persistent_multiplier>=pmultiplier|remains<2|persistent_multiplier>pmultiplier)",
-        k = "T",
-      },
-      {
-        a = "shred",
-        k = "R",
-      },
-    },
-    cd_variable = {
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "convokeCountRemaining",
-          value = "floor(cooldown.convoke_the_spirits.charges_fractional+fight_remains%cooldown.convoke_the_spirits.duration-0.05)",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "zerkCountRemaining",
-          value = "floor(cooldown.bs_inc.charges_fractional+fight_remains%cooldown.bs_inc.duration-0.05)",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "potCountRemaining",
-          value = "floor(cooldown.potion.charges_fractional+fight_remains%cooldown.potion.duration-0.06)",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "slot1CountRemaining",
-          value = "floor(trinket.1.cooldown.charges_fractional+fight_remains%trinket.1.cooldown.duration-0.05)",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "slot2CountRemaining",
-          value = "floor(trinket.2.cooldown.charges_fractional+fight_remains%trinket.2.cooldown.duration-0.05)",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "holdBerserk",
-          value = "variable.zerkCountRemaining=1&variable.potCountRemaining=1&cooldown.potion.remains",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          name = "holdPot",
-          value = "variable.potCountRemaining=floor((fight_remains-cooldown.bs_inc.remains-10)%cooldown.potion.duration+(fight_remains>cooldown.bs_inc.remains))",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          condition = "talent.convoke_the_spirits",
-          name = "highestCDremaining",
-          op = "setif",
-          value = "cooldown.convoke_the_spirits.remains<?cooldown.bs_inc.remains<?cooldown.potion.remains",
-          value_else = "cooldown.bs_inc.remains<?cooldown.potion.remains",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          condition = "talent.convoke_the_spirits",
-          name = "lowestCDremaining",
-          op = "setif",
-          value = "cooldown.convoke_the_spirits.remains>?cooldown.bs_inc.remains>?cooldown.potion.remains",
-          value_else = "cooldown.bs_inc.remains>?cooldown.potion.remains",
-        },
-      },
-      {
-        a = "variable",
-        k = "R",
-        p = {
-          condition = "cooldown.convoke_the_spirits.remains>cooldown.bs_inc.remains",
-          name = "secondLowestCDremaining",
-          op = "setif",
-          value = "cooldown.convoke_the_spirits.remains>?cooldown.potion.remains",
-          value_else = "cooldown.bs_inc.remains>?cooldown.potion.remains",
-        },
-      },
-    },
-    cooldown = {
-      {
-        a = "call_action_list",
-        c = "!cooldown.bs_inc.remains|!cooldown.potion.remains|!trinket.1.cooldown.remains|!trinket.2.cooldown.remains",
-        k = "T",
-        p = {
-          name = "cd_variable",
-        },
-      },
-      {
-        a = "use_item",
-        c = "trinket.1.has_use_damage&(trinket.2.cooldown.remains>20|!trinket.2.has_use_buff|(cooldown.tigers_fury.remains<25&cooldown.tigers_fury.remains>20))&(!trinket.1.is.font_of_venomous_rage|!buff.bs_inc.up)",
-        k = "T",
-        p = {
-          slot = "trinket1",
-        },
-      },
-      {
-        a = "use_item",
-        c = "trinket.2.has_use_damage&(trinket.1.cooldown.remains>20|!trinket.1.has_use_buff|(cooldown.tigers_fury.remains<25&cooldown.tigers_fury.remains>20))&(!trinket.2.is.font_of_venomous_rage|!buff.bs_inc.up)",
-        k = "T",
-        p = {
-          slot = "trinket2",
-        },
-      },
-      {
-        a = "berserking",
-        k = "R",
-      },
-      {
-        a = "potion",
-        c = "buff.bs_inc.up|fight_remains<32|buff.tigers_fury.up&!variable.holdPot",
-        k = "T",
-      },
-      {
-        a = "use_items",
-        k = "R",
-      },
-      {
-        a = "use_item",
-        c = "trinket.1.has_use_buff&(cooldown.tigers_fury.remains>=25|trinket.1.is.algethar_puzzle_box&(!raid_event.adds.up|raid_event.adds.remains>13)&cooldown.tigers_fury.remains<2)&((cooldown.bs_inc.remains<5|buff.bs_inc.remains>=14)&!variable.holdBerserk|cooldown.convoke_the_spirits.remains<10&talent.ashamanes_guidance&talent.convoke_the_spirits|variable.lowestCDremaining>trinket.1.cooldown.duration|variable.zerkCountRemaining=1&(!talent.convoke_the_spirits|variable.convokeCountRemaining=1)&variable.potCountRemaining=1&(variable.highestCDremaining+3)>trinket.1.cooldown.duration|variable.zerkCountRemaining=variable.convokeCountRemaining&talent.convoke_the_spirits&variable.zerkCountRemaining!=variable.potCountRemaining&(cooldown.bs_inc.remains<?cooldown.convoke_the_spirits.remains)>trinket.1.cooldown.duration|variable.slot1CountRemaining=variable.potCountRemaining+1&buff.potion.up|trinket.2.has_use_buff&(variable.secondLowestCDremaining>trinket.1.cooldown.duration&variable.lowestCDremaining>trinket.2.cooldown.remains|variable.zerkCountRemaining=1&(!talent.convoke_the_spirits|variable.convokeCountRemaining=1)&variable.potCountRemaining=1&variable.highestCDremaining>trinket.2.cooldown.remains|variable.zerkCountRemaining=variable.convokeCountRemaining&talent.convoke_the_spirits&variable.zerkCountRemaining!=variable.potCountRemaining&(cooldown.convoke_the_spirits.remains<?cooldown.bs_inc.remains)>trinket.2.cooldown.remains|variable.convokeCountRemaining=0&variable.zerkCountRemaining=0&variable.potCountRemaining=0))",
-        k = "T",
-        p = {
-          slot = "trinket1",
-          use_off_gcd = "1",
-        },
-      },
-      {
-        a = "use_item",
-        c = "trinket.2.has_use_buff&(!trinket.1.has_use_buff|trinket.1.cooldown.remains>20)&(cooldown.tigers_fury.remains>=25|trinket.2.is.algethar_puzzle_box&(!raid_event.adds.up|raid_event.adds.remains>13)&(cooldown.tigers_fury.remains<2|buff.tigers_fury.up))&(buff.potion.up|variable.slot2CountRemaining!=variable.potCountRemaining)&((cooldown.bs_inc.remains<5|buff.bs_inc.remains>=14)&!variable.holdBerserk|cooldown.convoke_the_spirits.remains<10&talent.ashamanes_guidance&talent.convoke_the_spirits|variable.lowestCDremaining>trinket.2.cooldown.duration|variable.zerkCountRemaining=1&(!talent.convoke_the_spirits|variable.convokeCountRemaining=1)&variable.potCountRemaining=1&(variable.highestCDremaining+3)>trinket.2.cooldown.duration|variable.zerkCountRemaining=variable.convokeCountRemaining&talent.convoke_the_spirits&variable.zerkCountRemaining!=variable.potCountRemaining&(cooldown.bs_inc.remains<?cooldown.convoke_the_spirits.remains)>trinket.2.cooldown.duration|variable.slot1CountRemaining=variable.potCountRemaining-1&buff.potion.up|trinket.1.has_use_buff&(variable.secondLowestCDremaining>trinket.2.cooldown.duration&variable.lowestCDremaining>trinket.1.cooldown.remains|variable.zerkCountRemaining=1&(!talent.convoke_the_spirits|variable.convokeCountRemaining=1)&variable.potCountRemaining=1&variable.highestCDremaining>trinket.1.cooldown.remains|variable.zerkCountRemaining=variable.convokeCountRemaining&talent.convoke_the_spirits&variable.zerkCountRemaining!=variable.potCountRemaining&(cooldown.convoke_the_spirits.remains<?cooldown.bs_inc.remains)>trinket.1.cooldown.remains|variable.convokeCountRemaining=0&variable.zerkCountRemaining=0&variable.potCountRemaining=0))",
-        k = "T",
-        p = {
-          slot = "trinket2",
-          use_off_gcd = "1",
-        },
-      },
-      {
-        a = "use_item",
-        c = "fight_remains<=(21<?trinket.1.proc.any_dps.duration)",
-        k = "M",
-        p = {
-          slot = "trinket1",
-        },
-      },
-      {
-        a = "use_item",
-        c = "fight_remains<=(21<?trinket.2.proc.any_dps.duration)",
-        k = "M",
-        p = {
-          slot = "trinket2",
-        },
-      },
-      {
-        a = "berserk",
-        c = "buff.tigers_fury.up&!variable.holdBerserk",
-        k = "T",
-      },
-      {
-        a = "feral_frenzy",
-        c = "!talent.frantic_frenzy&combo_points<=2+(2*buff.bs_inc.up)",
-        k = "T",
-      },
-      {
-        a = "frantic_frenzy",
-        c = "(!fight_style.dungeonroute&!fight_style.dungeonslice|raid_event.adds.remains>5)&(buff.tigers_fury.up&spell_targets>=2|combo_points<=2+(2*buff.bs_inc.up))",
-        k = "T",
-      },
-      {
-        a = "convoke_the_spirits",
-        c = "(buff.bs_inc.up|talent.ashamanes_guidance&(cooldown.bs_inc.remains>45|variable.holdBerserk))&buff.tigers_fury.up&(prev_gcd.1.rip|prev_gcd.1.ferocious_bite|prev_gcd.1.primal_wrath|buff.tigers_fury.remains<=1+action.convoke_the_spirits.execute_time)|fight_remains<5",
-        k = "T",
-      },
-    },
     default = {
       {
-        a = "prowl",
-        c = "buff.bs_inc.down&!buff.prowl.up&!buff.shadowmeld.up",
+        a = "faerie_fire",
+        c = "(known.faerie_fire&(debuff.faerie_fire.remains<=0))",
+        k = "U",
+      },
+      {
+        a = "ravage",
+        c = "buff.prowl.up",
         k = "T",
       },
       {
         a = "cat_form",
-        c = "!buff.cat_form.up&!talent.fluid_form",
+        c = "!(buff.cat_form.up)",
         k = "T",
       },
       {
-        a = "invoke_external_buff",
-        c = "buff.bs_inc.up|!talent.berserk_heart_of_the_lion",
-        k = "T",
-        p = {
-          name = "power_infusion",
-        },
-      },
-      {
-        a = "auto_attack",
-        c = "!buff.prowl.up&!buff.shadowmeld.up",
+        a = "ferocious_bite",
+        c = "variable.final_global_bite",
         k = "T",
       },
       {
-        a = "tigers_fury",
-        c = "(cooldown.bs_inc.remains<=1|cooldown.bs_inc.remains>10|variable.holdBerserk)&(cooldown.frantic_frenzy.remains<buff.tigers_fury.duration-1.5|cooldown.frantic_frenzy.remains>22|!talent.frantic_frenzy|spell_targets=1|fight_style.dungeonroute|fight_style.dungeonslice)",
+        a = "spell_1259799",
+        c = "variable.ready_to_use_elunes_light",
+        k = "U",
+      },
+      {
+        a = "ferocious_bite",
+        c = "variable.midfight_bite_is_worthwhile",
+        k = "U",
+      },
+      {
+        a = "shifting_power",
+        c = "variable.shifting_power_ready",
         k = "T",
+      },
+      {
+        a = "ferocious_bite",
+        c = "variable.fight_end_bite_is_worthwhile",
+        k = "U",
+      },
+      {
+        a = "shred",
+        c = "((buff.cat_form.up&buff.clearcasting.up)&!(variable.pool_energy_for_bite))",
+        k = "U",
+      },
+      {
+        a = "rip",
+        c = "(buff.cat_form.up&variable.rip_due)",
+        k = "U",
       },
       {
         a = "rake",
-        c = "buff.prowl.up|buff.shadowmeld.up",
+        c = "(buff.cat_form.up&variable.rake_due)",
         k = "T",
       },
       {
-        a = "chomp",
-        c = "buff.chomp_enabler.up",
-        k = "T",
+        a = "shred",
+        c = "((buff.cat_form.up&(energy>=action.shred.cost))&!(variable.pool_energy_for_bite))",
+        k = "U",
       },
       {
-        a = "call_action_list",
-        k = "R",
-        p = {
-          name = "cooldown",
-        },
+        a = "claw",
+        c = "((variable.claw_can_replace_shred&(energy>=action.claw.cost))&!(variable.pool_energy_for_bite))",
+        k = "U",
       },
       {
-        a = "ferocious_bite",
-        c = "buff.apex_predators_craving.up",
-        k = "T",
-      },
-      {
-        a = "call_action_list",
-        c = "spell_targets=1",
-        k = "M",
-        p = {
-          name = "finisher",
-        },
-      },
-      {
-        a = "call_action_list",
-        c = "spell_targets>=2",
-        k = "M",
-        p = {
-          name = "aoe_finisher",
-        },
-      },
-      {
-        a = "call_action_list",
-        c = "spell_targets=1&combo_points<=4",
-        k = "M",
-        p = {
-          name = "builder",
-        },
-      },
-      {
-        a = "call_action_list",
-        c = "spell_targets>1&combo_points<=4",
-        k = "M",
-        p = {
-          name = "aoe_builder",
-        },
-      },
-      {
-        a = "regrowth",
-        c = "buff.predatory_swiftness.up&variable.regrowth",
-        k = "T",
-      },
-    },
-    finisher = {
-      {
-        a = "rip",
-        c = "combo_points>=5&refreshable&(buff.tigers_fury.up|remains<cooldown.tigers_fury.remains)",
-        k = "T",
-      },
-      {
-        a = "pool_resource",
-        k = "R",
-        p = {
-          for_next = "1",
-        },
-      },
-      {
-        a = "ferocious_bite",
-        c = "combo_points>=5",
-        k = "R",
-        p = {
-          max_energy = "1",
-        },
+        a = "innervate",
+        c = "variable.innervate_can_restore_needed_mana",
+        k = "U",
       },
     },
     precombat = {
       {
-        a = "snapshot_stats",
-        k = "R",
-      },
-      {
         a = "variable",
         k = "R",
         p = {
-          name = "regrowth",
-          op = "reset",
+          name = "rip_target_cp",
+          value = "4",
         },
       },
       {
         a = "variable",
         k = "R",
         p = {
-          name = "dotc_rake_threshold",
-          op = "set",
-          value = "99",
-        },
-      },
-      {
-        a = "variable",
-        c = "talent.wild_slashes&talent.merciless_claws",
-        k = "R",
-        p = {
-          name = "dotc_rake_threshold",
-          op = "set",
+          name = "preferred_rip_cp_with_zero_or_two_blood_frenzy_points",
           value = "5",
         },
       },
       {
         a = "variable",
-        c = "talent.wild_slashes&!talent.merciless_claws",
         k = "R",
         p = {
-          name = "dotc_rake_threshold",
-          op = "set",
+          name = "rip_minimum_fight_left",
           value = "8",
         },
       },
       {
-        a = "potion",
-        c = "potion.liquid_luster",
+        a = "variable",
         k = "R",
         p = {
-          pre_pot_time = "12",
+          name = "shifting_power_energy_ceiling",
+          value = "57",
         },
       },
       {
         a = "variable",
-        c = "trinket.1.is.algethar_puzzle_box|!trinket.1.has_use_buff",
         k = "R",
         p = {
-          name = "algethar_puzzle_box_precombat_cast",
-          value = "3",
+          name = "tea_energy_ceiling",
+          value = "20",
         },
       },
       {
-        a = "use_item",
-        c = "trinket.1.is.algethar_puzzle_box|!trinket.1.has_use_buff",
+        a = "variable",
         k = "R",
         p = {
-          name = "algethar_puzzle_box",
+          name = "fight_end_bite_cp",
+          value = "5",
         },
       },
       {
-        a = "cat_form",
-        c = "buff.cat_form.down",
-        k = "T",
+        a = "variable",
+        k = "R",
+        p = {
+          name = "fight_end_bite_energy_ceiling",
+          value = "55",
+        },
       },
       {
-        a = "prowl",
+        a = "variable",
         k = "R",
+        p = {
+          name = "final_global_bite_cp",
+          value = "2",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "final_global_bite_window",
+          value = "1",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "ravage_approach_without_clearcasting",
+          value = "10",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "ravage_approach_with_clearcasting",
+          value = "35",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "skyborne_ravage_approach_without_clearcasting",
+          value = "5",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "skyborne_ravage_approach_with_clearcasting",
+          value = "25",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "midfight_bite_cp",
+          value = "4",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "midfight_bite_minimum_rip_remaining",
+          value = "2",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "tea_energy_ceiling_without_blood_frenzy",
+          value = "25",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "bite_energy_target",
+          value = "85",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "bite_energy_target_with_clearcasting",
+          value = "60",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "five_point_bite_energy_target",
+          value = "70",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "five_point_bite_energy_target_with_clearcasting",
+          value = "50",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "shifting_power_ready",
+          value = "(buff.cat_form.up&(energy<=variable.shifting_power_energy_ceiling)&action.shifting_power.ready)",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "rake_due",
+          value = "(debuff.rake.down&(fight_remains>6))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "rip_due",
+          value = "(((combo_points>=variable.rip_target_cp)&(!((variable.no_blood_frenzy_points|variable.two_blood_frenzy_points_with_shifting_power))|(combo_points>=variable.preferred_rip_cp_with_zero_or_two_blood_frenzy_points)|!(variable.one_more_shred_funds_next_global_rip)))&debuff.rip.down&(fight_remains>=variable.rip_minimum_fight_left))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "final_global_bite",
+          value = "(buff.cat_form.up&(fight_remains<=variable.final_global_bite_window)&(combo_points>=variable.final_global_bite_cp))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "ready_to_return_to_the_main_weapon",
+          value = "(wowsims.activeitemswapset&(time>=30)&!(buff.spell_13494.up))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "ready_to_activate_mcp",
+          value = "(!(buff.prowl.up)&(target.distance<=5))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "mana_potion_fits_and_is_needed",
+          value = "(0&(gcd.remains<=0)&(wowsims.spelltimetoready<=0)&((mana.max-mana)>=(2250+(wowsims.currentmanaregen*5)))&(!((known.judgement_of_wisdom&debuff.judgement_of_wisdom.up))|(mana<((((fight_remains<?120)%1)*20)+action.shifting_power.cost))))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "ready_to_use_elunes_light",
+          value = "known.spell_1259799",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "tea_is_selected_and_energy_is_low",
+          value = "((wowsims.selectedconjured|wowsims.selectedconjured)&buff.cat_form.up&((variable.no_blood_frenzy_points&(energy<=variable.tea_energy_ceiling_without_blood_frenzy))|(!(variable.no_blood_frenzy_points)&(energy<=variable.tea_energy_ceiling))))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "rune_can_restore_mana_after_tea",
+          value = "(wowsims.selectedconjured&(wowsims.spelltimetoready>0)&((mana.max-mana)>=1500)&(wowsims.currenthealth>2000))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "fight_end_bite_is_worthwhile",
+          value = "(buff.cat_form.up&(combo_points>=variable.fight_end_bite_cp)&(variable.predatory_discipline_keeps_bite_energy|(energy<=variable.fight_end_bite_energy_ceiling))&(fight_remains<variable.rip_minimum_fight_left))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "claw_can_replace_shred",
+          value = "(buff.cat_form.up&!(action.shred.ready)&(energy>=action.shred.cost))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "innervate_can_restore_needed_mana",
+          value = "(buff.cat_form.up&cooldown.innervate.ready&(!(known.spell_1270842)|!(buff.spell_1270842.up))&(mana<1400)&(mana<(fight_remains*50))&(gcd.remains<=0)&(energy<=30)&!(buff.clearcasting.up)&(fight_remains>=15))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "ravage_opener_fits_the_approach",
+          value = "(known.faerie_fire&debuff.faerie_fire.up&((buff.clearcasting.up&(target.distance<=variable.ravage_approach_with_clearcasting)&(!((known.spell_1259705|known.spell_1259686))|(target.distance<=variable.skyborne_ravage_approach_with_clearcasting)))|(!(buff.clearcasting.up)&(target.distance<=variable.ravage_approach_without_clearcasting)&(!((known.spell_1259705|known.spell_1259686))|(target.distance<=variable.skyborne_ravage_approach_without_clearcasting)))))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "drop_prowl_for_this_opener",
+          value = "(buff.prowl.up&(!(variable.ravage_opener_fits_the_approach)|((target.distance<=5)&!(action.ravage.ready))))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "two_blood_frenzy_points_with_shifting_power",
+          value = "((talentid.16958>=2)&(talentid.1322605>=1))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "one_more_shred_funds_next_global_rip",
+          value = "(action.shred.ready&(fight_remains>=(variable.rip_minimum_fight_left+1))&((energy+10)>=(action.shred.cost+action.rip.cost)))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "midfight_bite_is_worthwhile",
+          value = "(variable.bite_combo_points_and_rip_window&(((buff.clearcasting.up&(energy>=variable.bite_energy_target_with_clearcasting))|(!(buff.clearcasting.up)&(energy>=variable.bite_energy_target)))|((combo_points>=5)&((!(buff.clearcasting.up)&(energy>=variable.five_point_bite_energy_target))|(buff.clearcasting.up&(energy>=variable.five_point_bite_energy_target_with_clearcasting))))))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "no_blood_frenzy_points",
+          value = "(talentid.16958=0)",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "bite_combo_points_and_rip_window",
+          value = "(variable.predatory_discipline_keeps_bite_energy&buff.cat_form.up&(combo_points>=variable.midfight_bite_cp)&(dot.rip.remains>=variable.midfight_bite_minimum_rip_remaining))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "pool_energy_for_bite",
+          value = "(variable.bite_combo_points_and_rip_window&!(variable.midfight_bite_is_worthwhile))",
+        },
+      },
+      {
+        a = "variable",
+        k = "R",
+        p = {
+          name = "predatory_discipline_keeps_bite_energy",
+          value = "(talentid.1328613>=1)",
+        },
       },
     },
   },
-  simcOrder = { "precombat", "default", "aoe_builder", "aoe_finisher", "builder", "cd_variable", "cooldown", "finisher" },
-  simcSource = "simc",
+  simcOrder = { "precombat", "default" },
+  simcSource = "wowsims",
   spec = "feral",
   spellInfo = {
     [768] = {
@@ -717,6 +612,26 @@ ns.RegisterSpecData("forever", "druid_feral", {
       gcd = 1.5,
       n = "swipe",
       r = 5,
+    },
+    [770] = {
+      ap = {
+        { 770, "enemy" },
+      },
+      cost = { [0] = 55 },
+      d = 40,
+      gcd = 1.5,
+      n = "faerie_fire",
+      r = 30,
+    },
+    [778] = {
+      ap = {
+        { 778, "enemy" },
+      },
+      cost = { [0] = 75 },
+      d = 40,
+      gcd = 1.5,
+      n = "faerie_fire",
+      r = 30,
     },
     [779] = {
       cost = { [1] = 20 },
@@ -739,6 +654,13 @@ ns.RegisterSpecData("forever", "druid_feral", {
       d = 12,
       gcd = 1,
       n = "rip",
+      r = 5,
+    },
+    [1082] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "claw",
       r = 5,
     },
     [1822] = {
@@ -774,9 +696,26 @@ ns.RegisterSpecData("forever", "druid_feral", {
       n = "rake",
       r = 5,
     },
+    [3025] = {
+      n = "cat_form",
+      pas = true,
+    },
+    [3029] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "claw",
+      r = 5,
+    },
+    [5201] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "claw",
+      r = 5,
+    },
     [5215] = {
       cd = 10,
-      cost = { [3] = 0 },
       n = "prowl",
     },
     [5217] = {
@@ -796,7 +735,6 @@ ns.RegisterSpecData("forever", "druid_feral", {
     },
     [6783] = {
       cd = 10,
-      cost = { [3] = 0 },
       n = "prowl",
     },
     [6785] = {
@@ -880,45 +818,15 @@ ns.RegisterSpecData("forever", "druid_feral", {
       n = "moonfire",
       r = 30,
     },
-    [8936] = {
-      cost = { [0] = 70 },
-      ct = 2,
-      d = 21,
+    [8929] = {
+      ap = {
+        { 8929, "enemy" },
+      },
+      cost = { [0] = 235 },
+      d = 12,
       gcd = 1.5,
-      n = "regrowth",
-      r = 40,
-    },
-    [8938] = {
-      cost = { [0] = 125 },
-      ct = 2,
-      d = 21,
-      gcd = 1.5,
-      n = "regrowth",
-      r = 40,
-    },
-    [8939] = {
-      cost = { [0] = 170 },
-      ct = 2,
-      d = 21,
-      gcd = 1.5,
-      n = "regrowth",
-      r = 40,
-    },
-    [8940] = {
-      cost = { [0] = 210 },
-      ct = 2,
-      d = 21,
-      gcd = 1.5,
-      n = "regrowth",
-      r = 40,
-    },
-    [8941] = {
-      cost = { [0] = 250 },
-      ct = 2,
-      d = 21,
-      gcd = 1.5,
-      n = "regrowth",
-      r = 40,
+      n = "moonfire",
+      r = 30,
     },
     [8992] = {
       cost = { [3] = 60 },
@@ -949,13 +857,15 @@ ns.RegisterSpecData("forever", "druid_feral", {
       n = "rip",
       r = 5,
     },
-    [9750] = {
-      cost = { [0] = 305 },
-      ct = 2,
-      d = 21,
+    [9749] = {
+      ap = {
+        { 9749, "enemy" },
+      },
+      cost = { [0] = 95 },
+      d = 40,
       gcd = 1.5,
-      n = "regrowth",
-      r = 40,
+      n = "faerie_fire",
+      r = 30,
     },
     [9752] = {
       ap = {
@@ -986,6 +896,50 @@ ns.RegisterSpecData("forever", "druid_feral", {
       gain = { [4] = 1 },
       gcd = 1,
       n = "shred",
+      r = 5,
+    },
+    [9833] = {
+      ap = {
+        { 9833, "enemy" },
+      },
+      cost = { [0] = 280 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+      r = 30,
+    },
+    [9834] = {
+      ap = {
+        { 9834, "enemy" },
+      },
+      cost = { [0] = 325 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+      r = 30,
+    },
+    [9835] = {
+      ap = {
+        { 9835, "enemy" },
+      },
+      cost = { [0] = 375 },
+      d = 12,
+      gcd = 1.5,
+      n = "moonfire",
+      r = 30,
+    },
+    [9849] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "claw",
+      r = 5,
+    },
+    [9850] = {
+      cost = { [3] = 45 },
+      gain = { [4] = 1 },
+      gcd = 1,
+      n = "claw",
       r = 5,
     },
     [9866] = {
@@ -1035,6 +989,16 @@ ns.RegisterSpecData("forever", "druid_feral", {
       n = "rake",
       r = 5,
     },
+    [9907] = {
+      ap = {
+        { 9907, "enemy" },
+      },
+      cost = { [0] = 115 },
+      d = 40,
+      gcd = 1.5,
+      n = "faerie_fire",
+      r = 30,
+    },
     [9908] = {
       cost = { [1] = 20 },
       gcd = 1.5,
@@ -1043,7 +1007,6 @@ ns.RegisterSpecData("forever", "druid_feral", {
     },
     [9913] = {
       cd = 10,
-      cost = { [3] = 0 },
       n = "prowl",
     },
     [16870] = {
@@ -1052,7 +1015,24 @@ ns.RegisterSpecData("forever", "druid_feral", {
       },
       d = 15,
       n = "clearcasting",
-      st = 1,
+    },
+    [20690] = {
+      ap = {
+        { 20690, "enemy" },
+      },
+      cost = { [0] = 375 },
+      d = 12,
+      n = "moonfire",
+      r = 50,
+    },
+    [21669] = {
+      ap = {
+        { 21669, "enemy" },
+      },
+      cost = { [0] = 150 },
+      d = 12,
+      n = "moonfire",
+      r = 40,
     },
     [22568] = {
       cmax = { [4] = 5 },
@@ -1096,13 +1076,81 @@ ns.RegisterSpecData("forever", "druid_feral", {
         { 22842, "self" },
       },
       cd = 180,
-      cost = { [1] = 0 },
       d = 10,
       gcd = 1.5,
       n = "frenzied_regeneration",
     },
     [22845] = {
       n = "frenzied_regeneration",
+    },
+    [24187] = {
+      gcd = 1,
+      n = "claw",
+      r = 5,
+    },
+    [24331] = {
+      ap = {
+        { 24331, "enemy" },
+      },
+      d = 9,
+      gcd = 1,
+      n = "rake",
+      r = 5,
+    },
+    [24332] = {
+      ap = {
+        { 24332, "enemy" },
+      },
+      d = 9,
+      gcd = 1,
+      n = "rake",
+      r = 5,
+    },
+    [27554] = {
+      gcd = 1.5,
+      n = "swipe",
+      r = 5,
+    },
+    [27555] = {
+      ap = {
+        { 27555, "enemy" },
+      },
+      d = 10,
+      gcd = 1,
+      n = "shred",
+      r = 5,
+    },
+    [27556] = {
+      ap = {
+        { 27556, "enemy" },
+      },
+      d = 15,
+      gcd = 1,
+      n = "rake",
+      r = 5,
+      st = 100,
+    },
+    [27557] = {
+      gcd = 1,
+      n = "ferocious_bite",
+      r = 5,
+    },
+    [27638] = {
+      ap = {
+        { 27638, "enemy" },
+      },
+      d = 15,
+      gcd = 1,
+      n = "rake",
+      r = 5,
+      st = 100,
+    },
+    [29166] = {
+      cd = 360,
+      d = 20,
+      gcd = 1.5,
+      n = "innervate",
+      r = 30,
     },
     [31018] = {
       cmax = { [4] = 5 },
@@ -1166,7 +1214,11 @@ ns.RegisterSpecData("forever", "druid_feral", {
       cd = 180,
       d = 15,
       n = "berserk",
-      tal = true,
+    },
+    [417159] = {
+      cd = 90,
+      gcd = 1.5,
+      n = "renewal",
     },
     [424759] = {
       n = "berserk",
@@ -1188,60 +1240,125 @@ ns.RegisterSpecData("forever", "druid_feral", {
       n = "barkskin",
       r = 40,
     },
+    [439512] = {
+      n = "swipe",
+    },
+    [442211] = {
+      ap = {
+        { 442211, "self" },
+      },
+      d = 30,
+      n = "berserk",
+    },
+    [456195] = {
+      ap = {
+        { 456195, "self" },
+      },
+      d = 20,
+      n = "innervate",
+      r = 30,
+    },
+    [1312152] = {
+      n = "tigers_fury",
+    },
+    [1322605] = {
+      cd = 8,
+      gain = { [3] = 40 },
+      gcd = 1,
+      n = "shifting_power",
+    },
+    [1328618] = {
+      cmax = { [4] = 5 },
+      cost = { [3] = 35, [4] = 1 },
+      gcd = 1,
+      n = "ferocious_bite",
+      r = 5,
+    },
   },
   spells = {
     barkskin = {
       a = { 22812, 428713 },
     },
     berserk = {
-      a = { 417141, 424759 },
-    },
-    bs_inc = {
-      a = { 417141, 424759 },
-      b = { 417141, 424759 },
+      a = { 417141, 442211, 424759 },
     },
     cat_form = {
-      a = { 768 },
-      b = { 768 },
+      a = { 768, 3025 },
+      b = { 768, 3025 },
+    },
+    claw = {
+      a = { 9850, 9849, 5201, 3029, 1082, 24187 },
     },
     clearcasting = {
       a = { 16870 },
       b = { 16870 },
     },
+    faerie_fire = {
+      a = { 9907, 9749, 778, 770 },
+      b = { 9907, 9749, 778, 770 },
+    },
     ferocious_bite = {
-      a = { 22568, 22827, 22828, 22829, 31018 },
+      a = { 31018, 22829, 22828, 22827, 22568, 1328618, 27557 },
     },
     frenzied_regeneration = {
       a = { 22842, 428708, 22845 },
     },
-    moonfire = {
-      a = { 8921, 8924, 8925, 8926, 8927, 8928 },
-      b = { 8921, 8924, 8925, 8926, 8927, 8928 },
+    innervate = {
+      a = { 29166, 456195 },
     },
-    moonfire_cat = {
-      a = { 8921, 8924, 8925, 8926, 8927, 8928 },
+    moonfire = {
+      a = {
+        9835,
+        9834,
+        9833,
+        8929,
+        8928,
+        8927,
+        8926,
+        8925,
+        8924,
+        8921,
+        20690,
+        21669,
+      },
+      b = {
+        9835,
+        9834,
+        9833,
+        8929,
+        8928,
+        8927,
+        8926,
+        8925,
+        8924,
+        8921,
+        20690,
+        21669,
+      },
     },
     prowl = {
-      a = { 5215, 6783, 9913 },
-      b = { 5215, 6783, 9913 },
+      a = { 9913, 6783, 5215 },
+      b = { 9913, 6783, 5215 },
     },
     rake = {
-      a = { 1822, 1823, 1824, 9904 },
-      b = { 1822, 1823, 1824, 9904 },
+      a = { 9904, 1824, 1823, 1822, 24331, 24332, 27556, 27638 },
+      b = { 9904, 1824, 1823, 1822, 24331, 24332, 27556, 27638 },
     },
     ravage = {
-      a = { 6785, 6787, 9866, 9867 },
-      b = { 6785, 6787, 9866, 9867 },
+      a = { 9867, 9866, 6787, 6785 },
     },
-    regrowth = {
-      a = { 8936, 8938, 8939, 8940, 8941, 9750 },
+    renewal = {
+      a = { 417159 },
     },
     rip = {
-      a = { 1079, 9492, 9493, 9752, 9894, 9896 },
-      b = { 1079, 9492, 9493, 9752, 9894, 9896 },
+      a = { 9896, 9894, 9752, 9493, 9492, 1079 },
+      b = { 9896, 9894, 9752, 9493, 9492, 1079 },
+    },
+    shifting_power = {
+      a = { 1322605 },
     },
     shred = {
-      a = { 5221, 6800, 8992, 9829, 9830 },
+      a = { 9830, 9829, 8992, 6800, 5221, 27555 },
     },
     skull_bash = {
       a = { 410176, 414621 },
@@ -1253,14 +1370,11 @@ ns.RegisterSpecData("forever", "druid_feral", {
       a = { 411115, 411124 },
     },
     swipe = {
-      a = { 769, 779, 780, 9754, 9908, 411128 },
-    },
-    swipe_cat = {
-      a = { 769, 779, 780, 9754, 9908, 411128 },
+      a = { 9908, 9754, 769, 780, 779, 27554, 411128, 439512 },
     },
     tigers_fury = {
-      a = { 5217, 417045 },
-      b = { 5217, 417045 },
+      a = { 5217, 417045, 1312152 },
+      b = { 5217, 417045, 1312152 },
     },
   },
 })

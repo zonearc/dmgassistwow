@@ -660,6 +660,9 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
     [196657] = {
       n = "shadow_bolt",
     },
+    [225590] = {
+      n = "implosion",
+    },
     [264130] = {
       cd = 30,
       gcd = 1.5,
@@ -732,6 +735,14 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       n = "axe_toss",
       r = 30,
     },
+    [364750] = {
+      d = 12,
+      n = "call_dreadstalkers",
+    },
+    [364751] = {
+      d = 12,
+      n = "call_dreadstalkers",
+    },
     [370371] = {
       n = "implosion",
     },
@@ -800,8 +811,19 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
     [460569] = {
       n = "doom",
     },
+    [464880] = {
+      d = 12,
+      n = "call_dreadstalkers",
+    },
+    [464881] = {
+      d = 12,
+      n = "call_dreadstalkers",
+    },
     [464890] = {
       n = "hand_of_guldan",
+    },
+    [464906] = {
+      n = "implosion",
     },
     [464907] = {
       n = "implosion",
@@ -887,7 +909,18 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       a = { 89766, 347008, 119914 },
     },
     call_dreadstalkers = {
-      a = { 104316, 193331, 193332, 196273, 196274, 196281 },
+      a = {
+        104316,
+        193331,
+        193332,
+        196273,
+        196274,
+        196281,
+        364750,
+        364751,
+        464880,
+        464881,
+      },
     },
     dark_pact = {
       a = { 108416 },
@@ -925,7 +958,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       a = { 105174, 86040, 196282, 464890, 270215, 1250273 },
     },
     implosion = {
-      a = { 196277, 196278, 268583, 370371, 464907, 464908 },
+      a = { 196277, 196278, 268583, 370371, 464907, 464908, 225590, 464906 },
     },
     infernal_bolt = {
       a = { 434506, 433891 },

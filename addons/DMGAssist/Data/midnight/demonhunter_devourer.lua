@@ -1019,8 +1019,20 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
     [272801] = {
       n = "devour",
     },
+    [320645] = {
+      n = "metamorphosis",
+      pas = true,
+    },
     [320962] = {
       n = "fiery_brand",
+      pas = true,
+    },
+    [321067] = {
+      n = "metamorphosis",
+      pas = true,
+    },
+    [321068] = {
+      n = "metamorphosis",
       pas = true,
     },
     [323639] = {
@@ -1087,6 +1099,19 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       d = 30,
       n = "the_hunt",
     },
+    [362222] = {
+      ap = {
+        { 362222, "enemy" },
+      },
+      d = 6,
+      n = "the_hunt",
+    },
+    [362224] = {
+      ap = {
+        { 323996, "enemy" },
+      },
+      n = "the_hunt",
+    },
     [370965] = {
       ap = {
         { 370965, "self" },
@@ -1100,6 +1125,13 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       r = 50,
       tal = true,
     },
+    [370966] = {
+      ap = {
+        { 370970, "enemy" },
+        { 370969, "enemy" },
+      },
+      n = "the_hunt",
+    },
     [370967] = {
       ap = {
         { 370967, "self" },
@@ -1108,10 +1140,53 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       n = "the_hunt",
       r = 50,
     },
+    [370969] = {
+      ap = {
+        { 370969, "enemy" },
+      },
+      d = 6,
+      n = "the_hunt",
+    },
+    [370970] = {
+      ap = {
+        { 370970, "enemy" },
+      },
+      d = 1.5,
+      n = "the_hunt",
+    },
+    [370971] = {
+      n = "the_hunt",
+    },
     [427904] = {
       n = "immolation_aura",
     },
     [427905] = {
+      n = "immolation_aura",
+    },
+    [427906] = {
+      n = "immolation_aura",
+    },
+    [427907] = {
+      n = "immolation_aura",
+    },
+    [427908] = {
+      gain = { [17] = 5 },
+      n = "immolation_aura",
+    },
+    [427910] = {
+      gain = { [17] = 5 },
+      n = "immolation_aura",
+    },
+    [427911] = {
+      gain = { [17] = 5 },
+      n = "immolation_aura",
+    },
+    [427913] = {
+      ap = {
+        { 427913, "self" },
+      },
+      d = 6,
+      gain = { [17] = 28 },
       n = "immolation_aura",
     },
     [427917] = {
@@ -1440,8 +1515,8 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       a = { 198589, 212800, 202818 },
     },
     collapsing_star = {
-      a = { 1221150, 1221162, 1227702, 1221167, 1221171, 1319061 },
-      b = { 1221150, 1221162, 1221171, 1227702, 1319061, 1319066 },
+      a = { 1221150, 1221162, 1227702, 1221167, 1221171, 1319061, 1319066 },
+      b = { 1221150, 1221162, 1221171, 1227702, 1319061, 1319066, 1221167 },
     },
     consume = {
       a = { 473662, 1261710 },
@@ -1474,15 +1549,48 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       b = { 1239123, 1239525, 1239127, 1239507, 1239519 },
     },
     immolation_aura = {
-      a = { 258920, 427917, 258921, 258922, 427904, 427905 },
+      a = {
+        258920,
+        427917,
+        258921,
+        258922,
+        427904,
+        427905,
+        427906,
+        427907,
+        427908,
+        427910,
+        427911,
+        427913,
+      },
     },
     impending_apocalypse = {
       a = { 1227338, 1227707 },
       b = { 1227338, 1227707 },
     },
     metamorphosis = {
-      a = { 187827, 191427, 162264, 200166, 247121, 201453 },
-      b = { 162264, 187827, 200166, 201453, 247121, 191427 },
+      a = {
+        187827,
+        191427,
+        162264,
+        200166,
+        247121,
+        201453,
+        320645,
+        321067,
+        321068,
+      },
+      b = {
+        162264,
+        187827,
+        200166,
+        201453,
+        247121,
+        191427,
+        320645,
+        321067,
+        321068,
+      },
     },
     moment_of_craving = {
       a = { 1238495, 1238488 },
@@ -1519,7 +1627,20 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       t = { 1246556 },
     },
     the_hunt = {
-      a = { 323639, 1246167, 323802, 323996, 333762, 345335 },
+      a = {
+        323639,
+        1246167,
+        323802,
+        323996,
+        333762,
+        345335,
+        362222,
+        362224,
+        370966,
+        370969,
+        370970,
+        370971,
+      },
       t = { 370965, 1246167 },
     },
     vengeful_retreat = {

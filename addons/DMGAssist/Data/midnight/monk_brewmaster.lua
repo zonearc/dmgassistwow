@@ -703,6 +703,10 @@ ns.RegisterSpecData("midnight", "monk_brewmaster", {
       n = "celestial_brew",
       tal = true,
     },
+    [322700] = {
+      n = "spinning_crane_kick",
+      pas = true,
+    },
     [322729] = {
       ap = {
         { 322729, "self" },
@@ -749,6 +753,10 @@ ns.RegisterSpecData("midnight", "monk_brewmaster", {
     [331433] = {
       n = "tiger_palm",
       r = 5,
+    },
+    [343730] = {
+      n = "spinning_crane_kick",
+      pas = true,
     },
     [344360] = {
       n = "touch_of_death",
@@ -799,6 +807,10 @@ ns.RegisterSpecData("midnight", "monk_brewmaster", {
     [451968] = {
       n = "expel_harm",
     },
+    [460485] = {
+      n = "chi_burst",
+      pas = true,
+    },
     [460490] = {
       ap = {
         { 460490, "self" },
@@ -819,6 +831,9 @@ ns.RegisterSpecData("midnight", "monk_brewmaster", {
       n = "diffuse_magic",
       pas = true,
       tal = true,
+    },
+    [1250999] = {
+      n = "spinning_crane_kick",
     },
     [1262329] = {
       n = "empty_the_cellar",
@@ -884,7 +899,7 @@ ns.RegisterSpecData("midnight", "monk_brewmaster", {
       a = { 322507, 425965 },
     },
     chi_burst = {
-      a = { 123986, 461404, 130654, 148135, 261682, 460490 },
+      a = { 123986, 461404, 130654, 148135, 261682, 460490, 460485 },
     },
     diffuse_magic = {
       a = { 1243287 },
@@ -929,7 +944,17 @@ ns.RegisterSpecData("midnight", "monk_brewmaster", {
       a = { 116705 },
     },
     spinning_crane_kick = {
-      a = { 101546, 212142, 322729, 107270, 212141, 330903 },
+      a = {
+        101546,
+        212142,
+        322729,
+        107270,
+        212141,
+        330903,
+        1250999,
+        322700,
+        343730,
+      },
     },
     tiger_palm = {
       a = { 100780, 331433 },

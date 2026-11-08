@@ -47,7 +47,7 @@ jobs:
         run: |
           flags=""
           case "$GITHUB_REF_NAME" in *-*) flags="--prerelease";; esac
-          gh release create "$GITHUB_REF_NAME" dist/*.zip --title "DMGAssist $GITHUB_REF_NAME" \
+          gh release create "$GITHUB_REF_NAME" dist/*-*.zip --title "DMGAssist $GITHUB_REF_NAME" \
             --notes-file release-notes.md $flags
       - name: CurseForge
         if: env.CF_API_TOKEN != '' && vars.CURSEFORGE_PUBLISH == 'true'

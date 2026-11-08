@@ -234,18 +234,18 @@ end
 
 local function ScanSpellbook()
   local spells, passives, book, baseOf = {}, {}, {}, {}
-  local n = U.Read(U.Call(C_SpellBook and C_SpellBook.GetNumSpellBookSkillLines))
+  local n = U.Get(C_SpellBook and C_SpellBook.GetNumSpellBookSkillLines)
   if type(n) ~= "number" then
     return false
   end
   local bank = (Enum and Enum.SpellBookSpellBank and Enum.SpellBookSpellBank.Player) or 0
   for line = 1, n do
-    local info = U.Read(U.Call(C_SpellBook.GetSpellBookSkillLineInfo, line))
+    local info = U.Get(C_SpellBook.GetSpellBookSkillLineInfo, line)
     if type(info) == "table" and not U.Read(info.isGuild) and not U.Read(info.offSpecID) then
       local offset, count = U.Read(info.itemIndexOffset), U.Read(info.numSpellBookItems)
       if type(offset) == "number" and type(count) == "number" then
         for slot = offset + 1, offset + count do
-          local item = U.Read(U.Call(C_SpellBook.GetSpellBookItemInfo, slot, bank))
+          local item = U.Get(C_SpellBook.GetSpellBookItemInfo, slot, bank)
           if type(item) == "table" then
             local id, name = U.Read(item.spellID), U.Read(item.name)
             local token = M.Token(name)
@@ -266,7 +266,7 @@ local function ScanSpellbook()
                 -- Overridden spells keep the base name reachable too (Moonfire -> Moonfire in cat form, etc.).
                 local base = U.Read(item.actionID)
                 if type(base) == "number" and base ~= id then
-                  local baseName = U.Read(U.Call(C_Spell and C_Spell.GetSpellName, base))
+                  local baseName = U.Get(C_Spell and C_Spell.GetSpellName, base)
                   local bt = M.Token(baseName)
                   if bt and bt ~= "" and not spells[bt] then
                     spells[bt] = base
@@ -285,19 +285,19 @@ end
 
 local function ScanTalents()
   local talents, talentSpell, talentIDs = {}, {}, {}
-  local configID = U.Read(U.Call(C_ClassTalents and C_ClassTalents.GetActiveConfigID))
+  local configID = U.Get(C_ClassTalents and C_ClassTalents.GetActiveConfigID)
   if type(configID) ~= "number" then
     return false
   end
-  local config = U.Read(U.Call(C_Traits and C_Traits.GetConfigInfo, configID))
+  local config = U.Get(C_Traits and C_Traits.GetConfigInfo, configID)
   if type(config) ~= "table" or type(config.treeIDs) ~= "table" then
     return false
   end
   for _, treeID in ipairs(config.treeIDs) do
-    local nodes = U.Read(U.Call(C_Traits.GetTreeNodes, treeID))
+    local nodes = U.Get(C_Traits.GetTreeNodes, treeID)
     if type(nodes) == "table" then
       for _, nodeID in ipairs(nodes) do
-        local node = U.Read(U.Call(C_Traits.GetNodeInfo, configID, nodeID))
+        local node = U.Get(C_Traits.GetNodeInfo, configID, nodeID)
         if type(node) == "table" and type(node.entryIDs) == "table" then
           local activeEntry = type(node.activeEntry) == "table" and U.Read(node.activeEntry.entryID) or nil
           local rank = U.Read(node.activeRank)
@@ -309,9 +309,9 @@ local function ScanTalents()
             rank = 0
           end
           for _, entryID in ipairs(node.entryIDs) do
-            local entry = U.Read(U.Call(C_Traits.GetEntryInfo, configID, entryID))
+            local entry = U.Get(C_Traits.GetEntryInfo, configID, entryID)
             local defID = type(entry) == "table" and U.Read(entry.definitionID) or nil
-            local def = defID and U.Read(U.Call(C_Traits.GetDefinitionInfo, defID)) or nil
+            local def = defID and U.Get(C_Traits.GetDefinitionInfo, defID) or nil
             local spellID = type(def) == "table" and U.Read(def.spellID) or nil
             if type(spellID) == "number" then
               local rr = 0
@@ -321,7 +321,7 @@ local function ScanTalents()
               if (talentIDs[spellID] or -1) < rr then
                 talentIDs[spellID] = rr
               end
-              local token = M.Token(U.Read(U.Call(C_Spell and C_Spell.GetSpellName, spellID)))
+              local token = M.Token(U.Get(C_Spell and C_Spell.GetSpellName, spellID))
               if token and token ~= "" then
                 local r = 0
                 if entryID == activeEntry then
@@ -340,9 +340,9 @@ local function ScanTalents()
   end
   M.talents, M.talentSpell, M.talentIDs = talents, talentSpell, talentIDs
   M.heroTree = nil
-  local hero = U.Read(U.Call(C_ClassTalents.GetActiveHeroTalentSpec))
+  local hero = U.Get(C_ClassTalents.GetActiveHeroTalentSpec)
   if type(hero) == "number" then
-    local sub = U.Read(U.Call(C_Traits.GetSubTreeInfo, configID, hero))
+    local sub = U.Get(C_Traits.GetSubTreeInfo, configID, hero)
     if type(sub) == "table" then
       M.heroTree = M.Token(U.Read(sub.name))
     end
@@ -357,7 +357,7 @@ function M.TokenForID(id)
   if t then
     return t
   end
-  t = M.Token(U.Read(U.Call(C_Spell and C_Spell.GetSpellName, id)))
+  t = M.Token(U.Get(C_Spell and C_Spell.GetSpellName, id))
   if t and t ~= "" then
     M.byID[id] = t
     return t

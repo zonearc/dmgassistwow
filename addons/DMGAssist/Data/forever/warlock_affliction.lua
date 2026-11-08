@@ -948,7 +948,6 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       gcd = 1.5,
       n = "drain_soul",
       r = 30,
-      st = 1,
     },
     [6222] = {
       ap = {
@@ -999,7 +998,6 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       gcd = 1.5,
       n = "drain_soul",
       r = 30,
-      st = 1,
     },
     [8289] = {
       ap = {
@@ -1010,7 +1008,27 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       gcd = 1.5,
       n = "drain_soul",
       r = 30,
-      st = 1,
+    },
+    [11659] = {
+      cost = { [0] = 265 },
+      ct = 3,
+      gcd = 1.5,
+      n = "shadow_bolt",
+      r = 30,
+    },
+    [11660] = {
+      cost = { [0] = 315 },
+      ct = 3,
+      gcd = 1.5,
+      n = "shadow_bolt",
+      r = 30,
+    },
+    [11661] = {
+      cost = { [0] = 370 },
+      ct = 3,
+      gcd = 1.5,
+      n = "shadow_bolt",
+      r = 30,
     },
     [11671] = {
       ap = {
@@ -1043,28 +1061,20 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       gcd = 1.5,
       n = "drain_soul",
       r = 30,
-      st = 1,
     },
     [18094] = {
       n = "nightfall",
       pas = true,
-      tal = true,
     },
-    [18265] = {
-      ap = {
-        { 18265, "enemy" },
-      },
-      cost = { [0] = 150 },
-      d = 30,
+    [18376] = {
+      cost = { [0] = 100 },
+      ct = 2,
+      d = 24,
       gcd = 1.5,
-      n = "siphon_life",
+      n = "corruption",
       r = 30,
-      tal = true,
     },
     [19244] = {
-      ap = {
-        { 24259, "enemy" },
-      },
       cd = 30,
       cost = { [0] = 120 },
       d = 6,
@@ -1073,14 +1083,21 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       r = 30,
     },
     [19647] = {
-      ap = {
-        { 24259, "enemy" },
-      },
       cd = 30,
       cost = { [0] = 200 },
       d = 8,
       gcd = 1.5,
       n = "spell_lock",
+      r = 30,
+    },
+    [21068] = {
+      ap = {
+        { 21068, "enemy" },
+      },
+      ct = 2,
+      d = 24,
+      gcd = 1.5,
+      n = "corruption",
       r = 30,
     },
     [24259] = {
@@ -1089,6 +1106,34 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       },
       d = 3,
       n = "spell_lock",
+      r = 30,
+    },
+    [25307] = {
+      cost = { [0] = 380 },
+      ct = 3,
+      gcd = 1.5,
+      n = "shadow_bolt",
+      r = 30,
+    },
+    [25311] = {
+      ap = {
+        { 25311, "enemy" },
+      },
+      cost = { [0] = 340 },
+      ct = 2,
+      d = 18,
+      gcd = 1.5,
+      n = "corruption",
+      r = 30,
+    },
+    [28829] = {
+      n = "corruption",
+      pas = true,
+    },
+    [350026] = {
+      cost = { [0] = 70 },
+      ct = 2.8,
+      n = "shadow_bolt",
       r = 30,
     },
     [403501] = {
@@ -1106,6 +1151,13 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
     [403858] = {
       n = "haunt",
       pas = true,
+    },
+    [412787] = {
+      cd = 10,
+      d = 5,
+      gcd = 1,
+      n = "disrupt",
+      r = 5,
     },
     [427717] = {
       ap = {
@@ -1126,22 +1178,122 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       n = "unstable_affliction",
       pas = true,
     },
+    [1213450] = {
+      ap = {
+        { 1213450, "enemy" },
+      },
+      ct = 2,
+      d = 24,
+      gcd = 1.5,
+      n = "corruption",
+      r = 30,
+    },
+    [1219428] = {
+      n = "corruption",
+      st = 1,
+    },
+    [1219436] = {
+      n = "unstable_affliction",
+      st = 1,
+    },
+    [1223963] = {
+      ap = {
+        { 1223963, "enemy" },
+      },
+      d = 12,
+      n = "corruption",
+      r = 30,
+    },
+    [1242971] = {
+      ap = {
+        { 1242971, "enemy" },
+      },
+      cost = { [0] = 265 },
+      ct = 1.5,
+      d = 18,
+      gcd = 1.5,
+      n = "unstable_affliction",
+      r = 30,
+    },
+    [1242972] = {
+      ap = {
+        { 1242972, "enemy" },
+      },
+      cost = { [0] = 340 },
+      ct = 1.5,
+      d = 18,
+      gcd = 1.5,
+      n = "unstable_affliction",
+      r = 30,
+    },
+    [1293693] = {
+      ap = {
+        { 1293693, "enemy" },
+      },
+      cd = 15,
+      cost = { [0] = 200 },
+      ct = 1.5,
+      d = 12,
+      gcd = 1.5,
+      n = "haunt",
+      r = 30,
+    },
+    [1293694] = {
+      ap = {
+        { 1293694, "enemy" },
+      },
+      cd = 15,
+      cost = { [0] = 240 },
+      ct = 1.5,
+      d = 12,
+      gcd = 1.5,
+      n = "haunt",
+      r = 30,
+    },
     [1310949] = {
       n = "malevolence",
       pas = true,
-      tal = true,
     },
   },
   spells = {
     corruption = {
-      a = { 172, 6222, 6223, 7648, 11671, 11672 },
-      b = { 172, 6222, 6223, 7648, 11671, 11672 },
+      a = {
+        25311,
+        11672,
+        11671,
+        7648,
+        6223,
+        6222,
+        172,
+        18376,
+        21068,
+        1213450,
+        1223963,
+        1219428,
+      },
+      b = {
+        25311,
+        1223963,
+        11672,
+        11671,
+        7648,
+        6223,
+        6222,
+        172,
+        18376,
+        21068,
+        1213450,
+        28829,
+      },
+    },
+    disrupt = {
+      a = { 412787 },
     },
     drain_soul = {
-      a = { 1120, 8288, 8289, 11675 },
+      a = { 11675, 8289, 8288, 1120 },
     },
     haunt = {
-      a = { 403501, 403858 },
+      a = { 1293694, 1293693, 403501, 403858 },
     },
     malevolence = {
       a = { 1310949 },
@@ -1152,17 +1304,26 @@ ns.RegisterSpecData("forever", "warlock_affliction", {
       b = { 18094 },
     },
     shadow_bolt = {
-      a = { 686, 695, 705, 1088, 1106, 7641 },
-    },
-    siphon_life = {
-      t = { 18265 },
+      a = {
+        25307,
+        11661,
+        11660,
+        11659,
+        7641,
+        1106,
+        1088,
+        705,
+        695,
+        686,
+        350026,
+      },
     },
     spell_lock = {
-      a = { 19244, 19647, 24259 },
+      a = { 19647, 19244, 24259 },
     },
     unstable_affliction = {
-      a = { 427717, 427719, 431748 },
-      b = { 427717, 427719, 431748 },
+      a = { 1242972, 1242971, 427717, 427719, 1219436, 431748 },
+      b = { 1242972, 1242971, 427717, 427719, 431748, 1219436 },
     },
   },
 })

@@ -701,6 +701,10 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       d = 1,
       n = "wailing_arrow",
     },
+    [398388] = {
+      d = 3,
+      n = "wailing_arrow",
+    },
     [407412] = {
       n = "bloody_frenzy",
       pas = true,
@@ -713,6 +717,13 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
     },
     [433984] = {
       n = "beast_cleave",
+    },
+    [459808] = {
+      ap = {
+        { 459808, "self" },
+      },
+      d = 15,
+      n = "wailing_arrow",
     },
     [466930] = {
       ch = 1,
@@ -790,6 +801,11 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       tal = true,
     },
     [1273065] = {
+      n = "natures_ally",
+      pas = true,
+      tal = true,
+    },
+    [1273126] = {
       n = "natures_ally",
       pas = true,
       tal = true,
@@ -901,8 +917,8 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       a = { 187707 },
     },
     natures_ally = {
-      a = { 1273144, 1273145, 1276720, 1282474, 1273043, 1273065 },
-      b = { 1273144, 1273145, 1276720, 1281527, 1282474, 1273043 },
+      a = { 1273144, 1273145, 1276720, 1282474, 1273043, 1273065, 1273126, 1281527 },
+      b = { 1273144, 1273145, 1276720, 1281527, 1282474, 1273043, 1273065, 1273126 },
     },
     pack_tactics = {
       t = { 321014 },
@@ -920,7 +936,7 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       a = { 264735 },
     },
     wailing_arrow = {
-      a = { 355589, 392060, 354831, 355596, 392058, 392061 },
+      a = { 355589, 392060, 354831, 355596, 392058, 392061, 398388, 459808 },
     },
     wild_thrash = {
       a = { 1264359, 1264355 },
