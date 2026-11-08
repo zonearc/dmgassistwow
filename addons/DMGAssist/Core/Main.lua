@@ -96,6 +96,7 @@ function ns.Update()
     RefreshSpells()
   end
   D.MaybeRefreshKeymap(inCombat)
+  ns.Diagnostics.Tick()
   local show = ShouldShow()
   if not show then
     D.Update(nil, false)
@@ -108,6 +109,8 @@ function ns.Update()
     useAssisted = state.branch == "midnight" and ns.db.useAssisted ~= false,
   })
   result.callout = ns.BossMods.Callout()
+  ns.Interrupts.Apply(result)
+  ns.Diagnostics.OnPick(result)
   ns.last = result
   D.Update(result, true)
   -- Decision log: one line per change of pick (not every tick).
@@ -153,6 +156,8 @@ for _, event in ipairs(Specs.EVENTS) do
 end
 pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_SUCCEEDED", "player")
 pcall(frame.RegisterUnitEvent, frame, "UNIT_POWER_UPDATE", "player")
+pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_START", "target")
+pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_CHANNEL_START", "target")
 pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELL_HASTE", "player")
 for _, event in ipairs({ "SPELL_UPDATE_USABLE", "SPELL_UPDATE_ICON", "COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED",
   "ENCOUNTER_START", "ENCOUNTER_END" }) do
@@ -161,7 +166,7 @@ end
 pcall(frame.RegisterUnitEvent, frame, "UNIT_AURA", "player", "target")
 
 local DEFAULTS = { enabled = true, burst = true, mode = "st", autoDetect = true, aoeTargets = 3, fightLength = 300,
-  useAssisted = true, queue = 3, smartFight = true, bossMods = true }
+  useAssisted = true, queue = 3, smartFight = true, bossMods = true, interruptMode = "smart" }
 
 frame:SetScript("OnEvent", function(_, event, ...)
   local arg1, _, arg3 = ...
@@ -194,9 +199,11 @@ frame:SetScript("OnEvent", function(_, event, ...)
   elseif event == "PLAYER_REGEN_DISABLED" then
     inCombat = true
     S.OnCombat(true)
+    ns.Diagnostics.OnCombat(true)
   elseif event == "PLAYER_REGEN_ENABLED" then
     inCombat = false
     S.OnCombat(false)
+    ns.Diagnostics.OnCombat(false)
     S.Calibrate()
     if spellsDirty then
       RequestSpellRefresh()
@@ -205,6 +212,8 @@ frame:SetScript("OnEvent", function(_, event, ...)
     if arg1 == "player" then
       S.OnSpellcastSucceeded(arg3)
     end
+  elseif event == "UNIT_SPELLCAST_START" or event == "UNIT_SPELLCAST_CHANNEL_START" then
+    ns.Interrupts.OnTargetCastStart()
   elseif event == "UNIT_POWER_UPDATE" then
     ns.Clues.OnPowerEvent(U.Read(select(2, ...)))
   elseif event == "UNIT_SPELL_HASTE" then
@@ -228,6 +237,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     S.OnAura(U.Read(arg1))
   elseif event == "PLAYER_TARGET_CHANGED" then
     S.OnTargetChanged()
+    ns.Interrupts.OnTargetCastStart()
   else
     Specs.RequestRefresh(event)
     if SPELL_EVENTS[event] then

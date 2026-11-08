@@ -17,7 +17,7 @@ local DEFAULT_SETTINGS = {
   maxSessions = 8,
   maxEventsPerSession = 600,
   maxErrors = 60,
-  maxNotes = 80,
+  maxNotes = 200,
   maxProbes = 6,
 }
 

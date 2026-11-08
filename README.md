@@ -84,6 +84,19 @@ IDs, so it works on every client language; only messages are translated.
 With DMGAssist_Watchdog installed, every pick change (with the queue and mode), inferred cast and per-fight tracking
 summary is logged for diagnosis.
 
+## Sending logs (no copy/paste)
+
+1. Optional, for taint problems: `/dmgw taint on` once (the game then writes `Logs/taint.log`).
+2. Play. `/reload` or log out — that is when the game writes the log files.
+3. On your PC: `python tools/send-logs.py` (one time), or leave `python tools/send-logs.py --watch` running and every
+   `/reload` sends automatically. Uses your `gh` login or a token in `DMGASSIST_GITHUB_TOKEN`; uploads to the
+   `watchdog-logs` branch and opens a GitHub issue that links the files. `--note "Feral, Ara-Kara, combo points off"`
+   adds context; `--zip` writes a zip instead if you'd rather attach it by hand. Your account name is removed.
+
+What the logs contain: every input's readability changes (readable → secret → back, with combat and restriction state),
+value ranges per fight, each clue source's grades, how picks were made, interrupts shown/used/skipped, our own failed
+calls, plus the Watchdog's errors, blocked/forbidden actions and probes.
+
 ## Automation (GitHub Actions)
 
 | Workflow | When | What |

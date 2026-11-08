@@ -10,6 +10,7 @@ local HELP = {
   "/dmgw export last  export only the latest session and probes",
   "/dmgw status       print the summary to chat",
   "/dmgw force on|off force addon restrictions on/off for testing (if the client supports it)",
+  "/dmgw taint on|off write the game's taint log (Logs/taint.log) for blocked/forbidden actions",
   "/dmgw clear        wipe all Watchdog data",
   "Easiest export: /reload, then upload WTF/Account/<ACCOUNT>/SavedVariables/DMGAssist_Watchdog.lua",
 }
@@ -75,6 +76,17 @@ SlashCmdList.DMGASSISTWATCHDOG = function(msg)
     end
   elseif cmd == "force" then
     SetForced(rest == "on")
+  elseif cmd == "taint" then
+    -- taintLog 1 = blocked actions with the addon that caused them; 2 = also every taint step (verbose).
+    if InCombatLockdown() then
+      U.Print("Change this out of combat.")
+      return
+    end
+    local value = rest == "off" and "0" or (rest == "full" and "2" or "1")
+    pcall(C_CVar.SetCVar, "taintLog", value)
+    ns.Store.Note("taint_log", { value = value })
+    U.Print("taintLog = %s. After playing, /reload or log out; the file is World of Warcraft/_retail_/Logs/taint.log.",
+      value)
   elseif cmd == "clear" then
     ns.Store.Clear()
     ns.Errors.OnDatabaseReady()
@@ -90,7 +102,9 @@ end
 -- current combat session:  DMGAssistWatchdog.Log("rec", spellID)
 DMGAssistWatchdog = {
   Log = function(kind, data)
-    kind, data = U.Safe(kind, 40), U.Safe(data, 200)
+    -- end-of-fight summaries are long single lines; everything else stays short
+    local limit = (type(kind) == "string" and kind:find("_summary$")) and 2000 or 200
+    kind, data = U.Safe(kind, 40), U.Safe(data, limit)
     if ns.Sessions.Active() then
       ns.Sessions.Add("D", kind, data)
     else

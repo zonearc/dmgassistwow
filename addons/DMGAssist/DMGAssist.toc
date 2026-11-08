@@ -18,6 +18,8 @@ Core\SpellMap.lua
 Core\State.lua
 Core\Clues.lua
 Core\BossMods.lua
+Core\Interrupts.lua
+Core\Diagnostics.lua
 Core\Engine.lua
 Core\Display.lua
 Core\Options.lua

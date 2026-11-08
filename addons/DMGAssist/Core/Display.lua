@@ -300,9 +300,7 @@ local function Layout(f, cfg)
   f.cd:ClearAllPoints()
   f.cd:SetSize(cfg.cdSize, cfg.cdSize)
   f.cd:SetPoint("TOPLEFT", f, "TOPLEFT", pad, -(y + gap))
-  f.kick:ClearAllPoints()
-  f.kick:SetSize(cfg.cdSize, cfg.cdSize)
-  f.kick:SetPoint("LEFT", f.cd, "RIGHT", gap, 0)
+
   y = y + gap + cfg.cdSize
   f.debug:ClearAllPoints()
   f.debug:SetPoint("TOPLEFT", f, "TOPLEFT", pad, -(y + 2))
@@ -373,13 +371,18 @@ function D.Create()
   -- The other pick of a branch, stacked on the main icon; the game sets which one is visible (see D.Update).
   f.branch = Icon(f, cfg.iconSize, cfg)
   f.branch:SetAllPoints(f.slots[1])
-  -- Interrupt reminder: our interrupt's icon while the target casts something interruptible.
-  f.kick = Icon(f, cfg.cdSize, cfg)
-  f.kick.important = f.kick:CreateTexture(nil, "OVERLAY")
-  f.kick.important:SetPoint("TOPLEFT", f.kick, "TOPLEFT", -2, 2)
-  f.kick.important:SetPoint("BOTTOMRIGHT", f.kick, "BOTTOMRIGHT", 2, -2)
-  f.kick.important:SetColorTexture(1, 0.1, 0.1, 0.6)
-  f.kick.important:SetDrawLayer("BACKGROUND")
+  -- Interrupt drawn over slot 1 when the game must decide (secret "interruptible"/"important"):
+  -- kickGate's alpha = important (or 1), kick's alpha = interruptible; nested alpha multiplies = AND.
+  -- The icon is opaque, so while visible it covers the normal slot-1 pick underneath.
+  f.kickGate = CreateFrame("Frame", nil, f)
+  f.kickGate:SetAllPoints(f.slots[1])
+  f.kick = Icon(f.kickGate, cfg.iconSize, cfg)
+  f.kick:SetAllPoints(f.kickGate)
+  f.kick.border = f.kick:CreateTexture(nil, "OVERLAY")
+  f.kick.border:SetPoint("TOPLEFT", f.kick, "TOPLEFT", -3, 3)
+  f.kick.border:SetPoint("BOTTOMRIGHT", f.kick, "BOTTOMRIGHT", 3, -3)
+  f.kick.border:SetColorTexture(1, 0.1, 0.1, 0.7)
+  f.kick.border:SetDrawLayer("BACKGROUND")
   f.cd = Icon(f, cfg.cdSize, cfg)
   f.gcdBg = f:CreateTexture(nil, "BACKGROUND")
   f.gcdBg:SetColorTexture(0, 0, 0, 0.6)
@@ -541,29 +544,32 @@ local function TargetCast()
 end
 D.TargetCast = TargetCast
 
-local function RenderInterrupt(f, cfg)
-  local id = cfg.interrupt and D.InterruptSpell()
-  local casting, notInterruptible, spellID = TargetCast()
-  if not (id and casting) or ns.State.CooldownReady(id) == false then
+local function SetAlphaBool(frame, value, ifTrue, ifFalse)
+  if U.IsSecret(value) then
+    U.Call(frame.SetAlphaFromBoolean, frame, value, ifTrue, ifFalse)
+  elseif value then
+    frame:SetAlpha(ifTrue)
+  else
+    frame:SetAlpha(ifFalse)
+  end
+end
+
+-- result.interrupt from Interrupts.Evaluate: "decided" ones are already slot 1 of the queue; "render" ones are
+-- drawn over slot 1 with secret-driven alpha.
+local function RenderInterrupt(f, result, cfg)
+  local intr = result.interrupt
+  if not (cfg.interrupt and intr and intr.how == "render") then
+    f.kickGate:Hide()
     f.kick:Hide()
     return
   end
-  SetIcon(f.kick, { id = id, source = "simc" }, cfg, true, L["INTERRUPT"])
-  if U.IsSecret(notInterruptible) then
-    U.Call(f.kick.SetAlphaFromBoolean, f.kick, notInterruptible, 0, 1)
+  SetIcon(f.kick, { id = intr.id, source = "interrupt" }, cfg, true, L["INTERRUPT"])
+  f.kickGate:Show()
+  SetAlphaBool(f.kick, intr.notInterruptible, 0, 1)
+  if intr.needImportant then
+    SetAlphaBool(f.kickGate, intr.important, 1, 0)
   else
-    f.kick:SetAlpha(notInterruptible and 0 or 1)
-  end
-  local important = spellID ~= nil and U.Call(C_Spell and C_Spell.IsSpellImportant, spellID)
-  if important == nil or important == false then
-    f.kick.important:Hide()
-  else
-    f.kick.important:Show()
-    if U.IsSecret(important) then
-      U.Call(f.kick.important.SetAlphaFromBoolean, f.kick.important, important, 0.6, 0)
-    else
-      f.kick.important:SetAlpha(0.6)
-    end
+    f.kickGate:SetAlpha(1)
   end
 end
 
@@ -589,7 +595,7 @@ function D.Update(result, visible)
   end
   SetIcon(f.cd, result.cd, cfg, true, L["COOLDOWN"])
   f.branchShown = RenderBranch(f, result, cfg)
-  RenderInterrupt(f, cfg)
+  RenderInterrupt(f, result, cfg)
   -- "Press now" cue: the GCD (or the current cast) ends within the game's spell queue window, so pressing now
   -- queues the spell with no gap. Timing uses the haste-adjusted GCD we track.
   local queueWindow = (tonumber(U.Read(U.Call(C_CVar and C_CVar.GetCVar, "SpellQueueWindow"))) or 400) / 1000
