@@ -1707,6 +1707,55 @@ test("timing: our cast is timed from its start event when the game hides it; wip
   mock.castTimes = nil
 end)
 
+test("decision traces: each pick change in combat logs resources, the lines checked and unknown terms", function()
+  Reset()
+  local ns = Boot()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, data } end }
+  mock.power[3], mock.powerMax[3] = 80, 100
+  ns.Update()
+  Restrict()
+  ns.Update()
+  local trace
+  for _, l in ipairs(logged) do
+    if l[1] == "decision_trace" then
+      trace = l[2]
+    end
+  end
+  DMGAssistWatchdog = nil
+  eq(type(trace), "string", "a trace was logged")
+  eq(trace:find("show=", 1, true) ~= nil, true)
+  eq(trace:find("res: ", 1, true) ~= nil, true)
+  eq(trace:find("energy=", 1, true) ~= nil, true, "energy listed: " .. trace)
+  eq(trace:find("lines: ", 1, true) ~= nil, true)
+end)
+
+test("resource floors: energy regenerates at least at base rate, spenders cost, graded after combat", function()
+  Reset()
+  local ns = Boot()
+  Feral(ns, QRecord({ { a = "shred", k = "R" } }))
+  mock.power[3] = 20
+  ns.Update() -- readable: floor starts at 20
+  Restrict()
+  mock.Advance(2)
+  local lo = ns.Clues.FloorBounds(3)
+  eq(math.floor(lo + 0.5), 40, "20 + 2 s x 10/s")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5221) -- shred costs 40
+  lo = ns.Clues.FloorBounds(3)
+  eq(math.floor(lo + 0.5), 0, "spent 40")
+  eq(ns.State.Bounds("energy") ~= nil, true, "the engine sees a range")
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[kind] = data end }
+  mock.restricted, mock.inCombat = false, false
+  mock.power[3] = 35
+  mock.Advance(1)
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  ns.Update()
+  DMGAssistWatchdog = nil
+  eq(logged.floor_check ~= nil, true, "after combat: counted vs real logged")
+  eq(ns.Clues.stats.floor.wrong, 0, "floor (10) was below the real 35")
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

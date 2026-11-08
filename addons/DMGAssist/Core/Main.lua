@@ -272,6 +272,13 @@ function ns.Update()
     tostring(result.modeLabel)
   if sig ~= lastLogged then
     lastLogged = sig
+    if inCombat then
+      -- Why this pick: the same decision again with every line traced (one per change, capped per fight).
+      S.unknownTerms = {}
+      local traced = G.Recommend(ns.ActiveRecord(state), { burst = ns.db.burst ~= false, trace = true,
+        useAssisted = state.branch == "midnight" and ns.db.useAssisted ~= false })
+      ns.Diagnostics.Trace(result, traced.trace)
+    end
     U.Log("pick", {
       main = main and main.token, source = main and main.source, cd = cd and cd.token, ac = result.acSpell,
       next = q2 and q2.token, after = q3 and q3.token, mode = result.modeLabel,
@@ -363,6 +370,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
   elseif event == "PLAYER_REGEN_DISABLED" then
     inCombat = true
     stuck.ignored, stuck.snapped = 0, {}
+    lastLogged = nil -- the first pick of every fight is logged (and traced)
     S.OnCombat(true)
     ns.Engine.OnCombat()
     ns.Diagnostics.OnCombat(true)

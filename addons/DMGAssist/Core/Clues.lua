@@ -484,19 +484,30 @@ function C.OnPowerEvent(token)
 end
 
 ---------------------------------------------------------------------------
--- Floors for built resources (Astral Power, Insanity, Maelstrom, Fury, Runic Power)
+-- Floors for resources (Astral Power, Insanity, Maelstrom, Fury, Runic Power, Rage, Energy, Focus)
 ---------------------------------------------------------------------------
--- These have no passive regeneration in combat: they change through our own casts, plus bonus gains we can't
--- see (procs such as Shooting Stars). So "last readable value + SimC's gains - SimC's full costs, cast by
--- cast" never exceeds the truth: a floor. Talents that cut costs or add gains only make the truth higher.
--- It decides lines like Balance's "wrath while astral_power<80" once enough Wraths have been cast. Graded
--- against the real value whenever it is readable again ("floor"), and switched off if it is ever above it.
-C.BUILT = { RUNIC_POWER = 6, ASTRAL_POWER = 8, MAELSTROM = 11, INSANITY = 13, FURY = 17 }
+-- The game hides these in combat. From the last readable value, apply SimC's gains and full costs cast by cast,
+-- plus regeneration at its base rate for Energy (10/s) and Focus (5/s): haste only makes it faster, procs and
+-- auto attacks only add, talents that cut costs only leave more. So the count never exceeds the truth: a
+-- floor. The ceiling comes from what we can't afford (IsSpellUsable, see Affordability). It decides lines such
+-- as Balance's "wrath while astral_power<80". Graded against the real value whenever it is readable again
+-- ("floor", logged as floor_check), and switched off if it is ever above it.
+C.BUILT = { RAGE = 1, FOCUS = 2, ENERGY = 3, RUNIC_POWER = 6, ASTRAL_POWER = 8, MAELSTROM = 11, INSANITY = 13,
+  FURY = 17 }
+C.REGEN = { [2] = 5, [3] = 10 } -- base points per second
 local BUILT_PT = {}
 for _, pt in pairs(C.BUILT) do
   BUILT_PT[pt] = true
 end
-C.floor = {} -- pt -> { lo =, max =, moved = true once a cast changed it }
+C.floor = {} -- pt -> { lo =, max =, at = time of lo, moved = true once a cast changed it }
+
+local function Accrued(f, pt, now)
+  local lo = f.lo + (C.REGEN[pt] or 0) * math.max(0, now - f.at)
+  if type(f.max) == "number" and f.max > 0 then
+    lo = math.min(lo, f.max)
+  end
+  return lo
+end
 
 function C.SyncFloor(pt, value, max)
   if not BUILT_PT[pt] then
@@ -504,17 +515,22 @@ function C.SyncFloor(pt, value, max)
   end
   local f = C.floor[pt]
   if f and f.moved then
-    Record("floor", value >= f.lo)
+    local counted = Accrued(f, pt, GetTime())
+    Record("floor", value >= counted - 0.5)
+    -- The real value is readable again (after combat): how close the counted floor was.
+    U.Log("floor_check", { power = pt, counted = math.floor(counted), real = value })
   end
-  C.floor[pt] = { lo = value, max = max }
+  C.floor[pt] = { lo = value, max = max, at = GetTime() }
 end
 
 function C.FloorOnCast(info)
   local costs = M.Cost(info)
+  local now = GetTime()
   for pt, f in pairs(C.floor) do
     local d = ((info.gain and info.gain[pt]) or 0) - ((costs and costs[pt]) or 0)
     if d ~= 0 then
-      f.lo = math.max(0, f.lo + d)
+      f.lo = math.max(0, Accrued(f, pt, now) + d)
+      f.at = now
       if type(f.max) == "number" and f.max > 0 then
         f.lo = math.min(f.lo, f.max)
       end
@@ -526,7 +542,7 @@ end
 function C.FloorBounds(pt)
   local f = C.floor[pt]
   if f and C.Enabled("floor") then
-    return f.lo, (type(f.max) == "number" and f.max > 0) and f.max or math.huge
+    return Accrued(f, pt, GetTime()), (type(f.max) == "number" and f.max > 0) and f.max or math.huge
   end
   return nil
 end

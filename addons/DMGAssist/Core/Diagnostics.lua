@@ -103,6 +103,73 @@ local function SpecPowers()
   return used
 end
 
+local function Fmt(n)
+  if type(n) ~= "number" then
+    return tostring(n)
+  end
+  if n == math.floor(n) then
+    return tostring(n)
+  end
+  return string.format("%.1f", n)
+end
+
+-- What we know about each resource this spec uses, right now: exact ("astral_power=46"), a range from our
+-- clues ("astral_power=46..100": the cast-by-cast floor, what we can / can't afford), or "?" (nothing).
+-- The game hides most resources in combat; this is what the engine decides with.
+function G.ResourceText()
+  local used, parts = SpecPowers(), {}
+  for name, pt in pairs(POWERS) do
+    if used[pt] then
+      local cur = U.Get(UnitPower, "player", pt)
+      if type(cur) == "number" then
+        parts[#parts + 1] = name .. "=" .. Fmt(cur)
+      else
+        local exact = ns.Clues.ShadowValue(pt)
+        local lo, hi = ns.Clues.ResourceBounds(pt)
+        if exact then
+          parts[#parts + 1] = name .. "=" .. Fmt(exact) .. "(counted)"
+        elseif lo then
+          parts[#parts + 1] = name .. "=" .. Fmt(lo) .. ".." .. (hi == math.huge and "?" or Fmt(hi))
+        else
+          parts[#parts + 1] = name .. "=?"
+        end
+      end
+    end
+  end
+  table.sort(parts)
+  return table.concat(parts, " ")
+end
+
+-- Decision trace for a pick change in combat (at most TRACE_MAX per fight): what was shown, the resources as
+-- the engine saw them, every list line checked and why it was passed over, and the terms it could not read.
+local TRACE_MAX = 40
+G.traces = 0
+
+function G.Trace(result, traced)
+  if G.traces >= TRACE_MAX then
+    return
+  end
+  G.traces = G.traces + 1
+  local q = {}
+  for i, p in ipairs(result.queue or {}) do
+    q[i] = tostring(p.token) .. "(" .. tostring(p.source) .. ")"
+  end
+  local unknown, n = {}, 0
+  for name, count in pairs(ns.State.unknownTerms or {}) do
+    n = n + 1
+    unknown[n] = { name, count }
+  end
+  table.sort(unknown, function(a, b)
+    return a[2] > b[2]
+  end)
+  local top = {}
+  for i = 1, math.min(8, n) do
+    top[i] = unknown[i][1]
+  end
+  U.Log("decision_trace", string.format("show=%s | res: %s | lines: %s | unknown: %s", table.concat(q, " > "),
+    G.ResourceText(), table.concat(traced or {}, "; "), table.concat(top, " ")))
+end
+
 function G.Tick(force)
   local now = GetTime()
   if not force and now - lastRun < INTERVAL then
@@ -177,15 +244,6 @@ end
 
 -- End of fight: compact one-line summaries (the Watchdog keeps "_summary" lines up to 2000 characters).
 --   readability_summary  combo_points=ok12/secret48[0..5] energy=secret60 haste=ok60[12.3..12.3] ...
-local function Fmt(n)
-  if type(n) ~= "number" then
-    return tostring(n)
-  end
-  if n == math.floor(n) then
-    return tostring(n)
-  end
-  return string.format("%.1f", n)
-end
 
 function G.Summary()
   local parts = {}
@@ -226,6 +284,7 @@ function G.Summary()
 end
 
 function G.OnCombat(inCombat)
+  G.traces = 0
   if inCombat then
     G.range, G.picks = {}, {}
     G.Tick(true)
