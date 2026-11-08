@@ -17,6 +17,11 @@ mock.printed = {}
 mock.timers = {}
 mock.cvars = {}
 mock.cvarsMissing = {}
+mock.gameType = "standard"     -- "standard" = Midnight; anything else (e.g. "camelot") behaves like Forever
+mock.project = 1               -- WOW_PROJECT_ID
+mock.class = { "Paladin", "PALADIN", 2 }
+mock.specIndex = 3
+mock.specs = { [1] = 65, [2] = 66, [3] = 70 }  -- index -> specID
 
 ---------------------------------------------------------------------------
 -- Secret values
@@ -202,8 +207,20 @@ function mock.Install(env)
     return false, "none"
   end
   env.UnitClass = function()
-    return "Paladin", "PALADIN", 2
+    return mock.class[1], mock.class[2], mock.class[3]
   end
+  env.WOW_PROJECT_MAINLINE = 1
+  env.WOW_PROJECT_CAMELOT = 18
+  env.WOW_PROJECT_ID = mock.project
+  env.C_SpecializationInfo = {
+    GetSpecialization = function()
+      return mock.specIndex
+    end,
+    GetSpecializationInfo = function(index)
+      local id = mock.specs[index]
+      return id, "Spec" .. tostring(id), "description", 0, "DAMAGER"
+    end,
+  }
   env.UnitLevel = function()
     return 60
   end
@@ -386,15 +403,43 @@ end
 ---------------------------------------------------------------------------
 -- Driving the addon
 ---------------------------------------------------------------------------
+-- Does a TOC line's [AllowLoadGameType ...] / [ExcludeLoadGameType ...] condition let it load?
+local function GameTypeAllows(cond)
+  if not cond then
+    return true
+  end
+  local kind, list = cond:match("^%[(%a+)LoadGameType%s+(.-)%]$")
+  if not kind then
+    error("unknown TOC condition " .. cond)
+  end
+  local listed = false
+  for name in list:gmatch("[^,%s]+") do
+    if name == mock.gameType then
+      listed = true
+    end
+  end
+  if kind == "Allow" then
+    return listed
+  end
+  return not listed
+end
+
 function mock.LoadAddon(dir, addonName)
   local ns = {}
   local tocPath = dir .. "/" .. addonName .. ".toc"
   local toc = assert(io.open(tocPath, "r"))
+  mock.loadedFiles = {}
   for line in toc:lines() do
     line = line:gsub("%s+$", "")
-    if line ~= "" and not line:match("^##") and not line:match("^#") then
-      local chunk = assert(loadfile(dir .. "/" .. line))
-      chunk(addonName, ns)
+    if line ~= "" and not line:match("^#") then
+      local file, cond = line:match("^(.-)%s+(%[.*%])$")
+      file = file or line
+      if GameTypeAllows(cond) then
+        file = file:gsub("\\", "/")
+        local chunk = assert(loadfile(dir .. "/" .. file))
+        chunk(addonName, ns)
+        mock.loadedFiles[#mock.loadedFiles + 1] = file
+      end
     end
   end
   toc:close()

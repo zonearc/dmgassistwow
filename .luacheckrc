@@ -2,12 +2,15 @@
 std = "lua51"
 max_line_length = 140
 codes = true
-exclude_files = { "legacy/**", ".libraries/**" }
+exclude_files = { "legacy/**", ".libraries/**", "addons/DMGAssist/Data/**" }
 
 -- Globals our addons are allowed to create.
 globals = {
   "DMGAssistWatchdogDB",
   "DMGAssistWatchdog",
+  "DMGAssistDB",
+  "SLASH_DMGASSIST1",
+  "SLASH_DMGASSIST2",
   "SLASH_DMGASSISTWATCHDOG1",
   "SLASH_DMGASSISTWATCHDOG2",
   "SlashCmdList",
@@ -20,6 +23,7 @@ read_globals = {
   "C_ActionBar", "C_AddOnProfiler", "C_AddOns", "C_AssistedCombat", "C_CVar", "C_CooldownViewer",
   "C_DamageMeter", "C_EncodingUtil", "C_GameRules", "C_RestrictedActions", "C_Secrets",
   "C_Spell", "C_SpellActivationOverlay", "C_SpellBook", "C_SpecializationInfo", "C_Timer",
+  "WOW_PROJECT_ID", "WOW_PROJECT_MAINLINE", "WOW_PROJECT_CAMELOT",
   "ChatFontNormal", "CreateFrame", "Enum", "GetBuildInfo", "GetCVar", "GetLocale",
   "GetRealZoneText", "GetSpecialization", "GetSpecializationInfo", "GetTime", "InCombatLockdown",
   "IsInInstance", "UIParent", "UnitClass", "UnitHealth", "UnitLevel", "UnitPower", "UnitPowerMax",
@@ -29,7 +33,8 @@ read_globals = {
 
 files["tests/**"] = {
   std = "+lua51",
-  globals = { "C_EncodingUtil", "DMGAssistWatchdogDB", "DMGAssistWatchdog", "SlashCmdList" },
+  globals = { "C_EncodingUtil", "DMGAssistWatchdogDB", "DMGAssistWatchdog", "DMGAssistDB", "SlashCmdList",
+    "WOW_PROJECT_ID" },
   read_globals = { "newproxy" },
   ignore = { "212", "213" },
 }
