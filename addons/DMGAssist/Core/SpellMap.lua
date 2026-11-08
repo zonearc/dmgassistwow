@@ -266,7 +266,8 @@ function M.HeroTree(token)
     return 0
   end
   if M.heroTree then
-    return M.heroTree == token and 1 or 0
+    -- SimC writes "shadopan" where the game's name gives "shado_pan" (Shado-Pan): compare without underscores.
+    return M.heroTree:gsub("_", "") == token:gsub("_", "") and 1 or 0
   end
   return nil
 end

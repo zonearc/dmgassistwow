@@ -470,6 +470,17 @@ test("nothing castable now: the slot shows the first spell ready within a few se
   eq(r.main == nil or r.main.token ~= "shred", true, "a long cooldown is not shown")
 end)
 
+test("hero tree names: SimC's shadopan matches the game's Shado-Pan", function()
+  Reset()
+  local ns = Boot()
+  local M = ns.SpellMap
+  local saved = { M.talentsRead, M.hero, M.heroTree }
+  M.talentsRead, M.hero, M.heroTree = true, {}, M.Token("Shado-Pan")
+  eq(M.HeroTree("shadopan"), 1)
+  eq(M.HeroTree("master_of_harmony"), 0)
+  M.talentsRead, M.hero, M.heroTree = saved[1], saved[2], saved[3]
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()

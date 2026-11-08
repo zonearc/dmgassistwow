@@ -213,6 +213,10 @@ local function Castable(id)
   local usable, noPower = U.Call(C_Spell and C_Spell.IsSpellUsable, id)
   usable, noPower = U.Read(usable), U.Read(noPower)
   if usable == nil then
+    -- Hidden (restricted combat): our own cooldown clock still says when it can't be ready (a racial just used).
+    if S.CooldownReady(id) == false then
+      return false
+    end
     return UNKNOWN
   end
   local ahead = S.Lookahead()
