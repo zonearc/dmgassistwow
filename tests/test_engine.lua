@@ -1356,9 +1356,7 @@ test("charges: the game's count for the ID the engine uses, never raised from th
   mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
   eq(S.Charges(5217), 0)
   S.ObserveAssistedCharge(5217)
-  mock.Advance(0.5)
-  S.ObserveAssistedCharge(5217)
-  eq(S.liveCharges.tigers_fury, nil, "not learned: the assistant also names spells still recharging")
+  eq(S.liveCharges.tigers_fury, nil, "the count is never raised from the assistant's picks")
   mock.inCombat, mock.restricted = false, false
 end)
 
@@ -1404,7 +1402,7 @@ test("Bloodlust with readable haste: the jump is compared with the value before 
   mock.haste = nil
 end)
 
-test("Blizzard naming a spell for over half a second while our clock says it's recharging: the game knows, it's ready", function()
+test("Blizzard naming a spell our clock says is well off: our clock is wrong, it's ready; a moment early: ours stands", function()
   Reset()
   local ns = Boot()
   local S = ns.State
@@ -1414,16 +1412,37 @@ test("Blizzard naming a spell for over half a second while our clock says it's r
   mock.inCombat, mock.restricted = true, true
   mock.Fire("PLAYER_REGEN_DISABLED")
   mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  mock.Advance(14)
+  S.ObserveAssistedCharge(5217)
+  eq(S.Charges(5217), 0, "2 s left: Blizzard may name it a moment early, our timing stands")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
   mock.Advance(3)
-  eq(S.Charges(5217), 0)
   S.ObserveAssistedCharge(5217)
-  mock.Advance(0.3)
-  S.ObserveAssistedCharge(5217)
-  eq(S.Charges(5217), 0, "a third of a second is not enough")
-  mock.Advance(0.4)
-  S.ObserveAssistedCharge(5217)
-  eq(S.Charges(5217), 1, "named for over half a second: ready")
+  eq(S.Charges(5217), 1, "13 s left by our clock: ours is wrong, ready now")
   mock.inCombat, mock.restricted = false, false
+end)
+
+test("auras Blizzard leaves readable in combat (Tip of the Spear, Sated) are read directly", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spells.tip_of_the_spear = { b = { 260286 } }
+  rec.spellInfo[260286] = { n = "tip_of_the_spear", d = 10, st = 3 }
+  Feral(ns, rec)
+  Restrict()
+  mock.directAuras = { [260286] = { expirationTime = GetTime() + 6, applications = 2 } }
+  mock.Advance(0.01)
+  eq(S.Resolve("buff.tip_of_the_spear.stack", {}), 2, "stacks read in combat")
+  mock.directAuras = {}
+  mock.Advance(0.01)
+  eq(S.Resolve("buff.tip_of_the_spear.up", {}), 0, "seen readable before: its absence is known too")
+  -- Bloodlust from Sated, applied 10 s ago
+  mock.directAuras = { [57724] = { expirationTime = GetTime() + 590, applications = 0 } }
+  mock.Advance(0.01)
+  eq(math.floor(S.Resolve("buff.bloodlust.remains", {}) + 0.5), 30)
+  mock.directAuras = nil
+  mock.restricted, mock.inCombat = false, false
 end)
 
 test("every spec ships SimC spell data (ids, cooldowns, durations)", function()

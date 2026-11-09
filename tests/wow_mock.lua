@@ -782,6 +782,10 @@ function mock.Install(env)
   }
   -- Auras: mock.auras[unit] = { { name =, spellId =, duration =, expirationTime =, applications = } }
   env.C_UnitAuras = {
+    -- mock.directAuras[spellID] = { expirationTime =, applications = }: auras the game leaves readable in combat
+    GetPlayerAuraBySpellID = function(spellID)
+      return mock.directAuras and mock.directAuras[spellID] or nil
+    end,
     GetAuraDataByIndex = function(unit, index)
       local list = mock.auras[unit] or {}
       local a = list[index]

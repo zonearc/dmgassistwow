@@ -1154,11 +1154,8 @@ function D.Update(result, visible)
   RenderWeave(f, result, cfg)
   RenderStacks(f, cfg)
   f.timingCfg = cfg
-  -- Shown a moment early by our clock, but Blizzard's assistant names this very spell right now: the game says it's
-  -- next, so no "not yet" wipe (our clock can be slow where a cooldown effect has no rule: Wildfire Bomb, Survival).
-  local early = result.main.readyAt and result.main.id ~= result.acSpell
-  f.readyAt = early and result.main.readyAt or nil
-  f.readyId = early and result.main.id or nil
+  f.readyAt = result.main.readyAt
+  f.readyId = result.main.readyAt and result.main.id or nil
   f.shownId = result.main.id
   D.RenderTiming(f, cfg)
   if cfg.header then

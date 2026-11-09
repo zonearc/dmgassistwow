@@ -510,7 +510,29 @@ end
 
 -- Remaining seconds of a detected boost (0 when none), and the boost ending: haste goes back down by its size
 -- right away, instead of one global cooldown late.
+-- The debuff Bloodlust leaves (Sated, Exhaustion, Temporal Displacement, Fatigued; 10 min, readable in combat):
+-- applied less than 40 s ago means Bloodlust is up, with an exact end. Used when the haste jump wasn't seen.
+S.LUST_DEBUFFS = { 57724, 57723, 80354, 264689, 390435 }
+local function LustFromDebuff()
+  for _, id in ipairs(S.LUST_DEBUFFS) do
+    local d = S.DirectAura(id)
+    if d and d.present and d.expires ~= math.huge then
+      local left = 40 - (600 - (d.expires - GetTime()))
+      if left > 0 then
+        return left
+      end
+    end
+  end
+  return 0
+end
+
 function S.BoostRemains(kind)
+  if kind == "lust" and not S.boost.lust then
+    local left = LustFromDebuff()
+    if left > 0 then
+      return left
+    end
+  end
   local b = S.boost[kind]
   if not b then
     return 0
@@ -798,59 +820,41 @@ end
 -- Blizzard's assistant names a charge spell that our count says is empty, with its recharge still well off:
 -- the character has a charge more than we know (talents). Twice in a row, half a second apart, before casting it,
 -- and we add one. Logged, so a report shows it.
-S.chargeHint = {} -- group -> { n, first, at }
 
--- Blizzard's assistant keeps naming a spell our clock says isn't back yet: the game knows better (a cooldown
--- effect we have no rule for: Butchery taking time off Wildfire Bomb per target hit). Named for a full second
--- or more (0.6 s, twice), and we take it as ready now: one charge back, or the cooldown done.
--- (Wildfire Bomb was named for 9 s straight while we counted 0 charges, Survival, 2026-11-09.)
-S.ASSISTED_READY_AFTER = 0.6
+-- Blizzard's assistant names a spell our clock says is still well off (more than S.ASSISTED_LEAD): our clock is
+-- wrong (a cooldown effect we have no rule for: Butchery / Wildfire Bomb, Survival), the game knows; it's ready
+-- now: one charge back, or the cooldown done. Within S.ASSISTED_LEAD it may just be naming the next spell a moment
+-- early (Holy's Judgment with 2 s left), so our timing stands.
+S.ASSISTED_LEAD = 2.5
 
 function S.ObserveAssistedCharge(id)
   local info = ChargeInfo(id)
-  local key, left
+  local left
   if info then
-    key = GroupOf(id)
     left = S.Charges(id) == 0 and S.ChargeRemains(id) or nil
   else
     local last, length = S.lastCast[id], CooldownLength(id)
     if last and length then
-      key = id
       left = length - (GetTime() - last)
     end
   end
-  if not key then
-    return
-  end
-  if not (type(left) == "number" and left > 1) then
-    S.chargeHint[key] = nil
+  if not (type(left) == "number" and left > S.ASSISTED_LEAD) then
     return
   end
   local now = GetTime()
-  local h = S.chargeHint[key]
-  if not h or now - h.at > 2 then
-    S.chargeHint[key] = { n = 1, first = now, at = now }
-    return
-  end
-  if now - h.at >= 0.25 then
-    h.n, h.at = h.n + 1, now
-  end
-  if h.n >= 2 and now - h.first >= S.ASSISTED_READY_AFTER then
-    S.chargeHint[key] = nil
-    if info then
-      local list = S.chargeUse[key]
-      if list and list[1] then
-        local early = list[1] - now
-        for i = 1, #list do
-          list[i] = list[i] - early
-        end
-        table.remove(list, 1)
+  if info then
+    local list = S.chargeUse[GroupOf(id)]
+    if list and list[1] then
+      local early = list[1] - now
+      for i = 1, #list do
+        list[i] = list[i] - early
       end
-    else
-      S.lastCast[id] = now - CooldownLength(id)
+      table.remove(list, 1)
     end
-    U.Log("assisted_ready", { spell = (M.Info(id) or {}).n or M.TokenForID(id), ours = string.format("%.1f", left) })
+  else
+    S.lastCast[id] = now - CooldownLength(id)
   end
+  U.Log("assisted_ready", { spell = (M.Info(id) or {}).n or M.TokenForID(id), ours = string.format("%.1f", left) })
 end
 
 -- Seconds until a charge is available (0 with one ready), or nil for a spell without charges.
@@ -995,7 +999,6 @@ local function OnChargeSpent(id)
     table.remove(list, 1)
   end
   S.chargeSpentAt[group] = now
-  S.chargeHint[group] = nil
   local from = list[#list] or now -- one charge recharges at a time
   list[#list + 1] = math.max(from, now) + RechargeLength(group, info)
 end
@@ -1470,6 +1473,56 @@ end
 local STEALTH = { prowl = true, stealth = true, shadowmeld = true, vanish = true, camouflage = true }
 S.STEALTH = STEALTH
 
+-- Some auras Blizzard leaves readable in combat ("Non-secret Aura" in the spell data: Tip of the Spear, Maelstrom
+-- Weapon, Icicles, Stagger, raid buffs, poisons, Sated/Exhaustion...). Asked for by spell ID when the general aura
+-- scan is hidden; nil when the game won't say (secret values are never used).
+local directAt, directCache = 0, {}
+function S.DirectAura(spellID)
+  local now = GetTime()
+  if now ~= directAt then
+    directAt, directCache = now, {}
+  end
+  local c = directCache[spellID]
+  if c == nil then
+    c = false
+    local data = U.Call(C_UnitAuras and C_UnitAuras.GetPlayerAuraBySpellID, spellID)
+    if data == nil then
+      -- readable "no such aura" only when the call itself answered (not secret): a table means present
+      c = { present = false }
+    elseif type(data) == "table" then
+      local exp, stacks = U.Read(data.expirationTime), U.Read(data.applications)
+      if type(exp) == "number" then
+        c = { present = true, expires = exp > 0 and exp or math.huge, stacks = (type(stacks) == "number" and stacks > 0) and stacks or 1 }
+      end
+    end
+    directCache[spellID] = c
+  end
+  return c or nil
+end
+
+S.nonSecret = {} -- aura spell IDs seen readable while present: their absence is readable too
+local function DirectAuraState(token, now)
+  local knownAbsent = false
+  for _, t in ipairs(M.Candidates(token)) do
+    for _, aid in ipairs(M.AuraIDs(t) or {}) do
+      local d = S.DirectAura(aid)
+      if d and d.present then
+        if not S.nonSecret[aid] then
+          S.nonSecret[aid] = true
+          U.Log("direct_aura", { aura = t, id = aid, stacks = d.stacks }) -- readable in combat: shows in reports
+        end
+        return true, d.expires - now, d.stacks
+      elseif d and S.nonSecret[aid] then
+        knownAbsent = true
+      end
+    end
+  end
+  if knownAbsent then
+    return false, 0, 0
+  end
+  return nil
+end
+
 local function AuraState(unit, token)
   local list = M.Candidates(token)
   local now = Now()
@@ -1504,6 +1557,12 @@ local function AuraState(unit, token)
         return true, read[t].expires - now, read[t].stacks
       end
       return false, 0, 0
+    end
+  end
+  if unit == "player" and not read and not (V and #V.prev > 0) then
+    local up, remains, stacks = DirectAuraState(token, now)
+    if up ~= nil then
+      return up, math.max(0, remains), stacks
     end
   end
   if unit == "player" and not read then
@@ -2380,7 +2439,7 @@ function S.Bind(key)
   S.learned = l
   ns.Clues.Reset(l.glowAura)
   S.auraUntil, S.dotUntil, S.lastCast, S.wasActive, S.glow = {}, {}, {}, {}, {}
-  S.cdSeen, S.rcSeen, S.chargeSpentAt, S.chargeHint = {}, {}, {}, {} -- liveCharges: re-read by S.Calibrate
+  S.cdSeen, S.rcSeen, S.chargeSpentAt = {}, {}, {} -- liveCharges: re-read by S.Calibrate
   S.stackUntil = {}
   l.stacking = type(l.stacking) == "table" and l.stacking or {}
   readAuras.player, readAuras.target = nil, nil
