@@ -1436,6 +1436,23 @@ test("defensives: a Balance Druid is never sent to Bear Form for Frenzied Regene
   ns.Specs.current.key = saved
 end)
 
+test("Eclipse is not recommended again while it is active, even with a charge left", function()
+  Reset()
+  local ns = Boot()
+  local G, S = ns.Engine, ns.State
+  ns.SpellMap.byID[1233272] = "eclipse"
+  S.combatStart = GetTime()
+  eq(G.BlockedWhileActive(1233272), false, "not cast yet")
+  S.lastCastToken.eclipse = GetTime()
+  eq(G.BlockedWhileActive(1233272), true, "just cast: blocked")
+  mock.Advance(16)
+  eq(G.BlockedWhileActive(1233272), false, "15 s later: allowed again")
+  S.lastCastToken.incarnation_chosen_of_elune = GetTime()
+  mock.Advance(16)
+  eq(G.BlockedWhileActive(1233272), true, "Incarnation: 20 s")
+  S.combatStart = nil
+end)
+
 test("Edit Mode: the HUD shows and can be dragged while Blizzard's Edit Mode is open", function()
   Reset()
   local ns = Boot()

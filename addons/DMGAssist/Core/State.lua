@@ -31,6 +31,7 @@ S.history = {}      -- recent own casts, newest first: { id=, token=, t= }
 S.auraUntil = {}    -- token -> expiry (tracked from casts; player buffs)
 S.dotUntil = {}     -- token -> expiry on the current target
 S.lastCast = {}     -- spellID -> GetTime() of the last cast we saw
+S.lastCastToken = {} -- SimC token -> GetTime() of the last cast we saw (Lunar / Solar Eclipse share "eclipse")
 S.wasActive = {}    -- spellID -> last isActive (for cast inference)
 S.glow = {}         -- spellID -> true while the proc glow is shown
 S.combatStart = nil
@@ -806,6 +807,12 @@ local function RecordCast(id, how)
     S.history[#S.history] = nil
   end
   S.lastCast[id] = GetTime()
+  local byToken = M.TokenForID and M.TokenForID(id)
+  for _, t in ipairs({ token, byToken }) do
+    if type(t) == "string" then
+      S.lastCastToken[t] = GetTime()
+    end
+  end
   OnChargeSpent(id)
   ns.Clues.OnCast()
   ns.Clues.OnOwnCast(id)

@@ -306,10 +306,45 @@ G.TARGET_RULES = {
   end,
 }
 
+-- Spells the game won't recast while their own effect runs ("A more powerful spell is already active"), even
+-- with a charge left: Balance's Eclipse, for 15 s after Eclipse, Celestial Alignment or Incarnation (20 s).
+-- SimC knows this inside its simulation; the lists don't say it, and in combat the buff is hidden from addons, so
+-- it's timed from our own casts.
+G.BLOCKED_WHILE_ACTIVE = {
+  eclipse = { eclipse = 15, lunar_eclipse = 15, solar_eclipse = 15, celestial_alignment = 15,
+    incarnation_chosen_of_elune = 20 },
+}
+
+local function BlockedWhileActive(id)
+  local token = M.TokenForID and (M.TokenForID((M.baseOf and M.baseOf[id]) or id) or M.TokenForID(id))
+  local rule = token and G.BLOCKED_WHILE_ACTIVE[token]
+  if not rule then
+    return false
+  end
+  local now = GetTime()
+  for trigger, duration in pairs(rule) do
+    local at = S.lastCastToken[trigger]
+    if at and now - at < duration and at >= (S.combatStart or S.combatEnd or 0) - 3 then
+      return true
+    end
+    local tid = M.SpellID(trigger)
+    M.unresolved[trigger] = nil
+    local since = tid and S.SinceCast(tid)
+    if since and since < duration then
+      return true -- includes a cast predicted earlier in this look-ahead
+    end
+  end
+  return false
+end
+G.BlockedWhileActive = BlockedWhileActive
+
 local function Castable(id)
   local rule = G.TARGET_RULES[id] or G.TARGET_RULES[(M.baseOf and M.baseOf[id]) or id]
   if rule and not rule(id) then
     return false, "target"
+  end
+  if BlockedWhileActive(id) then
+    return false, "active"
   end
   local usable, noPower = U.Call(C_Spell and C_Spell.IsSpellUsable, id)
   usable, noPower = U.Read(usable), U.Read(noPower)
