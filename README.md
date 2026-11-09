@@ -22,7 +22,7 @@ nothing automated. You press every button.
   last half second, so it doesn't flicker as the decision settles.
 - **Single target / AoE, automatically.** Enemies in combat are counted from nameplates (range-aware;
   training dummies are recognised). A colour-coded title row shows `ST` / `AOE` and the count in combat.
-- **It learns your play.** Skip the slot-1 spell twice and it is held until combat ends; cast it yourself and it
+- **It learns your play.** Skip the slot-1 spell three times and it is held until combat ends; cast it yourself and it
   comes back. Optionally, keep major cooldowns for bosses and big pulls.
 - **Tank and melee essentials.** Guardian keeps Ironfur stacks (default 3) and Moonfire up. Melee specs out of
   range get their charge or leap first (Wild Charge, Charge, Shadowstep, Harpoon, Feral Lunge, Death Grip).

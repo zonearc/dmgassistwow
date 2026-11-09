@@ -131,7 +131,7 @@ function F.Apply(result)
   local d = F.Evaluate()
   result.defensive = d
   if d and ns.Engine.IsHeld(d.id) then
-    d = nil -- skipped twice this fight: held until it ends or you cast it
+    d = nil -- skipped three times this fight: held until it ends or you cast it
     result.defensive = nil
   end
   if d and d.how == "decided" and not (ns.Display and ns.Display.Settings().defensive == false) then

@@ -26,7 +26,7 @@ allows, never presses anything for you, and tells you honestly when it is unsure
 - **Single target or AoE, by itself.** It counts the enemies you are fighting from their nameplates, within your
   range, and switches at your spec's own AoE point. A colour-coded title shows `ST` or `AOE` and the count in
   combat. One key cycles Auto, Single and AoE.
-- **It follows your choices.** Skip the spell in slot 1 twice and it is held for the rest of the fight (saving a
+- **It follows your choices.** Skip the spell in slot 1 three times and it is held for the rest of the fight (saving a
   cooldown for the next pack); cast it yourself and it comes back. Optionally, keep major cooldowns for bosses and
   big pulls only.
 - **Tank and melee essentials.** Guardian Druids keep Ironfur stacks (3 by default) and Moonfire up. Melee specs

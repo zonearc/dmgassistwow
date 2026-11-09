@@ -599,6 +599,28 @@ test("spells you switch off are never shown; the next one takes their place; kep
   C.SetFirst(5221, false)
 end)
 
+test("training dummies that never show as in combat are counted while you fight", function()
+  Reset()
+  local ns = Boot()
+  mock.nameplates = 6
+  mock.plateCombat = { false, false, false, false, false, false }
+  mock.plateNames = {}
+  for i = 1, 6 do
+    mock.plateNames[i] = "Cleave Training Dummy"
+  end
+  eq(ns.State.CountEnemies(), 0, "out of combat: not counted")
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  eq(ns.State.CountEnemies(), 6, "in combat: the dummies in range count")
+  eq(ns.State.lastCount.dummies, 6)
+  mock.plateNames[1] = "Angry Gnoll" -- a real enemy still needs its combat flag
+  ns.State.ForgetEnemies()
+  eq(ns.State.CountEnemies(), 5)
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat = false
+  mock.nameplates, mock.plateCombat, mock.plateNames = 0, nil, nil
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()
@@ -689,7 +711,7 @@ test("steady slot 1: close to the press, slot 1 holds and a new pick goes to slo
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
-test("skipping the slot-1 spell twice holds it until combat ends; casting it brings it back", function()
+test("skipping the slot-1 spell three times holds it until combat ends; casting it brings it back", function()
   Reset()
   local ns = Boot()
   local G = ns.Engine
@@ -708,10 +730,12 @@ test("skipping the slot-1 spell twice holds it until combat ends; casting it bri
   eq(G.IsHeld(1079), false)
   ns.State.learned.cd[5221] = nil
   eq(G.OnPlayerCast(5221, r.main, true, { r.main, { id = 5221 } }), nil, "a filler from slot 2: first skip")
-  eq(G.OnPlayerCast(5221, r.main, true, { r.main, { id = 5221 } }), "held", "a filler from slot 2 twice holds it")
+  eq(G.OnPlayerCast(5221, r.main, true, { r.main, { id = 5221 } }), nil, "second skip")
+  eq(G.OnPlayerCast(5221, r.main, true, { r.main, { id = 5221 } }), "held", "a filler from slot 2 three times holds it")
   G.held, G.skips = {}, {}
   eq(G.OnPlayerCast(106830, r.main), nil, "one skip is not enough")
-  eq(G.OnPlayerCast(106830, r.main), "held", "second skip holds it")
+  eq(G.OnPlayerCast(106830, r.main), nil, "two are not enough either")
+  eq(G.OnPlayerCast(106830, r.main), "held", "third skip holds it")
   r = ns.Engine.Recommend(Record(), {})
   for _, p in ipairs(r.queue) do
     eq(p.token ~= "rip", true, "held: in no slot")
@@ -727,6 +751,7 @@ test("skipping the slot-1 spell twice holds it until combat ends; casting it bri
   eq(G.OnPlayerCast(106830, r.main, false), nil)
   eq(G.IsHeld(1079), false)
   -- a new fight starts clean
+  G.OnPlayerCast(106830, r.main)
   G.OnPlayerCast(106830, r.main)
   G.OnPlayerCast(106830, r.main)
   eq(G.IsHeld(1079), true)
@@ -2286,13 +2311,12 @@ test("enemy count: remembered through combat-flag gaps; dummies longer; one unre
   mock.plateNames = { "Cleave Training Dummy", "Cleave Training Dummy", "Cleave Training Dummy" }
   eq(S.CountEnemies(), 3, "three dummies hit")
   eq(S.lastCount.dummies, 3)
-  -- two of them drop the combat flag between AoE casts
+  -- two of them drop the combat flag between AoE casts: dummies in range keep counting while we fight
   mock.plateCombat = { [2] = false, [3] = false }
   mock.now = mock.now + 6
-  eq(S.CountEnemies(), 3, "dummies are remembered")
-  eq(S.lastCount.remembered, 2)
+  eq(S.CountEnemies(), 3, "dummies keep counting")
   mock.now = mock.now + 10
-  eq(S.CountEnemies(), 1, "not hit for a while: dropped")
+  eq(S.CountEnemies(), 3, "still in combat, still in range")
   -- ordinary mobs: shorter memory
   ns.State.ForgetEnemies()
   mock.plateNames, mock.plateCombat = nil, nil

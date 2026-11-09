@@ -176,6 +176,13 @@ function S.IsDummy(unit)
   return false
 end
 
+-- Training dummies often never show as in combat (Cleave Training Dummies, Dornogal, 2026-11-08: six dummies
+-- being hit counted as 0), and cleave dummies refill their health at once, so neither flag nor health says we hit
+-- them. While we are in combat, a dummy in range of our spells counts (they stand in tight groups for this).
+local function HittingDummy()
+  return S.combatStart ~= nil
+end
+
 function S.CountEnemies()
   local probe = RangeProbe()
   local now = GetTime()
@@ -196,7 +203,7 @@ function S.CountEnemies()
       local seen = S.seenEnemies[key]
       if hostile == false or dead == true or inRange == false then
         S.seenEnemies[key] = nil -- not an enemy, dead, or someone else's fight far away
-      elseif hostile and inCombat then
+      elseif hostile and (inCombat or (S.combatStart and S.IsDummy(unit) and HittingDummy(unit))) then
         if not seen then
           seen = { dummy = S.IsDummy(unit) }
           S.seenEnemies[key] = seen

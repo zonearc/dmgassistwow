@@ -247,7 +247,7 @@ function O.Register()
   Slider(combat, DB, "ironfurStacks", "Ironfur stacks", G.ironfurStacks or 3, 0, 5, 1,
     "Guardian: keep this many Ironfur stacks up (counted from your casts). 0 = off.")
   Check(combat, DB, "skipHold", "Hold skipped spells", true,
-    "Skip the spell in the first slot twice and it is held until combat ends. Cast it yourself to bring it back.")
+    "Skip the spell in the first slot three times and it is held until combat ends. Cast it yourself to bring it back.")
   Check(combat, DB, "castWhileMoving", "Casts while moving", false,
     "Off: while you move, spells with a cast time are skipped (instants and procs still show).")
   Header(combat, "Trinkets")

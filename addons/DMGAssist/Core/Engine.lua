@@ -278,9 +278,9 @@ G.Castable = Castable
 -- spell (a real cooldown) that SimC keeps reaching while the assistant says something else is promoted once it
 -- has waited long enough: "the assistant is clearly ignoring this, SimC says it matters, use it now". Fillers
 -- (no cooldown) never escalate: that is what let an uncertain Starfire shadow Fury of Elune before.
--- Held spells. Skipping the spell in slot 1 twice in a fight ("not now, I'm saving it") holds it until the
+-- Held spells. Skipping the spell in slot 1 three times in a fight ("not now, I'm saving it") holds it until the
 -- fight ends: it is left out of every slot. Casting it yourself at any point releases it again.
-G.SKIPS_TO_HOLD = 2
+G.SKIPS_TO_HOLD = 3
 G.held, G.skips = {}, {}
 
 local function Base(id)
