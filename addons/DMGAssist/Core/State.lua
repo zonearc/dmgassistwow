@@ -588,6 +588,7 @@ S.HasteFactor = HasteFactor
 -- because the spellbook's ID and the one the list uses can differ (Holy Shock 20473 / 25914): stored on the
 -- book's ID, the engine never saw Holy Shock's second charge (2026-11-09).
 S.liveCharges = {} -- token -> { max, recharge }
+S.chargesLiveLogged = {}
 
 local function Live(info)
   return info and info.n and S.liveCharges[info.n] or nil
@@ -805,7 +806,17 @@ function S.Charges(id)
   local c = U.Get(C_Spell and C_Spell.GetSpellCharges, id)
   local cur = type(c) == "table" and U.Read(c.currentCharges)
   if type(cur) == "number" then
-    n = math.min(cur, n)
+    -- The game's own count for the exact ID the engine uses: the truth, both ways (a charge back sooner than our
+    -- clock says counts too). Logged once per spell so a report shows it's readable.
+    if S.combatStart and not S.chargesLiveLogged[id] then
+      S.chargesLiveLogged[id] = true
+      U.Log("charges_live", { spell = info.n, current = cur })
+    end
+    -- Right after a cast the game's count can still include the charge just spent (Balance's Eclipse): a higher
+    -- count than ours is taken only from half a second after our last spend of it.
+    if cur < n or GetTime() - (S.chargeSpentAt[group] or 0) > 0.5 then
+      n = cur
+    end
   end
   if V and V.castCount then
     -- every predicted cast in the look-ahead spends a charge (Mind Blast was shown three times in a row)

@@ -83,6 +83,15 @@ end
 
 -- How much of the priority list this character can actually cast (level, talents, and on Forever: lists that SimC
 -- wrote for Midnight). Logged always; told to the player when it's under half.
+-- Not part of "how much of the list this character can cast": other races' racials (SimC lists carry all of them),
+-- and actions that aren't spells. Counting them put a level-90 Survival at 6/13 and in leveling mode.
+ns.LIST_MATCH_IGNORE = {
+  arcane_torrent = true, berserking = true, blood_fury = true, fireblood = true, ancestral_call = true,
+  bag_of_tricks = true, lights_judgment = true, arcane_pulse = true, war_stomp = true, shadowmeld = true,
+  rocket_barrage = true, haymaker = true, azerite_surge = true, retarget = true, summon_pet = true,
+  call_pet = true, invoke_external_buff = true, use_item = true,
+}
+
 function ns.ListMatch(state)
   local record = state and state.data
   if not (record and record.simc) then
@@ -92,7 +101,7 @@ function ns.ListMatch(state)
   for _, list in pairs(record.simc) do
     for _, e in ipairs(list) do
       local a = e.a
-      if not G.SKIP[a] and not seen[a] then
+      if not G.SKIP[a] and not ns.LIST_MATCH_IGNORE[a] and not seen[a] then
         seen[a] = true
         total = total + 1
         if M.SpellID(a) then

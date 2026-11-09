@@ -65,6 +65,11 @@ function LV.Evaluate(state)
   state.levelMatch = share
   local level, max = LV.Level(), LV.MaxLevel()
   state.leveling = (level and max and level < max and share < LV.LEAD_BELOW) and true or false
+  local text = string.format("%s %s/%s %d/%d", tostring(state.leveling), tostring(level), tostring(max), have, total)
+  if LV.logged ~= text then
+    LV.logged = text
+    U.Log("leveling", { on = state.leveling, level = level, max = max, match = string.format("%d/%d", have, total) })
+  end
   return state.leveling
 end
 
@@ -81,6 +86,16 @@ function LV.Lead(result)
   -- Blizzard's assistant also names a spell that is still on cooldown (the next important one, to wait for):
   -- then it goes to slot 2 and slot 1 keeps the best spell that can be pressed now.
   local ready = ns.Engine.Castable(ac) ~= false -- the engine's own check, the same as at max level
+  -- Due within a moment by our clock: Blizzard's pick keeps slot 1, marked "not yet" until then (our clock can lag
+  -- the game by a second where a cooldown effect has no rule; pushing it to slot 2 made it look a press late).
+  local soonLeft
+  if not ready then
+    local left = ns.State.CooldownRemains(ac)
+    local castable, why = ns.Engine.Castable(ac)
+    if castable == false and why == nil and type(left) == "number" and left > 0 and left <= (ns.State.ASSISTED_LEAD or 2.5) then
+      soonLeft = left
+    end
+  end
   local rest = {}
   for _, p in ipairs(result.queue or { result.main }) do
     if p and p.id ~= ac then
@@ -89,8 +104,10 @@ function LV.Lead(result)
   end
   local queue = {}
   -- A spell the engine only listed as "off cooldown soon" can't be pressed now either: it never takes slot 1.
-  if ready or #rest == 0 or rest[1].source == "soon" then
-    if not ready then
+  if ready or soonLeft or #rest == 0 or rest[1].source == "soon" then
+    if soonLeft then
+      pick.readyAt = GetTime() + soonLeft
+    elseif not ready then
       -- Nothing else can be pressed now either: it stays in slot 1, marked "not yet" until its cooldown ends.
       local left = ns.State.CooldownRemains(ac)
       pick.readyAt = type(left) == "number" and left > 0 and GetTime() + left or nil
