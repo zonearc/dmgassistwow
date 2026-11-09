@@ -1,12 +1,16 @@
 -- Grade.lua: how well you played a fight, graded at the end of it (S+ to D), with four parts:
 --   Accuracy      each press (of a spell that uses the global cooldown) against what slot 1 showed then: the
---                 spell in slot 1 = 1, the one in slot 2 or 3 = 0.5, anything else = 0. Interrupts, defensives,
+--                 spell in slot 1 = 1, the one in slot 2 or 3 = 0.75, anything else = 0. What slot 1 showed up to
+--                 Gr.LATE_SWITCH before still counts (a late switch is never your fault). Interrupts, defensives,
 --                 trinkets and potions from their own icons don't count either way.
---   Always be casting  share of the fight NOT spent with slot 1 ready ("press now") and nothing pressed.
+--   Always be casting  share of the fight NOT spent with slot 1 ready ("press now") and nothing pressed; the
+--                 first Gr.IDLE_GRACE of each "press now" is free (nobody presses in 0 ms).
 --   Reaction      from the moment slot 1 said "press now" to your press of that spell (pressed early and queued
---                 counts as instant). 150 ms or less is full marks, 1 s or more is none.
+--                 counts as instant). 0.25 s or less is full marks, 1.5 s or more is none.
 --   Cooldowns     how quickly major cooldowns, trinkets and the potion were used once slot 1 or the items icon
---                 showed them ready; one shown and never used before the fight ended counts as very late.
+--                 showed them ready: within 2 s full marks, 10 s none. A major cooldown shown and never used
+--                 counts as 10 s; an item never used doesn't count (nobody spends a potion on a dummy).
+-- Letters (decided 2026-11-09): B+ is reachable for most players, A takes accurate play, S is rare.
 -- Overall: 35% accuracy, 25% always be casting, 20% reaction, 20% cooldowns. It never claims damage: addons can't
 -- read the combat log in Midnight, and damage depends on gear; the game's damage meter shows that.
 -- Saved account-wide per spec: the best grade and the last 20 fights (DMGAssistDB global grades).
@@ -18,9 +22,13 @@ local Gr = {}
 ns.Grade = Gr
 
 Gr.WEIGHTS = { accuracy = 0.35, abc = 0.25, reaction = 0.20, cooldowns = 0.20 }
-Gr.LETTERS = { { 97, "S+" }, { 92, "S" }, { 85, "A" }, { 75, "B" }, { 65, "C" }, { 0, "D" } }
-Gr.COLORS = { ["S+"] = { 1, 0.82, 0.2 }, S = { 1, 0.55, 0.1 }, A = { 0.75, 0.45, 1 }, B = { 0.3, 0.65, 1 },
-  C = { 0.35, 0.85, 0.35 }, D = { 0.65, 0.65, 0.65 } }
+Gr.LETTERS = { { 96, "S+" }, { 91, "S" }, { 86, "A+" }, { 80, "A" }, { 72, "B+" }, { 64, "B" }, { 50, "C" },
+  { 0, "D" } }
+Gr.COLORS = { ["S+"] = { 1, 0.85, 0.25 }, S = { 1, 0.6, 0.15 }, ["A+"] = { 0.85, 0.5, 1 }, A = { 0.7, 0.4, 1 },
+  ["B+"] = { 0.35, 0.75, 1 }, B = { 0.3, 0.6, 1 }, C = { 0.35, 0.85, 0.35 }, D = { 0.65, 0.65, 0.65 } }
+Gr.SLOT23 = 0.75
+Gr.LATE_SWITCH = 0.6
+Gr.IDLE_GRACE = 0.25
 Gr.HISTORY = 20
 Gr.MIN_FIGHT = 20
 
@@ -80,6 +88,10 @@ function Gr.OnReady(id, now, main)
   if not (f.ready and Same(f.ready.id, id)) then
     f.ready = { id = id, t = now }
   end
+  -- what slot 1 showed, and when it changed: a press of the previous one just after a switch still counts
+  if main and main.id and not (f.shown and Same(f.shown.id, main.id)) then
+    f.prevShown, f.shown = f.shown, { id = main.id, t = now }
+  end
   if main and main.major and not f.cdShown[Base(id)] then
     f.cdShown[Base(id)] = now
   end
@@ -92,7 +104,10 @@ function Gr.Tick(pressNow)
     return
   end
   local now = GetTime()
-  if f.lastTick and pressNow and f.wasReady then
+  if pressNow and not f.wasReady then
+    f.readySince = now
+  end
+  if f.lastTick and pressNow and f.wasReady and now - (f.readySince or now) > Gr.IDLE_GRACE then
     f.idle = f.idle + math.min(0.25, now - f.lastTick)
   elseif not pressNow then
     f.ready = nil -- reaction is timed from the latest "press now", not an earlier one
@@ -100,7 +115,7 @@ function Gr.Tick(pressNow)
   f.lastTick, f.wasReady = now, pressNow
   local t = ns.last and ns.last.trinket
   local key = t and (t.item or t.id)
-  if key and not f.cdShown["item:" .. tostring(key)] then
+  if key and not f.cdShown["item:" .. tostring(key)] and not (f.itemsUsed and f.itemsUsed[key]) then
     f.cdShown["item:" .. tostring(key)] = now
   end
   f.targets = math.max(f.targets, tonumber((ns.State.Targets())) or 0)
@@ -123,6 +138,8 @@ function Gr.OnPress(id, r, press)
   local t = r.trinket
   if t and Same(t.id, id) then
     local key = "item:" .. tostring(t.item or t.id)
+    f.itemsUsed = f.itemsUsed or {}
+    f.itemsUsed[t.item or t.id] = true
     if f.cdShown[key] then
       f.cds[#f.cds + 1] = now - f.cdShown[key]
       f.cdShown[key] = nil
@@ -135,12 +152,15 @@ function Gr.OnPress(id, r, press)
   local main = r.main
   local queue = r.queue or { main }
   local matched = main and Same(main.id, id)
+  if not matched and f.prevShown and f.shown and now - f.shown.t <= Gr.LATE_SWITCH and Same(f.prevShown.id, id) then
+    matched = true -- slot 1 had just switched away from this spell: your press was right when you made it
+  end
   if matched or not IsOffGCD(id) then
     f.presses = f.presses + 1
     if matched then
       f.score = f.score + 1
     elseif (queue[2] and Same(queue[2].id, id)) or (queue[3] and Same(queue[3].id, id)) then
-      f.score = f.score + 0.5
+      f.score = f.score + Gr.SLOT23
     else
       local want = main and (main.token or tostring(main.id))
       if want then
@@ -191,17 +211,17 @@ local function Median(list)
   return t[math.floor((#t + 1) / 2)]
 end
 
--- Reaction (seconds) to a score: 0.15 s or less = 100, 1 s or more = 0, straight in between.
+-- Reaction (seconds) to a score: 0.25 s or less = 100, 1.5 s or more = 0, straight in between.
 function Gr.ReactionScore(sec)
   if not sec then
     return nil
   end
-  return Clamp(100 - (sec - 0.15) / 0.85 * 100)
+  return Clamp(100 - (sec - 0.25) / 1.25 * 100)
 end
 
--- Cooldown delay (seconds) to a score: within 1 s = 100, 6 s or more = 0.
+-- Cooldown delay (seconds) to a score: within 2 s = 100, 10 s or more = 0.
 function Gr.DelayScore(sec)
-  return Clamp(100 - (sec - 1) / 5 * 100)
+  return Clamp(100 - (sec - 2) / 8 * 100)
 end
 
 function Gr.Finish(f, now)
@@ -209,9 +229,9 @@ function Gr.Finish(f, now)
   if length < (tonumber(ns.db and ns.db.gradeMinFight) or Gr.MIN_FIGHT) or f.presses < 5 then
     return nil
   end
-  for _, shownAt in pairs(f.cdShown) do
-    if now - shownAt > 3 then
-      f.cds[#f.cds + 1] = math.max(6, now - shownAt) -- shown, never used
+  for key, shownAt in pairs(f.cdShown) do
+    if now - shownAt > 3 and not (type(key) == "string" and key:find("^item:")) then
+      f.cds[#f.cds + 1] = math.max(10, now - shownAt) -- a major cooldown shown, never used
     end
   end
   local accuracy = Clamp(f.score / f.presses * 100)

@@ -524,8 +524,8 @@ frame:SetScript("OnEvent", function(_, event, ...)
     S.OnCombat(false)
     ns.Options.OnCombatEnded() -- after the combat flags clear
     ns.Engine.OnCombat()
+    ns.Grade.OnCombat(false) -- before the fight's log closes, so the grade is in reports
     ns.Diagnostics.OnCombat(false)
-    ns.Grade.OnCombat(false)
     S.Calibrate()
     if spellsDirty then
       RequestSpellRefresh()

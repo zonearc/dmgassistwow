@@ -1147,6 +1147,9 @@ test("steady slot 1: short flips never show, nothing changes while you reach for
   mock.now = mock.now + 0.1
   r = G.Steady({ main = rake, queue = { rake, rip, shred } })
   eq(r.main.token, "rake", "the real decision a moment later: shown, not held behind the stale one")
+  mock.now = mock.now + 0.1
+  r = G.Steady({ main = rip, queue = { rip, rake, shred } })
+  eq(r.main.token, "rake", "a second change right after the press waits (one free change per press)")
   mock.cooldowns[61304] = nil
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
@@ -3857,7 +3860,7 @@ test("performance grade: presses scored against slot 1, graded after a real figh
   local s = Gr.Summary(spec)
   eq(s ~= nil and #s.history, 1, "graded")
   local got = s.history[1]
-  eq(math.floor(got.accuracy + 0.5), 75, "accuracy: (8 + 2 x 0.5) of 12")
+  eq(math.floor(got.accuracy + 0.5), 79, "accuracy: (8 + 2 x 0.75) of 12")
   eq(got.reactionMs, 100, "reaction: median press after the flash")
   eq(got.abc > 95, true, "always casting: " .. got.abc)
   eq(got.topMissed, "spell_a", "the spell slot 1 asked for")
@@ -3878,9 +3881,11 @@ test("performance grade: presses scored against slot 1, graded after a real figh
   Gr.Reset(spec)
   eq(Gr.Summary(spec), nil, "reset")
   eq(Gr.Letter(97), "S+")
-  eq(Gr.Letter(84.9), "B")
-  eq(Gr.ReactionScore(0.15), 100)
-  eq(Gr.ReactionScore(1.2), 0)
+  eq(Gr.Letter(84.9), "A")
+  eq(Gr.Letter(72), "B+")
+  eq(Gr.Letter(49), "D")
+  eq(Gr.ReactionScore(0.25), 100)
+  eq(Gr.ReactionScore(1.5), 0)
 end)
 
 test("performance grade: a trinket from the items icon counts as cooldown use, never accuracy", function()
@@ -3902,7 +3907,7 @@ test("performance grade: a trinket from the items icon counts as cooldown use, n
   Gr.OnCombat(false)
   local h = Gr.Summary(Gr.SpecKey()).history[1]
   eq(math.floor(h.accuracy), 100, "the item use is not a wrong press")
-  eq(math.floor(h.cooldowns + 0.5), 80, "used 2 s after it showed (1 s is full marks, 6 s none)")
+  eq(math.floor(h.cooldowns + 0.5), 100, "used 2 s after it showed (2 s is full marks, 10 s none)")
   ns.last = nil
   Gr.Reset()
 end)
@@ -3947,6 +3952,33 @@ test("rogue: a finisher the game calls unusable with points read is still castab
   G.Recommend(ns.ActiveRecord(ns.Specs.current), { useAssisted = true })
   eq(G.acNow, nil, "the assistant naming a poison is ignored")
   mock.acSpell, mock.inCombat = nil, false
+end)
+
+
+test("performance grade: a press of what slot 1 showed just before it switched counts; an unused potion doesn't", function()
+  Reset()
+  local ns = Boot()
+  local Gr = ns.Grade
+  Gr.Reset()
+  local A, B = { id = 101, token = "spell_a" }, { id = 102, token = "spell_b" }
+  local potion = { id = 6000, item = 999 }
+  Gr.OnCombat(true)
+  ns.last = { main = A, queue = { A }, trinket = potion }
+  Gr.Tick(false) -- the potion shows, and is never used
+  for _ = 1, 6 do
+    Gr.OnReady(101, mock.now, A)
+    mock.now = mock.now + 1
+    Gr.OnReady(102, mock.now, B) -- slot 1 switches to B ...
+    mock.now = mock.now + 0.3
+    Gr.OnPress(101, { main = B, queue = { B } }, true) -- ... 0.3 s before the press of A
+    mock.now = mock.now + 3
+  end
+  Gr.OnCombat(false)
+  local h = Gr.Summary(Gr.SpecKey()).history[1]
+  eq(math.floor(h.accuracy), 100, "pressed what slot 1 showed 0.3 s earlier: right")
+  eq(h.cooldowns, nil, "an unused potion is not graded")
+  ns.last = nil
+  Gr.Reset()
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

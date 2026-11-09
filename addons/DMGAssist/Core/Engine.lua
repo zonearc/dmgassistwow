@@ -566,7 +566,10 @@ local function Corroborated(id, token, run, castable)
     if run.acSpell == id or run.acSpell == run.override[id] then
       return "assisted"
     end
-    if castable == true and SameSpender(id, run.acSpell) then
+    -- Only when SimC's list has no line of its own for the named spender: Blizzard asking for Starfall on six
+    -- targets made the uncertain Starsurge line above Starfall's "confirmed" (Balance, 2026-11-09).
+    local named = M.TokenForID(run.acSpell)
+    if castable == true and SameSpender(id, run.acSpell) and not (named and run.simcActions and run.simcActions[named]) then
       return "assisted"
     end
     -- The major cooldowns are left out of the assistant by design: it never names them, so for them its
@@ -831,7 +834,14 @@ local function Prepare(record)
   if p then
     return p
   end
-  p = { blizzardByAction = {}, cooldowns = SetOf(record.blizzardExcluded) }
+  p = { blizzardByAction = {}, cooldowns = SetOf(record.blizzardExcluded), simcActions = {} }
+  for _, list in pairs(type(record.simc) == "table" and record.simc or {}) do
+    for _, e in ipairs(type(list) == "table" and list or {}) do
+      if type(e) == "table" and e.a then
+        p.simcActions[e.a] = true
+      end
+    end
+  end
   if type(record.blizzard) == "table" then
     for _, list in pairs(record.blizzard) do
       for _, e in ipairs(list) do
@@ -858,6 +868,7 @@ local function Decide(record, opts, targets, first)
     visiting = {},
     unresolved = {},
     cooldowns = prep.cooldowns,
+    simcActions = prep.simcActions,
     blizzardByAction = prep.blizzardByAction,
     burst = opts.burst ~= false,
     override = {},
@@ -1151,7 +1162,14 @@ function G.Steady(result)
   if pressed then
     pressedAt = now
   end
-  if pressed or now - pressedAt < G.PRESS_SETTLE or not held or now - held.at > G.LOCK_MAX then
+  if pressed or not held or now - held.at > G.LOCK_MAX then
+    held = { pick = main, at = now, fresh = pressed }
+    return result
+  end
+  -- Right after a press: one free change (the spell you just pressed is replaced by what comes next). A second
+  -- change in the same moment waits like any other (Balance flipped Starsurge > Sunfire > Starsurge within
+  -- 0.3 s of each cast while the player was pressing quickly, 2026-11-09).
+  if now - pressedAt < G.PRESS_SETTLE and held.fresh and held.pick.id ~= main.id then
     held = { pick = main, at = now }
     return result
   end
