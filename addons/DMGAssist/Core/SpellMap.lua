@@ -182,7 +182,11 @@ function M.SpellID(token)
       if info and (info.gcd or info.cd or info.cost) then -- a castable spell, not a passive talent or an aura
         local base = M.LiveOverride(id)
         if base then
-          return base
+          -- The button currently casts this spell (Voidform -> Void Volley during Voidform): its own cooldown and
+          -- usability decide, not the base's (Void Volley looked unusable because Voidform had just been cast).
+          -- The base is remembered so its button, key and highlight are found.
+          M.baseOf[id] = M.baseOf[id] or base
+          return id
         end
         if U.Get(IsPlayerSpell, id) == true and M.Pressable(id) then
           return id -- granted for now (not in the spellbook scan)

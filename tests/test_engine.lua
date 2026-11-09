@@ -644,6 +644,21 @@ test("charges: the game's count counts in the look-ahead too, and each predicted
   mock.charges = nil
 end)
 
+test("a spell a button turns into is checked as itself, not as the button's base spell (Void Volley)", function()
+  Reset()
+  local ns = Boot()
+  local M = ns.SpellMap
+  mock.overrides = { [22568] = 441591 } -- Ferocious Bite's button casts Ravage now
+  mock.Advance(1) -- the button overrides are re-read at most twice a second
+  eq(M.SpellID("ravage"), 441591, "the spell the button casts")
+  eq(M.baseOf[441591], 22568, "its button remembered for the key and highlight")
+  -- the base on cooldown says nothing about the override's own readiness
+  mock.cooldowns[22568] = { active = true, start = mock.now, duration = 30 }
+  eq(ns.Engine.Castable(441591) ~= false, true, "Ravage is not held back by Bite's cooldown")
+  mock.overrides = nil
+  mock.cooldowns[22568] = nil
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()
