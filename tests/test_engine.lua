@@ -1445,6 +1445,30 @@ test("auras Blizzard leaves readable in combat (Tip of the Spear, Sated) are rea
   mock.restricted, mock.inCombat = false, false
 end)
 
+test("a spell Blizzard had to correct twice: slot 1 calls it ready only when Blizzard names it", function()
+  Reset()
+  local ns = Boot()
+  local S, G = ns.State, ns.Engine
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", ch = 1, chcd = 16, gcd = 1.5 }
+  Feral(ns, rec)
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  for _ = 1, 2 do
+    mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+    mock.Advance(3)
+    S.ObserveAssistedCharge(5217) -- 13 s off by our clock: corrected
+    S.rcSeen = {} -- the real recharge keeps moving (Wildfire Bomb): what was learned doesn't hold
+  end
+  eq(S.ClockUnreliable(5217), true, "two corrections: our clock for it is known wrong")
+  G.acNow = nil
+  eq(G.Castable(5217), false, "ready by our clock alone isn't trusted")
+  G.acNow = 5217
+  eq(G.Castable(5217), true, "Blizzard names it: ready")
+  G.acNow = nil
+  mock.inCombat, mock.restricted = false, false
+end)
+
 test("every spec ships SimC spell data (ids, cooldowns, durations)", function()
   for _, client in ipairs({ { "standard", 1, "midnight" }, { "camelot", 18, "forever" } }) do
     Reset()

@@ -357,6 +357,15 @@ local function Castable(id)
   if BlockedWhileActive(id) then
     return false, "active"
   end
+  -- Our clock for this spell is known wrong (Blizzard had to correct it twice this fight: see S.ClockUnreliable):
+  -- for what to press now, it's ready exactly when Blizzard's assistant names it.
+  do
+    local v = S.Lookahead()
+    if (not v or #v.prev == 0) and S.ClockUnreliable(id) then
+      local ac = G.acNow
+      return (ac == id or (ac and M.baseOf and M.baseOf[ac] == id)) and true or false
+    end
+  end
   local usable, noPower = U.Call(C_Spell and C_Spell.IsSpellUsable, id)
   usable, noPower = U.Read(usable), U.Read(noPower)
   if usable == nil then
