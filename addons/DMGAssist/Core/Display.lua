@@ -1154,8 +1154,11 @@ function D.Update(result, visible)
   RenderWeave(f, result, cfg)
   RenderStacks(f, cfg)
   f.timingCfg = cfg
-  f.readyAt = result.main.readyAt
-  f.readyId = result.main.readyAt and result.main.id or nil
+  -- Blizzard's assistant names this very spell right now: no cooldown shade (our clock for a charge can be a second
+  -- or two slow, and a late shade costs damage; only the global cooldown still shades).
+  local early = result.main.readyAt and result.main.id ~= result.acSpell
+  f.readyAt = early and result.main.readyAt or nil
+  f.readyId = early and result.main.id or nil
   f.shownId = result.main.id
   D.RenderTiming(f, cfg)
   if cfg.header then
