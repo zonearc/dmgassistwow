@@ -1336,7 +1336,7 @@ test("energy and focus come back during the look-ahead, faster with haste", func
   mock.haste = nil
 end)
 
-test("charges: the game's count by spell name, and a charge learned from the assistant's picks", function()
+test("charges: the game's count for the ID the engine uses, never raised from the assistant's picks", function()
   Reset()
   local ns = Boot()
   local S = ns.State
@@ -1358,7 +1358,7 @@ test("charges: the game's count by spell name, and a charge learned from the ass
   S.ObserveAssistedCharge(5217)
   mock.Advance(0.5)
   S.ObserveAssistedCharge(5217)
-  eq(S.liveCharges.tigers_fury and S.liveCharges.tigers_fury.max, 2, "learned")
+  eq(S.liveCharges.tigers_fury, nil, "not learned: the assistant also names spells still recharging")
   mock.inCombat, mock.restricted = false, false
 end)
 

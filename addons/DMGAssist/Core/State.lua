@@ -810,11 +810,10 @@ function S.ObserveAssistedCharge(id)
     h.n, h.at = h.n + 1, now
   end
   if h.n >= 2 and info.n then
-    local l = S.liveCharges[info.n] or {}
-    l.max = math.min(5, MaxCharges(info) + 1)
-    S.liveCharges[info.n] = l
+    -- Not acted on: Blizzard's assistant also names spells that are still recharging, and adding a charge from
+    -- it made Judgment and Holy Shock show as ready when they weren't (2026-11-09). Logged only, as evidence.
     S.chargeHint[group] = nil
-    U.Log("charges_learned", { spell = info.n, max = l.max, why = "assisted" })
+    U.Log("charges_hint", { spell = info.n, ours = MaxCharges(info), why = "assisted named it while we count 0" })
   end
 end
 
@@ -2261,20 +2260,24 @@ function S.Calibrate()
         info.costLive = live
         n = n + 1
       end
+    end
+  end
+  -- Charges: asked for the exact ID the engine uses for each of the list's spells, and taken as the game says.
+  -- (Taking the highest count over every spellbook ID with that name counted Judgment at 2 and Holy Shock at 3,
+  -- because variant IDs report other numbers, 2026-11-09.)
+  S.liveCharges = {}
+  for token in pairs(M.data or {}) do
+    local id = M.SpellID(token)
+    local info = id and M.Info(id)
+    if info and (info.ch or info.chcd) then
       local charges = U.Get(C_Spell and C_Spell.GetSpellCharges, id)
       local maxC = type(charges) == "table" and U.Read(charges.maxCharges)
-      local cur = type(charges) == "table" and U.Read(charges.currentCharges)
       local rc = type(charges) == "table" and U.Read(charges.cooldownDuration)
-      local token = info.n or M.TokenForID(id)
-      if token and (type(maxC) == "number" or type(cur) == "number") then
-        local l = S.liveCharges[token] or {}
-        l.max = math.max(type(maxC) == "number" and maxC or 0, type(cur) == "number" and cur or 0, l.max or 0)
-        if type(rc) == "number" and rc > 1.5 then
-          l.recharge = rc -- this character's recharge, talents and haste included
-        end
-        if l.max > 0 then
-          S.liveCharges[token] = l
-        end
+      if type(maxC) == "number" and maxC >= 1 then
+        S.liveCharges[info.n or token] = {
+          max = maxC,
+          recharge = (type(rc) == "number" and rc > 1.5) and rc or nil, -- talents and haste included
+        }
       end
     end
   end
