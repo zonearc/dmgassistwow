@@ -297,8 +297,9 @@ def _cooldown_links(spells):
             s["cdUnclear"] = unclear
 
 
-def links_for(spells, ids):
-    """The class's interdependency rules that touch this spec's spells: (links, review sentences)."""
+def links_for(spells, ids, extra=()):
+    """The class's interdependency rules that touch this spec's spells: (links, review sentences).
+    extra: hand-written rules for the class from data/spell-links.json (wording the description reader can't parse)."""
     actions = set(ids)
     names = {s["name"].lower() for s in spells.values() if s["token"] in actions and not s["passive"]}
     links, review = [], []
@@ -309,9 +310,15 @@ def links_for(spells, ids):
                 if row not in links:
                     links.append(row)
         for sentence in s.get("cdUnclear", []):
+            if any(sentence.startswith(x.get("covers", "\0")) for x in extra if isinstance(x, dict)):
+                continue  # a hand-written rule covers it
             low = sentence.lower()
             if any(n in low for n in names):
                 review.append(f"{s['name']} ({s['id']}): {sentence}")
+    for x in extra:
+        row = [x["source"], x["target"], x["seconds"], x.get("requires", 0), x.get("power", 0)] if isinstance(x, dict) else list(x)
+        if row[1] in actions and (row[0] == "*" or row[0] in actions) and row not in links:
+            links.append(row)
     return links, review
 
 

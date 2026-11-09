@@ -445,6 +445,14 @@ def forever_ids(wowsims_root):
     return _FOREVER_IDS[wowsims_root]
 
 
+# Hand-written spell interdependencies the description reader can't parse (data/spell-links.json), by class:
+# { "rogue": [ { "source": "*", "target": "adrenaline_rush", "seconds": 1, "power": 4, "requires": 0,
+#               "covers": "Finishing moves reduce the remaining cooldown", "why": "Restless Blades" } ] }
+_extra_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "spell-links.json")
+EXTRA_LINKS = json.load(open(_extra_path, encoding="utf-8")) if os.path.exists(_extra_path) else {}
+EXTRA_LINKS = {k: v for k, v in EXTRA_LINKS.items() if not k.startswith("_")}
+
+
 def import_branch(simc_root, branch, out_root, errors, wowsims_root=None):
     base = os.path.join(simc_root, branch, "ActionPriorityLists")
     sha, date = git_info(os.path.join(simc_root, branch))
@@ -545,7 +553,7 @@ def import_branch(simc_root, branch, out_root, errors, wowsims_root=None):
             record["spells"] = ids
             record["spellInfo"] = info
             record["heroTrees"] = simc_spells.hero_trees(class_spells[cls], refs["hero"])
-            links, review = simc_spells.links_for(class_spells[cls], ids)
+            links, review = simc_spells.links_for(class_spells[cls], ids, EXTRA_LINKS.get(cls, []))
             if links:
                 record["cdLinks"] = links
             record["_review"] = review

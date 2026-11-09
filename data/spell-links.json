@@ -1,0 +1,3 @@
+{
+  "_about": "Spell interdependencies the importer can't read from the game's spell descriptions (tools/simc_spells.py). By class. source: the cast spell's SimC token, or \"*\" with power = resource type for 'per point spent'. seconds: number, \"reset\" or \"charge\". requires: talent spell ID (0 = none). covers: the start of the description sentence this rule replaces, so it leaves the review list. Merged on every weekly import."
+}
