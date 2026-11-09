@@ -13,6 +13,7 @@ diagnostics addon.
 | `tests/` | `wow_mock.lua` (a fake client whose secret values error like the real ones) and `test_*.lua` / `test_*.py`. |
 | `tools/` | Importers (`simc_import.py`, `simc_spells.py`, `gamedata_spells.py`, `wowsims_apl.py`), `send-logs.py`, `decode-export.py`, `api_snapshot.lua`. |
 | `scripts/` | `check.sh` (everything CI runs), `package.sh` (zips into `dist/`), `fetch-*.sh` (sources into `.libraries/`). |
+| `docs/project/` | `tasks.md` (the working task list, kept current with every change) and `scope.md` (what's in and out, decisions). |
 | `docs/reference/api-findings.md` | **Verified** facts about the game API. Read before touching game APIs; update when you learn something. |
 | `docs/design/` | How the engine decides (`engine-priority.md`) and what's next (`gap-analysis.md`). |
 | `docs/findings/` | Dated write-ups of in-game evidence (Watchdog logs) and audits. |

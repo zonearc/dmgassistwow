@@ -564,3 +564,5 @@
 570	qué addons compatibles (Masque, ElvUI, Bartender, addons de jefes...) se han encontrado y están en uso
 571	Escrito y mantenido por %s
 572	vinculado
+573	Mueve el HUD en el modo de edición de Blizzard. Masque da estilo a los iconos. Con un mando, las teclas se muestran como sus botones (Pantalla > Nombres de los botones del mando). Para autores de addons: DMGAssistAPI.
+574	DMGAssist funciona con estos cuando están instalados, sin configurar nada: Masque da estilo a sus iconos, los addons de jefes sincronizan defensivos e interrupciones, WeakAuras puede leer sus recomendaciones.

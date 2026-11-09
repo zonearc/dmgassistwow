@@ -571,5 +571,7 @@
 "found",
 "which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use",
 "Written and maintained by %s",
-"linked"
+"linked",
+"Move the HUD in Blizzard's Edit Mode. Masque skins the icons. With a controller, keybinds show as its buttons (Display > Controller button names). Addon authors: DMGAssistAPI.",
+"DMGAssist works with these when they are installed, with nothing to set up: Masque skins its icons, boss mods time defensives and interrupts, WeakAuras can read its picks."
 ]

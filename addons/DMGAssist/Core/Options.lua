@@ -554,8 +554,7 @@ function O.Register()
     "Once per spec each session: a chat line when spells DMGAssist can recommend have no key binding.")
 
   Header(integrations, "Other addons", "DMGAssist works with these when they are installed, with nothing to set "
-    .. "up: Masque skins its icons, ElvUI, Bartender and Dominos bars give the keybinds, Titan Panel and ElvUI get "
-    .. "a launcher, WeakAuras can read its picks.")
+    .. "up: Masque skins its icons, boss mods time defensives and interrupts, WeakAuras can read its picks.")
   -- one line per supported addon, worked out when the page is shown: linked (green), installed, not installed
   local layout = O.layouts[integrations]
   if layout and layout.AddInitializer and Settings.CreateElementInitializer then
@@ -950,8 +949,7 @@ O.HELP = {
       .. "without a key and unspent talent points get one chat line. Combat > Leveling." },
   { "Fits your UI",
     "Move the HUD in Blizzard's Edit Mode. Masque skins the icons. With a controller, keybinds show as its buttons "
-      .. "(Display > Controller button names). Titan Panel and ElvUI data texts get a DMGAssist launcher. Addon authors: "
-      .. "DMGAssistAPI." },
+      .. "(Display > Controller button names). Addon authors: DMGAssistAPI." },
   { "Skipping a spell",
     "Skip the spell in slot 1 three times and it is held for the rest of the fight (\"saving it\"). Cast it "
       .. "yourself and it comes back. Only spells with a real cooldown are held." },

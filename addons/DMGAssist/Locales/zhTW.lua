@@ -568,4 +568,6 @@ ns.LOCALE_DATA.zhTW = {
   ["which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use"] = "哪些支援的插件（Masque、ElvUI、Bartender、首領插件……）已找到並在使用",
   ["Written and maintained by %s"] = "作者與維護者：%s",
   ["linked"] = "已連結",
+  ["Move the HUD in Blizzard's Edit Mode. Masque skins the icons. With a controller, keybinds show as its buttons (Display > Controller button names). Addon authors: DMGAssistAPI."] = "在暴雪的編輯模式中移動 HUD。Masque 可美化圖示。使用控制器時，按鍵顯示為控制器按鈕（顯示 > 控制器按鍵名稱）。插件作者：DMGAssistAPI。",
+  ["DMGAssist works with these when they are installed, with nothing to set up: Masque skins its icons, boss mods time defensives and interrupts, WeakAuras can read its picks."] = "安裝後 DMGAssist 會自動搭配這些插件，無需設定：Masque 為圖示換膚，首領插件為防禦和打斷提供時機，WeakAuras 可以讀取推薦。",
 }

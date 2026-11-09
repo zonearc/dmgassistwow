@@ -568,4 +568,6 @@ ns.LOCALE_DATA.ruRU = {
   ["which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use"] = "какие поддерживаемые аддоны (Masque, ElvUI, Bartender, боссмоды...) найдены и используются",
   ["Written and maintained by %s"] = "Автор и разработчик: %s",
   ["linked"] = "подключён",
+  ["Move the HUD in Blizzard's Edit Mode. Masque skins the icons. With a controller, keybinds show as its buttons (Display > Controller button names). Addon authors: DMGAssistAPI."] = "Передвигайте HUD в режиме редактирования Blizzard. Masque оформляет значки. С геймпадом клавиши показываются как его кнопки (Отображение > Названия кнопок геймпада). Для авторов аддонов: DMGAssistAPI.",
+  ["DMGAssist works with these when they are installed, with nothing to set up: Masque skins its icons, boss mods time defensives and interrupts, WeakAuras can read its picks."] = "DMGAssist работает с ними, если они установлены, без настройки: Masque оформляет его значки, боссмоды подсказывают время для защиты и прерываний, WeakAuras может читать его подсказки.",
 }

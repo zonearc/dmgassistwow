@@ -564,3 +564,5 @@
 570	quali addon supportati (Masque, ElvUI, Bartender, boss mod...) sono trovati e in uso
 571	Scritto e curato da %s
 572	collegato
+573	Sposta l'HUD nella Modalità modifica di Blizzard. Masque dà stile alle icone. Con un controller, i tasti appaiono come i suoi pulsanti (Visualizzazione > Nomi dei pulsanti del controller). Per gli autori di addon: DMGAssistAPI.
+574	DMGAssist funziona con questi quando sono installati, senza configurare nulla: Masque dà lo stile alle sue icone, i boss mod sincronizzano difensivi e interruzioni, WeakAuras può leggere i suoi consigli.

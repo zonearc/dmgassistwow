@@ -45,8 +45,6 @@ You press every button; it never plays for you.
 
 - **DBM, BigWigs, LittleWigs:** defensives before big hits, interrupts on call
 - **Masque:** icons skinned to match your action bars
-- **Bartender, ElvUI, Dominos:** keybinds shown on the icons
-- **Titan Panel, ElvUI data texts:** a quick on/off launcher
 - **Controllers:** shows your controller buttons, Xbox or PlayStation
 - **Blizzard's Cooldown Manager and Assisted Combat:** used, never replaced
 - **Addon authors:** `DMGAssistAPI` for UI packs and custom displays
@@ -70,6 +68,6 @@ English, Deutsch, Español, Français, Italiano, Português, Русский, 한
 
 - [SimulationCraft](https://github.com/simulationcraft/simc): priority lists and spell data (GPL-3.0)
 - [WoWSims](https://wowsims.com/forever): WoW Forever rotations and game data (MIT)
-- DBM, BigWigs, LittleWigs, Masque, Bartender, ElvUI, Dominos, Titan Panel: thank you
+- DBM, BigWigs, LittleWigs, Masque: thank you
 
 © 2026 zonearc, all rights reserved. Please don't re-upload DMGAssist elsewhere.

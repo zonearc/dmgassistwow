@@ -568,4 +568,6 @@ ns.LOCALE_DATA.koKR = {
   ["which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use"] = "지원하는 애드온(Masque, ElvUI, Bartender, 보스 모드...) 중 발견되어 사용 중인 것",
   ["Written and maintained by %s"] = "제작 및 관리: %s",
   ["linked"] = "연결됨",
+  ["Move the HUD in Blizzard's Edit Mode. Masque skins the icons. With a controller, keybinds show as its buttons (Display > Controller button names). Addon authors: DMGAssistAPI."] = "블리자드 편집 모드에서 HUD를 옮기세요. Masque가 아이콘을 꾸며 줍니다. 컨트롤러를 쓰면 단축키가 컨트롤러 버튼으로 표시됩니다(표시 > 컨트롤러 버튼 이름). 애드온 제작자용: DMGAssistAPI.",
+  ["DMGAssist works with these when they are installed, with nothing to set up: Masque skins its icons, boss mods time defensives and interrupts, WeakAuras can read its picks."] = "DMGAssist는 이 애드온이 설치되어 있으면 설정 없이 함께 작동합니다: Masque가 아이콘을 꾸미고, 보스 모드가 방어와 차단 시점을 알려 주며, WeakAuras가 추천을 읽을 수 있습니다.",
 }

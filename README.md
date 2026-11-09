@@ -51,7 +51,7 @@ nothing automated. You press every button.
 - **Missing keybinds check.** Lists every spell and trinket it can recommend that has no key binding, with
   icons (Settings > DMGAssist > Missing keybinds, or `/dmga unbound`), so you find out before the pull.
 - **Works with what you have.** DBM, BigWigs and LittleWigs timers (or Blizzard's encounter timeline) for adds,
-  AoE and tank hits; keybinds read from Blizzard's bars, Bartender and macros; Blizzard's Assisted Combat as a
+  AoE and tank hits; keybinds read from your action bars and macros; Blizzard's Assisted Combat as a
   second opinion where the game hides information.
 - **Learns your real cooldowns.** Talents, gear, set bonuses and haste change cooldowns in ways the game doesn't
   always let addons see. DMGAssist knows the interactions SimulationCraft simulates (Kill Command taking time off
@@ -72,7 +72,7 @@ nothing automated. You press every button.
 - **Three questions to start.** Where the HUD goes, how big, when it shows, each with a suggested answer.
   Once per settings profile, so alts sharing one are asked once (`/dmga welcome` to redo it).
 - **Fits your UI.** Blizzard's Edit Mode places it with everything else; Masque skins its icons like your bars;
-  a Titan Panel / ElvUI data-text launcher; controller players see their buttons (`LT+A`, Xbox or PlayStation
+  controller players see their buttons (`LT+A`, Xbox or PlayStation
   names); WeakAuras and UI packs can read every recommendation through `DMGAssistAPI` (see below).
 - **Your language.** English, Deutsch, Español, Français, Italiano, Português, Русский, 한국어, 简体中文 and 繁體中文,
   following the game's language or picked in the settings. Spells are matched by ID, so any client works.
@@ -133,9 +133,7 @@ DMGAssistAPI.SetHUDHidden(true)   -- keep deciding, hide DMGAssist's own icons (
 DMGAssistAPI.SetEnabled(true)  DMGAssistAPI.CycleMode()  DMGAssistAPI.ToggleCooldowns()  DMGAssistAPI.OpenSettings()
 ```
 
-A broken callback is dropped and never breaks DMGAssist. With LibDataBroker loaded (Titan Panel, ElvUI,
-ChocolateBar...) a "DMGAssist" launcher shows the target mode: left-click show/hide, right-click settings,
-middle-click target mode.
+A broken callback is dropped and never breaks DMGAssist.
 
 ## Reporting a problem
 

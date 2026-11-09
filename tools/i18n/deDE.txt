@@ -564,3 +564,5 @@
 570	welche unterstützten Addons (Masque, ElvUI, Bartender, Bossmods...) gefunden und in Gebrauch sind
 571	Geschrieben und gepflegt von %s
 572	verbunden
+573	Verschiebe das HUD im Bearbeitungsmodus von Blizzard. Masque gestaltet die Symbole. Mit einem Controller erscheinen Tastenbelegungen als dessen Tasten (Anzeige > Namen der Controllertasten). Für Addon-Autoren: DMGAssistAPI.
+574	DMGAssist arbeitet mit diesen zusammen, wenn sie installiert sind, ohne Einrichtung: Masque gestaltet seine Symbole, Bossmods timen Verteidigung und Unterbrechungen, WeakAuras kann seine Empfehlungen lesen.

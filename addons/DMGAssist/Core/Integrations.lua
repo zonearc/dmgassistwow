@@ -2,10 +2,8 @@
 -- when the other addon (or game feature) is there.
 --   Masque       the icons are skinned with the player's Masque skin (group "DMGAssist"), like their action bars
 --   Edit Mode    in Blizzard's Edit Mode the HUD shows, highlighted and draggable, with everything else
---   Data broker  a launcher for Titan Panel, ElvUI / ChocolateBar data texts and other LibDataBroker displays:
---                the target mode as text; left-click shows / hides, right-click settings, middle-click mode
 --   Public API   the global DMGAssistAPI, for WeakAuras, UI packs and other addons (see the bottom of this file)
--- No library is shipped with DMGAssist: Masque and LibDataBroker are used only when another addon brought them.
+-- No library is shipped with DMGAssist: Masque is used only when the player has it.
 
 local _, ns = ...
 local U, L = ns.U, ns.L
@@ -59,10 +57,6 @@ end
 ---------------------------------------------------------------------------
 I.SUPPORTED = {
   { addon = "Masque", what = "icon skins", used = function() return I.MasqueActive() end },
-  { addon = "Bartender4", what = "keybinds read from its bars" },
-  { addon = "ElvUI", what = "keybinds from its bars, data text launcher" },
-  { addon = "Dominos", what = "keybinds read from its bars" },
-  { addon = "Titan", what = "launcher in Titan Panel", used = function() return I.broker ~= nil end },
   { addon = "DBM-Core", what = "boss mod warnings" },
   { addon = "BigWigs", what = "boss mod warnings" },
   { addon = "LittleWigs", what = "boss mod warnings" },
@@ -160,8 +154,6 @@ function I.HookEditMode()
   return true
 end
 
----------------------------------------------------------------------------
--- LibDataBroker (Titan Panel, ElvUI data texts, ChocolateBar, Bazooka, ...)
 ---------------------------------------------------------------------------
 local ICON = "Interface\\Icons\\Spell_Holy_FistOfJustice"
 
@@ -340,6 +332,5 @@ end
 -- At login, once every addon has loaded.
 function I.Setup()
   I.HookEditMode()
-  I.HookBroker()
   I.Skin(ns.Display.frame)
 end
