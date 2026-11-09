@@ -615,3 +615,11 @@
 621	Verlauf dieser Spezialisierung
 622	Links von Platz 1, oben
 623	Links von Platz 1, unten
+624	Für Tank-Spezialisierungen bleiben die Plätze 1-3 deine Schadensrotation, und deine Schadensminderung erscheint im Verteidigungssymbol, abgestimmt darauf, wie deine Spezialisierung tankt.
+625	Für die Tank-Spezialisierung, in der du bist: bei so viel Gesundheit oder weniger erscheint dein Notfallknopf (Letztes Gefecht, Rasende Regeneration, Vampirblut...). Pro Spezialisierung gespeichert.
+626	Schadensminderung
+627	Tank: wenig Gesundheit
+628	Tank-Schadensminderung im Verteidigungssymbol
+629	Tanks
+630	Tipp: Drücke deine Schadensminderung (das rote Symbol), sobald sie erscheint; sie ist so getimt, dass sie dich schützt.
+631	Solange du Aggro hast, zeigt das Verteidigungssymbol deine Aufrechterhaltungs-Fähigkeiten, wenn sie fällig sind (Schildblock, Dämonenstachel, Schild der Rechtschaffenen...), Abklingzeiten vor großen Treffern, vor denen dein Bossmod warnt, und Zauberreflexion oder Antimagische Hülle für Zauber auf dich. Aus: SimCs Liste entscheidet, wie bei anderen Spezialisierungen.

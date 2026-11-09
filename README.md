@@ -24,6 +24,8 @@ nothing automated. You press every button.
 - **A grade after every real fight.** S+ to D, with accuracy, always casting, reaction time and cooldown use, your
   best per spec, the trend over your last 10 fights and one tip on what to improve (Settings > Performance grade).
   It never guesses damage. Turn it off any time.
+- **Tanks tank properly.** For every tank spec the slots stay your damage rotation and the red icon handles your
+  mitigation: keep-up buttons when they're due, cooldowns before big hits, Spell Reflection for spells at you.
 - **Major cooldowns** are ordinary lines in the rotation, or switched off entirely.
 - **Timed to your GCD and casts.** A flash 50 ms before you can press (adjustable). Slot 1 stays put while you're
   about to press (Steady), or follows changes sooner (Fast): your choice.

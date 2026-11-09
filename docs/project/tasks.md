@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.145 (2026-11-09).
+Last updated: 1.6.0.146 (2026-11-09).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -16,13 +16,7 @@ Last updated: 1.6.0.145 (2026-11-09).
 
 ## Open: build
 
-- [ ] Tank profiles (agreed 2026-11-09), one per tank spec, running alongside SimC: slots 1-3 = damage only; all
-  mitigation in the red icon, chosen by the profile: keep-up (Shield Block, Ignore Pain, Ironfur, Demon Spikes,
-  Bone Shield / Death Strike, Purifying Brew, Shield of the Righteous), cooldown rotation on incoming damage
-  (Demoralizing Shout, Shield Wall, Last Stand...), reactive (Spell Reflection on a boss-mod "spell on you"),
-  emergencies on low health (tank default 50%, editable per spec). Sources: Method / Wowhead / Icy Veins tank
-  guides and SimC's tank lists. Grade gets a fifth part for tanks: Mitigation (uptime of the keep-up, cooldowns
-  used before tank hits)
+- [ ] Pre-check untested specs (SimC lists, guides) for the bugs found on Rogue/Tank/Balance
 - [ ] End-of-fight learning summary in plain words ("Kill Command: corrected 3 times, now within 0.2 s")
 - [ ] Interrupts: review for the game's combat restrictions (12.x), like defensives were
 - [ ] Forever: confirm the WoWSims rank mapping (data imports for 34 specs; mapping not verified)
@@ -33,6 +27,7 @@ Last updated: 1.6.0.145 (2026-11-09).
 
 ## Open: needs in-game testing (built, not yet seen in game)
 
+- [ ] Tank profiles on each tank spec (Protection Warrior first): keep-up timing, boss-mod cooldowns, Mitigation grade
 - [ ] New grade popup look and place; small icons left of slot 1; preview panel
 - [ ] Rogue: Outlaw finishers shown at 5+ combo points; Balance: Starfall on 3+ targets; slot 1 calmer while spamming
 - [ ] Protection Warrior on the tank dummy: Shield Block and Ignore Pain shown while tanking (red icon / slot 1)
@@ -52,6 +47,12 @@ Last updated: 1.6.0.145 (2026-11-09).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.146: tank profiles (Tanks.lua) for all six tank specs: slots 1-3 damage only, mitigation in the red icon -
+  keep-up when due while tanking (Shield Block, Ignore Pain, Demon Spikes, Shield of the Righteous, Purifying /
+  Celestial Brew; Ironfur stays with Essentials), cooldowns before boss-mod tank hits / AoE, Spell Reflection /
+  Anti-Magic Shell / Diffuse Magic for spells at you, emergencies at the tank threshold (50% default, per spec,
+  Combat > Tanks). Grade: Mitigation part for tanks (pressed within 1 s full, 5 s none)
 
 - 1.6.0.145: grade popup redesigned: big letter that lands and settles, a D..S+ gradient bar with a sliding marker,
   the four parts as a grid (value over name, coloured), tip below; it sits just above the icons' saved place (no

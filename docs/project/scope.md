@@ -54,4 +54,4 @@ their users see keys on the icons.
 Tanks get a mitigation profile per spec alongside SimC. The three slots stay damage only; every mitigation button
 goes in the red icon, picked by the profile: keep-up first, then cooldowns on incoming damage (boss-mod timers),
 reactive buttons on boss-mod calls, emergencies on low health (tank default 50%, per spec, editable). The grade
-adds Mitigation for tanks.
+adds Mitigation for tanks. Built in Core/Tanks.lua (1.6.0.146); Midnight only (WoW Forever tanks follow their lists).

@@ -21,7 +21,8 @@ local U, L = ns.U, ns.L
 local Gr = {}
 ns.Grade = Gr
 
-Gr.WEIGHTS = { accuracy = 0.35, abc = 0.25, reaction = 0.20, cooldowns = 0.20 }
+-- mitigation: tanks only (Tanks.lua), how quickly the defensive icon's mitigation was pressed once it showed
+Gr.WEIGHTS = { accuracy = 0.35, abc = 0.25, reaction = 0.20, cooldowns = 0.20, mitigation = 0.25 }
 Gr.LETTERS = { { 96, "S+" }, { 91, "S" }, { 86, "A+" }, { 80, "A" }, { 72, "B+" }, { 64, "B" }, { 50, "C" },
   { 0, "D" } }
 Gr.COLORS = { ["S+"] = { 1, 0.85, 0.25 }, S = { 1, 0.6, 0.15 }, ["A+"] = { 0.85, 0.5, 1 }, A = { 0.7, 0.4, 1 },
@@ -66,7 +67,7 @@ end
 function Gr.OnCombat(on)
   if on then
     fight = { start = GetTime(), presses = 0, score = 0, reactions = {}, idle = 0, lastTick = nil,
-      ready = nil, cds = {}, cdShown = {}, missed = {}, instead = {}, targets = 0 }
+      ready = nil, cds = {}, cdShown = {}, missed = {}, instead = {}, targets = 0, mit = {}, mitShown = {} }
     return
   end
   local f = fight
@@ -119,6 +120,10 @@ function Gr.Tick(pressNow)
     f.cdShown["item:" .. tostring(key)] = now
   end
   f.targets = math.max(f.targets, tonumber((ns.State.Targets())) or 0)
+  local w = ns.last and ns.last.weave
+  if w and w.source == "mitigation" and w.id and not f.mitShown[Base(w.id)] then
+    f.mitShown[Base(w.id)] = now
+  end
 end
 
 local function IsOffGCD(id)
@@ -143,6 +148,14 @@ function Gr.OnPress(id, r, press)
     if f.cdShown[key] then
       f.cds[#f.cds + 1] = now - f.cdShown[key]
       f.cdShown[key] = nil
+    end
+    return
+  end
+  if r.weave and r.weave.source == "mitigation" and Same(r.weave.id, id) then
+    local key = Base(id)
+    if f.mitShown[key] then
+      f.mit[#f.mit + 1] = now - f.mitShown[key]
+      f.mitShown[key] = nil
     end
     return
   end
@@ -219,6 +232,11 @@ function Gr.ReactionScore(sec)
   return Clamp(100 - (sec - 0.25) / 1.25 * 100)
 end
 
+-- Mitigation delay (seconds) to a score: within 1 s = 100, 5 s or more = 0 (keep-up matters sooner).
+function Gr.MitigationScore(sec)
+  return Clamp(100 - (sec - 1) / 4 * 100)
+end
+
 -- Cooldown delay (seconds) to a score: within 2 s = 100, 10 s or more = 0.
 function Gr.DelayScore(sec)
   return Clamp(100 - (sec - 2) / 8 * 100)
@@ -246,7 +264,20 @@ function Gr.Finish(f, now)
     end
     cd = sum / #f.cds
   end
-  local parts = { accuracy = accuracy, abc = abc, reaction = reaction, cooldowns = cd }
+  for _, shownAt in pairs(f.mitShown) do
+    if now - shownAt > 2 then
+      f.mit[#f.mit + 1] = math.max(5, now - shownAt) -- shown, never pressed
+    end
+  end
+  local mit
+  if #f.mit > 0 then
+    local sum = 0
+    for _, d in ipairs(f.mit) do
+      sum = sum + Gr.MitigationScore(d)
+    end
+    mit = sum / #f.mit
+  end
+  local parts = { accuracy = accuracy, abc = abc, reaction = reaction, cooldowns = cd, mitigation = mit }
   local total, weight = 0, 0
   for k, w in pairs(Gr.WEIGHTS) do
     if parts[k] then
@@ -255,7 +286,8 @@ function Gr.Finish(f, now)
   end
   local score = weight > 0 and total / weight or 0
   local r = { score = score, letter = Gr.Letter(score), accuracy = accuracy, abc = abc, reaction = reaction,
-    reactionMs = reactionSec and math.floor(reactionSec * 1000 + 0.5), cooldowns = cd, length = length,
+    reactionMs = reactionSec and math.floor(reactionSec * 1000 + 0.5), cooldowns = cd, mitigation = mit,
+    length = length,
     idle = f.idle, presses = f.presses, targets = f.targets, at = _G.time and _G.time() or 0 }
   -- the tip: the weakest part
   local weakest, low = nil, 101
@@ -290,6 +322,8 @@ function Gr.Tip(r)
       r.idle)
   elseif r.weakest == "reaction" then
     return L["Tip: press as the flash comes, or a little before: the game queues a press made just before it's ready."]
+  elseif r.weakest == "mitigation" then
+    return L["Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe."]
   elseif r.weakest == "cooldowns" then
     return L["Tip: use major cooldowns, trinkets and your potion as soon as they show."]
   end
@@ -309,7 +343,8 @@ function Gr.Save(r)
   db[key] = s
   s.history = type(s.history) == "table" and s.history or {}
   table.insert(s.history, 1, { score = r.score, letter = r.letter, accuracy = r.accuracy, abc = r.abc,
-    reaction = r.reaction, reactionMs = r.reactionMs, cooldowns = r.cooldowns, at = r.at, targets = r.targets,
+    reaction = r.reaction, reactionMs = r.reactionMs, cooldowns = r.cooldowns, mitigation = r.mitigation, at = r.at,
+    targets = r.targets,
     weakest = r.weakest, idle = r.idle, length = r.length, topMissed = r.topMissed, topMissedCount = r.topMissedCount })
   while #s.history > Gr.HISTORY do
     table.remove(s.history)
@@ -392,12 +427,15 @@ function Gr.Report(key)
   end
   local avg = {
     accuracy = Average(h, "accuracy", 1, n), abc = Average(h, "abc", 1, n), reaction = Average(h, "reaction", 1, n),
-    cooldowns = Average(h, "cooldowns", 1, n),
+    cooldowns = Average(h, "cooldowns", 1, n), mitigation = Average(h, "mitigation", 1, n),
   }
   local ms = Average(h, "reactionMs", 1, n)
   lines[#lines + 1] = string.format("|cffffd100%s|r  %s %s   %s %s   %s %s   %s %s",
     string.format(L["Average of the last %d"], n), L["Accuracy"], Pct(avg.accuracy), L["Always casting"],
     Pct(avg.abc), L["Reaction"], ms and (math.floor(ms + 0.5) .. " ms") or "-", L["Cooldowns"], Pct(avg.cooldowns))
+  if avg.mitigation then
+    lines[#lines] = lines[#lines] .. string.format("   %s %s", L["Mitigation"], Pct(avg.mitigation))
+  end
   -- where to improve: the weakest part on average, with the most-missed spell of the latest fight that had one
   local weakest, low = nil, 101
   for k in pairs(Gr.WEIGHTS) do
@@ -447,7 +485,7 @@ Gr.BAR_FROM = 30 -- scores below this sit at the bar's left end
 Gr.BAR_STOPS = { { 30, "D" }, { 50, "C" }, { 64, "B" }, { 80, "A" }, { 91, "S" }, { 100, "S+" } }
 local W, BAR_W, BAR_H = 340, 300, 10
 local PARTS = { { "accuracy", "Accuracy" }, { "abc", "Always casting" }, { "reaction", "Reaction" },
-  { "cooldowns", "Cooldowns" } }
+  { "cooldowns", "Cooldowns" }, { "mitigation", "Mitigation" } }
 
 local function BarX(score)
   return (math.max(Gr.BAR_FROM, math.min(100, score)) - Gr.BAR_FROM) / (100 - Gr.BAR_FROM) * BAR_W
@@ -603,7 +641,22 @@ function Gr.Render(r, sample, test)
   f.best:SetTextColor(1, 0.82, 0.1)
   f.markerTo = BarX(r.score)
   f.marker:SetPoint("CENTER", f.bar, "LEFT", 0, 0)
+  -- the grid: the parts this fight has (Mitigation only for tanks), spread over the width
+  local shown = {}
   for _, cell in ipairs(f.cells) do
+    if cell.key ~= "mitigation" or r.mitigation ~= nil then
+      shown[#shown + 1] = cell
+      cell:Show()
+    else
+      cell:Hide()
+    end
+  end
+  for i, cell in ipairs(shown) do
+    cell:ClearAllPoints()
+    cell:SetSize(W / #shown, 36)
+    cell:SetPoint("TOPLEFT", f, "TOPLEFT", (i - 1) * W / #shown, -94)
+  end
+  for _, cell in ipairs(shown) do
     local v = r[cell.key]
     D.SetFont(cell.value, 18)
     if cell.key == "reaction" then

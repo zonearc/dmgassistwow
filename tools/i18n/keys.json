@@ -622,5 +622,13 @@
 "Default place",
 "This spec's history",
 "Left of slot 1, top",
-"Left of slot 1, bottom"
+"Left of slot 1, bottom",
+"For tank specs, slots 1-3 stay your damage rotation and your mitigation shows in the defensive icon, timed to how your spec tanks.",
+"For the tank spec you are in: at or below this much health your emergency button (Last Stand, Frenzied Regeneration, Vampiric Blood...) shows. Saved per spec.",
+"Mitigation",
+"Tank low health",
+"Tank mitigation in the defensive icon",
+"Tanks",
+"Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe.",
+"While you hold aggro, the defensive icon shows your keep-up buttons when they're due (Shield Block, Demon Spikes, Shield of the Righteous...), cooldowns before big hits your boss mod warns about, and Spell Reflection or Anti-Magic Shell for spells cast at you. Off: SimC's list decides, as for other specs."
 ]

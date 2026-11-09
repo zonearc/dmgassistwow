@@ -104,7 +104,8 @@ function F.Evaluate()
   if mode == "off" then
     return nil
   end
-  local id = F.Spell()
+  local tank = ns.Tanks and ns.Tanks.Profile()
+  local id = (tank and ns.Tanks.LowSpell()) or F.Spell()
   if not id then
     return nil
   end
@@ -121,7 +122,8 @@ function F.Evaluate()
     end
   end
   if mode ~= "bossmods" then
-    local threshold = (tonumber(ns.db and ns.db.defensiveHealth) or 35) / 100
+    -- tanks: their own threshold per spec (Combat > Tanks, 50% by default), DPS: Combat > Defensives
+    local threshold = (tank and ns.Tanks.Health() or tonumber(ns.db and ns.db.defensiveHealth) or 35) / 100
     local hp, max = U.Get(UnitHealth, "player"), U.Get(UnitHealthMax, "player")
     if type(hp) == "number" and type(max) == "number" and max > 0 then
       if hp / max <= threshold then
@@ -182,8 +184,12 @@ function F.Apply(result)
     result.defensive = nil
   end
   local fromList = OutOfQueue(result)
+  local tankPick = ns.Tanks and ns.Tanks.Pick()
+  result.mitigation = tankPick
   if d and d.how == "decided" and not (ns.Display and ns.Display.Settings().defensive == false) then
     result.weave = { id = d.id, token = "defensive", source = "defensive", urgent = true }
+  elseif tankPick then
+    result.weave = tankPick
   elseif fromList then
     result.weave = { id = fromList.id, token = fromList.token, source = "defensive" }
   end

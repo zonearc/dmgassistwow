@@ -619,4 +619,12 @@ ns.LOCALE_DATA.koKR = {
   ["This spec's history"] = "이 전문화의 기록",
   ["Left of slot 1, top"] = "1번 칸 왼쪽, 위",
   ["Left of slot 1, bottom"] = "1번 칸 왼쪽, 아래",
+  ["For tank specs, slots 1-3 stay your damage rotation and your mitigation shows in the defensive icon, timed to how your spec tanks."] = "방어 전담 전문화는 1~3번 칸이 피해 순환으로 유지되고, 피해 감소 기술은 전문화의 방어 방식에 맞춰 방어 아이콘에 표시됩니다.",
+  ["For the tank spec you are in: at or below this much health your emergency button (Last Stand, Frenzied Regeneration, Vampiric Blood...) shows. Saved per spec."] = "현재 방어 전담 전문화: 생명력이 이 값 이하가 되면 비상 버튼(최후의 저항, 광란의 재생력, 흡혈의 피...)이 표시됩니다. 전문화별로 저장됩니다.",
+  ["Mitigation"] = "피해 감소",
+  ["Tank low health"] = "방어 전담: 생명력 낮음",
+  ["Tank mitigation in the defensive icon"] = "방어 아이콘에 방어 전담 피해 감소 표시",
+  ["Tanks"] = "방어 전담",
+  ["Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe."] = "팁: 피해 감소(빨간 아이콘)가 나타나면 바로 누르세요. 당신을 지키도록 시간이 맞춰져 있습니다.",
+  ["While you hold aggro, the defensive icon shows your keep-up buttons when they're due (Shield Block, Demon Spikes, Shield of the Righteous...), cooldowns before big hits your boss mod warns about, and Spell Reflection or Anti-Magic Shell for spells cast at you. Off: SimC's list decides, as for other specs."] = "위협 수준을 유지하는 동안 방어 아이콘에 유지 기술이 필요할 때 표시됩니다(방패 막기, 악마 쐐기, 정의의 방패...). 우두머리 애드온이 경고하는 강한 공격 전에는 재사용 대기시간 기술을, 자신에게 시전되는 주문에는 주문 반사나 대마법 보호막을 표시합니다. 끄기: 다른 전문화처럼 SimC 목록이 결정합니다.",
 }

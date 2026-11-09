@@ -402,6 +402,29 @@ function O.Register()
     "In combat, at or below this much health a defensive is suggested.", "%")
   Slider(combat, DB, "defensiveLead", "Big hit warning", G.defensiveLead or 3, 1, 8, 1,
     "Suggest a defensive this long before a big hit that a boss mod announces.", "s")
+  Header(combat, "Tanks", "For tank specs, slots 1-3 stay your damage rotation and your mitigation shows in the "
+    .. "defensive icon, timed to how your spec tanks.")
+  Check(combat, DB, "tankProfile", "Tank mitigation in the defensive icon", true,
+    "While you hold aggro, the defensive icon shows your keep-up buttons when they're due (Shield Block, Demon Spikes, "
+      .. "Shield of the Righteous...), cooldowns before big hits your boss mod warns about, and Spell Reflection or "
+      .. "Anti-Magic Shell for spells cast at you. Off: SimC's list decides, as for other specs.")
+  -- per spec: what a Protection Warrior wants may not suit a Blood Death Knight
+  local function TankHealth()
+    local db = ns.db
+    db.tankHealth = type(db.tankHealth) == "table" and db.tankHealth or {}
+    local spec = ns.Specs.current and ns.Specs.current.key or "?"
+    return setmetatable({}, {
+      __index = function()
+        return db.tankHealth[spec]
+      end,
+      __newindex = function(_, _, v)
+        db.tankHealth[spec] = v
+      end,
+    })
+  end
+  Slider(combat, TankHealth, "tankHealth", "Tank low health", ns.Tanks.HEALTH, 20, 80, 5,
+    "For the tank spec you are in: at or below this much health your emergency button (Last Stand, Frenzied "
+      .. "Regeneration, Vampiric Blood...) shows. Saved per spec.", "%")
   Header(combat, "When the icons show", "Hide the icons when you don't need them.")
   Check(combat, HUD, "hideOutOfCombat", "Hide out of combat", H.hideOutOfCombat,
     "Hide the icons outside combat (they still show with an enemy targeted, if the next option is on).")

@@ -615,3 +615,11 @@
 621	Historique de cette spécialisation
 622	À gauche de la case 1, en haut
 623	À gauche de la case 1, en bas
+624	Pour les spécialisations de tank, les cases 1-3 restent votre rotation de dégâts et votre atténuation s'affiche dans l'icône défensive, calée sur la façon dont votre spécialisation tanke.
+625	Pour la spécialisation de tank actuelle : à ce niveau de vie ou moins, votre bouton d'urgence (Dernier rempart, Régénération frénétique, Sang vampirique...) s'affiche. Enregistré par spécialisation.
+626	Atténuation
+627	Tank : vie basse
+628	Atténuation de tank dans l'icône défensive
+629	Tanks
+630	Conseil : appuyez sur votre atténuation (l'icône rouge) dès qu'elle apparaît ; elle est calée pour vous protéger.
+631	Tant que vous avez l'aggro, l'icône défensive montre vos boutons d'entretien quand ils sont dus (Maîtrise du blocage, Pointes démoniaques, Bouclier du vertueux...), les temps de recharge avant les gros coups annoncés par votre addon de boss, et Renvoi de sort ou Carapace anti-magie pour les sorts lancés sur vous. Désactivé : la liste de SimC décide, comme pour les autres spécialisations.

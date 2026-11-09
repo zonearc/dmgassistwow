@@ -745,6 +745,11 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         if run.trace then
           run.trace[#run.trace + 1] = string.format("%s:%s only while moving", name, a)
         end
+      elseif id and ns.Tanks and ns.Tanks.InIcon(a) then
+        -- a tank's mitigation: in the defensive icon (Tanks.lua), slots 1-3 stay the damage rotation
+        if run.trace then
+          run.trace[#run.trace + 1] = string.format("%s:%s in the defensive icon", name, a)
+        end
       elseif id and NotHurtSkip(a) then
         if run.trace then
           run.trace[#run.trace + 1] = string.format("%s:%s nothing to mitigate", name, a)

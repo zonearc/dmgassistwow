@@ -619,4 +619,12 @@ ns.LOCALE_DATA.ruRU = {
   ["This spec's history"] = "История этой специализации",
   ["Left of slot 1, top"] = "Слева от слота 1, сверху",
   ["Left of slot 1, bottom"] = "Слева от слота 1, снизу",
+  ["For tank specs, slots 1-3 stay your damage rotation and your mitigation shows in the defensive icon, timed to how your spec tanks."] = "Для специализаций танка слоты 1-3 остаются ротацией урона, а смягчение урона показывается в защитном значке, рассчитанное под то, как танкует ваша специализация.",
+  ["For the tank spec you are in: at or below this much health your emergency button (Last Stand, Frenzied Regeneration, Vampiric Blood...) shows. Saved per spec."] = "Для текущей специализации танка: при таком здоровье или ниже появляется экстренная кнопка (Ни шагу назад, Неистовое восстановление, Кровь вампира...). Сохраняется для каждой специализации.",
+  ["Mitigation"] = "Смягчение",
+  ["Tank low health"] = "Танк: мало здоровья",
+  ["Tank mitigation in the defensive icon"] = "Смягчение урона танка в защитном значке",
+  ["Tanks"] = "Танки",
+  ["Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe."] = "Совет: нажимайте смягчение (красный значок), как только оно появится; оно рассчитано, чтобы вас защитить.",
+  ["While you hold aggro, the defensive icon shows your keep-up buttons when they're due (Shield Block, Demon Spikes, Shield of the Righteous...), cooldowns before big hits your boss mod warns about, and Spell Reflection or Anti-Magic Shell for spells cast at you. Off: SimC's list decides, as for other specs."] = "Пока вы удерживаете угрозу, защитный значок показывает поддерживаемые способности, когда приходит их время (Блок щитом, Демонические шипы, Щит праведности...), восстановления перед сильными ударами, о которых предупреждает ваш аддон для боссов, и Отражение заклинания или Антимагический панцирь для заклинаний в вас. Выкл.: решает список SimC, как для других специализаций.",
 }

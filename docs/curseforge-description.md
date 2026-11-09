@@ -16,7 +16,7 @@ You press every button; it never plays for you.
 - Switches between single target and AoE automatically
 - Interrupts and defensives come first when they matter
 - Major cooldowns used where SimulationCraft uses them, or held
-- Every spec: DPS, tanks, and healers' damage between heals
+- Every spec: DPS, tanks (mitigation timed in its own icon), and healers' damage between heals
 - Leveling and alts: follows Blizzard's suggestions until you're ready
 - Reminds you of missing buffs, poisons and weapon imbues
 - Warns about spells on your bars with no keybind

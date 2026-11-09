@@ -619,4 +619,12 @@ ns.LOCALE_DATA.frFR = {
   ["This spec's history"] = "Historique de cette spécialisation",
   ["Left of slot 1, top"] = "À gauche de la case 1, en haut",
   ["Left of slot 1, bottom"] = "À gauche de la case 1, en bas",
+  ["For tank specs, slots 1-3 stay your damage rotation and your mitigation shows in the defensive icon, timed to how your spec tanks."] = "Pour les spécialisations de tank, les cases 1-3 restent votre rotation de dégâts et votre atténuation s'affiche dans l'icône défensive, calée sur la façon dont votre spécialisation tanke.",
+  ["For the tank spec you are in: at or below this much health your emergency button (Last Stand, Frenzied Regeneration, Vampiric Blood...) shows. Saved per spec."] = "Pour la spécialisation de tank actuelle : à ce niveau de vie ou moins, votre bouton d'urgence (Dernier rempart, Régénération frénétique, Sang vampirique...) s'affiche. Enregistré par spécialisation.",
+  ["Mitigation"] = "Atténuation",
+  ["Tank low health"] = "Tank : vie basse",
+  ["Tank mitigation in the defensive icon"] = "Atténuation de tank dans l'icône défensive",
+  ["Tanks"] = "Tanks",
+  ["Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe."] = "Conseil : appuyez sur votre atténuation (l'icône rouge) dès qu'elle apparaît ; elle est calée pour vous protéger.",
+  ["While you hold aggro, the defensive icon shows your keep-up buttons when they're due (Shield Block, Demon Spikes, Shield of the Righteous...), cooldowns before big hits your boss mod warns about, and Spell Reflection or Anti-Magic Shell for spells cast at you. Off: SimC's list decides, as for other specs."] = "Tant que vous avez l'aggro, l'icône défensive montre vos boutons d'entretien quand ils sont dus (Maîtrise du blocage, Pointes démoniaques, Bouclier du vertueux...), les temps de recharge avant les gros coups annoncés par votre addon de boss, et Renvoi de sort ou Carapace anti-magie pour les sorts lancés sur vous. Désactivé : la liste de SimC décide, comme pour les autres spécialisations.",
 }

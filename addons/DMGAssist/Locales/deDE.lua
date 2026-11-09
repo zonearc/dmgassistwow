@@ -619,4 +619,12 @@ ns.LOCALE_DATA.deDE = {
   ["This spec's history"] = "Verlauf dieser Spezialisierung",
   ["Left of slot 1, top"] = "Links von Platz 1, oben",
   ["Left of slot 1, bottom"] = "Links von Platz 1, unten",
+  ["For tank specs, slots 1-3 stay your damage rotation and your mitigation shows in the defensive icon, timed to how your spec tanks."] = "Für Tank-Spezialisierungen bleiben die Plätze 1-3 deine Schadensrotation, und deine Schadensminderung erscheint im Verteidigungssymbol, abgestimmt darauf, wie deine Spezialisierung tankt.",
+  ["For the tank spec you are in: at or below this much health your emergency button (Last Stand, Frenzied Regeneration, Vampiric Blood...) shows. Saved per spec."] = "Für die Tank-Spezialisierung, in der du bist: bei so viel Gesundheit oder weniger erscheint dein Notfallknopf (Letztes Gefecht, Rasende Regeneration, Vampirblut...). Pro Spezialisierung gespeichert.",
+  ["Mitigation"] = "Schadensminderung",
+  ["Tank low health"] = "Tank: wenig Gesundheit",
+  ["Tank mitigation in the defensive icon"] = "Tank-Schadensminderung im Verteidigungssymbol",
+  ["Tanks"] = "Tanks",
+  ["Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe."] = "Tipp: Drücke deine Schadensminderung (das rote Symbol), sobald sie erscheint; sie ist so getimt, dass sie dich schützt.",
+  ["While you hold aggro, the defensive icon shows your keep-up buttons when they're due (Shield Block, Demon Spikes, Shield of the Righteous...), cooldowns before big hits your boss mod warns about, and Spell Reflection or Anti-Magic Shell for spells cast at you. Off: SimC's list decides, as for other specs."] = "Solange du Aggro hast, zeigt das Verteidigungssymbol deine Aufrechterhaltungs-Fähigkeiten, wenn sie fällig sind (Schildblock, Dämonenstachel, Schild der Rechtschaffenen...), Abklingzeiten vor großen Treffern, vor denen dein Bossmod warnt, und Zauberreflexion oder Antimagische Hülle für Zauber auf dich. Aus: SimCs Liste entscheidet, wie bei anderen Spezialisierungen.",
 }

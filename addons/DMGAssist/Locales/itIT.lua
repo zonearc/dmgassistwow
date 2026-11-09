@@ -619,4 +619,12 @@ ns.LOCALE_DATA.itIT = {
   ["This spec's history"] = "Cronologia di questa specializzazione",
   ["Left of slot 1, top"] = "A sinistra dello slot 1, in alto",
   ["Left of slot 1, bottom"] = "A sinistra dello slot 1, in basso",
+  ["For tank specs, slots 1-3 stay your damage rotation and your mitigation shows in the defensive icon, timed to how your spec tanks."] = "Per le specializzazioni da difensore, gli slot 1-3 restano la tua rotazione di danni e la tua mitigazione appare nell'icona difensiva, sincronizzata con il modo in cui la tua specializzazione difende.",
+  ["For the tank spec you are in: at or below this much health your emergency button (Last Stand, Frenzied Regeneration, Vampiric Blood...) shows. Saved per spec."] = "Per la specializzazione da difensore attuale: con questa salute o meno appare il tuo pulsante d'emergenza (Ultima resistenza, Rigenerazione frenetica, Sangue vampirico...). Salvato per specializzazione.",
+  ["Mitigation"] = "Mitigazione",
+  ["Tank low health"] = "Difensore: salute bassa",
+  ["Tank mitigation in the defensive icon"] = "Mitigazione del difensore nell'icona difensiva",
+  ["Tanks"] = "Difensori",
+  ["Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe."] = "Suggerimento: premi la tua mitigazione (l'icona rossa) appena compare; è sincronizzata per tenerti al sicuro.",
+  ["While you hold aggro, the defensive icon shows your keep-up buttons when they're due (Shield Block, Demon Spikes, Shield of the Righteous...), cooldowns before big hits your boss mod warns about, and Spell Reflection or Anti-Magic Shell for spells cast at you. Off: SimC's list decides, as for other specs."] = "Finché hai l'aggro, l'icona difensiva mostra i pulsanti di mantenimento quando servono (Blocco con lo scudo, Spuntoni demoniaci, Scudo del Virtuoso...), i tempi di recupero prima dei colpi forti annunciati dal tuo addon dei boss, e Riflessione incantesimi o Guscio anti-magia per gli incantesimi lanciati su di te. Disattivato: decide la lista di SimC, come per le altre specializzazioni.",
 }

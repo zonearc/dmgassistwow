@@ -31,6 +31,7 @@ Core\State.lua
 Core\Clues.lua
 Core\BossMods.lua
 Core\Interrupts.lua
+Core\Tanks.lua
 Core\Defensives.lua
 Core\Essentials.lua
 Core\Trinkets.lua

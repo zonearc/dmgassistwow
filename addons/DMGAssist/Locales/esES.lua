@@ -619,4 +619,12 @@ ns.LOCALE_DATA.esES = {
   ["This spec's history"] = "Historial de esta especialización",
   ["Left of slot 1, top"] = "A la izquierda de la casilla 1, arriba",
   ["Left of slot 1, bottom"] = "A la izquierda de la casilla 1, abajo",
+  ["For tank specs, slots 1-3 stay your damage rotation and your mitigation shows in the defensive icon, timed to how your spec tanks."] = "En las especializaciones de tanque, las casillas 1-3 siguen siendo tu rotación de daño y tu mitigación aparece en el icono defensivo, sincronizada con cómo tanquea tu especialización.",
+  ["For the tank spec you are in: at or below this much health your emergency button (Last Stand, Frenzied Regeneration, Vampiric Blood...) shows. Saved per spec."] = "Para la especialización de tanque actual: con esta salud o menos aparece tu botón de emergencia (Última carga, Regeneración frenética, Sangre vampírica...). Se guarda por especialización.",
+  ["Mitigation"] = "Mitigación",
+  ["Tank low health"] = "Tanque: poca salud",
+  ["Tank mitigation in the defensive icon"] = "Mitigación de tanque en el icono defensivo",
+  ["Tanks"] = "Tanques",
+  ["Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe."] = "Consejo: pulsa tu mitigación (el icono rojo) en cuanto aparezca; está sincronizada para mantenerte a salvo.",
+  ["While you hold aggro, the defensive icon shows your keep-up buttons when they're due (Shield Block, Demon Spikes, Shield of the Righteous...), cooldowns before big hits your boss mod warns about, and Spell Reflection or Anti-Magic Shell for spells cast at you. Off: SimC's list decides, as for other specs."] = "Mientras tengas la amenaza, el icono defensivo muestra tus botones de mantenimiento cuando tocan (Bloqueo con escudo, Púas demoníacas, Escudo de los justos...), reutilizaciones antes de los golpes fuertes que avisa tu addon de jefes, y Reflejo de hechizos o Caparazón antimagia para hechizos lanzados contra ti. Desactivado: decide la lista de SimC, como en otras especializaciones.",
 }

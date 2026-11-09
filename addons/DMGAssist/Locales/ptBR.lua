@@ -619,4 +619,12 @@ ns.LOCALE_DATA.ptBR = {
   ["This spec's history"] = "Histórico desta especialização",
   ["Left of slot 1, top"] = "À esquerda do espaço 1, em cima",
   ["Left of slot 1, bottom"] = "À esquerda do espaço 1, embaixo",
+  ["For tank specs, slots 1-3 stay your damage rotation and your mitigation shows in the defensive icon, timed to how your spec tanks."] = "Para especializações de tanque, os espaços 1-3 continuam sendo sua rotação de dano e sua mitigação aparece no ícone defensivo, sincronizada com o jeito que sua especialização tanqueia.",
+  ["For the tank spec you are in: at or below this much health your emergency button (Last Stand, Frenzied Regeneration, Vampiric Blood...) shows. Saved per spec."] = "Para a especialização de tanque atual: com esta vida ou menos aparece seu botão de emergência (Último Recurso, Regeneração Frenética, Sangue Vampírico...). Salvo por especialização.",
+  ["Mitigation"] = "Mitigação",
+  ["Tank low health"] = "Tanque: vida baixa",
+  ["Tank mitigation in the defensive icon"] = "Mitigação de tanque no ícone defensivo",
+  ["Tanks"] = "Tanques",
+  ["Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe."] = "Dica: aperte sua mitigação (o ícone vermelho) assim que aparecer; ela está sincronizada para manter você seguro.",
+  ["While you hold aggro, the defensive icon shows your keep-up buttons when they're due (Shield Block, Demon Spikes, Shield of the Righteous...), cooldowns before big hits your boss mod warns about, and Spell Reflection or Anti-Magic Shell for spells cast at you. Off: SimC's list decides, as for other specs."] = "Enquanto você tiver a ameaça, o ícone defensivo mostra seus botões de manutenção quando chegam a hora (Bloqueio com Escudo, Espinhos Demoníacos, Escudo do Virtuoso...), recargas antes dos golpes fortes que seu addon de chefes avisa, e Reflexão de Feitiço ou Carapaça Antimagia para feitiços lançados em você. Desligado: a lista do SimC decide, como nas outras especializações.",
 }

@@ -619,4 +619,12 @@ ns.LOCALE_DATA.zhTW = {
   ["This spec's history"] = "此專精的紀錄",
   ["Left of slot 1, top"] = "1 號位左側，上方",
   ["Left of slot 1, bottom"] = "1 號位左側，下方",
+  ["For tank specs, slots 1-3 stay your damage rotation and your mitigation shows in the defensive icon, timed to how your spec tanks."] = "坦克專精的 1-3 號位保持傷害循環，減傷技能顯示在防禦圖示中，依你的專精坦克方式安排時機。",
+  ["For the tank spec you are in: at or below this much health your emergency button (Last Stand, Frenzied Regeneration, Vampiric Blood...) shows. Saved per spec."] = "目前坦克專精：生命值等於或低於此值時顯示緊急按鈕（破釜沉舟、狂暴回復、吸血鬼之血……）。依專精儲存。",
+  ["Mitigation"] = "減傷",
+  ["Tank low health"] = "坦克低生命值",
+  ["Tank mitigation in the defensive icon"] = "在防禦圖示中顯示坦克減傷",
+  ["Tanks"] = "坦克",
+  ["Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe."] = "提示：減傷（紅色圖示）一出現就按；它的時機是為了保護你。",
+  ["While you hold aggro, the defensive icon shows your keep-up buttons when they're due (Shield Block, Demon Spikes, Shield of the Righteous...), cooldowns before big hits your boss mod warns about, and Spell Reflection or Anti-Magic Shell for spells cast at you. Off: SimC's list decides, as for other specs."] = "你持有仇恨時，防禦圖示會在需要時顯示維持類按鈕（盾牌格擋、惡魔尖刺、正義聖盾……），在首領插件預警的重擊前顯示冷卻技能，並在有法術針對你時顯示法術反射或反魔法護罩。關閉：與其他專精一樣由 SimC 清單決定。",
 }

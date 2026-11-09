@@ -3981,6 +3981,55 @@ test("performance grade: a press of what slot 1 showed just before it switched c
   Gr.Reset()
 end)
 
+
+test("tank profile: keep-up while tanking, cooldowns before a tank hit, reflect for a spell at you, out of the slots", function()
+  Reset()
+  local ns = Boot()
+  local T = ns.Tanks
+  local ips, uts, uh = IsPlayerSpell, UnitThreatSituation, UnitHealth
+  local known = { [2565] = true, [190456] = true, [1160] = true, [871] = true, [23920] = true, [12975] = true }
+  IsPlayerSpell = function(id) return known[id] == true end -- luacheck: ignore 121
+  UnitThreatSituation = function() return 3 end -- luacheck: ignore 121
+  UnitHealth = function() return nil end -- luacheck: ignore 121 (hidden in combat)
+  ns.Specs.current.key = "warrior_protection"
+  mock.power[1], mock.powerReadable[1] = 80, true
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  eq(T.InIcon("shield_block"), true, "Shield Block lives in the defensive icon")
+  eq(T.InIcon("shield_slam"), false, "Shield Slam stays in the slots")
+  local p = T.Pick()
+  eq(p and p.token, "shield_block", "tanking, never cast: Shield Block is due")
+  eq(p.urgent, nil, "keep-up: steady, not pulsing")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 2565)
+  p = T.Pick()
+  eq(p and p.token, "ignore_pain", "Shield Block just cast: next keep-up")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 190456)
+  mock.power[1] = 30
+  eq(T.Pick(), nil, "both fresh, rage spent: nothing due")
+  mock.Advance(5.2)
+  p = T.Pick()
+  eq(p and p.token, "shield_block", "1 s before it ends: due again")
+  -- a boss mod tank hit in 2 s: the big cooldown, pulsing
+  ns.BossMods.timers.t1 = { kind = "role", expires = mock.now + 2 }
+  p = T.Pick()
+  eq(p and p.token, "demoralizing_shout")
+  eq(p.urgent, true)
+  ns.BossMods.timers.t1 = nil
+  ns.BossMods.timers.t2 = { kind = "targeted", expires = mock.now + 1.5 }
+  p = T.Pick()
+  eq(p and p.token, "spell_reflection", "a spell at you: Spell Reflection")
+  ns.BossMods.timers.t2 = nil
+  -- no aggro: no keep-up
+  UnitThreatSituation = function() return 0 end -- luacheck: ignore 121
+  eq(T.Pick(), nil, "not tanking: nothing")
+  eq(T.Health(), 50, "tank low-health default")
+  ns.db.tankProfile = false
+  eq(T.InIcon("shield_block"), false, "switched off: SimC's list decides")
+  ns.db.tankProfile = nil
+  IsPlayerSpell, UnitThreatSituation, UnitHealth = ips, uts, uh -- luacheck: ignore 121
+  mock.inCombat = false
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)
