@@ -626,6 +626,15 @@ function commands.lock()
   U.Print(ns.db.locked and L["Icon locked."] or L["Icon unlocked (drag to move)."])
 end
 
+function commands.test()
+  local kind = "defensive"
+  ns.BossMods.Test(kind, 8)
+  local id = ns.Defensives.Spell()
+  local name = id and U.Get(C_Spell and C_Spell.GetSpellName, id) or L["none available"]
+  U.Print(L["Test boss-mod %s alert for 8 s. It shows: %s (needs combat or an enemy target to be visible)."],
+    kind, tostring(name))
+end
+
 function commands.unbound()
   D.BuildKeymap()
   ns.Bindcheck.Print()
@@ -750,6 +759,7 @@ function commands.help()
     { "/dmga config", "open the settings panel" },
     { "/dmga keys", "refresh keybinds" },
     { "/dmga unbound", "list spells you can be told to cast that have no key binding" },
+    { "/dmga test", "pretend your boss mod called for a defensive (8 s), to check it shows" },
     { "/dmga snapshot", "store a full decision trace for troubleshooting" },
   }
   for _, line in ipairs(lines) do

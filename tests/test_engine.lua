@@ -682,6 +682,28 @@ test("self-heals only at or below the health setting, never in raids unless swit
   UnitHealth, UnitHealthMax, IsInInstance = old[1], old[2], old[3]
 end)
 
+test("/dmga test defensive: a pretend boss-mod call shows the first defensive that is ready", function()
+  Reset()
+  local book = {}
+  for i, b in ipairs(FERAL_BOOK) do
+    book[i] = b
+  end
+  book[#book + 1] = { spellID = 22812, name = "Barkskin" }
+  book[#book + 1] = { spellID = 61336, name = "Survival Instincts" }
+  mock.book = book
+  local ns = Boot()
+  SlashCmdList.DMGASSIST("test defensive")
+  local d = ns.Defensives.Evaluate()
+  eq(d and d.why, "bossmod")
+  eq(d.id, 22812, "the lighter one first")
+  mock.cooldowns[22812] = { active = true, start = mock.now, duration = 60 }
+  ns.State.lastCast[22812] = mock.now
+  d = ns.Defensives.Evaluate()
+  eq(d and d.id, 61336, "on cooldown: the next one")
+  mock.Advance(9)
+  eq(ns.Defensives.Evaluate() == nil or ns.Defensives.Evaluate().why ~= "bossmod", true, "the test ends")
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()

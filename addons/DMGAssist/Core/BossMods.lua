@@ -73,6 +73,12 @@ end
 local function Reset()
   B.timers, B.alerts, B.stage = {}, {}, nil
 end
+
+-- /dmga test defensive | interrupt: a pretend boss-mod alert, to see the HUD react (works with or without a boss
+-- mod installed; lasts `seconds`, default 8).
+function B.Test(kind, seconds)
+  B.alerts[kind] = { text = "Test", untilT = Now() + (tonumber(seconds) or 8), source = "test" }
+end
 B.Reset = Reset
 
 ---------------------------------------------------------------------------
