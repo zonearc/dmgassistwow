@@ -547,6 +547,14 @@ test("a spell the game calls known but that has no button (granted by a passive)
   IsPlayerSpell = old
 end)
 
+test("the assistant spending a resource confirms SimC's uncertain spender of the same resource only", function()
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  eq(G.SameSpender(1079, 22568), true, "Rip and Ferocious Bite both spend combo points")
+  eq(G.SameSpender(5221, 1822), false, "Shred and Rake only share energy: no evidence")
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()

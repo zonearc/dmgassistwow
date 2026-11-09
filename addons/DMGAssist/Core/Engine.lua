@@ -370,6 +370,28 @@ local function Waited(id, token, run, castable)
 end
 G.Waited = Waited
 
+-- Spender resources (power types): combo points, runic power, soul shards, astral power, holy power,
+-- maelstrom, chi, insanity, arcane charges, fury, essence. Not mana, rage, focus, energy or runes: everything
+-- costs those, so "the assistant spends some" says nothing about a particular line.
+G.SPENDER_POWER = { [4] = true, [6] = true, [7] = true, [8] = true, [9] = true, [11] = true, [12] = true,
+  [13] = true, [16] = true, [17] = true, [19] = true }
+
+-- Both spend the same spender resource: the assistant asking for one (Earthquake) says the resource is there for
+-- SimC's uncertain spender of it (Earth Shock), whose line was uncertain only because the amount is hidden.
+local function SameSpender(id, other)
+  local a, b = M.Cost(M.Info(id)), M.Cost(M.Info(other))
+  if not (a and b) then
+    return false
+  end
+  for pt, amount in pairs(a) do
+    if G.SPENDER_POWER[pt] and amount > 0 and (b[pt] or 0) > 0 then
+      return true
+    end
+  end
+  return false
+end
+G.SameSpender = SameSpender
+
 local function Corroborated(id, token, run, castable)
   -- The game's own button highlight (a proc glow: Earthquake / Earth Shock with enough Maelstrom, a free
   -- spender) says "press this" about exactly the hidden state that made the line uncertain.
@@ -382,6 +404,9 @@ local function Corroborated(id, token, run, castable)
     -- would let an uncertain filler shadow the certain lines below it (Balance: an uncertain Starfire over
     -- Fury of Elune while the assistant was saying Fury of Elune, seen in game 2026-11-08).
     if run.acSpell == id or run.acSpell == run.override[id] then
+      return "assisted"
+    end
+    if castable == true and SameSpender(id, run.acSpell) then
       return "assisted"
     end
     -- The major cooldowns are left out of the assistant by design: it never names them, so for them its
