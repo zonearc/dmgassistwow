@@ -696,8 +696,15 @@ end
 -- AOE once the count reaches the spec's switch point (State.AoeTargets).
 local MODE_COLOR = { ST = "|cff66ccff", AOE = "|cffff9933" }
 
+-- Healer specs (no SimC list): a clear, always-visible label that this is the limited mode.
+D.HEALER_TEXT = "|cff7fd17f%s|r |cff999999· %s|r"
+
 function D.ModeText()
   local S = ns.State
+  local state = ns.Specs and ns.Specs.current
+  if state and state.assistedOnly then
+    return string.format(D.HEALER_TEXT, L["Healer mode"], L["Blizzard's picks"]) .. D.HeldText()
+  end
   if not S.combatStart then
     return "" -- the mode only matters in a fight: nothing until combat starts
   end

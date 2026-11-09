@@ -119,6 +119,7 @@ test("healer spec without a SimC list follows Blizzard's Assisted Combat and say
   eq(ns.Specs.current.status, "ready", "the HUD still works")
   eq(ns.Specs.current.assistedOnly, true)
   eq(ns.Describe(ns.Specs.current):find("Assisted Combat", 1, true) ~= nil, true)
+  eq(ns.Display.ModeText():find("Healer mode", 1, true) ~= nil, true, "the HUD says so, in and out of combat")
 end)
 
 test("low-level character with no spec is handled", function()

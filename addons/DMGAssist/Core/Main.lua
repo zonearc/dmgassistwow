@@ -110,6 +110,12 @@ Specs.OnChange(function(state, previous)
   if previous then
     U.Print(L["Spec changed: %s"], Describe(state))
   end
+  if state.assistedOnly and not ns.healerExplained then
+    ns.healerExplained = true
+    U.Print("%s", L["Healer mode: SimC publishes no rotation for healing specs, so slot 1 follows Blizzard's "
+      .. "Assisted Combat (your damage spells between heals). Still on: interrupts, defensives with your boss mod, "
+      .. "on-use trinkets, keybinds and your Spells & trinkets choices. Healing itself stays your call."])
+  end
 end)
 
 ---------------------------------------------------------------------------
