@@ -1026,7 +1026,7 @@ test("a key spell SimC keeps wanting comes in once it has waited long enough", f
   eq(r.main.token ~= "rake", true, "filler stayed out: " .. tostring(r.main.token))
 end)
 
-test("steady slot 1: close to the press, slot 1 holds and a new pick goes to slot 2", function()
+test("steady slot 1: a flip shorter than the debounce never shows; a press shows the new pick at once", function()
   Reset()
   local ns = Boot()
   local G = ns.Engine
@@ -1035,15 +1035,29 @@ test("steady slot 1: close to the press, slot 1 holds and a new pick goes to slo
   local rip, shred, rake = { id = 1079, token = "rip" }, { id = 5221, token = "shred" }, { id = 1822, token = "rake" }
   local r = G.Steady({ main = rip, queue = { rip, shred, rake } })
   eq(r.main.token, "rip")
-  mock.now = mock.now + 0.2
+  mock.now = mock.now + 0.1
   r = G.Steady({ main = shred, queue = { shred, rip, rake } })
-  eq(r.main.token, "rip", "locked")
+  eq(r.main.token, "rip", "a 0.1 s flip: held")
   eq(r.queue[2].token, "shred", "the new pick is next")
   eq(r.queue[3].token, "rake")
   eq(#r.queue, 3)
-  mock.now = mock.now + 2
+  mock.now = mock.now + 0.1
+  r = G.Steady({ main = rake, queue = { rake, rip, shred } })
+  eq(r.main.token, "rip", "flipping on to a third spell: still held")
+  mock.now = mock.now + 0.1
+  r = G.Steady({ main = rip, queue = { rip, shred, rake } })
+  eq(r.main.token, "rip", "back again: never moved")
+  mock.now = mock.now + 0.1
+  G.Steady({ main = shred, queue = { shred, rip, rake } })
+  mock.now = mock.now + 0.4
   r = G.Steady({ main = shred, queue = { shred, rip, rake } })
-  eq(r.main.token, "shred", "the lock does not outlive LOCK_MAX")
+  eq(r.main.token, "shred", "a change that holds for the debounce shows")
+  -- a press (a new GCD starts): the new pick at once
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5221)
+  mock.cooldowns[61304] = { start = mock.now, duration = 1.5, active = true }
+  r = G.Steady({ main = rake, queue = { rake, rip, shred } })
+  eq(r.main.token, "rake", "after a press: at once")
+  mock.cooldowns[61304] = nil
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 

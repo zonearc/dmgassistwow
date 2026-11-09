@@ -1071,14 +1071,20 @@ function G.Recommend(record, opts)
   return result
 end
 
--- Steady slot 1. Close to the next press the decision can flip between two spells several times a second as
--- hidden state shifts; that is hard to follow. Inside the last moments before the GCD / cast ends, slot 1 is
--- locked to what it showed when the window opened, and a different new pick moves into slot 2 (it is next
--- anyway). The lock ends when the player presses something (a new GCD starts), when the locked spell stops
--- being castable, or after G.LOCK_MAX. Interrupts and defensives are applied after this and still take slot 1.
-G.LOCK_WINDOW = 1.0 -- the last second before the press: what you're reaching for stays put
-G.LOCK_MAX = 2.0
-local held
+-- Steady slot 1. Between two presses the decision can flip between spells several times a second as hidden
+-- state shifts (Blizzard's pick changing, a clock crossing "ready"); switching three times in a second is hard to
+-- follow (2026-11-09: Raptor Strike -> Wildfire Bomb -> Kill Command in 0.3 s). So:
+--   * after each press (a new GCD or cast starts) slot 1 shows the new pick at once;
+--   * after that, until the next press, a different pick replaces it only once it has held for G.DEBOUNCE;
+--     a flip shorter than that never shows, and moves to slot 2 meanwhile (it may be next);
+--   * the shown spell is dropped at once if the game refused your press of it, or once it has been
+--     uncastable for G.UNCASTABLE_FOR.
+-- Interrupts and defensives are applied after this and still take slot 1 at once.
+G.DEBOUNCE = 0.35
+G.UNCASTABLE_FOR = 0.2
+G.LOCK_MAX = 4.0 -- safety: a pick shown this long without a press is re-decided freely
+local held -- { pick, at, cand, candAt, badSince }
+local lastReady = 0
 
 function G.ReadyIn()
   local _, castLeft = S.CurrentCast()
@@ -1093,23 +1099,41 @@ function G.Steady(result)
   end
   local now = S.Now()
   local ready = G.ReadyIn()
-  if ready > G.LOCK_WINDOW then
-    held = nil
-    return result
-  end
-  if held and (now - held.at > G.LOCK_MAX or Castable(held.pick.id) == false) then
-    held = nil
-  end
-  if not held then
+  local pressed = ready > lastReady + 0.3 -- a new GCD or cast just started: you pressed something
+  lastReady = ready
+  if pressed or not held or now - held.at > G.LOCK_MAX then
     held = { pick = main, at = now }
     return result
   end
   if held.pick.id == main.id then
+    held.cand, held.badSince = nil, nil
+    return result
+  end
+  -- is the shown spell still pressable?
+  local ok, why = Castable(held.pick.id)
+  if why == "refused" then
+    held = { pick = main, at = now }
+    return result
+  end
+  if ok == false then
+    held.badSince = held.badSince or now
+    if now - held.badSince >= G.UNCASTABLE_FOR then
+      held = { pick = main, at = now }
+      return result
+    end
+  else
+    held.badSince = nil
+  end
+  -- a different pick: only after it has held for G.DEBOUNCE
+  if held.cand ~= main.id then
+    held.cand, held.candAt = main.id, now
+  elseif now - held.candAt >= G.DEBOUNCE then
+    held = { pick = main, at = now }
     return result
   end
   local queue, out = result.queue or { main }, { held.pick }
   for _, p in ipairs(queue) do
-    if p.id ~= held.pick.id and #out < #queue then
+    if p.id ~= held.pick.id and #out < math.max(#queue, 1) then
       out[#out + 1] = p
     end
   end
@@ -1118,5 +1142,5 @@ function G.Steady(result)
 end
 
 function G.ResetSteady()
-  held = nil
+  held, lastReady = nil, 0
 end
