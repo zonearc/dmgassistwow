@@ -250,6 +250,16 @@ function O.Register()
     "Skip the spell in the first slot three times and it is held until combat ends. Cast it yourself to bring it back.")
   Check(combat, DB, "castWhileMoving", "Casts while moving", false,
     "Off: while you move, spells with a cast time are skipped (instants and procs still show).")
+  Header(combat, "Leveling and alts")
+  Choice(combat, DB, "levelingMode", "Leveling", "auto", {
+    { "auto", "Automatic (suggested)" }, { "blizzard", "Always Blizzard's suggestions" },
+    { "simc", "Always DMGAssist's priority list" } },
+    "Automatic: below max level, while a character knows few of the spells the priority list expects, "
+      .. "Blizzard's Assisted Combat leads. It switches by itself as you learn more. Always Blizzard: for an alt "
+      .. "whose talents are far from the usual build.")
+  Check(combat, DB, "levelNotices", "New spell and talent notices", true,
+    "A chat line when you learn a spell DMGAssist can recommend that has no key (not when the game already put "
+      .. "it on a keyed button), and when you have unspent talent points after a level-up.")
   Check(combat, DB, "buffReminders", "Buff reminders", true,
     "Out of combat, a missing buff goes in slot 1: raid buffs, shields, weapon imbues, poisons, and Earth Shield "
       .. "or Beacon of Light on your tank. Each can be hidden on the Spells & trinkets page.")

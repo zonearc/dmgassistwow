@@ -22,13 +22,18 @@ local function Describe(state)
     string.format("%s, %s %s", tostring(state.client), tostring(state.class), tostring(state.key or state.specName or "-")),
     L[STATUS_TEXT[state.status] or tostring(state.status)],
   }
-  if state.assistedOnly then
+  if state.starter then
+    parts[#parts + 1] = L["starter spec: following Blizzard's Assisted Combat until you choose a specialization"]
+  elseif state.assistedOnly then
     parts[#parts + 1] = L["no SimC list for this spec: following Blizzard's Assisted Combat"]
   elseif state.data and state.data.community then
     parts[#parts + 1] = L["no SimC list for this spec: DMGAssist's own list, learned from the class guides"]
   elseif state.source then
     parts[#parts + 1] = string.format("SimC %s %s (%s)", tostring(state.source.branch), tostring(state.source.commit),
       tostring(state.source.date))
+  end
+  if state.leveling then
+    parts[#parts + 1] = L["leveling: following Blizzard's Assisted Combat until you know more of this spec's spells"]
   end
   return table.concat(parts, " | ")
 end
@@ -52,6 +57,16 @@ local function RefreshSpells()
   S.Calibrate()
   S.OnAura("player")
   S.OnTargetChanged()
+  local state = Specs.current
+  if state then
+    local was = state.leveling
+    ns.Leveling.Evaluate(state)
+    if was ~= nil and was ~= state.leveling then
+      U.Print("%s", state.leveling and L["Leveling: Blizzard's suggestions lead until you know more of this spec's spells."]
+        or L["You know enough of this spec's spells now: DMGAssist's priority list leads."])
+    end
+  end
+  ns.Leveling.OnSpellsChanged()
 end
 
 local spellRefreshPending = false
@@ -104,7 +119,7 @@ Specs.OnChange(function(state, previous)
     local gm = state.data.gameMatch
     U.Log("list_match", { spec = state.key, have = have, total = total, gameData = gm and (gm.matched .. "/" .. gm.total),
       source = state.data.simcSource, missing = table.concat(missing, ","):sub(1, 150) })
-    if total >= 5 and have / total < 0.5 then
+    if total >= 5 and have / total < 0.5 and not state.leveling and not state.assistedOnly then
       U.Print(L["Only %d of %d spells in this priority list are in your spellbook. Recommendations use what you have, "
         .. "so expect gaps (low level, talents, or a list written for another game version)."], have, total)
     end
@@ -274,6 +289,9 @@ end
 -- can be cast.
 local activeRecord
 function ns.ActiveRecord(state)
+  if state.leveling then
+    return ns.Leveling.Stub(state) -- Blizzard's assistant leads; the real list's spell data stays loaded
+  end
   local record = state.data
   local alt = record and record.alternate
   if alt then
@@ -337,7 +355,7 @@ function ns.Update()
   ns.Clues.ReadCooldownManager(S.ReadableAuras())
   local result = G.Recommend(ns.ActiveRecord(state), {
     burst = ns.BurstAllowed(),
-    useAssisted = (state.branch == "midnight" or state.assistedOnly) and ns.db.useAssisted ~= false,
+    useAssisted = (state.branch == "midnight" or state.assistedOnly or state.leveling) and ns.db.useAssisted ~= false,
   })
   result.callout = ns.BossMods.Callout()
   G.Steady(result)
@@ -363,7 +381,7 @@ function ns.Update()
       -- Why this pick: the same decision again with every line traced (one per change, capped per fight).
       S.unknownTerms = {}
       local traced = G.Recommend(ns.ActiveRecord(state), { burst = ns.BurstAllowed(), trace = true,
-        useAssisted = (state.branch == "midnight" or state.assistedOnly) and ns.db.useAssisted ~= false })
+        useAssisted = (state.branch == "midnight" or state.assistedOnly or state.leveling) and ns.db.useAssisted ~= false })
       ns.Diagnostics.Trace(result, traced.trace)
     end
     U.Log("pick", {
@@ -420,7 +438,8 @@ pcall(frame.RegisterUnitEvent, frame, "UNIT_AURA", "player", "target")
 
 local DEFAULTS = { enabled = true, burst = true,
   burstWhen = "always", bigPull = 5, skipHold = true, ironfurStacks = 3, tankEssentials = true,
-  gapClosers = true, trinkets = true, bindWarn = true, buffReminders = true, healAt = 35, healInRaids = false,
+  gapClosers = true, trinkets = true, bindWarn = true, buffReminders = true,
+  levelingMode = "auto", levelNotices = true, healAt = 35, healInRaids = false,
   atonementRamp = true, atonementTarget = 5, atonementLead = 8,
   mode = "aoe", autoDetect = true, aoeTargets = 3, fightLength = 300,
   useAssisted = true, queue = 3, smartFight = true, fightMode = "learned", aoeCount = "spec", bossMods = true, interruptMode = "smart",
@@ -479,6 +498,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     if spellsDirty then
       RequestSpellRefresh()
     end
+    ns.Leveling.OnCombatEnd()
   elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
     if arg1 == "player" then
       S.OnSpellcastSucceeded(arg3)
@@ -532,6 +552,9 @@ frame:SetScript("OnEvent", function(_, event, ...)
     Specs.RequestRefresh(event)
     if SPELL_EVENTS[event] then
       RequestSpellRefresh()
+    end
+    if event == "PLAYER_LEVEL_UP" then
+      ns.Leveling.OnLevelUp()
     end
   end
 end)
@@ -730,7 +753,7 @@ function commands.snapshot()
   end
   S.unknownTerms = {}
   local r = G.Recommend(ns.ActiveRecord(state), { burst = ns.BurstAllowed(), trace = true,
-    useAssisted = (state.branch == "midnight" or state.assistedOnly) and ns.db.useAssisted ~= false })
+    useAssisted = (state.branch == "midnight" or state.assistedOnly or state.leveling) and ns.db.useAssisted ~= false })
   local lines = r.trace or {}
   U.Log("snapshot", { spec = state.key, pick = r.main and r.main.token, source = r.main and r.main.source,
     lines = #lines, mode = r.modeLabel })

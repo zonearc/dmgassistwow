@@ -1243,6 +1243,70 @@ test("spells are matched by ID, so a German client works", function()
   eq(ns.L["Recommendations on."], "Empfehlungen an.")
 end)
 
+test("leveling: below max level with few of the list's spells, Blizzard's assistant leads; at max it doesn't", function()
+  Reset()
+  local ns = Boot()
+  local LV = ns.Leveling
+  local state = ns.Specs.current
+  local savedLevel = UnitLevel
+  GetMaxLevelForPlayerExpansion = function()
+    return 90
+  end
+  UnitLevel = function()
+    return 25
+  end
+  LV.Evaluate(state)
+  eq(state.leveling, true, "level 25, a handful of spells: Blizzard leads")
+  eq(ns.ActiveRecord(state).leveling, true, "the engine walks the empty stub")
+  eq(ns.Describe(state):find("leveling", 1, true) ~= nil, true, "Status says so")
+  ns.db.levelingMode = "simc"
+  LV.Evaluate(state)
+  eq(state.leveling, false, "Always DMGAssist's list")
+  ns.db.levelingMode = "auto"
+  UnitLevel = function()
+    return 90
+  end
+  LV.Evaluate(state)
+  eq(state.leveling, false, "max level: the list leads")
+  ns.db.levelingMode = "blizzard"
+  LV.Evaluate(state)
+  eq(state.leveling, true, "Always Blizzard")
+  ns.db.levelingMode = "auto"
+  LV.Evaluate(state)
+  UnitLevel, GetMaxLevelForPlayerExpansion = savedLevel, nil
+end)
+
+test("leveling: a new spell with no key gets one chat line; none when the game placed it on a keyed button", function()
+  Reset()
+  local ns = Boot()
+  local LV = ns.Leveling
+  local spells = { 5221 }
+  ns.Choices.Spells = function()
+    return spells
+  end
+  LV.baseline = nil
+  LV.told = {}
+  LV.OnSpellsChanged() -- first call: baseline only
+  spells = { 5221, 1079 }
+  local keyed = false
+  local realKey = ns.Display.Keybind
+  ns.Display.Keybind = function(id)
+    return keyed and "1" or nil
+  end
+  mock.printed = {}
+  LV.OnSpellsChanged()
+  mock.Advance(LV.NOTICE_DELAY + 0.1)
+  local said = table.concat(mock.printed, "\n")
+  eq(said:find("New spell", 1, true) ~= nil, true, "told about the new spell: " .. said)
+  spells = { 5221, 1079, 22568 }
+  keyed = true
+  mock.printed = {}
+  LV.OnSpellsChanged()
+  mock.Advance(LV.NOTICE_DELAY + 0.1)
+  eq(#mock.printed, 0, "the game put it on a keyed button: nothing to say")
+  ns.Display.Keybind = realKey
+end)
+
 test("look-ahead: a DoT applied in slot 1 is not recommended again in slot 2", function()
   Reset()
   local ns = Boot()

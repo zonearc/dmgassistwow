@@ -122,17 +122,25 @@ test("healer spec without a SimC list runs DMGAssist's own list and says so", fu
   eq(ns.Display.ModeText():find("Healer", 1, true), nil, "no special title: the Help page explains it")
 end)
 
-test("low-level character with no spec is handled", function()
+test("low-level character with no spec follows Blizzard's assistant", function()
   mock.specIndex = nil
   local ns = Boot("camelot", 18)
-  eq(ns.Specs.current.status, "no_spec")
+  eq(ns.Specs.current.status, "ready")
+  eq(ns.Specs.current.starter, true, "starter: Blizzard's assistant leads")
+  eq(ns.Describe(ns.Specs.current):find("starter spec", 1, true) ~= nil, true)
   mock.specIndex = 2
 end)
 
-test("unknown spec ID is reported, not crashed on", function()
-  mock.class, mock.specs, mock.specIndex = { "Druid", "DRUID", 11 }, { [1] = 99999 }, 1
+test("a starter spec ID (no SimC list) follows Blizzard's assistant, not crashed on", function()
+  mock.class, mock.specs, mock.specIndex = { "Druid", "DRUID", 11 }, { [1] = 1447 }, 1
   local ns = Boot("standard", 1)
-  eq(ns.Specs.current.status, "unknown_spec")
+  eq(ns.Specs.current.status, "ready")
+  eq(ns.Specs.current.key, "druid_starter")
+  local saved = C_AssistedCombat
+  C_AssistedCombat = nil
+  ns = Boot("standard", 1)
+  eq(ns.Specs.current.status, "unknown_spec", "without the assistant it is still reported")
+  C_AssistedCombat = saved
 end)
 
 test("unsupported client is reported", function()

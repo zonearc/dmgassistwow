@@ -88,6 +88,14 @@ function S.Detect()
   state.key = key
   if not client.branch then
     state.status = "unsupported_client"
+  elseif (not index or not key) and C_AssistedCombat and C_AssistedCombat.GetNextCastSpell and state.class then
+    -- A new character's starter spec (or none chosen yet): no SimC list exists for it, but Blizzard's assistant
+    -- knows exactly what a level 5 character can cast, so slot 1 follows it.
+    state.key = string.lower(state.class) .. "_starter"
+    state.data = { key = state.key, simc = { default = {} }, simcOrder = { "default" }, assistedOnly = true }
+    state.status = "ready"
+    state.assistedOnly = true
+    state.starter = true
   elseif not index then
     state.status = "no_spec"            -- low-level characters before choosing a specialization
   elseif not key then
