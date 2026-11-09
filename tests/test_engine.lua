@@ -432,6 +432,63 @@ test("buff reminders: a missing raid buff, a weapon imbue, our shield on the tan
   GetWeaponEnchantInfo, UnitGroupRolesAssigned = nil, nil
 end)
 
+test("trinkets: SimC's questions about what a trinket does are answered from its description (Survival)", function()
+  Reset()
+  local ns = Boot()
+  local T, G = ns.Trinkets, ns.Engine
+  local tr = T.ParseUse("Compel an oathbound Shadowguard squad to annihilate your target and nearby enemies, "
+    .. "dealing 58035 Cosmic damage split between them. Damage increased by 30% per additional enemy, up to 150%. "
+    .. "(2 Min Cooldown)")
+  eq(tr.damage, true)
+  eq(tr.buff, nil)
+  eq(tr.cd, 120)
+  tr = T.ParseUse("Consume all Latent Power to gain 13 Agility per stack for 20 sec. (30 Sec Cooldown)")
+  eq(tr.buff, true)
+  eq(tr.buffs.agility, true)
+  eq(tr.buffs.haste, nil)
+  eq(tr.damage, false)
+  eq(tr.cd, 30)
+  eq(tr.duration, 20)
+  -- equipped: Perfidious Projector (damage) and Unyielding Netherprism (Agility)
+  GetInventoryItemID = function(_, slot)
+    return ({ [13] = 2001, [14] = 2002 })[slot]
+  end
+  local saved = { C_Item = C_Item, desc = C_Spell.GetSpellDescription, cd = GetInventoryItemCooldown }
+  C_Item = { GetItemSpell = function(item)
+    return "Use", item == 2001 and 9101 or 9102
+  end, GetItemNameByID = function(item)
+    return item == 2001 and "Perfidious Projector" or "Unyielding Netherprism"
+  end }
+  C_Spell.GetSpellDescription = function(id)
+    if id == 9101 then
+      return "Compel an oathbound Shadowguard squad to annihilate your target, dealing 58035 Cosmic damage. (2 Min Cooldown)"
+    end
+    return "Consume all Latent Power to gain 13 Agility per stack for 20 sec. (30 Sec Cooldown)"
+  end
+  GetInventoryItemCooldown = function()
+    return 0, 0, 1
+  end
+  local rec = ns.Data.specs.midnight.hunter_survival
+  ns.SpellMap.SetData(rec)
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  T.this = 13
+  eq(ns.State.Resolve("this_trinket.has_use_damage", {}), 1)
+  eq(ns.State.Resolve("other_trinket.has_use_buff", {}), 1)
+  eq(ns.State.Resolve("this_trinket.cooldown.duration", {}), 120)
+  eq(ns.State.Resolve("this_trinket.is.perfidious_projector", {}), 1)
+  T.this = nil
+  eq(ns.State.Resolve("trinket.2.has_buff.agility", {}), 1)
+  eq(ns.State.Resolve("trinket.2.has_buff.haste", {}), 0)
+  local r = G.Recommend(rec, { burst = true })
+  eq(r.useItems.trinket1 ~= false, true, "the damage trinket: SimC says use it")
+  local main = { id = 186270, token = "raptor_strike" }
+  local applied = T.Apply({ main = main, queue = { main }, useItems = r.useItems })
+  eq(applied.weave and applied.weave.item, 2001, "shown")
+  C_Item, C_Spell.GetSpellDescription, GetInventoryItemCooldown = saved.C_Item, saved.desc, saved.cd
+  mock.inCombat = false
+end)
+
 test("on-use trinkets: every equipped one by default, switched off per trinket, SimC's use_items respected", function()
   Reset()
   local ns = Boot()
@@ -1395,11 +1452,19 @@ test("Bloodlust with readable haste: the jump is compared with the value before 
   local S = ns.State
   mock.haste = 10
   S.HasteFactor()
+  mock.haste = 43 -- out of combat (after a fight): not a boost
+  S.HasteFactor()
+  eq(S.boost.lust, nil, "out of combat: no boost")
+  mock.haste = 10
+  S.HasteFactor()
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
   mock.haste = 43 -- 1.10 -> 1.43: x1.3
   S.HasteFactor() -- read before the event arrives
   S.OnHasteChanged()
   eq(S.boost.lust ~= nil, true, "detected")
   mock.haste = nil
+  mock.inCombat = false
 end)
 
 test("Blizzard naming a spell our clock says is well off: our clock is wrong, it's ready; a moment early: ours stands", function()

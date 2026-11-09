@@ -653,14 +653,34 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
       end
     elseif (a == "use_items" or a == "use_item") and not isBlizzard then
       -- On-use trinkets are shown by the Trinkets module; here we only note what the list says about them.
+      -- Checked per trinket: "this_trinket" is each equipped one in turn (use_items), or the one named (use_item).
       local p = e.p or {}
-      local key = a == "use_items" and "all" or (p.slot and tostring(p.slot))
-        or (p.name and ("name:" .. tostring(p.name)))
-      if key then
-        run.useItems = run.useItems or {}
+      local T = ns.Trinkets
+      local checks = {}
+      if a == "use_items" then
+        for i, slot in ipairs(T.SLOTS) do
+          checks[#checks + 1] = { "trinket" .. i, slot }
+        end
+      elseif p.slot then
+        checks[1] = { tostring(p.slot), tostring(p.slot) == "trinket2" and 14 or 13 }
+      elseif p.name then
+        local this
+        for _, slot in ipairs(T.SLOTS) do
+          local info = T.Info(slot)
+          if info and T.Token(info.name) == tostring(p.name) then
+            this = slot
+          end
+        end
+        checks[1] = { "name:" .. tostring(p.name), this }
+      end
+      run.useItems = run.useItems or {}
+      for _, c in ipairs(checks) do
+        local key = c[1]
         local was = run.useItems[key]
         if was ~= true then -- several lines for one item: any "yes" is a yes
+          T.this = c[2]
           local t = Test(e.c, run)
+          T.this = nil
           if maybe and t == true then
             t = UNKNOWN
           end

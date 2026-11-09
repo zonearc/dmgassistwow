@@ -115,6 +115,181 @@ local function Usable(info)
   return U.Read((U.Call(f, info.item))) ~= false
 end
 
+---------------------------------------------------------------------------
+-- What each trinket does, for SimC's trinket questions (this_trinket.has_use_damage, trinket.1.has_buff.haste,
+-- this_trinket.cooldown.duration, trinket.2.is.<name>, ...). From the game's own description of the use effect
+-- ("Use: ... dealing 58035 Cosmic damage ..." / "Use: ... gain 13 Agility per stack for 20 sec. (30 Sec
+-- Cooldown)"), read once per item. Before this, every such question was "no", so lists that only use a trinket
+-- by what it does (Survival) never showed one (2026-11-09).
+---------------------------------------------------------------------------
+T.traits = {} -- item -> traits
+local STATS = { agility = "agility", strength = "strength", intellect = "intellect", haste = "haste",
+  ["critical strike"] = "crit", mastery = "mastery", versatility = "versatility" }
+
+local function UseText(info)
+  local text
+  if C_Spell and C_Spell.GetSpellDescription then
+    text = Read(C_Spell.GetSpellDescription, info.spell)
+  end
+  if (type(text) ~= "string" or text == "") and C_TooltipInfo and C_TooltipInfo.GetInventoryItem then
+    local data = U.Read((U.Call(C_TooltipInfo.GetInventoryItem, "player", info.slot)))
+    if type(data) == "table" and type(data.lines) == "table" then
+      for _, line in ipairs(data.lines) do
+        local t = U.Read(line.leftText)
+        if type(t) == "string" and t:find("^Use:") then
+          text = t
+        end
+      end
+    end
+  end
+  return type(text) == "string" and text ~= "" and text or nil
+end
+
+function T.ParseUse(text)
+  local low = text:lower()
+  local tr = { buffs = {} }
+  for word, stat in pairs(STATS) do
+    if low:find("gain[^.]-" .. word) or low:find("increas[^.]-" .. word) or low:find(word .. " increased") then
+      tr.buffs[stat] = true
+      tr.buff = true
+    end
+  end
+  if not tr.buff and (low:find("^gain ") or low:find(" gain ") or low:find("increases your")) then
+    tr.buff = true
+  end
+  tr.damage = low:find("damage") ~= nil and (low:find("deal") ~= nil or low:find("inflict") ~= nil
+    or low:find("damage to") ~= nil) or false
+  local n, unit = low:match("%((%d+%.?%d*) (%a+) cooldown%)")
+  if n then
+    tr.cd = tonumber(n) * ((unit:find("^min") and 60) or (unit:find("^hour") and 3600) or 1)
+  end
+  local dur = low:match("for (%d+%.?%d*) sec")
+  tr.duration = dur and tonumber(dur) or nil
+  return tr
+end
+
+function T.Traits(slot)
+  local info = T.Info(slot)
+  if not info then
+    return nil
+  end
+  local tr = T.traits[info.item]
+  if tr == nil then
+    local text = UseText(info)
+    tr = text and T.ParseUse(text) or false -- false: unreadable for now, asked again next time
+    if tr then
+      tr.token = T.Token(info.name)
+      T.traits[info.item] = tr
+      local stats = {}
+      for k in pairs(tr.buffs) do
+        stats[#stats + 1] = k
+      end
+      table.sort(stats)
+      U.Log("trinket_read", { name = tr.token, damage = tr.damage and 1 or 0, buff = tr.buff and 1 or 0,
+        stats = table.concat(stats, "+"), cd = tr.cd or "?", slot = slot })
+    end
+  end
+  return tr or nil, info
+end
+
+local function Num(v)
+  return v and 1 or 0
+end
+
+-- p = the term split on dots, i = index of the field after the trinket ("has_use_buff", "is", "cooldown", ...).
+function T.Term(slot, p, i)
+  local UNKNOWN = ns.Expr and ns.Expr.UNKNOWN
+  local item = Read(GetInventoryItemID, "player", slot)
+  local f = p[i]
+  if f == "is" then
+    local info = T.Info(slot)
+    local name = info and info.name
+    if not name and type(item) == "number" then
+      name = C_Item and C_Item.GetItemNameByID and Read(C_Item.GetItemNameByID, item)
+    end
+    if not name then
+      return type(item) == "number" and UNKNOWN or 0
+    end
+    return Num(T.Token(name) == p[i + 1])
+  end
+  if f == "ilvl" then
+    local lvl = type(item) == "number" and GetDetailedItemLevelInfo and Read(GetDetailedItemLevelInfo, item)
+    return type(lvl) == "number" and lvl or UNKNOWN
+  end
+  if f == "cast_time" then
+    return 0
+  end
+  local tr, info = T.Traits(slot)
+  if not info then
+    -- nothing to use in this slot (empty or a passive trinket)
+    if f == "has_use_buff" or f == "has_use_damage" or f == "has_buff" or f == "has_cooldown" then
+      return 0
+    end
+    return UNKNOWN
+  end
+  if f == "cooldown" then
+    local g = p[i + 1] or "ready"
+    local cd = (tr and tr.cd) or T.cd[slot]
+    if g == "duration" then
+      return cd or UNKNOWN
+    end
+    local ready = T.Ready(info)
+    if g == "ready" or g == "up" then
+      return Num(ready)
+    end
+    if g == "remains" then
+      if ready then
+        return 0
+      end
+      local start, duration = U.Call(GetInventoryItemCooldown, "player", slot)
+      start, duration = U.Read(start), U.Read(duration)
+      if type(start) == "number" and type(duration) == "number" and duration > 0 then
+        return math.max(0, start + duration - GetTime())
+      end
+      local last = T.used[slot]
+      return last and cd and math.max(0, cd - (GetTime() - last)) or UNKNOWN
+    end
+    return UNKNOWN
+  end
+  if f == "has_cooldown" then
+    return Num(info ~= nil)
+  end
+  if not tr then
+    return UNKNOWN
+  end
+  if f == "has_use_buff" then
+    return Num(tr.buff)
+  elseif f == "has_use_damage" then
+    return Num(tr.damage)
+  elseif f == "has_buff" or f == "has_stat" then
+    local stat = p[i + 1]
+    if stat == "any" or stat == "any_dps" or stat == "main_stat" or stat == "primary" then
+      return Num(tr.buff)
+    end
+    if stat == "crit_rating" then
+      stat = "crit"
+    end
+    return Num(tr.buffs[(stat or ""):gsub("_rating$", "")])
+  elseif f == "proc" then
+    if p[i + 2] == "duration" then
+      return tr.duration or (tr.buff and UNKNOWN) or 0
+    end
+    return UNKNOWN
+  end
+  return UNKNOWN
+end
+
+-- this_trinket / other_trinket: the trinket a use_items line is being checked for (Engine sets T.this).
+function T.ThisSlot(which)
+  if not T.this then
+    return nil
+  end
+  if which == "this_trinket" then
+    return T.this
+  end
+  return T.this == 13 and 14 or 13
+end
+
 -- What the SimC list said about using items this decision (Engine records use_items / use_item lines).
 function T.SimcAllows(result, info)
   local u = result and result.useItems

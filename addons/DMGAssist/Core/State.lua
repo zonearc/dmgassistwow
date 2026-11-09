@@ -488,6 +488,9 @@ local function ClassifyHaste(factor, read)
 end
 
 function S.OnHasteJump(before, after)
+  if not S.combatStart then
+    return -- out of combat the readable value just catches up after a fight; not a new boost
+  end
   hasteChange = { at = GetTime(), before = before, seen = 0 }
   ClassifyHaste(after, true)
 end
@@ -2409,7 +2412,7 @@ local function AuraTerm(unit, token, field)
 end
 
 local STATIC_ZERO = { set_bonus = true, equipped = true, trinket = true, main_hand = true, off_hand = true,
-  item = true, bugs = true, covenant = true, runeforge = true, this_trinket = true, other_trinket = true,
+  item = true, bugs = true, covenant = true, runeforge = true,
   consumable = true, potion = true, apex = true }
 
 local function CombatTime()
@@ -2575,6 +2578,14 @@ function S.Resolve(name, ctx)
       return 10000
     end
     return 0
+  elseif (head == "this_trinket" or head == "other_trinket") and ns.Trinkets then
+    local slot = ns.Trinkets.ThisSlot(head)
+    if not slot then
+      return UNKNOWN
+    end
+    return ns.Trinkets.Term(slot, p, 2)
+  elseif head == "trinket" and (p[2] == "1" or p[2] == "2") and ns.Trinkets then
+    return ns.Trinkets.Term(12 + tonumber(p[2]), p, 3)
   elseif STATIC_ZERO[head] then
     return 0
   elseif head == "level" then
