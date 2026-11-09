@@ -1064,7 +1064,7 @@ function D.RenderTiming(f, cfg)
   if f.readyAt and f.readyFor ~= id then
     local left = f.readyId and ns.State.CooldownRemains(f.readyId)
     if type(left) ~= "number" then
-      left = f.readyAt - GetTime()
+      left = 0 -- no clock to show: don't guess a shade
     end
     cdLeft = math.min(left, f.readyAt - GetTime() + 0.5)
   end

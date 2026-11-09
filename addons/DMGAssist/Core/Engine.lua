@@ -368,19 +368,27 @@ local function Castable(id)
   end
   local ahead = S.Lookahead()
   local first = not ahead or #ahead.prev == 0
+  -- Blizzard's assistant names this very spell right now: the game says it can be afforded (our estimate of a
+  -- hidden resource can be low: Survival's focus held Raptor Strike back for seconds, 2026-11-09).
+  local named = first and G.acNow and (G.acNow == id or (M.baseOf and M.baseOf[G.acNow] == id))
   if not usable then
     if noPower ~= true then
       return false
     end
-    if not ahead then
+    if named then -- luacheck: ignore 542
+      -- trust the game: affordable
+    elseif not ahead then
       return false, "power"
+    else
+      -- Can't afford it now; by the look-ahead moment we may (resources gained in between).
+      local afford = S.Affordable(id)
+      if afford ~= true then
+        return false, "power"
+      end
     end
-    -- Can't afford it now; by the look-ahead moment we may (resources gained in between).
-    local afford = S.Affordable(id)
-    if afford ~= true then
-      return false, "power"
-    end
-  elseif ahead and S.Affordable(id) == false then
+  elseif ahead and not first and S.Affordable(id) == false then
+    -- (Usable now per the game: resources only grow until the next press. Our estimate is only for predicting
+    -- slots 2-3 after casts we pretend.)
     return false, "power"
   end
   if first and S.moving and not (ns.db and ns.db.castWhileMoving) and CastTime(id) > 0 then
@@ -801,10 +809,14 @@ local function Decide(record, opts, targets, first)
     return v
   end
   run.bounds = S.Bounds
+  if first then
+    G.acNow = nil
+  end
   if first and opts.useAssisted then
     local ac = U.Get(C_AssistedCombat and C_AssistedCombat.GetNextCastSpell, false)
     if type(ac) == "number" then
       run.acSpell = ac
+      G.acNow = ac
       setmetatable(run.override, { __index = function(t, id)
         local o = U.Get(C_Spell and C_Spell.GetOverrideSpell, id)
         t[id] = o or false
@@ -919,11 +931,12 @@ local function DecideAhead(record, opts, targets, first)
       -- When it comes off cooldown, from its own cooldown clock (the half-second steps above only find it; using
       -- them as the time made slot 1 jump between "not yet" and "now" and flash over and over, 2026-11-09).
       v.dt = base
+      -- The "not yet" shade only from a real clock (its cooldown). A wait for a resource we estimate isn't shaded:
+      -- the estimate can be seconds off (Raptor Strike shaded while ready on the bar, Survival 2026-11-09).
       local left = S.CooldownRemains(later.main.id)
-      if type(left) ~= "number" then
-        left = waited
+      if type(left) == "number" and left > 0 then
+        later.main.readyAt = GetTime() + base + math.min(left, waited)
       end
-      later.main.readyAt = GetTime() + base + math.min(left, waited)
       return later
     end
   end
