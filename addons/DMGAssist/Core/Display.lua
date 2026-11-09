@@ -379,6 +379,9 @@ end
 
 -- The key for a pick: its item's when it is one, else its spell's.
 function D.PickKeybind(pick)
+  if pick and pick.sample then
+    return nil -- the preview's sample icons
+  end
   if pick and pick.item then
     return D.ItemKeybind(pick.item)
   end
@@ -712,6 +715,64 @@ function D.Create()
 end
 
 -- Re-apply every setting to the existing frame.
+---------------------------------------------------------------------------
+-- Live preview beside the settings window: the settings panel covers the middle of the screen, where most
+-- people keep the HUD, so while it is open the HUD docks next to it (above it), with a sample defensive and
+-- item showing, and every change is visible as it is made. Closing the settings puts it back where it was.
+---------------------------------------------------------------------------
+D.SAMPLE_DEFENSIVE = { texture = "Interface\\Icons\\Spell_Holy_PowerWordShield", source = "defensive", sample = true }
+D.SAMPLE_ITEM = { texture = "Interface\\Icons\\INV_Potion_54", item = 0, source = "potion", sample = true }
+
+local function RestorePosition(f)
+  f:ClearAllPoints()
+  local pos = ns.db and type(ns.db.point) == "table" and ns.db.point or nil
+  if pos then
+    f:SetPoint(pos[1] or "CENTER", UIParent, pos[2] or "CENTER", tonumber(pos[3]) or 0, tonumber(pos[4]) or -150)
+  else
+    f:SetPoint("CENTER", UIParent, "CENTER", 0, -150)
+  end
+end
+
+function D.SetPreviewDock(on)
+  local f = D.frame
+  if not f or (on and f.docked) or (not on and not f.docked) then
+    return
+  end
+  local panel = SettingsPanel
+  if on and panel then
+    f.docked, f.strata = true, f:GetFrameStrata()
+    f:SetFrameStrata("FULLSCREEN_DIALOG")
+    f:EnableMouse(false) -- not draggable while docked: the saved position stays yours
+    f:ClearAllPoints()
+    local right = (U.Get(panel.GetRight, panel) or 0) * (U.Get(panel.GetEffectiveScale, panel) or 1)
+    local screen = (U.Get(UIParent.GetRight, UIParent) or 0) * (U.Get(UIParent.GetEffectiveScale, UIParent) or 1)
+    local need = ((U.Get(f.GetWidth, f) or 200) + 24) * (U.Get(f.GetEffectiveScale, f) or 1)
+    if right + need <= screen then
+      f:SetPoint("TOPLEFT", panel, "TOPRIGHT", 16, -60)
+    else
+      f:SetPoint("TOPRIGHT", panel, "TOPLEFT", -16, -60)
+    end
+    if not f.previewLabel then
+      f.previewLabel = f:CreateFontString(nil, "OVERLAY")
+      SetFont(f.previewLabel, 11)
+      f.previewLabel:SetPoint("BOTTOMLEFT", f, "TOPLEFT", 0, 6)
+      f.previewLabel:SetWidth(220)
+      f.previewLabel:SetJustifyH("LEFT")
+      f.previewLabel:SetTextColor(GOLD[1], GOLD[2], GOLD[3])
+    end
+    f.previewLabel:SetText(L["Preview. Back in its place when you close the settings."])
+    f.previewLabel:Show()
+  elseif not on then
+    f.docked = false
+    f:SetFrameStrata(f.strata or "MEDIUM")
+    RestorePosition(f)
+    D.SetLocked(ns.db and ns.db.locked)
+    if f.previewLabel then
+      f.previewLabel:Hide()
+    end
+  end
+end
+
 function D.Rebuild()
   local f = D.frame
   if not f then

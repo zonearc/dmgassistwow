@@ -50,7 +50,7 @@ read_globals = {
   "GetRealZoneText", "GetSpecialization", "GetSpecializationInfo", "GetTime", "InCombatLockdown",
   "IsInInstance", "UIParent", "UnitClass", "UnitHealth", "UnitLevel", "UnitPower", "UnitPowerMax",
   "canaccessvalue", "date", "debugprofilestop", "debugstack", "geterrorhandler", "issecretvalue",
-  "seterrorhandler", "tinsert", "wipe", "GetNetStats", "C_Container", "GetItemCooldown", "GetCursorInfo", "ClearCursor", "C_TooltipInfo", "GetDetailedItemLevelInfo", "GetPowerRegen", "UnitPowerType",
+  "seterrorhandler", "tinsert", "wipe", "GetNetStats", "IsAddOnLoaded", "C_Container", "GetItemCooldown", "GetCursorInfo", "ClearCursor", "C_TooltipInfo", "GetDetailedItemLevelInfo", "GetPowerRegen", "UnitPowerType",
 }
 
 files["addons/DMGAssist/Locales/**"] = { max_line_length = false } -- generated translations

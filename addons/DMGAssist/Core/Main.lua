@@ -245,6 +245,7 @@ function ns.StatusLines()
   add("Talents loaded", M.talentsRead and L["yes"] or L["no"])
   add("Interrupt spell", tostring(D.InterruptSpell() and U.Get(C_Spell and C_Spell.GetSpellName, D.InterruptSpell())
     or "-"))
+  add("Other addons in use", ns.Integrations.InUse() or L["none"])
   add("Watchdog (diagnostics)", type(_G.DMGAssistWatchdog) == "table" and L["installed"] or L["not installed"])
   return out
 end
@@ -357,6 +358,9 @@ function ns.Update()
   ns.Bindcheck.MaybeNotice(inCombat)
   ns.Diagnostics.Tick()
   local show = ShouldShow()
+  -- the settings window is open: dock the HUD beside it as a live preview (see Display.lua)
+  local settingsOpen = not inCombat and SettingsPanel ~= nil and U.Get(SettingsPanel.IsShown, SettingsPanel) == true
+  D.SetPreviewDock(settingsOpen and show)
   if not show then
     D.Update(nil, false)
     return nil
@@ -380,6 +384,11 @@ function ns.Update()
   ns.Choices.Filter(result)
   ns.Alerts(result)
   ns.Diagnostics.OnPick(result)
+  if settingsOpen then
+    -- preview: both small icons shown, so their position and size can be set
+    result.weave = result.weave or D.SAMPLE_DEFENSIVE
+    result.trinket = result.trinket or D.SAMPLE_ITEM
+  end
   ns.last = result
   D.Update(result, not ns.Integrations.hudHidden)
   ns.Integrations.OnRecommendation(result)
@@ -619,6 +628,11 @@ function commands.potion(arg)
   else
     U.Print("%s", L["Type /dmga potion and shift-click a potion to choose it."])
   end
+end
+
+-- /dmga addons: which supported addons are installed and in use.
+function commands.addons()
+  ns.Integrations.PrintDetected()
 end
 
 -- /dmga relearn: forget learned cooldown timing (also in Settings).
@@ -897,6 +911,7 @@ function commands.help()
     { "/dmga test interrupt | assisted | bossmods", "test the interrupt alert, Assisted Combat, or boss mod detection" },
     { "/dmga snapshot", "save a full decision trace for troubleshooting" },
     { "/dmga relearn", "forget learned cooldown timing and start learning again" },
+    { "/dmga addons", "which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use" },
     { "/dmga potion", "choose the potion for this spec (shift-click it), or /dmga potion off" },
   }
   for _, line in ipairs(lines) do

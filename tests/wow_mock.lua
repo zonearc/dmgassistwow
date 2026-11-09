@@ -196,7 +196,29 @@ function mock.Install(env)
     self.mouse = on
   end
   function FrameMethods:GetPoint()
+    local p = self.point
+    if p then
+      return p[1], p[2], p[3], p[4], p[5]
+    end
     return "CENTER", nil, "CENTER", 0, -150
+  end
+  function FrameMethods:SetPoint(a, rel, b, x, y)
+    if type(rel) == "string" or type(rel) == "number" then
+      rel, b, x, y = nil, rel, b, x
+    end
+    self.point = { a, rel, b or a, x or 0, y or 0 }
+  end
+  function FrameMethods:ClearAllPoints()
+    self.point = nil
+  end
+  function FrameMethods:GetFrameStrata()
+    return self.strata or "MEDIUM"
+  end
+  function FrameMethods:SetFrameStrata(s)
+    self.strata = s
+  end
+  function FrameMethods:GetRight()
+    return self.right or 1000
   end
   function FrameMethods:SetValue(v)
     self.value = v
@@ -221,8 +243,8 @@ function mock.Install(env)
     return self.shown ~= false
   end
   for _, name in ipairs({ "SetBlendMode", "SetTexCoord", "SetColorTexture", "SetDrawLayer", "SetBackdropColor",
-    "SetBackdropBorderColor", "ClearAllPoints", "SetStatusBarTexture", "SetStatusBarColor", "SetMinMaxValues",
-    "SetJustifyH", "SetTextColor", "SetAllPoints", "SetPoint", "SetFrameStrata", "SetMovable", "RegisterForDrag",
+    "SetBackdropBorderColor", "SetStatusBarTexture", "SetStatusBarColor", "SetMinMaxValues",
+    "SetJustifyH", "SetTextColor", "SetAllPoints", "SetMovable", "RegisterForDrag",
     "SetClampedToScreen", "SetMultiLine", "SetAutoFocus", "SetFontObject", "SetWidth", "SetScrollChild",
     "SetCursorPosition", "SetFocus", "HighlightText", "ClearFocus", "StartMoving", "StopMovingOrSizing",
     "RegisterForClicks", "SetVertexColor", "HasFocus", "SetMaxLetters", "SetSpacing", "SetHighlightTexture", "SetOwner", "AddLine" }) do

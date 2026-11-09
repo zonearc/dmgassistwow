@@ -55,6 +55,57 @@ function I.Skin(f)
 end
 
 ---------------------------------------------------------------------------
+-- Which supported addons are here and in use (Status page, Integrations page, /dmga addons).
+---------------------------------------------------------------------------
+I.SUPPORTED = {
+  { addon = "Masque", what = "icon skins", used = function() return I.MasqueActive() end },
+  { addon = "Bartender4", what = "keybinds read from its bars" },
+  { addon = "ElvUI", what = "keybinds from its bars, data text launcher" },
+  { addon = "Dominos", what = "keybinds read from its bars" },
+  { addon = "Titan", what = "launcher in Titan Panel", used = function() return I.broker ~= nil end },
+  { addon = "DBM-Core", what = "boss mod warnings" },
+  { addon = "BigWigs", what = "boss mod warnings" },
+  { addon = "LittleWigs", what = "boss mod warnings" },
+  { addon = "WeakAuras", what = "can read DMGAssist's picks (DMGAssistAPI)" },
+}
+
+local function Loaded(name)
+  local f = (C_AddOns and C_AddOns.IsAddOnLoaded) or IsAddOnLoaded
+  return f and U.Get(f, name) == true or false
+end
+
+-- { { addon, what, state = "in use" | "found" | "not installed" } }
+function I.Detected()
+  local out = {}
+  for _, a in ipairs(I.SUPPORTED) do
+    local state = "not installed"
+    if Loaded(a.addon) then
+      state = (a.used == nil or a.used()) and "in use" or "found"
+    end
+    out[#out + 1] = { addon = a.addon, what = a.what, state = state }
+  end
+  return out
+end
+
+-- "Masque, ElvUI, DBM-Core" (the ones in use), or nil
+function I.InUse()
+  local names = {}
+  for _, d in ipairs(I.Detected()) do
+    if d.state == "in use" then
+      names[#names + 1] = d.addon
+    end
+  end
+  return #names > 0 and table.concat(names, ", ") or nil
+end
+
+function I.PrintDetected()
+  U.Print("%s", L["Addons DMGAssist works with:"])
+  for _, d in ipairs(I.Detected()) do
+    U.Print("  %s (%s): %s", d.addon, L[d.what], L[d.state])
+  end
+end
+
+---------------------------------------------------------------------------
 -- Blizzard Edit Mode
 ---------------------------------------------------------------------------
 I.editMode = false
@@ -187,8 +238,8 @@ I.callbacks = {}
 I.hudHidden = false
 
 local function Entry(p)
-  if type(p) ~= "table" then
-    return nil
+  if type(p) ~= "table" or p.sample then
+    return nil -- nothing, or the settings preview's sample icons
   end
   local D = ns.Display
   local key = p.item and D.ItemKeybind and D.ItemKeybind(p.item) or (p.id and D.Keybind(p.id)) or nil

@@ -3075,6 +3075,26 @@ test("snapshot: full decision trace stored in the Watchdog log", function()
   DMGAssistWatchdog = nil
 end)
 
+test("settings preview: the HUD docks beside the settings window with both small icons, and goes back", function()
+  Reset()
+  local ns = Boot()
+  local f = ns.Display.frame
+  ns.db.point = { "CENTER", "CENTER", 10, -150 }
+  SettingsPanel = SettingsPanel or CreateFrame("Frame", "SettingsPanel", UIParent)
+  SettingsPanel:Show()
+  local r = ns.Update()
+  eq(f.docked, true, "docked beside the settings")
+  eq(r.weave and r.weave.sample, true, "sample defensive shown")
+  eq(r.trinket and r.trinket.sample, true, "sample item shown")
+  SettingsPanel:Hide()
+  r = ns.Update()
+  eq(f.docked, false, "back in its place")
+  eq(r and r.weave and r.weave.sample or nil, nil, "no samples outside the preview")
+  local p1, _, _, x = f:GetPoint()
+  eq(p1, "CENTER")
+  eq(x, 10, "its saved position")
+end)
+
 test("settings: every option has a tooltip, every section an explanation line", function()
   Reset()
   local ns = Boot()

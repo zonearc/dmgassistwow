@@ -552,5 +552,22 @@
 "Potion: %s. Shown in the items icon when SimC uses a potion (with your big cooldowns). Click the box to change it, right-click to remove it.",
 "Potion: click this box and pick one of the potions in your bags to add it to your rotation (this spec only). It shows in the items icon when SimC uses a potion.",
 "Type /dmga potion and shift-click a potion to choose it.",
-"choose the potion for this spec (shift-click it), or /dmga potion off"
+"choose the potion for this spec (shift-click it), or /dmga potion off",
+"Addons DMGAssist works with:",
+"Check",
+"DMGAssist works with these when they are installed, with nothing to set up: Masque skins its icons, ElvUI, Bartender and Dominos bars give the keybinds, Titan Panel and ElvUI get a launcher, WeakAuras can read its picks.",
+"Lists in chat each supported addon: in use, found, or not installed (also /dmga addons).",
+"Other addons",
+"Other addons in use",
+"Preview. Back in its place when you close the settings.",
+"Which addons are in use",
+"icon skins",
+"keybinds read from its bars",
+"keybinds from its bars, data text launcher",
+"launcher in Titan Panel",
+"boss mod warnings",
+"can read DMGAssist's picks (DMGAssistAPI)",
+"in use",
+"found",
+"which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use"
 ]

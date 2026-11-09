@@ -545,3 +545,20 @@
 551	Poción: haz clic en esta casilla y elige una de las pociones de tus bolsas para añadirla a tu rotación (solo esta especialización). Aparece en el icono de objetos cuando SimC usa una poción.
 552	Escribe /dmga potion y haz Mayús+clic en una poción para elegirla.
 553	elige la poción para esta especialización (Mayús+clic en ella) o /dmga potion off
+554	Addons con los que funciona DMGAssist:
+555	Comprobar
+556	DMGAssist funciona con estos cuando están instalados, sin configurar nada: Masque da estilo a sus iconos, las barras de ElvUI, Bartender y Dominos aportan los atajos, Titan Panel y ElvUI tienen un lanzador, WeakAuras puede leer sus recomendaciones.
+557	Muestra en el chat cada addon compatible: en uso, encontrado o no instalado (también /dmga addons).
+558	Otros addons
+559	Otros addons en uso
+560	Vista previa. Vuelve a su sitio al cerrar la configuración.
+561	Qué addons están en uso
+562	estilos de iconos
+563	atajos leídos de sus barras
+564	atajos de sus barras, lanzador de texto de datos
+565	lanzador en Titan Panel
+566	avisos de addons de jefes
+567	puede leer las recomendaciones de DMGAssist (DMGAssistAPI)
+568	en uso
+569	encontrado
+570	qué addons compatibles (Masque, ElvUI, Bartender, addons de jefes...) se han encontrado y están en uso

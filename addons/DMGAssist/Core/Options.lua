@@ -549,6 +549,13 @@ function O.Register()
   Check(integrations, DB, "bindWarn", "Warn about missing keybinds", true,
     "Once per spec each session: a chat line when spells DMGAssist can recommend have no key binding.")
 
+  Header(integrations, "Other addons", "DMGAssist works with these when they are installed, with nothing to set "
+    .. "up: Masque skins its icons, ElvUI, Bartender and Dominos bars give the keybinds, Titan Panel and ElvUI get "
+    .. "a launcher, WeakAuras can read its picks.")
+  Button(integrations, "Check", "Which addons are in use", function()
+    ns.Integrations.PrintDetected()
+  end, "Lists in chat each supported addon: in use, found, or not installed (also /dmga addons).")
+
   ---------------------------------------------------------------- advanced
   local advanced = Category("Advanced", main)
   Header(advanced, "Hidden game values", "In combat the game hides some values from addons (combo points, for "
