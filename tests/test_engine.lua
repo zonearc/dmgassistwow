@@ -3026,6 +3026,25 @@ test("profiles: old settings become Default; per character, copy, delete; learne
   eq(#P.List(), 1)
 end)
 
+test("ground effects (consecration.up) are worked out from our own last cast and the spell's duration", function()
+  Reset()
+  local ns = Boot()
+  local rec = QRecord({ { a = "tigers_fury", k = "U", c = "!tigers_fury.up" } })
+  Feral(ns, rec)
+  local S = ns.State
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  S.combatStart = GetTime() - 30 -- half a minute into the fight
+  eq(S.Resolve("tigers_fury.up", {}), 0, "never cast: not up")
+  S.lastCast[5217] = GetTime() - 4
+  eq(S.Resolve("tigers_fury.up", {}), 1, "cast 4 s ago, lasts 10 s: up")
+  eq(math.floor(S.Resolve("tigers_fury.remains", {}) + 0.5), 6)
+  S.lastCast[5217] = GetTime() - 11
+  eq(S.Resolve("tigers_fury.up", {}), 0, "ran out")
+  eq(S.Resolve("shred.up", {}) == ns.Expr.UNKNOWN, true, "a spell with no duration stays unknown")
+  mock.inCombat = false
+end)
+
 test("enemy count: nameplates up but none counted -> the hostile target is one enemy, not the AoE fallback", function()
   Reset()
   local ns = Boot()

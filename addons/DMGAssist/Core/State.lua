@@ -1872,6 +1872,26 @@ function S.Resolve(name, ctx)
       return 1
     end
   end
+
+  -- A ground effect named after the spell (consecration.up, death_and_decay.ticking): the game has no aura to read,
+  -- so it's worked out from our own last cast and the spell's duration. Without it Holy's "consecration if it isn't
+  -- down" line stayed a guess and sat in slot 2 all fight (2026-11-09).
+  local field = p[2]
+  if #p == 2 and (field == "up" or field == "down" or field == "remains" or field == "ticking" or field == "active") then
+    local id = M.SpellID(head)
+    local info = id and M.Info(id)
+    local dur = info and tonumber(info.d)
+    if dur and dur > 0 then
+      local since = S.SinceCast(id)
+      local left = since and math.max(0, dur - since) or 0
+      if field == "remains" then
+        return left
+      elseif field == "down" then
+        return left > 0 and 0 or 1
+      end
+      return left > 0 and 1 or 0
+    end
+  end
   return UNKNOWN
 end
 
