@@ -885,6 +885,24 @@ local function Prepare(record)
   return p
 end
 
+-- Is this spell part of the spec's damage rotation (any line of its SimC list)? Utility, movement and anything
+-- the lists never use is not (the grade leaves such presses out).
+function G.IsRotationSpell(id)
+  local state = ns.Specs and ns.Specs.current
+  local record = state and state.data and ns.ActiveRecord and ns.ActiveRecord(state)
+  if not (record and id) then
+    return true -- can't tell: count it
+  end
+  local actions = Prepare(record).simcActions
+  for _, cand in ipairs({ id, M.baseOf and M.baseOf[id] }) do
+    local token = cand and M.TokenForID(cand)
+    if token and actions[token] then
+      return true
+    end
+  end
+  return false
+end
+
 -- One decision at the current overlay moment.
 local function Decide(record, opts, targets, first)
   local prep = Prepare(record)

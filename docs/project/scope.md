@@ -28,7 +28,9 @@ After each real fight (20 s or more, at least 5 presses), a grade from S+ to D p
 icons (movable in Edit Mode or while unlocked), then fades. Parts: accuracy 35% (slot 1 = full, slots 2-3 = 0.75,
 what slot 1 showed 0.6 s before counts), always casting 25% (0.25 s grace), reaction 20% (0.25 s full, 1.5 s none),
 cooldowns 20% (within 2 s full, 10 s none; unused items not graded). Letters S+ 96, S 91, A+ 86, A 80, B+ 72, B 64,
-C 50, D: B+ reachable for most players, A takes accurate play, S is rare. Never DPS:
+C 50, D: B+ reachable for most players, A takes accurate play, S is rare. Only what we showed is graded: presses
+with nothing shown, outside the rotation, or with an interrupt in slot 1 are neutral; idle only while slot 1 is in
+range and usable; cooldowns shown under 2 s aren't graded. The letter uses the game's damage-number font. Never DPS:
 we can't know what a player should do. Best and last 20 fights per spec, account-wide; trend, averages and one tip
 on the settings page. Can be turned off.
 

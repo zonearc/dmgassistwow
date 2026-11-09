@@ -35,7 +35,7 @@ read_globals = {
   "BuffIconCooldownViewer",
   "C_CooldownViewer", "C_EncounterTimeline", "GetActionInfo", "GetMacroSpell", "DBM", "BigWigsLoader",
   "UnitIsBossMob", "UnitClassification",
-  "UnitStagger", "UnitThreatSituation", "CreateColor", "GetSpellBaseCooldown", "IsInRaid", "ShowUIPanel", "hooksecurefunc", "ReloadUI", "StaticPopup_Show", "GetMaxLevelForPlayerExpansion", "GetMaxPlayerLevel", "C_ClassTalents", "C_Traits",
+  "UnitStagger", "UnitThreatSituation", "CreateColor", "DAMAGE_TEXT_FONT", "GetSpellBaseCooldown", "IsInRaid", "ShowUIPanel", "hooksecurefunc", "ReloadUI", "StaticPopup_Show", "GetMaxLevelForPlayerExpansion", "GetMaxPlayerLevel", "C_ClassTalents", "C_Traits",
   "UnitIsUnit", "UnitIsConnected", "UnitIsDeadOrGhost",
   "UnitInRange", "UnitGroupRolesAssigned", "GetWeaponEnchantInfo", "C_Item", "GetItemSpell", "GetItemInfo", "GetInventoryItemID", "GetInventoryItemTexture",
   "GetInventoryItemCooldown", "IsUsableItem", "GetMacroItem",

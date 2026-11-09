@@ -3837,6 +3837,8 @@ test("performance grade: presses scored against slot 1, graded after a real figh
   Gr.Reset()
   local A, B, C = { id = 101, token = "spell_a" }, { id = 102, token = "spell_b" }, { id = 103, token = "spell_c" }
   local r = { main = A, queue = { A, B, C } }
+  local isRot = ns.Engine.IsRotationSpell
+  ns.Engine.IsRotationSpell = function() return true end -- 999 is a rotation spell slot 1 didn't ask for
   -- a short fight is not graded
   Gr.OnCombat(true)
   for _ = 1, 8 do
@@ -3888,6 +3890,7 @@ test("performance grade: presses scored against slot 1, graded after a real figh
   eq(Gr.Letter(49), "D")
   eq(Gr.ReactionScore(0.25), 100)
   eq(Gr.ReactionScore(1.5), 0)
+  ns.Engine.IsRotationSpell = isRot
 end)
 
 test("performance grade: a trinket from the items icon counts as cooldown use, never accuracy", function()
@@ -3968,13 +3971,21 @@ test("performance grade: a press of what slot 1 showed just before it switched c
   ns.last = { main = A, queue = { A }, trinket = potion }
   Gr.Tick(false) -- the potion shows, and is never used
   for _ = 1, 6 do
-    Gr.OnReady(101, mock.now, A)
+    ns.last.main = A
+    Gr.Tick(false)
     mock.now = mock.now + 1
-    Gr.OnReady(102, mock.now, B) -- slot 1 switches to B ...
+    ns.last.main = B -- slot 1 switches to B ...
+    Gr.Tick(false)
     mock.now = mock.now + 0.3
     Gr.OnPress(101, { main = B, queue = { B } }, true) -- ... 0.3 s before the press of A
     mock.now = mock.now + 3
   end
+  -- nothing shown, and a spell outside the rotation: neither counts
+  Gr.OnPress(101, { queue = {} }, true)
+  local isRot = ns.Engine.IsRotationSpell
+  ns.Engine.IsRotationSpell = function() return false end
+  Gr.OnPress(777, { main = B, queue = { B } }, true)
+  ns.Engine.IsRotationSpell = isRot
   Gr.OnCombat(false)
   local h = Gr.Summary(Gr.SpecKey()).history[1]
   eq(math.floor(h.accuracy), 100, "pressed what slot 1 showed 0.3 s earlier: right")

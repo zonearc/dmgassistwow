@@ -30,6 +30,7 @@ Gr.COLORS = { ["S+"] = { 1, 0.85, 0.25 }, S = { 1, 0.6, 0.15 }, ["A+"] = { 0.85,
 Gr.SLOT23 = 0.75
 Gr.LATE_SWITCH = 0.6
 Gr.IDLE_GRACE = 0.25
+Gr.MIN_SHOWN = 2 -- a cooldown shown for less than this before slot 1 moved on isn't graded
 Gr.HISTORY = 20
 Gr.MIN_FIGHT = 20
 
@@ -89,10 +90,7 @@ function Gr.OnReady(id, now, main)
   if not (f.ready and Same(f.ready.id, id)) then
     f.ready = { id = id, t = now }
   end
-  -- what slot 1 showed, and when it changed: a press of the previous one just after a switch still counts
-  if main and main.id and not (f.shown and Same(f.shown.id, main.id)) then
-    f.prevShown, f.shown = f.shown, { id = main.id, t = now }
-  end
+
   if main and main.major and not f.cdShown[Base(id)] then
     f.cdShown[Base(id)] = now
   end
@@ -105,10 +103,24 @@ function Gr.Tick(pressNow)
     return
   end
   local now = GetTime()
+  -- what slot 1 shows, and when it changed (every frame): a press of the previous one just after a switch counts
+  local main = ns.last and ns.last.main
+  if main and main.id and not (f.shown and Same(f.shown.id, main.id)) then
+    -- a major cooldown slot 1 showed only briefly before switching away: not long enough to be judged on
+    local gone = f.shown and Base(f.shown.id)
+    if gone and f.cdShown[gone] and now - f.cdShown[gone] < Gr.MIN_SHOWN then
+      f.cdShown[gone] = nil
+    end
+    f.prevShown, f.shown = f.shown, { id = main.id, t = now }
+  end
   if pressNow and not f.wasReady then
     f.readySince = now
   end
-  if f.lastTick and pressNow and f.wasReady and now - (f.readySince or now) > Gr.IDLE_GRACE then
+  -- idle only when you could have pressed it: in range and usable (out of range or short of resources is not on you)
+  local couldPress = pressNow and main and main.id
+    and U.Read((U.Call(C_Spell and C_Spell.IsSpellInRange, main.id, "target"))) ~= false
+    and U.Read((U.Call(C_Spell and C_Spell.IsSpellUsable, main.id))) ~= false
+  if f.lastTick and couldPress and f.wasReady and now - (f.readySince or now) > Gr.IDLE_GRACE then
     f.idle = f.idle + math.min(0.25, now - f.lastTick)
   elseif not pressNow then
     f.ready = nil -- reaction is timed from the latest "press now", not an earlier one
@@ -164,6 +176,27 @@ function Gr.OnPress(id, r, press)
   end
   local main = r.main
   local queue = r.queue or { main }
+  -- An interrupt in slot 1 is your call: judge against the rotation behind it.
+  if main and main.source == "interrupt" then
+    if Same(main.id, id) then
+      return
+    end
+    queue = { queue[2], queue[3] }
+    main = queue[1]
+  end
+  -- Only what we gave you to do counts: nothing shown, or a spell outside the rotation (movement, utility, a
+  -- defensive or tank button pressed early, a racial) is neither right nor wrong.
+  if not (main and main.id) then
+    f.neutral = (f.neutral or 0) + 1
+    return
+  end
+  local inQueue = Same(main.id, id) or (queue[2] and Same(queue[2].id, id)) or (queue[3] and Same(queue[3].id, id))
+    or (f.prevShown and Same(f.prevShown.id, id))
+  if not inQueue and (ns.Engine.IsRotationSpell(id) == false or (ns.Defensives and ns.Defensives.SET
+    and ns.Defensives.SET[ns.SpellMap.TokenForID(id) or ""]) or (ns.Tanks and ns.Tanks.InIcon(ns.SpellMap.TokenForID(id)))) then
+    f.neutral = (f.neutral or 0) + 1
+    return
+  end
   local matched = main and Same(main.id, id)
   if not matched and f.prevShown and f.shown and now - f.shown.t <= Gr.LATE_SWITCH and Same(f.prevShown.id, id) then
     matched = true -- slot 1 had just switched away from this spell: your press was right when you made it
@@ -172,9 +205,12 @@ function Gr.OnPress(id, r, press)
     f.presses = f.presses + 1
     if matched then
       f.score = f.score + 1
+      f.right = (f.right or 0) + 1
     elseif (queue[2] and Same(queue[2].id, id)) or (queue[3] and Same(queue[3].id, id)) then
       f.score = f.score + Gr.SLOT23
+      f.slot23 = (f.slot23 or 0) + 1
     else
+      f.wrong = (f.wrong or 0) + 1
       local want = main and (main.token or tostring(main.id))
       if want then
         f.missed[want] = (f.missed[want] or 0) + 1
@@ -305,7 +341,12 @@ function Gr.Finish(f, now)
   r.weakest, r.topMissed, r.topMissedCount = weakest, topMissed, n
   Gr.Save(r)
   U.Log("grade", { letter = r.letter, score = string.format("%.1f", score), accuracy = math.floor(accuracy),
-    abc = math.floor(abc), reaction = r.reactionMs, cooldowns = cd and math.floor(cd), length = math.floor(length) })
+    abc = math.floor(abc), reaction = r.reactionMs, cooldowns = cd and math.floor(cd),
+    mitigation = mit and math.floor(mit), length = math.floor(length),
+    -- what the accuracy is made of, to check it against the fight's log
+    presses = f.presses, right = f.right or 0, slot23 = f.slot23 or 0, wrong = f.wrong or 0, neutral = f.neutral or 0,
+    idle = string.format("%.1f", f.idle), missed = topMissed and (topMissed .. "x" .. n) or nil,
+    cds = #f.cds, mits = #f.mit })
   return r
 end
 
@@ -503,6 +544,16 @@ local function Shade(v) -- a part's colour: red (0) to amber to green (100)
   return 1, 0.4, 0.35
 end
 
+-- The letter: the game's damage-number font (Skurri on English clients: heavy, slanted, made to pop; each
+-- language's own damage font elsewhere, so the letter always renders), thick outline. Chosen 2026-11-09.
+Gr.LETTER_SIZE = 80
+local function LetterFont(fs, size)
+  local face = _G.DAMAGE_TEXT_FONT or "Fonts\\SKURRI.TTF"
+  if not (fs.SetFont and fs:SetFont(face, size, "THICKOUTLINE")) then
+    ns.Display.SetFont(fs, size)
+  end
+end
+
 local function Frame()
   if Gr.frame then
     return Gr.frame
@@ -536,9 +587,9 @@ local function Frame()
   f.edge:SetHeight(2)
   -- the letter and the title
   f.letter = f:CreateFontString(nil, "OVERLAY")
-  f.letter:SetPoint("TOPLEFT", f, "TOPLEFT", 14, -8)
+  f.letter:SetPoint("CENTER", f, "TOPLEFT", 48, -42)
   f.title = f:CreateFontString(nil, "OVERLAY")
-  f.title:SetPoint("TOPLEFT", f, "TOPLEFT", 96, -14)
+  f.title:SetPoint("TOPLEFT", f, "TOPLEFT", 104, -14)
   f.score = f:CreateFontString(nil, "OVERLAY")
   f.score:SetPoint("TOPLEFT", f.title, "BOTTOMLEFT", 0, -4)
   f.best = f:CreateFontString(nil, "OVERLAY")
@@ -591,10 +642,21 @@ local function Frame()
   f:Hide()
   f:SetScript("OnUpdate", function(self)
     local t = GetTime() - (self.shownAt or 0)
-    -- the pop: the letter lands big and settles in FADE_IN; the marker sweeps along the bar
-    local pop = math.min(1, t / (FADE_IN * 2))
-    if self.letterSize and self.letter then
-      ns.Display.SetFont(self.letter, math.floor(self.letterSize * (1.35 - 0.35 * pop) + 0.5))
+    -- the pop: the letter lands big, overshoots a little smaller, settles (0.35 s); the marker sweeps the bar
+    if self.letterSize and self.letter and t < 0.4 then
+      local k
+      if t < 0.15 then
+        k = 1.7 - 0.8 * (t / 0.15) -- 1.7 -> 0.9
+      elseif t < 0.3 then
+        k = 0.9 + 0.1 * ((t - 0.15) / 0.15) -- 0.9 -> 1.0
+      else
+        k = 1
+      end
+      local size = math.floor(self.letterSize * k + 0.5)
+      if size ~= self.lastLetterSize then
+        self.lastLetterSize = size
+        LetterFont(self.letter, size)
+      end
     end
     if self.markerTo then
       self.marker:SetPoint("CENTER", self.bar, "LEFT", self.markerTo * math.min(1, t / 0.6), 0)
@@ -625,8 +687,10 @@ function Gr.Render(r, sample, test)
   end
   local D = ns.Display
   local c = Gr.COLORS[r.letter] or Gr.COLORS.D
-  f.letterSize = 60
-  D.SetFont(f.letter, 60)
+  f.letterSize, f.lastLetterSize = Gr.LETTER_SIZE, nil
+  LetterFont(f.letter, Gr.LETTER_SIZE)
+  f.letter:SetShadowOffset(3, -3)
+  f.letter:SetShadowColor(0, 0, 0, 0.9)
   f.letter:SetText(r.letter)
   f.letter:SetTextColor(c[1], c[2], c[3])
   f.edge:SetColorTexture(c[1], c[2], c[3], 0.9)

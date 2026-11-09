@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.149 (2026-11-09).
+Last updated: 1.6.0.150 (2026-11-09).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -45,6 +45,14 @@ Last updated: 1.6.0.149 (2026-11-09).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.150: the grade only judges what we showed: presses with nothing in slot 1, of spells outside the
+  rotation (movement, utility, a defensive or tank button pressed early, racials), and with an interrupt in slot 1
+  (judged against the rotation behind it) are neutral; slot 1 switches tracked every frame (a press of what slot 1
+  showed 0.6 s before counts, also mid-GCD); idle time only while slot 1's spell is in range and usable; a major
+  cooldown shown under 2 s before slot 1 moved on isn't graded. The grade log lists right / slots 2-3 / wrong /
+  neutral presses. Grade letter in the game's damage-number font (Skurri on English clients), 80 pt, thick
+  outline, pops in with an overshoot
 
 - 1.6.0.149: swept the code for hidden (secret) values tested directly: weapon imbue reminders and a diagnostics
   probe read them safely now
