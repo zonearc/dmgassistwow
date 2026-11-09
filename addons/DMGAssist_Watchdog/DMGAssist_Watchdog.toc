@@ -1,7 +1,7 @@
 ## Interface: 120105, 16001
-## Title: DMGAssist Watchdog
+## Title: DMGAssist - Report an Issue
 ## Group: DMGAssist
-## Notes: Diagnostics for DMGAssist: captures Lua errors, blocked actions and combat sessions, probes what the game exposes, and exports it all for analysis.
+## Notes: Report an issue or give feedback (/dmga report). Diagnostics for DMGAssist: captures Lua errors, blocked actions and combat sessions, probes what the game exposes, and exports it all for analysis.
 ## Author: zonearc
 ## Version: 1.6.0
 ## IconTexture: Interface\Icons\INV_Misc_Spyglass_03

@@ -28,6 +28,12 @@ def inflate(data: bytes) -> bytes:
 
 
 def decode(text: str):
+    # A pasted report can start with the player's own words ("What went wrong: ..."); the string follows them.
+    for prefix in ("DMGW1:", "DMGW0:"):
+        at = text.find(prefix)
+        if at > 0:
+            text = text[at:]
+            break
     text = "".join(text.split())  # copy/paste may add line breaks
     if text.startswith("DMGW1:"):
         raw = base64.b64decode(text[6:] + "=" * (-len(text[6:]) % 4))

@@ -667,6 +667,12 @@ function commands.test(arg)
   end
 end
 
+function commands.report()
+  ns.OpenReport()
+end
+commands.issue = commands.report
+commands.feedback = commands.report
+
 function commands.unbound()
   D.BuildKeymap()
   ns.Bindcheck.Print()
@@ -740,7 +746,7 @@ function commands.snapshot()
   if ns.snapshotQuiet then
     return
   end
-  U.Print(L["Snapshot: %s (%s), %d lines checked. Stored in the Watchdog: /dmgw, then copy the report."],
+  U.Print(L["Snapshot: %s (%s), %d lines checked. Stored for your report: /dmga report."],
     tostring(r.main and r.main.token), tostring(r.main and r.main.source), #lines)
   for i = 1, math.min(#lines, 8) do
     U.Print("  %s", lines[i])
@@ -790,6 +796,7 @@ function commands.help()
     { "/dmga why", "explain the current pick" },
     { "/dmga config", "open the settings panel" },
     { "/dmga keys", "refresh keybinds" },
+    { "/dmga report", "report an issue or give feedback: describe it, copy the report, open the issue page" },
     { "/dmga unbound", "list spells you can be told to cast that have no key binding" },
     { "/dmga test", "pretend your boss mod called for a defensive (8 s), to check it shows" },
     { "/dmga test interrupt | assisted | bossmods", "test the interrupt, Blizzard's assistant, boss mod detection" },

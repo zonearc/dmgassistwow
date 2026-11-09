@@ -492,12 +492,20 @@ function O.RegisterStatus(parent)
   how:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -12)
   how:SetWidth(560)
   how:SetJustifyH("LEFT")
-  how:SetText(L["To report a problem: type /dmgw, press Ctrl+C, open the Report a problem link and paste it "
-    .. "into a new issue with a line about what happened. (Click a link box, Ctrl+C to copy it.)"])
+  how:SetText(L["To report a problem or give feedback: press Report an issue (or type /dmga report). It walks "
+    .. "you through it: say what went wrong, copy the report, paste it on the issue page."])
+
+  local report = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+  report:SetSize(220, 24)
+  report:SetPoint("TOPLEFT", how, "BOTTOMLEFT", 0, -12)
+  report:SetText(L["Report an issue"])
+  report:SetScript("OnClick", function()
+    ns.OpenReport()
+  end)
 
   local reset = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
   reset:SetSize(220, 24)
-  reset:SetPoint("TOPLEFT", how, "BOTTOMLEFT", 0, -16)
+  reset:SetPoint("TOPLEFT", report, "BOTTOMLEFT", 0, -10)
   reset:SetText(L["Reset everything to defaults"])
   reset:SetScript("OnClick", function()
     O.ResetAll()
@@ -687,8 +695,9 @@ O.HELP = {
     "Keys are read from Blizzard's bars, Bartender, ElvUI, Dominos and macros. Missing keybinds lists what the "
       .. "rotation can ask for that has no key." },
   { "Reporting a problem",
-    "Type /dmgw after a fight, press Ctrl+C, and paste it with a line about what happened (see Status for the "
-      .. "link). /dmga help lists every command." },
+    "Right after it happens: /dmga report (or the minimap menu, or Status > Report an issue). Step 1: say what "
+      .. "went wrong. Step 2: Ctrl+C copies your words and the report together. Step 3: open the link and paste "
+      .. "it into a new issue. /dmga help lists every command." },
 }
 
 function O.RegisterHelp(parent)

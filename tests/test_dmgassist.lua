@@ -212,7 +212,7 @@ test("minimap button: left-click shows/hides, drag moves, right-click menu has s
   for _, it in ipairs(items) do
     by[it.text] = it
   end
-  for _, name in ipairs({ "Settings", "Watchdog report", "Hide minimap button" }) do
+  for _, name in ipairs({ "Settings", "Report an issue", "Hide minimap button" }) do
     eq(by[name] and by[name].kind, "button", name)
   end
   for _, name in ipairs({ "Show recommendations", "Show out of combat", "Major cooldowns", "Lock position",

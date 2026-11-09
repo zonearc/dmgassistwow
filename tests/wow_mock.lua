@@ -225,7 +225,7 @@ function mock.Install(env)
     "SetJustifyH", "SetTextColor", "SetAllPoints", "SetPoint", "SetFrameStrata", "SetMovable", "RegisterForDrag",
     "SetClampedToScreen", "SetMultiLine", "SetAutoFocus", "SetFontObject", "SetWidth", "SetScrollChild",
     "SetCursorPosition", "SetFocus", "HighlightText", "ClearFocus", "StartMoving", "StopMovingOrSizing",
-    "RegisterForClicks", "SetSpacing", "SetHighlightTexture", "SetOwner", "AddLine" }) do
+    "RegisterForClicks", "HasFocus", "SetMaxLetters", "SetSpacing", "SetHighlightTexture", "SetOwner", "AddLine" }) do
     FrameMethods[name] = noop
   end
   env.CreateFrame = function(frameType, name)

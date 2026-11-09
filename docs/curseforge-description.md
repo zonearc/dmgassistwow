@@ -102,7 +102,7 @@ that freely; in Midnight they can't, and neither can DMGAssist. What DMGAssist d
 3. Optional: bind a key to **Switch target mode** under *Options → Keybindings → AddOns → DMGAssist*.
 
 - **Minimap button:** left-click shows or hides the HUD, drag moves the button, right-click opens a menu
-  (settings, Watchdog report, quick toggles).
+  (settings, Report an issue, quick toggles).
 - **Settings:** *Options → AddOns → DMGAssist*. The **Status** page shows the version, the spec and rotation
   detected, the target mode, boss mods and keybinds found, and where to report problems.
 - **Commands:** `/dmga` (status), `/dmga config`, `/dmga burst` (major cooldowns on/off), `/dmga mode`
@@ -112,12 +112,14 @@ that freely; in Midnight they can't, and neither can DMGAssist. What DMGAssist d
 
 The fastest way to get something fixed:
 
-1. Have **DMGAssist_Watchdog** installed. It records what DMGAssist saw and decided; there is nothing to set up.
-2. Right after the problem happens, type **`/dmgw`** in game. The report opens already selected: press **Ctrl+C**.
-   (Or right-click the minimap button → *Watchdog report*.)
-3. Go to https://github.com/zonearc/dmgassistwow/issues → **New issue** → **Bug report**.
-4. Say **what you expected and what it showed** (for example: *"Balance, single target, it never suggested
-   Incarnation"*), your spec, and paste the report.
+1. Have **DMGAssist_Watchdog** installed ("DMGAssist - Report an Issue"). It records what DMGAssist saw and
+   decided; there is nothing to set up.
+2. Right after the problem happens, type **`/dmga report`** in game (or right-click the minimap button →
+   *Report an issue*).
+3. **Step 1** in the window: say **what went wrong and what you expected** (for example: *"Balance, single
+   target, it never suggested Incarnation"*) and what you were doing.
+4. **Step 2:** press **Ctrl+C**. Your words and the report are copied together.
+5. **Step 3:** open the link shown in the window, paste with **Ctrl+V**, and press Create.
 
 You'll get a reply on the issue, usually with a fix in the next nightly build for you to try.
 

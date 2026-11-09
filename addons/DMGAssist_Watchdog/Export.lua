@@ -83,6 +83,8 @@ function X.Build(keep)
     probes = Tail(db.probes, keep.probes),
     notes = Tail(db.notes, keep.notes),
     launch = Tail(db.launch or {}, 1),
+    userNote = type(db.reportNote) == "table" and (db.reportNote.what or db.reportNote.doing)
+      and { what = db.reportNote.what, doing = db.reportNote.doing } or nil,
     trimmed = keep ~= DEFAULT_KEEP or nil,
   }
 end

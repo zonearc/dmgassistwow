@@ -4,7 +4,7 @@ local _, ns = ...
 local U = ns.U
 
 local HELP = {
-  "/dmgw              the report, already selected: Ctrl+C, then paste it into the chat (that's all you need)",
+  "/dmgw              Report an issue: describe it, Ctrl+C the report, paste it on the issue page (also /dmga report)",
   "/dmgw status       print a readable summary to chat",
   "/dmgw probe        run an API probe now (out of combat; also automatic)",
   "/dmgw force on|off force addon restrictions on/off for testing (if the client supports it)",

@@ -73,7 +73,7 @@ The icons appear in combat, or out of combat with an enemy targeted. Drag them w
 
 | Where | What |
 |---|---|
-| **Minimap button** | Left-click: show/hide · drag: move · right-click: settings, Watchdog report, quick toggles |
+| **Minimap button** | Left-click: show/hide · drag: move · right-click: settings, Report an issue, quick toggles |
 | **Settings** | Options → AddOns → **DMGAssist**: Status, Combat, Display, Sounds, Integrations, Advanced |
 | **Key bindings** | Options → Keybindings → AddOns → DMGAssist: switch target mode (Auto / Single / AoE), major cooldowns on/off, show/hide |
 
@@ -98,9 +98,13 @@ and where to report problems.
 
 ## Reporting a problem
 
-1. Install **DMGAssist_Watchdog** next to DMGAssist. It records what DMGAssist saw and decided, with no setup.
-2. After the problem, type `/dmgw` in game. The report opens already selected: press **Ctrl+C**.
-3. [Open a bug report](../../issues/new/choose), say what happened, and paste the report.
+Install **DMGAssist_Watchdog** ("DMGAssist - Report an Issue" in the AddOns list) next to DMGAssist. It records
+what DMGAssist saw and decided, with no setup. Right after the problem, type `/dmga report` (or right-click the
+minimap button → *Report an issue*). The window walks you through it:
+
+1. **Step 1:** type what went wrong and what you expected, and what you were doing.
+2. **Step 2:** the report is already selected: press **Ctrl+C**. Your words are copied with it.
+3. **Step 3:** copy the link shown, open it in your browser, paste with **Ctrl+V** and press Create.
 
 You'll get a reply on the issue, usually with a fix in the next nightly build to try.
 Ideas are welcome too: **New issue → Feature request**.

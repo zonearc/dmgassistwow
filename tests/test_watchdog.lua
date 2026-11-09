@@ -294,6 +294,26 @@ test("one report: fits the size limit, keeps the newest fights, never leaves old
   ns.Export.REPORT_LIMIT = limit
 end)
 
+test("report window: your words go first, in the copied text and inside the report", function()
+  DMGAssistWatchdogDB.reportNote = { what = "  Touch of Death shown on a full-health target ", doing = "dummies" }
+  eq(ns.UI.ShowReport(), true)
+  local box
+  for _, f in ipairs(mock.frames) do
+    if f.type == "EditBox" then
+      box = f
+    end
+  end
+  eq(box.text:sub(1, 54), "What went wrong: Touch of Death shown on a full-health", "your words first")
+  truthy(box.text:find("What I was doing: dummies", 1, true), "both fields")
+  local at = box.text:find("DMGW", 1, true)
+  truthy(at, "the report string follows")
+  local data = assert(loadstring("return " .. box.text:sub(at + 6)))()
+  eq(data.userNote.doing, "dummies", "inside the report too")
+  DMGAssistWatchdogDB.reportNote = nil
+  ns.UI.ShowReport()
+  eq(box.text:sub(1, 4), "DMGW", "no words: just the report")
+end)
+
 test("no internal watchdog errors were recorded", function()
   for _, e in ipairs(DMGAssistWatchdogDB.errors) do
     if e.kind == "watchdog_internal" or e.kind == "probe" then

@@ -1,7 +1,11 @@
--- UI.lua: the report window. One button, one text box: the report is built, put in the box already
--- selected, and Ctrl+C copies it for pasting into the chat. Created lazily, never in combat-critical code.
+-- UI.lua: the "Report an issue" window, in three steps:
+--   1. Two boxes for your own words: what went wrong (and what you expected), and what you were doing.
+--   2. The report, already selected: Ctrl+C copies your words and the report together, as one paste.
+--   3. A link to the issue page on GitHub (click it, Ctrl+C, open it in a browser, paste with Ctrl+V).
+-- Your words are kept (in the saved variables) until you clear them, so closing the window loses nothing, and
+-- they also go inside the encoded report. Created lazily, never in combat-critical code.
 --
--- The box is checked after filling: if it holds less than the report (an edit box can cap its text), the
+-- The report box is checked after filling: if it holds less than the text (an edit box can cap its text), the
 -- report is rebuilt smaller until it fits, so a half string is never copied. Any failure is shown in the box
 -- itself, never leaving older text behind that could be copied by mistake.
 
@@ -11,7 +15,10 @@ local U = ns.U
 local V = {}
 ns.UI = V
 
-local frame, editBox, status
+V.ISSUES = "https://github.com/zonearc/dmgassistwow/issues/new?template=bug_report.yml"
+
+local frame, editBox, status, whatBox, doingBox, linkBox
+local filling = false
 
 local function TryCreate(frameType, name, parent, template)
   local ok, f = pcall(CreateFrame, frameType, name, parent, template)
@@ -21,9 +28,121 @@ local function TryCreate(frameType, name, parent, template)
   return CreateFrame(frameType, name, parent)
 end
 
+local function Label(text, anchor, y, template)
+  local fs = frame:CreateFontString(nil, "OVERLAY", template or "GameFontNormal")
+  if anchor then
+    fs:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, y or -10)
+  else
+    fs:SetPoint("TOPLEFT", 16, y or -32)
+  end
+  fs:SetJustifyH("LEFT")
+  fs:SetText(text)
+  return fs
+end
+
+-- A box with a dark background behind it (edit boxes have none of their own when multi-line).
+local function Boxed(height, anchor, y)
+  local bg = TryCreate("Frame", nil, frame, "BackdropTemplate")
+  bg:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, y or -4)
+  bg:SetPoint("RIGHT", frame, "RIGHT", -16, 0)
+  bg:SetHeight(height)
+  if bg.SetBackdrop then
+    pcall(bg.SetBackdrop, bg, { bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
+      edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 12,
+      insets = { left = 3, right = 3, top = 3, bottom = 3 } })
+    pcall(bg.SetBackdropColor, bg, 0, 0, 0, 0.6)
+    pcall(bg.SetBackdropBorderColor, bg, 0.5, 0.5, 0.5, 1)
+  end
+  return bg
+end
+
+local function Notes()
+  local db = ns.db
+  if not db then
+    return {}
+  end
+  db.reportNote = type(db.reportNote) == "table" and db.reportNote or {}
+  return db.reportNote
+end
+
+local function Clean(s)
+  s = type(s) == "string" and s or ""
+  return (s:gsub("^%s+", ""):gsub("%s+$", ""))
+end
+
+-- Your words, ahead of the report string, so a pasted issue reads well before anyone decodes anything.
+function V.Header()
+  local n = Notes()
+  local what, doing = Clean(n.what), Clean(n.doing)
+  if what == "" and doing == "" then
+    return ""
+  end
+  local lines = {}
+  if what ~= "" then
+    lines[#lines + 1] = "What went wrong: " .. what
+  end
+  if doing ~= "" then
+    lines[#lines + 1] = "What I was doing: " .. doing
+  end
+  return table.concat(lines, "\n") .. "\n\n"
+end
+
+-- Typing changes the report: rebuild it shortly after the last key, not on every key.
+local pending = 0
+local function NoteChanged(key, box)
+  if filling then
+    return
+  end
+  Notes()[key] = box:GetText()
+  pending = pending + 1
+  local mine = pending
+  if C_Timer and C_Timer.After then
+    C_Timer.After(0.6, function()
+      if mine == pending and frame and frame:IsShown() then
+        V.ShowReport(true)
+      end
+    end)
+  end
+end
+
+local function NoteBox(parent, key, multi)
+  local box = CreateFrame("EditBox", nil, parent)
+  box:SetMultiLine(multi)
+  box:SetAutoFocus(false)
+  box:SetFontObject(ChatFontNormal)
+  box:SetPoint("TOPLEFT", parent, "TOPLEFT", 8, -6)
+  box:SetPoint("BOTTOMRIGHT", parent, "BOTTOMRIGHT", -8, 6)
+  box:SetWidth(660)
+  pcall(box.SetMaxLetters, box, 600)
+  box:SetScript("OnEscapePressed", function(self)
+    self:ClearFocus()
+  end)
+  box:SetScript("OnTabPressed", function(self)
+    self:ClearFocus()
+  end)
+  if not multi then
+    box:SetScript("OnEnterPressed", function(self)
+      self:ClearFocus()
+    end)
+  end
+  box:SetScript("OnTextChanged", function(self, user)
+    if user then
+      NoteChanged(key, self)
+    end
+  end)
+  -- Clicking anywhere in the dark box puts the cursor in it.
+  if parent.EnableMouse then
+    parent:EnableMouse(true)
+    parent:SetScript("OnMouseDown", function()
+      box:SetFocus()
+    end)
+  end
+  return box
+end
+
 local function Build()
   frame = TryCreate("Frame", "DMGAssistWatchdogFrame", UIParent, "BasicFrameTemplateWithInset")
-  frame:SetSize(720, 460)
+  frame:SetSize(720, 560)
   frame:SetPoint("CENTER")
   frame:SetFrameStrata("DIALOG")
   frame:SetMovable(true)
@@ -43,17 +162,73 @@ local function Build()
 
   local title = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
   title:SetPoint("TOP", 0, -6)
-  title:SetText("DMGAssist Watchdog " .. ns.VERSION)
+  title:SetText("DMGAssist: Report an issue or give feedback")
 
-  local scroll = TryCreate("ScrollFrame", "DMGAssistWatchdogScroll", frame, "UIPanelScrollFrameTemplate")
-  scroll:SetPoint("TOPLEFT", 14, -32)
-  scroll:SetPoint("BOTTOMRIGHT", -34, 44)
+  -- Step 1: your words.
+  local step1 = Label("|cffffd100Step 1.|r What went wrong? What did you expect instead?", nil, -34)
+  local whatBg = Boxed(58, step1)
+  whatBox = NoteBox(whatBg, "what", true)
+  local doingLabel = Label("What were you doing? (for example: 5 dummies, a Mythic+ pull, a raid boss, solo)",
+    whatBg, -8, "GameFontNormalSmall")
+  local doingBg = Boxed(28, doingLabel)
+  doingBox = NoteBox(doingBg, "doing", false)
+  local clear = TryCreate("Button", nil, frame, "UIPanelButtonTemplate")
+  clear:SetSize(90, 20)
+  clear:SetText("Clear")
+  clear:SetPoint("BOTTOMRIGHT", doingBg, "TOPRIGHT", 0, 2)
+  clear:SetScript("OnClick", function()
+    local n = Notes()
+    n.what, n.doing = nil, nil
+    filling = true
+    whatBox:SetText("")
+    doingBox:SetText("")
+    filling = false
+    V.ShowReport()
+  end)
 
+  -- Step 2: the report.
+  local step2 = Label("|cffffd100Step 2.|r Click the box below and press |cffffffffCtrl+C|r. "
+    .. "Your words above are included.", doingBg, -12)
+  local reportBg = Boxed(220, step2)
+  local scroll = TryCreate("ScrollFrame", "DMGAssistWatchdogScroll", reportBg, "UIPanelScrollFrameTemplate")
+  scroll:SetPoint("TOPLEFT", 8, -6)
+  scroll:SetPoint("BOTTOMRIGHT", -28, 6)
+
+  -- Step 3: where to paste it.
+  local step3 = Label("|cffffd100Step 3.|r Open this page in your browser (click it, Ctrl+C, paste it in the "
+    .. "address bar),", reportBg, -12)
+  local step3b = Label("then paste your report with |cffffffffCtrl+V|r and press Create. A screenshot helps too.",
+    step3, -4)
+  local linkBg = Boxed(28, step3b)
+  linkBox = CreateFrame("EditBox", nil, linkBg)
+  linkBox:SetAutoFocus(false)
+  linkBox:SetFontObject(ChatFontNormal)
+  linkBox:SetPoint("TOPLEFT", linkBg, "TOPLEFT", 8, -6)
+  linkBox:SetPoint("BOTTOMRIGHT", linkBg, "BOTTOMRIGHT", -8, 6)
+  linkBox:SetText(V.ISSUES)
+  linkBox:SetScript("OnEscapePressed", function(self)
+    self:ClearFocus()
+  end)
+  linkBox:SetScript("OnEditFocusGained", function(self)
+    self:HighlightText()
+  end)
+  linkBox:SetScript("OnMouseUp", function(self)
+    self:SetFocus()
+    self:HighlightText()
+  end)
+  linkBox:SetScript("OnTextChanged", function(self, user)
+    if user then
+      self:SetText(V.ISSUES) -- read only
+      self:HighlightText()
+    end
+  end)
+
+  -- The report box itself (made last: it is the one that is filled and read back).
   editBox = CreateFrame("EditBox", nil, scroll)
   editBox:SetMultiLine(true)
   editBox:SetAutoFocus(false)
   editBox:SetFontObject(ChatFontNormal)
-  editBox:SetWidth(660)
+  editBox:SetWidth(630)
   -- No length cap of our own (0 = none); the readback below catches any cap the game applies anyway.
   pcall(editBox.SetMaxLetters, editBox, 0)
   pcall(editBox.SetMaxBytes, editBox, 0)
@@ -87,6 +262,15 @@ local function Fill(text, select, note)
     Build()
   end
   frame:Show()
+  filling = true
+  local n = Notes()
+  if whatBox and not whatBox:HasFocus() then
+    whatBox:SetText(n.what or "")
+  end
+  if doingBox and not doingBox:HasFocus() then
+    doingBox:SetText(n.doing or "")
+  end
+  filling = false
   editBox:SetText("")
   editBox:SetText(text)
   editBox:SetCursorPosition(0)
@@ -97,7 +281,7 @@ local function Fill(text, select, note)
     -- the text looking selected while Ctrl+C goes nowhere. Take focus again on the next frame.
     if C_Timer and C_Timer.After then
       C_Timer.After(0, function()
-        if frame:IsShown() then
+        if frame:IsShown() and not (whatBox:HasFocus() or doingBox:HasFocus()) then
           editBox:SetFocus()
           editBox:HighlightText()
         end
@@ -107,8 +291,9 @@ local function Fill(text, select, note)
   status:SetText(note or "")
 end
 
--- Build the report and put it in the box; smaller if the box would cut it.
-function V.ShowReport()
+-- Build the report and put it in the box; smaller if the box would cut it. `typing`: rebuilt because the
+-- player is writing in step 1, so the cursor stays where they are.
+function V.ShowReport(typing)
   local limit = ns.Export.REPORT_LIMIT
   for _ = 1, 4 do
     local ok, str, fmt, len = pcall(ns.Export.Encode)
@@ -118,14 +303,17 @@ function V.ShowReport()
       Fill("The report could not be built: " .. why, false, "Report failed")
       return false
     end
+    local text = V.Header() .. str
     -- The report's time is shown, so a paste can be matched to the report (a stale clipboard is easy to spot).
     local stamp = date("%H:%M:%S")
-    Fill(str, true, string.format("Report %s, %d characters, selected: press Ctrl+C to copy it.",
-      stamp, len))
+    Fill(text, not typing, string.format("Report %s, %d characters%s", stamp, len,
+      typing and "" or ", selected: press Ctrl+C to copy it."))
     local held = editBox:GetText()
-    if type(held) == "string" and #held == #str then
-      U.Print("Report %s ready (%d characters, already selected): press Ctrl+C, then paste it into the chat.",
-        stamp, len)
+    if type(held) == "string" and #held == #text then
+      if not typing then
+        U.Print("Report %s ready (%d characters, already selected): press Ctrl+C, then paste it into a new issue.",
+          stamp, len)
+      end
       ns.Export.REPORT_LIMIT = limit
       return true
     end

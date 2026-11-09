@@ -27,9 +27,11 @@ local function OpenWatchdogReport()
     wd.OpenReport()
     return true
   end
-  U.Print("%s", L["The Watchdog addon is not installed."])
+  U.Print("%s", L["The DMGAssist_Watchdog addon (Report an issue) is not installed."])
   return false
 end
+
+ns.OpenReport = OpenWatchdogReport
 
 local function Run(command, arg)
   ns.commands[command](arg)
@@ -66,7 +68,7 @@ function MM.FillMenu(_, root)
     ns.Options.Open()
   end)
   if type(_G.DMGAssistWatchdog) == "table" then
-    root:CreateButton(L["Watchdog report"], OpenWatchdogReport)
+    root:CreateButton(L["Report an issue"], OpenWatchdogReport)
   end
   root:CreateDivider()
   root:CreateCheckbox(L["Show recommendations"], DbFlag("enabled"), function()
