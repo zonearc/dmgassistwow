@@ -642,11 +642,41 @@ end
 
 -- Learned timing correction for a spell (seconds, + = it really takes longer than our clock): see "Timing
 -- learning" below. Applied while the spell's measurements agree with each other.
-local function Offset(id, base)
+-- Kept apart for 1-2 and 3+ targets: many cooldown effects come per target hit or per proc on any target
+-- (Sentinel's Mark taking time off Wildfire Bomb), so a 5-dummy pull and a boss learn different numbers.
+S.AOE_BAND = 3
+local function TimingKeys(id)
   local info = M.Info(id)
   local name = info and info.n or M.TokenForID(id)
-  local t = name and S.learned.timing and S.learned.timing[name]
-  if not (t and (t.n or 0) >= 1 and not t.unreliable and base) then
+  if not name then
+    return nil, nil
+  end
+  local aoe = name .. "@aoe"
+  if (S.Targets() or 1) >= S.AOE_BAND then
+    return aoe, name, name
+  end
+  return name, aoe, name
+end
+S.TimingKeys = TimingKeys
+
+-- The record that applies now: this target band's, or the other band's while this one has nothing yet.
+local function AppliedRecord(id)
+  local key, other = TimingKeys(id)
+  local all = S.learned and S.learned.timing
+  if not (key and all) then
+    return nil
+  end
+  local t = all[key]
+  if t and (t.n or 0) >= 1 then
+    return t
+  end
+  t = all[other]
+  return (t and (t.n or 0) >= 1) and t or nil
+end
+
+local function Offset(id, base)
+  local t = AppliedRecord(id)
+  if not (t and not t.unreliable and base) then
     return 0
   end
   return math.max(-0.6 * base, math.min(0.6 * base, t.mean or 0))
@@ -881,27 +911,26 @@ S.SPREAD_UNRELIABLE = 1.5 -- running spread above this after 3+ measurements: er
 S.AGREE_TO_TRUST = 4     -- agreements with our clock that un-flag a spell
 S.timingLogged = 0
 
-local function TimingName(id)
-  local info = M.Info(id)
-  return info and info.n or M.TokenForID(id)
-end
-
+-- This target band's record (created on the first measurement); name = the spell's token.
 local function TimingRecord(id, create)
-  local name = TimingName(id)
-  if not name then
+  local key, _, name = TimingKeys(id)
+  if not key then
     return nil, nil
   end
   S.learned.timing = S.learned.timing or {}
-  local t = S.learned.timing[name]
+  local t = S.learned.timing[key]
   if not t and create then
     t = { n = 0, mean = 0, spread = 0, agree = 0 }
-    S.learned.timing[name] = t
+    S.learned.timing[key] = t
   end
-  return t, name
+  return t, name, key
 end
 
 function S.ClockUnreliable(id)
   local t, name = TimingRecord(id, false)
+  if not (t and t.unreliable ~= nil) then
+    t = AppliedRecord(id)
+  end
   if t and t.unreliable ~= nil then
     return t.unreliable == true
   end
@@ -916,14 +945,20 @@ function S.LearnTiming(id, err, how)
   if type(err) ~= "number" or err ~= err or math.abs(err) > 30 then
     return
   end
-  local t, name = TimingRecord(id, true)
+  -- err is measured against our clock as it runs now, correction included: what's left over. The total
+  -- correction the spell needs is the one applied plus that.
+  local applied = AppliedRecord(id)
+  applied = (applied and not applied.unreliable) and (applied.mean or 0) or 0
+  local t, name, key = TimingRecord(id, true)
   if not t then
     return
   end
+  local sample = applied + err
   t.n = (t.n or 0) + 1
   local a = t.n < 4 and 1 / t.n or 0.3
-  t.mean = (t.mean or 0) + a * (err - (t.mean or 0))
-  t.spread = (t.spread or 0) + a * (math.abs(err - t.mean) - (t.spread or 0))
+  t.mean = (t.mean or 0) + a * (sample - (t.mean or 0))
+  t.spread = (t.spread or 0) + a * (math.abs(sample - t.mean) - (t.spread or 0))
+  name = key or name
   local was = S.ClockUnreliable(id)
   if t.n >= 3 and t.spread > S.SPREAD_UNRELIABLE and not was then
     t.unreliable, t.agree = true, 0
@@ -1011,9 +1046,69 @@ function S.NoteReadyShown(id)
   end
 end
 
+-- Pressing the button before it's ready (the "2222" style): each press the game refuses arrives as
+-- UNIT_SPELLCAST_FAILED. When it finally goes through while you are still pressing, that moment IS when it came
+-- back, to within one press: compared with when slot 1 showed it ready, our clock's error in both directions,
+-- measured exactly, within seconds. Unless the global cooldown, not the spell, was what held it.
+S.PRESS_GAP = 0.6     -- presses closer together than this count as pressing until it goes through
+S.pressed = {}        -- spell -> { first, last, n } refused presses
+function S.OnCastFailed(id)
+  id = U.Read(id)
+  if type(id) ~= "number" or not S.combatStart then
+    return
+  end
+  local now = GetTime()
+  local p = S.pressed[id]
+  if not p or now - p.last > 2 then
+    p = { first = now, last = now, n = 0 }
+    S.pressed[id] = p
+  end
+  p.last, p.n = now, p.n + 1
+  local gcd = S.GCDRemains() or 0
+  p.gcdEnd = gcd > 0.05 and now + gcd or nil -- refused because of the global cooldown: it ends then
+end
+
+-- true when this cast came out of pressing it until it went through (measured here; skip the "waited" guess)
+local function CheckPressed(id, r)
+  local base = M.baseOf and M.baseOf[id] or id
+  local p = S.pressed[id] or S.pressed[base]
+  S.pressed[id], S.pressed[base] = nil, nil
+  local now = GetTime()
+  if not (p and now - p.last <= S.PRESS_GAP and S.combatStart) then
+    return false
+  end
+  if not (ChargeInfo(id) or CooldownLength(id)) or S.ClockUnreliable(id) then
+    return true
+  end
+  local shownAt = r and (r.id == id or r.id == base) and r.t or nil
+  local heldByGCD = p.gcdEnd ~= nil and math.abs(now - p.gcdEnd) < 0.15
+  local err
+  if shownAt then
+    -- slot 1 showed it ready at shownAt, the game let it go at now: our clock was early by the difference
+    err = now - shownAt - (ns.Display and ns.Display.Latency and ns.Display.Latency() or 0)
+    if heldByGCD or err < 0.2 then
+      err = nil -- the GCD held it, or we agree to within a press
+    end
+  end
+  if err then
+    S.LearnTiming(id, err, "pressed")
+  end
+  if p.n >= 2 and S.pressLogged < 20 then
+    S.pressLogged = S.pressLogged + 1
+    U.Log("pressed_until_ready", { spell = TimingKeys(id), presses = p.n,
+      pressing = string.format("%.1f", now - p.first),
+      shown = shownAt and string.format("%.1f", now - shownAt) or "no", gcd = heldByGCD and 1 or 0 })
+  end
+  return true
+end
+S.pressLogged = 0
+
 local function CheckWaited(id)
   local r = S.readyShown
   S.readyShown = nil
+  if CheckPressed(id, r) then
+    return
+  end
   if not (r and S.combatStart) then
     return
   end
@@ -2601,8 +2696,8 @@ function S.Calibrate()
   end
   table.sort(parts)
   text = table.concat(parts, " ")
-  if text ~= S.timingLogged then
-    S.timingLogged = text
+  if text ~= S.timingSummary then
+    S.timingSummary = text
     U.Log("learned_timing", { spells = text ~= "" and text or "nothing yet" })
   end
   HasteFactor()
@@ -2616,7 +2711,7 @@ function S.OnCombat(inCombat)
   if inCombat then
     S.combatStart = GetTime()
     S.fightContext = S.FightContext()
-    S.timingLogged = 0
+    S.timingLogged, S.pressLogged, S.pressed = 0, 0, {}
     if ns.Display then
       ns.Display.shadesLogged = 0
     end

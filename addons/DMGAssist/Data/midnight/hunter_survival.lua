@@ -940,4 +940,5 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
       a = { 259495, 259496, 265157, 265163, 269747, 1253171 },
     },
   },
+  volatile = { "wildfire_bomb" },
 })

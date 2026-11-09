@@ -52,7 +52,9 @@ nothing automated. You press every button.
   always let addons see. DMGAssist knows the interactions SimulationCraft simulates (Kill Command taking time off
   Wildfire Bomb, Crusader Strike off Judgment, and so on, imported weekly), then checks its timing against the game
   every fight: a steady difference is corrected, and a spell whose timing jumps around is left to Blizzard's
-  Assisted Combat until the two agree again. What it learns is saved for your whole account and improves as you
+  Assisted Combat until the two agree again. Pressing a spell over and over until it goes through gives an exact
+  reading, so players who play that way tune it within seconds. Pulls of 3+ targets learn separately from single
+  targets. What it learns is saved for your whole account and improves as you
   play; Settings > DMGAssist > Learned timing (or `/dmga relearn`) starts it over.
 - **Leveling and alts, automatically.** A new character's starter spec, and any character below max level that
   knows only a few of the spells the priority list expects, follow Blizzard's Assisted Combat, which is built for

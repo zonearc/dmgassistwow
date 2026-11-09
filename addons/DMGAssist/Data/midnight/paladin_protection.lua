@@ -1352,5 +1352,5 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       a = { 85673, 150631, 315921 },
     },
   },
-  volatile = { "consecration", "holy_armaments", "judgment" },
+  volatile = { "avengers_shield", "consecration", "holy_armaments", "judgment" },
 })

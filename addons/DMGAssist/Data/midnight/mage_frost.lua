@@ -1226,5 +1226,5 @@ ns.RegisterSpecData("midnight", "mage_frost", {
       t = { 378406 },
     },
   },
-  volatile = { "frozen_orb", "ray_of_frost" },
+  volatile = { "flurry", "frozen_orb", "ray_of_frost" },
 })

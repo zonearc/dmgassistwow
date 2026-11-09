@@ -581,6 +581,9 @@
     "Killing Frenzy (363760): $@spelldesc363665 Tooltip          : Your next Cobra Shot has its damage and cooldown reduction increased by $w1%, or your next Multi-Shot grants an additional ${$363665m3/1000}.1 sec of Beast Cleave.",
     "Hunter Beast Mastery 11.1 Class Set 4pc (1215644): Mutagenic attacks reduce the cooldown of Bestial Wrath by ${$1218004s2/100}.2 sec.",
     "Potent Mutagen (1218003): Each strike reduces the cooldown of Bestial Wrath by $${1218004s2/100}.2 sec.",
+    "sc_hunter.cpp:3763 black_arrow -> black_arrow: proc outside an action",
+    "sc_hunter.cpp:3763 black_arrow -> kill_shot: proc outside an action",
+    "sc_hunter.cpp:3813 pack_mentality -> barbed_shot: proc outside an action",
     "sc_hunter.cpp:4099 steady_shot -> aimed_shot: amount computed elsewhere"
    ],
    "links": [
@@ -627,8 +630,16 @@
     "Grenade Juggler (470492): $@spelldesc459843 Tooltip          : The cooldown of Explosive Shot has been reset.",
     "Moon's Blessing (1253825): When your Sentinel Owl applies Sentinel's Mark, reduce the cooldown of",
     "Lock and Load: Explosive Shot (1300701): $@spelldesc473520 Tooltip          : Your next Explosive Shot will not incur its cooldown.",
+    "sc_hunter.cpp:3645 focused_aim -> aimed_shot: proc outside an action",
+    "sc_hunter.cpp:3667 moons_blessing -> aimed_shot: proc outside an action",
+    "sc_hunter.cpp:3712 moons_blessing -> aimed_shot: proc outside an action",
+    "sc_hunter.cpp:3763 black_arrow -> black_arrow: proc outside an action",
+    "sc_hunter.cpp:3763 black_arrow -> kill_shot: proc outside an action",
     "sc_hunter.cpp:4099 steady_shot -> aimed_shot: amount computed elsewhere",
-    "sc_hunter.cpp:5690 rapid_fire -> aimed_shot: amount not found in spell data"
+    "sc_hunter.cpp:5690 rapid_fire -> aimed_shot: amount not found in spell data",
+    "sc_hunter.cpp:8075 proc -> aimed_shot: proc outside an action",
+    "sc_hunter.cpp:8085 proc -> aimed_shot: proc outside an action",
+    "sc_hunter.cpp:8086 proc -> rapid_fire: proc outside an action"
    ],
    "links": [
     "aimed_shot>rapid_fire:reset",
@@ -676,7 +687,11 @@
     "Light the Fuse (428464): $@spelldesc422879 Tooltip          : Your next Wildfire Bomb will not incur a cooldown.",
     "Grenade Juggler (470488): $@spelldesc459843 Tooltip          : Cooldown recovery rate of Wildfire Bomb increased by $s1%.",
     "Moon's Blessing (1253825): When your Sentinel Owl applies Sentinel's Mark, reduce the cooldown of",
-    "sc_hunter.cpp:4099 steady_shot -> aimed_shot: amount computed elsewhere"
+    "sc_hunter.cpp:3668 moons_blessing -> wildfire_bomb: proc outside an action",
+    "sc_hunter.cpp:3713 moons_blessing -> wildfire_bomb: proc outside an action",
+    "sc_hunter.cpp:3814 pack_mentality -> wildfire_bomb: proc outside an action",
+    "sc_hunter.cpp:4099 steady_shot -> aimed_shot: amount computed elsewhere",
+    "sc_hunter.cpp:8203 grenade_juggler_buff -> wildfire_bomb: proc outside an action"
    ],
    "links": [
     "*>wildfire_bomb:0.033 per pt2 req405530",
@@ -769,7 +784,9 @@
     "Temporal Realignment (1244090): This effect places Alter Time on cooldown as if it had been cast.",
     "sc_mage.cpp:2119 fire_mage -> fire_blast: amount computed elsewhere",
     "sc_mage.cpp:2420 hot_streak -> fire_blast: amount computed elsewhere",
-    "sc_mage.cpp:4792 meteorite -> fire_blast: amount computed elsewhere"
+    "sc_mage.cpp:4792 meteorite -> fire_blast: amount computed elsewhere",
+    "sc_mage.cpp:6432 fiery_rush -> fire_blast: proc outside an action",
+    "sc_mage.cpp:7217 fired_up_1 -> fire_blast: proc outside an action"
    ],
    "links": [
     "flamestrike>fire_blast:0.3 req1264835",
@@ -815,7 +832,9 @@
     "Temporal Realignment (1244090): When your health is brought below $s1%, your past self corrects your timeline if Alter Time is not on cooldown, instantly restoring $1244092s1% of your maximum health and healing you for an additional",
     "Temporal Realignment (1244090): This effect places Alter Time on cooldown as if it had been cast.",
     "sc_mage.cpp:4480 ice_lance -> frozen_orb: amount computed elsewhere",
-    "sc_mage.cpp:4481 ice_lance -> ray_of_frost: amount computed elsewhere"
+    "sc_mage.cpp:4481 ice_lance -> ray_of_frost: amount computed elsewhere",
+    "sc_mage.cpp:7427 brain_freeze -> flurry: proc outside an action",
+    "sc_mage.cpp:7433 brain_freeze -> flurry: proc outside an action"
    ],
    "links": [
     "ice_lance>frozen_orb:0.5 req1281638"
@@ -988,7 +1007,8 @@
     "Crusader Strike (1279187): Reduces the cooldown of Judgment by ${$196926m2/-1000}.1 sec.][] .",
     "paladin/sc_paladin.cpp:581 consecration -> consecration: amount computed elsewhere",
     "paladin/sc_paladin.cpp:1086 crusader_strike -> holy_shock: amount computed elsewhere",
-    "paladin/sc_paladin_protection.cpp:233 avengers_shield -> guardian_of_ancient_kings: amount computed elsewhere"
+    "paladin/sc_paladin_protection.cpp:233 avengers_shield -> guardian_of_ancient_kings: amount computed elsewhere",
+    "paladin/sc_paladin_protection.cpp:948 crusaders_judgment -> judgment: proc outside an action"
    ],
    "links": [
     "holy_shock>judgment:1.5 req196926",
@@ -1033,7 +1053,9 @@
     "paladin/sc_paladin.cpp:581 consecration -> consecration: amount computed elsewhere",
     "paladin/sc_paladin.cpp:1086 crusader_strike -> holy_shock: amount computed elsewhere",
     "paladin/sc_paladin.cpp:1267 word_of_glory -> holy_armaments: amount computed elsewhere",
-    "paladin/sc_paladin_protection.cpp:233 avengers_shield -> guardian_of_ancient_kings: amount computed elsewhere"
+    "paladin/sc_paladin_protection.cpp:233 avengers_shield -> guardian_of_ancient_kings: amount computed elsewhere",
+    "paladin/sc_paladin_protection.cpp:923 proc -> avengers_shield: proc outside an action",
+    "paladin/sc_paladin_protection.cpp:948 crusaders_judgment -> judgment: proc outside an action"
    ],
    "links": [
     "crusader_strike>judgment:1.5 req196926",
@@ -1080,6 +1102,7 @@
     "Crusader Strike (1279187): Reduces the cooldown of Judgment by ${$196926m2/-1000}.1 sec.][] .",
     "paladin/sc_paladin.cpp:1086 crusader_strike -> holy_shock: amount computed elsewhere",
     "paladin/sc_paladin_protection.cpp:233 avengers_shield -> guardian_of_ancient_kings: amount computed elsewhere",
+    "paladin/sc_paladin_protection.cpp:948 crusaders_judgment -> judgment: proc outside an action",
     "paladin/sc_paladin_retribution.cpp:422 blade_of_justice -> blade_of_justice: conditional or chance-based"
    ],
    "links": [
@@ -1273,7 +1296,14 @@
     "Preparation (1277933): Immediately reset the cooldowns of Adrenaline Rush, Between the Eyes, Blade Flurry, Blade Rush, and Killing Spree.",
     "sc_rogue.cpp:3572 adrenaline_rush -> adrenaline_rush: amount computed elsewhere",
     "sc_rogue.cpp:3969 blade_flurry -> blade_flurry: amount computed elsewhere",
-    "sc_rogue.cpp:6153 stealth -> stealth: amount computed elsewhere"
+    "sc_rogue.cpp:6153 stealth -> stealth: amount computed elsewhere",
+    "sc_rogue.cpp:8293 proc -> adrenaline_rush: proc outside an action",
+    "sc_rogue.cpp:8294 proc -> between_the_eyes: proc outside an action",
+    "sc_rogue.cpp:8295 proc -> blade_flurry: proc outside an action",
+    "sc_rogue.cpp:8296 proc -> blade_rush: proc outside an action",
+    "sc_rogue.cpp:8298 proc -> keep_it_rolling: proc outside an action",
+    "sc_rogue.cpp:8299 proc -> killing_spree: proc outside an action",
+    "sc_rogue.cpp:8300 proc -> roll_the_bones: proc outside an action"
    ],
    "links": [
     "between_the_eyes>between_the_eyes:reset",
@@ -1456,7 +1486,8 @@
    },
    "lines": 94,
    "linkReview": [
-    "Warlock Affliction Class Set 4pc (393699): Each charge of Cruel Epiphany increases the damage of your next Malefic Rapture or Seed of Corruption by $394253s1%."
+    "Warlock Affliction Class Set 4pc (393699): Each charge of Cruel Epiphany increases the damage of your next Malefic Rapture or Seed of Corruption by $394253s1%.",
+    "warlock/sc_warlock.cpp:215 proc -> haunt: proc outside an action"
    ],
    "links": [
     "unstable_affliction>dark_harvest:1.5 req1259886",

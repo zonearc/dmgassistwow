@@ -1158,5 +1158,5 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       t = { 14983 },
     },
   },
-  volatile = { "adrenaline_rush", "blade_flurry", "stealth" },
+  volatile = { "adrenaline_rush", "between_the_eyes", "blade_flurry", "blade_rush", "keep_it_rolling", "killing_spree", "roll_the_bones", "stealth" },
 })

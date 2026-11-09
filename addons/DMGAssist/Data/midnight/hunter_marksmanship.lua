@@ -1224,5 +1224,5 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       a = { 355589, 392060, 354831, 355596, 392058, 392061, 398388, 459808 },
     },
   },
-  volatile = { "aimed_shot" },
+  volatile = { "aimed_shot", "black_arrow", "kill_shot", "rapid_fire" },
 })

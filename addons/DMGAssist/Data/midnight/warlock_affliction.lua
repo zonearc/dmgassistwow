@@ -1487,4 +1487,5 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       t = { 445465 },
     },
   },
+  volatile = { "haunt" },
 })

@@ -440,7 +440,7 @@ pcall(frame.RegisterEvent, frame, "PLAYER_STOPPED_MOVING")
 pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_START", "target", "player")
 pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_CHANNEL_START", "target", "player")
 for _, event in ipairs({ "UNIT_SPELLCAST_STOP", "UNIT_SPELLCAST_INTERRUPTED", "UNIT_SPELLCAST_FAILED",
-  "UNIT_SPELLCAST_CHANNEL_STOP" }) do
+  "UNIT_SPELLCAST_FAILED_QUIET", "UNIT_SPELLCAST_CHANNEL_STOP" }) do
   pcall(frame.RegisterUnitEvent, frame, event, "player")
 end
 pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELL_HASTE", "player")
@@ -531,8 +531,12 @@ frame:SetScript("OnEvent", function(_, event, ...)
     end
   elseif event == "UNIT_SPELLCAST_STOP" then
     S.OnOwnCastEnded() -- the bar ended; SUCCEEDED (before or after) still matches it
-  elseif event == "UNIT_SPELLCAST_INTERRUPTED" or event == "UNIT_SPELLCAST_FAILED"
-    or event == "UNIT_SPELLCAST_CHANNEL_STOP" then
+  elseif event == "UNIT_SPELLCAST_FAILED" or event == "UNIT_SPELLCAST_FAILED_QUIET" then
+    S.OnCastFailed(arg3) -- pressed before it was ready: State.lua "pressing until it goes through"
+    if event == "UNIT_SPELLCAST_FAILED" then
+      S.OnOwnCastStop(nil)
+    end
+  elseif event == "UNIT_SPELLCAST_INTERRUPTED" or event == "UNIT_SPELLCAST_CHANNEL_STOP" then
     S.OnOwnCastStop(nil)
   elseif event == "PLAYER_STARTED_MOVING" then
     S.moving = true

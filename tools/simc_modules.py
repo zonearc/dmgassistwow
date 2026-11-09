@@ -17,7 +17,7 @@ on ticks, or on amounts computed elsewhere are skipped: the runtime's safety net
 import os
 import re
 
-CALL = re.compile(r"cooldowns\.(\w+)->(adjust|reset)\s*\(")
+CALL = re.compile(r"cooldowns\.(\w+)->(adjust_recharge_multiplier|adjust|reset)\s*\(")
 STRUCT = re.compile(r"^\s*struct\s+(\w+?)_t\b")
 METHOD = re.compile(r"^\s*(?:void|double|bool)\s+(\w+)\s*\(")
 TALENT_AMOUNT = re.compile(r"-\s*(?:p\(\)->)?(?:talents|spec|tier_set)\.(\w+)->effectN\(\s*(\d+)\s*\)\.time_value\(\)\s*\)\s*;")
@@ -162,7 +162,11 @@ def links(module_dir, cls, spells):
             continue
         for c in scan_file(open(path, encoding="utf-8", errors="replace").read()):
             where = "%s:%d" % (f, c["line"])
-            if not c["struct"]:
+            if not c["struct"] or c["kind"] == "adjust_recharge_multiplier":
+                # Outside any action (a proc handler such as hunter_t::trigger_sentinels_mark, a buff callback):
+                # happens by chance or on hidden state. Its target ships as volatile and the runtime learns it.
+                tal = TALENT_ANY.findall(c["stmt"]) or re.findall(r"(?:talents|buffs)\.(\w+)", c["around"] + c["stmt"])
+                review.append("%s %s -> %s: proc outside an action" % (where, tal[0] if tal else "proc", c["target"]))
                 continue
             source = _token_for_struct(c["struct"])
             ticks = 1

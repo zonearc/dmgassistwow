@@ -1455,8 +1455,9 @@ test("timing learning: steady errors correct our clock, scattered ones leave the
   mock.inCombat, mock.restricted = true, true
   mock.Fire("PLAYER_REGEN_DISABLED")
   -- steady: always about 2 s longer than our clock (a talent we don't know about)
-  for _ = 1, 4 do
-    S.LearnTiming(5217, 2.0, "waited")
+  S.LearnTiming(5217, 2.0, "waited")
+  for _ = 1, 3 do
+    S.LearnTiming(5217, 0, "waited") -- measured against the corrected clock: nothing left over
   end
   eq(S.ClockUnreliable(5217), false, "consistent: still ours")
   eq(math.floor(S.CooldownLength(5217) + 0.5), 32, "corrected by 2 s")
@@ -1518,6 +1519,70 @@ test("timing learning: we showed it ready, you waited and cast it later: our clo
   mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
   eq(S.learned.timing.tigers_fury == nil or S.learned.timing.tigers_fury.n <= 1, true)
   mock.inCombat, mock.restricted = false, false
+end)
+
+test("timing learning: pressing until it goes through measures our clock exactly; never counts as a skip", function()
+  Reset()
+  local ns = Boot()
+  local S, G = ns.State, ns.Engine
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", cd = 30, gcd = 1.5 }
+  Feral(ns, rec)
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  -- slot 1 shows it ready; you press 2222 and the game refuses until 1.8 s later
+  S.NoteReadyShown(5217)
+  for _ = 1, 4 do
+    mock.Advance(0.45)
+    mock.Fire("UNIT_SPELLCAST_FAILED", "player", "guid", 5217)
+  end
+  mock.Advance(0.1)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  local t = S.learned.timing.tigers_fury
+  eq(t and t.n, 1, "one measurement")
+  eq(t and math.floor(t.mean * 10 + 0.5) / 10, 1.9, "our clock was early by when it went through (no reaction guess)")
+  eq(G.skips[5217], nil, "refused presses of the shown spell are never a skip")
+  -- measured again, with the correction applied: what's left over adds to it rather than replacing it
+  S.NoteReadyShown(5217)
+  mock.Advance(0.5)
+  mock.Fire("UNIT_SPELLCAST_FAILED", "player", "guid", 5217)
+  mock.Advance(0.5)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  eq(math.floor(t.mean * 10 + 0.5) / 10, 2.4, "1.9 applied + 1.0 left over, averaged with 1.9")
+  -- a single press long ago is not "pressing until it goes through"
+  S.learned.timing = {}
+  S.NoteReadyShown(5217)
+  mock.Fire("UNIT_SPELLCAST_FAILED", "player", "guid", 5217)
+  mock.Advance(3)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  eq(S.learned.timing.tigers_fury and S.learned.timing.tigers_fury.how, nil)
+  mock.inCombat, mock.restricted = false, false
+end)
+
+test("timing learning: a 5-target pull and a single target learn separately", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", cd = 30, gcd = 1.5 }
+  Feral(ns, rec)
+  local targets = 5
+  local real = S.Targets
+  S.Targets = function()
+    return targets
+  end
+  S.LearnTiming(5217, -6, "assisted")
+  eq(S.learned.timing["tigers_fury@aoe"].mean, -6)
+  eq(S.learned.timing.tigers_fury, nil)
+  eq(math.floor(S.CooldownLength(5217) + 0.5), 24, "5 targets: corrected")
+  targets = 1
+  eq(math.floor(S.CooldownLength(5217) + 0.5), 24, "1 target, nothing learned yet: borrows the other band")
+  S.LearnTiming(5217, 4, "assisted") -- residual against the borrowed -6: really -2 on one target
+  eq(S.learned.timing.tigers_fury.mean, -2)
+  eq(math.floor(S.CooldownLength(5217) + 0.5), 28, "1 target: its own number")
+  targets = 5
+  eq(math.floor(S.CooldownLength(5217) + 0.5), 24, "5 targets: still its own")
+  S.Targets = real
 end)
 
 test("every spec ships SimC spell data (ids, cooldowns, durations)", function()

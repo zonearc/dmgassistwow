@@ -61,7 +61,7 @@ EXCLUDED_MARK = "not included in the game's Assisted Combat system"
 
 
 
-REVIEW_MODULE = re.compile(r"^\S+:\d+ (\w+) -> (\w+):")
+REVIEW_MODULE = re.compile(r"^\S+:\d+ (\w+) -> (\w+): (.*)$")
 REVIEW_DESC = re.compile(r"^.+? \((\d+)\): .*?cooldown (?:recovery rate )?(?:of|on) ([A-Z][\w' ]+?)(?= by| is|[.,]| for| increased|$)")
 
 
@@ -74,7 +74,7 @@ def volatile_targets(review, ids, info, simc):
     for r in review:
         m = REVIEW_MODULE.match(r)
         if m:
-            if m.group(2) in actions and m.group(1) in ids:
+            if m.group(2) in actions and (m.group(1) in ids or m.group(3).startswith("proc outside")):
                 out.add(m.group(2))
             continue
         m = REVIEW_DESC.match(r)
