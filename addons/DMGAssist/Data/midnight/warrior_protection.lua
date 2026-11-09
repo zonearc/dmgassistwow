@@ -169,6 +169,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
     { "thunder_clap", "demoralizing_shout", 3.0, 215176, 0 },
     { "thunder_clap", "demoralizing_shout", 1.5, 335229, 0 },
     { "shield_slam", "shield_wall", 6.0, 384072, 0 },
+    { "thunder_clap", "demoralizing_shout", 1.5, 385840, 0 },
   },
   class = "warrior",
   gameMatch = {

@@ -1010,7 +1010,13 @@ function S.ApplyLinks(id, lookahead)
   end
   for _, l in ipairs(M.linksBySource[token] or {}) do
     if Requires(l[4]) then
-      ReduceTarget(l[2], l[3], lookahead)
+      local amount = l[3]
+      if l[6] and type(amount) == "number" and amount > 0 then
+        -- per enemy hit, up to a cap (Lethal Calibration: 2 s per enemy hit, up to 10 s): our enemy count
+        local n = (S.Targets()) or 1
+        amount = math.min(amount * math.max(1, n), l[6])
+      end
+      ReduceTarget(l[2], amount, lookahead)
     end
   end
   local cost = M.Cost(info)

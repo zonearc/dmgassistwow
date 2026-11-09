@@ -161,7 +161,9 @@ ns.RegisterSpecData("midnight", "deathknight_unholy", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   cdLinks = {
+    { "scourge_strike", "putrefy", 2.5, 276023, 0 },
     { "putrefy", "death_and_decay", 1.0, 1290864, 0 },
+    { "death_and_decay", "putrefy", 0.3, 1290864, 0 },
   },
   class = "deathknight",
   gameMatch = {

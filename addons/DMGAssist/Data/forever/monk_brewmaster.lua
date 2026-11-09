@@ -695,6 +695,9 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       pas = true,
     },
     [322109] = {
+      ap = {
+        { 344361, "self" },
+      },
       cd = 180,
       gcd = 1.5,
       n = "touch_of_death",

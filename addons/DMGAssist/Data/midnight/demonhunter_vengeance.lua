@@ -126,7 +126,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   cdLinks = {
     { "*", "metamorphosis", 0.033, 209354, 17 },
-    { "immolation_aura", "fiery_brand", 2.0, 210970, 0 },
+    { "immolation_aura", "fiery_brand", 2.0, 210970, 0, 10.0 },
     { "*", "demon_spikes", 0.05, 218612, 17 },
     { "soul_cleave", "fiery_brand", 2.0, 337547, 0 },
   },

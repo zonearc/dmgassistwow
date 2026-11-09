@@ -161,7 +161,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   cdLinks = {
     { "*", "metamorphosis", 0.033, 209354, 17 },
-    { "immolation_aura", "fiery_brand", 2.0, 210970, 0 },
+    { "immolation_aura", "fiery_brand", 2.0, 210970, 0, 10.0 },
     { "throw_glaive", "the_hunt", 2.0, 422859, 0 },
     { "vengeful_retreat", "felblade", "reset", 444931, 0 },
   },

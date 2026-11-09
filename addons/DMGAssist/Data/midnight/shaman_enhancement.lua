@@ -947,6 +947,9 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
       n = "windstrike",
     },
     [187874] = {
+      ap = {
+        { 187878, "self" },
+      },
       ch = 1,
       chcd = 15,
       gcd = 1.5,
@@ -1460,6 +1463,9 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
       st = 20,
     },
     [1252433] = {
+      ap = {
+        { 187878, "self" },
+      },
       cd = 16,
       d = 2,
       gcd = 1.5,

@@ -118,7 +118,7 @@ ns.RegisterSpecData("forever", "demonhunter_devourer", {
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   cdLinks = {
     { "*", "metamorphosis", 0.033, 209354, 17 },
-    { "immolation_aura", "fiery_brand", 2.0, 210970, 0 },
+    { "immolation_aura", "fiery_brand", 2.0, 210970, 0, 10.0 },
     { "consume", "metamorphosis", 1.0, 363736, 0 },
     { "collapsing_star", "voidblade", 10.0, 1272422, 0 },
   },

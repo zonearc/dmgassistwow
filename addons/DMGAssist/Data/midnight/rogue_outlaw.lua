@@ -709,6 +709,10 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       st = 1,
     },
     [271877] = {
+      ap = {
+        { 271896, "self" },
+        { 271896, "self" },
+      },
       cd = 60,
       gcd = 1,
       n = "blade_rush",

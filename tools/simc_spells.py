@@ -67,6 +67,15 @@ def parse_dump(text):
             continue
         if cur is None:
             continue
+        # The description runs to the next spell, over several lines and blank lines: Wildfire Infusion's
+        # "Kill Command reduces the cooldown of Wildfire Bomb" is its third line, and reading only the first missed it.
+        if cur.get("_inDesc"):
+            if line.strip():
+                cur["desc"] += " " + line.strip()
+                cur["descRefs"] = cur.get("descRefs", []) + [int(x) for x in re.findall(r"\$(\d+)d\b", line)]
+            else:
+                cur["desc"] += " ."  # a paragraph break ends a sentence
+            continue
         if not line.strip():
             effect = None
             continue
@@ -86,6 +95,7 @@ def parse_dump(text):
         if key == "Description":
             cur["descRefs"] = [int(x) for x in re.findall(r"\$(\d+)d\b", val)]
             cur["desc"] = val
+            cur["_inDesc"] = True
         elif key == "Stance Mask":
             try:
                 cur["stanceMask"] = int(val.split()[0], 16)
@@ -194,7 +204,7 @@ UNIT = r"(combo points?|holy power|rage|runic power|energy|focus|chi|insanity|as
 PER_SPENT = re.compile(r"per " + UNIT + r" (?:you )?(?:spen[dt]|expend)|each " + UNIT + r" (?:you )?(?:spen[dt]|expend)", re.I)
 EVERY_SPENT = re.compile(r"(?:every|each) (\$\{?\$?[^ ]+|\d+) " + UNIT + r" (?:you )?(?:spen[dt]|expend)", re.I)
 VALUE_REF = re.compile(r"\$([sm])(\d+)(?:\s*/\s*(-?\d+))?")
-CD_LINK_UNSURE = re.compile(r"chance|critical|crit\b|consuming|when you (?:are|take)|damage taken|\bkill|dies|absorb|"
+CD_LINK_UNSURE = re.compile(r"chance|critical|crit\b|consuming|when you (?:are|take)|damage taken|\b(?:kills?|killing|killed) (?:an?|the|your|enemies|enemy|target)|\bdies\b|absorb|"
                             r"interrupts|dodge|parr|\$\?", re.I)
 STATIC_CD = re.compile(r"reduced cooldown|cooldown (?:is )?reduced by|(?:reduces|increases) the cooldown of|"
                        r"cooldown of .* (?:is )?(?:reduced|increased)|additional charge|maximum charges|max charges|"
@@ -205,6 +215,31 @@ CD_MENTION = re.compile(r"cooldown|recharge|charge of", re.I)
 def _unit(name):
     name = name.lower().rstrip("s") if name.lower().endswith("points") or name.lower().endswith("shards") else name.lower()
     return SPEND_UNITS.get(name)
+
+
+PER_TARGET = re.compile(r"for each (?:enemy|target|enemies) (?:hit|struck|damaged)", re.I)
+UP_TO = re.compile(r"up to (\$\{[^}]*\}(?:\.\d)?|\$[sm]\d+|\d+(?:\.\d+)?) sec")
+
+
+def _expr_value(spell, expr):
+    """'${$s1/1000*$s2}' -> number, from the spell's effect base values (plain arithmetic only)."""
+    body = (expr or "").strip()
+    if body.startswith("${"):
+        body = body[2:body.index("}")]
+    def val(m):
+        for e in spell["effects"]:
+            if e["n"] == int(m.group(2)):
+                v = re.search(r"Base Value: (-?[\d.]+)", e["detail"])
+                return v.group(1) if v else "0"
+        return "0"
+    body = re.sub(r"\$([sm])(\d+)", val, body)
+    if not re.fullmatch(r"[\d.+\-*/() ]+", body):
+        return None
+    try:
+        v = abs(float(eval(body, {"__builtins__": {}}, {})))  # digits and operators only (checked above)
+    except Exception:
+        return None
+    return v / 1000.0 if v >= 100 else v
 
 
 def _cooldown_links(spells):
@@ -279,11 +314,21 @@ def _cooldown_links(spells):
                             seconds = round(seconds / spend_div, 3)
                     else:
                         seconds = kind
+                    # "... by 2.0 sec for each enemy hit, up to 10 sec" (Lethal Calibration): per target, with a cap
+                    per_target = isinstance(seconds, float) or isinstance(seconds, int)
+                    per_target = per_target and PER_TARGET.search(sentence) is not None
+                    cap = None
+                    if per_target:
+                        upto = UP_TO.search(sentence)
+                        cap = _expr_value(s, upto.group(1)) if upto else None
                     src = "*" if (spend_pt and (source is s and s["passive"] or not subj)) else source["token"]
                     if src != "*" and src == target["token"]:
                         continue
-                    links.append((src, target["token"], seconds, req if src != "*" else s["id"] if s["passive"] or s.get("talent") else 0,
-                                  spend_pt or 0))
+                    row = (src, target["token"], seconds, req if src != "*" else s["id"] if s["passive"] or s.get("talent") else 0,
+                           spend_pt or 0)
+                    if per_target:
+                        row = row + (round(cap, 3) if cap else round(seconds * 5, 3),)  # 6th: per target hit, cap
+                    links.append(row)
                     found_any = True
             if not found_any and s["passive"] and STATIC_CD.search(sentence) and not (per or every):
                 found_any = True  # "X has 30% reduced cooldown": permanent, in the game's own numbers
@@ -304,9 +349,10 @@ def links_for(spells, ids, extra=()):
     names = {s["name"].lower() for s in spells.values() if s["token"] in actions and not s["passive"]}
     links, review = [], []
     for s in sorted(spells.values(), key=lambda x: x["id"]):
-        for src, target, sec, req, pt in s.get("cdLinks", []):
+        for link in s.get("cdLinks", []):
+            src, target = link[0], link[1]
             if target in actions and (src == "*" or src in actions):
-                row = [src, target, sec, req, pt]
+                row = list(link)
                 if row not in links:
                     links.append(row)
         for sentence in s.get("cdUnclear", []):
@@ -317,6 +363,8 @@ def links_for(spells, ids, extra=()):
                 review.append(f"{s['name']} ({s['id']}): {sentence}")
     for x in extra:
         row = [x["source"], x["target"], x["seconds"], x.get("requires", 0), x.get("power", 0)] if isinstance(x, dict) else list(x)
+        if isinstance(x, dict) and x.get("perTargetCap"):
+            row.append(x["perTargetCap"])
         if row[1] in actions and (row[0] == "*" or row[0] in actions) and row not in links:
             links.append(row)
     return links, review

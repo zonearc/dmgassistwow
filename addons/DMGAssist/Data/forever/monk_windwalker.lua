@@ -190,6 +190,9 @@ ns.RegisterSpecData("forever", "monk_windwalker", {
   },
   blizzardExcluded = { "celestial_conduit", "flying_serpent_kick", "zenith" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "spinning_crane_kick", "fists_of_fury", 0.5, 392993, 0 },
+  },
   class = "monk",
   gameMatch = {
     matched = 0,
@@ -1351,6 +1354,9 @@ ns.RegisterSpecData("forever", "monk_windwalker", {
       tal = true,
     },
     [322109] = {
+      ap = {
+        { 344361, "self" },
+      },
       cd = 180,
       gcd = 1.5,
       n = "touch_of_death",

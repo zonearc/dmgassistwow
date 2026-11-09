@@ -754,6 +754,9 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       n = "arcane_surge",
     },
     [365350] = {
+      ap = {
+        { 365362, "self" },
+      },
       cd = 90,
       ct = 2.5,
       gcd = 1.5,
@@ -808,6 +811,9 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       n = "arcane_soul",
     },
     [453326] = {
+      ap = {
+        { 365362, "self" },
+      },
       ct = 2.5,
       n = "arcane_surge",
       r = 40,

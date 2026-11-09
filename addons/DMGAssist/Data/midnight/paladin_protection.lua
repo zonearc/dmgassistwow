@@ -1018,11 +1018,17 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
       n = "rite_of_sanctification",
     },
     [433568] = {
+      ap = {
+        { 433550, "self" },
+      },
       ct = 2,
       n = "rite_of_sanctification",
       tal = true,
     },
     [433583] = {
+      ap = {
+        { 433584, "self" },
+      },
       ct = 2,
       n = "rite_of_adjuration",
       tal = true,

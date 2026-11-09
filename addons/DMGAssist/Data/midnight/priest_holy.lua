@@ -4,6 +4,7 @@ local _, ns = ...
 ns.RegisterSpecData("midnight", "priest_holy", {
   cdLinks = {
     { "holy_fire", "holy_word_chastise", 4.0, 336314, 0 },
+    { "holy_fire", "holy_word_chastise", 4.0, 390994, 0 },
   },
   class = "priest",
   community = true,

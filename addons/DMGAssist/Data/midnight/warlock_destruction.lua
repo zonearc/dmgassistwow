@@ -757,6 +757,9 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
       r = 40,
     },
     [1122] = {
+      ap = {
+        { 111685, "self" },
+      },
       cd = 120,
       d = 0.25,
       gcd = 1.5,
