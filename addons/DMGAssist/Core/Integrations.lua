@@ -142,18 +142,32 @@ function I.OnEditMode(on)
   end
 end
 
+-- Edit Mode: hooksecurefunc on Blizzard's EnterEditMode / ExitEditMode, and our work deferred to the next frame.
+-- Never EventRegistry callbacks: those run our code inside Blizzard's Edit Mode code, and everything it did after
+-- (party frames, action bars, the game menu) ran tainted - "secret value" errors by the thousand (2026-11-09).
 function I.HookEditMode()
-  local reg = _G.EventRegistry
-  if I.editHooked or type(reg) ~= "table" or type(reg.RegisterCallback) ~= "function" then
+  local em = _G.EditModeManagerFrame
+  if I.editHooked or type(hooksecurefunc) ~= "function" or type(em) ~= "table" then
     return false
   end
   I.editHooked = true
-  pcall(reg.RegisterCallback, reg, "EditMode.Enter", function()
-    I.OnEditMode(true)
-  end, I)
-  pcall(reg.RegisterCallback, reg, "EditMode.Exit", function()
-    I.OnEditMode(false)
-  end, I)
+  local function Later(on)
+    return function()
+      if C_Timer and C_Timer.After then
+        C_Timer.After(0, function()
+          I.OnEditMode(on)
+        end)
+      else
+        I.OnEditMode(on)
+      end
+    end
+  end
+  if type(em.EnterEditMode) == "function" then
+    hooksecurefunc(em, "EnterEditMode", Later(true))
+  end
+  if type(em.ExitEditMode) == "function" then
+    hooksecurefunc(em, "ExitEditMode", Later(false))
+  end
   return true
 end
 

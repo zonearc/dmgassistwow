@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.138 (2026-11-09).
+Last updated: 1.6.0.139 (2026-11-09).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -26,6 +26,7 @@ Last updated: 1.6.0.138 (2026-11-09).
 
 ## Open: needs in-game testing (built, not yet seen in game)
 
+- [ ] Taint: open/close Edit Mode, character frame, game menu, party frames: no "tainted by DMGAssist" errors
 - [ ] Performance grade: popup after a 20 s+ fight, fades in/out; drag it in Edit Mode or unlocked; Settings >
   Performance grade (test, reset position, forget) and Grade report (best, last 10, trend, where to improve)
 - [ ] Arms: Overpower and Colossus Smash shown when Blizzard's assistant names them (left to Blizzard from the start)
@@ -41,6 +42,11 @@ Last updated: 1.6.0.138 (2026-11-09).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.139: taint fix: Edit Mode is followed with hooksecurefunc (work deferred a frame) instead of EventRegistry
+  callbacks, and the welcome setup no longer opens Edit Mode itself. Both ran our code inside Blizzard's panel code:
+  thousands of "secret value ... tainted by DMGAssist" errors in party frames, action bars, the character frame and
+  the game menu
 
 - 1.6.0.138: end-of-fight performance grade, S+ to D: accuracy (presses vs slot 1), always casting, reaction,
   cooldowns; its own movable popup above the icons, best and last 20 per spec, settings page with a report; all 9

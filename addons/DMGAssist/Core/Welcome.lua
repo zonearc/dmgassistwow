@@ -37,14 +37,9 @@ function W.AboveBars()
   return { "BOTTOM", "BOTTOM", 0, math.floor(y) }
 end
 
+-- Unlocks the HUD to drag. It never opens Blizzard's Edit Mode itself: an addon showing EditModeManagerFrame taints
+-- Edit Mode and everything it touches (party frames, action bars). Edit Mode is in the game menu (Esc).
 local function OpenEditMode()
-  local em = _G.EditModeManagerFrame
-  if em and not ns.State.combatStart and ShowUIPanel then
-    local ok = pcall(ShowUIPanel, em)
-    if ok then
-      return true
-    end
-  end
   ns.db.locked = false
   ns.Display.SetLocked(false)
   U.Print("%s", L["The HUD is unlocked: drag it where you like, then lock it in Settings > DMGAssist."])
