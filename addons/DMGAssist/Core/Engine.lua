@@ -45,6 +45,37 @@ for _, token in ipairs({ "charge", "heroic_leap", "wild_charge", "harpoon", "sha
 end
 
 local STOP = {}
+
+-- Does this list (or a list it calls) hold anything we can recommend? Cached per list table.
+local hasActions = setmetatable({}, { __mode = "k" })
+function G.HasActions(lists, name, seen)
+  local list = name and lists and lists[name]
+  if type(list) ~= "table" then
+    return false
+  end
+  if hasActions[list] ~= nil then
+    return hasActions[list]
+  end
+  seen = seen or {}
+  if seen[name] then
+    return false
+  end
+  seen[name] = true
+  local found = false
+  for _, e in ipairs(list) do
+    local a = e.a
+    if a == "call_action_list" or a == "run_action_list" then
+      found = G.HasActions(lists, e.p and e.p.name, seen)
+    elseif a and not G.SKIP[a] then
+      found = true
+    end
+    if found then
+      break
+    end
+  end
+  hasActions[list] = found
+  return found
+end
 local MAX_DEPTH = 8
 
 -- Priority-list variables live for the whole fight, as in SimC (e.g. Balance's "opener" stays 0 once
@@ -524,6 +555,12 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
     if a == "variable" then
       if not isBlizzard then
         DoVariable(e, run)
+      end
+    elseif (a == "call_action_list" or a == "run_action_list") and not G.HasActions(lists, e.p and e.p.name) then
+      -- A list with nothing we can show (Restoration's "healing": a simulated Regrowth sequence). Running it
+      -- would stop the whole list every time, so the rest (cat weaving) was never reached.
+      if run.trace then
+        run.trace[#run.trace + 1] = string.format("%s:%s %s skipped (nothing to show)", name, a, tostring(e.p.name))
       end
     elseif a == "call_action_list" or a == "run_action_list" then
       local sub = e.p and e.p.name

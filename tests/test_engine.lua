@@ -717,6 +717,22 @@ test("keybind of a spell a button turns into is the button's key, found again af
   mock.overrides, mock.actionInfo, mock.bindings = nil, nil, nil
 end)
 
+test("a run_action_list into a list with nothing to show does not stop the list (Restoration's healing)", function()
+  Reset()
+  local ns = Boot()
+  local rec = Record()
+  rec.blizzard = nil
+  rec.simc = {
+    default = {
+      { a = "run_action_list", k = "R", p = { name = "healing", line_cd = "12" } },
+      { a = "shred", k = "R" },
+    },
+    healing = { { a = "strict_sequence", k = "R", p = { name = "heal:regrowth:regrowth" } } },
+  }
+  local r = ns.Engine.Recommend(rec, {})
+  eq(r.main and r.main.token, "shred", "the cat-weaving part is reached")
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()
