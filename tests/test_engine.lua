@@ -1257,7 +1257,11 @@ test("leveling: below max level with few of the list's spells, Blizzard's assist
   end
   LV.Evaluate(state)
   eq(state.leveling, true, "level 25, a handful of spells: Blizzard leads")
-  eq(ns.ActiveRecord(state).leveling, true, "the engine walks the empty stub")
+  local r = ns.Leveling.Lead({ acSpell = 184575, main = { id = 20271 },
+    queue = { { id = 20271 }, { id = 184575 }, { id = 35395 } } })
+  eq(r.main.id, 184575, "Blizzard's pick in slot 1")
+  eq(r.queue[2].id, 20271, "the priority list fills slot 2")
+  eq(r.queue[3].id, 35395, "and slot 3, without repeating slot 1")
   eq(ns.Describe(state):find("leveling", 1, true) ~= nil, true, "Status says so")
   ns.db.levelingMode = "simc"
   LV.Evaluate(state)

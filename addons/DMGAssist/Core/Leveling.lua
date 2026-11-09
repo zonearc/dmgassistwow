@@ -1,4 +1,5 @@
 -- Leveling.lua: characters that don't have the spells a max-level priority list expects.
+-- Slot 1 follows Blizzard's Assisted Combat while leveling; slots 2 and 3 come from the priority list (LV.Lead).
 --
 -- SimC's lists are written for a max-level character with a full talent build. A level 25 character knows a
 -- handful of their spells, and an alt with talents picked at random may miss the ones the list leans on. Then
@@ -67,13 +68,23 @@ function LV.Evaluate(state)
   return state.leveling
 end
 
--- The record the engine walks while Blizzard leads: an empty list, so every pick comes from the assistant.
-local stubs = {}
-function LV.Stub(state)
-  local key = state.key or "?"
-  stubs[key] = stubs[key] or { key = key, simc = { default = {} }, simcOrder = { "default" }, assistedOnly = true,
-    leveling = true }
-  return stubs[key]
+-- While leveling, Blizzard's Assisted Combat picks slot 1 (it knows what a low-level character should press);
+-- the priority list, walked over the spells the character knows, fills slots 2 and 3. Without a suggestion from
+-- Blizzard the list leads as usual.
+function LV.Lead(result)
+  local ac = result and result.acSpell
+  if not ac or ns.Choices.IsHidden(ac) or (ns.Engine.held and ns.Engine.held[ac]) then
+    return result
+  end
+  local queue = { { id = ac, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(ac) or nil,
+    source = "assisted", why = "leveling" } }
+  for _, p in ipairs(result.queue or { result.main }) do
+    if p and p.id ~= ac and #queue < 3 then
+      queue[#queue + 1] = p
+    end
+  end
+  result.queue, result.main, result.branch = queue, queue[1], nil
+  return result
 end
 
 ---------------------------------------------------------------------------

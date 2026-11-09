@@ -293,9 +293,6 @@ end
 -- can be cast.
 local activeRecord
 function ns.ActiveRecord(state)
-  if state.leveling then
-    return ns.Leveling.Stub(state) -- Blizzard's assistant leads; the real list's spell data stays loaded
-  end
   local record = state.data
   local alt = record and record.alternate
   if alt then
@@ -363,6 +360,9 @@ function ns.Update()
   })
   result.callout = ns.BossMods.Callout()
   G.Steady(result)
+  if state.leveling then
+    ns.Leveling.Lead(result) -- Blizzard's pick in slot 1, the priority list after it
+  end
   ns.Essentials.Apply(result)
   ns.Trinkets.Apply(result)
   ns.Buffs.Apply(result) -- before interrupts and defensives: those always take slot 1
