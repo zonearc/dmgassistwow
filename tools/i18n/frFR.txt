@@ -610,3 +610,8 @@
 616	en progrès
 617	en baisse
 618	stable
+619	Note d'exemple
+620	Position par défaut
+621	Historique de cette spécialisation
+622	À gauche de la case 1, en haut
+623	À gauche de la case 1, en bas

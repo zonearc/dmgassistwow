@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.144 (2026-11-09).
+Last updated: 1.6.0.145 (2026-11-09).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -16,10 +16,6 @@ Last updated: 1.6.0.144 (2026-11-09).
 
 ## Open: build
 
-- [ ] Grade popup: default just above the icons (follows the HUD's saved place, not the docked preview), gradient
-  S+..D bar, grid of part scores with names under them, livelier pop-in; settings button names cleaned up
-- [ ] Settings preview: dark grey panel behind the docked HUD; badge sizes in the preview match the real HUD
-- [ ] Assassination: slot 1 icon (Garrote) not recognised - option to show the spell name under slot 1
 - [ ] Tank profiles (agreed 2026-11-09), one per tank spec, running alongside SimC: slots 1-3 = damage only; all
   mitigation in the red icon, chosen by the profile: keep-up (Shield Block, Ignore Pain, Ironfur, Demon Spikes,
   Bone Shield / Death Strike, Purifying Brew, Shield of the Righteous), cooldown rotation on incoming damage
@@ -37,6 +33,8 @@ Last updated: 1.6.0.144 (2026-11-09).
 
 ## Open: needs in-game testing (built, not yet seen in game)
 
+- [ ] New grade popup look and place; small icons left of slot 1; preview panel
+- [ ] Rogue: Outlaw finishers shown at 5+ combo points; Balance: Starfall on 3+ targets; slot 1 calmer while spamming
 - [ ] Protection Warrior on the tank dummy: Shield Block and Ignore Pain shown while tanking (red icon / slot 1)
 - [ ] Taint: open/close Edit Mode, character frame, game menu, party frames: no "tainted by DMGAssist" errors
 - [ ] Performance grade: popup after a 20 s+ fight, fades in/out; drag it in Edit Mode or unlocked; Settings >
@@ -54,6 +52,12 @@ Last updated: 1.6.0.144 (2026-11-09).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.145: grade popup redesigned: big letter that lands and settles, a D..S+ gradient bar with a sliding marker,
+  the four parts as a grid (value over name, coloured), tip below; it sits just above the icons' saved place (no
+  longer following the docked preview). Settings rows renamed (Sample grade / Default place / This spec's history).
+  Small icons moved outside slot 1 by default (left of it, top and bottom, 40%); the settings preview has a dark
+  panel. Spell names under icons already exist (Display > Spell names under icons)
 
 - 1.6.0.144: Balance: Starfall shown on AoE (Blizzard naming Starfall no longer "confirms" the uncertain Starsurge
   line above it). Slot 1: one free change per press, further changes wait 0.5 s (no more flip-flops right after a

@@ -614,4 +614,9 @@ ns.LOCALE_DATA.ruRU = {
   ["improving"] = "растёт",
   ["slipping"] = "падает",
   ["steady"] = "стабильно",
+  ["Sample grade"] = "Пример оценки",
+  ["Default place"] = "Место по умолчанию",
+  ["This spec's history"] = "История этой специализации",
+  ["Left of slot 1, top"] = "Слева от слота 1, сверху",
+  ["Left of slot 1, bottom"] = "Слева от слота 1, снизу",
 }

@@ -614,4 +614,9 @@ ns.LOCALE_DATA.zhCN = {
   ["improving"] = "上升",
   ["slipping"] = "下滑",
   ["steady"] = "稳定",
+  ["Sample grade"] = "示例评级",
+  ["Default place"] = "默认位置",
+  ["This spec's history"] = "此专精的记录",
+  ["Left of slot 1, top"] = "1 号位左侧，上方",
+  ["Left of slot 1, bottom"] = "1 号位左侧，下方",
 }

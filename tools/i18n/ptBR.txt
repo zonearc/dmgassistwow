@@ -610,3 +610,8 @@
 616	melhorando
 617	piorando
 618	estável
+619	Nota de exemplo
+620	Posição padrão
+621	Histórico desta especialização
+622	À esquerda do espaço 1, em cima
+623	À esquerda do espaço 1, embaixo

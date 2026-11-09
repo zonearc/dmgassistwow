@@ -610,3 +610,8 @@
 616	mejorando
 617	empeorando
 618	estable
+619	Nota de ejemplo
+620	Lugar por defecto
+621	Historial de esta especialización
+622	A la izquierda de la casilla 1, arriba
+623	A la izquierda de la casilla 1, abajo

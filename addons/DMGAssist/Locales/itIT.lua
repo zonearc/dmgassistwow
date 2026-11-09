@@ -614,4 +614,9 @@ ns.LOCALE_DATA.itIT = {
   ["improving"] = "in miglioramento",
   ["slipping"] = "in calo",
   ["steady"] = "stabile",
+  ["Sample grade"] = "Voto di esempio",
+  ["Default place"] = "Posizione predefinita",
+  ["This spec's history"] = "Cronologia di questa specializzazione",
+  ["Left of slot 1, top"] = "A sinistra dello slot 1, in alto",
+  ["Left of slot 1, bottom"] = "A sinistra dello slot 1, in basso",
 }

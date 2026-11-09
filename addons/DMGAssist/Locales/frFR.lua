@@ -614,4 +614,9 @@ ns.LOCALE_DATA.frFR = {
   ["improving"] = "en progrès",
   ["slipping"] = "en baisse",
   ["steady"] = "stable",
+  ["Sample grade"] = "Note d'exemple",
+  ["Default place"] = "Position par défaut",
+  ["This spec's history"] = "Historique de cette spécialisation",
+  ["Left of slot 1, top"] = "À gauche de la case 1, en haut",
+  ["Left of slot 1, bottom"] = "À gauche de la case 1, en bas",
 }

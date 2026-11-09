@@ -610,3 +610,8 @@
 616	besser werdend
 617	nachlassend
 618	gleichbleibend
+619	Beispielnote
+620	Standardplatz
+621	Verlauf dieser Spezialisierung
+622	Links von Platz 1, oben
+623	Links von Platz 1, unten

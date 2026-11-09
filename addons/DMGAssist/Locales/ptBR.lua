@@ -614,4 +614,9 @@ ns.LOCALE_DATA.ptBR = {
   ["improving"] = "melhorando",
   ["slipping"] = "piorando",
   ["steady"] = "estável",
+  ["Sample grade"] = "Nota de exemplo",
+  ["Default place"] = "Posição padrão",
+  ["This spec's history"] = "Histórico desta especialização",
+  ["Left of slot 1, top"] = "À esquerda do espaço 1, em cima",
+  ["Left of slot 1, bottom"] = "À esquerda do espaço 1, embaixo",
 }

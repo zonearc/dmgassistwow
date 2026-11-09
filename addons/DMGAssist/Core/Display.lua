@@ -31,19 +31,22 @@ D.DEFAULTS = {
   hideOutOfCombat = true, showWithTarget = true, hideMounted = true, hideVehicle = true,
   debugText = false, callout = true, pressCue = true, pressLead = 50, secretBranches = true, interrupt = true, defensive = true,
   highlight = true,
-  padLabels = "xbox", rangeTint = true, stackCount = true, stackSize = 14, stackPos = "BOTTOM", weavePos = "TOPLEFT", weaveSize = 45,
-  weaveX = 0, weaveY = 0, trinketPos = "BOTTOMLEFT", trinketSize = 45, trinketX = 0, trinketY = 0,
+  padLabels = "xbox", rangeTint = true, stackCount = true, stackSize = 14, stackPos = "BOTTOM", weavePos = "OUTTOPLEFT", weaveSize = 40,
+  weaveX = 0, weaveY = 0, trinketPos = "OUTBOTTOMLEFT", trinketSize = 40, trinketX = 0, trinketY = 0,
 }
 
 -- Where the off-GCD badge sits relative to slot 1: { point on the badge, point on slot 1, x, y }.
 -- Both badges (spells pressed alongside slot 1, and on-use trinkets) use these positions, plus an X/Y nudge.
-D.WEAVE_POSITIONS = { { "TOPLEFT", "Top-left corner" }, { "BOTTOMLEFT", "Bottom-left corner" },
+D.WEAVE_POSITIONS = { { "OUTTOPLEFT", "Left of slot 1, top" }, { "OUTBOTTOMLEFT", "Left of slot 1, bottom" },
+  { "TOPLEFT", "Top-left corner" }, { "BOTTOMLEFT", "Bottom-left corner" },
   { "TOPRIGHT", "Top-right corner" }, { "BOTTOMRIGHT", "Bottom-right corner" },
   { "LEFT", "Left of the icon" }, { "TOP", "Above the icon" }, { "BOTTOM", "Below the icon" } }
 local WEAVE_ANCHOR = {
   TOPLEFT = { "CENTER", "TOPLEFT", 2, -2 }, TOPRIGHT = { "CENTER", "TOPRIGHT", -2, -2 },
   BOTTOMLEFT = { "CENTER", "BOTTOMLEFT", 2, 2 }, BOTTOMRIGHT = { "CENTER", "BOTTOMRIGHT", -2, 2 },
   LEFT = { "RIGHT", "LEFT", -4, 0 }, TOP = { "BOTTOM", "TOP", 0, 4 }, BOTTOM = { "TOP", "BOTTOM", 0, -4 },
+  -- outside slot 1, stacked along its left edge: slot 1 stays fully visible (the default since 1.6.0.145)
+  OUTTOPLEFT = { "TOPRIGHT", "TOPLEFT", -4, 0 }, OUTBOTTOMLEFT = { "BOTTOMRIGHT", "BOTTOMLEFT", -4, 0 },
 }
 
 D.STACK_POSITIONS = { { "BOTTOMLEFT", "Bottom left" }, { "TOPLEFT", "Top left" }, { "BOTTOMRIGHT", "Bottom right" },
@@ -122,6 +125,16 @@ function D.Settings()
   for k, v in pairs(D.DEFAULTS) do
     if db.hud[k] == nil then
       db.hud[k] = v
+    end
+  end
+  if not db.hud.badgesMoved then
+    -- The corner badges at 45% covered much of slot 1 (2026-11-09): untouched old defaults move outside it.
+    db.hud.badgesMoved = true
+    if db.hud.weavePos == "TOPLEFT" and db.hud.weaveSize == 45 then
+      db.hud.weavePos, db.hud.weaveSize = "OUTTOPLEFT", 40
+    end
+    if db.hud.trinketPos == "BOTTOMLEFT" and db.hud.trinketSize == 45 then
+      db.hud.trinketPos, db.hud.trinketSize = "OUTBOTTOMLEFT", 40
     end
   end
   if not db.hud.stackPosMoved then
@@ -738,6 +751,18 @@ local function RestorePosition(f)
   end
 end
 
+-- An invisible frame where the HUD lives (its saved place and size), also while the HUD is docked as a preview:
+-- what sits "above the icons" (the performance grade) anchors here.
+function D.Home()
+  local f = D.frame
+  local h = D.home or CreateFrame("Frame", nil, UIParent)
+  D.home = h
+  h:SetScale((f and U.Get(f.GetScale, f)) or 1)
+  RestorePosition(h)
+  h:SetSize((f and U.Get(f.GetWidth, f)) or 200, (f and U.Get(f.GetHeight, f)) or 60)
+  return h
+end
+
 function D.SetPreviewDock(on)
   local f = D.frame
   if not f or (on and f.docked) or (not on and not f.docked) then
@@ -752,8 +777,11 @@ function D.SetPreviewDock(on)
     local right = (U.Get(panel.GetRight, panel) or 0) * (U.Get(panel.GetEffectiveScale, panel) or 1)
     local screen = (U.Get(UIParent.GetRight, UIParent) or 0) * (U.Get(UIParent.GetEffectiveScale, UIParent) or 1)
     local need = ((U.Get(f.GetWidth, f) or 200) + 24) * (U.Get(f.GetEffectiveScale, f) or 1)
-    if right + need <= screen then
-      f:SetPoint("TOPLEFT", panel, "TOPRIGHT", 16, -60)
+    local cfgDock = D.Settings()
+    local badgeW = math.floor((cfgDock.iconSize or 48) * math.max(tonumber(cfgDock.weaveSize) or 40,
+      tonumber(cfgDock.trinketSize) or 40) / 100)
+    if right + need + badgeW <= screen then
+      f:SetPoint("TOPLEFT", panel, "TOPRIGHT", 32 + badgeW, -60)
     else
       f:SetPoint("TOPRIGHT", panel, "TOPLEFT", -16, -60)
     end
@@ -767,6 +795,27 @@ function D.SetPreviewDock(on)
     end
     f.previewLabel:SetText(L["Preview. Back in its place when you close the settings."])
     f.previewLabel:Show()
+    -- a dark grey panel like the settings window's behind the preview, so it reads as part of the settings
+    if not f.previewPanel then
+      local p = CreateFrame("Frame", nil, f)
+      p:SetFrameLevel(math.max(0, (U.Get(f.GetFrameLevel, f) or 1) - 1))
+      p.bg = p:CreateTexture(nil, "BACKGROUND")
+      p.bg:SetAllPoints()
+      p.bg:SetColorTexture(0.1, 0.1, 0.11, 0.96)
+      p.line = p:CreateTexture(nil, "BORDER")
+      p.line:SetPoint("TOPLEFT")
+      p.line:SetPoint("TOPRIGHT")
+      p.line:SetHeight(1)
+      p.line:SetColorTexture(GOLD[1], GOLD[2], GOLD[3], 0.6)
+      f.previewPanel = p
+    end
+    local cfg = D.Settings()
+    local badge = math.floor((cfg.iconSize or 48) * math.max(tonumber(cfg.weaveSize) or 40,
+      tonumber(cfg.trinketSize) or 40) / 100)
+    f.previewPanel:ClearAllPoints()
+    f.previewPanel:SetPoint("TOPLEFT", f, "TOPLEFT", -(badge + 16), 30)
+    f.previewPanel:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", 12, -12)
+    f.previewPanel:Show()
   elseif not on then
     f.docked = false
     f:SetFrameStrata(f.strata or "MEDIUM")
@@ -774,6 +823,9 @@ function D.SetPreviewDock(on)
     D.SetLocked(ns.db and ns.db.locked)
     if f.previewLabel then
       f.previewLabel:Hide()
+    end
+    if f.previewPanel then
+      f.previewPanel:Hide()
     end
   end
 end

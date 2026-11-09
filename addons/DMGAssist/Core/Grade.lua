@@ -422,13 +422,15 @@ end
 Gr.SHOW_SECONDS = 6
 local FADE_IN, FADE_OUT = 0.15, 0.8
 
+-- Default place: just above the three icons where you keep them (ns.Display.Home: the HUD's saved place, even
+-- while the HUD itself is docked beside the settings window as a preview).
 local function Place(f)
   f:ClearAllPoints()
   local pos = ns.db and type(ns.db.gradePoint) == "table" and ns.db.gradePoint
   if pos then
     f:SetPoint(pos[1] or "CENTER", UIParent, pos[2] or "CENTER", tonumber(pos[3]) or 0, tonumber(pos[4]) or 0)
-  elseif ns.Display.frame then
-    f:SetPoint("BOTTOM", ns.Display.frame, "TOP", 0, 24)
+  elseif ns.Display.Home then
+    f:SetPoint("BOTTOM", ns.Display.Home(), "TOP", 0, 14)
   else
     f:SetPoint("CENTER", UIParent, "CENTER", 0, 80)
   end
@@ -440,12 +442,35 @@ function Gr.ResetPosition()
   end
 end
 
+-- The bar: D on the left to S+ on the right, coloured in steps; the score's marker slides along it.
+Gr.BAR_FROM = 30 -- scores below this sit at the bar's left end
+Gr.BAR_STOPS = { { 30, "D" }, { 50, "C" }, { 64, "B" }, { 80, "A" }, { 91, "S" }, { 100, "S+" } }
+local W, BAR_W, BAR_H = 340, 300, 10
+local PARTS = { { "accuracy", "Accuracy" }, { "abc", "Always casting" }, { "reaction", "Reaction" },
+  { "cooldowns", "Cooldowns" } }
+
+local function BarX(score)
+  return (math.max(Gr.BAR_FROM, math.min(100, score)) - Gr.BAR_FROM) / (100 - Gr.BAR_FROM) * BAR_W
+end
+
+local function Shade(v) -- a part's colour: red (0) to amber to green (100)
+  if not v then
+    return 0.6, 0.6, 0.6
+  end
+  if v >= 85 then
+    return 0.35, 0.9, 0.4
+  elseif v >= 65 then
+    return 1, 0.82, 0.25
+  end
+  return 1, 0.4, 0.35
+end
+
 local function Frame()
   if Gr.frame then
     return Gr.frame
   end
   local f = CreateFrame("Frame", "DMGAssistGrade", UIParent)
-  f:SetSize(300, 96)
+  f:SetSize(W, 150)
   f:SetFrameStrata("HIGH")
   Place(f)
   f:SetClampedToScreen(true)
@@ -463,24 +488,83 @@ local function Frame()
       ns.db.gradePoint = { p1, p2, x, y }
     end
   end)
+  -- a dark panel, lighter at the top
+  f.bg = f:CreateTexture(nil, "BACKGROUND")
+  f.bg:SetAllPoints()
+  f.bg:SetColorTexture(0.05, 0.05, 0.07, 0.82)
+  f.edge = f:CreateTexture(nil, "BORDER")
+  f.edge:SetPoint("TOPLEFT")
+  f.edge:SetPoint("TOPRIGHT")
+  f.edge:SetHeight(2)
+  -- the letter and the title
   f.letter = f:CreateFontString(nil, "OVERLAY")
-  f.letter:SetPoint("LEFT", f, "LEFT", 4, 6)
+  f.letter:SetPoint("TOPLEFT", f, "TOPLEFT", 14, -8)
   f.title = f:CreateFontString(nil, "OVERLAY")
-  f.title:SetPoint("TOPLEFT", f, "TOPLEFT", 74, -6)
-  f.parts = f:CreateFontString(nil, "OVERLAY")
-  f.parts:SetPoint("TOPLEFT", f.title, "BOTTOMLEFT", 0, -6)
-  f.parts:SetJustifyH("LEFT")
+  f.title:SetPoint("TOPLEFT", f, "TOPLEFT", 96, -14)
+  f.score = f:CreateFontString(nil, "OVERLAY")
+  f.score:SetPoint("TOPLEFT", f.title, "BOTTOMLEFT", 0, -4)
+  f.best = f:CreateFontString(nil, "OVERLAY")
+  f.best:SetPoint("LEFT", f.score, "RIGHT", 10, 0)
+  -- the bar
+  f.bar = CreateFrame("Frame", nil, f)
+  f.bar:SetSize(BAR_W, BAR_H)
+  f.bar:SetPoint("TOP", f, "TOP", 0, -66)
+  f.segments = {}
+  for i = 1, #Gr.BAR_STOPS - 1 do
+    local a, b = Gr.BAR_STOPS[i], Gr.BAR_STOPS[i + 1]
+    local seg = f.bar:CreateTexture(nil, "ARTWORK")
+    seg:SetPoint("LEFT", f.bar, "LEFT", BarX(a[1]), 0)
+    seg:SetSize(math.max(1, BarX(b[1]) - BarX(a[1])), BAR_H)
+    local c1, c2 = Gr.COLORS[a[2]] or Gr.COLORS.D, Gr.COLORS[b[2]] or Gr.COLORS.D
+    seg:SetColorTexture(1, 1, 1, 1)
+    if seg.SetGradient and CreateColor then
+      seg:SetGradient("HORIZONTAL", CreateColor(c1[1], c1[2], c1[3], 0.9), CreateColor(c2[1], c2[2], c2[3], 0.9))
+    else
+      seg:SetVertexColor(c1[1], c1[2], c1[3], 0.9)
+    end
+    f.segments[i] = seg
+    local tick = f.bar:CreateFontString(nil, "OVERLAY")
+    tick:SetPoint("TOP", f.bar, "BOTTOMLEFT", BarX(b[1]) - (i == #Gr.BAR_STOPS - 1 and 6 or 0), -2)
+    ns.Display.SetFont(tick, 10) -- a font before any text
+    tick:SetTextColor(0.8, 0.8, 0.8)
+    tick:SetText(b[2])
+  end
+  f.marker = f.bar:CreateTexture(nil, "OVERLAY")
+  f.marker:SetSize(3, BAR_H + 8)
+  f.marker:SetColorTexture(1, 1, 1, 1)
+  -- the parts: value on top, name under it
+  f.cells = {}
+  for i, part in ipairs(PARTS) do
+    local cell = CreateFrame("Frame", nil, f)
+    cell:SetSize(W / #PARTS, 36)
+    cell:SetPoint("TOPLEFT", f, "TOPLEFT", (i - 1) * W / #PARTS, -94)
+    cell.value = cell:CreateFontString(nil, "OVERLAY")
+    cell.value:SetPoint("TOP", cell, "TOP", 0, 0)
+    cell.name = cell:CreateFontString(nil, "OVERLAY")
+    cell.name:SetPoint("TOP", cell.value, "BOTTOM", 0, -2)
+    cell.key = part[1]
+    cell.label = part[2]
+    f.cells[i] = cell
+  end
   f.tip = f:CreateFontString(nil, "OVERLAY")
-  f.tip:SetPoint("TOPLEFT", f.parts, "BOTTOMLEFT", 0, -6)
-  f.tip:SetWidth(320)
+  f.tip:SetPoint("TOPLEFT", f, "BOTTOMLEFT", 4, -4)
+  f.tip:SetWidth(W - 8)
   f.tip:SetJustifyH("LEFT")
   f:Hide()
   f:SetScript("OnUpdate", function(self)
+    local t = GetTime() - (self.shownAt or 0)
+    -- the pop: the letter lands big and settles in FADE_IN; the marker sweeps along the bar
+    local pop = math.min(1, t / (FADE_IN * 2))
+    if self.letterSize and self.letter then
+      ns.Display.SetFont(self.letter, math.floor(self.letterSize * (1.35 - 0.35 * pop) + 0.5))
+    end
+    if self.markerTo then
+      self.marker:SetPoint("CENTER", self.bar, "LEFT", self.markerTo * math.min(1, t / 0.6), 0)
+    end
     if self.sample then
       self:SetAlpha(1)
       return
     end
-    local t = GetTime() - (self.shownAt or 0)
     local hold = tonumber(ns.db and ns.db.gradeSeconds) or Gr.SHOW_SECONDS
     if t < FADE_IN then
       self:SetAlpha(t / FADE_IN)
@@ -498,22 +582,43 @@ end
 
 function Gr.Render(r, sample, test)
   local f = Frame()
+  if not (ns.db and type(ns.db.gradePoint) == "table") then
+    Place(f) -- follows the icons when they move
+  end
   local D = ns.Display
   local c = Gr.COLORS[r.letter] or Gr.COLORS.D
-  D.SetFont(f.letter, 54)
+  f.letterSize = 60
+  D.SetFont(f.letter, 60)
   f.letter:SetText(r.letter)
   f.letter:SetTextColor(c[1], c[2], c[3])
-  D.SetFont(f.title, 15)
-  f.title:SetText(string.format("%s  |cffffffff%.1f|r%s", L["Fight grade"], r.score,
-    r.newBest and ("  |cffffd100" .. L["New best!"] .. "|r") or ""))
-  f.title:SetTextColor(c[1], c[2], c[3])
-  D.SetFont(f.parts, 12)
-  f.parts:SetText(string.format("%s %s   %s %s   %s %s   %s %s", L["Accuracy"], Pct(r.accuracy),
-    L["Always casting"], Pct(r.abc), L["Reaction"], r.reactionMs and (r.reactionMs .. " ms") or "-",
-    L["Cooldowns"], Pct(r.cooldowns)))
+  f.edge:SetColorTexture(c[1], c[2], c[3], 0.9)
+  D.SetFont(f.title, 14)
+  f.title:SetText(L["Fight grade"])
+  f.title:SetTextColor(0.85, 0.85, 0.85)
+  D.SetFont(f.score, 20)
+  f.score:SetText(string.format("%.1f", r.score))
+  f.score:SetTextColor(1, 1, 1)
+  D.SetFont(f.best, 14)
+  f.best:SetText(r.newBest and L["New best!"] or "")
+  f.best:SetTextColor(1, 0.82, 0.1)
+  f.markerTo = BarX(r.score)
+  f.marker:SetPoint("CENTER", f.bar, "LEFT", 0, 0)
+  for _, cell in ipairs(f.cells) do
+    local v = r[cell.key]
+    D.SetFont(cell.value, 18)
+    if cell.key == "reaction" then
+      cell.value:SetText(r.reactionMs and (r.reactionMs .. " ms") or "-")
+    else
+      cell.value:SetText(Pct(v))
+    end
+    cell.value:SetTextColor(Shade(v))
+    D.SetFont(cell.name, 10)
+    cell.name:SetText(L[cell.label])
+    cell.name:SetTextColor(0.75, 0.75, 0.75)
+  end
   D.SetFont(f.tip, 11)
   f.tip:SetText(Gr.Tip(r))
-  f.tip:SetTextColor(0.85, 0.85, 0.85)
+  f.tip:SetTextColor(0.9, 0.9, 0.9)
   f.sample = sample
   f.shownAt = GetTime()
   f:EnableMouse((ns.db and ns.db.locked == false) or (ns.Integrations and ns.Integrations.editMode) or false)

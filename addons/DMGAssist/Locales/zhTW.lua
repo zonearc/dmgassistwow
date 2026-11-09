@@ -614,4 +614,9 @@ ns.LOCALE_DATA.zhTW = {
   ["improving"] = "上升",
   ["slipping"] = "下滑",
   ["steady"] = "穩定",
+  ["Sample grade"] = "範例評級",
+  ["Default place"] = "預設位置",
+  ["This spec's history"] = "此專精的紀錄",
+  ["Left of slot 1, top"] = "1 號位左側，上方",
+  ["Left of slot 1, bottom"] = "1 號位左側，下方",
 }

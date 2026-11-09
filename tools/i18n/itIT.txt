@@ -610,3 +610,8 @@
 616	in miglioramento
 617	in calo
 618	stabile
+619	Voto di esempio
+620	Posizione predefinita
+621	Cronologia di questa specializzazione
+622	A sinistra dello slot 1, in alto
+623	A sinistra dello slot 1, in basso

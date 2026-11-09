@@ -614,4 +614,9 @@ ns.LOCALE_DATA.koKR = {
   ["improving"] = "향상 중",
   ["slipping"] = "하락 중",
   ["steady"] = "유지",
+  ["Sample grade"] = "예시 등급",
+  ["Default place"] = "기본 위치",
+  ["This spec's history"] = "이 전문화의 기록",
+  ["Left of slot 1, top"] = "1번 칸 왼쪽, 위",
+  ["Left of slot 1, bottom"] = "1번 칸 왼쪽, 아래",
 }

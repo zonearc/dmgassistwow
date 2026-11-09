@@ -614,4 +614,9 @@ ns.LOCALE_DATA.deDE = {
   ["improving"] = "besser werdend",
   ["slipping"] = "nachlassend",
   ["steady"] = "gleichbleibend",
+  ["Sample grade"] = "Beispielnote",
+  ["Default place"] = "Standardplatz",
+  ["This spec's history"] = "Verlauf dieser Spezialisierung",
+  ["Left of slot 1, top"] = "Links von Platz 1, oben",
+  ["Left of slot 1, bottom"] = "Links von Platz 1, unten",
 }

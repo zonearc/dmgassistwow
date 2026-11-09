@@ -614,4 +614,9 @@ ns.LOCALE_DATA.esES = {
   ["improving"] = "mejorando",
   ["slipping"] = "empeorando",
   ["steady"] = "estable",
+  ["Sample grade"] = "Nota de ejemplo",
+  ["Default place"] = "Lugar por defecto",
+  ["This spec's history"] = "Historial de esta especialización",
+  ["Left of slot 1, top"] = "A la izquierda de la casilla 1, arriba",
+  ["Left of slot 1, bottom"] = "A la izquierda de la casilla 1, abajo",
 }
