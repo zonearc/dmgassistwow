@@ -577,6 +577,25 @@ test("short list, everything on cooldown: slots 2 and 3 show what comes off cool
   mock.acSpell = nil
 end)
 
+test("the assistant's pick on cooldown is never shown as ready: slot 1 waits for it, marked not yet", function()
+  Reset()
+  local ns = Boot()
+  mock.acSpell = 1822 -- the assistant names Rake, 2 s left on its cooldown
+  mock.cooldowns[1822] = { active = true, start = mock.now - 7, duration = 9 }
+  mock.cooldowns[5221] = { active = true, start = mock.now, duration = 60 }
+  local rec = Record()
+  rec.simc = { default = { { a = "shred", k = "R" } } }
+  rec.blizzard = nil
+  local r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(r.main and r.main.id, 1822, "shown ahead of time")
+  eq(type(r.main.readyAt), "number", "marked not ready yet")
+  eq(r.main.readyAt > GetTime() + 1, true, "ready when its cooldown ends, not now")
+  mock.cooldowns[1822] = { active = true, start = mock.now, duration = 9 } -- 9 s left: too far off
+  r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(r.main == nil or r.main.id ~= 1822 or r.main.readyAt ~= nil, true, "never as press-now")
+  mock.acSpell = nil
+end)
+
 test("hero tree names: SimC's shadopan matches the game's Shado-Pan", function()
   Reset()
   local ns = Boot()

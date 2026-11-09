@@ -1031,7 +1031,8 @@ local FLASH = 0.35
 
 function D.RenderTiming(f, cfg)
   local castLeft = select(2, ns.State.CurrentCast()) or 0
-  local wait = math.max(ns.State.GCDRemains(), castLeft)
+  -- A slot 1 shown a moment early (its cooldown still running, see Engine DecideAhead) counts as not ready too.
+  local wait = math.max(ns.State.GCDRemains(), castLeft, (f.readyAt or 0) - GetTime())
   -- Length of this wait period, for the wipe and the bar: a jump up means a new GCD or cast started.
   if not f.waitTotal or wait > (f.lastWait or 0) + 0.05 then
     f.waitTotal = math.max(wait, 0.01)
@@ -1114,6 +1115,7 @@ function D.Update(result, visible)
   RenderWeave(f, result, cfg)
   RenderStacks(f, cfg)
   f.timingCfg = cfg
+  f.readyAt = result.main.readyAt
   D.RenderTiming(f, cfg)
   if cfg.header then
     local state = ns.Specs and ns.Specs.current

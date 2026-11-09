@@ -90,6 +90,11 @@ function LV.Lead(result)
   local queue = {}
   -- A spell the engine only listed as "off cooldown soon" can't be pressed now either: it never takes slot 1.
   if ready or #rest == 0 or rest[1].source == "soon" then
+    if not ready then
+      -- Nothing else can be pressed now either: it stays in slot 1, marked "not yet" until its cooldown ends.
+      local left = ns.State.CooldownRemains(ac)
+      pick.readyAt = type(left) == "number" and left > 0 and GetTime() + left or nil
+    end
     queue[1] = pick
   else
     queue[1] = rest[1]

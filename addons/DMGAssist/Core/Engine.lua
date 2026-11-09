@@ -858,14 +858,16 @@ local function Decide(record, opts, targets, first)
   if pick == STOP then
     pick = nil
   end
-  -- Blizzard's assistant as the fallback: still subject to our target rules (it suggests Touch of Death on a
-  -- full-health dummy) and to spells the player is holding.
+  -- Blizzard's assistant as the fallback: still subject to our own checks (target rules: it suggests Touch of
+  -- Death on a full-health dummy; cooldown and power: it also names the next important spell while that is still
+  -- on cooldown, and Judgment showed in slot 1 with 2 s left, 2026-11-09) and to spells the player is holding.
+  -- On cooldown, the look-ahead below shows it a moment early, marked as not ready yet.
   if not pick and run.acSpell and not G.held[run.acSpell] and not ns.Choices.IsHidden(run.acSpell) then
     local castable, why = Castable(run.acSpell)
-    if not (castable == false and why == "target") then
+    if castable ~= false then
       pick = { id = run.acSpell, token = M.TokenForID(run.acSpell), source = "assisted" }
     elseif run.trace then
-      run.trace[#run.trace + 1] = "assisted:" .. tostring(run.acSpell) .. " invalid target"
+      run.trace[#run.trace + 1] = "assisted:" .. tostring(run.acSpell) .. " not castable (" .. tostring(why or "cooldown") .. ")"
     end
   end
   if not pick and type(record.blizzard) == "table" then
@@ -911,6 +913,7 @@ local function DecideAhead(record, opts, targets, first)
     local later = Decide(record, opts, targets, first)
     if later.main and later.main.id then
       later.main.wait = waited
+      later.main.readyAt = GetTime() + v.dt -- the display keeps slot 1 marked "not yet" until then
       return later
     end
   end
