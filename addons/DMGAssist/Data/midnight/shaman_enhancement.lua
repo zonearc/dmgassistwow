@@ -1633,4 +1633,5 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
       a = { 115356, 115357 },
     },
   },
+  volatile = { "stormstrike" },
 })

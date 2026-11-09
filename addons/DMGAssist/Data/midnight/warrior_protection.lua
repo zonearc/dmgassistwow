@@ -1364,4 +1364,5 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       a = { 384110, 394354 },
     },
   },
+  volatile = { "shield_slam" },
 })

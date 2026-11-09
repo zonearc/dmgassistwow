@@ -450,7 +450,8 @@ pcall(frame.RegisterEvent, frame, "PLAYER_STOPPED_MOVING")
 pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_START", "target", "player")
 pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELLCAST_CHANNEL_START", "target", "player")
 for _, event in ipairs({ "UNIT_SPELLCAST_STOP", "UNIT_SPELLCAST_INTERRUPTED", "UNIT_SPELLCAST_FAILED",
-  "UNIT_SPELLCAST_FAILED_QUIET", "UNIT_SPELLCAST_CHANNEL_STOP" }) do
+  "UNIT_SPELLCAST_FAILED_QUIET", "UNIT_SPELLCAST_CHANNEL_STOP", "UNIT_SPELLCAST_EMPOWER_START",
+  "UNIT_SPELLCAST_EMPOWER_STOP" }) do
   pcall(frame.RegisterUnitEvent, frame, event, "player")
 end
 pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELL_HASTE", "player")
@@ -535,9 +536,10 @@ frame:SetScript("OnEvent", function(_, event, ...)
     if arg1 == "player" then
       S.OnSpellcastSucceeded(arg3)
     end
-  elseif event == "UNIT_SPELLCAST_START" or event == "UNIT_SPELLCAST_CHANNEL_START" then
+  elseif event == "UNIT_SPELLCAST_START" or event == "UNIT_SPELLCAST_CHANNEL_START"
+    or event == "UNIT_SPELLCAST_EMPOWER_START" then
     if arg1 == "player" then
-      S.OnOwnCastStart(arg3)
+      S.OnOwnCastStart(arg3, event ~= "UNIT_SPELLCAST_START")
     else
       ns.Interrupts.OnTargetCastStart()
     end
@@ -548,7 +550,8 @@ frame:SetScript("OnEvent", function(_, event, ...)
     if event == "UNIT_SPELLCAST_FAILED" then
       S.OnOwnCastStop(nil)
     end
-  elseif event == "UNIT_SPELLCAST_INTERRUPTED" or event == "UNIT_SPELLCAST_CHANNEL_STOP" then
+  elseif event == "UNIT_SPELLCAST_INTERRUPTED" or event == "UNIT_SPELLCAST_CHANNEL_STOP"
+    or event == "UNIT_SPELLCAST_EMPOWER_STOP" then
     S.OnOwnCastStop(nil)
   elseif event == "PLAYER_STARTED_MOVING" then
     S.moving = true

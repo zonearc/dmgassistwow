@@ -1475,4 +1475,5 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       a = { 57994 },
     },
   },
+  volatile = { "lava_burst" },
 })

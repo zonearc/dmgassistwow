@@ -349,18 +349,36 @@ local function BlockedWhileActive(id)
 end
 G.BlockedWhileActive = BlockedWhileActive
 
+-- Is Blizzard's assistant naming a rotation spell right now (so its silence about a spell means "not yet")?
+function G.AssistantHealthy()
+  return not G.acStuck
+end
+
 -- The game calls a combo point finisher "not usable" (no reason given) while our combo point read says it can be
 -- spent: trust the points. Outlaw showed 7 combo points for a whole fight with Dispatch and Between the Eyes
 -- "not castable" and nothing but builders shown (2026-11-09). Only for spells that spend combo points, only with at
 -- least one point read, and the cooldown clock still decides.
+-- The same holds for the other hidden spender resources (Holy Power, Soul Shards, Chi, Runic Power...): checked
+-- ahead of play on every spec, 2026-11-09.
 function G.FinisherBlockedByHiddenPoints(id)
   local info = M.Info(id)
-  local spends = info and ((type(info.cost) == "table" and info.cost[4]) or (type(info.cmax) == "table" and info.cmax[4]))
-  if not spends then
+  if not info then
     return false
   end
-  local cp = S.PowerNow(4)
-  return type(cp) == "number" and cp >= 1 and S.CooldownReady(id) ~= false
+  local found = false
+  for _, tbl in ipairs({ info.cost, info.cmax }) do
+    for pt, amount in pairs(type(tbl) == "table" and tbl or {}) do
+      if G.SPENDER_POWER[pt] and (tonumber(amount) or 0) > 0 then
+        local have = S.PowerNow(pt)
+        local need = (type(info.cost) == "table" and tonumber(info.cost[pt])) or 1
+        if type(have) ~= "number" or have < need then
+          return false
+        end
+        found = true
+      end
+    end
+  end
+  return found and S.CooldownReady(id) ~= false
 end
 
 local function Castable(id)
@@ -381,7 +399,9 @@ local function Castable(id)
     if (not v or #v.prev == 0) and not named and S.RefusedHold and S.RefusedHold(id) then
       return false, "refused"
     end
-    if (not v or #v.prev == 0) and S.BlizzardLeads(id) then
+    -- Only while the assistant is naming rotation spells at all: stuck on something else (a missing poison, for
+    -- a whole Outlaw fight) or naming nothing, our own clock decides again, or those spells never show.
+    if (not v or #v.prev == 0) and S.BlizzardLeads(id) and G.AssistantHealthy() then
       return named and true or false
     end
   end
@@ -898,6 +918,8 @@ local function Decide(record, opts, targets, first)
     local ac = U.Get(C_AssistedCombat and C_AssistedCombat.GetNextCastSpell, false)
     -- A buff, poison or weapon imbue named in combat (Numbing Poison missing: the assistant named it for a whole
     -- fight) says nothing about the rotation: ignored, the buff reminder covers it.
+    G.acStuck = type(ac) == "number" and ((ns.Buffs and ns.Buffs.IsBuffSpell and ns.Buffs.IsBuffSpell(ac))
+      or (S.rotationSpells ~= nil and not S.BlizzardCanName(ac))) or false
     if type(ac) == "number" and ns.Buffs and ns.Buffs.IsBuffSpell and ns.Buffs.IsBuffSpell(ac) then
       ac = nil
     end

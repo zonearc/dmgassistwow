@@ -1649,7 +1649,9 @@ test("timing learning: steady errors correct our clock, scattered ones leave the
   eq(G.Castable(5217), false, "ready by our clock alone isn't trusted")
   G.acNow = 5217
   eq(G.Castable(5217), true, "Blizzard names it: ready")
-  G.acNow = nil
+  G.acNow, G.acStuck = nil, true
+  eq(G.Castable(5217) ~= false, true, "Blizzard stuck on something outside its rotation (a poison): our clock decides")
+  G.acStuck = false
   -- Blizzard agreeing with our clock 4 times un-flags it
   for _ = 1, 4 do
     S.acNamed = nil -- Blizzard named something else in between
@@ -4028,6 +4030,28 @@ test("tank profile: keep-up while tanking, cooldowns before a tank hit, reflect 
   ns.db.tankProfile = nil
   IsPlayerSpell, UnitThreatSituation, UnitHealth = ips, uts, uh -- luacheck: ignore 121
   mock.inCombat = false
+end)
+
+
+test("a hidden channel runs for its duration: its own 'succeeded' at the start doesn't end it", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "shred" } })
+  rec.spells.fists = { a = { 113656 } }
+  rec.spellInfo[113656] = { n = "fists", d = 4, gcd = 1, cd = 24 }
+  Feral(ns, rec)
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Fire("UNIT_SPELLCAST_CHANNEL_START", "player", "guid", 113656)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 113656)
+  mock.Advance(1)
+  local id, left = S.CurrentCast()
+  eq(id, 113656, "still channelling")
+  eq(left > 2 and left < 3.5, true, "about 3 s left: " .. tostring(left))
+  mock.Fire("UNIT_SPELLCAST_CHANNEL_STOP", "player", "guid", 113656)
+  eq(S.CurrentCast(), nil, "the stop event ends it")
+  mock.inCombat, mock.restricted = false, false
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

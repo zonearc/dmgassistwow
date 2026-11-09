@@ -1680,7 +1680,11 @@ end
 S.myCast = nil      -- { id =, t = start, len = expected seconds }
 S.gcdFrom = nil     -- { id =, t = } when the latest GCD started (a cast's start, or an instant's success)
 
-function S.OnOwnCastStart(spellID)
+-- channel: a channelled spell (Fists of Fury, Eye Beam, Mind Flay) or an empowered one (Fire Breath): timed from
+-- its duration in SimC's data (scaled by haste), since it has no cast time; the game reports it "succeeded" as it
+-- starts, so only its stop event ends it. (Checked ahead of play 2026-11-09: a hidden channel bar timed as 0 s
+-- would say "press now" in the middle of Fists of Fury.)
+function S.OnOwnCastStart(spellID, channel)
   local id = U.Read(spellID)
   if type(id) ~= "number" then
     return
@@ -1689,8 +1693,11 @@ function S.OnOwnCastStart(spellID)
   local ct = info and info.ct or 0
   local live = U.Get(C_Spell and C_Spell.GetSpellInfo, id)
   local ms = type(live) == "table" and U.Read(live.castTime)
-  local len = type(ms) == "number" and ms / 1000 or ct / HasteFactor()
-  S.myCast = { id = id, t = GetTime(), len = len, base = ct }
+  local len = type(ms) == "number" and ms > 0 and ms / 1000 or ct / HasteFactor()
+  if channel and len <= 0 then
+    len = ((info and tonumber(info.d)) or 2) / HasteFactor()
+  end
+  S.myCast = { id = id, t = GetTime(), len = len, base = (not channel) and ct or 0, channel = channel or nil }
   S.gcdFrom = { id = id, t = GetTime() }
 end
 
@@ -1703,6 +1710,9 @@ end
 
 function S.OnOwnCastStop(succeededID)
   local c = S.myCast
+  if c and c.channel and succeededID ~= nil and not c.ended then
+    return -- a channel "succeeds" as it starts: it runs on until its stop event
+  end
   S.myCast = nil
   if not (c and succeededID and c.id == succeededID and c.base and c.base > 0) then
     return

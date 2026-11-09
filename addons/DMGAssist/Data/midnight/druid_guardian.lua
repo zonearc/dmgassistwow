@@ -1401,4 +1401,5 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
       t = { 441691 },
     },
   },
+  volatile = { "mangle" },
 })

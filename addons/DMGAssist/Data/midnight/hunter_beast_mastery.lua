@@ -952,5 +952,5 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       b = { 466991, 466990 },
     },
   },
-  volatile = { "barbed_shot", "black_arrow", "kill_command" },
+  volatile = { "barbed_shot", "bestial_wrath", "black_arrow", "kill_command" },
 })

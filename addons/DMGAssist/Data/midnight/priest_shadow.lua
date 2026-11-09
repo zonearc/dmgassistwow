@@ -1344,4 +1344,5 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       t = { 407430 },
     },
   },
+  volatile = { "mind_blast" },
 })

@@ -1174,5 +1174,5 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
       b = { 11327, 1856 },
     },
   },
-  volatile = { "shadow_blades", "stealth" },
+  volatile = { "shadow_blades", "shadow_dance", "stealth" },
 })

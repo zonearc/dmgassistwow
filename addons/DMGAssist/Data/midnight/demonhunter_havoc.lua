@@ -1518,4 +1518,5 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       t = { 452409 },
     },
   },
+  volatile = { "eye_beam" },
 })

@@ -4,6 +4,34 @@
     "warrior_arms": [
       "colossus_smash",
       "overpower"
+    ],
+    "warrior_protection": [
+      "shield_slam"
+    ],
+    "druid_guardian": [
+      "mangle"
+    ],
+    "shaman_elemental": [
+      "lava_burst"
+    ],
+    "shaman_enhancement": [
+      "stormstrike"
+    ],
+    "priest_shadow": [
+      "mind_blast"
+    ],
+    "rogue_subtlety": [
+      "shadow_dance"
+    ],
+    "demonhunter_havoc": [
+      "eye_beam"
+    ],
+    "evoker_devastation": [
+      "eternity_surge",
+      "fire_breath"
+    ],
+    "hunter_beast_mastery": [
+      "bestial_wrath"
     ]
   }
 }

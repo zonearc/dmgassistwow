@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.146 (2026-11-09).
+Last updated: 1.6.0.147 (2026-11-09).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -16,7 +16,6 @@ Last updated: 1.6.0.146 (2026-11-09).
 
 ## Open: build
 
-- [ ] Pre-check untested specs (SimC lists, guides) for the bugs found on Rogue/Tank/Balance
 - [ ] End-of-fight learning summary in plain words ("Kill Command: corrected 3 times, now within 0.2 s")
 - [ ] Interrupts: review for the game's combat restrictions (12.x), like defensives were
 - [ ] Forever: confirm the WoWSims rank mapping (data imports for 34 specs; mapping not verified)
@@ -27,6 +26,7 @@ Last updated: 1.6.0.146 (2026-11-09).
 
 ## Open: needs in-game testing (built, not yet seen in game)
 
+- [ ] Channelled and empowered spells (Windwalker, Havoc, Shadow, Devastation): slot 1 waits for the channel to end
 - [ ] Tank profiles on each tank spec (Protection Warrior first): keep-up timing, boss-mod cooldowns, Mitigation grade
 - [ ] New grade popup look and place; small icons left of slot 1; preview panel
 - [ ] Rogue: Outlaw finishers shown at 5+ combo points; Balance: Starfall on 3+ targets; slot 1 calmer while spamming
@@ -47,6 +47,15 @@ Last updated: 1.6.0.146 (2026-11-09).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.147: pre-checked every spec for what Rogue, tanks, Balance and Arms showed. "Blizzard decides" spells no
+  longer freeze when the assistant is stuck naming something outside its rotation (Outlaw: Between the Eyes, Roll
+  the Bones, Blade Flurry, Adrenaline Rush, Killing Spree, Blade Rush were blocked a whole fight by a missing
+  poison). Finishers trusted on every hidden spender resource (Holy Power, Soul Shards, Chi, Runic Power...), not
+  only combo points. Proc-reset cooldowns left to Blizzard from the first fight: Protection Shield Slam, Guardian
+  Mangle, Elemental Lava Burst, Enhancement Stormstrike, Shadow Mind Blast, Subtlety Shadow Dance, Havoc Eye Beam,
+  Devastation Fire Breath / Eternity Surge, Beast Mastery Bestial Wrath. Hidden channels (Fists of Fury, Eye Beam,
+  Mind Flay) and empowered casts timed from their duration instead of 0 s
 
 - 1.6.0.146: tank profiles (Tanks.lua) for all six tank specs: slots 1-3 damage only, mitigation in the red icon -
   keep-up when due while tanking (Shield Block, Ignore Pain, Demon Spikes, Shield of the Righteous, Purifying /

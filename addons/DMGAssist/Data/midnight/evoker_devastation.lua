@@ -1795,4 +1795,5 @@ ns.RegisterSpecData("midnight", "evoker_devastation", {
       t = { 369089 },
     },
   },
+  volatile = { "eternity_surge", "fire_breath" },
 })
