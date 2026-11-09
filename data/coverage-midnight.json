@@ -22,6 +22,18 @@
     "total": 12
    },
    "lines": 54,
+   "linkReview": [
+    "Foul Bulwark (206974): Each charge of Bone Shield increases your maximum health by $<increase>%.",
+    "Death March (235556): Death Strike and Death Coil deal $s2% increased damage and reduce the remaining cooldown of",
+    "Death's Certainty (334898): Death Strike and Death Coil deal $s2% increased damage and reduce the remaining cooldown of",
+    "Coldthirst (378848): Successfully interrupting an enemy with Mind Freeze grants ${$378849s1/10} Runic Power and reduces its cooldown by ${$378849s2/-1000} sec.",
+    "Reaper of Souls (440002): When you apply Reaper's Mark, the cooldown of Soul Reaper is reset, your next Soul Reaper costs no runes, and it explodes on the target regardless of their health.",
+    "Bone Collector (458572): When you would pull an enemy generate $s1 charge of Bone Shield."
+   ],
+   "links": [
+    "heart_strike>vampiric_blood:2.0 req208706",
+    "heart_strike>vampiric_blood:2.0 req334580"
+   ],
    "mode": 0,
    "read": 19,
    "readPct": 35,
@@ -52,6 +64,11 @@
     "total": 14
    },
    "lines": 65,
+   "linkReview": [
+    "Coldthirst (378848): Successfully interrupting an enemy with Mind Freeze grants ${$378849s1/10} Runic Power and reduces its cooldown by ${$378849s2/-1000} sec.",
+    "Reaper of Souls (440002): When you apply Reaper's Mark, the cooldown of Soul Reaper is reset, your next Soul Reaper costs no runes, and it explodes on the target regardless of their health."
+   ],
+   "links": [],
    "mode": 2,
    "read": 8,
    "readPct": 12,
@@ -81,6 +98,15 @@
     "total": 11
    },
    "lines": 47,
+   "linkReview": [
+    "Death March (235556): Death Strike and Death Coil deal $s2% increased damage and reduce the remaining cooldown of",
+    "Death's Certainty (334898): Death Strike and Death Coil deal $s2% increased damage and reduce the remaining cooldown of",
+    "Coldthirst (378848): Successfully interrupting an enemy with Mind Freeze grants ${$378849s1/10} Runic Power and reduces its cooldown by ${$378849s2/-1000} sec.",
+    "Reaper of Souls (440002): When you apply Reaper's Mark, the cooldown of Soul Reaper is reset, your next Soul Reaper costs no runes, and it explodes on the target regardless of their health."
+   ],
+   "links": [
+    "putrefy>death_and_decay:1.0 req1290864"
+   ],
    "mode": 4,
    "read": 8,
    "readPct": 17,
@@ -116,6 +142,21 @@
     "total": 16
    },
    "lines": 92,
+   "linkReview": [
+    "Runemaster's Pauldrons (210867): Metamorphosis resets the remaining cooldown on all your Sigils and grants you 1 charge of Demon Spikes.",
+    "Metamorphosis (320645): When you activate Metamorphosis, the cooldown of Eye Beam and Blade Dance is immediately reset.",
+    "Chaotic Transformation (388112): When you activate Metamorphosis, the cooldowns of Blade Dance and Eye Beam are immediately reset.",
+    "Devour (1217610): Reduces the cooldown of Reap by ${$1217607s14/1000}.1 sec.",
+    "Moment of Craving (1238488): After fully channeling Void Ray, the cooldown of Reap is reset and your next Reap will collect up to $1238495s1 additional Soul Fragments.",
+    "Voidstep (1239520): Hungering Slash grants a temporary charge of Vengeful Retreat and causes your next Vengeful Retreat within $1223157d to deal an additional $1239526s1 Cosmic damage.",
+    "Voidpurge (1244220): Void Ray's cooldown during Void Metamorphosis is reduced by ${-$s1/1000}.1 sec."
+   ],
+   "links": [
+    "*>metamorphosis:0.033 per pt17 req209354",
+    "immolation_aura>fiery_brand:2.0 req210970",
+    "consume>metamorphosis:1.0 req363736",
+    "collapsing_star>voidblade:10.0 req1272422"
+   ],
    "mode": 4,
    "read": 29,
    "readPct": 32,
@@ -150,6 +191,21 @@
     "total": 14
    },
    "lines": 36,
+   "linkReview": [
+    "Runemaster's Pauldrons (210867): Metamorphosis resets the remaining cooldown on all your Sigils and grants you 1 charge of Demon Spikes.",
+    "Raddon's Cascading Eyes (215149): The remaining cooldown on Eye Beam is reduced by ${$s1/1000}.1 sec each time it hits an enemy, up to a maximum of $s2 sec.",
+    "Soul Flame of Insight (226334): Increases the damage dealt by Eye Beam by $s1% and reduces the cooldown of Eye Beam by ${$s2/-1}%.",
+    "Metamorphosis (320645): When you activate Metamorphosis, the cooldown of Eye Beam and Blade Dance is immediately reset.",
+    "Chaotic Transformation (388112): When you activate Metamorphosis, the cooldowns of Blade Dance and Eye Beam are immediately reset.",
+    "Voidstep (1239520): Hungering Slash grants a temporary charge of Vengeful Retreat and causes your next Vengeful Retreat within $1223157d to deal an additional $1239526s1 Cosmic damage.",
+    "Voidpurge (1244220): Void Ray's cooldown during Void Metamorphosis is reduced by ${-$s1/1000}.1 sec."
+   ],
+   "links": [
+    "*>metamorphosis:0.033 per pt17 req209354",
+    "immolation_aura>fiery_brand:2.0 req210970",
+    "throw_glaive>the_hunt:2.0 req422859",
+    "vengeful_retreat>felblade:reset req444931"
+   ],
    "mode": 4,
    "read": 10,
    "readPct": 28,
@@ -178,6 +234,22 @@
     "total": 16
    },
    "lines": 97,
+   "linkReview": [
+    "Razelikh's Defilement (210840): Soul Cleave reduces the remaining cooldown on a random Sigil by $s1 sec.",
+    "Runemaster's Pauldrons (210867): Metamorphosis resets the remaining cooldown on all your Sigils and grants you 1 charge of Demon Spikes.",
+    "Metamorphosis (320645): When you activate Metamorphosis, the cooldown of Eye Beam and Blade Dance is immediately reset.",
+    "Razelikh's Defilement (337544): Soul Cleave reduces the remaining cooldown on a random Sigil by $s1 sec",
+    "Chaotic Transformation (388112): When you activate Metamorphosis, the cooldowns of Blade Dance and Eye Beam are immediately reset.",
+    "Darkglare Boon (389708): When Fel Devastation finishes fully channeling, it refreshes $s1-$s2% of its cooldown and refunds $s3-$s4 Fury.",
+    "Moment of Craving (1238488): After fully channeling Void Ray, the cooldown of Reap is reset and your next Reap will collect up to $1238495s1 additional Soul Fragments.",
+    "Voidpurge (1244220): Void Ray's cooldown during Void Metamorphosis is reduced by ${-$s1/1000}.1 sec."
+   ],
+   "links": [
+    "*>metamorphosis:0.033 per pt17 req209354",
+    "immolation_aura>fiery_brand:2.0 req210970",
+    "*>demon_spikes:0.05 per pt17 req218612",
+    "soul_cleave>fiery_brand:2.0 req337547"
+   ],
    "mode": 5,
    "read": 43,
    "readPct": 44,
@@ -211,6 +283,13 @@
     "total": 16
    },
    "lines": 82,
+   "linkReview": [
+    "Berserk (50334): Go berserk for $d, reducing the cooldowns of Mangle, Thrash, and Growl by $s1% and the cooldown of Frenzied Regeneration by $s2%.",
+    "Dual Determination (208228): Survival Instincts gains $s1 additional $Lcharge:charges; and recharges $s2% faster.",
+    "Celestial Spirits (354118): Convoke the Spirits' cooldown is reduced by ${($abs($s1)/120000)*100}% and its duration is reduced by $s2%.",
+    "Elune's Grace (443046): Using Wild Charge while in Bear Form or Moonkin Form incurs a $s1 sec shorter cooldown."
+   ],
+   "links": [],
    "mode": 7,
    "read": 23,
    "readPct": 28,
@@ -244,6 +323,12 @@
     "total": 16
    },
    "lines": 54,
+   "linkReview": [
+    "Berserk (50334): Go berserk for $d, reducing the cooldowns of Mangle, Thrash, and Growl by $s1% and the cooldown of Frenzied Regeneration by $s2%.",
+    "Dual Determination (208228): Survival Instincts gains $s1 additional $Lcharge:charges; and recharges $s2% faster.",
+    "Celestial Spirits (354118): Convoke the Spirits' cooldown is reduced by ${($abs($s1)/120000)*100}% and its duration is reduced by $s2%."
+   ],
+   "links": [],
    "mode": 9,
    "read": 9,
    "readPct": 17,
@@ -273,6 +358,16 @@
     "total": 22
    },
    "lines": 58,
+   "linkReview": [
+    "Berserk (50334): Go berserk for $d, reducing the cooldowns of Mangle, Thrash, and Growl by $s1% and the cooldown of Frenzied Regeneration by $s2%.",
+    "Dual Determination (208228): Survival Instincts gains $s1 additional $Lcharge:charges; and recharges $s2% faster.",
+    "Celestial Spirits (354118): Convoke the Spirits' cooldown is reduced by ${($abs($s1)/120000)*100}% and its duration is reduced by $s2%.",
+    "Elune's Grace (443046): Using Wild Charge while in Bear Form or Moonkin Form incurs a $s1 sec shorter cooldown.",
+    "Wild Guardian (1269619): When a spirit is awakened, the cooldowns of Thrash and Mangle are reset, and they deal $1308647s1% increased damage while the spirit is with you."
+   ],
+   "links": [
+    "sundering_roar>thrash:reset"
+   ],
    "mode": 2,
    "read": 14,
    "readPct": 24,
@@ -301,6 +396,14 @@
     "total": 16
    },
    "lines": 39,
+   "linkReview": [
+    "Berserk (50334): Go berserk for $d, reducing the cooldowns of Mangle, Thrash, and Growl by $s1% and the cooldown of Frenzied Regeneration by $s2%.",
+    "Dual Determination (208228): Survival Instincts gains $s1 additional $Lcharge:charges; and recharges $s2% faster.",
+    "Celestial Spirits (354118): Convoke the Spirits' cooldown is reduced by ${($abs($s1)/120000)*100}% and its duration is reduced by $s2%.",
+    "Elune's Grace (443046): Using Wild Charge while in Bear Form or Moonkin Form incurs a $s1 sec shorter cooldown.",
+    "Wild Guardian (1269619): When a spirit is awakened, the cooldowns of Thrash and Mangle are reset, and they deal $1308647s1% increased damage while the spirit is with you."
+   ],
+   "links": [],
    "mode": 3,
    "read": 18,
    "readPct": 46,
@@ -329,6 +432,16 @@
     "total": 15
    },
    "lines": 36,
+   "linkReview": [
+    "Improved Emerald Blossom (365262): Emerald Blossom costs $s2 Essence, but no longer has a cooldown.",
+    "Accretion (407876): Eruption reduces the remaining cooldown of Upheaval by ${$411932s1/-1000}.1 sec.",
+    "Dream of Spring (414969): Emerald Blossom no longer has a cooldown, deals $s4% increased healing, and increases the duration of your active Ebon Might effects by $s2 sec, but costs $s1 Essence.",
+    "Warp (429483): Hover's cooldown is also reduced by ${$s1/-1000} sec.",
+    "Temporal Burst (431695): Tip the Scales overloads you with temporal energy, increasing your haste, movement speed, and cooldown recovery rate by ${$431698u*$431698s1}%, decreasing over $431698d.",
+    "Onslaught (441245): Entering combat grants a charge of Burnout, causing your next Living Flame to cast instantly.",
+    "Evoker Devastation 11.0 Class Set 4pc (453675): Eternity Surge and Shattering Star's cooldowns are decreased by ${$s1/-1000}.1 sec and Eternity Surge now grants Essence Burst."
+   ],
+   "links": [],
    "mode": 1,
    "read": 10,
    "readPct": 28,
@@ -358,6 +471,19 @@
     "total": 15
    },
    "lines": 59,
+   "linkReview": [
+    "Improved Emerald Blossom (365262): Emerald Blossom costs $s2 Essence, but no longer has a cooldown.",
+    "Causality (375777): Disintegrate reduces the remaining cooldown of your empower spells by ${$s1/-1000}.2 sec each time it deals damage.",
+    "Dream of Spring (414969): Emerald Blossom no longer has a cooldown, deals $s4% increased healing, and increases the duration of your active Ebon Might effects by $s2 sec, but costs $s1 Essence.",
+    "Warp (429483): Hover's cooldown is also reduced by ${$s1/-1000} sec.",
+    "Temporal Burst (431695): Tip the Scales overloads you with temporal energy, increasing your haste, movement speed, and cooldown recovery rate by ${$431698u*$431698s1}%, decreasing over $431698d.",
+    "Onslaught (441245): Entering combat grants a charge of Burnout, causing your next Living Flame to cast instantly.",
+    "Evoker Devastation 11.0 Class Set 4pc (453675): Eternity Surge and Shattering Star's cooldowns are decreased by ${$s1/-1000}.1 sec and Eternity Surge now grants Essence Burst.",
+    "Rising Fury (1271788): Unbound Flame may be cast $1292323u times before Dragonrage finishes its cooldown."
+   ],
+   "links": [
+    "azure_sweep>eternity_surge:2.0 req1264822"
+   ],
    "mode": 13,
    "read": 13,
    "readPct": 22,
@@ -376,6 +502,12 @@
     "total": 4
    },
    "lines": 5,
+   "linkReview": [
+    "Causality (375777): Disintegrate reduces the remaining cooldown of your empower spells by ${$s1/-1000}.2 sec each time it deals damage.",
+    "Onslaught (441245): Entering combat grants a charge of Burnout, causing your next Living Flame to cast instantly.",
+    "Evoker Devastation 11.0 Class Set 4pc (453675): Eternity Surge and Shattering Star's cooldowns are decreased by ${$s1/-1000}.1 sec and Eternity Surge now grants Essence Burst."
+   ],
+   "links": [],
    "mode": 1,
    "read": 3,
    "readPct": 60,
@@ -402,6 +534,14 @@
     "total": 8
    },
    "lines": 54,
+   "linkReview": [
+    "Trap Cooldown Reduction (61255): Reduces the base cooldown of your Traps and Black Arrow by $/1000;s1 seconds.",
+    "The Beast Within (231548): Reduce the cooldown of Bestial Wrath by ${$m1/-1000} sec.",
+    "Hunter Beast Mastery 11.1 Class Set 4pc (1215644): Mutagenic attacks reduce the cooldown of Bestial Wrath by ${$1218004s2/100}.2 sec."
+   ],
+   "links": [
+    "cobra_shot>barbed_shot:2.0 req469880"
+   ],
    "mode": 9,
    "read": 13,
    "readPct": 24,
@@ -434,6 +574,11 @@
     "total": 13
    },
    "lines": 75,
+   "linkReview": [
+    "Trap Cooldown Reduction (61255): Reduces the base cooldown of your Traps and Black Arrow by $/1000;s1 seconds.",
+    "Ullr's Featherweight Snowshoes (206889): The remaining cooldown on Trueshot is reduced by ${$s1/-1000}.1 sec each time you cast a damaging Shot."
+   ],
+   "links": [],
    "mode": 2,
    "read": 24,
    "readPct": 32,
@@ -464,6 +609,15 @@
     "total": 8
    },
    "lines": 59,
+   "linkReview": [
+    "Frenzy Strikes (294029): Butchery reduces the remaining cooldown on Wildfire Bomb by ${$212436s2/1000}.1 sec for each target hit, up to $212436s3 targets.",
+    "Hunter Survival 10.2 Class Set 4pc (422879): Fury of the Eagle throws a free Wildfire Bomb at your current target at $s2% effectiveness, causes your next Wildfire Bomb to not incur a cooldown, and increases the damage Wildfire Bomb deals to your"
+   ],
+   "links": [
+    "*>wildfire_bomb:0.033 per pt2 req405530",
+    "boomstick>wildfire_bomb:3.0 req1261229",
+    "wildfire_bomb>boomstick:2.0 req1262409"
+   ],
    "mode": 5,
    "read": 14,
    "readPct": 24,
@@ -496,6 +650,12 @@
     "total": 12
    },
    "lines": 38,
+   "linkReview": [
+    "Wild Arcanist (184903): Arcane Power also increases the damage and reduces the cast time and global cooldown of Arcane Blast by $s1%.",
+    "Cold Snap (235219): Resets the cooldown of your Ice Barrier, Frost Nova,",
+    "Temporal Realignment (1244090): When your health is brought below $s1%, your past self corrects your timeline if Alter Time is not on cooldown, instantly restoring $1244092s1% of your maximum health and healing you for an additional"
+   ],
+   "links": [],
    "mode": 2,
    "read": 9,
    "readPct": 24,
@@ -526,6 +686,17 @@
     "total": 9
    },
    "lines": 73,
+   "linkReview": [
+    "Cold Snap (235219): Resets the cooldown of your Ice Barrier, Frost Nova,",
+    "Pyrotex Ignition Cloth (235940): Phoenix Flames reduces the remaining cooldown on Combustion by $s1 sec.",
+    "Fiery Rush (363500): While Combustion is active your Fire Blast and Phoenix Flames recharge $363508s2% faster.",
+    "Fiery Rush (383634): While Combustion is active, Fire Blast recharges $383637s1% faster.",
+    "Firefall (384033): Meteor gains a second charge, with a ${$s1/1000} sec cooldown between uses.",
+    "Temporal Realignment (1244090): When your health is brought below $s1%, your past self corrects your timeline if Alter Time is not on cooldown, instantly restoring $1244092s1% of your maximum health and healing you for an additional"
+   ],
+   "links": [
+    "flamestrike>fire_blast:0.3 req1264835"
+   ],
    "mode": 3,
    "read": 9,
    "readPct": 12,
@@ -559,6 +730,14 @@
     "total": 13
    },
    "lines": 63,
+   "linkReview": [
+    "Cold Snap (235219): Resets the cooldown of your Ice Barrier, Frost Nova,",
+    "Coldest Snap (417493): Cone of Cold's cooldown is increased to $s2 sec and if Cone of Cold hits $s3 or more enemies it resets the cooldown of Frozen Orb and Comet Storm.",
+    "Temporal Realignment (1244090): When your health is brought below $s1%, your past self corrects your timeline if Alter Time is not on cooldown, instantly restoring $1244092s1% of your maximum health and healing you for an additional"
+   ],
+   "links": [
+    "ice_lance>frozen_orb:0.5 req1281638"
+   ],
    "mode": 4,
    "read": 24,
    "readPct": 38,
@@ -587,6 +766,22 @@
     "total": 14
    },
    "lines": 60,
+   "linkReview": [
+    "Black Ox Brew (115399): Chug some Black Ox Brew, which instantly refills your Energy, Purifying Brew charges, and grants one charge of Celestial Brew or Celestial Infusion.",
+    "Sal'salabim's Strength (212935): When you use Keg Smash, the remaining cooldown on Breath of Fire is reset.",
+    "Hidden Master's Forbidden Touch (213112): Touch of Death deals $s2% increased damage and can be used a second time within $213114d before its cooldown is triggered.",
+    "Fatal Touch (337296): Touch of Death cooldown reduced by ${$s1/-1000} sec.",
+    "Sal'salabim's Strength (383697): When you use Keg Smash, the remaining cooldown on Breath of Fire is reset.",
+    "Face Palm (389942): Tiger Palm's damage is increased by $s2% and reduces the remaining cooldown of your Brews by ${$s3/1000}.1 additional sec.",
+    "Monk Windwalker 10.2 Class Set 4pc (422892): Blackout Reinforcement empowered Blackout Kicks reduce the cooldown of Fists of Fury, Rising Sun Kick, Strike of the Windlord, and Whirling Dragon Punch by ${$s1}.1 sec.",
+    "Ox Stance (455068): Casting Purifying Brew grants a charge of Ox Stance.",
+    "Zenith (1249625): Chi costs are reduced by $s7 and Blackout Kick reduces the cooldown of affected abilities by an additional ${$s3/1000} sec for $d.",
+    "Empty the Cellar (1262329): Exploding Keg can be reactivated within $1262768d to throw $s1 additional kegs at nearby targets, each dealing $1262765s1 Physical damage and reducing the cooldown of your Brews by ${$s2/1000}.1 sec.",
+    "Bring Me Another (1265138): Gaining an Empty Barrel resets the cooldown of Keg Smash and makes its next cast cost $s2% less energy."
+   ],
+   "links": [
+    "breath_of_fire>fortifying_brew:2.0 req224489"
+   ],
    "mode": 0,
    "read": 31,
    "readPct": 52,
@@ -605,6 +800,13 @@
     "total": 5
    },
    "lines": 6,
+   "linkReview": [
+    "Face Palm (389942): Tiger Palm's damage is increased by $s2% and reduces the remaining cooldown of your Brews by ${$s3/1000}.1 additional sec.",
+    "Monk Windwalker 10.2 Class Set 4pc (422892): Blackout Reinforcement empowered Blackout Kicks reduce the cooldown of Fists of Fury, Rising Sun Kick, Strike of the Windlord, and Whirling Dragon Punch by ${$s1}.1 sec.",
+    "Zenith (1249625): Chi costs are reduced by $s7 and Blackout Kick reduces the cooldown of affected abilities by an additional ${$s3/1000} sec for $d.",
+    "Morning Breeze (1277302): Rising Sun Kick's damage is increased by your Mastery rating and Thunder Focus Tea resets its cooldown."
+   ],
+   "links": [],
    "mode": 1,
    "read": 4,
    "readPct": 67,
@@ -637,6 +839,18 @@
     "total": 16
    },
    "lines": 128,
+   "linkReview": [
+    "Hidden Master's Forbidden Touch (213112): Touch of Death deals $s2% increased damage and can be used a second time within $213114d before its cooldown is triggered.",
+    "Fatal Touch (337296): Touch of Death cooldown reduced by ${$s1/-1000} sec.",
+    "Face Palm (389942): Tiger Palm's damage is increased by $s2% and reduces the remaining cooldown of your Brews by ${$s3/1000}.1 additional sec.",
+    "Monk Windwalker 10.2 Class Set 4pc (422892): Blackout Reinforcement empowered Blackout Kicks reduce the cooldown of Fists of Fury, Rising Sun Kick, Strike of the Windlord, and Whirling Dragon Punch by ${$s1}.1 sec.",
+    "Communion With Wind (451576): Strike of the Windlord and Whirling Dragon Punch have their cooldowns reduced by ${$s1/-1000} sec and their damage is increased by $s2%.",
+    "Zenith (1249625): Chi costs are reduced by $s7 and Blackout Kick reduces the cooldown of affected abilities by an additional ${$s3/1000} sec for $d.",
+    "Jade Flash (1262334): Crackling Jade Lightning deals its damage in $s1% less time, costs $s3% less Energy, and strikes ${$s2-1} additional targets, but has a ${$s5/1000} sec cooldown.",
+    "Monk Windwalker12.0 Class Set 4pc (1264843): The cooldowns of Strike of the Windlord and Whirling Dragon Punch are reduced by ${$s1/-1000} sec.",
+    "Morning Breeze (1277302): Rising Sun Kick's damage is increased by your Mastery rating and Thunder Focus Tea resets its cooldown."
+   ],
+   "links": [],
    "mode": 5,
    "read": 24,
    "readPct": 19,
@@ -656,6 +870,12 @@
     "total": 7
    },
    "lines": 8,
+   "linkReview": [],
+   "links": [
+    "holy_shock>judgment:1.5 req196926",
+    "crusader_strike>judgment:1.5 req196926",
+    "shield_of_the_righteous>holy_shock:2.0"
+   ],
    "mode": 0,
    "read": 7,
    "readPct": 88,
@@ -687,6 +907,12 @@
     "total": 16
    },
    "lines": 27,
+   "linkReview": [],
+   "links": [
+    "crusader_strike>judgment:1.5 req196926",
+    "avengers_shield>guardian_of_ancient_kings:3.0 req207628",
+    "avengers_shield>guardian_of_ancient_kings:1.0 req378279"
+   ],
    "mode": 0,
    "read": 13,
    "readPct": 48,
@@ -719,6 +945,10 @@
     "total": 14
    },
    "lines": 32,
+   "linkReview": [],
+   "links": [
+    "crusader_strike>judgment:1.5 req196926"
+   ],
    "mode": 0,
    "read": 15,
    "readPct": 47,
@@ -735,6 +965,12 @@
     "total": 9
    },
    "lines": 9,
+   "linkReview": [
+    "Kiss of Death (336133): Reduces Shadow Word: Death's cooldown by ${$s1/-1000} sec and causes its damage to trigger Atonement when used on targets below $32379s2% health."
+   ],
+   "links": [
+    "penance>mind_blast:2.0 req1296577"
+   ],
    "mode": 0,
    "read": 7,
    "readPct": 78,
@@ -753,6 +989,14 @@
     "total": 5
    },
    "lines": 5,
+   "linkReview": [
+    "Kiss of Death (336133): Reduces Shadow Word: Death's cooldown by ${$s1/-1000} sec and causes its damage to trigger Atonement when used on targets below $32379s2% health.",
+    "Empyreal Blaze (372616): Holy Word: Chastise causes your next $s1 casts of Holy Fire to be instant, cost no mana, and incur no cooldown.",
+    "Lightburst (1246549): Increases the damage of Holy Nova by $s1%, its healing by $s2%, and its cooldown by ${$s3/1000} sec."
+   ],
+   "links": [
+    "holy_fire>holy_word_chastise:4.0 req336314"
+   ],
    "mode": 1,
    "read": 3,
    "readPct": 60,
@@ -781,6 +1025,11 @@
     "total": 17
    },
    "lines": 46,
+   "linkReview": [
+    "Kiss of Death (336133): Reduces Shadow Word: Death's cooldown by ${$s1/-1000} sec and causes its damage to trigger Atonement when used on targets below $32379s2% health.",
+    "Lightburst (1246549): Increases the damage of Holy Nova by $s1%, its healing by $s2%, and its cooldown by ${$s3/1000} sec."
+   ],
+   "links": [],
    "mode": 1,
    "read": 15,
    "readPct": 33,
@@ -816,6 +1065,15 @@
     "total": 15
    },
    "lines": 41,
+   "linkReview": [
+    "Improved Kick (24434): Decreases the cooldown of Kick by $/1000;S1 sec.",
+    "Shot in the Dark (257505): After using Vanish or Shadow Dance, your next Cheap Shot is free and ignores its cooldown.",
+    "Invigorating Shadowdust (340080): Vanish reduces the remaining cooldown of your other abilities by $s1 sec.",
+    "Improved Garrote (381632): Garrote deals $s1% increased damage and has no cooldown when used from Stealth and for $392401d after breaking Stealth."
+   ],
+   "links": [
+    "*>deathmark:0.033 per pt3 req340084"
+   ],
    "mode": 4,
    "read": 6,
    "readPct": 15,
@@ -844,6 +1102,15 @@
     "total": 17
    },
    "lines": 38,
+   "linkReview": [
+    "Improved Kick (24434): Decreases the cooldown of Kick by $/1000;S1 sec.",
+    "Quick Draw (196938): Each charge of Opportunity consumed by Pistol Shot generates $1254567s1 combo $Lpoint:points;.",
+    "Shot in the Dark (257505): After using Vanish or Shadow Dance, your next Cheap Shot is free and ignores its cooldown.",
+    "Invigorating Shadowdust (340080): Vanish reduces the remaining cooldown of your other abilities by $s1 sec.",
+    "Improved Garrote (381632): Garrote deals $s1% increased damage and has no cooldown when used from Stealth and for $392401d after breaking Stealth.",
+    "Gravedigger (1265863): When you've hidden $s2 bullets, your next Between the Eyes consumes them and costs no Energy, generates $1279356s1 combo points, and immediately resets its own cooldown."
+   ],
+   "links": [],
    "mode": 1,
    "read": 17,
    "readPct": 45,
@@ -874,6 +1141,14 @@
     "total": 13
    },
    "lines": 42,
+   "linkReview": [
+    "Improved Kick (24434): Decreases the cooldown of Kick by $/1000;S1 sec.",
+    "Shot in the Dark (257505): After using Vanish or Shadow Dance, your next Cheap Shot is free and ignores its cooldown.",
+    "Invigorating Shadowdust (340080): Vanish reduces the remaining cooldown of your other abilities by $s1 sec.",
+    "Improved Garrote (381632): Garrote deals $s1% increased damage and has no cooldown when used from Stealth and for $392401d after breaking Stealth.",
+    "Shadewalker (457057): Each time you consume a stack of Deathstalker's Mark, reduce the cooldown of Shadowstep by ${$s1/-1000} sec."
+   ],
+   "links": [],
    "mode": 2,
    "read": 7,
    "readPct": 17,
@@ -905,6 +1180,11 @@
     "total": 19
    },
    "lines": 73,
+   "linkReview": [
+    "First Ascendant (462440): The cooldown of Ascendance",
+    "Call of Al'Akir (1246131): Nature's Swiftness now also affects Hex, but its cooldown is increased by ${$s1/1000} sec."
+   ],
+   "links": [],
    "mode": 2,
    "read": 23,
    "readPct": 32,
@@ -935,6 +1215,14 @@
     "total": 18
    },
    "lines": 101,
+   "linkReview": [
+    "Ascendance (114051): Transform into an Air Ascendant for $114051d and unleash Doom Winds, reducing the cooldown and cost of Stormstrike by $114051s9%, and transforming your auto attack and Stormstrike into Wind attacks wh",
+    "Spiritual Journey (214147): While Ghost Wolf is active, the remaining cooldown on Feral Spirits recovers $214170s1% faster.",
+    "First Ascendant (462440): The cooldown of Ascendance"
+   ],
+   "links": [
+    "fire_nova>crash_lightning:2.0 req1296628"
+   ],
    "mode": 8,
    "read": 29,
    "readPct": 29,
@@ -956,6 +1244,8 @@
     "total": 4
    },
    "lines": 4,
+   "linkReview": [],
+   "links": [],
    "mode": 1,
    "read": 2,
    "readPct": 50,
@@ -984,6 +1274,12 @@
     "total": 13
    },
    "lines": 94,
+   "linkReview": [
+    "Warlock Affliction Class Set 4pc (393699): Each charge of Cruel Epiphany increases the damage of your next Malefic Rapture or Seed of Corruption by $394253s1%."
+   ],
+   "links": [
+    "seed_of_corruption>dark_harvest:1.5 req1259886"
+   ],
    "mode": 11,
    "read": 32,
    "readPct": 34,
@@ -1016,6 +1312,10 @@
     "total": 12
    },
    "lines": 47,
+   "linkReview": [
+    "Wilfred's Sigil of Superior Summoning (214345): Each Dreadstalker or Wild Imp you summon reduces the remaining cooldown on Summon Demonic Tyrant by ${$s1/-1000} seconds."
+   ],
+   "links": [],
    "mode": 0,
    "read": 27,
    "readPct": 57,
@@ -1046,6 +1346,11 @@
     "total": 15
    },
    "lines": 61,
+   "linkReview": [
+    "Cinders of the Azj'Aqir (337166): Conflagrate has $s1 additional $Lcharge:charges; and has its recharge time reduced by ${$m2/-1000}.1 sec.",
+    "Avatar of Destruction (363950): When Chaos Bolt or Rain of Fire consumes a charge of Ritual of Ruin, you summon a Blasphemy for $s1 sec."
+   ],
+   "links": [],
    "mode": 7,
    "read": 20,
    "readPct": 33,
@@ -1079,6 +1384,19 @@
     "total": 20
    },
    "lines": 131,
+   "linkReview": [
+    "The Walls Fell (215057): Shield Slam generates an additional ${$s2/10} Rage and reduces the remaining cooldown of Shield Wall by $s1 sec.",
+    "Storm Surge (275336): Avatar increases the damage of Thunder Clap by $107574s9% and reduces its cooldown by $107574s10%.",
+    "Improved Execute (316405): Execute no longer has a cooldown and if your foe survives, $163201s2% of the Rage spent is refunded.",
+    "The Wall (335239): Shield Slam generates an additional ${$s2/10} Rage and reduces the remaining cooldown of Shield Wall by $s1 sec.",
+    "Storm of Swords (388903): Whirlwind has a ${$s1/1000}.1 sec cooldown, but deals $s3% increased damage.",
+    "Improved Execute (397708): Execute no longer has a cooldown and if your foe survives, $163201s2% of the Rage spent is refunded.",
+    "Storm Bolts (436162): Storm Bolt also hits $s1 additional nearby $Ltarget:targets;, stunning them for $s2 sec, but its cooldown is increased by ${$s3/1000} sec.",
+    "Avatar of the Storm (437134): Casting Avatar grants you $s1 charges of Thunder Blast and resets the cooldown of Thunder Clap.",
+    "Unrelenting Onslaught (444780): Using Sudden Death causes you to both reduce the cooldown of Bladestorm by $s1 sec and apply $s2 stack of Overwhelmed to your primary target per stack of Executioner you have.",
+    "Crushing Combo (1261056): Colossus Smash causes your next $1261189u Cleaves within $1261189d to trigger no cooldown."
+   ],
+   "links": [],
    "mode": 9,
    "read": 58,
    "readPct": 44,
@@ -1111,6 +1429,24 @@
     "total": 18
    },
    "lines": 101,
+   "linkReview": [
+    "The Walls Fell (215057): Shield Slam generates an additional ${$s2/10} Rage and reduces the remaining cooldown of Shield Wall by $s1 sec.",
+    "Storm Surge (275336): Avatar increases the damage of Thunder Clap by $107574s9% and reduces its cooldown by $107574s10%.",
+    "Improved Execute (316405): Execute no longer has a cooldown and if your foe survives, $163201s2% of the Rage spent is refunded.",
+    "The Wall (335239): Shield Slam generates an additional ${$s2/10} Rage and reduces the remaining cooldown of Shield Wall by $s1 sec.",
+    "Storm of Swords (388903): Whirlwind has a ${$s1/1000}.1 sec cooldown, but deals $s3% increased damage.",
+    "Improved Execute (397708): Execute no longer has a cooldown and if your foe survives, $163201s2% of the Rage spent is refunded.",
+    "Storm Bolts (436162): Storm Bolt also hits $s1 additional nearby $Ltarget:targets;, stunning them for $s2 sec, but its cooldown is increased by ${$s3/1000} sec.",
+    "Avatar of the Storm (437134): Casting Avatar grants you $s1 charges of Thunder Blast and resets the cooldown of Thunder Clap.",
+    "Unrelenting Onslaught (444780): Using Sudden Death causes you to both reduce the cooldown of Bladestorm by $s1 sec and apply $s2 stack of Overwhelmed to your primary target per stack of Executioner you have.",
+    "Warrior Fury 11.0 Class Set 4pc (453638): When Raging Blow resets its own cooldown, the damage of your next Bloodthirst is increased by $455495s1%, stacking up to $455495u times.",
+    "Surge of Adrenaline (1265359): When Raging Blow resets its own cooldown, your auto-attack damage and speed is increased by $1265560s1% for $1265560d."
+   ],
+   "links": [
+    "heroic_leap>charge:5.0 req444777",
+    "charge>heroic_leap:2.0 req444777",
+    "rampage>odyns_fury:2.5 req1264878"
+   ],
    "mode": 4,
    "read": 55,
    "readPct": 54,
@@ -1144,6 +1480,20 @@
     "total": 20
    },
    "lines": 67,
+   "linkReview": [
+    "The Walls Fell (215057): Shield Slam generates an additional ${$s2/10} Rage and reduces the remaining cooldown of Shield Wall by $s1 sec.",
+    "Storm Surge (275336): Avatar increases the damage of Thunder Clap by $107574s9% and reduces its cooldown by $107574s10%.",
+    "Improved Execute (316405): Execute no longer has a cooldown and if your foe survives, $163201s2% of the Rage spent is refunded.",
+    "The Wall (335239): Shield Slam generates an additional ${$s2/10} Rage and reduces the remaining cooldown of Shield Wall by $s1 sec.",
+    "Improved Execute (397708): Execute no longer has a cooldown and if your foe survives, $163201s2% of the Rage spent is refunded.",
+    "Avatar of the Storm (437134): Casting Avatar grants you $s1 charges of Thunder Blast and resets the cooldown of Thunder Clap.",
+    "Unrelenting Onslaught (444780): Using Sudden Death causes you to both reduce the cooldown of Bladestorm by $s1 sec and apply $s2 stack of Overwhelmed to your primary target per stack of Executioner you have."
+   ],
+   "links": [
+    "thunder_clap>demoralizing_shout:3.0 req215176",
+    "thunder_clap>demoralizing_shout:1.5 req335229",
+    "shield_slam>shield_wall:6.0 req384072"
+   ],
    "mode": 3,
    "read": 40,
    "readPct": 60,

@@ -165,6 +165,11 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
   },
   blizzardExcluded = { "avatar", "shield_charge" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "thunder_clap", "demoralizing_shout", 3.0, 215176, 0 },
+    { "thunder_clap", "demoralizing_shout", 1.5, 335229, 0 },
+    { "shield_slam", "shield_wall", 6.0, 384072, 0 },
+  },
   class = "warrior",
   gameMatch = {
     matched = 20,

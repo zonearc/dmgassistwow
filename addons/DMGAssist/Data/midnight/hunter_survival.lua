@@ -119,6 +119,11 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
   },
   blizzardExcluded = { "takedown" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "*", "wildfire_bomb", 0.033, 405530, 2 },
+    { "boomstick", "wildfire_bomb", 3.0, 1261229, 0 },
+    { "wildfire_bomb", "boomstick", 2.0, 1262409, 0 },
+  },
   class = "hunter",
   gameMatch = {
     matched = 8,

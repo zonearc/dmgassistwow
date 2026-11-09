@@ -140,6 +140,9 @@ ns.RegisterSpecData("midnight", "evoker_devastation", {
   },
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "azure_sweep", "eternity_surge", 2.0, 1264822, 0 },
+  },
   class = "evoker",
   gameMatch = {
     matched = 15,

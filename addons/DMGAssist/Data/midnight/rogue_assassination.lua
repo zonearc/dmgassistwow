@@ -199,6 +199,9 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
   },
   blizzardExcluded = { "deathmark" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "*", "deathmark", 0.033, 340084, 3 },
+  },
   class = "rogue",
   gameMatch = {
     matched = 15,

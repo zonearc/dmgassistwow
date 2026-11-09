@@ -2,6 +2,9 @@
 -- Data only. k = how DMGAssist can know the condition in combat: R read, S static, M mode toggle, T tracked by us, U unknown.
 local _, ns = ...
 ns.RegisterSpecData("midnight", "priest_holy", {
+  cdLinks = {
+    { "holy_fire", "holy_word_chastise", 4.0, 336314, 0 },
+  },
   class = "priest",
   community = true,
   credit = "DMGAssist list: Holy Priest damage between heals (learned from Method's guide, patch 12.1.5)",

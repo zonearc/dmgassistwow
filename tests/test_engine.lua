@@ -1362,6 +1362,35 @@ test("charges: the game's count by spell name, and a charge learned from the ass
   mock.inCombat, mock.restricted = false, false
 end)
 
+test("spell interdependencies: casting one spell takes time off another (Shield of the Righteous -> Holy Shock)", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", ch = 1, chcd = 6, gcd = 1.5 }
+  rec.cdLinks = { { "ferocious_bite", "tigers_fury", 2, 0, 0 }, { "*", "tigers_fury", 0.5, 0, 4 } }
+  Feral(ns, rec)
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  mock.Advance(2)
+  eq(S.Charges(5217), 0)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 22568) -- Bite: 2 s off, and 0.5 s per combo point (5)
+  eq(math.floor(S.ChargeRemains(5217) * 10 + 0.5) / 10, 0, "6 - 2 elapsed - 2 - 2.5: ready now")
+  -- the look-ahead sees it too
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  S.BeginLookahead(0)
+  eq(S.Charges(5217), 0)
+  S.Apply(22568)
+  eq(S.Charges(5217), 0, "1.5 s left after Bite in the look-ahead")
+  S.EndLookahead()
+  S.BeginLookahead(1.6)
+  S.Apply(22568)
+  eq(S.Charges(5217), 1, "and back by the next GCD")
+  S.EndLookahead()
+  mock.inCombat, mock.restricted = false, false
+end)
+
 test("every spec ships SimC spell data (ids, cooldowns, durations)", function()
   for _, client in ipairs({ { "standard", 1, "midnight" }, { "camelot", 18, "forever" } }) do
     Reset()

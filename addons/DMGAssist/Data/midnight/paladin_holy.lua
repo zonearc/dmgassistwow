@@ -2,6 +2,11 @@
 -- Data only. k = how DMGAssist can know the condition in combat: R read, S static, M mode toggle, T tracked by us, U unknown.
 local _, ns = ...
 ns.RegisterSpecData("midnight", "paladin_holy", {
+  cdLinks = {
+    { "holy_shock", "judgment", 1.5, 196926, 0 },
+    { "crusader_strike", "judgment", 1.5, 196926, 0 },
+    { "shield_of_the_righteous", "holy_shock", 2.0, 0, 0 },
+  },
   class = "paladin",
   community = true,
   credit = "DMGAssist list: Holy Paladin damage between heals (learned from Method's guide, patch 12.1.5)",

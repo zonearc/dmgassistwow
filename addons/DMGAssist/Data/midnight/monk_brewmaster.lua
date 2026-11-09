@@ -123,6 +123,9 @@ ns.RegisterSpecData("midnight", "monk_brewmaster", {
   },
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "breath_of_fire", "fortifying_brew", 2.0, 224489, 0 },
+  },
   class = "monk",
   gameMatch = {
     matched = 13,

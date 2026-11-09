@@ -163,6 +163,9 @@ ns.RegisterSpecData("midnight", "mage_fire", {
   },
   blizzardExcluded = { "combustion" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "flamestrike", "fire_blast", 0.3, 1264835, 0 },
+  },
   class = "mage",
   gameMatch = {
     matched = 8,

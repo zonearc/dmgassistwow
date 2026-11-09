@@ -159,6 +159,12 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
   },
   blizzardExcluded = { "fel_rush", "felblade", "metamorphosis", "the_hunt", "vengeful_retreat" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "*", "metamorphosis", 0.033, 209354, 17 },
+    { "immolation_aura", "fiery_brand", 2.0, 210970, 0 },
+    { "throw_glaive", "the_hunt", 2.0, 422859, 0 },
+    { "vengeful_retreat", "felblade", "reset", 444931, 0 },
+  },
   class = "demonhunter",
   gameMatch = {
     matched = 0,

@@ -198,6 +198,9 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
   },
   blizzardExcluded = { "avenging_wrath" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "crusader_strike", "judgment", 1.5, 196926, 0 },
+  },
   class = "paladin",
   gameMatch = {
     matched = 14,

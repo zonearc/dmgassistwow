@@ -75,6 +75,18 @@ function M.SetData(record)
   M.data = type(record.spells) == "table" and record.spells or {}
   M.info = type(record.spellInfo) == "table" and record.spellInfo or {}
   M.hero = type(record.heroTrees) == "table" and record.heroTrees or {}
+  -- Spell interdependencies from the game's spell descriptions (tools/simc_spells.py): by source token, and
+  -- "per resource spent" ones by power type. { source, target, seconds | "reset" | "charge", requires, power }
+  M.linksBySource, M.linksBySpend = {}, {}
+  for _, l in ipairs(type(record.cdLinks) == "table" and record.cdLinks or {}) do
+    if l[5] and l[5] > 0 then
+      M.linksBySpend[l[5]] = M.linksBySpend[l[5]] or {}
+      table.insert(M.linksBySpend[l[5]], l)
+    else
+      M.linksBySource[l[1]] = M.linksBySource[l[1]] or {}
+      table.insert(M.linksBySource[l[1]], l)
+    end
+  end
   -- Auras our own casts apply (by SimC data): for these "not seen = down" is safe; procs are not.
   M.applied = {}
   for _, info in pairs(M.info) do

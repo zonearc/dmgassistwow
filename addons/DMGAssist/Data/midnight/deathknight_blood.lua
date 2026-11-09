@@ -145,6 +145,10 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
   },
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "heart_strike", "vampiric_blood", 2.0, 208706, 0 },
+    { "heart_strike", "vampiric_blood", 2.0, 334580, 0 },
+  },
   class = "deathknight",
   gameMatch = {
     matched = 11,

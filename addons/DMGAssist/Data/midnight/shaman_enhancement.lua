@@ -207,6 +207,9 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
   },
   blizzardExcluded = { "doom_winds" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "fire_nova", "crash_lightning", 2.0, 1296628, 0 },
+  },
   class = "shaman",
   gameMatch = {
     matched = 18,

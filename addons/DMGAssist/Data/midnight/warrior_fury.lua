@@ -176,6 +176,11 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
   },
   blizzardExcluded = { "avatar", "recklessness" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "heroic_leap", "charge", 5.0, 444777, 0 },
+    { "charge", "heroic_leap", 2.0, 444777, 0 },
+    { "rampage", "odyns_fury", 2.5, 1264878, 0 },
+  },
   class = "warrior",
   gameMatch = {
     matched = 18,

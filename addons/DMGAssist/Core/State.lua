@@ -685,7 +685,7 @@ function S.CooldownRemains(id)
   end
   local last, length = S.lastCast[id], CooldownLength(id)
   if last and length then
-    local left = length - (Now() - last)
+    local left = length - (Now() + (V and V.cdShift[id] or 0) - last)
     if left > 0 then
       return left
     end
@@ -763,7 +763,7 @@ function S.Charges(id)
     return nil
   end
   local group = GroupOf(id)
-  local n = MaxCharges(info) - #PendingRecharges(group, Now())
+  local n = MaxCharges(info) - #PendingRecharges(group, Now() + (V and V.cdr[group] or 0))
   -- The game's count, unless our own casts say fewer are left: in restricted combat it reported an Eclipse charge
   -- 2 s after the only one was spent (Balance, 2026-11-08). The same rule as cooldowns. Also while looking ahead:
   -- ignoring it there showed Mind Blast in slot 1 with no charge left (Shadow, 2026-11-08).
@@ -827,9 +827,10 @@ function S.ChargeRemains(id)
   if c > 0 then
     return 0
   end
-  local pending = PendingRecharges(GroupOf(id), Now())
+  local shift = V and V.cdr[GroupOf(id)] or 0
+  local pending = PendingRecharges(GroupOf(id), Now() + shift)
   if pending[1] then
-    return math.max(0, pending[1] - Now())
+    return math.max(0, pending[1] - Now() - shift)
   end
   return nil -- the game says none left but we saw no cast: unknown, fall back to the cooldown API
 end
@@ -841,6 +842,97 @@ local function RechargeLength(group, info)
 end
 
 S.chargeSpentAt = {} -- group -> time of the last spend
+
+-- Spell interdependencies (M.linksBySource / M.linksBySpend, from the game's spell descriptions): casting X
+-- takes N seconds off Y, resets Y, gives a charge of Y, or takes N seconds per resource point X spent.
+-- For real casts the clocks move; while looking ahead the look-ahead's shift does (V.cdr / V.cdShift).
+local talentKnown = {}
+local function Requires(req)
+  if not req or req == 0 then
+    return true
+  end
+  local k = talentKnown[req]
+  if k == nil then
+    k = U.Get(IsPlayerSpell, req) == true
+    talentKnown[req] = k
+  end
+  return k
+end
+function S.ForgetTalentCache()
+  talentKnown = {}
+end
+
+local function ReduceTarget(token, amount, lookahead)
+  local tid = M.SpellID(token)
+  if not tid then
+    return
+  end
+  local full = amount == "reset" or amount == "charge"
+  local info = ChargeInfo(tid)
+  if info then
+    local group = GroupOf(tid)
+    if lookahead then
+      V.cdr[group] = (V.cdr[group] or 0) + (full and RechargeLength(group, info) or amount)
+      return
+    end
+    local list = S.chargeUse[group]
+    if not list or not list[1] then
+      return
+    end
+    if amount == "reset" then
+      S.chargeUse[group] = {}
+    elseif amount == "charge" then
+      table.remove(list, 1)
+    else
+      for i = 1, #list do
+        list[i] = list[i] - amount
+      end
+      if S.chargeSpentAt[group] then
+        S.chargeSpentAt[group] = S.chargeSpentAt[group] - amount
+      end
+    end
+    return
+  end
+  local length = CooldownLength(tid) or 0
+  if lookahead then
+    V.cdShift[tid] = (V.cdShift[tid] or 0) + (full and length or amount)
+    if V.cd[tid] then
+      V.cd[tid] = V.cd[tid] - (full and length or amount)
+    end
+    return
+  end
+  local last = S.lastCast[tid]
+  if last then
+    S.lastCast[tid] = full and (last - length) or (last - amount)
+  end
+end
+
+function S.ApplyLinks(id, lookahead)
+  local info = M.Info(id)
+  local token = (info and info.n) or M.TokenForID(id)
+  if not token or not M.linksBySource then
+    return
+  end
+  for _, l in ipairs(M.linksBySource[token] or {}) do
+    if Requires(l[4]) then
+      ReduceTarget(l[2], l[3], lookahead)
+    end
+  end
+  local cost = M.Cost(info)
+  for pt, list in pairs(M.linksBySpend) do
+    local spent = cost and cost[pt]
+    if spent and info.cmax and info.cmax[pt] then
+      spent = info.cmax[pt] -- a finisher: assume a full spend (the usual case)
+    end
+    if spent and spent > 0 then
+      for _, l in ipairs(list) do
+        if Requires(l[4]) and type(l[3]) == "number" then
+          ReduceTarget(l[2], l[3] * spent, lookahead)
+        end
+      end
+    end
+  end
+end
 
 local function OnChargeSpent(id)
   local info = ChargeInfo(id)
@@ -896,7 +988,7 @@ function S.OwnClockReady(id)
   if S.glow[id] and glowAt and glowAt >= last then
     return true
   end
-  return Now() - last >= length - 0.05
+  return Now() + (V and V.cdShift[id] or 0) - last >= length - 0.05
 end
 
 function S.CooldownReady(id)
@@ -1014,6 +1106,7 @@ local function RecordCast(id, how)
     end
   end
   OnChargeSpent(id)
+  S.ApplyLinks(id, false)
   ns.Clues.OnCast()
   ns.Clues.OnOwnCast(id)
   if ns.Engine then
@@ -1683,7 +1776,8 @@ end
 -- Look-ahead overlay
 ---------------------------------------------------------------------------
 function S.BeginLookahead(dt)
-  V = { dt = dt or 0, cd = {}, aura = {}, dot = {}, power = {}, powerAbs = {}, prev = {}, cast = {} }
+  V = { dt = dt or 0, cd = {}, aura = {}, dot = {}, power = {}, powerAbs = {}, prev = {}, cast = {},
+    cdr = {}, cdShift = {} }
   return V
 end
 
@@ -1707,6 +1801,7 @@ function S.Apply(id)
   if cd and not (info.ch and info.ch > 1) then
     V.cd[id] = at + cd
   end
+  S.ApplyLinks(id, true)
   local cost = M.Cost(info)
   if cost then
     for pt, amount in pairs(cost) do
@@ -2148,6 +2243,7 @@ function S.Calibrate()
   if S.combatStart then
     return 0
   end
+  S.ForgetTalentCache()
   local n = 0
   for id, b in pairs(M.book) do
     local info = b.id == id and not b.passive and M.Info(id)

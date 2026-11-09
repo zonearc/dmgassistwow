@@ -85,6 +85,7 @@ def parse_dump(text):
         effect = None
         if key == "Description":
             cur["descRefs"] = [int(x) for x in re.findall(r"\$(\d+)d\b", val)]
+            cur["desc"] = val
         elif key == "Stance Mask":
             try:
                 cur["stanceMask"] = int(val.split()[0], 16)
@@ -141,6 +142,7 @@ def parse_dump(text):
             if "Hasted Global Cooldown" in val:
                 cur["hastedGcd"] = True
     _baseline_energize(spells)
+    _cooldown_links(spells)
     for s in spells.values():
         _effects(s)
     _description_auras(spells)
@@ -163,6 +165,177 @@ def _description_auras(spells):
                  and set(spells[r]["token"].split("_")) == words]
         if found:
             s["triggers"] = found
+
+
+# Spell interdependencies from the game's own spell descriptions (numbers from the spell's effects), e.g.
+#   "... reducing the cooldown of Holy Shock by ${$s4/1000}.1 sec"                     cast -> flat reduction
+#   "Holy Shock reduces the cooldown of Judgment by ${$m1/-1000}.1 sec" (a talent)       named source
+#   "... reduces the cooldown of Adrenaline Rush by ${$s1/100}.1 sec per combo point spent" per resource spent
+#   "... resets the cooldown of X" / "... grants a charge of X"                         reset / one charge
+# Chance-based, crit-based and conditional ones can't be predicted and are skipped (the runtime's safety nets
+# cover them). Every pull lists the links that changed and the mentions we couldn't turn into a rule (review).
+NAME = r"[A-Z][A-Za-z':\- ]*?"
+CD_LINK = re.compile(
+    r"(?:(?P<subj>" + NAME + r") )?(?:reduces|reducing|reduce|decreases|decreasing) the (?:remaining )?"
+    r"(?:cooldown|recharge time)s? (?:of|on) (?P<target>" + NAME + r") by (?:an additional )?"
+    r"(?P<val>\$\{[^}]*\}(?:\.\d)?|\$[sm]\d+|\d+(?:\.\d+)?)(?: sec| seconds)")
+# passive voice: "Lay on Hands' cooldown is reduced by X sec per Holy Power spent",
+# "The remaining cooldown on Deathmark is reduced by X sec for every N Energy you expend"
+CD_PASSIVE = re.compile(r"(?:[Tt]he (?:remaining )?cooldown (?:of|on) (?P<target>" + NAME + r")|(?P<target2>" + NAME + r")(?:'s|')"
+                        r" (?:remaining )?cooldown) is reduced by (?:an additional )?"
+                        r"(?P<val>\$\{[^}]*\}(?:\.\d)?|\$[sm]\d+|\d+(?:\.\d+)?)(?: sec| seconds)")
+CD_RESET = re.compile(r"(?:(?P<subj>" + NAME + r") )?(?:resets|resetting|reset) the (?:remaining )?cooldown (?:of|on) "
+                      r"(?P<target>" + NAME + r")(?=[ .,;]|$)")
+CD_CHARGE = re.compile(r"(?:(?P<subj>" + NAME + r") )?(?:grants|granting|grant|gains|gain) (?:you )?(?:a|an additional|one|1) "
+                       r"charge of (?P<target>" + NAME + r")(?=[ .,;]|$)")
+SPEND_UNITS = {"combo point": 4, "holy power": 9, "rage": 1, "runic power": 6, "energy": 3, "focus": 2, "chi": 12,
+               "insanity": 13, "astral power": 8, "maelstrom": 11, "fury": 17, "soul shard": 7, "essence": 19}
+UNIT = r"(combo points?|holy power|rage|runic power|energy|focus|chi|insanity|astral power|maelstrom|fury|soul shards?|essence)"
+PER_SPENT = re.compile(r"per " + UNIT + r" (?:you )?(?:spen[dt]|expend)|each " + UNIT + r" (?:you )?(?:spen[dt]|expend)", re.I)
+EVERY_SPENT = re.compile(r"(?:every|each) (\$\{?\$?[^ ]+|\d+) " + UNIT + r" (?:you )?(?:spen[dt]|expend)", re.I)
+VALUE_REF = re.compile(r"\$([sm])(\d+)(?:\s*/\s*(-?\d+))?")
+CD_LINK_UNSURE = re.compile(r"chance|critical|crit\b|consuming|when you (?:are|take)|damage taken|\bkill|dies|absorb|"
+                            r"interrupts|dodge|parr|\$\?", re.I)
+STATIC_CD = re.compile(r"reduced cooldown|cooldown (?:is )?reduced by|(?:reduces|increases) the cooldown of|"
+                       r"cooldown of .* (?:is )?(?:reduced|increased)|additional charge|maximum charges|max charges|"
+                       r"(?:reduces|increases) the (?:recharge|cooldown)", re.I)
+CD_MENTION = re.compile(r"cooldown|recharge|charge of", re.I)
+
+
+def _unit(name):
+    name = name.lower().rstrip("s") if name.lower().endswith("points") or name.lower().endswith("shards") else name.lower()
+    return SPEND_UNITS.get(name)
+
+
+def _cooldown_links(spells):
+    """Sets spell["cdLinks"] = [(source_token or "*", target_token, seconds, requires_id or 0, power_type or 0)]
+    on the spell whose description carries the rule. seconds: per unit spent when power_type is set; "reset"
+    = the whole cooldown; "charge" = one charge back. Unhandled mentions go to spell["cdUnclear"]."""
+    names = {s["name"].lower(): s for s in spells.values() if not s["passive"]}
+
+    def spell_named(text):
+        words = (text or "").strip().split()
+        for i in range(len(words)):
+            cand = names.get(" ".join(words[i:]).lower())
+            if cand:
+                return cand
+        return None
+
+    for s in spells.values():
+        desc = s.get("desc") or ""
+        links, unclear = [], []
+        for sentence in re.split(r"(?<=[.!])\s+", desc):
+            # a talent-dependent add-on ("...mana.$?a386568[...]") is not part of the base rule
+            if not sentence.startswith("$?"):
+                sentence = sentence.split("$?")[0]
+            if not CD_MENTION.search(sentence):
+                continue
+            found_any = False
+            unsure = CD_LINK_UNSURE.search(sentence)
+            per = PER_SPENT.search(sentence)
+            every = EVERY_SPENT.search(sentence)
+            spend_pt, spend_div = 0, 1.0
+            if per:
+                spend_pt = _unit(per.group(1) or per.group(2))
+            elif every:
+                spend_pt = _unit(every.group(2))
+                n = every.group(1)
+                if n.isdigit():
+                    spend_div = float(n)
+                else:
+                    v = _link_value(s, n, raw=True)
+                    spend_div = v if v else 0
+            for kind, rx in (("flat", CD_LINK), ("flat", CD_PASSIVE), ("reset", CD_RESET), ("charge", CD_CHARGE)):
+                for m in rx.finditer(sentence):
+                    gd = m.groupdict()
+                    tname = gd.get("target") or gd.get("target2") or ""
+                    if rx is CD_PASSIVE and not (per or every):
+                        continue  # a permanent change: the game's own numbers include it
+                    target = names.get(tname.strip().lower())
+                    if not target:
+                        continue
+                    subj = (gd.get("subj") or "").strip()
+                    source, req = s, 0
+                    if subj and subj.lower() != s["name"].lower():
+                        named = spell_named(subj)
+                        if named:
+                            source = named
+                            req = s["id"] if (s["passive"] or s.get("talent")) else 0
+                        elif not spend_pt:
+                            continue
+                    elif s["passive"] and not spend_pt:
+                        found_any = True  # a passive changing a cooldown for good: the game's own numbers include it
+                        continue
+                    if unsure:
+                        found_any = True  # deliberately not modelled (chance / crit / conditional)
+                        continue
+                    if kind == "flat":
+                        seconds = _link_value(s, m.group("val"))
+                        if not seconds or not (0 < seconds <= 120):
+                            continue
+                        if spend_pt:
+                            if not spend_div:
+                                continue
+                            seconds = round(seconds / spend_div, 3)
+                    else:
+                        seconds = kind
+                    src = "*" if (spend_pt and (source is s and s["passive"] or not subj)) else source["token"]
+                    if src != "*" and src == target["token"]:
+                        continue
+                    links.append((src, target["token"], seconds, req if src != "*" else s["id"] if s["passive"] or s.get("talent") else 0,
+                                  spend_pt or 0))
+                    found_any = True
+            if not found_any and s["passive"] and STATIC_CD.search(sentence) and not (per or every):
+                found_any = True  # "X has 30% reduced cooldown": permanent, in the game's own numbers
+            if not found_any and unsure:
+                found_any = True  # chance / crit / conditional: not predictable, left to the runtime's safety nets
+            if not found_any:
+                unclear.append(sentence.strip()[:200])
+        if links:
+            s["cdLinks"] = links
+        if unclear:
+            s["cdUnclear"] = unclear
+
+
+def links_for(spells, ids):
+    """The class's interdependency rules that touch this spec's spells: (links, review sentences)."""
+    actions = set(ids)
+    names = {s["name"].lower() for s in spells.values() if s["token"] in actions and not s["passive"]}
+    links, review = [], []
+    for s in sorted(spells.values(), key=lambda x: x["id"]):
+        for src, target, sec, req, pt in s.get("cdLinks", []):
+            if target in actions and (src == "*" or src in actions):
+                row = [src, target, sec, req, pt]
+                if row not in links:
+                    links.append(row)
+        for sentence in s.get("cdUnclear", []):
+            low = sentence.lower()
+            if any(n in low for n in names):
+                review.append(f"{s['name']} ({s['id']}): {sentence}")
+    return links, review
+
+
+def _link_value(spell, expr, raw=False):
+    if re.fullmatch(r"\d+(?:\.\d+)?", expr or ""):
+        return float(expr)
+    m = VALUE_REF.search(expr or "")
+    if not m:
+        return None
+    index, div = int(m.group(2)), m.group(3)
+    for e in spell["effects"]:
+        if e["n"] == index:
+            v = re.search(r"Base Value: (-?[\d.]+)", e["detail"])
+            if not v:
+                return None
+            value = float(v.group(1))
+            if raw:
+                return abs(value)
+            if div:
+                value = value / float(div)
+            elif abs(value) >= 100:
+                value = value / 1000.0  # milliseconds
+            return round(abs(value), 3)
+    return None
 
 
 FLAT_EFFECT = re.compile(r"Add Flat Modifier \(107\): Spell Effect (\d+)")

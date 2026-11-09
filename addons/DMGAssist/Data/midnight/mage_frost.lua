@@ -141,6 +141,9 @@ ns.RegisterSpecData("midnight", "mage_frost", {
   },
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "ice_lance", "frozen_orb", 0.5, 1281638, 0 },
+  },
   class = "mage",
   gameMatch = {
     matched = 12,

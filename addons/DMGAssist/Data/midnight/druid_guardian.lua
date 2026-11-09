@@ -128,6 +128,9 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
   },
   blizzardExcluded = { "berserk", "convoke_the_spirits" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "sundering_roar", "thrash", "reset", 0, 0 },
+  },
   class = "druid",
   gameMatch = {
     matched = 22,

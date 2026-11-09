@@ -140,6 +140,23 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
   },
   blizzardExcluded = { "avenging_wrath", "sentinel" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "crusader_strike", "judgment", 1.5, 196926, 0 },
+    {
+      "avengers_shield",
+      "guardian_of_ancient_kings",
+      3.0,
+      207628,
+      0,
+    },
+    {
+      "avengers_shield",
+      "guardian_of_ancient_kings",
+      1.0,
+      378279,
+      0,
+    },
+  },
   class = "paladin",
   gameMatch = {
     matched = 16,
