@@ -541,4 +541,12 @@ ns.LOCALE_DATA.ruRU = {
   ["Bottom-left corner"] = "Левый нижний угол",
   ["Bottom-right corner"] = "Правый нижний угол",
   ["Settings open as soon as the game allows it (after combat)."] = "Настройки откроются, как только игра позволит (после боя).",
+  ["No potions in your bags"] = "В сумках нет зелий",
+  ["Potion for this spec"] = "Зелье для этой специализации",
+  ["Potion removed for this spec."] = "Зелье для этой специализации убрано.",
+  ["Potion set for this spec: %s."] = "Зелье для этой специализации: %s.",
+  ["Potion: %s. Shown in the items icon when SimC uses a potion (with your big cooldowns). Click the box to change it, right-click to remove it."] = "Зелье: %s. Появляется в значке предметов, когда SimC использует зелье (вместе с вашими большими способностями). Щёлкните по ячейке, чтобы сменить, правой кнопкой — чтобы убрать.",
+  ["Potion: click this box and pick one of the potions in your bags to add it to your rotation (this spec only). It shows in the items icon when SimC uses a potion."] = "Зелье: щёлкните по этой ячейке и выберите одно из зелий в сумках, чтобы добавить его в ротацию (только эта специализация). Оно появится в значке предметов, когда SimC использует зелье.",
+  ["Type /dmga potion and shift-click a potion to choose it."] = "Введите /dmga potion и щёлкните по зелью с Shift, чтобы выбрать его.",
+  ["choose the potion for this spec (shift-click it), or /dmga potion off"] = "выбрать зелье для этой специализации (Shift+щелчок по нему) или /dmga potion off",
 }

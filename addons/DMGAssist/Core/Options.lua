@@ -694,7 +694,8 @@ function O.RegisterSpellChoices(parent)
   intro:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -10)
   intro:SetWidth(560)
   intro:SetJustifyH("LEFT")
-  -- Potion for this spec: drag one from your bags onto the box (right-click clears it).
+  -- Potion for this spec: click to choose from the potions in your bags (the settings panel covers the bags, so
+  -- dragging can't work), right-click to clear. Dropping one on the box still works if the bags are reachable.
   local potion = CreateFrame("Button", nil, frame)
   potion:SetSize(32, 32)
   potion:SetPoint("TOPLEFT", intro, "BOTTOMLEFT", 0, -10)
@@ -715,12 +716,37 @@ function O.RegisterSpellChoices(parent)
       local name = (C_Item and C_Item.GetItemNameByID and U.Get(C_Item.GetItemNameByID, item)) or ("item " .. item)
       potion.icon:SetTexture((C_Item and C_Item.GetItemIconByID and U.Get(C_Item.GetItemIconByID, item)) or 134400)
       potion.label:SetText(string.format(L["Potion: %s. Shown in the items icon when SimC uses a potion "
-        .. "(with your big cooldowns). Right-click the box to remove it."], tostring(name)))
+        .. "(with your big cooldowns). Click the box to change it, right-click to remove it."], tostring(name)))
     else
       potion.icon:SetTexture(nil)
-      potion.label:SetText(L["Potion: drag a potion from your bags onto this box to add it to your rotation "
-        .. "(this spec only). It shows in the items icon when SimC uses a potion."])
+      potion.label:SetText(L["Potion: click this box and pick one of the potions in your bags to add it to your "
+        .. "rotation (this spec only). It shows in the items icon when SimC uses a potion."])
     end
+  end
+  local function ChoosePotion(owner)
+    local list = ns.Trinkets.PotionsInBags()
+    if not (MenuUtil and MenuUtil.CreateContextMenu) then
+      U.Print("%s", L["Type /dmga potion and shift-click a potion to choose it."])
+      return
+    end
+    MenuUtil.CreateContextMenu(owner, function(_, root)
+      root:CreateTitle(L["Potion for this spec"])
+      if #list == 0 then
+        root:CreateButton(L["No potions in your bags"], function() end)
+      end
+      for _, p in ipairs(list) do
+        root:CreateRadio(p.name, function()
+          return ns.Trinkets.ChosenPotion() == p.item
+        end, function()
+          ns.Trinkets.SetPotion(p.item)
+          ShowPotion()
+        end)
+      end
+      root:CreateButton(L["None"], function()
+        ns.Trinkets.SetPotion(nil)
+        ShowPotion()
+      end)
+    end)
   end
   local function TakePotion()
     local kind, item = GetCursorInfo()
@@ -731,12 +757,14 @@ function O.RegisterSpellChoices(parent)
     end
   end
   potion:SetScript("OnReceiveDrag", TakePotion)
-  potion:SetScript("OnClick", function(_, button)
+  potion:SetScript("OnClick", function(self, button)
     if button == "RightButton" then
       ns.Trinkets.SetPotion(nil)
       ShowPotion()
-    else
+    elseif GetCursorInfo() == "item" then
       TakePotion()
+    else
+      ChoosePotion(self)
     end
   end)
   local scroll = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")

@@ -544,5 +544,13 @@
 "Top-left corner",
 "Bottom-left corner",
 "Bottom-right corner",
-"Settings open as soon as the game allows it (after combat)."
+"Settings open as soon as the game allows it (after combat).",
+"No potions in your bags",
+"Potion for this spec",
+"Potion removed for this spec.",
+"Potion set for this spec: %s.",
+"Potion: %s. Shown in the items icon when SimC uses a potion (with your big cooldowns). Click the box to change it, right-click to remove it.",
+"Potion: click this box and pick one of the potions in your bags to add it to your rotation (this spec only). It shows in the items icon when SimC uses a potion.",
+"Type /dmga potion and shift-click a potion to choose it.",
+"choose the potion for this spec (shift-click it), or /dmga potion off"
 ]

@@ -332,6 +332,35 @@ function T.SetPotion(item)
   ns.db.potion[SpecKey()] = item
 end
 
+-- Potions in your bags (item class Consumable, subclass Potion), one entry per item: the list to choose from.
+-- (The settings panel covers the bags, so choosing is done from this list, not by dragging.)
+function T.PotionsInBags()
+  local out, seen = {}, {}
+  local C = C_Container
+  if not (C and C.GetContainerNumSlots and C.GetContainerItemInfo) then
+    return out
+  end
+  for bag = 0, 5 do
+    local n = U.Read((U.Call(C.GetContainerNumSlots, bag))) or 0
+    for slot = 1, (type(n) == "number" and n or 0) do
+      local info = U.Read((U.Call(C.GetContainerItemInfo, bag, slot)))
+      local item = type(info) == "table" and U.Read(info.itemID) or nil
+      if type(item) == "number" and not seen[item] then
+        seen[item] = true
+        local _, _, _, _, icon, classID, subclassID = U.Call(C_Item and C_Item.GetItemInfoInstant, item)
+        if U.Read(classID) == 0 and U.Read(subclassID) == 1 then
+          local name = C_Item and C_Item.GetItemNameByID and Read(C_Item.GetItemNameByID, item)
+          out[#out + 1] = { item = item, name = name or ("item " .. item), icon = U.Read(icon) }
+        end
+      end
+    end
+  end
+  table.sort(out, function(a, b)
+    return a.name < b.name
+  end)
+  return out
+end
+
 function T.PotionReady(item)
   local count = C_Item and C_Item.GetItemCount and Read(C_Item.GetItemCount, item)
   if type(count) == "number" and count < 1 then

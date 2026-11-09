@@ -541,4 +541,12 @@ ns.LOCALE_DATA.deDE = {
   ["Bottom-left corner"] = "Ecke unten links",
   ["Bottom-right corner"] = "Ecke unten rechts",
   ["Settings open as soon as the game allows it (after combat)."] = "Die Einstellungen öffnen sich, sobald das Spiel es erlaubt (nach dem Kampf).",
+  ["No potions in your bags"] = "Keine Tränke in deinen Taschen",
+  ["Potion for this spec"] = "Trank für diese Spezialisierung",
+  ["Potion removed for this spec."] = "Trank für diese Spezialisierung entfernt.",
+  ["Potion set for this spec: %s."] = "Trank für diese Spezialisierung: %s.",
+  ["Potion: %s. Shown in the items icon when SimC uses a potion (with your big cooldowns). Click the box to change it, right-click to remove it."] = "Trank: %s. Erscheint im Gegenstandssymbol, wenn SimC einen Trank nutzt (mit deinen großen Abklingzeiten). Klicke auf das Feld, um ihn zu ändern, Rechtsklick entfernt ihn.",
+  ["Potion: click this box and pick one of the potions in your bags to add it to your rotation (this spec only). It shows in the items icon when SimC uses a potion."] = "Trank: Klicke auf dieses Feld und wähle einen der Tränke in deinen Taschen, um ihn deiner Rotation hinzuzufügen (nur diese Spezialisierung). Er erscheint im Gegenstandssymbol, wenn SimC einen Trank nutzt.",
+  ["Type /dmga potion and shift-click a potion to choose it."] = "Gib /dmga potion ein und klicke mit gedrückter Umschalttaste auf einen Trank, um ihn zu wählen.",
+  ["choose the potion for this spec (shift-click it), or /dmga potion off"] = "den Trank für diese Spezialisierung wählen (Umschalt-Klick darauf) oder /dmga potion off",
 }

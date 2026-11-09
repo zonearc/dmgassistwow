@@ -523,6 +523,29 @@ test("potions: the one you chose shows in the items icon when SimC's potion line
   eq(T.Apply({ main = main, queue = { main }, potion = false }).trinket, nil, "SimC says not now")
   used = true
   eq(T.Apply({ main = main, queue = { main }, potion = true }).trinket, nil, "used this fight")
+  -- choosing: the potions in your bags (the settings panel covers the bags, so no dragging)
+  C_Container.GetContainerNumSlots = function(bag)
+    return bag == 0 and 3 or 0
+  end
+  C_Container.GetContainerItemInfo = function(_, slot)
+    return ({ { itemID = 212265 }, { itemID = 5512 }, { itemID = 212265 } })[slot]
+  end
+  C_Item.GetItemInfoInstant = function(item)
+    if item == 212265 then
+      return item, "Potion", "", "", 1, 0, 1 -- Consumable / Potion
+    end
+    return item, "Stone", "", "", 2, 0, 3 -- a healthstone-like consumable that isn't a potion
+  end
+  C_Item.GetItemNameByID = function()
+    return "Tempered Potion"
+  end
+  local list = T.PotionsInBags()
+  eq(#list, 1, "one potion, listed once")
+  eq(list[1].item, 212265)
+  SlashCmdList.DMGASSIST("potion off")
+  eq(T.ChosenPotion(), nil, "/dmga potion off")
+  SlashCmdList.DMGASSIST("potion |cffa335ee|Hitem:212265::::::::80:::::|h[Tempered Potion]|h|r")
+  eq(T.ChosenPotion(), 212265, "/dmga potion <shift-click>")
   C_Item, C_Container, GetInventoryItemID = saved.C_Item, saved.cd, saved.inv
   T.SetPotion(nil)
   mock.inCombat = false

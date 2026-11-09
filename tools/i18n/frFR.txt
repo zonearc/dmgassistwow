@@ -537,3 +537,11 @@
 543	Coin inférieur gauche
 544	Coin inférieur droit
 545	Les réglages s'ouvriront dès que le jeu le permettra (après le combat).
+546	Aucune potion dans vos sacs
+547	Potion pour cette spécialisation
+548	Potion retirée pour cette spécialisation.
+549	Potion pour cette spécialisation : %s.
+550	Potion : %s. Affichée dans l'icône d'objets quand SimC utilise une potion (avec vos gros temps de recharge). Cliquez sur la case pour la changer, clic droit pour la retirer.
+551	Potion : cliquez sur cette case et choisissez une potion de vos sacs pour l'ajouter à votre rotation (cette spécialisation seulement). Elle s'affiche dans l'icône d'objets quand SimC utilise une potion.
+552	Tapez /dmga potion puis Maj+clic sur une potion pour la choisir.
+553	choisir la potion de cette spécialisation (Maj+clic dessus), ou /dmga potion off

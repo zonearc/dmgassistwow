@@ -537,3 +537,11 @@
 543	Angolo in basso a sinistra
 544	Angolo in basso a destra
 545	Le impostazioni si apriranno appena il gioco lo consente (dopo il combattimento).
+546	Nessuna pozione nelle borse
+547	Pozione per questa specializzazione
+548	Pozione rimossa per questa specializzazione.
+549	Pozione per questa specializzazione: %s.
+550	Pozione: %s. Appare nell'icona oggetti quando SimC usa una pozione (con i tuoi grandi tempi di recupero). Clic sul riquadro per cambiarla, clic destro per toglierla.
+551	Pozione: clicca su questo riquadro e scegli una delle pozioni nelle borse per aggiungerla alla rotazione (solo questa specializzazione). Appare nell'icona oggetti quando SimC usa una pozione.
+552	Scrivi /dmga potion e fai Maiusc+clic su una pozione per sceglierla.
+553	scegli la pozione per questa specializzazione (Maiusc+clic su di essa) o /dmga potion off

@@ -541,4 +541,12 @@ ns.LOCALE_DATA.zhTW = {
   ["Bottom-left corner"] = "左下角",
   ["Bottom-right corner"] = "右下角",
   ["Settings open as soon as the game allows it (after combat)."] = "遊戲允許後（戰鬥結束後）將立即開啟設定。",
+  ["No potions in your bags"] = "背包裡沒有藥水",
+  ["Potion for this spec"] = "此專精的藥水",
+  ["Potion removed for this spec."] = "已移除此專精的藥水。",
+  ["Potion set for this spec: %s."] = "此專精的藥水：%s。",
+  ["Potion: %s. Shown in the items icon when SimC uses a potion (with your big cooldowns). Click the box to change it, right-click to remove it."] = "藥水：%s。當 SimC 使用藥水時（配合你的大冷卻）顯示在物品圖示中。點擊方框可更換，右鍵可移除。",
+  ["Potion: click this box and pick one of the potions in your bags to add it to your rotation (this spec only). It shows in the items icon when SimC uses a potion."] = "藥水：點擊這個方框，從背包裡的藥水中選擇一個加入你的循環（僅限此專精）。當 SimC 使用藥水時會顯示在物品圖示中。",
+  ["Type /dmga potion and shift-click a potion to choose it."] = "輸入 /dmga potion 並按住 Shift 點擊藥水即可選擇。",
+  ["choose the potion for this spec (shift-click it), or /dmga potion off"] = "選擇此專精的藥水（按住 Shift 點擊），或 /dmga potion off",
 }

@@ -31,8 +31,8 @@ nothing automated. You press every button.
 - **Tank and melee essentials.** Guardian keeps Ironfur stacks (default 3) and Moonfire up. Melee specs out of
   range get their charge or leap first (Wild Charge, Charge, Shadowstep, Harpoon, Feral Lunge, Death Grip).
 - **On-use trinkets and potions.** Every equipped on-use trinket is shown when it is ready and SimC's list says
-  to use it (what each trinket does is read from its own description). Drag a potion onto the Spells & trinkets
-  page and it's shown when SimC uses one, once per fight. Switch off any trinket you'd rather press yourself; the
+  to use it (what each trinket does is read from its own description). Choose a potion on the Spells & trinkets
+  page (click the gold box, or `/dmga potion` and shift-click it) and it's shown when SimC uses one, once per fight. Switch off any trinket you'd rather press yourself; the
   choice follows the trinket through gear and spec swaps.
 - **Healers too.** SimC publishes no rotation for most healing specs, so DMGAssist ships its own damage lists
   for Discipline, Holy Priest, Holy Paladin, Mistweaver, Restoration Shaman and Preservation (learned from the
@@ -118,6 +118,7 @@ and where to report problems.
 | `/dmga spec on` · `off` | DMGAssist on or off for the spec you are in (also on the minimap menu) |
 | `/dmga unbound` | spells it can recommend that have no key binding |
 | `/dmga relearn` | forget learned cooldown timing and start learning again |
+| `/dmga potion` | choose this spec's potion (shift-click it), or `/dmga potion off` |
 | `/dmga test interrupt` · `defensive` · `bossmods` · `assisted` | check the integrations (also Settings > Integrations) |
 
 ### For addon and UI pack authors: `DMGAssistAPI`

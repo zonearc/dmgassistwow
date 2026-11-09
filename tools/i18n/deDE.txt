@@ -537,3 +537,11 @@
 543	Ecke unten links
 544	Ecke unten rechts
 545	Die Einstellungen öffnen sich, sobald das Spiel es erlaubt (nach dem Kampf).
+546	Keine Tränke in deinen Taschen
+547	Trank für diese Spezialisierung
+548	Trank für diese Spezialisierung entfernt.
+549	Trank für diese Spezialisierung: %s.
+550	Trank: %s. Erscheint im Gegenstandssymbol, wenn SimC einen Trank nutzt (mit deinen großen Abklingzeiten). Klicke auf das Feld, um ihn zu ändern, Rechtsklick entfernt ihn.
+551	Trank: Klicke auf dieses Feld und wähle einen der Tränke in deinen Taschen, um ihn deiner Rotation hinzuzufügen (nur diese Spezialisierung). Er erscheint im Gegenstandssymbol, wenn SimC einen Trank nutzt.
+552	Gib /dmga potion ein und klicke mit gedrückter Umschalttaste auf einen Trank, um ihn zu wählen.
+553	den Trank für diese Spezialisierung wählen (Umschalt-Klick darauf) oder /dmga potion off

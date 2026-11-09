@@ -541,4 +541,12 @@ ns.LOCALE_DATA.esES = {
   ["Bottom-left corner"] = "Esquina inferior izquierda",
   ["Bottom-right corner"] = "Esquina inferior derecha",
   ["Settings open as soon as the game allows it (after combat)."] = "La configuración se abrirá en cuanto el juego lo permita (tras el combate).",
+  ["No potions in your bags"] = "No hay pociones en tus bolsas",
+  ["Potion for this spec"] = "Poción para esta especialización",
+  ["Potion removed for this spec."] = "Poción quitada para esta especialización.",
+  ["Potion set for this spec: %s."] = "Poción para esta especialización: %s.",
+  ["Potion: %s. Shown in the items icon when SimC uses a potion (with your big cooldowns). Click the box to change it, right-click to remove it."] = "Poción: %s. Aparece en el icono de objetos cuando SimC usa una poción (con tus grandes tiempos de reutilización). Haz clic en la casilla para cambiarla, clic derecho para quitarla.",
+  ["Potion: click this box and pick one of the potions in your bags to add it to your rotation (this spec only). It shows in the items icon when SimC uses a potion."] = "Poción: haz clic en esta casilla y elige una de las pociones de tus bolsas para añadirla a tu rotación (solo esta especialización). Aparece en el icono de objetos cuando SimC usa una poción.",
+  ["Type /dmga potion and shift-click a potion to choose it."] = "Escribe /dmga potion y haz Mayús+clic en una poción para elegirla.",
+  ["choose the potion for this spec (shift-click it), or /dmga potion off"] = "elige la poción para esta especialización (Mayús+clic en ella) o /dmga potion off",
 }

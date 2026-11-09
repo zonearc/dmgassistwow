@@ -607,6 +607,20 @@ end)
 local commands = {}
 ns.commands = commands -- the minimap menu uses the same actions as the slash commands
 
+-- /dmga potion <shift-click a potion>: the potion shown in the items icon for this spec; /dmga potion off clears it.
+function commands.potion(arg)
+  local item = tonumber((arg or ""):match("item:(%d+)") or arg)
+  if arg == "off" or arg == "none" then
+    ns.Trinkets.SetPotion(nil)
+    U.Print("%s", L["Potion removed for this spec."])
+  elseif item then
+    ns.Trinkets.SetPotion(item)
+    U.Print(L["Potion set for this spec: %s."], tostring(arg:match("%[(.-)%]") or item))
+  else
+    U.Print("%s", L["Type /dmga potion and shift-click a potion to choose it."])
+  end
+end
+
 -- /dmga relearn: forget learned cooldown timing (also in Settings).
 function commands.relearn()
   if S.ResetLearning() then
@@ -883,6 +897,7 @@ function commands.help()
     { "/dmga test interrupt | assisted | bossmods", "test the interrupt alert, Assisted Combat, or boss mod detection" },
     { "/dmga snapshot", "save a full decision trace for troubleshooting" },
     { "/dmga relearn", "forget learned cooldown timing and start learning again" },
+    { "/dmga potion", "choose the potion for this spec (shift-click it), or /dmga potion off" },
   }
   for _, line in ipairs(lines) do
     U.Print("%s — %s", line[1], L[line[2]])

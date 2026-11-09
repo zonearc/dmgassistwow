@@ -541,4 +541,12 @@ ns.LOCALE_DATA.koKR = {
   ["Bottom-left corner"] = "왼쪽 아래 모서리",
   ["Bottom-right corner"] = "오른쪽 아래 모서리",
   ["Settings open as soon as the game allows it (after combat)."] = "게임이 허용하는 즉시(전투 후) 설정이 열립니다.",
+  ["No potions in your bags"] = "가방에 물약이 없습니다",
+  ["Potion for this spec"] = "이 전문화의 물약",
+  ["Potion removed for this spec."] = "이 전문화의 물약을 제거했습니다.",
+  ["Potion set for this spec: %s."] = "이 전문화의 물약: %s.",
+  ["Potion: %s. Shown in the items icon when SimC uses a potion (with your big cooldowns). Click the box to change it, right-click to remove it."] = "물약: %s. SimC가 물약을 쓸 때 (큰 재사용 기술과 함께) 아이템 아이콘에 표시됩니다. 칸을 클릭하면 바꾸고, 우클릭하면 제거합니다.",
+  ["Potion: click this box and pick one of the potions in your bags to add it to your rotation (this spec only). It shows in the items icon when SimC uses a potion."] = "물약: 이 칸을 클릭하고 가방 속 물약 중 하나를 골라 순환에 추가하세요 (이 전문화만). SimC가 물약을 쓸 때 아이템 아이콘에 표시됩니다.",
+  ["Type /dmga potion and shift-click a potion to choose it."] = "/dmga potion 을 입력하고 물약을 Shift+클릭하여 고르세요.",
+  ["choose the potion for this spec (shift-click it), or /dmga potion off"] = "이 전문화의 물약 선택 (Shift+클릭), 또는 /dmga potion off",
 }
