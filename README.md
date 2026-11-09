@@ -66,7 +66,7 @@ nothing automated. You press every button.
 
 ## Install
 
-Install DMGAssist from **[CurseForge](https://www.curseforge.com/projects/1481713)**: the CurseForge app installs
+Install DMGAssist from **[CurseForge](https://www.curseforge.com/wow/addons/dmgassist)**: the CurseForge app installs
 it and keeps it up to date by itself. That is the only download. (The CurseForge page also has the zip for a manual
 install: unzip it into `World of Warcraft/_retail_/Interface/AddOns/`.) The package holds DMGAssist and its
 *Report an Issue* tool, which shows under DMGAssist in the game's AddOns list.
@@ -181,4 +181,7 @@ A weekly job (or `[release]` in a commit message) uploads the current build to C
 
 ## License
 
-[MIT](LICENSE)
+© 2026 zonearc, **all rights reserved** ([LICENSE](LICENSE)). You may download DMGAssist from
+[CurseForge](https://www.curseforge.com/wow/addons/dmgassist) and play with it, and read the code here to report problems;
+please don't re-upload or redistribute it. The SimulationCraft data (GPL-3.0) and WoWSims data (MIT) it includes keep
+their own licences: see [NOTICE.md](NOTICE.md).

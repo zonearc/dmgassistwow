@@ -164,4 +164,6 @@ comments: they can't be tracked or answered properly there.
 - Priority lists and spell data: [SimulationCraft](https://github.com/simulationcraft/simc).
 - WoW Forever rotations and game data: [WoWSims](https://wowsims.com/forever) (MIT).
 
-DMGAssist is open source (MIT): https://github.com/zonearc/dmgassistwow
+© 2026 zonearc, all rights reserved: please don't re-upload DMGAssist elsewhere. The source is readable at
+https://github.com/zonearc/dmgassistwow. The SimulationCraft data (GPL-3.0) and WoWSims data (MIT) it includes keep
+their own licences (NOTICE.md in the source).

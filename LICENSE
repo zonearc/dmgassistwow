@@ -1,21 +1,25 @@
-MIT License
+DMGAssist
+Copyright (c) 2026 zonearc. All rights reserved.
 
-Copyright (c) 2026 zonearc
+DMGAssist's own code, artwork, texts, translations and priority lists (everything in this repository not listed
+under "Third-party parts" below) are the property of the author.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+You may:
+  - download DMGAssist from its official page (https://www.curseforge.com/wow/addons/dmgassist) and use it to play
+    World of Warcraft;
+  - read the source code here, and use it to report problems or suggest changes.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+You may not, without the author's written permission:
+  - copy, re-upload, mirror or redistribute DMGAssist or any part of it, changed or not, anywhere;
+  - publish, sell or distribute works based on it.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+DMGAssist is provided "as is", without warranty of any kind. The author is not liable for any claim, damages or
+other liability arising from its use.
+
+Third-party parts (they keep their own licences; the terms above do not apply to them):
+  - Files generated from SimulationCraft (priority lists and spell data in addons/DMGAssist/Data/ and data/ that
+    come from https://github.com/simulationcraft/simc): GNU General Public License v3.0, see
+    licenses/GPL-3.0.txt.
+  - Files generated from WoWSims (WoW Forever rotations and game data, https://github.com/wowsims): MIT,
+    see licenses/WoWSims-MIT.txt.
+See NOTICE.md.

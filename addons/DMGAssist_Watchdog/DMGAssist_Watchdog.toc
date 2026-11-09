@@ -3,6 +3,7 @@
 ## Group: DMGAssist
 ## Notes: Report an issue or give feedback (/dmga report). Diagnostics for DMGAssist: captures Lua errors, blocked actions and combat sessions, probes what the game exposes, and exports it all for analysis.
 ## Author: zonearc
+## X-License: All Rights Reserved
 ## Version: 1.6.0
 ## IconTexture: Interface\Icons\INV_Misc_Spyglass_03
 ## SavedVariables: DMGAssistWatchdogDB

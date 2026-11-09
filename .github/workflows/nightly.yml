@@ -52,7 +52,7 @@ jobs:
             echo "**DMGAssist $VERSION** — built $(date -u '+%Y-%m-%d %H:%M UTC') from \`${GITHUB_SHA:0:7}\` (${GITHUB_REF_NAME})."
             echo
             echo "### Install"
-            echo "Most players: install DMGAssist from CurseForge (https://www.curseforge.com/projects/1481713); the CurseForge app keeps it up to date."
+            echo "Most players: install DMGAssist from CurseForge (https://www.curseforge.com/wow/addons/dmgassist); the CurseForge app keeps it up to date."
             echo
             echo "This page is the newest test build:"
             echo "1. Download **DMGAssist.zip** below (DMGAssist and its Watchdog in one package)."

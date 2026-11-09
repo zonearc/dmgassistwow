@@ -183,7 +183,7 @@ end
 -- What is going on right now, as label / value pairs, for the Status page in the settings.
 ns.LINKS = {
   home = "https://github.com/zonearc/dmgassistwow",
-  curseforge = "https://www.curseforge.com/projects/1481713",
+  curseforge = "https://www.curseforge.com/wow/addons/dmgassist",
   issues = "https://github.com/zonearc/dmgassistwow/issues",
   downloads = "https://github.com/zonearc/dmgassistwow/releases/tag/nightly",
 }
