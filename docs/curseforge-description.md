@@ -5,7 +5,8 @@ The priorities come from SimulationCraft, the same simulator theorycrafters use 
 for every spec. DMGAssist is built from scratch for Midnight's new addon rules: it reads only what the game
 allows, never presses anything for you, and tells you honestly when it is unsure.
 
-**Source, issues and nightly builds:** https://github.com/zonearc/dmgassistwow
+**Install it here on CurseForge:** the CurseForge app keeps it up to date by itself.
+Source code and issue reports: https://github.com/zonearc/dmgassistwow
 
 > **Early access.** DMGAssist is young and improving quickly, with fixes almost every day.
 > If something looks wrong, please report it (see *Reporting a problem* below): every report is read.
@@ -49,7 +50,18 @@ allows, never presses anything for you, and tells you honestly when it is unsure
 - **Plays well with your setup.** DBM, BigWigs and LittleWigs timers (or Blizzard's encounter timeline) for adds,
   AoE and tank hits; keybinds shown on the icons from Blizzard's bars, Bartender and macros; sounds for
   interrupts, defensives and cooldowns.
-- **Any client language.** Spells are matched by ID; messages are translated into 9 languages.
+- **Made for alts and leveling.** A brand-new character, or any character below max level that knows only a
+  few of the spells its priority list expects, follows Blizzard's Assisted Combat (built for exactly that) and
+  switches to SimulationCraft's list by itself as you learn more. Learn a spell without a key and you hear about it
+  once (not when the game already put it on a keyed button); unspent talent points after a level-up too.
+- **Set up in three questions.** Where it goes, how big, when it shows, each with a suggested answer.
+- **Fits your UI.** Move it in Blizzard's Edit Mode with everything else; Masque skins its icons like your action
+  bars; a Titan Panel / ElvUI data-text launcher; controller players see their buttons (`LT+A`, Xbox or
+  PlayStation names); WeakAuras and UI packs can read every recommendation (`DMGAssistAPI`).
+- **Buff reminders.** Out of combat, a missing raid buff, shield, weapon imbue, poison, or your Earth Shield /
+  Beacon of Light on the tank goes in slot 1 before the pull.
+- **Your language.** English, Deutsch, Español, Français, Italiano, Português, Русский, 한국어, 简体中文, 繁體中文:
+  it follows the game, or pick one in the settings. Spells are matched by ID, so any client works.
 
 ## How it uses SimulationCraft
 
@@ -92,13 +104,14 @@ that freely; in Midnight they can't, and neither can DMGAssist. What DMGAssist d
 - **No combat-log tricks.** It doesn't read the combat log or use protected functions, so it doesn't cause
   "action blocked" errors or taint your UI.
 - **No custom rotation editor (yet).** You get SimC's list for your spec, plus the options in Settings.
-- **Healers:** healing specs have no SimC damage list worth using, so support for them is limited.
+- **Healers:** DMGAssist helps with your damage between heals (its own lists, from the class guides); it does
+  not tell you whom to heal.
 
 ## Getting started
 
-1. Install **DMGAssist**, and **DMGAssist_Watchdog** if you want to report problems (recommended while it's in
-   early access).
-2. Log in. The icons appear in combat, or out of combat with an enemy targeted. Drag them where you like.
+1. Install **DMGAssist** from CurseForge (it includes the *Report an Issue* tool).
+2. Log in and answer the three setup questions (or press *Use the suggestions*). The icons appear in combat, or
+   out of combat with an enemy targeted. Move them any time in Blizzard's **Edit Mode**.
 3. Optional: bind a key to **Switch target mode** under *Options → Keybindings → AddOns → DMGAssist*.
 
 - **Minimap button:** left-click shows or hides the HUD, drag moves the button, right-click opens a menu
@@ -106,7 +119,8 @@ that freely; in Midnight they can't, and neither can DMGAssist. What DMGAssist d
 - **Settings:** *Options → AddOns → DMGAssist*. The **Status** page shows the version, the spec and rotation
   detected, the target mode, boss mods and keybinds found, and where to report problems.
 - **Commands:** `/dmga` (status), `/dmga config`, `/dmga burst` (major cooldowns on/off), `/dmga mode`
-  (Auto / Single / AoE), `/dmga why` (where each pick came from).
+  (Auto / Single / AoE), `/dmga why` (where each pick came from), `/dmga report` (report an issue),
+  `/dmga welcome` (the setup questions again).
 
 ## Reporting a problem
 
@@ -142,7 +156,8 @@ comments: they can't be tracked or answered properly there.
 |---|---|
 | **Midnight** (12.1.x) | Every spec with a SimulationCraft priority list (all DPS and tank specs) |
 | **WoW Forever** | Specs with a WoWSims rotation |
-| **Languages** | Messages and key bindings in English, Español, Deutsch, Français, Português, Русский, 简体中文, 繁體中文, 한국어; settings pages in English for now. |
+| **Languages** | Everything translated: English, Deutsch, Español, Français, Italiano, Português, Русский, 한국어, 简体中文, 繁體中文 |
+| **Works with** | Masque, Blizzard Edit Mode, Titan Panel / ElvUI data texts, controllers, DBM / BigWigs / LittleWigs, Bartender, ElvUI, Dominos, WeakAuras (via `DMGAssistAPI`) |
 
 ## Credits
 

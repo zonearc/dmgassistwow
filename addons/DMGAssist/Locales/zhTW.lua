@@ -411,4 +411,8 @@ ns.LOCALE_DATA.zhTW = {
   ["|cffffd100Step 1.|r What went wrong? What did you expect instead?"] = "|cffffd100第 1 步。|r 哪裡出了問題？你原本期望怎樣？",
   ["|cffffd100Step 2.|r Click the box below and press |cffffffffCtrl+C|r. Your words above are included."] = "|cffffd100第 2 步。|r 點選下方的框並按 |cffffffffCtrl+C|r。上面你寫的內容也會一起復制。",
   ["|cffffd100Step 3.|r Open this page in your browser (click it, Ctrl+C, paste it in the address bar),"] = "|cffffd100第 3 步。|r 在瀏覽器中開啟此頁面（點選它，Ctrl+C，貼上到位址列），",
+  ["Download (CurseForge)"] = "下載（CurseForge）",
+  ["Below max level, and for a new character's starter spec, Blizzard's Assisted Combat leads while you know few of the spells the priority list expects; DMGAssist's list takes over by itself as you learn more. New spells without a key and unspent talent points get one chat line. Combat > Leveling."] = "在滿級之前，以及新角色的初始專精，只要你只會優先順序列表所需技能中的一小部分，就由暴雪的輔助戰鬥主導；隨著你學會更多，DMGAssist 的列表會自動接手。沒有按鍵的新技能和未分配的天賦點會在聊天框提示一行。戰鬥 > 升級。",
+  ["Fits your UI"] = "融入你的介面",
+  ["Move the HUD in Blizzard's Edit Mode. Masque skins the icons. With a controller, keybinds show as its buttons (Display > Controller button names). Titan Panel and ElvUI data texts get a DMGAssist launcher. Addon authors: DMGAssistAPI."] = "在暴雪的編輯模式中移動 HUD。Masque 可美化圖示。使用控制器時，按鍵顯示為控制器按鈕（顯示 > 控制器按鍵名稱）。Titan Panel 和 ElvUI 資訊文字會有 DMGAssist 啟動器。插件作者：DMGAssistAPI。",
 }

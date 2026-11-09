@@ -407,3 +407,7 @@
 413	|cffffd100Étape 1.|r Qu'est-ce qui s'est mal passé ? Qu'attendiez-vous à la place ?
 414	|cffffd100Étape 2.|r Cliquez dans la case ci-dessous et appuyez sur |cffffffffCtrl+C|r. Vos mots ci-dessus sont inclus.
 415	|cffffd100Étape 3.|r Ouvrez cette page dans votre navigateur (cliquez dessus, Ctrl+C, collez-la dans la barre d'adresse),
+416	Télécharger (CurseForge)
+417	Sous le niveau maximum, et avec la spécialisation de départ d'un nouveau personnage, le Combat assisté de Blizzard mène tant que vous connaissez peu des sorts attendus par la liste de priorités ; la liste de DMGAssist prend le relais toute seule à mesure que vous en apprenez. Les nouveaux sorts sans touche et les points de talent restants donnent une ligne dans le chat. Combat > Montée de niveau.
+418	S'intègre à votre interface
+419	Déplacez le HUD dans le mode Édition de Blizzard. Masque habille les icônes. Avec une manette, les raccourcis s'affichent comme ses boutons (Affichage > Noms des boutons de manette). Titan Panel et les textes de données d'ElvUI ont un lanceur DMGAssist. Pour les auteurs d'addons : DMGAssistAPI.

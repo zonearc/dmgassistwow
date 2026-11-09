@@ -407,3 +407,7 @@
 413	|cffffd100Passo 1.|r Cosa è andato storto? Cosa ti aspettavi invece?
 414	|cffffd100Passo 2.|r Clicca nella casella qui sotto e premi |cffffffffCtrl+C|r. Le tue parole qui sopra sono incluse.
 415	|cffffd100Passo 3.|r Apri questa pagina nel browser (cliccala, Ctrl+C, incollala nella barra degli indirizzi),
+416	Scarica (CurseForge)
+417	Sotto il livello massimo, e con la specializzazione iniziale di un personaggio nuovo, guida il Combattimento assistito di Blizzard finché conosci pochi degli incantesimi previsti dalla lista di priorità; la lista di DMGAssist subentra da sola man mano che ne impari altri. I nuovi incantesimi senza tasto e i punti talento non spesi ricevono una riga in chat. Combattimento > Livellamento.
+418	Si adatta alla tua interfaccia
+419	Sposta l'HUD nella Modalità modifica di Blizzard. Masque dà stile alle icone. Con un controller, i tasti appaiono come i suoi pulsanti (Visualizzazione > Nomi dei pulsanti del controller). Titan Panel e i testi dati di ElvUI hanno un pulsante di DMGAssist. Per gli autori di addon: DMGAssistAPI.

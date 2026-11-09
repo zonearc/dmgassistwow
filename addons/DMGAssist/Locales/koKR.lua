@@ -411,4 +411,8 @@ ns.LOCALE_DATA.koKR = {
   ["|cffffd100Step 1.|r What went wrong? What did you expect instead?"] = "|cffffd1001단계.|r 무엇이 잘못됐나요? 대신 어떻게 되길 기대했나요?",
   ["|cffffd100Step 2.|r Click the box below and press |cffffffffCtrl+C|r. Your words above are included."] = "|cffffd1002단계.|r 아래 상자를 클릭하고 |cffffffffCtrl+C|r를 누르세요. 위에 적은 내용도 함께 복사됩니다.",
   ["|cffffd100Step 3.|r Open this page in your browser (click it, Ctrl+C, paste it in the address bar),"] = "|cffffd1003단계.|r 브라우저에서 이 페이지를 여세요(클릭, Ctrl+C, 주소창에 붙여 넣기),",
+  ["Download (CurseForge)"] = "다운로드 (CurseForge)",
+  ["Below max level, and for a new character's starter spec, Blizzard's Assisted Combat leads while you know few of the spells the priority list expects; DMGAssist's list takes over by itself as you learn more. New spells without a key and unspent talent points get one chat line. Combat > Leveling."] = "최고 레벨 미만이거나 새 캐릭터의 초기 전문화일 때, 우선순위 목록이 기대하는 주문을 조금만 알고 있으면 블리자드 전투 보조가 이끕니다. 더 배우면 DMGAssist 목록이 저절로 이어받습니다. 키 없는 새 주문과 남은 특성 점수는 채팅에 한 줄 알립니다. 전투 > 레벨업.",
+  ["Fits your UI"] = "내 UI에 맞추기",
+  ["Move the HUD in Blizzard's Edit Mode. Masque skins the icons. With a controller, keybinds show as its buttons (Display > Controller button names). Titan Panel and ElvUI data texts get a DMGAssist launcher. Addon authors: DMGAssistAPI."] = "블리자드 편집 모드에서 HUD를 옮기세요. Masque가 아이콘을 꾸며 줍니다. 컨트롤러를 쓰면 단축키가 컨트롤러 버튼으로 표시됩니다(표시 > 컨트롤러 버튼 이름). Titan Panel과 ElvUI 정보 문자에 DMGAssist 실행 버튼이 생깁니다. 애드온 제작자용: DMGAssistAPI.",
 }

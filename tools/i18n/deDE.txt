@@ -407,3 +407,7 @@
 413	|cffffd100Schritt 1.|r Was ist schiefgegangen? Was hättest du stattdessen erwartet?
 414	|cffffd100Schritt 2.|r Klick in das Feld unten und drücke |cffffffffStrg+C|r. Deine Worte oben sind enthalten.
 415	|cffffd100Schritt 3.|r Öffne diese Seite in deinem Browser (anklicken, Strg+C, in die Adressleiste einfügen),
+416	Download (CurseForge)
+417	Unter der Höchststufe und bei der Start-Spezialisierung eines neuen Charakters führt Blizzards Kampfassistent, solange du wenige der Zauber kennst, die die Prioritätenliste erwartet; die Liste von DMGAssist übernimmt von selbst, sobald du mehr lernst. Neue Zauber ohne Taste und unverteilte Talentpunkte bekommen eine Chatzeile. Kampf > Leveln.
+418	Passt zu deinem UI
+419	Verschiebe das HUD im Bearbeitungsmodus von Blizzard. Masque gestaltet die Symbole. Mit einem Controller erscheinen Tastenbelegungen als dessen Tasten (Anzeige > Namen der Controllertasten). Titan Panel und ElvUI-Datentexte bekommen einen DMGAssist-Starter. Für Addon-Autoren: DMGAssistAPI.

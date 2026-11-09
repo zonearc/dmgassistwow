@@ -48,23 +48,30 @@ nothing automated. You press every button.
 - **Works with what you have.** DBM, BigWigs and LittleWigs timers (or Blizzard's encounter timeline) for adds,
   AoE and tank hits; keybinds read from Blizzard's bars, Bartender and macros; Blizzard's Assisted Combat as a
   second opinion where the game hides information.
-- **Every client language.** Spells are matched by ID, so any client works.
+- **Leveling and alts, automatically.** A new character's starter spec, and any character below max level that
+  knows only a few of the spells the priority list expects, follow Blizzard's Assisted Combat, which is built for
+  exactly that. It switches to the SimC list by itself as you learn more. Learn a spell with no key and you get one
+  chat line (not when the game already put it on a keyed button); unspent talent points after a level-up too.
+- **Three questions to start.** Where the HUD goes, how big, when it shows, each with a suggested answer.
+  Once per settings profile, so alts sharing one are asked once (`/dmga welcome` to redo it).
+- **Fits your UI.** Blizzard's Edit Mode places it with everything else; Masque skins its icons like your bars;
+  a Titan Panel / ElvUI data-text launcher; controller players see their buttons (`LT+A`, Xbox or PlayStation
+  names); WeakAuras and UI packs can read every recommendation through `DMGAssistAPI` (see below).
+- **Your language.** English, Deutsch, Español, Français, Italiano, Português, Русский, 한국어, 简体中文 and 繁體中文,
+  following the game's language or picked in the settings. Spells are matched by ID, so any client works.
 
 ## Install
 
-**CurseForge / Wago:** coming soon.
+**CurseForge (recommended):** install DMGAssist from [CurseForge](https://www.curseforge.com/projects/1481713).
+The CurseForge app keeps it up to date by itself.
 
-**Automatic updates with WowUp (recommended for testers):** install [WowUp](https://wowup.io), then
-**Get Addons → Install from URL** and paste `https://github.com/zonearc/dmgassistwow`. It installs the latest weekly
-release and keeps it updated. WowUp leaves the addons other managers (the CurseForge app) installed alone; just
-don't update those from WowUp.
+**WowUp:** install [WowUp](https://wowup.io), search for DMGAssist, or use **Get Addons → Install from URL** with
+`https://github.com/zonearc/dmgassistwow` for the weekly release.
 
 **Manual:** download `DMGAssist-<version>.zip` from the [latest release](../../releases/latest) (or `DMGAssist.zip`
 from the [nightly build](../../releases/tag/nightly)) and unzip it into `World of Warcraft/_retail_/Interface/AddOns/`.
 It holds DMGAssist and its Watchdog (the report tool), which shows under DMGAssist in the game's AddOns list.
 
-**Windows, automatic (AutoHotkey):** `DMGAssist_Updater.zip` on the nightly page has a small updater that starts with
-Windows and keeps DMGAssist up to date in retail and Forever. See [tools/updater](tools/updater/README.md).
 
 ## Using it
 
@@ -95,6 +102,26 @@ and where to report problems.
 | `/dmga queue 1`–`3` | how many spells to show |
 | `/dmga lock` | lock / unlock the icons |
 | `/dmga why` | the queue, where each pick came from, and list spells you don't have |
+| `/dmga report` | report an issue or give feedback (also `/dmga issue`, `/dmga feedback`) |
+| `/dmga welcome` | the three setup questions again |
+| `/dmga unbound` | spells it can recommend that have no key binding |
+| `/dmga test interrupt` · `defensive` · `bossmods` · `assisted` | check the integrations (also Settings > Integrations) |
+
+### For addon and UI pack authors: `DMGAssistAPI`
+
+```lua
+local rec = DMGAssistAPI.GetRecommendation()
+-- nil, or { spells = { { spellID, texture, key, source, item }, ... up to 3 },
+--          interrupt = {...} or nil, defensive = {...} or nil, offGCD = {...} or nil, mode = "AUTO" | "ST" | "AOE" }
+local handle = DMGAssistAPI.RegisterCallback(function(rec) ... end) -- runs when the pick changes
+DMGAssistAPI.UnregisterCallback(handle)
+DMGAssistAPI.SetHUDHidden(true)   -- keep deciding, hide DMGAssist's own icons (draw them yourself); not saved
+DMGAssistAPI.SetEnabled(true)  DMGAssistAPI.CycleMode()  DMGAssistAPI.ToggleCooldowns()  DMGAssistAPI.OpenSettings()
+```
+
+A broken callback is dropped and never breaks DMGAssist. With LibDataBroker loaded (Titan Panel, ElvUI,
+ChocolateBar...) a "DMGAssist" launcher shows the target mode: left-click show/hide, right-click settings,
+middle-click target mode.
 
 ## Reporting a problem
 
@@ -118,7 +145,7 @@ removed.
 |---|---|
 | **Midnight** (12.1.x) | every spec with a SimulationCraft priority list |
 | **WoW Forever** | specs with a WoWSims rotation |
-| **Languages** | messages and key bindings: English, Español, Deutsch, Français, Português, Русский, 简体中文, 繁體中文, 한국어. Settings pages are English for now. |
+| **Languages** | everything (settings, messages, report window): English, Deutsch, Español, Français, Italiano, Português, Русский, 한국어, 简体中文, 繁體中文. Follows the game's language; Settings > DMGAssist > Language picks another (Chinese and Korean need that game client's fonts). |
 
 ## How it works (short)
 

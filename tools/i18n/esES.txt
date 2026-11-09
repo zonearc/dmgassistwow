@@ -407,3 +407,7 @@
 413	|cffffd100Paso 1.|r ¿Qué salió mal? ¿Qué esperabas que pasara?
 414	|cffffd100Paso 2.|r Haz clic en el cuadro de abajo y pulsa |cffffffffCtrl+C|r. Tus palabras de arriba van incluidas.
 415	|cffffd100Paso 3.|r Abre esta página en tu navegador (haz clic, Ctrl+C, pégala en la barra de direcciones),
+416	Descargar (CurseForge)
+417	Por debajo del nivel máximo, y con la especialización inicial de un personaje nuevo, manda el Combate asistido de Blizzard mientras conozcas pocos de los hechizos que espera la lista de prioridades; la lista de DMGAssist toma el relevo sola a medida que aprendes más. Los hechizos nuevos sin tecla y los puntos de talento sin gastar reciben una línea en el chat. Combate > Subir de nivel.
+418	Encaja en tu interfaz
+419	Mueve el HUD en el modo de edición de Blizzard. Masque da estilo a los iconos. Con un mando, las teclas se muestran como sus botones (Pantalla > Nombres de los botones del mando). Titan Panel y los textos de datos de ElvUI tienen un lanzador de DMGAssist. Para autores de addons: DMGAssistAPI.

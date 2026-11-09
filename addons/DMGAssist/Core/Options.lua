@@ -506,6 +506,7 @@ function O.RegisterStatus(parent)
   help:SetPoint("TOPLEFT", body, "BOTTOMLEFT", 0, -18)
   help:SetText(L["Help and updates"])
   local rows = {
+    { "Download (CurseForge)", ns.LINKS.curseforge },
     { "Project page", ns.LINKS.home },
     { "Report a problem", ns.LINKS.issues },
     { "Latest build", ns.LINKS.downloads },
@@ -708,6 +709,14 @@ O.HELP = {
       .. "Healing stays your call. Interrupts, defensives with your boss mod, on-use trinkets, keybinds and your "
       .. "spell choices all work. Restoration Druid has a full SimC list, including cat weaving. A spec with no "
       .. "list at all (some on WoW Forever) follows Blizzard's Assisted Combat." },
+  { "Leveling and alts",
+    "Below max level, and for a new character's starter spec, Blizzard's Assisted Combat leads while you know few "
+      .. "of the spells the priority list expects; DMGAssist's list takes over by itself as you learn more. New spells "
+      .. "without a key and unspent talent points get one chat line. Combat > Leveling." },
+  { "Fits your UI",
+    "Move the HUD in Blizzard's Edit Mode. Masque skins the icons. With a controller, keybinds show as its buttons "
+      .. "(Display > Controller button names). Titan Panel and ElvUI data texts get a DMGAssist launcher. Addon authors: "
+      .. "DMGAssistAPI." },
   { "Skipping a spell",
     "Skip the spell in slot 1 three times and it is held for the rest of the fight (\"saving it\"). Cast it "
       .. "yourself and it comes back. Only spells with a real cooldown are held." },
