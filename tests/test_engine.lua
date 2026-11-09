@@ -1422,6 +1422,20 @@ test("forms: when Blizzard's assistant asks for Moonkin Form, it goes to slot 1;
     "buff reminders are applied before defensives")
 end)
 
+test("defensives: a Balance Druid is never sent to Bear Form for Frenzied Regeneration; a Guardian is", function()
+  Reset()
+  local ns = Boot()
+  local F = ns.Defensives
+  local saved = ns.Specs.current.key
+  ns.Specs.current.key = "druid_balance"
+  eq(F.ONLY_WHEN.frenzied_regeneration(), false, "Balance: no Bear Form heal")
+  eq(F.ONLY_WHEN.regrowth(), true, "Balance: Regrowth")
+  ns.Specs.current.key = "druid_guardian"
+  eq(F.ONLY_WHEN.frenzied_regeneration(), true, "Guardian: Frenzied Regeneration")
+  eq(F.ONLY_WHEN.regrowth(), false, "Guardian: no Regrowth (it leaves Bear Form)")
+  ns.Specs.current.key = saved
+end)
+
 test("Edit Mode: the HUD shows and can be dragged while Blizzard's Edit Mode is open", function()
   Reset()
   local ns = Boot()

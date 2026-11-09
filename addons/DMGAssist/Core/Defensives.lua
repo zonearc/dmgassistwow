@@ -17,7 +17,7 @@ ns.Defensives = F
 
 F.TOKENS = {
   -- druid
-  "barkskin", "survival_instincts", "frenzied_regeneration", "renewal",
+  "barkskin", "survival_instincts", "frenzied_regeneration", "renewal", "regrowth",
   -- death knight
   "antimagic_shell", "icebound_fortitude", "vampiric_blood", "lichborne",
   -- demon hunter
@@ -44,6 +44,28 @@ F.TOKENS = {
   "ignore_pain", "die_by_the_sword", "enraged_regeneration", "shield_wall", "last_stand",
 }
 
+-- Some defensives only make sense in one shape: never tell a Balance Druid to leave Moonkin Form for Bear Form's
+-- Frenzied Regeneration, or a Guardian to leave Bear Form for Regrowth.
+local function InBearForm()
+  return U.Get(GetShapeshiftFormID) == 5 -- BEAR_FORM
+end
+
+local function Spec()
+  return ns.Specs.current and ns.Specs.current.key or ""
+end
+
+F.ONLY_WHEN = {
+  frenzied_regeneration = function()
+    return Spec() == "druid_guardian" or InBearForm()
+  end,
+  survival_instincts = function()
+    return Spec() == "druid_guardian" or Spec() == "druid_feral"
+  end,
+  regrowth = function()
+    return Spec() ~= "druid_guardian" and not InBearForm()
+  end,
+}
+
 F.stats = { shown = 0 }
 F.shown = false
 
@@ -62,7 +84,8 @@ function F.Spell()
   for _, token in ipairs(F.TOKENS) do
     local id = M.SpellID(token)
     M.unresolved[token] = nil
-    if id and ns.State.CooldownReady(id) ~= false and not ns.Choices.IsHidden(id) then
+    local allowed = not F.ONLY_WHEN[token] or F.ONLY_WHEN[token]()
+    if id and allowed and ns.State.CooldownReady(id) ~= false and not ns.Choices.IsHidden(id) then
       return id, token
     end
   end
