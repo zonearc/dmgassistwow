@@ -1353,8 +1353,10 @@ function S.CurrentCast()
     endMs, id = U.Read(c[5]), U.Read(c[8])
   end
   if type(endMs) == "number" and type(id) == "number" then
+    S.castSource = "game"
     return id, math.max(0, endMs / 1000 - GetTime())
   end
+  S.castSource = "ours"
   local mine = S.myCast
   if mine and mine.ended then
     if GetTime() - mine.ended > 1 then
@@ -2439,6 +2441,9 @@ function S.OnCombat(inCombat)
     S.combatStart = GetTime()
     S.fightContext = S.FightContext()
     S.timingLogged = 0
+    if ns.Display then
+      ns.Display.shadesLogged = 0
+    end
     S.drift = {}
     S.castsSeen, S.castsSecret, S.castsInferred = 0, 0, 0
     S.ForgetEnemies()

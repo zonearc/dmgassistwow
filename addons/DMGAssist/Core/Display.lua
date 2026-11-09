@@ -1069,6 +1069,21 @@ function D.RenderTiming(f, cfg)
     cdLeft = math.min(left, f.readyAt - GetTime() + 0.5)
   end
   local wait = math.max(busy, cdLeft)
+  -- A long shade goes in the report with where it came from (global cooldown, a cast or channel, a cooldown), so a
+  -- "slot 1 shaded while ready on my bar" report says which timer was wrong. Once per shade, at most 20 a fight.
+  if wait > 1.0 and not f.shadeLogged then
+    f.shadeLogged = true
+    D.shadesLogged = (D.shadesLogged or 0) + 1
+    if D.shadesLogged <= 20 then
+      local castID = ns.State.CurrentCast()
+      U.Log("shade", { spell = id, wait = string.format("%.1f", wait),
+        gcd = string.format("%.1f", ns.State.GCDRemains()), cast = castID,
+        castLeft = string.format("%.1f", castLeft), cd = string.format("%.1f", cdLeft),
+        castSource = ns.State.castSource })
+    end
+  elseif wait <= 0.2 then
+    f.shadeLogged = nil
+  end
   -- Length of this wait period, for the wipe and the bar: a jump up means a new GCD or cast started.
   if not f.waitTotal or wait > (f.lastWait or 0) + 0.05 then
     f.waitTotal = math.max(wait, 0.01)
