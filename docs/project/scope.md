@@ -46,3 +46,10 @@ their users see keys on the icons.
 - Every settings section: a title that makes sense alone and an explanation line; every option: a tooltip
   (a test enforces it).
 - ./scripts/check.sh passes before every commit.
+
+## Tanks (decided 2026-11-09)
+
+Tanks get a mitigation profile per spec alongside SimC. The three slots stay damage only; every mitigation button
+goes in the red icon, picked by the profile: keep-up first, then cooldowns on incoming damage (boss-mod timers),
+reactive buttons on boss-mod calls, emergencies on low health (tank default 50%, per spec, editable). The grade
+adds Mitigation for tanks.

@@ -16,15 +16,20 @@ Last updated: 1.6.0.140 (2026-11-09).
 
 ## Open: build
 
+- [ ] Tank profiles (agreed 2026-11-09), one per tank spec, running alongside SimC: slots 1-3 = damage only; all
+  mitigation in the red icon, chosen by the profile: keep-up (Shield Block, Ignore Pain, Ironfur, Demon Spikes,
+  Bone Shield / Death Strike, Purifying Brew, Shield of the Righteous), cooldown rotation on incoming damage
+  (Demoralizing Shout, Shield Wall, Last Stand...), reactive (Spell Reflection on a boss-mod "spell on you"),
+  emergencies on low health (tank default 50%, editable per spec). Sources: Method / Wowhead / Icy Veins tank
+  guides and SimC's tank lists. Grade gets a fifth part for tanks: Mitigation (uptime of the keep-up, cooldowns
+  used before tank hits)
 - [ ] End-of-fight learning summary in plain words ("Kill Command: corrected 3 times, now within 0.2 s")
 - [ ] Interrupts: review for the game's combat restrictions (12.x), like defensives were
 - [ ] Forever: confirm the WoWSims rank mapping (data imports for 34 specs; mapping not verified)
 
 ## Proposed (waiting on a decision)
 
-- [ ] Low-health threshold per role/spec: tanks 50% by default (DPS stay 35%), editable per spec; it only drives
-  the big emergency buttons (Shield Wall, Last Stand); active mitigation follows SimC while tanking
-- [ ] Spell Reflection and other reactive tank buttons: on a DBM/BigWigs "spell on you" or tank-hit timer only
+- (none)
 
 ## Open: needs in-game testing (built, not yet seen in game)
 
