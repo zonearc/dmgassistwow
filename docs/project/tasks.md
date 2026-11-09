@@ -20,6 +20,13 @@ Last updated: 1.6.0.136 (2026-11-09).
 - [ ] Interrupts: review for the game's combat restrictions (12.x), like defensives were
 - [ ] Forever: confirm the WoWSims rank mapping (data imports for 34 specs; mapping not verified)
 
+## Proposed (waiting on a decision)
+
+- [ ] End-of-fight performance grade (D to S+ popup, BDO-style): accuracy to slot 1 (SimC priority), reaction time
+  from the press-now flash, idle time between GCDs, cooldowns used on time; personal best per spec, trend over 10
+  fights, one tip on the weakest part. Never claims DPS (no combat log). Recommended for the first update after
+  launch.
+
 ## Open: needs in-game testing (built, not yet seen in game)
 
 - [ ] Masque with the real addon (installed 2026-11-09): /msq > DMGAssist group, every icon reskins
