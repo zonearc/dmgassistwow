@@ -1445,7 +1445,7 @@ test("auras Blizzard leaves readable in combat (Tip of the Spear, Sated) are rea
   mock.restricted, mock.inCombat = false, false
 end)
 
-test("a spell Blizzard had to correct twice: slot 1 calls it ready only when Blizzard names it", function()
+test("a spell Blizzard had to correct: slot 1 calls it ready only when Blizzard names it, remembered per spec", function()
   Reset()
   local ns = Boot()
   local S, G = ns.State, ns.Engine
@@ -1460,7 +1460,8 @@ test("a spell Blizzard had to correct twice: slot 1 calls it ready only when Bli
     S.ObserveAssistedCharge(5217) -- 13 s off by our clock: corrected
     S.rcSeen = {} -- the real recharge keeps moving (Wildfire Bomb): what was learned doesn't hold
   end
-  eq(S.ClockUnreliable(5217), true, "two corrections: our clock for it is known wrong")
+  eq(S.ClockUnreliable(5217), true, "corrected: our clock for it is known wrong")
+  eq(S.learned.unreliable.tigers_fury, true, "saved with the spec's learned data")
   G.acNow = nil
   eq(G.Castable(5217), false, "ready by our clock alone isn't trusted")
   G.acNow = 5217

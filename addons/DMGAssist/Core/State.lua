@@ -865,15 +865,24 @@ end
 S.ASSISTED_LEAD = 2.5
 -- A spell Blizzard had to correct twice this fight: its cooldown moves with effects we can't see (Survival's
 -- Wildfire Bomb), so our clock for it is wrong both ways. Then slot 1 calls it ready only when Blizzard names it.
-S.ASSISTED_UNRELIABLE_AFTER = 2
-S.assistedFixes, S.unreliable = {}, {}
+S.ASSISTED_UNRELIABLE_AFTER = 1
+S.assistedFixes = {}
 
 local function ClockKey(id)
   return ChargeInfo(id) and GroupOf(id) or id
 end
 
+-- Saved per character spec (S.learned.unreliable, by spell name): once our clock for a spell needed Blizzard's
+-- correction, it stays "Blizzard decides" for that character, across fights and reloads (a recharge learned in one
+-- fight was too short in the next and showed Wildfire Bomb ready 8 s early, 2026-11-09).
+local function UnreliableKey(id)
+  local info = M.Info(id)
+  return info and info.n or M.TokenForID(id)
+end
+
 function S.ClockUnreliable(id)
-  return S.unreliable[ClockKey(id)] == true
+  local k = UnreliableKey(id)
+  return k ~= nil and S.learned.unreliable ~= nil and S.learned.unreliable[k] == true
 end
 
 function S.ObserveAssistedCharge(id)
@@ -919,9 +928,11 @@ function S.ObserveAssistedCharge(id)
   U.Log("assisted_ready", { spell = (M.Info(id) or {}).n or M.TokenForID(id), ours = string.format("%.1f", left) })
   local key = ClockKey(id)
   S.assistedFixes[key] = (S.assistedFixes[key] or 0) + 1
-  if S.assistedFixes[key] >= S.ASSISTED_UNRELIABLE_AFTER and not S.unreliable[key] then
-    S.unreliable[key] = true
-    U.Log("clock_unreliable", { spell = (M.Info(id) or {}).n or M.TokenForID(id) })
+  local name = UnreliableKey(id)
+  if name and S.assistedFixes[key] >= S.ASSISTED_UNRELIABLE_AFTER and not S.ClockUnreliable(id) then
+    S.learned.unreliable = S.learned.unreliable or {}
+    S.learned.unreliable[name] = true
+    U.Log("clock_unreliable", { spell = name })
   end
 end
 
@@ -2500,7 +2511,8 @@ function S.Bind(key)
   S.learned = l
   ns.Clues.Reset(l.glowAura)
   S.auraUntil, S.dotUntil, S.lastCast, S.wasActive, S.glow = {}, {}, {}, {}, {}
-  S.assistedFixes, S.unreliable = {}, {}
+  S.assistedFixes = {}
+  l.unreliable = type(l.unreliable) == "table" and l.unreliable or {}
   S.cdSeen, S.rcSeen, S.chargeSpentAt = {}, {}, {} -- liveCharges: re-read by S.Calibrate
   S.stackUntil = {}
   l.stacking = type(l.stacking) == "table" and l.stacking or {}
