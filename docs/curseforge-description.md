@@ -20,7 +20,7 @@ You press every button; it never plays for you.
 - Leveling and alts: follows Blizzard's suggestions until you're ready
 - Reminds you of missing buffs, poisons and weapon imbues
 - Warns about spells on your bars with no keybind
-- Shows on-use trinkets when they're ready
+- Trinkets and your chosen potion in their own icon, defensives in another: the three slots stay your rotation
 
 ## Highly customizable
 

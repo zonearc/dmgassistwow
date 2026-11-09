@@ -438,3 +438,102 @@
 444	Estable (recomendado)
 445	Rápido
 446	Estable: cuando estás a punto de pulsar, la casilla 1 no cambia; un hechizo que se prepara en ese momento aparece en la casilla 2 y sube tras tu pulsación. Rápido: la casilla 1 sigue cada cambio antes, para jugadores de reacción rápida.
+447	Un borde oscuro alrededor de las letras las mantiene legibles sobre iconos claros.
+448	Un panel oscuro detrás de los iconos.
+449	Un brillo alrededor de la casilla 1. Solo la casilla 1 se mueve, así que siempre atrae tu mirada primero.
+450	Una línea alrededor del marco.
+451	Una elección de la que DMGAssist no está seguro (el juego oculta un valor que necesita) se muestra algo atenuada.
+452	Un pequeño icono con borde dorado en la casilla 1 para un abalorio de uso o una poción, cuando toca usarlo. Más discreto que el rojo: vale la pena, nunca urgente.
+453	Un pequeño icono con borde rojo en la casilla 1 para todo lo que te mantiene con vida, en cualquier clase: tiempos de reutilización defensivos, autocuraciones, mitigación de tanque como Pelaje de hierro. Late mientras lo necesitas ya.
+454	Un sonido para cada tipo de aviso, para que lo oigas aunque no estés mirando. Elige Ninguno para silenciar uno.
+455	Una barra fina bajo la casilla 1 que se vacía con tu tiempo de reutilización global.
+456	Barras de acción y atajos
+457	Avisos y efectos
+458	Todos los sonidos de DMGAssist activados o desactivados.
+459	Vuelve a responder las preguntas iniciales, asigna teclas o empieza de cero.
+460	Antes de golpes fuertes y con poca salud, aparece un defensivo en el icono defensivo con borde rojo de la casilla 1, latiendo.
+461	Combate asistido de Blizzard
+462	DBM, BigWigs y LittleWigs avisan de golpes, refuerzos y lanzamientos próximos, para que los defensivos y las interrupciones lleguen a tiempo.
+463	Icono defensivo (seguir con vida)
+464	Sacerdote de Disciplina: Expiación
+465	Espacio extra entre la casilla 1 y la casilla 2, para que la casilla 1 destaque y sus iconos pequeños tengan sitio.
+466	Para personajes por debajo del nivel máximo o con talentos muy distintos de la build habitual.
+467	Para tanques: cuántas acumulaciones de tu beneficio de mitigación tienes (druida guardián: Pelaje de hierro), contadas a partir de tus lanzamientos.
+468	Marco y título
+469	Primeros pasos
+470	Hechizos de curación propios, para personajes de daño y tanques (no rotaciones de sanador).
+471	Oculta los iconos fuera de combate (siguen visibles con un enemigo seleccionado si la siguiente opción está activada).
+472	Oculta los iconos cuando no los necesitas.
+473	Oculta los iconos mientras estás en un vehículo (uno con su propia barra de acción).
+474	Cómo decide DMGAssist entre la rotación de un objetivo y la de varios objetivos.
+475	El tamaño de los iconos y el espacio entre ellos. Para moverlos, desbloquéalos en la primera página y arrástralos, o usa el modo de edición de Blizzard.
+476	Lo oscuro que es el panel de fondo.
+477	Cuántos iconos: la casilla 1 es el hechizo para ahora, las casillas 2 y 3 lo que viene después.
+478	Cuántos hechizos se muestran y qué tipos de hechizos puede sugerir DMGAssist.
+479	Lo opacas que son las casillas 2 y 3. Algo menos mantiene tu mirada en la casilla 1.
+480	Lo opaco que es todo el HUD: menos te deja ver a través.
+481	Cómo te indican los iconos cuándo pulsar y qué necesita más tu atención.
+482	Lo visible que es esa línea.
+483	En combate, el juego oculta algunos valores a los addons (por ejemplo, los puntos de combo). Cómo tratarlos.
+484	En combate, con esta salud o menos se sugiere un defensivo.
+485	Icono de objetos (abalorios y pociones)
+486	Su tamaño, en porcentaje de la casilla 1. Más grande también tapa más la casilla 1: sácalo con los deslizadores de abajo.
+487	Atajos y nombres de hechizos
+488	Mover abajo / arriba
+489	Mover izquierda / derecha
+490	AHORA sobre la casilla 1 y SIGUIENTE sobre las casillas 2 y 3.
+491	Lo desplaza hacia abajo (menos de 0) o hacia arriba (más de 0), en píxeles, para que no tape la casilla 1.
+492	Lo desplaza a la izquierda (menos de 0) o a la derecha (más de 0), en píxeles, para que no tape la casilla 1.
+493	Solo para sacerdotes de Disciplina: extiende Expiación antes de un gran daño al grupo.
+494	Líneas y adornos opcionales alrededor de los iconos.
+495	Fuera de combate, oculta los iconos mientras vas montado.
+496	Posición
+497	Poción: %s. Aparece en el icono de objetos cuando SimC usa una poción (con tus grandes tiempos de reutilización). Clic derecho en la casilla para quitarla.
+498	Poción: arrastra una poción de tus bolsas a esta casilla para añadirla a tu rotación (solo esta especialización). Aparece en el icono de objetos cuando SimC usa una poción.
+499	Perfiles
+500	La configuración puede compartirse entre todos tus personajes (Predeterminado) o guardarse solo para este personaje.
+501	Configuración y reinicio
+502	Muestra un defensivo (Piel de corteza, Muro de escudo, Supervivencia del más apto...) en el icono defensivo cuando lo necesitas.
+503	Muestra en cada icono la tecla que lanza ese hechizo.
+504	Muestra los hechizos que pulsar. Desactivado oculta los iconos por completo (el atajo y /dmga on | off hacen lo mismo).
+505	Muestra tu interrupción (Patada, Zurrar, Corte de viento...) en la casilla 1 cuando tu objetivo lanza algo interrumpible.
+506	Muestra tus abalorios de uso cuando están listos, en combate, en los momentos en que SimC los usa (con tus tiempos de reutilización).
+507	Muestra durante 8 segundos, en el icono defensivo, el defensivo que DMGAssist sugeriría antes de un golpe fuerte.
+508	Un objetivo o área
+509	Tamaño
+510	Tamaño y espaciado
+511	Algunos tiempos de reutilización se guardan o se usan según lo que vaya a durar el combate.
+512	Espacio tras el icono principal
+513	Contador de acumulaciones
+514	El color del texto de la tecla.
+515	El color de los nombres de hechizos.
+516	La fuente de los atajos, nombres de hechizos y etiquetas en los iconos.
+517	El propio asistente de rotación del juego. DMGAssist le pregunta por lo que el juego oculta a los addons.
+518	El tamaño de todo a la vez, iconos y texto.
+519	El tamaño de la casilla 1, el hechizo para ahora.
+520	El tamaño de las casillas 2 y 3, lo que viene después.
+521	El tamaño del texto de los avisos.
+522	El tamaño del texto de la tecla.
+523	El tamaño de los nombres de hechizos.
+524	El tamaño del número de acumulaciones.
+525	El sonido de este aviso.
+526	El espacio entre cada icono.
+527	El espacio entre los iconos y el borde del marco (visible con fondo o borde).
+528	El nombre del hechizo bajo cada icono.
+529	El texto sobre y bajo los iconos.
+530	Herramientas para saber por qué DMGAssist eligió algo y para informar de un problema.
+531	Abalorios que activas tú. Uno listo aparece en el icono de objetos con borde dorado de la casilla 1 (abajo a la izquierda por defecto); púlsalo además de la casilla 1.
+532	Activa o desactiva DMGAssist, muévelo y elige su idioma. Todo lo demás está en las páginas de abajo: Combate (qué recomienda), Pantalla (cómo se ve), Sonidos, Integraciones, Avanzado.
+533	Se usa cuando «Duración del combate» es Personalizada: la duración supuesta, en segundos.
+534	Qué recomendar
+535	Cuándo se muestran los iconos
+536	Dónde encuentra DMGAssist la tecla de cada hechizo: barras de Blizzard, Bartender, ElvUI, Dominos.
+537	Dónde va el texto de la tecla en el icono.
+538	Dónde va el número de acumulaciones.
+539	En qué parte de la casilla 1 se coloca. Abajo a la izquierda por defecto.
+540	En qué parte de la casilla 1 se coloca. Arriba a la izquierda por defecto.
+541	Tu interrupción ocupa la casilla 1 cuando un enemigo lanza algo que merece la pena detener.
+542	Esquina superior izquierda
+543	Esquina inferior izquierda
+544	Esquina inferior derecha
+545	La configuración se abrirá en cuanto el juego lo permita (tras el combate).

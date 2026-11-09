@@ -689,6 +689,17 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
           end
         end
       end
+    elseif a == "potion" and not isBlizzard then
+      -- A potion you chose (Spells & trinkets page) is shown by the Trinkets module when a line here says now.
+      if run.potion ~= true then
+        local t = Test(e.c, run)
+        if maybe and t == true then
+          t = UNKNOWN
+        end
+        if run.potion == nil or t ~= false then
+          run.potion = t
+        end
+      end
     elseif a == "pool_resource" then
       if not isBlizzard and e.p and tostring(e.p.for_next) == "1" and not maybe then
         run.poolNext = Test(e.c, run) == true or nil
@@ -943,7 +954,7 @@ local function Decide(record, opts, targets, first)
     branch = nil
   end
   return { main = pick, acSpell = run.acSpell, unresolved = run.unresolved, vars = run.ctx.vars,
-    branch = branch, trace = run.trace, useItems = run.useItems }
+    branch = branch, trace = run.trace, useItems = run.useItems, potion = run.potion }
 end
 
 -- Nothing castable at this moment (energy-starved, everything on cooldown): look a little further ahead, in

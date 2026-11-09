@@ -438,3 +438,102 @@
 444	Stabile (consigliato)
 445	Rapido
 446	Stabile: quando stai per premere, la casella 1 resta ferma; un incantesimo che diventa pronto in quel momento appare nella casella 2 e sale dopo la tua pressione. Rapido: la casella 1 segue ogni cambio prima, per chi reagisce in fretta.
+447	Un bordo scuro intorno alle lettere le mantiene leggibili sulle icone chiare.
+448	Un pannello scuro dietro le icone.
+449	Un bagliore intorno alla casella 1. Solo la casella 1 si muove, così attira sempre per prima lo sguardo.
+450	Una linea intorno alla cornice.
+451	Una scelta di cui DMGAssist non è sicuro (il gioco nasconde un valore necessario) appare leggermente sbiadita.
+452	Una piccola icona con bordo dorato sulla casella 1 per un monile a uso o una pozione, quando è il momento. Più discreta di quella rossa: utile, mai urgente.
+453	Una piccola icona con bordo rosso sulla casella 1 per tutto ciò che ti tiene in vita, per ogni classe: tempi di recupero difensivi, autocure, mitigazione da tank come Pelliccia di Ferro. Pulsa finché ti serve subito.
+454	Un suono per ogni tipo di avviso, così lo senti anche senza guardare. Scegli Nessuno per silenziarne uno.
+455	Una barra sottile sotto la casella 1 che si svuota con il tuo tempo di recupero globale.
+456	Barre delle azioni e scorciatoie
+457	Avvisi ed effetti
+458	Tutti i suoni di DMGAssist attivi o disattivi.
+459	Rispondi di nuovo alle domande iniziali, assegna i tasti o ricomincia da capo.
+460	Prima dei colpi pesanti e con poca salute, un difensivo appare nell'icona difensiva con bordo rosso sulla casella 1, pulsando.
+461	Combattimento assistito di Blizzard
+462	DBM, BigWigs e LittleWigs avvisano di colpi, rinforzi e lanci in arrivo, così difensivi e interruzioni arrivano in tempo.
+463	Icona difensiva (restare in vita)
+464	Sacerdote Disciplina: Espiazione
+465	Spazio extra tra la casella 1 e la casella 2, così la casella 1 risalta e le sue piccole icone hanno spazio.
+466	Per personaggi sotto il livello massimo o con talenti lontani dalla build abituale.
+467	Per i tank: quanti accumuli del tuo potenziamento di mitigazione sono attivi (druido guardiano: Pelliccia di Ferro), contati dai tuoi lanci.
+468	Cornice e titolo
+469	Per iniziare
+470	Incantesimi di cura del tuo kit, per chi fa danni e per i tank (non rotazioni da guaritore).
+471	Nasconde le icone fuori dal combattimento (restano visibili con un nemico selezionato, se l'opzione seguente è attiva).
+472	Nasconde le icone quando non ti servono.
+473	Nasconde le icone mentre sei su un veicolo (uno con la propria barra delle azioni).
+474	Come DMGAssist sceglie tra la rotazione a bersaglio singolo e quella ad area.
+475	Quanto sono grandi le icone e lo spazio tra loro. Per spostarle, sbloccale nella prima pagina e trascinale, o usa la modalità Modifica di Blizzard.
+476	Quanto è scuro il pannello di sfondo.
+477	Quante icone: la casella 1 è l'incantesimo da usare ora, le caselle 2 e 3 quello che viene dopo.
+478	Quanti incantesimi vengono mostrati e quali tipi di incantesimi DMGAssist può suggerire.
+479	Quanto sono opache le caselle 2 e 3. Un po' meno tiene lo sguardo sulla casella 1.
+480	Quanto è opaco l'intero HUD: meno ti lascia vedere attraverso.
+481	Come le icone ti dicono quando premere e cosa richiede di più la tua attenzione.
+482	Quanto è visibile quella linea.
+483	In combattimento il gioco nasconde alcuni valori agli addon (per esempio i punti combo). Come gestirli.
+484	In combattimento, con questa salute o meno viene suggerito un difensivo.
+485	Icona oggetti (monili e pozioni)
+486	La sua dimensione, in percentuale della casella 1. Più grande copre anche di più la casella 1: spostala con i cursori qui sotto.
+487	Scorciatoie e nomi degli incantesimi
+488	Sposta giù / su
+489	Sposta sinistra / destra
+490	ORA sopra la casella 1 e POI sopra le caselle 2 e 3.
+491	La sposta in basso (sotto 0) o in alto (sopra 0), in pixel, così non copre la casella 1.
+492	La sposta a sinistra (sotto 0) o a destra (sopra 0), in pixel, così non copre la casella 1.
+493	Solo per i sacerdoti Disciplina: diffondi Espiazione prima di grandi danni al gruppo.
+494	Linee e decorazioni facoltative intorno alle icone.
+495	Fuori dal combattimento, nasconde le icone mentre sei in sella.
+496	Posizione
+497	Pozione: %s. Appare nell'icona oggetti quando SimC usa una pozione (con i tuoi grandi tempi di recupero). Clic destro sul riquadro per toglierla.
+498	Pozione: trascina una pozione dalle borse su questo riquadro per aggiungerla alla rotazione (solo questa specializzazione). Appare nell'icona oggetti quando SimC usa una pozione.
+499	Profili
+500	Le impostazioni possono essere condivise da tutti i personaggi (Predefinito) o tenute solo per questo personaggio.
+501	Configurazione e ripristino
+502	Mostra un difensivo (Corteccia, Muro di Scudi, Sopravvivenza del Più Forte...) nell'icona difensiva quando ti serve.
+503	Mostra su ogni icona il tasto che lancia l'incantesimo.
+504	Mostra gli incantesimi da premere. Disattivato nasconde del tutto le icone (la scorciatoia e /dmga on | off fanno lo stesso).
+505	Mostra la tua interruzione (Calcio, Pugno Rapido, Taglio del Vento...) nella casella 1 quando il bersaglio lancia qualcosa di interrompibile.
+506	Mostra i tuoi monili a uso quando sono pronti, in combattimento, nei momenti in cui SimC li usa (con i tuoi tempi di recupero).
+507	Mostra per 8 secondi, nell'icona difensiva, il difensivo che DMGAssist suggerirebbe prima di un colpo pesante.
+508	Bersaglio singolo o area
+509	Dimensione
+510	Dimensioni e spaziatura
+511	Alcuni tempi di recupero vengono conservati o usati in base a quanto dovrebbe durare il combattimento.
+512	Spazio dopo l'icona principale
+513	Contatore degli accumuli
+514	Il colore del testo del tasto.
+515	Il colore dei nomi degli incantesimi.
+516	Il carattere per scorciatoie, nomi degli incantesimi ed etichette sulle icone.
+517	L'aiuto alla rotazione del gioco stesso. DMGAssist gli chiede ciò che il gioco nasconde agli addon.
+518	La dimensione di tutto insieme, icone e testo.
+519	La dimensione della casella 1, l'incantesimo da usare ora.
+520	La dimensione delle caselle 2 e 3, ciò che viene dopo.
+521	La dimensione del testo degli annunci.
+522	La dimensione del testo del tasto.
+523	La dimensione dei nomi degli incantesimi.
+524	La dimensione del numero di accumuli.
+525	Il suono riprodotto per questo avviso.
+526	Lo spazio tra un'icona e l'altra.
+527	Lo spazio tra le icone e il bordo della cornice (visibile con sfondo o bordo).
+528	Il nome dell'incantesimo sotto ogni icona.
+529	Il testo sopra e sotto le icone.
+530	Strumenti per capire perché DMGAssist ha scelto qualcosa e per segnalare un problema.
+531	Monili che attivi tu. Uno pronto appare nell'icona oggetti con bordo dorato sulla casella 1 (in basso a sinistra per impostazione predefinita); premilo insieme alla casella 1.
+532	Attiva o disattiva DMGAssist, spostalo e scegli la lingua. Tutto il resto è nelle pagine qui sotto: Combattimento (cosa consiglia), Visualizzazione (come appare), Suoni, Integrazioni, Avanzate.
+533	Usato quando «Durata del combattimento» è Personalizzata: la durata presunta, in secondi.
+534	Cosa consigliare
+535	Quando appaiono le icone
+536	Dove DMGAssist trova il tasto di ogni incantesimo: barre di Blizzard, Bartender, ElvUI, Dominos.
+537	Dove si trova il testo del tasto sull'icona.
+538	Dove si trova il numero di accumuli.
+539	In quale parte della casella 1 si trova. In basso a sinistra per impostazione predefinita.
+540	In quale parte della casella 1 si trova. In alto a sinistra per impostazione predefinita.
+541	La tua interruzione prende la casella 1 quando un nemico lancia qualcosa che vale la pena fermare.
+542	Angolo in alto a sinistra
+543	Angolo in basso a sinistra
+544	Angolo in basso a destra
+545	Le impostazioni si apriranno appena il gioco lo consente (dopo il combattimento).

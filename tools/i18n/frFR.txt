@@ -438,3 +438,102 @@
 444	Stable (conseillé)
 445	Rapide
 446	Stable : quand vous êtes sur le point d'appuyer, la case 1 ne bouge plus ; un sort qui devient prêt à ce moment s'affiche en case 2 et monte après votre appui. Rapide : la case 1 suit chaque changement plus tôt, pour les joueurs aux réflexes rapides.
+447	Un contour sombre autour des lettres les garde lisibles sur les icônes claires.
+448	Un panneau sombre derrière les icônes.
+449	Une lueur autour de la case 1. Seule la case 1 bouge, elle attire donc toujours le regard en premier.
+450	Une ligne autour du cadre.
+451	Un choix dont DMGAssist n'est pas sûr (le jeu cache une valeur nécessaire) est affiché légèrement estompé.
+452	Une petite icône à bord doré sur la case 1 pour un bijou à utiliser ou une potion, quand c'est le moment. Plus discrète que la rouge : utile, jamais urgente.
+453	Une petite icône à bord rouge sur la case 1 pour tout ce qui vous garde en vie, pour chaque classe : temps de recharge défensifs, soins personnels, atténuation de tank comme Fourrure de fer. Elle pulse tant que vous en avez besoin.
+454	Un son pour chaque type d'alerte, pour l'entendre même sans regarder. Choisissez Aucun pour en couper un.
+455	Une fine barre sous la case 1 qui se vide avec votre temps de recharge global.
+456	Barres d'action et raccourcis
+457	Alertes et effets
+458	Tous les sons de DMGAssist activés ou désactivés.
+459	Répondre à nouveau aux questions de départ, assigner des touches ou tout recommencer.
+460	Avant les gros coups et quand votre vie est basse, un défensif apparaît dans l'icône défensive à bord rouge de la case 1, en pulsant.
+461	Combat assisté de Blizzard
+462	DBM, BigWigs et LittleWigs préviennent des coups, renforts et incantations à venir, pour que défensifs et interruptions arrivent à temps.
+463	Icône défensive (rester en vie)
+464	Prêtre Discipline : Expiation
+465	Espace supplémentaire entre la case 1 et la case 2, pour que la case 1 se détache et que ses petites icônes aient de la place.
+466	Pour les personnages sous le niveau maximum, ou aux talents très éloignés du build habituel.
+467	Pour les tanks : combien de cumuls de votre amélioration d'atténuation sont actifs (druide gardien : Fourrure de fer), comptés à partir de vos sorts.
+468	Cadre et titre
+469	Pour commencer
+470	Les sorts de soin de votre propre kit, pour les classes de dégâts et les tanks (pas les rotations de soigneur).
+471	Masquer les icônes hors combat (elles restent visibles avec un ennemi ciblé si l'option suivante est activée).
+472	Masquer les icônes quand vous n'en avez pas besoin.
+473	Masquer les icônes dans un véhicule (avec sa propre barre d'action).
+474	Comment DMGAssist choisit entre la rotation monocible et la rotation multicible.
+475	La taille des icônes et l'espace entre elles. Pour les déplacer, déverrouillez-les sur la première page et faites-les glisser, ou utilisez le mode Édition de Blizzard.
+476	L'opacité du panneau de fond.
+477	Combien d'icônes : la case 1 est le sort à lancer maintenant, les cases 2 et 3 ce qui suit.
+478	Combien de sorts sont affichés, et quels types de sorts DMGAssist peut suggérer.
+479	L'opacité des cases 2 et 3. Un peu moins garde votre regard sur la case 1.
+480	L'opacité de tout le HUD : moins laisse voir à travers.
+481	Comment les icônes vous indiquent quand appuyer, et ce qui demande le plus votre attention.
+482	La visibilité de cette ligne.
+483	En combat, le jeu cache certaines valeurs aux addons (les points de combo, par exemple). Comment les gérer.
+484	En combat, à ce niveau de vie ou en dessous, un défensif est suggéré.
+485	Icône d'objets (bijoux et potions)
+486	Sa taille, en pourcentage de la case 1. Plus grande, elle couvre aussi davantage la case 1 : décalez-la avec les curseurs ci-dessous.
+487	Raccourcis et noms des sorts
+488	Déplacer bas / haut
+489	Déplacer gauche / droite
+490	MAINTENANT au-dessus de la case 1 et SUIVANT au-dessus des cases 2 et 3.
+491	La décale vers le bas (sous 0) ou le haut (au-dessus de 0), en pixels, pour qu'elle ne couvre pas la case 1.
+492	La décale vers la gauche (sous 0) ou la droite (au-dessus de 0), en pixels, pour qu'elle ne couvre pas la case 1.
+493	Uniquement pour les prêtres Discipline : répandre Expiation avant de gros dégâts de groupe.
+494	Lignes et décorations facultatives autour des icônes.
+495	Hors combat, masquer les icônes quand vous êtes sur une monture.
+496	Position
+497	Potion : %s. Affichée dans l'icône d'objets quand SimC utilise une potion (avec vos gros temps de recharge). Clic droit sur la case pour la retirer.
+498	Potion : faites glisser une potion de vos sacs sur cette case pour l'ajouter à votre rotation (cette spécialisation seulement). Elle s'affiche dans l'icône d'objets quand SimC utilise une potion.
+499	Profils
+500	Les réglages peuvent être partagés par tous vos personnages (Par défaut) ou gardés pour ce personnage seulement.
+501	Configuration et réinitialisation
+502	Afficher un défensif (Écorce, Mur protecteur, Survie du plus fort...) dans l'icône défensive quand vous en avez besoin.
+503	Afficher sur chaque icône la touche qui lance le sort.
+504	Afficher les sorts à lancer. Désactivé masque entièrement les icônes (le raccourci et /dmga on | off font de même).
+505	Afficher votre interruption (Coup de pied, Volée de coups, Cisaille de vent...) en case 1 quand votre cible incante quelque chose d'interruptible.
+506	Afficher vos bijoux à utiliser quand ils sont prêts, en combat, aux moments où SimC les utilise (avec vos temps de recharge).
+507	Affiche pendant 8 secondes, dans l'icône défensive, le défensif que DMGAssist suggérerait avant un gros coup.
+508	Monocible ou zone
+509	Taille
+510	Taille et espacement
+511	Certains temps de recharge sont gardés ou utilisés selon la durée prévue du combat.
+512	Espace après l'icône principale
+513	Compteur de cumuls
+514	La couleur du texte de la touche.
+515	La couleur des noms des sorts.
+516	La police des raccourcis, noms de sorts et libellés sur les icônes.
+517	L'assistant de rotation du jeu lui-même. DMGAssist l'interroge sur ce que le jeu cache aux addons.
+518	La taille de tout à la fois, icônes et texte.
+519	La taille de la case 1, le sort à lancer maintenant.
+520	La taille des cases 2 et 3, ce qui suit.
+521	La taille du texte des annonces.
+522	La taille du texte de la touche.
+523	La taille des noms des sorts.
+524	La taille du nombre de cumuls.
+525	Le son joué pour cette alerte.
+526	L'espace entre chaque icône.
+527	L'espace entre les icônes et le bord du cadre (visible avec un fond ou une bordure).
+528	Le nom du sort sous chaque icône.
+529	Le texte sur et sous les icônes.
+530	Des outils pour comprendre pourquoi DMGAssist a choisi quelque chose, et pour signaler un problème.
+531	Les bijoux que vous activez vous-même. Un bijou prêt apparaît dans l'icône d'objets à bord doré de la case 1 (en bas à gauche par défaut) ; utilisez-le en plus de la case 1.
+532	Activer ou désactiver DMGAssist, le déplacer et choisir sa langue. Tout le reste se trouve sur les pages ci-dessous : Combat (ce qu'il recommande), Affichage (son apparence), Sons, Intégrations, Avancé.
+533	Utilisé quand « Durée du combat » est Personnalisée : la durée supposée, en secondes.
+534	Que recommander
+535	Quand les icônes s'affichent
+536	Où DMGAssist trouve la touche de chaque sort : barres de Blizzard, Bartender, ElvUI, Dominos.
+537	Où se place le texte de la touche sur l'icône.
+538	Où se place le nombre de cumuls.
+539	Sur quelle partie de la case 1 elle se place. En bas à gauche par défaut.
+540	Sur quelle partie de la case 1 elle se place. En haut à gauche par défaut.
+541	Votre interruption prend la case 1 quand un ennemi incante quelque chose qui vaut la peine d'être stoppé.
+542	Coin supérieur gauche
+543	Coin inférieur gauche
+544	Coin inférieur droit
+545	Les réglages s'ouvriront dès que le jeu le permettra (après le combat).

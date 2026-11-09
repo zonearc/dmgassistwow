@@ -20,7 +20,7 @@ ns.Display = D
 -- press-now cue, boss callouts, interrupts and defensives, the real action button highlighted.
 D.DEFAULTS = {
   scale = 1.0, alpha = 1.0,
-  iconSize = 52, nextSize = 38, spacing = 6, padding = 6,
+  iconSize = 60, nextSize = 40, spacing = 6, padding = 6, mainGap = 10,
   queueAlpha = 0.85, dimGuesses = true,
   background = false, bgAlpha = 0.55, border = "none", borderAlpha = 0.6,
   header = false, modeBar = true, keybind = true, keybindSize = 18, keybindPos = "CENTER", keybindColor = "white",
@@ -32,13 +32,17 @@ D.DEFAULTS = {
   debugText = false, callout = true, pressCue = true, pressLead = 50, secretBranches = true, interrupt = true, defensive = true,
   highlight = true,
   padLabels = "xbox", rangeTint = true, stackCount = true, stackSize = 14, stackPos = "BOTTOM", weavePos = "TOPLEFT", weaveSize = 45,
+  weaveX = 0, weaveY = 0, trinketPos = "BOTTOMLEFT", trinketSize = 45, trinketX = 0, trinketY = 0,
 }
 
 -- Where the off-GCD badge sits relative to slot 1: { point on the badge, point on slot 1, x, y }.
-D.WEAVE_POSITIONS = { { "TOPLEFT", "Top-left corner (docked)" }, { "TOPRIGHT", "Top-right corner" },
+-- Both badges (spells pressed alongside slot 1, and on-use trinkets) use these positions, plus an X/Y nudge.
+D.WEAVE_POSITIONS = { { "TOPLEFT", "Top-left corner" }, { "BOTTOMLEFT", "Bottom-left corner" },
+  { "TOPRIGHT", "Top-right corner" }, { "BOTTOMRIGHT", "Bottom-right corner" },
   { "LEFT", "Left of the icon" }, { "TOP", "Above the icon" }, { "BOTTOM", "Below the icon" } }
 local WEAVE_ANCHOR = {
   TOPLEFT = { "CENTER", "TOPLEFT", 2, -2 }, TOPRIGHT = { "CENTER", "TOPRIGHT", -2, -2 },
+  BOTTOMLEFT = { "CENTER", "BOTTOMLEFT", 2, 2 }, BOTTOMRIGHT = { "CENTER", "BOTTOMRIGHT", -2, 2 },
   LEFT = { "RIGHT", "LEFT", -4, 0 }, TOP = { "BOTTOM", "TOP", 0, 4 }, BOTTOM = { "TOP", "BOTTOM", 0, -4 },
 }
 
@@ -524,7 +528,7 @@ local function Layout(f, cfg)
     s:SetSize(size, size)
     s:SetPoint("TOPLEFT", f, "TOPLEFT", x, -top - (i == 1 and 0 or (cfg.iconSize - cfg.nextSize)))
     if i <= depth then
-      x = x + size + gap
+      x = x + size + gap + (i == 1 and (tonumber(cfg.mainGap) or 0) or 0)
     end
   end
   local width = math.max(x - gap + pad, 120)
@@ -623,6 +627,7 @@ function D.Create()
   f:SetScript("OnUpdate", function(self)
     if self.timingCfg then
       D.RenderTiming(self, self.timingCfg)
+      D.PulseBadges(self)
     end
   end)
   -- The other pick of a branch, stacked on the main icon; the game sets which one is visible (see D.Update).
@@ -642,9 +647,13 @@ function D.Create()
   f.kick.border:SetDrawLayer("BACKGROUND")
   -- Defensive that depends on hidden health: drawn over slot 1, visible only when low (decided ones are in
   -- the queue itself, see Defensives.Apply).
+  -- Low-health defensive (health is secret in combat): drawn over the defensive icon, the game sets its alpha.
   f.def = Icon(f, cfg.iconSize, cfg)
-  f.def:SetAllPoints(f.slots[1])
-  f.def:SetFrameLevel((f.slots[1]:GetFrameLevel() or 1) + 6)
+  f.def:SetFrameLevel((f.slots[1]:GetFrameLevel() or 1) + 10)
+  f.def.border = f.def:CreateTexture(nil, "BACKGROUND")
+  f.def.border:SetPoint("TOPLEFT", f.def, "TOPLEFT", -2, 2)
+  f.def.border:SetPoint("BOTTOMRIGHT", f.def, "BOTTOMRIGHT", 2, -2)
+  f.def.border:SetColorTexture(1, 0.2, 0.15, 1)
   -- Counted stacks (Ironfur): our own count from casts, to compare with Blizzard's buff display.
   -- (on its own frame above slot 1: a font string of the HUD frame itself was drawn behind the icon)
   f.stackHolder = CreateFrame("Frame", nil, f)
@@ -662,8 +671,16 @@ function D.Create()
   f.weave.border = f.weave:CreateTexture(nil, "BACKGROUND")
   f.weave.border:SetPoint("TOPLEFT", f.weave, "TOPLEFT", -2, 2)
   f.weave.border:SetPoint("BOTTOMRIGHT", f.weave, "BOTTOMRIGHT", 2, -2)
-  f.weave.border:SetColorTexture(0.3, 0.8, 1, 0.9)
+  f.weave.border:SetColorTexture(1, 0.2, 0.15, 0.95) -- red: staying alive
   f.weave:Hide()
+  -- On-use trinket: a second badge (bottom-left by default), gold-edged so it reads as an item, not a spell.
+  f.trinket = Icon(f, cfg.iconSize, cfg)
+  f.trinket:SetFrameLevel((f.slots[1]:GetFrameLevel() or 1) + 8)
+  f.trinket.border = f.trinket:CreateTexture(nil, "BACKGROUND")
+  f.trinket.border:SetPoint("TOPLEFT", f.trinket, "TOPLEFT", -2, 2)
+  f.trinket.border:SetPoint("BOTTOMRIGHT", f.trinket, "BOTTOMRIGHT", 2, -2)
+  f.trinket.border:SetColorTexture(1, 0.78, 0.2, 0.9) -- gold: an item
+  f.trinket:Hide()
   -- Highlight on the real action button that casts slot 1 (our own frame anchored over it; theirs is untouched).
   f.hl = CreateFrame("Frame", nil, UIParent)
   f.hl:SetFrameStrata("HIGH")
@@ -712,7 +729,7 @@ function D.Rebuild()
     SetColor(icon.key, cfg.keybindColor)
     SetColor(icon.name, cfg.nameColor)
   end
-  for _, icon in ipairs({ f.branch, f.kick, f.def, f.weave }) do
+  for _, icon in ipairs({ f.branch, f.kick, f.def, f.weave, f.trinket }) do
     if icon then
       SetFont(icon.key, cfg.keybindSize)
       SetFont(icon.name, cfg.nameSize)
@@ -929,7 +946,15 @@ local function RenderDefensive(f, result, cfg)
     f.def:Hide()
     return
   end
-  SetIcon(f.def, { id = d.id, source = "defensive" }, cfg, true, L["DEFENSIVE"])
+  SetIcon(f.def, { id = d.id, source = "defensive" }, cfg, true, "")
+  f.def.name:SetText("")
+  -- same place and size as the defensive icon
+  local size = math.floor((cfg.iconSize or 48) * (tonumber(cfg.weaveSize) or 45) / 100)
+  local a = WEAVE_ANCHOR[cfg.weavePos or "TOPLEFT"] or WEAVE_ANCHOR.TOPLEFT
+  f.def:ClearAllPoints()
+  f.def:SetSize(size, size)
+  f.def:SetPoint(a[1], f.slots[1], a[2], a[3] + (tonumber(cfg.weaveX) or 0), a[4] + (tonumber(cfg.weaveY) or 0))
+  f.def.urgent = true
   if d.how == "render" then
     local key = string.format("%.2f", d.threshold)
     local c = healthCurves[key]
@@ -951,19 +976,57 @@ local function RenderDefensive(f, result, cfg)
   end
 end
 
-local function RenderWeave(f, result, cfg)
-  local w = result.weave
-  if not w then
-    f.weave:Hide()
+local function RenderBadge(f, icon, pick, cfg, key, default)
+  if not icon then
     return
   end
-  local size = math.floor((cfg.iconSize or 48) * (tonumber(cfg.weaveSize) or 45) / 100)
-  local a = WEAVE_ANCHOR[cfg.weavePos or "TOPLEFT"] or WEAVE_ANCHOR.TOPLEFT
-  f.weave:ClearAllPoints()
-  f.weave:SetSize(size, size)
-  f.weave:SetPoint(a[1], f.slots[1], a[2], a[3], a[4])
-  SetIcon(f.weave, w, cfg, true, "")
-  f.weave.name:SetText("")
+  if not pick then
+    icon:Hide()
+    icon.shownId = nil
+    return
+  end
+  local size = math.floor((cfg.iconSize or 48) * (tonumber(cfg[key .. "Size"]) or 45) / 100)
+  local a = WEAVE_ANCHOR[cfg[key .. "Pos"] or default] or WEAVE_ANCHOR[default]
+  icon:ClearAllPoints()
+  icon:SetSize(size, size)
+  icon:SetPoint(a[1], f.slots[1], a[2], a[3] + (tonumber(cfg[key .. "X"]) or 0),
+    a[4] + (tonumber(cfg[key .. "Y"]) or 0))
+  SetIcon(icon, pick, cfg, true, "")
+  icon.name:SetText("")
+  -- Attention follows importance: slot 1 alone has a moving glow. The press-alongside spell (blue) pulses its edge
+  -- for a moment when it appears, so you notice it once; the trinket (gold) is quieter and never moves.
+  local now = GetTime()
+  local id = pick.item or pick.id
+  if icon.shownId ~= id then
+    icon.shownId, icon.appearAt = id, now
+  end
+  if key == "trinket" then
+    icon:SetAlpha(0.85)
+    if icon.border then
+      icon.border:SetAlpha(0.65)
+    end
+  else
+    icon.urgent = pick.urgent -- the pulse itself is drawn every frame (D.PulseBadges)
+  end
+end
+D.BADGE_PULSE = 1.2 -- seconds the defensive icon's edge pulses when it appears (upkeep such as Ironfur)
+
+-- Every frame: the defensive icon's red edge. Urgent (a hit is coming, you are low): keeps pulsing.
+-- Upkeep (Ironfur stacks): one pulse when it appears, then steady. Slot 1's glow stays the only constant motion
+-- otherwise, so your eye goes to slot 1 first and to the red icon only when it matters.
+function D.PulseBadges(f)
+  local now = GetTime()
+  for _, icon in ipairs({ f.weave, f.def }) do
+    if icon and icon.border and icon:IsShown() then
+      local pulsing = icon.urgent or now - (icon.appearAt or 0) < D.BADGE_PULSE
+      icon.border:SetAlpha(pulsing and (0.35 + 0.65 * math.abs(math.cos(now * math.pi * 1.5))) or 1)
+    end
+  end
+end
+
+local function RenderWeave(f, result, cfg)
+  RenderBadge(f, f.weave, result.weave, cfg, "weave", "TOPLEFT")
+  RenderBadge(f, f.trinket, result.trinket, cfg, "trinket", "BOTTOMLEFT")
 end
 
 -- "<icon> 2/3": our counted stacks of the spec's stacking keep-up, and the target (orange when below it).

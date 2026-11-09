@@ -1,0 +1,16 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+  <!-- A full-width explanation line under a section title on the settings pages (see Options.lua Header). -->
+  <Frame name="DMGAssistSettingsTextTemplate" mixin="DMGAssistSettingsTextMixin" virtual="true">
+    <Size y="30"/>
+    <Layers>
+      <Layer level="OVERLAY">
+        <FontString parentKey="Text" inherits="GameFontHighlightSmall" justifyH="LEFT" justifyV="TOP">
+          <Anchors>
+            <Anchor point="TOPLEFT" x="9" y="-1"/>
+            <Anchor point="RIGHT" x="-24"/>
+          </Anchors>
+        </FontString>
+      </Layer>
+    </Layers>
+  </Frame>
+</Ui>

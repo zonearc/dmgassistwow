@@ -438,3 +438,102 @@
 444	Ruhig (empfohlen)
 445	Schnell
 446	Ruhig: Kurz bevor du drückst, bleibt Feld 1 stehen; ein Zauber, der genau dann bereit wird, erscheint in Feld 2 und rückt nach deinem Druck auf. Schnell: Feld 1 folgt jeder Änderung früher, für Spieler mit schneller Reaktion.
+447	Ein dunkler Rand um die Buchstaben hält sie auf hellen Symbolen lesbar.
+448	Ein dunkles Feld hinter den Symbolen.
+449	Ein Leuchten um Feld 1. Nur Feld 1 bewegt sich, darum zieht es immer zuerst den Blick auf sich.
+450	Eine Linie um den Rahmen.
+451	Eine Wahl, bei der DMGAssist unsicher ist (das Spiel verbirgt einen nötigen Wert), wird leicht verblasst gezeigt.
+452	Ein kleines Symbol mit goldenem Rand an Feld 1 für ein Schmuckstück zum Benutzen oder einen Trank, wenn es Zeit dafür ist. Ruhiger als das rote: lohnend, nie dringend.
+453	Ein kleines Symbol mit rotem Rand an Feld 1 für alles, was dich am Leben hält, für jede Klasse: Verteidigungs-Abklingzeiten, Selbstheilungen, Tank-Schadensminderung wie Eisenfell. Es pulsiert, solange du es jetzt brauchst.
+454	Ein Ton für jede Art von Hinweis, damit du ihn auch hörst, wenn du nicht hinsiehst. Wähle Keiner, um einen stumm zu schalten.
+455	Ein dünner Balken unter Feld 1, der sich mit deiner globalen Abklingzeit leert.
+456	Aktionsleisten und Tastenbelegungen
+457	Hinweise und Effekte
+458	Alle DMGAssist-Töne an oder aus.
+459	Die Fragen vom ersten Start erneut beantworten, Tasten belegen oder neu anfangen.
+460	Vor großen Treffern und bei niedriger Gesundheit erscheint eine Verteidigungs-Abklingzeit im rot umrandeten Verteidigungssymbol an Feld 1 und pulsiert.
+461	Blizzards Kampfassistent
+462	DBM, BigWigs und LittleWigs warnen vor kommenden Treffern, Adds und Zaubern, damit Verteidigung und Unterbrechungen rechtzeitig kommen.
+463	Verteidigungssymbol (am Leben bleiben)
+464	Disziplinpriester: Sühne
+465	Zusätzlicher Abstand zwischen Feld 1 und Feld 2, damit Feld 1 hervorsticht und seine kleinen Symbole Platz haben.
+466	Für Charaktere unter der Höchststufe oder mit Talenten weit weg vom üblichen Build.
+467	Für Tanks: wie viele Stapel deines Schadensminderungs-Buffs aktiv sind (Wächter-Druide: Eisenfell), gezählt aus deinen Zaubern.
+468	Rahmen und Titel
+469	Erste Schritte
+470	Heilzauber aus deinem eigenen Repertoire, für Schadensklassen und Tanks (keine Heiler-Rotationen).
+471	Die Symbole außerhalb des Kampfes ausblenden (mit anvisiertem Gegner bleiben sie sichtbar, wenn die nächste Option an ist).
+472	Die Symbole ausblenden, wenn du sie nicht brauchst.
+473	Die Symbole in einem Fahrzeug ausblenden (eines mit eigener Aktionsleiste).
+474	Wie DMGAssist zwischen der Einzelziel- und der Mehrziel-Rotation wählt.
+475	Wie groß die Symbole sind und wie viel Platz dazwischen ist. Zum Verschieben auf der ersten Seite entsperren und ziehen, oder Blizzards Bearbeitungsmodus nutzen.
+476	Wie dunkel das Hintergrundfeld ist.
+477	Wie viele Symbole: Feld 1 ist der Zauber für jetzt, Felder 2 und 3 kommen danach.
+478	Wie viele Zauber gezeigt werden und welche Arten von Zaubern DMGAssist vorschlagen darf.
+479	Wie deckend die Felder 2 und 3 sind. Etwas weniger hält den Blick auf Feld 1.
+480	Wie deckend das ganze HUD ist: weniger lässt dich hindurchsehen.
+481	Wie die Symbole dir zeigen, wann du drücken sollst, und was deine Aufmerksamkeit am meisten braucht.
+482	Wie sichtbar diese Linie ist.
+483	Im Kampf verbirgt das Spiel manche Werte vor Addons (zum Beispiel Combopunkte). Wie damit umgegangen wird.
+484	Im Kampf wird bei dieser Gesundheit oder darunter eine Verteidigung vorgeschlagen.
+485	Gegenstandssymbol (Schmuckstücke und Tränke)
+486	Seine Größe in Prozent von Feld 1. Größer verdeckt auch mehr von Feld 1: schiebe es mit den Reglern unten heraus.
+487	Tastenbelegungen und Zaubernamen
+488	Nach unten / oben
+489	Nach links / rechts
+490	JETZT über Feld 1 und NÄCHSTE über den Feldern 2 und 3.
+491	Verschiebt es nach unten (unter 0) oder oben (über 0), in Pixeln, damit es Feld 1 nicht verdeckt.
+492	Verschiebt es nach links (unter 0) oder rechts (über 0), in Pixeln, damit es Feld 1 nicht verdeckt.
+493	Nur für Disziplinpriester: Sühne vor großem Gruppenschaden verteilen.
+494	Optionale Linien und Verzierungen um die Symbole.
+495	Außerhalb des Kampfes die Symbole ausblenden, während du reitest.
+496	Position
+497	Trank: %s. Erscheint im Gegenstandssymbol, wenn SimC einen Trank nutzt (mit deinen großen Abklingzeiten). Rechtsklick auf das Feld entfernt ihn.
+498	Trank: Ziehe einen Trank aus deinen Taschen auf dieses Feld, um ihn deiner Rotation hinzuzufügen (nur diese Spezialisierung). Er erscheint im Gegenstandssymbol, wenn SimC einen Trank nutzt.
+499	Profile
+500	Einstellungen können von allen Charakteren geteilt (Standard) oder nur für diesen Charakter gespeichert werden.
+501	Einrichtung und Zurücksetzen
+502	Eine Verteidigungs-Abklingzeit (Baumrinde, Schildwall, Überleben des Stärkeren...) im Verteidigungssymbol zeigen, wenn du eine brauchst.
+503	Die Taste, die einen Zauber wirkt, auf seinem Symbol zeigen.
+504	Die zu drückenden Zauber zeigen. Aus blendet die Symbole ganz aus (die Tastenbelegung und /dmga on | off tun dasselbe).
+505	Deine Unterbrechung (Tritt, Zuschlagen, Windstoß...) in Feld 1 zeigen, wenn dein Ziel etwas Unterbrechbares wirkt.
+506	Deine Schmuckstücke zum Benutzen zeigen, wenn sie bereit sind, im Kampf, in den Momenten, in denen SimC sie nutzt (mit deinen Abklingzeiten).
+507	Zeigt 8 Sekunden lang im Verteidigungssymbol die Verteidigung, die DMGAssist vor einem großen Treffer vorschlagen würde.
+508	Einzelziel oder Flächenschaden
+509	Größe
+510	Größe und Abstände
+511	Manche Abklingzeiten werden gespart oder genutzt, je nachdem wie lange der Kampf voraussichtlich dauert.
+512	Abstand nach dem Hauptsymbol
+513	Stapelzähler
+514	Die Farbe des Tastentexts.
+515	Die Farbe der Zaubernamen.
+516	Die Schrift für Tastenbelegungen, Zaubernamen und Beschriftungen auf den Symbolen.
+517	Die eigene Rotationshilfe des Spiels. DMGAssist fragt sie nach Dingen, die das Spiel vor Addons verbirgt.
+518	Die Größe von allem auf einmal, Symbole und Text.
+519	Die Größe von Feld 1, dem Zauber für jetzt.
+520	Die Größe der Felder 2 und 3, was als Nächstes kommt.
+521	Die Größe des Ansagetexts.
+522	Die Größe des Tastentexts.
+523	Die Größe der Zaubernamen.
+524	Die Größe der Stapelzahl.
+525	Der Ton für diesen Hinweis.
+526	Der Abstand zwischen den Symbolen.
+527	Der Abstand zwischen den Symbolen und dem Rand des Rahmens (sichtbar mit Hintergrund oder Rand).
+528	Der Name des Zaubers unter jedem Symbol.
+529	Der Text auf und unter den Symbolen.
+530	Werkzeuge, um herauszufinden, warum DMGAssist etwas gewählt hat, und um ein Problem zu melden.
+531	Schmuckstücke, die du selbst benutzt. Ein bereites erscheint im gold umrandeten Gegenstandssymbol an Feld 1 (standardmäßig unten links); drücke es zusätzlich zu Feld 1.
+532	DMGAssist ein- oder ausschalten, verschieben und die Sprache wählen. Alles andere steht auf den Seiten darunter: Kampf (was es empfiehlt), Anzeige (wie es aussieht), Töne, Integrationen, Erweitert.
+533	Wird genutzt, wenn „Kampfdauer“ auf Eigene steht: die angenommene Kampfdauer in Sekunden.
+534	Was empfohlen wird
+535	Wann die Symbole erscheinen
+536	Wo DMGAssist die Taste für jeden Zauber findet: Blizzards Leisten, Bartender, ElvUI, Dominos.
+537	Wo der Tastentext auf dem Symbol steht.
+538	Wo die Stapelzahl steht.
+539	An welcher Stelle von Feld 1 es sitzt. Standardmäßig unten links.
+540	An welcher Stelle von Feld 1 es sitzt. Standardmäßig oben links.
+541	Deine Unterbrechung übernimmt Feld 1, wenn ein Gegner etwas wirkt, das sich zu stoppen lohnt.
+542	Ecke oben links
+543	Ecke unten links
+544	Ecke unten rechts
+545	Die Einstellungen öffnen sich, sobald das Spiel es erlaubt (nach dem Kampf).

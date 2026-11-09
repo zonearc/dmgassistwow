@@ -7,7 +7,7 @@
 -- When: in combat, at a hostile target, when major cooldowns are allowed (the same "Use cooldowns on" setting),
 -- off cooldown, and when the spec's SimC list does not say "not now" (its use_items / use_item lines are checked
 -- by the engine; an unknown answer counts as yes).
--- Shown as the off-GCD badge on slot 1 when that is free (trinkets don't use the GCD), otherwise in slot 2.
+-- Shown in its own badge on slot 1 (bottom-left by default; trinkets don't use the GCD), next to the off-GCD spell badge.
 
 local _, ns = ...
 local U = ns.U
@@ -311,6 +311,57 @@ local function HostileTarget()
     and U.Get(UnitIsDead, "target") ~= true
 end
 
+---------------------------------------------------------------------------
+-- Potions: one you choose per spec (drag it onto the Spells & trinkets page). Shown in the items icon in combat
+-- when the spec's SimC list has a potion line that says now, the potion is in your bags and off cooldown.
+---------------------------------------------------------------------------
+local function SpecKey()
+  return ns.Specs.current and ns.Specs.current.key or "?"
+end
+
+function T.ChosenPotion()
+  local t = ns.db and ns.db.potion
+  return type(t) == "table" and t[SpecKey()] or nil
+end
+
+function T.SetPotion(item)
+  if not ns.db then
+    return
+  end
+  ns.db.potion = type(ns.db.potion) == "table" and ns.db.potion or {}
+  ns.db.potion[SpecKey()] = item
+end
+
+function T.PotionReady(item)
+  local count = C_Item and C_Item.GetItemCount and Read(C_Item.GetItemCount, item)
+  if type(count) == "number" and count < 1 then
+    return false
+  end
+  local f = (C_Container and C_Container.GetItemCooldown) or GetItemCooldown
+  if f then
+    local start, duration, enable = U.Call(f, item)
+    start, duration, enable = U.Read(start), U.Read(duration), U.Read(enable)
+    if enable == 0 or enable == false then
+      return false -- used this fight: no more until it ends
+    end
+    if type(start) == "number" and type(duration) == "number" and start > 0 and duration > 1.5 then
+      return start + duration - GetTime() <= 0.1
+    end
+  end
+  return true
+end
+
+function T.PotionPick(result)
+  local item = T.ChosenPotion()
+  if not item or (result and result.potion == false) or not T.PotionReady(item) then
+    return nil
+  end
+  local _, spell = U.Call(C_Item and C_Item.GetItemSpell or GetItemSpell, item)
+  local texture = C_Item and C_Item.GetItemIconByID and Read(C_Item.GetItemIconByID, item)
+  return { id = U.Read(spell) or item, item = item, texture = texture, token = "potion", source = "potion",
+    weave = true }
+end
+
 -- The trinket to use now, or nil.
 function T.Pick(result)
   if (ns.db and ns.db.trinkets == false) or not ns.State.combatStart or not HostileTarget() then
@@ -332,21 +383,13 @@ function T.Apply(result)
   if not (result and result.main) then
     return result
   end
-  local pick = T.Pick(result)
-  if not pick then
-    return result
+  -- Its own icon (bottom-left of slot 1 by default): never takes a slot or the defensive icon. A potion first: SimC
+  -- times it with your biggest cooldowns, and it's once per fight.
+  local potion
+  if ns.State.combatStart and (not ns.BurstAllowed or ns.BurstAllowed()) then
+    potion = T.PotionPick(result)
   end
-  if not result.weave then
-    result.weave = pick
-  else
-    local queue = { result.main, pick }
-    for i = 2, #(result.queue or {}) do
-      if #queue < 3 then
-        queue[#queue + 1] = result.queue[i]
-      end
-    end
-    result.queue = queue
-  end
+  result.trinket = potion or T.Pick(result)
   return result
 end
 

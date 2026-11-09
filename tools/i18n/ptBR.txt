@@ -438,3 +438,102 @@
 444	Estável (sugerido)
 445	Rápido
 446	Estável: quando você está prestes a apertar, o espaço 1 fica parado; um feitiço que fica pronto nesse momento aparece no espaço 2 e sobe depois do seu toque. Rápido: o espaço 1 acompanha cada mudança mais cedo, para quem reage rápido.
+447	Uma borda escura em volta das letras as mantém legíveis em ícones claros.
+448	Um painel escuro atrás dos ícones.
+449	Um brilho em volta do espaço 1. Só o espaço 1 se mexe, então ele sempre atrai seu olhar primeiro.
+450	Uma linha em volta do quadro.
+451	Uma escolha de que o DMGAssist não tem certeza (o jogo esconde um valor necessário) aparece um pouco esmaecida.
+452	Um pequeno ícone de borda dourada no espaço 1 para um berloque de uso ou uma poção, quando é hora de usar. Mais discreto que o vermelho: vale a pena, nunca urgente.
+453	Um pequeno ícone de borda vermelha no espaço 1 para tudo que mantém você vivo, em qualquer classe: recargas defensivas, autocuras, mitigação de tanque como Pelagem de Ferro. Ele pulsa enquanto você precisa dele agora.
+454	Um som para cada tipo de alerta, para você ouvir mesmo sem olhar. Escolha Nenhum para silenciar um.
+455	Uma barra fina embaixo do espaço 1 que esvazia com sua recarga global.
+456	Barras de ação e atalhos
+457	Alertas e efeitos
+458	Todos os sons do DMGAssist ligados ou desligados.
+459	Responder de novo às perguntas iniciais, definir teclas ou começar do zero.
+460	Antes de golpes fortes e com pouca vida, uma recarga defensiva aparece no ícone defensivo de borda vermelha no espaço 1, pulsando.
+461	Combate Assistido da Blizzard
+462	DBM, BigWigs e LittleWigs avisam sobre golpes, reforços e conjurações a caminho, para que defensivas e interrupções venham na hora certa.
+463	Ícone defensivo (ficar vivo)
+464	Sacerdote Disciplina: Expiação
+465	Espaço extra entre o espaço 1 e o espaço 2, para o espaço 1 se destacar e seus ícones pequenos terem lugar.
+466	Para personagens abaixo do nível máximo ou com talentos bem diferentes da build comum.
+467	Para tanques: quantos acúmulos do seu bônus de mitigação estão ativos (Druida Guardião: Pelagem de Ferro), contados pelos seus lançamentos.
+468	Quadro e título
+469	Primeiros passos
+470	Feitiços de cura do seu próprio kit, para quem causa dano e tanques (não rotações de curador).
+471	Esconde os ícones fora de combate (eles continuam visíveis com um inimigo como alvo, se a próxima opção estiver ligada).
+472	Esconde os ícones quando você não precisa deles.
+473	Esconde os ícones enquanto você está em um veículo (com barra de ação própria).
+474	Como o DMGAssist escolhe entre a rotação de alvo único e a de vários alvos.
+475	O tamanho dos ícones e o espaço entre eles. Para movê-los, destrave na primeira página e arraste, ou use o Modo de Edição da Blizzard.
+476	Quão escuro é o painel de fundo.
+477	Quantos ícones: o espaço 1 é o feitiço para agora, os espaços 2 e 3 o que vem depois.
+478	Quantos feitiços aparecem e que tipos de feitiços o DMGAssist pode sugerir.
+479	Quão sólidos são os espaços 2 e 3. Um pouco menos mantém seu olhar no espaço 1.
+480	Quão sólido é o HUD inteiro: menos deixa ver através dele.
+481	Como os ícones mostram quando apertar e o que mais precisa da sua atenção.
+482	Quão visível é essa linha.
+483	Em combate, o jogo esconde alguns valores dos addons (por exemplo, pontos de combo). Como lidar com eles.
+484	Em combate, com esta vida ou menos, uma defensiva é sugerida.
+485	Ícone de itens (berloques e poções)
+486	O tamanho dele, em porcentagem do espaço 1. Maior também cobre mais o espaço 1: tire-o do caminho com os controles abaixo.
+487	Atalhos e nomes de feitiços
+488	Mover para baixo / cima
+489	Mover para esquerda / direita
+490	AGORA acima do espaço 1 e PRÓXIMO acima dos espaços 2 e 3.
+491	Move para baixo (abaixo de 0) ou para cima (acima de 0), em pixels, para não cobrir o espaço 1.
+492	Move para a esquerda (abaixo de 0) ou direita (acima de 0), em pixels, para não cobrir o espaço 1.
+493	Só para sacerdotes Disciplina: espalhar Expiação antes de dano grande no grupo.
+494	Linhas e enfeites opcionais em volta dos ícones.
+495	Fora de combate, esconde os ícones enquanto você está montado.
+496	Posição
+497	Poção: %s. Aparece no ícone de itens quando o SimC usa uma poção (com suas grandes recargas). Clique com o botão direito no quadro para removê-la.
+498	Poção: arraste uma poção das bolsas para este quadro para adicioná-la à sua rotação (só esta especialização). Ela aparece no ícone de itens quando o SimC usa uma poção.
+499	Perfis
+500	As configurações podem ser compartilhadas por todos os seus personagens (Padrão) ou guardadas só para este personagem.
+501	Configuração e redefinição
+502	Mostra uma recarga defensiva (Pele de Árvore, Muralha de Escudos, Sobrevivência do Mais Apto...) no ícone defensivo quando você precisa.
+503	Mostra em cada ícone a tecla que lança o feitiço.
+504	Mostra os feitiços a apertar. Desligado esconde os ícones totalmente (o atalho e /dmga on | off fazem o mesmo).
+505	Mostra sua interrupção (Chute, Esmurrar, Cisalhamento de Vento...) no espaço 1 quando seu alvo conjura algo interrompível.
+506	Mostra seus berloques de uso quando estão prontos, em combate, nos momentos em que o SimC os usa (com suas recargas).
+507	Mostra por 8 segundos, no ícone defensivo, a defensiva que o DMGAssist sugeriria antes de um golpe forte.
+508	Alvo único ou área
+509	Tamanho
+510	Tamanho e espaçamento
+511	Algumas recargas são guardadas ou usadas conforme a duração esperada da luta.
+512	Espaço depois do ícone principal
+513	Contador de acúmulos
+514	A cor do texto da tecla.
+515	A cor dos nomes dos feitiços.
+516	A fonte dos atalhos, nomes de feitiços e rótulos nos ícones.
+517	O assistente de rotação do próprio jogo. O DMGAssist pergunta a ele o que o jogo esconde dos addons.
+518	O tamanho de tudo de uma vez, ícones e texto.
+519	O tamanho do espaço 1, o feitiço para agora.
+520	O tamanho dos espaços 2 e 3, o que vem depois.
+521	O tamanho do texto dos avisos.
+522	O tamanho do texto da tecla.
+523	O tamanho dos nomes dos feitiços.
+524	O tamanho do número de acúmulos.
+525	O som tocado para este alerta.
+526	O espaço entre cada ícone.
+527	O espaço entre os ícones e a borda do quadro (visível com fundo ou borda).
+528	O nome do feitiço embaixo de cada ícone.
+529	O texto sobre e embaixo dos ícones.
+530	Ferramentas para descobrir por que o DMGAssist escolheu algo e para relatar um problema.
+531	Berloques que você ativa. Um pronto aparece no ícone de itens de borda dourada no espaço 1 (embaixo à esquerda por padrão); aperte-o junto com o espaço 1.
+532	Ligue ou desligue o DMGAssist, mova-o e escolha o idioma. Todo o resto está nas páginas abaixo: Combate (o que ele recomenda), Exibição (como ele aparece), Sons, Integrações, Avançado.
+533	Usado quando "Duração da luta" é Personalizada: a duração presumida, em segundos.
+534	O que recomendar
+535	Quando os ícones aparecem
+536	Onde o DMGAssist encontra a tecla de cada feitiço: barras da Blizzard, Bartender, ElvUI, Dominos.
+537	Onde fica o texto da tecla no ícone.
+538	Onde fica o número de acúmulos.
+539	Em que parte do espaço 1 ele fica. Embaixo à esquerda por padrão.
+540	Em que parte do espaço 1 ele fica. Em cima à esquerda por padrão.
+541	Sua interrupção ocupa o espaço 1 quando um inimigo conjura algo que vale a pena parar.
+542	Canto superior esquerdo
+543	Canto inferior esquerdo
+544	Canto inferior direito
+545	As configurações abrem assim que o jogo permitir (depois do combate).

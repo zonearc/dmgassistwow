@@ -9,6 +9,7 @@ globals = {
   "DMGAssistWatchdogDB",
   "DMGAssistWatchdog",
   "DMGAssistDB",
+  "DMGAssistSettingsTextMixin",
   "SLASH_DMGASSIST1",
   "SLASH_DMGASSIST2",
   "SLASH_DMGASSISTWATCHDOG1",
@@ -49,7 +50,7 @@ read_globals = {
   "GetRealZoneText", "GetSpecialization", "GetSpecializationInfo", "GetTime", "InCombatLockdown",
   "IsInInstance", "UIParent", "UnitClass", "UnitHealth", "UnitLevel", "UnitPower", "UnitPowerMax",
   "canaccessvalue", "date", "debugprofilestop", "debugstack", "geterrorhandler", "issecretvalue",
-  "seterrorhandler", "tinsert", "wipe", "GetNetStats", "C_TooltipInfo", "GetDetailedItemLevelInfo", "GetPowerRegen", "UnitPowerType",
+  "seterrorhandler", "tinsert", "wipe", "GetNetStats", "C_Container", "GetItemCooldown", "GetCursorInfo", "ClearCursor", "C_TooltipInfo", "GetDetailedItemLevelInfo", "GetPowerRegen", "UnitPowerType",
 }
 
 files["addons/DMGAssist/Locales/**"] = { max_line_length = false } -- generated translations
@@ -60,7 +61,7 @@ files["tests/**"] = {
     "WOW_PROJECT_ID", "DBM", "BigWigsLoader", "BT4Button1", "BT4Button50", "BuffIconCooldownViewer", "SettingsPanel", "GetShapeshiftFormID",
     "ActionButton3", "BugGrabber", "DMGAssistMinimapButton", "DMGAssistWatchdogFrame",
     "MenuUtil", "InCombatLockdown", "UnitAffectingCombat",
-    "GetInventoryItemID", "C_Item", "GetInventoryItemCooldown", "UnitHealth", "UnitHealthMax", "UnitStagger", "GetSpellBaseCooldown", "IsPlayerSpell", "IsInInstance", "C_AssistedCombat", "UnitLevel", "GetMaxLevelForPlayerExpansion", "GetCVar", "DMGAssistAPI", "DMGAssistWelcome",
+    "GetInventoryItemID", "C_Item", "C_Container", "GetInventoryItemCooldown", "UnitHealth", "UnitHealthMax", "UnitStagger", "GetSpellBaseCooldown", "IsPlayerSpell", "IsInInstance", "C_AssistedCombat", "UnitLevel", "GetMaxLevelForPlayerExpansion", "GetCVar", "DMGAssistAPI", "DMGAssistWelcome",
     "C_Spell", "C_UnitAuras", "UnitClass", "GetNumGroupMembers", "UnitGroupRolesAssigned", "UnitExists", "GetWeaponEnchantInfo" },
   read_globals = { "newproxy" },
   allow_defined_top = true,

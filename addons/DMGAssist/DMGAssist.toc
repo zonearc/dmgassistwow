@@ -45,6 +45,7 @@ Core\Diagnostics.lua
 Core\Engine.lua
 Core\Display.lua
 Core\Options.lua
+Core\Settings.xml
 Core\Minimap.lua
 
 # BEGIN GENERATED DATA (tools/simc_import.py)

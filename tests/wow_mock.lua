@@ -326,14 +326,14 @@ function mock.Install(env)
       end
       return c
     end,
-    CreateCheckbox = function(_, setting)
-      setting.control = "checkbox"
+    CreateCheckbox = function(_, setting, tooltip)
+      setting.control, setting.tooltip = "checkbox", tooltip
     end,
-    CreateSlider = function(_, setting, options)
-      setting.control, setting.options = "slider", options
+    CreateSlider = function(_, setting, options, tooltip)
+      setting.control, setting.options, setting.tooltip = "slider", options, tooltip
     end,
-    CreateDropdown = function(_, setting, options)
-      setting.control, setting.options = "dropdown", options
+    CreateDropdown = function(_, setting, options, tooltip)
+      setting.control, setting.options, setting.tooltip = "dropdown", options, tooltip
     end,
     RegisterAddOnCategory = function(category)
       category.registered = true
@@ -905,7 +905,7 @@ function mock.LoadAddon(dir, addonName)
     if line ~= "" and not line:match("^#") then
       local file, cond = line:match("^(.-)%s+(%[.*%])$")
       file = file or line
-      if GameTypeAllows(cond) then
+      if GameTypeAllows(cond) and not file:match("%.xml$") then
         file = file:gsub("\\", "/")
         local chunk = assert(loadfile(dir .. "/" .. file))
         chunk(addonName, ns)

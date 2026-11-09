@@ -134,26 +134,44 @@ function F.Evaluate()
   return nil
 end
 
--- A decided defensive goes into the queue: slot 1, or slot 2 behind a decided interrupt; the rest shifts right.
--- (One that depends on hidden health is drawn over slot 1 by the HUD instead, visible only when low.)
-local function IntoQueue(result, d)
-  local def = { id = d.id, token = "defensive", source = "defensive" }
-  local queue, placed = {}, false
+-- Every way of staying alive has one place: the red-edged icon on slot 1 (top-left by default), for every class and
+-- role, so slots 1-3 are only ever your damage rotation. In that icon, most urgent first:
+--   a defensive decided now (boss mod hit coming, or low health we can read) - pulses while it's needed;
+--   a self-heal / defensive the rotation itself picked (Frenzied Regeneration, Word of Glory, Crimson Vial...);
+--   upkeep (Ironfur stacks, from Essentials) - a steady edge.
+-- The low-health defensive we can't read (secret health) is drawn on top of it by the HUD, made visible by the
+-- game only while you are low.
+F.SET = {}
+for _, t in ipairs(F.TOKENS) do
+  F.SET[t] = true
+end
+
+local function IsDefensive(p)
+  if not (p and p.id) or p.source == "interrupt" or p.item then
+    return false
+  end
+  local t = p.token or (ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(p.id))
+  return t ~= nil and F.SET[t] == true
+end
+F.IsDefensive = IsDefensive
+
+-- Rotation picks that are really about surviving leave the slots for the defensive icon.
+local function OutOfQueue(result)
+  local queue, found = {}, nil
   for _, p in ipairs(result.queue or {}) do
-    if not placed and p.source ~= "interrupt" then
-      queue[#queue + 1] = def
-      placed = true
+    if IsDefensive(p) then
+      found = found or p
+    else
+      queue[#queue + 1] = p
     end
-    queue[#queue + 1] = p
   end
-  if not placed then
-    queue[#queue + 1] = def
+  if found then
+    result.queue, result.main = queue, queue[1] or result.main
+    if result.main == found then
+      result.main = nil
+    end
   end
-  while #queue > 3 do
-    queue[#queue] = nil
-  end
-  result.queue, result.main = queue, queue[1]
-  result.branch = nil
+  return found
 end
 
 function F.Apply(result)
@@ -163,8 +181,11 @@ function F.Apply(result)
     d = nil -- skipped three times this fight: held until it ends or you cast it
     result.defensive = nil
   end
+  local fromList = OutOfQueue(result)
   if d and d.how == "decided" and not (ns.Display and ns.Display.Settings().defensive == false) then
-    IntoQueue(result, d)
+    result.weave = { id = d.id, token = "defensive", source = "defensive", urgent = true }
+  elseif fromList then
+    result.weave = { id = fromList.id, token = fromList.token, source = "defensive" }
   end
   if d and d.how == "decided" and not F.shown then
     F.shown = true

@@ -275,8 +275,10 @@ test("settings asked for in combat open when the fight ends (the game blocks the
   eq(opened, 0, "not in combat")
   mock.inCombat = false
   mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.Advance(0.6) -- a moment after combat, once the game's restriction has lifted
   eq(opened, 1, "opened after combat")
   mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.Advance(0.6)
   eq(opened, 1, "only once")
 end)
 

@@ -40,7 +40,7 @@ function I.Skin(f)
     return false
   end
   I.group = group
-  local icons = { f.slots[1], f.slots[2], f.slots[3], f.weave, f.kick, f.def, f.branch }
+  local icons = { f.slots[1], f.slots[2], f.slots[3], f.weave, f.trinket, f.kick, f.def, f.branch }
   for _, icon in ipairs(icons) do
     if icon and icon.tex then
       local added = pcall(group.AddButton, group, icon, { Icon = icon.tex, Normal = false, Pushed = false,
@@ -173,7 +173,7 @@ end
 ---------------------------------------------------------------------------
 -- DMGAssistAPI.GetRecommendation() -> nil, or a table:
 --   { spells = { { spellID =, texture =, key =, source =, item = }, ... up to 3 },
---     interrupt = { spellID =, key = } or nil, defensive = { ... } or nil, offGCD = { ... } or nil,
+--     interrupt = { spellID =, key = } or nil, defensive = { ... } or nil, offGCD = { ... } or nil, trinket = { ... } or nil,
 --     mode = "AUTO" / "ST" / "AOE" }
 -- DMGAssistAPI.RegisterCallback(fn) -> handle; fn(recommendation) runs whenever the pick changes.
 -- DMGAssistAPI.UnregisterCallback(handle)
@@ -210,6 +210,7 @@ function I.Snapshot(result)
   out.interrupt = Entry(result.interrupt)
   out.defensive = Entry(result.defensive)
   out.offGCD = Entry(result.weave)
+  out.trinket = Entry(result.trinket)
   out.mode = ns.db and ns.db.autoDetect ~= false and "AUTO" or (ns.db and ns.db.mode == "st" and "ST" or "AOE")
   return out
 end
@@ -225,7 +226,7 @@ function I.OnRecommendation(result)
   end
   local sig = table.concat({ tostring(id(q[1])), tostring(id(q[2])), tostring(id(q[3])),
     tostring(id(result and result.interrupt)), tostring(id(result and result.defensive)),
-    tostring(id(result and result.weave)) }, "/")
+    tostring(id(result and result.weave)), tostring(id(result and result.trinket)) }, "/")
   if sig == lastSig then
     return
   end

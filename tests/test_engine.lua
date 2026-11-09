@@ -484,9 +484,60 @@ test("trinkets: SimC's questions about what a trinket does are answered from its
   eq(r.useItems.trinket1 ~= false, true, "the damage trinket: SimC says use it")
   local main = { id = 186270, token = "raptor_strike" }
   local applied = T.Apply({ main = main, queue = { main }, useItems = r.useItems })
-  eq(applied.weave and applied.weave.item, 2001, "shown")
+  eq(applied.trinket and applied.trinket.item, 2001, "shown in the trinket badge")
   C_Item, C_Spell.GetSpellDescription, GetInventoryItemCooldown = saved.C_Item, saved.desc, saved.cd
   mock.inCombat = false
+end)
+
+test("potions: the one you chose shows in the items icon when SimC's potion line says now, once per fight", function()
+  Reset()
+  local ns = Boot()
+  local T = ns.Trinkets
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  local main = { id = 5221, token = "shred" }
+  eq(T.Apply({ main = main, queue = { main } }).trinket, nil, "no potion chosen: nothing")
+  T.SetPotion(212265)
+  local saved = { C_Item = C_Item, cd = C_Container, inv = GetInventoryItemID }
+  GetInventoryItemID = function()
+    return nil -- no on-use trinkets in this test
+  end
+  C_Item = { GetItemSpell = function()
+    return "Tempered Potion", 431932
+  end, GetItemCount = function()
+    return 3
+  end, GetItemIconByID = function()
+    return 5000
+  end }
+  local used = false
+  C_Container = { GetItemCooldown = function()
+    if used then
+      return GetTime() - 5, 300, 0
+    end
+    return 0, 0, 1
+  end }
+  local r = T.Apply({ main = main, queue = { main }, potion = true })
+  eq(r.trinket and r.trinket.item, 212265, "SimC says now: in the items icon")
+  eq(r.trinket.source, "potion")
+  eq(r.queue[1].id, 5221, "slot 1 untouched")
+  eq(T.Apply({ main = main, queue = { main }, potion = false }).trinket, nil, "SimC says not now")
+  used = true
+  eq(T.Apply({ main = main, queue = { main }, potion = true }).trinket, nil, "used this fight")
+  C_Item, C_Container, GetInventoryItemID = saved.C_Item, saved.cd, saved.inv
+  T.SetPotion(nil)
+  mock.inCombat = false
+end)
+
+test("defensive icon: a self-heal the rotation picks leaves the slots for the defensive icon", function()
+  Reset()
+  local ns = Boot()
+  local regrowth = { id = 8936, token = "regrowth", source = "simc" }
+  local shred = { id = 5221, token = "shred", source = "simc" }
+  local r = { main = regrowth, queue = { regrowth, shred } }
+  ns.Defensives.Apply(r)
+  eq(r.main.token, "shred", "slot 1: the rotation")
+  eq(#r.queue, 1)
+  eq(r.weave and r.weave.token, "regrowth", "the self-heal: in the defensive icon")
 end)
 
 test("on-use trinkets: every equipped one by default, switched off per trinket, SimC's use_items respected", function()
@@ -512,29 +563,31 @@ test("on-use trinkets: every equipped one by default, switched off per trinket, 
   eq(T.Token("Mirror of Fractured Tomorrows"), "mirror_of_fractured_tomorrows")
   local main = { id = 5221, token = "shred" }
   local r = T.Apply({ main = main, queue = { main } })
-  eq(r.weave, nil, "out of combat: nothing")
+  eq(r.trinket, nil, "out of combat: nothing")
   mock.inCombat = true
   mock.Fire("PLAYER_REGEN_DISABLED")
   r = T.Apply({ main = main, queue = { main } })
-  eq(r.weave and r.weave.item, 1001, "in combat at a hostile target: the off-GCD badge")
-  eq(r.weave.source, "trinket")
+  eq(r.trinket and r.trinket.item, 1001, "in combat at a hostile target: the trinket badge")
+  eq(r.trinket.source, "trinket")
   r = T.Apply({ main = main, queue = { main }, useItems = { all = false } })
-  eq(r.weave, nil, "SimC says not now")
+  eq(r.trinket, nil, "SimC says not now")
   r = T.Apply({ main = main, queue = { main }, useItems = { all = false, trinket1 = true } })
-  eq(r.weave and r.weave.item, 1001, "a line for this slot says yes")
+  eq(r.trinket and r.trinket.item, 1001, "a line for this slot says yes")
   r = T.Apply({ main = main, queue = { main, { id = 1822 } }, weave = { id = 192081 } })
-  eq(r.queue[2].item, 1001, "badge taken: slot 2")
+  eq(r.trinket and r.trinket.item, 1001, "Ironfur in its badge: the trinket still has its own")
+  eq(r.weave.id, 192081, "Ironfur keeps its badge")
+  eq(r.queue[2].id, 1822, "slot 2 stays the next GCD spell")
   cd[13] = { GetTime() - 10, 120, 1 }
   r = T.Apply({ main = main, queue = { main } })
-  eq(r.weave, nil, "on cooldown")
+  eq(r.trinket, nil, "on cooldown")
   cd[13] = { 0, 0, 1 }
   T.SetOff(1001, true)
   r = T.Apply({ main = main, queue = { main } })
-  eq(r.weave, nil, "switched off: you press it yourself")
+  eq(r.trinket, nil, "switched off: you press it yourself")
   T.SetOff(1001, false)
   ns.db.trinkets = false
   r = T.Apply({ main = main, queue = { main } })
-  eq(r.weave, nil, "master switch off")
+  eq(r.trinket, nil, "master switch off")
   ns.db.trinkets = true
   -- the key binding check lists it while it has no key
   local missing = ns.Bindcheck.Missing()
@@ -2880,8 +2933,9 @@ test("defensives: boss mod warning -> decided with sound; low health in combat -
   local r = ns.Update()
   eq(r.defensive.how, "decided")
   eq(r.defensive.id, 22812, "lighter defensive first (Barkskin)")
-  eq(r.queue[1].id, 22812, "a decided defensive is slot 1; the rotation shifts right")
-  eq(r.queue[1].source, "defensive")
+  eq(r.weave and r.weave.id, 22812, "a decided defensive goes in the red defensive icon")
+  eq(r.weave.urgent, true, "needed now: it pulses")
+  eq(r.queue[1].source ~= "defensive", true, "slots 1-3 stay the rotation")
   eq(#r.queue <= 3, true, "still three slots")
   eq(#mock.sounds, 1, "defensive sound played")
   mock.cooldowns[22812] = { active = true }
@@ -2998,6 +3052,27 @@ test("snapshot: full decision trace stored in the Watchdog log", function()
   DMGAssistWatchdog = nil
 end)
 
+test("settings: every option has a tooltip, every section an explanation line", function()
+  Reset()
+  local ns = Boot()
+  local missing = {}
+  for name, setting in pairs(mock.settings) do
+    if name:find("^DMGASSIST_") and setting.control and not (type(setting.tooltip) == "string" and #setting.tooltip > 10) then
+      missing[#missing + 1] = name
+    end
+  end
+  table.sort(missing)
+  eq(table.concat(missing, ", "), "", "options without a tooltip")
+  local bare = {}
+  for _, s in ipairs(ns.Options.subtitles or {}) do
+    if not (type(s.text) == "string" and #s.text > 10) then
+      bare[#bare + 1] = s.title
+    end
+  end
+  eq(table.concat(bare, ", "), "", "sections without an explanation")
+  eq(#(ns.Options.subtitles or {}) >= 20, true, "sections registered")
+end)
+
 test("settings: sections on every page, fonts listed, reset restores defaults", function()
   Reset()
   local ns = Boot()
@@ -3027,7 +3102,7 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   mock.settings.DMGASSIST_ICONSIZE:SetValue(80)
   mock.settings.DMGASSIST_INTERRUPTMODE:SetValue("off")
   ns.Options.ResetAll()
-  eq(ns.db.hud.iconSize, 52)
+  eq(ns.db.hud.iconSize, 60)
   eq(ns.db.interruptMode, "smart")
 end)
 
@@ -3167,7 +3242,7 @@ test("stuck detector: same pick while the player casts other spells stores one s
   eq(logged.snapshot, 1, "one snapshot")
 end)
 
-test("priority in the three slots: interrupt, then defensive, then the rotation", function()
+test("each kind has its place: interrupt in slot 1, defensive in its icon, the rotation in the slots", function()
   Reset()
   DefBook()
   local book = mock.book
@@ -3182,9 +3257,9 @@ test("priority in the three slots: interrupt, then defensive, then the rotation"
   dbm.DBM_TimerBegin("DBM_TimerBegin", "nova", "Shadow Nova", 2, 0, "cd", 1, 2)
   local r = ns.Update()
   eq(r.queue[1].source, "interrupt", "slot 1: interrupt")
-  eq(r.queue[2].source, "defensive", "slot 2: defensive")
-  eq(#r.queue, 3)
-  eq(ns.Display.frame.def:IsShown(), false, "no extra icon outside the three slots")
+  eq(r.weave and r.weave.source, "defensive", "the defensive icon: defensive")
+  eq(r.queue[2].source ~= "defensive", true, "slot 2: the rotation")
+  eq(ns.Display.frame.weave:IsShown(), true, "shown")
 end)
 
 test("timing: our cast is timed from its start event when the game hides it; wipe, then flash just before ready", function()

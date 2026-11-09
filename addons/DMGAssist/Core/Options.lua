@@ -38,11 +38,36 @@ local function HUD()
   return ns.Display.Settings()
 end
 
-local function Header(category, text)
+-- The explanation line under a section title (template in Settings.xml): wraps over the page's width.
+DMGAssistSettingsTextMixin = {}
+function DMGAssistSettingsTextMixin:Init(initializer)
+  local data = initializer.data or (initializer.GetData and initializer:GetData()) or {}
+  self.Text:SetText(data.text or "")
+  self.Text:SetTextColor(0.78, 0.78, 0.78)
+  self.Text:SetWordWrap(true)
+end
+
+-- A section: its title (the subtitle is also its tooltip) and a one-sentence explanation under it, so a new
+-- player knows what the section is for before reading the options.
+local function Header(category, text, subtitle)
   local layout = O.layouts[category]
-  if layout and layout.AddInitializer and type(CreateSettingsListSectionHeaderInitializer) == "function" then
-    layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L[text]))
+  if not (layout and layout.AddInitializer and type(CreateSettingsListSectionHeaderInitializer) == "function") then
+    return
   end
+  layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L[text], subtitle and L[subtitle]))
+  if subtitle and Settings.CreateElementInitializer then
+    local line = L[subtitle]
+    local ok, init = pcall(Settings.CreateElementInitializer, "DMGAssistSettingsTextTemplate", { text = line })
+    if ok and init then
+      local rows = math.max(1, math.ceil(#line / 105))
+      init.GetExtent = function()
+        return 6 + rows * 13
+      end
+      layout:AddInitializer(init)
+    end
+  end
+  O.subtitles = O.subtitles or {}
+  O.subtitles[#O.subtitles + 1] = { title = text, text = subtitle }
 end
 
 local function Button(category, label, text, onClick, tooltip)
@@ -129,7 +154,8 @@ end
 -- Profiles: shared "Default" for every character, or one per character; copy and delete.
 function O.RegisterProfiles(main)
   local P = ns.Profiles
-  Header(main, "Profile")
+  Header(main, "Profiles", "Settings can be shared by all your characters (Default) or kept for this character "
+    .. "only.")
   local function Options(withNone)
     return function()
       local container = Settings.CreateControlTextContainer()
@@ -217,8 +243,10 @@ function O.Register()
 
   ---------------------------------------------------------------- main page
   local main = Category("DMGAssist")
-  Header(main, "DMGAssist")
-  Check(main, DB, "enabled", "Show recommendations", true)
+  Header(main, "Getting started", "Turn DMGAssist on or off, move it, and pick its language. Everything else is on "
+    .. "the pages below: Combat (what it recommends), Display (how it looks), Sounds, Integrations, Advanced.")
+  Check(main, DB, "enabled", "Show recommendations", true,
+    "Show the spells to press. Off hides the icons completely (the key binding and /dmga on | off do the same).")
   Check(main, DB, "minimap", "Minimap button", true,
     "Left-click: show / hide. Right-click: menu and settings. Drag to move it.")
   Check(main, DB, "locked", "Lock position", true,
@@ -251,6 +279,7 @@ function O.Register()
   end, "language", "Language", "auto", ns.LANGUAGES,
     "DMGAssist's text in another language than the game's. Chinese and Korean need a game client in that "
       .. "language (its fonts). Applied after /reload.")
+  Header(main, "Setup and reset", "Answer the first-time questions again, bind keys, or start over.")
   Button(main, "Quick setup", "Run the setup again", function()
     ns.Welcome.Open()
   end, "Three questions: where the HUD goes, how big, and when it shows.")
@@ -269,8 +298,9 @@ function O.Register()
 
   ---------------------------------------------------------------- combat: how it thinks and what it shows
   local combat = Category("Combat", main)
-  Header(combat, "Recommendations")
-  Slider(combat, DB, "queue", "Spells shown", G.queue or 3, 1, 3, 1, "The next spell, plus up to two after it.")
+  Header(combat, "What to recommend", "How many spells are shown, and which kinds of spells DMGAssist may suggest.")
+  Slider(combat, DB, "queue", "Spells shown", G.queue or 3, 1, 3, 1,
+    "How many icons: slot 1 is the spell to press now, slots 2 and 3 are what comes after it.")
   Check(combat, DB, "burst", "Major cooldowns", true,
     "On: big cooldowns show in the three slots in SimC's order. Off: they are never shown.")
   Choice(combat, DB, "slotHold", "Slot 1 changes", "steady", { { "steady", "Steady (recommended)" },
@@ -293,7 +323,7 @@ function O.Register()
     "Skip the spell in the first slot three times and it is held until combat ends. Cast it yourself to bring it back.")
   Check(combat, DB, "castWhileMoving", "Casts while moving", false,
     "Off: while you move, spells with a cast time are skipped (instants and procs still show).")
-  Header(combat, "Leveling and alts")
+  Header(combat, "Leveling and alts", "For characters below max level, or with talents far from the usual build.")
   Choice(combat, DB, "levelingMode", "Leveling", "auto", {
     { "auto", "Automatic (suggested)" }, { "blizzard", "Always Blizzard's suggestions" },
     { "simc", "Always DMGAssist's priority list" } },
@@ -306,15 +336,17 @@ function O.Register()
   Check(combat, DB, "buffReminders", "Buff reminders", true,
     "Out of combat, a missing buff goes in slot 1: raid buffs, shields, weapon imbues, poisons, and Earth Shield "
       .. "or Beacon of Light on your tank. Each can be hidden on the Spells & trinkets page.")
-  Header(combat, "Trinkets")
+  Header(combat, "On-use trinkets", "Trinkets you activate yourself. A ready one appears in the gold-edged items "
+    .. "icon on slot 1 (bottom-left by default); press it alongside slot 1.")
   Check(combat, DB, "trinkets", "On-use trinkets", true,
-    "Show your on-use trinkets (off-GCD badge on slot 1) when they are ready, with your cooldowns, in combat.")
+    "Show your on-use trinkets when they are ready, in combat, at the moments SimC uses them (with your cooldowns).")
   Button(combat, "Each trinket", "Spells & trinkets", function()
-    if O.trinketCategory and Settings.OpenToCategory and not InCombatLockdown() then
+    if O.trinketCategory and Settings.OpenToCategory and not O.Busy() then
       Settings.OpenToCategory(O.trinketCategory:GetID())
     end
   end, "Every equipped on-use trinket and every spell can be switched off on the Spells & trinkets page.")
-  Header(combat, "Targets")
+  Header(combat, "Single target or AoE", "How DMGAssist decides between the single-target and the multi-target "
+    .. "rotation.")
   Check(combat, DB, "autoDetect", "Auto-detect targets", true,
     "Counts enemies in combat with you, within range of your spells, from their nameplates (enemy nameplates "
     .. "must be on). Training dummies count once you have hit them.")
@@ -326,112 +358,160 @@ function O.Register()
   Slider(combat, DB, "aoeTargets", "Custom AoE count", G.aoeTargets or 3, 2, 10, 1,
     "Used when \"AoE target count\" is Custom: this many targets or more counts as AoE.")
   Button(combat, "Target mode keybind", "Set key bindings", O.OpenKeybindings, KEYS_TIP)
-  Header(combat, "Fight length")
+  Header(combat, "Fight length", "Some cooldowns are saved or spent depending on how long the fight is expected "
+    .. "to last.")
   Choice(combat, DB, "fightMode", "Fight length", "learned", {
     { "learned", "Learned from your fights" }, { "simc", "SimC default (300 s bosses, short trash)" },
     { "custom", "Custom (slider below)" } },
     "SimC holds or uses cooldowns by how long the fight lasts. Learned: the typical length of your recent fights "
     .. "of the same kind (open world, dungeon/raid trash, bosses, PvP); SimC's defaults until it has 5.")
-  Slider(combat, DB, "fightLength", "Custom fight length", G.fightLength or 300, 30, 600, 10, nil, "s")
-  Header(combat, "Interrupts")
-  Check(combat, HUD, "interrupt", "Suggest interrupts", H.interrupt)
+  Slider(combat, DB, "fightLength", "Custom fight length", G.fightLength or 300, 30, 600, 10,
+    "Used when \"Fight length\" is Custom: the fight length assumed, in seconds.", "s")
+  Header(combat, "Interrupts", "Your interrupt takes slot 1 when an enemy casts something worth stopping.")
+  Check(combat, HUD, "interrupt", "Suggest interrupts", H.interrupt,
+    "Show your interrupt (Kick, Pummel, Wind Shear...) in slot 1 when your target casts something interruptible.")
   Choice(combat, DB, "interruptMode", "When", "smart", INTERRUPT_CHOICES,
     "In dungeons and raids, important means your boss mod calls for it or Blizzard flags the spell.")
-  Header(combat, "Discipline: Atonement")
+  Header(combat, "Discipline Priest: Atonement", "Only for Discipline Priests: spread Atonement before big group "
+    .. "damage.")
   Check(combat, DB, "atonementRamp", "Ramp before big hits", true,
     "When your boss mod warns of AoE damage, show Power Word: Radiance, then Shield, until enough Atonements are up.")
   Slider(combat, DB, "atonementTarget", "Atonement goal", G.atonementTarget or 5, 1, 20, 1,
     "Counted from your own casts (Shield, Flash Heal, Plea, Renew: 1; Radiance: 5). 5 for a party, more for raids.")
   Slider(combat, DB, "atonementLead", "Ramp lead time", G.atonementLead or 8, 3, 20, 1,
     "Seconds before the hit your boss mod announces.", "s")
-  Header(combat, "Self-heals")
+  Header(combat, "Self-heals", "Healing spells in your own kit, for damage dealers and tanks (not healer "
+    .. "rotations).")
   Slider(combat, DB, "healAt", "Self-heal below", G.healAt or 35, 0, 90, 5,
     "Self-heals your rotation can suggest (Desperate Prayer, Regrowth, Crimson Vial...) show only at or below this "
     .. "health. 0 = never.", "%")
   Check(combat, DB, "healInRaids", "Self-heals in raids", false,
     "Off: never suggested in raids (healing there is the healers' job).")
-  Header(combat, "Defensives")
-  Check(combat, HUD, "defensive", "Suggest defensives", H.defensive)
+  Header(combat, "Defensives", "Before big hits and when your health is low, a defensive cooldown appears in the "
+    .. "red-edged defensive icon on slot 1, pulsing.")
+  Check(combat, HUD, "defensive", "Suggest defensives", H.defensive,
+    "Show a defensive cooldown (Barkskin, Shield Wall, Survival of the Fittest...) in the defensive icon when you "
+      .. "need one.")
   Choice(combat, DB, "defensiveMode", "When", "smart", DEFENSIVE_CHOICES,
     "Before big hits your boss mod warns about, and when you are low.")
-  Slider(combat, DB, "defensiveHealth", "Low health", G.defensiveHealth or 35, 10, 70, 5, nil, "%")
+  Slider(combat, DB, "defensiveHealth", "Low health", G.defensiveHealth or 35, 10, 70, 5,
+    "In combat, at or below this much health a defensive is suggested.", "%")
   Slider(combat, DB, "defensiveLead", "Big hit warning", G.defensiveLead or 3, 1, 8, 1,
     "Suggest a defensive this long before a big hit that a boss mod announces.", "s")
-  Header(combat, "When to show")
-  Check(combat, HUD, "hideOutOfCombat", "Hide out of combat", H.hideOutOfCombat)
+  Header(combat, "When the icons show", "Hide the icons when you don't need them.")
+  Check(combat, HUD, "hideOutOfCombat", "Hide out of combat", H.hideOutOfCombat,
+    "Hide the icons outside combat (they still show with an enemy targeted, if the next option is on).")
   Check(combat, HUD, "showWithTarget", "Show with a target", H.showWithTarget, "Show the HUD out of combat while an enemy is targeted.")
-  Check(combat, HUD, "hideMounted", "Hide while mounted", H.hideMounted)
-  Check(combat, HUD, "hideVehicle", "Hide in vehicles", H.hideVehicle)
+  Check(combat, HUD, "hideMounted", "Hide while mounted", H.hideMounted, "Out of combat, hide the icons while you're "
+    .. "mounted.")
+  Check(combat, HUD, "hideVehicle", "Hide in vehicles", H.hideVehicle,
+    "Hide the icons while you're in a vehicle (one with its own action bar).")
 
   ---------------------------------------------------------------- display: visuals only
   local display = Category("Display", main)
-  Header(display, "Layout")
-  Slider(display, HUD, "scale", "Scale", H.scale, 0.5, 2, 0.05)
-  Slider(display, HUD, "iconSize", "Main icon size", H.iconSize, 24, 96, 1)
-  Slider(display, HUD, "nextSize", "Next icon size", H.nextSize, 16, 80, 1)
-  Slider(display, HUD, "spacing", "Icon spacing", H.spacing, 0, 24, 1)
-  Slider(display, HUD, "padding", "Frame padding", H.padding, 0, 24, 1)
-  Slider(display, HUD, "alpha", "Opacity", H.alpha, 0.2, 1, 0.05)
-  Slider(display, HUD, "queueAlpha", "Next icons opacity", H.queueAlpha, 0.2, 1, 0.05)
-  Header(display, "Frame")
+  Header(display, "Size and spacing", "How big the icons are and the space between them. To move them, unlock on "
+    .. "the first page and drag, or use Blizzard's Edit Mode.")
+  Slider(display, HUD, "scale", "Scale", H.scale, 0.5, 2, 0.05, "The size of everything at once, icons and text.")
+  Slider(display, HUD, "iconSize", "Main icon size", H.iconSize, 24, 96, 1, "The size of slot 1, the spell to press now.")
+  Slider(display, HUD, "nextSize", "Next icon size", H.nextSize, 16, 80, 1, "The size of slots 2 and 3, what comes next.")
+  Slider(display, HUD, "mainGap", "Space after the main icon", H.mainGap, 0, 40, 1,
+    "Extra space between slot 1 and slot 2, so slot 1 stands apart and its small icons have room.")
+  Slider(display, HUD, "spacing", "Icon spacing", H.spacing, 0, 24, 1, "The space between each icon.")
+  Slider(display, HUD, "padding", "Frame padding", H.padding, 0, 24, 1,
+    "The space between the icons and the frame's edge (visible with a background or border).")
+  Slider(display, HUD, "alpha", "Opacity", H.alpha, 0.2, 1, 0.05, "How solid the whole HUD is: lower lets you see "
+    .. "through it.")
+  Slider(display, HUD, "queueAlpha", "Next icons opacity", H.queueAlpha, 0.2, 1, 0.05,
+    "How solid slots 2 and 3 are. A little lower keeps your eye on slot 1.")
+  Header(display, "Frame and title", "Optional lines and decoration around the icons.")
   Check(display, HUD, "modeBar", "Target mode title", H.modeBar,
     "In combat: ST (blue) or AOE (orange) with the number of targets counted, so you can see auto-detect work.")
   Check(display, HUD, "header", "Title bar", H.header, "A line above the icons with your spec and a settings button.")
-  Check(display, HUD, "background", "Background", H.background)
-  Slider(display, HUD, "bgAlpha", "Background opacity", H.bgAlpha, 0, 1, 0.05)
-  Choice(display, HUD, "border", "Border", H.border, { { "none", "None" }, { "thin", "Thin" }, { "thick", "Thick" } })
-  Slider(display, HUD, "borderAlpha", "Border opacity", H.borderAlpha, 0, 1, 0.05)
-  Header(display, "Text")
+  Check(display, HUD, "background", "Background", H.background, "A dark panel behind the icons.")
+  Slider(display, HUD, "bgAlpha", "Background opacity", H.bgAlpha, 0, 1, 0.05, "How dark the background panel is.")
+  Choice(display, HUD, "border", "Border", H.border, { { "none", "None" }, { "thin", "Thin" }, { "thick", "Thick" } },
+    "A line around the frame.")
+  Slider(display, HUD, "borderAlpha", "Border opacity", H.borderAlpha, 0, 1, 0.05, "How visible that line is.")
+  Header(display, "Font", "The font for keybinds, spell names and labels on the icons.")
   Choice(display, HUD, "font", "Font", H.font, ns.Display.FontChoices,
     "Game fonts, plus any registered with LibSharedMedia.")
-  Choice(display, HUD, "outline", "Outline", H.outline, ns.Display.OUTLINES)
-  Header(display, "Off-GCD badge (Ironfur)")
-  Choice(display, HUD, "weavePos", "Badge position", H.weavePos, ns.Display.WEAVE_POSITIONS,
-    "Where the small badge for spells pressed alongside slot 1 (no GCD, e.g. Ironfur) sits.")
-  Slider(display, HUD, "weaveSize", "Badge size", H.weaveSize, 25, 80, 5, "Size, as a percentage of slot 1.", "%")
-  Header(display, "Stack count")
+  Choice(display, HUD, "outline", "Outline", H.outline, ns.Display.OUTLINES,
+    "A dark edge around the letters keeps them readable on bright icons.")
+  Header(display, "Defensive icon (staying alive)", "A small red-edged icon on slot 1 for everything that keeps you "
+    .. "alive, for every class: defensive cooldowns, self-heals, tank mitigation like Ironfur. It pulses while you "
+    .. "need it now.")
+  Choice(display, HUD, "weavePos", "Position", H.weavePos, ns.Display.WEAVE_POSITIONS,
+    "Which part of slot 1 it sits on. Top-left by default.")
+  Slider(display, HUD, "weaveSize", "Size", H.weaveSize, 25, 80, 5,
+    "Its size, as a percentage of slot 1. Larger also covers more of slot 1: move it out with the sliders below.",
+    "%")
+  Slider(display, HUD, "weaveX", "Move left / right", H.weaveX, -60, 60, 1,
+    "Nudges it left (below 0) or right (above 0), in pixels, so it doesn't cover slot 1.")
+  Slider(display, HUD, "weaveY", "Move down / up", H.weaveY, -60, 60, 1,
+    "Nudges it down (below 0) or up (above 0), in pixels, so it doesn't cover slot 1.")
+  Header(display, "Items icon (trinkets and potions)", "A small gold-edged icon on slot 1 for an on-use trinket or "
+    .. "a potion, when it's time to use it. Quieter than the red one: worth pressing, never urgent.")
+  Choice(display, HUD, "trinketPos", "Position", H.trinketPos, ns.Display.WEAVE_POSITIONS,
+    "Which part of slot 1 it sits on. Bottom-left by default.")
+  Slider(display, HUD, "trinketSize", "Size", H.trinketSize, 25, 80, 5,
+    "Its size, as a percentage of slot 1. Larger also covers more of slot 1: move it out with the sliders below.",
+    "%")
+  Slider(display, HUD, "trinketX", "Move left / right", H.trinketX, -60, 60, 1,
+    "Nudges it left (below 0) or right (above 0), in pixels, so it doesn't cover slot 1.")
+  Slider(display, HUD, "trinketY", "Move down / up", H.trinketY, -60, 60, 1,
+    "Nudges it down (below 0) or up (above 0), in pixels, so it doesn't cover slot 1.")
+  Header(display, "Stack counter", "For tanks: how many stacks of your mitigation buff are up (Guardian Druid: "
+    .. "Ironfur), counted from your casts.")
   Check(display, HUD, "stackCount", "Show stack count", H.stackCount,
     "Our count of your stacking buff (Guardian: Ironfur), counted from your casts. Put the same buff in "
     .. "Blizzard's Cooldown Manager next to it to check the count.")
-  Slider(display, HUD, "stackSize", "Stack text size", H.stackSize, 8, 28, 1)
-  Choice(display, HUD, "stackPos", "Stack position", H.stackPos, ns.Display.STACK_POSITIONS)
-  Check(display, HUD, "keybind", "Keybind on icons", H.keybind)
-  Slider(display, HUD, "keybindSize", "Keybind text size", H.keybindSize, 8, 24, 1)
+  Slider(display, HUD, "stackSize", "Stack text size", H.stackSize, 8, 28, 1, "The size of the stack number.")
+  Choice(display, HUD, "stackPos", "Stack position", H.stackPos, ns.Display.STACK_POSITIONS,
+    "Where the stack number sits.")
+  Header(display, "Keybinds and spell names", "The text on and under the icons.")
+  Check(display, HUD, "keybind", "Keybind on icons", H.keybind, "Show the key that casts each spell on its icon.")
+  Slider(display, HUD, "keybindSize", "Keybind text size", H.keybindSize, 8, 24, 1, "The size of the key text.")
   Choice(display, HUD, "keybindPos", "Keybind position", H.keybindPos,
     { { "CENTER", "Center" }, { "TOPRIGHT", "Top right" }, { "TOPLEFT", "Top left" }, { "BOTTOMLEFT", "Bottom left" },
-      { "BOTTOMRIGHT", "Bottom right" } })
-  Choice(display, HUD, "keybindColor", "Keybind color", H.keybindColor, ns.Display.TEXT_COLORS)
+      { "BOTTOMRIGHT", "Bottom right" } }, "Where the key text sits on the icon.")
+  Choice(display, HUD, "keybindColor", "Keybind color", H.keybindColor, ns.Display.TEXT_COLORS,
+    "The color of the key text.")
   Check(display, HUD, "rangeTint", "Out of range and resource colors", H.rangeTint,
     "Like your action bars: an icon turns red when your target is out of that spell's range, and slot 1 turns blue "
       .. "when you are short of resource for it.")
   Choice(display, HUD, "padLabels", "Controller button names", H.padLabels,
     { { "xbox", "Xbox (A B X Y, LB RB)" }, { "playstation", "PlayStation (X O, L1 R1)" } },
     "With a controller (the game's gamepad support), keybinds show as controller buttons, for example LT+A.")
-  Check(display, HUD, "spellNames", "Spell names under icons", H.spellNames)
-  Slider(display, HUD, "nameSize", "Spell name size", H.nameSize, 8, 18, 1)
-  Choice(display, HUD, "nameColor", "Spell name color", H.nameColor, ns.Display.TEXT_COLORS)
-  Check(display, HUD, "labels", "NOW / NEXT labels", H.labels)
-  Header(display, "Effects")
+  Check(display, HUD, "spellNames", "Spell names under icons", H.spellNames, "The spell's name under each icon.")
+  Slider(display, HUD, "nameSize", "Spell name size", H.nameSize, 8, 18, 1, "The size of the spell names.")
+  Choice(display, HUD, "nameColor", "Spell name color", H.nameColor, ns.Display.TEXT_COLORS,
+    "The color of the spell names.")
+  Check(display, HUD, "labels", "NOW / NEXT labels", H.labels, "NOW above slot 1 and NEXT above slots 2 and 3.")
+  Header(display, "Alerts and effects", "How the icons tell you when to press, and what needs your attention most.")
   Choice(display, HUD, "glow", "Main icon glow", H.glow,
-    { { "none", "None" }, { "border", "Steady" }, { "pulse", "Pulse" } })
+    { { "none", "None" }, { "border", "Steady" }, { "pulse", "Pulse" } },
+    "A glow around slot 1. Only slot 1 moves, so it always draws your eye first.")
   Check(display, HUD, "pressCue", "Press-now flash", H.pressCue,
     "The main icon is darkened until your GCD or cast is about to end, then flashes: press it then.")
   Slider(display, HUD, "pressLead", "Flash lead time", H.pressLead, 0, 300, 10,
     "How long before the exact moment the flash comes, for reaction time.", " ms")
-  Check(display, HUD, "gcdBar", "GCD bar", H.gcdBar)
-  Check(display, HUD, "dimGuesses", "Dim uncertain picks", H.dimGuesses)
+  Check(display, HUD, "gcdBar", "GCD bar", H.gcdBar, "A thin bar under slot 1 that empties with your global cooldown.")
+  Check(display, HUD, "dimGuesses", "Dim uncertain picks", H.dimGuesses,
+    "A pick DMGAssist isn't sure about (the game hides a value it needs) is shown slightly faded.")
   Check(display, HUD, "highlight", "Action bar highlight", H.highlight,
     "Glows the real action button for the next spell (Blizzard bars, Bartender, ElvUI, Dominos).")
   Check(display, HUD, "callout", "Boss callouts", H.callout,
     "'AOE 3', 'TANK HIT 2', 'ADDS 8', 'INTERRUPT', 'DEFENSIVE' from your boss mod or Blizzard's timeline.")
-  Slider(display, HUD, "calloutSize", "Callout text size", H.calloutSize, 10, 28, 1)
+  Slider(display, HUD, "calloutSize", "Callout text size", H.calloutSize, 10, 28, 1, "The size of the callout text.")
 
   ---------------------------------------------------------------- sounds
   local sounds = Category("Sounds", main)
-  Header(sounds, "Sounds")
-  Check(sounds, DB, "sounds", "Sound alerts", true)
+  Header(sounds, "Sounds", "A sound for each kind of alert, so you hear it even when you're not looking. Choose "
+    .. "None to silence one.")
+  Check(sounds, DB, "sounds", "Sound alerts", true, "All DMGAssist sounds on or off.")
   for _, event in ipairs(ns.Sounds.EVENTS) do
-    Choice(sounds, DB, "sound_" .. event, SOUND_LABELS[event], ns.Sounds.DEFAULTS[event], ns.Sounds.CHOICES)
+    Choice(sounds, DB, "sound_" .. event, SOUND_LABELS[event], ns.Sounds.DEFAULTS[event], ns.Sounds.CHOICES,
+      "The sound played for this alert.")
   end
   Button(sounds, "Test", "Play the interrupt sound", function()
     ns.Sounds.Play("interrupt")
@@ -439,13 +519,15 @@ function O.Register()
 
   ---------------------------------------------------------------- integrations: Blizzard and other addons
   local integrations = Category("Integrations", main)
-  Header(integrations, "Blizzard")
+  Header(integrations, "Blizzard's Assisted Combat", "The game's own rotation helper. DMGAssist asks it about "
+    .. "things the game hides from addons.")
   Check(integrations, DB, "useAssisted", "Assisted Combat", true,
     "Midnight only: it sees hidden procs and resources, so it confirms uncertain SimC lines. Forever has none.")
   Button(integrations, "Test", "Test Assisted Combat", function()
     SlashCmdList.DMGASSIST("test assisted")
   end, "Shows the spell Blizzard's Assisted Combat suggests right now. Target an enemy first.")
-  Header(integrations, "Boss mods")
+  Header(integrations, "Boss mods", "DBM, BigWigs and LittleWigs warn about upcoming hits, adds and casts, so "
+    .. "defensives and interrupts come on time.")
   Check(integrations, DB, "bossMods", "Boss mod timers", true,
     "Upcoming adds, AoE, tank hits and interrupts: used for defensives, interrupts and SimC's add timing.")
   Button(integrations, "Test", "Detect boss mods", function()
@@ -453,11 +535,12 @@ function O.Register()
   end, "Lists the boss mods DMGAssist detected: DBM, BigWigs or LittleWigs.")
   Button(integrations, "Test", "Test defensive alert", function()
     SlashCmdList.DMGASSIST("test")
-  end, "Shows in slot 1, for 8 seconds, the defensive DMGAssist would suggest before a big hit.")
+  end, "Shows, for 8 seconds, the defensive DMGAssist would suggest before a big hit, in the defensive icon.")
   Button(integrations, "Test", "Test interrupt alert", function()
     SlashCmdList.DMGASSIST("test interrupt")
   end, "Shows your interrupt in slot 1 for 8 seconds, as when an enemy casts something important.")
-  Header(integrations, "Action bars")
+  Header(integrations, "Action bars and keybinds", "Where DMGAssist finds the key for each spell: Blizzard's bars, "
+    .. "Bartender, ElvUI, Dominos.")
   Button(integrations, "Keybinds", "Refresh keybinds", function()
     if SlashCmdList.DMGASSIST then
       SlashCmdList.DMGASSIST("keys")
@@ -468,10 +551,12 @@ function O.Register()
 
   ---------------------------------------------------------------- advanced
   local advanced = Category("Advanced", main)
-  Header(advanced, "Hidden game values")
+  Header(advanced, "Hidden game values", "In combat the game hides some values from addons (combo points, for "
+    .. "example). How to handle them.")
   Check(advanced, HUD, "secretBranches", "Show both options when unsure", H.secretBranches,
     "When a hidden resource decides (e.g. 4 or 5 combo points), show both spells; the game makes the right one visible.")
-  Header(advanced, "Troubleshooting")
+  Header(advanced, "Troubleshooting", "Tools for finding out why DMGAssist picked something, and for reporting a "
+    .. "problem.")
   Check(advanced, HUD, "debugText", "Decision details", H.debugText,
     "Shows where each pick came from: SimC, Assisted Combat, Blizzard rules, or a guess.")
   Button(advanced, "Snapshot", "Save a decision snapshot", function()
@@ -609,9 +694,54 @@ function O.RegisterSpellChoices(parent)
   intro:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -10)
   intro:SetWidth(560)
   intro:SetJustifyH("LEFT")
+  -- Potion for this spec: drag one from your bags onto the box (right-click clears it).
+  local potion = CreateFrame("Button", nil, frame)
+  potion:SetSize(32, 32)
+  potion:SetPoint("TOPLEFT", intro, "BOTTOMLEFT", 0, -10)
+  potion.bg = potion:CreateTexture(nil, "BACKGROUND")
+  potion.bg:SetAllPoints()
+  potion.bg:SetColorTexture(1, 0.78, 0.2, 0.35)
+  potion.icon = potion:CreateTexture(nil, "ARTWORK")
+  potion.icon:SetPoint("TOPLEFT", 2, -2)
+  potion.icon:SetPoint("BOTTOMRIGHT", -2, 2)
+  potion.label = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+  potion.label:SetPoint("LEFT", potion, "RIGHT", 10, 0)
+  potion.label:SetWidth(500)
+  potion.label:SetJustifyH("LEFT")
+  potion:RegisterForClicks("LeftButtonUp", "RightButtonUp")
+  local function ShowPotion()
+    local item = ns.Trinkets.ChosenPotion()
+    if item then
+      local name = (C_Item and C_Item.GetItemNameByID and U.Get(C_Item.GetItemNameByID, item)) or ("item " .. item)
+      potion.icon:SetTexture((C_Item and C_Item.GetItemIconByID and U.Get(C_Item.GetItemIconByID, item)) or 134400)
+      potion.label:SetText(string.format(L["Potion: %s. Shown in the items icon when SimC uses a potion "
+        .. "(with your big cooldowns). Right-click the box to remove it."], tostring(name)))
+    else
+      potion.icon:SetTexture(nil)
+      potion.label:SetText(L["Potion: drag a potion from your bags onto this box to add it to your rotation "
+        .. "(this spec only). It shows in the items icon when SimC uses a potion."])
+    end
+  end
+  local function TakePotion()
+    local kind, item = GetCursorInfo()
+    if kind == "item" and type(item) == "number" then
+      ns.Trinkets.SetPotion(item)
+      ClearCursor()
+      ShowPotion()
+    end
+  end
+  potion:SetScript("OnReceiveDrag", TakePotion)
+  potion:SetScript("OnClick", function(_, button)
+    if button == "RightButton" then
+      ns.Trinkets.SetPotion(nil)
+      ShowPotion()
+    else
+      TakePotion()
+    end
+  end)
   local scroll = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
-  scroll:SetPoint("TOPLEFT", intro, "BOTTOMLEFT", 0, -10)
-  scroll:SetSize(540, 440)
+  scroll:SetPoint("TOPLEFT", potion, "BOTTOMLEFT", 0, -10)
+  scroll:SetSize(540, 400)
   local content = CreateFrame("Frame", nil, scroll)
   content:SetSize(520, 10)
   scroll:SetScrollChild(content)
@@ -665,6 +795,7 @@ function O.RegisterSpellChoices(parent)
   local function Refresh()
     local state = ns.Specs.current
     specOn:SetChecked(not ns.Choices.SpecOff())
+    ShowPotion()
     local entries = {}
     for _, info in ipairs(ns.Trinkets.List()) do
       entries[#entries + 1] = { item = info.item, name = tostring(info.name), texture = info.texture,
@@ -898,15 +1029,31 @@ end
 O.openAfterCombat = false
 
 -- In combat, or just entering it (the lockdown flag can trail the combat flag by a moment).
+-- The game won't let addons open its settings panel (C_SettingsUtil.OpenSettingsPanel, HasRestrictions) while
+-- any addon restriction is active: combat, a boss encounter, Mythic+, a PvP match, a restricted map. It stays
+-- active a moment after combat ends, which is how a minimap click right after a fight was blocked (2026-11-09).
+local RESTRICTIONS = { 0, 1, 2, 3, 4 } -- Combat, Encounter, ChallengeMode, PvPMatch, Map
 local function Busy()
-  return InCombatLockdown() or U.Get(UnitAffectingCombat, "player") == true or ns.State.combatStart ~= nil
+  if InCombatLockdown() or U.Get(UnitAffectingCombat, "player") == true or ns.State.combatStart ~= nil then
+    return true
+  end
+  local active = C_RestrictedActions and C_RestrictedActions.IsAddOnRestrictionActive
+  if active then
+    for _, kind in ipairs(RESTRICTIONS) do
+      if U.Get(active, kind) == true then
+        return true
+      end
+    end
+  end
+  return false
 end
+O.Busy = Busy
 
 function O.Open()
   if Busy() then
     if not O.openAfterCombat then
       O.openAfterCombat = true
-      U.Print("%s", L["Settings open when combat ends."])
+      U.Print("%s", L["Settings open as soon as the game allows it (after combat)."])
     end
     return false
   end
@@ -933,8 +1080,22 @@ function O.OpenKeybindings()
   return false
 end
 
+-- After combat, and whenever a restriction lifts: open the settings if they were asked for meanwhile.
 function O.OnCombatEnded()
-  if O.openAfterCombat then
+  if O.openAfterCombat and C_Timer and C_Timer.After then
+    C_Timer.After(0.5, function()
+      if O.openAfterCombat and not Busy() then
+        O.Open()
+      end
+    end)
+  elseif O.openAfterCombat then
     O.Open()
   end
+end
+do
+  local watch = CreateFrame("Frame")
+  pcall(watch.RegisterEvent, watch, "ADDON_RESTRICTION_STATE_CHANGED")
+  watch:SetScript("OnEvent", function()
+    O.OnCombatEnded()
+  end)
 end

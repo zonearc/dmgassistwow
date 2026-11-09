@@ -388,7 +388,7 @@ function ns.Update()
   local cd = main and main.major and main or nil
   local q2, q3 = result.queue and result.queue[2], result.queue and result.queue[3]
   local sig = (main and (main.token or main.id) or "-") .. "/" .. (cd and cd.token or "-") .. "/" ..
-    tostring(result.modeLabel) .. "/" .. tostring(result.weave and result.weave.token)
+    tostring(result.modeLabel) .. "/" .. tostring(result.trinket and result.trinket.token)
   if sig ~= lastLogged then
     lastLogged = sig
     if inCombat then
@@ -401,7 +401,7 @@ function ns.Update()
     U.Log("pick", {
       main = main and main.token, source = main and main.source, cd = cd and cd.token, ac = result.acSpell,
       next = q2 and q2.token, after = q3 and q3.token, mode = result.modeLabel, held = result.steadied,
-      trinket = result.weave and result.weave.source == "trinket" and result.weave.token or nil,
+      trinket = result.trinket and result.trinket.token or nil, weave = result.weave and result.weave.token or nil,
     })
   end
   return result

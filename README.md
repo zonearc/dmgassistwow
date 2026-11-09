@@ -16,19 +16,24 @@ nothing automated. You press every button.
   next. Nothing else to watch: Blizzard's Cooldown Manager already covers readiness.
 - **Real priority lists.** Midnight uses [SimulationCraft](https://github.com/simulationcraft/simc)'s priority
   lists for every spec; WoW Forever uses [WoWSims](https://wowsims.com/forever). Both refresh weekly.
-- **What matters most comes first:** interrupts, then defensives, then the rotation. Major cooldowns are ordinary
-  lines in the rotation, or switched off entirely.
-- **Timed to your GCD and casts.** A flash 50 ms before you can press (adjustable). Slot 1 is held steady in the
-  last half second, so it doesn't flicker as the decision settles.
+- **Every place has one purpose.** Slots 1-3 are your damage rotation (an interrupt takes slot 1 when an enemy
+  casts something worth stopping). A small red-edged icon on slot 1 is for staying alive, for every class:
+  defensive cooldowns, self-heals, tank mitigation like Ironfur; it pulses while you need it now. A small
+  gold-edged icon is for items: on-use trinkets and the potion you choose. Only slot 1 has a moving glow, so your
+  eye goes there first. Both small icons can be moved, resized and nudged so they don't cover slot 1.
+- **Major cooldowns** are ordinary lines in the rotation, or switched off entirely.
+- **Timed to your GCD and casts.** A flash 50 ms before you can press (adjustable). Slot 1 stays put while you're
+  about to press (Steady), or follows changes sooner (Fast): your choice.
 - **Single target / AoE, automatically.** Enemies in combat are counted from nameplates (range-aware;
   training dummies are recognised). A colour-coded title row shows `ST` / `AOE` and the count in combat.
 - **It learns your play.** Skip the slot-1 spell three times and it is held until combat ends; cast it yourself and it
   comes back. Optionally, keep major cooldowns for bosses and big pulls.
 - **Tank and melee essentials.** Guardian keeps Ironfur stacks (default 3) and Moonfire up. Melee specs out of
   range get their charge or leap first (Wild Charge, Charge, Shadowstep, Harpoon, Feral Lunge, Death Grip).
-- **On-use trinkets.** Every equipped on-use trinket is shown when it is ready, alongside your cooldowns (and
-  when SimC's list says to use it). Switch off any trinket you'd rather press yourself; the choice follows the
-  trinket through gear and spec swaps.
+- **On-use trinkets and potions.** Every equipped on-use trinket is shown when it is ready and SimC's list says
+  to use it (what each trinket does is read from its own description). Drag a potion onto the Spells & trinkets
+  page and it's shown when SimC uses one, once per fight. Switch off any trinket you'd rather press yourself; the
+  choice follows the trinket through gear and spec swaps.
 - **Healers too.** SimC publishes no rotation for most healing specs, so DMGAssist ships its own damage lists
   for Discipline, Holy Priest, Holy Paladin, Mistweaver, Restoration Shaman and Preservation (learned from the
   current class guides) for your damage between heals (SimC's own list takes over if it ever publishes one). Restoration
@@ -120,7 +125,7 @@ and where to report problems.
 ```lua
 local rec = DMGAssistAPI.GetRecommendation()
 -- nil, or { spells = { { spellID, texture, key, source, item }, ... up to 3 },
---          interrupt = {...} or nil, defensive = {...} or nil, offGCD = {...} or nil, mode = "AUTO" | "ST" | "AOE" }
+--          interrupt = {...} or nil, defensive = {...} or nil, offGCD = {...} or nil, trinket = {...} or nil, mode = "AUTO" | "ST" | "AOE" }
 local handle = DMGAssistAPI.RegisterCallback(function(rec) ... end) -- runs when the pick changes
 DMGAssistAPI.UnregisterCallback(handle)
 DMGAssistAPI.SetHUDHidden(true)   -- keep deciding, hide DMGAssist's own icons (draw them yourself); not saved
