@@ -501,6 +501,39 @@ test("tank damage reduction only when something is hurting you (Purifying Brew o
   UnitStagger, UnitHealth, UnitHealthMax = old[1], old[2], old[3]
 end)
 
+test("SimC's moving=1 lines only while moving; a proc glow confirms an uncertain line", function()
+  Reset()
+  local ns = Boot()
+  local rec = Record()
+  rec.blizzard = nil
+  rec.simc = { default = { { a = "rake", k = "R", p = { moving = "1" } }, { a = "shred", k = "R" } } }
+  local r = ns.Engine.Recommend(rec, {})
+  eq(r.main.token, "shred", "standing still: the moving-only line is skipped")
+  ns.State.moving = true
+  r = ns.Engine.Recommend(rec, {})
+  eq(r.main.token, "rake", "moving: it applies")
+  ns.State.moving = false
+  -- uncertain line (combo points hidden in restricted combat), confirmed by the button glow
+  Restrict()
+  rec.simc = { default = { { a = "rip", k = "T", c = "combo_points>=5" }, { a = "shred", k = "R" } } }
+  r = ns.Engine.Recommend(rec, {})
+  eq(r.main.token ~= "rip" or r.main.source ~= "simc+glow", true)
+  ns.State.glow[1079] = true
+  r = ns.Engine.Recommend(rec, {})
+  eq(r.main.token, "rip", "glowing: shown")
+  eq(r.main.source, "simc+glow")
+  ns.State.glow[1079] = nil
+end)
+
+test("cooldown length from the game's base cooldown when our data has none (racials)", function()
+  Reset()
+  local ns = Boot()
+  local old = GetSpellBaseCooldown
+  GetSpellBaseCooldown = function(id) return id == 274738 and 120000 or 0 end
+  eq(ns.State.CooldownLength(274738), 120)
+  GetSpellBaseCooldown = old
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()

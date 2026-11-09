@@ -469,8 +469,21 @@ local function DataCooldown(id)
   return cd
 end
 
+-- The game's own base cooldown (static spell data, readable even in combat): racials and other spells our data
+-- doesn't carry (Ancestral Call: 120 s). Milliseconds; GCD-only spells report 0.
+local baseCd = {}
+local function BaseCooldown(id)
+  local v = baseCd[id]
+  if v == nil then
+    local ms = U.Get(GetSpellBaseCooldown, id)
+    v = (type(ms) == "number" and ms > 1500) and ms / 1000 or false
+    baseCd[id] = v
+  end
+  return v or nil
+end
+
 local function CooldownLength(id)
-  return S.learned.cd[id] or DataCooldown(id)
+  return S.learned.cd[id] or DataCooldown(id) or BaseCooldown(id)
 end
 S.CooldownLength = CooldownLength
 

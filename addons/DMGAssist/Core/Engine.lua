@@ -371,6 +371,11 @@ end
 G.Waited = Waited
 
 local function Corroborated(id, token, run, castable)
+  -- The game's own button highlight (a proc glow: Earthquake / Earth Shock with enough Maelstrom, a free
+  -- spender) says "press this" about exactly the hidden state that made the line uncertain.
+  if castable == true and (S.glow[id] or (run.override[id] and S.glow[run.override[id]])) then
+    return "glow"
+  end
   if run.acSpell then
     -- Blizzard's live assistant sees the hidden state (procs, resources); our evaluation of its rules does
     -- not. When it is there, only it can confirm an uncertain line: otherwise a rule that happens to hold
@@ -501,6 +506,11 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         -- SimC only summons when there is no pet: with one out, the line does nothing.
         if run.trace then
           run.trace[#run.trace + 1] = string.format("%s:%s pet already out", name, a)
+        end
+      elseif id and e.p and tostring(e.p.moving) == "1" and not S.moving then
+        -- SimC's "moving=1": only while moving (Spiritwalker's Grace, instant shocks on the run).
+        if run.trace then
+          run.trace[#run.trace + 1] = string.format("%s:%s only while moving", name, a)
         end
       elseif id and NotHurtSkip(a) then
         if run.trace then
