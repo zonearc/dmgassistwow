@@ -62,7 +62,7 @@ function F.Spell()
   for _, token in ipairs(F.TOKENS) do
     local id = M.SpellID(token)
     M.unresolved[token] = nil
-    if id and ns.State.CooldownReady(id) ~= false then
+    if id and ns.State.CooldownReady(id) ~= false and not ns.Choices.IsHidden(id) then
       return id, token
     end
   end

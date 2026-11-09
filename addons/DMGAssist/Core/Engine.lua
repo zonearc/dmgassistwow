@@ -532,6 +532,10 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         if run.trace then
           run.trace[#run.trace + 1] = string.format("%s:%s pet already out", name, a)
         end
+      elseif id and ns.Choices.IsHidden(id) then
+        if run.trace then
+          run.trace[#run.trace + 1] = string.format("%s:%s hidden by you", name, a)
+        end
       elseif id and e.p and tostring(e.p.moving) == "1" and not S.moving then
         -- SimC's "moving=1": only while moving (Spiritwalker's Grace, instant shocks on the run).
         if run.trace then
@@ -716,7 +720,7 @@ local function Decide(record, opts, targets, first)
   end
   -- Blizzard's assistant as the fallback: still subject to our target rules (it suggests Touch of Death on a
   -- full-health dummy) and to spells the player is holding.
-  if not pick and run.acSpell and not G.held[run.acSpell] then
+  if not pick and run.acSpell and not G.held[run.acSpell] and not ns.Choices.IsHidden(run.acSpell) then
     local castable, why = Castable(run.acSpell)
     if not (castable == false and why == "target") then
       pick = { id = run.acSpell, token = M.TokenForID(run.acSpell), source = "assisted" }

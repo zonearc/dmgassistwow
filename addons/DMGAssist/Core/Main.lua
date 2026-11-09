@@ -340,6 +340,7 @@ function ns.Update()
   ns.Trinkets.Apply(result)
   ns.Interrupts.Apply(result)
   ns.Defensives.Apply(result)
+  ns.Choices.Filter(result)
   ns.Alerts(result)
   ns.Diagnostics.OnPick(result)
   ns.last = result

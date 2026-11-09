@@ -24,6 +24,7 @@ Core\Interrupts.lua
 Core\Defensives.lua
 Core\Essentials.lua
 Core\Trinkets.lua
+Core\Choices.lua
 Core\Bindcheck.lua
 Core\Sounds.lua
 Core\Diagnostics.lua

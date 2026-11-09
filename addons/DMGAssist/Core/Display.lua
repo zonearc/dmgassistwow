@@ -787,11 +787,11 @@ local INTERRUPT_TOKENS = { "kick", "counterspell", "pummel", "wind_shear", "mind
   "spear_hand_strike", "disrupt", "counter_shot", "muzzle", "silence", "quell", "solar_beam", "spell_lock",
   "axe_toss" }
 
-function D.InterruptSpell()
+function D.InterruptSpell(includeHidden)
   local M = ns.SpellMap
   for _, token in ipairs(INTERRUPT_TOKENS) do
     local id = M.SpellID(token)
-    if id then
+    if id and (includeHidden or not ns.Choices.IsHidden(id)) then
       M.unresolved[token] = nil
       return id
     end

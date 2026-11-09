@@ -253,11 +253,11 @@ function O.Register()
   Header(combat, "Trinkets")
   Check(combat, DB, "trinkets", "On-use trinkets", true,
     "Show your on-use trinkets (off-GCD badge on slot 1) when they are ready, with your cooldowns, in combat.")
-  Button(combat, "Each trinket", "Choose trinkets", function()
+  Button(combat, "Each trinket", "Spells & trinkets", function()
     if O.trinketCategory and Settings.OpenToCategory then
       Settings.OpenToCategory(O.trinketCategory:GetID())
     end
-  end, "Every equipped on-use trinket is used; switch off the ones you want to press yourself.")
+  end, "Every equipped on-use trinket and every spell can be switched off on the Spells & trinkets page.")
   Header(combat, "Targets")
   Check(combat, DB, "autoDetect", "Auto-detect targets", true,
     "Counts enemies in combat with you, within range of your spells, from their nameplates (enemy nameplates "
@@ -393,7 +393,7 @@ function O.Register()
     end
   end, "Saves every line the engine checked into the Watchdog log (same as /dmga snapshot).")
 
-  O.RegisterTrinkets(main)
+  O.RegisterSpellChoices(main)
   O.RegisterBindcheck(main)
 
   Settings.RegisterAddOnCategory(main)
@@ -487,70 +487,108 @@ function O.RegisterStatus(parent)
 end
 
 ---------------------------------------------------------------------------
--- Trinkets page: the on-use trinkets equipped right now (read again whenever the page is shown or gear changes,
--- so a spec swap that changes trinkets is reflected), each with a checkbox. Unchecked = DMGAssist never shows
--- it (you press it yourself). The choice is kept per trinket, so it holds in every gear set.
+-- Spells & trinkets page: for the spec you are in, every spell DMGAssist can show (from its priority lists, plus
+-- the interrupt, defensives, gap closer and keep-ups) and every equipped on-use trinket, each with a checkbox.
+-- Unchecked = never shown (the next spell takes its place; no other priority changes). Spells are remembered per
+-- spec, trinkets per item, in the profile: list updates and gear swaps keep the choices. Rebuilt whenever the page
+-- is shown, the spec or talents change, or gear changes.
 ---------------------------------------------------------------------------
-function O.RegisterTrinkets(parent)
+function O.RegisterSpellChoices(parent)
   local frame = CreateFrame("Frame")
-  frame:SetSize(600, 400)
+  frame:SetSize(600, 560)
   local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
   title:SetPoint("TOPLEFT", 16, -16)
-  title:SetText(L["Trinkets"])
+  title:SetText(L["Spells & trinkets"])
   local intro = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
   intro:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -10)
   intro:SetWidth(560)
   intro:SetJustifyH("LEFT")
+  local scroll = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
+  scroll:SetPoint("TOPLEFT", intro, "BOTTOMLEFT", 0, -10)
+  scroll:SetSize(540, 440)
+  local content = CreateFrame("Frame", nil, scroll)
+  content:SetSize(520, 10)
+  scroll:SetScrollChild(content)
   local rows = {}
   local function Row(i)
     local row = rows[i]
     if not row then
-      row = CreateFrame("CheckButton", nil, frame, "UICheckButtonTemplate")
-      row:SetPoint("TOPLEFT", intro, "BOTTOMLEFT", 0, -12 - (i - 1) * 34)
+      row = CreateFrame("CheckButton", nil, content, "UICheckButtonTemplate")
+      row:SetSize(24, 24)
       row.icon = row:CreateTexture(nil, "ARTWORK")
-      row.icon:SetSize(28, 28)
+      row.icon:SetSize(24, 24)
       row.icon:SetPoint("LEFT", row, "RIGHT", 4, 0)
       row.label = row:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
       row.label:SetPoint("LEFT", row.icon, "RIGHT", 8, 0)
+      row.label:SetWidth(440)
+      row.label:SetJustifyH("LEFT")
       row:SetScript("OnClick", function(self)
-        ns.Trinkets.SetOff(self.item, not self:GetChecked())
+        local on = self:GetChecked() and true or false
+        if self.item then
+          ns.Trinkets.SetOff(self.item, not on)
+        else
+          ns.Choices.SetHidden(self.spell, not on)
+        end
       end)
       rows[i] = row
     end
+    row:ClearAllPoints()
+    row:SetPoint("TOPLEFT", 0, -(i - 1) * 28)
     return row
   end
   local function Refresh()
-    local list = ns.Trinkets.List()
-    if ns.db and ns.db.trinkets == false then
-      intro:SetText(L["On-use trinkets are switched off (Combat > Trinkets)."])
-    elseif #list == 0 then
-      intro:SetText(L["No on-use trinket equipped. Passive trinkets need nothing from you."])
-    else
-      intro:SetText(L["Equipped on-use trinkets. Checked: shown when ready, with your cooldowns. Unchecked: you "
-        .. "press it yourself. Remembered per trinket, so it holds when you swap gear or spec."])
+    local state = ns.Specs.current
+    local entries = {}
+    for _, info in ipairs(ns.Trinkets.List()) do
+      entries[#entries + 1] = { item = info.item, name = tostring(info.name), texture = info.texture,
+        on = not ns.Trinkets.IsOff(info.item),
+        note = info.slot == 13 and L["trinket, top slot"] or L["trinket, bottom slot"] }
     end
-    for i, info in ipairs(list) do
+    local spells = {}
+    for _, id in ipairs(ns.Choices.Spells()) do
+      spells[#spells + 1] = { spell = id, name = ns.Choices.Name(id),
+        texture = U.Get(C_Spell and C_Spell.GetSpellTexture, id), on = not ns.Choices.IsHidden(id) }
+    end
+    table.sort(spells, function(a, b)
+      return a.name < b.name
+    end)
+    for _, e in ipairs(spells) do
+      entries[#entries + 1] = e
+    end
+    local specName = state and state.key and state.key:gsub("_", " ") or "?"
+    intro:SetText(string.format(L["For %s. Unchecked: never shown (the next spell takes its place). Spells are "
+      .. "remembered per spec and trinkets per item, so updates and gear swaps keep your choices."], specName)
+      .. (ns.db and ns.db.trinkets == false and ("\n" .. L["On-use trinkets are switched off (Combat > Trinkets)."])
+        or ""))
+    for i, e in ipairs(entries) do
       local row = Row(i)
-      row.item = info.item
-      row:SetChecked(not ns.Trinkets.IsOff(info.item))
-      row.icon:SetTexture(info.texture or 134400)
-      row.label:SetText(string.format("%s |cff999999(%s)|r", tostring(info.name),
-        info.slot == 13 and L["top slot"] or L["bottom slot"]))
+      row.item, row.spell = e.item, e.spell
+      row:SetChecked(e.on)
+      row.icon:SetTexture(e.texture or 134400)
+      row.label:SetText(e.note and string.format("%s |cff999999(%s)|r", e.name, e.note) or e.name)
       row:Show()
     end
-    for i = #list + 1, #rows do
+    for i = #entries + 1, #rows do
       rows[i]:Hide()
     end
+    content:SetHeight(math.max(10, #entries * 28))
   end
   frame:SetScript("OnShow", Refresh)
-  frame:RegisterEvent("PLAYER_EQUIPMENT_CHANGED")
+  for _, event in ipairs({ "PLAYER_EQUIPMENT_CHANGED", "PLAYER_SPECIALIZATION_CHANGED", "TRAIT_CONFIG_UPDATED",
+    "SPELLS_CHANGED" }) do
+    pcall(frame.RegisterEvent, frame, event)
+  end
   frame:SetScript("OnEvent", function(self)
     if self:IsShown() then
-      Refresh()
+      C_Timer.After(0.5, function()
+        if self:IsShown() then
+          Refresh()
+        end
+      end)
     end
   end)
-  local category = Settings.RegisterCanvasLayoutSubcategory(parent, frame, L["Trinkets"])
-  O.trinketCategory, O.trinketFrame = category, frame
+  local category = Settings.RegisterCanvasLayoutSubcategory(parent, frame, L["Spells & trinkets"])
+  O.trinketCategory, O.choicesFrame = category, frame
   return category
 end
 

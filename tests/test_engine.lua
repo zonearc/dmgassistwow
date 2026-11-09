@@ -555,6 +555,37 @@ test("the assistant spending a resource confirms SimC's uncertain spender of the
   eq(G.SameSpender(5221, 1822), false, "Shred and Rake only share energy: no evidence")
 end)
 
+test("spells you switch off are never shown; the next one takes their place; kept per spec", function()
+  Reset()
+  local ns = Boot()
+  local C = ns.Choices
+  local rec = Record()
+  rec.blizzard = nil
+  rec.simc = { default = { { a = "rake", k = "R" }, { a = "shred", k = "R" } } }
+  local r = ns.Engine.Recommend(rec, {})
+  eq(r.main.token, "rake")
+  C.SetHidden(1822, true)
+  eq(C.IsHidden(1822), true)
+  r = ns.Engine.Recommend(rec, {})
+  eq(r.main.token, "shred", "Rake hidden: Shred is next")
+  for _, p in ipairs(r.queue) do
+    eq(p.id ~= 1822, true, "hidden spell nowhere in the queue")
+  end
+  -- the final filter catches anything another module adds
+  r = C.Filter({ main = { id = 1822 }, queue = { { id = 1822 }, { id = 5221 } } })
+  eq(r.main.id, 5221)
+  -- the page lists the rotation's spells
+  local listed = {}
+  for _, id in ipairs(C.Spells()) do
+    listed[id] = true
+  end
+  eq(listed[1822] and listed[5221], true, "Rake and Shred listed")
+  -- per spec: another spec has its own choices
+  eq(type(ns.db.hidden[ns.Specs.current.key]), "table")
+  C.SetHidden(1822, false)
+  eq(C.IsHidden(1822), false)
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()
@@ -1921,7 +1952,7 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   for i, c in ipairs(mine) do
     names[i] = c.name
   end
-  eq(table.concat(names, ","), "DMGAssist,Status,Combat,Display,Sounds,Integrations,Advanced,Trinkets,Missing keybinds")
+  eq(table.concat(names, ","), "DMGAssist,Status,Combat,Display,Sounds,Integrations,Advanced,Spells & trinkets,Missing keybinds")
   eq(mine[7].parent, mine[1], "every page under DMGAssist")
   local fonts = mock.settings.DMGASSIST_FONT.options()
   eq(fonts[1].value, "default")

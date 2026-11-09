@@ -53,7 +53,7 @@ function B.Missing()
       return
     end
     seen[id] = true
-    if D.Keybind(id) then
+    if D.Keybind(id) or ns.Choices.IsHidden(id) then
       return
     end
     out[#out + 1] = { id = id, name = Name(id), texture = U.Get(C_Spell and C_Spell.GetSpellTexture, id),
