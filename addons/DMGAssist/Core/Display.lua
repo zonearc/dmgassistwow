@@ -706,15 +706,6 @@ function D.ModeText()
   if state and state.assistedOnly then
     return string.format(D.HEALER_TEXT, L["Healer mode"], L["Limited"]) .. D.HeldText()
   end
-  if state and state.data and state.data.community then
-    -- A healer spec on DMGAssist's own list (no SimC list exists): say so, with the target mode in a fight.
-    local prefix = string.format(D.HEALER_TEXT, L["Healer mode"], L["DMGAssist list"])
-    if not S.combatStart then
-      return prefix .. D.HeldText()
-    end
-    local n = S.Targets()
-    return prefix .. string.format(" |cff999999· %d %s|r", n, n == 1 and L["target"] or L["targets"]) .. D.HeldText()
-  end
   if not S.combatStart then
     return "" -- the mode only matters in a fight: nothing until combat starts
   end

@@ -650,10 +650,10 @@ O.HELP = {
     "Each spec follows SimulationCraft's priority list, the same lists theorycrafters use. The game hides a lot "
       .. "in combat (procs, exact resources); Blizzard's Assisted Combat and the glow on your buttons fill those "
       .. "gaps." },
-  { "Healers: Healer mode",
+  { "Healers",
     "SimulationCraft publishes no rotation for most healing specs (Discipline, Holy Priest, Holy Paladin, "
       .. "Mistweaver, Restoration Shaman, Preservation). For those DMGAssist has its own damage lists, learned from "
-      .. "the current class guides, for your damage between heals; the HUD says \"Healer mode · DMGAssist list\". "
+      .. "the current class guides, for your damage between heals (SimC's list replaces ours as soon as it publishes one). "
       .. "Healing stays your call. Interrupts, defensives with your boss mod, on-use trinkets, keybinds and your "
       .. "spell choices all work. Restoration Druid has a full SimC list, including cat weaving. A spec with no "
       .. "list at all follows Blizzard's Assisted Combat (\"Healer mode · Limited\")." },

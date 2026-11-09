@@ -112,12 +112,6 @@ Specs.OnChange(function(state, previous)
   if previous then
     U.Print(L["Spec changed: %s"], Describe(state))
   end
-  if state.data and state.data.community and not ns.healerListExplained then
-    ns.healerListExplained = true
-    U.Print("%s", L["Healer mode: SimC publishes no rotation for healing specs, so DMGAssist uses its own damage "
-      .. "list for this spec (learned from the class guides) for your damage between heals. Healing itself stays "
-      .. "your call. Interrupts, boss-mod defensives, trinkets, keybinds and your spell choices all work."])
-  end
   if state.assistedOnly and not ns.healerExplained then
     ns.healerExplained = true
     U.Print("%s", L["Healer mode: SimC publishes no rotation for healing specs, so slot 1 follows Blizzard's "

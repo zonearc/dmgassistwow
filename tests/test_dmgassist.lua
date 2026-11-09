@@ -119,7 +119,7 @@ test("healer spec without a SimC list runs DMGAssist's own list and says so", fu
   eq(ns.Specs.current.status, "ready", "the HUD works")
   eq(ns.Specs.current.data.community, true, "DMGAssist's own list")
   eq(ns.Describe(ns.Specs.current):find("own list", 1, true) ~= nil, true)
-  eq(ns.Display.ModeText():find("DMGAssist list", 1, true) ~= nil, true, "the HUD says so")
+  eq(ns.Display.ModeText():find("Healer", 1, true), nil, "no special title: the Help page explains it")
 end)
 
 test("low-level character with no spec is handled", function()

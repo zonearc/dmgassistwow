@@ -36,7 +36,7 @@ allows, never presses anything for you, and tells you honestly when it is unsure
   trinket through gear and spec swaps.
 - **Healers too.** SimC publishes no rotation for most healing specs, so DMGAssist ships its own damage lists
   for Discipline, Holy Priest, Holy Paladin, Mistweaver, Restoration Shaman and Preservation (learned from the
-  current class guides) for your damage between heals, labelled "Healer mode · DMGAssist list". Restoration
+  current class guides) for your damage between heals (SimC's own list takes over if it ever publishes one). Restoration
   Druid uses SimC's list, cat weaving included. Healing itself stays your call.
 - **Your choice of spells.** Settings > DMGAssist > Spells & trinkets lists every spell your spec can be shown
   and every equipped on-use trinket. Untick one and it is never shown; the next spell takes its place. Tick
