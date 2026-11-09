@@ -414,6 +414,7 @@ function O.Register()
 
   O.RegisterSpellChoices(main)
   O.RegisterBindcheck(main)
+  O.RegisterHelp(main)
 
   Settings.RegisterAddOnCategory(main)
   O.category = main
@@ -634,6 +635,75 @@ function O.RegisterSpellChoices(parent)
   local category = Settings.RegisterCanvasLayoutSubcategory(parent, frame, L["Spells & trinkets"])
   O.trinketCategory, O.choicesFrame = category, frame
   return category
+end
+
+---------------------------------------------------------------------------
+-- Help page: the few things worth knowing, in plain words.
+---------------------------------------------------------------------------
+O.HELP = {
+  { "The icons",
+    "NOW is the spell to press next; the two NEXT icons follow. A small label on an icon says where a pick came "
+      .. "from: none = SimC's priority list, AC = Blizzard's Assisted Combat, B = Blizzard's written rules, "
+      .. "? = a best guess (dimmed), ... = waiting for a resource. The small badge on slot 1's corner is an off-GCD "
+      .. "spell (Ironfur, trinkets) to press alongside." },
+  { "Where the rotation comes from",
+    "Each spec follows SimulationCraft's priority list, the same lists theorycrafters use. The game hides a lot "
+      .. "in combat (procs, exact resources); Blizzard's Assisted Combat and the glow on your buttons fill those "
+      .. "gaps." },
+  { "Healers: Healer mode · Limited",
+    "SimulationCraft publishes no rotation for healing specs (Discipline, Holy Priest, Holy Paladin, "
+      .. "Mistweaver, Restoration Shaman, Preservation). For them slot 1 follows Blizzard's Assisted Combat - your "
+      .. "damage spells between heals - and the HUD says \"Healer mode · Limited\". Interrupts, defensives with "
+      .. "your boss mod, on-use trinkets, keybinds and your spell choices still work. Healing stays your call. "
+      .. "Restoration Druid is the exception: it has a full list, including cat weaving." },
+  { "Skipping a spell",
+    "Skip the spell in slot 1 three times and it is held for the rest of the fight (\"saving it\"). Cast it "
+      .. "yourself and it comes back. Only spells with a real cooldown are held." },
+  { "Your choices",
+    "Spells & trinkets: untick a spell or trinket to never see it, or tick First when ready to put a spell in "
+      .. "slot 1 whenever it can be cast. Kept per spec, through updates." },
+  { "Defensives, interrupts and boss mods",
+    "With DBM, BigWigs or LittleWigs, a defensive is shown a few seconds before a big hit they warn about (lighter "
+      .. "ones first; on cooldown, the next). Also when you are low. Integrations has buttons to test both." },
+  { "Targets",
+    "AUTO counts enemies in combat with you within your spells' range (training dummies count while you fight). "
+      .. "ST or AOE in the title is what the rotation plays. A key binding switches it by hand." },
+  { "Keybinds",
+    "Keys are read from Blizzard's bars, Bartender, ElvUI, Dominos and macros. Missing keybinds lists what the "
+      .. "rotation can ask for that has no key." },
+  { "Reporting a problem",
+    "Type /dmgw after a fight, press Ctrl+C, and paste it with a line about what happened (see Status for the "
+      .. "link). /dmga help lists every command." },
+}
+
+function O.RegisterHelp(parent)
+  local frame = CreateFrame("Frame")
+  frame:SetSize(600, 560)
+  local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+  title:SetPoint("TOPLEFT", 16, -16)
+  title:SetText(L["Help"])
+  local scroll = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
+  scroll:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -10)
+  scroll:SetSize(560, 480)
+  local content = CreateFrame("Frame", nil, scroll)
+  content:SetSize(540, 10)
+  scroll:SetScrollChild(content)
+  local y = 0
+  for _, entry in ipairs(O.HELP) do
+    local head = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+    head:SetPoint("TOPLEFT", 0, -y)
+    head:SetText(L[entry[1]])
+    local body = content:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+    body:SetPoint("TOPLEFT", head, "BOTTOMLEFT", 0, -4)
+    body:SetWidth(530)
+    body:SetJustifyH("LEFT")
+    body:SetSpacing(2)
+    body:SetText(L[entry[2]])
+    local h = (body.GetStringHeight and body:GetStringHeight()) or 60
+    y = y + 18 + (type(h) == "number" and h > 0 and h or 60) + 14
+  end
+  content:SetHeight(y)
+  return Settings.RegisterCanvasLayoutSubcategory(parent, frame, L["Help"])
 end
 
 ---------------------------------------------------------------------------

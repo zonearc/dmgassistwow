@@ -411,7 +411,7 @@ local function Icon(parent, size, cfg)
   f.name:SetWidth(size + 24)
   f.label = f:CreateFontString(nil, "OVERLAY")
   SetFont(f.label, 9)
-  f.label:SetPoint("BOTTOM", f, "TOP", 0, 1)
+  f.label:SetPoint("BOTTOM", f, "TOP", 0, 3)
   f:Hide()
   return f
 end
@@ -458,7 +458,7 @@ local function Layout(f, cfg)
   end
   f.modeText:SetShown(cfg.modeBar ~= false)
   if cfg.header or cfg.modeBar ~= false then
-    top = top + 22 -- the 12 px title plus a clear gap above the icons
+    top = top + 34 -- the 12 px title, a gap, the 9 px NOW / NEXT labels and a gap above the icons
   end
   local depth = (ns.db and tonumber(ns.db.queue)) or 3
   local x = pad
@@ -698,12 +698,13 @@ local MODE_COLOR = { ST = "|cff66ccff", AOE = "|cffff9933" }
 
 -- Healer specs (no SimC list): a clear, always-visible label that this is the limited mode.
 D.HEALER_TEXT = "|cff7fd17f%s|r |cff999999· %s|r"
+D.HEALER_HINT = "Healer mode · Limited"
 
 function D.ModeText()
   local S = ns.State
   local state = ns.Specs and ns.Specs.current
   if state and state.assistedOnly then
-    return string.format(D.HEALER_TEXT, L["Healer mode"], L["Blizzard's picks"]) .. D.HeldText()
+    return string.format(D.HEALER_TEXT, L["Healer mode"], L["Limited"]) .. D.HeldText()
   end
   if not S.combatStart then
     return "" -- the mode only matters in a fight: nothing until combat starts

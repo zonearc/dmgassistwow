@@ -2086,7 +2086,7 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   local headers = 0
   local cats = mock.settingsCategories
   local mine = {}
-  for i = #cats - 8, #cats do
+  for i = #cats - 9, #cats do
     mine[#mine + 1] = cats[i]
   end
   for _, c in ipairs(mine) do
@@ -2102,7 +2102,7 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   for i, c in ipairs(mine) do
     names[i] = c.name
   end
-  eq(table.concat(names, ","), "DMGAssist,Status,Combat,Display,Sounds,Integrations,Advanced,Spells & trinkets,Missing keybinds")
+  eq(table.concat(names, ","), "DMGAssist,Status,Combat,Display,Sounds,Integrations,Advanced,Spells & trinkets,Missing keybinds,Help")
   eq(mine[7].parent, mine[1], "every page under DMGAssist")
   local fonts = mock.settings.DMGASSIST_FONT.options()
   eq(fonts[1].value, "default")
