@@ -566,3 +566,47 @@
 572	vinculado
 573	Mueve el HUD en el modo de edición de Blizzard. Masque da estilo a los iconos. Con un mando, las teclas se muestran como sus botones (Pantalla > Nombres de los botones del mando). Para autores de addons: DMGAssistAPI.
 574	DMGAssist funciona con estos cuando están instalados, sin configurar nada: Masque da estilo a sus iconos, los addons de jefes sincronizan defensivos e interrupciones, WeakAuras puede leer sus recomendaciones.
+575	Precisión
+576	Tras cada combate real, aparece sobre los iconos una nota de S+ a D, con cuatro partes: precisión, lanzar siempre, reacción y reutilizaciones.
+577	Lanzar siempre
+578	Media de los últimos %d
+579	Mejor
+580	Mejor nota, tendencia y dónde mejorar para tu especialización actual: mira Informe de notas bajo Nota de rendimiento.
+581	Borra la mejor nota y el historial de tu especialización actual. Las demás especializaciones conservan los suyos.
+582	Reutilizaciones
+583	Arrastra la nota donde quieras con los iconos desbloqueados o en el modo de edición; mientras tanto se muestra un ejemplo.
+584	Nota al final del combate
+585	Nota del combate
+586	Los combates más cortos no se califican, para que los grupos de bichos y un golpe rápido a una alimaña no cuenten.
+587	Olvidar las notas de todas las especializaciones
+588	Olvidar las notas de esta especialización
+589	Informe de notas
+590	La nota permanece en pantalla
+591	Califica cada combate lo bastante largo: cuántas veces pulsaste lo que mostraba la casilla 1, qué poco tiempo estuvo lista sin pulsar, lo rápido que la pulsaste y lo pronto que usaste las reutilizaciones. Nunca mide el daño. Desactivado: no se registra ni muestra nada.
+592	Notas de esta especialización olvidadas.
+593	Cuánto tiempo permanece la nota antes de desvanecerse. Aparece rápido y se desvanece en menos de un segundo.
+594	Cómo fueron tus combates con tu especialización actual. Solo cuentan los combates lo bastante largos.
+595	Últimos %d combates (el más reciente al final)
+596	Devuelve la nota a su sitio por defecto, justo encima de los tres iconos.
+597	¡Nuevo récord!
+598	Aún no hay combates calificados para esta especialización. Lucha 20 segundos o más.
+599	Nada que mejorar: sigue así.
+600	Nota de rendimiento
+601	Muestra una nota de ejemplo como una real, para comprobar su posición y cuánto dura.
+602	Volver a poner la nota sobre los iconos
+603	Reacción
+604	Restablecer
+605	Combate más corto calificado
+606	Mostrar una nota de ejemplo
+607	Mostrar la nota tras los combates
+608	Consejo: pulsa cuando llegue el destello, o un poco antes: el juego pone en cola una pulsación hecha justo antes de que esté listo.
+609	Consejo: pulsa lo que muestra la casilla 1; las casillas 2 y 3 son lo que viene después.
+610	Consejo: la casilla 1 pidió %s %d veces cuando pulsaste otra cosa.
+611	Consejo: la casilla 1 estuvo lista %.1f s sin pulsarse. Mantén el tiempo de reutilización global en marcha.
+612	Consejo: usa las reutilizaciones importantes, los abalorios y tu poción en cuanto aparezcan.
+613	Tendencia
+614	Dónde mejorar
+615	Tus resultados
+616	mejorando
+617	empeorando
+618	estable

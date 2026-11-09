@@ -510,6 +510,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     ns.Essentials.Reset()
     ns.Engine.OnCombat()
     ns.Diagnostics.OnCombat(true)
+    ns.Grade.OnCombat(true)
     if ns.TESTING then
       -- test builds: one decision snapshot a few seconds into every fight, without chat output
       C_Timer.After(3, function()
@@ -524,6 +525,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     ns.Options.OnCombatEnded() -- after the combat flags clear
     ns.Engine.OnCombat()
     ns.Diagnostics.OnCombat(false)
+    ns.Grade.OnCombat(false)
     S.Calibrate()
     if spellsDirty then
       RequestSpellRefresh()
@@ -820,7 +822,11 @@ function ns.OnOwnCast(id)
   local shown = ns.last and ns.last.main
   ns.Essentials.OnOwnCast(id)
   ns.Trinkets.OnOwnCast(id)
-  if not IsPress(id) then
+  local press = IsPress(id)
+  if inCombat then
+    ns.Grade.OnPress(id, ns.last, press)
+  end
+  if not press then
     return
   end
   if inCombat then

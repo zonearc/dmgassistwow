@@ -566,3 +566,47 @@
 572	relié
 573	Déplacez le HUD dans le mode Édition de Blizzard. Masque habille les icônes. Avec une manette, les raccourcis s'affichent comme ses boutons (Affichage > Noms des boutons de manette). Pour les auteurs d'addons : DMGAssistAPI.
 574	DMGAssist fonctionne avec ceux-ci quand ils sont installés, sans rien régler : Masque habille ses icônes, les boss mods synchronisent défensifs et interruptions, WeakAuras peut lire ses choix.
+575	Précision
+576	Après chaque vrai combat, une note de S+ à D apparaît au-dessus des icônes, en quatre parties : précision, toujours lancer, réaction et temps de recharge.
+577	Toujours lancer
+578	Moyenne des %d derniers
+579	Meilleure
+580	Meilleure note, tendance et points à améliorer pour votre spécialisation actuelle : voir Rapport de notes sous Note de performance.
+581	Efface la meilleure note et l'historique de votre spécialisation actuelle. Les autres spécialisations gardent les leurs.
+582	Temps de recharge
+583	Faites glisser la note où vous voulez quand les icônes sont déverrouillées ou en mode Édition ; un exemple s'affiche pendant ce temps.
+584	Note de fin de combat
+585	Note du combat
+586	Les combats plus courts ne sont pas notés, pour que les packs de trash et un coup rapide sur une bestiole ne comptent pas.
+587	Oublier les notes de toutes les spécialisations
+588	Oublier les notes de cette spécialisation
+589	Rapport de notes
+590	Durée d'affichage de la note
+591	Note chaque combat assez long : combien de fois vous avez appuyé sur ce que montrait la case 1, le peu de temps où la case 1 est restée prête, la vitesse de vos appuis et la rapidité d'utilisation des temps de recharge. Ne mesure jamais les dégâts. Désactivé : rien n'est suivi ni affiché.
+592	Notes de cette spécialisation oubliées.
+593	Combien de temps la note reste avant de disparaître. Elle apparaît vite et s'efface en moins d'une seconde.
+594	Le déroulement de vos combats dans votre spécialisation actuelle. Seuls les combats assez longs comptent.
+595	%d derniers combats (le plus récent à la fin)
+596	Replace la note à sa position par défaut, juste au-dessus des trois icônes.
+597	Nouveau record !
+598	Aucun combat noté pour cette spécialisation. Combattez 20 secondes ou plus.
+599	Rien à améliorer : continuez ainsi.
+600	Note de performance
+601	Affiche une note d'exemple comme une vraie, pour vérifier sa position et sa durée.
+602	Remettre la note au-dessus des icônes
+603	Réaction
+604	Réinitialiser
+605	Combat le plus court noté
+606	Afficher une note d'exemple
+607	Afficher la note après les combats
+608	Conseil : appuyez quand le flash arrive, ou un peu avant : le jeu met en file un appui fait juste avant que ce soit prêt.
+609	Conseil : appuyez sur ce que montre la case 1 ; les cases 2 et 3 sont la suite.
+610	Conseil : la case 1 demandait %s %d fois quand vous avez appuyé sur autre chose.
+611	Conseil : la case 1 est restée prête %.1f s sans appui. Gardez le temps de recharge global actif.
+612	Conseil : utilisez les grands temps de recharge, les bijoux et votre potion dès qu'ils apparaissent.
+613	Tendance
+614	Points à améliorer
+615	Vos résultats
+616	en progrès
+617	en baisse
+618	stable

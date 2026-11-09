@@ -582,6 +582,35 @@ function O.Register()
     ns.Integrations.PrintDetected()
   end, "Lists in chat each supported addon: in use, found, or not installed (also /dmga addons).")
 
+  ---------------------------------------------------------------- performance grade
+  local grade = Category("Performance grade", main)
+  Header(grade, "End-of-fight grade", "After each real fight, a grade from S+ to D pops up above the icons, with "
+    .. "four parts: accuracy, always casting, reaction and cooldowns.")
+  Check(grade, DB, "grade", "Show the grade after fights", true,
+    "Grades every fight that lasts long enough: how often you pressed what slot 1 showed, how little time slot 1 "
+    .. "sat ready, how fast you pressed it, and how quickly cooldowns were used. It never measures damage. Off: "
+    .. "nothing is tracked or shown.")
+  Slider(grade, DB, "gradeSeconds", "Grade stays on screen", 6, 2, 15, 1,
+    "How long the grade stays before it fades out. It pops in quickly and fades in under a second.", " s")
+  Slider(grade, DB, "gradeMinFight", "Shortest fight to grade", 20, 10, 120, 5,
+    "Fights shorter than this aren't graded, so trash pulls and a quick hit on a critter don't count.", " s")
+  Header(grade, "Position", "Drag the grade where you want it while the icons are unlocked or in Edit Mode; a "
+    .. "sample shows while you do.")
+  Button(grade, "Test", "Show a sample grade", function()
+    ns.Grade.Test()
+  end, "Pops up a sample grade the way a real one shows, to check its place and how long it stays.")
+  Button(grade, "Position", "Put the grade back above the icons", function()
+    ns.db.gradePoint = nil
+    ns.Grade.ResetPosition()
+  end, "Moves the grade back to its default place, just above the three icons.")
+  Header(grade, "Your results", "Best grade, trend and where to improve for the spec you are in: see Grade "
+    .. "report below Performance grade.")
+  Button(grade, "Reset", "Forget this spec's grades", function()
+    ns.Grade.Reset(ns.Grade.SpecKey())
+    U.Print(L["Grades for this spec forgotten."])
+  end, "Clears the best grade and history of the spec you are in. Other specs keep theirs.")
+  O.RegisterGradeReport(grade)
+
   ---------------------------------------------------------------- advanced
   local advanced = Category("Advanced", main)
   Header(advanced, "Hidden game values", "In combat the game hides some values from addons (combo points, for "
@@ -704,6 +733,52 @@ function O.RegisterStatus(parent)
   local category = Settings.RegisterCanvasLayoutSubcategory(parent, frame, L["Status"])
   O.statusFrame, O.statusBody = frame, body
   return category
+end
+
+---------------------------------------------------------------------------
+-- Grade report (under Performance grade): for the spec you are in, the best grade, the last 10 fights, the average of
+-- each part and where to improve (ns.Grade.Report), rebuilt whenever the page is shown.
+---------------------------------------------------------------------------
+function O.RegisterGradeReport(parent)
+  local frame = CreateFrame("Frame")
+  frame:SetSize(600, 560)
+  local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
+  title:SetPoint("TOPLEFT", 16, -16)
+  title:SetText(L["Grade report"])
+  local sub = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+  sub:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -6)
+  sub:SetWidth(560)
+  sub:SetJustifyH("LEFT")
+  sub:SetText(L["How your fights went in the spec you are in. Only fights long enough to grade count."])
+  local body = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+  body:SetPoint("TOPLEFT", sub, "BOTTOMLEFT", 0, -14)
+  body:SetWidth(560)
+  body:SetJustifyH("LEFT")
+  body:SetSpacing(6)
+  local reset = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+  reset:SetSize(220, 24)
+  reset:SetPoint("TOPLEFT", body, "BOTTOMLEFT", 0, -16)
+  reset:SetText(L["Forget this spec's grades"])
+  local all = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+  all:SetSize(220, 24)
+  all:SetPoint("LEFT", reset, "RIGHT", 10, 0)
+  all:SetText(L["Forget every spec's grades"])
+  local function Fill()
+    local lines = ns.Grade.Report()
+    body:SetText(lines and table.concat(lines, "\n") or L["No graded fights yet for this spec. Fight something "
+      .. "for 20 seconds or more."])
+  end
+  reset:SetScript("OnClick", function()
+    ns.Grade.Reset(ns.Grade.SpecKey())
+    Fill()
+  end)
+  all:SetScript("OnClick", function()
+    ns.Grade.Reset()
+    Fill()
+  end)
+  frame:SetScript("OnShow", Fill)
+  O.gradeReport = frame
+  return Settings.RegisterCanvasLayoutSubcategory(parent, frame, L["Grade report"])
 end
 
 ---------------------------------------------------------------------------

@@ -21,6 +21,9 @@ nothing automated. You press every button.
   defensive cooldowns, self-heals, tank mitigation like Ironfur; it pulses while you need it now. A small
   gold-edged icon is for items: on-use trinkets and the potion you choose. Only slot 1 has a moving glow, so your
   eye goes there first. Both small icons can be moved, resized and nudged so they don't cover slot 1.
+- **A grade after every real fight.** S+ to D, with accuracy, always casting, reaction time and cooldown use, your
+  best per spec, the trend over your last 10 fights and one tip on what to improve (Settings > Performance grade).
+  It never guesses damage. Turn it off any time.
 - **Major cooldowns** are ordinary lines in the rotation, or switched off entirely.
 - **Timed to your GCD and casts.** A flash 50 ms before you can press (adjustable). Slot 1 stays put while you're
   about to press (Steady), or follows changes sooner (Fast): your choice.

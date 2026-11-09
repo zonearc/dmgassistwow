@@ -22,6 +22,14 @@ Each place has one purpose:
 
 Attention follows importance: only slot 1 has a moving glow.
 
+## Performance grade (decided 2026-11-09)
+
+After each real fight (20 s or more, at least 5 presses), a grade from S+ to D pops up in its own window above the
+icons (movable in Edit Mode or while unlocked), then fades. Parts: accuracy 35% (slot 1 = full, slots 2-3 = half),
+always casting 25%, reaction 20% (0.15 s full, 1 s none), cooldowns 20% (within 1 s full, 6 s none). Never DPS:
+we can't know what a player should do. Best and last 20 fights per spec, account-wide; trend, averages and one tip
+on the settings page. Can be turned off.
+
 ## Integrations
 
 Supported and listed in the settings: Masque, DBM, BigWigs, LittleWigs, WeakAuras (DMGAssistAPI), Blizzard's

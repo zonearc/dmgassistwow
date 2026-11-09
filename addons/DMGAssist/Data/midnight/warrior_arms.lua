@@ -1863,4 +1863,5 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       a = { 384110, 394354 },
     },
   },
+  volatile = { "colossus_smash", "overpower" },
 })

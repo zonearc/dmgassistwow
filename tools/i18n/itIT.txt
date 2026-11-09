@@ -566,3 +566,47 @@
 572	collegato
 573	Sposta l'HUD nella Modalità modifica di Blizzard. Masque dà stile alle icone. Con un controller, i tasti appaiono come i suoi pulsanti (Visualizzazione > Nomi dei pulsanti del controller). Per gli autori di addon: DMGAssistAPI.
 574	DMGAssist funziona con questi quando sono installati, senza configurare nulla: Masque dà lo stile alle sue icone, i boss mod sincronizzano difensivi e interruzioni, WeakAuras può leggere i suoi consigli.
+575	Precisione
+576	Dopo ogni combattimento vero, sopra le icone compare un voto da S+ a D, in quattro parti: precisione, lancio continuo, reazione e tempi di recupero.
+577	Lancio continuo
+578	Media degli ultimi %d
+579	Migliore
+580	Voto migliore, andamento e cosa migliorare per la specializzazione attuale: vedi Rapporto voti sotto Voto prestazione.
+581	Cancella il voto migliore e la cronologia della specializzazione attuale. Le altre specializzazioni mantengono i loro.
+582	Tempi di recupero
+583	Trascina il voto dove vuoi con le icone sbloccate o in Modalità modifica; nel frattempo viene mostrato un esempio.
+584	Voto di fine combattimento
+585	Voto del combattimento
+586	I combattimenti più brevi non vengono valutati, così i gruppi di mostri minori e un colpo veloce a una bestiola non contano.
+587	Dimentica i voti di tutte le specializzazioni
+588	Dimentica i voti di questa specializzazione
+589	Rapporto voti
+590	Il voto resta sullo schermo
+591	Valuta ogni combattimento abbastanza lungo: quante volte hai premuto ciò che mostrava lo slot 1, quanto poco tempo lo slot 1 è rimasto pronto, quanto velocemente l'hai premuto e quanto presto hai usato i tempi di recupero. Non misura mai i danni. Disattivato: nulla viene registrato o mostrato.
+592	Voti di questa specializzazione dimenticati.
+593	Quanto resta il voto prima di svanire. Appare in fretta e svanisce in meno di un secondo.
+594	Com'è andata nei tuoi combattimenti con la specializzazione attuale. Contano solo i combattimenti abbastanza lunghi.
+595	Ultimi %d combattimenti (il più recente per ultimo)
+596	Riporta il voto alla posizione predefinita, appena sopra le tre icone.
+597	Nuovo record!
+598	Ancora nessun combattimento valutato per questa specializzazione. Combatti per 20 secondi o più.
+599	Niente da migliorare: continua così.
+600	Voto prestazione
+601	Mostra un voto di esempio come uno vero, per controllarne posizione e durata.
+602	Rimetti il voto sopra le icone
+603	Reazione
+604	Ripristina
+605	Combattimento più breve valutato
+606	Mostra un voto di esempio
+607	Mostra il voto dopo i combattimenti
+608	Suggerimento: premi quando arriva il lampo, o poco prima: il gioco mette in coda una pressione fatta appena prima che sia pronto.
+609	Suggerimento: premi ciò che mostra lo slot 1; gli slot 2 e 3 sono ciò che viene dopo.
+610	Suggerimento: lo slot 1 chiedeva %s %d volte quando hai premuto altro.
+611	Suggerimento: lo slot 1 è rimasto pronto %.1f s senza essere premuto. Tieni attivo il tempo di recupero globale.
+612	Suggerimento: usa i grandi tempi di recupero, i monili e la pozione appena compaiono.
+613	Andamento
+614	Cosa migliorare
+615	I tuoi risultati
+616	in miglioramento
+617	in calo
+618	stabile

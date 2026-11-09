@@ -42,6 +42,7 @@ Core\Integrations.lua
 Core\Welcome.lua
 Core\Sounds.lua
 Core\Diagnostics.lua
+Core\Grade.lua
 Core\Engine.lua
 Core\Display.lua
 Core\Options.lua

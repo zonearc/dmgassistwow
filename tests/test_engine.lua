@@ -3222,7 +3222,7 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   local headers = 0
   local cats = mock.settingsCategories
   local mine = {}
-  for i = #cats - 9, #cats do
+  for i = #cats - 11, #cats do
     mine[#mine + 1] = cats[i]
   end
   for _, c in ipairs(mine) do
@@ -3238,8 +3238,9 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   for i, c in ipairs(mine) do
     names[i] = c.name
   end
-  eq(table.concat(names, ","), "DMGAssist,Status,Combat,Display,Sounds,Integrations,Advanced,Spells & trinkets,Missing keybinds,Help")
-  eq(mine[7].parent, mine[1], "every page under DMGAssist")
+  eq(table.concat(names, ","), "DMGAssist,Status,Combat,Display,Sounds,Integrations,Performance grade,Grade report,Advanced,"
+    .. "Spells & trinkets,Missing keybinds,Help")
+  eq(mine[9].parent, mine[1], "every page under DMGAssist")
   local fonts = mock.settings.DMGASSIST_FONT.options()
   eq(fonts[1].value, "default")
   mock.settings.DMGASSIST_ICONSIZE:SetValue(80)
@@ -3820,6 +3821,90 @@ test("title row: colour-coded ST / AOE with the live count", function()
   text = D.ModeText()
   eq(text:find("manual", 1, true) ~= nil, true, text)
   mock.inCombat, mock.nameplates = false, 0
+end)
+
+
+test("performance grade: presses scored against slot 1, graded after a real fight, best and report saved", function()
+  Reset()
+  local ns = Boot()
+  local Gr = ns.Grade
+  local spec = Gr.SpecKey()
+  Gr.Reset()
+  local A, B, C = { id = 101, token = "spell_a" }, { id = 102, token = "spell_b" }, { id = 103, token = "spell_c" }
+  local r = { main = A, queue = { A, B, C } }
+  -- a short fight is not graded
+  Gr.OnCombat(true)
+  for _ = 1, 8 do
+    Gr.OnPress(101, r, true)
+  end
+  mock.now = mock.now + 10
+  Gr.OnCombat(false)
+  eq(Gr.Summary(spec), nil, "10 s fight: no grade")
+  -- 30 s: 8 presses of slot 1, 2 of slot 2 (half), 2 of something else
+  Gr.OnCombat(true)
+  for i = 1, 12 do
+    Gr.OnReady(101, mock.now, A)
+    Gr.Tick(true)
+    mock.now = mock.now + 0.1
+    Gr.Tick(true) -- 0.1 s ready and not pressed
+    local id = i <= 8 and 101 or i <= 10 and 102 or 999
+    Gr.OnPress(id, r, true)
+    Gr.Tick(false)
+    mock.now = mock.now + 2.4
+  end
+  Gr.OnPress(101, r, false) -- a piece of the same press: not counted
+  Gr.OnCombat(false)
+  local s = Gr.Summary(spec)
+  eq(s ~= nil and #s.history, 1, "graded")
+  local got = s.history[1]
+  eq(math.floor(got.accuracy + 0.5), 75, "accuracy: (8 + 2 x 0.5) of 12")
+  eq(got.reactionMs, 100, "reaction: median press after the flash")
+  eq(got.abc > 95, true, "always casting: " .. got.abc)
+  eq(got.topMissed, "spell_a", "the spell slot 1 asked for")
+  eq(got.letter, Gr.Letter(got.score))
+  eq(s.best.score, got.score, "first fight is the best")
+  eq(Gr.frame and Gr.frame:IsShown(), true, "popup shown")
+  -- report
+  local lines = Gr.Report()
+  eq(type(lines) == "table" and #lines >= 3, true, "report lines")
+  eq(table.concat(lines, "\n"):find("spell a", 1, true) ~= nil, true, "where to improve names the spell")
+  -- turned off: nothing tracked
+  ns.db.grade = false
+  Gr.OnCombat(true)
+  mock.now = mock.now + 60
+  Gr.OnCombat(false)
+  eq(#Gr.Summary(spec).history, 1, "off: no new grade")
+  ns.db.grade = nil
+  Gr.Reset(spec)
+  eq(Gr.Summary(spec), nil, "reset")
+  eq(Gr.Letter(97), "S+")
+  eq(Gr.Letter(84.9), "B")
+  eq(Gr.ReactionScore(0.15), 100)
+  eq(Gr.ReactionScore(1.2), 0)
+end)
+
+test("performance grade: a trinket from the items icon counts as cooldown use, never accuracy", function()
+  Reset()
+  local ns = Boot()
+  local Gr = ns.Grade
+  Gr.Reset()
+  local A = { id = 101, token = "spell_a" }
+  local r = { main = A, queue = { A }, trinket = { id = 5000, item = 777 } }
+  Gr.OnCombat(true)
+  ns.last = r
+  Gr.Tick(false)
+  mock.now = mock.now + 2
+  Gr.OnPress(5000, r, false) -- item use: not a press
+  for _ = 1, 6 do
+    Gr.OnPress(101, r, true)
+    mock.now = mock.now + 4
+  end
+  Gr.OnCombat(false)
+  local h = Gr.Summary(Gr.SpecKey()).history[1]
+  eq(math.floor(h.accuracy), 100, "the item use is not a wrong press")
+  eq(math.floor(h.cooldowns + 0.5), 80, "used 2 s after it showed (1 s is full marks, 6 s none)")
+  ns.last = nil
+  Gr.Reset()
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

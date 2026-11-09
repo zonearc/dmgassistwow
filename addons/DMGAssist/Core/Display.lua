@@ -445,6 +445,8 @@ local function SetFont(fs, size)
   end
 end
 
+D.SetFont = SetFont
+
 -- Keybind text offset from its anchor: inset from a corner, none when centred.
 local function KeyX(pos)
   return pos:find("LEFT") and 2 or (pos:find("RIGHT") and -2 or 0)
@@ -631,6 +633,9 @@ function D.Create()
     if self.timingCfg then
       D.RenderTiming(self, self.timingCfg)
       D.PulseBadges(self)
+      if ns.Grade then
+        ns.Grade.Tick(self.pressNow == true)
+      end
     end
   end)
   -- The other pick of a branch, stacked on the main icon; the game sets which one is visible (see D.Update).
@@ -1223,6 +1228,9 @@ function D.RenderTiming(f, cfg)
     f.readyFor = id
     if id then
       ns.State.NoteReadyShown(id) -- timing learning: did you have to wait for it after this?
+      if ns.Grade then
+        ns.Grade.OnReady(id, now, ns.last and ns.last.main)
+      end
     end
     if not f.pressNow and f.flashedFor ~= id then
       f.flashAt, f.flashedFor = now, id -- the moment it became ready: one flash
@@ -1352,4 +1360,7 @@ function D.SetLocked(locked)
   local f = D.Create()
   f:EnableMouse(not locked)
   f.locked = locked
+  if ns.Grade then
+    ns.Grade.SyncSample()
+  end
 end

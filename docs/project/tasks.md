@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.137 (2026-11-09).
+Last updated: 1.6.0.138 (2026-11-09).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -22,13 +22,13 @@ Last updated: 1.6.0.137 (2026-11-09).
 
 ## Proposed (waiting on a decision)
 
-- [ ] End-of-fight performance grade (D to S+ popup, BDO-style): accuracy to slot 1 (SimC priority), reaction time
-  from the press-now flash, idle time between GCDs, cooldowns used on time; personal best per spec, trend over 10
-  fights, one tip on the weakest part. Never claims DPS (no combat log). Recommended for the first update after
-  launch.
+- (none)
 
 ## Open: needs in-game testing (built, not yet seen in game)
 
+- [ ] Performance grade: popup after a 20 s+ fight, fades in/out; drag it in Edit Mode or unlocked; Settings >
+  Performance grade (test, reset position, forget) and Grade report (best, last 10, trend, where to improve)
+- [ ] Arms: Overpower and Colossus Smash shown when Blizzard's assistant names them (left to Blizzard from the start)
 - [ ] Masque with the real addon (installed 2026-11-09): /msq > DMGAssist group, every icon reskins
 - [ ] Settings: explanation line under each section title; live preview docked beside the settings window
 - [ ] Guardian: Ironfur (steady red), a defensive when low (pulsing red) and a trinket (gold) at the same time
@@ -41,6 +41,11 @@ Last updated: 1.6.0.137 (2026-11-09).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.138: end-of-fight performance grade, S+ to D: accuracy (presses vs slot 1), always casting, reaction,
+  cooldowns; its own movable popup above the icons, best and last 20 per spec, settings page with a report; all 9
+  languages. Arms: Overpower (Tactician resets) and Colossus Smash (Anger Management) left to Blizzard's assistant
+  from the start; a spell left to Blizzard no longer uses its learned correction
 
 - 1.6.0.137: slot 1 follows the decision freely for 0.35 s after a press (the decision made before the game reports
   the cast still showed the pressed spell, and was held: Whirlwind pressed twice in a row)

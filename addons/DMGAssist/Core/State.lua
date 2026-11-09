@@ -701,7 +701,8 @@ end
 
 local function Offset(id, base)
   local t = AppliedRecord(id)
-  if not (t and not t.unreliable and base) then
+  -- a spell left to Blizzard (flagged by its spread, or shipped volatile) keeps its mean but doesn't use it
+  if not (t and base) or S.ClockUnreliable(id) then
     return 0
   end
   return math.max(-0.6 * base, math.min(0.6 * base, t.mean or 0))

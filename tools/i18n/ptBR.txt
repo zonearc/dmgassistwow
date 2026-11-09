@@ -566,3 +566,47 @@
 572	vinculado
 573	Mova o HUD no Modo de Edição da Blizzard. O Masque estiliza os ícones. Com um controle, as teclas aparecem como os botões dele (Exibição > Nomes dos botões do controle). Para autores de addons: DMGAssistAPI.
 574	O DMGAssist funciona com estes quando estão instalados, sem configurar nada: o Masque estiliza os ícones, os addons de chefe cronometram defensivas e interrupções, o WeakAuras pode ler as recomendações.
+575	Precisão
+576	Após cada luta real, uma nota de S+ a D aparece acima dos ícones, com quatro partes: precisão, sempre lançando, reação e recargas.
+577	Sempre lançando
+578	Média das últimas %d
+579	Melhor
+580	Melhor nota, tendência e onde melhorar para a especialização atual: veja Relatório de notas em Nota de desempenho.
+581	Apaga a melhor nota e o histórico da especialização atual. As outras especializações mantêm os seus.
+582	Recargas
+583	Arraste a nota para onde quiser com os ícones desbloqueados ou no Modo de Edição; um exemplo aparece enquanto isso.
+584	Nota de fim de luta
+585	Nota da luta
+586	Lutas mais curtas não recebem nota, para que pacotes de lixo e um golpe rápido num bicho não contem.
+587	Esquecer as notas de todas as especializações
+588	Esquecer as notas desta especialização
+589	Relatório de notas
+590	Tempo da nota na tela
+591	Dá nota a toda luta longa o bastante: quantas vezes você apertou o que o espaço 1 mostrava, quão pouco tempo o espaço 1 ficou pronto, quão rápido você apertou e quão cedo usou as recargas. Nunca mede dano. Desligado: nada é registrado nem mostrado.
+592	Notas desta especialização esquecidas.
+593	Quanto tempo a nota fica antes de sumir. Ela surge rápido e some em menos de um segundo.
+594	Como foram suas lutas na especialização atual. Só contam lutas longas o bastante.
+595	Últimas %d lutas (a mais recente por último)
+596	Devolve a nota à posição padrão, logo acima dos três ícones.
+597	Novo recorde!
+598	Ainda não há lutas com nota para esta especialização. Lute por 20 segundos ou mais.
+599	Nada a melhorar: continue assim.
+600	Nota de desempenho
+601	Mostra uma nota de exemplo como uma real, para conferir a posição e quanto tempo fica.
+602	Pôr a nota de volta acima dos ícones
+603	Reação
+604	Redefinir
+605	Luta mais curta com nota
+606	Mostrar uma nota de exemplo
+607	Mostrar a nota após as lutas
+608	Dica: aperte quando o brilho vier, ou um pouco antes: o jogo enfileira um aperto feito logo antes de ficar pronto.
+609	Dica: aperte o que o espaço 1 mostra; os espaços 2 e 3 são o que vem depois.
+610	Dica: o espaço 1 pediu %s %d vezes quando você apertou outra coisa.
+611	Dica: o espaço 1 ficou pronto %.1f s sem ser apertado. Mantenha a recarga global rodando.
+612	Dica: use as grandes recargas, berloques e sua poção assim que aparecerem.
+613	Tendência
+614	Onde melhorar
+615	Seus resultados
+616	melhorando
+617	piorando
+618	estável

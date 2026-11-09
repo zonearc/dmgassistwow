@@ -566,3 +566,47 @@
 572	verbunden
 573	Verschiebe das HUD im Bearbeitungsmodus von Blizzard. Masque gestaltet die Symbole. Mit einem Controller erscheinen Tastenbelegungen als dessen Tasten (Anzeige > Namen der Controllertasten). Für Addon-Autoren: DMGAssistAPI.
 574	DMGAssist arbeitet mit diesen zusammen, wenn sie installiert sind, ohne Einrichtung: Masque gestaltet seine Symbole, Bossmods timen Verteidigung und Unterbrechungen, WeakAuras kann seine Empfehlungen lesen.
+575	Genauigkeit
+576	Nach jedem echten Kampf erscheint über den Symbolen eine Note von S+ bis D, mit vier Teilen: Genauigkeit, immer zaubern, Reaktion und Abklingzeiten.
+577	Immer zaubern
+578	Durchschnitt der letzten %d
+579	Beste
+580	Beste Note, Verlauf und Verbesserungsmöglichkeiten für deine aktuelle Spezialisierung: siehe Notenbericht unter Leistungsnote.
+581	Löscht die beste Note und den Verlauf deiner aktuellen Spezialisierung. Andere Spezialisierungen behalten ihre.
+582	Abklingzeiten
+583	Ziehe die Note an die gewünschte Stelle, während die Symbole entsperrt sind oder im Bearbeitungsmodus; dabei wird ein Beispiel angezeigt.
+584	Note am Kampfende
+585	Kampfnote
+586	Kürzere Kämpfe werden nicht bewertet, damit Trash-Pulls und ein kurzer Schlag auf ein Kleintier nicht zählen.
+587	Noten aller Spezialisierungen vergessen
+588	Noten dieser Spezialisierung vergessen
+589	Notenbericht
+590	Note bleibt sichtbar
+591	Bewertet jeden ausreichend langen Kampf: wie oft du gedrückt hast, was Platz 1 zeigte, wie wenig Zeit Platz 1 bereit war, wie schnell du gedrückt hast und wie schnell Abklingzeiten genutzt wurden. Schaden wird nie gemessen. Aus: nichts wird erfasst oder angezeigt.
+592	Noten dieser Spezialisierung vergessen.
+593	Wie lange die Note bleibt, bevor sie ausblendet. Sie erscheint schnell und blendet in unter einer Sekunde aus.
+594	Wie deine Kämpfe in deiner aktuellen Spezialisierung liefen. Nur ausreichend lange Kämpfe zählen.
+595	Letzte %d Kämpfe (neueste zuletzt)
+596	Setzt die Note an ihren Standardplatz direkt über den drei Symbolen zurück.
+597	Neue Bestleistung!
+598	Noch keine bewerteten Kämpfe für diese Spezialisierung. Kämpfe 20 Sekunden oder länger.
+599	Nichts zu verbessern: weiter so.
+600	Leistungsnote
+601	Zeigt eine Beispielnote wie eine echte, um Position und Anzeigedauer zu prüfen.
+602	Note wieder über die Symbole setzen
+603	Reaktion
+604	Zurücksetzen
+605	Kürzester bewerteter Kampf
+606	Beispielnote zeigen
+607	Note nach Kämpfen zeigen
+608	Tipp: Drücke, wenn das Aufleuchten kommt, oder kurz davor: Das Spiel reiht einen Druck kurz vor der Bereitschaft ein.
+609	Tipp: Drücke, was Platz 1 zeigt; Platz 2 und 3 kommen danach.
+610	Tipp: Platz 1 wollte %s %d-mal, als du etwas anderes gedrückt hast.
+611	Tipp: Platz 1 war %.1f s bereit, ohne gedrückt zu werden. Halte die globale Abklingzeit am Laufen.
+612	Tipp: Nutze große Abklingzeiten, Schmuckstücke und deinen Trank, sobald sie erscheinen.
+613	Verlauf
+614	Verbesserungspotenzial
+615	Deine Ergebnisse
+616	besser werdend
+617	nachlassend
+618	gleichbleibend

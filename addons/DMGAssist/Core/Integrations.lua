@@ -134,6 +134,9 @@ function I.OnEditMode(on)
   else
     D.SetLocked(ns.db and ns.db.locked)
   end
+  if ns.Grade then
+    ns.Grade.SyncSample()
+  end
   if ns.Update then
     ns.Update()
   end
@@ -155,61 +158,6 @@ function I.HookEditMode()
 end
 
 ---------------------------------------------------------------------------
-local ICON = "Interface\\Icons\\Spell_Holy_FistOfJustice"
-
-function I.BrokerText()
-  local text = ns.Display.ModeText and ns.Display.ModeText() or ""
-  if ns.db and ns.db.enabled == false then
-    return "|cff888888" .. L["off"] .. "|r"
-  end
-  return text ~= "" and text or "DMGAssist"
-end
-
-function I.HookBroker()
-  if I.broker then
-    return true
-  end
-  local stub = _G.LibStub
-  if not stub then
-    return false
-  end
-  local ok, ldb = pcall(stub, "LibDataBroker-1.1", true)
-  if not (ok and ldb and ldb.NewDataObject) then
-    return false
-  end
-  local made, obj = pcall(ldb.NewDataObject, ldb, "DMGAssist", {
-    type = "data source",
-    label = "DMGAssist",
-    text = "DMGAssist",
-    icon = ICON,
-    OnClick = function(_, button)
-      if button == "RightButton" then
-        ns.Options.Open()
-      elseif button == "MiddleButton" then
-        DMGAssist_CycleMode()
-      else
-        DMGAssist_Toggle()
-      end
-    end,
-    OnTooltipShow = function(tip)
-      tip:AddLine("DMGAssist")
-      tip:AddLine(I.BrokerText(), 1, 1, 1)
-      tip:AddLine(L["Left-click: show / hide. Right-click: settings. Middle-click: target mode."], 0.8, 0.8, 0.8)
-    end,
-  })
-  if not (made and obj) then
-    return false
-  end
-  I.broker = obj
-  C_Timer.NewTicker(1, function()
-    local t = I.BrokerText()
-    if obj.text ~= t then
-      obj.text = t
-    end
-  end)
-  U.Log("integration", "databroker")
-  return true
-end
 
 ---------------------------------------------------------------------------
 -- Public API
