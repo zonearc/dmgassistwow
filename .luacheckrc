@@ -61,7 +61,7 @@ files["tests/**"] = {
     "WOW_PROJECT_ID", "DBM", "BigWigsLoader", "BT4Button1", "BT4Button50", "BuffIconCooldownViewer", "SettingsPanel", "GetShapeshiftFormID",
     "ActionButton3", "BugGrabber", "DMGAssistMinimapButton", "DMGAssistWatchdogFrame",
     "MenuUtil", "InCombatLockdown", "UnitAffectingCombat",
-    "GetInventoryItemID", "C_Item", "C_Container", "GetInventoryItemCooldown", "UnitHealth", "UnitHealthMax", "UnitStagger", "GetSpellBaseCooldown", "IsPlayerSpell", "IsInInstance", "C_AssistedCombat", "UnitLevel", "GetMaxLevelForPlayerExpansion", "GetCVar", "DMGAssistAPI", "DMGAssistWelcome",
+    "GetInventoryItemID", "C_Item", "C_Container", "UnitIsDead", "GetInventoryItemCooldown", "UnitHealth", "UnitHealthMax", "UnitStagger", "GetSpellBaseCooldown", "IsPlayerSpell", "IsInInstance", "C_AssistedCombat", "UnitLevel", "GetMaxLevelForPlayerExpansion", "GetCVar", "DMGAssistAPI", "DMGAssistWelcome",
     "C_Spell", "C_UnitAuras", "UnitClass", "GetNumGroupMembers", "UnitGroupRolesAssigned", "UnitExists", "GetWeaponEnchantInfo" },
   read_globals = { "newproxy" },
   allow_defined_top = true,

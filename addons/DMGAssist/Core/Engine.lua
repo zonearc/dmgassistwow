@@ -707,6 +707,10 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
     elseif not G.SKIP[a] and not (isBlizzard and not run.burst and (e.x or run.cooldowns[a])) then
       -- (Blizzard's excluded lines are the major cooldowns: left out only when major cooldowns are off.)
       local id = M.SpellID(a)
+      if id and (a:find("^call_pet") or a == "summon_pet") and not S.PetActive() and S.PetDead()
+        and U.Get(IsPlayerSpell, S.REVIVE_PET) == true then
+        id = S.REVIVE_PET -- the pet is dead: calling it does nothing, reviving it does
+      end
       if id and (a:find("^call_pet") or a == "summon_pet") and S.PetActive() then
         -- SimC only summons when there is no pet: with one out, the line does nothing.
         if run.trace then

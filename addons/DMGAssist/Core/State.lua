@@ -1524,6 +1524,7 @@ function S.OnSpellcastSucceeded(spellID)
   end
   S.castsSeen = S.castsSeen + 1
   S.OnBoostCast(id)
+  S.OnPetCast(id)
   if not (S.myCast and S.myCast.id == id) then
     S.gcdFrom = { id = id, t = GetTime() } -- an instant: the GCD starts now
   end
@@ -1804,7 +1805,36 @@ function S.PetActive()
   if exists == nil then
     return nil
   end
-  return exists == true and U.Get(UnitIsDead, "pet") ~= true
+  local alive = exists == true and U.Get(UnitIsDead, "pet") ~= true
+  if alive then
+    S.petDead = false
+  end
+  return alive
+end
+
+-- Your pet is dead: Call Pet does nothing then, only Revive Pet brings it back. Known from its body (dead pet
+-- unit), or from calling it: the cast goes through but no pet appears (2026-11-09: Call Pet was suggested over and
+-- over after the pet died on the dummies). Cleared by Revive Pet or a living pet.
+S.CALL_PET = { [883] = true, [83242] = true, [83243] = true, [83244] = true, [83245] = true }
+S.REVIVE_PET = 982
+function S.PetDead()
+  if U.Get(UnitExists, "pet") == true then
+    S.petDead = U.Get(UnitIsDead, "pet") == true
+  end
+  return S.petDead == true
+end
+
+function S.OnPetCast(id)
+  if id == S.REVIVE_PET then
+    S.petDead = false
+  elseif S.CALL_PET[id] and C_Timer and C_Timer.After then
+    C_Timer.After(1, function()
+      if U.Get(UnitExists, "pet") ~= true then
+        S.petDead = true
+        U.Log("pet_dead", { how = "called, nothing came" })
+      end
+    end)
+  end
 end
 
 -- Stealth buffs: the game tells us whether we are stealthed (IsStealthed), and attacking ends them. Our own clock

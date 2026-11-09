@@ -1775,6 +1775,50 @@ test("your own Primal Rage cast starts the haste boost even when haste is hidden
   mock.inCombat, mock.restricted = false, false
 end)
 
+test("dead pet: Revive Pet instead of Call Pet (calling a dead pet does nothing)", function()
+  Reset()
+  mock.book = { { spellID = 883, name = "Call Pet 1" }, { spellID = 982, name = "Revive Pet" },
+    { spellID = 5221, name = "Shred" } }
+  local ns = Boot()
+  local S, G = ns.State, ns.Engine
+  local rec = QRecord({ { a = "call_pet_1", k = "R" }, { a = "shred", k = "R" } })
+  rec.spells.call_pet_1 = { a = { 883 } }
+  rec.spellInfo[883] = { n = "call_pet_1", gcd = 1.5 }
+  ns.SpellMap.SetData(rec)
+  local saved = { IsPlayerSpell, UnitExists, UnitIsDead }
+  local petOut, petBody = false, false
+  IsPlayerSpell = function()
+    return true
+  end
+  UnitExists = function(unit)
+    if unit == "pet" then
+      return petOut or petBody
+    end
+    return saved[2](unit)
+  end
+  UnitIsDead = function(unit)
+    return unit == "pet" and petBody and not petOut
+  end
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  eq(G.Recommend(rec, {}).main.id, 883, "no pet, not known to be dead: Call Pet")
+  -- you call it, the cast goes through, no pet appears: it's dead
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 883)
+  mock.Advance(1.1)
+  eq(S.PetDead(), true)
+  eq(G.Recommend(rec, {}).main.id, 982, "Revive Pet")
+  -- revived
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 982)
+  petOut = true
+  eq(G.Recommend(rec, {}).main.token, "shred", "pet out and alive: neither")
+  -- its body lies there: dead, read directly
+  petOut, petBody = false, true
+  S.petDead = nil
+  eq(G.Recommend(rec, {}).main.id, 982, "a dead pet's body: Revive Pet")
+  IsPlayerSpell, UnitExists, UnitIsDead = saved[1], saved[2], saved[3]
+  mock.inCombat = false
+end)
+
 test("timing learning: a 5-target pull and a single target learn separately", function()
   Reset()
   local ns = Boot()

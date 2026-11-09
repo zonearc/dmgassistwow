@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.133 (2026-11-09).
+Last updated: 1.6.0.134 (2026-11-09).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -24,15 +24,18 @@ Last updated: 1.6.0.133 (2026-11-09).
 
 - [ ] Masque with the real addon (installed 2026-11-09): /msq > DMGAssist group, every icon reskins
 - [ ] Settings: explanation line under each section title; live preview docked beside the settings window
-- [ ] Potion: choose from bags (click the gold box) and /dmga potion; shows in the items icon on a cooldown window
 - [ ] Guardian: Ironfur (steady red), a defensive when low (pulsing red) and a trinket (gold) at the same time
 - [ ] Slot 1 Steady / Fast feel; Wildfire Bomb waits in slot 2 instead of flipping slot 1 right before a press
-- [ ] Rogue (Outlaw) and Fury Warrior with the timing learning
+- [ ] Next class (Survival signed off for now, 2026-11-09): Rogue (Outlaw) and Fury Warrior with the timing learning
+- [ ] Dead pet: Revive Pet shown after the pet dies (Survival)
 - [ ] Single-target dummy fights (boss numbers learned separately from 5-dummy pulls)
 - [ ] Boss mods in a real dungeon or raid (DBM test hook works)
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.134: dead pet: Revive Pet instead of Call Pet (pet body seen dead, or Call Pet goes through and no pet
+  appears). Tested in game: potions (picker and items icon) work
 
 - 1.6.0.133: removed the Titan Panel / data broker launcher; ElvUI, Bartender, Dominos no longer advertised
   (keybinds are still read from their buttons); this task list
