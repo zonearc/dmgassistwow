@@ -222,6 +222,23 @@ function O.Register()
     "Left-click: show / hide. Right-click: menu and settings. Drag to move it.")
   Check(main, DB, "locked", "Lock position", true,
     "Unlock to drag the icons; they are also shown while this panel is open.")
+  -- Language: the game's (default) or any other; account-wide, applied after a /reload.
+  local langProxy = setmetatable({}, {
+    __index = function(_, k)
+      return ns.global and ns.global[k]
+    end,
+    __newindex = function(_, k, v)
+      if ns.global and ns.global[k] ~= v then
+        ns.global[k] = v
+        U.Print("%s", L["Language saved. Type /reload to switch to it."])
+      end
+    end,
+  })
+  Choice(main, function()
+    return langProxy
+  end, "language", "Language", "auto", ns.LANGUAGES,
+    "DMGAssist's text in another language than the game's. Chinese and Korean need a game client in that "
+      .. "language (its fonts). Applied after /reload.")
   Button(main, "Quick setup", "Run the setup again", function()
     ns.Welcome.Open()
   end, "Three questions: where the HUD goes, how big, and when it shows.")

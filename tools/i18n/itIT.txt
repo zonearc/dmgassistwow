@@ -1,0 +1,409 @@
+0	%d nuovi incantesimi non hanno un tasto assegnato. Opzioni > DMGAssist > Tasti mancanti li elenca.
+1	%d incantesimi che DMGAssist può consigliare non hanno un tasto assegnato. Mettili su una barra e assegna un tasto (Opzioni > Assegnazione tasti, o la modalità tasti del tuo addon delle barre).
+2	%d incantesimi che DMGAssist può consigliare non hanno un tasto assegnato:
+3	%d incantesimi della tua rotazione non hanno un tasto assegnato. /dmga unbound li elenca (anche in Opzioni > DMGAssist > Tasti mancanti).
+4	'AOE 3', 'TANK HIT 2', 'ADDS 8', 'INTERRUPT', 'DEFENSIVE' dal tuo addon dei boss o dalla cronologia di Blizzard.
+5	(consigliato)
+6	3 (la lista della tua specializzazione pesa il numero riga per riga)
+7	Una riga in chat quando impari un incantesimo che DMGAssist può consigliare e che non ha un tasto (non se il gioco l'ha già messo su un pulsante con tasto), e quando hai punti talento non spesi dopo un aumento di livello.
+8	Una riga sopra le icone con la tua specializzazione e un pulsante delle opzioni.
+10	AUTO conta i nemici in combattimento con te entro la portata dei tuoi incantesimi (i manichini d'addestramento contano mentre combatti). ST o AOE nel titolo è ciò che gioca la rotazione. Un tasto lo cambia a mano.
+11	Sopra l'icona
+12	Evidenziazione della barra delle azioni
+13	Barre delle azioni
+14	Avanzate
+15	Allarme
+16	Allarme (breve)
+17	Fatto. Puoi cambiare tutto in Opzioni > DMGAssist (o /dmga), oppure spostare l'HUD nella Modalità modifica.
+18	Tutte le opzioni sono tornate ai valori predefiniti.
+19	Sempre
+20	Sempre i suggerimenti di Blizzard
+21	Sempre la lista di priorità di DMGAssist
+22	Area
+23	Numero di bersagli per l'area
+24	Bersagli ad area: %d.
+26	Combattimento assistito
+27	Durata del combattimento stimata: %d s.
+28	Espiazione
+29	Espiazioni desiderate
+30	Rileva i bersagli automaticamente
+31	Rilevamento automatico dei bersagli: disattivato.
+32	Rilevamento automatico dei bersagli: attivato.
+33	Automatico (consigliato)
+34	Automatico: sotto il livello massimo, finché un personaggio conosce pochi degli incantesimi previsti dalla lista di priorità, guida il Combattimento assistito di Blizzard. Cambia da solo man mano che ne impari altri. Sempre Blizzard: per un alt con talenti molto lontani dalla build abituale.
+35	Indietro
+36	Sfondo
+37	Opacità dello sfondo
+38	Posizione del badge
+39	Dimensione del badge
+40	Prima dei colpi forti segnalati dal tuo addon dei boss, e quando hai poca salute.
+41	Sotto l'icona
+42	Avviso di colpo forte
+43	Dimensione di un pull grande
+44	Assegna i tasti in Opzioni > Assegnazione tasti > AddOns > DMGAssist: cambia modalità bersagli (Auto / Singolo / Area), recuperi importanti sì/no, mostra/nascondi.
+46	Il Combattimento assistito di Blizzard non dà suggerimenti qui (Forever non ce l'ha; in Midnight seleziona un nemico e riprova).
+47	Il Combattimento assistito di Blizzard suggerisce %s in questo momento: funziona.
+48	Combattimento assistito di Blizzard
+49	Bordo
+50	Opacità del bordo
+51	Avvisi dei boss
+52	Avviso dell'addon dei boss
+53	Timer degli addon dei boss
+54	Addon dei boss
+55	Addon dei boss trovati
+56	Addon dei boss trovati: %s. I loro timer e avvisi servono per difensive e interruzioni.
+57	Addon dei boss: %s.
+58	Boss e pull grandi
+59	In basso a sinistra
+60	In basso a destra
+61	Promemoria dei potenziamenti
+62	Dimensione del testo degli avvisi
+63	Lanciare in movimento
+64	Centro
+65	I personaggi che lo usavano tornano a Default.
+66	Controlla il Combattimento assistito
+67	Scegli un profilo...
+68	Classe e specializzazione
+69	Cancella
+70	Combattimento
+71	Comandi:
+72	Nomi dei pulsanti del controller
+73	Recupero pronto
+74	Copia le opzioni da
+75	Contate dai tuoi lanci (Scudo, Cura Rapida, Supplica, Rinnovamento: 1; Radiosità: 5). 5 per un gruppo, di più per le incursioni.
+76	Conta i nemici in combattimento con te, entro la portata dei tuoi incantesimi, dalle loro targhette (le targhette dei nemici devono essere attive). I manichini d'addestramento contano appena li colpisci.
+77	Personalizzato (cursore sotto)
+78	Numero per l'area personalizzato
+79	Durata del combattimento personalizzata
+80	DIFENSIVA
+82	DMGAssist (trascina per spostare)
+83	I testi di DMGAssist in una lingua diversa da quella del gioco. Cinese e coreano richiedono un client di gioco in quella lingua (per i caratteri). Si applica dopo /reload.
+84	DMGAssist: segnala un problema o dai un parere
+85	Testo della decisione
+86	Predefiniti
+87	Difensiva
+88	Difensive
+89	Difensive, interruzioni e addon dei boss
+90	Elimina
+91	Elimina il profilo in uso
+92	Attenua le scelte incerte
+93	Disciplina: Espiazione
+94	Visualizzazione
+95	Trascina: sposta questo pulsante
+96	Ogni specializzazione segue la lista di priorità di SimulationCraft, le stesse liste usate dai theorycrafter. In combattimento il gioco nasconde molto (proc, risorse esatte); il Combattimento assistito di Blizzard e il bagliore dei tuoi pulsanti colmano queste lacune.
+97	Ogni monile
+98	Effetti
+99	Ogni monile a uso equipaggiato e ogni incantesimo possono essere disattivati nella pagina Incantesimi e monili.
+100	Ogni combattimento
+101	Ogni combattimento (predefinito), oppure solo boss, PvP e pull di almeno la dimensione sotto: i trash li tengono da parte.
+102	Ogni lancio interrompibile
+103	Ogni opzione di ogni pagina di DMGAssist, nel profilo in uso.
+104	Ogni incantesimo che DMGAssist può consigliare ha un tasto assegnato.
+105	Modalità di riserva
+106	Durata del combattimento
+107	Per primo quando pronto
+108	Lampeggia con questo anticipo
+109	Carattere
+110	Per %s. Non spuntato: mai mostrato (il prossimo incantesimo prende il suo posto). Per primo quando pronto: nello slot 1 ogni volta che può essere lanciato (vengono prima solo interruzioni, difensive e avvicinamenti). Gli incantesimi sono ricordati per specializzazione e i monili per oggetto, quindi aggiornamenti e cambi di equipaggiamento mantengono le tue scelte.
+111	Per 8 secondi lo slot 1 mostra la difensiva che DMGAssist sceglierebbe quando il tuo addon dei boss avvisa di un colpo forte (prima le più leggere; se è in recupero, la successiva).
+112	Per 8 secondi lo slot 1 mostra la tua interruzione, come quando un addon dei boss chiede un kick o il tuo bersaglio lancia.
+113	Riquadro
+114	Margine del riquadro
+115	Notifica amico
+117	Barra del GCD
+118	Gioco
+119	Predefinito del gioco
+120	Caratteri del gioco, più quelli registrati con LibSharedMedia.
+121	Lingua del gioco
+122	Avvicinamenti
+123	Illumina il vero pulsante d'azione del prossimo incantesimo (barre di Blizzard, Bartender, ElvUI, Dominos).
+124	Guardiano: mantieni questo numero di accumuli di Pelliccia di Ferro (contati dai tuoi lanci). 0 = disattivato.
+125	Intestazione
+126	Guaritori
+127	Aiuto
+128	Aiuto e aggiornamenti
+129	Valori nascosti
+130	Nascondi nei veicoli
+131	Nascondi il pulsante della minimappa
+132	Nascondi fuori dal combattimento
+133	Nascondi in cavalcatura
+134	Trattieni gli incantesimi saltati
+135	Quanto grande?
+136	Quanto prima del momento esatto arriva il lampo, per il tempo di reazione.
+137	Lo posiziono io (Modalità modifica)
+138	INTERROMPI
+139	Icona bloccata.
+140	Spaziatura delle icone
+141	Icona sbloccata (trascina per spostarla).
+142	In combattimento, e quando seleziono un nemico
+143	In combattimento: ST (blu) o AOE (arancione) con il numero di bersagli contati, così vedi il rilevamento automatico al lavoro.
+144	In spedizioni e incursioni «ciò che conta» = il tuo addon dei boss chiede un'interruzione o Blizzard segna l'incantesimo come importante.
+145	Integrazioni
+146	Interruzione
+147	Incantesimo di interruzione
+148	Interruzioni
+149	Accumuli di Pelliccia di Ferro
+150	Appena sopra le mie barre delle azioni
+151	Assegnazione tasti
+152	L'assegnazione dei tasti si può cambiare dopo il combattimento.
+153	Tasto per cambiare modalità bersagli
+154	Colore del tasto
+155	Tasto sulle icone
+156	Posizione del tasto
+157	Dimensione del testo del tasto
+158	Tasti
+159	I tasti vengono letti automaticamente dalle barre di Blizzard, Bartender, ElvUI e Dominos; questo li rilegge adesso.
+160	Tasti letti dalle tue barre
+161	Tasti aggiornati: %d incantesimi sulle tue barre.
+162	I tasti vengono letti dalle barre di Blizzard, Bartender, ElvUI, Dominos e dalle macro. Tasti mancanti elenca ciò che la rotazione può chiedere e che non ha un tasto.
+163	Lingua
+164	Lingua salvata. Scrivi /reload per cambiarla.
+165	Grande
+166	Ultima build
+167	Disposizione
+168	Appreso dai tuoi combattimenti
+169	A sinistra dell'icona
+170	Clic sinistro: mostra / nascondi
+171	Clic sinistro: mostra / nascondi. Clic destro: menu e opzioni. Trascina per spostarlo.
+172	Clic sinistro: mostra / nascondi. Clic destro: opzioni. Clic centrale: modalità bersagli.
+173	Livellamento
+174	Livellamento e alt
+175	Livellamento: guidano i suggerimenti di Blizzard finché non conosci più incantesimi di questa specializzazione.
+176	Blocca la posizione
+177	Salute bassa
+178	Bagliore dell'icona principale
+179	Dimensione dell'icona principale
+180	Recuperi importanti
+181	Recuperi importanti disattivati.
+182	Recuperi importanti attivati.
+183	Media
+184	Mischia: fuori portata dal bersaglio, mostra prima la tua carica / balzo (Carica Selvaggia, Carica, Passo d'Ombra...).
+185	Al centro dello schermo, sotto il mio personaggio
+186	Solo Midnight: vede proc e risorse nascosti, quindi conferma le righe SimC incerte. Forever non ce l'ha.
+187	Pulsante della minimappa
+188	Pulsante della minimappa nascosto. Riattivalo nelle opzioni (/dmga config).
+189	Tasti mancanti
+190	Titolo della modalità
+192	PROSSIMO
+193	ORA
+194	Etichette ORA / PROSSIMO
+195	ORA è l'incantesimo da premere subito; seguono le due icone PROSSIMO. Una piccola etichetta su un'icona indica da dove viene la scelta: niente = lista di priorità di SimC, AC = Combattimento assistito di Blizzard, B = regole scritte di Blizzard, ? = stima migliore (attenuata), ... = in attesa di una risorsa. Il piccolo badge nell'angolo dello slot 1 è un incantesimo senza GCD (Pelliccia di Ferro, monili) da premere insieme.
+196	Avvisi di nuovi incantesimi e talenti
+197	Nuovo incantesimo: %s è sulle tue barre ma non ha un tasto. Assegnagliene uno e DMGAssist lo mostrerà.
+198	Nuovo incantesimo: %s. Mettilo sulle barre delle azioni con un tasto e DMGAssist lo consiglierà.
+199	Dimensione delle icone successive
+200	Opacità delle icone successive
+201	Prossimo: %s (%s). Il Combattimento assistito dice: %s.
+202	Nessun addon dei boss trovato (DBM, BigWigs, LittleWigs). Le difensive seguono allora solo la tua salute.
+203	Nessun consiglio al momento.
+204	Nessuno
+205	Disattivato
+206	Badge senza GCD (Pelliccia di Ferro)
+207	Disattivato: mai suggerite nelle incursioni (lì guarire è compito dei guaritori).
+208	Disattivato: mentre ti muovi, gli incantesimi con tempo di lancio vengono saltati (istantanei e proc restano visibili).
+209	Monili a uso
+210	I monili a uso sono disattivati (Combattimento > Monili).
+211	Attivato: i recuperi importanti compaiono nei tre slot nell'ordine di SimC. Disattivato: non vengono mai mostrati.
+212	Una volta per specializzazione e sessione: una riga in chat quando incantesimi che DMGAssist può consigliare non hanno un tasto.
+213	Solo %d di %d incantesimi di questa lista di priorità sono nel tuo libro degli incantesimi. I consigli usano ciò che hai, quindi aspettati delle lacune (livello basso, talenti o una lista scritta per un'altra versione del gioco).
+214	Solo avvisi degli addon dei boss
+215	Solo in combattimento
+216	Solo in spedizioni e incursioni
+217	Solo con salute bassa
+218	Solo quando DBM / BigWigs / LittleWigs lo chiede
+219	Opacità
+220	Opzioni > Assegnazione tasti > AddOns > DMGAssist.
+221	Il nostro conteggio del tuo potenziamento cumulabile (Guardiano: Pelliccia di Ferro), dai tuoi lanci. Metti lo stesso potenziamento accanto nel Gestore recuperi di Blizzard per controllare il numero.
+222	Fuori dal combattimento, un potenziamento che la tua rotazione si aspetta va nello slot 1 se manca o scade entro 5 minuti: potenziamenti d'incursione (su di te o su qualcuno a portata), scudi, infusioni dell'arma, veleni, e Scudo di Terra o Faro di Luce sul tuo difensore. Combattimento > Promemoria dei potenziamenti lo disattiva.
+223	Fuori dal combattimento, un potenziamento mancante va nello slot 1: potenziamenti d'incursione, scudi, infusioni dell'arma, veleni, e Scudo di Terra o Faro di Luce sul tuo difensore. Ognuno può essere nascosto nella pagina Incantesimi e monili.
+224	Contorno
+225	Riproduci il suono di interruzione
+226	PlayStation (X O, L1 R1)
+227	Segnale «premi ora»
+228	Simula un avviso difensivo
+229	Simula un'interruzione
+230	Mostra cosa suggerisce ora l'assistente di Blizzard (seleziona prima un nemico).
+231	Mostra quali tra DBM, BigWigs e LittleWigs DMGAssist sta leggendo.
+232	Profilo
+233	Profilo %s eliminato; questo personaggio usa di nuovo Default.
+234	Profilo in uso
+235	Pagina del progetto
+236	Pulsazione
+237	Domanda %d di %d
+238	Lunghezza della coda: %d.
+239	Coda pronta
+240	Configurazione rapida
+241	Avviso d'incursione
+242	Prepara prima dei colpi forti
+243	Prepara con questo anticipo
+244	Appello
+245	Consigli
+246	Consigli disattivati.
+247	Consigli attivati.
+248	Aggiorna
+249	Rileggi i tasti
+250	Rifai il rapporto
+251	Sostituisce le opzioni del profilo in uso.
+252	Rapporto %s, %d caratteri
+253	Rapporto %s, %d caratteri, selezionato: premi Ctrl+C per copiarlo.
+254	Segnala un problema
+255	Segnala un problema
+256	Rapporto non riuscito
+257	Rapporto troppo grande
+258	Segnalare un problema
+259	Ripristina tutto ai valori predefiniti
+260	Subito dopo il problema: /dmga report (o il menu della minimappa, o Stato > Segnala un problema). Passo 1: di' cosa è andato storto. Passo 2: Ctrl+C copia insieme le tue parole e il rapporto. Passo 3: apri il link e incolla tutto in una nuova segnalazione. /dmga help elenca tutti i comandi.
+261	Clic destro: menu e opzioni
+262	Rotazione di %s.
+263	Rotazione da
+264	Ripeti la configurazione
+265	Salva ogni riga controllata dal motore nel registro del Watchdog (come /dmga snapshot).
+266	Scala
+267	Secondi prima del colpo annunciato dal tuo addon dei boss.
+268	Autocura al
+269	Autocure
+270	Autocure nelle incursioni
+271	Le autocure che la tua rotazione può suggerire (Preghiera Disperata, Ricrescita, Fiala Cremisi...) compaiono solo con questa salute o meno. 0 = mai.
+272	Assegna i tasti
+273	Opzioni
+274	Opzioni copiate da %s a %s.
+275	Le opzioni si aprono alla fine del combattimento.
+276	Opzioni usate da questo personaggio. «Default» è condiviso da tutti i personaggi senza un profilo proprio.
+277	Mostra gli addon dei boss trovati
+278	Mostra fuori dal combattimento
+279	Mostra i consigli
+280	Mostra il numero di accumuli
+281	Mostra l'HUD fuori dal combattimento quando hai un nemico selezionato.
+282	Mostra con un bersaglio
+283	Mostra i tuoi monili a uso (badge senza GCD sullo slot 1) quando sono pronti, con i tuoi recuperi, in combattimento.
+284	Predefinito SimC (300 s boss, trash brevi)
+285	SimC trattiene o usa i recuperi in base a quanto dura il combattimento. Appreso: la durata tipica dei tuoi combattimenti recenti dello stesso tipo (mondo aperto, trash di spedizioni/incursioni, boss, PvP); i valori di SimC finché non ne ha 5.
+286	SimulationCraft non pubblica una rotazione per la maggior parte delle specializzazioni da guaritore (Disciplina, Sacro (sacerdote), Sacro (paladino), Misticismo, Rigenerazione (sciamano), Conservazione). Per queste DMGAssist ha le sue liste di danno, apprese dalle guide di classe attuali, per i tuoi danni tra una cura e l'altra (la lista di SimC sostituisce la nostra appena ne pubblica una). Guarire resta una tua scelta. Interruzioni, difensive con il tuo addon dei boss, monili, tasti e le tue scelte di incantesimi funzionano tutti. Rigenerazione (druido) ha una lista SimC completa, incluso il cat weaving. Una specializzazione senza alcuna lista (alcune su WoW Forever) segue il Combattimento assistito di Blizzard.
+287	Bersaglio singolo
+288	Dimensione, in percentuale dello slot 1.
+289	Salta l'incantesimo dello slot 1 tre volte e viene trattenuto per il resto del combattimento («tenerlo da parte»). Lancialo tu e torna. Vengono trattenuti solo incantesimi con un vero recupero.
+290	Salta l'incantesimo del primo slot tre volte e viene trattenuto fino alla fine del combattimento. Lancialo tu per farlo tornare.
+291	Saltare un incantesimo
+293	Piccola
+294	Intelligente: tutto nel mondo aperto; in spedizioni/incursioni solo ciò che conta
+295	Intelligente: avvisi degli addon dei boss e salute bassa
+296	Istantanea
+297	Istantanea: %s (%s), %d righe controllate. Salvata per il tuo rapporto: /dmga report.
+298	Avvisi sonori
+299	Suoni
+300	Specializzazione cambiata: %s
+301	Colore del nome dell'incantesimo
+302	Dimensione del nome dell'incantesimo
+303	Nomi degli incantesimi sotto le icone
+304	Incantesimi e monili
+305	Incantesimi e monili: togli la spunta a un incantesimo o monile per non vederlo mai, oppure spunta Per primo quando pronto per mettere un incantesimo nello slot 1 ogni volta che può essere lanciato. Salvato per specializzazione, anche dopo gli aggiornamenti.
+306	Incantesimi della lista che non hai (o che non riconosciamo): %s
+307	Incantesimi riconosciuti: %s. Scrivi /dmga help per le opzioni.
+308	Incantesimi della rotazione che hai
+309	Incantesimi mostrati
+310	Accumuli
+311	Posizione degli accumuli
+312	Dimensione del testo degli accumuli
+313	Parte come copia delle opzioni attuali; gli altri personaggi non vengono toccati.
+314	Stato
+315	Fisso
+316	Salva un'istantanea delle decisioni
+317	Suggerisci una difensiva con questo anticipo prima di un colpo forte annunciato da un addon dei boss.
+318	Suggerisci difensive
+319	Suggerisci interruzioni
+320	Riepilogo (da leggere; quello da incollare è il rapporto)
+321	Cambia con un tasto
+322	Talenti letti
+323	Base del difensore
+324	Difensori: mantieni la mitigazione attiva e il tuo DoT di minaccia (Guardiano: accumuli di Pelliccia di Ferro, Fuoco Lunare sul bersaglio).
+325	Modalità bersagli
+326	Modalità bersagli: %s.
+327	Bersagli
+328	Prova
+329	Avviso difensivo di prova per 8 s: lo slot 1 mostra %s, come quando DBM / BigWigs / LittleWigs avvisano di un colpo forte.
+330	Interruzione di prova per 8 s: lo slot 1 mostra %s, come quando un addon dei boss chiede un kick o il tuo bersaglio lancia.
+331	Testo
+332	L'addon DMGAssist_Watchdog (Segnala un problema) non è installato.
+333	Il profilo Default non può essere eliminato.
+334	L'HUD è sbloccato: trascinalo dove vuoi, poi bloccalo in Opzioni > DMGAssist.
+335	Le icone
+336	L'icona principale è scurita finché il tuo GCD o lancio sta per finire, poi lampeggia: premila in quel momento.
+337	Il prossimo incantesimo, più fino a due dopo.
+338	La coda con la provenienza di ogni scelta (SimC, assistente, regole di Blizzard, stima).
+339	Non è stato possibile creare il rapporto:
+340	Il rapporto non entrava nella finestra. Scrivi /dmgw status e incolla invece ciò che mostra.
+341	Spesso
+342	Contorno spesso
+343	Sottile
+344	Questo personaggio
+345	Questo personaggio ora ha il suo profilo: %s.
+346	Tre domande: dove va l'HUD, quanto è grande e quando compare.
+347	Per segnalare un problema o dare un parere: premi Segnala un problema (o scrivi /dmga report). Ti guida passo per passo: di' cosa è andato storto, copia il rapporto e incollalo nella pagina delle segnalazioni.
+348	In alto a sinistra
+349	In alto a destra
+350	Angolo in alto a sinistra (agganciato)
+351	Angolo in alto a destra
+352	Monili
+353	Risoluzione dei problemi
+354	Diramazioni a due incantesimi
+355	Sblocca per trascinare le icone; sono mostrate anche mentre questo pannello è aperto.
+356	Add, area, colpi al difensore e interruzioni in arrivo: usati per difensive, interruzioni e il tempismo degli add di SimC.
+357	Usa un profilo solo per questo personaggio
+358	Usa i recuperi su
+359	Usa i suggerimenti
+360	Usato quando «Numero di bersagli per l'area» è Personalizzato: da questo numero di bersagli in su conta come area.
+361	Usato quando il numero non è disponibile. Il tasto lo cambia durante un combattimento.
+362	Versione
+363	Avvisa dei tasti mancanti
+364	Attenzione: dati di %s caricati insieme; si usa %s.
+365	Watchdog (diagnostica)
+366	Benvenuto in DMGAssist
+367	Cosa stavi facendo? (per esempio: 5 manichini, un pull in mitica+, un boss d'incursione, da solo)
+368	Quando
+369	Quando decide una risorsa nascosta (p. es. 4 o 5 punti combo), mostra entrambi gli incantesimi; il gioco rende visibile quello giusto.
+370	Quando deve comparire?
+371	Quando mostrare
+372	Quando il tuo addon dei boss avvisa di danni ad area, mostra Parola del Potere: Radiosità e poi Scudo, finché non ci sono abbastanza Espiazioni.
+373	Dove vanno i consigli?
+374	Da dove viene la rotazione
+375	Dove si trova il piccolo badge degli incantesimi premuti insieme allo slot 1 (senza GCD, p. es. Pelliccia di Ferro).
+376	Sussurro
+377	Con «Boss e pull grandi»: da questo numero di nemici in su è un pull grande.
+378	Con DBM, BigWigs o LittleWigs, una difensiva viene mostrata qualche secondo prima di un colpo forte che segnalano (prima le più leggere; in recupero, la successiva). Anche quando hai poca salute. In Integrazioni ci sono pulsanti per provarle entrambe.
+379	Con un controller (il supporto controller del gioco), i tasti appaiono come pulsanti del controller, per esempio LT+A.
+380	Xbox (A B X Y, LB RB)
+381	Hai punti talento non spesi: premi N per aprire i tuoi talenti.
+382	Ora conosci abbastanza incantesimi di questa specializzazione: guida la lista di priorità di DMGAssist.
+383	Le tue scelte
+384	Punto di cambio della tua specializzazione
+385	Il punto di cambio della tua specializzazione viene dalla sua lista SimC (quando usa una lista ad area): il numero in cui cambia.
+386	disponibile (usato come secondo parere)
+387	trattenuto
+388	installato
+389	appreso
+390	in apprendimento: per ora il valore di SimC
+391	livellamento: segue il Combattimento assistito di Blizzard finché non conosci più incantesimi di questa specializzazione
+392	manuale
+393	no
+394	nessuna lista SimC per questa specializzazione: lista propria di DMGAssist, appresa dalle guide di classe
+395	nessuna lista SimC per questa specializzazione: segue il Combattimento assistito di Blizzard
+396	nessuno
+397	nessuno disponibile
+398	nessuno assegnato (Opzioni > DMGAssist > Assegna i tasti)
+399	non disponibile
+400	non installato
+401	non sulle tue barre
+402	disattivato
+403	su una barra, senza tasto
+404	pronto
+405	specializzazione iniziale: segue il Combattimento assistito di Blizzard finché non scegli una specializzazione
+406	bersaglio
+407	bersagli
+408	poi incolla il tuo rapporto con |cffffffffCtrl+V|r e premi Create. Anche uno screenshot aiuta.
+409	monile
+410	monile, slot inferiore
+411	monile, slot superiore
+412	sì
+413	|cffffd100Passo 1.|r Cosa è andato storto? Cosa ti aspettavi invece?
+414	|cffffd100Passo 2.|r Clicca nella casella qui sotto e premi |cffffffffCtrl+C|r. Le tue parole qui sopra sono incluse.
+415	|cffffd100Passo 3.|r Apri questa pagina nel browser (cliccala, Ctrl+C, incollala nella barra degli indirizzi),

@@ -242,6 +242,8 @@ end
 
 API.version = C_AddOns and C_AddOns.GetAddOnMetadata and C_AddOns.GetAddOnMetadata("DMGAssist", "Version") or "?"
 
+API.L = ns.L -- DMGAssist's translations (the report window uses them too)
+
 function API.GetRecommendation()
   return I.Snapshot(ns.last)
 end

@@ -18,6 +18,14 @@ ns.UI = V
 V.ISSUES = "https://github.com/zonearc/dmgassistwow/issues/new?template=bug_report.yml"
 
 local frame, editBox, status, whatBox, doingBox, linkBox
+
+-- Text in the player's language: DMGAssist's translations, when DMGAssist is loaded (it always is by the time
+-- this window opens). The copied report itself stays in English, so anyone can read it.
+local function T(s)
+  local api = _G.DMGAssistAPI
+  local L = type(api) == "table" and api.L
+  return L and L[s] or s
+end
 local filling = false
 
 local function TryCreate(frameType, name, parent, template)
@@ -36,7 +44,7 @@ local function Label(text, anchor, y, template)
     fs:SetPoint("TOPLEFT", 16, y or -32)
   end
   fs:SetJustifyH("LEFT")
-  fs:SetText(text)
+  fs:SetText(T(text))
   return fs
 end
 
@@ -162,7 +170,7 @@ local function Build()
 
   local title = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
   title:SetPoint("TOP", 0, -6)
-  title:SetText("DMGAssist: Report an issue or give feedback")
+  title:SetText(T("DMGAssist: Report an issue or give feedback"))
 
   -- Step 1: your words.
   local step1 = Label("|cffffd100Step 1.|r What went wrong? What did you expect instead?", nil, -34)
@@ -174,7 +182,7 @@ local function Build()
   doingBox = NoteBox(doingBg, "doing", false)
   local clear = TryCreate("Button", nil, frame, "UIPanelButtonTemplate")
   clear:SetSize(90, 20)
-  clear:SetText("Clear")
+  clear:SetText(T("Clear"))
   clear:SetPoint("BOTTOMRIGHT", doingBg, "TOPRIGHT", 0, 2)
   clear:SetScript("OnClick", function()
     local n = Notes()
@@ -247,7 +255,7 @@ local function Build()
 
   local button = TryCreate("Button", nil, frame, "UIPanelButtonTemplate")
   button:SetSize(140, 22)
-  button:SetText("Refresh report") -- addons can't write to the clipboard: this rebuilds and selects it
+  button:SetText(T("Refresh report")) -- addons can't write to the clipboard: this rebuilds and selects it
   button:SetScript("OnClick", function()
     V.ShowReport()
   end)
@@ -300,14 +308,14 @@ function V.ShowReport(typing)
     if not ok or not str then
       local why = ok and tostring(fmt) or tostring(str)
       ns.Errors.Record("watchdog_internal", "report failed: " .. why)
-      Fill("The report could not be built: " .. why, false, "Report failed")
+      Fill(T("The report could not be built:") .. " " .. why, false, T("Report failed"))
       return false
     end
     local text = V.Header() .. str
     -- The report's time is shown, so a paste can be matched to the report (a stale clipboard is easy to spot).
     local stamp = date("%H:%M:%S")
-    Fill(text, not typing, string.format("Report %s, %d characters%s", stamp, len,
-      typing and "" or ", selected: press Ctrl+C to copy it."))
+    Fill(text, not typing, string.format(T(typing and "Report %s, %d characters" or
+      "Report %s, %d characters, selected: press Ctrl+C to copy it."), stamp, len))
     local held = editBox:GetText()
     if type(held) == "string" and #held == #text then
       if not typing then
@@ -321,14 +329,14 @@ function V.ShowReport(typing)
     ns.Export.REPORT_LIMIT = math.floor(math.min(ns.Export.REPORT_LIMIT, #(held or "")) * 0.8)
   end
   ns.Export.REPORT_LIMIT = limit
-  Fill("The report did not fit in the window. Type /dmgw status and paste what it prints instead.", false,
-    "Report too large")
+  Fill(T("The report did not fit in the window. Type /dmgw status and paste what it prints instead."), false,
+    T("Report too large"))
   return false
 end
 
 -- Readable overview (/dmgw status prints it to chat; not part of the panel any more).
 function V.ShowSummary()
-  Fill(ns.Export.Summary(), false, "Summary (for reading; the report is what to paste)")
+  Fill(ns.Export.Summary(), false, T("Summary (for reading; the report is what to paste)"))
 end
 
 -- /dmgw opens straight to the report, selected, ready for Ctrl+C.

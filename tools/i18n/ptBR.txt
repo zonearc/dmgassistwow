@@ -1,0 +1,409 @@
+0	%d feitiços novos não têm tecla atribuída. Opções > DMGAssist > Teclas faltando lista todos.
+1	%d feitiços que o DMGAssist pode recomendar não têm tecla atribuída. Coloque-os em uma barra e atribua uma tecla (Opções > Atalhos, ou o modo de atalhos do seu addon de barras).
+2	%d feitiços que o DMGAssist pode recomendar não têm tecla atribuída:
+3	%d feitiços da sua rotação não têm tecla atribuída. /dmga unbound lista todos (também em Opções > DMGAssist > Teclas faltando).
+4	'AOE 3', 'TANK HIT 2', 'ADDS 8', 'INTERRUPT', 'DEFENSIVE' do seu addon de chefes ou da linha do tempo da Blizzard.
+5	(sugerido)
+6	3 (a lista da sua especialização pesa o número linha por linha)
+7	Uma linha no chat quando você aprende um feitiço que o DMGAssist pode recomendar e que não tem tecla (não quando o jogo já o colocou em um botão com tecla), e quando você tem pontos de talento sobrando depois de subir de nível.
+8	Uma linha acima dos ícones com a sua especialização e um botão de opções.
+10	AUTO conta os inimigos em combate com você dentro do alcance dos seus feitiços (bonecos de treino contam enquanto você luta). ST ou AOE no título é o que a rotação está jogando. Um atalho troca manualmente.
+11	Acima do ícone
+12	Destaque da barra de ações
+13	Barras de ações
+14	Avançado
+15	Alarme
+16	Alarme (curto)
+17	Pronto. Mude o que quiser em Opções > DMGAssist (ou /dmga), ou mova o HUD no Modo de Edição.
+18	Todas as opções voltaram ao padrão.
+19	Sempre
+20	Sempre as sugestões da Blizzard
+21	Sempre a lista de prioridades do DMGAssist
+22	Área
+23	Número de alvos para área
+24	Alvos em área: %d.
+26	Combate Assistido
+27	Duração de combate presumida: %d s.
+28	Expiação
+29	Expiações desejadas
+30	Detectar alvos automaticamente
+31	Detecção automática de alvos: desligada.
+32	Detecção automática de alvos: ligada.
+33	Automático (sugerido)
+34	Automático: abaixo do nível máximo, enquanto um personagem conhece poucos dos feitiços que a lista de prioridades espera, o Combate Assistido da Blizzard lidera. Troca sozinho conforme você aprende mais. Sempre Blizzard: para um alt com talentos muito diferentes da build comum.
+35	Voltar
+36	Fundo
+37	Opacidade do fundo
+38	Posição do selo
+39	Tamanho do selo
+40	Antes dos golpes fortes que o seu addon de chefes avisa, e quando sua vida está baixa.
+41	Abaixo do ícone
+42	Aviso de golpe forte
+43	Tamanho de um pull grande
+44	Atribua teclas em Opções > Atalhos > AddOns > DMGAssist: trocar modo de alvos (Auto / Único / Área), recargas grandes liga/desliga, mostrar/ocultar.
+46	O Combate Assistido da Blizzard não sugere nada aqui (o Forever não tem; no Midnight selecione um inimigo e tente de novo).
+47	O Combate Assistido da Blizzard sugere %s agora: está funcionando.
+48	Combate Assistido da Blizzard
+49	Borda
+50	Opacidade da borda
+51	Avisos de chefes
+52	Aviso do addon de chefes
+53	Cronômetros dos addons de chefes
+54	Addons de chefes
+55	Addons de chefes encontrados
+56	Addons de chefes encontrados: %s. Os cronômetros e avisos deles são usados para defensivas e interrupções.
+57	Addons de chefes: %s.
+58	Chefes e pulls grandes
+59	Embaixo à esquerda
+60	Embaixo à direita
+61	Lembretes de bônus
+62	Tamanho do texto dos avisos
+63	Lançar em movimento
+64	Centro
+65	Os personagens que o usavam voltam para Default.
+66	Verificar Combate Assistido
+67	Escolha um perfil...
+68	Classe e especialização
+69	Limpar
+70	Combate
+71	Comandos:
+72	Nomes dos botões do controle
+73	Recarga pronta
+74	Copiar opções de
+75	Contadas a partir dos seus próprios lançamentos (Escudo, Cura Relâmpago, Súplica, Renovar: 1; Radiância: 5). 5 para um grupo, mais para raides.
+76	Conta os inimigos em combate com você, dentro do alcance dos seus feitiços, pelas placas de nome (as placas de inimigos precisam estar ligadas). Bonecos de treino contam assim que você os acerta.
+77	Personalizado (controle abaixo)
+78	Número de área personalizado
+79	Duração de combate personalizada
+80	DEFENSIVA
+82	DMGAssist (arraste para mover)
+83	Textos do DMGAssist em outro idioma que não o do jogo. Chinês e coreano precisam de um cliente do jogo nesse idioma (pelas fontes). Aplicado após /reload.
+84	DMGAssist: relatar um problema ou dar sua opinião
+85	Texto da decisão
+86	Padrões
+87	Defensiva
+88	Defensivas
+89	Defensivas, interrupções e addons de chefes
+90	Excluir
+91	Excluir o perfil em uso
+92	Escurecer escolhas incertas
+93	Disciplina: Expiação
+94	Exibição
+95	Arrastar: mover este botão
+96	Cada especialização segue a lista de prioridades do SimulationCraft, as mesmas listas que os theorycrafters usam. O jogo esconde muita coisa em combate (procs, recursos exatos); o Combate Assistido da Blizzard e o brilho dos seus botões preenchem essas lacunas.
+97	Cada berloque
+98	Efeitos
+99	Cada berloque de uso equipado e cada feitiço podem ser desligados na página Feitiços e berloques.
+100	Todo combate
+101	Todo combate (padrão), ou só chefes, JxJ e pulls de pelo menos o tamanho abaixo: o trash guarda as recargas.
+102	Todo lançamento interrompível
+103	Todas as opções de todas as páginas do DMGAssist, no perfil em uso.
+104	Todos os feitiços que o DMGAssist pode recomendar têm tecla atribuída.
+105	Modo reserva
+106	Duração do combate
+107	Primeiro quando pronto
+108	Piscar com esta antecedência
+109	Fonte
+110	Para %s. Desmarcado: nunca aparece (o próximo feitiço toma o lugar). Primeiro quando pronto: no espaço 1 sempre que puder ser lançado (só interrupções, defensivas e aproximações vêm antes). Feitiços são lembrados por especialização e berloques por item, então atualizações e trocas de equipamento mantêm suas escolhas.
+111	Por 8 segundos o espaço 1 mostra a defensiva que o DMGAssist escolheria quando seu addon de chefes avisa de um golpe forte (as mais leves primeiro; se estiver em recarga, a próxima).
+112	Por 8 segundos o espaço 1 mostra sua interrupção, como quando um addon de chefes pede um corte ou seu alvo está lançando.
+113	Quadro
+114	Margem do quadro
+115	Aviso de amigo
+117	Barra de GCD
+118	Jogo
+119	Padrão do jogo
+120	Fontes do jogo, mais as registradas com LibSharedMedia.
+121	Idioma do jogo
+122	Aproximações
+123	Faz brilhar o botão de ação real do próximo feitiço (barras da Blizzard, Bartender, ElvUI, Dominos).
+124	Guardião: manter esta quantidade de acúmulos de Pelagem de Ferro (contados pelos seus lançamentos). 0 = desligado.
+125	Cabeçalho
+126	Curadores
+127	Ajuda
+128	Ajuda e atualizações
+129	Valores ocultos
+130	Ocultar em veículos
+131	Ocultar botão do minimapa
+132	Ocultar fora de combate
+133	Ocultar montado
+134	Segurar feitiços pulados
+135	Qual tamanho?
+136	Quanto antes do momento exato o brilho aparece, pelo tempo de reação.
+137	Eu mesmo posiciono (Modo de Edição)
+138	INTERROMPER
+139	Ícone travado.
+140	Espaço entre ícones
+141	Ícone destravado (arraste para mover).
+142	Em combate, e quando eu selecionar um inimigo
+143	Em combate: ST (azul) ou AOE (laranja) com o número de alvos contados, para você ver a detecção automática funcionando.
+144	Em masmorras e raides "o que importa" = seu addon de chefes pede uma interrupção ou a Blizzard marca o feitiço como importante.
+145	Integrações
+146	Interrupção
+147	Feitiço de interrupção
+148	Interrupções
+149	Acúmulos de Pelagem de Ferro
+150	Logo acima das minhas barras de ações
+151	Atalhos
+152	Os atalhos podem ser alterados depois do combate.
+153	Tecla para trocar o modo de alvos
+154	Cor da tecla
+155	Tecla nos ícones
+156	Posição da tecla
+157	Tamanho do texto da tecla
+158	Teclas
+159	As teclas são lidas automaticamente das barras da Blizzard, Bartender, ElvUI e Dominos; isto as lê de novo agora.
+160	Teclas lidas das suas barras
+161	Teclas atualizadas: %d feitiços nas suas barras.
+162	As teclas são lidas das barras da Blizzard, Bartender, ElvUI, Dominos e macros. Teclas faltando lista o que a rotação pode pedir e não tem tecla.
+163	Idioma
+164	Idioma salvo. Digite /reload para trocar.
+165	Grande
+166	Versão mais recente
+167	Disposição
+168	Aprendido dos seus combates
+169	À esquerda do ícone
+170	Clique esquerdo: mostrar / ocultar
+171	Clique esquerdo: mostrar / ocultar. Clique direito: menu e opções. Arraste para mover.
+172	Clique esquerdo: mostrar / ocultar. Clique direito: opções. Clique do meio: modo de alvos.
+173	Subindo de nível
+174	Subindo de nível e alts
+175	Subindo de nível: as sugestões da Blizzard lideram até você conhecer mais feitiços desta especialização.
+176	Travar posição
+177	Vida baixa
+178	Brilho do ícone principal
+179	Tamanho do ícone principal
+180	Recargas grandes
+181	Recargas grandes desligadas.
+182	Recargas grandes ligadas.
+183	Médio
+184	Corpo a corpo: fora do alcance do seu alvo, mostrar primeiro sua investida / salto (Investida Selvagem, Investida, Passos das Sombras...).
+185	No meio da tela, abaixo do meu personagem
+186	Só Midnight: ele vê procs e recursos ocultos, então confirma linhas incertas do SimC. O Forever não tem.
+187	Botão do minimapa
+188	Botão do minimapa oculto. Ligue de novo nas opções (/dmga config).
+189	Teclas faltando
+190	Título do modo
+192	PRÓXIMO
+193	AGORA
+194	Rótulos AGORA / PRÓXIMO
+195	AGORA é o feitiço para apertar em seguida; os dois ícones PRÓXIMO vêm depois. Um pequeno rótulo no ícone diz de onde veio a escolha: nada = lista de prioridades do SimC, AC = Combate Assistido da Blizzard, B = regras escritas da Blizzard, ? = melhor palpite (escurecido), ... = esperando um recurso. O pequeno selo no canto do espaço 1 é um feitiço sem GCD (Pelagem de Ferro, berloques) para apertar junto.
+196	Avisos de feitiços novos e talentos
+197	Feitiço novo: %s está nas suas barras mas não tem tecla. Atribua uma e o DMGAssist vai mostrá-lo.
+198	Feitiço novo: %s. Coloque-o nas suas barras de ações com uma tecla e o DMGAssist vai recomendá-lo.
+199	Tamanho dos próximos ícones
+200	Opacidade dos próximos ícones
+201	Próximo: %s (%s). O Combate Assistido diz: %s.
+202	Nenhum addon de chefes encontrado (DBM, BigWigs, LittleWigs). As defensivas então seguem só a sua vida.
+203	Nenhuma recomendação no momento.
+204	Nenhum
+205	Desligado
+206	Selo sem GCD (Pelagem de Ferro)
+207	Desligado: nunca sugeridas em raides (lá curar é trabalho dos curadores).
+208	Desligado: enquanto você se move, feitiços com tempo de lançamento são pulados (instantâneos e procs continuam aparecendo).
+209	Berloques de uso
+210	Os berloques de uso estão desligados (Combate > Berloques).
+211	Ligado: recargas grandes aparecem nos três espaços na ordem do SimC. Desligado: nunca aparecem.
+212	Uma vez por especialização a cada sessão: uma linha no chat quando feitiços que o DMGAssist pode recomendar não têm tecla.
+213	Só %d de %d feitiços desta lista de prioridades estão no seu grimório. As recomendações usam o que você tem, então espere lacunas (nível baixo, talentos ou uma lista feita para outra versão do jogo).
+214	Só avisos dos addons de chefes
+215	Só em combate
+216	Só em masmorras e raides
+217	Só com vida baixa
+218	Só quando DBM / BigWigs / LittleWigs pedir
+219	Opacidade
+220	Opções > Atalhos > AddOns > DMGAssist.
+221	Nossa contagem do seu bônus acumulável (Guardião: Pelagem de Ferro), a partir dos seus lançamentos. Coloque o mesmo bônus ao lado no Gerenciador de Recargas da Blizzard para conferir.
+222	Fora de combate, um bônus que sua rotação espera vai para o espaço 1 quando está faltando ou acaba em menos de 5 minutos: bônus de raide (em você ou em alguém no alcance), escudos, imbuições de arma, venenos, e Escudo de Terra ou Farol da Luz no seu tanque. Combate > Lembretes de bônus desliga isso.
+223	Fora de combate, um bônus que está faltando vai para o espaço 1: bônus de raide, escudos, imbuições de arma, venenos, e Escudo de Terra ou Farol da Luz no seu tanque. Cada um pode ser ocultado na página Feitiços e berloques.
+224	Contorno
+225	Tocar o som de interrupção
+226	PlayStation (X O, L1 R1)
+227	Sinal de "aperte agora"
+228	Simular um aviso defensivo
+229	Simular uma interrupção
+230	Mostra o que o assistente da Blizzard sugere agora (selecione um inimigo antes).
+231	Mostra quais de DBM, BigWigs e LittleWigs o DMGAssist está lendo.
+232	Perfil
+233	Perfil %s excluído; este personagem volta a usar Default.
+234	Perfil em uso
+235	Página do projeto
+236	Pulsar
+237	Pergunta %d de %d
+238	Tamanho da fila: %d.
+239	Fila pronta
+240	Configuração rápida
+241	Aviso de raide
+242	Preparar antes de golpes fortes
+243	Preparar com esta antecedência
+244	Verificação de prontidão
+245	Recomendações
+246	Recomendações desligadas.
+247	Recomendações ligadas.
+248	Atualizar
+249	Ler as teclas de novo
+250	Refazer o relatório
+251	Substitui as opções do perfil em uso.
+252	Relatório %s, %d caracteres
+253	Relatório %s, %d caracteres, selecionado: aperte Ctrl+C para copiar.
+254	Relatar um problema
+255	Relatar um problema
+256	O relatório falhou
+257	Relatório grande demais
+258	Relatar um problema
+259	Restaurar tudo ao padrão
+260	Logo depois que acontecer: /dmga report (ou o menu do minimapa, ou Status > Relatar um problema). Passo 1: diga o que deu errado. Passo 2: Ctrl+C copia suas palavras e o relatório juntos. Passo 3: abra o link e cole tudo em uma nova issue. /dmga help lista todos os comandos.
+261	Clique direito: menu e opções
+262	Rotação por %s.
+263	Rotação de
+264	Fazer a configuração de novo
+265	Salva cada linha que o motor verificou no registro do Watchdog (igual a /dmga snapshot).
+266	Escala
+267	Segundos antes do golpe que seu addon de chefes anuncia.
+268	Autocura em
+269	Autocuras
+270	Autocuras em raides
+271	As autocuras que sua rotação pode sugerir (Prece Desesperada, Recrescimento, Frasco Carmesim...) só aparecem com esta vida ou menos. 0 = nunca.
+272	Definir atalhos
+273	Opções
+274	Opções copiadas de %s para %s.
+275	As opções abrem quando o combate terminar.
+276	Opções que este personagem usa. "Default" é compartilhado por todos os personagens sem perfil próprio.
+277	Mostrar addons de chefes encontrados
+278	Mostrar fora de combate
+279	Mostrar recomendações
+280	Mostrar acúmulos
+281	Mostrar o HUD fora de combate enquanto um inimigo estiver selecionado.
+282	Mostrar com alvo
+283	Mostrar seus berloques de uso (selo sem GCD no espaço 1) quando estiverem prontos, com suas recargas, em combate.
+284	Padrão do SimC (300 s chefes, trash curto)
+285	O SimC segura ou usa as recargas conforme a duração do combate. Aprendido: a duração típica dos seus combates recentes do mesmo tipo (mundo aberto, trash de masmorras/raides, chefes, JxJ); os padrões do SimC até ter 5.
+286	O SimulationCraft não publica rotação para a maioria das especializações de cura (Disciplina, Sagrado (sacerdote), Sagrado (paladino), Tecelão da Névoa, Restauração (xamã), Preservação). Para elas o DMGAssist tem listas de dano próprias, aprendidas dos guias de classe atuais, para o seu dano entre as curas (a lista do SimC substitui a nossa assim que for publicada). Curar continua sendo decisão sua. Interrupções, defensivas com seu addon de chefes, berloques, teclas e suas escolhas de feitiços funcionam. Restauração (druida) tem uma lista completa do SimC, incluindo o cat weaving. Uma especialização sem nenhuma lista (algumas no WoW Forever) segue o Combate Assistido da Blizzard.
+287	Alvo único
+288	Tamanho, em porcentagem do espaço 1.
+289	Pule o feitiço do espaço 1 três vezes e ele fica guardado pelo resto do combate ("guardar"). Lance-o você mesmo e ele volta. Só feitiços com recarga de verdade são guardados.
+290	Pule o feitiço do primeiro espaço três vezes e ele fica guardado até o combate acabar. Lance-o você mesmo para trazê-lo de volta.
+291	Pular um feitiço
+293	Pequeno
+294	Inteligente: tudo no mundo aberto; em masmorras/raides só o que importa
+295	Inteligente: avisos dos addons de chefes e vida baixa
+296	Instantâneo
+297	Instantâneo: %s (%s), %d linhas verificadas. Salvo para o seu relatório: /dmga report.
+298	Alertas sonoros
+299	Sons
+300	Especialização trocada: %s
+301	Cor do nome do feitiço
+302	Tamanho do nome do feitiço
+303	Nomes dos feitiços abaixo dos ícones
+304	Feitiços e berloques
+305	Feitiços e berloques: desmarque um feitiço ou berloque para nunca vê-lo, ou marque Primeiro quando pronto para colocar um feitiço no espaço 1 sempre que puder ser lançado. Salvo por especialização, mesmo entre atualizações.
+306	Feitiços da lista que você não tem (ou que não reconhecemos): %s
+307	Feitiços reconhecidos: %s. Digite /dmga help para ver as opções.
+308	Feitiços da rotação que você tem
+309	Feitiços mostrados
+310	Acúmulos
+311	Posição dos acúmulos
+312	Tamanho do texto dos acúmulos
+313	Começa como cópia das opções atuais; os outros personagens não são afetados.
+314	Status
+315	Fixo
+316	Salvar um instantâneo das decisões
+317	Sugerir uma defensiva com esta antecedência antes de um golpe forte que um addon de chefes anuncia.
+318	Sugerir defensivas
+319	Sugerir interrupções
+320	Resumo (para ler; o que você cola é o relatório)
+321	Trocar com uma tecla
+322	Talentos lidos
+323	Básico do tanque
+324	Tanques: manter a mitigação ativa e o seu DoT de ameaça (Guardião: acúmulos de Pelagem de Ferro, Fogo Lunar no alvo).
+325	Modo de alvos
+326	Modo de alvos: %s.
+327	Alvos
+328	Testar
+329	Aviso defensivo de teste por 8 s: o espaço 1 mostra %s, como quando DBM / BigWigs / LittleWigs avisam de um golpe forte.
+330	Interrupção de teste por 8 s: o espaço 1 mostra %s, como quando um addon de chefes pede um corte ou seu alvo está lançando.
+331	Texto
+332	O addon DMGAssist_Watchdog (Relatar um problema) não está instalado.
+333	O perfil Default não pode ser excluído.
+334	O HUD está destravado: arraste para onde quiser e depois trave em Opções > DMGAssist.
+335	Os ícones
+336	O ícone principal fica escuro até seu GCD ou lançamento estar quase no fim, e então pisca: aperte nessa hora.
+337	O próximo feitiço, mais até dois depois.
+338	A fila com a origem de cada escolha (SimC, assistente, regras da Blizzard, palpite).
+339	Não foi possível criar o relatório:
+340	O relatório não coube na janela. Digite /dmgw status e cole o que aparecer no lugar.
+341	Grosso
+342	Contorno grosso
+343	Fino
+344	Este personagem
+345	Este personagem agora tem perfil próprio: %s.
+346	Três perguntas: onde fica o HUD, qual o tamanho e quando ele aparece.
+347	Para relatar um problema ou dar sua opinião: aperte Relatar um problema (ou digite /dmga report). Ele guia você: diga o que deu errado, copie o relatório e cole na página de issues.
+348	Em cima à esquerda
+349	Em cima à direita
+350	Canto superior esquerdo (encaixado)
+351	Canto superior direito
+352	Berloques
+353	Solução de problemas
+354	Bifurcações de dois feitiços
+355	Destrave para arrastar os ícones; eles também aparecem enquanto este painel estiver aberto.
+356	Adds, área, golpes no tanque e interrupções a caminho: usados para defensivas, interrupções e o tempo dos adds do SimC.
+357	Usar um perfil só para este personagem
+358	Usar recargas em
+359	Usar as sugestões
+360	Usado quando "Número de alvos para área" está em Personalizado: a partir deste número de alvos conta como área.
+361	Usado quando o número não está disponível. O atalho troca durante um combate.
+362	Versão
+363	Avisar sobre teclas faltando
+364	Aviso: dados de %s carregados juntos; usando %s.
+365	Watchdog (diagnóstico)
+366	Bem-vindo ao DMGAssist
+367	O que você estava fazendo? (por exemplo: 5 bonecos, um pull de mítica+, um chefe de raide, sozinho)
+368	Quando
+369	Quando um recurso oculto decide (ex.: 4 ou 5 pontos de combo), mostrar os dois feitiços; o jogo deixa visível o certo.
+370	Quando deve aparecer?
+371	Quando mostrar
+372	Quando seu addon de chefes avisa de dano em área, mostrar Palavra de Poder: Radiância e depois Escudo, até ter Expiações suficientes.
+373	Onde ficam as recomendações?
+374	De onde vem a rotação
+375	Onde fica o pequeno selo dos feitiços apertados junto com o espaço 1 (sem GCD, ex.: Pelagem de Ferro).
+376	Sussurro
+377	Com "Chefes e pulls grandes": a partir deste número de inimigos é um pull grande.
+378	Com DBM, BigWigs ou LittleWigs, uma defensiva aparece alguns segundos antes de um golpe forte que eles avisam (as mais leves primeiro; em recarga, a próxima). Também quando sua vida está baixa. Integrações tem botões para testar os dois.
+379	Com um controle (o suporte a controle do jogo), as teclas aparecem como botões do controle, por exemplo LT+A.
+380	Xbox (A B X Y, LB RB)
+381	Você tem pontos de talento sobrando: aperte N para abrir seus talentos.
+382	Agora você conhece feitiços suficientes desta especialização: a lista de prioridades do DMGAssist lidera.
+383	Suas escolhas
+384	Ponto de troca da sua especialização
+385	O ponto de troca da sua especialização vem da lista do SimC dela (quando ela usa uma lista de área): o número em que ela muda.
+386	disponível (usado como segunda opinião)
+387	guardado
+388	instalado
+389	aprendido
+390	aprendendo: padrão do SimC por enquanto
+391	subindo de nível: segue o Combate Assistido da Blizzard até você conhecer mais feitiços desta especialização
+392	manual
+393	não
+394	sem lista do SimC para esta especialização: lista própria do DMGAssist, aprendida dos guias de classe
+395	sem lista do SimC para esta especialização: segue o Combate Assistido da Blizzard
+396	nenhum
+397	nenhum disponível
+398	nenhum definido (Opções > DMGAssist > Definir atalhos)
+399	não disponível
+400	não instalado
+401	fora das suas barras
+402	desligado
+403	em uma barra, sem tecla
+404	pronto
+405	especialização inicial: segue o Combate Assistido da Blizzard até você escolher uma especialização
+406	alvo
+407	alvos
+408	depois cole seu relatório com |cffffffffCtrl+V|r e aperte Create. Uma captura de tela também ajuda.
+409	berloque
+410	berloque, espaço de baixo
+411	berloque, espaço de cima
+412	sim
+413	|cffffd100Passo 1.|r O que deu errado? O que você esperava que acontecesse?
+414	|cffffd100Passo 2.|r Clique na caixa abaixo e aperte |cffffffffCtrl+C|r. Suas palavras acima estão incluídas.
+415	|cffffd100Passo 3.|r Abra esta página no navegador (clique nela, Ctrl+C, cole na barra de endereços),

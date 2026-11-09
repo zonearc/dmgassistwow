@@ -456,6 +456,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
   if event == "ADDON_LOADED" then
     if arg1 == ADDON_NAME then
       ns.Profiles.Load(DEFAULTS) -- ns.db: this character's profile (shared "Default" unless chosen otherwise)
+      ns.ApplyLanguage()
       ns.Sounds.Migrate()
       ns.Client.Detect()
     end

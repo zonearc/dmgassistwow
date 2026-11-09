@@ -1,0 +1,409 @@
+0	%d nouveaux sorts n'ont pas de raccourci. Options > DMGAssist > Raccourcis manquants les liste.
+1	%d sorts que DMGAssist peut recommander n'ont pas de raccourci. Placez-les sur une barre et attribuez une touche (Options > Raccourcis, ou le mode raccourcis de votre addon de barres).
+2	%d sorts que DMGAssist peut recommander n'ont pas de raccourci :
+3	%d sorts de votre rotation n'ont pas de raccourci. /dmga unbound les liste (aussi dans Options > DMGAssist > Raccourcis manquants).
+4	'AOE 3', 'TANK HIT 2', 'ADDS 8', 'INTERRUPT', 'DEFENSIVE' depuis votre addon de boss ou la chronologie de Blizzard.
+5	(conseillé)
+6	3 (la liste de votre spécialisation pèse le nombre ligne par ligne)
+7	Une ligne dans le chat quand vous apprenez un sort que DMGAssist peut recommander et qui n'a pas de touche (pas si le jeu l'a déjà placé sur un bouton avec touche), et quand il vous reste des points de talent après une montée de niveau.
+8	Une ligne au-dessus des icônes avec votre spécialisation et un bouton d'options.
+10	AUTO compte les ennemis en combat avec vous à portée de vos sorts (les mannequins d'entraînement comptent pendant que vous combattez). ST ou AOE dans le titre indique ce que joue la rotation. Un raccourci change le mode à la main.
+11	Au-dessus de l'icône
+12	Surbrillance de la barre d'action
+13	Barres d'action
+14	Avancé
+15	Alarme
+16	Alarme (courte)
+17	C'est prêt. Modifiez tout dans Options > DMGAssist (ou /dmga), ou déplacez le HUD dans le mode Édition.
+18	Toutes les options sont revenues à leurs valeurs par défaut.
+19	Toujours
+20	Toujours les suggestions de Blizzard
+21	Toujours la liste de priorités de DMGAssist
+22	Zone
+23	Nombre de cibles pour la zone
+24	Cibles en zone : %d.
+26	Combat assisté
+27	Durée de combat supposée : %d s.
+28	Expiation
+29	Expiations voulues
+30	Détecter les cibles automatiquement
+31	Détection automatique des cibles : désactivée.
+32	Détection automatique des cibles : activée.
+33	Automatique (conseillé)
+34	Automatique : sous le niveau maximum, tant qu'un personnage connaît peu des sorts attendus par la liste de priorités, le Combat assisté de Blizzard mène. Il change tout seul à mesure que vous en apprenez. Toujours Blizzard : pour un reroll dont les talents sont loin du build habituel.
+35	Retour
+36	Arrière-plan
+37	Opacité de l'arrière-plan
+38	Position du badge
+39	Taille du badge
+40	Avant les gros coups annoncés par votre addon de boss, et quand votre vie est basse.
+41	Sous l'icône
+42	Alerte de gros coup
+43	Taille d'un gros pull
+44	Attribuez des touches dans Options > Raccourcis > AddOns > DMGAssist : changer de mode de cibles (Auto / Unique / Zone), gros temps de recharge oui/non, afficher/masquer.
+46	Le Combat assisté de Blizzard ne propose rien ici (Forever n'en a pas ; dans Midnight, ciblez un ennemi et réessayez).
+47	Le Combat assisté de Blizzard suggère %s en ce moment : il fonctionne.
+48	Combat assisté de Blizzard
+49	Bordure
+50	Opacité de la bordure
+51	Annonces de boss
+52	Annonce de l'addon de boss
+53	Minuteurs des addons de boss
+54	Addons de boss
+55	Addons de boss trouvés
+56	Addons de boss trouvés : %s. Leurs minuteurs et annonces servent aux défensifs et aux interruptions.
+57	Addons de boss : %s.
+58	Boss et gros pulls
+59	En bas à gauche
+60	En bas à droite
+61	Rappels d'améliorations
+62	Taille du texte des annonces
+63	Incanter en mouvement
+64	Centre
+65	Les personnages qui l'utilisaient reviennent à Default.
+66	Vérifier le Combat assisté
+67	Choisir un profil...
+68	Classe et spécialisation
+69	Effacer
+70	Combat
+71	Commandes :
+72	Noms des boutons de manette
+73	Temps de recharge prêt
+74	Copier les options de
+75	Comptées à partir de vos propres sorts (Bouclier, Soins rapides, Supplique, Rénovation : 1 ; Radiance : 5). 5 pour un groupe, plus en raid.
+76	Compte les ennemis en combat avec vous, à portée de vos sorts, grâce à leurs barres d'info (les barres d'info ennemies doivent être activées). Les mannequins d'entraînement comptent dès que vous les avez frappés.
+77	Personnalisé (curseur ci-dessous)
+78	Nombre de zone personnalisé
+79	Durée de combat personnalisée
+80	DÉFENSIF
+82	DMGAssist (glisser pour déplacer)
+83	Textes de DMGAssist dans une autre langue que celle du jeu. Le chinois et le coréen nécessitent un client de jeu dans cette langue (pour ses polices). Appliqué après /reload.
+84	DMGAssist : signaler un problème ou donner un avis
+85	Texte de décision
+86	Par défaut
+87	Défensif
+88	Défensifs
+89	Défensifs, interruptions et addons de boss
+90	Supprimer
+91	Supprimer le profil utilisé
+92	Atténuer les choix incertains
+93	Discipline : Expiation
+94	Affichage
+95	Glisser : déplacer ce bouton
+96	Chaque spécialisation suit la liste de priorités de SimulationCraft, les mêmes listes que celles des theorycrafters. Le jeu cache beaucoup de choses en combat (procs, ressources exactes) ; le Combat assisté de Blizzard et la lueur de vos boutons comblent ces manques.
+97	Chaque bijou
+98	Effets
+99	Chaque bijou à utiliser équipé et chaque sort peuvent être désactivés sur la page Sorts et bijoux.
+100	Chaque combat
+101	Chaque combat (par défaut), ou seulement les boss, le JcJ et les pulls d'au moins la taille ci-dessous : les trash les gardent en réserve.
+102	Chaque incantation interruptible
+103	Chaque option de chaque page de DMGAssist, dans le profil utilisé.
+104	Chaque sort que DMGAssist peut recommander a un raccourci.
+105	Mode de secours
+106	Durée du combat
+107	En premier dès que prêt
+108	Clignoter autant à l'avance
+109	Police
+110	Pour %s. Décoché : jamais affiché (le sort suivant prend sa place). En premier dès que prêt : dans la case 1 dès qu'il peut être lancé (seuls les interruptions, défensifs et rapprochements passent avant). Les sorts sont retenus par spécialisation et les bijoux par objet, donc les mises à jour et changements d'équipement gardent vos choix.
+111	Pendant 8 secondes, la case 1 montre le défensif que DMGAssist choisirait quand votre addon de boss annonce un gros coup (les plus légers d'abord ; s'il est en recharge, le suivant).
+112	Pendant 8 secondes, la case 1 montre votre interruption, comme quand un addon de boss demande un kick ou que votre cible incante.
+113	Cadre
+114	Marge du cadre
+115	Notification d'ami
+117	Barre de GCD
+118	Jeu
+119	Par défaut du jeu
+120	Polices du jeu, plus celles enregistrées avec LibSharedMedia.
+121	Langue du jeu
+122	Rapprochements
+123	Fait briller le vrai bouton d'action du prochain sort (barres Blizzard, Bartender, ElvUI, Dominos).
+124	Gardien : garder autant de cumuls de Fourrure de fer (comptés à partir de vos sorts). 0 = désactivé.
+125	En-tête
+126	Soigneurs
+127	Aide
+128	Aide et mises à jour
+129	Valeurs cachées
+130	Masquer en véhicule
+131	Masquer le bouton de la minicarte
+132	Masquer hors combat
+133	Masquer en monture
+134	Retenir les sorts passés
+135	Quelle taille ?
+136	Combien de temps avant le moment exact arrive le clignotement, pour le temps de réaction.
+137	Je le placerai moi-même (mode Édition)
+138	INTERROMPRE
+139	Icône verrouillée.
+140	Espacement des icônes
+141	Icône déverrouillée (glisser pour déplacer).
+142	En combat, et quand je cible un ennemi
+143	En combat : ST (bleu) ou AOE (orange) avec le nombre de cibles comptées, pour voir la détection automatique fonctionner.
+144	En donjon et en raid, « ce qui compte » = votre addon de boss demande une interruption ou Blizzard marque le sort comme important.
+145	Intégrations
+146	Interruption
+147	Sort d'interruption
+148	Interruptions
+149	Cumuls de Fourrure de fer
+150	Juste au-dessus de mes barres d'action
+151	Raccourcis
+152	Les raccourcis peuvent être modifiés après le combat.
+153	Touche pour changer le mode de cibles
+154	Couleur du raccourci
+155	Raccourci sur les icônes
+156	Position du raccourci
+157	Taille du texte du raccourci
+158	Raccourcis
+159	Les raccourcis sont lus automatiquement depuis les barres Blizzard, Bartender, ElvUI et Dominos ; ceci les relit maintenant.
+160	Raccourcis lus sur vos barres
+161	Raccourcis actualisés : %d sorts sur vos barres.
+162	Les touches sont lues depuis les barres de Blizzard, Bartender, ElvUI, Dominos et les macros. Raccourcis manquants liste ce que la rotation peut demander et qui n'a pas de touche.
+163	Langue
+164	Langue enregistrée. Tapez /reload pour l'appliquer.
+165	Grand
+166	Dernière version
+167	Disposition
+168	Appris de vos combats
+169	À gauche de l'icône
+170	Clic gauche : afficher / masquer
+171	Clic gauche : afficher / masquer. Clic droit : menu et options. Glisser pour le déplacer.
+172	Clic gauche : afficher / masquer. Clic droit : options. Clic milieu : mode de cibles.
+173	Montée de niveau
+174	Montée de niveau et rerolls
+175	Montée de niveau : les suggestions de Blizzard mènent jusqu'à ce que vous connaissiez plus de sorts de cette spécialisation.
+176	Verrouiller la position
+177	Vie basse
+178	Lueur de l'icône principale
+179	Taille de l'icône principale
+180	Gros temps de recharge
+181	Gros temps de recharge désactivés.
+182	Gros temps de recharge activés.
+183	Moyen
+184	Mêlée : hors de portée de votre cible, montrer d'abord votre charge / bond (Charge sauvage, Charge, Pas de l'ombre...).
+185	Au milieu de l'écran, sous mon personnage
+186	Midnight uniquement : il voit les procs et ressources cachés, donc il confirme les lignes SimC incertaines. Forever n'en a pas.
+187	Bouton de la minicarte
+188	Bouton de la minicarte masqué. Réactivez-le dans les options (/dmga config).
+189	Raccourcis manquants
+190	Titre du mode
+192	SUIVANT
+193	MAINTENANT
+194	Étiquettes MAINTENANT / SUIVANT
+195	MAINTENANT est le sort à appuyer ensuite ; les deux icônes SUIVANT suivent. Une petite étiquette sur une icône indique d'où vient le choix : rien = liste de priorités de SimC, AC = Combat assisté de Blizzard, B = règles écrites de Blizzard, ? = meilleure estimation (atténuée), ... = en attente d'une ressource. Le petit badge au coin de la case 1 est un sort hors GCD (Fourrure de fer, bijoux) à appuyer en même temps.
+196	Avis de nouveaux sorts et de talents
+197	Nouveau sort : %s est sur vos barres mais n'a pas de touche. Donnez-lui-en une et DMGAssist l'affichera.
+198	Nouveau sort : %s. Placez-le sur vos barres d'action avec une touche et DMGAssist le recommandera.
+199	Taille des icônes suivantes
+200	Opacité des icônes suivantes
+201	Suivant : %s (%s). Le Combat assisté dit : %s.
+202	Aucun addon de boss trouvé (DBM, BigWigs, LittleWigs). Les défensifs suivent alors seulement votre vie.
+203	Aucune recommandation pour l'instant.
+204	Aucun
+205	Désactivé
+206	Badge hors GCD (Fourrure de fer)
+207	Désactivé : jamais proposés en raid (là-bas, soigner est le travail des soigneurs).
+208	Désactivé : pendant que vous bougez, les sorts avec temps d'incantation sont passés (les instantanés et procs restent affichés).
+209	Bijoux à utiliser
+210	Les bijoux à utiliser sont désactivés (Combat > Bijoux).
+211	Activé : les gros temps de recharge apparaissent dans les trois cases dans l'ordre de SimC. Désactivé : ils ne sont jamais affichés.
+212	Une fois par spécialisation et par session : une ligne dans le chat quand des sorts que DMGAssist peut recommander n'ont pas de raccourci.
+213	Seulement %d sorts sur %d de cette liste de priorités sont dans votre grimoire. Les recommandations utilisent ce que vous avez, attendez-vous donc à des trous (bas niveau, talents ou liste écrite pour une autre version du jeu).
+214	Seulement les alertes des addons de boss
+215	Seulement en combat
+216	Seulement en donjon et en raid
+217	Seulement avec la vie basse
+218	Seulement quand DBM / BigWigs / LittleWigs le demande
+219	Opacité
+220	Options > Raccourcis > AddOns > DMGAssist.
+221	Notre décompte de votre amélioration cumulable (Gardien : Fourrure de fer), à partir de vos sorts. Mettez la même amélioration à côté dans le gestionnaire de temps de recharge de Blizzard pour vérifier le nombre.
+222	Hors combat, une amélioration attendue par votre rotation va dans la case 1 si elle manque ou expire dans moins de 5 minutes : améliorations de raid (sur vous ou quelqu'un à portée), boucliers, imprégnations d'arme, poisons, et Bouclier de terre ou Guide de lumière sur votre tank. Combat > Rappels d'améliorations le désactive.
+223	Hors combat, une amélioration manquante va dans la case 1 : améliorations de raid, boucliers, imprégnations d'arme, poisons, et Bouclier de terre ou Guide de lumière sur votre tank. Chacune peut être masquée sur la page Sorts et bijoux.
+224	Contour
+225	Jouer le son d'interruption
+226	PlayStation (X O, L1 R1)
+227	Signal « appuyez maintenant »
+228	Simuler une alerte défensive
+229	Simuler une interruption
+230	Affiche ce que propose l'assistant de Blizzard en ce moment (ciblez d'abord un ennemi).
+231	Affiche lesquels de DBM, BigWigs et LittleWigs DMGAssist lit.
+232	Profil
+233	Profil %s supprimé ; ce personnage utilise de nouveau Default.
+234	Profil utilisé
+235	Page du projet
+236	Pulsation
+237	Question %d sur %d
+238	Longueur de la file : %d.
+239	File d'attente prête
+240	Configuration rapide
+241	Avertissement de raid
+242	Préparer avant les gros coups
+243	Préparer autant à l'avance
+244	Appel
+245	Recommandations
+246	Recommandations désactivées.
+247	Recommandations activées.
+248	Actualiser
+249	Relire les raccourcis
+250	Refaire le rapport
+251	Remplace les options du profil utilisé.
+252	Rapport %s, %d caractères
+253	Rapport %s, %d caractères, sélectionné : appuyez sur Ctrl+C pour le copier.
+254	Signaler un problème
+255	Signaler un problème
+256	Échec du rapport
+257	Rapport trop grand
+258	Signaler un problème
+259	Tout remettre par défaut
+260	Juste après le problème : /dmga report (ou le menu de la minicarte, ou État > Signaler un problème). Étape 1 : dites ce qui s'est mal passé. Étape 2 : Ctrl+C copie vos mots et le rapport ensemble. Étape 3 : ouvrez le lien et collez le tout dans un nouveau ticket. /dmga help liste toutes les commandes.
+261	Clic droit : menu et options
+262	Rotation par %s.
+263	Rotation de
+264	Relancer la configuration
+265	Enregistre chaque ligne vérifiée par le moteur dans le journal du Watchdog (comme /dmga snapshot).
+266	Échelle
+267	Secondes avant le coup annoncé par votre addon de boss.
+268	Soin personnel à
+269	Soins personnels
+270	Soins personnels en raid
+271	Les soins personnels que votre rotation peut proposer (Prière du désespoir, Rétablissement, Fiole cramoisie...) n'apparaissent qu'à cette vie ou moins. 0 = jamais.
+272	Définir les raccourcis
+273	Options
+274	Options copiées de %s vers %s.
+275	Les options s'ouvriront à la fin du combat.
+276	Options utilisées par ce personnage. « Default » est partagé par tous les personnages sans profil propre.
+277	Afficher les addons de boss trouvés
+278	Afficher hors combat
+279	Afficher les recommandations
+280	Afficher le nombre de cumuls
+281	Afficher le HUD hors combat quand un ennemi est ciblé.
+282	Afficher avec une cible
+283	Afficher vos bijoux à utiliser (badge hors GCD sur la case 1) quand ils sont prêts, avec vos temps de recharge, en combat.
+284	Valeur SimC (300 s boss, trash court)
+285	SimC garde ou utilise les temps de recharge selon la durée du combat. Appris : la durée typique de vos combats récents du même type (monde ouvert, trash de donjon/raid, boss, JcJ) ; les valeurs de SimC jusqu'à en avoir 5.
+286	SimulationCraft ne publie pas de rotation pour la plupart des spécialisations de soin (Discipline, Sacré (prêtre), Sacré (paladin), Tisse-brume, Restauration (chaman), Préservation). Pour elles, DMGAssist a ses propres listes de dégâts, apprises des guides de classe actuels, pour vos dégâts entre les soins (la liste de SimC remplace la nôtre dès qu'elle en publie une). Les soins restent votre choix. Interruptions, défensifs avec votre addon de boss, bijoux, raccourcis et vos choix de sorts fonctionnent. Restauration (druide) a une liste SimC complète, y compris le tissage en félin. Une spécialisation sans aucune liste (certaines sur WoW Forever) suit le Combat assisté de Blizzard.
+287	Cible unique
+288	Taille, en pourcentage de la case 1.
+289	Passez le sort de la case 1 trois fois et il est retenu pour le reste du combat (« le garder »). Lancez-le vous-même et il revient. Seuls les sorts avec un vrai temps de recharge sont retenus.
+290	Passez le sort de la première case trois fois et il est retenu jusqu'à la fin du combat. Lancez-le vous-même pour le faire revenir.
+291	Passer un sort
+293	Petit
+294	Intelligent : tout en monde ouvert ; en donjon/raid seulement ce qui compte
+295	Intelligent : alertes des addons de boss et vie basse
+296	Instantané
+297	Instantané : %s (%s), %d lignes vérifiées. Enregistré pour votre rapport : /dmga report.
+298	Alertes sonores
+299	Sons
+300	Spécialisation changée : %s
+301	Couleur du nom du sort
+302	Taille du nom du sort
+303	Noms des sorts sous les icônes
+304	Sorts et bijoux
+305	Sorts et bijoux : décochez un sort ou un bijou pour ne jamais le voir, ou cochez En premier dès que prêt pour placer un sort dans la case 1 dès qu'il peut être lancé. Gardé par spécialisation, même après les mises à jour.
+306	Sorts de la liste que vous n'avez pas (ou que nous ne reconnaissons pas) : %s
+307	Sorts reconnus : %s. Tapez /dmga help pour les options.
+308	Sorts de la rotation que vous avez
+309	Sorts affichés
+310	Cumuls
+311	Position des cumuls
+312	Taille du texte des cumuls
+313	Commence comme copie des options actuelles ; les autres personnages ne sont pas concernés.
+314	État
+315	Fixe
+316	Enregistrer un instantané de décision
+317	Proposer un défensif autant de temps avant un gros coup annoncé par un addon de boss.
+318	Proposer des défensifs
+319	Proposer des interruptions
+320	Résumé (à lire ; c'est le rapport qu'il faut coller)
+321	Changer avec une touche
+322	Talents lus
+323	Essentiels du tank
+324	Tanks : garder la mitigation active et votre DoT de menace (Gardien : cumuls de Fourrure de fer, Éclat lunaire sur la cible).
+325	Mode de cibles
+326	Mode de cibles : %s.
+327	Cibles
+328	Tester
+329	Alerte défensive de test pendant 8 s : la case 1 montre %s, comme quand DBM / BigWigs / LittleWigs annoncent un gros coup.
+330	Interruption de test pendant 8 s : la case 1 montre %s, comme quand un addon de boss demande un kick ou que votre cible incante.
+331	Texte
+332	L'addon DMGAssist_Watchdog (Signaler un problème) n'est pas installé.
+333	Le profil Default ne peut pas être supprimé.
+334	Le HUD est déverrouillé : glissez-le où vous voulez, puis verrouillez-le dans Options > DMGAssist.
+335	Les icônes
+336	L'icône principale est assombrie jusqu'à ce que votre GCD ou incantation soit presque fini, puis elle clignote : appuyez à ce moment-là.
+337	Le prochain sort, plus jusqu'à deux après.
+338	La file avec l'origine de chaque choix (SimC, assistant, règles de Blizzard, estimation).
+339	Le rapport n'a pas pu être créé :
+340	Le rapport ne tenait pas dans la fenêtre. Tapez /dmgw status et collez plutôt ce qui s'affiche.
+341	Épais
+342	Contour épais
+343	Fin
+344	Ce personnage
+345	Ce personnage a maintenant son propre profil : %s.
+346	Trois questions : où va le HUD, quelle taille, et quand il s'affiche.
+347	Pour signaler un problème ou donner un avis : appuyez sur Signaler un problème (ou tapez /dmga report). Il vous guide : dites ce qui s'est mal passé, copiez le rapport, collez-le sur la page des tickets.
+348	En haut à gauche
+349	En haut à droite
+350	Coin supérieur gauche (ancré)
+351	Coin supérieur droit
+352	Bijoux
+353	Dépannage
+354	Embranchements à deux sorts
+355	Déverrouillez pour glisser les icônes ; elles sont aussi affichées tant que ce panneau est ouvert.
+356	Adds, zone, coups sur le tank et interruptions à venir : utilisés pour les défensifs, les interruptions et le timing des adds de SimC.
+357	Utiliser un profil pour ce personnage uniquement
+358	Utiliser les temps de recharge sur
+359	Utiliser les suggestions
+360	Utilisé quand « Nombre de cibles pour la zone » est Personnalisé : à partir de ce nombre de cibles, c'est de la zone.
+361	Utilisé quand le nombre n'est pas disponible. Le raccourci change le mode pendant un combat.
+362	Version
+363	Avertir des raccourcis manquants
+364	Attention : les données de %s ont été chargées en même temps ; %s est utilisé.
+365	Watchdog (diagnostic)
+366	Bienvenue dans DMGAssist
+367	Que faisiez-vous ? (par exemple : 5 mannequins, un pull en mythique+, un boss de raid, en solo)
+368	Quand
+369	Quand une ressource cachée décide (p. ex. 4 ou 5 points de combo), afficher les deux sorts ; le jeu rend le bon visible.
+370	Quand doit-il s'afficher ?
+371	Quand afficher
+372	Quand votre addon de boss annonce des dégâts de zone, afficher Mot de pouvoir : Radiance, puis Bouclier, jusqu'à avoir assez d'Expiations.
+373	Où mettre les recommandations ?
+374	D'où vient la rotation
+375	Où se place le petit badge des sorts appuyés en même temps que la case 1 (sans GCD, p. ex. Fourrure de fer).
+376	Chuchotement
+377	Avec « Boss et gros pulls » : à partir de ce nombre d'ennemis, c'est un gros pull.
+378	Avec DBM, BigWigs ou LittleWigs, un défensif est affiché quelques secondes avant un gros coup qu'ils annoncent (les plus légers d'abord ; en recharge, le suivant). Aussi quand votre vie est basse. Intégrations a des boutons pour tester les deux.
+379	Avec une manette (la prise en charge des manettes du jeu), les raccourcis s'affichent comme des boutons de manette, par exemple LT+A.
+380	Xbox (A B X Y, LB RB)
+381	Il vous reste des points de talent : appuyez sur N pour ouvrir vos talents.
+382	Vous connaissez maintenant assez de sorts de cette spécialisation : la liste de priorités de DMGAssist mène.
+383	Vos choix
+384	Point de bascule de votre spécialisation
+385	Le point de bascule de votre spécialisation vient de sa liste SimC (quand elle utilise une liste de zone) : le nombre où elle change.
+386	disponible (utilisé comme second avis)
+387	retenu
+388	installé
+389	appris
+390	en apprentissage : valeur SimC pour l'instant
+391	montée de niveau : suit le Combat assisté de Blizzard jusqu'à ce que vous connaissiez plus de sorts de cette spécialisation
+392	manuel
+393	non
+394	pas de liste SimC pour cette spécialisation : liste propre de DMGAssist, apprise des guides de classe
+395	pas de liste SimC pour cette spécialisation : suit le Combat assisté de Blizzard
+396	aucun
+397	aucun disponible
+398	aucun défini (Options > DMGAssist > Définir les raccourcis)
+399	non disponible
+400	non installé
+401	pas sur vos barres
+402	désactivé
+403	sur une barre, sans touche
+404	prêt
+405	spécialisation de départ : suit le Combat assisté de Blizzard jusqu'à ce que vous choisissiez une spécialisation
+406	cible
+407	cibles
+408	puis collez votre rapport avec |cffffffffCtrl+V|r et appuyez sur Create. Une capture d'écran aide aussi.
+409	bijou
+410	bijou, emplacement du bas
+411	bijou, emplacement du haut
+412	oui
+413	|cffffd100Étape 1.|r Qu'est-ce qui s'est mal passé ? Qu'attendiez-vous à la place ?
+414	|cffffd100Étape 2.|r Cliquez dans la case ci-dessous et appuyez sur |cffffffffCtrl+C|r. Vos mots ci-dessus sont inclus.
+415	|cffffd100Étape 3.|r Ouvrez cette page dans votre navigateur (cliquez dessus, Ctrl+C, collez-la dans la barre d'adresse),

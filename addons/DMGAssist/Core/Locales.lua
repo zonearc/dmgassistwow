@@ -497,7 +497,54 @@ T.koKR = {
   ["Show or hide DMGAssist"] = "DMGAssist 표시/숨기기",
 }
 
+T.itIT = {
+  ["INTERRUPT"] = "INTERROMPI", ["DEFENSIVE"] = "DIFENSIVA", ["TAUNT"] = "PROVOCA", ["SWITCH"] = "CAMBIA",
+  ["MOVE"] = "MUOVITI", ["DODGE"] = "SCHIVA", ["SOAK"] = "ASSORBI", ["TANK HIT"] = "COLPO AL DIFENSORE",
+  ["ADDS"] = "ADD", ["PHASE"] = "FASE", ["TARGETED"] = "BERSAGLIATO", ["BOSS"] = "BOSS",
+  NOW = "ORA", NEXT = "PROSSIMO", COOLDOWN = "RECUPERO", ST = "SINGOLO", AOE = "AREA", AUTO = "AUTO",
+  ["Next: %s (%s). Cooldown slot: %s. Assisted Combat says: %s."] =
+    "Prossimo: %s (%s). Recupero: %s. Il Combattimento assistito dice: %s.",
+  ["Show or hide DMGAssist"] = "Mostra o nascondi DMGAssist",
+  ["SimC has no priority list for this spec (healer support comes later)"] =
+    "SimC non ha una lista di priorità per questa specializzazione (il supporto per i guaritori arriverà più avanti)",
+  ["Switch target mode (Auto / Single / AoE)"] = "Cambia modalità bersagli (Auto / Singolo / Area)",
+  ["Toggle major cooldowns"] = "Attiva/disattiva i recuperi importanti",
+  ["assumed fight length"] = "durata del combattimento stimata",
+  ["auto-detect targets from nameplates"] = "rileva i bersagli automaticamente dalle targhette",
+  ["cycle Auto / Single / AoE (also a key binding)"] = "alterna Auto / Singolo / Area (anche con un tasto)",
+  ["explain the current pick"] = "spiega la scelta attuale",
+  ["icons shown (1-3)"] = "icone mostrate (1-3)",
+  ["lock or unlock the icon position"] = "blocca o sblocca la posizione dell'icona",
+  ["no specialization chosen yet"] = "nessuna specializzazione scelta",
+  ["open the settings panel"] = "apri il pannello delle opzioni",
+  ["primary target mode"] = "modalità bersagli principale",
+  ["priority data for this client did not load"] = "i dati di priorità per questo client non sono stati caricati",
+  ["show or hide recommendations"] = "mostra o nascondi i consigli",
+  ["status"] = "stato",
+  ["targets assumed in AoE mode"] = "bersagli stimati in modalità area",
+  ["this game client is not supported"] = "questo client di gioco non è supportato",
+  ["toggle major cooldowns"] = "attiva/disattiva i recuperi importanti",
+  ["unknown specialization"] = "specializzazione sconosciuta",
+}
+
 ns.LOCALES = T
+
+-- Full translations, one file per language (Locales/*.lua, loaded before this file): they add to the short
+-- tables above and win where both have a line.
+for locale, lines in pairs(ns.LOCALE_DATA or {}) do
+  T[locale] = T[locale] or {}
+  for k, v in pairs(lines) do
+    T[locale][k] = v
+  end
+end
+T.esMX = T.esMX or T.esES
+
+-- The choices on the settings page, each in its own language.
+ns.LANGUAGES = {
+  { "auto", "Game language" }, { "enUS", "English" }, { "deDE", "Deutsch" }, { "esES", "Español (EU)" },
+  { "esMX", "Español (AL)" }, { "frFR", "Français" }, { "itIT", "Italiano" }, { "ptBR", "Português (BR)" },
+  { "ruRU", "Русский" }, { "koKR", "한국어" }, { "zhCN", "简体中文" }, { "zhTW", "繁體中文" },
+}
 
 -- Apply the client's language (or an explicit one, for tests).
 function ns.SetLocale(locale)
@@ -513,7 +560,16 @@ function ns.SetLocale(locale)
 end
 
 local ok, locale = pcall(GetLocale)
-ns.SetLocale(ok and locale or "enUS")
+ns.gameLocale = ok and locale or "enUS"
+ns.SetLocale(ns.gameLocale)
+
+-- The language chosen in the settings (account-wide), once the saved variables are loaded.
+function ns.ApplyLanguage()
+  local chosen = ns.global and ns.global.language
+  if type(chosen) == "string" and chosen ~= "auto" then
+    ns.SetLocale(chosen)
+  end
+end
 
 -- Key binding labels (shown in the game's Key Bindings > AddOns screen).
 BINDING_HEADER_DMGASSIST = "DMGAssist"

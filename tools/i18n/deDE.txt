@@ -1,0 +1,409 @@
+0	%d neue Zauber haben keine Tastenbelegung. Einstellungen > DMGAssist > Fehlende Tastenbelegungen listet sie auf.
+1	%d Zauber, die DMGAssist empfehlen kann, haben keine Tastenbelegung. Lege sie auf eine Leiste und belege eine Taste (Optionen > Tastenbelegung oder der Belegungsmodus deines Leisten-Addons).
+2	%d Zauber, die DMGAssist empfehlen kann, haben keine Tastenbelegung:
+3	%d Zauber deiner Rotation haben keine Tastenbelegung. /dmga unbound listet sie auf (auch unter Einstellungen > DMGAssist > Fehlende Tastenbelegungen).
+4	'AOE 3', 'TANK HIT 2', 'ADDS 8', 'INTERRUPT', 'DEFENSIVE' von deinem Boss-Addon oder Blizzards Zeitleiste.
+5	(empfohlen)
+6	3 (die Liste deiner Spezialisierung wertet die Zahl Zeile für Zeile)
+7	Eine Chatzeile, wenn du einen Zauber lernst, den DMGAssist empfehlen kann und der keine Taste hat (nicht, wenn das Spiel ihn schon auf eine belegte Taste gelegt hat), und wenn du nach einem Levelaufstieg unverteilte Talentpunkte hast.
+8	Eine Zeile über den Symbolen mit deiner Spezialisierung und einem Einstellungsknopf.
+10	AUTO zählt Gegner, die mit dir im Kampf sind und in Reichweite deiner Zauber stehen (Trainingspuppen zählen, während du kämpfst). ST oder AOE im Titel zeigt, was die Rotation spielt. Eine Tastenbelegung schaltet von Hand um.
+11	Über dem Symbol
+12	Aktionsleisten-Hervorhebung
+13	Aktionsleisten
+14	Erweitert
+15	Alarm
+16	Alarm (kurz)
+17	Fertig. Ändere alles in Einstellungen > DMGAssist (oder /dmga) oder verschiebe das HUD im Bearbeitungsmodus.
+18	Alle Einstellungen sind wieder auf Standard.
+19	Immer
+20	Immer Blizzards Vorschläge
+21	Immer die Prioritätenliste von DMGAssist
+22	Flächenschaden
+23	Ab wie vielen Zielen Flächenschaden
+24	Ziele für Flächenschaden: %d.
+26	Kampfassistent
+27	Angenommene Kampfdauer: %d s.
+28	Abbitte
+29	Gewünschte Abbitten
+30	Ziele automatisch erkennen
+31	Ziele automatisch erkennen: aus.
+32	Ziele automatisch erkennen: an.
+33	Automatisch (empfohlen)
+34	Automatisch: Unter der Höchststufe, solange ein Charakter wenige der Zauber kennt, die die Prioritätenliste erwartet, führt Blizzards Kampfassistent. Es wechselt von selbst, sobald du mehr lernst. Immer Blizzard: für einen Twink, dessen Talente weit vom üblichen Build entfernt sind.
+35	Zurück
+36	Hintergrund
+37	Hintergrund-Deckkraft
+38	Position des Abzeichens
+39	Größe des Abzeichens
+40	Vor großen Treffern, vor denen dein Boss-Addon warnt, und wenn dein Leben niedrig ist.
+41	Unter dem Symbol
+42	Warnung vor großem Treffer
+43	Größe eines großen Pulls
+44	Tasten belegen unter Optionen > Tastenbelegung > AddOns > DMGAssist: Zielmodus wechseln (Auto / Einzelziel / Fläche), große Abklingzeiten an/aus, anzeigen/verbergen.
+46	Blizzards Kampfassistent macht hier keinen Vorschlag (Forever hat keinen; in Midnight ein Ziel anvisieren und erneut versuchen).
+47	Blizzards Kampfassistent schlägt gerade %s vor: er funktioniert.
+48	Blizzards Kampfassistent
+49	Rahmen
+50	Rahmen-Deckkraft
+51	Boss-Hinweise
+52	Hinweis vom Boss-Addon
+53	Timer der Boss-Addons
+54	Boss-Addons
+55	Gefundene Boss-Addons
+56	Gefundene Boss-Addons: %s. Ihre Timer und Hinweise werden für Verteidigung und Unterbrechungen genutzt.
+57	Boss-Addons: %s.
+58	Bosse und große Pulls
+59	Unten links
+60	Unten rechts
+61	Buff-Erinnerungen
+62	Textgröße der Hinweise
+63	Wirken in Bewegung
+64	Mitte
+65	Charaktere, die es nutzten, gehen zurück auf Standard.
+66	Kampfassistent prüfen
+67	Profil wählen...
+68	Klasse und Spezialisierung
+69	Leeren
+70	Kampf
+71	Befehle:
+72	Namen der Controllertasten
+73	Abklingzeit bereit
+74	Einstellungen kopieren von
+75	Gezählt aus deinen eigenen Zaubern (Schild, Blitzheilung, Flehen, Erneuerung: 1; Glanz: 5). 5 für eine Gruppe, mehr für Schlachtzüge.
+76	Zählt Gegner, die mit dir im Kampf sind, in Reichweite deiner Zauber, über ihre Namensplaketten (gegnerische Namensplaketten müssen an sein). Trainingspuppen zählen, sobald du sie getroffen hast.
+77	Eigene (Regler unten)
+78	Eigene Zielzahl für Fläche
+79	Eigene Kampfdauer
+80	VERTEIDIGUNG
+82	DMGAssist (zum Verschieben ziehen)
+83	DMGAssist-Texte in einer anderen Sprache als der des Spiels. Chinesisch und Koreanisch brauchen einen Spielclient in dieser Sprache (wegen der Schriftarten). Gilt nach /reload.
+84	DMGAssist: Problem melden oder Feedback geben
+85	Entscheidungstext
+86	Standard
+87	Verteidigung
+88	Verteidigungszauber
+89	Verteidigung, Unterbrechungen und Boss-Addons
+90	Löschen
+91	Verwendetes Profil löschen
+92	Unsichere Vorschläge abdunkeln
+93	Disziplin: Abbitte
+94	Anzeige
+95	Ziehen: diesen Knopf verschieben
+96	Jede Spezialisierung folgt der Prioritätenliste von SimulationCraft, denselben Listen, die Theorycrafter nutzen. Das Spiel verbirgt im Kampf vieles (Procs, genaue Ressourcen); Blizzards Kampfassistent und das Leuchten deiner Tasten füllen diese Lücken.
+97	Jedes Schmuckstück
+98	Effekte
+99	Jedes angelegte Schmuckstück mit Benutzeffekt und jeder Zauber kann auf der Seite Zauber & Schmuckstücke abgeschaltet werden.
+100	Jeder Kampf
+101	Jeder Kampf (Standard) oder nur Bosse, PvP und Pulls ab der Größe unten: Trash spart sie auf.
+102	Jeder unterbrechbare Zauber
+103	Jede Einstellung auf jeder DMGAssist-Seite, im verwendeten Profil.
+104	Jeder Zauber, den DMGAssist empfehlen kann, hat eine Tastenbelegung.
+105	Ersatzmodus
+106	Kampfdauer
+107	Zuerst, wenn bereit
+108	So früh aufblitzen
+109	Schriftart
+110	Für %s. Nicht angehakt: nie angezeigt (der nächste Zauber rückt nach). Zuerst, wenn bereit: in Feld 1, sobald er gewirkt werden kann (nur Unterbrechungen, Verteidigung und Sprungzauber kommen davor). Zauber werden pro Spezialisierung gemerkt und Schmuckstücke pro Gegenstand, so bleiben deine Entscheidungen bei Updates und Ausrüstungswechseln erhalten.
+111	8 Sekunden lang zeigt Feld 1 den Verteidigungszauber, den DMGAssist wählen würde, wenn dein Boss-Addon vor einem großen Treffer warnt (leichtere zuerst; ist er in Abklingzeit, der nächste).
+112	8 Sekunden lang zeigt Feld 1 deine Unterbrechung, wie wenn ein Boss-Addon einen Kick ansagt oder dein Ziel zaubert.
+113	Rahmen
+114	Rahmenabstand
+115	Freundes-Hinweis
+117	GCD-Leiste
+118	Spiel
+119	Spielstandard
+120	Schriften des Spiels sowie alle, die über LibSharedMedia registriert sind.
+121	Sprache des Spiels
+122	Sprungzauber
+123	Lässt die echte Aktionstaste des nächsten Zaubers leuchten (Blizzard-Leisten, Bartender, ElvUI, Dominos).
+124	Wächter: so viele Stapel Eisenfell aufrechterhalten (gezählt aus deinen Zaubern). 0 = aus.
+125	Kopfzeile
+126	Heiler
+127	Hilfe
+128	Hilfe und Updates
+129	Verborgene Werte
+130	In Fahrzeugen verbergen
+131	Minikarten-Knopf verbergen
+132	Außerhalb des Kampfes verbergen
+133	Beim Reiten verbergen
+134	Übersprungene Zauber zurückhalten
+135	Wie groß?
+136	Wie lange vor dem genauen Moment das Aufblitzen kommt, für die Reaktionszeit.
+137	Ich platziere es selbst (Bearbeitungsmodus)
+138	UNTERBRECHEN
+139	Symbol fixiert.
+140	Symbolabstand
+141	Symbol gelöst (zum Verschieben ziehen).
+142	Im Kampf und wenn ich einen Gegner anvisiere
+143	Im Kampf: ST (blau) oder AOE (orange) mit der Zahl der gezählten Ziele, damit du siehst, wie die automatische Erkennung arbeitet.
+144	In Dungeons und Schlachtzügen heißt „was zählt": dein Boss-Addon sagt eine Unterbrechung an oder Blizzard markiert den Zauber als wichtig.
+145	Integrationen
+146	Unterbrechen
+147	Unterbrechungszauber
+148	Unterbrechungen
+149	Eisenfell-Stapel
+150	Direkt über meinen Aktionsleisten
+151	Tastenbelegungen
+152	Tastenbelegungen können nach dem Kampf geändert werden.
+153	Taste zum Wechseln des Zielmodus
+154	Farbe der Tastenbelegung
+155	Tastenbelegung auf den Symbolen
+156	Position der Tastenbelegung
+157	Textgröße der Tastenbelegung
+158	Tastenbelegungen
+159	Tastenbelegungen werden automatisch aus Blizzard-Leisten, Bartender, ElvUI und Dominos gelesen; das hier liest sie jetzt neu ein.
+160	Aus deinen Leisten gelesene Tastenbelegungen
+161	Tastenbelegungen aktualisiert: %d Zauber auf deinen Leisten.
+162	Tasten werden aus Blizzards Leisten, Bartender, ElvUI, Dominos und Makros gelesen. Fehlende Tastenbelegungen listet auf, was die Rotation verlangen kann und keine Taste hat.
+163	Sprache
+164	Sprache gespeichert. Gib /reload ein, um zu wechseln.
+165	Groß
+166	Neuester Build
+167	Anordnung
+168	Aus deinen Kämpfen gelernt
+169	Links vom Symbol
+170	Linksklick: anzeigen / verbergen
+171	Linksklick: anzeigen / verbergen. Rechtsklick: Menü und Einstellungen. Ziehen zum Verschieben.
+172	Linksklick: anzeigen / verbergen. Rechtsklick: Einstellungen. Mittelklick: Zielmodus.
+173	Leveln
+174	Leveln und Twinks
+175	Leveln: Blizzards Vorschläge führen, bis du mehr Zauber dieser Spezialisierung kennst.
+176	Position fixieren
+177	Niedriges Leben
+178	Leuchten des Hauptsymbols
+179	Größe des Hauptsymbols
+180	Große Abklingzeiten
+181	Große Abklingzeiten aus.
+182	Große Abklingzeiten an.
+183	Mittel
+184	Nahkampf: außer Reichweite deines Ziels zuerst deinen Sturmangriff / Sprung zeigen (Wilder Sturmangriff, Sturmangriff, Schattenschritt...).
+185	Mitte des Bildschirms, unter meinem Charakter
+186	Nur Midnight: er sieht verborgene Procs und Ressourcen und bestätigt damit unsichere SimC-Zeilen. Forever hat keinen.
+187	Minikarten-Knopf
+188	Minikarten-Knopf verborgen. Schalte ihn in den Einstellungen wieder an (/dmga config).
+189	Fehlende Tastenbelegungen
+190	Modus-Titel
+192	NÄCHSTER
+193	JETZT
+194	JETZT / NÄCHSTER Beschriftung
+195	JETZT ist der Zauber, den du als Nächstes drückst; die zwei NÄCHSTER-Symbole folgen. Eine kleine Beschriftung auf einem Symbol zeigt, woher ein Vorschlag stammt: nichts = SimCs Prioritätenliste, AC = Blizzards Kampfassistent, B = Blizzards geschriebene Regeln, ? = beste Schätzung (abgedunkelt), ... = wartet auf eine Ressource. Das kleine Abzeichen an der Ecke von Feld 1 ist ein Zauber ohne GCD (Eisenfell, Schmuckstücke), den du nebenbei drückst.
+196	Hinweise zu neuen Zaubern und Talenten
+197	Neuer Zauber: %s liegt auf deinen Leisten, hat aber keine Taste. Gib ihm eine, dann zeigt DMGAssist ihn an.
+198	Neuer Zauber: %s. Lege ihn mit einer Taste auf deine Aktionsleisten, dann empfiehlt DMGAssist ihn.
+199	Größe der nächsten Symbole
+200	Deckkraft der nächsten Symbole
+201	Nächster: %s (%s). Kampfassistent sagt: %s.
+202	Kein Boss-Addon gefunden (DBM, BigWigs, LittleWigs). Verteidigung richtet sich dann nur nach deinem Leben.
+203	Gerade keine Empfehlung.
+204	Keine
+205	Aus
+206	Abzeichen ohne GCD (Eisenfell)
+207	Aus: in Schlachtzügen nie vorgeschlagen (dort ist Heilen Aufgabe der Heiler).
+208	Aus: während du dich bewegst, werden Zauber mit Zauberzeit übersprungen (Spontanzauber und Procs erscheinen weiter).
+209	Schmuckstücke mit Benutzeffekt
+210	Schmuckstücke mit Benutzeffekt sind abgeschaltet (Kampf > Schmuckstücke).
+211	An: große Abklingzeiten erscheinen in den drei Feldern in SimCs Reihenfolge. Aus: sie werden nie angezeigt.
+212	Einmal pro Spezialisierung und Sitzung: eine Chatzeile, wenn Zauber, die DMGAssist empfehlen kann, keine Tastenbelegung haben.
+213	Nur %d von %d Zaubern dieser Prioritätenliste sind in deinem Zauberbuch. Die Empfehlungen nutzen, was du hast, rechne also mit Lücken (niedrige Stufe, Talente oder eine Liste für eine andere Spielversion).
+214	Nur Warnungen der Boss-Addons
+215	Nur im Kampf
+216	Nur in Dungeons und Schlachtzügen
+217	Nur bei niedrigem Leben
+218	Nur wenn DBM / BigWigs / LittleWigs es ansagt
+219	Deckkraft
+220	Optionen > Tastenbelegung > AddOns > DMGAssist.
+221	Unsere Zählung deines stapelnden Buffs (Wächter: Eisenfell), gezählt aus deinen Zaubern. Lege denselben Buff daneben in Blizzards Abklingzeitenmanager, um die Zahl zu prüfen.
+222	Außerhalb des Kampfes kommt ein Buff, den deine Rotation erwartet, in Feld 1, wenn er fehlt oder innerhalb von 5 Minuten ausläuft: Schlachtzugsbuffs (auf dir oder jemandem in Reichweite), Schilde, Waffenverzauberungen, Gifte sowie Erdschild oder Flamme des Glaubens auf deinem Tank. Kampf > Buff-Erinnerungen schaltet es ab.
+223	Außerhalb des Kampfes kommt ein fehlender Buff in Feld 1: Schlachtzugsbuffs, Schilde, Waffenverzauberungen, Gifte sowie Erdschild oder Flamme des Glaubens auf deinem Tank. Jeder kann auf der Seite Zauber & Schmuckstücke verborgen werden.
+224	Kontur
+225	Unterbrechungston abspielen
+226	PlayStation (X O, L1 R1)
+227	Jetzt-drücken-Signal
+228	Verteidigungs-Hinweis simulieren
+229	Unterbrechung simulieren
+230	Zeigt, was Blizzards Assistent gerade vorschlägt (zuerst einen Gegner anvisieren).
+231	Zeigt, welche von DBM, BigWigs und LittleWigs DMGAssist liest.
+232	Profil
+233	Profil %s gelöscht; dieser Charakter nutzt wieder Standard.
+234	Verwendetes Profil
+235	Projektseite
+236	Pulsieren
+237	Frage %d von %d
+238	Länge der Warteschlange: %d.
+239	Warteschlange bereit
+240	Schnelleinrichtung
+241	Schlachtzugswarnung
+242	Vor großen Treffern vorbereiten
+243	So früh vorbereiten
+244	Bereitschaftscheck
+245	Empfehlungen
+246	Empfehlungen aus.
+247	Empfehlungen an.
+248	Aktualisieren
+249	Tastenbelegungen neu einlesen
+250	Bericht neu erstellen
+251	Ersetzt die Einstellungen des verwendeten Profils.
+252	Bericht %s, %d Zeichen
+253	Bericht %s, %d Zeichen, markiert: drücke Strg+C zum Kopieren.
+254	Problem melden
+255	Problem melden
+256	Bericht fehlgeschlagen
+257	Bericht zu groß
+258	Ein Problem melden
+259	Alles auf Standard zurücksetzen
+260	Direkt nachdem es passiert ist: /dmga report (oder das Minikarten-Menü oder Status > Problem melden). Schritt 1: sag, was schiefging. Schritt 2: Strg+C kopiert deine Worte und den Bericht zusammen. Schritt 3: öffne den Link und füge alles in ein neues Issue ein. /dmga help listet alle Befehle auf.
+261	Rechtsklick: Menü und Einstellungen
+262	Rotation von %s.
+263	Rotation von
+264	Einrichtung erneut starten
+265	Speichert jede Zeile, die die Engine geprüft hat, im Watchdog-Protokoll (wie /dmga snapshot).
+266	Skalierung
+267	Sekunden vor dem Treffer, den dein Boss-Addon ankündigt.
+268	Selbstheilung bei
+269	Selbstheilungen
+270	Selbstheilungen in Schlachtzügen
+271	Selbstheilungen, die deine Rotation vorschlagen kann (Verzweifeltes Gebet, Nachwachsen, Purpurphiole...), erscheinen erst bei oder unter diesem Leben. 0 = nie.
+272	Tastenbelegungen festlegen
+273	Einstellungen
+274	Einstellungen von %s nach %s kopiert.
+275	Die Einstellungen öffnen sich nach dem Kampf.
+276	Einstellungen dieses Charakters. „Standard" teilen alle Charaktere ohne eigenes Profil.
+277	Gefundene Boss-Addons anzeigen
+278	Außerhalb des Kampfes anzeigen
+279	Empfehlungen anzeigen
+280	Stapelzahl anzeigen
+281	Das HUD außerhalb des Kampfes zeigen, solange ein Gegner anvisiert ist.
+282	Mit Ziel anzeigen
+283	Deine Schmuckstücke mit Benutzeffekt (Abzeichen ohne GCD auf Feld 1) zeigen, wenn sie bereit sind, mit deinen Abklingzeiten, im Kampf.
+284	SimC-Standard (300 s Bosse, kurzer Trash)
+285	SimC hält Abklingzeiten zurück oder nutzt sie je nach Kampfdauer. Gelernt: die typische Dauer deiner letzten Kämpfe derselben Art (offene Welt, Trash in Dungeons/Schlachtzügen, Bosse, PvP); SimCs Standardwerte, bis 5 vorliegen.
+286	SimulationCraft veröffentlicht für die meisten Heiler-Spezialisierungen keine Rotation (Disziplin, Heilig (Priester), Heilig (Paladin), Nebelwirker, Wiederherstellung (Schamane), Bewahrung). Für sie hat DMGAssist eigene Schadenslisten, gelernt aus den aktuellen Klassenguides, für deinen Schaden zwischen den Heilungen (SimCs Liste ersetzt unsere, sobald sie erscheint). Das Heilen bleibt deine Entscheidung. Unterbrechungen, Verteidigung mit deinem Boss-Addon, Schmuckstücke, Tastenbelegungen und deine Zauberauswahl funktionieren alle. Wiederherstellung (Druide) hat eine volle SimC-Liste, inklusive Katzenweben. Eine Spezialisierung ganz ohne Liste (manche in WoW Forever) folgt Blizzards Kampfassistent.
+287	Einzelziel
+288	Größe in Prozent von Feld 1.
+289	Überspringe den Zauber in Feld 1 dreimal, dann wird er für den Rest des Kampfes zurückgehalten („aufsparen"). Wirke ihn selbst, und er kommt zurück. Nur Zauber mit echter Abklingzeit werden zurückgehalten.
+290	Überspringe den Zauber im ersten Feld dreimal, dann wird er bis zum Kampfende zurückgehalten. Wirke ihn selbst, um ihn zurückzuholen.
+291	Einen Zauber überspringen
+293	Klein
+294	Clever: in der offenen Welt alle; in Dungeons/Schlachtzügen nur, was zählt
+295	Clever: Warnungen der Boss-Addons und niedriges Leben
+296	Momentaufnahme
+297	Momentaufnahme: %s (%s), %d Zeilen geprüft. Für deinen Bericht gespeichert: /dmga report.
+298	Tonsignale
+299	Töne
+300	Spezialisierung gewechselt: %s
+301	Farbe der Zaubernamen
+302	Größe der Zaubernamen
+303	Zaubernamen unter den Symbolen
+304	Zauber & Schmuckstücke
+305	Zauber & Schmuckstücke: entferne den Haken bei einem Zauber oder Schmuckstück, um es nie zu sehen, oder hake Zuerst, wenn bereit an, um einen Zauber in Feld 1 zu setzen, sobald er gewirkt werden kann. Pro Spezialisierung gespeichert, auch über Updates.
+306	Zauber der Liste, die du nicht hast (oder die wir nicht zuordnen können): %s
+307	Zugeordnete Zauber: %s. Gib /dmga help für Optionen ein.
+308	Zauber der Rotation, die du hast
+309	Angezeigte Zauber
+310	Stapelzahl
+311	Position der Stapelzahl
+312	Textgröße der Stapelzahl
+313	Beginnt als Kopie der aktuellen Einstellungen; andere Charaktere sind nicht betroffen.
+314	Status
+315	Gleichmäßig
+316	Entscheidungs-Momentaufnahme speichern
+317	Einen Verteidigungszauber so lange vor einem großen Treffer vorschlagen, den ein Boss-Addon ankündigt.
+318	Verteidigung vorschlagen
+319	Unterbrechungen vorschlagen
+320	Zusammenfassung (zum Lesen; einzufügen ist der Bericht)
+321	Per Taste wechseln
+322	Gelesene Talente
+323	Tank-Grundlagen
+324	Tanks: aktive Schadensminderung und deinen Bedrohungs-DoT aufrechterhalten (Wächter: Eisenfell-Stapel, Mondfeuer auf dem Ziel).
+325	Zielmodus
+326	Zielmodus: %s.
+327	Ziele
+328	Test
+329	Test-Verteidigungshinweis für 8 s: Feld 1 zeigt %s, wie wenn DBM / BigWigs / LittleWigs vor einem großen Treffer warnen.
+330	Test-Unterbrechung für 8 s: Feld 1 zeigt %s, wie wenn ein Boss-Addon einen Kick ansagt oder dein Ziel zaubert.
+331	Text
+332	Das Addon DMGAssist_Watchdog (Problem melden) ist nicht installiert.
+333	Das Standardprofil kann nicht gelöscht werden.
+334	Das HUD ist gelöst: zieh es, wohin du willst, und fixiere es dann unter Einstellungen > DMGAssist.
+335	Die Symbole
+336	Das Hauptsymbol ist abgedunkelt, bis dein GCD oder Zauber fast vorbei ist, dann blitzt es auf: jetzt drücken.
+337	Der nächste Zauber plus bis zu zwei danach.
+338	Die Warteschlange mit der Herkunft jedes Vorschlags (SimC, Assistent, Blizzard-Regeln, Schätzung).
+339	Der Bericht konnte nicht erstellt werden:
+340	Der Bericht passte nicht ins Fenster. Gib /dmgw status ein und füge stattdessen die Ausgabe ein.
+341	Dick
+342	Dicke Kontur
+343	Dünn
+344	Dieser Charakter
+345	Dieser Charakter hat jetzt ein eigenes Profil: %s.
+346	Drei Fragen: wo das HUD hinkommt, wie groß es ist und wann es erscheint.
+347	Um ein Problem zu melden oder Feedback zu geben: drücke Problem melden (oder gib /dmga report ein). Es führt dich hindurch: sag, was schiefging, kopiere den Bericht, füge ihn auf der Issue-Seite ein.
+348	Oben links
+349	Oben rechts
+350	Obere linke Ecke (angedockt)
+351	Obere rechte Ecke
+352	Schmuckstücke
+353	Fehlersuche
+354	Zwei-Zauber-Verzweigungen
+355	Lösen, um die Symbole zu ziehen; sie werden auch angezeigt, solange dieses Fenster offen ist.
+356	Kommende Adds, Flächenschaden, Tanktreffer und Unterbrechungen: genutzt für Verteidigung, Unterbrechungen und SimCs Add-Timing.
+357	Ein Profil nur für diesen Charakter nutzen
+358	Abklingzeiten nutzen bei
+359	Die Empfehlungen nutzen
+360	Gilt, wenn „Ab wie vielen Zielen Flächenschaden" auf Eigene steht: ab so vielen Zielen gilt es als Fläche.
+361	Gilt, wenn die Zahl nicht verfügbar ist. Die Tastenbelegung wechselt während eines Kampfes.
+362	Version
+363	Vor fehlenden Tastenbelegungen warnen
+364	Warnung: Daten für %s gleichzeitig geladen; verwende %s.
+365	Watchdog (Diagnose)
+366	Willkommen bei DMGAssist
+367	Was hast du gemacht? (zum Beispiel: 5 Puppen, ein Mythisch+-Pull, ein Schlachtzugsboss, solo)
+368	Wann
+369	Wenn eine verborgene Ressource entscheidet (z. B. 4 oder 5 Combopunkte), beide Zauber zeigen; das Spiel macht den richtigen sichtbar.
+370	Wann soll es erscheinen?
+371	Wann anzeigen
+372	Wenn dein Boss-Addon vor Flächenschaden warnt, Machtwort: Glanz und dann Schild zeigen, bis genug Abbitten aktiv sind.
+373	Wohin sollen die Empfehlungen?
+374	Woher die Rotation stammt
+375	Wo das kleine Abzeichen für Zauber sitzt, die neben Feld 1 gedrückt werden (ohne GCD, z. B. Eisenfell).
+376	Flüstern
+377	Mit „Bosse und große Pulls": ab so vielen Gegnern gilt ein Pull als groß.
+378	Mit DBM, BigWigs oder LittleWigs wird ein Verteidigungszauber ein paar Sekunden vor einem großen Treffer gezeigt, vor dem sie warnen (leichtere zuerst; in Abklingzeit der nächste). Auch bei niedrigem Leben. Unter Integrationen kannst du beides testen.
+379	Mit einem Controller (der Gamepad-Unterstützung des Spiels) erscheinen Tastenbelegungen als Controllertasten, zum Beispiel LT+A.
+380	Xbox (A B X Y, LB RB)
+381	Du hast unverteilte Talentpunkte: drücke N, um deine Talente zu öffnen.
+382	Du kennst jetzt genug Zauber dieser Spezialisierung: die Prioritätenliste von DMGAssist führt.
+383	Deine Auswahl
+384	Umschaltpunkt deiner Spezialisierung
+385	Der Umschaltpunkt deiner Spezialisierung kommt aus ihrer SimC-Liste (wenn sie eine Flächenliste nutzt): die Zahl, bei der sie wechselt.
+386	verfügbar (als zweite Meinung genutzt)
+387	zurückgehalten
+388	installiert
+389	gelernt
+390	lernt: vorerst SimC-Standard
+391	Leveln: folgt Blizzards Kampfassistent, bis du mehr Zauber dieser Spezialisierung kennst
+392	manuell
+393	nein
+394	keine SimC-Liste für diese Spezialisierung: DMGAssists eigene Liste, gelernt aus den Klassenguides
+395	keine SimC-Liste für diese Spezialisierung: folgt Blizzards Kampfassistent
+396	keine
+397	keine verfügbar
+398	keine festgelegt (Einstellungen > DMGAssist > Tastenbelegungen festlegen)
+399	nicht verfügbar
+400	nicht installiert
+401	nicht auf deinen Leisten
+402	aus
+403	auf einer Leiste, ohne Taste
+404	bereit
+405	Start-Spezialisierung: folgt Blizzards Kampfassistent, bis du eine Spezialisierung wählst
+406	Ziel
+407	Ziele
+408	dann füge deinen Bericht mit |cffffffffStrg+V|r ein und drücke Create. Ein Screenshot hilft auch.
+409	Schmuckstück
+410	Schmuckstück, unterer Platz
+411	Schmuckstück, oberer Platz
+412	ja
+413	|cffffd100Schritt 1.|r Was ist schiefgegangen? Was hättest du stattdessen erwartet?
+414	|cffffd100Schritt 2.|r Klick in das Feld unten und drücke |cffffffffStrg+C|r. Deine Worte oben sind enthalten.
+415	|cffffd100Schritt 3.|r Öffne diese Seite in deinem Browser (anklicken, Strg+C, in die Adressleiste einfügen),

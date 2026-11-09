@@ -52,6 +52,8 @@ read_globals = {
   "seterrorhandler", "tinsert", "wipe",
 }
 
+files["addons/DMGAssist/Locales/**"] = { max_line_length = false } -- generated translations
+
 files["tests/**"] = {
   std = "+lua51",
   globals = { "C_EncodingUtil", "DMGAssistWatchdogDB", "DMGAssistWatchdog", "DMGAssistDB", "SlashCmdList",

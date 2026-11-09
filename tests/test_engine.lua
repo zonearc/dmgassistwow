@@ -1596,6 +1596,18 @@ test("translations: every language covers the same strings, Chinese client shows
   eq(ns.L["Recommendations on."], "Recommendations on.")
 end)
 
+test("language: the setting picks another language than the game's, applied at load", function()
+  Reset()
+  local ns = Boot()
+  eq(ns.L["Recommendations on."], "Recommendations on.", "English client")
+  ns.global.language = "deDE"
+  ns.ApplyLanguage()
+  eq(ns.L["Report an issue"], "Problem melden", "German chosen")
+  eq(ns.L["Welcome to DMGAssist"], "Willkommen bei DMGAssist")
+  ns.global.language = "auto"
+  ns.SetLocale("enUS")
+end)
+
 test("key bindings file calls functions that exist", function()
   Reset()
   Boot()
