@@ -1391,6 +1391,41 @@ test("spell interdependencies: casting one spell takes time off another (Shield 
   mock.inCombat, mock.restricted = false, false
 end)
 
+test("Bloodlust with readable haste: the jump is compared with the value before it", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  mock.haste = 10
+  S.HasteFactor()
+  mock.haste = 43 -- 1.10 -> 1.43: x1.3
+  S.HasteFactor() -- read before the event arrives
+  S.OnHasteChanged()
+  eq(S.boost.lust ~= nil, true, "detected")
+  mock.haste = nil
+end)
+
+test("Blizzard naming a spell for a second while our clock says it's recharging: the game knows, it's ready", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", ch = 1, chcd = 16, gcd = 1.5 }
+  Feral(ns, rec)
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  mock.Advance(3)
+  eq(S.Charges(5217), 0)
+  S.ObserveAssistedCharge(5217)
+  mock.Advance(0.5)
+  S.ObserveAssistedCharge(5217)
+  eq(S.Charges(5217), 0, "half a second is not enough")
+  mock.Advance(0.6)
+  S.ObserveAssistedCharge(5217)
+  eq(S.Charges(5217), 1, "named for over a second: ready")
+  mock.inCombat, mock.restricted = false, false
+end)
+
 test("every spec ships SimC spell data (ids, cooldowns, durations)", function()
   for _, client in ipairs({ { "standard", 1, "midnight" }, { "camelot", 18, "forever" } }) do
     Reset()

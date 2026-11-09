@@ -487,6 +487,11 @@ local function ClassifyHaste(factor, read)
   end
 end
 
+function S.OnHasteJump(before, after)
+  hasteChange = { at = GetTime(), before = before, seen = 0 }
+  ClassifyHaste(after, true)
+end
+
 -- UNIT_SPELL_HASTE: haste changed (Bloodlust, a proc). If the value is readable we use it directly;
 -- otherwise the next measured GCD updates it.
 function S.OnHasteChanged()
@@ -496,8 +501,8 @@ function S.OnHasteChanged()
   end
   local h = U.Get(UnitSpellHaste, "player")
   if type(h) == "number" then
-    lastHaste, S.hasteSource = h, "read"
-    ClassifyHaste(1 + h / 100, true)
+    S.hasteSource = "read"
+    S.HasteFactor() -- a jump, if any, is classified there (compared with the value before it)
   else
     S.hasteStale = true
   end
@@ -544,6 +549,13 @@ local function HasteFactor()
   end
   local h = U.Get(UnitSpellHaste, "player")
   if type(h) == "number" then
+    if math.abs(h - lastHaste) > 1 then
+      -- readable: compare with the value before the jump directly (the haste event can arrive after we've
+      -- already read the new value, and then compared new with new: Primal Rage was missed, 2026-11-09)
+      local before = 1 + lastHaste / 100
+      lastHaste = h
+      S.OnHasteJump(before, 1 + h / 100)
+    end
     lastHaste = h
   end
   return 1 + lastHaste / 100
@@ -788,32 +800,56 @@ end
 -- and we add one. Logged, so a report shows it.
 S.chargeHint = {} -- group -> { n, first, at }
 
+-- Blizzard's assistant keeps naming a spell our clock says isn't back yet: the game knows better (a cooldown
+-- effect we have no rule for: Butchery taking time off Wildfire Bomb per target hit). Named for a full second
+-- or more, at least three times, and we take it as ready now: one charge back, or the cooldown done.
+-- (Wildfire Bomb was named for 9 s straight while we counted 0 charges, Survival, 2026-11-09.)
+S.ASSISTED_READY_AFTER = 1.0
+
 function S.ObserveAssistedCharge(id)
   local info = ChargeInfo(id)
-  if not info then
+  local key, left
+  if info then
+    key = GroupOf(id)
+    left = S.Charges(id) == 0 and S.ChargeRemains(id) or nil
+  else
+    local last, length = S.lastCast[id], CooldownLength(id)
+    if last and length then
+      key = id
+      left = length - (GetTime() - last)
+    end
+  end
+  if not key then
     return
   end
-  local group = GroupOf(id)
-  local c = S.Charges(id)
-  local left = c == 0 and S.ChargeRemains(id)
-  if not (type(left) == "number" and left > 1.5) then
-    S.chargeHint[group] = nil
+  if not (type(left) == "number" and left > 1) then
+    S.chargeHint[key] = nil
     return
   end
   local now = GetTime()
-  local h = S.chargeHint[group]
-  if not h or now - h.first > 10 then
-    S.chargeHint[group] = { n = 1, first = now, at = now }
+  local h = S.chargeHint[key]
+  if not h or now - h.at > 2 then
+    S.chargeHint[key] = { n = 1, first = now, at = now }
     return
   end
-  if now - h.at >= 0.4 then
+  if now - h.at >= 0.3 then
     h.n, h.at = h.n + 1, now
   end
-  if h.n >= 2 and info.n then
-    -- Not acted on: Blizzard's assistant also names spells that are still recharging, and adding a charge from
-    -- it made Judgment and Holy Shock show as ready when they weren't (2026-11-09). Logged only, as evidence.
-    S.chargeHint[group] = nil
-    U.Log("charges_hint", { spell = info.n, ours = MaxCharges(info), why = "assisted named it while we count 0" })
+  if h.n >= 3 and now - h.first >= S.ASSISTED_READY_AFTER then
+    S.chargeHint[key] = nil
+    if info then
+      local list = S.chargeUse[key]
+      if list and list[1] then
+        local early = list[1] - now
+        for i = 1, #list do
+          list[i] = list[i] - early
+        end
+        table.remove(list, 1)
+      end
+    else
+      S.lastCast[id] = now - CooldownLength(id)
+    end
+    U.Log("assisted_ready", { spell = (M.Info(id) or {}).n or M.TokenForID(id), ours = string.format("%.1f", left) })
   end
 end
 
