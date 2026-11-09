@@ -1307,6 +1307,80 @@ test("leveling: a new spell with no key gets one chat line; none when the game p
   ns.Display.Keybind = realKey
 end)
 
+test("controller keys: pad bindings read as the controller's buttons, emulated modifiers included", function()
+  Reset()
+  local ns = Boot()
+  local D = ns.Display
+  local savedCVar = GetCVar
+  GetCVar = function(name)
+    return name == "GamePadEmulateShift" and "PADLTRIGGER" or nil
+  end
+  eq(D.KeyText("PAD1"), "A")
+  eq(D.KeyText("SHIFT-PAD3"), "LT+X", "the emulated Shift is the left trigger")
+  ns.db.hud.padLabels = "playstation"
+  eq(D.KeyText("PADRSHOULDER"), "R1")
+  ns.db.hud.padLabels = "xbox"
+  GetCVar = savedCVar
+end)
+
+test("public API: the recommendation for WeakAuras and UI packs, callbacks on change, HUD can be hidden", function()
+  Reset()
+  local ns = Boot()
+  local API = DMGAssistAPI
+  eq(type(API), "table")
+  local got = {}
+  local h = API.RegisterCallback(function(rec)
+    got[#got + 1] = rec
+  end)
+  ns.Integrations.OnRecommendation({ main = { id = 5221 }, queue = { { id = 5221 }, { id = 1079 } } })
+  ns.Integrations.OnRecommendation({ main = { id = 5221 }, queue = { { id = 5221 }, { id = 1079 } } })
+  eq(#got, 1, "fired once per change")
+  eq(got[1].spells[1].spellID, 5221)
+  eq(got[1].spells[2].spellID, 1079)
+  API.RegisterCallback(function()
+    error("broken weakaura")
+  end)
+  ns.Integrations.OnRecommendation({ main = { id = 1079 }, queue = { { id = 1079 } } })
+  eq(#got, 2, "a broken callback doesn't stop the others")
+  API.UnregisterCallback(h)
+  API.SetHUDHidden(true)
+  eq(ns.Integrations.hudHidden, true)
+  API.SetHUDHidden(false)
+end)
+
+test("Masque: the icons join a DMGAssist group when Masque is installed; nothing happens without it", function()
+  Reset()
+  local ns = Boot()
+  local f = ns.Display.Create()
+  eq(ns.Integrations.Skin(f), false, "no Masque: no skinning")
+  local added = 0
+  _G.LibStub = function(name)
+    if name == "Masque" then
+      return { Group = function(_, addon)
+        eq(addon, "DMGAssist")
+        return { AddButton = function()
+          added = added + 1
+        end }
+      end }
+    end
+  end
+  eq(ns.Integrations.Skin(f), true)
+  eq(added >= 3, true, "the three slots and the badges are skinned")
+  _G.LibStub = nil
+  ns.Integrations.group = nil
+end)
+
+test("Edit Mode: the HUD shows and can be dragged while Blizzard's Edit Mode is open", function()
+  Reset()
+  local ns = Boot()
+  ns.Display.Create()
+  ns.Integrations.OnEditMode(true)
+  eq(ns.Previewing(), true)
+  eq(ns.Display.frame.editOverlay:IsShown(), true)
+  ns.Integrations.OnEditMode(false)
+  eq(ns.Display.frame.editOverlay:IsShown(), false)
+end)
+
 test("look-ahead: a DoT applied in slot 1 is not recommended again in slot 2", function()
   Reset()
   local ns = Boot()

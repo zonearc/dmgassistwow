@@ -28,6 +28,7 @@ Core\Choices.lua
 Core\Bindcheck.lua
 Core\Buffs.lua
 Core\Leveling.lua
+Core\Integrations.lua
 Core\Sounds.lua
 Core\Diagnostics.lua
 Core\Engine.lua

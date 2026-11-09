@@ -141,6 +141,9 @@ function ns.Previewing()
   if inCombat then
     return false
   end
+  if ns.Integrations.editMode then
+    return true -- Blizzard's Edit Mode: shown with everything else so it can be placed
+  end
   if ns.db and ns.db.locked == false and ns.db.previewUnlocked ~= false then
     return true
   end
@@ -368,7 +371,8 @@ function ns.Update()
   ns.Alerts(result)
   ns.Diagnostics.OnPick(result)
   ns.last = result
-  D.Update(result, true)
+  D.Update(result, not ns.Integrations.hudHidden)
+  ns.Integrations.OnRecommendation(result)
   -- Decision log: one line per change of pick (not every tick).
   local main = result.main
   local cd = main and main.major and main or nil
@@ -467,6 +471,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
       U.Log("data_gating", table.concat(loaded, ","))
     end
     D.Create()
+    ns.Integrations.Setup()
     ns.Options.Register()
     ns.BossMods.Hook()
     C_Timer.After(5, ns.LogLaunchState)

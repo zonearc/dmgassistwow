@@ -31,7 +31,7 @@ D.DEFAULTS = {
   hideOutOfCombat = true, showWithTarget = true, hideMounted = true, hideVehicle = true,
   debugText = false, callout = true, pressCue = true, pressLead = 50, secretBranches = true, interrupt = true, defensive = true,
   highlight = true,
-  stackCount = true, stackSize = 14, stackPos = "BOTTOM", weavePos = "TOPLEFT", weaveSize = 45,
+  padLabels = "xbox", stackCount = true, stackSize = 14, stackPos = "BOTTOM", weavePos = "TOPLEFT", weaveSize = 45,
 }
 
 -- Where the off-GCD badge sits relative to slot 1: { point on the badge, point on slot 1, x, y }.
@@ -152,6 +152,54 @@ local function Shorten(text)
   return text
 end
 
+-- Controller buttons (the game's own gamepad support): binding names like PAD1 or SHIFT-PADRSHOULDER, shown the
+-- way the controller labels them. A modifier the game emulates with a pad button (GamePadEmulateShift etc.)
+-- is shown as that button: "LT+A". The game's own glyph markup is used when it gives one.
+D.PAD_LABELS = {
+  xbox = { PAD1 = "A", PAD2 = "B", PAD3 = "X", PAD4 = "Y", PAD5 = "P5", PAD6 = "P6",
+    PADLSHOULDER = "LB", PADRSHOULDER = "RB", PADLTRIGGER = "LT", PADRTRIGGER = "RT",
+    PADLSTICK = "LS", PADRSTICK = "RS", PADDUP = "Up", PADDDOWN = "Dn", PADDLEFT = "Lt", PADDRIGHT = "Rt",
+    PADBACK = "View", PADFORWARD = "Menu", PADSOCIAL = "Share", PADSYSTEM = "Home",
+    PADPADDLE1 = "P1", PADPADDLE2 = "P2", PADPADDLE3 = "P3", PADPADDLE4 = "P4" },
+  playstation = { PAD1 = "X", PAD2 = "O", PAD3 = "[]", PAD4 = "/\\", PAD5 = "P5", PAD6 = "P6",
+    PADLSHOULDER = "L1", PADRSHOULDER = "R1", PADLTRIGGER = "L2", PADRTRIGGER = "R2",
+    PADLSTICK = "L3", PADRSTICK = "R3", PADDUP = "Up", PADDDOWN = "Dn", PADDLEFT = "Lt", PADDRIGHT = "Rt",
+    PADBACK = "Create", PADFORWARD = "Opt", PADSOCIAL = "Share", PADSYSTEM = "PS",
+    PADPADDLE1 = "P1", PADPADDLE2 = "P2", PADPADDLE3 = "P3", PADPADDLE4 = "P4" },
+}
+
+local function PadLabel(button, labels)
+  return labels[button] or button:gsub("^PAD", "")
+end
+
+function D.KeyText(key)
+  if type(key) ~= "string" then
+    return nil
+  end
+  if key:find("PAD", 1, true) then
+    local text = U.Get(GetBindingText, key, 1)
+    if type(text) == "string" and (text:find("|A", 1, true) or text:find("|T", 1, true)) then
+      return text -- the game's own button glyph
+    end
+    local style = ns.db and ns.db.hud and ns.db.hud.padLabels or "xbox"
+    local labels = D.PAD_LABELS[style] or D.PAD_LABELS.xbox
+    local parts = {}
+    for mod, cvar in pairs({ SHIFT = "GamePadEmulateShift", CTRL = "GamePadEmulateCtrl", ALT = "GamePadEmulateAlt" }) do
+      if key:find(mod .. "-", 1, true) then
+        local pad = U.Get(GetCVar, cvar)
+        parts[#parts + 1] = (type(pad) == "string" and pad:find("^PAD")) and PadLabel(pad, labels)
+          or mod:sub(1, 1)
+      end
+    end
+    table.sort(parts)
+    local button = key:match("(PAD[%w]+)$")
+    parts[#parts + 1] = button and PadLabel(button, labels) or key
+    return table.concat(parts, "+")
+  end
+  local text = U.Get(GetBindingText, key, 1)
+  return Shorten(type(text) == "string" and text or key)
+end
+
 local function BindingFor(slot, mainPage)
   local page = math.floor((slot - 1) / 12) + 1
   local index = (slot - 1) % 12 + 1
@@ -168,8 +216,7 @@ local function BindingFor(slot, mainPage)
   if type(key) ~= "string" then
     return nil, false
   end
-  local text = U.Get(GetBindingText, key, 1)
-  return Shorten(type(text) == "string" and text or key), page == mainPage
+  return D.KeyText(key), page == mainPage
 end
 
 -- Action bar addons bind keys to their own buttons ("CLICK <button>:LeftButton"); the button's action slot is an
@@ -302,8 +349,7 @@ function D.BuildKeymap()
             or U.Get(GetBindingKey, "CLICK " .. name .. ":LeftButton")
             or U.Get(GetBindingKey, "CLICK " .. name .. ":Keybind")
           if type(key) == "string" then
-            local text = U.Get(GetBindingText, key, 1)
-            Put(sid, Shorten(type(text) == "string" and text or key), visible and def.blizzardMain)
+            Put(sid, D.KeyText(key), visible and def.blizzardMain)
           end
         end
       end
@@ -517,7 +563,7 @@ function D.Create()
   f:EnableMouse(not db.locked)
   f:RegisterForDrag("LeftButton")
   f:SetScript("OnDragStart", function(self)
-    if not (ns.db and ns.db.locked) then
+    if not (ns.db and ns.db.locked) or (ns.Integrations and ns.Integrations.editMode) then
       self:StartMoving()
     end
   end)

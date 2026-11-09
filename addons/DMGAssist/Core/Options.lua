@@ -358,6 +358,9 @@ function O.Register()
     { { "CENTER", "Center" }, { "TOPRIGHT", "Top right" }, { "TOPLEFT", "Top left" }, { "BOTTOMLEFT", "Bottom left" },
       { "BOTTOMRIGHT", "Bottom right" } })
   Choice(display, HUD, "keybindColor", "Keybind color", H.keybindColor, ns.Display.TEXT_COLORS)
+  Choice(display, HUD, "padLabels", "Controller button names", H.padLabels,
+    { { "xbox", "Xbox (A B X Y, LB RB)" }, { "playstation", "PlayStation (X O, L1 R1)" } },
+    "With a controller (the game's gamepad support), keybinds show as controller buttons, for example LT+A.")
   Check(display, HUD, "spellNames", "Spell names under icons", H.spellNames)
   Slider(display, HUD, "nameSize", "Spell name size", H.nameSize, 8, 18, 1)
   Choice(display, HUD, "nameColor", "Spell name color", H.nameColor, ns.Display.TEXT_COLORS)
