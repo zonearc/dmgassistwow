@@ -979,6 +979,12 @@ function S.LearnTiming(id, err, how)
     return
   end
   local sample = applied + err
+  -- never beyond what the correction can be (60% of the cooldown): a broken signal can't run away with it
+  local info = M.Info(id)
+  local base = info and (info.chcd or info.cd)
+  if type(base) == "number" and base > 0 then
+    sample = math.max(-0.6 * base, math.min(0.6 * base, sample))
+  end
   t.n = (t.n or 0) + 1
   local a = t.n < 4 and 1 / t.n or 0.3
   t.mean = (t.mean or 0) + a * (sample - (t.mean or 0))
@@ -1493,12 +1499,23 @@ local function OnConsume(token, now)
   end
 end
 
+-- The pieces of one press: Raging Blow's off-hand hit (85384, 96103) arrives 0.1 s after the main-hand one, Rampage
+-- reports three, Whirlwind three. They are one cast: counted again, every off-hand hit looked like a second Raging
+-- Blow cast 2.8 s "before our clock", and the learned correction ran away to -21 s (2026-11-09).
+S.PIECE_WINDOW = 0.3
+local lastToken, lastTokenAt = nil, 0
+
 local function RecordCast(id, how)
   local token = M.TokenForID(id)
   local info = M.Info(id)
   if info and info.n then
     token = info.n
   end
+  local now0 = GetTime()
+  if token and token == lastToken and now0 - lastTokenAt < S.PIECE_WINDOW then
+    return -- another piece of the same press
+  end
+  lastToken, lastTokenAt = token, now0
   CheckWaited(id)
   OnCooldownSpent(id) -- before lastCast moves on
   table.insert(S.history, 1, { id = id, token = token, t = GetTime(), how = how })

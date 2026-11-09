@@ -1850,6 +1850,26 @@ test("Fury Whirlwind: 4 stacks used up by attacks; a buff seen out of combat isn
   mock.inCombat, mock.restricted, mock.directAuras = false, false, nil
 end)
 
+test("one press reporting several casts (Raging Blow's off-hand hit) is one cast for the clocks and learning", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", cd = 30, gcd = 1.5 }
+  rec.spellInfo[5218] = { n = "tigers_fury" } -- a second piece of the same press
+  ns.SpellMap.SetData(rec)
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "g", 5217)
+  mock.Advance(0.1)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "g", 5218)
+  eq(S.learned.timing.tigers_fury, nil, "the off-hand piece isn't a second cast 30 s early")
+  -- and a measurement can't push the correction past 60% of the cooldown
+  S.LearnTiming(5217, -25, "cast")
+  eq(S.learned.timing.tigers_fury.mean, -18, "clamped to 60% of 30 s")
+  mock.inCombat, mock.restricted = false, false
+end)
+
 test("timing learning: a 5-target pull and a single target learn separately", function()
   Reset()
   local ns = Boot()
