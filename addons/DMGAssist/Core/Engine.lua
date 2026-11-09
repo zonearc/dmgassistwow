@@ -349,6 +349,20 @@ local function BlockedWhileActive(id)
 end
 G.BlockedWhileActive = BlockedWhileActive
 
+-- The game calls a combo point finisher "not usable" (no reason given) while our combo point read says it can be
+-- spent: trust the points. Outlaw showed 7 combo points for a whole fight with Dispatch and Between the Eyes
+-- "not castable" and nothing but builders shown (2026-11-09). Only for spells that spend combo points, only with at
+-- least one point read, and the cooldown clock still decides.
+function G.FinisherBlockedByHiddenPoints(id)
+  local info = M.Info(id)
+  local spends = info and ((type(info.cost) == "table" and info.cost[4]) or (type(info.cmax) == "table" and info.cmax[4]))
+  if not spends then
+    return false
+  end
+  local cp = S.PowerNow(4)
+  return type(cp) == "number" and cp >= 1 and S.CooldownReady(id) ~= false
+end
+
 local function Castable(id)
   local rule = G.TARGET_RULES[id] or G.TARGET_RULES[(M.baseOf and M.baseOf[id]) or id]
   if rule and not rule(id) then
@@ -385,6 +399,9 @@ local function Castable(id)
   -- Blizzard's assistant names this very spell right now: the game says it can be afforded (our estimate of a
   -- hidden resource can be low: Survival's focus held Raptor Strike back for seconds, 2026-11-09).
   local named = first and G.acNow and (G.acNow == id or (M.baseOf and M.baseOf[G.acNow] == id))
+  if not usable and noPower ~= true and G.FinisherBlockedByHiddenPoints(id) then
+    usable = true -- the points are there: trust them over an unexplained "not usable"
+  end
   if not usable then
     if noPower ~= true then
       return false
@@ -863,6 +880,11 @@ local function Decide(record, opts, targets, first)
   end
   if first and opts.useAssisted then
     local ac = U.Get(C_AssistedCombat and C_AssistedCombat.GetNextCastSpell, false)
+    -- A buff, poison or weapon imbue named in combat (Numbing Poison missing: the assistant named it for a whole
+    -- fight) says nothing about the rotation: ignored, the buff reminder covers it.
+    if type(ac) == "number" and ns.Buffs and ns.Buffs.IsBuffSpell and ns.Buffs.IsBuffSpell(ac) then
+      ac = nil
+    end
     if type(ac) == "number" then
       run.acSpell = ac
       G.acNow = ac

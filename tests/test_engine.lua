@@ -3928,6 +3928,27 @@ test("tanks: hidden health + aggro = being hit; Stagger 0 only means unhurt for 
   UnitHealth, UnitHealthMax, UnitStagger, UnitThreatSituation = uh, uhm, ust, uts -- luacheck: ignore 121
 end)
 
+
+test("rogue: a finisher the game calls unusable with points read is still castable; poisons named in combat ignored", function()
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  Feral(ns, QRecord({ { a = "ferocious_bite" }, { a = "shred" } }))
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.power[4], mock.powerReadable[4] = 5, true
+  mock.usable[22568] = { false, false } -- the game: not usable, no reason
+  eq(G.Castable(22568) ~= false, true, "5 points read: the finisher stays")
+  mock.power[4] = 0
+  eq(G.Castable(22568), false, "no points: not castable")
+  eq(ns.Buffs.IsBuffSpell(5761), true, "Numbing Poison is a buff spell")
+  mock.power[4] = 5
+  mock.acSpell = 5761
+  G.Recommend(ns.ActiveRecord(ns.Specs.current), { useAssisted = true })
+  eq(G.acNow, nil, "the assistant naming a poison is ignored")
+  mock.acSpell, mock.inCombat = nil, false
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

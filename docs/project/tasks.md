@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.140 (2026-11-09).
+Last updated: 1.6.0.143 (2026-11-09).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -16,6 +16,11 @@ Last updated: 1.6.0.140 (2026-11-09).
 
 ## Open: build
 
+- [ ] Grade popup: default just above the icons (follows the HUD's saved place, not the docked preview), gradient
+  S+..D bar, grid of part scores with names under them, livelier pop-in; settings button names cleaned up
+- [ ] Settings preview: dark grey panel behind the docked HUD; badge sizes in the preview match the real HUD
+- [ ] Balance: Starfall never shown on 5 dummies; grade felt harsh; slot 1 still switches too often
+- [ ] Assassination: slot 1 icon (Garrote) not recognised - option to show the spell name under slot 1
 - [ ] Tank profiles (agreed 2026-11-09), one per tank spec, running alongside SimC: slots 1-3 = damage only; all
   mitigation in the red icon, chosen by the profile: keep-up (Shield Block, Ignore Pain, Ironfur, Demon Spikes,
   Bone Shield / Death Strike, Purifying Brew, Shield of the Righteous), cooldown rotation on incoming damage
@@ -50,6 +55,10 @@ Last updated: 1.6.0.140 (2026-11-09).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.143: Rogue: finishers (Dispatch, Between the Eyes) were "not castable" for whole fights while 7 combo points
+  were read (the game called them unusable with no reason): trusted the points. Blizzard's assistant naming a poison
+  or imbue in combat (Numbing Poison, a whole fight) is ignored
 
 - 1.6.0.140: tanks: Shield Block, Ignore Pain and the other SimC mitigation lines were skipped as "nothing to
   mitigate" for whole fights (health hidden in combat, and Stagger, which is always 0 outside Brewmaster, was read

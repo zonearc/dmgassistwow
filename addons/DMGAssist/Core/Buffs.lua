@@ -48,6 +48,23 @@ B.LIST = {
   { id = 53563, onTank = true, specs = { paladin_holy = true } }, -- Beacon of Light
 }
 
+-- Is this one of the buffs above (raid buff, shield, poison, imbue, aura)?
+local buffIDs
+function B.IsBuffSpell(id)
+  if not buffIDs then
+    buffIDs = {}
+    for _, e in ipairs(B.LIST) do
+      if e.id then
+        buffIDs[e.id] = true
+      end
+      for _, g in ipairs(type(e.group) == "table" and e.group or {}) do
+        buffIDs[g] = true
+      end
+    end
+  end
+  return buffIDs[id] == true
+end
+
 local function Known(id)
   local b = ns.SpellMap.book and ns.SpellMap.book[id]
   if b then
