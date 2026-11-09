@@ -8,7 +8,7 @@
 ## AddonCompartmentFunc: DMGAssist_OnCompartmentClick
 ## SavedVariables: DMGAssistDB
 ## OptionalDeps: DMGAssist_Watchdog
-## X-Curse-Project-ID: 1481713
+## X-Curse-Project-ID: 1794039
 
 Core\Util.lua
 Locales\deDE.lua
