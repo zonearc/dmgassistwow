@@ -580,12 +580,14 @@
     "Strength of the Pack (341222): When Kill Command's cooldown is reset, gain|cFFFFFFFF ${$s1}.1%|r increased damage for $341223d.",
     "Killing Frenzy (363760): $@spelldesc363665 Tooltip          : Your next Cobra Shot has its damage and cooldown reduction increased by $w1%, or your next Multi-Shot grants an additional ${$363665m3/1000}.1 sec of Beast Cleave.",
     "Hunter Beast Mastery 11.1 Class Set 4pc (1215644): Mutagenic attacks reduce the cooldown of Bestial Wrath by ${$1218004s2/100}.2 sec.",
-    "Potent Mutagen (1218003): Each strike reduces the cooldown of Bestial Wrath by $${1218004s2/100}.2 sec."
+    "Potent Mutagen (1218003): Each strike reduces the cooldown of Bestial Wrath by $${1218004s2/100}.2 sec.",
+    "sc_hunter.cpp:4099 steady_shot -> aimed_shot: amount computed elsewhere",
+    "sc_hunter.cpp:5103 barbed_shot -> kill_command in tick(): not once per cast"
    ],
    "links": [
-    "barbed_shot>kill_command:3.0 req212278",
+    "cobra_shot>barbed_shot:2.0 req469880",
     "barbed_shot>kill_command:3.0 req393933",
-    "cobra_shot>barbed_shot:2.0 req469880"
+    "bestial_wrath>barbed_shot:reset req193532"
    ],
    "mode": 9,
    "read": 13,
@@ -625,9 +627,15 @@
     "Trueshot (288613): Aimed Shot recovers its cooldown $s2% faster and Rapid Fire recovers its cooldown $s1% faster",
     "Grenade Juggler (470492): $@spelldesc459843 Tooltip          : The cooldown of Explosive Shot has been reset.",
     "Moon's Blessing (1253825): When your Sentinel Owl applies Sentinel's Mark, reduce the cooldown of",
-    "Lock and Load: Explosive Shot (1300701): $@spelldesc473520 Tooltip          : Your next Explosive Shot will not incur its cooldown."
+    "Lock and Load: Explosive Shot (1300701): $@spelldesc473520 Tooltip          : Your next Explosive Shot will not incur its cooldown.",
+    "sc_hunter.cpp:4099 steady_shot -> aimed_shot: amount computed elsewhere",
+    "sc_hunter.cpp:5690 rapid_fire -> aimed_shot: amount not found in spell data",
+    "sc_hunter.cpp:5904 explosive_shot -> aimed_shot in tick(): not once per cast",
+    "sc_hunter.cpp:5905 explosive_shot -> rapid_fire in tick(): not once per cast"
    ],
-   "links": [],
+   "links": [
+    "aimed_shot>rapid_fire:reset"
+   ],
    "mode": 2,
    "read": 24,
    "readPct": 32,
@@ -668,12 +676,16 @@
     "Hunter Survival 10.2 Class Set 4pc (422879): Fury of the Eagle throws a free Wildfire Bomb at your current target at $s2% effectiveness, causes your next Wildfire Bomb to not incur a cooldown, and increases the damage Wildfire Bomb deals to your",
     "Light the Fuse (428464): $@spelldesc422879 Tooltip          : Your next Wildfire Bomb will not incur a cooldown.",
     "Grenade Juggler (470488): $@spelldesc459843 Tooltip          : Cooldown recovery rate of Wildfire Bomb increased by $s1%.",
-    "Moon's Blessing (1253825): When your Sentinel Owl applies Sentinel's Mark, reduce the cooldown of"
+    "Moon's Blessing (1253825): When your Sentinel Owl applies Sentinel's Mark, reduce the cooldown of",
+    "sc_hunter.cpp:4099 steady_shot -> aimed_shot: amount computed elsewhere",
+    "sc_hunter.cpp:5103 barbed_shot -> kill_command in tick(): not once per cast",
+    "sc_hunter.cpp:6356 boomstick -> wildfire_bomb in tick(): not once per cast"
    ],
    "links": [
     "*>wildfire_bomb:0.033 per pt2 req405530",
-    "kill_command>wildfire_bomb:1.0 req460198",
     "boomstick>wildfire_bomb:3.0 req1261229",
+    "moonlight_chakram>wildfire_bomb:10.0 req1266069",
+    "kill_command>wildfire_bomb:1.0 req460198",
     "wildfire_bomb>boomstick:2.0 req1262409"
    ],
    "mode": 5,
@@ -757,10 +769,14 @@
     "Fiery Rush (383637): $@spelldesc383634 Tooltip          : Your Fire Blast recharges $s1% faster.",
     "Firefall (384033): Meteor gains a second charge, with a ${$s1/1000} sec cooldown between uses.",
     "Temporal Realignment (1244090): When your health is brought below $s1%, your past self corrects your timeline if Alter Time is not on cooldown, instantly restoring $1244092s1% of your maximum health and healing you for an additional",
-    "Temporal Realignment (1244090): This effect places Alter Time on cooldown as if it had been cast."
+    "Temporal Realignment (1244090): This effect places Alter Time on cooldown as if it had been cast.",
+    "sc_mage.cpp:2119 fire_mage -> fire_blast: amount computed elsewhere",
+    "sc_mage.cpp:2420 hot_streak -> fire_blast: amount computed elsewhere",
+    "sc_mage.cpp:4792 meteorite -> fire_blast: amount computed elsewhere"
    ],
    "links": [
-    "flamestrike>fire_blast:0.3 req1264835"
+    "flamestrike>fire_blast:0.3 req1264835",
+    "combustion>fire_blast:reset req451875"
    ],
    "mode": 3,
    "read": 9,
@@ -800,7 +816,9 @@
     "Coldest Snap (417493): Cone of Cold's cooldown is increased to $s2 sec and if Cone of Cold hits $s3 or more enemies it resets the cooldown of Frozen Orb and Comet Storm.",
     "Coldest Snap (417493): Cone of Cold's cooldown can no longer be reduced by your cooldown reduction effects.",
     "Temporal Realignment (1244090): When your health is brought below $s1%, your past self corrects your timeline if Alter Time is not on cooldown, instantly restoring $1244092s1% of your maximum health and healing you for an additional",
-    "Temporal Realignment (1244090): This effect places Alter Time on cooldown as if it had been cast."
+    "Temporal Realignment (1244090): This effect places Alter Time on cooldown as if it had been cast.",
+    "sc_mage.cpp:4480 ice_lance -> frozen_orb: amount computed elsewhere",
+    "sc_mage.cpp:4481 ice_lance -> ray_of_frost: amount computed elsewhere"
    ],
    "links": [
     "ice_lance>frozen_orb:0.5 req1281638"
@@ -970,7 +988,10 @@
    "linkReview": [
     "Crusader Strike (35395): Reduces the cooldown of Judgment by ${$196926m1/-1000}.1 sec.][] .",
     "The Ardent Protector's Sanctum (337838): When Ardent Defender expires without saving you from death, reduce its remaining cooldown by $s2%.",
-    "Crusader Strike (1279187): Reduces the cooldown of Judgment by ${$196926m2/-1000}.1 sec.][] ."
+    "Crusader Strike (1279187): Reduces the cooldown of Judgment by ${$196926m2/-1000}.1 sec.][] .",
+    "paladin/sc_paladin.cpp:581 consecration -> consecration: amount computed elsewhere",
+    "paladin/sc_paladin.cpp:1086 crusader_strike -> holy_shock: amount computed elsewhere",
+    "paladin/sc_paladin_protection.cpp:233 avengers_shield -> guardian_of_ancient_kings: amount computed elsewhere"
    ],
    "links": [
     "holy_shock>judgment:1.5 req196926",
@@ -1011,7 +1032,11 @@
    "linkReview": [
     "Crusader Strike (35395): Reduces the cooldown of Judgment by ${$196926m1/-1000}.1 sec.][] .",
     "The Ardent Protector's Sanctum (337838): When Ardent Defender expires without saving you from death, reduce its remaining cooldown by $s2%.",
-    "Crusader Strike (1279187): Reduces the cooldown of Judgment by ${$196926m2/-1000}.1 sec.][] ."
+    "Crusader Strike (1279187): Reduces the cooldown of Judgment by ${$196926m2/-1000}.1 sec.][] .",
+    "paladin/sc_paladin.cpp:581 consecration -> consecration: amount computed elsewhere",
+    "paladin/sc_paladin.cpp:1086 crusader_strike -> holy_shock: amount computed elsewhere",
+    "paladin/sc_paladin.cpp:1267 word_of_glory -> holy_armaments: amount computed elsewhere",
+    "paladin/sc_paladin_protection.cpp:233 avengers_shield -> guardian_of_ancient_kings: amount computed elsewhere"
    ],
    "links": [
     "crusader_strike>judgment:1.5 req196926",
@@ -1055,10 +1080,16 @@
     "The Ardent Protector's Sanctum (337838): When Ardent Defender expires without saving you from death, reduce its remaining cooldown by $s2%.",
     "Righteous Cause (402916): Tooltip          : The cooldown of Blade of Justice has been reset",
     "Art of War (406086): Tooltip          : The cooldown of Blade of Justice has been reset",
-    "Crusader Strike (1279187): Reduces the cooldown of Judgment by ${$196926m2/-1000}.1 sec.][] ."
+    "Crusader Strike (1279187): Reduces the cooldown of Judgment by ${$196926m2/-1000}.1 sec.][] .",
+    "paladin/sc_paladin.cpp:1086 crusader_strike -> holy_shock: amount computed elsewhere",
+    "paladin/sc_paladin_protection.cpp:233 avengers_shield -> guardian_of_ancient_kings: amount computed elsewhere",
+    "paladin/sc_paladin_retribution.cpp:422 blade_of_justice -> blade_of_justice: conditional or chance-based"
    ],
    "links": [
-    "crusader_strike>judgment:1.5 req196926"
+    "crusader_strike>judgment:1.5 req196926",
+    "blade_of_justice>blade_of_justice:reset",
+    "templars_verdict>judgment:reset",
+    "templars_verdict>hammer_of_wrath:reset"
    ],
    "mode": 0,
    "read": 15,
@@ -1080,7 +1111,8 @@
     "Serendipity (63733): Smite and Holy Nova reduce the cooldown of Holy Word: Chastise by $88625s2 sec.",
     "Holy Word: Chastise (88625): |cFFFFFFFFCooldown reduced by $s2 sec when you cast Smite or Holy Nova.|r][] .",
     "Voidform (250844): $@spelldesc228264 Tooltip          : Cooldown on Mind Blast reduced by ${$w6/1000} sec.",
-    "Kiss of Death (336133): Reduces Shadow Word: Death's cooldown by ${$s1/-1000} sec and causes its damage to trigger Atonement when used on targets below $32379s2% health."
+    "Kiss of Death (336133): Reduces Shadow Word: Death's cooldown by ${$s1/-1000} sec and causes its damage to trigger Atonement when used on targets below $32379s2% health.",
+    "priest/sc_priest_discipline.cpp:599 penance -> mind_blast: amount computed elsewhere"
    ],
    "links": [
     "penance>mind_blast:2.0 req1296577"
@@ -1150,7 +1182,9 @@
     "Voidform (250844): $@spelldesc228264 Tooltip          : Cooldown on Mind Blast reduced by ${$w6/1000} sec.",
     "Sudden Revelation (287360): $@spelldesc287355 Tooltip          : Your next Holy Nova deals $w1 additional damage and reduces the cooldown of Power Word: Radiance by ${$287356s2/1000} sec.",
     "Kiss of Death (336133): Reduces Shadow Word: Death's cooldown by ${$s1/-1000} sec and causes its damage to trigger Atonement when used on targets below $32379s2% health.",
-    "Lightburst (1246549): Increases the damage of Holy Nova by $s1%, its healing by $s2%, and its cooldown by ${$s3/1000} sec."
+    "Lightburst (1246549): Increases the damage of Holy Nova by $s1%, its healing by $s2%, and its cooldown by ${$s3/1000} sec.",
+    "priest/sc_priest_discipline.cpp:599 penance -> mind_blast: amount computed elsewhere",
+    "priest/sc_priest_shadow.cpp:1981 voidform -> void_volley in expire_override(): not once per cast"
    ],
    "links": [],
    "mode": 1,
@@ -1194,7 +1228,9 @@
     "Invigorating Shadowdust (340080): Vanish reduces the remaining cooldown of your other abilities by $s1 sec.",
     "Improved Garrote (381632): Garrote deals $s1% increased damage and has no cooldown when used from Stealth and for $392401d after breaking Stealth.",
     "Improved Garrote (392401): $@spelldesc381632 Tooltip          : Garrote deals $w2% increased damage and has no cooldown.",
-    "Improved Garrote (392403): $@spelldesc381632 Tooltip          : Garrote deals $w2% increased damage and has no cooldown."
+    "Improved Garrote (392403): $@spelldesc381632 Tooltip          : Garrote deals $w2% increased damage and has no cooldown.",
+    "sc_rogue.cpp:6153 stealth -> stealth: amount computed elsewhere",
+    "sc_rogue.cpp:6388 thistle_tea -> thistle_tea: amount computed elsewhere"
    ],
    "links": [
     "*>deathmark:0.033 per pt3 req340084"
@@ -1237,9 +1273,19 @@
     "Gravedigger (1265863): When you've hidden $s2 bullets, your next Between the Eyes consumes them and costs no Energy, generates $1279356s1 combo points, and immediately resets its own cooldown.",
     "Palmed Bullets (1265931): When you've hidden $1265863s2 bullets, your next Between the Eyes consumes them and costs no Energy, generates $1279356s1 combo points, and immediately resets its own cooldown.",
     "Gravedigger (1265935): $@spelldesc1265863 Tooltip          : Your next Between the Eyes costs no Energy, generates $1279356s1 combo points, and immediately resets its own cooldown.",
-    "Preparation (1277933): Immediately reset the cooldowns of Adrenaline Rush, Between the Eyes, Blade Flurry, Blade Rush, and Killing Spree."
+    "Preparation (1277933): Immediately reset the cooldowns of Adrenaline Rush, Between the Eyes, Blade Flurry, Blade Rush, and Killing Spree.",
+    "sc_rogue.cpp:3572 adrenaline_rush -> adrenaline_rush: amount computed elsewhere",
+    "sc_rogue.cpp:3969 blade_flurry -> blade_flurry: amount computed elsewhere",
+    "sc_rogue.cpp:6153 stealth -> stealth: amount computed elsewhere"
    ],
-   "links": [],
+   "links": [
+    "between_the_eyes>between_the_eyes:reset",
+    "preparation>adrenaline_rush:reset",
+    "preparation>between_the_eyes:reset",
+    "preparation>blade_flurry:reset",
+    "preparation>blade_rush:reset",
+    "preparation>killing_spree:reset"
+   ],
    "mode": 1,
    "read": 17,
    "readPct": 45,
@@ -1275,7 +1321,9 @@
     "Shot in the Dark (257505): After using Vanish or Shadow Dance, your next Cheap Shot is free and ignores its cooldown.",
     "Invigorating Shadowdust (340080): Vanish reduces the remaining cooldown of your other abilities by $s1 sec.",
     "Improved Garrote (381632): Garrote deals $s1% increased damage and has no cooldown when used from Stealth and for $392401d after breaking Stealth.",
-    "Shadewalker (457057): Each time you consume a stack of Deathstalker's Mark, reduce the cooldown of Shadowstep by ${$s1/-1000} sec."
+    "Shadewalker (457057): Each time you consume a stack of Deathstalker's Mark, reduce the cooldown of Shadowstep by ${$s1/-1000} sec.",
+    "sc_rogue.cpp:5549 shadow_blades -> shadow_blades: amount computed elsewhere",
+    "sc_rogue.cpp:6153 stealth -> stealth: amount computed elsewhere"
    ],
    "links": [],
    "mode": 2,
@@ -1414,6 +1462,7 @@
     "Warlock Affliction Class Set 4pc (393699): Each charge of Cruel Epiphany increases the damage of your next Malefic Rapture or Seed of Corruption by $394253s1%."
    ],
    "links": [
+    "unstable_affliction>dark_harvest:1.5 req1259886",
     "seed_of_corruption>dark_harvest:1.5 req1259886"
    ],
    "mode": 11,
@@ -1451,7 +1500,8 @@
    "linkReview": [
     "Wilfred's Sigil of Superior Summoning (214345): Each Dreadstalker or Wild Imp you summon reduces the remaining cooldown on Summon Demonic Tyrant by ${$s1/-1000} seconds.",
     "Devour Magic (1276610): $@spelldesc1276467 Tooltip          : Grimoire: Fel Ravager is transformed into Devour Magic while on cooldown.",
-    "Singe Magic (1276623): $@spelldesc1276467 Tooltip          : Grimoire: Imp Lord is transformed into Singe Magic while on cooldown."
+    "Singe Magic (1276623): $@spelldesc1276467 Tooltip          : Grimoire: Imp Lord is transformed into Singe Magic while on cooldown.",
+    "warlock/sc_warlock_actions.cpp:2961 demonbolt -> summon_doomguard: conditional or chance-based"
    ],
    "links": [],
    "mode": 0,

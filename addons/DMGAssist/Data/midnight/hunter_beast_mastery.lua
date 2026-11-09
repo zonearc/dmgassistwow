@@ -116,9 +116,9 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
   blizzardExcluded = {},
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   cdLinks = {
-    { "barbed_shot", "kill_command", 3.0, 212278, 0 },
-    { "barbed_shot", "kill_command", 3.0, 393933, 0 },
     { "cobra_shot", "barbed_shot", 2.0, 469880, 0 },
+    { "barbed_shot", "kill_command", 3.0, 393933, 0 },
+    { "bestial_wrath", "barbed_shot", "reset", 193532, 0 },
   },
   class = "hunter",
   gameMatch = {

@@ -200,6 +200,9 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   cdLinks = {
     { "crusader_strike", "judgment", 1.5, 196926, 0 },
+    { "blade_of_justice", "blade_of_justice", "reset", 0, 0 },
+    { "templars_verdict", "judgment", "reset", 0, 0 },
+    { "templars_verdict", "hammer_of_wrath", "reset", 0, 0 },
   },
   class = "paladin",
   gameMatch = {

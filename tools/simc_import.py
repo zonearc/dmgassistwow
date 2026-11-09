@@ -26,7 +26,8 @@ import sys
 from collections import Counter
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import simc_spells  # noqa: E402
+import simc_spells
+import simc_modules  # noqa: E402
 import gamedata_spells  # noqa: E402
 import wowsims_apl  # noqa: E402
 
@@ -553,7 +554,13 @@ def import_branch(simc_root, branch, out_root, errors, wowsims_root=None):
             record["spells"] = ids
             record["spellInfo"] = info
             record["heroTrees"] = simc_spells.hero_trees(class_spells[cls], refs["hero"])
-            links, review = simc_spells.links_for(class_spells[cls], ids, EXTRA_LINKS.get(cls, []))
+            # Two sources, merged: SimC's class modules (the code that simulates the class: complete and tested)
+            # and the game's own spell descriptions. tools/simc_modules.py, tools/simc_spells.py.
+            module_dir = os.path.join(simc_root, branch, "engine", "class_modules")
+            module_links, module_review = simc_modules.links(module_dir, cls, class_spells[cls])
+            extra = [list(l) for l in module_links] + EXTRA_LINKS.get(cls, [])
+            links, review = simc_spells.links_for(class_spells[cls], ids, extra)
+            review = review + [r for r in module_review if any(a in r for a in ids)]
             if links:
                 record["cdLinks"] = links
             record["_review"] = review

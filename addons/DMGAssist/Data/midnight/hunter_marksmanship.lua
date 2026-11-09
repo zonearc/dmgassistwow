@@ -162,6 +162,9 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
   },
   blizzardExcluded = { "trueshot" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "aimed_shot", "rapid_fire", "reset", 0, 0 },
+  },
   class = "hunter",
   gameMatch = {
     matched = 12,

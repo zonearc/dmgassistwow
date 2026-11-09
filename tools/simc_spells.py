@@ -154,6 +154,7 @@ def parse_dump(text):
     _baseline_energize(spells)
     _cooldown_links(spells)
     for s in spells.values():
+        s["effects_raw"] = list(s["effects"])  # kept for tools/simc_modules.py (talent amounts)
         _effects(s)
     _description_auras(spells)
     return spells
@@ -361,12 +362,27 @@ def links_for(spells, ids, extra=()):
             low = sentence.lower()
             if any(n in low for n in names):
                 review.append(f"{s['name']} ({s['id']}): {sentence}")
+    def action_for(tok):
+        # SimC's code names an action's struct a little differently at times ("bomb" for wildfire_bomb)
+        if tok == "*" or tok in actions:
+            return tok
+        hits = [a for a in actions if a.endswith("_" + tok) or a.startswith(tok + "_")]
+        return hits[0] if len(hits) == 1 else None
+
+    seen = {(l[0], l[1]) for l in links}
     for x in extra:
         row = [x["source"], x["target"], x["seconds"], x.get("requires", 0), x.get("power", 0)] if isinstance(x, dict) else list(x)
         if isinstance(x, dict) and x.get("perTargetCap"):
             row.append(x["perTargetCap"])
-        if row[1] in actions and (row[0] == "*" or row[0] in actions) and row not in links:
-            links.append(row)
+        src, dst = action_for(row[0]), action_for(row[1])
+        if not (src and dst):
+            continue
+        row[0], row[1] = src, dst
+        if (src, dst) in seen:
+            # the class module's version wins over the description's (it knows per-target caps and talents)
+            links[:] = [l for l in links if (l[0], l[1]) != (src, dst)]
+        seen.add((src, dst))
+        links.append(row)
     return links, review
 
 

@@ -204,6 +204,7 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
   blizzardExcluded = { "summon_darkglare" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   cdLinks = {
+    { "unstable_affliction", "dark_harvest", 1.5, 1259886, 0 },
     { "seed_of_corruption", "dark_harvest", 1.5, 1259886, 0 },
   },
   class = "warlock",

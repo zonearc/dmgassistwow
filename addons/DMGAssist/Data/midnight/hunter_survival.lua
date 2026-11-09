@@ -121,8 +121,9 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   cdLinks = {
     { "*", "wildfire_bomb", 0.033, 405530, 2 },
-    { "kill_command", "wildfire_bomb", 1.0, 460198, 0 },
     { "boomstick", "wildfire_bomb", 3.0, 1261229, 0 },
+    { "moonlight_chakram", "wildfire_bomb", 10.0, 1266069, 0 },
+    { "kill_command", "wildfire_bomb", 1.0, 460198, 0 },
     { "wildfire_bomb", "boomstick", 2.0, 1262409, 0, 10.0 },
   },
   class = "hunter",

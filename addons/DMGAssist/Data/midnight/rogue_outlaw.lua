@@ -175,6 +175,14 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
   },
   blizzardExcluded = { "adrenaline_rush" },
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
+  cdLinks = {
+    { "between_the_eyes", "between_the_eyes", "reset", 0, 0 },
+    { "preparation", "adrenaline_rush", "reset", 0, 0 },
+    { "preparation", "between_the_eyes", "reset", 0, 0 },
+    { "preparation", "blade_flurry", "reset", 0, 0 },
+    { "preparation", "blade_rush", "reset", 0, 0 },
+    { "preparation", "killing_spree", "reset", 0, 0 },
+  },
   class = "rogue",
   gameMatch = {
     matched = 17,
