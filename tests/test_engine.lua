@@ -1336,6 +1336,32 @@ test("energy and focus come back during the look-ahead, faster with haste", func
   mock.haste = nil
 end)
 
+test("charges: the game's count by spell name, and a charge learned from the assistant's picks", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", ch = 1, chcd = 6, gcd = 1.5 } -- SimC: one charge
+  Feral(ns, rec)
+  mock.charges = { [5217] = { 2, 2 } } -- the game: two
+  S.Calibrate()
+  eq(S.liveCharges.tigers_fury and S.liveCharges.tigers_fury.max, 2, "read out of combat")
+  mock.inCombat, mock.restricted = true, true
+  mock.charges = nil
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  eq(S.Charges(5217), 1, "one cast: one left, not zero")
+  -- unreadable game data: the assistant naming it while we count zero teaches the extra charge
+  S.liveCharges = {}
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  eq(S.Charges(5217), 0)
+  S.ObserveAssistedCharge(5217)
+  mock.Advance(0.5)
+  S.ObserveAssistedCharge(5217)
+  eq(S.liveCharges.tigers_fury and S.liveCharges.tigers_fury.max, 2, "learned")
+  mock.inCombat, mock.restricted = false, false
+end)
+
 test("every spec ships SimC spell data (ids, cooldowns, durations)", function()
   for _, client in ipairs({ { "standard", 1, "midnight" }, { "camelot", 18, "forever" } }) do
     Reset()
