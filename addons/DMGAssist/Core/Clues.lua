@@ -131,6 +131,45 @@ end
 
 function C.OnTargetChanged()
   C.aura.target = {}
+  C.named["target.health.pct"] = nil -- execute range belongs to the target it was seen on
+end
+
+-- Execute range. The target's health is hidden in combat, but some spells can only be cast below a health line:
+-- when Blizzard's assistant names one of them, the target is below it, and stays below it (health goes down)
+-- until you change target. A glowing button means a proc made it castable at any health (Sudden Death,
+-- Deathblow), and Avenging Wrath unlocks Hammer of Wrath: neither tells us anything.
+C.EXECUTE = {
+  hammer_of_wrath = 20,
+  kill_shot = 20,
+  execute = function()
+    return (M.TalentRank("massacre") or 0) > 0 and 35 or 20
+  end,
+}
+C.EXECUTE_UNLOCKED_BY = { hammer_of_wrath = { "avenging_wrath", "crusade", "sentinel" } }
+
+function C.ObserveExecute(acSpell)
+  local token = M.TokenForID(acSpell)
+  local line = token and C.EXECUTE[token]
+  if not line or not C.Enabled("assisted") then
+    return
+  end
+  local S = ns.State
+  if S.glow[acSpell] then
+    return
+  end
+  for _, buff in ipairs(C.EXECUTE_UNLOCKED_BY[token] or {}) do
+    if (S.auraUntil[buff] or 0) > GetTime() then
+      return
+    end
+  end
+  if type(line) == "function" then
+    line = line()
+  end
+  local was = C.named["target.health.pct"]
+  C.SetNamed("target.health.pct", nil, line - 0.01, 600, "assisted")
+  if not (was and was.hi and was.hi <= line) then
+    U.Log("execute_range", { spell = token, below = line })
+  end
 end
 
 ---------------------------------------------------------------------------

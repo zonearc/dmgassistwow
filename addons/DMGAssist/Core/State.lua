@@ -1455,6 +1455,29 @@ end
 ---------------------------------------------------------------------------
 -- Resources
 ---------------------------------------------------------------------------
+-- Passive regeneration per second for resources that refill on their own (energy 10/s, focus 5/s at no haste;
+-- both scale with haste, so Bloodlust counts). The game's own number while readable (talents, gear and haste
+-- included), kept at no haste for when it's hidden. Without it the look-ahead never saw energy coming back.
+S.REGEN_BASE = { [3] = 10, [2] = 5 }
+local regenSeen = {}
+
+function S.RegenRate(pt)
+  local base = S.REGEN_BASE[pt]
+  if not base then
+    return 0
+  end
+  local haste = HasteFactor()
+  local current = U.Get(UnitPowerType, "player")
+  if current == pt then
+    local r = U.Get(GetPowerRegen)
+    if type(r) == "number" and r > 0 then
+      regenSeen[pt] = r / haste
+      return r
+    end
+  end
+  return (regenSeen[pt] or base) * haste
+end
+
 local function PowerNow(pt)
   local cur = U.Get(UnitPower, "player", pt)
   local max = U.Get(UnitPowerMax, "player", pt)
@@ -1467,6 +1490,9 @@ local function PowerNow(pt)
     end
     if type(cur) == "number" and V.power[pt] then
       cur = cur + V.power[pt]
+    end
+    if type(cur) == "number" and V.dt > 0 and not V.powerAbs[pt] then
+      cur = cur + S.RegenRate(pt) * V.dt -- what comes back by the look-ahead moment
     end
     if type(cur) == "number" then
       cur = math.max(0, cur)
@@ -1551,6 +1577,10 @@ function S.Bounds(name)
   end
   if V and V.power[pt] then
     lo, hi = math.max(0, lo + V.power[pt]), hi + V.power[pt]
+  end
+  if V and V.dt > 0 then
+    local gained = S.RegenRate(pt) * V.dt
+    lo, hi = lo + gained, hi + gained
   end
   if type(max) == "number" and max > 0 then
     hi = math.min(hi, max)

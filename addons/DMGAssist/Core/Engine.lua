@@ -815,6 +815,7 @@ local function Decide(record, opts, targets, first)
 
   -- What the assistant's pick tells us about hidden state (facts feed the resolver for this decision on).
   if run.acSpell then
+    ns.Clues.ObserveExecute(run.acSpell)
     run.oracleLine = ns.Clues.ObserveAssisted(record, run.acSpell, {
       resolve = run.resolve,
       bounds = run.bounds,

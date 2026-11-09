@@ -1029,6 +1029,24 @@ end
 --   ready:  a bright flash `pressLead` seconds before the moment (default 50 ms: reaction time), then a steady glow
 local FLASH = 0.35
 
+-- Your connection: a press takes your world latency to reach the server, and the game queues a press made up to
+-- SpellQueueWindow before the GCD ends. So "press now" comes that much earlier (never more than the queue window,
+-- or the press would be dropped). Read every few seconds; both are always readable.
+local latAt, latency = 0, 0
+function D.Latency()
+  local now = GetTime()
+  if now - latAt > 5 then
+    latAt = now
+    local world = U.Read((select(4, U.Call(GetNetStats))))
+    local queue = tonumber(U.Get(GetCVar, "SpellQueueWindow")) or 400
+    latency = 0
+    if type(world) == "number" and world > 0 then
+      latency = math.min(world, queue) / 1000
+    end
+  end
+  return latency
+end
+
 function D.RenderTiming(f, cfg)
   local castLeft = select(2, ns.State.CurrentCast()) or 0
   local busy = math.max(ns.State.GCDRemains(), castLeft)
@@ -1056,7 +1074,7 @@ function D.RenderTiming(f, cfg)
     f.waitTotal = math.max(wait, 0.01)
   end
   f.lastWait = wait
-  local lead = (tonumber(cfg.pressLead) or 50) / 1000
+  local lead = (tonumber(cfg.pressLead) or 50) / 1000 + D.Latency()
   local ready = wait <= lead
   local now = GetTime()
   if ready then

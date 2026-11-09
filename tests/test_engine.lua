@@ -290,6 +290,8 @@ end)
 test("major cooldowns are ordinary queue lines; switched off they never show", function()
   Reset()
   local ns = Boot()
+  local regen = ns.State.REGEN_BASE
+  ns.State.REGEN_BASE = {} -- this fixture's energy is about placement, not regeneration
   local now = Record()
   now.simc.default[1].c = nil
   local r = ns.Engine.Recommend(now, {})
@@ -311,6 +313,7 @@ test("major cooldowns are ordinary queue lines; switched off they never show", f
   for _, p in ipairs(r.queue) do
     eq(p.token ~= "berserk", true, "major cooldowns off")
   end
+  ns.State.REGEN_BASE = regen
 end)
 
 test("interrupt lines in a SimC list are never rotation picks (the Interrupts module shows them)", function()
@@ -1291,6 +1294,46 @@ test("Bloodlust and Power Infusion from the size of the haste jump, whoever cast
   eq(S.boost.lust, nil)
   eq(S.boost.power_infusion, nil)
   mock.restricted, mock.inCombat = false, false
+end)
+
+test("execute range: the assistant naming an execute spell means the target is below its health line", function()
+  Reset()
+  local ns = Boot()
+  local S, C = ns.State, ns.Clues
+  C.EXECUTE.shred = 20 -- stand-in for Hammer of Wrath / Kill Shot / Execute in the Feral test book
+  Restrict()
+  mock.acSpell = 5221
+  local rec = Record()
+  ns.Engine.Recommend(rec, { useAssisted = true })
+  local _, hi = S.Bounds("target.health.pct")
+  eq(hi ~= nil and hi < 20, true, "below 20%")
+  mock.acSpell = nil
+  ns.Engine.Recommend(rec, { useAssisted = true })
+  _, hi = S.Bounds("target.health.pct")
+  eq(hi ~= nil and hi < 20, true, "health only goes down: it stays known for this target")
+  mock.Fire("PLAYER_TARGET_CHANGED")
+  eq(S.Bounds("target.health.pct"), nil, "a new target: unknown again")
+  S.glow[5221] = true -- a proc lit the button: castable at any health, tells us nothing
+  mock.acSpell = 5221
+  ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(S.Bounds("target.health.pct"), nil)
+  S.glow[5221], C.EXECUTE.shred, mock.acSpell = nil, nil, nil
+  mock.restricted, mock.inCombat = false, false
+end)
+
+test("energy and focus come back during the look-ahead, faster with haste", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  mock.power[3], mock.powerMax[3] = 20, 100
+  S.BeginLookahead(2)
+  eq(S.PowerNow(3), 40, "10 energy a second")
+  S.EndLookahead()
+  mock.haste = 30
+  S.BeginLookahead(2)
+  eq(math.floor(S.PowerNow(3) + 0.5), 46, "13 a second with 30% haste")
+  S.EndLookahead()
+  mock.haste = nil
 end)
 
 test("every spec ships SimC spell data (ids, cooldowns, durations)", function()
