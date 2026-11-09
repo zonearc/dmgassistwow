@@ -1370,6 +1370,30 @@ test("Masque: the icons join a DMGAssist group when Masque is installed; nothing
   ns.Integrations.group = nil
 end)
 
+test("welcome: three questions once per profile, suggestions applied, skipped for anyone already set up", function()
+  Reset()
+  local ns = Boot()
+  ns.Display.Create()
+  ns.db.welcomed, ns.db.point = nil, nil
+  ns.Welcome.MaybeAsk()
+  local w = DMGAssistWelcome
+  eq(w and w:IsShown(), true, "asked on first login")
+  for n = 1, 3 do
+    w.buttons[2].scripts.OnClick(w.buttons[2]) -- the second answer each time
+  end
+  eq(ns.db.welcomed, true)
+  eq(ns.db.point[1], "CENTER", "middle of the screen")
+  eq(ns.db.hud.scale, 0.8, "small")
+  eq(ns.db.hud.showWithTarget, false, "only in combat")
+  w:Hide()
+  ns.Welcome.MaybeAsk()
+  eq(w:IsShown(), false, "not asked again")
+  ns.db.welcomed, ns.db.point = nil, { "CENTER", "CENTER", 0, 0 }
+  ns.Welcome.MaybeAsk()
+  eq(ns.db.welcomed, true, "already placed the HUD: not asked")
+  eq(w:IsShown(), false)
+end)
+
 test("Edit Mode: the HUD shows and can be dragged while Blizzard's Edit Mode is open", function()
   Reset()
   local ns = Boot()

@@ -222,6 +222,9 @@ function O.Register()
     "Left-click: show / hide. Right-click: menu and settings. Drag to move it.")
   Check(main, DB, "locked", "Lock position", true,
     "Unlock to drag the icons; they are also shown while this panel is open.")
+  Button(main, "Quick setup", "Run the setup again", function()
+    ns.Welcome.Open()
+  end, "Three questions: where the HUD goes, how big, and when it shows.")
   Button(main, "Key bindings", "Set key bindings", O.OpenKeybindings, KEYS_TIP)
   Button(main, "Defaults", "Reset everything to defaults", O.ResetAll,
     "Every setting on every DMGAssist page, in the profile in use.")

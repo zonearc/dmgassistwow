@@ -475,6 +475,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     ns.Options.Register()
     ns.BossMods.Hook()
     C_Timer.After(5, ns.LogLaunchState)
+    C_Timer.After(3, ns.Welcome.MaybeAsk)
   elseif KEYBIND_EVENTS[event] then
     D.InvalidateKeybinds()
   elseif event == "PLAYER_REGEN_DISABLED" then
@@ -701,6 +702,11 @@ end
 commands.issue = commands.report
 commands.feedback = commands.report
 
+function commands.welcome()
+  ns.Welcome.Open()
+end
+commands.setup = commands.welcome
+
 function commands.unbound()
   D.BuildKeymap()
   ns.Bindcheck.Print()
@@ -825,6 +831,7 @@ function commands.help()
     { "/dmga config", "open the settings panel" },
     { "/dmga keys", "refresh keybinds" },
     { "/dmga report", "report an issue or give feedback: describe it, copy the report, open the issue page" },
+    { "/dmga welcome", "the three setup questions again (where, how big, when to show)" },
     { "/dmga unbound", "list spells you can be told to cast that have no key binding" },
     { "/dmga test", "pretend your boss mod called for a defensive (8 s), to check it shows" },
     { "/dmga test interrupt | assisted | bossmods", "test the interrupt, Blizzard's assistant, boss mod detection" },
