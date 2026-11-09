@@ -373,9 +373,22 @@ function O.Register()
   Header(integrations, "Blizzard")
   Check(integrations, DB, "useAssisted", "Assisted Combat", true,
     "Midnight only: it sees hidden procs and resources, so it confirms uncertain SimC lines. Forever has none.")
+  Button(integrations, "Test", "Check Assisted Combat", function()
+    SlashCmdList.DMGASSIST("test assisted")
+  end, "Prints what Blizzard's assistant suggests right now (target an enemy first).")
   Header(integrations, "Boss mods")
   Check(integrations, DB, "bossMods", "Boss mod timers", true,
     "Upcoming adds, AoE, tank hits and interrupts: used for defensives, interrupts and SimC's add timing.")
+  Button(integrations, "Test", "Show boss mods found", function()
+    SlashCmdList.DMGASSIST("test bossmods")
+  end, "Prints which of DBM, BigWigs and LittleWigs DMGAssist is reading.")
+  Button(integrations, "Test", "Pretend a defensive call", function()
+    SlashCmdList.DMGASSIST("test")
+  end, "For 8 seconds slot 1 shows the defensive DMGAssist would pick when your boss mod warns of a big hit "
+    .. "(lighter ones first; if it is on cooldown, the next one).")
+  Button(integrations, "Test", "Pretend an interrupt", function()
+    SlashCmdList.DMGASSIST("test interrupt")
+  end, "For 8 seconds slot 1 shows your interrupt, as when a boss mod calls a kick or your target casts.")
   Header(integrations, "Action bars")
   Button(integrations, "Keybinds", "Refresh keybinds", function()
     if SlashCmdList.DMGASSIST then

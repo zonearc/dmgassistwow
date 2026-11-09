@@ -22,7 +22,9 @@ local function Describe(state)
     string.format("%s, %s %s", tostring(state.client), tostring(state.class), tostring(state.key or state.specName or "-")),
     L[STATUS_TEXT[state.status] or tostring(state.status)],
   }
-  if state.source then
+  if state.assistedOnly then
+    parts[#parts + 1] = L["no SimC list for this spec: following Blizzard's Assisted Combat"]
+  elseif state.source then
     parts[#parts + 1] = string.format("SimC %s %s (%s)", tostring(state.source.branch), tostring(state.source.commit),
       tostring(state.source.date))
   end
@@ -626,13 +628,37 @@ function commands.lock()
   U.Print(ns.db.locked and L["Icon locked."] or L["Icon unlocked (drag to move)."])
 end
 
-function commands.test()
-  local kind = "defensive"
-  ns.BossMods.Test(kind, 8)
-  local id = ns.Defensives.Spell()
-  local name = id and U.Get(C_Spell and C_Spell.GetSpellName, id) or L["none available"]
-  U.Print(L["Test boss-mod %s alert for 8 s. It shows: %s (needs combat or an enemy target to be visible)."],
-    kind, tostring(name))
+-- Tests for the integrations (also buttons in Settings > Integrations), so players can see each one work.
+local function SpellName(id)
+  return id and U.Get(C_Spell and C_Spell.GetSpellName, id) or L["none available"]
+end
+
+function commands.test(arg)
+  if arg == "interrupt" or arg == "kick" then
+    ns.Interrupts.testUntil = GetTime() + 8
+    U.Print(L["Test interrupt for 8 s: slot 1 shows %s, as when a boss mod calls a kick or your target casts."],
+      tostring(SpellName(ns.Display.InterruptSpell())))
+  elseif arg == "assisted" then
+    local ac = U.Get(C_AssistedCombat and C_AssistedCombat.GetNextCastSpell, false)
+    if type(ac) == "number" then
+      U.Print(L["Blizzard's Assisted Combat suggests %s right now: it is working."], tostring(SpellName(ac)))
+    else
+      U.Print("%s", L["Blizzard's Assisted Combat gives no suggestion here (Forever has none; on Midnight target "
+        .. "an enemy and try again)."])
+    end
+  elseif arg == "bossmods" then
+    local mods = ns.BossMods.Detected()
+    if #mods > 0 then
+      U.Print(L["Boss mods found: %s. Their timers and calls are used for defensives and interrupts."],
+        table.concat(mods, ", "))
+    else
+      U.Print("%s", L["No boss mod found (DBM, BigWigs, LittleWigs). Defensives then follow your health only."])
+    end
+  else
+    ns.BossMods.Test("defensive", 8)
+    U.Print(L["Test defensive call for 8 s: slot 1 shows %s, as when DBM / BigWigs / LittleWigs warn of a big hit."],
+      tostring(SpellName(ns.Defensives.Spell())))
+  end
 end
 
 function commands.unbound()
@@ -760,6 +786,7 @@ function commands.help()
     { "/dmga keys", "refresh keybinds" },
     { "/dmga unbound", "list spells you can be told to cast that have no key binding" },
     { "/dmga test", "pretend your boss mod called for a defensive (8 s), to check it shows" },
+    { "/dmga test interrupt | assisted | bossmods", "test the interrupt, Blizzard's assistant, boss mod detection" },
     { "/dmga snapshot", "store a full decision trace for troubleshooting" },
   }
   for _, line in ipairs(lines) do

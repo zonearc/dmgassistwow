@@ -97,6 +97,13 @@ function S.Detect()
     state.source = ns.Data.Source(client.branch)
     if state.data then
       state.status = "ready"
+    elseif ns.Data.Source(client.branch) and client.branch == "midnight" then
+      -- No SimC list (healers: Discipline, Holy, Mistweaver, Preservation, Restoration Shaman / Holy Paladin):
+      -- Blizzard's Assisted Combat still suggests their damage rotation, so slot 1 follows it (with interrupts,
+      -- defensives, trinkets and your choices) instead of hiding the HUD.
+      state.data = { key = key, simc = { default = {} }, simcOrder = { "default" }, assistedOnly = true }
+      state.status = "ready"
+      state.assistedOnly = true
     elseif ns.Data.Source(client.branch) then
       state.status = "no_simc_list"     -- e.g. healer specs: SimC publishes no default list
     else

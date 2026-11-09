@@ -54,6 +54,9 @@ function I.Evaluate()
   if not id or ns.State.CooldownReady(id) == false then
     return nil
   end
+  if I.testUntil and GetTime() < I.testUntil then
+    return { id = id, how = "decided", why = "test" } -- /dmga test interrupt (Settings > Integrations)
+  end
   local casting, notInterruptible, spellID = ns.Display.TargetCast()
   if not casting or I.skipped then
     return nil

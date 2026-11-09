@@ -112,11 +112,13 @@ test("talent edits that keep the same spec do not fire a change", function()
   eq(changes, 0)
 end)
 
-test("healer spec without a SimC list reports it clearly", function()
+test("healer spec without a SimC list follows Blizzard's Assisted Combat and says so", function()
   mock.class, mock.specs, mock.specIndex = { "Paladin", "PALADIN", 2 }, { [1] = 65, [2] = 66, [3] = 70 }, 1
   local ns = Boot("standard", 1)
   eq(ns.Specs.current.key, "paladin_holy")
-  eq(ns.Specs.current.status, "no_simc_list")
+  eq(ns.Specs.current.status, "ready", "the HUD still works")
+  eq(ns.Specs.current.assistedOnly, true)
+  eq(ns.Describe(ns.Specs.current):find("Assisted Combat", 1, true) ~= nil, true)
 end)
 
 test("low-level character with no spec is handled", function()
