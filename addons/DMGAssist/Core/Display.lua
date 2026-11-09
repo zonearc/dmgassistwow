@@ -204,10 +204,12 @@ local function BindingFor(slot, mainPage)
   local page = math.floor((slot - 1) / 12) + 1
   local index = (slot - 1) % 12 + 1
   local command
-  if page == mainPage or page == 1 or (page >= 7 and page <= 12) then
-    command = "ACTIONBUTTON" .. index
-  elseif PAGE_COMMAND[page] then
+  if PAGE_COMMAND[page] then
     command = PAGE_COMMAND[page] .. index
+  elseif page == mainPage then
+    -- The main bar's keys (1-=) press whichever page it shows now: page 1, or a form's / stealth's own page
+    -- (Cat 7, Bear 9, Moonkin 10...). A spell on another form's page has no key until you're in that form.
+    command = "ACTIONBUTTON" .. index
   end
   if not command then
     return nil, false

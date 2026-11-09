@@ -306,13 +306,24 @@ G.TARGET_RULES = {
   end,
 }
 
--- Spells the game won't recast while their own effect runs ("A more powerful spell is already active"), even
--- with a charge left: Balance's Eclipse, for 15 s after Eclipse, Celestial Alignment or Incarnation (20 s).
--- SimC knows this inside its simulation; the lists don't say it, and in combat the buff is hidden from addons, so
--- it's timed from our own casts.
+-- Spells the game won't cast while an effect runs ("A more powerful spell is already active"), even with a charge
+-- left or a cooldown shorter than the effect. SimC knows these inside its simulation (each is a ready() override
+-- in its class code, audited 2026-11-09: 93 overrides, these are the ones a charge or short cooldown would let
+-- through); the lists don't say it, and in combat the buffs are hidden from addons, so it's timed from our own casts.
+-- token -> { trigger token = seconds }
 G.BLOCKED_WHILE_ACTIVE = {
+  -- Balance: Eclipse 15 s after Eclipse, Celestial Alignment, or Incarnation (20 s)
   eclipse = { eclipse = 15, lunar_eclipse = 15, solar_eclipse = 15, celestial_alignment = 15,
     incarnation_chosen_of_elune = 20 },
+  -- Subtlety: no Shadow Dance during Shadow Dance (8 s, charges) or right after Vanish (3 s of stealth)
+  shadow_dance = { shadow_dance = 8, vanish = 3 },
+  -- Paladin: Forbearance (30 s) after Divine Shield, Blessing of Protection or Lay on Hands
+  divine_shield = { divine_shield = 30, blessing_of_protection = 30, lay_on_hands = 30 },
+  blessing_of_protection = { divine_shield = 30, blessing_of_protection = 30, lay_on_hands = 30 },
+  lay_on_hands = { divine_shield = 30, blessing_of_protection = 30, lay_on_hands = 30 },
+  -- Shadow: no Vampiric Embrace while it runs (15 s)
+  vampiric_embrace = { vampiric_embrace = 15 },
+
 }
 
 local function BlockedWhileActive(id)

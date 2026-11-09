@@ -1453,6 +1453,39 @@ test("Eclipse is not recommended again while it is active, even with a charge le
   S.combatStart = nil
 end)
 
+test("keybinds: a spell on another form's bar page has no key until you are in that form", function()
+  Reset()
+  local ns = Boot()
+  local D = ns.Display
+  mock.actionInfo = { [112] = { "spell", 24858 } } -- page 10 (Moonkin Form's bar), slot 4
+  mock.bindings = { ACTIONBUTTON4 = "4" }
+  mock.bonusBar = 0
+  D.InvalidateKeybinds()
+  eq(D.Keybind(24858), nil, "caster form: pressing 4 casts page 1, not page 10")
+  mock.bonusBar = 4
+  D.InvalidateKeybinds()
+  eq(D.Keybind(24858), "4", "in Moonkin Form page 10 is the main bar")
+  mock.actionInfo, mock.bindings, mock.bonusBar = nil, nil, 0
+  D.InvalidateKeybinds()
+end)
+
+test("blocked while active: Shadow Dance during Shadow Dance, Divine Shield under Forbearance", function()
+  Reset()
+  local ns = Boot()
+  local G, S = ns.Engine, ns.State
+  ns.SpellMap.byID[185313] = "shadow_dance"
+  ns.SpellMap.byID[642] = "divine_shield"
+  S.combatStart = GetTime()
+  S.lastCastToken.shadow_dance = GetTime()
+  eq(G.BlockedWhileActive(185313), true, "dancing: no second Shadow Dance")
+  S.lastCastToken.lay_on_hands = GetTime()
+  eq(G.BlockedWhileActive(642), true, "Forbearance after Lay on Hands")
+  mock.Advance(31)
+  eq(G.BlockedWhileActive(185313), false)
+  eq(G.BlockedWhileActive(642), false)
+  S.combatStart = nil
+end)
+
 test("Edit Mode: the HUD shows and can be dragged while Blizzard's Edit Mode is open", function()
   Reset()
   local ns = Boot()
