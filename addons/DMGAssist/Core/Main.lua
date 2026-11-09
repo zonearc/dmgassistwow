@@ -205,7 +205,7 @@ function ns.StatusLines()
     add("Rotation from", src .. (state.source and (" " .. tostring(state.source.commit) .. ", " ..
       tostring(state.source.date)) or ""))
     if have then
-      add("Spells of the rotation you have", string.format("%d of %d", have, total))
+      add("Rotation spells known", string.format("%d of %d", have, total))
     end
   end
   local n, label = S.Targets()
@@ -223,17 +223,17 @@ function ns.StatusLines()
   local learned = S.LearnedFightLength(context)
   local mode = ns.db.fightMode or "learned"
   add("Fight length", string.format("%d s (%s, %s)", S.FightLength(), mode == "learned" and (learned and
-    L["learned"] or L["learning: SimC default for now"]) or mode, context))
+    L["learned"] or L["learning (SimC default until then)"]) or mode, context))
   local mods = ns.BossMods.Detected()
   add("Boss mods found", #mods > 0 and table.concat(mods, ", ") or L["none"])
   local keys = 0
   for _ in pairs(D.BuildKeymap()) do
     keys = keys + 1
   end
-  add("Keybinds read from your bars", keys)
+  add("Keybinds found", keys)
   local ac = C_AssistedCombat and U.Get(C_AssistedCombat.IsAvailable)
   add("Blizzard's assisted combat", ac == true and L["available (used as a second opinion)"] or L["not available"])
-  add("Talents read", M.talentsRead and L["yes"] or L["no"])
+  add("Talents loaded", M.talentsRead and L["yes"] or L["no"])
   add("Interrupt spell", tostring(D.InterruptSpell() and U.Get(C_Spell and C_Spell.GetSpellName, D.InterruptSpell())
     or "-"))
   add("Watchdog (diagnostics)", type(_G.DMGAssistWatchdog) == "table" and L["installed"] or L["not installed"])
@@ -673,7 +673,7 @@ end
 function commands.test(arg)
   if arg == "interrupt" or arg == "kick" then
     ns.Interrupts.testUntil = GetTime() + 8
-    U.Print(L["Test interrupt for 8 s: slot 1 shows %s, as when a boss mod calls a kick or your target casts."],
+    U.Print(L["Interrupt test: slot 1 shows %s for 8 seconds."],
       tostring(SpellName(ns.Display.InterruptSpell())))
   elseif arg == "assisted" then
     local ac = U.Get(C_AssistedCombat and C_AssistedCombat.GetNextCastSpell, false)
@@ -693,7 +693,7 @@ function commands.test(arg)
     end
   else
     ns.BossMods.Test("defensive", 8)
-    U.Print(L["Test defensive call for 8 s: slot 1 shows %s, as when DBM / BigWigs / LittleWigs warn of a big hit."],
+    U.Print(L["Defensive test: slot 1 shows %s for 8 seconds."],
       tostring(SpellName(ns.Defensives.Spell())))
   end
 end
@@ -852,10 +852,10 @@ function commands.help()
     { "/dmga report", "report an issue or give feedback: describe it, copy the report, open the issue page" },
     { "/dmga spec on|off", "DMGAssist on or off for the spec you are in (an alt's healing spec, for example)" },
     { "/dmga welcome", "the three setup questions again (where, how big, when to show)" },
-    { "/dmga unbound", "list spells you can be told to cast that have no key binding" },
-    { "/dmga test", "pretend your boss mod called for a defensive (8 s), to check it shows" },
-    { "/dmga test interrupt | assisted | bossmods", "test the interrupt, Blizzard's assistant, boss mod detection" },
-    { "/dmga snapshot", "store a full decision trace for troubleshooting" },
+    { "/dmga unbound", "list recommended spells that have no keybind" },
+    { "/dmga test", "test the defensive alert (8 seconds)" },
+    { "/dmga test interrupt | assisted | bossmods", "test the interrupt alert, Assisted Combat, or boss mod detection" },
+    { "/dmga snapshot", "save a full decision trace for troubleshooting" },
   }
   for _, line in ipairs(lines) do
     U.Print("%s — %s", line[1], L[line[2]])

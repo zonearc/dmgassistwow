@@ -186,7 +186,7 @@ function O.ResetAll()
 end
 
 local INTERRUPT_CHOICES = {
-  { "smart", "Smart: all in the open world; dungeons/raids only what matters" },
+  { "smart", "Smart: all in the open world, important ones in instances" },
   { "everywhere", "Every interruptible cast" },
   { "instances", "Only in dungeons and raids" },
   { "bossmods", "Only when DBM / BigWigs / LittleWigs calls it" },
@@ -255,9 +255,9 @@ function O.Register()
   Slider(combat, DB, "queue", "Spells shown", G.queue or 3, 1, 3, 1, "The next spell, plus up to two after it.")
   Check(combat, DB, "burst", "Major cooldowns", true,
     "On: big cooldowns show in the three slots in SimC's order. Off: they are never shown.")
-  Choice(combat, DB, "burstWhen", "Use cooldowns on", "always", { { "always", "Every fight" },
+  Choice(combat, DB, "burstWhen", "Use major cooldowns", "always", { { "always", "Every fight" },
     { "big", "Bosses and big pulls" } },
-    "Every fight (default), or only bosses, PvP and pulls of at least the size below: trash keeps them saved.")
+    "Every fight, or save them for bosses, PvP and big pulls (size set below).")
   Slider(combat, DB, "bigPull", "Big pull size", G.bigPull or 5, 2, 10, 1,
     "With \"Bosses and big pulls\": this many enemies or more counts as a big pull.")
   Check(combat, DB, "gapClosers", "Gap closers", true,
@@ -295,14 +295,14 @@ function O.Register()
   Check(combat, DB, "autoDetect", "Auto-detect targets", true,
     "Counts enemies in combat with you, within range of your spells, from their nameplates (enemy nameplates "
     .. "must be on). Training dummies count once you have hit them.")
-  Choice(combat, DB, "mode", "Fallback mode", "aoe", { { "st", "Single target" }, { "aoe", "AoE" } },
+  Choice(combat, DB, "mode", "Default target mode", "aoe", { { "st", "Single target" }, { "aoe", "AoE" } },
     "Used when the count isn't available. The key binding switches during a fight.")
-  Choice(combat, DB, "aoeCount", "AoE target count", "spec", { { "spec", "Your spec's switch point" },
+  Choice(combat, DB, "aoeCount", "AoE target count", "spec", { { "spec", "Spec default" },
     { "custom", "Custom (slider below)" } },
     "Your spec's switch point comes from its SimC list (when it uses an AoE list): the count where it changes.")
   Slider(combat, DB, "aoeTargets", "Custom AoE count", G.aoeTargets or 3, 2, 10, 1,
     "Used when \"AoE target count\" is Custom: this many targets or more counts as AoE.")
-  Button(combat, "Switch with a key", "Set key bindings", O.OpenKeybindings, KEYS_TIP)
+  Button(combat, "Target mode keybind", "Set key bindings", O.OpenKeybindings, KEYS_TIP)
   Header(combat, "Fight length")
   Choice(combat, DB, "fightMode", "Fight length", "learned", {
     { "learned", "Learned from your fights" }, { "simc", "SimC default (300 s bosses, short trash)" },
@@ -313,16 +313,16 @@ function O.Register()
   Header(combat, "Interrupts")
   Check(combat, HUD, "interrupt", "Suggest interrupts", H.interrupt)
   Choice(combat, DB, "interruptMode", "When", "smart", INTERRUPT_CHOICES,
-    "In dungeons and raids 'what matters' = your boss mod calls an interrupt or Blizzard marks the spell important.")
+    "In dungeons and raids, important means your boss mod calls for it or Blizzard flags the spell.")
   Header(combat, "Discipline: Atonement")
   Check(combat, DB, "atonementRamp", "Ramp before big hits", true,
     "When your boss mod warns of AoE damage, show Power Word: Radiance, then Shield, until enough Atonements are up.")
-  Slider(combat, DB, "atonementTarget", "Atonements wanted", G.atonementTarget or 5, 1, 20, 1,
+  Slider(combat, DB, "atonementTarget", "Atonement goal", G.atonementTarget or 5, 1, 20, 1,
     "Counted from your own casts (Shield, Flash Heal, Plea, Renew: 1; Radiance: 5). 5 for a party, more for raids.")
-  Slider(combat, DB, "atonementLead", "Ramp this early", G.atonementLead or 8, 3, 20, 1,
+  Slider(combat, DB, "atonementLead", "Ramp lead time", G.atonementLead or 8, 3, 20, 1,
     "Seconds before the hit your boss mod announces.", "s")
   Header(combat, "Self-heals")
-  Slider(combat, DB, "healAt", "Self-heal at", G.healAt or 35, 0, 90, 5,
+  Slider(combat, DB, "healAt", "Self-heal below", G.healAt or 35, 0, 90, 5,
     "Self-heals your rotation can suggest (Desperate Prayer, Regrowth, Crimson Vial...) show only at or below this "
     .. "health. 0 = never.", "%")
   Check(combat, DB, "healInRaids", "Self-heals in raids", false,
@@ -351,9 +351,9 @@ function O.Register()
   Slider(display, HUD, "alpha", "Opacity", H.alpha, 0.2, 1, 0.05)
   Slider(display, HUD, "queueAlpha", "Next icons opacity", H.queueAlpha, 0.2, 1, 0.05)
   Header(display, "Frame")
-  Check(display, HUD, "modeBar", "Mode title", H.modeBar,
+  Check(display, HUD, "modeBar", "Target mode title", H.modeBar,
     "In combat: ST (blue) or AOE (orange) with the number of targets counted, so you can see auto-detect work.")
-  Check(display, HUD, "header", "Header", H.header, "A line above the icons with your spec and a settings button.")
+  Check(display, HUD, "header", "Title bar", H.header, "A line above the icons with your spec and a settings button.")
   Check(display, HUD, "background", "Background", H.background)
   Slider(display, HUD, "bgAlpha", "Background opacity", H.bgAlpha, 0, 1, 0.05)
   Choice(display, HUD, "border", "Border", H.border, { { "none", "None" }, { "thin", "Thin" }, { "thick", "Thick" } })
@@ -391,9 +391,9 @@ function O.Register()
   Header(display, "Effects")
   Choice(display, HUD, "glow", "Main icon glow", H.glow,
     { { "none", "None" }, { "border", "Steady" }, { "pulse", "Pulse" } })
-  Check(display, HUD, "pressCue", "Press-now cue", H.pressCue,
+  Check(display, HUD, "pressCue", "Press-now flash", H.pressCue,
     "The main icon is darkened until your GCD or cast is about to end, then flashes: press it then.")
-  Slider(display, HUD, "pressLead", "Flash this early", H.pressLead, 0, 300, 10,
+  Slider(display, HUD, "pressLead", "Flash lead time", H.pressLead, 0, 300, 10,
     "How long before the exact moment the flash comes, for reaction time.", " ms")
   Check(display, HUD, "gcdBar", "GCD bar", H.gcdBar)
   Check(display, HUD, "dimGuesses", "Dim uncertain picks", H.dimGuesses)
@@ -419,40 +419,39 @@ function O.Register()
   Header(integrations, "Blizzard")
   Check(integrations, DB, "useAssisted", "Assisted Combat", true,
     "Midnight only: it sees hidden procs and resources, so it confirms uncertain SimC lines. Forever has none.")
-  Button(integrations, "Test", "Check Assisted Combat", function()
+  Button(integrations, "Test", "Test Assisted Combat", function()
     SlashCmdList.DMGASSIST("test assisted")
-  end, "Prints what Blizzard's assistant suggests right now (target an enemy first).")
+  end, "Shows the spell Blizzard's Assisted Combat suggests right now. Target an enemy first.")
   Header(integrations, "Boss mods")
   Check(integrations, DB, "bossMods", "Boss mod timers", true,
     "Upcoming adds, AoE, tank hits and interrupts: used for defensives, interrupts and SimC's add timing.")
-  Button(integrations, "Test", "Show boss mods found", function()
+  Button(integrations, "Test", "Detect boss mods", function()
     SlashCmdList.DMGASSIST("test bossmods")
-  end, "Prints which of DBM, BigWigs and LittleWigs DMGAssist is reading.")
-  Button(integrations, "Test", "Pretend a defensive call", function()
+  end, "Lists the boss mods DMGAssist detected: DBM, BigWigs or LittleWigs.")
+  Button(integrations, "Test", "Test defensive alert", function()
     SlashCmdList.DMGASSIST("test")
-  end, "For 8 seconds slot 1 shows the defensive DMGAssist would pick when your boss mod warns of a big hit "
-    .. "(lighter ones first; if it is on cooldown, the next one).")
-  Button(integrations, "Test", "Pretend an interrupt", function()
+  end, "Shows in slot 1, for 8 seconds, the defensive DMGAssist would suggest before a big hit.")
+  Button(integrations, "Test", "Test interrupt alert", function()
     SlashCmdList.DMGASSIST("test interrupt")
-  end, "For 8 seconds slot 1 shows your interrupt, as when a boss mod calls a kick or your target casts.")
+  end, "Shows your interrupt in slot 1 for 8 seconds, as when an enemy casts something important.")
   Header(integrations, "Action bars")
   Button(integrations, "Keybinds", "Refresh keybinds", function()
     if SlashCmdList.DMGASSIST then
       SlashCmdList.DMGASSIST("keys")
     end
-  end, "Keybinds are read from Blizzard bars, Bartender, ElvUI and Dominos automatically; this re-reads them now.")
+  end, "Reads keybinds again from Blizzard, Bartender, ElvUI and Dominos bars.")
   Check(integrations, DB, "bindWarn", "Warn about missing keybinds", true,
     "Once per spec each session: a chat line when spells DMGAssist can recommend have no key binding.")
 
   ---------------------------------------------------------------- advanced
   local advanced = Category("Advanced", main)
-  Header(advanced, "Hidden values")
-  Check(advanced, HUD, "secretBranches", "Two-spell branches", H.secretBranches,
+  Header(advanced, "Hidden game values")
+  Check(advanced, HUD, "secretBranches", "Show both options when unsure", H.secretBranches,
     "When a hidden resource decides (e.g. 4 or 5 combo points), show both spells; the game makes the right one visible.")
   Header(advanced, "Troubleshooting")
-  Check(advanced, HUD, "debugText", "Decision text", H.debugText,
-    "The queue with where each pick came from (SimC, assistant, Blizzard rules, guess).")
-  Button(advanced, "Snapshot", "Store a decision snapshot", function()
+  Check(advanced, HUD, "debugText", "Decision details", H.debugText,
+    "Shows where each pick came from: SimC, Assisted Combat, Blizzard rules, or a guess.")
+  Button(advanced, "Snapshot", "Save a decision snapshot", function()
     if SlashCmdList.DMGASSIST then
       SlashCmdList.DMGASSIST("snapshot")
     end

@@ -287,7 +287,7 @@ test("Status page: live summary, help links, and a reset of everything", functio
   f.scripts.OnShow(f)
   local text = ns.Options.statusBody.text
   eq(type(text), "string", "summary shown")
-  for _, needle in ipairs({ "Version:", "Game:", "Target mode:", "Boss mods found:", "Keybinds read" }) do
+  for _, needle in ipairs({ "Version:", "Game:", "Target mode:", "Boss mods found:", "Keybinds found" }) do
     eq(text:find(needle, 1, true) ~= nil, true, needle)
   end
   local links = 0
