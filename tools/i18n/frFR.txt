@@ -143,7 +143,6 @@
 147	Sort d'interruption
 148	Interruptions
 149	Cumuls de Fourrure de fer
-150	Juste au-dessus de mes barres d'action
 151	Raccourcis
 152	Les raccourcis peuvent être modifiés après le combat.
 153	Touche pour changer le mode de cibles
@@ -178,7 +177,6 @@
 182	Gros temps de recharge activés.
 183	Moyen
 184	Mêlée : hors de portée de votre cible, montrer d'abord votre charge / bond (Charge sauvage, Charge, Pas de l'ombre...).
-185	Au milieu de l'écran, sous mon personnage
 186	Midnight uniquement : il voit les procs et ressources cachés, donc il confirme les lignes SimC incertaines. Forever n'en a pas.
 187	Bouton de la minicarte
 188	Bouton de la minicarte masqué. Réactivez-le dans les options (/dmga config).
@@ -304,7 +302,6 @@
 310	Cumuls
 311	Position des cumuls
 312	Taille du texte des cumuls
-313	Commence comme copie des options actuelles ; les autres personnages ne sont pas concernés.
 314	État
 315	Fixe
 316	Enregistrer un instantané de décision
@@ -348,7 +345,6 @@
 354	Embranchements à deux sorts
 355	Déverrouillez pour glisser les icônes ; elles sont aussi affichées tant que ce panneau est ouvert.
 356	Adds, zone, coups sur le tank et interruptions à venir : utilisés pour les défensifs, les interruptions et le timing des adds de SimC.
-357	Utiliser un profil pour ce personnage uniquement
 358	Utiliser les temps de recharge sur
 359	Utiliser les suggestions
 360	Utilisé quand « Nombre de cibles pour la zone » est Personnalisé : à partir de ce nombre de cibles, c'est de la zone.
@@ -415,7 +411,6 @@
 421	DMGAssist est activé pour %s.
 422	DMGAssist activé ou désactivé pour la spécialisation actuelle (par exemple la spécialisation de soin d'un reroll)
 423	Comme sur vos barres d'action : une icône devient rouge quand votre cible est hors de portée de ce sort, et la case 1 devient bleue quand il vous manque la ressource.
-424	Activé pour cette spécialisation
 425	Couleurs de portée et de ressource
 426	lister les sorts qui peuvent être recommandés et n'ont pas de raccourci
 427	simuler une alerte défensive de votre addon de boss (8 s), pour vérifier qu'elle s'affiche
@@ -424,3 +419,12 @@
 430	enregistrer une trace complète des décisions pour le dépannage
 431	tester l'interruption, l'assistant de Blizzard et la détection des addons de boss
 432	les trois questions de configuration à nouveau (où, quelle taille, quand afficher)
+150	À droite de mon personnage
+185	Juste sous les pieds de mon personnage
+357	Profil propre
+313	Donne à ce personnage son propre profil, en partant d'une copie des options actuelles. Les autres personnages ne sont pas concernés.
+424	Utiliser DMGAssist sur cette spécialisation
+433	Utiliser DMGAssist sur %s
+434	Recharger l'interface maintenant pour changer de langue ?
+435	Recharger
+436	Plus tard

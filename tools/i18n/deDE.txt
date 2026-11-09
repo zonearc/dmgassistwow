@@ -143,7 +143,6 @@
 147	Unterbrechungszauber
 148	Unterbrechungen
 149	Eisenfell-Stapel
-150	Direkt über meinen Aktionsleisten
 151	Tastenbelegungen
 152	Tastenbelegungen können nach dem Kampf geändert werden.
 153	Taste zum Wechseln des Zielmodus
@@ -178,7 +177,6 @@
 182	Große Abklingzeiten an.
 183	Mittel
 184	Nahkampf: außer Reichweite deines Ziels zuerst deinen Sturmangriff / Sprung zeigen (Wilder Sturmangriff, Sturmangriff, Schattenschritt...).
-185	Mitte des Bildschirms, unter meinem Charakter
 186	Nur Midnight: er sieht verborgene Procs und Ressourcen und bestätigt damit unsichere SimC-Zeilen. Forever hat keinen.
 187	Minikarten-Knopf
 188	Minikarten-Knopf verborgen. Schalte ihn in den Einstellungen wieder an (/dmga config).
@@ -304,7 +302,6 @@
 310	Stapelzahl
 311	Position der Stapelzahl
 312	Textgröße der Stapelzahl
-313	Beginnt als Kopie der aktuellen Einstellungen; andere Charaktere sind nicht betroffen.
 314	Status
 315	Gleichmäßig
 316	Entscheidungs-Momentaufnahme speichern
@@ -348,7 +345,6 @@
 354	Zwei-Zauber-Verzweigungen
 355	Lösen, um die Symbole zu ziehen; sie werden auch angezeigt, solange dieses Fenster offen ist.
 356	Kommende Adds, Flächenschaden, Tanktreffer und Unterbrechungen: genutzt für Verteidigung, Unterbrechungen und SimCs Add-Timing.
-357	Ein Profil nur für diesen Charakter nutzen
 358	Abklingzeiten nutzen bei
 359	Die Empfehlungen nutzen
 360	Gilt, wenn „Ab wie vielen Zielen Flächenschaden" auf Eigene steht: ab so vielen Zielen gilt es als Fläche.
@@ -415,7 +411,6 @@
 421	DMGAssist ist für %s an.
 422	DMGAssist für die aktuelle Spezialisierung an oder aus (zum Beispiel die Heiler-Spezialisierung eines Twinks)
 423	Wie bei deinen Aktionsleisten: ein Symbol wird rot, wenn dein Ziel außer Reichweite des Zaubers ist, und Feld 1 wird blau, wenn dir die Ressource dafür fehlt.
-424	An für diese Spezialisierung
 425	Farben für Reichweite und Ressource
 426	Zauber auflisten, die vorgeschlagen werden können und keine Tastenbelegung haben
 427	einen Verteidigungs-Hinweis deines Boss-Addons simulieren (8 s), um zu prüfen, dass er erscheint
@@ -424,3 +419,12 @@
 430	eine vollständige Entscheidungsspur zur Fehlersuche speichern
 431	Unterbrechung, Blizzards Assistent und Boss-Addon-Erkennung testen
 432	die drei Einrichtungsfragen erneut (wo, wie groß, wann anzeigen)
+150	Rechts neben meinem Charakter
+185	Direkt unter den Füßen meines Charakters
+357	Eigenes Profil
+313	Gibt diesem Charakter ein eigenes Profil, zunächst als Kopie der aktuellen Einstellungen. Andere Charaktere sind nicht betroffen.
+424	DMGAssist für diese Spezialisierung nutzen
+433	DMGAssist für %s nutzen
+434	Die Oberfläche jetzt neu laden, um die Sprache zu wechseln?
+435	Jetzt neu laden
+436	Später

@@ -152,10 +152,11 @@ function O.RegisterProfiles(main)
     end)
   Settings.CreateDropdown(main, use, Options(false),
     L["Settings this character uses. \"Default\" is shared by every character that has no profile of its own."])
-  Button(main, "This character", "Use a profile for this character only", function()
+  Button(main, "This character", "Own profile", function()
     P.UseCharacterProfile()
     U.Print(L["This character now has its own profile: %s."], P.current)
-  end, "Starts as a copy of the current settings; other characters are not affected.")
+  end, "Gives this character its own profile, starting as a copy of the current settings. Other characters are "
+    .. "not affected.")
   local copy = Settings.RegisterProxySetting(main, "DMGASSIST_PROFILE_COPY", Settings.VarType.String,
     L["Copy settings from"], "", function()
       return ""
@@ -231,6 +232,17 @@ function O.Register()
       if ns.global and ns.global[k] ~= v then
         ns.global[k] = v
         U.Print("%s", L["Language saved. Type /reload to switch to it."])
+        if StaticPopupDialogs and StaticPopup_Show then
+          StaticPopupDialogs.DMGASSIST_RELOAD = StaticPopupDialogs.DMGASSIST_RELOAD or {
+            text = L["Reload the interface now to switch the language?"],
+            button1 = L["Reload now"], button2 = L["Later"],
+            OnAccept = function()
+              ReloadUI()
+            end,
+            timeout = 0, whileDead = true, hideOnEscape = true, preferredIndex = 3,
+          }
+          pcall(StaticPopup_Show, "DMGASSIST_RELOAD")
+        end
       end
     end,
   })
@@ -577,7 +589,7 @@ function O.RegisterSpellChoices(parent)
   specOn:SetPoint("LEFT", title, "RIGHT", 24, 0)
   specOn.label = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
   specOn.label:SetPoint("LEFT", specOn, "RIGHT", 4, 0)
-  specOn.label:SetText(L["On for this spec"])
+  specOn.label:SetText(L["Use DMGAssist on this spec"])
   specOn:SetScript("OnClick", function(self)
     ns.Choices.SetSpecOff(not self:GetChecked())
     ns.Update()

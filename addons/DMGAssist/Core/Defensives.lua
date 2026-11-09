@@ -6,8 +6,9 @@
 --   defensiveLead seconds (default 3) -> a real decision.
 --   Low health: UnitHealthPercent("player") is secret in combat; a step curve at the threshold (default 35%) turns
 --   it into the icon's alpha, so the game shows the defensive only while you are actually low.
--- The spell: the first defensive the player knows that is off cooldown, in the order below (lighter first, so the
--- big ones stay for emergencies), matched by spell ID from SimC's data (any client language).
+-- The spell: the first defensive the player knows that is off cooldown and usable now, in the order below (lighter
+-- first, so the big ones stay for emergencies; self-heals such as Word of Glory or Healing Surge after the light
+-- ones), matched by spell ID from SimC's data (any client language).
 
 local _, ns = ...
 local U = ns.U
@@ -31,17 +32,19 @@ F.TOKENS = {
   -- monk
   "fortifying_brew", "diffuse_magic", "dampen_harm", "touch_of_karma",
   -- paladin
-  "divine_protection", "shield_of_vengeance", "ardent_defender", "guardian_of_ancient_kings", "divine_shield",
+  "divine_protection", "shield_of_vengeance", "word_of_glory", "flash_of_light", "ardent_defender",
+  "guardian_of_ancient_kings", "lay_on_hands", "divine_shield",
   -- priest
   "desperate_prayer", "dispersion", "fade",
   -- rogue
   "crimson_vial", "feint", "evasion", "cloak_of_shadows",
   -- shaman
-  "astral_shift",
+  "astral_shift", "healing_surge",
   -- warlock
   "dark_pact", "unending_resolve",
   -- warrior
-  "ignore_pain", "die_by_the_sword", "enraged_regeneration", "shield_wall", "last_stand",
+  "ignore_pain", "die_by_the_sword", "enraged_regeneration", "impending_victory", "victory_rush", "shield_wall",
+  "last_stand",
 }
 
 -- Some defensives only make sense in one shape: never tell a Balance Druid to leave Moonkin Form for Bear Form's
@@ -85,7 +88,10 @@ function F.Spell()
     local id = M.SpellID(token)
     M.unresolved[token] = nil
     local allowed = not F.ONLY_WHEN[token] or F.ONLY_WHEN[token]()
-    if id and allowed and ns.State.CooldownReady(id) ~= false and not ns.Choices.IsHidden(id) then
+    local usable = id and U.Read((U.Call(C_Spell and C_Spell.IsSpellUsable, id)))
+    local blocked = id and ns.Engine.BlockedWhileActive and ns.Engine.BlockedWhileActive(id)
+    if id and allowed and usable ~= false and not blocked and ns.State.CooldownReady(id) ~= false
+      and not ns.Choices.IsHidden(id) then
       return id, token
     end
   end

@@ -143,7 +143,6 @@
 147	Feitiço de interrupção
 148	Interrupções
 149	Acúmulos de Pelagem de Ferro
-150	Logo acima das minhas barras de ações
 151	Atalhos
 152	Os atalhos podem ser alterados depois do combate.
 153	Tecla para trocar o modo de alvos
@@ -178,7 +177,6 @@
 182	Recargas grandes ligadas.
 183	Médio
 184	Corpo a corpo: fora do alcance do seu alvo, mostrar primeiro sua investida / salto (Investida Selvagem, Investida, Passos das Sombras...).
-185	No meio da tela, abaixo do meu personagem
 186	Só Midnight: ele vê procs e recursos ocultos, então confirma linhas incertas do SimC. O Forever não tem.
 187	Botão do minimapa
 188	Botão do minimapa oculto. Ligue de novo nas opções (/dmga config).
@@ -304,7 +302,6 @@
 310	Acúmulos
 311	Posição dos acúmulos
 312	Tamanho do texto dos acúmulos
-313	Começa como cópia das opções atuais; os outros personagens não são afetados.
 314	Status
 315	Fixo
 316	Salvar um instantâneo das decisões
@@ -348,7 +345,6 @@
 354	Bifurcações de dois feitiços
 355	Destrave para arrastar os ícones; eles também aparecem enquanto este painel estiver aberto.
 356	Adds, área, golpes no tanque e interrupções a caminho: usados para defensivas, interrupções e o tempo dos adds do SimC.
-357	Usar um perfil só para este personagem
 358	Usar recargas em
 359	Usar as sugestões
 360	Usado quando "Número de alvos para área" está em Personalizado: a partir deste número de alvos conta como área.
@@ -415,7 +411,6 @@
 421	O DMGAssist está ligado para %s.
 422	DMGAssist ligado ou desligado para a especialização atual (por exemplo, a especialização de cura de um alt)
 423	Como nas suas barras de ações: um ícone fica vermelho quando o alvo está fora do alcance do feitiço, e o espaço 1 fica azul quando falta recurso para ele.
-424	Ligado para esta especialização
 425	Cores de alcance e recurso
 426	listar os feitiços que podem ser recomendados e não têm tecla
 427	simular um aviso defensivo do seu addon de chefes (8 s), para conferir que aparece
@@ -424,3 +419,12 @@
 430	salvar um rastro completo das decisões para resolver problemas
 431	testar a interrupção, o assistente da Blizzard e a detecção de addons de chefes
 432	as três perguntas de configuração de novo (onde, qual tamanho, quando mostrar)
+150	À direita do meu personagem
+185	Logo abaixo dos pés do meu personagem
+357	Perfil próprio
+313	Dá a este personagem um perfil próprio, começando como cópia das opções atuais. Os outros personagens não são afetados.
+424	Usar o DMGAssist nesta especialização
+433	Usar o DMGAssist em %s
+434	Recarregar a interface agora para trocar o idioma?
+435	Recarregar agora
+436	Depois

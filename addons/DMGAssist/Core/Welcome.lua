@@ -23,6 +23,10 @@ local function Place(point)
   end
 end
 
+-- Next to the character: most UIs keep that space free (unit frames and bars sit lower and to the sides).
+W.RIGHT = { "CENTER", "CENTER", 190, -40 }
+W.BELOW = { "CENTER", "CENTER", 0, -125 }
+
 -- Just above the main action bar (wherever the player's UI puts it), else a sensible spot low in the middle.
 function W.AboveBars()
   local bar = _G.MainActionBar or _G.MainMenuBar
@@ -50,11 +54,11 @@ end
 W.QUESTIONS = {
   { text = "Where should the recommendations go?",
     options = {
-      { "Just above my action bars", function()
-        Place(W.AboveBars())
+      { "To the right of my character", function()
+        Place(W.RIGHT)
       end },
-      { "Middle of the screen, below my character", function()
-        Place({ "CENTER", "CENTER", 0, -150 })
+      { "Right below my character's feet", function()
+        Place(W.BELOW)
       end },
       { "I'll place it myself (Edit Mode)", function()
         W.afterwards = OpenEditMode

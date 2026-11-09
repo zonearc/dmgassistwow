@@ -81,7 +81,8 @@ function MM.FillMenu(_, root)
     cfg.hideOutOfCombat = not cfg.hideOutOfCombat
     ns.Update()
   end)
-  root:CreateCheckbox(L["On for this spec"], function()
+  local spec = ns.Specs.current and (ns.Specs.current.specName or ns.Specs.current.key) or "?"
+  root:CreateCheckbox(string.format(L["Use DMGAssist on %s"], tostring(spec)), function()
     return not ns.Choices.SpecOff()
   end, function()
     Run("spec")

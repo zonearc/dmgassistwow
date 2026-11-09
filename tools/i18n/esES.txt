@@ -143,7 +143,6 @@
 147	Hechizo de interrupción
 148	Interrupciones
 149	Acumulaciones de Pelaje de hierro
-150	Justo encima de mis barras de acción
 151	Asignación de teclas
 152	La asignación de teclas se puede cambiar tras el combate.
 153	Tecla para cambiar el modo de objetivos
@@ -178,7 +177,6 @@
 182	Reutilizaciones importantes activadas.
 183	Mediano
 184	Cuerpo a cuerpo: fuera del alcance de tu objetivo, muestra primero tu carga / salto (Carga salvaje, Cargar, Paso de las Sombras...).
-185	En medio de la pantalla, debajo de mi personaje
 186	Solo Midnight: ve procs y recursos ocultos, así que confirma líneas dudosas de SimC. Forever no lo tiene.
 187	Botón del minimapa
 188	Botón del minimapa oculto. Vuelve a activarlo en las opciones (/dmga config).
@@ -304,7 +302,6 @@
 310	Acumulaciones
 311	Posición de las acumulaciones
 312	Tamaño del texto de acumulaciones
-313	Empieza como copia de las opciones actuales; los demás personajes no se ven afectados.
 314	Estado
 315	Fijo
 316	Guardar una instantánea de decisiones
@@ -348,7 +345,6 @@
 354	Bifurcaciones de dos hechizos
 355	Desbloquea para arrastrar los iconos; también se muestran mientras este panel está abierto.
 356	Esbirros, área, golpes al tanque e interrupciones próximos: se usan para defensivos, interrupciones y el momento de esbirros de SimC.
-357	Usar un perfil solo para este personaje
 358	Usar reutilizaciones en
 359	Usar las recomendaciones
 360	Se usa cuando «Número de objetivos para área» es Personalizado: a partir de este número de objetivos cuenta como área.
@@ -415,7 +411,6 @@
 421	DMGAssist está activado para %s.
 422	DMGAssist activado o desactivado para la especialización actual (por ejemplo, la especialización sanadora de un alter)
 423	Como en tus barras de acción: un icono se vuelve rojo cuando tu objetivo está fuera del alcance de ese hechizo, y la casilla 1 se vuelve azul cuando te falta recurso para él.
-424	Activado para esta especialización
 425	Colores de alcance y recurso
 426	mostrar los hechizos que se pueden recomendar y no tienen tecla asignada
 427	simular que tu addon de jefes pide un defensivo (8 s), para comprobar que aparece
@@ -424,3 +419,12 @@
 430	guardar un rastro completo de decisiones para solucionar problemas
 431	probar la interrupción, el asistente de Blizzard y la detección de addons de jefes
 432	las tres preguntas de configuración otra vez (dónde, qué tamaño, cuándo mostrar)
+150	A la derecha de mi personaje
+185	Justo debajo de los pies de mi personaje
+357	Perfil propio
+313	Da a este personaje su propio perfil, empezando como copia de las opciones actuales. Los demás personajes no se ven afectados.
+424	Usar DMGAssist en esta especialización
+433	Usar DMGAssist en %s
+434	¿Recargar la interfaz ahora para cambiar el idioma?
+435	Recargar ahora
+436	Más tarde

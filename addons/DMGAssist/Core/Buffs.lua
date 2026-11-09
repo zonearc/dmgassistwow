@@ -9,6 +9,7 @@
 --   weapons      Windfury + Flametongue (Enhancement), Flametongue (Elemental), Earthliving (Restoration): by
 --                weapon slot, from the game's weapon enchant info
 --   poisons      one lethal and one non-lethal poison (rogues)
+--   auras        a paladin aura (Devotion, Concentration or Crusader)
 --   on the tank  Earth Shield (Restoration Shaman), Beacon of Light (Holy Paladin): our own, on the group's tank
 -- Also when it runs out within 5 minutes. Only spells you know and can cast now; each can be hidden on the
 -- "Spells & trinkets" page like any spell, and the whole thing switched off (Combat > Buff reminders).
@@ -40,6 +41,7 @@ B.LIST = {
   { id = 318038, weapon = "off", specs = { [ENH] = true } },   -- Flametongue Weapon
   { id = 318038, weapon = "main", specs = { [ELE] = true } },  -- Flametongue Weapon
   { id = 382021, weapon = "main", specs = { [RSHAM] = true } }, -- Earthliving Weapon
+  { group = { 465, 317920, 32223 }, class = "PALADIN" },       -- an aura: Devotion / Concentration / Crusader
   { group = { 2823, 315584, 8679, 381664 }, class = "ROGUE" }, -- Deadly / Instant / Wound / Amplifying Poison
   { group = { 3408, 5761, 381637 }, class = "ROGUE" },         -- Crippling / Numbing / Atrophic Poison
   { id = 974, onTank = true, specs = { [RSHAM] = true } },     -- Earth Shield

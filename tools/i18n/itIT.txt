@@ -143,7 +143,6 @@
 147	Incantesimo di interruzione
 148	Interruzioni
 149	Accumuli di Pelliccia di Ferro
-150	Appena sopra le mie barre delle azioni
 151	Assegnazione tasti
 152	L'assegnazione dei tasti si può cambiare dopo il combattimento.
 153	Tasto per cambiare modalità bersagli
@@ -178,7 +177,6 @@
 182	Recuperi importanti attivati.
 183	Media
 184	Mischia: fuori portata dal bersaglio, mostra prima la tua carica / balzo (Carica Selvaggia, Carica, Passo d'Ombra...).
-185	Al centro dello schermo, sotto il mio personaggio
 186	Solo Midnight: vede proc e risorse nascosti, quindi conferma le righe SimC incerte. Forever non ce l'ha.
 187	Pulsante della minimappa
 188	Pulsante della minimappa nascosto. Riattivalo nelle opzioni (/dmga config).
@@ -304,7 +302,6 @@
 310	Accumuli
 311	Posizione degli accumuli
 312	Dimensione del testo degli accumuli
-313	Parte come copia delle opzioni attuali; gli altri personaggi non vengono toccati.
 314	Stato
 315	Fisso
 316	Salva un'istantanea delle decisioni
@@ -348,7 +345,6 @@
 354	Diramazioni a due incantesimi
 355	Sblocca per trascinare le icone; sono mostrate anche mentre questo pannello è aperto.
 356	Add, area, colpi al difensore e interruzioni in arrivo: usati per difensive, interruzioni e il tempismo degli add di SimC.
-357	Usa un profilo solo per questo personaggio
 358	Usa i recuperi su
 359	Usa i suggerimenti
 360	Usato quando «Numero di bersagli per l'area» è Personalizzato: da questo numero di bersagli in su conta come area.
@@ -415,7 +411,6 @@
 421	DMGAssist è attivato per %s.
 422	DMGAssist attivo o disattivo per la specializzazione attuale (per esempio la specializzazione da guaritore di un alt)
 423	Come sulle barre delle azioni: un'icona diventa rossa quando il bersaglio è fuori portata di quell'incantesimo, e lo slot 1 diventa blu quando ti manca la risorsa.
-424	Attivo per questa specializzazione
 425	Colori di portata e risorsa
 426	elenca gli incantesimi che possono essere consigliati e non hanno un tasto
 427	simula un avviso difensivo del tuo addon dei boss (8 s), per controllare che compaia
@@ -424,3 +419,12 @@
 430	salva una traccia completa delle decisioni per la risoluzione dei problemi
 431	prova l'interruzione, l'assistente di Blizzard e il rilevamento degli addon dei boss
 432	di nuovo le tre domande di configurazione (dove, quanto grande, quando mostrare)
+150	A destra del mio personaggio
+185	Proprio sotto i piedi del mio personaggio
+357	Profilo proprio
+313	Dà a questo personaggio un profilo proprio, partendo da una copia delle opzioni attuali. Gli altri personaggi non vengono toccati.
+424	Usa DMGAssist in questa specializzazione
+433	Usa DMGAssist in %s
+434	Ricaricare ora l'interfaccia per cambiare lingua?
+435	Ricarica ora
+436	Più tardi
