@@ -190,7 +190,7 @@ function D.ButtonFor(spellID)
     D.BuildKeymap()
   end
   local b = buttonsBySpell[spellID]
-  local base = ns.SpellMap and ns.SpellMap.baseOf[spellID]
+  local base = ns.SpellMap and (ns.SpellMap.baseOf[spellID] or ns.SpellMap.LiveOverride(spellID))
   return b or (base and buttonsBySpell[base]) or nil
 end
 
@@ -338,7 +338,8 @@ function D.Keybind(spellID)
     D.BuildKeymap()
   end
   local best = keymap[spellID]
-  local base = ns.SpellMap and ns.SpellMap.baseOf[spellID]
+  -- A spell a button turns into (Mind Flay: Insanity on the Mind Flay button): the button's key.
+  local base = ns.SpellMap and (ns.SpellMap.baseOf[spellID] or ns.SpellMap.LiveOverride(spellID))
   if not best and base then
     best = keymap[base]
   end
@@ -358,7 +359,10 @@ function D.Keybind(spellID)
       end
     end
   end
-  keyCache[spellID] = best or false
+  -- Only a found key is remembered: "no key" is looked up again, since a button can turn into this spell later.
+  if best then
+    keyCache[spellID] = best
+  end
   return best
 end
 

@@ -704,6 +704,19 @@ test("/dmga test defensive: a pretend boss-mod call shows the first defensive th
   eq(ns.Defensives.Evaluate() == nil or ns.Defensives.Evaluate().why ~= "bossmod", true, "the test ends")
 end)
 
+test("keybind of a spell a button turns into is the button's key, found again after the button changes", function()
+  Reset()
+  mock.bindings = { ACTIONBUTTON4 = "4" }
+  mock.actionInfo = { [4] = { "spell", 22568 } }
+  local ns = Boot()
+  ns.Display.InvalidateKeybinds()
+  eq(ns.Display.Keybind(441591), nil, "Ravage, before the button turns into it: no key yet")
+  mock.overrides = { [22568] = 441591 }
+  mock.Advance(1)
+  eq(ns.Display.Keybind(441591), "4", "the button now casts it: its key (no stale 'none')")
+  mock.overrides, mock.actionInfo, mock.bindings = nil, nil, nil
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()
