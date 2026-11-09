@@ -1408,6 +1408,20 @@ test("per spec: DMGAssist can be switched off for one spec only", function()
   eq(ns.Choices.SpecOff(), false)
 end)
 
+test("forms: when Blizzard's assistant asks for Moonkin Form, it goes to slot 1; buffs never push defensives down", function()
+  Reset()
+  local ns = Boot()
+  local main = { id = 190984, token = "wrath" }
+  local r = ns.Essentials.Apply({ main = main, queue = { main }, acSpell = 24858 })
+  eq(r.main.id, 24858, "Moonkin Form first")
+  eq(r.queue[2], main, "the rotation follows")
+  r = ns.Essentials.Apply({ main = main, queue = { main }, acSpell = 190984 })
+  eq(r.main, main, "an ordinary suggestion changes nothing")
+  local src = assert(io.open("addons/DMGAssist/Core/Main.lua")):read("*a")
+  eq(src:find("ns.Buffs.Apply(result)", 1, true) < src:find("ns.Defensives.Apply(result)", 1, true), true,
+    "buff reminders are applied before defensives")
+end)
+
 test("Edit Mode: the HUD shows and can be dragged while Blizzard's Edit Mode is open", function()
   Reset()
   local ns = Boot()

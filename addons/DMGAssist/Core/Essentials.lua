@@ -36,6 +36,28 @@ X.KEEPUPS = {
   },
 }
 
+-- Forms and stances: SimC's combat lists assume you are already in them (Moonkin Form is only in the precombat
+-- list), so after a death, a dismount or a shapeshift the rotation would never ask for it. Blizzard's Assisted
+-- Combat suggests the form exactly when you are out of it: that suggestion goes to slot 1.
+X.FORMS = {
+  [24858] = true,  -- Moonkin Form
+  [768] = true,    -- Cat Form
+  [5487] = true,   -- Bear Form
+  [232698] = true, -- Shadowform
+  [386164] = true, -- Battle Stance
+  [386196] = true, -- Berserker Stance
+  [386208] = true, -- Defensive Stance
+}
+
+function X.Form(result)
+  local ac = result and result.acSpell
+  if ac and X.FORMS[ac] and not ns.Choices.IsHidden(ac) then
+    return { id = ac, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(ac) or nil, source = "assisted",
+      why = "form" }
+  end
+  return nil
+end
+
 -- Targeted gap closers, by spellbook ID (the form / talent override is what the game casts).
 X.GAP_CLOSERS = {
   102401, -- Wild Charge (druid: Bear / Cat form versions)
@@ -351,6 +373,10 @@ function X.Apply(result)
     Front(result, keep)
   else
     X.shownWeave = nil
+  end
+  local form = X.Form(result)
+  if form then
+    Front(result, form)
   end
   local gap = X.GapCloser()
   if gap then
