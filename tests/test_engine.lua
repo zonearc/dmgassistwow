@@ -1404,7 +1404,7 @@ test("Bloodlust with readable haste: the jump is compared with the value before 
   mock.haste = nil
 end)
 
-test("Blizzard naming a spell for a second while our clock says it's recharging: the game knows, it's ready", function()
+test("Blizzard naming a spell for over half a second while our clock says it's recharging: the game knows, it's ready", function()
   Reset()
   local ns = Boot()
   local S = ns.State
@@ -1417,12 +1417,12 @@ test("Blizzard naming a spell for a second while our clock says it's recharging:
   mock.Advance(3)
   eq(S.Charges(5217), 0)
   S.ObserveAssistedCharge(5217)
-  mock.Advance(0.5)
+  mock.Advance(0.3)
   S.ObserveAssistedCharge(5217)
-  eq(S.Charges(5217), 0, "half a second is not enough")
-  mock.Advance(0.6)
+  eq(S.Charges(5217), 0, "a third of a second is not enough")
+  mock.Advance(0.4)
   S.ObserveAssistedCharge(5217)
-  eq(S.Charges(5217), 1, "named for over a second: ready")
+  eq(S.Charges(5217), 1, "named for over half a second: ready")
   mock.inCombat, mock.restricted = false, false
 end)
 

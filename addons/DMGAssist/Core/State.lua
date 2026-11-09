@@ -802,9 +802,9 @@ S.chargeHint = {} -- group -> { n, first, at }
 
 -- Blizzard's assistant keeps naming a spell our clock says isn't back yet: the game knows better (a cooldown
 -- effect we have no rule for: Butchery taking time off Wildfire Bomb per target hit). Named for a full second
--- or more, at least three times, and we take it as ready now: one charge back, or the cooldown done.
+-- or more (0.6 s, twice), and we take it as ready now: one charge back, or the cooldown done.
 -- (Wildfire Bomb was named for 9 s straight while we counted 0 charges, Survival, 2026-11-09.)
-S.ASSISTED_READY_AFTER = 1.0
+S.ASSISTED_READY_AFTER = 0.6
 
 function S.ObserveAssistedCharge(id)
   local info = ChargeInfo(id)
@@ -832,10 +832,10 @@ function S.ObserveAssistedCharge(id)
     S.chargeHint[key] = { n = 1, first = now, at = now }
     return
   end
-  if now - h.at >= 0.3 then
+  if now - h.at >= 0.25 then
     h.n, h.at = h.n + 1, now
   end
-  if h.n >= 3 and now - h.first >= S.ASSISTED_READY_AFTER then
+  if h.n >= 2 and now - h.first >= S.ASSISTED_READY_AFTER then
     S.chargeHint[key] = nil
     if info then
       local list = S.chargeUse[key]
@@ -981,9 +981,11 @@ local function OnChargeSpent(id)
   local now, max = GetTime(), MaxCharges(info)
   -- The cast itself proves a charge was there: if our clock had none left, our recharge time is too long.
   if #list >= max then
-    local last = S.chargeSpentAt[group]
-    local seen = last and now - last
-    if max == 1 and seen and seen > 1 and seen < RechargeLength(group, info) - 0.1 then
+    -- the recharge that should have finished first started (its end - our recharge length) ago: that's how long
+    -- it really took (one-charge and multi-charge spells alike)
+    local rc = RechargeLength(group, info)
+    local seen = now - (list[1] - rc)
+    if seen > 1 and seen < rc - 0.1 then
       SetSeen(S.rcSeen, group, group, seen)
     end
     local early = list[1] - now
