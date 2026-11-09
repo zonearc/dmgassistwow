@@ -76,10 +76,28 @@ function LV.Lead(result)
   if not ac or ns.Choices.IsHidden(ac) or (ns.Engine.held and ns.Engine.held[ac]) then
     return result
   end
-  local queue = { { id = ac, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(ac) or nil,
-    source = "assisted", why = "leveling" } }
+  local pick = { id = ac, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(ac) or nil,
+    source = "assisted", why = "leveling" }
+  -- Blizzard's assistant also names a spell that is still on cooldown (the next important one, to wait for):
+  -- then it goes to slot 2 and slot 1 keeps the best spell that can be pressed now.
+  local usable = U.Read((U.Call(C_Spell and C_Spell.IsSpellUsable, ac)))
+  local ready = usable ~= false and ns.State.CooldownReady(ac) ~= false
+  local rest = {}
   for _, p in ipairs(result.queue or { result.main }) do
-    if p and p.id ~= ac and #queue < 3 then
+    if p and p.id ~= ac then
+      rest[#rest + 1] = p
+    end
+  end
+  local queue = {}
+  if ready or #rest == 0 then
+    queue[1] = pick
+  else
+    queue[1] = rest[1]
+    queue[2] = pick
+    table.remove(rest, 1)
+  end
+  for _, p in ipairs(rest) do
+    if #queue < 3 then
       queue[#queue + 1] = p
     end
   end
