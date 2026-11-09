@@ -1249,6 +1249,25 @@ local function Feral(ns, rec)
   mock.power[4], mock.powerMax[4] = 0, 5
 end
 
+test("real cooldowns: the game's own recharge on load, and casts sooner than our data allows correct it", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", ch = 1, chcd = 11, gcd = 1.5 } -- SimC's number: 11 s
+  Feral(ns, rec)
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  mock.Advance(6)
+  eq(S.Charges(5217), 0, "by our data it's still recharging")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217) -- the player cast it: it was ready after 6 s
+  eq(math.floor(S.rcSeen[5217] + 0.5), 6, "learned: 6 s")
+  mock.Advance(6.1)
+  eq(S.Charges(5217), 1, "ready again after 6 s, not 11")
+  mock.inCombat, mock.restricted = false, false
+end)
+
 test("every spec ships SimC spell data (ids, cooldowns, durations)", function()
   for _, client in ipairs({ { "standard", 1, "midnight" }, { "camelot", 18, "forever" } }) do
     Reset()

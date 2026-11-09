@@ -686,8 +686,9 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         local pooling = run.poolNext
         run.poolNext = nil
         if run.trace then
-          run.trace[#run.trace + 1] = string.format("%s:%s castable=%s%s", name, a, tostring(castable),
-            why and ("(" .. why .. ")") or "")
+          local charges = S.Charges(id)
+          run.trace[#run.trace + 1] = string.format("%s:%s castable=%s%s%s", name, a, tostring(castable),
+            why and ("(" .. why .. ")") or "", charges and (" charges=" .. charges) or "")
         end
         if castable == false and why == "power" and pooling and not isBlizzard and not maybe
           and Test(cond, run, a) == true then

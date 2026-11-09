@@ -467,7 +467,7 @@ local function DataCooldown(id)
   end
   -- A charge spell's recharge is its real cooldown: Celestial Alignment is "cd 1, 1 charge, 180 s recharge",
   -- Eclipse "cd 1, 1 charge, 32 s recharge" (the 1 s is only the minimum between uses).
-  local cd = math.max(info.cd or 0, info.chcd or 0)
+  local cd = math.max(info.cd or 0, info.chcdLive or info.chcd or 0)
   if cd <= 0 then
     return nil
   end
@@ -490,8 +490,28 @@ local function BaseCooldown(id)
   return v or nil
 end
 
+-- What this character's casts showed this session (seconds): a spell cast again sooner than our data's cooldown
+-- allows proves the real cooldown is shorter (level, talents, haste: Holy's Judgment is 11 s in SimC's data and
+-- came back every 6 s on a level 27 paladin, 2026-11-09). The latest sample wins, so a one-off reset doesn't stick.
+S.cdSeen, S.rcSeen = {}, {}
+
+-- Samples are kept at no haste for spells whose cooldown scales with it (seen x haste), and scaled back by the
+-- haste we have now: a Judgment learned under Bloodlust is longer again once Bloodlust ends.
+local function Hasted(info)
+  return info and info.hc and HasteFactor() or 1
+end
+
+local function Seen(tbl, key, id)
+  local v = tbl[key]
+  return v and v / Hasted(M.Info(id)) or nil
+end
+
+local function SetSeen(tbl, key, id, seconds)
+  tbl[key] = seconds * Hasted(M.Info(id))
+end
+
 local function CooldownLength(id)
-  return S.learned.cd[id] or DataCooldown(id) or BaseCooldown(id)
+  return S.learned.cd[id] or Seen(S.cdSeen, id, id) or DataCooldown(id) or BaseCooldown(id)
 end
 S.CooldownLength = CooldownLength
 
@@ -674,6 +694,13 @@ function S.ChargeRemains(id)
   return nil -- the game says none left but we saw no cast: unknown, fall back to the cooldown API
 end
 
+-- Seconds one charge takes to come back: this session's casts, the game's own number (read out of combat), our data.
+local function RechargeLength(group, info)
+  return Seen(S.rcSeen, group, group) or info.chcdLive or info.chcd / Hasted(info)
+end
+
+S.chargeSpentAt = {} -- group -> time of the last spend
+
 local function OnChargeSpent(id)
   local info = ChargeInfo(id)
   if not info then
@@ -683,8 +710,38 @@ local function OnChargeSpent(id)
   local list = S.chargeUse[group] or {}
   S.chargeUse[group] = list
   PendingRecharges(group, GetTime())
-  local from = list[#list] or GetTime() -- one charge recharges at a time
-  list[#list + 1] = math.max(from, GetTime()) + info.chcd
+  local now, max = GetTime(), info.chLive or info.ch or 1
+  -- The cast itself proves a charge was there: if our clock had none left, our recharge time is too long.
+  if #list >= max then
+    local last = S.chargeSpentAt[group]
+    local seen = last and now - last
+    if max == 1 and seen and seen > 1 and seen < RechargeLength(group, info) - 0.1 then
+      SetSeen(S.rcSeen, group, group, seen)
+    end
+    local early = list[1] - now
+    for i = 1, #list do
+      list[i] = list[i] - early
+    end
+    table.remove(list, 1)
+  end
+  S.chargeSpentAt[group] = now
+  local from = list[#list] or now -- one charge recharges at a time
+  list[#list + 1] = math.max(from, now) + RechargeLength(group, info)
+end
+
+-- A plain cooldown: cast again sooner than our number allows -> the real one is shorter (see S.cdSeen).
+local function OnCooldownSpent(id)
+  if ChargeInfo(id) then
+    return
+  end
+  local last = S.lastCast[id]
+  local length = DataCooldown(id) or BaseCooldown(id)
+  if last and length and not S.learned.cd[id] then
+    local seen = GetTime() - last
+    if seen > 1.6 and seen < (Seen(S.cdSeen, id, id) or length) - 0.1 then
+      SetSeen(S.cdSeen, id, id, seen)
+    end
+  end
 end
 
 -- Ready by our own clock (last cast + cooldown length): true / false, or UNKNOWN without a cast this fight.
@@ -802,6 +859,7 @@ local function RecordCast(id, how)
   if info and info.n then
     token = info.n
   end
+  OnCooldownSpent(id) -- before lastCast moves on
   table.insert(S.history, 1, { id = id, token = token, t = GetTime(), how = how })
   if #S.history > 10 then
     S.history[#S.history] = nil
@@ -1926,6 +1984,10 @@ function S.Calibrate()
       if type(maxC) == "number" then
         info.chLive = maxC
       end
+      local rc = type(charges) == "table" and U.Read(charges.cooldownDuration)
+      if type(rc) == "number" and rc > 1.5 then
+        info.chcdLive = rc -- this character's recharge, talents and haste included
+      end
     end
   end
   HasteFactor()
@@ -1978,6 +2040,7 @@ function S.Bind(key)
   S.learned = l
   ns.Clues.Reset(l.glowAura)
   S.auraUntil, S.dotUntil, S.lastCast, S.wasActive, S.glow = {}, {}, {}, {}, {}
+  S.cdSeen, S.rcSeen, S.chargeSpentAt = {}, {}, {}
   S.stackUntil = {}
   l.stacking = type(l.stacking) == "table" and l.stacking or {}
   readAuras.player, readAuras.target = nil, nil
