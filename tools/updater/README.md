@@ -18,7 +18,17 @@ newer build by itself. Hover the icon to see the version in each folder and the 
      folder whose name contains "forever"; a Forever install added later is picked up on the next start,
    - installs DMGAssist into each of them and keeps them up to date.
 
-No GitHub account or token is needed.
+No GitHub account or key is needed while the repository is public. If it is private, the updater needs a
+read-only GitHub key once:
+
+1. github.com → your picture → **Settings** → **Developer settings** → **Personal access tokens** →
+   **Fine-grained tokens** → **Generate new token**.
+2. Name `DMGAssist updater`, expiration up to 1 year, **Repository access: Only select repositories** →
+   `zonearc/dmgassistwow`, **Permissions → Contents: Read-only**. Generate and copy it.
+   (Korbin: the repository owner makes the key and gives it to you, or adds you as a collaborator.)
+3. Right-click the updater's tray icon → **GitHub key...** → paste → OK.
+
+The key is saved in `github-token.txt` in the updater's folder and is only ever sent to GitHub.
 
 ## Use
 Nothing to do. When a new build is installed, a notification says so; in game type `/reload`.

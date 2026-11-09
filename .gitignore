@@ -4,3 +4,6 @@ dist/
 !legacy/**/*.zip
 .DS_Store
 __pycache__/
+
+# the updater's private GitHub key
+github-token.txt

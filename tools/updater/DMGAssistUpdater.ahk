@@ -246,6 +246,7 @@ BuildMenu() {
         tray.Check("Start with Windows")
     tray.Add()
     tray.Add("Folders...", EditFolders)
+    tray.Add("GitHub key...", EditKey)
     tray.Add("Open AddOns folders", OpenFolders)
     tray.Add()
     tray.Add("Uninstall the updater", Uninstall)
@@ -280,6 +281,25 @@ OpenFolders(*) {
     for f in Folders {
         DirCreate(f)
         Run('"' f '"')
+    }
+}
+
+; The read-only GitHub key update.ps1 uses when the repository is private (github-token.txt next to it; it never
+; leaves this PC). Empty = remove it.
+EditKey(*) {
+    file := A_ScriptDir "\github-token.txt"
+    r := InputBox("Paste your read-only GitHub key (fine-grained token, Contents: read-only, for zonearc/dmgassistwow)."
+        . "`nLeave empty to remove it.", "DMGAssist updater: GitHub key", "w460 h150 Password*")
+    if (r.Result != "OK")
+        return
+    key := Trim(r.Value)
+    try FileDelete(file)
+    if (key != "") {
+        FileAppend(key, file)
+        TrayTip("Key saved. Checking for updates now.", "DMGAssist")
+        ManualUpdate()
+    } else {
+        TrayTip("Key removed.", "DMGAssist")
     }
 }
 

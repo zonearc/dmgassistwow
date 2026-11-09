@@ -2,8 +2,10 @@
 # Run by the tray updater (DMGAssistUpdater); can also be run by hand:
 #   powershell -ExecutionPolicy Bypass -File update.ps1 -AddOns "C:\...\_retail_\Interface\AddOns|D:\...\Interface\AddOns" -Result "$env:TEMP\r.txt"
 #
-# The repository is public: no token. Folders already on the nightly version are left alone; when every folder is,
-# nothing is downloaded and the result is "SAME <release name>".
+# The repository may be private: then a read-only GitHub key is needed, in github-token.txt next to this script or in
+# %APPDATA%\DMGAssist\github-token.txt (one line; never put it in the repository). Without one a public repository
+# still works. Folders already on the nightly version are left alone; when every folder is, nothing is downloaded and
+# the result is "SAME <release name>".
 # Safe order: both zips are downloaded and checked first; only then are the installed folders replaced.
 # The result ("OK <release name>", "SAME <release name>" or "ERROR <message>") is written to -Result.
 
@@ -20,6 +22,28 @@ $ProgressPreference = 'SilentlyContinue' # the progress bar makes Invoke-WebRequ
 $repo = 'zonearc/dmgassistwow'
 $addonNames = @('DMGAssist', 'DMGAssist_Watchdog')
 $work = $null
+
+# The GitHub key, if there is one (for a private repository).
+function Get-Token {
+  foreach ($f in @((Join-Path $PSScriptRoot 'github-token.txt'), (Join-Path $env:APPDATA 'DMGAssist\github-token.txt'))) {
+    if ($f -and (Test-Path -LiteralPath $f)) {
+      $t = (Get-Content -LiteralPath $f -Raw).Trim()
+      if ($t) { return $t }
+    }
+  }
+  return ''
+}
+$token = Get-Token
+
+# Download a release file: through the API with the key (works for private repositories), else the public link.
+function Get-Asset($asset, [string]$out) {
+  if ($token) {
+    $h = @{ Accept = 'application/octet-stream'; 'User-Agent' = 'DMGAssistUpdater'; Authorization = "Bearer $token" }
+    Invoke-WebRequest -Uri $asset.url -Headers $h -OutFile $out -UseBasicParsing
+  } else {
+    Invoke-WebRequest -Uri $asset.browser_download_url -Headers @{ 'User-Agent' = 'DMGAssistUpdater' } -OutFile $out -UseBasicParsing
+  }
+}
 
 function Step([int]$pct, [string]$text) {
   if ($Status) { try { Set-Content -LiteralPath $Status -Value ("$pct|$text") } catch { } }
@@ -48,7 +72,7 @@ function Update-Self($release) {
     New-Item -ItemType Directory -Path $tmp | Out-Null
     try {
       $zip = Join-Path $tmp 'u.zip'
-      Invoke-WebRequest -Uri $asset.browser_download_url -Headers @{ 'User-Agent' = 'DMGAssistUpdater' } -OutFile $zip -UseBasicParsing
+      Get-Asset $asset $zip
       Step 65 'Downloaded. Checking the package...'
   Expand-Archive -LiteralPath $zip -DestinationPath $tmp -Force
       # The updater's own files: this script, the tray app (it restarts itself when its file changes), the icon
@@ -76,6 +100,7 @@ try {
 
   Step 10 'Checking GitHub for the newest build...'
   $headers = @{ Accept = 'application/vnd.github+json'; 'User-Agent' = 'DMGAssistUpdater' }
+  if ($token) { $headers.Authorization = "Bearer $token" }
   $release = $null
   for ($try = 1; $try -le 3 -and -not $release; $try++) {
     try {
@@ -84,6 +109,10 @@ try {
       $code = 0
       if ($_.Exception.Response) { $code = [int]$_.Exception.Response.StatusCode }
       if ($try -eq 3) {
+        if (($code -eq 404 -or $code -eq 401) -and -not $token) {
+          throw 'GitHub did not show the build: the repository is private now. Put your GitHub key in github-token.txt next to update.ps1 (see the updater README).'
+        }
+        if ($code -eq 401) { throw 'GitHub refused the key in github-token.txt (expired or wrong): make a new one (see the updater README).' }
         if ($code -eq 404) {
           Step 100 'No update right now: a new build is being published. It will be picked up on the next check.'
           Set-Content -LiteralPath $Result -Value 'BUSY'
@@ -130,7 +159,7 @@ try {
     return
   }
   $zip = Join-Path $work 'DMGAssist.zip'
-  Invoke-WebRequest -Uri $asset.browser_download_url -Headers @{ 'User-Agent' = 'DMGAssistUpdater' } -OutFile $zip -UseBasicParsing
+  Get-Asset $asset $zip
   Expand-Archive -LiteralPath $zip -DestinationPath (Join-Path $work 'unzipped') -Force
   foreach ($addon in $addonNames) {
     $toc = Join-Path $work "unzipped\$addon\$addon.toc"
