@@ -147,6 +147,21 @@ function M.LiveOverride(id)
   return live[id]
 end
 
+-- "Known" is not "pressable": a passive can make the game report a spell as known (Deeply Rooted Elements and
+-- Doom Winds, Enhancement: Doom Winds was recommended with no button to press). A spell outside the spellbook
+-- scan counts only when it is not passive and is on an action bar or in the spellbook.
+function M.Pressable(id)
+  if U.Get(C_Spell and C_Spell.IsSpellPassive, id) == true then
+    return false
+  end
+  local slots = U.Get(C_ActionBar and C_ActionBar.FindSpellActionButtons, id)
+  if type(slots) == "table" and #slots > 0 then
+    return true
+  end
+  local slot = U.Get(C_SpellBook and C_SpellBook.FindSpellBookSlotForSpell, id)
+  return type(slot) == "number"
+end
+
 -- Castable spell ID for a SimC action token, or nil.
 function M.SpellID(token)
   local entry = M.data and M.data[token]
@@ -169,7 +184,7 @@ function M.SpellID(token)
         if base then
           return base
         end
-        if U.Get(IsPlayerSpell, id) == true then
+        if U.Get(IsPlayerSpell, id) == true and M.Pressable(id) then
           return id -- granted for now (not in the spellbook scan)
         end
       end

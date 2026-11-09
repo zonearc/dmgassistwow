@@ -534,6 +534,19 @@ test("cooldown length from the game's base cooldown when our data has none (raci
   GetSpellBaseCooldown = old
 end)
 
+test("a spell the game calls known but that has no button (granted by a passive) is not recommended", function()
+  Reset()
+  local ns = Boot()
+  local M = ns.SpellMap
+  local old = IsPlayerSpell
+  IsPlayerSpell = function() return true end
+  eq(M.Pressable(999001), false, "not on a bar, not in the spellbook")
+  mock.actionSlots = { [999001] = { 5 } }
+  eq(M.Pressable(999001), true, "on a bar")
+  mock.actionSlots = nil
+  IsPlayerSpell = old
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()
