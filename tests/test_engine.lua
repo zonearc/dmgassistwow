@@ -3907,6 +3907,27 @@ test("performance grade: a trinket from the items icon counts as cooldown use, n
   Gr.Reset()
 end)
 
+
+test("tanks: hidden health + aggro = being hit; Stagger 0 only means unhurt for a Brewmaster", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local uh, uhm, ust, uts = UnitHealth, UnitHealthMax, UnitStagger, UnitThreatSituation
+  UnitHealth = function() return nil end -- luacheck: ignore 121 (hidden in combat)
+  UnitStagger = function() return 0 end -- luacheck: ignore 121
+  UnitThreatSituation = function() return 3 end -- luacheck: ignore 121
+  ns.Specs.current.key = "warrior_protection"
+  eq(S.Unhurt(), false, "Protection Warrior tanking: hurt")
+  UnitThreatSituation = function() return 0 end -- luacheck: ignore 121
+  eq(S.Unhurt(), nil, "no aggro, health hidden: can't tell (not 'nothing to mitigate')")
+  ns.Specs.current.key = "monk_brewmaster"
+  eq(S.Unhurt(), true, "Brewmaster with no Stagger and no aggro: unhurt")
+  ns.Specs.current.key = "mage_frost"
+  UnitThreatSituation = function() return 3 end -- luacheck: ignore 121
+  eq(S.Unhurt(), nil, "a DPS with aggro on a mob: no tank rule")
+  UnitHealth, UnitHealthMax, UnitStagger, UnitThreatSituation = uh, uhm, ust, uts -- luacheck: ignore 121
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

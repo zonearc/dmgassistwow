@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.139 (2026-11-09).
+Last updated: 1.6.0.140 (2026-11-09).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -22,10 +22,13 @@ Last updated: 1.6.0.139 (2026-11-09).
 
 ## Proposed (waiting on a decision)
 
-- (none)
+- [ ] Low-health threshold per role/spec: tanks 50% by default (DPS stay 35%), editable per spec; it only drives
+  the big emergency buttons (Shield Wall, Last Stand); active mitigation follows SimC while tanking
+- [ ] Spell Reflection and other reactive tank buttons: on a DBM/BigWigs "spell on you" or tank-hit timer only
 
 ## Open: needs in-game testing (built, not yet seen in game)
 
+- [ ] Protection Warrior on the tank dummy: Shield Block and Ignore Pain shown while tanking (red icon / slot 1)
 - [ ] Taint: open/close Edit Mode, character frame, game menu, party frames: no "tainted by DMGAssist" errors
 - [ ] Performance grade: popup after a 20 s+ fight, fades in/out; drag it in Edit Mode or unlocked; Settings >
   Performance grade (test, reset position, forget) and Grade report (best, last 10, trend, where to improve)
@@ -42,6 +45,10 @@ Last updated: 1.6.0.139 (2026-11-09).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.140: tanks: Shield Block, Ignore Pain and the other SimC mitigation lines were skipped as "nothing to
+  mitigate" for whole fights (health hidden in combat, and Stagger, which is always 0 outside Brewmaster, was read
+  as "unhurt"). Now a tank with aggro counts as being hit; hidden health without aggro is "can't tell"
 
 - 1.6.0.139: taint fix: Edit Mode is followed with hooksecurefunc (work deferred a frame) instead of EventRegistry
   callbacks, and the welcome setup no longer opens Edit Mode itself. Both ran our code inside Blizzard's panel code:

@@ -128,16 +128,30 @@ S.RangeProbe = RangeProbe
 
 -- Is anything hurting the player? Stagger (Brewmaster) or missing health, when the game shows either.
 -- true = readably untouched (full health, no stagger); false = being hurt; nil = can't tell.
+-- true = nothing is hurting the player (skip mitigation SimC would press on cooldown), false = being hurt,
+-- nil = can't tell (mitigation stays as the list says).
+-- Health is hidden in combat in Midnight. Then a tank holding aggro on anything (threat status 2-3: "tanking") is
+-- being hit; Stagger only tells for a Brewmaster (it is always 0 for everyone else: a Protection Warrior was told
+-- "nothing to mitigate" for whole fights against the tank dummy, 2026-11-09).
 function S.Unhurt()
   local st = U.Get(UnitStagger, "player")
   if type(st) == "number" and st > 0 then
     return false
   end
   local hp, max = U.Get(UnitHealth, "player"), U.Get(UnitHealthMax, "player")
-  if type(hp) == "number" and type(max) == "number" and max > 0 then
-    return hp >= max
+  if type(hp) == "number" and type(max) == "number" and max > 0 and hp < max then
+    return false
   end
-  if type(st) == "number" then
+  local spec = ns.Specs.current and ns.Specs.current.key
+  local tank = ns.Engine and ns.Engine.TANK_SPECS and ns.Engine.TANK_SPECS[spec or ""]
+  local threat = tank and U.Get(UnitThreatSituation, "player")
+  if type(threat) == "number" and threat >= 2 then
+    return false -- a tank with aggro: being hit, even at full health (mitigation goes up before the damage)
+  end
+  if type(hp) == "number" and type(max) == "number" and max > 0 then
+    return true -- full health, nothing on us
+  end
+  if type(st) == "number" and spec == "monk_brewmaster" then
     return true
   end
   return nil
