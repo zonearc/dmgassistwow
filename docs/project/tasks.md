@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.134 (2026-11-09).
+Last updated: 1.6.0.135 (2026-11-09).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -28,11 +28,16 @@ Last updated: 1.6.0.134 (2026-11-09).
 - [ ] Slot 1 Steady / Fast feel; Wildfire Bomb waits in slot 2 instead of flipping slot 1 right before a press
 - [ ] Next class (Survival signed off for now, 2026-11-09): Rogue (Outlaw) and Fury Warrior with the timing learning
 - [ ] Dead pet: Revive Pet shown after the pet dies (Survival)
+- [ ] Fury: Whirlwind every ~4 attacks, Odyn's Fury back on cooldown, not held
 - [ ] Single-target dummy fights (boss numbers learned separately from 5-dummy pulls)
 - [ ] Boss mods in a real dungeon or raid (DBM test hook works)
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.135: Fury: endless Whirlwind fixed (a buff seen out of combat was trusted as gone once the game hid it in
+  combat); Whirlwind's 4 stacks used up by attacks; one press with several cast events counts once (Odyn's Fury
+  was held as "skipped 3 times" after one Rampage and one Whirlwind)
 
 - 1.6.0.134: dead pet: Revive Pet instead of Call Pet (pet body seen dead, or Call Pet goes through and no pet
   appears). Tested in game: potions (picker and items icon) work

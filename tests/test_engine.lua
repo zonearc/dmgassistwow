@@ -1819,6 +1819,37 @@ test("dead pet: Revive Pet instead of Call Pet (calling a dead pet does nothing)
   mock.inCombat = false
 end)
 
+test("Fury Whirlwind: 4 stacks used up by attacks; a buff seen out of combat isn't trusted as gone in combat", function()
+  Reset()
+  mock.book = {}
+  for _, id in ipairs({ 190411, 23881, 85288, 184367, 5308, 1719 }) do
+    mock.book[#mock.book + 1] = { spellID = id, name = tostring(id) }
+  end
+  local ns = Boot()
+  local S = ns.State
+  ns.SpellMap.SetData(ns.Data.specs.midnight.warrior_fury)
+  -- out of combat the buff is readable once
+  mock.directAuras = { [85739] = { expirationTime = GetTime() + 20, applications = 4 } }
+  S.Resolve("buff.whirlwind.up", {})
+  mock.directAuras = {}
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "g", 190411)
+  mock.Advance(0.1)
+  eq(S.Resolve("buff.whirlwind.stack", {}), 4, "Whirlwind: 4 stacks, even though the game now hides the buff")
+  -- Rampage reports three casts for one press: one stack
+  mock.Advance(1.5)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "g", 184367)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "g", 184367)
+  eq(S.Resolve("buff.whirlwind.stack", {}), 3, "one press, one stack")
+  for _, id in ipairs({ 23881, 85288, 5308 }) do
+    mock.Advance(1.5)
+    mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "g", id)
+  end
+  eq(S.Resolve("buff.whirlwind.stack", {}), 0, "four attacks: used up, Whirlwind again")
+  mock.inCombat, mock.restricted, mock.directAuras = false, false, nil
+end)
+
 test("timing learning: a 5-target pull and a single target learn separately", function()
   Reset()
   local ns = Boot()
@@ -3322,6 +3353,7 @@ test("stuck detector: same pick while the player casts other spells stores one s
   local logged = {}
   DMGAssistWatchdog = { Log = function(kind) logged[kind] = (logged[kind] or 0) + 1 end }
   for _ = 1, 5 do
+    mock.Advance(1) -- separate presses
     ns.OnOwnCast(other)
   end
   DMGAssistWatchdog = nil

@@ -1463,6 +1463,36 @@ local function StartAuraClock(token, auraID, target, from)
   end
 end
 
+---------------------------------------------------------------------------
+-- Buffs whose stacks your own attacks use up (the game hides them in combat): cast X gives N stacks, each listed
+-- attack uses one. Fury's Improved Whirlwind: "your next 4 single-target attacks strike additional targets".
+---------------------------------------------------------------------------
+S.CONSUMED = {
+  whirlwind = { stacks = 4, by = { bloodthirst = true, raging_blow = true, rampage = true, execute = true,
+    onslaught = true, crushing_blow = true, bloodbath = true } },
+}
+S.consumeLeft = {} -- aura token -> stacks left
+local lastConsumed = {} -- token -> time (one press reports several casts: counted once)
+local function OnConsume(token, now)
+  local c = S.CONSUMED[token]
+  if c then
+    S.consumeLeft[token] = c.stacks
+    return
+  end
+  if lastConsumed[token] and now - lastConsumed[token] < 0.1 then
+    return
+  end
+  for aura, def in pairs(S.CONSUMED) do
+    if def.by[token] and (S.consumeLeft[aura] or 0) > 0 then
+      lastConsumed[token] = now
+      S.consumeLeft[aura] = S.consumeLeft[aura] - 1
+      if S.consumeLeft[aura] <= 0 then
+        S.auraUntil[aura] = now -- all used up
+      end
+    end
+  end
+end
+
 local function RecordCast(id, how)
   local token = M.TokenForID(id)
   local info = M.Info(id)
@@ -1472,6 +1502,9 @@ local function RecordCast(id, how)
   CheckWaited(id)
   OnCooldownSpent(id) -- before lastCast moves on
   table.insert(S.history, 1, { id = id, token = token, t = GetTime(), how = how })
+  if token then
+    OnConsume(token, GetTime())
+  end
   if #S.history > 10 then
     S.history[#S.history] = nil
   end
@@ -1877,7 +1910,10 @@ local function DirectAuraState(token, now)
     for _, aid in ipairs(M.AuraIDs(t) or {}) do
       local d = S.DirectAura(aid)
       if d and d.present then
-        if not S.nonSecret[aid] then
+        -- Readable in combat: then its absence in combat is readable too. Seen out of combat proves nothing (the
+        -- game hides it once the fight starts and the read says "none": Whirlwind's buff, every GCD Whirlwind,
+        -- 2026-11-09).
+        if not S.nonSecret[aid] and S.combatStart then
           S.nonSecret[aid] = true
           U.Log("direct_aura", { aura = t, id = aid, stacks = d.stacks }) -- readable in combat: shows in reports
         end
@@ -1958,7 +1994,8 @@ local function AuraState(unit, token)
     local untilT = clocks[t]
     if untilT then
       if untilT > now then
-        return true, untilT - now, 1
+        local left = unit == "player" and S.consumeLeft[t]
+        return true, untilT - now, (left and left > 0) and left or 1
       end
       -- Expired on our clock. Certain only for auras our own casts apply (we'd have seen the cast);
       -- a proc can come back unseen, so without a readable scan it is unknown.
@@ -2874,7 +2911,7 @@ function S.Bind(key)
   l.unreliable = type(l.unreliable) == "table" and l.unreliable or {}
   S.chargeSpentAt, S.readyShown = {}, nil -- liveCharges: re-read by S.Calibrate
   l.timing = type(l.timing) == "table" and l.timing or {}
-  S.stackUntil = {}
+  S.stackUntil, S.consumeLeft = {}, {}
   l.stacking = type(l.stacking) == "table" and l.stacking or {}
   readAuras.player, readAuras.target = nil, nil
 end

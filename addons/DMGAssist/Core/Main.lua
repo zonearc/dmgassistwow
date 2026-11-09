@@ -798,10 +798,31 @@ end
 -- why, its condition result, the inputs that were unknown; printed short in chat and stored in the Watchdog log.
 -- "Stuck" detector: the HUD keeps showing one spell while the player casts other things. After 3 such casts
 -- in a row a full decision snapshot is stored (once per spell per fight), so a report shows why it stuck.
+-- One button press can report several casts: Rampage reports 3 (184707, 184367, 184709), Whirlwind and Raging
+-- Blow 2-3, all at the same moment. Only one of them is the ability you pressed; the rest are its hits. The skip
+-- rule and the stuck detector count presses, not those pieces (2026-11-09: one Rampage and one Whirlwind added up
+-- to "skipped Odyn's Fury three times", and it was held for the rest of the fight).
+local lastPress = 0
+local function IsPress(id)
+  local now = GetTime()
+  if now - lastPress < 0.1 then
+    return false -- another piece of the same press
+  end
+  local known = U.Get(IsPlayerSpell, id) == true or (ns.SpellMap.book and ns.SpellMap.book[id] ~= nil)
+  if known then
+    lastPress = now
+  end
+  return known
+end
+ns.IsPress = IsPress
+
 function ns.OnOwnCast(id)
   local shown = ns.last and ns.last.main
   ns.Essentials.OnOwnCast(id)
   ns.Trinkets.OnOwnCast(id)
+  if not IsPress(id) then
+    return
+  end
   if inCombat then
     local what, spell = G.OnPlayerCast(id, shown, ns.db.skipHold ~= false, ns.last and ns.last.queue)
     if what then
