@@ -35,6 +35,10 @@ nothing automated. You press every button.
   Druid uses SimC's list, cat weaving included. Healing itself stays your call.
 - **Discipline Atonement.** Atonements counted from your casts on slot 1's corner, and a ramp (Radiance, then
   Shield) before the big hits your boss mod warns about, until enough are up.
+- **Buff reminders.** Out of combat, a missing buff goes in slot 1 before the pull: raid buffs (Arcane
+  Intellect, Fortitude, Mark of the Wild, Battle Shout, Blessing of the Bronze, Skyfury) on you or anyone in
+  range, Lightning / Water Shield, shaman weapon imbues, rogue poisons, and Earth Shield or Beacon of Light on your
+  tank. Also when one runs out within 5 minutes. Each can be hidden; Combat > Buff reminders turns it off.
 - **Your choice of spells.** Settings > DMGAssist > Spells & trinkets lists every spell your spec can be shown
   and every equipped on-use trinket. Untick one and it is never shown; the next spell takes its place. Tick
   "First when ready" and that spell goes to slot 1 whenever it can be cast. Kept per spec (trinkets per item),

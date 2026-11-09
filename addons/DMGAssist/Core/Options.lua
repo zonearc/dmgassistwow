@@ -250,6 +250,9 @@ function O.Register()
     "Skip the spell in the first slot three times and it is held until combat ends. Cast it yourself to bring it back.")
   Check(combat, DB, "castWhileMoving", "Casts while moving", false,
     "Off: while you move, spells with a cast time are skipped (instants and procs still show).")
+  Check(combat, DB, "buffReminders", "Buff reminders", true,
+    "Out of combat, a missing buff goes in slot 1: raid buffs, shields, weapon imbues, poisons, and Earth Shield "
+      .. "or Beacon of Light on your tank. Each can be hidden on the Spells & trinkets page.")
   Header(combat, "Trinkets")
   Check(combat, DB, "trinkets", "On-use trinkets", true,
     "Show your on-use trinkets (off-GCD badge on slot 1) when they are ready, with your cooldowns, in combat.")
@@ -670,6 +673,10 @@ O.HELP = {
   { "Your choices",
     "Spells & trinkets: untick a spell or trinket to never see it, or tick First when ready to put a spell in "
       .. "slot 1 whenever it can be cast. Kept per spec, through updates." },
+  { "Buff reminders",
+    "Out of combat, a buff your rotation expects is put in slot 1 when it is missing or runs out within 5 minutes: "
+      .. "raid buffs (on you or anyone in range), shields, weapon imbues, poisons, and Earth Shield or Beacon of "
+      .. "Light on your tank. Combat > Buff reminders switches it off." },
   { "Defensives, interrupts and boss mods",
     "With DBM, BigWigs or LittleWigs, a defensive is shown a few seconds before a big hit they warn about (lighter "
       .. "ones first; on cooldown, the next). Also when you are low. Integrations has buttons to test both." },

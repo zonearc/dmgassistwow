@@ -26,6 +26,7 @@ Core\Essentials.lua
 Core\Trinkets.lua
 Core\Choices.lua
 Core\Bindcheck.lua
+Core\Buffs.lua
 Core\Sounds.lua
 Core\Diagnostics.lua
 Core\Engine.lua

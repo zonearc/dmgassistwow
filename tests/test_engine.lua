@@ -344,6 +344,91 @@ test("gap closer: melee specs probe with a melee spell even when most of their s
   eq(info.r <= 8, true, "the probe is a melee-range spell")
 end)
 
+test("buff reminders: a missing raid buff, a weapon imbue, our shield on the tank; never in combat", function()
+  Reset()
+  local ns = Boot()
+  local B = ns.Buffs
+  local saved = { C_Spell.GetSpellName, C_UnitAuras.GetAuraDataBySpellName, UnitClass, GetNumGroupMembers,
+    UnitExists, IsPlayerSpell }
+  local known, up, tankUp = { [1126] = true }, {}, false
+  IsPlayerSpell = function(id)
+    return known[id] == true
+  end
+  local names = { [1126] = "Mark of the Wild", [974] = "Earth Shield", [33757] = "Windfury Weapon" }
+  C_Spell.GetSpellName = function(id)
+    return names[id]
+  end
+  C_UnitAuras.GetAuraDataBySpellName = function(unit, name, filter)
+    if unit == "party1" and filter == "HELPFUL|PLAYER" then
+      return tankUp and { name = name, expirationTime = GetTime() + 600 } or nil
+    end
+    return up[unit .. name] and { name = name, expirationTime = 0 } or nil
+  end
+  UnitClass = function()
+    return "Druid", "DRUID", 11
+  end
+  local main = { id = 5221, token = "shred" }
+  local r = B.Apply({ main = main, queue = { main } })
+  eq(r.main.id, 1126, "Mark of the Wild missing: slot 1")
+  eq(r.main.source, "buff")
+  eq(r.queue[2], main, "the rotation moves along")
+  up["playerMark of the Wild"] = true
+  B.Invalidate()
+  r = B.Apply({ main = main, queue = { main } })
+  eq(r.main, main, "buff up: nothing")
+  up["playerMark of the Wild"] = nil
+  ns.db.buffReminders = false
+  B.Invalidate()
+  eq(B.Missing(), nil, "switched off")
+  ns.db.buffReminders = true
+  ns.Choices.SetHidden(1126, true)
+  B.Invalidate()
+  eq(B.Missing(), nil, "hidden on the Spells page")
+  ns.Choices.SetHidden(1126, false)
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  B.Invalidate()
+  eq(B.Missing(), nil, "never in combat")
+  mock.inCombat = false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  -- Restoration Shaman: Earth Shield on the tank.
+  UnitClass = function()
+    return "Shaman", "SHAMAN", 7
+  end
+  known = { [974] = true }
+  ns.Specs.current.key = "shaman_restoration"
+  GetNumGroupMembers = function()
+    return 2
+  end
+  UnitGroupRolesAssigned = function(unit)
+    return unit == "party1" and "TANK" or "HEALER"
+  end
+  UnitExists = function()
+    return true
+  end
+  B.Invalidate()
+  eq(B.Missing() and B.Missing().id, 974, "Earth Shield missing on the tank")
+  tankUp = true
+  B.Invalidate()
+  eq(B.Missing(), nil, "Earth Shield up on the tank")
+  -- Enhancement: Windfury Weapon on the main hand.
+  known = { [33757] = true }
+  ns.Specs.current.key = "shaman_enhancement"
+  GetWeaponEnchantInfo = function()
+    return false
+  end
+  B.Invalidate()
+  eq(B.Missing() and B.Missing().id, 33757, "no main-hand imbue")
+  GetWeaponEnchantInfo = function()
+    return true, 3600000
+  end
+  B.Invalidate()
+  eq(B.Missing(), nil, "imbued for an hour")
+  C_Spell.GetSpellName, C_UnitAuras.GetAuraDataBySpellName, UnitClass, GetNumGroupMembers, UnitExists,
+    IsPlayerSpell = saved[1], saved[2], saved[3], saved[4], saved[5], saved[6]
+  GetWeaponEnchantInfo, UnitGroupRolesAssigned = nil, nil
+end)
+
 test("on-use trinkets: every equipped one by default, switched off per trinket, SimC's use_items respected", function()
   Reset()
   local ns = Boot()

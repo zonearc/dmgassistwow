@@ -158,7 +158,8 @@ local function ShouldShow()
   end
   local enemy = U.Get(UnitExists, "target") == true and
     U.Get(UnitCanAttack, "player", "target") == true
-  return D.ShouldShow(inCombat, enemy)
+  -- A missing buff before the pull is worth showing even when the HUD hides out of combat.
+  return D.ShouldShow(inCombat, enemy) or (not inCombat and ns.Buffs.Missing() ~= nil)
 end
 
 -- What is going on right now, as label / value pairs, for the Status page in the settings.
@@ -344,6 +345,7 @@ function ns.Update()
   ns.Trinkets.Apply(result)
   ns.Interrupts.Apply(result)
   ns.Defensives.Apply(result)
+  ns.Buffs.Apply(result)
   ns.Choices.Filter(result)
   ns.Alerts(result)
   ns.Diagnostics.OnPick(result)
@@ -418,7 +420,7 @@ pcall(frame.RegisterUnitEvent, frame, "UNIT_AURA", "player", "target")
 
 local DEFAULTS = { enabled = true, burst = true,
   burstWhen = "always", bigPull = 5, skipHold = true, ironfurStacks = 3, tankEssentials = true,
-  gapClosers = true, trinkets = true, bindWarn = true, healAt = 35, healInRaids = false,
+  gapClosers = true, trinkets = true, bindWarn = true, buffReminders = true, healAt = 35, healInRaids = false,
   atonementRamp = true, atonementTarget = 5, atonementLead = 8,
   mode = "aoe", autoDetect = true, aoeTargets = 3, fightLength = 300,
   useAssisted = true, queue = 3, smartFight = true, fightMode = "learned", aoeCount = "spec", bossMods = true, interruptMode = "smart",
@@ -522,6 +524,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     S.OnGlow(arg1, false)
   elseif event == "UNIT_AURA" then
     S.OnAura(U.Read(arg1))
+    ns.Buffs.Invalidate()
   elseif event == "PLAYER_TARGET_CHANGED" then
     S.OnTargetChanged()
     ns.Interrupts.OnTargetCastStart()

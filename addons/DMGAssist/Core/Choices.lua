@@ -137,6 +137,9 @@ function C.Spells()
       Add(b.id)
     end
   end
+  for _, id in ipairs(ns.Buffs and ns.Buffs.Spells() or {}) do
+    Add(id)
+  end
   Add(ns.Display.InterruptSpell and ns.Display.InterruptSpell(true))
   for _, token in ipairs(ns.Defensives.TOKENS or {}) do
     Add(M.SpellID(token))

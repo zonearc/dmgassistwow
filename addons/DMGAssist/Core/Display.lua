@@ -107,7 +107,7 @@ local function SetColor(fontString, name)
 end
 local SOURCE_TEXT = {
   simc = "", ["simc+assisted"] = "", ["simc+rules"] = "",
-  assisted = "AC", rules = "B", ["rules?"] = "?", guess = "?", pool = "...",
+  assisted = "AC", rules = "B", buff = "BUFF", ["rules?"] = "?", guess = "?", pool = "...",
 }
 
 function D.Settings()
@@ -604,6 +604,10 @@ function D.Create()
   f.stackHolder:SetFrameLevel((f.slots[1]:GetFrameLevel() or 1) + 9)
   f.stack = f.stackHolder:CreateFontString(nil, "OVERLAY")
   f.stack:Hide()
+  -- A dark box behind the counter, so it stands out next to slot 1 without covering the icon.
+  f.stackBox = f.stackHolder:CreateTexture(nil, "BACKGROUND")
+  f.stackBox:SetColorTexture(0, 0, 0, 0.75)
+  f.stackBox:Hide()
   -- Off-GCD keep-up (Ironfur): a small badge on slot 1's top-left corner, pressed alongside the GCD spell.
   f.weave = Icon(f, cfg.iconSize, cfg)
   f.weave:SetFrameLevel((f.slots[1]:GetFrameLevel() or 1) + 8)
@@ -912,6 +916,7 @@ local function RenderStacks(f, cfg)
   end
   if not k then
     f.stack:Hide()
+    f.stackBox:Hide()
     return
   end
   local n = X.Stacks(k.id)
@@ -922,7 +927,7 @@ local function RenderStacks(f, cfg)
   local pos = cfg.stackPos or "BOTTOM"
   f.stack:ClearAllPoints()
   if pos == "BOTTOM" then
-    f.stack:SetPoint("TOP", f.slots[1], "BOTTOM", 0, -2)
+    f.stack:SetPoint("TOP", f.slots[1], "BOTTOM", 0, -4)
   else
     f.stack:SetPoint(pos, f.slots[1], pos, pos:find("LEFT") and 2 or -2, pos:find("TOP") and -2 or 2)
   end
@@ -932,6 +937,10 @@ local function RenderStacks(f, cfg)
   local color = (want > 0 and n < want) and "|cffff9933" or "|cffffffff"
   f.stack:SetText(string.format("%s%s%d|r", icon, color, n) .. (want > 0 and ("|cff999999/" .. want .. "|r") or ""))
   f.stack:Show()
+  f.stackBox:ClearAllPoints()
+  f.stackBox:SetPoint("TOPLEFT", f.stack, "TOPLEFT", -4, 3)
+  f.stackBox:SetPoint("BOTTOMRIGHT", f.stack, "BOTTOMRIGHT", 4, -3)
+  f.stackBox:Show()
 end
 
 local function RenderHighlight(f, result, cfg)
