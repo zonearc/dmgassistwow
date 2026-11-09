@@ -952,4 +952,5 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
       b = { 466991, 466990 },
     },
   },
+  volatile = { "kill_command" },
 })

@@ -1393,4 +1393,5 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       t = { 1263782 },
     },
   },
+  volatile = { "blade_of_justice", "judgment" },
 })

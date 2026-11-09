@@ -1354,4 +1354,5 @@ ns.RegisterSpecData("midnight", "mage_fire", {
       t = { 449349 },
     },
   },
+  volatile = { "fire_blast" },
 })

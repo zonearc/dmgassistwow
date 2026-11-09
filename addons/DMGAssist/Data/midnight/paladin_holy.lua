@@ -532,4 +532,5 @@ ns.RegisterSpecData("midnight", "paladin_holy", {
       a = { 184662, 184689, 1261562 },
     },
   },
+  volatile = { "consecration", "holy_shock", "judgment" },
 })

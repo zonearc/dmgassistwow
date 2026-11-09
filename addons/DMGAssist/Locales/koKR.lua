@@ -432,4 +432,10 @@ ns.LOCALE_DATA.koKR = {
   ["Reload the interface now to switch the language?"] = "언어를 바꾸려면 지금 UI를 다시 불러올까요?",
   ["Reload now"] = "지금 다시 불러오기",
   ["Later"] = "나중에",
+  ["Learned timing"] = "학습한 타이밍",
+  ["Forget learned timing"] = "학습한 타이밍 초기화",
+  ["DMGAssist learns how long your cooldowns really take, including talents, gear and haste it can't see, and which spells to leave to Blizzard's assistant. It's saved for your whole account and gets better as you play. Forget it to start over, for example after a big talent or gear change. Your settings are kept."] = "DMGAssist는 보이지 않는 특성, 장비, 가속까지 포함해 재사용 대기시간이 실제로 얼마나 걸리는지, 그리고 어떤 주문을 블리자드 전투 보조에 맡길지 학습합니다. 계정 전체에 저장되며 플레이할수록 정확해집니다. 특성이나 장비를 크게 바꾼 뒤처럼 처음부터 다시 시작하려면 초기화하세요. 설정은 유지됩니다.",
+  ["Learned cooldown timing forgotten. DMGAssist learns again from your next fight."] = "학습한 재사용 대기시간 타이밍을 초기화했습니다. 다음 전투부터 다시 학습합니다.",
+  ["Not in combat: try again after the fight."] = "전투 중에는 할 수 없습니다. 전투가 끝난 뒤 다시 시도하세요.",
+  ["forget learned cooldown timing and start learning again"] = "학습한 재사용 대기시간 타이밍을 초기화하고 다시 학습",
 }

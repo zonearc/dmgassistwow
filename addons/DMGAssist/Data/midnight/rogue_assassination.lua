@@ -1164,4 +1164,5 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
       b = { 11327, 1856 },
     },
   },
+  volatile = { "stealth", "thistle_tea" },
 })

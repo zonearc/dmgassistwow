@@ -489,6 +489,9 @@ frame:SetScript("OnEvent", function(_, event, ...)
     C_Timer.After(3, ns.Welcome.MaybeAsk)
   elseif KEYBIND_EVENTS[event] then
     D.InvalidateKeybinds()
+    if event == "PLAYER_EQUIPMENT_CHANGED" then
+      S.ForgetTalentCache() -- set bonuses come and go with gear
+    end
   elseif event == "PLAYER_REGEN_DISABLED" then
     inCombat = true
     stuck.ignored, stuck.snapped = 0, {}
@@ -598,6 +601,15 @@ end)
 ---------------------------------------------------------------------------
 local commands = {}
 ns.commands = commands -- the minimap menu uses the same actions as the slash commands
+
+-- /dmga relearn: forget learned cooldown timing (also in Settings).
+function commands.relearn()
+  if S.ResetLearning() then
+    U.Print(L["Learned cooldown timing forgotten. DMGAssist learns again from your next fight."])
+  else
+    U.Print(L["Not in combat: try again after the fight."])
+  end
+end
 
 function commands.on()
   ns.db.enabled = true
@@ -865,6 +877,7 @@ function commands.help()
     { "/dmga test", "test the defensive alert (8 seconds)" },
     { "/dmga test interrupt | assisted | bossmods", "test the interrupt alert, Assisted Combat, or boss mod detection" },
     { "/dmga snapshot", "save a full decision trace for troubleshooting" },
+    { "/dmga relearn", "forget learned cooldown timing and start learning again" },
   }
   for _, line in ipairs(lines) do
     U.Print("%s — %s", line[1], L[line[2]])

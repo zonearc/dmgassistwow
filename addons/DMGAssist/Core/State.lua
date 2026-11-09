@@ -633,8 +633,6 @@ end
 -- What this character's casts showed this session (seconds): a spell cast again sooner than our data's cooldown
 -- allows proves the real cooldown is shorter (level, talents, haste: Holy's Judgment is 11 s in SimC's data and
 -- came back every 6 s on a level 27 paladin, 2026-11-09). The latest sample wins, so a one-off reset doesn't stick.
-S.cdSeen, S.rcSeen = {}, {}
-
 -- Samples are kept at no haste for spells whose cooldown scales with it (seen x haste), and scaled back by the
 -- haste we have now: a Judgment learned under Bloodlust is longer again once Bloodlust ends.
 local function Hasted(info)
@@ -642,17 +640,25 @@ local function Hasted(info)
   return info and (info.hc or (live and live.hasted)) and HasteFactor() or 1
 end
 
-local function Seen(tbl, key, id)
-  local v = tbl[key]
-  return v and v / Hasted(M.Info(id)) or nil
+-- Learned timing correction for a spell (seconds, + = it really takes longer than our clock): see "Timing
+-- learning" below. Applied while the spell's measurements agree with each other.
+local function Offset(id, base)
+  local info = M.Info(id)
+  local name = info and info.n or M.TokenForID(id)
+  local t = name and S.learned.timing and S.learned.timing[name]
+  if not (t and (t.n or 0) >= 1 and not t.unreliable and base) then
+    return 0
+  end
+  return math.max(-0.6 * base, math.min(0.6 * base, t.mean or 0))
 end
-
-local function SetSeen(tbl, key, id, seconds)
-  tbl[key] = seconds * Hasted(M.Info(id))
-end
+S.TimingOffset = Offset
 
 local function CooldownLength(id)
-  return S.learned.cd[id] or Seen(S.cdSeen, id, id) or DataCooldown(id) or BaseCooldown(id)
+  local base = S.learned.cd[id] or DataCooldown(id) or BaseCooldown(id)
+  if base then
+    return math.max(0.5, base + Offset(id, base))
+  end
+  return nil
 end
 S.CooldownLength = CooldownLength
 
@@ -853,66 +859,134 @@ end
 -- Seconds one charge takes to come back: this session's casts, the game's own number (read out of combat), our data.
 local function RechargeLength(group, info)
   local live = Live(info)
-  return Seen(S.rcSeen, group, group)
-    or (live and live.recharge and live.recharge / ((live.hasted and HasteFactor()) or 1))
+  local base = (live and live.recharge and live.recharge / ((live.hasted and HasteFactor()) or 1))
     or info.chcd / Hasted(info)
+  return math.max(0.5, base + Offset(group, base))
 end
 
--- Blizzard's assistant names a spell our clock says is still well off (more than S.ASSISTED_LEAD): our clock is
--- wrong (a cooldown effect we have no rule for: Butchery / Wildfire Bomb, Survival), the game knows; it's ready
--- now: one charge back, or the cooldown done. Within S.ASSISTED_LEAD it may just be naming the next spell a moment
--- early (Holy's Judgment with 2 s left), so our timing stands.
-S.ASSISTED_LEAD = 2.5
--- A spell Blizzard had to correct twice this fight: its cooldown moves with effects we can't see (Survival's
--- Wildfire Bomb), so our clock for it is wrong both ways. Then slot 1 calls it ready only when Blizzard names it.
-S.ASSISTED_UNRELIABLE_AFTER = 1
-S.assistedFixes = {}
+---------------------------------------------------------------------------
+-- Timing learning. Every spell's clock is checked against what really happened, from both sides:
+--   our clock was late  - Blizzard's assistant names it, or you cast it, while our clock says it isn't back yet
+--   our clock was early - we showed it ready, you waited (cast nothing else), and cast it later
+-- Each measurement (seconds: + = really takes longer) goes into a running average and a running spread, per spell,
+-- saved in DMGAssistDB per class and spec, so every character of that spec starts with it:
+--   steady errors (a talent or gear we didn't account for) -> the average corrects our clock (Offset above)
+--   scattered errors (cooldowns that move with effects we can't see) -> "Blizzard decides": slot 1 calls the
+--     spell ready only when Blizzard's assistant names it; un-flagged again after it agrees with our clock 4 times
+-- The list shipped with each update (M.volatile, from the weekly import) starts known-erratic spells flagged.
+-- Settings > DMGAssist > "Forget learned timing" clears it all.
+---------------------------------------------------------------------------
+S.ASSISTED_LEAD = 2.5    -- Blizzard naming a spell this far ahead of our clock: our clock is wrong (closer: just early)
+S.SPREAD_UNRELIABLE = 1.5 -- running spread above this after 3+ measurements: erratic -> Blizzard decides
+S.AGREE_TO_TRUST = 4     -- agreements with our clock that un-flag a spell
+S.timingLogged = 0
 
-local function ClockKey(id)
-  return ChargeInfo(id) and GroupOf(id) or id
-end
-
--- Saved per character spec (S.learned.unreliable, by spell name): once our clock for a spell needed Blizzard's
--- correction, it stays "Blizzard decides" for that character, across fights and reloads (a recharge learned in one
--- fight was too short in the next and showed Wildfire Bomb ready 8 s early, 2026-11-09).
-local function UnreliableKey(id)
+local function TimingName(id)
   local info = M.Info(id)
   return info and info.n or M.TokenForID(id)
 end
 
-function S.ClockUnreliable(id)
-  local k = UnreliableKey(id)
-  return k ~= nil and S.learned.unreliable ~= nil and S.learned.unreliable[k] == true
+local function TimingRecord(id, create)
+  local name = TimingName(id)
+  if not name then
+    return nil, nil
+  end
+  S.learned.timing = S.learned.timing or {}
+  local t = S.learned.timing[name]
+  if not t and create then
+    t = { n = 0, mean = 0, spread = 0, agree = 0 }
+    S.learned.timing[name] = t
+  end
+  return t, name
 end
 
-function S.ObserveAssistedCharge(id)
-  local info = ChargeInfo(id)
-  local left
-  if info then
-    left = S.Charges(id) == 0 and S.ChargeRemains(id) or nil
-  else
-    local last, length = S.lastCast[id], CooldownLength(id)
-    if last and length then
-      left = length - (GetTime() - last)
-    end
+function S.ClockUnreliable(id)
+  local t, name = TimingRecord(id, false)
+  if t and t.unreliable ~= nil then
+    return t.unreliable == true
   end
-  if not (type(left) == "number" and left > S.ASSISTED_LEAD) then
+  if name and S.learned.unreliable and S.learned.unreliable[name] then -- saved by 1.6.0.120
+    return true
+  end
+  return name ~= nil and M.volatile ~= nil and M.volatile[name] == true
+end
+
+-- One measurement for a spell: err = real ready time - our ready time (seconds).
+function S.LearnTiming(id, err, how)
+  if type(err) ~= "number" or err ~= err or math.abs(err) > 30 then
     return
   end
-  local now = GetTime()
-  -- It came back at least that much sooner than we thought: learn the recharge (an upper bound, so never too short).
-  if info then
-    local group = GroupOf(id)
-    local rc = RechargeLength(group, info)
-    if rc - left > 1.5 then
-      SetSeen(S.rcSeen, group, group, rc - left)
-    end
-  else
-    local length = CooldownLength(id)
-    if length and length - left > 1.5 and not S.learned.cd[id] then
-      SetSeen(S.cdSeen, id, id, length - left)
-    end
+  local t, name = TimingRecord(id, true)
+  if not t then
+    return
   end
+  t.n = (t.n or 0) + 1
+  local a = t.n < 4 and 1 / t.n or 0.3
+  t.mean = (t.mean or 0) + a * (err - (t.mean or 0))
+  t.spread = (t.spread or 0) + a * (math.abs(err - t.mean) - (t.spread or 0))
+  local was = S.ClockUnreliable(id)
+  if t.n >= 3 and t.spread > S.SPREAD_UNRELIABLE and not was then
+    t.unreliable, t.agree = true, 0
+    U.Log("clock_unreliable", { spell = name, spread = string.format("%.1f", t.spread) })
+  end
+  if S.timingLogged < 30 then
+    S.timingLogged = S.timingLogged + 1
+    U.Log("timing_learned", { spell = name, how = how, err = string.format("%.1f", err),
+      mean = string.format("%.1f", t.mean), spread = string.format("%.1f", t.spread), n = t.n })
+  end
+end
+
+-- Seconds until our clock says the spell is back (0 = ready by our clock), ignoring the look-ahead.
+local function OurLeft(id, info)
+  if info then
+    if (S.Charges(id) or 0) > 0 then
+      return 0
+    end
+    local r = S.ChargeRemains(id)
+    return type(r) == "number" and r or nil
+  end
+  local last, length = S.lastCast[id], CooldownLength(id)
+  if length then
+    if not last then
+      return 0 -- never cast: ready as far as we know
+    end
+    return math.max(0, length - (GetTime() - last))
+  end
+  return nil
+end
+
+-- Blizzard's assistant names this spell right now (called once per decision).
+function S.ObserveAssistedCharge(id)
+  local info = ChargeInfo(id)
+  local left = OurLeft(id, info)
+  if type(left) ~= "number" then
+    return
+  end
+  local t, name = TimingRecord(id, false)
+  if left <= 0.75 then
+    -- our clock agrees with the game
+    if S.ClockUnreliable(id) then
+      t = t or select(1, TimingRecord(id, true))
+      t.agree = (t.agree or 0) + 1
+      if t.agree >= S.AGREE_TO_TRUST then
+        t.unreliable, t.n, t.mean, t.spread, t.agree = false, 0, 0, 0, 0
+        if S.learned.unreliable and name then
+          S.learned.unreliable[name] = nil
+        end
+        U.Log("clock_trusted", { spell = name })
+      end
+    end
+    return
+  end
+  if left <= S.ASSISTED_LEAD then
+    return -- a moment early: Blizzard may simply be naming what comes next
+  end
+  if t then
+    t.agree = 0
+  end
+  local now = GetTime()
+  S.LearnTiming(id, -left, "assisted")
+  -- and it's ready now: one charge back, or the cooldown done
   if info then
     local list = S.chargeUse[GroupOf(id)]
     if list and list[1] then
@@ -923,16 +997,33 @@ function S.ObserveAssistedCharge(id)
       table.remove(list, 1)
     end
   else
-    S.lastCast[id] = now - CooldownLength(id)
+    S.lastCast[id] = now - (CooldownLength(id) or 0)
   end
-  U.Log("assisted_ready", { spell = (M.Info(id) or {}).n or M.TokenForID(id), ours = string.format("%.1f", left) })
-  local key = ClockKey(id)
-  S.assistedFixes[key] = (S.assistedFixes[key] or 0) + 1
-  local name = UnreliableKey(id)
-  if name and S.assistedFixes[key] >= S.ASSISTED_UNRELIABLE_AFTER and not S.ClockUnreliable(id) then
-    S.learned.unreliable = S.learned.unreliable or {}
-    S.learned.unreliable[name] = true
-    U.Log("clock_unreliable", { spell = name })
+  U.Log("assisted_ready", { spell = name, ours = string.format("%.1f", left) })
+end
+
+-- The display shows a spell ready in slot 1 (the flash): if you then wait and cast it later with nothing in
+-- between, our clock was early by that wait (minus a reaction allowance).
+S.REACTION = 0.4
+function S.NoteReadyShown(id)
+  if not (S.readyShown and S.readyShown.id == id) then
+    S.readyShown = { id = id, t = GetTime() }
+  end
+end
+
+local function CheckWaited(id)
+  local r = S.readyShown
+  S.readyShown = nil
+  if not (r and S.combatStart) then
+    return
+  end
+  local base = M.baseOf and M.baseOf[id] or id
+  if r.id ~= id and r.id ~= base then
+    return
+  end
+  local waited = GetTime() - r.t - S.REACTION
+  if waited > 0.4 and waited < 8 and (ChargeInfo(id) or CooldownLength(id)) and not S.ClockUnreliable(id) then
+    S.LearnTiming(id, waited, "waited")
   end
 end
 
@@ -949,12 +1040,49 @@ local function Requires(req)
   local k = talentKnown[req]
   if k == nil then
     k = U.Get(IsPlayerSpell, req) == true
+    if not k then
+      -- a set bonus is an aura on the player, not a known spell
+      local a = S.DirectAura and S.DirectAura(req)
+      k = type(a) == "table" and a.present == true
+    end
     talentKnown[req] = k
   end
   return k
 end
 function S.ForgetTalentCache()
   talentKnown = {}
+  S.rotationSpells = nil
+end
+
+-- The spells Blizzard's assistant can ever suggest for this spec and talents (C_AssistedCombat.GetRotationSpells).
+-- A spell outside that list (Stealth, most big cooldowns) can't be handed to Blizzard: we keep our own clock for it.
+function S.BlizzardCanName(id)
+  local set = S.rotationSpells
+  if not set then
+    set = {}
+    local list = U.Call(C_AssistedCombat and C_AssistedCombat.GetRotationSpells)
+    if type(list) == "table" then
+      for _, sid in ipairs(list) do
+        sid = U.Read(sid)
+        if type(sid) == "number" then
+          set[sid] = true
+        end
+      end
+    end
+    if next(set) then
+      S.rotationSpells = set -- empty: not loaded yet, ask again next time
+    end
+  end
+  if set[id] then
+    return true
+  end
+  local base = M.baseOf and M.baseOf[id]
+  return base ~= nil and set[base] == true
+end
+
+-- Slot 1 follows Blizzard for this spell: our clock is known wrong, and Blizzard can name it.
+function S.BlizzardLeads(id)
+  return S.ClockUnreliable(id) and S.BlizzardCanName(id)
 end
 
 local function ReduceTarget(token, amount, lookahead)
@@ -1049,12 +1177,10 @@ local function OnChargeSpent(id)
   if #list >= max then
     -- the recharge that should have finished first started (its end - our recharge length) ago: that's how long
     -- it really took (one-charge and multi-charge spells alike)
-    local rc = RechargeLength(group, info)
-    local seen = now - (list[1] - rc)
-    if seen > 1 and seen < rc - 0.1 then
-      SetSeen(S.rcSeen, group, group, seen)
-    end
     local early = list[1] - now
+    if early > 0.3 then
+      S.LearnTiming(id, -early, "cast") -- you cast it: it was back that much before our clock said
+    end
     for i = 1, #list do
       list[i] = list[i] - early
     end
@@ -1065,17 +1191,16 @@ local function OnChargeSpent(id)
   list[#list + 1] = math.max(from, now) + RechargeLength(group, info)
 end
 
--- A plain cooldown: cast again sooner than our number allows -> the real one is shorter (see S.cdSeen).
+-- A plain cooldown cast again sooner than our clock allows: our clock was late by the difference.
 local function OnCooldownSpent(id)
   if ChargeInfo(id) then
     return
   end
-  local last = S.lastCast[id]
-  local length = DataCooldown(id) or BaseCooldown(id)
-  if last and length and not S.learned.cd[id] then
-    local seen = GetTime() - last
-    if seen > 1.6 and seen < (Seen(S.cdSeen, id, id) or length) - 0.1 then
-      SetSeen(S.cdSeen, id, id, seen)
+  local last, length = S.lastCast[id], CooldownLength(id)
+  if last and length and S.combatStart and last >= S.combatStart - 3 then
+    local early = length - (GetTime() - last)
+    if early > 0.3 and length > 1.6 then
+      S.LearnTiming(id, -early, "cast")
     end
   end
 end
@@ -1195,6 +1320,7 @@ local function RecordCast(id, how)
   if info and info.n then
     token = info.n
   end
+  CheckWaited(id)
   OnCooldownSpent(id) -- before lastCast moves on
   table.insert(S.history, 1, { id = id, token = token, t = GetTime(), how = how })
   if #S.history > 10 then
@@ -2464,6 +2590,21 @@ function S.Calibrate()
     S.chargesLogged = text
     U.Log("charges_read", { spells = text ~= "" and text or "none readable" })
   end
+  -- What was learned so far, in the report (once per change): "wildfire_bomb=+1.2±0.3x6 kill_command=B±2.1x5"
+  -- (+/- seconds our clock is corrected by, the scatter, how many measurements; B = left to Blizzard).
+  parts = {}
+  for name, t in pairs(S.learned and S.learned.timing or {}) do
+    if type(t) == "table" and (t.n or 0) >= 1 then
+      parts[#parts + 1] = string.format("%s=%s±%.1fx%d", name, t.unreliable and "B" or string.format("%+.1f", t.mean or 0),
+        t.spread or 0, t.n)
+    end
+  end
+  table.sort(parts)
+  text = table.concat(parts, " ")
+  if text ~= S.timingLogged then
+    S.timingLogged = text
+    U.Log("learned_timing", { spells = text ~= "" and text or "nothing yet" })
+  end
   HasteFactor()
   return n
 end
@@ -2498,6 +2639,30 @@ function S.OnCombat(inCombat)
   end
 end
 
+-- Settings > Learned timing, /dmga relearn: forget what was learned about cooldown timing, for every spec on
+-- the account (the shipped list of erratic spells applies again). Settings are kept. Returns false in combat.
+function S.ResetLearning()
+  if S.combatStart or (InCombatLockdown and InCombatLockdown()) then
+    return false
+  end
+  local db = ns.global or ns.db
+  if type(db) == "table" and type(db.learned) == "table" then
+    for _, l in pairs(db.learned) do
+      if type(l) == "table" then
+        l.timing, l.unreliable, l.cd = {}, {}, {}
+      end
+    end
+  end
+  S.chargeSpentAt, S.readyShown, S.rotationSpells = {}, nil, nil
+  if S.learned then
+    S.learned.timing = S.learned.timing or {}
+  end
+  if S.Calibrate then
+    S.Calibrate()
+  end
+  return true
+end
+
 -- Learned durations are kept per spec in DMGAssistDB.learned[key].
 function S.Bind(key)
   local db = ns.global or ns.db
@@ -2505,6 +2670,7 @@ function S.Bind(key)
     return
   end
   db.learned = type(db.learned) == "table" and db.learned or {}
+  S.rotationSpells = nil
   local l = db.learned[key]
   if type(l) ~= "table" then
     l = {}
@@ -2517,9 +2683,9 @@ function S.Bind(key)
   S.learned = l
   ns.Clues.Reset(l.glowAura)
   S.auraUntil, S.dotUntil, S.lastCast, S.wasActive, S.glow = {}, {}, {}, {}, {}
-  S.assistedFixes = {}
   l.unreliable = type(l.unreliable) == "table" and l.unreliable or {}
-  S.cdSeen, S.rcSeen, S.chargeSpentAt = {}, {}, {} -- liveCharges: re-read by S.Calibrate
+  S.chargeSpentAt, S.readyShown = {}, nil -- liveCharges: re-read by S.Calibrate
+  l.timing = type(l.timing) == "table" and l.timing or {}
   S.stackUntil = {}
   l.stacking = type(l.stacking) == "table" and l.stacking or {}
   readAuras.player, readAuras.target = nil, nil

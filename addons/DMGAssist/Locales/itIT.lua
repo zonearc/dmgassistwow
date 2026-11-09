@@ -432,4 +432,10 @@ ns.LOCALE_DATA.itIT = {
   ["Reload the interface now to switch the language?"] = "Ricaricare ora l'interfaccia per cambiare lingua?",
   ["Reload now"] = "Ricarica ora",
   ["Later"] = "Più tardi",
+  ["Learned timing"] = "Tempi appresi",
+  ["Forget learned timing"] = "Dimentica i tempi appresi",
+  ["DMGAssist learns how long your cooldowns really take, including talents, gear and haste it can't see, and which spells to leave to Blizzard's assistant. It's saved for your whole account and gets better as you play. Forget it to start over, for example after a big talent or gear change. Your settings are kept."] = "DMGAssist impara quanto durano davvero i tuoi tempi di recupero, compresi talenti, equipaggiamento e celerità che non può vedere, e quali incantesimi lasciare al Combattimento assistito di Blizzard. Viene salvato per tutto l'account e migliora mentre giochi. Dimenticalo per ricominciare, per esempio dopo un grande cambio di talenti o di equipaggiamento. Le tue impostazioni restano.",
+  ["Learned cooldown timing forgotten. DMGAssist learns again from your next fight."] = "Tempi di recupero appresi dimenticati. DMGAssist ricomincia a imparare dal prossimo combattimento.",
+  ["Not in combat: try again after the fight."] = "Non in combattimento: riprova dopo il combattimento.",
+  ["forget learned cooldown timing and start learning again"] = "dimentica i tempi di recupero appresi e ricomincia a imparare",
 }

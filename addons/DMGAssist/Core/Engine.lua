@@ -361,7 +361,7 @@ local function Castable(id)
   -- for what to press now, it's ready exactly when Blizzard's assistant names it.
   do
     local v = S.Lookahead()
-    if (not v or #v.prev == 0) and S.ClockUnreliable(id) then
+    if (not v or #v.prev == 0) and S.BlizzardLeads(id) then
       local ac = G.acNow
       return (ac == id or (ac and M.baseOf and M.baseOf[ac] == id)) and true or false
     end

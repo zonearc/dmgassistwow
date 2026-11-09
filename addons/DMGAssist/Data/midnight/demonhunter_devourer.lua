@@ -1670,4 +1670,5 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       b = { 1223157, 1239520, 1239526 },
     },
   },
+  volatile = { "reap" },
 })

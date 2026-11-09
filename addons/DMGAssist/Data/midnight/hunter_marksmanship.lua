@@ -164,6 +164,8 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
   blizzardOrder = { "precombat", "default", "assisted_combat", "cooldowns" },
   cdLinks = {
     { "aimed_shot", "rapid_fire", "reset", 0, 0 },
+    { "explosive_shot", "aimed_shot", 1.5, 1296634, 0 },
+    { "explosive_shot", "rapid_fire", 1.5, 1296634, 0 },
   },
   class = "hunter",
   gameMatch = {
@@ -1222,4 +1224,5 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
       a = { 355589, 392060, 354831, 355596, 392058, 392061, 398388, 459808 },
     },
   },
+  volatile = { "aimed_shot" },
 })

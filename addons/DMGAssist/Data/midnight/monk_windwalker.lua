@@ -1883,4 +1883,5 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
       t = { 1272694 },
     },
   },
+  volatile = { "rising_sun_kick" },
 })

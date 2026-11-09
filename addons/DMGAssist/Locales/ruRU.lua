@@ -432,4 +432,10 @@ ns.LOCALE_DATA.ruRU = {
   ["Reload the interface now to switch the language?"] = "Перезагрузить интерфейс сейчас, чтобы сменить язык?",
   ["Reload now"] = "Перезагрузить",
   ["Later"] = "Позже",
+  ["Learned timing"] = "Изученные тайминги",
+  ["Forget learned timing"] = "Забыть изученные тайминги",
+  ["DMGAssist learns how long your cooldowns really take, including talents, gear and haste it can't see, and which spells to leave to Blizzard's assistant. It's saved for your whole account and gets better as you play. Forget it to start over, for example after a big talent or gear change. Your settings are kept."] = "DMGAssist узнаёт, сколько на самом деле длится восстановление ваших способностей, с учётом талантов, экипировки и скорости, которые он не видит, и какие заклинания доверить Помощи в бою от Blizzard. Это сохраняется для всей учётной записи и улучшается по мере игры. Сбросьте, чтобы начать заново, например после больших изменений талантов или экипировки. Настройки сохраняются.",
+  ["Learned cooldown timing forgotten. DMGAssist learns again from your next fight."] = "Изученные тайминги восстановления забыты. DMGAssist начнёт учиться заново со следующего боя.",
+  ["Not in combat: try again after the fight."] = "Не в бою: попробуйте снова после боя.",
+  ["forget learned cooldown timing and start learning again"] = "забыть изученные тайминги восстановления и учиться заново",
 }

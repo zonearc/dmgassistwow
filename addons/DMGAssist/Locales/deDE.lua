@@ -432,4 +432,10 @@ ns.LOCALE_DATA.deDE = {
   ["Reload the interface now to switch the language?"] = "Die Oberfläche jetzt neu laden, um die Sprache zu wechseln?",
   ["Reload now"] = "Jetzt neu laden",
   ["Later"] = "Später",
+  ["Learned timing"] = "Gelernte Abklingzeiten",
+  ["Forget learned timing"] = "Gelernte Abklingzeiten vergessen",
+  ["DMGAssist learns how long your cooldowns really take, including talents, gear and haste it can't see, and which spells to leave to Blizzard's assistant. It's saved for your whole account and gets better as you play. Forget it to start over, for example after a big talent or gear change. Your settings are kept."] = "DMGAssist lernt, wie lange deine Abklingzeiten wirklich dauern, auch durch Talente, Ausrüstung und Tempo, die es nicht sehen kann, und welche Zauber es Blizzards Kampfassistenten überlässt. Das wird für deinen ganzen Account gespeichert und wird besser, je mehr du spielst. Vergiss es, um neu anzufangen, zum Beispiel nach einer großen Talent- oder Ausrüstungsänderung. Deine Einstellungen bleiben erhalten.",
+  ["Learned cooldown timing forgotten. DMGAssist learns again from your next fight."] = "Gelernte Abklingzeiten vergessen. DMGAssist lernt ab deinem nächsten Kampf neu.",
+  ["Not in combat: try again after the fight."] = "Nicht im Kampf: Versuch es nach dem Kampf noch einmal.",
+  ["forget learned cooldown timing and start learning again"] = "gelernte Abklingzeiten vergessen und neu lernen",
 }

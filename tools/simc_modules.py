@@ -21,6 +21,8 @@ CALL = re.compile(r"cooldowns\.(\w+)->(adjust|reset)\s*\(")
 STRUCT = re.compile(r"^\s*struct\s+(\w+?)_t\b")
 METHOD = re.compile(r"^\s*(?:void|double|bool)\s+(\w+)\s*\(")
 TALENT_AMOUNT = re.compile(r"-\s*(?:p\(\)->)?(?:talents|spec|tier_set)\.(\w+)->effectN\(\s*(\d+)\s*\)\.time_value\(\)\s*\)\s*;")
+TIER = re.compile(r"^(\w+?)_s(\d+)_(\w+?)_(\d)pc$")  # mid_s2_mm_4pc
+SEASON_VERSION = {"mid": "12.%d"}
 TALENT_ANY = re.compile(r"(?:p\(\)->)?talents\.(\w+)")
 UNSURE = re.compile(r"rng\(\)|roll\(|accumulated_rng|crit|->trigger\(\)\s*\)|\bbugs\b|->check\(\)|->up\(\)|"
                     r"target_data|td\(|health_percentage|is_ptr|\bstate\b|->stack\(\)")
@@ -72,6 +74,14 @@ def scan_file(text):
                 j += 1
                 stmt += " " + lines[j].strip()
             amt = TALENT_AMOUNT.search(stmt)
+            if not amt:
+                # "auto reduction = -p()->tier_set.x->effectN( 2 ).time_value();" a line or two above
+                var = re.search(r"->adjust\(\s*(\w+)\s*\)", stmt)
+                if var:
+                    for k in range(max(0, i - 4), i):
+                        mv = re.search(r"\b" + var.group(1) + r"\s*=\s*-\s*(?:p\(\)->)?(?:talents|spec|tier_set)\.(\w+)->effectN\(\s*(\d+)\s*\)\.time_value\(\)", lines[k])
+                        if mv:
+                            amt = mv
             owner = None
             for name, _ in reversed(stack):
                 if not HELPER_STRUCT.search(name):
@@ -85,6 +95,17 @@ def scan_file(text):
         depth += code.count("{") - code.count("}")
         while stack and depth <= stack[-1][1] and "}" in code:
             stack.pop()
+
+
+def _ticks(by_token, action):
+    """How many times a periodic effect ticks per cast: its duration / its period (both scale with haste)."""
+    for s in by_token.get(action, []):
+        d = s.get("duration")
+        for e in s.get("effects_raw", []):
+            m = re.search(r"every ([\d.]+) seconds?", e["text"] + e["detail"])
+            if d and m and float(m.group(1)) > 0:
+                return int(round(d / float(m.group(1))))
+    return None
 
 
 def _talent_seconds(spells_by_token, talent, effect):
@@ -118,6 +139,22 @@ def links(module_dir, cls, spells):
     by_token = {}
     for s in spells.values():
         by_token.setdefault(s["token"], []).append(s)
+    # Set bonuses: SimC's "mid_s2_mm_4pc" is the game's "Hunter Marksmanship 12.1 Class Set 4pc"
+    for name in set(re.findall(r"tier_set\.(\w+)", " ".join(
+            open(os.path.join(module_dir, f), encoding="utf-8", errors="replace").read()
+            for f in files if os.path.exists(os.path.join(module_dir, f))))):
+        m = TIER.match(name)
+        if not m or m.group(1) not in SEASON_VERSION:
+            continue
+        version = SEASON_VERSION[m.group(1)] % (int(m.group(2)) - 1)
+        abbr, pieces = m.group(3), m.group(4)
+        for sp in spells.values():
+            nm = sp["name"]
+            if (" %s Class Set %spc" % (version, pieces)) in nm:
+                spec_part = nm.split(" %s " % version)[0].split(" ", 1)[-1]
+                initials = "".join(w[0] for w in spec_part.split()).lower()
+                if initials == abbr or spec_part.lower().startswith(abbr[0]) and len(abbr) <= 2 and abbr[0] == abbr[-1]:
+                    by_token.setdefault(name, []).append(sp)
     out, review = [], []
     for f in files:
         path = os.path.join(module_dir, f)
@@ -128,7 +165,13 @@ def links(module_dir, cls, spells):
             if not c["struct"]:
                 continue
             source = _token_for_struct(c["struct"])
-            if c["method"] not in ("execute", "impact"):
+            ticks = 1
+            if c["method"] in ("tick", "last_tick"):
+                ticks = _ticks(by_token, source) if c["method"] == "tick" else 1
+                if not ticks:
+                    review.append("%s %s -> %s in tick(): tick count unknown" % (where, source, c["target"]))
+                    continue
+            elif c["method"] not in ("execute", "impact"):
                 review.append("%s %s -> %s in %s(): not once per cast" % (where, source, c["target"], c["method"]))
                 continue
             if UNSURE.search(c["context"] + c["stmt"]):
@@ -152,7 +195,7 @@ def links(module_dir, cls, spells):
             if not seconds or seconds > 120:
                 review.append("%s %s -> %s: amount not found in spell data" % (where, source, c["target"]))
                 continue
-            row = (source, c["target"], seconds, sid or req, 0)
+            row = (source, c["target"], round(seconds * ticks, 3), sid or req, 0)
             if c["method"] == "impact":
                 cap = re.search(r"chain_target\s*<\s*.*?effectN\(\s*(\d+)\s*\)\.base_value\(\)", c["context"])
                 n = None

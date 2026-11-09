@@ -591,7 +591,7 @@ function mock.Install(env)
       return mock.acSpell
     end,
     GetRotationSpells = function()
-      return {}
+      return mock.rotationSpells or {}
     end,
   }
   env.C_ActionBar = {

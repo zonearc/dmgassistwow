@@ -255,6 +255,12 @@ function O.Register()
     ns.Welcome.Open()
   end, "Three questions: where the HUD goes, how big, and when it shows.")
   Button(main, "Key bindings", "Set key bindings", O.OpenKeybindings, KEYS_TIP)
+  Button(main, "Learned timing", "Forget learned timing", function()
+    SlashCmdList.DMGASSIST("relearn")
+  end, "DMGAssist learns how long your cooldowns really take, including talents, gear and haste it can't "
+    .. "see, and which spells to leave to Blizzard's assistant. It's saved for your whole account and gets "
+    .. "better as you play. Forget it to start over, for example after a big talent or gear change. "
+    .. "Your settings are kept.")
   Button(main, "Defaults", "Reset everything to defaults", O.ResetAll,
     "Every setting on every DMGAssist page, in the profile in use.")
   O.RegisterProfiles(main)

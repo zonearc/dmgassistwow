@@ -428,3 +428,9 @@
 434	Recharger l'interface maintenant pour changer de langue ?
 435	Recharger
 436	Plus tard
+437	Temps appris
+438	Oublier les temps appris
+439	DMGAssist apprend la durée réelle de vos temps de recharge, y compris les talents, l'équipement et la hâte qu'il ne voit pas, et quels sorts laisser au Combat assisté de Blizzard. C'est enregistré pour tout votre compte et s'améliore au fil du jeu. Oubliez-le pour repartir de zéro, par exemple après un gros changement de talents ou d'équipement. Vos réglages sont conservés.
+440	Temps de recharge appris oubliés. DMGAssist réapprend dès votre prochain combat.
+441	Pas en combat : réessayez après le combat.
+442	oublier les temps de recharge appris et réapprendre

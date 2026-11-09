@@ -435,5 +435,11 @@
 "Use DMGAssist on %s",
 "Reload the interface now to switch the language?",
 "Reload now",
-"Later"
+"Later",
+"Learned timing",
+"Forget learned timing",
+"DMGAssist learns how long your cooldowns really take, including talents, gear and haste it can't see, and which spells to leave to Blizzard's assistant. It's saved for your whole account and gets better as you play. Forget it to start over, for example after a big talent or gear change. Your settings are kept.",
+"Learned cooldown timing forgotten. DMGAssist learns again from your next fight.",
+"Not in combat: try again after the fight.",
+"forget learned cooldown timing and start learning again"
 ]

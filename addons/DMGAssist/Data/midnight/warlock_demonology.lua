@@ -1000,4 +1000,5 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       a = { 104773 },
     },
   },
+  volatile = { "summon_doomguard" },
 })

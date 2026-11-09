@@ -48,6 +48,12 @@ nothing automated. You press every button.
 - **Works with what you have.** DBM, BigWigs and LittleWigs timers (or Blizzard's encounter timeline) for adds,
   AoE and tank hits; keybinds read from Blizzard's bars, Bartender and macros; Blizzard's Assisted Combat as a
   second opinion where the game hides information.
+- **Learns your real cooldowns.** Talents, gear, set bonuses and haste change cooldowns in ways the game doesn't
+  always let addons see. DMGAssist knows the interactions SimulationCraft simulates (Kill Command taking time off
+  Wildfire Bomb, Crusader Strike off Judgment, and so on, imported weekly), then checks its timing against the game
+  every fight: a steady difference is corrected, and a spell whose timing jumps around is left to Blizzard's
+  Assisted Combat until the two agree again. What it learns is saved for your whole account and improves as you
+  play; Settings > DMGAssist > Learned timing (or `/dmga relearn`) starts it over.
 - **Leveling and alts, automatically.** A new character's starter spec, and any character below max level that
   knows only a few of the spells the priority list expects, follow Blizzard's Assisted Combat, which is built for
   exactly that. It switches to the SimC list by itself as you learn more. Learn a spell with no key and you get one
@@ -104,6 +110,7 @@ and where to report problems.
 | `/dmga welcome` | the three setup questions again |
 | `/dmga spec on` · `off` | DMGAssist on or off for the spec you are in (also on the minimap menu) |
 | `/dmga unbound` | spells it can recommend that have no key binding |
+| `/dmga relearn` | forget learned cooldown timing and start learning again |
 | `/dmga test interrupt` · `defensive` · `bossmods` · `assisted` | check the integrations (also Settings > Integrations) |
 
 ### For addon and UI pack authors: `DMGAssistAPI`
@@ -153,6 +160,9 @@ DMGAssist evaluates the priority list with what it can read, tracks what it can 
 (cooldowns, DoTs, stacks, charges, resource floors), works with ranges where a value is hidden, and uses
 Blizzard's Assisted Combat to confirm lines it can't decide. Where only the game knows (e.g. 4 or 5 combo points),
 it lets the game choose which icon is visible without ever reading the value.
+Cooldowns come from the game where it shows them and from SimulationCraft's class code (which spell shortens which)
+where it doesn't; every fight, the timing is measured against Blizzard's own pick and against when you actually
+cast, and corrected (both ways) from what it learns. Spells it can't time reliably are left to Blizzard.
 Design notes: [docs/design](docs/design) · verified API facts: [docs/reference/api-findings.md](docs/reference/api-findings.md).
 
 ## Development

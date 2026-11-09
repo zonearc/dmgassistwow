@@ -581,8 +581,7 @@
     "Killing Frenzy (363760): $@spelldesc363665 Tooltip          : Your next Cobra Shot has its damage and cooldown reduction increased by $w1%, or your next Multi-Shot grants an additional ${$363665m3/1000}.1 sec of Beast Cleave.",
     "Hunter Beast Mastery 11.1 Class Set 4pc (1215644): Mutagenic attacks reduce the cooldown of Bestial Wrath by ${$1218004s2/100}.2 sec.",
     "Potent Mutagen (1218003): Each strike reduces the cooldown of Bestial Wrath by $${1218004s2/100}.2 sec.",
-    "sc_hunter.cpp:4099 steady_shot -> aimed_shot: amount computed elsewhere",
-    "sc_hunter.cpp:5103 barbed_shot -> kill_command in tick(): not once per cast"
+    "sc_hunter.cpp:4099 steady_shot -> aimed_shot: amount computed elsewhere"
    ],
    "links": [
     "cobra_shot>barbed_shot:2.0 req469880",
@@ -629,12 +628,12 @@
     "Moon's Blessing (1253825): When your Sentinel Owl applies Sentinel's Mark, reduce the cooldown of",
     "Lock and Load: Explosive Shot (1300701): $@spelldesc473520 Tooltip          : Your next Explosive Shot will not incur its cooldown.",
     "sc_hunter.cpp:4099 steady_shot -> aimed_shot: amount computed elsewhere",
-    "sc_hunter.cpp:5690 rapid_fire -> aimed_shot: amount not found in spell data",
-    "sc_hunter.cpp:5904 explosive_shot -> aimed_shot in tick(): not once per cast",
-    "sc_hunter.cpp:5905 explosive_shot -> rapid_fire in tick(): not once per cast"
+    "sc_hunter.cpp:5690 rapid_fire -> aimed_shot: amount not found in spell data"
    ],
    "links": [
-    "aimed_shot>rapid_fire:reset"
+    "aimed_shot>rapid_fire:reset",
+    "explosive_shot>aimed_shot:1.5 req1296634",
+    "explosive_shot>rapid_fire:1.5 req1296634"
    ],
    "mode": 2,
    "read": 24,
@@ -677,14 +676,12 @@
     "Light the Fuse (428464): $@spelldesc422879 Tooltip          : Your next Wildfire Bomb will not incur a cooldown.",
     "Grenade Juggler (470488): $@spelldesc459843 Tooltip          : Cooldown recovery rate of Wildfire Bomb increased by $s1%.",
     "Moon's Blessing (1253825): When your Sentinel Owl applies Sentinel's Mark, reduce the cooldown of",
-    "sc_hunter.cpp:4099 steady_shot -> aimed_shot: amount computed elsewhere",
-    "sc_hunter.cpp:5103 barbed_shot -> kill_command in tick(): not once per cast",
-    "sc_hunter.cpp:6356 boomstick -> wildfire_bomb in tick(): not once per cast"
+    "sc_hunter.cpp:4099 steady_shot -> aimed_shot: amount computed elsewhere"
    ],
    "links": [
     "*>wildfire_bomb:0.033 per pt2 req405530",
-    "boomstick>wildfire_bomb:3.0 req1261229",
     "moonlight_chakram>wildfire_bomb:10.0 req1266069",
+    "boomstick>wildfire_bomb:9.0 req1261229",
     "kill_command>wildfire_bomb:1.0 req460198",
     "wildfire_bomb>boomstick:2.0 req1262409"
    ],

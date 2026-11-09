@@ -428,3 +428,9 @@
 434	Recarregar a interface agora para trocar o idioma?
 435	Recarregar agora
 436	Depois
+437	Tempos aprendidos
+438	Esquecer os tempos aprendidos
+439	O DMGAssist aprende quanto tempo suas recargas realmente levam, incluindo talentos, equipamento e aceleração que ele não consegue ver, e quais feitiços deixar para o Combate Assistido da Blizzard. Isso fica salvo para a conta toda e melhora conforme você joga. Esqueça para começar do zero, por exemplo depois de uma grande mudança de talentos ou equipamento. Suas configurações são mantidas.
+440	Tempos de recarga aprendidos esquecidos. O DMGAssist volta a aprender a partir do seu próximo combate.
+441	Fora de combate: tente de novo depois do combate.
+442	esquecer os tempos de recarga aprendidos e aprender de novo

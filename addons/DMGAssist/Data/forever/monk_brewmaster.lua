@@ -977,4 +977,5 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       a = { 122470, 124280, 125174 },
     },
   },
+  volatile = { "breath_of_fire", "keg_smash" },
 })

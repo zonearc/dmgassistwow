@@ -428,3 +428,9 @@
 434	Die Oberfläche jetzt neu laden, um die Sprache zu wechseln?
 435	Jetzt neu laden
 436	Später
+437	Gelernte Abklingzeiten
+438	Gelernte Abklingzeiten vergessen
+439	DMGAssist lernt, wie lange deine Abklingzeiten wirklich dauern, auch durch Talente, Ausrüstung und Tempo, die es nicht sehen kann, und welche Zauber es Blizzards Kampfassistenten überlässt. Das wird für deinen ganzen Account gespeichert und wird besser, je mehr du spielst. Vergiss es, um neu anzufangen, zum Beispiel nach einer großen Talent- oder Ausrüstungsänderung. Deine Einstellungen bleiben erhalten.
+440	Gelernte Abklingzeiten vergessen. DMGAssist lernt ab deinem nächsten Kampf neu.
+441	Nicht im Kampf: Versuch es nach dem Kampf noch einmal.
+442	gelernte Abklingzeiten vergessen und neu lernen

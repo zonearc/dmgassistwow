@@ -360,4 +360,5 @@ ns.RegisterSpecData("midnight", "priest_discipline", {
       a = { 450215, 450983, 450404, 450405 },
     },
   },
+  volatile = { "mind_blast" },
 })

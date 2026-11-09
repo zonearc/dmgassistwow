@@ -1265,7 +1265,7 @@ test("real cooldowns: the game's own recharge on load, and casts sooner than our
   mock.Advance(6)
   eq(S.Charges(5217), 0, "by our data it's still recharging")
   mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217) -- the player cast it: it was ready after 6 s
-  eq(math.floor(S.rcSeen[5217] + 0.5), 6, "learned: 6 s")
+  eq(math.floor(S.learned.timing.tigers_fury.mean + 0.5), -5, "learned: our clock was 5 s late")
   mock.Advance(6.1)
   eq(S.Charges(5217), 1, "ready again after 6 s, not 11")
   mock.inCombat, mock.restricted = false, false
@@ -1445,28 +1445,78 @@ test("auras Blizzard leaves readable in combat (Tip of the Spear, Sated) are rea
   mock.restricted, mock.inCombat = false, false
 end)
 
-test("a spell Blizzard had to correct: slot 1 calls it ready only when Blizzard names it, remembered per spec", function()
+test("timing learning: steady errors correct our clock, scattered ones leave the spell to Blizzard", function()
   Reset()
   local ns = Boot()
   local S, G = ns.State, ns.Engine
   local rec = QRecord({ { a = "tigers_fury", k = "R" } })
-  rec.spellInfo[5217] = { n = "tigers_fury", ch = 1, chcd = 16, gcd = 1.5 }
+  rec.spellInfo[5217] = { n = "tigers_fury", cd = 30, gcd = 1.5 }
   Feral(ns, rec)
   mock.inCombat, mock.restricted = true, true
   mock.Fire("PLAYER_REGEN_DISABLED")
-  for _ = 1, 2 do
-    mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
-    mock.Advance(3)
-    S.ObserveAssistedCharge(5217) -- 13 s off by our clock: corrected
-    S.rcSeen = {} -- the real recharge keeps moving (Wildfire Bomb): what was learned doesn't hold
+  -- steady: always about 2 s longer than our clock (a talent we don't know about)
+  for _ = 1, 4 do
+    S.LearnTiming(5217, 2.0, "waited")
   end
-  eq(S.ClockUnreliable(5217), true, "corrected: our clock for it is known wrong")
-  eq(S.learned.unreliable.tigers_fury, true, "saved with the spec's learned data")
+  eq(S.ClockUnreliable(5217), false, "consistent: still ours")
+  eq(math.floor(S.CooldownLength(5217) + 0.5), 32, "corrected by 2 s")
+  -- scattered: 4 s early, 7 s late, 2 s early...
+  S.learned.timing = {}
+  for _, e in ipairs({ -4, 7, -2, 6 }) do
+    S.LearnTiming(5217, e, "assisted")
+  end
+  eq(S.ClockUnreliable(5217), true, "erratic: Blizzard decides")
   G.acNow = nil
+  S.ForgetTalentCache()
+  eq(G.Castable(5217) ~= false, true, "Blizzard can't suggest it (not in its rotation): our clock still decides")
+  mock.rotationSpells = { 5217 }
+  S.ForgetTalentCache()
   eq(G.Castable(5217), false, "ready by our clock alone isn't trusted")
   G.acNow = 5217
   eq(G.Castable(5217), true, "Blizzard names it: ready")
   G.acNow = nil
+  -- Blizzard agreeing with our clock 4 times un-flags it
+  for _ = 1, 4 do
+    S.ObserveAssistedCharge(5217) -- never cast: ready by our clock too
+  end
+  eq(S.ClockUnreliable(5217), false, "agreed 4 times: ours again")
+  -- shipped flagged, learned otherwise
+  S.learned.timing = {}
+  ns.SpellMap.volatile = { tigers_fury = true }
+  eq(S.ClockUnreliable(5217), true, "the shipped list starts it flagged")
+  ns.SpellMap.volatile = {}
+  mock.rotationSpells = nil
+  -- the reset in Settings / /dmga relearn: refused in combat, then forgets everything learned
+  S.LearnTiming(5217, 2.0, "waited")
+  eq(S.ResetLearning(), false, "not in combat")
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  eq(S.ResetLearning(), true, "out of combat")
+  eq(next(S.learned.timing), nil, "learned timing forgotten")
+end)
+
+test("timing learning: we showed it ready, you waited and cast it later: our clock was early", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", cd = 30, gcd = 1.5 }
+  Feral(ns, rec)
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  S.NoteReadyShown(5217)
+  mock.Advance(2.4)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  local t = S.learned.timing.tigers_fury
+  eq(t and math.floor(t.mean * 10 + 0.5) / 10, 2.0, "waited 2.4 s - 0.4 s reaction")
+  -- casting something else in between: not a measurement
+  S.learned.timing = {}
+  S.NoteReadyShown(5217)
+  mock.Advance(2)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5221)
+  mock.Advance(2)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  eq(S.learned.timing.tigers_fury == nil or S.learned.timing.tigers_fury.n <= 1, true)
   mock.inCombat, mock.restricted = false, false
 end)
 

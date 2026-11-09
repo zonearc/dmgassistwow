@@ -1055,6 +1055,9 @@ function D.RenderTiming(f, cfg)
   -- cast starting) or a different spell in slot 1 starts a new moment; until then, once a spell is ready it stays
   -- ready and it flashes once (a recheck that briefly read "not yet" made Holy Shock strobe, 2026-11-09).
   if busy > (f.lastBusy or 0) + 0.05 or id ~= f.momentId then
+    if id ~= f.momentId then
+      ns.State.readyShown = nil -- a different spell in slot 1: an earlier "ready" no longer counts as waited for
+    end
     f.readyFor, f.flashedFor, f.momentId = nil, nil, id
   end
   f.lastBusy = busy
@@ -1094,6 +1097,9 @@ function D.RenderTiming(f, cfg)
   local now = GetTime()
   if ready then
     f.readyFor = id
+    if id then
+      ns.State.NoteReadyShown(id) -- timing learning: did you have to wait for it after this?
+    end
     if not f.pressNow and f.flashedFor ~= id then
       f.flashAt, f.flashedFor = now, id -- the moment it became ready: one flash
     end

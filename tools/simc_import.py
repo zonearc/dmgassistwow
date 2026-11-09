@@ -60,6 +60,30 @@ LINE_RE = re.compile(r"^actions(?:\.([A-Za-z0-9_]+))?(\+?=)/?(.*)$")
 EXCLUDED_MARK = "not included in the game's Assisted Combat system"
 
 
+
+REVIEW_MODULE = re.compile(r"^\S+:\d+ (\w+) -> (\w+):")
+REVIEW_DESC = re.compile(r"^.+? \((\d+)\): .*?cooldown (?:recovery rate )?(?:of|on) ([A-Z][\w' ]+?)(?= by| is|[.,]| for| increased|$)")
+
+
+def volatile_targets(review, ids, info, simc):
+    """Spells whose cooldown something changes in a way we can't time (chance, procs, amounts computed in code).
+    Shipped as record.volatile: they start with Blizzard's assistant leading slot 1, and the runtime's learning
+    takes them back once our clock agrees with the game (State.lua S.ClockUnreliable)."""
+    actions = {e["action"] for n in simc["order"] for e in simc["lists"][n]}
+    out = set()
+    for r in review:
+        m = REVIEW_MODULE.match(r)
+        if m:
+            if m.group(2) in actions and m.group(1) in ids:
+                out.add(m.group(2))
+            continue
+        m = REVIEW_DESC.match(r)
+        if m and int(m.group(1)) in info:
+            tok = re.sub(r"[^a-z0-9_]", "", m.group(2).strip().lower().replace(" ", "_"))
+            if tok in actions:
+                out.add(tok)
+    return sorted(out)
+
 def parse_apl(text):
     """Return {"lists": {name: [entry...]}, "order": [list names]}; entries keep source order."""
     lists, order = {}, []
@@ -451,6 +475,7 @@ def forever_ids(wowsims_root):
 #               "covers": "Finishing moves reduce the remaining cooldown", "why": "Restless Blades" } ] }
 _extra_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "spell-links.json")
 EXTRA_LINKS = json.load(open(_extra_path, encoding="utf-8")) if os.path.exists(_extra_path) else {}
+EXTRA_VOLATILE = EXTRA_LINKS.pop("volatile", {}) if isinstance(EXTRA_LINKS.get("volatile"), dict) else {}
 EXTRA_LINKS = {k: v for k, v in EXTRA_LINKS.items() if not k.startswith("_")}
 
 
@@ -564,6 +589,9 @@ def import_branch(simc_root, branch, out_root, errors, wowsims_root=None):
             if links:
                 record["cdLinks"] = links
             record["_review"] = review
+            vol = sorted(set(volatile_targets(review, ids, info, simc)) | set(EXTRA_VOLATILE.get(spec, [])))
+            if vol:
+                record["volatile"] = vol
         record["simcSource"] = "override" if apl_path == override else "simc"
         if wowsims_file:
             record["simcSource"] = "wowsims"

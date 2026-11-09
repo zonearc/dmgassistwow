@@ -432,4 +432,10 @@ ns.LOCALE_DATA.zhTW = {
   ["Reload the interface now to switch the language?"] = "現在重新載入介面以切換語言？",
   ["Reload now"] = "立即重載",
   ["Later"] = "稍後",
+  ["Learned timing"] = "已學習的計時",
+  ["Forget learned timing"] = "清除已學習的計時",
+  ["DMGAssist learns how long your cooldowns really take, including talents, gear and haste it can't see, and which spells to leave to Blizzard's assistant. It's saved for your whole account and gets better as you play. Forget it to start over, for example after a big talent or gear change. Your settings are kept."] = "DMGAssist 會學習你的冷卻實際需要多久（包括它看不到的天賦、裝備和加速），以及哪些法術交給暴雪的輔助戰鬥來判斷。資料保存在整個帳號中，玩得越多越準確。想重新開始時可以清除，例如大幅更換天賦或裝備之後。你的設定會保留。",
+  ["Learned cooldown timing forgotten. DMGAssist learns again from your next fight."] = "已清除學習到的冷卻計時。DMGAssist 將從下一場戰鬥開始重新學習。",
+  ["Not in combat: try again after the fight."] = "戰鬥中無法操作：請在戰鬥結束後重試。",
+  ["forget learned cooldown timing and start learning again"] = "清除學習到的冷卻計時並重新學習",
 }

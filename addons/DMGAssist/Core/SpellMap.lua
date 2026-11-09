@@ -78,6 +78,12 @@ function M.SetData(record)
   -- Spell interdependencies from the game's spell descriptions (tools/simc_spells.py): by source token, and
   -- "per resource spent" ones by power type. { source, target, seconds | "reset" | "charge", requires, power }
   M.linksBySource, M.linksBySpend = {}, {}
+  -- Spells whose cooldown moves with effects we can't follow (chance, procs, per tick, amounts computed in SimC's
+  -- code): shipped flagged "Blizzard decides" (State timing learning un-flags them when our clock proves right).
+  M.volatile = {}
+  for _, tok in ipairs(type(record.volatile) == "table" and record.volatile or {}) do
+    M.volatile[tok] = true
+  end
   for _, l in ipairs(type(record.cdLinks) == "table" and record.cdLinks or {}) do
     if l[5] and l[5] > 0 then
       M.linksBySpend[l[5]] = M.linksBySpend[l[5]] or {}

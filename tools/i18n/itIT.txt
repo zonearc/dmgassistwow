@@ -428,3 +428,9 @@
 434	Ricaricare ora l'interfaccia per cambiare lingua?
 435	Ricarica ora
 436	Più tardi
+437	Tempi appresi
+438	Dimentica i tempi appresi
+439	DMGAssist impara quanto durano davvero i tuoi tempi di recupero, compresi talenti, equipaggiamento e celerità che non può vedere, e quali incantesimi lasciare al Combattimento assistito di Blizzard. Viene salvato per tutto l'account e migliora mentre giochi. Dimenticalo per ricominciare, per esempio dopo un grande cambio di talenti o di equipaggiamento. Le tue impostazioni restano.
+440	Tempi di recupero appresi dimenticati. DMGAssist ricomincia a imparare dal prossimo combattimento.
+441	Non in combattimento: riprova dopo il combattimento.
+442	dimentica i tempi di recupero appresi e ricomincia a imparare

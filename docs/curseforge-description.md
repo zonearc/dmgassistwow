@@ -12,6 +12,7 @@ You press every button; it never plays for you.
 
 - Shows your next three spells, in priority order
 - Flashes the exact moment to press, timed to your GCD
+- Self-learning: corrects its cooldown timing every fight and gets more accurate as you play
 - Switches between single target and AoE automatically
 - Interrupts and defensives come first when they matter
 - Major cooldowns used where SimulationCraft uses them, or held
@@ -36,6 +37,8 @@ You press every button; it never plays for you.
 - Imports SimulationCraft's priority list for every spec, weekly
 - Checks each line against what the game shows
 - Blizzard's Assisted Combat confirms what the game hides
+- Knows which spells shorten which, from SimulationCraft's class code: talents, set bonuses and haste
+- Learns from your fights, saved for your whole account; one click starts it over
 - DMGAssist's own lists cover healers SimulationCraft skips
 
 ## Works with
