@@ -1,7 +1,7 @@
 {
  "branch": "midnight",
- "commit": "d38855b",
- "date": "2026-11-05",
+ "commit": "de11f57",
+ "date": "2026-11-08",
  "specs": {
   "deathknight_blood": {
    "blizzard": {
@@ -369,6 +369,22 @@
    "unknown": 1,
    "usablePct": 98
   },
+  "evoker_preservation": {
+   "gameMatch": {
+    "matched": 4,
+    "missing": [],
+    "total": 4
+   },
+   "lines": 5,
+   "mode": 1,
+   "read": 3,
+   "readPct": 60,
+   "simcSource": "simc",
+   "topUnknown": [],
+   "tracked": 1,
+   "unknown": 0,
+   "usablePct": 100
+  },
   "hunter_beast_mastery": {
    "blizzard": {
     "lines": 20,
@@ -582,6 +598,22 @@
    "unknown": 2,
    "usablePct": 97
   },
+  "monk_mistweaver": {
+   "gameMatch": {
+    "matched": 5,
+    "missing": [],
+    "total": 5
+   },
+   "lines": 6,
+   "mode": 1,
+   "read": 4,
+   "readPct": 67,
+   "simcSource": "simc",
+   "topUnknown": [],
+   "tracked": 1,
+   "unknown": 0,
+   "usablePct": 100
+  },
   "monk_windwalker": {
    "blizzard": {
     "lines": 34,
@@ -616,6 +648,22 @@
    "tracked": 47,
    "unknown": 52,
    "usablePct": 59
+  },
+  "paladin_holy": {
+   "gameMatch": {
+    "matched": 6,
+    "missing": [],
+    "total": 6
+   },
+   "lines": 7,
+   "mode": 0,
+   "read": 7,
+   "readPct": 100,
+   "simcSource": "simc",
+   "topUnknown": [],
+   "tracked": 0,
+   "unknown": 0,
+   "usablePct": 100
   },
   "paladin_protection": {
    "blizzard": {
@@ -677,6 +725,42 @@
    "tracked": 17,
    "unknown": 0,
    "usablePct": 100
+  },
+  "priest_discipline": {
+   "gameMatch": {
+    "matched": 9,
+    "missing": [],
+    "total": 9
+   },
+   "lines": 9,
+   "mode": 0,
+   "read": 7,
+   "readPct": 78,
+   "simcSource": "simc",
+   "topUnknown": [
+    "target.health.pct"
+   ],
+   "tracked": 1,
+   "unknown": 1,
+   "usablePct": 89
+  },
+  "priest_holy": {
+   "gameMatch": {
+    "matched": 5,
+    "missing": [],
+    "total": 5
+   },
+   "lines": 5,
+   "mode": 1,
+   "read": 3,
+   "readPct": 60,
+   "simcSource": "simc",
+   "topUnknown": [
+    "target.health.pct"
+   ],
+   "tracked": 0,
+   "unknown": 1,
+   "usablePct": 80
   },
   "priest_shadow": {
    "blizzard": {
@@ -862,6 +946,22 @@
    "tracked": 58,
    "unknown": 6,
    "usablePct": 94
+  },
+  "shaman_restoration": {
+   "gameMatch": {
+    "matched": 4,
+    "missing": [],
+    "total": 4
+   },
+   "lines": 4,
+   "mode": 1,
+   "read": 2,
+   "readPct": 50,
+   "simcSource": "simc",
+   "topUnknown": [],
+   "tracked": 1,
+   "unknown": 0,
+   "usablePct": 100
   },
   "warlock_affliction": {
    "blizzard": {

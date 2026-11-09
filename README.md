@@ -29,9 +29,10 @@ nothing automated. You press every button.
 - **On-use trinkets.** Every equipped on-use trinket is shown when it is ready, alongside your cooldowns (and
   when SimC's list says to use it). Switch off any trinket you'd rather press yourself; the choice follows the
   trinket through gear and spec swaps.
-- **Healer mode.** SimC publishes no rotation for healing specs; for them DMGAssist follows Blizzard's
-  Assisted Combat in slot 1 (your damage spells between heals), labelled "Healer mode · Limited" on the HUD, with
-  interrupts, boss-mod defensives, trinkets, keybinds and your spell choices still working.
+- **Healers too.** SimC publishes no rotation for most healing specs, so DMGAssist ships its own damage lists
+  for Discipline, Holy Priest, Holy Paladin, Mistweaver, Restoration Shaman and Preservation (learned from the
+  current class guides) for your damage between heals, labelled "Healer mode · DMGAssist list". Restoration
+  Druid uses SimC's list, cat weaving included. Healing itself stays your call.
 - **Your choice of spells.** Settings > DMGAssist > Spells & trinkets lists every spell your spec can be shown
   and every equipped on-use trinket. Untick one and it is never shown; the next spell takes its place. Tick
   "First when ready" and that spell goes to slot 1 whenever it can be cast. Kept per spec (trinkets per item),

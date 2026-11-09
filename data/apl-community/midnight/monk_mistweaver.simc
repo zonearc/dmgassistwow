@@ -1,0 +1,10 @@
+# DMGAssist list: Mistweaver Monk damage between heals (learned from Method's guide, patch 12.1.5)
+# Written by DMGAssist, not SimulationCraft. Rising Sun Kick on cooldown; Tiger Palm builds Teachings of the
+# Monastery for Blackout Kick, which can reset Rising Sun Kick. Heals and cooldowns stay the player's call.
+actions.precombat=snapshot_stats
+actions=rising_sun_kick
+actions+=/rushing_wind_kick
+actions+=/blackout_kick,if=buff.teachings_of_the_monastery.stack>=3
+actions+=/spinning_crane_kick,if=active_enemies>=4
+actions+=/tiger_palm
+actions+=/blackout_kick

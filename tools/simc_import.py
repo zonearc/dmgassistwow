@@ -454,6 +454,13 @@ def import_branch(simc_root, branch, out_root, errors, wowsims_root=None):
         if f.endswith(".lua"):
             os.remove(os.path.join(data_dir, f))
     specs = sorted(f[:-5] for f in os.listdir(os.path.join(base, "default")) if f.endswith(".simc"))
+    # Our own lists for specs SimC publishes none for (healers: Discipline, Holy, Mistweaver, Restoration
+    # Shaman, Preservation): data/apl-community/<branch>/<spec>.simc. SimC's list wins if it ever ships one.
+    community_dir = os.path.join(out_root, "data", "apl-community", branch)
+    community = set()
+    if os.path.isdir(community_dir):
+        community = {f[:-5] for f in os.listdir(community_dir) if f.endswith(".simc")} - set(specs)
+        specs = sorted(set(specs) | community)
     report = {"branch": branch, "commit": sha, "date": date, "specs": {}}
     class_spells = {}
     all_spells = {}
@@ -468,6 +475,8 @@ def import_branch(simc_root, branch, out_root, errors, wowsims_root=None):
         # still ships copies of the Midnight lists): data/apl-overrides/<branch>/<spec>.simc
         override = os.path.join(out_root, "data", "apl-overrides", branch, spec + ".simc")
         apl_path = override if os.path.exists(override) else os.path.join(base, "default", spec + ".simc")
+        if spec in community:
+            apl_path = os.path.join(community_dir, spec + ".simc")
         wowsims_file = None
         if branch == "forever" and wowsims_root and spec in WOWSIMS_FOREVER and not os.path.exists(override):
             candidate = os.path.join(wowsims_root, "forever", "ui", "specs", WOWSIMS_FOREVER[spec])
@@ -492,6 +501,11 @@ def import_branch(simc_root, branch, out_root, errors, wowsims_root=None):
             "simc": lists_for_lua(simc),
             "simcOrder": simc["order"],
         }
+        if spec in community:
+            # Written by DMGAssist from the class guides (see the file's header), not by SimulationCraft.
+            record["community"] = True
+            header = [l[1:].strip() for l in open(apl_path, encoding="utf-8").read().splitlines()[:6] if l.startswith("#")]
+            record["credit"] = header[0] if header else "DMGAssist list"
         if blz:
             record["blizzard"] = lists_for_lua(blz)
             record["blizzardOrder"] = blz["order"]

@@ -1,0 +1,13 @@
+# DMGAssist list: Discipline Priest damage between heals (learned from Method's guide, patch 12.1.5)
+# Written by DMGAssist, not SimulationCraft. Healing and Atonement ramps stay the player's call: these are the
+# damage casts that heal through Atonement. SimC's own list replaces this file if it ever publishes one.
+actions.precombat=snapshot_stats
+actions=shadowfiend
+actions+=/mindbender
+actions+=/shadow_word_pain,if=!dot.shadow_word_pain.ticking|dot.shadow_word_pain.refreshable
+actions+=/shadow_word_death,if=target.health.pct<20
+actions+=/mind_blast
+actions+=/penance
+actions+=/void_blast
+actions+=/halo
+actions+=/smite

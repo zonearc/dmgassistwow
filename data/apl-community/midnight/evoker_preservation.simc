@@ -1,0 +1,9 @@
+# DMGAssist list: Preservation Evoker damage between heals (learned from Method's guide, patch 12.1.5)
+# Written by DMGAssist, not SimulationCraft. Fire Breath on cooldown, Deep Breath on 2+ targets, Disintegrate
+# (mana via Energy Loop), Living Flame with Essence Burst. Healing stays the player's call.
+actions.precombat=snapshot_stats
+actions=fire_breath
+actions+=/deep_breath,if=active_enemies>=2
+actions+=/living_flame,if=buff.essence_burst.up
+actions+=/disintegrate
+actions+=/living_flame

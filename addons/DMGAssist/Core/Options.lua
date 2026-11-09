@@ -650,12 +650,13 @@ O.HELP = {
     "Each spec follows SimulationCraft's priority list, the same lists theorycrafters use. The game hides a lot "
       .. "in combat (procs, exact resources); Blizzard's Assisted Combat and the glow on your buttons fill those "
       .. "gaps." },
-  { "Healers: Healer mode · Limited",
-    "SimulationCraft publishes no rotation for healing specs (Discipline, Holy Priest, Holy Paladin, "
-      .. "Mistweaver, Restoration Shaman, Preservation). For them slot 1 follows Blizzard's Assisted Combat - your "
-      .. "damage spells between heals - and the HUD says \"Healer mode · Limited\". Interrupts, defensives with "
-      .. "your boss mod, on-use trinkets, keybinds and your spell choices still work. Healing stays your call. "
-      .. "Restoration Druid is the exception: it has a full list, including cat weaving." },
+  { "Healers: Healer mode",
+    "SimulationCraft publishes no rotation for most healing specs (Discipline, Holy Priest, Holy Paladin, "
+      .. "Mistweaver, Restoration Shaman, Preservation). For those DMGAssist has its own damage lists, learned from "
+      .. "the current class guides, for your damage between heals; the HUD says \"Healer mode · DMGAssist list\". "
+      .. "Healing stays your call. Interrupts, defensives with your boss mod, on-use trinkets, keybinds and your "
+      .. "spell choices all work. Restoration Druid has a full SimC list, including cat weaving. A spec with no "
+      .. "list at all follows Blizzard's Assisted Combat (\"Healer mode · Limited\")." },
   { "Skipping a spell",
     "Skip the spell in slot 1 three times and it is held for the rest of the fight (\"saving it\"). Cast it "
       .. "yourself and it comes back. Only spells with a real cooldown are held." },

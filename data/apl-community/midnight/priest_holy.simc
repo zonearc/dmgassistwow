@@ -1,0 +1,8 @@
+# DMGAssist list: Holy Priest damage between heals (learned from Method's guide, patch 12.1.5)
+# Written by DMGAssist, not SimulationCraft. Healing stays the player's call.
+actions.precombat=snapshot_stats
+actions=holy_word_chastise
+actions+=/holy_fire
+actions+=/shadow_word_death,if=target.health.pct<20
+actions+=/holy_nova,if=active_enemies>=4
+actions+=/smite

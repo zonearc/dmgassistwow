@@ -1,0 +1,7 @@
+# DMGAssist list: Restoration Shaman damage between heals (learned from Method's guide, patch 12.1.5)
+# Written by DMGAssist, not SimulationCraft. Totems and heals stay the player's call; Lava Burst with Lava Surge.
+actions.precombat=snapshot_stats
+actions=flame_shock,if=!dot.flame_shock.ticking|dot.flame_shock.refreshable
+actions+=/lava_burst
+actions+=/chain_lightning,if=active_enemies>=3
+actions+=/lightning_bolt

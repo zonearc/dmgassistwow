@@ -24,6 +24,8 @@ local function Describe(state)
   }
   if state.assistedOnly then
     parts[#parts + 1] = L["no SimC list for this spec: following Blizzard's Assisted Combat"]
+  elseif state.data and state.data.community then
+    parts[#parts + 1] = L["no SimC list for this spec: DMGAssist's own list, learned from the class guides"]
   elseif state.source then
     parts[#parts + 1] = string.format("SimC %s %s (%s)", tostring(state.source.branch), tostring(state.source.commit),
       tostring(state.source.date))
@@ -109,6 +111,12 @@ Specs.OnChange(function(state, previous)
   end
   if previous then
     U.Print(L["Spec changed: %s"], Describe(state))
+  end
+  if state.data and state.data.community and not ns.healerListExplained then
+    ns.healerListExplained = true
+    U.Print("%s", L["Healer mode: SimC publishes no rotation for healing specs, so DMGAssist uses its own damage "
+      .. "list for this spec (learned from the class guides) for your damage between heals. Healing itself stays "
+      .. "your call. Interrupts, boss-mod defensives, trinkets, keybinds and your spell choices all work."])
   end
   if state.assistedOnly and not ns.healerExplained then
     ns.healerExplained = true
