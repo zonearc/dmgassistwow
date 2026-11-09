@@ -365,6 +365,14 @@ RunUpdate(manual) {
             Finish(win, 100, "Updated.`n`nNow: " VersionsText(", ") "`n`nIn game: type /reload.", restart)
         else
             TrayTip("Now: " VersionsText(", ") "`nIn game: /reload", "DMGAssist updated")
+    } else if SubStr(result, 1, 4) = "BUSY" {
+        ; A new build is being published: not an error, nothing to report on automatic checks.
+        LastError := ""
+        RefreshTip()
+        if manual
+            Finish(win, 100, "No update installed right now.`n`nA new build is being published on GitHub at the "
+                . "moment. It will be installed on the next check (within 10 minutes), or try again in a few "
+                . "minutes.`n`nYou have: " before, restart)
     } else if SubStr(result, 1, 5) = "SAME " {
         LastError := ""
         RefreshTip()
@@ -376,7 +384,8 @@ RunUpdate(manual) {
         LastError := msg
         RefreshTip()
         if manual
-            Finish(win, 0, "The update failed:`n`n" msg, restart)
+            Finish(win, 0, "Couldn't update right now:`n`n" msg "`n`nYou have: " before
+                . "`n`nIt tries again automatically every 10 minutes.", restart)
         else if isNew
             TrayTip(msg, "DMGAssist update failed")
     }

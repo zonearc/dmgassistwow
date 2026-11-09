@@ -84,7 +84,11 @@ try {
       $code = 0
       if ($_.Exception.Response) { $code = [int]$_.Exception.Response.StatusCode }
       if ($try -eq 3) {
-        if ($code -eq 404) { throw 'The nightly build is not available right now (a new one may be publishing, or the repository is not public yet).' }
+        if ($code -eq 404) {
+          Step 100 'No update right now: a new build is being published. It will be picked up on the next check.'
+          Set-Content -LiteralPath $Result -Value 'BUSY'
+          return
+        }
         throw "GitHub could not be reached ($code): $($_.Exception.Message)"
       }
       Step 10 "GitHub didn't answer; trying again (attempt $($try + 1) of 3)..."
@@ -109,8 +113,22 @@ try {
   New-Item -ItemType Directory -Path $work | Out-Null
 
   # 1. Download and check everything first: DMGAssist.zip holds both addon folders.
+  # While a new build is being published its files are swapped one by one: wait for it instead of failing.
   $asset = $release.assets | Where-Object { $_.name -eq 'DMGAssist.zip' }
-  if (-not $asset) { throw 'DMGAssist.zip is not in the nightly release.' }
+  for ($wait = 1; $wait -le 4 -and -not $asset; $wait++) {
+    Step 35 "A new build is being published right now. Waiting for it ($wait of 4)..."
+    Start-Sleep -Seconds 15
+    try {
+      $release = Invoke-RestMethod -Uri "https://api.github.com/repos/$repo/releases/tags/nightly" -Headers $headers
+      $asset = $release.assets | Where-Object { $_.name -eq 'DMGAssist.zip' }
+      if ($release.name -match '(\d+(\.\d+)+)') { $latest = $Matches[1] }
+    } catch { }
+  }
+  if (-not $asset) {
+    Step 100 'No update right now: a new build is still being published. It will be picked up on the next check.'
+    Set-Content -LiteralPath $Result -Value ('BUSY ' + $release.name)
+    return
+  }
   $zip = Join-Path $work 'DMGAssist.zip'
   Invoke-WebRequest -Uri $asset.browser_download_url -Headers @{ 'User-Agent' = 'DMGAssistUpdater' } -OutFile $zip -UseBasicParsing
   Expand-Archive -LiteralPath $zip -DestinationPath (Join-Path $work 'unzipped') -Force
