@@ -1031,17 +1031,26 @@ local FLASH = 0.35
 
 function D.RenderTiming(f, cfg)
   local castLeft = select(2, ns.State.CurrentCast()) or 0
+  local busy = math.max(ns.State.GCDRemains(), castLeft)
+  local id = f.shownId
+  -- Rechecks happen behind the scenes: what slot 1 shows only changes when the answer does. A press (a new GCD or
+  -- cast starting) or a different spell in slot 1 starts a new moment; until then, once a spell is ready it stays
+  -- ready and it flashes once (a recheck that briefly read "not yet" made Holy Shock strobe, 2026-11-09).
+  if busy > (f.lastBusy or 0) + 0.05 or id ~= f.momentId then
+    f.readyFor, f.flashedFor, f.momentId = nil, nil, id
+  end
+  f.lastBusy = busy
   -- A slot 1 shown a moment early (its cooldown still running, see Engine DecideAhead) counts as not ready too:
   -- timed by its own cooldown clock, every frame, so the wipe drains smoothly.
   local cdLeft = 0
-  if f.readyAt then
+  if f.readyAt and f.readyFor ~= id then
     local left = f.readyId and ns.State.CooldownRemains(f.readyId)
     if type(left) ~= "number" then
       left = f.readyAt - GetTime()
     end
     cdLeft = math.min(left, f.readyAt - GetTime() + 0.5)
   end
-  local wait = math.max(ns.State.GCDRemains(), castLeft, cdLeft)
+  local wait = math.max(busy, cdLeft)
   -- Length of this wait period, for the wipe and the bar: a jump up means a new GCD or cast started.
   if not f.waitTotal or wait > (f.lastWait or 0) + 0.05 then
     f.waitTotal = math.max(wait, 0.01)
@@ -1050,11 +1059,10 @@ function D.RenderTiming(f, cfg)
   local lead = (tonumber(cfg.pressLead) or 50) / 1000
   local ready = wait <= lead
   local now = GetTime()
-  if ready and not f.pressNow then
-    -- The moment it became ready: flash. Once per spell and moment, so a wait that flickers never strobes.
-    local id = f.readyId or f.shownId
-    if not (f.flashAt and now - f.flashAt < 1 and f.flashId == id) then
-      f.flashAt, f.flashId = now, id
+  if ready then
+    f.readyFor = id
+    if not f.pressNow and f.flashedFor ~= id then
+      f.flashAt, f.flashedFor = now, id -- the moment it became ready: one flash
     end
   end
   f.pressNow = ready
