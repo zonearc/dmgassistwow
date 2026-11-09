@@ -80,8 +80,7 @@ function LV.Lead(result)
     source = "assisted", why = "leveling" }
   -- Blizzard's assistant also names a spell that is still on cooldown (the next important one, to wait for):
   -- then it goes to slot 2 and slot 1 keeps the best spell that can be pressed now.
-  local usable = U.Read((U.Call(C_Spell and C_Spell.IsSpellUsable, ac)))
-  local ready = usable ~= false and ns.State.CooldownReady(ac) ~= false
+  local ready = ns.Engine.Castable(ac) ~= false -- the engine's own check, the same as at max level
   local rest = {}
   for _, p in ipairs(result.queue or { result.main }) do
     if p and p.id ~= ac then

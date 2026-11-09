@@ -1262,14 +1262,14 @@ test("leveling: below max level with few of the list's spells, Blizzard's assist
   eq(r.main.id, 184575, "Blizzard's pick in slot 1")
   eq(r.queue[2].id, 20271, "the priority list fills slot 2")
   eq(r.queue[3].id, 35395, "and slot 3, without repeating slot 1")
-  local realReady = ns.State.CooldownReady
-  ns.State.CooldownReady = function(id)
+  local realCastable = ns.Engine.Castable
+  ns.Engine.Castable = function(id)
     return id ~= 184575
   end
   r = ns.Leveling.Lead({ acSpell = 184575, main = { id = 20271 }, queue = { { id = 20271 }, { id = 35395 } } })
   eq(r.main.id, 20271, "Blizzard's pick on cooldown: the ready spell keeps slot 1")
   eq(r.queue[2].id, 184575, "Blizzard's pick waits in slot 2")
-  ns.State.CooldownReady = realReady
+  ns.Engine.Castable = realCastable
   eq(ns.Describe(state):find("leveling", 1, true) ~= nil, true, "Status says so")
   ns.db.levelingMode = "simc"
   LV.Evaluate(state)

@@ -51,7 +51,7 @@ X.FORMS = {
 
 function X.Form(result)
   local ac = result and result.acSpell
-  if ac and X.FORMS[ac] and not ns.Choices.IsHidden(ac) then
+  if ac and X.FORMS[ac] and not ns.Choices.IsHidden(ac) and ns.Engine.Castable(ac) ~= false then
     return { id = ac, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(ac) or nil, source = "assisted",
       why = "form" }
   end
