@@ -1,6 +1,6 @@
 # DMGAssist list: Holy Paladin damage between heals (learned from Method's guide, patch 12.1.5)
 # Written by DMGAssist, not SimulationCraft. Build Holy Power, spend it on Shield of the Righteous when no
-# healing is needed (Word of Glory / Light of Dawn stay the player's call).
+# healing is needed (Word of Glory / Light of Dawn stay the player's call). Consecration fills the gaps.
 actions.precombat=snapshot_stats
 actions=shield_of_the_righteous,if=holy_power>=5
 actions+=/divine_toll
@@ -9,3 +9,4 @@ actions+=/hammer_of_wrath
 actions+=/judgment
 actions+=/shield_of_the_righteous,if=holy_power>=3
 actions+=/crusader_strike
+actions+=/consecration,if=!consecration.up

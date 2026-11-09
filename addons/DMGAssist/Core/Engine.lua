@@ -918,6 +918,50 @@ local function DecideAhead(record, opts, targets, first)
   return r
 end
 
+-- Slots still empty after the look-ahead (a short list with every spell on cooldown, a Holy Paladin between
+-- heals): fill them with the list's spells that come off cooldown soonest, so the player sees what is next.
+-- Only spells waiting on their cooldown, not ones held back by the target, power or an effect still running.
+G.SOON_MAX = 15
+
+function G.Soonest(record, have, count)
+  local out = {}
+  if count <= 0 or type(record) ~= "table" or type(record.simc) ~= "table" then
+    return out
+  end
+  local seen, candidates = {}, {}
+  for _, p in ipairs(have) do
+    if p and p.id then
+      seen[p.id] = true
+    end
+  end
+  for _, list in pairs(record.simc) do
+    for _, e in ipairs(list) do
+      local id = not G.SKIP[e.a] and M.SpellID(e.a) or nil
+      if id and not seen[id] then
+        seen[id] = true
+        if not G.held[id] and not ns.Choices.IsHidden(id) then
+          local castable, why = Castable(id)
+          local left = S.CooldownRemains(id)
+          if castable ~= true and why == nil and type(left) == "number" and left > 0 and left <= G.SOON_MAX then
+            candidates[#candidates + 1] = { id = id, token = e.a, left = left }
+          end
+        end
+      end
+    end
+  end
+  table.sort(candidates, function(a, b)
+    if a.left ~= b.left then
+      return a.left < b.left
+    end
+    return a.id < b.id
+  end)
+  for i = 1, math.min(count, #candidates) do
+    local c = candidates[i]
+    out[i] = { id = c.id, token = c.token, source = "soon", wait = c.left }
+  end
+  return out
+end
+
 local function Queue(record, opts, targets)
   local depth = opts.depth or 3
   -- Slot 1 is what to press when the GCD (or the current cast) ends, with that cast already counted.
@@ -939,6 +983,12 @@ local function Queue(record, opts, targets)
     local nextPick = DecideAhead(record, opts, targets, false).main
     result.queue[slot] = nextPick
     last = nextPick
+  end
+  local have = #result.queue
+  if result.main and have < depth then
+    for _, p in ipairs(G.Soonest(record, result.queue, depth - have)) do
+      result.queue[#result.queue + 1] = p
+    end
   end
   result.casting = castID
   return result

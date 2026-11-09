@@ -651,19 +651,21 @@
   },
   "paladin_holy": {
    "gameMatch": {
-    "matched": 6,
+    "matched": 7,
     "missing": [],
-    "total": 6
+    "total": 7
    },
-   "lines": 7,
+   "lines": 8,
    "mode": 0,
    "read": 7,
-   "readPct": 100,
+   "readPct": 88,
    "simcSource": "simc",
-   "topUnknown": [],
+   "topUnknown": [
+    "consecration.up"
+   ],
    "tracked": 0,
-   "unknown": 0,
-   "usablePct": 100
+   "unknown": 1,
+   "usablePct": 88
   },
   "paladin_protection": {
    "blizzard": {

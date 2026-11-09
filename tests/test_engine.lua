@@ -555,6 +555,28 @@ test("nothing castable now: the slot shows the first spell ready within a few se
   eq(r.main == nil or r.main.token ~= "shred", true, "a long cooldown is not shown")
 end)
 
+test("short list, everything on cooldown: slots 2 and 3 show what comes off cooldown soonest", function()
+  Reset()
+  local ns = Boot()
+  mock.acSpell = 106830 -- the assistant's pick fills slot 1 (Thrash)
+  mock.cooldowns[5221] = { active = true, start = mock.now - 1, duration = 6 } -- Shred back in 5 s
+  mock.cooldowns[1822] = { active = true, start = mock.now - 1, duration = 9 } -- Rake back in 8 s
+  mock.cooldowns[106951] = { active = true, start = mock.now, duration = 120 } -- Berserk: too far off
+  local rec = Record()
+  rec.simc = { default = {
+    { a = "berserk", k = "R" },
+    { a = "rake", k = "R" },
+    { a = "shred", k = "R" },
+  } }
+  rec.blizzard = nil
+  local r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(r.main and r.main.id, 106830, "slot 1: the assistant's pick")
+  eq(r.queue[2] and r.queue[2].token, "shred", "slot 2: back first")
+  eq(r.queue[2].source, "soon")
+  eq(r.queue[3] and r.queue[3].token, "rake", "slot 3: back next")
+  mock.acSpell = nil
+end)
+
 test("hero tree names: SimC's shadopan matches the game's Shado-Pan", function()
   Reset()
   local ns = Boot()

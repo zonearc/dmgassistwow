@@ -6,9 +6,9 @@ ns.RegisterSpecData("midnight", "paladin_holy", {
   community = true,
   credit = "DMGAssist list: Holy Paladin damage between heals (learned from Method's guide, patch 12.1.5)",
   gameMatch = {
-    matched = 6,
+    matched = 7,
     missing = {},
-    total = 6,
+    total = 7,
   },
   heroTrees = {},
   key = "paladin_holy",
@@ -43,6 +43,11 @@ ns.RegisterSpecData("midnight", "paladin_holy", {
       {
         a = "crusader_strike",
         k = "R",
+      },
+      {
+        a = "consecration",
+        c = "!consecration.up",
+        k = "U",
       },
     },
     precombat = {
@@ -111,6 +116,15 @@ ns.RegisterSpecData("midnight", "paladin_holy", {
     [25914] = {
       n = "holy_shock",
     },
+    [26573] = {
+      ap = {
+        { 26573, "self" },
+      },
+      cd = 9,
+      d = 12,
+      gcd = 1.5,
+      n = "consecration",
+    },
     [31850] = {
       ap = {
         { 31850, "self" },
@@ -137,6 +151,9 @@ ns.RegisterSpecData("midnight", "paladin_holy", {
     },
     [66235] = {
       n = "ardent_defender",
+    },
+    [81297] = {
+      n = "consecration",
     },
     [86659] = {
       ap = {
@@ -183,6 +200,9 @@ ns.RegisterSpecData("midnight", "paladin_holy", {
       n = "shield_of_vengeance",
       r = 8,
     },
+    [188370] = {
+      n = "consecration",
+    },
     [197277] = {
       ap = {
         { 197277, "enemy" },
@@ -191,6 +211,13 @@ ns.RegisterSpecData("midnight", "paladin_holy", {
       n = "judgment",
       r = 30,
       st = 20,
+    },
+    [204242] = {
+      ap = {
+        { 204242, "enemy" },
+      },
+      d = 12,
+      n = "consecration",
     },
     [214222] = {
       ap = {
@@ -207,6 +234,10 @@ ns.RegisterSpecData("midnight", "paladin_holy", {
     [228050] = {
       d = 6,
       n = "divine_shield",
+    },
+    [243597] = {
+      d = 12,
+      n = "consecration",
     },
     [272906] = {
       n = "holy_shock",
@@ -229,6 +260,13 @@ ns.RegisterSpecData("midnight", "paladin_holy", {
     [289941] = {
       n = "holy_shock",
       pas = true,
+    },
+    [290497] = {
+      ap = {
+        { 290497, "enemy" },
+      },
+      d = 12,
+      n = "consecration",
     },
     [304971] = {
       cd = 60,
@@ -259,6 +297,10 @@ ns.RegisterSpecData("midnight", "paladin_holy", {
     },
     [327977] = {
       n = "judgment",
+      pas = true,
+    },
+    [327980] = {
+      n = "consecration",
       pas = true,
     },
     [337851] = {
@@ -299,6 +341,10 @@ ns.RegisterSpecData("midnight", "paladin_holy", {
     [383991] = {
       n = "judgment",
     },
+    [387881] = {
+      d = 12,
+      n = "consecration",
+    },
     [393108] = {
       ap = {
         { 393108, "self" },
@@ -335,12 +381,30 @@ ns.RegisterSpecData("midnight", "paladin_holy", {
       n = "judgment",
       r = 30,
     },
+    [413267] = {
+      ap = {
+        { 413267, "enemy" },
+      },
+      d = 12,
+      n = "consecration",
+    },
     [415091] = {
       cd = 1,
       cost = { [9] = 3 },
       gcd = 1.5,
       n = "shield_of_the_righteous",
       r = 5,
+    },
+    [419810] = {
+      d = 12,
+      n = "consecration",
+    },
+    [420378] = {
+      ap = {
+        { 420378, "enemy" },
+      },
+      d = 12,
+      n = "consecration",
     },
     [1241288] = {
       n = "hammer_of_wrath",
@@ -402,6 +466,21 @@ ns.RegisterSpecData("midnight", "paladin_holy", {
   spells = {
     ardent_defender = {
       a = { 1310686, 66235, 31850 },
+    },
+    consecration = {
+      a = {
+        26573,
+        81297,
+        188370,
+        204242,
+        243597,
+        290497,
+        387881,
+        419810,
+        420378,
+        327980,
+        413267,
+      },
     },
     crusader_strike = {
       a = { 35395, 132331, 1279187, 342348 },

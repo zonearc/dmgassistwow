@@ -88,7 +88,8 @@ function LV.Lead(result)
     end
   end
   local queue = {}
-  if ready or #rest == 0 then
+  -- A spell the engine only listed as "off cooldown soon" can't be pressed now either: it never takes slot 1.
+  if ready or #rest == 0 or rest[1].source == "soon" then
     queue[1] = pick
   else
     queue[1] = rest[1]

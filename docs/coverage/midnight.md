@@ -34,7 +34,7 @@ corrected list in `data/apl-overrides/<branch>/<spec>.simc`.
 | monk_brewmaster | 60 | 97% | 52% | 2 | 13/14 | 22 | 100% | - | health.max |
 | monk_mistweaver | 6 | 100% | 67% | 0 | 5/5 | - | - | - | - |
 | monk_windwalker | 128 | 59% | 19% | 52 | 15/16 | 34 | 62% | celestial_conduit, flying_serpent_kick, zenith | combo_strike, pet.xuen_the_white_tiger.active |
-| paladin_holy | 7 | 100% | 100% | 0 | 6/6 | - | - | - | - |
+| paladin_holy | 8 | 88% | 88% | 1 | 7/7 | - | - | - | consecration.up |
 | paladin_protection | 27 | 96% | 48% | 1 | 16/16 | 26 | 92% | avenging_wrath, sentinel | next_armament, holy_bulwark, consecration.up |
 | paladin_retribution | 32 | 100% | 47% | 0 | 14/14 | 37 | 100% | avenging_wrath | - |
 | priest_discipline | 9 | 89% | 78% | 1 | 9/9 | - | - | - | target.health.pct |
