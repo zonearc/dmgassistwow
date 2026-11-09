@@ -1026,8 +1026,8 @@ end
 -- locked to what it showed when the window opened, and a different new pick moves into slot 2 (it is next
 -- anyway). The lock ends when the player presses something (a new GCD starts), when the locked spell stops
 -- being castable, or after G.LOCK_MAX. Interrupts and defensives are applied after this and still take slot 1.
-G.LOCK_WINDOW = 0.5
-G.LOCK_MAX = 1.5
+G.LOCK_WINDOW = 1.0 -- the last second before the press: what you're reaching for stays put
+G.LOCK_MAX = 2.0
 local held
 
 function G.ReadyIn()

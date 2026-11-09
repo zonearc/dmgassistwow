@@ -606,7 +606,7 @@ local function DataCooldown(id)
   -- A charge spell's recharge is its real cooldown: Celestial Alignment is "cd 1, 1 charge, 180 s recharge",
   -- Eclipse "cd 1, 1 charge, 32 s recharge" (the 1 s is only the minimum between uses).
   local live = Live(info)
-  local cd = math.max(info.cd or 0, (live and live.recharge) or info.chcdLive or info.chcd or 0)
+  local cd = math.max(info.cd or 0, (live and live.recharge) or info.chcd or 0)
   if cd <= 0 then
     return nil
   end
@@ -637,7 +637,8 @@ S.cdSeen, S.rcSeen = {}, {}
 -- Samples are kept at no haste for spells whose cooldown scales with it (seen x haste), and scaled back by the
 -- haste we have now: a Judgment learned under Bloodlust is longer again once Bloodlust ends.
 local function Hasted(info)
-  return info and info.hc and HasteFactor() or 1
+  local live = info and info.n and S.liveCharges and S.liveCharges[info.n]
+  return info and (info.hc or (live and live.hasted)) and HasteFactor() or 1
 end
 
 local function Seen(tbl, key, id)
@@ -821,6 +822,31 @@ end
 -- the character has a charge more than we know (talents). Twice in a row, half a second apart, before casting it,
 -- and we add one. Logged, so a report shows it.
 
+-- Seconds until a charge is available (0 with one ready), or nil for a spell without charges.
+function S.ChargeRemains(id)
+  local c = S.Charges(id)
+  if c == nil then
+    return nil
+  end
+  if c > 0 then
+    return 0
+  end
+  local shift = V and V.cdr[GroupOf(id)] or 0
+  local pending = PendingRecharges(GroupOf(id), Now() + shift)
+  if pending[1] then
+    return math.max(0, pending[1] - Now() - shift)
+  end
+  return nil -- the game says none left but we saw no cast: unknown, fall back to the cooldown API
+end
+
+-- Seconds one charge takes to come back: this session's casts, the game's own number (read out of combat), our data.
+local function RechargeLength(group, info)
+  local live = Live(info)
+  return Seen(S.rcSeen, group, group)
+    or (live and live.recharge and live.recharge / ((live.hasted and HasteFactor()) or 1))
+    or info.chcd / Hasted(info)
+end
+
 -- Blizzard's assistant names a spell our clock says is still well off (more than S.ASSISTED_LEAD): our clock is
 -- wrong (a cooldown effect we have no rule for: Butchery / Wildfire Bomb, Survival), the game knows; it's ready
 -- now: one charge back, or the cooldown done. Within S.ASSISTED_LEAD it may just be naming the next spell a moment
@@ -842,6 +868,19 @@ function S.ObserveAssistedCharge(id)
     return
   end
   local now = GetTime()
+  -- It came back at least that much sooner than we thought: learn the recharge (an upper bound, so never too short).
+  if info then
+    local group = GroupOf(id)
+    local rc = RechargeLength(group, info)
+    if rc - left > 1.5 then
+      SetSeen(S.rcSeen, group, group, rc - left)
+    end
+  else
+    local length = CooldownLength(id)
+    if length and length - left > 1.5 and not S.learned.cd[id] then
+      SetSeen(S.cdSeen, id, id, length - left)
+    end
+  end
   if info then
     local list = S.chargeUse[GroupOf(id)]
     if list and list[1] then
@@ -855,29 +894,6 @@ function S.ObserveAssistedCharge(id)
     S.lastCast[id] = now - CooldownLength(id)
   end
   U.Log("assisted_ready", { spell = (M.Info(id) or {}).n or M.TokenForID(id), ours = string.format("%.1f", left) })
-end
-
--- Seconds until a charge is available (0 with one ready), or nil for a spell without charges.
-function S.ChargeRemains(id)
-  local c = S.Charges(id)
-  if c == nil then
-    return nil
-  end
-  if c > 0 then
-    return 0
-  end
-  local shift = V and V.cdr[GroupOf(id)] or 0
-  local pending = PendingRecharges(GroupOf(id), Now() + shift)
-  if pending[1] then
-    return math.max(0, pending[1] - Now() - shift)
-  end
-  return nil -- the game says none left but we saw no cast: unknown, fall back to the cooldown API
-end
-
--- Seconds one charge takes to come back: this session's casts, the game's own number (read out of combat), our data.
-local function RechargeLength(group, info)
-  local live = Live(info)
-  return Seen(S.rcSeen, group, group) or (live and live.recharge) or info.chcdLive or info.chcd / Hasted(info)
 end
 
 S.chargeSpentAt = {} -- group -> time of the last spend
@@ -1544,6 +1560,14 @@ local function AuraState(unit, token)
     end
   end
   local read = readAuras[unit]
+  -- Auras the game leaves readable in combat: their answer wins (the general scan can come back partial, and then
+  -- Tip of the Spear went back to unknown after one good read, Survival 2026-11-09)
+  if unit == "player" and not (V and #V.prev > 0) then
+    local up, remains, stacks = DirectAuraState(token, now)
+    if up ~= nil then
+      return up, math.max(0, remains), stacks
+    end
+  end
   -- Inferred facts (assistant oracle, glows) about the present, when the game won't show the aura itself.
   if not read and not (V and #V.prev > 0) then
     local up, remains = ns.Clues.AuraFact(unit, token)
@@ -1557,12 +1581,6 @@ local function AuraState(unit, token)
         return true, read[t].expires - now, read[t].stacks
       end
       return false, 0, 0
-    end
-  end
-  if unit == "player" and not read and not (V and #V.prev > 0) then
-    local up, remains, stacks = DirectAuraState(token, now)
-    if up ~= nil then
-      return up, math.max(0, remains), stacks
     end
   end
   if unit == "player" and not read then
@@ -2371,9 +2389,17 @@ function S.Calibrate()
       local maxC = type(charges) == "table" and U.Read(charges.maxCharges)
       local rc = type(charges) == "table" and U.Read(charges.cooldownDuration)
       if type(maxC) == "number" and maxC >= 1 then
+        -- Talents included. Scales with haste when our data says so, or when the game's number is our base divided
+        -- by the haste right now (Kill Command: 5 s / 1.14 = 4.4 s; read at 27% haste it was too short at 10%).
+        -- Then kept at no haste and scaled back by the haste of the moment.
+        local haste = HasteFactor()
+        local recharge = (type(rc) == "number" and rc > 1.5) and rc or nil
+        local hasted = recharge and (info.hc or (info.chcd and haste > 1.02
+          and math.abs(info.chcd / haste - recharge) < 0.15)) or false
         S.liveCharges[info.n or token] = {
           max = maxC,
-          recharge = (type(rc) == "number" and rc > 1.5) and rc or nil, -- talents and haste included
+          recharge = recharge and (hasted and recharge * haste or recharge) or nil,
+          hasted = hasted or nil,
         }
       end
     end
@@ -2381,7 +2407,8 @@ function S.Calibrate()
   -- What the game said, in the report (once per change): "holy_shock=2/5.0 judgment=1/6.0"
   local parts = {}
   for token, l in pairs(S.liveCharges) do
-    parts[#parts + 1] = string.format("%s=%s/%s", token, tostring(l.max), l.recharge and string.format("%.1f", l.recharge) or "-")
+    parts[#parts + 1] = string.format("%s=%s/%s%s", token, tostring(l.max),
+      l.recharge and string.format("%.1f", l.recharge) or "-", l.hasted and "h" or "")
   end
   table.sort(parts)
   local text = table.concat(parts, " ")
