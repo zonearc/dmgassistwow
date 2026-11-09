@@ -426,15 +426,100 @@ end
 local lastHaste = 0
 S.hasteSource = "default"
 
+---------------------------------------------------------------------------
+-- Haste boosts from the size of the jump: Bloodlust and its twins (+30%, 40 s), Power Infusion (+20%, 15 s).
+-- The game tells us *when* haste changed (UNIT_SPELL_HASTE fires even when the value is hidden); the value itself,
+-- or the next global cooldowns, tell us *how much*. Who cast it doesn't matter: your own Bloodlust and a shaman's
+-- go through the same code. Our own tracked buffs are small next to these, and a jump has to hold for two global
+-- cooldowns (or be read straight from the game) before it counts.
+---------------------------------------------------------------------------
+S.BOOSTS = {
+  { kind = "lust", low = 1.25, high = 1.36, mult = 1.3, duration = 40 },
+  { kind = "power_infusion", low = 1.16, high = 1.245, mult = 1.2, duration = 15 },
+}
+S.boost = {} -- kind -> { from, untilT, mult }
+S.BOOST_TOKENS = { bloodlust = "lust", heroism = "lust", time_warp = "lust", primal_rage = "lust",
+  fury_of_the_aspects = "lust", power_infusion = "power_infusion" }
+local hasteChange -- { at, before, kind, seen } while a change waits to be measured
+
+local function BoostOf(ratio)
+  for _, b in ipairs(S.BOOSTS) do
+    if ratio >= b.low and ratio <= b.high then
+      return b
+    end
+  end
+  return nil
+end
+
+-- Called with the new haste multiplier (1.3 = 30% haste), read or measured.
+local function ClassifyHaste(factor, read)
+  local now = GetTime()
+  -- a drop of the boost's size while it runs: it ended early (dispelled, cancelled)
+  if hasteChange and hasteChange.before then
+    local drop = hasteChange.before / factor
+    for kind, b in pairs(S.boost) do
+      if math.abs(drop - b.mult) < 0.06 then
+        S.boost[kind] = nil
+        U.Log("haste_boost_end", { kind = kind, why = "dropped" })
+        hasteChange = nil
+        return
+      end
+    end
+  end
+  if not (hasteChange and hasteChange.before and now - hasteChange.at < 8) then
+    return
+  end
+  local b = BoostOf(factor / hasteChange.before)
+  if not b then
+    hasteChange.kind, hasteChange.seen = nil, 0
+    return
+  end
+  if hasteChange.kind == b.kind then
+    hasteChange.seen = hasteChange.seen + 1
+  else
+    hasteChange.kind, hasteChange.seen = b.kind, 1
+  end
+  if (read or hasteChange.seen >= 2) and not S.boost[b.kind] then
+    S.boost[b.kind] = { from = hasteChange.at, untilT = hasteChange.at + b.duration, mult = b.mult }
+    U.Log("haste_boost", { kind = b.kind, ratio = string.format("%.2f", factor / hasteChange.before),
+      how = read and "read" or "measured" })
+    hasteChange = nil
+  end
+end
+
 -- UNIT_SPELL_HASTE: haste changed (Bloodlust, a proc). If the value is readable we use it directly;
 -- otherwise the next measured GCD updates it.
 function S.OnHasteChanged()
+  local now = GetTime()
+  if not (hasteChange and now - hasteChange.at < 1) then
+    hasteChange = { at = now, before = 1 + lastHaste / 100, seen = 0 }
+  end
   local h = U.Get(UnitSpellHaste, "player")
   if type(h) == "number" then
     lastHaste, S.hasteSource = h, "read"
+    ClassifyHaste(1 + h / 100, true)
   else
     S.hasteStale = true
   end
+end
+
+-- Remaining seconds of a detected boost (0 when none), and the boost ending: haste goes back down by its size
+-- right away, instead of one global cooldown late.
+function S.BoostRemains(kind)
+  local b = S.boost[kind]
+  if not b then
+    return 0
+  end
+  local left = b.untilT - GetTime()
+  if left <= 0 then
+    S.boost[kind] = nil
+    if type(U.Get(UnitSpellHaste, "player")) ~= "number" then
+      lastHaste = ((1 + lastHaste / 100) / b.mult - 1) * 100
+    end
+    U.Log("haste_boost_end", { kind = kind, why = "expired" })
+    return 0
+  end
+  return left
 end
 
 -- A measured 1.5s-base GCD (from the GCD's on/off edges, which are never secret) gives haste back.
@@ -450,15 +535,20 @@ function S.OnMeasuredGCD(seconds, base)
     return -- at the 0.75s floor haste can't be read off the GCD
   end
   lastHaste, S.hasteSource, S.hasteStale = h, "measured", false
+  ClassifyHaste(1 + h / 100, false)
 end
 
 local function HasteFactor()
+  for kind in pairs(S.boost) do
+    S.BoostRemains(kind) -- a boost that ran out takes its haste with it
+  end
   local h = U.Get(UnitSpellHaste, "player")
   if type(h) == "number" then
     lastHaste = h
   end
   return 1 + lastHaste / 100
 end
+S.HasteFactor = HasteFactor
 
 local function DataCooldown(id)
   local info = M.Info(id)
@@ -1742,7 +1832,21 @@ function S.Resolve(name, ctx)
   elseif head == "cooldown" then
     return CooldownTerm(p[2] or "", p[3] or "ready")
   elseif head == "buff" then
-    return AuraTerm("player", p[2] or "", p[3])
+    local v = AuraTerm("player", p[2] or "", p[3])
+    local boost = v == UNKNOWN and S.BOOST_TOKENS[p[2] or ""]
+    if boost then
+      -- the buff is hidden in combat; the haste jump told us (see S.BOOSTS)
+      local left = S.BoostRemains(boost)
+      local f = p[3]
+      if f == "remains" then
+        return left
+      elseif f == "down" then
+        return left > 0 and 0 or 1
+      elseif f == "up" or f == "react" or f == nil then
+        return left > 0 and 1 or 0
+      end
+    end
+    return v
   elseif head == "debuff" or head == "dot" then
     return AuraTerm("target", p[2] or "", p[3])
   elseif head == "active_dot" then

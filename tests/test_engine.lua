@@ -1268,6 +1268,31 @@ test("real cooldowns: the game's own recharge on load, and casts sooner than our
   mock.inCombat, mock.restricted = false, false
 end)
 
+test("Bloodlust and Power Infusion from the size of the haste jump, whoever cast them", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  Restrict() -- haste and buffs hidden
+  S.OnHasteChanged() -- the game says haste changed, not by how much
+  S.OnMeasuredGCD(1.5 / 1.3, 1.5)
+  eq(S.boost.lust, nil, "one global cooldown is not enough")
+  S.OnMeasuredGCD(1.5 / 1.3, 1.5)
+  eq(S.boost.lust ~= nil, true, "+30% held for two global cooldowns: Bloodlust")
+  eq(S.Resolve("buff.bloodlust.up", {}), 1)
+  eq(S.Resolve("buff.heroism.up", {}), 1, "its twins too")
+  eq(S.Resolve("buff.bloodlust.remains", {}) > 39, true)
+  mock.Advance(41)
+  eq(S.Resolve("buff.bloodlust.up", {}), 0, "40 s later it's over")
+  eq(math.abs(S.HasteFactor() - 1) < 0.02, true, "and its haste goes with it")
+  -- a small proc is not Bloodlust
+  S.OnHasteChanged()
+  S.OnMeasuredGCD(1.5 / 1.06, 1.5)
+  S.OnMeasuredGCD(1.5 / 1.06, 1.5)
+  eq(S.boost.lust, nil)
+  eq(S.boost.power_infusion, nil)
+  mock.restricted, mock.inCombat = false, false
+end)
+
 test("every spec ships SimC spell data (ids, cooldowns, durations)", function()
   for _, client in ipairs({ { "standard", 1, "midnight" }, { "camelot", 18, "forever" } }) do
     Reset()
