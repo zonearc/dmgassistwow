@@ -35,8 +35,9 @@ allows, never presses anything for you, and tells you honestly when it is unsure
   when SimC's list says to use it). Switch off any trinket you'd rather press yourself; the choice follows the
   trinket through gear and spec swaps.
 - **Your choice of spells.** Settings > DMGAssist > Spells & trinkets lists every spell your spec can be shown
-  and every equipped on-use trinket. Untick one and it is never shown; the next spell takes its place. Kept per
-  spec (trinkets per item), so updates and gear swaps keep your choices.
+  and every equipped on-use trinket. Untick one and it is never shown; the next spell takes its place. Tick
+  "First when ready" and that spell goes to slot 1 whenever it can be cast. Kept per spec (trinkets per item),
+  so updates and gear swaps keep your choices.
 - **Missing keybinds check.** Lists every spell and trinket it can recommend that has no key binding, with
   icons (Settings > DMGAssist > Missing keybinds, or `/dmga unbound`), so you find out before the pull.
 - **Plays well with your setup.** DBM, BigWigs and LittleWigs timers (or Blizzard's encounter timeline) for adds,

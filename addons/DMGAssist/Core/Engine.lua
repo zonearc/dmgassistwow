@@ -709,7 +709,20 @@ local function Decide(record, opts, targets, first)
   end
 
   local pick
-  if type(record.simc) == "table" then
+  -- The player's "first when ready" spells come before the list whenever they can be cast.
+  for _, fid in ipairs(ns.Choices.FirstSpells()) do
+    if not G.held[fid] then
+      local castable = Castable(fid)
+      if castable == true or (castable == UNKNOWN and S.CooldownReady(fid) == true) then
+        pick = { id = fid, token = M.TokenForID(fid), source = "first" }
+        if run.trace then
+          run.trace[#run.trace + 1] = "first:" .. tostring(pick.token) .. " your choice"
+        end
+        break
+      end
+    end
+  end
+  if not pick and type(record.simc) == "table" then
     pick = Walk(record.simc, "default", false, 0, run, false)
     if not pick and run.heroFallback and record.simc[run.heroFallback] then
       pick = Walk(record.simc, run.heroFallback, false, 1, run, false)

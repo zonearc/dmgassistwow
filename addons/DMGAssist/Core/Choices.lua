@@ -22,17 +22,51 @@ local function Base(id)
   return (M and M.baseOf and M.baseOf[id]) or id
 end
 
-local function Store(create)
+local function Store(create, field)
+  field = field or "hidden"
   local db = ns.db
   local key = C.SpecKey()
   if not (db and key) then
     return nil
   end
   if create then
-    db.hidden = type(db.hidden) == "table" and db.hidden or {}
-    db.hidden[key] = type(db.hidden[key]) == "table" and db.hidden[key] or {}
+    db[field] = type(db[field]) == "table" and db[field] or {}
+    db[field][key] = type(db[field][key]) == "table" and db[field][key] or {}
   end
-  return type(db.hidden) == "table" and db.hidden[key] or nil
+  return type(db[field]) == "table" and db[field][key] or nil
+end
+
+-- "First when ready": shown in slot 1 whenever it can be cast, ahead of the priority list (interrupts, defensives
+-- and gap closers still come first). Per spec, by spell, like hiding.
+function C.IsFirst(id)
+  local t = id and Store(false, "first")
+  return t ~= nil and (t[id] == true or t[Base(id)] == true)
+end
+
+function C.SetFirst(id, first)
+  local t = Store(true, "first")
+  if not (t and id) then
+    return
+  end
+  local base = Base(id)
+  t[base] = first and true or nil
+  if base ~= id then
+    t[id] = nil
+  end
+end
+
+-- The spells marked "first" that the player knows, in a stable order (by spell ID).
+function C.FirstSpells()
+  local t = Store(false, "first")
+  local out = {}
+  for id, on in pairs(t or {}) do
+    if on == true and not C.IsHidden(id) then
+      local b = ns.SpellMap.book and ns.SpellMap.book[id]
+      out[#out + 1] = (b and b.id) or id
+    end
+  end
+  table.sort(out)
+  return out
 end
 
 function C.IsHidden(id)

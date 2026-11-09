@@ -520,14 +520,34 @@ function O.RegisterSpellChoices(parent)
       row.icon:SetPoint("LEFT", row, "RIGHT", 4, 0)
       row.label = row:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
       row.label:SetPoint("LEFT", row.icon, "RIGHT", 8, 0)
-      row.label:SetWidth(440)
+      row.label:SetWidth(300)
       row.label:SetJustifyH("LEFT")
+      -- second checkbox: "first when ready" (spells only)
+      row.first = CreateFrame("CheckButton", nil, row, "UICheckButtonTemplate")
+      row.first:SetSize(24, 24)
+      row.first:SetPoint("LEFT", row, "LEFT", 360, 0)
+      row.firstText = row.first:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
+      row.firstText:SetPoint("LEFT", row.first, "RIGHT", 2, 0)
+      row.firstText:SetText(L["First when ready"])
+      row.first:SetScript("OnClick", function(self)
+        local parentRow = self:GetParent()
+        local on = self:GetChecked() and true or false
+        ns.Choices.SetFirst(parentRow.spell, on)
+        if on and not parentRow:GetChecked() then
+          parentRow:SetChecked(true) -- first implies shown
+          ns.Choices.SetHidden(parentRow.spell, false)
+        end
+      end)
       row:SetScript("OnClick", function(self)
         local on = self:GetChecked() and true or false
         if self.item then
           ns.Trinkets.SetOff(self.item, not on)
         else
           ns.Choices.SetHidden(self.spell, not on)
+          if not on then
+            ns.Choices.SetFirst(self.spell, false) -- hidden can't be first
+            self.first:SetChecked(false)
+          end
         end
       end)
       rows[i] = row
@@ -547,7 +567,8 @@ function O.RegisterSpellChoices(parent)
     local spells = {}
     for _, id in ipairs(ns.Choices.Spells()) do
       spells[#spells + 1] = { spell = id, name = ns.Choices.Name(id),
-        texture = U.Get(C_Spell and C_Spell.GetSpellTexture, id), on = not ns.Choices.IsHidden(id) }
+        texture = U.Get(C_Spell and C_Spell.GetSpellTexture, id), on = not ns.Choices.IsHidden(id),
+        first = ns.Choices.IsFirst(id) }
     end
     table.sort(spells, function(a, b)
       return a.name < b.name
@@ -556,14 +577,18 @@ function O.RegisterSpellChoices(parent)
       entries[#entries + 1] = e
     end
     local specName = state and state.key and state.key:gsub("_", " ") or "?"
-    intro:SetText(string.format(L["For %s. Unchecked: never shown (the next spell takes its place). Spells are "
-      .. "remembered per spec and trinkets per item, so updates and gear swaps keep your choices."], specName)
+    intro:SetText(string.format(L["For %s. Unchecked: never shown (the next spell takes its place). First when "
+      .. "ready: in slot 1 whenever it can be cast (only interrupts, defensives and gap closers come before it). "
+      .. "Spells are remembered per spec and trinkets per item, so updates and gear swaps keep your choices."],
+      specName)
       .. (ns.db and ns.db.trinkets == false and ("\n" .. L["On-use trinkets are switched off (Combat > Trinkets)."])
         or ""))
     for i, e in ipairs(entries) do
       local row = Row(i)
       row.item, row.spell = e.item, e.spell
       row:SetChecked(e.on)
+      row.first:SetShown(e.spell ~= nil)
+      row.first:SetChecked(e.first == true)
       row.icon:SetTexture(e.texture or 134400)
       row.label:SetText(e.note and string.format("%s |cff999999(%s)|r", e.name, e.note) or e.name)
       row:Show()

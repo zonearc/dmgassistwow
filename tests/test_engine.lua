@@ -584,6 +584,19 @@ test("spells you switch off are never shown; the next one takes their place; kep
   eq(type(ns.db.hidden[ns.Specs.current.key]), "table")
   C.SetHidden(1822, false)
   eq(C.IsHidden(1822), false)
+  -- "first when ready": ahead of the list whenever castable, not repeated while on cooldown
+  C.SetFirst(5221, true)
+  r = ns.Engine.Recommend(rec, {})
+  eq(r.main.token, "shred", "Shred marked first: slot 1 although Rake comes first in the list")
+  eq(r.main.source, "first")
+  mock.cooldowns[5221] = { active = true, start = mock.now, duration = 30 }
+  r = ns.Engine.Recommend(rec, {})
+  eq(r.main.token, "rake", "on cooldown: the list again")
+  mock.cooldowns[5221] = nil
+  C.SetHidden(5221, true)
+  eq(#C.FirstSpells(), 0, "hidden beats first")
+  C.SetHidden(5221, false)
+  C.SetFirst(5221, false)
 end)
 
 test("spells on cooldown or unusable are skipped", function()
