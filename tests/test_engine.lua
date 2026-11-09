@@ -1413,10 +1413,12 @@ test("Blizzard naming a spell our clock says is well off: our clock is wrong, it
   mock.Fire("PLAYER_REGEN_DISABLED")
   mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
   mock.Advance(14)
+  S.acNamed = nil
   S.ObserveAssistedCharge(5217)
   eq(S.Charges(5217), 0, "2 s left: Blizzard may name it a moment early, our timing stands")
   mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
   mock.Advance(3)
+  S.acNamed = nil
   S.ObserveAssistedCharge(5217)
   eq(S.Charges(5217), 1, "13 s left by our clock: ours is wrong, ready now")
   mock.inCombat, mock.restricted = false, false
@@ -1478,6 +1480,7 @@ test("timing learning: steady errors correct our clock, scattered ones leave the
   G.acNow = nil
   -- Blizzard agreeing with our clock 4 times un-flags it
   for _ = 1, 4 do
+    S.acNamed = nil -- Blizzard named something else in between
     S.ObserveAssistedCharge(5217) -- never cast: ready by our clock too
   end
   eq(S.ClockUnreliable(5217), false, "agreed 4 times: ours again")
@@ -1556,6 +1559,55 @@ test("timing learning: pressing until it goes through measures our clock exactly
   mock.Advance(3)
   mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
   eq(S.learned.timing.tigers_fury and S.learned.timing.tigers_fury.how, nil)
+  mock.inCombat, mock.restricted = false, false
+end)
+
+test("refused presses: slot 1 moves on at once; Blizzard naming it releases it; one agreement per naming", function()
+  Reset()
+  local ns = Boot()
+  local S, G = ns.State, ns.Engine
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", cd = 30, gcd = 1.5 }
+  Feral(ns, rec)
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  G.acNow = nil
+  eq(G.Castable(5217) ~= false, true, "ready by our clock (never cast)")
+  -- you press it, the game refuses (no GCD running): not ready, slot 1 moves on
+  mock.Fire("UNIT_SPELLCAST_FAILED", "player", "guid", 5217)
+  eq(G.Castable(5217), false, "refused: held back")
+  mock.Advance(0.2)
+  mock.Fire("UNIT_SPELLCAST_FAILED", "player", "guid", 5217)
+  mock.Advance(0.2)
+  mock.Fire("UNIT_SPELLCAST_FAILED", "player", "guid", 5217)
+  mock.Advance(1.5)
+  eq(G.Castable(5217), false, "three refusals in a row: held 2 s")
+  G.acNow = 5217
+  eq(G.Castable(5217), true, "Blizzard names it: ready, hold or not")
+  S.ObserveAssistedCharge(5217)
+  G.acNow = nil
+  eq(G.Castable(5217) ~= false, true, "the hold is over once Blizzard named it")
+  -- Blizzard naming it for many frames counts as one naming
+  S.learned.timing = { tigers_fury = { n = 3, mean = 0, spread = 2, agree = 0, unreliable = true } }
+  S.acNamed = nil
+  for _ = 1, 10 do
+    S.ObserveAssistedCharge(5217)
+  end
+  eq(S.learned.timing.tigers_fury.agree, 1, "one naming, one agreement")
+  eq(S.ClockUnreliable(5217), true, "still Blizzard's")
+  mock.inCombat, mock.restricted = false, false
+end)
+
+test("your own Primal Rage cast starts the haste boost even when haste is hidden", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  local before = S.HasteFactor()
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 272678)
+  eq(math.floor(S.BoostRemains("lust") + 0.5), 40)
+  eq(math.floor(S.HasteFactor() / before * 100 + 0.5), 130, "30% more haste right away")
   mock.inCombat, mock.restricted = false, false
 end)
 

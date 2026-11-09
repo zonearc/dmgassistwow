@@ -361,9 +361,14 @@ local function Castable(id)
   -- for what to press now, it's ready exactly when Blizzard's assistant names it.
   do
     local v = S.Lookahead()
+    local ac = G.acNow
+    local named = ac == id or (ac and M.baseOf and M.baseOf[ac] == id)
+    -- The game just refused it (you pressed it and it wasn't ready): not ready, until Blizzard names it.
+    if (not v or #v.prev == 0) and not named and S.RefusedHold and S.RefusedHold(id) then
+      return false, "refused"
+    end
     if (not v or #v.prev == 0) and S.BlizzardLeads(id) then
-      local ac = G.acNow
-      return (ac == id or (ac and M.baseOf and M.baseOf[ac] == id)) and true or false
+      return named and true or false
     end
   end
   local usable, noPower = U.Call(C_Spell and C_Spell.IsSpellUsable, id)
@@ -835,6 +840,9 @@ local function Decide(record, opts, targets, first)
   end
 
   -- What the assistant's pick tells us about hidden state (facts feed the resolver for this decision on).
+  if not run.acSpell then
+    S.acNamed = nil -- Blizzard names nothing: its next naming is a new one
+  end
   if run.acSpell then
     ns.Clues.ObserveExecute(run.acSpell)
     S.ObserveAssistedCharge(run.acSpell)

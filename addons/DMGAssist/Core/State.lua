@@ -526,6 +526,28 @@ local function LustFromDebuff()
   return 0
 end
 
+-- Your own Bloodlust / Heroism / Time Warp / Primal Rage / Fury of the Aspects cast: the boost starts now, whatever
+-- the game lets us read (haste was hidden for a whole fight when Primal Rage went unseen, 2026-11-09).
+S.BOOST_CASTS = { [2825] = "lust", [32182] = "lust", [80353] = "lust", [264667] = "lust", [272678] = "lust",
+  [390386] = "lust" }
+function S.OnBoostCast(id)
+  local kind = S.BOOST_CASTS[id]
+  if not kind or S.boost[kind] or S.BoostRemains(kind) > 0 then
+    return
+  end
+  for _, b in ipairs(S.BOOSTS) do
+    if b.kind == kind then
+      local now = GetTime()
+      S.boost[kind] = { from = now, untilT = now + b.duration, mult = b.mult }
+      if type(U.Get(UnitSpellHaste, "player")) ~= "number" then
+        lastHaste = ((1 + lastHaste / 100) * b.mult - 1) * 100
+      end
+      hasteChange = nil
+      U.Log("haste_boost", { kind = kind, how = "cast", id = id })
+    end
+  end
+end
+
 function S.BoostRemains(kind)
   if kind == "lust" and not S.boost.lust then
     local left = LustFromDebuff()
@@ -992,6 +1014,14 @@ end
 
 -- Blizzard's assistant names this spell right now (called once per decision).
 function S.ObserveAssistedCharge(id)
+  -- Once each time Blizzard starts naming it, not every frame it keeps naming it: right after a correction our
+  -- clock agrees for as long as Blizzard keeps naming the spell, which isn't news (1.6.0.124 counted every frame
+  -- and un-flagged Wildfire Bomb within a second of flagging it).
+  if S.acNamed == id then
+    return
+  end
+  S.acNamed = id
+  S.notBefore[id] = nil -- Blizzard says it's ready: any refusal hold is over
   local info = ChargeInfo(id)
   local left = OurLeft(id, info)
   if type(left) ~= "number" then
@@ -1004,7 +1034,8 @@ function S.ObserveAssistedCharge(id)
       t = t or select(1, TimingRecord(id, true))
       t.agree = (t.agree or 0) + 1
       if t.agree >= S.AGREE_TO_TRUST then
-        t.unreliable, t.n, t.mean, t.spread, t.agree = false, 0, 0, 0, 0
+        -- keep what was learned; the scatter starts over
+        t.unreliable, t.spread, t.agree = false, 0, 0
         if S.learned.unreliable and name then
           S.learned.unreliable[name] = nil
         end
@@ -1052,15 +1083,34 @@ end
 -- measured exactly, within seconds. Unless the global cooldown, not the spell, was what held it.
 S.PRESS_GAP = 0.6     -- presses closer together than this count as pressing until it goes through
 S.pressed = {}        -- spell -> { first, last, n } refused presses
+function S.RefusedHold(id)
+  local t = S.notBefore[id] or (M.baseOf and M.baseOf[id] and S.notBefore[M.baseOf[id]])
+  return t ~= nil and GetTime() < t
+end
+S.notBefore = {}     -- spell -> not ready before this time: the game refused it while our clock said ready
+S.REFUSE_HOLD = { 0.5, 1, 2, 3 } -- seconds held, by refused presses in a row
 function S.OnCastFailed(id)
   id = U.Read(id)
   if type(id) ~= "number" or not S.combatStart then
     return
   end
   local now = GetTime()
+  -- Refused outside the global cooldown while our clock calls it ready: it isn't, right now. Hold it back so slot 1
+  -- moves on to what you can press, longer with each refusal, until Blizzard names it or the hold runs out.
+  if (S.GCDRemains() or 0) <= 0.05 then
+    local left = OurLeft(id, ChargeInfo(id))
+    if left == nil or left <= 0.3 then
+      local p0 = S.pressed[id]
+      local k = (p0 and now - p0.last <= 2) and math.min(#S.REFUSE_HOLD, (p0.refusedInRow or 0) + 1) or 1
+      S.notBefore[id] = now + S.REFUSE_HOLD[k]
+      if p0 and now - p0.last <= 2 then
+        p0.refusedInRow = k
+      end
+    end
+  end
   local p = S.pressed[id]
   if not p or now - p.last > 2 then
-    p = { first = now, last = now, n = 0 }
+    p = { first = now, last = now, n = 0, refusedInRow = S.notBefore[id] and S.notBefore[id] > now and 1 or 0 }
     S.pressed[id] = p
   end
   p.last, p.n = now, p.n + 1
@@ -1071,6 +1121,7 @@ end
 -- true when this cast came out of pressing it until it went through (measured here; skip the "waited" guess)
 local function CheckPressed(id, r)
   local base = M.baseOf and M.baseOf[id] or id
+  S.notBefore[id], S.notBefore[base] = nil, nil
   local p = S.pressed[id] or S.pressed[base]
   S.pressed[id], S.pressed[base] = nil, nil
   local now = GetTime()
@@ -1469,6 +1520,7 @@ function S.OnSpellcastSucceeded(spellID)
     return
   end
   S.castsSeen = S.castsSeen + 1
+  S.OnBoostCast(id)
   if not (S.myCast and S.myCast.id == id) then
     S.gcdFrom = { id = id, t = GetTime() } -- an instant: the GCD starts now
   end
@@ -2711,7 +2763,7 @@ function S.OnCombat(inCombat)
   if inCombat then
     S.combatStart = GetTime()
     S.fightContext = S.FightContext()
-    S.timingLogged, S.pressLogged, S.pressed = 0, 0, {}
+    S.timingLogged, S.pressLogged, S.pressed, S.notBefore, S.acNamed = 0, 0, {}, {}, nil
     if ns.Display then
       ns.Display.shadesLogged = 0
     end
