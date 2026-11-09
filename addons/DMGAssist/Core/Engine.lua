@@ -913,7 +913,14 @@ local function DecideAhead(record, opts, targets, first)
     local later = Decide(record, opts, targets, first)
     if later.main and later.main.id then
       later.main.wait = waited
-      later.main.readyAt = GetTime() + v.dt -- the display keeps slot 1 marked "not yet" until then
+      -- When it comes off cooldown, from its own cooldown clock (the half-second steps above only find it; using
+      -- them as the time made slot 1 jump between "not yet" and "now" and flash over and over, 2026-11-09).
+      v.dt = base
+      local left = S.CooldownRemains(later.main.id)
+      if type(left) ~= "number" then
+        left = waited
+      end
+      later.main.readyAt = GetTime() + base + math.min(left, waited)
       return later
     end
   end

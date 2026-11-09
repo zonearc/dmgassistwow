@@ -1031,8 +1031,17 @@ local FLASH = 0.35
 
 function D.RenderTiming(f, cfg)
   local castLeft = select(2, ns.State.CurrentCast()) or 0
-  -- A slot 1 shown a moment early (its cooldown still running, see Engine DecideAhead) counts as not ready too.
-  local wait = math.max(ns.State.GCDRemains(), castLeft, (f.readyAt or 0) - GetTime())
+  -- A slot 1 shown a moment early (its cooldown still running, see Engine DecideAhead) counts as not ready too:
+  -- timed by its own cooldown clock, every frame, so the wipe drains smoothly.
+  local cdLeft = 0
+  if f.readyAt then
+    local left = f.readyId and ns.State.CooldownRemains(f.readyId)
+    if type(left) ~= "number" then
+      left = f.readyAt - GetTime()
+    end
+    cdLeft = math.min(left, f.readyAt - GetTime() + 0.5)
+  end
+  local wait = math.max(ns.State.GCDRemains(), castLeft, cdLeft)
   -- Length of this wait period, for the wipe and the bar: a jump up means a new GCD or cast started.
   if not f.waitTotal or wait > (f.lastWait or 0) + 0.05 then
     f.waitTotal = math.max(wait, 0.01)
@@ -1042,7 +1051,11 @@ function D.RenderTiming(f, cfg)
   local ready = wait <= lead
   local now = GetTime()
   if ready and not f.pressNow then
-    f.flashAt = now -- the moment it became ready: flash
+    -- The moment it became ready: flash. Once per spell and moment, so a wait that flickers never strobes.
+    local id = f.readyId or f.shownId
+    if not (f.flashAt and now - f.flashAt < 1 and f.flashId == id) then
+      f.flashAt, f.flashId = now, id
+    end
   end
   f.pressNow = ready
   local frac = ready and 0 or math.min(1, wait / f.waitTotal)
@@ -1116,6 +1129,8 @@ function D.Update(result, visible)
   RenderStacks(f, cfg)
   f.timingCfg = cfg
   f.readyAt = result.main.readyAt
+  f.readyId = result.main.readyAt and result.main.id or nil
+  f.shownId = result.main.id
   D.RenderTiming(f, cfg)
   if cfg.header then
     local state = ns.Specs and ns.Specs.current
