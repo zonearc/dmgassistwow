@@ -205,15 +205,55 @@ G.WHEN_HURT = {
   shield_wall = true, last_stand = true, icebound_fortitude = true, vampiric_blood = true, fiery_brand = true,
   word_of_glory = "hurt", expel_harm = "hurt", healing_elixir = "hurt", dampen_harm = true,
   -- self-heals and personal defensives any spec's list may carry
+  regrowth = "hurt", rejuvenation = "hurt", flash_heal = "hurt", holy_light = "hurt", flash_of_light = "hurt",
   desperate_prayer = "hurt", vampiric_embrace = "hurt", dispersion = true, power_word_shield = "hurt",
   crimson_vial = "hurt", renewal = "hurt", exhilaration = "hurt", dark_pact = "hurt", mortal_coil = "hurt",
   impending_victory = "hurt", victory_rush = "hurt", healing_surge = "hurt", astral_shift = true,
 }
 
+G.TANK_SPECS = { deathknight_blood = true, demonhunter_vengeance = true, druid_guardian = true,
+  monk_brewmaster = true, paladin_protection = true, warrior_protection = true }
+
+-- Spells that are part of a spec's damage rotation there, not heals (Feral's Regrowth feeds Bloodtalons).
+G.NOT_A_HEAL = { regrowth = { druid_feral = true } }
+
+-- Self-heals ("hurt" rules): only at or below the player's threshold (Combat > Self-heals, default 35 %), never in
+-- raids unless switched on (healing there is the healers' job). Hidden health counts as "not low": a heal is only
+-- suggested when the game shows we need it.
+local function InRaid()
+  local inside, kind = U.Call(IsInInstance)
+  return U.Read(inside) == true and U.Read(kind) == "raid"
+end
+
+local function HealAllowed()
+  local db = ns.db or {}
+  local at = tonumber(db.healAt) or 35
+  if at <= 0 then
+    return false
+  end
+  local spec = ns.Specs.current and ns.Specs.current.key or ""
+  if InRaid() and db.healInRaids ~= true and not G.TANK_SPECS[spec] then -- tanks heal themselves in raids too
+    return false
+  end
+  local hp, max = U.Get(UnitHealth, "player"), U.Get(UnitHealthMax, "player")
+  if type(hp) ~= "number" or type(max) ~= "number" or max <= 0 then
+    return false
+  end
+  return hp / max * 100 <= at
+end
+G.HealAllowed = HealAllowed
+
 local function NotHurtSkip(token)
   local rule = G.WHEN_HURT[token]
   if not rule then
     return false
+  end
+  local spec = ns.Specs.current and ns.Specs.current.key
+  if G.NOT_A_HEAL[token] and G.NOT_A_HEAL[token][spec or ""] then
+    return false
+  end
+  if rule == "hurt" then
+    return not HealAllowed()
   end
   if rule == "stagger" then
     local st = S.Stagger()

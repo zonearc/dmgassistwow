@@ -414,7 +414,7 @@ pcall(frame.RegisterUnitEvent, frame, "UNIT_AURA", "player", "target")
 
 local DEFAULTS = { enabled = true, burst = true,
   burstWhen = "always", bigPull = 5, skipHold = true, ironfurStacks = 3, tankEssentials = true,
-  gapClosers = true, trinkets = true, bindWarn = true,
+  gapClosers = true, trinkets = true, bindWarn = true, healAt = 35, healInRaids = false,
   mode = "aoe", autoDetect = true, aoeTargets = 3, fightLength = 300,
   useAssisted = true, queue = 3, smartFight = true, fightMode = "learned", aoeCount = "spec", bossMods = true, interruptMode = "smart",
   defensiveMode = "smart", defensiveHealth = 35, defensiveLead = 3, sounds = true, locked = true,

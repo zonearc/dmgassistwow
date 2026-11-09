@@ -659,6 +659,29 @@ test("a spell a button turns into is checked as itself, not as the button's base
   mock.cooldowns[22568] = nil
 end)
 
+test("self-heals only at or below the health setting, never in raids unless switched on", function()
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  local hp = 900
+  local old = { UnitHealth, UnitHealthMax, IsInInstance }
+  UnitHealth = function() return hp end
+  UnitHealthMax = function() return 1000 end
+  eq(G.NotHurtSkip("desperate_prayer"), true, "90 %: no self-heal")
+  hp = 300
+  eq(G.NotHurtSkip("desperate_prayer"), false, "30 % (default threshold 35 %): suggested")
+  ns.db.healAt = 0
+  eq(G.NotHurtSkip("desperate_prayer"), true, "0 = never")
+  ns.db.healAt = 35
+  IsInInstance = function() return true, "raid" end
+  eq(G.NotHurtSkip("desperate_prayer"), true, "raid: off by default")
+  ns.db.healInRaids = true
+  eq(G.NotHurtSkip("desperate_prayer"), false, "raid, switched on")
+  ns.db.healInRaids = false
+  eq(G.NotHurtSkip("regrowth"), false, "Feral's Regrowth is rotation (Bloodtalons), not a heal")
+  UnitHealth, UnitHealthMax, IsInInstance = old[1], old[2], old[3]
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()

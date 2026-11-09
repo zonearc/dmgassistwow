@@ -281,6 +281,12 @@ function O.Register()
   Check(combat, HUD, "interrupt", "Suggest interrupts", H.interrupt)
   Choice(combat, DB, "interruptMode", "When", "smart", INTERRUPT_CHOICES,
     "In dungeons and raids 'what matters' = your boss mod calls an interrupt or Blizzard marks the spell important.")
+  Header(combat, "Self-heals")
+  Slider(combat, DB, "healAt", "Self-heal at", G.healAt or 35, 0, 90, 5,
+    "Self-heals your rotation can suggest (Desperate Prayer, Regrowth, Crimson Vial...) show only at or below this "
+    .. "health. 0 = never.", "%")
+  Check(combat, DB, "healInRaids", "Self-heals in raids", false,
+    "Off: never suggested in raids (healing there is the healers' job).")
   Header(combat, "Defensives")
   Check(combat, HUD, "defensive", "Suggest defensives", H.defensive)
   Choice(combat, DB, "defensiveMode", "When", "smart", DEFENSIVE_CHOICES,
