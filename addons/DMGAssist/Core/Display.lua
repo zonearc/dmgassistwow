@@ -31,7 +31,7 @@ D.DEFAULTS = {
   hideOutOfCombat = true, showWithTarget = true, hideMounted = true, hideVehicle = true,
   debugText = false, callout = true, pressCue = true, pressLead = 50, secretBranches = true, interrupt = true, defensive = true,
   highlight = true,
-  stackCount = true, stackSize = 14, stackPos = "BOTTOMLEFT", weavePos = "TOPLEFT", weaveSize = 45,
+  stackCount = true, stackSize = 14, stackPos = "BOTTOM", weavePos = "TOPLEFT", weaveSize = 45,
 }
 
 -- Where the off-GCD badge sits relative to slot 1: { point on the badge, point on slot 1, x, y }.
@@ -118,6 +118,13 @@ function D.Settings()
   for k, v in pairs(D.DEFAULTS) do
     if db.hud[k] == nil then
       db.hud[k] = v
+    end
+  end
+  if not db.hud.stackPosMoved then
+    -- The old default drew the count over slot 1's corner, where it read like part of the spell: move it below.
+    db.hud.stackPosMoved = true
+    if db.hud.stackPos == "BOTTOMLEFT" then
+      db.hud.stackPos = "BOTTOM"
     end
   end
   return db.hud
@@ -900,6 +907,9 @@ local function RenderStacks(f, cfg)
   if k and k.kind == "stacks" and ns.db.tankEssentials == false then
     k = nil
   end
+  if k and k.kind == "atonement" and (tonumber(U.Get(GetNumGroupMembers)) or 0) < 2 then
+    k = nil -- solo there is no one to keep Atonement on
+  end
   if not k then
     f.stack:Hide()
     return
@@ -908,15 +918,17 @@ local function RenderStacks(f, cfg)
   local want = tonumber(ns.db[k.setting]) or (k.kind == "atonement" and 5 or 3)
   local size = tonumber(cfg.stackSize) or 14
   SetFont(f.stack, size)
-  local pos = cfg.stackPos or "BOTTOMLEFT"
+  -- Below the icon by default: drawn over it, the count read like part of the recommendation.
+  local pos = cfg.stackPos or "BOTTOM"
   f.stack:ClearAllPoints()
   if pos == "BOTTOM" then
     f.stack:SetPoint("TOP", f.slots[1], "BOTTOM", 0, -2)
   else
     f.stack:SetPoint(pos, f.slots[1], pos, pos:find("LEFT") and 2 or -2, pos:find("TOP") and -2 or 2)
   end
-  local tex = U.Get(C_Spell and C_Spell.GetSpellTexture, k.id)
-  local icon = tex and string.format("|T%s:%d|t ", tostring(tex), size) or ""
+  -- A plain label, never a spell icon: the count is information, not something to press.
+  local icon = "|cffbbbbbb" .. (k.kind == "atonement" and L["Atonement"] or
+    tostring(U.Get(C_Spell and C_Spell.GetSpellName, k.id) or "")) .. "|r "
   local color = (want > 0 and n < want) and "|cffff9933" or "|cffffffff"
   f.stack:SetText(string.format("%s%s%d|r", icon, color, n) .. (want > 0 and ("|cff999999/" .. want .. "|r") or ""))
   f.stack:Show()
