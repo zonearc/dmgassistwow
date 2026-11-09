@@ -497,9 +497,9 @@ frame:SetScript("OnEvent", function(_, event, ...)
       end)
     end
   elseif event == "PLAYER_REGEN_ENABLED" then
-    ns.Options.OnCombatEnded()
     inCombat = false
     S.OnCombat(false)
+    ns.Options.OnCombatEnded() -- after the combat flags clear
     ns.Engine.OnCombat()
     ns.Diagnostics.OnCombat(false)
     S.Calibrate()

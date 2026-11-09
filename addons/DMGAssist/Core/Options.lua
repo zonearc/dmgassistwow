@@ -287,7 +287,7 @@ function O.Register()
   Check(combat, DB, "trinkets", "On-use trinkets", true,
     "Show your on-use trinkets (off-GCD badge on slot 1) when they are ready, with your cooldowns, in combat.")
   Button(combat, "Each trinket", "Spells & trinkets", function()
-    if O.trinketCategory and Settings.OpenToCategory then
+    if O.trinketCategory and Settings.OpenToCategory and not InCombatLockdown() then
       Settings.OpenToCategory(O.trinketCategory:GetID())
     end
   end, "Every equipped on-use trinket and every spell can be switched off on the Spells & trinkets page.")
@@ -874,8 +874,13 @@ end
 -- request in combat waits for the fight to end.
 O.openAfterCombat = false
 
+-- In combat, or just entering it (the lockdown flag can trail the combat flag by a moment).
+local function Busy()
+  return InCombatLockdown() or U.Get(UnitAffectingCombat, "player") == true or ns.State.combatStart ~= nil
+end
+
 function O.Open()
-  if InCombatLockdown() then
+  if Busy() then
     if not O.openAfterCombat then
       O.openAfterCombat = true
       U.Print("%s", L["Settings open when combat ends."])
@@ -893,7 +898,7 @@ end
 -- Blizzard's Keybindings page, scrolled to DMGAssist's section (the same call Blizzard's Ping settings use:
 -- Blizzard_SettingsDefinitions_Frame/PingSystem.lua, live and forever).
 function O.OpenKeybindings()
-  if InCombatLockdown() then
+  if Busy() then
     U.Print("%s", L["Key bindings can be changed after combat."])
     return false
   end
