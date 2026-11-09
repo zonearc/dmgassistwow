@@ -292,11 +292,12 @@ test("Status page: live summary, help links, and a reset of everything", functio
   end
   local links = 0
   for _, child in ipairs(mock.frames) do
-    if type(child.text) == "string" and child.text:find("github.com/zonearc/dmgassistwow", 1, true) then
+    if type(child.text) == "string" and (child.text:find("github.com/zonearc/dmgassist-issues", 1, true)
+      or child.text:find("curseforge.com/wow/addons/dmgassist", 1, true)) then
       links = links + 1
     end
   end
-  eq(links >= 3, true, "three copyable links")
+  eq(links >= 2, true, "copyable links: CurseForge and the report page")
   ns.db.mode = "st"
   ns.Options.ResetAll()
   eq(ns.db.mode, "aoe", "reset everything: AoE is the default target mode")

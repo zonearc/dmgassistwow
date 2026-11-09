@@ -17,6 +17,10 @@ for dir in addons/*/; do
   name=$(basename "$dir")
   version=$(sed -n 's/^## Version: *//p' "$dir/$name.toc" | tr -d '\r')
   cp -R "$dir" "$stage/$name"
+  # The licence travels with the add-on: ours, plus the SimulationCraft (GPL-3.0) and WoWSims (MIT) texts for the
+  # data generated from them.
+  cp LICENSE NOTICE.md "$stage/$name/"
+  cp -R licenses "$stage/$name/licenses"
   if [ -n "${PACKAGE_VERSION:-}" ]; then
     sed -i "s/^## Version: .*/## Version: $PACKAGE_VERSION/" "$stage/$name/$name.toc"
     grep -rl 'ns.VERSION = "' "$stage/$name" --include='*.lua' | xargs -r sed -i "s/ns.VERSION = \"[^\"]*\"/ns.VERSION = \"$PACKAGE_VERSION\"/"

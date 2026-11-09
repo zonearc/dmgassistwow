@@ -133,7 +133,7 @@ minimap button → *Report an issue*). The window walks you through it:
 3. **Step 3:** copy the link shown, open it in your browser, paste with **Ctrl+V** and press Create.
 
 You'll get a reply on the issue, usually with a fix in the next CurseForge update.
-Ideas are welcome too: **New issue → Feature request**.
+Ideas are welcome too: [feature request](https://github.com/zonearc/dmgassist-issues/issues/new?template=feature_request.yml).
 
 The report contains your spec, settings, what DMGAssist decided and why, and Lua errors. Your account name is
 removed.

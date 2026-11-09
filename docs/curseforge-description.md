@@ -6,7 +6,7 @@ for every spec. DMGAssist is built from scratch for Midnight's new addon rules: 
 allows, never presses anything for you, and tells you honestly when it is unsure.
 
 **Install it here on CurseForge:** the CurseForge app keeps it up to date by itself.
-Source code and issue reports: https://github.com/zonearc/dmgassistwow
+Report a problem or suggest an idea: https://github.com/zonearc/dmgassist-issues (in game: `/dmga report`)
 
 > **Early access.** DMGAssist is young and improving quickly, with fixes almost every day.
 > If something looks wrong, please report it (see *Reporting a problem* below): every report is read.
@@ -164,6 +164,5 @@ comments: they can't be tracked or answered properly there.
 - Priority lists and spell data: [SimulationCraft](https://github.com/simulationcraft/simc).
 - WoW Forever rotations and game data: [WoWSims](https://wowsims.com/forever) (MIT).
 
-© 2026 zonearc, all rights reserved: please don't re-upload DMGAssist elsewhere. The source is readable at
-https://github.com/zonearc/dmgassistwow. The SimulationCraft data (GPL-3.0) and WoWSims data (MIT) it includes keep
-their own licences (NOTICE.md in the source).
+© 2026 zonearc, all rights reserved: please don't re-upload DMGAssist elsewhere. The SimulationCraft data (GPL-3.0)
+and WoWSims data (MIT) it includes keep their own licences (NOTICE.md in the download).

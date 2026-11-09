@@ -184,7 +184,7 @@ end
 ns.LINKS = {
   home = "https://github.com/zonearc/dmgassistwow",
   curseforge = "https://www.curseforge.com/wow/addons/dmgassist",
-  issues = "https://github.com/zonearc/dmgassistwow/issues",
+  issues = "https://github.com/zonearc/dmgassist-issues/issues",
   downloads = "https://github.com/zonearc/dmgassistwow/releases/tag/nightly",
 }
 

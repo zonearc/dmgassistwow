@@ -1,6 +1,6 @@
 # Issue triage (run nightly by a scheduled session)
 
-Players report problems at https://github.com/zonearc/dmgassistwow/issues (issue forms ask for a Watchdog
+Players report problems at https://github.com/zonearc/dmgassist-issues/issues (issue forms ask for a Watchdog
 report). A scheduled session works through them each night with these steps. People can also run it by hand.
 
 ## Labels

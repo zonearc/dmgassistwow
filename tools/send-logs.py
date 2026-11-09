@@ -35,7 +35,7 @@ import urllib.request
 import webbrowser
 import zipfile
 
-REPO = "zonearc/dmgassistwow"
+REPO = "zonearc/dmgassist-issues"
 BRANCH = "watchdog-logs"
 API = "https://api.github.com"
 TAINT_MAX = 300_000  # bytes from the end of taint.log

@@ -510,9 +510,7 @@ function O.RegisterStatus(parent)
   help:SetText(L["Help and updates"])
   local rows = {
     { "Download (CurseForge)", ns.LINKS.curseforge },
-    { "Project page", ns.LINKS.home },
     { "Report a problem", ns.LINKS.issues },
-    { "Latest build", ns.LINKS.downloads },
   }
   local anchor = help
   for _, row in ipairs(rows) do

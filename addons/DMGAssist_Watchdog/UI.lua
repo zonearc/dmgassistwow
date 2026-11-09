@@ -15,7 +15,7 @@ local U = ns.U
 local V = {}
 ns.UI = V
 
-V.ISSUES = "https://github.com/zonearc/dmgassistwow/issues/new?template=bug_report.yml"
+V.ISSUES = "https://github.com/zonearc/dmgassist-issues/issues/new?template=bug_report.yml"
 
 local frame, editBox, status, whatBox, doingBox, linkBox
 
