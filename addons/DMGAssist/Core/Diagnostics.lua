@@ -217,7 +217,7 @@ function G.Tick(force)
   G.Observe("aura_scan", true, ns.State.AurasReadable() and true or nil)
   Probe("assisted_pick", C_AssistedCombat and C_AssistedCombat.GetNextCastSpell, false)
   local castName = U.Call(UnitCastingInfo, "target")
-  if castName ~= nil then
+  if U.IsSecret(castName) or castName ~= nil then
     local c = { U.Call(UnitCastingInfo, "target") }
     G.Observe("target_cast_spell", true, c[9])
     G.Observe("target_cast_interruptible", true, c[8])

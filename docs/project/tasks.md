@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.148 (2026-11-09).
+Last updated: 1.6.0.149 (2026-11-09).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -45,6 +45,9 @@ Last updated: 1.6.0.148 (2026-11-09).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.149: swept the code for hidden (secret) values tested directly: weapon imbue reminders and a diagnostics
+  probe read them safely now
 
 - 1.6.0.148: interrupts reviewed for 12.x: in dungeons/raids ("smart") the importance check tested a secret
   boolean with Lua's "or" (would have errored on every enemy cast in an instance, never seen in the open world);

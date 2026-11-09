@@ -142,6 +142,8 @@ local function WeaponLeft(hand)
     return math.huge -- can't tell: never nag
   end
   local hasMain, mainExp, _, _, hasOff, offExp = U.Call(GetWeaponEnchantInfo)
+  -- hidden in combat: read, never test a secret (hidden = not known: no reminder)
+  hasMain, mainExp, hasOff, offExp = U.Read(hasMain), U.Read(mainExp), U.Read(hasOff), U.Read(offExp)
   if hand == "off" then
     if U.Get(GetInventoryItemID, "player", 17) == nil then
       return math.huge -- no off-hand
