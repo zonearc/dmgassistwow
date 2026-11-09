@@ -97,7 +97,8 @@ function S.Detect()
     state.source = ns.Data.Source(client.branch)
     if state.data then
       state.status = "ready"
-    elseif ns.Data.Source(client.branch) and client.branch == "midnight" then
+    elseif ns.Data.Source(client.branch) and (client.branch == "midnight"
+      or (C_AssistedCombat and C_AssistedCombat.GetNextCastSpell)) then
       -- No SimC list (healers: Discipline, Holy, Mistweaver, Preservation, Restoration Shaman / Holy Paladin):
       -- Blizzard's Assisted Combat still suggests their damage rotation, so slot 1 follows it (with interrupts,
       -- defensives, trinkets and your choices) instead of hiding the HUD.

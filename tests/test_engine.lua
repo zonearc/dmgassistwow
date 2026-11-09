@@ -733,6 +733,44 @@ test("a run_action_list into a list with nothing to show does not stop the list 
   eq(r.main and r.main.token, "shred", "the cat-weaving part is reached")
 end)
 
+test("Discipline: Atonements counted from our casts; ramp with Radiance, then Shield, before a big hit", function()
+  Reset()
+  local ns = Boot()
+  local X, M = ns.Essentials, ns.SpellMap
+  local oldSpec, oldSpellID, oldNext, oldIPS = ns.Specs.current, M.SpellID, ns.BossMods.Next, IsPlayerSpell
+  ns.Specs.current = { key = "priest_discipline", status = "ready" }
+  M.byID[17], M.byID[194509], M.byID[472433] = "power_word_shield", "power_word_radiance", "evangelism"
+  IsPlayerSpell = function() return true end
+  local ids = { power_word_radiance = 194509, power_word_shield = 17 }
+  M.SpellID = function(token) return ids[token] end
+  X.stacks[194509] = {}
+  X.OnOwnCast(17)
+  eq(X.Stacks(194509), 1, "Shield: one Atonement")
+  X.OnOwnCast(194509)
+  eq(X.Stacks(194509), 6, "Radiance: five more")
+  mock.Advance(10)
+  eq(X.Stacks(194509), 1, "Radiance's run out (9 s), Shield's still up (15 s)")
+  X.OnOwnCast(472433)
+  mock.Advance(10)
+  eq(X.Stacks(194509), 1, "Evangelism extended it")
+  -- ramp: an AoE in 5 s, fewer than 5 counted
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  ns.BossMods.Next = function(kind) return kind == "aoe" and 5 or nil end
+  local r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
+  eq(r.main.token, "power_word_radiance", "ramp: Radiance first")
+  mock.cooldowns[194509] = { active = true, start = mock.now, duration = 18 }
+  ns.State.lastCast[194509] = mock.now
+  r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
+  eq(r.main.token, "power_word_shield", "Radiance on cooldown: Shield")
+  ns.BossMods.Next = function() return nil end
+  r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
+  eq(r.main.token, "shred", "no big hit coming: the damage list")
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat = false
+  ns.Specs.current, M.SpellID, ns.BossMods.Next, IsPlayerSpell = oldSpec, oldSpellID, oldNext, oldIPS
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()

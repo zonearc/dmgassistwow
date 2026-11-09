@@ -281,6 +281,13 @@ function O.Register()
   Check(combat, HUD, "interrupt", "Suggest interrupts", H.interrupt)
   Choice(combat, DB, "interruptMode", "When", "smart", INTERRUPT_CHOICES,
     "In dungeons and raids 'what matters' = your boss mod calls an interrupt or Blizzard marks the spell important.")
+  Header(combat, "Discipline: Atonement")
+  Check(combat, DB, "atonementRamp", "Ramp before big hits", true,
+    "When your boss mod warns of AoE damage, show Power Word: Radiance, then Shield, until enough Atonements are up.")
+  Slider(combat, DB, "atonementTarget", "Atonements wanted", G.atonementTarget or 5, 1, 20, 1,
+    "Counted from your own casts (Shield, Flash Heal, Plea, Renew: 1; Radiance: 5). 5 for a party, more for raids.")
+  Slider(combat, DB, "atonementLead", "Ramp this early", G.atonementLead or 8, 3, 20, 1,
+    "Seconds before the hit your boss mod announces.", "s")
   Header(combat, "Self-heals")
   Slider(combat, DB, "healAt", "Self-heal at", G.healAt or 35, 0, 90, 5,
     "Self-heals your rotation can suggest (Desperate Prayer, Regrowth, Crimson Vial...) show only at or below this "
@@ -656,7 +663,7 @@ O.HELP = {
       .. "the current class guides, for your damage between heals (SimC's list replaces ours as soon as it publishes one). "
       .. "Healing stays your call. Interrupts, defensives with your boss mod, on-use trinkets, keybinds and your "
       .. "spell choices all work. Restoration Druid has a full SimC list, including cat weaving. A spec with no "
-      .. "list at all follows Blizzard's Assisted Combat (\"Healer mode · Limited\")." },
+      .. "list at all (some on WoW Forever) follows Blizzard's Assisted Combat." },
   { "Skipping a spell",
     "Skip the spell in slot 1 three times and it is held for the rest of the fight (\"saving it\"). Cast it "
       .. "yourself and it comes back. Only spells with a real cooldown are held." },

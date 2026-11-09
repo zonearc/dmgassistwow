@@ -20,6 +20,16 @@ local X = {}
 ns.Essentials = X
 
 X.KEEPUPS = {
+  -- Discipline: Atonement on allies, counted from our own casts (the game hides allies' buffs). Before a big hit
+  -- a boss mod warns about, ramp: Radiance, then Shield, until the count reaches the target.
+  priest_discipline = {
+    { kind = "atonement", token = "power_word_radiance", id = 194509, setting = "atonementTarget",
+      enabled = "atonementRamp", lead = "atonementLead",
+      applies = { power_word_shield = 1, flash_heal = 1, plea = 1, shadow_mend = 1, renew = 1, void_shield = 1,
+        power_word_radiance = 5 },
+      duration = 15, radianceDuration = 9, extend = { evangelism = 6 },
+      ramp = { "power_word_radiance", "power_word_shield", "void_shield" } },
+  },
   druid_guardian = {
     { kind = "stacks", token = "ironfur", id = 192081, setting = "ironfurStacks", duration = 7 },
     { kind = "dot", token = "moonfire", id = 8921, cond = "!dot.moonfire.ticking" },
@@ -47,6 +57,23 @@ function X.OnOwnCast(id)
   end
   local keep = X.KEEPUPS[ns.Specs.current and ns.Specs.current.key or ""]
   for _, k in ipairs(keep or {}) do
+    if k.kind == "atonement" then
+      local M = ns.SpellMap
+      local token = M.TokenForID(M.baseOf[id] or id) or M.TokenForID(id)
+      local list = X.stacks[k.id] or {}
+      X.stacks[k.id] = list
+      local n = token and k.applies[token]
+      if n then
+        local d = token == "power_word_radiance" and k.radianceDuration or k.duration
+        for _ = 1, n do
+          list[#list + 1] = GetTime() + d
+        end
+      elseif token and k.extend[token] then
+        for i = 1, #list do
+          list[i] = list[i] + k.extend[token]
+        end
+      end
+    end
     if k.kind == "stacks" and (id == k.id or ns.SpellMap.baseOf[id] == k.id) then
       local info = ns.SpellMap.Info(k.id)
       local list = X.stacks[k.id] or {}
@@ -140,7 +167,7 @@ end
 function X.CountedKeepUp()
   local keep = X.KEEPUPS[ns.Specs.current and ns.Specs.current.key or ""]
   for _, k in ipairs(keep or {}) do
-    if k.kind == "stacks" and Known(k.id) then
+    if (k.kind == "stacks" or k.kind == "atonement") and Known(k.id) then
       return k
     end
   end
@@ -149,8 +176,8 @@ end
 
 function X.CheckStacks()
   local k = X.CountedKeepUp()
-  if not k or GetTime() - X.check.at < 1 then
-    return
+  if not k or k.kind ~= "stacks" or GetTime() - X.check.at < 1 then
+    return -- (Atonement sits on allies: our own buffs say nothing about it)
   end
   X.check.at = GetTime()
   local real, expiries = X.RealStacks(k.id)
@@ -181,13 +208,41 @@ function X.LogStackSummary()
 end
 
 -- The keep-up due now, or nil.
+-- Discipline ramp: a big hit is coming (boss mod AoE timer within the lead) and fewer Atonements are counted than
+-- the target: the first of Radiance / Shield that can be cast.
+local function Ramp(k)
+  if ns.db[k.enabled] == false then
+    return nil
+  end
+  local want = tonumber(ns.db[k.setting]) or 5
+  local lead = tonumber(ns.db[k.lead]) or 8
+  local soon = ns.BossMods.Next("aoe")
+  if not (soon and soon <= lead) or X.Stacks(k.id, soon) >= want then
+    return nil
+  end
+  for _, token in ipairs(k.ramp) do
+    local id = ns.SpellMap.SpellID(token)
+    ns.SpellMap.unresolved[token] = nil
+    if id and Usable(id) then
+      return { id = id, token = token, source = "keepup", why = "ramp" }
+    end
+  end
+  return nil
+end
+X.Ramp = Ramp
+
 function X.KeepUp()
   local keep = X.KEEPUPS[ns.Specs.current and ns.Specs.current.key or ""]
-  if not keep or not ns.State.combatStart or ns.db.tankEssentials == false then
+  if not keep or not ns.State.combatStart then
     return nil
   end
   for _, k in ipairs(keep) do
-    if Known(k.id) and Usable(k.id) then
+    if k.kind == "atonement" then
+      local r = Ramp(k)
+      if r then
+        return r
+      end
+    elseif ns.db.tankEssentials ~= false and Known(k.id) and Usable(k.id) then
       if k.kind == "stacks" then
         local want = tonumber(ns.db[k.setting]) or 3
         local last = X.lastWeave[k.id]

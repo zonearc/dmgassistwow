@@ -112,12 +112,6 @@ Specs.OnChange(function(state, previous)
   if previous then
     U.Print(L["Spec changed: %s"], Describe(state))
   end
-  if state.assistedOnly and not ns.healerExplained then
-    ns.healerExplained = true
-    U.Print("%s", L["Healer mode: SimC publishes no rotation for healing specs, so slot 1 follows Blizzard's "
-      .. "Assisted Combat (your damage spells between heals). Still on: interrupts, defensives with your boss mod, "
-      .. "on-use trinkets, keybinds and your Spells & trinkets choices. Healing itself stays your call."])
-  end
 end)
 
 ---------------------------------------------------------------------------
@@ -342,7 +336,7 @@ function ns.Update()
   ns.Clues.ReadCooldownManager(S.ReadableAuras())
   local result = G.Recommend(ns.ActiveRecord(state), {
     burst = ns.BurstAllowed(),
-    useAssisted = state.branch == "midnight" and ns.db.useAssisted ~= false,
+    useAssisted = (state.branch == "midnight" or state.assistedOnly) and ns.db.useAssisted ~= false,
   })
   result.callout = ns.BossMods.Callout()
   G.Steady(result)
@@ -367,7 +361,7 @@ function ns.Update()
       -- Why this pick: the same decision again with every line traced (one per change, capped per fight).
       S.unknownTerms = {}
       local traced = G.Recommend(ns.ActiveRecord(state), { burst = ns.BurstAllowed(), trace = true,
-        useAssisted = state.branch == "midnight" and ns.db.useAssisted ~= false })
+        useAssisted = (state.branch == "midnight" or state.assistedOnly) and ns.db.useAssisted ~= false })
       ns.Diagnostics.Trace(result, traced.trace)
     end
     U.Log("pick", {
@@ -425,6 +419,7 @@ pcall(frame.RegisterUnitEvent, frame, "UNIT_AURA", "player", "target")
 local DEFAULTS = { enabled = true, burst = true,
   burstWhen = "always", bigPull = 5, skipHold = true, ironfurStacks = 3, tankEssentials = true,
   gapClosers = true, trinkets = true, bindWarn = true, healAt = 35, healInRaids = false,
+  atonementRamp = true, atonementTarget = 5, atonementLead = 8,
   mode = "aoe", autoDetect = true, aoeTargets = 3, fightLength = 300,
   useAssisted = true, queue = 3, smartFight = true, fightMode = "learned", aoeCount = "spec", bossMods = true, interruptMode = "smart",
   defensiveMode = "smart", defensiveHealth = 35, defensiveLead = 3, sounds = true, locked = true,
@@ -726,7 +721,7 @@ function commands.snapshot()
   end
   S.unknownTerms = {}
   local r = G.Recommend(ns.ActiveRecord(state), { burst = ns.BurstAllowed(), trace = true,
-    useAssisted = state.branch == "midnight" and ns.db.useAssisted ~= false })
+    useAssisted = (state.branch == "midnight" or state.assistedOnly) and ns.db.useAssisted ~= false })
   local lines = r.trace or {}
   U.Log("snapshot", { spec = state.key, pick = r.main and r.main.token, source = r.main and r.main.source,
     lines = #lines, mode = r.modeLabel })

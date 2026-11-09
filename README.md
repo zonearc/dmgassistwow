@@ -33,6 +33,8 @@ nothing automated. You press every button.
   for Discipline, Holy Priest, Holy Paladin, Mistweaver, Restoration Shaman and Preservation (learned from the
   current class guides) for your damage between heals (SimC's own list takes over if it ever publishes one). Restoration
   Druid uses SimC's list, cat weaving included. Healing itself stays your call.
+- **Discipline Atonement.** Atonements counted from your casts on slot 1's corner, and a ramp (Radiance, then
+  Shield) before the big hits your boss mod warns about, until enough are up.
 - **Your choice of spells.** Settings > DMGAssist > Spells & trinkets lists every spell your spec can be shown
   and every equipped on-use trinket. Untick one and it is never shown; the next spell takes its place. Tick
   "First when ready" and that spell goes to slot 1 whenever it can be cast. Kept per spec (trinkets per item),

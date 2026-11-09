@@ -696,16 +696,8 @@ end
 -- AOE once the count reaches the spec's switch point (State.AoeTargets).
 local MODE_COLOR = { ST = "|cff66ccff", AOE = "|cffff9933" }
 
--- Healer specs (no SimC list): a clear, always-visible label that this is the limited mode.
-D.HEALER_TEXT = "|cff7fd17f%s|r |cff999999· %s|r"
-D.HEALER_HINT = "Healer mode · Limited"
-
 function D.ModeText()
   local S = ns.State
-  local state = ns.Specs and ns.Specs.current
-  if state and state.assistedOnly then
-    return string.format(D.HEALER_TEXT, L["Healer mode"], L["Limited"]) .. D.HeldText()
-  end
   if not S.combatStart then
     return "" -- the mode only matters in a fight: nothing until combat starts
   end
@@ -904,13 +896,16 @@ end
 -- "<icon> 2/3": our counted stacks of the spec's stacking keep-up, and the target (orange when below it).
 local function RenderStacks(f, cfg)
   local X = ns.Essentials
-  local k = cfg.stackCount ~= false and ns.db and ns.db.tankEssentials ~= false and X and X.CountedKeepUp()
+  local k = cfg.stackCount ~= false and ns.db and X and X.CountedKeepUp()
+  if k and k.kind == "stacks" and ns.db.tankEssentials == false then
+    k = nil
+  end
   if not k then
     f.stack:Hide()
     return
   end
   local n = X.Stacks(k.id)
-  local want = tonumber(ns.db[k.setting]) or 3
+  local want = tonumber(ns.db[k.setting]) or (k.kind == "atonement" and 5 or 3)
   local size = tonumber(cfg.stackSize) or 14
   SetFont(f.stack, size)
   local pos = cfg.stackPos or "BOTTOMLEFT"
