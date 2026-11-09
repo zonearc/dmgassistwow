@@ -434,3 +434,7 @@
 440	Tempi di recupero appresi dimenticati. DMGAssist ricomincia a imparare dal prossimo combattimento.
 441	Non in combattimento: riprova dopo il combattimento.
 442	dimentica i tempi di recupero appresi e ricomincia a imparare
+443	Cambi della casella 1
+444	Stabile (consigliato)
+445	Rapido
+446	Stabile: quando stai per premere, la casella 1 resta ferma; un incantesimo che diventa pronto in quel momento appare nella casella 2 e sale dopo la tua pressione. Rapido: la casella 1 segue ogni cambio prima, per chi reagisce in fretta.

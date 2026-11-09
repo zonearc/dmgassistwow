@@ -438,4 +438,8 @@ ns.LOCALE_DATA.koKR = {
   ["Learned cooldown timing forgotten. DMGAssist learns again from your next fight."] = "학습한 재사용 대기시간 타이밍을 초기화했습니다. 다음 전투부터 다시 학습합니다.",
   ["Not in combat: try again after the fight."] = "전투 중에는 할 수 없습니다. 전투가 끝난 뒤 다시 시도하세요.",
   ["forget learned cooldown timing and start learning again"] = "학습한 재사용 대기시간 타이밍을 초기화하고 다시 학습",
+  ["Slot 1 changes"] = "1번 칸 변경",
+  ["Steady (recommended)"] = "안정 (추천)",
+  ["Fast"] = "빠름",
+  ["Steady: once you're about to press, slot 1 stays put; a spell that becomes ready at that moment shows in slot 2 and moves up after your press. Fast: slot 1 follows every change sooner, for players who react quickly."] = "안정: 누르기 직전에는 1번 칸이 바뀌지 않으며, 그 순간 준비되는 주문은 2번 칸에 표시되었다가 누른 뒤 올라옵니다. 빠름: 1번 칸이 모든 변화를 더 빨리 따라갑니다. 반응이 빠른 플레이어용입니다.",
 }

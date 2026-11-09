@@ -438,4 +438,8 @@ ns.LOCALE_DATA.ruRU = {
   ["Learned cooldown timing forgotten. DMGAssist learns again from your next fight."] = "Изученные тайминги восстановления забыты. DMGAssist начнёт учиться заново со следующего боя.",
   ["Not in combat: try again after the fight."] = "Не в бою: попробуйте снова после боя.",
   ["forget learned cooldown timing and start learning again"] = "забыть изученные тайминги восстановления и учиться заново",
+  ["Slot 1 changes"] = "Смена в ячейке 1",
+  ["Steady (recommended)"] = "Стабильно (рекомендуется)",
+  ["Fast"] = "Быстро",
+  ["Steady: once you're about to press, slot 1 stays put; a spell that becomes ready at that moment shows in slot 2 and moves up after your press. Fast: slot 1 follows every change sooner, for players who react quickly."] = "Стабильно: перед самым нажатием ячейка 1 не меняется; заклинание, которое готовится в этот момент, появляется в ячейке 2 и поднимается после нажатия. Быстро: ячейка 1 раньше следует за каждым изменением — для игроков с быстрой реакцией.",
 }

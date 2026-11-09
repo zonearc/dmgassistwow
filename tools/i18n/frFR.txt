@@ -434,3 +434,7 @@
 440	Temps de recharge appris oubliés. DMGAssist réapprend dès votre prochain combat.
 441	Pas en combat : réessayez après le combat.
 442	oublier les temps de recharge appris et réapprendre
+443	Changements de la case 1
+444	Stable (conseillé)
+445	Rapide
+446	Stable : quand vous êtes sur le point d'appuyer, la case 1 ne bouge plus ; un sort qui devient prêt à ce moment s'affiche en case 2 et monte après votre appui. Rapide : la case 1 suit chaque changement plus tôt, pour les joueurs aux réflexes rapides.

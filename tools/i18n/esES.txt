@@ -434,3 +434,7 @@
 440	Tiempos de reutilización aprendidos olvidados. DMGAssist vuelve a aprender desde tu próximo combate.
 441	No en combate: inténtalo de nuevo después del combate.
 442	olvidar los tiempos aprendidos y volver a aprender
+443	Cambios en la casilla 1
+444	Estable (recomendado)
+445	Rápido
+446	Estable: cuando estás a punto de pulsar, la casilla 1 no cambia; un hechizo que se prepara en ese momento aparece en la casilla 2 y sube tras tu pulsación. Rápido: la casilla 1 sigue cada cambio antes, para jugadores de reacción rápida.

@@ -441,5 +441,9 @@
 "DMGAssist learns how long your cooldowns really take, including talents, gear and haste it can't see, and which spells to leave to Blizzard's assistant. It's saved for your whole account and gets better as you play. Forget it to start over, for example after a big talent or gear change. Your settings are kept.",
 "Learned cooldown timing forgotten. DMGAssist learns again from your next fight.",
 "Not in combat: try again after the fight.",
-"forget learned cooldown timing and start learning again"
+"forget learned cooldown timing and start learning again",
+"Slot 1 changes",
+"Steady (recommended)",
+"Fast",
+"Steady: once you're about to press, slot 1 stays put; a spell that becomes ready at that moment shows in slot 2 and moves up after your press. Fast: slot 1 follows every change sooner, for players who react quickly."
 ]

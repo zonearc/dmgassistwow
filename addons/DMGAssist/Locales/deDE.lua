@@ -438,4 +438,8 @@ ns.LOCALE_DATA.deDE = {
   ["Learned cooldown timing forgotten. DMGAssist learns again from your next fight."] = "Gelernte Abklingzeiten vergessen. DMGAssist lernt ab deinem nächsten Kampf neu.",
   ["Not in combat: try again after the fight."] = "Nicht im Kampf: Versuch es nach dem Kampf noch einmal.",
   ["forget learned cooldown timing and start learning again"] = "gelernte Abklingzeiten vergessen und neu lernen",
+  ["Slot 1 changes"] = "Wechsel in Feld 1",
+  ["Steady (recommended)"] = "Ruhig (empfohlen)",
+  ["Fast"] = "Schnell",
+  ["Steady: once you're about to press, slot 1 stays put; a spell that becomes ready at that moment shows in slot 2 and moves up after your press. Fast: slot 1 follows every change sooner, for players who react quickly."] = "Ruhig: Kurz bevor du drückst, bleibt Feld 1 stehen; ein Zauber, der genau dann bereit wird, erscheint in Feld 2 und rückt nach deinem Druck auf. Schnell: Feld 1 folgt jeder Änderung früher, für Spieler mit schneller Reaktion.",
 }

@@ -273,6 +273,11 @@ function O.Register()
   Slider(combat, DB, "queue", "Spells shown", G.queue or 3, 1, 3, 1, "The next spell, plus up to two after it.")
   Check(combat, DB, "burst", "Major cooldowns", true,
     "On: big cooldowns show in the three slots in SimC's order. Off: they are never shown.")
+  Choice(combat, DB, "slotHold", "Slot 1 changes", "steady", { { "steady", "Steady (recommended)" },
+    { "fast", "Fast" } },
+    "Steady: once you're about to press, slot 1 stays put; a spell that becomes ready at that moment shows "
+      .. "in slot 2 and moves up after your press. Fast: slot 1 follows every change sooner, for players who "
+      .. "react quickly.")
   Choice(combat, DB, "burstWhen", "Use major cooldowns", "always", { { "always", "Every fight" },
     { "big", "Bosses and big pulls" } },
     "Every fight, or save them for bosses, PvP and big pulls (size set below).")

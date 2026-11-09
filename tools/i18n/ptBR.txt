@@ -434,3 +434,7 @@
 440	Tempos de recarga aprendidos esquecidos. O DMGAssist volta a aprender a partir do seu próximo combate.
 441	Fora de combate: tente de novo depois do combate.
 442	esquecer os tempos de recarga aprendidos e aprender de novo
+443	Mudanças no espaço 1
+444	Estável (sugerido)
+445	Rápido
+446	Estável: quando você está prestes a apertar, o espaço 1 fica parado; um feitiço que fica pronto nesse momento aparece no espaço 2 e sobe depois do seu toque. Rápido: o espaço 1 acompanha cada mudança mais cedo, para quem reage rápido.

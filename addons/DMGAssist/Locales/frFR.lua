@@ -438,4 +438,8 @@ ns.LOCALE_DATA.frFR = {
   ["Learned cooldown timing forgotten. DMGAssist learns again from your next fight."] = "Temps de recharge appris oubliés. DMGAssist réapprend dès votre prochain combat.",
   ["Not in combat: try again after the fight."] = "Pas en combat : réessayez après le combat.",
   ["forget learned cooldown timing and start learning again"] = "oublier les temps de recharge appris et réapprendre",
+  ["Slot 1 changes"] = "Changements de la case 1",
+  ["Steady (recommended)"] = "Stable (conseillé)",
+  ["Fast"] = "Rapide",
+  ["Steady: once you're about to press, slot 1 stays put; a spell that becomes ready at that moment shows in slot 2 and moves up after your press. Fast: slot 1 follows every change sooner, for players who react quickly."] = "Stable : quand vous êtes sur le point d'appuyer, la case 1 ne bouge plus ; un sort qui devient prêt à ce moment s'affiche en case 2 et monte après votre appui. Rapide : la case 1 suit chaque changement plus tôt, pour les joueurs aux réflexes rapides.",
 }

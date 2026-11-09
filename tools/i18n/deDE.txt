@@ -434,3 +434,7 @@
 440	Gelernte Abklingzeiten vergessen. DMGAssist lernt ab deinem nächsten Kampf neu.
 441	Nicht im Kampf: Versuch es nach dem Kampf noch einmal.
 442	gelernte Abklingzeiten vergessen und neu lernen
+443	Wechsel in Feld 1
+444	Ruhig (empfohlen)
+445	Schnell
+446	Ruhig: Kurz bevor du drückst, bleibt Feld 1 stehen; ein Zauber, der genau dann bereit wird, erscheint in Feld 2 und rückt nach deinem Druck auf. Schnell: Feld 1 folgt jeder Änderung früher, für Spieler mit schneller Reaktion.

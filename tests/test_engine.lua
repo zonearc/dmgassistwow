@@ -1026,13 +1026,17 @@ test("a key spell SimC keeps wanting comes in once it has waited long enough", f
   eq(r.main.token ~= "rake", true, "filler stayed out: " .. tostring(r.main.token))
 end)
 
-test("steady slot 1: a flip shorter than the debounce never shows; a press shows the new pick at once", function()
+test("steady slot 1: short flips never show, nothing changes while you reach for it, a press shows the new pick", function()
   Reset()
   local ns = Boot()
   local G = ns.Engine
   mock.Fire("PLAYER_REGEN_DISABLED")
   G.ResetSteady()
   local rip, shred, rake = { id = 1079, token = "rip" }, { id = 5221, token = "shred" }, { id = 1822, token = "rake" }
+  local function gcd(left) -- a long cast-time GCD, so there's a mid-GCD stretch to test
+    mock.cooldowns[61304] = { start = mock.now - (2.5 - left), duration = 2.5, active = left > 0 }
+  end
+  gcd(2.4) -- just pressed something
   local r = G.Steady({ main = rip, queue = { rip, shred, rake } })
   eq(r.main.token, "rip")
   mock.now = mock.now + 0.1
@@ -1045,16 +1049,21 @@ test("steady slot 1: a flip shorter than the debounce never shows; a press shows
   r = G.Steady({ main = rake, queue = { rake, rip, shred } })
   eq(r.main.token, "rip", "flipping on to a third spell: still held")
   mock.now = mock.now + 0.1
-  r = G.Steady({ main = rip, queue = { rip, shred, rake } })
-  eq(r.main.token, "rip", "back again: never moved")
-  mock.now = mock.now + 0.1
   G.Steady({ main = shred, queue = { shred, rip, rake } })
-  mock.now = mock.now + 0.4
+  mock.now = mock.now + 0.55
   r = G.Steady({ main = shred, queue = { shred, rip, rake } })
-  eq(r.main.token, "shred", "a change that holds for the debounce shows")
+  eq(r.main.token, "shred", "mid-GCD, a change that holds for 0.5 s shows")
+  -- the last moments before the press: nothing changes, however long the new pick holds
+  mock.now = mock.now + 1.0
+  r = G.Steady({ main = rake, queue = { rake, shred, rip } })
+  eq(r.main.token, "shred", "reaching for it: frozen")
+  eq(r.queue[2].token, "rake", "the newly ready spell waits in slot 2")
+  mock.now = mock.now + 0.8
+  r = G.Steady({ main = rake, queue = { rake, shred, rip } })
+  eq(r.main.token, "shred", "still frozen while it sits ready")
   -- a press (a new GCD starts): the new pick at once
   mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5221)
-  mock.cooldowns[61304] = { start = mock.now, duration = 1.5, active = true }
+  gcd(2.5)
   r = G.Steady({ main = rake, queue = { rake, rip, shred } })
   eq(r.main.token, "rake", "after a press: at once")
   mock.cooldowns[61304] = nil

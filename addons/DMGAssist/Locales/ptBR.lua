@@ -438,4 +438,8 @@ ns.LOCALE_DATA.ptBR = {
   ["Learned cooldown timing forgotten. DMGAssist learns again from your next fight."] = "Tempos de recarga aprendidos esquecidos. O DMGAssist volta a aprender a partir do seu próximo combate.",
   ["Not in combat: try again after the fight."] = "Fora de combate: tente de novo depois do combate.",
   ["forget learned cooldown timing and start learning again"] = "esquecer os tempos de recarga aprendidos e aprender de novo",
+  ["Slot 1 changes"] = "Mudanças no espaço 1",
+  ["Steady (recommended)"] = "Estável (sugerido)",
+  ["Fast"] = "Rápido",
+  ["Steady: once you're about to press, slot 1 stays put; a spell that becomes ready at that moment shows in slot 2 and moves up after your press. Fast: slot 1 follows every change sooner, for players who react quickly."] = "Estável: quando você está prestes a apertar, o espaço 1 fica parado; um feitiço que fica pronto nesse momento aparece no espaço 2 e sobe depois do seu toque. Rápido: o espaço 1 acompanha cada mudança mais cedo, para quem reage rápido.",
 }

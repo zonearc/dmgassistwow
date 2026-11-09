@@ -438,4 +438,8 @@ ns.LOCALE_DATA.itIT = {
   ["Learned cooldown timing forgotten. DMGAssist learns again from your next fight."] = "Tempi di recupero appresi dimenticati. DMGAssist ricomincia a imparare dal prossimo combattimento.",
   ["Not in combat: try again after the fight."] = "Non in combattimento: riprova dopo il combattimento.",
   ["forget learned cooldown timing and start learning again"] = "dimentica i tempi di recupero appresi e ricomincia a imparare",
+  ["Slot 1 changes"] = "Cambi della casella 1",
+  ["Steady (recommended)"] = "Stabile (consigliato)",
+  ["Fast"] = "Rapido",
+  ["Steady: once you're about to press, slot 1 stays put; a spell that becomes ready at that moment shows in slot 2 and moves up after your press. Fast: slot 1 follows every change sooner, for players who react quickly."] = "Stabile: quando stai per premere, la casella 1 resta ferma; un incantesimo che diventa pronto in quel momento appare nella casella 2 e sale dopo la tua pressione. Rapido: la casella 1 segue ogni cambio prima, per chi reagisce in fretta.",
 }

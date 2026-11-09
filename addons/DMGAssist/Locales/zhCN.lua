@@ -438,4 +438,8 @@ ns.LOCALE_DATA.zhCN = {
   ["Learned cooldown timing forgotten. DMGAssist learns again from your next fight."] = "已清除学习到的冷却计时。DMGAssist 将从下一场战斗开始重新学习。",
   ["Not in combat: try again after the fight."] = "战斗中无法操作：请在战斗结束后重试。",
   ["forget learned cooldown timing and start learning again"] = "清除学习到的冷却计时并重新学习",
+  ["Slot 1 changes"] = "第1格切换",
+  ["Steady (recommended)"] = "稳定（推荐）",
+  ["Fast"] = "快速",
+  ["Steady: once you're about to press, slot 1 stays put; a spell that becomes ready at that moment shows in slot 2 and moves up after your press. Fast: slot 1 follows every change sooner, for players who react quickly."] = "稳定：在你即将按键时，第1格保持不变；此刻刚好就绪的法术显示在第2格，按键后再上移。快速：第1格更早跟随每次变化，适合反应快的玩家。",
 }

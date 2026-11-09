@@ -1077,10 +1077,16 @@ end
 --   * after each press (a new GCD or cast starts) slot 1 shows the new pick at once;
 --   * after that, until the next press, a different pick replaces it only once it has held for G.DEBOUNCE;
 --     a flip shorter than that never shows, and moves to slot 2 meanwhile (it may be next);
+--   * in the last G.REACH seconds before the press, and while it sits ready, slot 1 doesn't change at all: you are
+--     already reaching for it. Something that becomes ready then (a Wildfire Bomb charge 0.1 s before you pressed
+--     Raptor Strike, five times in one fight, 2026-11-09) waits in slot 2 for the next press;
 --   * the shown spell is dropped at once if the game refused your press of it, or once it has been
 --     uncastable for G.UNCASTABLE_FOR.
 -- Interrupts and defensives are applied after this and still take slot 1 at once.
-G.DEBOUNCE = 0.35
+G.DEBOUNCE = 0.5
+G.REACH = 0.6
+G.DEBOUNCE_FAST = 0.2 -- "Fast": changes show sooner, the hold before the press is short
+G.REACH_FAST = 0.25
 G.UNCASTABLE_FOR = 0.2
 G.LOCK_MAX = 4.0 -- safety: a pick shown this long without a press is re-decided freely
 local held -- { pick, at, cand, candAt, badSince }
@@ -1124,10 +1130,15 @@ function G.Steady(result)
   else
     held.badSince = nil
   end
-  -- a different pick: only after it has held for G.DEBOUNCE
-  if held.cand ~= main.id then
+  -- a different pick: never while you're reaching for slot 1; otherwise once it has held for G.DEBOUNCE.
+  -- Settings > Combat > "Slot 1 changes": Steady (default) or Fast (for players who react quickly).
+  local fast = ns.db and ns.db.slotHold == "fast"
+  local reach, debounce = fast and G.REACH_FAST or G.REACH, fast and G.DEBOUNCE_FAST or G.DEBOUNCE
+  if ready <= reach then
+    held.cand = nil
+  elseif held.cand ~= main.id then
     held.cand, held.candAt = main.id, now
-  elseif now - held.candAt >= G.DEBOUNCE then
+  elseif now - held.candAt >= debounce then
     held = { pick = main, at = now }
     return result
   end
