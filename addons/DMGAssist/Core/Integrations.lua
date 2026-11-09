@@ -101,7 +101,7 @@ end
 function I.PrintDetected()
   U.Print("%s", L["Addons DMGAssist works with:"])
   for _, d in ipairs(I.Detected()) do
-    U.Print("  %s (%s): %s", d.addon, L[d.what], L[d.state])
+    U.Print("  %s (%s): %s", d.addon, L[d.what], L[d.state == "in use" and "linked" or d.state])
   end
 end
 

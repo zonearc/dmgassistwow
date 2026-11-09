@@ -566,4 +566,6 @@ ns.LOCALE_DATA.ruRU = {
   ["in use"] = "используется",
   ["found"] = "найден",
   ["which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use"] = "какие поддерживаемые аддоны (Masque, ElvUI, Bartender, боссмоды...) найдены и используются",
+  ["Written and maintained by %s"] = "Автор и разработчик: %s",
+  ["linked"] = "подключён",
 }

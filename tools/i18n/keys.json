@@ -569,5 +569,7 @@
 "can read DMGAssist's picks (DMGAssistAPI)",
 "in use",
 "found",
-"which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use"
+"which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use",
+"Written and maintained by %s",
+"linked"
 ]

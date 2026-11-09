@@ -566,4 +566,6 @@ ns.LOCALE_DATA.deDE = {
   ["in use"] = "in Gebrauch",
   ["found"] = "gefunden",
   ["which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use"] = "welche unterstützten Addons (Masque, ElvUI, Bartender, Bossmods...) gefunden und in Gebrauch sind",
+  ["Written and maintained by %s"] = "Geschrieben und gepflegt von %s",
+  ["linked"] = "verbunden",
 }

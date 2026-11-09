@@ -562,3 +562,5 @@
 568	utilisé
 569	trouvé
 570	quels addons pris en charge (Masque, ElvUI, Bartender, boss mods...) sont trouvés et utilisés
+571	Écrit et maintenu par %s
+572	relié

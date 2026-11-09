@@ -566,4 +566,6 @@ ns.LOCALE_DATA.koKR = {
   ["in use"] = "사용 중",
   ["found"] = "발견됨",
   ["which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use"] = "지원하는 애드온(Masque, ElvUI, Bartender, 보스 모드...) 중 발견되어 사용 중인 것",
+  ["Written and maintained by %s"] = "제작 및 관리: %s",
+  ["linked"] = "연결됨",
 }

@@ -566,4 +566,6 @@ ns.LOCALE_DATA.itIT = {
   ["in use"] = "in uso",
   ["found"] = "trovato",
   ["which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use"] = "quali addon supportati (Masque, ElvUI, Bartender, boss mod...) sono trovati e in uso",
+  ["Written and maintained by %s"] = "Scritto e curato da %s",
+  ["linked"] = "collegato",
 }

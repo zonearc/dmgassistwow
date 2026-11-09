@@ -42,7 +42,11 @@ end
 DMGAssistSettingsTextMixin = {}
 function DMGAssistSettingsTextMixin:Init(initializer)
   local data = initializer.data or (initializer.GetData and initializer:GetData()) or {}
-  self.Text:SetText(data.text or "")
+  local text = data.text
+  if type(text) == "function" then
+    text = text() -- worked out each time the page is shown (which addons are linked)
+  end
+  self.Text:SetText(text or "")
   self.Text:SetTextColor(0.78, 0.78, 0.78)
   self.Text:SetWordWrap(true)
 end
@@ -552,6 +556,29 @@ function O.Register()
   Header(integrations, "Other addons", "DMGAssist works with these when they are installed, with nothing to set "
     .. "up: Masque skins its icons, ElvUI, Bartender and Dominos bars give the keybinds, Titan Panel and ElvUI get "
     .. "a launcher, WeakAuras can read its picks.")
+  -- one line per supported addon, worked out when the page is shown: linked (green), installed, not installed
+  local layout = O.layouts[integrations]
+  if layout and layout.AddInitializer and Settings.CreateElementInitializer then
+    for _, a in ipairs(ns.Integrations.SUPPORTED) do
+      local ok, init = pcall(Settings.CreateElementInitializer, "DMGAssistSettingsTextTemplate", {
+        text = function()
+          for _, d in ipairs(ns.Integrations.Detected()) do
+            if d.addon == a.addon then
+              local color = d.state == "in use" and "|cff33dd33" or d.state == "found" and "|cffffd100" or "|cff888888"
+              return string.format("%s%s|r  -  %s  (%s%s|r)", color, d.addon, L[d.what], color,
+                L[d.state == "in use" and "linked" or d.state])
+            end
+          end
+          return a.addon
+        end })
+      if ok and init then
+        init.GetExtent = function()
+          return 18
+        end
+        layout:AddInitializer(init)
+      end
+    end
+  end
   Button(integrations, "Check", "Which addons are in use", function()
     ns.Integrations.PrintDetected()
   end, "Lists in chat each supported addon: in use, found, or not installed (also /dmga addons).")
@@ -660,6 +687,13 @@ function O.RegisterStatus(parent)
     O.ResetAll()
     frame:GetScript("OnShow")(frame)
   end)
+
+  -- the author
+  local author = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+  author:SetPoint("TOPLEFT", reset, "BOTTOMLEFT", 0, -22)
+  author:SetWidth(560)
+  author:SetJustifyH("LEFT")
+  author:SetText(string.format(L["Written and maintained by %s"], ns.AUTHOR))
 
   frame:SetScript("OnShow", function()
     local lines = {}

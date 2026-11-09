@@ -566,4 +566,6 @@ ns.LOCALE_DATA.zhTW = {
   ["in use"] = "使用中",
   ["found"] = "已找到",
   ["which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use"] = "哪些支援的插件（Masque、ElvUI、Bartender、首領插件……）已找到並在使用",
+  ["Written and maintained by %s"] = "作者與維護者：%s",
+  ["linked"] = "已連結",
 }

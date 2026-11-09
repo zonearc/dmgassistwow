@@ -562,3 +562,5 @@
 568	in uso
 569	trovato
 570	quali addon supportati (Masque, ElvUI, Bartender, boss mod...) sono trovati e in uso
+571	Scritto e curato da %s
+572	collegato

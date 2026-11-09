@@ -4,6 +4,7 @@ local _, ns = ...
 local U = {}
 ns.U = U
 ns.VERSION = "1.6.0"
+ns.AUTHOR = "Mysterie / ZoneArc : BoneChewer | Texas, USA"
 -- Testing build: extra logging and chat notices while we test with players. Set to false for a release.
 ns.TESTING = false
 ns.SECRET = "<secret>"

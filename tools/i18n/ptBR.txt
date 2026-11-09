@@ -562,3 +562,5 @@
 568	em uso
 569	encontrado
 570	quais addons compatíveis (Masque, ElvUI, Bartender, addons de chefe...) foram encontrados e estão em uso
+571	Escrito e mantido por %s
+572	vinculado
