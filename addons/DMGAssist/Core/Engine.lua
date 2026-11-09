@@ -1105,7 +1105,11 @@ G.REACH_FAST = 0.25
 G.UNCASTABLE_FOR = 0.2
 G.LOCK_MAX = 4.0 -- safety: a pick shown this long without a press is re-decided freely
 local held -- { pick, at, cand, candAt, badSince }
-local lastReady = 0
+local lastReady, pressedAt = 0, -10
+-- Right after a press the game starts the GCD a moment before it reports which spell was cast: a decision made in
+-- that gap still shows the spell you just pressed. For this long after a press slot 1 follows the decision freely
+-- (2026-11-09: the stale Whirlwind was held through a short hasted GCD, and pressed again).
+G.PRESS_SETTLE = 0.35
 
 function G.ReadyIn()
   local _, castLeft = S.CurrentCast()
@@ -1122,7 +1126,10 @@ function G.Steady(result)
   local ready = G.ReadyIn()
   local pressed = ready > lastReady + 0.3 -- a new GCD or cast just started: you pressed something
   lastReady = ready
-  if pressed or not held or now - held.at > G.LOCK_MAX then
+  if pressed then
+    pressedAt = now
+  end
+  if pressed or now - pressedAt < G.PRESS_SETTLE or not held or now - held.at > G.LOCK_MAX then
     held = { pick = main, at = now }
     return result
   end
@@ -1168,5 +1175,5 @@ function G.Steady(result)
 end
 
 function G.ResetSteady()
-  held, lastReady = nil, 0
+  held, lastReady, pressedAt = nil, 0, -10
 end

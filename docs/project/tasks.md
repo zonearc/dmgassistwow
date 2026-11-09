@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.136 (2026-11-09).
+Last updated: 1.6.0.137 (2026-11-09).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -41,6 +41,9 @@ Last updated: 1.6.0.136 (2026-11-09).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.137: slot 1 follows the decision freely for 0.35 s after a press (the decision made before the game reports
+  the cast still showed the pressed spell, and was held: Whirlwind pressed twice in a row)
 
 - 1.6.0.136: pieces of one press (Raging Blow's off-hand hit) count as one cast for clocks and learning (Raging
   Blow's correction had run away to -21 s); one measurement can't push a correction past 60% of the cooldown.

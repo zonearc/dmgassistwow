@@ -1115,6 +1115,8 @@ test("steady slot 1: short flips never show, nothing changes while you reach for
   gcd(2.4) -- just pressed something
   local r = G.Steady({ main = rip, queue = { rip, shred, rake } })
   eq(r.main.token, "rip")
+  mock.now = mock.now + 0.4 -- past the moment after a press when the game is still reporting the cast
+  G.Steady({ main = rip, queue = { rip, shred, rake } })
   mock.now = mock.now + 0.1
   r = G.Steady({ main = shred, queue = { shred, rip, rake } })
   eq(r.main.token, "rip", "a 0.1 s flip: held")
@@ -1140,8 +1142,11 @@ test("steady slot 1: short flips never show, nothing changes while you reach for
   -- a press (a new GCD starts): the new pick at once
   mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5221)
   gcd(2.5)
+  r = G.Steady({ main = shred, queue = { shred, rake, rip } })
+  eq(r.main.token, "shred", "the decision made before the game reported the cast (still the pressed spell)")
+  mock.now = mock.now + 0.1
   r = G.Steady({ main = rake, queue = { rake, rip, shred } })
-  eq(r.main.token, "rake", "after a press: at once")
+  eq(r.main.token, "rake", "the real decision a moment later: shown, not held behind the stale one")
   mock.cooldowns[61304] = nil
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
