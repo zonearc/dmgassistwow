@@ -630,5 +630,10 @@
 "Tank mitigation in the defensive icon",
 "Tanks",
 "Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe.",
-"While you hold aggro, the defensive icon shows your keep-up buttons when they're due (Shield Block, Demon Spikes, Shield of the Righteous...), cooldowns before big hits your boss mod warns about, and Spell Reflection or Anti-Magic Shell for spells cast at you. Off: SimC's list decides, as for other specs."
+"While you hold aggro, the defensive icon shows your keep-up buttons when they're due (Shield Block, Demon Spikes, Shield of the Righteous...), cooldowns before big hits your boss mod warns about, and Spell Reflection or Anti-Magic Shell for spells cast at you. Off: SimC's list decides, as for other specs.",
+"%s (several targets)",
+"%s: left to Blizzard's assistant (its cooldown moves with effects we can't see)",
+"%s: measured %d times, our clock corrected by %+.1f s, now within %.1f s",
+"Nothing yet: it learns from your fights.",
+"What DMGAssist learned for this spec"
 ]

@@ -4054,6 +4054,37 @@ test("a hidden channel runs for its duration: its own 'succeeded' at the start d
   mock.inCombat, mock.restricted = false, false
 end)
 
+
+test("interrupts in a dungeon with hidden cast info: drawn by the game, no secret boolean tested", function()
+  Reset()
+  KickBook()
+  local ns = Boot()
+  mock.instance, mock.restricted = true, true
+  mock.inCombat = true
+  mock.targetCast = { notInterruptible = false, id = 9999 }
+  local r = ns.Update()
+  eq(r.interrupt and r.interrupt.how, "render", "importance hidden: the game decides by alpha")
+  mock.instance, mock.restricted, mock.inCombat, mock.targetCast = false, false, false, nil
+end)
+
+
+test("learning summary in plain words: left-to-Blizzard spells first, measured ones with their correction", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  S.learned.timing = {
+    kill_command = { n = 5, mean = -1.24, spread = 0.2 },
+    ["mortal_strike@aoe"] = { n = 3, mean = 0.3, spread = 0.1 },
+    wildfire_bomb = { n = 6, mean = 0, spread = 2.4, unreliable = true },
+    new_spell = { n = 1, mean = 0, spread = 0 },
+  }
+  local lines = S.LearningLines()
+  eq(#lines, 3, "spells measured fewer than 3 times are left out")
+  eq(lines[1]:find("wildfire bomb", 1, true) ~= nil, true, lines[1])
+  eq(lines[2]:find("-1.2 s", 1, true) ~= nil, true, lines[2])
+  eq(lines[3]:find("mortal strike", 1, true) ~= nil, true, lines[3])
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

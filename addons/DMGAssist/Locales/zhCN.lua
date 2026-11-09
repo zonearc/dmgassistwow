@@ -627,4 +627,9 @@ ns.LOCALE_DATA.zhCN = {
   ["Tanks"] = "坦克",
   ["Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe."] = "提示：减伤（红色图标）一出现就按；它的时机是为了保护你。",
   ["While you hold aggro, the defensive icon shows your keep-up buttons when they're due (Shield Block, Demon Spikes, Shield of the Righteous...), cooldowns before big hits your boss mod warns about, and Spell Reflection or Anti-Magic Shell for spells cast at you. Off: SimC's list decides, as for other specs."] = "你持有仇恨时，防御图标会在需要时显示维持类按钮（盾牌格挡、恶魔尖刺、正义盾击……），在首领插件预警的重击前显示冷却技能，并在有法术针对你时显示法术反射或反魔法护罩。关闭：与其他专精一样由 SimC 列表决定。",
+  ["%s (several targets)"] = "%s（多目标）",
+  ["%s: left to Blizzard's assistant (its cooldown moves with effects we can't see)"] = "%s：交给暴雪助手（其冷却会受我们看不到的效果影响）",
+  ["%s: measured %d times, our clock corrected by %+.1f s, now within %.1f s"] = "%s：测量 %d 次，时钟修正 %+.1f 秒，现在误差 %.1f 秒",
+  ["Nothing yet: it learns from your fights."] = "暂无：它会从你的战斗中学习。",
+  ["What DMGAssist learned for this spec"] = "DMGAssist 为此专精学到的内容",
 }

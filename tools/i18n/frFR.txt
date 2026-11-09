@@ -623,3 +623,8 @@
 629	Tanks
 630	Conseil : appuyez sur votre atténuation (l'icône rouge) dès qu'elle apparaît ; elle est calée pour vous protéger.
 631	Tant que vous avez l'aggro, l'icône défensive montre vos boutons d'entretien quand ils sont dus (Maîtrise du blocage, Pointes démoniaques, Bouclier du vertueux...), les temps de recharge avant les gros coups annoncés par votre addon de boss, et Renvoi de sort ou Carapace anti-magie pour les sorts lancés sur vous. Désactivé : la liste de SimC décide, comme pour les autres spécialisations.
+632	%s (plusieurs cibles)
+633	%s : laissé à l'assistant de Blizzard (son temps de recharge varie selon des effets invisibles pour nous)
+634	%s : mesuré %d fois, notre horloge corrigée de %+.1f s, désormais à %.1f s près
+635	Rien pour l'instant : il apprend de vos combats.
+636	Ce que DMGAssist a appris pour cette spécialisation

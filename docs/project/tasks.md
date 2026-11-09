@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.147 (2026-11-09).
+Last updated: 1.6.0.148 (2026-11-09).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -16,8 +16,6 @@ Last updated: 1.6.0.147 (2026-11-09).
 
 ## Open: build
 
-- [ ] End-of-fight learning summary in plain words ("Kill Command: corrected 3 times, now within 0.2 s")
-- [ ] Interrupts: review for the game's combat restrictions (12.x), like defensives were
 - [ ] Forever: confirm the WoWSims rank mapping (data imports for 34 specs; mapping not verified)
 
 ## Proposed (waiting on a decision)
@@ -43,10 +41,15 @@ Last updated: 1.6.0.147 (2026-11-09).
 - [ ] Dead pet: Revive Pet shown after the pet dies (Survival)
 - [ ] Fury after /dmga relearn: Raging Blow timing (charges, reset procs) learned sanely
 - [ ] Single-target dummy fights (boss numbers learned separately from 5-dummy pulls)
-- [ ] Boss mods in a real dungeon or raid (DBM test hook works)
+- [ ] Boss mods in a real dungeon or raid (DBM test hook works); interrupts in a dungeon (smart mode)
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.148: interrupts reviewed for 12.x: in dungeons/raids ("smart") the importance check tested a secret
+  boolean with Lua's "or" (would have errored on every enemy cast in an instance, never seen in the open world);
+  target cast names are no longer compared while secret. Learning summary in plain words on the Grade report page
+  ("Kill Command: measured 5 times, our clock corrected by -1.2 s, now within 0.2 s"; spells left to Blizzard)
 
 - 1.6.0.147: pre-checked every spec for what Rogue, tanks, Balance and Arms showed. "Blizzard decides" spells no
   longer freeze when the assistant is stuck naming something outside its rotation (Outlaw: Between the Eyes, Roll

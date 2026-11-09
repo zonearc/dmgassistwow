@@ -1014,11 +1014,11 @@ end
 
 local function TargetCast()
   local c = { U.Call(UnitCastingInfo, "target") }
-  if c[1] ~= nil then
+  if U.IsSecret(c[1]) or c[1] ~= nil then
     return true, c[8], c[9]   -- casting, notInterruptible, spellID (either may be secret)
   end
   c = { U.Call(UnitChannelInfo, "target") }
-  if c[1] ~= nil then
+  if U.IsSecret(c[1]) or c[1] ~= nil then
     return true, c[7], c[8]
   end
   return false

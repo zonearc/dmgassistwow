@@ -2876,6 +2876,42 @@ function S.Calibrate()
   return n
 end
 
+-- What the timing learning has found for this spec, in plain words (Settings > Grade report): one line per spell
+-- measured 3 times or more, spells left to Blizzard first. "@aoe" records are the same spell on many targets.
+function S.LearningLines()
+  local L = ns.L
+  local lines = {}
+  local keys = {}
+  for key, t in pairs(S.learned and S.learned.timing or {}) do
+    if type(t) == "table" and (t.n or 0) >= 3 then
+      keys[#keys + 1] = key
+    end
+  end
+  table.sort(keys, function(a, b)
+    local ta, tb = S.learned.timing[a], S.learned.timing[b]
+    if (ta.unreliable == true) ~= (tb.unreliable == true) then
+      return ta.unreliable == true
+    end
+    return a < b
+  end)
+  for _, key in ipairs(keys) do
+    local t = S.learned.timing[key]
+    local name, aoe = key:match("^(.-)(@aoe)$")
+    name = (name or key):gsub("_", " ")
+    if aoe then
+      name = string.format(L["%s (several targets)"], name)
+    end
+    if t.unreliable then
+      lines[#lines + 1] = string.format(L["%s: left to Blizzard's assistant (its cooldown moves with effects we can't see)"],
+        name)
+    else
+      lines[#lines + 1] = string.format(L["%s: measured %d times, our clock corrected by %+.1f s, now within %.1f s"],
+        name, t.n, t.mean or 0, t.spread or 0)
+    end
+  end
+  return lines
+end
+
 ---------------------------------------------------------------------------
 -- Combat bookkeeping and persistence
 ---------------------------------------------------------------------------

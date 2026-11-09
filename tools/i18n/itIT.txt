@@ -623,3 +623,8 @@
 629	Difensori
 630	Suggerimento: premi la tua mitigazione (l'icona rossa) appena compare; è sincronizzata per tenerti al sicuro.
 631	Finché hai l'aggro, l'icona difensiva mostra i pulsanti di mantenimento quando servono (Blocco con lo scudo, Spuntoni demoniaci, Scudo del Virtuoso...), i tempi di recupero prima dei colpi forti annunciati dal tuo addon dei boss, e Riflessione incantesimi o Guscio anti-magia per gli incantesimi lanciati su di te. Disattivato: decide la lista di SimC, come per le altre specializzazioni.
+632	%s (più bersagli)
+633	%s: lasciato all'assistente di Blizzard (il suo tempo di recupero varia per effetti che non vediamo)
+634	%s: misurato %d volte, il nostro orologio corretto di %+.1f s, ora entro %.1f s
+635	Ancora niente: impara dai tuoi combattimenti.
+636	Cosa ha imparato DMGAssist per questa specializzazione

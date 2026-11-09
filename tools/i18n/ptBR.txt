@@ -623,3 +623,8 @@
 629	Tanques
 630	Dica: aperte sua mitigação (o ícone vermelho) assim que aparecer; ela está sincronizada para manter você seguro.
 631	Enquanto você tiver a ameaça, o ícone defensivo mostra seus botões de manutenção quando chegam a hora (Bloqueio com Escudo, Espinhos Demoníacos, Escudo do Virtuoso...), recargas antes dos golpes fortes que seu addon de chefes avisa, e Reflexão de Feitiço ou Carapaça Antimagia para feitiços lançados em você. Desligado: a lista do SimC decide, como nas outras especializações.
+632	%s (vários alvos)
+633	%s: deixado ao assistente da Blizzard (a recarga muda com efeitos que não vemos)
+634	%s: medido %d vezes, nosso relógio corrigido em %+.1f s, agora com margem de %.1f s
+635	Nada ainda: ele aprende com suas lutas.
+636	O que o DMGAssist aprendeu para esta especialização

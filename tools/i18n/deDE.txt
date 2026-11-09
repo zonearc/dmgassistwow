@@ -623,3 +623,8 @@
 629	Tanks
 630	Tipp: Drücke deine Schadensminderung (das rote Symbol), sobald sie erscheint; sie ist so getimt, dass sie dich schützt.
 631	Solange du Aggro hast, zeigt das Verteidigungssymbol deine Aufrechterhaltungs-Fähigkeiten, wenn sie fällig sind (Schildblock, Dämonenstachel, Schild der Rechtschaffenen...), Abklingzeiten vor großen Treffern, vor denen dein Bossmod warnt, und Zauberreflexion oder Antimagische Hülle für Zauber auf dich. Aus: SimCs Liste entscheidet, wie bei anderen Spezialisierungen.
+632	%s (mehrere Ziele)
+633	%s: Blizzards Assistent überlassen (seine Abklingzeit ändert sich durch Effekte, die wir nicht sehen)
+634	%s: %d-mal gemessen, unsere Uhr um %+.1f s korrigiert, jetzt auf %.1f s genau
+635	Noch nichts: es lernt aus deinen Kämpfen.
+636	Was DMGAssist für diese Spezialisierung gelernt hat

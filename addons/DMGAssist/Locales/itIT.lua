@@ -627,4 +627,9 @@ ns.LOCALE_DATA.itIT = {
   ["Tanks"] = "Difensori",
   ["Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe."] = "Suggerimento: premi la tua mitigazione (l'icona rossa) appena compare; è sincronizzata per tenerti al sicuro.",
   ["While you hold aggro, the defensive icon shows your keep-up buttons when they're due (Shield Block, Demon Spikes, Shield of the Righteous...), cooldowns before big hits your boss mod warns about, and Spell Reflection or Anti-Magic Shell for spells cast at you. Off: SimC's list decides, as for other specs."] = "Finché hai l'aggro, l'icona difensiva mostra i pulsanti di mantenimento quando servono (Blocco con lo scudo, Spuntoni demoniaci, Scudo del Virtuoso...), i tempi di recupero prima dei colpi forti annunciati dal tuo addon dei boss, e Riflessione incantesimi o Guscio anti-magia per gli incantesimi lanciati su di te. Disattivato: decide la lista di SimC, come per le altre specializzazioni.",
+  ["%s (several targets)"] = "%s (più bersagli)",
+  ["%s: left to Blizzard's assistant (its cooldown moves with effects we can't see)"] = "%s: lasciato all'assistente di Blizzard (il suo tempo di recupero varia per effetti che non vediamo)",
+  ["%s: measured %d times, our clock corrected by %+.1f s, now within %.1f s"] = "%s: misurato %d volte, il nostro orologio corretto di %+.1f s, ora entro %.1f s",
+  ["Nothing yet: it learns from your fights."] = "Ancora niente: impara dai tuoi combattimenti.",
+  ["What DMGAssist learned for this spec"] = "Cosa ha imparato DMGAssist per questa specializzazione",
 }

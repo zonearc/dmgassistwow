@@ -627,4 +627,9 @@ ns.LOCALE_DATA.ruRU = {
   ["Tanks"] = "Танки",
   ["Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe."] = "Совет: нажимайте смягчение (красный значок), как только оно появится; оно рассчитано, чтобы вас защитить.",
   ["While you hold aggro, the defensive icon shows your keep-up buttons when they're due (Shield Block, Demon Spikes, Shield of the Righteous...), cooldowns before big hits your boss mod warns about, and Spell Reflection or Anti-Magic Shell for spells cast at you. Off: SimC's list decides, as for other specs."] = "Пока вы удерживаете угрозу, защитный значок показывает поддерживаемые способности, когда приходит их время (Блок щитом, Демонические шипы, Щит праведности...), восстановления перед сильными ударами, о которых предупреждает ваш аддон для боссов, и Отражение заклинания или Антимагический панцирь для заклинаний в вас. Выкл.: решает список SimC, как для других специализаций.",
+  ["%s (several targets)"] = "%s (несколько целей)",
+  ["%s: left to Blizzard's assistant (its cooldown moves with effects we can't see)"] = "%s: доверено помощнику Blizzard (его восстановление меняется от эффектов, которых мы не видим)",
+  ["%s: measured %d times, our clock corrected by %+.1f s, now within %.1f s"] = "%s: измерено %d раз, наши часы поправлены на %+.1f с, теперь точность %.1f с",
+  ["Nothing yet: it learns from your fights."] = "Пока ничего: он учится на ваших боях.",
+  ["What DMGAssist learned for this spec"] = "Чему DMGAssist научился для этой специализации",
 }

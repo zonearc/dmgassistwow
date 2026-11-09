@@ -627,4 +627,9 @@ ns.LOCALE_DATA.koKR = {
   ["Tanks"] = "방어 전담",
   ["Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe."] = "팁: 피해 감소(빨간 아이콘)가 나타나면 바로 누르세요. 당신을 지키도록 시간이 맞춰져 있습니다.",
   ["While you hold aggro, the defensive icon shows your keep-up buttons when they're due (Shield Block, Demon Spikes, Shield of the Righteous...), cooldowns before big hits your boss mod warns about, and Spell Reflection or Anti-Magic Shell for spells cast at you. Off: SimC's list decides, as for other specs."] = "위협 수준을 유지하는 동안 방어 아이콘에 유지 기술이 필요할 때 표시됩니다(방패 막기, 악마 쐐기, 정의의 방패...). 우두머리 애드온이 경고하는 강한 공격 전에는 재사용 대기시간 기술을, 자신에게 시전되는 주문에는 주문 반사나 대마법 보호막을 표시합니다. 끄기: 다른 전문화처럼 SimC 목록이 결정합니다.",
+  ["%s (several targets)"] = "%s (여러 대상)",
+  ["%s: left to Blizzard's assistant (its cooldown moves with effects we can't see)"] = "%s: 블리자드 도우미에게 맡김 (보이지 않는 효과로 재사용 대기시간이 바뀜)",
+  ["%s: measured %d times, our clock corrected by %+.1f s, now within %.1f s"] = "%s: %d번 측정, 시계를 %+.1f초 보정, 현재 오차 %.1f초",
+  ["Nothing yet: it learns from your fights."] = "아직 없음: 전투하면서 배웁니다.",
+  ["What DMGAssist learned for this spec"] = "이 전문화에서 DMGAssist가 배운 것",
 }

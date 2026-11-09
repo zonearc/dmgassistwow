@@ -788,8 +788,14 @@ function O.RegisterGradeReport(parent)
   all:SetText(L["Forget every spec's grades"])
   local function Fill()
     local lines = ns.Grade.Report()
-    body:SetText(lines and table.concat(lines, "\n") or L["No graded fights yet for this spec. Fight something "
-      .. "for 20 seconds or more."])
+    local text = lines and table.concat(lines, "\n") or L["No graded fights yet for this spec. Fight something "
+      .. "for 20 seconds or more."]
+    -- what the timing learning found, in plain words
+    local learned = ns.State.LearningLines()
+    text = text .. "\n\n|cffffd100" .. L["What DMGAssist learned for this spec"] .. "|r\n"
+      .. (#learned > 0 and table.concat(learned, "\n", 1, math.min(#learned, 12))
+        or L["Nothing yet: it learns from your fights."])
+    body:SetText(text)
   end
   reset:SetScript("OnClick", function()
     ns.Grade.Reset(ns.Grade.SpecKey())

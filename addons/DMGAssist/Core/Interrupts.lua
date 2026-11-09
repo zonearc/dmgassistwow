@@ -72,7 +72,12 @@ function I.Evaluate()
   local needImportant = mode == "smart" and instance and not bossCall
   -- Readable facts: decide here.
   local niSecret = U.IsSecret(notInterruptible)
-  local important = needImportant and spellID ~= nil and U.Call(C_Spell and C_Spell.IsSpellImportant, spellID) or nil
+  -- (never "a and secret or nil": Lua's "or" would test the secret boolean, which the game refuses in combat;
+  -- found reviewing for 12.x, 2026-11-09 - it would have errored on every cast in a dungeon)
+  local important
+  if needImportant and (U.IsSecret(spellID) or spellID ~= nil) then
+    important = U.Call(C_Spell and C_Spell.IsSpellImportant, spellID)
+  end
   local impSecret = needImportant and U.IsSecret(important)
   if not niSecret and notInterruptible == true then
     return nil

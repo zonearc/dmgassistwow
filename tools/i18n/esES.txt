@@ -623,3 +623,8 @@
 629	Tanques
 630	Consejo: pulsa tu mitigación (el icono rojo) en cuanto aparezca; está sincronizada para mantenerte a salvo.
 631	Mientras tengas la amenaza, el icono defensivo muestra tus botones de mantenimiento cuando tocan (Bloqueo con escudo, Púas demoníacas, Escudo de los justos...), reutilizaciones antes de los golpes fuertes que avisa tu addon de jefes, y Reflejo de hechizos o Caparazón antimagia para hechizos lanzados contra ti. Desactivado: decide la lista de SimC, como en otras especializaciones.
+632	%s (varios objetivos)
+633	%s: se deja al asistente de Blizzard (su reutilización cambia por efectos que no vemos)
+634	%s: medido %d veces, nuestro reloj corregido %+.1f s, ahora con margen de %.1f s
+635	Nada aún: aprende de tus combates.
+636	Lo que DMGAssist ha aprendido de esta especialización
