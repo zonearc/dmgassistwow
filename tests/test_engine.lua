@@ -621,6 +621,29 @@ test("training dummies that never show as in combat are counted while you fight"
   mock.nameplates, mock.plateCombat, mock.plateNames = 0, nil, nil
 end)
 
+test("charges: the game's count counts in the look-ahead too, and each predicted cast spends one", function()
+  Reset()
+  local book = {}
+  for i, b in ipairs(FERAL_BOOK) do
+    book[i] = b
+  end
+  book[#book + 1] = { spellID = 22842, name = "Frenzied Regeneration" }
+  mock.book = book
+  local ns = Boot()
+  local S = ns.State
+  mock.charges = { [22842] = { 0, 1 } }
+  S.BeginLookahead(0)
+  eq(S.Charges(22842), 0, "the game says none left: none, also while looking ahead")
+  S.EndLookahead()
+  mock.charges = { [22842] = { 1, 1 } }
+  S.BeginLookahead(0)
+  eq(S.Charges(22842), 1)
+  S.Apply(22842)
+  eq(S.Charges(22842), 0, "a predicted cast spends the charge")
+  S.EndLookahead()
+  mock.charges = nil
+end)
+
 test("spells on cooldown or unusable are skipped", function()
   Reset()
   local ns = Boot()

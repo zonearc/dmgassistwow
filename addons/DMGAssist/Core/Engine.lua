@@ -204,6 +204,10 @@ G.WHEN_HURT = {
   barkskin = true, frenzied_regeneration = true, ardent_defender = true, guardian_of_ancient_kings = true,
   shield_wall = true, last_stand = true, icebound_fortitude = true, vampiric_blood = true, fiery_brand = true,
   word_of_glory = "hurt", expel_harm = "hurt", healing_elixir = "hurt", dampen_harm = true,
+  -- self-heals and personal defensives any spec's list may carry
+  desperate_prayer = "hurt", vampiric_embrace = "hurt", dispersion = true, power_word_shield = "hurt",
+  crimson_vial = "hurt", renewal = "hurt", exhilaration = "hurt", dark_pact = "hurt", mortal_coil = "hurt",
+  impending_victory = "hurt", victory_rush = "hurt", healing_surge = "hurt", astral_shift = true,
 }
 
 local function NotHurtSkip(token)

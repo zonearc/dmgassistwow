@@ -737,7 +737,11 @@ function mock.Install(env)
     GetSpellInfo = function(id)
       return { name = "x", spellID = id, castTime = (mock.castTimes and mock.castTimes[id]) or 0 }
     end,
-    GetSpellCharges = function()
+    GetSpellCharges = function(id)
+      local c = mock.charges and mock.charges[id]
+      if c then
+        return { currentCharges = c[1], maxCharges = c[2] }
+      end
       return nil
     end,
   }
