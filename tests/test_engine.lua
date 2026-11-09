@@ -1394,6 +1394,20 @@ test("welcome: three questions once per profile, suggestions applied, skipped fo
   eq(w:IsShown(), false)
 end)
 
+test("per spec: DMGAssist can be switched off for one spec only", function()
+  Reset()
+  local ns = Boot()
+  eq(ns.Choices.SpecOff(), false)
+  ns.commands.spec("off")
+  eq(ns.Choices.SpecOff(), true, "off for this spec")
+  local saved = ns.Specs.current.key
+  ns.Specs.current.key = "druid_balance"
+  eq(ns.Choices.SpecOff(), false, "other specs unaffected")
+  ns.Specs.current.key = saved
+  ns.commands.spec("on")
+  eq(ns.Choices.SpecOff(), false)
+end)
+
 test("Edit Mode: the HUD shows and can be dragged while Blizzard's Edit Mode is open", function()
   Reset()
   local ns = Boot()

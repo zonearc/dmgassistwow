@@ -92,6 +92,23 @@ function C.SetHidden(id, hidden)
   end
 end
 
+-- DMGAssist switched off for one spec (an alt's healing spec you play without it): nothing is shown in that spec,
+-- everything else stays as it is.
+function C.SpecOff()
+  local key = C.SpecKey()
+  local t = ns.db and ns.db.specOff
+  return key ~= nil and type(t) == "table" and t[key] == true
+end
+
+function C.SetSpecOff(off)
+  local key = C.SpecKey()
+  if not (ns.db and key) then
+    return
+  end
+  ns.db.specOff = type(ns.db.specOff) == "table" and ns.db.specOff or {}
+  ns.db.specOff[key] = off and true or nil
+end
+
 -- Every spell DMGAssist can show for this spec: the priority lists' spells the player knows, the gap closer, the
 -- interrupt, the defensives and the keep-ups. Spell IDs, no duplicates.
 function C.Spells()

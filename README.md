@@ -5,7 +5,7 @@ DMGAssist shows the next three spells to press, in priority order, and flashes t
 It is built for 12.x's "secret values" rules from the ground up: no combat-log scraping, no protected calls,
 nothing automated. You press every button.
 
-> **Early access.** DMGAssist is under active development, with a nightly build after every change.
+> **Early access.** DMGAssist is under active development, with frequent updates on CurseForge.
 > If something looks wrong, [tell us](#reporting-a-problem): reports are read and worked through every night.
 
 ---
@@ -52,6 +52,10 @@ nothing automated. You press every button.
   knows only a few of the spells the priority list expects, follow Blizzard's Assisted Combat, which is built for
   exactly that. It switches to the SimC list by itself as you learn more. Learn a spell with no key and you get one
   chat line (not when the game already put it on a keyed button); unspent talent points after a level-up too.
+- **Per spec.** Switch DMGAssist off for one spec only (an alt's healing spec you play without it): minimap menu,
+  Spells & trinkets page, or `/dmga spec off`.
+- **Range and resource colors.** Like the action bars: an icon turns red when the target is out of range, and slot 1
+  turns blue when you are short of resource.
 - **Three questions to start.** Where the HUD goes, how big, when it shows, each with a suggested answer.
   Once per settings profile, so alts sharing one are asked once (`/dmga welcome` to redo it).
 - **Fits your UI.** Blizzard's Edit Mode places it with everything else; Masque skins its icons like your bars;
@@ -62,21 +66,15 @@ nothing automated. You press every button.
 
 ## Install
 
-**CurseForge (recommended):** install DMGAssist from [CurseForge](https://www.curseforge.com/projects/1481713).
-The CurseForge app keeps it up to date by itself.
-
-**WowUp:** install [WowUp](https://wowup.io), search for DMGAssist, or use **Get Addons → Install from URL** with
-`https://github.com/zonearc/dmgassistwow` for the weekly release.
-
-**Manual:** download `DMGAssist-<version>.zip` from the [latest release](../../releases/latest) (or `DMGAssist.zip`
-from the [nightly build](../../releases/tag/nightly)) and unzip it into `World of Warcraft/_retail_/Interface/AddOns/`.
-It holds DMGAssist and its Watchdog (the report tool), which shows under DMGAssist in the game's AddOns list.
-
+Install DMGAssist from **[CurseForge](https://www.curseforge.com/projects/1481713)**: the CurseForge app installs
+it and keeps it up to date by itself. That is the only download. (The CurseForge page also has the zip for a manual
+install: unzip it into `World of Warcraft/_retail_/Interface/AddOns/`.) The package holds DMGAssist and its
+*Report an Issue* tool, which shows under DMGAssist in the game's AddOns list.
 
 ## Using it
 
 The icons appear in combat, or out of combat with an enemy targeted. Drag them where you like
-(`/dmga lock` to unlock and lock).
+(`/dmga lock` to unlock and lock), or move them in Blizzard's Edit Mode.
 
 | Where | What |
 |---|---|
@@ -104,6 +102,7 @@ and where to report problems.
 | `/dmga why` | the queue, where each pick came from, and list spells you don't have |
 | `/dmga report` | report an issue or give feedback (also `/dmga issue`, `/dmga feedback`) |
 | `/dmga welcome` | the three setup questions again |
+| `/dmga spec on` · `off` | DMGAssist on or off for the spec you are in (also on the minimap menu) |
 | `/dmga unbound` | spells it can recommend that have no key binding |
 | `/dmga test interrupt` · `defensive` · `bossmods` · `assisted` | check the integrations (also Settings > Integrations) |
 
@@ -133,7 +132,7 @@ minimap button → *Report an issue*). The window walks you through it:
 2. **Step 2:** the report is already selected: press **Ctrl+C**. Your words are copied with it.
 3. **Step 3:** copy the link shown, open it in your browser, paste with **Ctrl+V** and press Create.
 
-You'll get a reply on the issue, usually with a fix in the next nightly build to try.
+You'll get a reply on the issue, usually with a fix in the next CurseForge update.
 Ideas are welcome too: **New issue → Feature request**.
 
 The report contains your spec, settings, what DMGAssist decided and why, and Lua errors. Your account name is
@@ -169,9 +168,9 @@ python3 tools/decode-export.py report.txt             # read a Watchdog report
 Needs Lua 5.1 and `luacheck`. Rules and architecture: [CONTRIBUTING.md](CONTRIBUTING.md) · in-game testing:
 [TESTING.md](TESTING.md).
 
-**Automation:** every push runs the checks and publishes the nightly release. Weekly jobs pull new
+**Automation:** every push runs the checks and builds a nightly test package (for testers). Weekly jobs pull new
 SimulationCraft data and watch Blizzard's API documentation, each opening a pull request when something changed.
-Tagging `vX.Y.Z` builds a release (and uploads to CurseForge when enabled). Issues are triaged nightly following
+A weekly job (or `[release]` in a commit message) uploads the current build to CurseForge; there are no GitHub releases. Issues are triaged nightly following
 [docs/process/issue-triage.md](docs/process/issue-triage.md).
 
 ## Credits

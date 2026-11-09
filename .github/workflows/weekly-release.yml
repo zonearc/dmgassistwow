@@ -1,9 +1,9 @@
 name: Weekly release
 
-# Once a week, the current nightly build becomes a numbered GitHub release (the repository's "Latest release"), with
-# the list of changes since the previous weekly release. Skipped when nothing changed. The same zip is uploaded to
-# CurseForge when the CF_API_TOKEN secret is set and the repository variable CURSEFORGE_PUBLISH is "true", as an
-# Alpha file unless the variable CURSEFORGE_RELEASE_TYPE says "beta" or "release".
+# Once a week (or on "[release]"), the current nightly build is uploaded to CurseForge, with the list of changes since
+# the previous release, and tagged build-<version>. CurseForge is the only download for players: there is no GitHub
+# release. Needs the CF_API_TOKEN (or CF_API_TOKEN2) secret and the repository variable CURSEFORGE_PUBLISH = "true";
+# the file type is Alpha unless CURSEFORGE_RELEASE_TYPE says "beta" or "release". Skipped when nothing changed.
 
 on:
   schedule:
@@ -67,33 +67,27 @@ jobs:
             echo "No changes since $prev"; exit 0
           fi
           mkdir assets
-          # One package (DMGAssist + DMGAssist_Watchdog), release.json (the packager metadata addon managers such as
-          # WowUp read to pick the zip). The Windows updater is only on the nightly page (family testers).
+          # One package (DMGAssist + DMGAssist_Watchdog). The Windows updater is only on the nightly page (family testers).
           gh release download nightly --dir assets --pattern 'DMGAssist.zip'
           mv assets/DMGAssist.zip "assets/DMGAssist-$version.zip"
-          cat > assets/release.json <<JSON
-          {"releases":[{"name":"DMGAssist","version":"$version","filename":"DMGAssist-$version.zip","nolib":false,
-            "metadata":[{"flavor":"mainline","interface":120105}]}]}
-          JSON
           {
-            echo "**DMGAssist $version**: this week's build (the newest one is always the [nightly build](https://github.com/${{ github.repository }}/releases/tag/nightly))."
+            echo "**DMGAssist $version**"
             echo
             echo "### Changes"
             if [ -n "$prev" ]; then range="$prev..$sha"; else range="$sha"; fi
             git log --no-merges --format='- %s' $range | head -60
             echo
-            echo "### Install"
-            echo "Easiest: install DMGAssist from [CurseForge](https://www.curseforge.com/projects/1481713); the CurseForge app keeps it up to date."
-            echo
-            echo "Or unzip **DMGAssist-$version.zip** into \`World of Warcraft/_retail_/Interface/AddOns/\` (it holds DMGAssist and its Watchdog)."
+            echo "Report a problem in game: /dmga report."
           } > notes.md
-          # GitHub has answered the first try with a 403 right after a build (a re-run passed): retry a few times.
+          # CurseForge is the one place players download releases (it keeps them updated): no GitHub release, only a
+          # tag that marks what was released, so the next week's changes can be listed.
+          git tag "$tag" "$sha"
           for try in 1 2 3; do
-            if gh release create "$tag" assets/* --target "$sha" --title "DMGAssist $version" --notes-file notes.md --latest; then
+            if git push -q origin "refs/tags/$tag"; then
               echo "version=$version" >> "$GITHUB_OUTPUT"
               exit 0
             fi
-            sleep 60
+            sleep 30
           done
           exit 1
       - name: CurseForge

@@ -31,7 +31,7 @@ D.DEFAULTS = {
   hideOutOfCombat = true, showWithTarget = true, hideMounted = true, hideVehicle = true,
   debugText = false, callout = true, pressCue = true, pressLead = 50, secretBranches = true, interrupt = true, defensive = true,
   highlight = true,
-  padLabels = "xbox", stackCount = true, stackSize = 14, stackPos = "BOTTOM", weavePos = "TOPLEFT", weaveSize = 45,
+  padLabels = "xbox", rangeTint = true, stackCount = true, stackSize = 14, stackPos = "BOTTOM", weavePos = "TOPLEFT", weaveSize = 45,
 }
 
 -- Where the off-GCD badge sits relative to slot 1: { point on the badge, point on slot 1, x, y }.
@@ -740,6 +740,20 @@ local function SetIcon(icon, pick, cfg, isMain, labelText)
   local name = cfg.spellNames and U.Get(C_Spell and C_Spell.GetSpellName, pick.id) or ""
   icon.name:SetText(name or "")
   icon.label:SetText(cfg.labels and labelText or "")
+  -- Like the action bars: red when the target is out of this spell's range; on slot 1, blue when it is short of
+  -- resource. Only when the game says so (an unreadable answer leaves the icon as it is).
+  local r, g, b = 1, 1, 1
+  if cfg.rangeTint ~= false and pick.id and not pick.item and U.Get(UnitExists, "target") == true then
+    if U.Get(C_Spell and C_Spell.IsSpellInRange, pick.id, "target") == false then
+      r, g, b = 1, 0.3, 0.3
+    elseif isMain then
+      local usable, noPower = U.Call(C_Spell and C_Spell.IsSpellUsable, pick.id)
+      if U.Read(usable) == false and U.Read(noPower) == true then
+        r, g, b = 0.45, 0.55, 1
+      end
+    end
+  end
+  icon.tex:SetVertexColor(r, g, b)
   local alpha = isMain and 1 or cfg.queueAlpha
   if cfg.dimGuesses and (pick.source == "guess" or pick.source == "rules?" or pick.source == "pool") then
     alpha = alpha * 0.5

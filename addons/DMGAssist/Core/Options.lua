@@ -378,6 +378,9 @@ function O.Register()
     { { "CENTER", "Center" }, { "TOPRIGHT", "Top right" }, { "TOPLEFT", "Top left" }, { "BOTTOMLEFT", "Bottom left" },
       { "BOTTOMRIGHT", "Bottom right" } })
   Choice(display, HUD, "keybindColor", "Keybind color", H.keybindColor, ns.Display.TEXT_COLORS)
+  Check(display, HUD, "rangeTint", "Out of range and resource colors", H.rangeTint,
+    "Like your action bars: an icon turns red when your target is out of that spell's range, and slot 1 turns blue "
+      .. "when you are short of resource for it.")
   Choice(display, HUD, "padLabels", "Controller button names", H.padLabels,
     { { "xbox", "Xbox (A B X Y, LB RB)" }, { "playstation", "PlayStation (X O, L1 R1)" } },
     "With a controller (the game's gamepad support), keybinds show as controller buttons, for example LT+A.")
@@ -571,6 +574,17 @@ function O.RegisterSpellChoices(parent)
   local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
   title:SetPoint("TOPLEFT", 16, -16)
   title:SetText(L["Spells & trinkets"])
+  -- The whole spec on or off (an alt's healing spec played without DMGAssist).
+  local specOn = CreateFrame("CheckButton", nil, frame, "UICheckButtonTemplate")
+  specOn:SetSize(24, 24)
+  specOn:SetPoint("LEFT", title, "RIGHT", 24, 0)
+  specOn.label = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
+  specOn.label:SetPoint("LEFT", specOn, "RIGHT", 4, 0)
+  specOn.label:SetText(L["On for this spec"])
+  specOn:SetScript("OnClick", function(self)
+    ns.Choices.SetSpecOff(not self:GetChecked())
+    ns.Update()
+  end)
   local intro = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
   intro:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -10)
   intro:SetWidth(560)
@@ -630,6 +644,7 @@ function O.RegisterSpellChoices(parent)
   end
   local function Refresh()
     local state = ns.Specs.current
+    specOn:SetChecked(not ns.Choices.SpecOff())
     local entries = {}
     for _, info in ipairs(ns.Trinkets.List()) do
       entries[#entries + 1] = { item = info.item, name = tostring(info.name), texture = info.texture,

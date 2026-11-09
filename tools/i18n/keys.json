@@ -418,5 +418,18 @@
 "Download (CurseForge)",
 "Below max level, and for a new character's starter spec, Blizzard's Assisted Combat leads while you know few of the spells the priority list expects; DMGAssist's list takes over by itself as you learn more. New spells without a key and unspent talent points get one chat line. Combat > Leveling.",
 "Fits your UI",
-"Move the HUD in Blizzard's Edit Mode. Masque skins the icons. With a controller, keybinds show as its buttons (Display > Controller button names). Titan Panel and ElvUI data texts get a DMGAssist launcher. Addon authors: DMGAssistAPI."
+"Move the HUD in Blizzard's Edit Mode. Masque skins the icons. With a controller, keybinds show as its buttons (Display > Controller button names). Titan Panel and ElvUI data texts get a DMGAssist launcher. Addon authors: DMGAssistAPI.",
+"DMGAssist is off for %s. /dmga spec on turns it back on.",
+"DMGAssist is on for %s.",
+"DMGAssist on or off for the spec you are in (an alt's healing spec, for example)",
+"Like your action bars: an icon turns red when your target is out of that spell's range, and slot 1 turns blue when you are short of resource for it.",
+"On for this spec",
+"Out of range and resource colors",
+"list spells you can be told to cast that have no key binding",
+"pretend your boss mod called for a defensive (8 s), to check it shows",
+"refresh keybinds",
+"report an issue or give feedback: describe it, copy the report, open the issue page",
+"store a full decision trace for troubleshooting",
+"test the interrupt, Blizzard's assistant, boss mod detection",
+"the three setup questions again (where, how big, when to show)"
 ]

@@ -135,7 +135,7 @@ The fastest way to get something fixed:
 4. **Step 2:** press **Ctrl+C**. Your words and the report are copied together.
 5. **Step 3:** open the link shown in the window, paste with **Ctrl+V**, and press Create.
 
-You'll get a reply on the issue, usually with a fix in the next nightly build for you to try.
+You'll get a reply on the issue, usually with a fix in the next CurseForge update.
 
 **Tips for a useful report:**
 - One problem per issue.

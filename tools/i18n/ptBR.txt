@@ -411,3 +411,16 @@
 417	Abaixo do nível máximo, e na especialização inicial de um personagem novo, o Combate Assistido da Blizzard lidera enquanto você conhece poucos dos feitiços que a lista de prioridades espera; a lista do DMGAssist assume sozinha conforme você aprende mais. Feitiços novos sem tecla e pontos de talento sobrando ganham uma linha no chat. Combate > Subindo de nível.
 418	Combina com a sua interface
 419	Mova o HUD no Modo de Edição da Blizzard. O Masque estiliza os ícones. Com um controle, as teclas aparecem como os botões dele (Exibição > Nomes dos botões do controle). O Titan Panel e os textos de dados do ElvUI ganham um atalho do DMGAssist. Para autores de addons: DMGAssistAPI.
+420	O DMGAssist está desligado para %s. /dmga spec on liga de novo.
+421	O DMGAssist está ligado para %s.
+422	DMGAssist ligado ou desligado para a especialização atual (por exemplo, a especialização de cura de um alt)
+423	Como nas suas barras de ações: um ícone fica vermelho quando o alvo está fora do alcance do feitiço, e o espaço 1 fica azul quando falta recurso para ele.
+424	Ligado para esta especialização
+425	Cores de alcance e recurso
+426	listar os feitiços que podem ser recomendados e não têm tecla
+427	simular um aviso defensivo do seu addon de chefes (8 s), para conferir que aparece
+428	ler as teclas de novo
+429	relatar um problema ou dar sua opinião: descreva, copie o relatório, abra a página de issues
+430	salvar um rastro completo das decisões para resolver problemas
+431	testar a interrupção, o assistente da Blizzard e a detecção de addons de chefes
+432	as três perguntas de configuração de novo (onde, qual tamanho, quando mostrar)

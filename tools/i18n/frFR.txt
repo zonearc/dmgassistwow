@@ -411,3 +411,16 @@
 417	Sous le niveau maximum, et avec la spécialisation de départ d'un nouveau personnage, le Combat assisté de Blizzard mène tant que vous connaissez peu des sorts attendus par la liste de priorités ; la liste de DMGAssist prend le relais toute seule à mesure que vous en apprenez. Les nouveaux sorts sans touche et les points de talent restants donnent une ligne dans le chat. Combat > Montée de niveau.
 418	S'intègre à votre interface
 419	Déplacez le HUD dans le mode Édition de Blizzard. Masque habille les icônes. Avec une manette, les raccourcis s'affichent comme ses boutons (Affichage > Noms des boutons de manette). Titan Panel et les textes de données d'ElvUI ont un lanceur DMGAssist. Pour les auteurs d'addons : DMGAssistAPI.
+420	DMGAssist est désactivé pour %s. /dmga spec on le réactive.
+421	DMGAssist est activé pour %s.
+422	DMGAssist activé ou désactivé pour la spécialisation actuelle (par exemple la spécialisation de soin d'un reroll)
+423	Comme sur vos barres d'action : une icône devient rouge quand votre cible est hors de portée de ce sort, et la case 1 devient bleue quand il vous manque la ressource.
+424	Activé pour cette spécialisation
+425	Couleurs de portée et de ressource
+426	lister les sorts qui peuvent être recommandés et n'ont pas de raccourci
+427	simuler une alerte défensive de votre addon de boss (8 s), pour vérifier qu'elle s'affiche
+428	relire les raccourcis
+429	signaler un problème ou donner un avis : décrivez-le, copiez le rapport, ouvrez la page des tickets
+430	enregistrer une trace complète des décisions pour le dépannage
+431	tester l'interruption, l'assistant de Blizzard et la détection des addons de boss
+432	les trois questions de configuration à nouveau (où, quelle taille, quand afficher)

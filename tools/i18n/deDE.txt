@@ -411,3 +411,16 @@
 417	Unter der Höchststufe und bei der Start-Spezialisierung eines neuen Charakters führt Blizzards Kampfassistent, solange du wenige der Zauber kennst, die die Prioritätenliste erwartet; die Liste von DMGAssist übernimmt von selbst, sobald du mehr lernst. Neue Zauber ohne Taste und unverteilte Talentpunkte bekommen eine Chatzeile. Kampf > Leveln.
 418	Passt zu deinem UI
 419	Verschiebe das HUD im Bearbeitungsmodus von Blizzard. Masque gestaltet die Symbole. Mit einem Controller erscheinen Tastenbelegungen als dessen Tasten (Anzeige > Namen der Controllertasten). Titan Panel und ElvUI-Datentexte bekommen einen DMGAssist-Starter. Für Addon-Autoren: DMGAssistAPI.
+420	DMGAssist ist für %s aus. /dmga spec on schaltet es wieder an.
+421	DMGAssist ist für %s an.
+422	DMGAssist für die aktuelle Spezialisierung an oder aus (zum Beispiel die Heiler-Spezialisierung eines Twinks)
+423	Wie bei deinen Aktionsleisten: ein Symbol wird rot, wenn dein Ziel außer Reichweite des Zaubers ist, und Feld 1 wird blau, wenn dir die Ressource dafür fehlt.
+424	An für diese Spezialisierung
+425	Farben für Reichweite und Ressource
+426	Zauber auflisten, die vorgeschlagen werden können und keine Tastenbelegung haben
+427	einen Verteidigungs-Hinweis deines Boss-Addons simulieren (8 s), um zu prüfen, dass er erscheint
+428	Tastenbelegungen neu einlesen
+429	ein Problem melden oder Feedback geben: beschreiben, Bericht kopieren, Issue-Seite öffnen
+430	eine vollständige Entscheidungsspur zur Fehlersuche speichern
+431	Unterbrechung, Blizzards Assistent und Boss-Addon-Erkennung testen
+432	die drei Einrichtungsfragen erneut (wo, wie groß, wann anzeigen)

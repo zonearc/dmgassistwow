@@ -171,7 +171,7 @@ local function ShouldShow()
   if ns.Previewing() then
     return true
   end
-  if Hidden() then
+  if Hidden() or ns.Choices.SpecOff() then
     return false
   end
   local enemy = U.Get(UnitExists, "target") == true and
@@ -704,6 +704,23 @@ end
 commands.issue = commands.report
 commands.feedback = commands.report
 
+-- /dmga spec on|off: DMGAssist on or off for the spec you are in (toggles without an argument).
+function commands.spec(arg)
+  local off
+  if arg == "off" then
+    off = true
+  elseif arg == "on" then
+    off = false
+  else
+    off = not ns.Choices.SpecOff()
+  end
+  ns.Choices.SetSpecOff(off)
+  local state = Specs.current
+  U.Print(off and L["DMGAssist is off for %s. /dmga spec on turns it back on."] or L["DMGAssist is on for %s."],
+    tostring(state and (state.specName or state.key) or "?"))
+  ns.Update()
+end
+
 function commands.welcome()
   ns.Welcome.Open()
 end
@@ -833,6 +850,7 @@ function commands.help()
     { "/dmga config", "open the settings panel" },
     { "/dmga keys", "refresh keybinds" },
     { "/dmga report", "report an issue or give feedback: describe it, copy the report, open the issue page" },
+    { "/dmga spec on|off", "DMGAssist on or off for the spec you are in (an alt's healing spec, for example)" },
     { "/dmga welcome", "the three setup questions again (where, how big, when to show)" },
     { "/dmga unbound", "list spells you can be told to cast that have no key binding" },
     { "/dmga test", "pretend your boss mod called for a defensive (8 s), to check it shows" },
