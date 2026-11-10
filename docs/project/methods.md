@@ -52,6 +52,12 @@ Written down so that a fix for one class doesn't quietly break another. Keep thi
   from memory.
 - Learn from the game only what it actually told us: a refusal counts as "on cooldown" only with the game's
   "not ready yet" message; a sample taken against a clock from before the fight teaches nothing.
+- A buff's name is not its spell: check which spell SimC's `buff.<name>` really is (the class module's
+  `make_buff`) before trusting "never seen = down". Devourer's `buff.eradicate` is 1239524 (from Void Ray), not
+  the Eradicate cast that "applies itself" for 1.5 s.
+- A baseline row that looks dead (1 distinct spell, slots 2-3 empty 100%) is a question, not a number to keep:
+  either the simulation can't play that spec (Devourer: Fury never changes, so Void Ray forever) or the addon is
+  wrong. Back it with a test on the real data and the report's setup.
 
 ## 3. Changing the baseline honestly
 

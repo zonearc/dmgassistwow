@@ -16,6 +16,8 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- The every-spec check can't play Devourer (Fury never changes in the simulation, so Void Ray forever). Model
+  spent/gained resources per spell, or mark such rows as not meaningful.
 - [ ] Forever: confirm the WoWSims rank mapping (data imports for 34 specs; mapping not verified)
 
 ## Proposed (waiting on a decision)
@@ -49,6 +51,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.175: Devourer DH on several targets follows Blizzard into Reap / Eradicate instead of sitting on Consume.
+  A spell that "applies itself" for a GCD or less (Eradicate, Reap, Spinning Crane Kick...) is its cast, not the
+  buff of that name, so buff.eradicate (Void Ray's) is unknown rather than "certainly down".
 - 1.6.0.174: a long cooldown you cast a moment ago isn't offered again while our clock can't tell it's on
   cooldown (Havoc Metamorphosis flipping with Annihilation in slot 1 during Meta).
 - 1.6.0.173: a spell on none of your action bars is never suggested (slot 1, slots 2-3, the defensive and

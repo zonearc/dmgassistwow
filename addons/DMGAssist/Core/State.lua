@@ -1659,13 +1659,20 @@ local NONE = {}
 function S.AppliedAuras(id)
   local info = M.Info(id)
   if info and info.ap then
-    return info.ap
+    -- not the cast's own short effect (see M.IsCastEffect): casting Eradicate ends buff.eradicate, it doesn't start it
+    local list = {}
+    for _, ap in ipairs(info.ap) do
+      if not M.IsCastEffect(id, ap) then
+        list[#list + 1] = ap
+      end
+    end
+    return list
   end
   local token = info and info.n
   for _, aid in ipairs(token and M.AuraIDs(token) or NONE) do
     local ai = aid ~= id and M.Info(aid)
     local ap = ai and ai.ap and ai.ap[1]
-    if ap and ap[1] == aid and ai.n == token and ai.d then
+    if ap and ap[1] == aid and ai.n == token and ai.d and not M.IsCastEffect(aid, ap) then
       return { ap }
     end
   end

@@ -77,6 +77,12 @@ M.EXTRA_INFO = {
   [194509] = { n = "power_word_radiance", gcd = 1.5, ct = 2, ch = 2, chcd = 18 }, -- Power Word: Radiance
 }
 
+M.CAST_EFFECT_MAX = 1.5
+function M.IsCastEffect(id, ap)
+  local ai = ap and ap[1] == id and ap[2] ~= "enemy" and M.info[id]
+  return ai and (ai.d or 0) <= M.CAST_EFFECT_MAX or false
+end
+
 -- Bind the current spec's generated spell data.
 function M.SetData(record)
   record = type(record) == "table" and record or {}
@@ -103,13 +109,17 @@ function M.SetData(record)
   end
   -- Auras our own casts apply (by SimC data): for these "not seen = down" is safe; procs are not.
   M.applied = {}
-  for _, info in pairs(M.info) do
+  for id, info in pairs(M.info) do
     -- Only spells we press (GCD / cooldown / cost / cast time); a proc buff's own entry lists itself.
     local castable = not info.pas and (info.gcd or info.cd or info.cost or info.ct or info.ch)
     if info.ap and castable then
       for _, ap in ipairs(info.ap) do
         local ai = M.info[ap[1]]
-        if ai and ai.n then
+        -- A spell "applying itself" for a GCD or less is the cast's own effect, not the buff SimC means by that
+        -- name: Devourer's Eradicate (1225826, 1.5 s) vs buff.eradicate (1239524, from Void Ray's channel). Taking
+        -- it as ours made buff.eradicate certainly down, so the Reap/Eradicate branch never ran and slot 1 sat on
+        -- Consume while Blizzard said Reap / Eradicate (2026-11-10).
+        if ai and ai.n and not M.IsCastEffect(id, ap) then
           M.applied[ai.n] = true
         end
       end

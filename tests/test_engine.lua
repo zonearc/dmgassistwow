@@ -4889,6 +4889,59 @@ test("a long cooldown cast a moment ago isn't offered again when our clock can't
   mock.inCombat = false
 end)
 
+test("a spell 'applying itself' for a GCD is its cast, not the buff of that name (Devourer Eradicate)", function()
+  Reset()
+  local ns = Boot()
+  local M, S = ns.SpellMap, ns.State
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[1225826] = { n = "eradicate", gcd = 1.5, ch = 1, chcd = 8, d = 1.5, ap = { { 1225826, "self" } } }
+  rec.spellInfo[1239524] = { n = "eradicate", r = 25 } -- the real buff, from Void Ray's channel
+  rec.spellInfo[5217] = { n = "tigers_fury", cd = 30, gcd = 1, d = 10, ap = { { 5217, "self" } } }
+  Feral(ns, rec)
+  eq(M.IsOwnAura("eradicate"), false, "not ours: never-seen doesn't mean down")
+  eq(#S.AppliedAuras(1225826), 0, "casting Eradicate starts no buff.eradicate clock")
+  eq(M.IsOwnAura("tigers_fury"), true, "a real self buff (10 s) stays ours")
+  eq(#S.AppliedAuras(5217), 1)
+end)
+
+test("Devourer on 8 targets: Blizzard's Reap / Eradicate wins over the Consume filler (buff.eradicate is hidden)", function()
+  Reset()
+  local ns = Boot()
+  local M, S = ns.SpellMap, ns.State
+  local key = "demonhunter_devourer"
+  local record = ns.Data.specs.midnight[key]
+  local book = {} -- the spells of the class-trial character in the report
+  for _, token in ipairs({ "consume", "reap", "eradicate", "void_ray", "metamorphosis", "soul_immolation",
+    "voidblade", "cull", "collapsing_star" }) do
+    local id = record.spells[token] and record.spells[token].a[1]
+    if id then
+      book[#book + 1] = { spellID = id, name = token }
+    end
+  end
+  mock.book = book
+  mock.heroTree = "annihilator"
+  mock.talents = { { name = "Eradicate", spellID = 1226033, rank = 1 },
+    { name = "Annihilator", spellID = record.heroTrees.annihilator[1], rank = 1 } }
+  ns.Specs.current = { key = key, status = "ready", data = record, branch = "midnight", client = "Midnight" }
+  M.SetData(record)
+  M.Refresh()
+  S.Bind(key)
+  mock.power[17], mock.powerMax[17] = 40, 100 -- Fury: hidden in combat
+  mock.nameplates = 8
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Advance(1)
+  mock.usable[M.SpellID("void_ray")] = { false, true } -- not enough Fury
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "meta", M.SpellID("metamorphosis")) -- used earlier
+  mock.cooldowns[M.SpellID("metamorphosis")] = { active = true, start = mock.now, duration = 120 }
+  mock.Advance(30) -- Meta's window is over
+  mock.acSpell = M.SpellID("reap")
+  local r = ns.Update()
+  eq(r and r.main and r.main.token, "reap", "slot 1 follows Blizzard into the Reap branch")
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)
