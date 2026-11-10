@@ -4181,6 +4181,85 @@ test("a spell the game calls usable isn't ready while our range for the hidden r
   mock.inCombat, mock.restricted = false, false
 end)
 
+
+test("a cooldown cast in combat (length hidden) is learned when the fight ends and it's readable again", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "shred" } })
+  rec.spells.convoke_the_spirits = { a = { 391528 } }
+  rec.spellInfo[391528] = { n = "convoke_the_spirits", cd = 120, gcd = 1.5 }
+  Feral(ns, rec)
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Advance(1)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "g", 391528)
+  mock.cooldowns[391528] = { start = mock.now, duration = 60, active = true } -- talented: 60 s
+  mock.Advance(1)
+  eq(S.learned.cd[391528], nil, "hidden in combat")
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.Advance(0.6)
+  eq(S.learned.cd[391528], 60, "learned after the fight")
+  eq(math.floor(S.CooldownLength(391528) + 0.5), 60)
+end)
+
+
+test("the cooldown the game's tooltip shows (talents included) beats SimC's base number", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "shred" } })
+  rec.spells.convoke_the_spirits = { a = { 391528 } }
+  rec.spellInfo[391528] = { n = "convoke_the_spirits", cd = 120, gcd = 1.5 }
+  Feral(ns, rec)
+  local tip, mn, sec = C_TooltipInfo, _G.SPELL_RECAST_TIME_MIN, _G.SPELL_RECAST_TIME_SEC
+  _G.SPELL_RECAST_TIME_MIN, _G.SPELL_RECAST_TIME_SEC = "%s min cooldown", "%s sec cooldown"
+  _G.C_TooltipInfo = { GetSpellByID = function(id)
+    if id == 391528 then
+      return { lines = { { leftText = "Convoke the Spirits" }, { leftText = "Channeled", rightText = "1 min cooldown" } } }
+    end
+  end }
+  S.ForgetTalentCache()
+  eq(S.TooltipCooldown(391528), 60)
+  eq(math.floor(S.CooldownLength(391528) + 0.5), 60, "talented: 1 min, not SimC's 120 s")
+  _G.C_TooltipInfo, _G.SPELL_RECAST_TIME_MIN, _G.SPELL_RECAST_TIME_SEC = tip, mn, sec
+  S.ForgetTalentCache()
+end)
+
+
+test("nothing affordable while Blizzard waits for energy: slot 1 shows the spell it's waiting for, not nothing", function()
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  local rec = QRecord({ { a = "shred" } })
+  Feral(ns, rec)
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.usable[5221] = { false, true } -- Shred: not enough energy
+  mock.power[3] = 10
+  mock.acSpell = 1249752
+  local r = G.Recommend(rec, { useAssisted = true })
+  eq(r.main and r.main.token, "shred")
+  eq(r.main and r.main.source, "pool", "shown as waiting")
+  mock.acSpell, mock.inCombat = nil, false
+end)
+
+
+test("an 'affordable' floor above anything our own energy count could reach is a free proc, not energy", function()
+  Reset()
+  local ns = Boot()
+  local C = ns.Clues
+  Feral(ns, QRecord({ { a = "shred" } }))
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  C.floor[3] = { lo = 5, at = mock.now, max = 100, moved = true } -- we counted 5 energy just now
+  mock.usable[5221] = { true, false } -- the game: Shred (40) is "usable" (Clearcasting: free)
+  local lo = C.ResourceBounds(3)
+  eq(lo ~= nil and lo < 40, true, "not 40+: " .. tostring(lo))
+  mock.inCombat, mock.restricted = false, false
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

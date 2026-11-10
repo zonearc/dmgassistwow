@@ -658,4 +658,12 @@ ns.LOCALE_DATA.zhCN = {
   ["Great fight: every part was on point."] = "精彩的战斗：每一项都很到位。",
   ["Nothing to fix this time. Try it on a harder target."] = "这次没什么要改的。试试更难的目标。",
   ["Settings: press Esc, choose Options, then the AddOns tab > DMGAssist."] = "设置：按 Esc，选择“选项”，再进入“插件”标签 > DMGAssist。",
+  ["Accuracy, Always casting, Reaction and Cooldowns (and Mitigation for tanks) under the bar."] = "在条下显示准确度、持续施法、反应速度和冷却使用（坦克还有减伤）。",
+  ["Grade size"] = "评级大小",
+  ["How see-through the box behind the grade is. 0% = no box at all, only the letters and numbers."] = "评级背后框的透明度。0% = 没有框，只有字母和数字。",
+  ["Makes the whole grade bigger or smaller."] = "放大或缩小整个评级。",
+  ["Outlines the real action button for slot 1's spell on your bars (Blizzard's, Bartender, ElvUI, Dominos) in DMGAssist's magenta, so it never looks like Blizzard's own gold or blue highlights."] = "用 DMGAssist 的品红色描边你动作条上（暴雪、Bartender、ElvUI、Dominos）1 号位技能的实际按钮，避免与暴雪自带的金色或蓝色高亮混淆。",
+  ["Show the grade bar"] = "显示评级条",
+  ["Show the parts"] = "显示各项",
+  ["The coloured D-to-S+ bar with a marker that slides to your score."] = "从 D 到 S+ 的彩色条，标记会滑到你的分数。",
 }

@@ -654,3 +654,11 @@
 660	Superbe combat : chaque partie était au top.
 661	Rien à corriger cette fois. Essayez sur une cible plus coriace.
 662	Réglages : appuyez sur Échap, choisissez Options, puis l'onglet AddOns > DMGAssist.
+663	Précision, Toujours lancer, Réaction et Temps de recharge (et Atténuation pour les tanks) sous la barre.
+664	Taille de la note
+665	Transparence du cadre derrière la note. 0 % = aucun cadre, seulement les lettres et les chiffres.
+666	Agrandit ou réduit toute la note.
+667	Encadre le vrai bouton d'action du sort de la case 1 sur vos barres (Blizzard, Bartender, ElvUI, Dominos) en magenta DMGAssist, pour ne jamais ressembler aux surbrillances dorées ou bleues de Blizzard.
+668	Afficher la barre de note
+669	Afficher les parties
+670	La barre colorée de D à S+ avec un repère qui glisse jusqu'à votre score.

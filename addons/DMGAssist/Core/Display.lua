@@ -90,6 +90,7 @@ local function FontPath(choice)
 end
 
 local GOLD = { 1, 0.69, 0 }
+D.HIGHLIGHT = { 1, 0.2, 0.62 } -- the action bar outline: DMGAssist's own colour
 
 -- Text colors offered for keybinds and spell names (Options > Display > Text).
 D.TEXT_COLORS = {
@@ -703,13 +704,27 @@ function D.Create()
   f.trinket.border:SetColorTexture(1, 0.78, 0.2, 0.9) -- gold: an item
   f.trinket:Hide()
   -- Highlight on the real action button that casts slot 1 (our own frame anchored over it; theirs is untouched).
+  -- Slot 1's button on your own bars (Blizzard's, Bartender, Dominos, ElvUI): a crimson-magenta outline, ours, so
+  -- it never reads as Blizzard's gold proc glow or its assistant's highlight - where both sit on one button, the
+  -- two agree (asked for 2026-11-10).
   f.hl = CreateFrame("Frame", nil, UIParent)
   f.hl:SetFrameStrata("HIGH")
-  f.hl.tex = f.hl:CreateTexture(nil, "OVERLAY")
+  f.hl.tex = f.hl:CreateTexture(nil, "OVERLAY") -- a faint wash
   f.hl.tex:SetAllPoints(f.hl)
-  f.hl.tex:SetColorTexture(GOLD[1], GOLD[2], GOLD[3], 0.45)
-  if f.hl.tex.SetBlendMode then
-    f.hl.tex:SetBlendMode("ADD")
+  f.hl.tex:SetColorTexture(D.HIGHLIGHT[1], D.HIGHLIGHT[2], D.HIGHLIGHT[3], 0.18)
+  f.hl.edges = {}
+  for i, side in ipairs({ { "TOPLEFT", "TOPRIGHT", nil, 2 }, { "BOTTOMLEFT", "BOTTOMRIGHT", nil, 2 },
+    { "TOPLEFT", "BOTTOMLEFT", 2, nil }, { "TOPRIGHT", "BOTTOMRIGHT", 2, nil } }) do
+    local e = f.hl:CreateTexture(nil, "OVERLAY", nil, 1)
+    e:SetColorTexture(D.HIGHLIGHT[1], D.HIGHLIGHT[2], D.HIGHLIGHT[3], 1)
+    e:SetPoint(side[1])
+    e:SetPoint(side[2])
+    if side[3] then
+      e:SetWidth(side[3])
+    else
+      e:SetHeight(side[4])
+    end
+    f.hl.edges[i] = e
   end
   f.hl:Hide()
   f.gcdBg = f:CreateTexture(nil, "BACKGROUND")

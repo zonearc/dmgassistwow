@@ -658,4 +658,12 @@ ns.LOCALE_DATA.deDE = {
   ["Great fight: every part was on point."] = "Toller Kampf: jeder Teil saß.",
   ["Nothing to fix this time. Try it on a harder target."] = "Diesmal nichts zu verbessern. Versuch es an einem härteren Ziel.",
   ["Settings: press Esc, choose Options, then the AddOns tab > DMGAssist."] = "Einstellungen: Esc drücken, Optionen wählen, dann Reiter AddOns > DMGAssist.",
+  ["Accuracy, Always casting, Reaction and Cooldowns (and Mitigation for tanks) under the bar."] = "Genauigkeit, Immer zaubern, Reaktion und Abklingzeiten (und Schadensminderung für Tanks) unter der Leiste.",
+  ["Grade size"] = "Größe der Note",
+  ["How see-through the box behind the grade is. 0% = no box at all, only the letters and numbers."] = "Wie durchsichtig der Kasten hinter der Note ist. 0% = gar kein Kasten, nur Buchstaben und Zahlen.",
+  ["Makes the whole grade bigger or smaller."] = "Macht die ganze Note größer oder kleiner.",
+  ["Outlines the real action button for slot 1's spell on your bars (Blizzard's, Bartender, ElvUI, Dominos) in DMGAssist's magenta, so it never looks like Blizzard's own gold or blue highlights."] = "Umrandet die echte Aktionstaste für den Zauber auf Platz 1 in deinen Leisten (Blizzard, Bartender, ElvUI, Dominos) in DMGAssists Magenta, damit sie nie wie Blizzards eigene goldene oder blaue Hervorhebung aussieht.",
+  ["Show the grade bar"] = "Notenleiste zeigen",
+  ["Show the parts"] = "Die Teile zeigen",
+  ["The coloured D-to-S+ bar with a marker that slides to your score."] = "Die farbige Leiste von D bis S+ mit einer Markierung, die zu deiner Punktzahl gleitet.",
 }

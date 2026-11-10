@@ -654,3 +654,11 @@
 660	Gran combattimento: ogni parte era perfetta.
 661	Niente da correggere stavolta. Provalo su un bersaglio più duro.
 662	Impostazioni: premi Esc, scegli Opzioni, poi la scheda AddOn > DMGAssist.
+663	Precisione, Lancio continuo, Reazione e Tempi di recupero (e Mitigazione per i difensori) sotto la barra.
+664	Dimensione del voto
+665	Quanto è trasparente il riquadro dietro il voto. 0% = nessun riquadro, solo lettere e numeri.
+666	Rende tutto il voto più grande o più piccolo.
+667	Contorna il vero pulsante d'azione dell'incantesimo dello slot 1 sulle tue barre (Blizzard, Bartender, ElvUI, Dominos) con il magenta di DMGAssist, così non somiglia mai all'evidenziazione dorata o blu di Blizzard.
+668	Mostra la barra del voto
+669	Mostra le parti
+670	La barra colorata da D a S+ con un indicatore che scorre fino al tuo punteggio.

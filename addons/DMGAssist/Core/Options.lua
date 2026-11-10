@@ -526,7 +526,8 @@ function O.Register()
   Check(display, HUD, "dimGuesses", "Dim uncertain picks", H.dimGuesses,
     "A pick DMGAssist isn't sure about (the game hides a value it needs) is shown slightly faded.")
   Check(display, HUD, "highlight", "Action bar highlight", H.highlight,
-    "Glows the real action button for the next spell (Blizzard bars, Bartender, ElvUI, Dominos).")
+    "Outlines the real action button for slot 1's spell on your bars (Blizzard's, Bartender, ElvUI, Dominos) in "
+      .. "DMGAssist's magenta, so it never looks like Blizzard's own gold or blue highlights.")
   Check(display, HUD, "callout", "Boss callouts", H.callout,
     "'AOE 3', 'TANK HIT 2', 'ADDS 8', 'INTERRUPT', 'DEFENSIVE' from your boss mod or Blizzard's timeline.")
   Slider(display, HUD, "calloutSize", "Callout text size", H.calloutSize, 10, 28, 1, "The size of the callout text.")
@@ -616,6 +617,14 @@ function O.Register()
   Check(grade, DB, "gradeTips", "Show a tip under the grade", true,
     "One line of advice on your weakest part, worded differently from fight to fight. Off: the grade and its parts "
       .. "only.")
+  Slider(grade, DB, "gradeBg", "Background opacity", 82, 0, 100, 5,
+    "How see-through the box behind the grade is. 0% = no box at all, only the letters and numbers.", "%")
+  Slider(grade, DB, "gradeScale", "Grade size", 100, 50, 150, 5,
+    "Makes the whole grade bigger or smaller.", "%")
+  Check(grade, DB, "gradeBar", "Show the grade bar", true,
+    "The coloured D-to-S+ bar with a marker that slides to your score.")
+  Check(grade, DB, "gradeParts", "Show the parts", true,
+    "Accuracy, Always casting, Reaction and Cooldowns (and Mitigation for tanks) under the bar.")
   Slider(grade, DB, "gradeSeconds", "Grade stays on screen", 6, 2, 15, 1,
     "How long the grade stays before it fades out. It pops in quickly and fades in under a second.", " s")
   Slider(grade, DB, "gradeMinFight", "Shortest fight to grade", 20, 10, 120, 5,

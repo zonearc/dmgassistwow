@@ -723,8 +723,59 @@ local function Offset(id, base)
 end
 S.TimingOffset = Offset
 
+-- The cooldown the game's own tooltip shows ("1 min cooldown"), talents included: SimC's data has the base (Convoke
+-- the Spirits 120 s; with the player's talents the tooltip said 1 min and we never showed it again, 2026-11-10).
+-- Read out of combat only (in combat tooltip text can be hidden), matched with the game's own localized wording
+-- (SPELL_RECAST_TIME_MIN / _SEC: any client language), cached until talents or gear change.
+local tipCd = {}
+local function RecastPattern(fmt)
+  if type(fmt) ~= "string" or fmt == "" then
+    return nil
+  end
+  local p = fmt:gsub("%%[sd]", "\1")
+  p = p:gsub("[%(%)%.%+%-%*%?%[%]%^%$]", "%%%0")
+  return "^%s*" .. p:gsub("\1", "([%%d%%.,]+)") .. "%s*$"
+end
+
+function S.TooltipCooldown(id)
+  local v = tipCd[id]
+  if v ~= nil then
+    return v or nil
+  end
+  if S.combatStart or U.Get(InCombatLockdown) == true or not (C_TooltipInfo and C_TooltipInfo.GetSpellByID) then
+    return nil
+  end
+  local data = U.Read((U.Call(C_TooltipInfo.GetSpellByID, id)))
+  v = false
+  if type(data) == "table" and type(data.lines) == "table" then
+    local units = { { RecastPattern(_G.SPELL_RECAST_TIME_MIN), 60 }, { RecastPattern(_G.SPELL_RECAST_TIME_SEC), 1 } }
+    for _, line in ipairs(data.lines) do
+      for _, side in ipairs({ U.Read(line.rightText), U.Read(line.leftText) }) do
+        if type(side) == "string" then
+          for _, u in ipairs(units) do
+            local n = u[1] and side:match(u[1])
+            n = n and tonumber((n:gsub(",", ".")))
+            if n and n > 0 then
+              v = n * u[2]
+              break
+            end
+          end
+        end
+        if v then
+          break
+        end
+      end
+      if v then
+        break
+      end
+    end
+  end
+  tipCd[id] = v
+  return v or nil
+end
+
 local function CooldownLength(id)
-  local base = S.learned.cd[id] or DataCooldown(id) or BaseCooldown(id)
+  local base = S.learned.cd[id] or S.TooltipCooldown(id) or DataCooldown(id) or BaseCooldown(id)
   if base then
     return math.max(0.5, base + Offset(id, base))
   end
@@ -1221,6 +1272,7 @@ local function Requires(req)
 end
 function S.ForgetTalentCache()
   talentKnown = {}
+  tipCd = {}
   S.rotationSpells = nil
 end
 
@@ -2946,6 +2998,25 @@ function S.OnCombat(inCombat)
       RecordFight(S.fightContext, GetTime() - S.combatStart)
     end
     S.fightContext = nil
+    -- Cooldowns cast this fight are readable again: learn their real length (talents shorten some, Convoke the
+    -- Spirits: our data's 120 s, back much sooner in game and never shown again, 2026-11-10). In combat the
+    -- length is hidden, so this is when it's learned.
+    local castThisFight = {}
+    for id, t in pairs(S.lastCast or {}) do
+      if S.combatStart and t >= S.combatStart then
+        castThisFight[#castThisFight + 1] = id
+      end
+    end
+    if C_Timer and C_Timer.After and #castThisFight > 0 then
+      C_Timer.After(0.5, function()
+        if S.combatStart then
+          return -- a new fight already: still hidden
+        end
+        for _, id in ipairs(castThisFight) do
+          LearnCooldown(id)
+        end
+      end)
+    end
     S.combatStart = nil
     S.combatEnd = GetTime()
     S.history = {}

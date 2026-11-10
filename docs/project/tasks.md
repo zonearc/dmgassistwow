@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.156 (2026-11-10).
+Last updated: 1.6.0.157 (2026-11-10).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -24,6 +24,7 @@ Last updated: 1.6.0.156 (2026-11-10).
 
 ## Open: needs in-game testing (built, not yet seen in game)
 
+- [ ] Action bar highlight in magenta on Blizzard bars and Bartender; grade window opacity / size / bar / parts
 - [ ] Taint: none logged since the Edit Mode fix (1.6.0.139); keep watching the Watchdog's error list
 - [ ] Feral: no stopwatch; Rake not shown before energy is there; Ferocious Bite at 5 combo points
 - [ ] Channelled and empowered spells (Windwalker, Havoc, Shadow, Devastation): slot 1 waits for the channel to end
@@ -47,6 +48,14 @@ Last updated: 1.6.0.156 (2026-11-10).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.157: cooldowns from the game's own tooltip out of combat ("1 min cooldown", any language, talents
+  included) ahead of SimC's base number, and every cooldown cast in a fight learned when it ends (Convoke the
+  Spirits: 120 s in SimC's data, 1 min talented, never shown again). Nothing affordable while Blizzard waits for
+  energy: slot 1 shows the spell it's waiting for, shaded, instead of an empty HUD. An "affordable" energy floor
+  above anything our own count could reach is a free proc (Clearcasting), not energy. Action bar highlight: a
+  DMGAssist magenta outline (Blizzard bars, Bartender, Dominos, ElvUI). Grade window: background opacity, size,
+  grade bar and parts on/off (the box re-flows); all languages
 
 - 1.6.0.156: settings open again from the minimap, the gear and /dmga: the Watchdog shows no taint since the Edit
   Mode fix (1.6.0.139) - the errors pasted were BugSack's history from 2026-11-09, so 1.6.0.153's change was

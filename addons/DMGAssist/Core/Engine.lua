@@ -874,6 +874,12 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
           run.visiting[name] = nil
           return { id = id, token = a, source = "pool" }
         end
+        -- The first line held back only by a resource it is waiting for: if nothing at all can be pressed
+        -- (Blizzard's "Waiting for Energy"), this is what slot 1 shows, as "waiting", instead of an empty HUD.
+        if castable == false and why == "power" and not run.powerBlocked and not isBlizzard and not maybe
+          and Test(cond, run, a) ~= false then
+          run.powerBlocked = { id = id, token = a, source = "pool" }
+        end
         if castable ~= false then
           local t = Test(cond, run, a)
           if run.trace then
@@ -1085,6 +1091,9 @@ local function Decide(record, opts, targets, first)
   end
   if pick == STOP then
     pick = nil
+  end
+  if not pick and run.first and run.powerBlocked and (run.waiting or not run.acSpell) then
+    pick = run.powerBlocked -- waiting for the resource: the spell it's for, shaded
   end
   -- Blizzard's assistant as the fallback: still subject to our own checks (target rules: it suggests Touch of
   -- Death on a full-health dummy; cooldown and power: it also names the next important spell while that is still

@@ -335,10 +335,15 @@ function C.ResourceBounds(pt)
   end
   if C.Enabled("usable") then
     local a = Affordability()[pt]
-    -- while the assistant says it's waiting, "affordable" answers are free procs (Clearcasting), not resource
+    -- While the assistant says it's waiting, "affordable" answers are free procs (Clearcasting), not resource.
+    -- Same when the floor they give is above anything our own count could have reached since the last readable
+    -- value (regeneration at the fastest rate the game showed, plus a margin): Feral's Rake was shown with
+    -- "energy 40+" right after spending, from a free Shred (2026-11-10).
     local waiting = o and o.source == "wait" and o.untilT > now
+    local ceiling = C.FloorCeiling(pt)
+    local free = waiting or (ceiling and a and a.lo > ceiling)
     if a and (a.lo > 0 or a.hi < math.huge) then
-      lo, hi, known = math.max(lo, waiting and 0 or a.lo), math.min(hi, a.hi), true
+      lo, hi, known = math.max(lo, free and 0 or a.lo), math.min(hi, a.hi), true
     end
   end
   if not known or lo > hi then
@@ -604,6 +609,22 @@ function C.FloorOnCast(info)
       f.moved = true
     end
   end
+end
+
+-- The most our counted resource could be now: the counted floor plus regeneration at the fastest rate the game
+-- has shown (State.RegenRate) instead of the base rate, plus 15 for gains we don't model. nil when not counting.
+function C.FloorCeiling(pt)
+  local f = C.floor[pt]
+  if not (f and C.Enabled("floor") and f.moved) then
+    return nil
+  end
+  local now = GetTime()
+  local rate = math.max(C.REGEN[pt] or 0, (ns.State.RegenRate and ns.State.RegenRate(pt)) or 0)
+  local v = f.lo + rate * 1.15 * math.max(0, now - f.at) + 15
+  if type(f.max) == "number" and f.max > 0 then
+    v = math.min(v, f.max)
+  end
+  return v
 end
 
 function C.FloorBounds(pt)

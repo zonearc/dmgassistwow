@@ -658,4 +658,12 @@ ns.LOCALE_DATA.ruRU = {
   ["Great fight: every part was on point."] = "Отличный бой: каждая часть на высоте.",
   ["Nothing to fix this time. Try it on a harder target."] = "В этот раз исправлять нечего. Попробуйте на цели посложнее.",
   ["Settings: press Esc, choose Options, then the AddOns tab > DMGAssist."] = "Настройки: нажмите Esc, выберите «Настройки», затем вкладку «Модификации» > DMGAssist.",
+  ["Accuracy, Always casting, Reaction and Cooldowns (and Mitigation for tanks) under the bar."] = "Точность, Непрерывность, Реакция и Восстановление (и Смягчение для танков) под полосой.",
+  ["Grade size"] = "Размер оценки",
+  ["How see-through the box behind the grade is. 0% = no box at all, only the letters and numbers."] = "Насколько прозрачна рамка за оценкой. 0% = без рамки, только буквы и числа.",
+  ["Makes the whole grade bigger or smaller."] = "Делает всю оценку больше или меньше.",
+  ["Outlines the real action button for slot 1's spell on your bars (Blizzard's, Bartender, ElvUI, Dominos) in DMGAssist's magenta, so it never looks like Blizzard's own gold or blue highlights."] = "Обводит настоящую кнопку заклинания из слота 1 на ваших панелях (Blizzard, Bartender, ElvUI, Dominos) пурпурным цветом DMGAssist, чтобы её не спутать с золотой или синей подсветкой Blizzard.",
+  ["Show the grade bar"] = "Показывать полосу оценки",
+  ["Show the parts"] = "Показывать части",
+  ["The coloured D-to-S+ bar with a marker that slides to your score."] = "Цветная полоса от D до S+ с меткой, которая скользит к вашему результату.",
 }

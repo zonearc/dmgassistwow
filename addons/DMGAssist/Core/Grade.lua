@@ -621,7 +621,7 @@ Gr.BAR_STOPS = { { 30, "D" }, { 50, "C" }, { 64, "B" }, { 80, "A" }, { 91, "S" }
 -- PAD: the margin inside the box (2026-11-10: the letter sat too close to the top and side)
 local PAD = 14
 local W, BAR_W, BAR_H = 340 + 2 * PAD, 300, 10
-local H_TIP, H_NOTIP = 196 + 2 * PAD, 164 + 2 * PAD
+local H_TIP = 196 + 2 * PAD
 local PARTS = { { "accuracy", "Accuracy" }, { "abc", "Always casting" }, { "reaction", "Reaction" },
   { "cooldowns", "Cooldowns" }, { "mitigation", "Mitigation" } }
 
@@ -800,12 +800,31 @@ function Gr.Render(r, sample, test)
   D.SetFont(f.best, 14)
   f.best:SetText(r.newBest and L["New best!"] or "")
   f.best:SetTextColor(1, 0.82, 0.1)
+  -- Settings > Performance grade: the box's opacity, the size, and which parts show (the box re-flows to fit)
+  local db = ns.db or {}
+  local bgA = (tonumber(db.gradeBg) or 82) / 100
+  f.bg:SetColorTexture(0.05, 0.05, 0.07, bgA)
+  f.edge:SetAlpha(bgA > 0 and 1 or 0)
+  f:SetScale(math.max(0.5, math.min(1.5, (tonumber(db.gradeScale) or 100) / 100)))
+  local showBar, showParts = db.gradeBar ~= false, db.gradeParts ~= false
+  local y = 88 + PAD
+  f.bar:ClearAllPoints()
+  f.bar:SetPoint("TOP", f, "TOP", 0, -y)
+  f.bar:SetShown(showBar)
+  if showBar then
+    y = y + 28
+  end
+  f.partsY = y
+  if showParts then
+    y = y + 44
+  end
+  f.contentH = y
   f.markerTo = BarX(r.score)
   f.marker:SetPoint("CENTER", f.bar, "LEFT", 0, 0)
   -- the grid: the parts this fight has (Mitigation only for tanks), spread over the width
   local shown = {}
   for _, cell in ipairs(f.cells) do
-    if cell.key ~= "mitigation" or r.mitigation ~= nil then
+    if showParts and (cell.key ~= "mitigation" or r.mitigation ~= nil) then
       shown[#shown + 1] = cell
       cell:Show()
     else
@@ -815,7 +834,7 @@ function Gr.Render(r, sample, test)
   for i, cell in ipairs(shown) do
     cell:ClearAllPoints()
     cell:SetSize((W - 2 * PAD) / #shown, 36)
-    cell:SetPoint("TOPLEFT", f, "TOPLEFT", PAD + (i - 1) * (W - 2 * PAD) / #shown, -116 - PAD)
+    cell:SetPoint("TOPLEFT", f, "TOPLEFT", PAD + (i - 1) * (W - 2 * PAD) / #shown, -f.partsY)
   end
   for _, cell in ipairs(shown) do
     local v = r[cell.key]
@@ -832,7 +851,7 @@ function Gr.Render(r, sample, test)
   end
   D.SetFont(f.tip, 11)
   f.tip:SetText(Gr.TipsOn() and Gr.Tip(r) or "")
-  f:SetHeight(Gr.TipsOn() and H_TIP or H_NOTIP) -- no tip: the box ends under the parts
+  f:SetHeight(f.contentH + PAD + (Gr.TipsOn() and 36 or 4)) -- the box ends under what shows
   f.tip:SetTextColor(0.9, 0.9, 0.9)
   f.sample = sample
   f.shownAt = GetTime()

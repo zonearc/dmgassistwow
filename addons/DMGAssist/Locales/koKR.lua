@@ -658,4 +658,12 @@ ns.LOCALE_DATA.koKR = {
   ["Great fight: every part was on point."] = "멋진 전투: 모든 항목이 완벽했습니다.",
   ["Nothing to fix this time. Try it on a harder target."] = "이번엔 고칠 것이 없습니다. 더 강한 대상에게 시도해 보세요.",
   ["Settings: press Esc, choose Options, then the AddOns tab > DMGAssist."] = "설정: Esc를 누르고 설정을 선택한 다음 애드온 탭 > DMGAssist.",
+  ["Accuracy, Always casting, Reaction and Cooldowns (and Mitigation for tanks) under the bar."] = "바 아래에 정확도, 쉼 없는 시전, 반응 속도, 재사용 대기시간(방어 전담은 피해 감소 포함) 표시.",
+  ["Grade size"] = "등급 크기",
+  ["How see-through the box behind the grade is. 0% = no box at all, only the letters and numbers."] = "등급 뒤 상자의 투명도. 0% = 상자 없이 글자와 숫자만.",
+  ["Makes the whole grade bigger or smaller."] = "등급 전체를 크게 또는 작게 만듭니다.",
+  ["Outlines the real action button for slot 1's spell on your bars (Blizzard's, Bartender, ElvUI, Dominos) in DMGAssist's magenta, so it never looks like Blizzard's own gold or blue highlights."] = "바(블리자드, Bartender, ElvUI, Dominos)에서 1번 칸 주문의 실제 행동 단축 버튼을 DMGAssist의 자홍색으로 둘러, 블리자드의 금색이나 파란색 강조와 헷갈리지 않게 합니다.",
+  ["Show the grade bar"] = "등급 바 표시",
+  ["Show the parts"] = "항목 표시",
+  ["The coloured D-to-S+ bar with a marker that slides to your score."] = "D에서 S+까지 색이 바뀌는 바와 점수로 미끄러지는 표시.",
 }

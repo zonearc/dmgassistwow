@@ -654,3 +654,11 @@
 660	Ótima luta: cada parte no ponto.
 661	Nada a corrigir desta vez. Tente num alvo mais difícil.
 662	Configurações: aperte Esc, escolha Opções e depois a aba AddOns > DMGAssist.
+663	Precisão, Sempre lançando, Reação e Recargas (e Mitigação para tanques) sob a barra.
+664	Tamanho da nota
+665	Quão transparente é a caixa atrás da nota. 0% = sem caixa, só letras e números.
+666	Deixa a nota inteira maior ou menor.
+667	Contorna o botão de ação real do feitiço do espaço 1 nas suas barras (Blizzard, Bartender, ElvUI, Dominos) no magenta do DMGAssist, para nunca parecer o destaque dourado ou azul da Blizzard.
+668	Mostrar a barra da nota
+669	Mostrar as partes
+670	A barra colorida de D a S+ com um marcador que desliza até sua pontuação.

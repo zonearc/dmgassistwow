@@ -654,3 +654,11 @@
 660	Toller Kampf: jeder Teil saß.
 661	Diesmal nichts zu verbessern. Versuch es an einem härteren Ziel.
 662	Einstellungen: Esc drücken, Optionen wählen, dann Reiter AddOns > DMGAssist.
+663	Genauigkeit, Immer zaubern, Reaktion und Abklingzeiten (und Schadensminderung für Tanks) unter der Leiste.
+664	Größe der Note
+665	Wie durchsichtig der Kasten hinter der Note ist. 0% = gar kein Kasten, nur Buchstaben und Zahlen.
+666	Macht die ganze Note größer oder kleiner.
+667	Umrandet die echte Aktionstaste für den Zauber auf Platz 1 in deinen Leisten (Blizzard, Bartender, ElvUI, Dominos) in DMGAssists Magenta, damit sie nie wie Blizzards eigene goldene oder blaue Hervorhebung aussieht.
+668	Notenleiste zeigen
+669	Die Teile zeigen
+670	Die farbige Leiste von D bis S+ mit einer Markierung, die zu deiner Punktzahl gleitet.
