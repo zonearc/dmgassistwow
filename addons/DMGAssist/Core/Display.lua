@@ -763,6 +763,55 @@ function D.Home()
   return h
 end
 
+-- The preview's panel: the box around every part of the HUD that shows (slots, the small icons, the title row,
+-- the bars), plus room for the label on top, which wraps inside it. Re-fitted after every change to the HUD
+-- (2026-11-10: the label ran off the side, a bigger HUD outgrew a fixed panel, the corner icons overlapped it).
+local PREVIEW_PAD, LABEL_ROOM = 10, 30
+local function FitNow(f)
+  local p = f.previewPanel
+  if not (p and f.docked) then
+    return
+  end
+  local fl, fb = U.Get(f.GetLeft, f), U.Get(f.GetBottom, f)
+  if not (fl and fb) then
+    return
+  end
+  local l, r = fl, U.Get(f.GetRight, f) or fl
+  local t, b = U.Get(f.GetTop, f) or fb, fb
+  for _, c in ipairs({ f.slots and f.slots[1], f.slots and f.slots[2], f.slots and f.slots[3], f.weave, f.trinket,
+    f.def, f.modeText, f.header, f.gear, f.gcd, f.callout }) do
+    if c and U.Get(c.IsShown, c) == true then
+      local cl, cr, ct, cb = U.Get(c.GetLeft, c), U.Get(c.GetRight, c), U.Get(c.GetTop, c), U.Get(c.GetBottom, c)
+      if cl and cr and ct and cb then
+        l, r, t, b = math.min(l, cl), math.max(r, cr), math.max(t, ct), math.min(b, cb)
+      end
+    end
+  end
+  local x1, x2 = l - fl - PREVIEW_PAD, r - fl + PREVIEW_PAD
+  local y1, y2 = t - fb + PREVIEW_PAD + LABEL_ROOM, b - fb - PREVIEW_PAD
+  p:ClearAllPoints()
+  p:SetPoint("TOPLEFT", f, "BOTTOMLEFT", x1, y1)
+  p:SetPoint("BOTTOMRIGHT", f, "BOTTOMLEFT", x2, y2)
+  if f.previewLabel then
+    f.previewLabel:ClearAllPoints()
+    f.previewLabel:SetPoint("TOPLEFT", p, "TOPLEFT", 8, -6)
+    f.previewLabel:SetWidth(math.max(80, x2 - x1 - 16))
+  end
+end
+
+function D.FitPreview()
+  local f = D.frame
+  if not (f and f.docked) then
+    return
+  end
+  FitNow(f)
+  if C_Timer and C_Timer.After then
+    C_Timer.After(0, function()
+      FitNow(f) -- once the game has laid out the new sizes
+    end)
+  end
+end
+
 function D.SetPreviewDock(on)
   local f = D.frame
   if not f or (on and f.docked) or (not on and not f.docked) then
@@ -788,14 +837,13 @@ function D.SetPreviewDock(on)
     if not f.previewLabel then
       f.previewLabel = f:CreateFontString(nil, "OVERLAY")
       SetFont(f.previewLabel, 11)
-      f.previewLabel:SetPoint("BOTTOMLEFT", f, "TOPLEFT", 0, 6)
-      f.previewLabel:SetWidth(220)
       f.previewLabel:SetJustifyH("LEFT")
+      f.previewLabel:SetWordWrap(true)
       f.previewLabel:SetTextColor(GOLD[1], GOLD[2], GOLD[3])
     end
     f.previewLabel:SetText(L["Preview. Back in its place when you close the settings."])
     f.previewLabel:Show()
-    -- a dark grey panel like the settings window's behind the preview, so it reads as part of the settings
+    -- a dark grey panel like the settings window's behind the preview, fitted to everything the HUD shows
     if not f.previewPanel then
       local p = CreateFrame("Frame", nil, f)
       p:SetFrameLevel(math.max(0, (U.Get(f.GetFrameLevel, f) or 1) - 1))
@@ -809,13 +857,9 @@ function D.SetPreviewDock(on)
       p.line:SetColorTexture(GOLD[1], GOLD[2], GOLD[3], 0.6)
       f.previewPanel = p
     end
-    local cfg = D.Settings()
-    local badge = math.floor((cfg.iconSize or 48) * math.max(tonumber(cfg.weaveSize) or 40,
-      tonumber(cfg.trinketSize) or 40) / 100)
-    f.previewPanel:ClearAllPoints()
-    f.previewPanel:SetPoint("TOPLEFT", f, "TOPLEFT", -(badge + 16), 30)
-    f.previewPanel:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", 12, -12)
+    f:SetClampedToScreen(true)
     f.previewPanel:Show()
+    D.FitPreview()
   elseif not on then
     f.docked = false
     f:SetFrameStrata(f.strata or "MEDIUM")
@@ -860,6 +904,7 @@ function D.Rebuild()
   SetFont(f.debug, 9)
   Layout(f, cfg)
   D.SetLocked(ns.db and ns.db.locked)
+  D.FitPreview() -- the settings preview's panel follows the new sizes
 end
 
 ---------------------------------------------------------------------------
