@@ -675,3 +675,11 @@
 681	SEGURE durante canalizações
 682	Enquanto um dos seus feitiços canalizados está em andamento (Chute Giratório da Garça, Punhos da Fúria, Tortura Mental...), o espaço 1 mostra um SEGURE âmbar: apertar qualquer coisa agora o interromperia. Um VAI verde aparece assim que ele termina. Canalizações que a lista de prioridades da sua especialização corta de propósito não mostram SEGURE.
 683	Enquanto um dos seus feitiços canalizados está em andamento (Chute Giratório da Garça, Punhos da Fúria, Tortura Mental...), o espaço 1 mostra um SEGURE âmbar: apertar qualquer coisa agora o interromperia. A borda pisca em verde assim que ele termina.
+684	Expiações mantidas
+685	Sacerdote Disciplina e Monge Tecelão da Névoa: cura que vem da sua rotação enquanto você causa dano.
+686	Curadores em grupo
+687	Suporte de cura
+688	Marca do Caçador em chefes
+689	Caçadores: com um chefe como alvo (antes do pull também), Marca do Caçador vem primeiro no espaço 1 até estar nele.
+690	Em grupo ou raide: Disciplina mantém Expiação o tempo todo (Escudo, ou Radiância quando faltam várias); Tecelão da Névoa lança Névoa Renovadora sempre que houver uma carga pronta. Sozinho, nada muda.
+691	Com suporte de cura: esta quantidade de Expiações, contadas pelos seus lançamentos, entre golpes fortes.

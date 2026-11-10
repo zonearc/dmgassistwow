@@ -675,3 +675,11 @@
 681	ASPETTA durante le canalizzazioni
 682	Mentre uno dei tuoi incantesimi canalizzati è in corso (Calcio Rotante della Gru, Pugni della Furia, Flagello Mentale...), lo slot 1 mostra un ASPETTA ambrato: premere qualsiasi tasto ora lo interromperebbe. Un VAI verde appare appena finisce. Le canalizzazioni che la lista di priorità della tua specializzazione interrompe di proposito non mostrano ASPETTA.
 683	Mentre uno dei tuoi incantesimi canalizzati è in corso (Calcio Rotante della Gru, Pugni della Furia, Flagello Mentale...), lo slot 1 mostra un ASPETTA ambrato: premere qualsiasi tasto ora lo interromperebbe. Il suo bordo lampeggia di verde appena finisce.
+684	Espiazioni mantenute
+685	Sacerdote Disciplina e Monaco Misticismo: le cure che vengono dalla tua rotazione mentre infliggi danni.
+686	Guaritori in gruppo
+687	Supporto alle cure
+688	Marchio del Cacciatore sui boss
+689	Cacciatori: con un boss come bersaglio (anche prima del pull), Marchio del Cacciatore viene per primo nello slot 1 finché non è applicato.
+690	In gruppo o incursione: Disciplina mantiene Espiazione sempre attiva (Scudo, o Radianza quando ne mancano diverse); Misticismo lancia Nebbia Rinnovante ogni volta che una carica è pronta. Da solo non cambia nulla.
+691	Con il supporto alle cure: questo numero di Espiazioni, contate dai tuoi lanci, tra un colpo pesante e l'altro.

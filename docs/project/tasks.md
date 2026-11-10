@@ -49,6 +49,15 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.169: Hunter's Mark on bosses (all hunter specs, before the pull too, once per target; setting, default
+  on). Healing support for groups (setting, default off): Discipline keeps Atonement up between big hits (Shield
+  first, Radiance when several are missing), Mistweaver spends Renewing Mist charges. Cooldowns the data lacks
+  (Void Volley) learned from the game's "not ready yet" refusals: each refusal is a lower bound, pressing until it
+  goes through measures it. Fixed: since 1.6.0.168 Discipline's ramp Shield was moved out of slot 1 as a
+  defensive (keep-up picks are never defensives now). Keep-up spells carry fallback cooldown / charge data
+  (Renewing Mist was suggested every GCD in the check). Every-spec check: a fifth fight (boss, party of 5,
+  healing support) where each keep-up must be cast. All 9 languages.
+
 - 1.6.0.168: speed with nothing castable (BM Hunter without a gun dropped to 30 fps): each spell is checked once
   per decision instead of once per look-ahead step, and the enemy count (every nameplate) is read once per update
   instead of on every timing lookup. Worst spec 48 ms -> under 20 ms per update in the check; the whole check

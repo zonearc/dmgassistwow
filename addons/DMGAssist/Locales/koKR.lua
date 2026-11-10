@@ -679,4 +679,12 @@ ns.LOCALE_DATA.koKR = {
   ["HOLD during channels"] = "정신 집중 중 대기 표시",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."] = "정신 집중 주문(회전 학다리차기, 분노의 주먹, 정신의 채찍 등)이 진행되는 동안 1번 칸에 주황색 대기가 표시됩니다: 지금 아무 키나 누르면 끊깁니다. 끝나는 순간 초록색 지금이 표시됩니다. 전문화 우선순위 목록이 일부러 끊는 정신 집중에는 대기가 표시되지 않습니다.",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. Its border flashes green the moment it ends."] = "정신 집중 주문(회전 학다리차기, 분노의 주먹, 정신의 채찍 등)이 진행되는 동안 1번 칸에 주황색 대기가 표시됩니다: 지금 아무 키나 누르면 끊깁니다. 끝나는 순간 테두리가 초록색으로 번쩍입니다.",
+  ["Atonements kept up"] = "유지할 속죄 수",
+  ["Discipline Priest and Mistweaver Monk: healing that comes from your rotation, while you deal damage."] = "수양 사제와 운무 수도사: 피해를 주는 동안 순환에서 나오는 치유.",
+  ["Healers in groups"] = "파티의 치유사",
+  ["Healing support"] = "치유 지원",
+  ["Hunter's Mark on bosses"] = "우두머리에게 사냥꾼의 징표",
+  ["Hunters: with a boss targeted (before the pull too), Hunter's Mark comes first in slot 1 until it is on it."] = "사냥꾼: 우두머리를 대상으로 잡으면(전투 시작 전에도) 징표가 걸릴 때까지 사냥꾼의 징표가 1번 칸에 먼저 나옵니다.",
+  ["In a party or raid: Discipline keeps Atonement up all the time (Shield, or Radiance when several are missing); Mistweaver casts Renewing Mist whenever a charge is ready. Solo, nothing changes."] = "파티나 공격대에서: 수양은 속죄를 항상 유지합니다(보호막, 여러 개가 빠지면 광휘). 운무는 충전이 준비될 때마다 소생의 안개를 시전합니다. 혼자일 때는 바뀌는 것이 없습니다.",
+  ["With healing support: this many Atonements, counted from your casts, between big hits."] = "치유 지원 사용 시: 큰 피해 사이에 유지할 속죄 수(내 시전으로 셉니다).",
 }

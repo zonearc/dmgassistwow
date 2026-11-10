@@ -321,6 +321,8 @@ function O.Register()
     "Melee: out of range of your target, show your charge / leap (Wild Charge, Charge, Shadowstep...) first.")
   Check(combat, DB, "tankEssentials", "Tank essentials", true,
     "Tanks: keep active mitigation and your threat DoT up (Guardian: Ironfur stacks, Moonfire on the target).")
+  Check(combat, DB, "huntersMark", "Hunter's Mark on bosses", true,
+    "Hunters: with a boss targeted (before the pull too), Hunter's Mark comes first in slot 1 until it is on it.")
   Slider(combat, DB, "ironfurStacks", "Ironfur stacks", G.ironfurStacks or 3, 0, 5, 1,
     "Guardian: keep this many Ironfur stacks up (counted from your casts). 0 = off.")
   Check(combat, DB, "skipHold", "Hold skipped spells", true,
@@ -384,6 +386,13 @@ function O.Register()
     "Counted from your own casts (Shield, Flash Heal, Plea, Renew: 1; Radiance: 5). 5 for a party, more for raids.")
   Slider(combat, DB, "atonementLead", "Ramp lead time", G.atonementLead or 8, 3, 20, 1,
     "Seconds before the hit your boss mod announces.", "s")
+  Header(combat, "Healers in groups", "Discipline Priest and Mistweaver Monk: healing that comes from your "
+    .. "rotation, while you deal damage.")
+  Check(combat, DB, "healSupport", "Healing support", false,
+    "In a party or raid: Discipline keeps Atonement up all the time (Shield, or Radiance when several are "
+      .. "missing); Mistweaver casts Renewing Mist whenever a charge is ready. Solo, nothing changes.")
+  Slider(combat, DB, "atonementKeep", "Atonements kept up", G.atonementKeep or 3, 1, 10, 1,
+    "With healing support: this many Atonements, counted from your casts, between big hits.")
   Header(combat, "Self-heals", "Healing spells in your own kit, for damage dealers and tanks (not healer "
     .. "rotations).")
   Slider(combat, DB, "healAt", "Self-heal below", G.healAt or 35, 0, 90, 5,

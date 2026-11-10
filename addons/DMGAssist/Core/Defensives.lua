@@ -149,7 +149,9 @@ for _, t in ipairs(F.TOKENS) do
 end
 
 local function IsDefensive(p)
-  if not (p and p.id) or p.source == "interrupt" or p.item then
+  -- A keep-up's pick is there for its own reason: Discipline's Shield for Atonement (the ramp, healing support)
+  -- isn't a defensive, though Shield is one on the priest list (moving it out broke the ramp, 1.6.0.168).
+  if not (p and p.id) or p.source == "interrupt" or p.source == "keepup" or p.item then
     return false
   end
   local t = p.token or (ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(p.id))

@@ -27,7 +27,7 @@ read_globals = {
   "Minimap", "MenuUtil", "GetCursorPosition", "IsShiftKeyDown", "GameTooltip", "BugGrabber",
   "GetShapeshiftFormID",
   "GetPhysicalScreenSize", "GetFramerate", "GetNumGroupMembers", "C_GameRules",
-  "UnitHealthPercent",
+  "UnitHealthPercent", "ERR_SPELL_COOLDOWN", "ERR_ABILITY_COOLDOWN",
   "LibStub", "IsMounted", "UnitInVehicle", "C_PetBattles", "PlaySound", "SOUNDKIT", "SettingsPanel",
   "CreateSettingsListSectionHeaderInitializer",
   "C_CurveUtil", "UnitPowerPercent",

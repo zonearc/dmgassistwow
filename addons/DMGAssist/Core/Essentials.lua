@@ -29,8 +29,20 @@ X.KEEPUPS = {
       applies = { power_word_shield = 1, flash_heal = 1, plea = 1, shadow_mend = 1, renew = 1, void_shield = 1,
         power_word_radiance = 5 },
       duration = 15, radianceDuration = 9, extend = { evangelism = 6 },
-      ramp = { "power_word_radiance", "power_word_shield", "void_shield" } },
+      ramp = { "power_word_radiance", "power_word_shield", "void_shield" },
+      -- Healing support (setting, groups only): keep this many Atonements up all the time, not only before a
+      -- big hit: Shield while few are missing, Radiance when many are.
+      keep = "atonementKeep", radianceAt = 3 },
   },
+  -- Mistweaver, healing support in groups: Renewing Mist whenever a charge is ready (it jumps on its own and
+  -- feeds the healing your damage does), so its charges never sit full.
+  monk_mistweaver = {
+    { kind = "group", token = "renewing_mist", id = 115151 },
+  },
+  -- Hunters: Hunter's Mark on a boss (SimC leaves it out: it's cast before the pull). Once per target.
+  hunter_beast_mastery = { { kind = "mark", token = "hunters_mark", id = 257284 } },
+  hunter_marksmanship = { { kind = "mark", token = "hunters_mark", id = 257284 } },
+  hunter_survival = { { kind = "mark", token = "hunters_mark", id = 257284 } },
   druid_guardian = {
     { kind = "stacks", token = "ironfur", id = 192081, setting = "ironfurStacks", duration = 7 },
     { kind = "dot", token = "moonfire", id = 8921, cond = "!dot.moonfire.ticking" },
@@ -104,6 +116,9 @@ function X.OnOwnCast(id)
           list[i] = list[i] + k.extend[token]
         end
       end
+    end
+    if k.kind == "mark" and (id == k.id or ns.SpellMap.baseOf[id] == k.id) then
+      X.NoteMarked()
     end
     if k.kind == "stacks" and (id == k.id or ns.SpellMap.baseOf[id] == k.id) then
       local info = ns.SpellMap.Info(k.id)
@@ -262,18 +277,135 @@ local function Ramp(k)
 end
 X.Ramp = Ramp
 
+-- Healing support: in a group, with the setting on.
+function X.InGroup()
+  return (tonumber(U.Get(GetNumGroupMembers)) or 0) >= 2
+end
+local function HealSupport()
+  return ns.db.healSupport == true and X.InGroup()
+end
+X.HealSupport = HealSupport
+
+-- Discipline, healing support: the Atonement count kept up between big hits.
+local function KeepAtonement(k)
+  local want = math.min(tonumber(ns.db[k.keep]) or 3, tonumber(ns.db[k.setting]) or 5)
+  local missing = want - X.Stacks(k.id, X.StackLead())
+  if missing <= 0 then
+    return nil
+  end
+  -- Shield first (one Atonement, cheap); Radiance only while several are missing and Shield can't be cast. Radiance
+  -- first made it the only spell: its five Atonements end together, so three were always missing at once.
+  local order = missing >= k.radianceAt and { "power_word_shield", "void_shield", "power_word_radiance" }
+    or { "power_word_shield", "void_shield" }
+  for _, token in ipairs(order) do
+    local id = ns.SpellMap.SpellID(token)
+    ns.SpellMap.unresolved[token] = nil
+    if id and Usable(id) then
+      return { id = id, token = token, source = "keepup", why = "atonement" }
+    end
+  end
+  return nil
+end
+X.KeepAtonement = KeepAtonement
+
+-- Hunter's Mark: which target carries ours. The aura is read when the game allows it; in combat, from our cast:
+-- the target's GUID when readable, else "the target we had then" until the target changes.
+X.marked = nil -- { guid = , at = } or { any = true }
+local function TargetGUID()
+  local g = U.Get(UnitGUID, "target")
+  return type(g) == "string" and g or nil
+end
+function X.NoteMarked()
+  local g = TargetGUID()
+  X.marked = g and { guid = g, at = GetTime() } or { any = true, at = GetTime() }
+end
+function X.OnTargetChanged()
+  if X.marked and X.marked.any then
+    X.marked = nil
+  end
+end
+-- true: our mark is on the target; false: it isn't; nil: unknown.
+function X.TargetMarked(id)
+  if ns.State.AurasReadable() and U.Get(C_Secrets and C_Secrets.ShouldAurasBeSecret) ~= true then
+    local getter = C_UnitAuras and C_UnitAuras.GetAuraDataByIndex
+    if type(getter) == "function" then
+      for i = 1, 40 do
+        local aura = U.Call(getter, "target", i, "HARMFUL")
+        if aura == nil then
+          -- not on it, unless we cast it this moment (the aura shows a little after the cast)
+          local m, g = X.marked, TargetGUID()
+          return m ~= nil and GetTime() - m.at < 2 and (m.any or g == m.guid)
+        end
+        local sid = not U.IsSecret(aura) and U.Read(aura.spellId)
+        if sid == nil or sid == false then
+          break -- unreadable after all: our own record decides
+        end
+        if sid == id then
+          return true
+        end
+      end
+    end
+  end
+  local m = X.marked
+  if not m then
+    return false
+  end
+  if m.any then
+    return true
+  end
+  local g = TargetGUID()
+  if g == nil then
+    return nil
+  end
+  return g == m.guid
+end
+
+-- A boss: the game's boss flag, a world boss, or the skull level.
+function X.TargetIsBoss()
+  return U.Get(UnitIsBossMob, "target") == true or U.Get(UnitClassification, "target") == "worldboss"
+    or U.Get(UnitLevel, "target") == -1
+end
+
+local function Mark(k)
+  if ns.db.huntersMark == false or not HostileTarget() or not Known(k.id) or not X.TargetIsBoss() then
+    return nil
+  end
+  if X.TargetMarked(k.id) ~= false or not Usable(k.id) then
+    return nil
+  end
+  return { id = k.id, token = k.token, source = "keepup", why = "mark" }
+end
+
 function X.KeepUp()
   local keep = X.KEEPUPS[ns.Specs.current and ns.Specs.current.key or ""]
-  if not keep or not ns.State.combatStart then
+  if not keep then
+    return nil
+  end
+  -- Hunter's Mark is also asked for before the pull, with a boss targeted.
+  for _, k in ipairs(keep) do
+    if k.kind == "mark" then
+      local r = Mark(k)
+      if r then
+        return r
+      end
+    end
+  end
+  if not ns.State.combatStart then
     return nil
   end
   for _, k in ipairs(keep) do
     if k.kind == "atonement" then
-      local r = Ramp(k)
+      local r = Ramp(k) or (HealSupport() and KeepAtonement(k))
       if r then
         return r
       end
-    elseif ns.db.tankEssentials ~= false and Known(k.id) and Usable(k.id) then
+    elseif k.kind == "group" then
+      local id = HealSupport() and (ns.SpellMap.SpellID(k.token) or (Known(k.id) and k.id))
+      ns.SpellMap.unresolved[k.token] = nil
+      if id and Usable(id) then
+        return { id = id, token = k.token, source = "keepup", why = "support" }
+      end
+    elseif k.kind ~= "mark" and ns.db.tankEssentials ~= false and Known(k.id) and Usable(k.id) then
       if k.kind == "stacks" then
         local want = tonumber(ns.db[k.setting]) or 3
         local last = X.lastWeave[k.id]

@@ -675,3 +675,11 @@
 681	HALTEN bei Kanalisierungen
 682	Während einer deiner kanalisierten Zauber läuft (Wirbelnder Kranichtritt, Fäuste des Zorns, Gedankenschinden...), zeigt Platz 1 ein bernsteinfarbenes HALTEN: Jeder Tastendruck würde ihn jetzt abbrechen. Ein grünes LOS erscheint, sobald er endet. Kanalisierungen, die die Prioritätsliste deiner Spezialisierung absichtlich abbricht, bekommen kein HALTEN.
 683	Während einer deiner kanalisierten Zauber läuft (Wirbelnder Kranichtritt, Fäuste des Zorns, Gedankenschinden...), zeigt Platz 1 ein bernsteinfarbenes HALTEN: Jeder Tastendruck würde ihn jetzt abbrechen. Sein Rand blinkt grün, sobald er endet.
+684	Aufrechterhaltene Abbitten
+685	Disziplinpriester und Nebelwirker-Mönch: Heilung, die aus deiner Rotation kommt, während du Schaden machst.
+686	Heiler in Gruppen
+687	Heilunterstützung
+688	Mal des Jägers auf Bossen
+689	Jäger: Mit einem Boss im Ziel (auch vor dem Pull) steht Mal des Jägers zuerst auf Platz 1, bis es auf ihm liegt.
+690	In einer Gruppe oder einem Schlachtzug: Disziplin hält Abbitte ständig aufrecht (Schild, oder Glanz, wenn mehrere fehlen); Nebelwirker wirkt Erneuernden Nebel, sobald eine Aufladung bereit ist. Allein ändert sich nichts.
+691	Mit Heilunterstützung: so viele Abbitten, gezählt aus deinen Zaubern, zwischen großen Treffern.

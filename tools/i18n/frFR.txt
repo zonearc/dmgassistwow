@@ -675,3 +675,11 @@
 681	ATTENDS pendant les canalisations
 682	Pendant qu'un de vos sorts canalisés est en cours (Coup de pied tournoyant de la grue, Poings de fureur, Fouet mental...), l'emplacement 1 affiche un ATTENDS ambré : appuyer sur quoi que ce soit maintenant l'interromprait. Un GO vert apparaît dès qu'il se termine. Les canalisations que la liste de priorités de votre spécialisation coupe exprès n'affichent pas ATTENDS.
 683	Pendant qu'un de vos sorts canalisés est en cours (Coup de pied tournoyant de la grue, Poings de fureur, Fouet mental...), l'emplacement 1 affiche un ATTENDS ambré : appuyer sur quoi que ce soit maintenant l'interromprait. Sa bordure clignote en vert dès qu'il se termine.
+684	Expiations maintenues
+685	Prêtre Discipline et Moine Tisse-brume : les soins qui viennent de votre rotation, pendant que vous faites des dégâts.
+686	Soigneurs en groupe
+687	Soutien de soins
+688	Marque du chasseur sur les boss
+689	Chasseurs : avec un boss en cible (avant le pull aussi), Marque du chasseur passe en premier dans l'emplacement 1 jusqu'à ce qu'elle soit posée.
+690	En groupe ou en raid : Discipline maintient Expiation en permanence (Bouclier, ou Radiance quand plusieurs manquent) ; Tisse-brume lance Brume de rénovation dès qu'une charge est prête. En solo, rien ne change.
+691	Avec le soutien de soins : ce nombre d'Expiations, comptées à partir de vos sorts, entre les gros coups.

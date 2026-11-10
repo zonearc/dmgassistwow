@@ -679,4 +679,12 @@ ns.LOCALE_DATA.zhCN = {
   ["HOLD during channels"] = "引导期间显示等待",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."] = "当你的引导法术进行中（神鹤引项踢、怒雷破、精神鞭笞等），1 号位显示琥珀色的“等待”：此时按任何键都会打断它。结束的那一刻会显示绿色的“出手”。你的专精优先级列表有意打断的引导不会显示“等待”。",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. Its border flashes green the moment it ends."] = "当你的引导法术进行中（神鹤引项踢、怒雷破、精神鞭笞等），1 号位显示琥珀色的“等待”：此时按任何键都会打断它。结束的那一刻边框会闪绿光。",
+  ["Atonements kept up"] = "保持的救赎数",
+  ["Discipline Priest and Mistweaver Monk: healing that comes from your rotation, while you deal damage."] = "戒律牧师和织雾武僧：你打伤害时，来自循环的治疗。",
+  ["Healers in groups"] = "小队中的治疗者",
+  ["Healing support"] = "治疗支援",
+  ["Hunter's Mark on bosses"] = "首领身上的猎人印记",
+  ["Hunters: with a boss targeted (before the pull too), Hunter's Mark comes first in slot 1 until it is on it."] = "猎人：目标是首领时（开怪前也算），猎人印记排在第 1 格，直到印记挂上。",
+  ["In a party or raid: Discipline keeps Atonement up all the time (Shield, or Radiance when several are missing); Mistweaver casts Renewing Mist whenever a charge is ready. Solo, nothing changes."] = "在小队或团队中：戒律始终保持救赎（盾，缺几个时用耀）；织雾只要有一层充能就施放复苏之雾。单人时不变。",
+  ["With healing support: this many Atonements, counted from your casts, between big hits."] = "开启治疗支援时：在大伤害之间保持这么多救赎（按你的施法计数）。",
 }

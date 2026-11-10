@@ -679,4 +679,12 @@ ns.LOCALE_DATA.deDE = {
   ["HOLD during channels"] = "HALTEN bei Kanalisierungen",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."] = "Während einer deiner kanalisierten Zauber läuft (Wirbelnder Kranichtritt, Fäuste des Zorns, Gedankenschinden...), zeigt Platz 1 ein bernsteinfarbenes HALTEN: Jeder Tastendruck würde ihn jetzt abbrechen. Ein grünes LOS erscheint, sobald er endet. Kanalisierungen, die die Prioritätsliste deiner Spezialisierung absichtlich abbricht, bekommen kein HALTEN.",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. Its border flashes green the moment it ends."] = "Während einer deiner kanalisierten Zauber läuft (Wirbelnder Kranichtritt, Fäuste des Zorns, Gedankenschinden...), zeigt Platz 1 ein bernsteinfarbenes HALTEN: Jeder Tastendruck würde ihn jetzt abbrechen. Sein Rand blinkt grün, sobald er endet.",
+  ["Atonements kept up"] = "Aufrechterhaltene Abbitten",
+  ["Discipline Priest and Mistweaver Monk: healing that comes from your rotation, while you deal damage."] = "Disziplinpriester und Nebelwirker-Mönch: Heilung, die aus deiner Rotation kommt, während du Schaden machst.",
+  ["Healers in groups"] = "Heiler in Gruppen",
+  ["Healing support"] = "Heilunterstützung",
+  ["Hunter's Mark on bosses"] = "Mal des Jägers auf Bossen",
+  ["Hunters: with a boss targeted (before the pull too), Hunter's Mark comes first in slot 1 until it is on it."] = "Jäger: Mit einem Boss im Ziel (auch vor dem Pull) steht Mal des Jägers zuerst auf Platz 1, bis es auf ihm liegt.",
+  ["In a party or raid: Discipline keeps Atonement up all the time (Shield, or Radiance when several are missing); Mistweaver casts Renewing Mist whenever a charge is ready. Solo, nothing changes."] = "In einer Gruppe oder einem Schlachtzug: Disziplin hält Abbitte ständig aufrecht (Schild, oder Glanz, wenn mehrere fehlen); Nebelwirker wirkt Erneuernden Nebel, sobald eine Aufladung bereit ist. Allein ändert sich nichts.",
+  ["With healing support: this many Atonements, counted from your casts, between big hits."] = "Mit Heilunterstützung: so viele Abbitten, gezählt aus deinen Zaubern, zwischen großen Treffern.",
 }

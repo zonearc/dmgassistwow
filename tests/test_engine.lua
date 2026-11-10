@@ -52,6 +52,7 @@ local function Reset()
   mock.targetCast, mock.important = nil, nil
   mock.plateCombat, mock.plateNames = nil, nil
   mock.healthPct, mock.mounted, mock.sounds, mock.castTimes = nil, nil, {}, nil
+  mock.targetGUID, mock.groupSize, mock.targetLevel = nil, nil, nil
   SettingsPanel, ActionButton3 = nil, nil
   DBM, BigWigsLoader, BT4Button1, BuffIconCooldownViewer = nil, nil, nil, nil
   mock.class, mock.specs, mock.specIndex = { "Druid", "DRUID", 11 }, { [1] = 102, [2] = 103, [3] = 104, [4] = 105 }, 2
@@ -1019,6 +1020,7 @@ test("Discipline: Atonements counted from our casts; ramp with Radiance, then Sh
   mock.inCombat = true
   mock.Fire("PLAYER_REGEN_DISABLED")
   ns.BossMods.Next = function(kind) return kind == "aoe" and 5 or nil end
+  M.info[194509] = { n = "power_word_radiance", gcd = 1.5, cd = 18 } -- one charge here: the order is what's tested
   local r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
   eq(r.main.token, "power_word_radiance", "ramp: Radiance first")
   mock.cooldowns[194509] = { active = true, start = mock.now, duration = 18 }
@@ -4475,6 +4477,170 @@ test("beyond Assisted Combat: time slot 1 differed from Blizzard's pick, by kind
   eq(text:find("40%", 1, true) ~= nil, true, text)
   eq(text:find("3 extras", 1, true) ~= nil, true, text)
   eq(Gr.VsShares({ total = 4, same = 4 }), nil, "too short to say")
+end)
+
+test("Hunter's Mark: on a boss target, before the pull and in combat, once per target", function()
+  Reset()
+  local ns = Boot()
+  local X = ns.Essentials
+  local oldSpec, oldIPS = ns.Specs.current, IsPlayerSpell
+  ns.Specs.current = { key = "hunter_marksmanship", status = "ready" }
+  IsPlayerSpell = function() return true end
+  ns.SpellMap.byID[257284] = "hunters_mark"
+  local function Main()
+    local r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
+    return r.main.token
+  end
+  mock.targetGUID = "Creature-boss-1"
+  eq(Main(), "shred", "not a boss: never")
+  mock.boss = true
+  eq(Main(), "hunters_mark", "a boss targeted before the pull: mark it")
+  X.OnOwnCast(257284)
+  eq(Main(), "shred", "just cast: marked (before the aura shows)")
+  mock.Advance(3)
+  eq(Main(), "hunters_mark", "readable and no mark on it after all (resisted, dispelled): again")
+  mock.auras.target = { { name = "Hunter's Mark", spellId = 257284, duration = 0, expirationTime = 0 } }
+  eq(Main(), "shred", "the game shows the mark")
+  mock.auras.target = nil
+  X.OnOwnCast(257284)
+  mock.Advance(3)
+  -- in combat, auras hidden: our record decides, by target
+  mock.inCombat = true
+  mock.restricted = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Fire("UNIT_AURA", "player")
+  eq(Main(), "shred", "marked")
+  mock.targetGUID = "Creature-boss-2"
+  eq(Main(), "hunters_mark", "another boss: mark it")
+  mock.targetGUID = "Creature-boss-1"
+  eq(Main(), "shred", "back on the first one, still marked")
+  mock.restricted = false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat = false
+  mock.Fire("UNIT_AURA", "player")
+  -- readable auras: the game's own word (another hunter's mark counts too)
+  mock.targetGUID = "Creature-boss-3"
+  mock.auras.target = { { name = "Hunter's Mark", spellId = 257284, duration = 0, expirationTime = 0 } }
+  eq(Main(), "shred", "the target already carries a mark")
+  mock.auras.target = nil
+  -- restricted combat, GUIDs hidden: our cast counts until the target changes
+  mock.targetGUID = nil
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  X.marked = nil
+  eq(Main(), "hunters_mark", "in combat, boss unmarked")
+  X.OnOwnCast(257284)
+  eq(Main(), "shred", "marked by our cast")
+  mock.Fire("PLAYER_TARGET_CHANGED")
+  eq(Main(), "hunters_mark", "new target, can't tell: mark it")
+  ns.db.huntersMark = false
+  eq(Main(), "shred", "setting off")
+  ns.db.huntersMark = true
+  mock.boss = nil
+  mock.targetLevel = -1
+  eq(Main(), "hunters_mark", "a skull-level target counts as a boss")
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat = false
+  ns.Specs.current, IsPlayerSpell = oldSpec, oldIPS
+end)
+
+test("healing support: in a group Discipline keeps Atonement up and Mistweaver spends Renewing Mist charges", function()
+  Reset()
+  local ns = Boot()
+  local X, M = ns.Essentials, ns.SpellMap
+  local oldSpec, oldSpellID, oldNext, oldIPS = ns.Specs.current, M.SpellID, ns.BossMods.Next, IsPlayerSpell
+  ns.Specs.current = { key = "priest_discipline", status = "ready" }
+  M.byID[17], M.byID[194509] = "power_word_shield", "power_word_radiance"
+  IsPlayerSpell = function() return true end
+  local ids = { power_word_radiance = 194509, power_word_shield = 17, renewing_mist = 115151 }
+  M.SpellID = function(token) return ids[token] end
+  ns.BossMods.Next = function() return nil end
+  X.stacks[194509] = {}
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  local function Main()
+    local r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
+    return r.main.token
+  end
+  eq(Main(), "shred", "setting off (the default): damage list")
+  ns.db.healSupport = true
+  eq(Main(), "shred", "solo: nothing changes")
+  mock.groupSize = 5
+  eq(Main(), "power_word_shield", "in a party: Shield first (one Atonement, cheap)")
+  mock.cooldowns[17] = { active = true, start = mock.now, duration = 7.5 }
+  ns.State.lastCast[17] = mock.now
+  eq(Main(), "power_word_radiance", "3 missing and Shield on cooldown: Radiance")
+  X.OnOwnCast(194509)
+  eq(Main(), "shred", "five up")
+  mock.Advance(10) -- Radiance's run out; Shield is back
+  mock.cooldowns[17] = nil
+  eq(Main(), "power_word_shield", "Shield again")
+  X.OnOwnCast(17)
+  X.OnOwnCast(17)
+  mock.cooldowns[17] = { active = true, start = mock.now, duration = 7.5 }
+  ns.State.lastCast[17] = mock.now
+  eq(Main(), "shred", "one short of 3 (default), Shield on cooldown: no Radiance for one")
+  mock.cooldowns[17] = nil
+  ns.State.lastCast[17] = nil
+  X.OnOwnCast(17)
+  eq(Main(), "shred", "3 kept up")
+  ns.db.atonementKeep = 4
+  eq(Main(), "power_word_shield", "the setting raises it")
+  local F = ns.Defensives
+  eq(F.IsDefensive({ id = 17, token = "power_word_shield", source = "keepup" }), false,
+    "Atonement's Shield stays in slot 1 (it isn't moved out as a defensive)")
+  eq(F.IsDefensive({ id = 17, token = "power_word_shield", source = "simc" }), true, "a list's Shield still is one")
+  ns.db.atonementKeep = nil
+  -- Mistweaver
+  ns.Specs.current = { key = "monk_mistweaver", status = "ready" }
+  eq(Main(), "renewing_mist", "a charge ready: Renewing Mist")
+  ns.State.OnSpellcastSucceeded(115151)
+  mock.Advance(1.6)
+  eq(Main(), "renewing_mist", "two charges: the second one too")
+  ns.State.OnSpellcastSucceeded(115151)
+  mock.Advance(1.6)
+  eq(Main(), "shred", "no charge left: the damage list")
+  mock.Advance(9)
+  eq(Main(), "renewing_mist", "a charge back after 9 s")
+  mock.groupSize = 0
+  eq(Main(), "shred", "solo: never")
+  ns.db.healSupport = nil
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat = false
+  ns.Specs.current, M.SpellID, ns.BossMods.Next, IsPlayerSpell = oldSpec, oldSpellID, oldNext, oldIPS
+end)
+
+test("cooldowns our data lacks are learned from the game refusing the cast (Void Volley)", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  local id = 5221 -- Shred: no cooldown in the data, standing in for Void Volley
+  eq(S.CooldownLength(id), nil, "no cooldown known")
+  S.lastCast[id] = GetTime()
+  mock.Advance(3)
+  S.OnCastFailed(id)
+  S.OnUIError(nil, "Out of range.")
+  eq(S.cdRefusal[id], nil, "refused for another reason: nothing learned")
+  mock.Advance(0.5)
+  S.OnCastFailed(id)
+  S.OnUIError(nil, ERR_SPELL_COOLDOWN)
+  eq(S.OwnClockReady(id), false, "'not ready yet' 3.5 s after our cast: it has a cooldown")
+  mock.Advance(1.6)
+  eq(S.OwnClockReady(id), true, "a little past the longest refusal: try again")
+  -- the message can come first, then the failed cast
+  mock.Advance(1)
+  S.OnUIError(nil, ERR_SPELL_COOLDOWN)
+  S.OnCastFailed(id)
+  eq(math.floor(S.cdRefusal[id].bound * 10 + 0.5), 61, "the bound moves on")
+  -- pressing until it goes through measures it
+  mock.Advance(0.5)
+  S.OnSpellcastSucceeded(id)
+  eq(S.learned.cd[id], 6.5, "learned: 6.6 s, to the half second")
+  eq(S.CooldownLength(id) ~= nil, true, "now our clock has it")
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat = false
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

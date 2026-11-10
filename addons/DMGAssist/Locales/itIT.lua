@@ -679,4 +679,12 @@ ns.LOCALE_DATA.itIT = {
   ["HOLD during channels"] = "ASPETTA durante le canalizzazioni",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."] = "Mentre uno dei tuoi incantesimi canalizzati è in corso (Calcio Rotante della Gru, Pugni della Furia, Flagello Mentale...), lo slot 1 mostra un ASPETTA ambrato: premere qualsiasi tasto ora lo interromperebbe. Un VAI verde appare appena finisce. Le canalizzazioni che la lista di priorità della tua specializzazione interrompe di proposito non mostrano ASPETTA.",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. Its border flashes green the moment it ends."] = "Mentre uno dei tuoi incantesimi canalizzati è in corso (Calcio Rotante della Gru, Pugni della Furia, Flagello Mentale...), lo slot 1 mostra un ASPETTA ambrato: premere qualsiasi tasto ora lo interromperebbe. Il suo bordo lampeggia di verde appena finisce.",
+  ["Atonements kept up"] = "Espiazioni mantenute",
+  ["Discipline Priest and Mistweaver Monk: healing that comes from your rotation, while you deal damage."] = "Sacerdote Disciplina e Monaco Misticismo: le cure che vengono dalla tua rotazione mentre infliggi danni.",
+  ["Healers in groups"] = "Guaritori in gruppo",
+  ["Healing support"] = "Supporto alle cure",
+  ["Hunter's Mark on bosses"] = "Marchio del Cacciatore sui boss",
+  ["Hunters: with a boss targeted (before the pull too), Hunter's Mark comes first in slot 1 until it is on it."] = "Cacciatori: con un boss come bersaglio (anche prima del pull), Marchio del Cacciatore viene per primo nello slot 1 finché non è applicato.",
+  ["In a party or raid: Discipline keeps Atonement up all the time (Shield, or Radiance when several are missing); Mistweaver casts Renewing Mist whenever a charge is ready. Solo, nothing changes."] = "In gruppo o incursione: Disciplina mantiene Espiazione sempre attiva (Scudo, o Radianza quando ne mancano diverse); Misticismo lancia Nebbia Rinnovante ogni volta che una carica è pronta. Da solo non cambia nulla.",
+  ["With healing support: this many Atonements, counted from your casts, between big hits."] = "Con il supporto alle cure: questo numero di Espiazioni, contate dai tuoi lanci, tra un colpo pesante e l'altro.",
 }

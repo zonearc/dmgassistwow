@@ -67,3 +67,15 @@ Tanks get a mitigation profile per spec alongside SimC. The three slots stay dam
 goes in the red icon, picked by the profile: keep-up first, then cooldowns on incoming damage (boss-mod timers),
 reactive buttons on boss-mod calls, emergencies on low health (tank default 50%, per spec, editable). The grade
 adds Mitigation for tanks. Built in Core/Tanks.lua (1.6.0.146); Midnight only (WoW Forever tanks follow their lists).
+
+## Keep-ups beyond SimC (decided 2026-11-10)
+
+Some spells a player needs are left out of SimC's lists because SimC casts them before the pull or doesn't
+simulate healing. Each is a keep-up rule in Core/Essentials.lua, with its own setting:
+- Hunter's Mark on a boss target (before the pull too), once per target. Default on.
+- Healing support (default off, groups only): Discipline keeps N Atonements up (Shield first, Radiance when
+  several are missing and Shield can't be cast); Mistweaver spends Renewing Mist charges. Holy Paladin's part
+  (Beacon of Light on the tank) is the buff reminder. Group health isn't readable in combat, so no reactive heals.
+- Cooldowns our data lacks (Void Volley) are learned from the game's "not ready yet" refusals.
+Spells a keep-up adds carry fallback cooldown / charge data (SpellMap.EXTRA_INFO), and the every-spec check has
+a group fight (boss, party of 5, healing support) where each keep-up must be cast.

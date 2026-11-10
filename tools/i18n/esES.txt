@@ -675,3 +675,11 @@
 681	ESPERA durante canalizaciones
 682	Mientras uno de tus hechizos canalizados está en curso (Patada giratoria de la grulla, Puños de furia, Tortura mental...), el espacio 1 muestra un ESPERA ámbar: pulsar cualquier cosa ahora lo cortaría. Un YA verde aparece en cuanto termina. Las canalizaciones que la lista de prioridades de tu especialización corta a propósito no muestran ESPERA.
 683	Mientras uno de tus hechizos canalizados está en curso (Patada giratoria de la grulla, Puños de furia, Tortura mental...), el espacio 1 muestra un ESPERA ámbar: pulsar cualquier cosa ahora lo cortaría. Su borde destella en verde en cuanto termina.
+684	Expiaciones mantenidas
+685	Sacerdote Disciplina y Monje Tejedor de niebla: sanación que sale de tu rotación mientras haces daño.
+686	Sanadores en grupo
+687	Apoyo de sanación
+688	Marca del cazador en jefes
+689	Cazadores: con un jefe como objetivo (también antes del pull), Marca del cazador va primero en la casilla 1 hasta que la tenga.
+690	En grupo o banda: Disciplina mantiene Expiación todo el tiempo (Escudo, o Resplandor cuando faltan varias); Tejedor de niebla lanza Niebla renovadora siempre que haya una carga lista. En solitario no cambia nada.
+691	Con apoyo de sanación: tantas Expiaciones, contadas a partir de tus lanzamientos, entre golpes fuertes.

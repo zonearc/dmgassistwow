@@ -679,4 +679,12 @@ ns.LOCALE_DATA.frFR = {
   ["HOLD during channels"] = "ATTENDS pendant les canalisations",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."] = "Pendant qu'un de vos sorts canalisés est en cours (Coup de pied tournoyant de la grue, Poings de fureur, Fouet mental...), l'emplacement 1 affiche un ATTENDS ambré : appuyer sur quoi que ce soit maintenant l'interromprait. Un GO vert apparaît dès qu'il se termine. Les canalisations que la liste de priorités de votre spécialisation coupe exprès n'affichent pas ATTENDS.",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. Its border flashes green the moment it ends."] = "Pendant qu'un de vos sorts canalisés est en cours (Coup de pied tournoyant de la grue, Poings de fureur, Fouet mental...), l'emplacement 1 affiche un ATTENDS ambré : appuyer sur quoi que ce soit maintenant l'interromprait. Sa bordure clignote en vert dès qu'il se termine.",
+  ["Atonements kept up"] = "Expiations maintenues",
+  ["Discipline Priest and Mistweaver Monk: healing that comes from your rotation, while you deal damage."] = "Prêtre Discipline et Moine Tisse-brume : les soins qui viennent de votre rotation, pendant que vous faites des dégâts.",
+  ["Healers in groups"] = "Soigneurs en groupe",
+  ["Healing support"] = "Soutien de soins",
+  ["Hunter's Mark on bosses"] = "Marque du chasseur sur les boss",
+  ["Hunters: with a boss targeted (before the pull too), Hunter's Mark comes first in slot 1 until it is on it."] = "Chasseurs : avec un boss en cible (avant le pull aussi), Marque du chasseur passe en premier dans l'emplacement 1 jusqu'à ce qu'elle soit posée.",
+  ["In a party or raid: Discipline keeps Atonement up all the time (Shield, or Radiance when several are missing); Mistweaver casts Renewing Mist whenever a charge is ready. Solo, nothing changes."] = "En groupe ou en raid : Discipline maintient Expiation en permanence (Bouclier, ou Radiance quand plusieurs manquent) ; Tisse-brume lance Brume de rénovation dès qu'une charge est prête. En solo, rien ne change.",
+  ["With healing support: this many Atonements, counted from your casts, between big hits."] = "Avec le soutien de soins : ce nombre d'Expiations, comptées à partir de vos sorts, entre les gros coups.",
 }

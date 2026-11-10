@@ -679,4 +679,12 @@ ns.LOCALE_DATA.esES = {
   ["HOLD during channels"] = "ESPERA durante canalizaciones",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."] = "Mientras uno de tus hechizos canalizados está en curso (Patada giratoria de la grulla, Puños de furia, Tortura mental...), el espacio 1 muestra un ESPERA ámbar: pulsar cualquier cosa ahora lo cortaría. Un YA verde aparece en cuanto termina. Las canalizaciones que la lista de prioridades de tu especialización corta a propósito no muestran ESPERA.",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. Its border flashes green the moment it ends."] = "Mientras uno de tus hechizos canalizados está en curso (Patada giratoria de la grulla, Puños de furia, Tortura mental...), el espacio 1 muestra un ESPERA ámbar: pulsar cualquier cosa ahora lo cortaría. Su borde destella en verde en cuanto termina.",
+  ["Atonements kept up"] = "Expiaciones mantenidas",
+  ["Discipline Priest and Mistweaver Monk: healing that comes from your rotation, while you deal damage."] = "Sacerdote Disciplina y Monje Tejedor de niebla: sanación que sale de tu rotación mientras haces daño.",
+  ["Healers in groups"] = "Sanadores en grupo",
+  ["Healing support"] = "Apoyo de sanación",
+  ["Hunter's Mark on bosses"] = "Marca del cazador en jefes",
+  ["Hunters: with a boss targeted (before the pull too), Hunter's Mark comes first in slot 1 until it is on it."] = "Cazadores: con un jefe como objetivo (también antes del pull), Marca del cazador va primero en la casilla 1 hasta que la tenga.",
+  ["In a party or raid: Discipline keeps Atonement up all the time (Shield, or Radiance when several are missing); Mistweaver casts Renewing Mist whenever a charge is ready. Solo, nothing changes."] = "En grupo o banda: Disciplina mantiene Expiación todo el tiempo (Escudo, o Resplandor cuando faltan varias); Tejedor de niebla lanza Niebla renovadora siempre que haya una carga lista. En solitario no cambia nada.",
+  ["With healing support: this many Atonements, counted from your casts, between big hits."] = "Con apoyo de sanación: tantas Expiaciones, contadas a partir de tus lanzamientos, entre golpes fuertes.",
 }

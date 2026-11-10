@@ -679,4 +679,12 @@ ns.LOCALE_DATA.ruRU = {
   ["HOLD during channels"] = "ЖДИ во время поддержания",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."] = "Пока поддерживается одно из ваших заклинаний (Удар журавля, Неистовые кулаки, Пытка разума...), ячейка 1 показывает янтарное ЖДИ: любое нажатие сейчас его прервёт. Зелёное ЖМИ появляется в момент окончания. Для поддерживаемых заклинаний, которые список приоритетов вашей специализации прерывает намеренно, ЖДИ не показывается.",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. Its border flashes green the moment it ends."] = "Пока поддерживается одно из ваших заклинаний (Удар журавля, Неистовые кулаки, Пытка разума...), ячейка 1 показывает янтарное ЖДИ: любое нажатие сейчас его прервёт. В момент окончания рамка вспыхивает зелёным.",
+  ["Atonements kept up"] = "Поддерживаемые Искупления",
+  ["Discipline Priest and Mistweaver Monk: healing that comes from your rotation, while you deal damage."] = "Жрец «Послушание» и монах «Ткач туманов»: исцеление, которое даёт ваша ротация, пока вы наносите урон.",
+  ["Healers in groups"] = "Лекари в группе",
+  ["Healing support"] = "Поддержка исцеления",
+  ["Hunter's Mark on bosses"] = "Метка охотника на боссах",
+  ["Hunters: with a boss targeted (before the pull too), Hunter's Mark comes first in slot 1 until it is on it."] = "Охотники: если в цели босс (и до начала боя), Метка охотника идёт первой в ячейке 1, пока она не наложена.",
+  ["In a party or raid: Discipline keeps Atonement up all the time (Shield, or Radiance when several are missing); Mistweaver casts Renewing Mist whenever a charge is ready. Solo, nothing changes."] = "В группе или рейде: «Послушание» постоянно поддерживает Искупление вины (Щит, или Сияние, когда не хватает нескольких); «Ткач туманов» применяет Животворный туман, как только готов заряд. В одиночку ничего не меняется.",
+  ["With healing support: this many Atonements, counted from your casts, between big hits."] = "С поддержкой исцеления: столько Искуплений, подсчитанных по вашим заклинаниям, между сильными ударами.",
 }

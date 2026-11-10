@@ -69,6 +69,14 @@ function M.Candidates(token)
   return list
 end
 
+-- Fallback spell data for keep-up spells (patch 12.0 values; the game's own, learned out of combat, replaces them).
+M.EXTRA_INFO = {
+  [257284] = { n = "hunters_mark", gcd = 1 },                           -- Hunter's Mark
+  [115151] = { n = "renewing_mist", gcd = 1.5, ch = 2, chcd = 9 },      -- Renewing Mist
+  [17] = { n = "power_word_shield", gcd = 1.5, cd = 7.5 },              -- Power Word: Shield
+  [194509] = { n = "power_word_radiance", gcd = 1.5, ct = 2, ch = 2, chcd = 18 }, -- Power Word: Radiance
+}
+
 -- Bind the current spec's generated spell data.
 function M.SetData(record)
   record = type(record) == "table" and record or {}
@@ -105,6 +113,14 @@ function M.SetData(record)
           M.applied[ai.n] = true
         end
       end
+    end
+  end
+  -- Spells our keep-ups add that a spec's lists leave out (Hunter's Mark, Renewing Mist, Shield / Radiance on
+  -- Discipline): without their cooldown and charges our clock calls them ready all fight, in combat, where the game
+  -- hides its own cooldowns (Renewing Mist was suggested every GCD). The spec's own data wins when it has them.
+  for id, info in pairs(M.EXTRA_INFO) do
+    if not M.info[id] then
+      M.info[id] = info
     end
   end
 end

@@ -80,9 +80,46 @@ local function Majors(record)
   return set
 end
 
+-- The spells the spec's keep-ups need (Hunter's Mark, Shield / Radiance, Renewing Mist): SimC's lists leave them
+-- out, so the spellbook built from the lists lacks them. Added for the group fight only; Blizzard's simulated
+-- assistant never names them (the real one doesn't for keep-ups either).
+local KEEPUP_SPELLS = { hunters_mark = 257284, power_word_shield = 17, power_word_radiance = 194509,
+  renewing_mist = 115151 }
+local function KeepUpBook(ns, key, book)
+  local extra, have = {}, {}
+  for _, b in ipairs(book) do
+    have[b.spellID] = true
+  end
+  for _, k in ipairs(ns.Essentials.KEEPUPS[key] or {}) do
+    for _, token in ipairs(k.ramp or { k.token }) do
+      local id = KEEPUP_SPELLS[token]
+      if id and not have[id] then
+        have[id] = true
+        extra[id] = token
+      end
+    end
+  end
+  local out = {}
+  for i, b in ipairs(book) do
+    out[i] = b
+  end
+  for id, token in pairs(extra) do
+    out[#out + 1] = { spellID = id, name = token }
+  end
+  return out, extra
+end
+
 local function Fight(ns, key, record, book, scenario)
   local M, G = ns.SpellMap, ns.Engine
   local majors = Majors(record)
+  local keepIDs, baseBook = {}, book
+  if scenario.group then
+    book, keepIDs = KeepUpBook(ns, key, book)
+    mock.book = book
+    M.Refresh()
+  end
+  mock.boss, mock.groupSize = scenario.boss or nil, scenario.group or nil
+  ns.db.healSupport = scenario.group and true or nil
   -- the game state at the pull
   mock.cooldowns, mock.usable, mock.auras = {}, {}, { player = {}, target = {} }
   mock.power, mock.powerMax, mock.powerReadable = {}, {}, {}
@@ -128,6 +165,7 @@ local function Fight(ns, key, record, book, scenario)
       local token = M.TokenForID(b.spellID)
       -- (forms and buffs only when you're out of them: the real assistant names those just then)
       if not mock.cooldowns[b.spellID] and not (token and majors[token]) and not ns.Essentials.FORMS[b.spellID]
+        and not keepIDs[b.spellID]
         and not ns.Buffs.IsBuffSpell(b.spellID) and not (token and G.SKIP[token]) then
         mock.acSpell = b.spellID
         break
@@ -240,6 +278,19 @@ local function Fight(ns, key, record, book, scenario)
   end
   mock.inCombat, mock.restricted = false, false
   mock.Fire("PLAYER_REGEN_ENABLED")
+  local keepPressed, keepKnown = {}, {}
+  for id, token in pairs(keepIDs) do
+    keepKnown[token] = true
+    if m.pressed[id] then
+      keepPressed[token] = true
+    end
+  end
+  if scenario.group then
+    mock.boss, mock.groupSize, ns.db.healSupport = nil, nil, nil
+    ns.Essentials.marked = nil
+    mock.book = baseBook
+    M.Refresh()
+  end
   local distinct, majorsCast = 0, 0
   for _ in pairs(m.pressed) do
     distinct = distinct + 1
@@ -252,7 +303,7 @@ local function Fight(ns, key, record, book, scenario)
     noMainPct = 100 * m.noMain / m.ticks, no2Pct = 100 * m.no2 / m.ticks, no3Pct = 100 * m.no3 / m.ticks,
     flipsPerMin = m.flips * 60 / FIGHT, distinct = distinct, majorsCast = majorsCast, majorsKnown = m.majorsKnown,
     presses = m.presses, onCdPct = 100 * m.onCd / m.ticks, skipShown = m.skipShown,
-    msAvg = (m.msTotal or 0) / m.ticks, msPeak = m.msPeak or 0,
+    msAvg = (m.msTotal or 0) / m.ticks, msPeak = m.msPeak or 0, keepPressed = keepPressed, keepKnown = keepKnown,
   }
 end
 
@@ -261,6 +312,8 @@ local SCENARIOS = {
   { name = "aoe", targets = 5 },
   { name = "lvl", targets = 1, leveling = true },
   { name = "none", targets = 1, unusable = true }, -- nothing castable (no weapon, silenced, out of resources)
+  -- a boss in a 5-player party with healing support on: Hunter's Mark, Atonement upkeep, Renewing Mist
+  { name = "group", targets = 1, boss = true, group = 5 },
 }
 
 local ns = Boot()
@@ -323,6 +376,23 @@ for _, key in ipairs(keys) do
     end
     for token in pairs(r.skipShown) do
       Fail(string.format("%s: showed %s (never pressed by hand)", id, token))
+    end
+    -- the keep-ups do their job: each spec's keep-up spell is cast at least once in the group fight (Atonement:
+    -- Shield or Radiance, either will do)
+    if sc.group then
+      local anyKnown, anyPressed = false, false
+      for token in pairs(r.keepKnown) do
+        anyKnown = true
+        anyPressed = anyPressed or r.keepPressed[token] == true
+      end
+      if anyKnown and not anyPressed then
+        local names = {}
+        for token in pairs(r.keepKnown) do
+          names[#names + 1] = token
+        end
+        table.sort(names)
+        Fail(string.format("%s: keep-up never cast (%s)", id, table.concat(names, " / ")))
+      end
     end
     if sc.unusable and r.msAvg > PERF_NONE_MAX then
       Fail(string.format("%s: %.1f ms per update with nothing castable (limit %d)", id, r.msAvg, PERF_NONE_MAX))

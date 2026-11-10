@@ -435,7 +435,7 @@ local SPELL_EVENTS = { SPELLS_CHANGED = true, TRAIT_CONFIG_UPDATED = true, PLAYE
 local frame = CreateFrame("Frame")
 ns.eventFrame = frame
 for _, event in ipairs({ "ADDON_LOADED", "PLAYER_LOGIN", "PLAYER_ENTERING_WORLD", "PLAYER_REGEN_DISABLED",
-  "PLAYER_REGEN_ENABLED", "PLAYER_TARGET_CHANGED", "SPELL_UPDATE_COOLDOWN", "SPELL_ACTIVATION_OVERLAY_GLOW_SHOW",
+  "PLAYER_REGEN_ENABLED", "PLAYER_TARGET_CHANGED", "UI_ERROR_MESSAGE", "SPELL_UPDATE_COOLDOWN", "SPELL_ACTIVATION_OVERLAY_GLOW_SHOW",
   "SPELL_ACTIVATION_OVERLAY_GLOW_HIDE" }) do
   frame:RegisterEvent(event)
 end
@@ -475,7 +475,8 @@ local DEFAULTS = { enabled = true, burst = true,
   burstWhen = "always", bigPull = 5, skipHold = true, ironfurStacks = 3, tankEssentials = true,
   gapClosers = true, trinkets = true, bindWarn = true, buffReminders = true,
   levelingMode = "auto", levelNotices = true, healAt = 35, healInRaids = false,
-  atonementRamp = true, atonementTarget = 5, atonementLead = 8,
+  atonementRamp = true, atonementTarget = 5, atonementLead = 8, healSupport = false, atonementKeep = 3,
+  huntersMark = true,
   mode = "aoe", autoDetect = true, aoeTargets = 3, fightLength = 300,
   useAssisted = true, queue = 3, smartFight = true, fightMode = "learned", aoeCount = "spec", bossMods = true, interruptMode = "smart",
   defensiveMode = "smart", defensiveHealth = 35, defensiveLead = 3, sounds = true, locked = true,
@@ -595,8 +596,11 @@ frame:SetScript("OnEvent", function(_, event, ...)
   elseif event == "UNIT_AURA" then
     S.OnAura(U.Read(arg1))
     ns.Buffs.Invalidate()
+  elseif event == "UI_ERROR_MESSAGE" then
+    S.OnUIError(U.Read(arg1), U.Read(select(2, ...)))
   elseif event == "PLAYER_TARGET_CHANGED" then
     S.OnTargetChanged()
+    ns.Essentials.OnTargetChanged()
     ns.Interrupts.OnTargetCastStart()
   else
     Specs.RequestRefresh(event)

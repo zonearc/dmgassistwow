@@ -1192,12 +1192,78 @@ function S.RefusedHold(id)
 end
 S.notBefore = {}     -- spell -> not ready before this time: the game refused it while our clock said ready
 S.REFUSE_HOLD = { 0.5, 1, 2, 3 } -- seconds held, by refused presses in a row
+
+-- Cooldowns our data doesn't have (Void Volley only exists inside Voidform, so the game never shows its cooldown
+-- out of combat, where we learn the others): learned from the game refusing it. A refusal counts only when the
+-- game says why: "not ready yet" (ERR_SPELL_COOLDOWN / ERR_ABILITY_COOLDOWN), outside the global cooldown, and
+-- not for lack of resources, range or facing. Each one is a lower bound (it has a cooldown at least that long
+-- after our cast); pressing until it goes through measures it.
+S.cdRefusal = {}        -- spell -> { after = our cast it followed, bound = s since that cast, at = time }
+S.REFUSED_MARGIN = 1    -- not ready until this long past the longest refusal
+S.REFUSAL_PAIR = 0.25   -- the failed cast and its error message arrive this close together
+local lastFailed, lastCooldownError = nil, nil
+local function NoteCooldownRefusal(id, t)
+  if ChargeInfo(id) or CooldownLength(id) then
+    return -- known cooldowns: the refused-press hold and the timing learning handle those
+  end
+  local last = S.lastCast[id]
+  if not last or last < (S.combatStart or 0) - 3 or t - last <= 1.6 then
+    return
+  end
+  local r = S.cdRefusal[id]
+  if not r or r.after ~= last then
+    r = { after = last, bound = 0 }
+    S.cdRefusal[id] = r
+  end
+  r.bound, r.at = math.max(r.bound, t - last), t
+end
+S.NoteCooldownRefusal = NoteCooldownRefusal
+
+local function IsCooldownError(msg)
+  return type(msg) == "string" and ((ERR_SPELL_COOLDOWN and msg == ERR_SPELL_COOLDOWN)
+    or (ERR_ABILITY_COOLDOWN and msg == ERR_ABILITY_COOLDOWN))
+end
+function S.OnUIError(_, msg)
+  if not IsCooldownError(msg) then
+    return
+  end
+  local now = GetTime()
+  lastCooldownError = now
+  local f = lastFailed
+  if f and not f.used and now - f.t <= S.REFUSAL_PAIR and f.offGCD then
+    f.used = true
+    NoteCooldownRefusal(f.id, f.t)
+  end
+end
+
+-- A success right after refusals of a spell with no known cooldown: the time since our last cast is its cooldown
+-- (to within a press). Learned for good, like the ones read out of combat.
+local function LearnFromRefusals(id, now)
+  local r = S.cdRefusal[id]
+  S.cdRefusal[id] = nil
+  if not r or r.after ~= S.lastCast[id] or CooldownLength(id) then
+    return
+  end
+  local gap = now - r.after
+  if r.at and now - r.at <= S.PRESS_GAP * 2 and gap > 1.6 and gap < 600 then
+    S.learned.cd[id] = math.floor(gap * 2 + 0.5) / 2
+    U.Log("cd_learned", { spell = M.TokenForID(id), cd = S.learned.cd[id], from = "refusals" })
+  end
+end
+S.LearnFromRefusals = LearnFromRefusals
+
 function S.OnCastFailed(id)
   id = U.Read(id)
   if type(id) ~= "number" or not S.combatStart then
     return
   end
   local now = GetTime()
+  local offGCD = (S.GCDRemains() or 0) <= 0.05
+  lastFailed = { id = id, t = now, offGCD = offGCD }
+  if offGCD and lastCooldownError and now - lastCooldownError <= S.REFUSAL_PAIR then
+    lastFailed.used = true
+    NoteCooldownRefusal(id, now)
+  end
   -- Refused outside the global cooldown while our clock calls it ready: it isn't, right now. Hold it back so slot 1
   -- moves on to what you can press, longer with each refusal, until Blizzard names it or the hold runs out.
   if (S.GCDRemains() or 0) <= 0.05 then
@@ -1458,6 +1524,14 @@ end
 -- Ready by our own clock (last cast + cooldown length): true / false, or UNKNOWN without a cast this fight.
 function S.OwnClockReady(id)
   local last, length = S.lastCast[id], CooldownLength(id)
+  if last and not length and last >= (S.combatStart or 0) - 3 then
+    -- No cooldown in our data, but the game said "not ready yet" this long after our cast: it has one, at least
+    -- that long. Not ready until a little past it (each new refusal moves it on).
+    local r = S.cdRefusal[id]
+    if r and r.after == last then
+      return Now() - last >= r.bound + S.REFUSED_MARGIN
+    end
+  end
   if not (last and length) or last < (S.combatStart or 0) - 3 then
     return UNKNOWN
   end
@@ -1620,6 +1694,7 @@ local function RecordCast(id, how)
   if #S.history > 10 then
     S.history[#S.history] = nil
   end
+  LearnFromRefusals(id, GetTime())
   S.lastCast[id] = GetTime()
   local byToken = M.TokenForID and M.TokenForID(id)
   for _, t in ipairs({ token, byToken }) do
@@ -3158,6 +3233,7 @@ function S.Bind(key)
   S.learned = l
   ns.Clues.Reset(l.glowAura)
   S.auraUntil, S.dotUntil, S.lastCast, S.wasActive, S.glow = {}, {}, {}, {}, {}
+  S.cdRefusal = {}
   l.unreliable = type(l.unreliable) == "table" and l.unreliable or {}
   S.chargeSpentAt, S.readyShown = {}, nil -- liveCharges: re-read by S.Calibrate
   l.timing = type(l.timing) == "table" and l.timing or {}

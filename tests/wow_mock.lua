@@ -476,8 +476,10 @@ function mock.Install(env)
     return 120
   end
   env.GetNumGroupMembers = function()
-    return 0
+    return mock.groupSize or 0
   end
+  env.ERR_SPELL_COOLDOWN = "Spell is not ready yet."
+  env.ERR_ABILITY_COOLDOWN = "Ability is not ready yet."
   env.GetLocale = function()
     return mock.locale or "enUS"
   end
@@ -505,7 +507,10 @@ function mock.Install(env)
       return id, "Spec" .. tostring(id), "description", 0, "DAMAGER"
     end,
   }
-  env.UnitLevel = function()
+  env.UnitLevel = function(unit)
+    if unit == "target" and mock.targetLevel then
+      return mock.targetLevel
+    end
     return 60
   end
   env.UnitHealth = function()
@@ -855,6 +860,9 @@ function mock.Install(env)
     local i = PlateIndex(unit)
     if i then
       return "Creature-0-0-0-0-" .. i
+    end
+    if unit == "target" then
+      return mock.targetGUID
     end
     return unit == "player" and "Player-0-1" or nil
   end

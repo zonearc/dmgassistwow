@@ -679,4 +679,12 @@ ns.LOCALE_DATA.ptBR = {
   ["HOLD during channels"] = "SEGURE durante canalizações",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."] = "Enquanto um dos seus feitiços canalizados está em andamento (Chute Giratório da Garça, Punhos da Fúria, Tortura Mental...), o espaço 1 mostra um SEGURE âmbar: apertar qualquer coisa agora o interromperia. Um VAI verde aparece assim que ele termina. Canalizações que a lista de prioridades da sua especialização corta de propósito não mostram SEGURE.",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. Its border flashes green the moment it ends."] = "Enquanto um dos seus feitiços canalizados está em andamento (Chute Giratório da Garça, Punhos da Fúria, Tortura Mental...), o espaço 1 mostra um SEGURE âmbar: apertar qualquer coisa agora o interromperia. A borda pisca em verde assim que ele termina.",
+  ["Atonements kept up"] = "Expiações mantidas",
+  ["Discipline Priest and Mistweaver Monk: healing that comes from your rotation, while you deal damage."] = "Sacerdote Disciplina e Monge Tecelão da Névoa: cura que vem da sua rotação enquanto você causa dano.",
+  ["Healers in groups"] = "Curadores em grupo",
+  ["Healing support"] = "Suporte de cura",
+  ["Hunter's Mark on bosses"] = "Marca do Caçador em chefes",
+  ["Hunters: with a boss targeted (before the pull too), Hunter's Mark comes first in slot 1 until it is on it."] = "Caçadores: com um chefe como alvo (antes do pull também), Marca do Caçador vem primeiro no espaço 1 até estar nele.",
+  ["In a party or raid: Discipline keeps Atonement up all the time (Shield, or Radiance when several are missing); Mistweaver casts Renewing Mist whenever a charge is ready. Solo, nothing changes."] = "Em grupo ou raide: Disciplina mantém Expiação o tempo todo (Escudo, ou Radiância quando faltam várias); Tecelão da Névoa lança Névoa Renovadora sempre que houver uma carga pronta. Sozinho, nada muda.",
+  ["With healing support: this many Atonements, counted from your casts, between big hits."] = "Com suporte de cura: esta quantidade de Expiações, contadas pelos seus lançamentos, entre golpes fortes.",
 }

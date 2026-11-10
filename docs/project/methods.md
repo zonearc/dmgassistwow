@@ -34,6 +34,16 @@ Written down so that a fix for one class doesn't quietly break another. Keep thi
 - A filtered run (`tests/test_scenarios.lua rogue`) is for profiling and debugging only: the simulated game
   carries some state from spec to spec, so its numbers differ from the full run the baseline was taken from.
 
+## 2b. Features outside the rotation get a fight in the check
+
+- A new rule (keep-up, reminder, setting) gets a scenario where it must fire, not only a unit test: the unit
+  test calls one module, the check runs the whole update. Discipline's Shield passed its unit test while a later
+  step (Defensives) removed it from slot 1; only the group fight showed it.
+- A spell the addon adds (not in the spec's data) needs cooldown and charge data of its own
+  (`SpellMap.EXTRA_INFO`), or our clock calls it ready all fight in combat.
+- Look at what the check's player actually pressed (`SCEN_PRESS`, `SCEN_RESULTS`) when adding a feature: "all
+  rules hold" with one spell pressed 25 times is a bug the rules don't name.
+
 ## 3. Changing the baseline honestly
 
 When the **simulation** changes (more realism), the numbers move for reasons that aren't the addon's:
