@@ -4096,6 +4096,35 @@ test("learning summary in plain words: left-to-Blizzard spells first, measured o
   eq(lines[3]:find("mortal strike", 1, true) ~= nil, true, lines[3])
 end)
 
+
+test("performance grade: any 20 s+ cooldown slot 1 shows is graded from 'press now'; pressed early is on time", function()
+  Reset()
+  local ns = Boot()
+  local Gr = ns.Grade
+  Gr.Reset()
+  local len = ns.State.CooldownLength
+  ns.State.CooldownLength = function(id) return id == 202770 and 60 or 0 end
+  local FoE, A = { id = 202770, token = "fury_of_elune" }, { id = 101, token = "spell_a" }
+  local isRot = ns.Engine.IsRotationSpell
+  ns.Engine.IsRotationSpell = function() return true end
+  Gr.OnCombat(true)
+  ns.last = { main = FoE, queue = { FoE, A } }
+  Gr.Tick(false) -- Fury of Elune appears in slot 1 while the GCD runs
+  mock.now = mock.now + 0.5
+  Gr.OnPress(202770, ns.last, true) -- pressed before "press now": queued, on time
+  for _ = 1, 6 do
+    ns.last = { main = A, queue = { A } }
+    Gr.Tick(false)
+    Gr.OnPress(101, ns.last, true)
+    mock.now = mock.now + 4
+  end
+  Gr.OnCombat(false)
+  local h = Gr.Summary(Gr.SpecKey()).history[1]
+  eq(h.cooldowns and math.floor(h.cooldowns), 100, "Fury of Elune graded, on time")
+  ns.State.CooldownLength, ns.Engine.IsRotationSpell, ns.last = len, isRot, nil
+  Gr.Reset()
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

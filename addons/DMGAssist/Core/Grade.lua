@@ -68,7 +68,7 @@ end
 function Gr.OnCombat(on)
   if on then
     fight = { start = GetTime(), presses = 0, score = 0, reactions = {}, idle = 0, lastTick = nil,
-      ready = nil, cds = {}, cdShown = {}, missed = {}, instead = {}, targets = 0, mit = {}, mitShown = {} }
+      ready = nil, cds = {}, cdShown = {}, cdReady = {}, missed = {}, instead = {}, targets = 0, mit = {}, mitShown = {} }
     return
   end
   local f = fight
@@ -91,8 +91,8 @@ function Gr.OnReady(id, now, main)
     f.ready = { id = id, t = now }
   end
 
-  if main and main.major and not f.cdShown[Base(id)] then
-    f.cdShown[Base(id)] = now
+  if Gr.IsCooldown(main) and f.cdShown[Base(id)] and not f.cdReady[Base(id)] then
+    f.cdReady[Base(id)] = now -- "press now" for this cooldown: its delay is timed from here
   end
 end
 
@@ -109,9 +109,12 @@ function Gr.Tick(pressNow)
     -- a major cooldown slot 1 showed only briefly before switching away: not long enough to be judged on
     local gone = f.shown and Base(f.shown.id)
     if gone and f.cdShown[gone] and now - f.cdShown[gone] < Gr.MIN_SHOWN then
-      f.cdShown[gone] = nil
+      f.cdShown[gone], f.cdReady[gone] = nil, nil
     end
     f.prevShown, f.shown = f.shown, { id = main.id, t = now }
+  end
+  if Gr.IsCooldown(main) and not f.cdShown[Base(main.id)] then
+    f.cdShown[Base(main.id)] = now -- a cooldown appears in slot 1
   end
   if pressNow and not f.wasReady then
     f.readySince = now
@@ -136,6 +139,20 @@ function Gr.Tick(pressNow)
   if w and w.source == "mitigation" and w.id and not f.mitShown[Base(w.id)] then
     f.mitShown[Base(w.id)] = now
   end
+end
+
+-- A cooldown worth grading: a major cooldown, or any spell with a cooldown of Gr.KEY_CD seconds or more (Fury of
+-- Elune isn't a "major" cooldown and wasn't graded, 2026-11-10).
+Gr.KEY_CD = 20
+function Gr.IsCooldown(p)
+  if not (p and p.id) or p.source == "interrupt" then
+    return false
+  end
+  if p.major then
+    return true
+  end
+  local len = ns.State.CooldownLength and ns.State.CooldownLength(p.id)
+  return type(len) == "number" and len >= Gr.KEY_CD
 end
 
 local function IsOffGCD(id)
@@ -223,8 +240,11 @@ function Gr.OnPress(id, r, press)
   end
   local key = Base(id)
   if f.cdShown[key] then
-    f.cds[#f.cds + 1] = now - f.cdShown[key]
-    f.cdShown[key] = nil
+    -- from the moment it was ready; pressed before that (the game queues it): on time
+    f.cds[#f.cds + 1] = f.cdReady[key] and (now - f.cdReady[key]) or 0
+    f.cdShown[key], f.cdReady[key] = nil, nil
+  elseif inQueue and Gr.IsCooldown({ id = id }) then
+    f.cds[#f.cds + 1] = 0 -- a cooldown from slot 2 or 3, used as it came up
   end
 end
 
@@ -283,9 +303,11 @@ function Gr.Finish(f, now)
   if length < (tonumber(ns.db and ns.db.gradeMinFight) or Gr.MIN_FIGHT) or f.presses < 5 then
     return nil
   end
-  for key, shownAt in pairs(f.cdShown) do
-    if now - shownAt > 3 and not (type(key) == "string" and key:find("^item:")) then
-      f.cds[#f.cds + 1] = math.max(10, now - shownAt) -- a major cooldown shown, never used
+  for key in pairs(f.cdShown) do
+    if type(key) == "string" and key:find("^item:") then -- luacheck: ignore 542
+      -- an item never used isn't graded
+    elseif f.cdReady[key] and now - f.cdReady[key] > 3 then
+      f.cds[#f.cds + 1] = math.max(10, now - f.cdReady[key]) -- a cooldown slot 1 called ready, never used
     end
   end
   local accuracy = Clamp(f.score / f.presses * 100)
@@ -350,25 +372,86 @@ function Gr.Finish(f, now)
   return r
 end
 
+-- Tips: several wordings of each piece of advice, one picked at random from the ones that fit the weakest part,
+-- so the popup doesn't read the same after every fight (asked for 2026-11-10). %s / %d / %.1f as noted per pool.
+Gr.TIPS = {
+  named = { -- %s = the spell slot 1 asked for, %d = how many times
+    "Tip: slot 1 asked for %s %d times when you pressed something else.",
+    "Tip: %s came up in slot 1 %d times and something else got pressed. Give it the priority.",
+    "Tip: watch for %s - slot 1 wanted it %d times this fight.",
+  },
+  accuracy = {
+    "Tip: press what slot 1 shows; slots 2 and 3 are what comes after it.",
+    "Tip: slot 1 is always the next press. Slots 2 and 3 are a preview, not a choice.",
+    "Tip: follow slot 1 in order; the priority already accounts for your procs and cooldowns.",
+    "Tip: if two spells look good, trust slot 1 - it's the one that does the most right now.",
+  },
+  idle = { -- %.1f = seconds with slot 1 ready and nothing pressed
+    "Tip: slot 1 was ready for %.1f s without a press. Keep the global cooldown rolling.",
+    "Tip: %.1f s went by with a spell ready and nothing pressed. Something to press is almost always there.",
+    "Tip: you lost %.1f s of casting this fight. Press the next spell as the last one finishes.",
+  },
+  abc = {
+    "Tip: keep a button going at all times; even a filler beats waiting.",
+    "Tip: when you have to move, use instant spells so the casting doesn't stop.",
+  },
+  reaction = {
+    "Tip: press as the flash comes, or a little before: the game queues a press made just before it's ready.",
+    "Tip: you can press a moment before slot 1 is ready; the game queues it for you.",
+    "Tip: watch the sweep on slot 1 and press as it closes, not after.",
+    "Tip: a key close to your hand makes slot 1 quicker to press.",
+    "Tip: react to the flash on slot 1; every small pause adds up over a fight.",
+  },
+  cooldowns = {
+    "Tip: use major cooldowns, trinkets and your potion as soon as they show.",
+    "Tip: a cooldown sitting ready is damage lost. Press it when slot 1 shows it.",
+    "Tip: cooldowns come back sooner the sooner you use them.",
+    "Tip: bind your cooldowns where you can reach them in a hurry.",
+    "Tip: when slot 1 shows a cooldown it's already lined up with your other buffs: press it.",
+  },
+  mitigation = {
+    "Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe.",
+    "Tip: keep your mitigation rolling: press the red icon as it lights up, before the hits land.",
+    "Tip: tanking is timing. The red icon shows your mitigation exactly when it's due.",
+    "Tip: late mitigation means a big hit taken. Keep an eye on the red icon.",
+  },
+  none = {
+    "Nothing to improve: keep it up.",
+    "Nothing to improve: that was clean.",
+    "Great fight: every part was on point.",
+    "Nothing to fix this time. Try it on a harder target.",
+  },
+}
+
+local function Pick(pool)
+  return L[pool[math.random(#pool)]]
+end
+
 function Gr.Tip(r)
+  local T = Gr.TIPS
   if r.weakest == "accuracy" then
     if r.topMissed then
       local name = r.topMissed:gsub("_", " ")
-      return string.format(L["Tip: slot 1 asked for %s %d times when you pressed something else."], name,
-        r.topMissedCount)
+      return string.format(Pick(T.named), name, r.topMissedCount or 1)
     end
-    return L["Tip: press what slot 1 shows; slots 2 and 3 are what comes after it."]
+    return Pick(T.accuracy)
   elseif r.weakest == "abc" then
-    return string.format(L["Tip: slot 1 was ready for %.1f s without a press. Keep the global cooldown rolling."],
-      r.idle)
+    if (tonumber(r.idle) or 0) >= 1 then
+      return string.format(Pick(T.idle), r.idle)
+    end
+    return Pick(T.abc)
   elseif r.weakest == "reaction" then
-    return L["Tip: press as the flash comes, or a little before: the game queues a press made just before it's ready."]
+    return Pick(T.reaction)
   elseif r.weakest == "mitigation" then
-    return L["Tip: press your mitigation (the red icon) as soon as it shows; it's timed to keep you safe."]
+    return Pick(T.mitigation)
   elseif r.weakest == "cooldowns" then
-    return L["Tip: use major cooldowns, trinkets and your potion as soon as they show."]
+    return Pick(T.cooldowns)
   end
-  return L["Nothing to improve: keep it up."]
+  return Pick(T.none)
+end
+
+function Gr.TipsOn()
+  return not (ns.db and ns.db.gradeTips == false)
 end
 
 ---------------------------------------------------------------------------
@@ -559,7 +642,7 @@ local function Frame()
     return Gr.frame
   end
   local f = CreateFrame("Frame", "DMGAssistGrade", UIParent)
-  f:SetSize(W, 150)
+  f:SetSize(W, 196)
   f:SetFrameStrata("HIGH")
   Place(f)
   f:SetClampedToScreen(true)
@@ -587,17 +670,17 @@ local function Frame()
   f.edge:SetHeight(2)
   -- the letter and the title
   f.letter = f:CreateFontString(nil, "OVERLAY")
-  f.letter:SetPoint("CENTER", f, "TOPLEFT", 48, -42)
+  f.letter:SetPoint("CENTER", f, "TOPLEFT", 50, -38)
   f.title = f:CreateFontString(nil, "OVERLAY")
   f.title:SetPoint("TOPLEFT", f, "TOPLEFT", 104, -14)
   f.score = f:CreateFontString(nil, "OVERLAY")
-  f.score:SetPoint("TOPLEFT", f.title, "BOTTOMLEFT", 0, -4)
+  f.score:SetPoint("TOPLEFT", f.title, "BOTTOMLEFT", 0, -9)
   f.best = f:CreateFontString(nil, "OVERLAY")
-  f.best:SetPoint("LEFT", f.score, "RIGHT", 10, 0)
+  f.best:SetPoint("LEFT", f.score, "RIGHT", 14, 0)
   -- the bar
   f.bar = CreateFrame("Frame", nil, f)
   f.bar:SetSize(BAR_W, BAR_H)
-  f.bar:SetPoint("TOP", f, "TOP", 0, -66)
+  f.bar:SetPoint("TOP", f, "TOP", 0, -88)
   f.segments = {}
   for i = 1, #Gr.BAR_STOPS - 1 do
     local a, b = Gr.BAR_STOPS[i], Gr.BAR_STOPS[i + 1]
@@ -626,7 +709,7 @@ local function Frame()
   for i, part in ipairs(PARTS) do
     local cell = CreateFrame("Frame", nil, f)
     cell:SetSize(W / #PARTS, 36)
-    cell:SetPoint("TOPLEFT", f, "TOPLEFT", (i - 1) * W / #PARTS, -94)
+    cell:SetPoint("TOPLEFT", f, "TOPLEFT", (i - 1) * W / #PARTS, -116)
     cell.value = cell:CreateFontString(nil, "OVERLAY")
     cell.value:SetPoint("TOP", cell, "TOP", 0, 0)
     cell.name = cell:CreateFontString(nil, "OVERLAY")
@@ -636,8 +719,8 @@ local function Frame()
     f.cells[i] = cell
   end
   f.tip = f:CreateFontString(nil, "OVERLAY")
-  f.tip:SetPoint("TOPLEFT", f, "BOTTOMLEFT", 4, -4)
-  f.tip:SetWidth(W - 8)
+  f.tip:SetPoint("BOTTOMLEFT", f, "BOTTOMLEFT", 12, 10) -- inside the box, at the bottom
+  f.tip:SetWidth(W - 24)
   f.tip:SetJustifyH("LEFT")
   f:Hide()
   f:SetScript("OnUpdate", function(self)
@@ -718,7 +801,7 @@ function Gr.Render(r, sample, test)
   for i, cell in ipairs(shown) do
     cell:ClearAllPoints()
     cell:SetSize(W / #shown, 36)
-    cell:SetPoint("TOPLEFT", f, "TOPLEFT", (i - 1) * W / #shown, -94)
+    cell:SetPoint("TOPLEFT", f, "TOPLEFT", (i - 1) * W / #shown, -116)
   end
   for _, cell in ipairs(shown) do
     local v = r[cell.key]
@@ -734,7 +817,8 @@ function Gr.Render(r, sample, test)
     cell.name:SetTextColor(0.75, 0.75, 0.75)
   end
   D.SetFont(f.tip, 11)
-  f.tip:SetText(Gr.Tip(r))
+  f.tip:SetText(Gr.TipsOn() and Gr.Tip(r) or "")
+  f:SetHeight(Gr.TipsOn() and 196 or 164) -- no tip: the box ends under the parts
   f.tip:SetTextColor(0.9, 0.9, 0.9)
   f.sample = sample
   f.shownAt = GetTime()

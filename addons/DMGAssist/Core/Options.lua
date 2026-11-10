@@ -613,6 +613,9 @@ function O.Register()
     "Grades every fight that lasts long enough: how often you pressed what slot 1 showed, how little time slot 1 "
     .. "sat ready, how fast you pressed it, and how quickly cooldowns were used. It never measures damage. Off: "
     .. "nothing is tracked or shown.")
+  Check(grade, DB, "gradeTips", "Show a tip under the grade", true,
+    "One line of advice on your weakest part, worded differently from fight to fight. Off: the grade and its parts "
+      .. "only.")
   Slider(grade, DB, "gradeSeconds", "Grade stays on screen", 6, 2, 15, 1,
     "How long the grade stays before it fades out. It pops in quickly and fades in under a second.", " s")
   Slider(grade, DB, "gradeMinFight", "Shortest fight to grade", 20, 10, 120, 5,

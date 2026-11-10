@@ -628,3 +628,28 @@
 634	%s: medido %d vezes, nosso relógio corrigido em %+.1f s, agora com margem de %.1f s
 635	Nada ainda: ele aprende com suas lutas.
 636	O que o DMGAssist aprendeu para esta especialização
+637	Uma linha de conselho sobre seu ponto mais fraco, dita de outro jeito a cada luta. Desligado: só a nota e suas partes.
+638	Mostrar uma dica sob a nota
+639	Dica: %s apareceu no espaço 1 %d vezes e outra coisa foi apertada. Dê prioridade a ele.
+640	Dica: fique de olho em %s - o espaço 1 pediu %d vezes nesta luta.
+641	Dica: o espaço 1 é sempre o próximo aperto. Os espaços 2 e 3 são uma prévia, não uma escolha.
+642	Dica: siga o espaço 1 em ordem; a prioridade já considera seus efeitos e recargas.
+643	Dica: se dois feitiços parecem bons, confie no espaço 1 - é o que mais rende agora.
+644	Dica: passaram %.1f s com um feitiço pronto e nada apertado. Quase sempre há algo para apertar.
+645	Dica: você perdeu %.1f s de lançamento nesta luta. Aperte o próximo feitiço quando o último terminar.
+646	Dica: mantenha sempre um botão rodando; até um preenchimento é melhor que esperar.
+647	Dica: quando precisar se mover, use feitiços instantâneos para não parar de lançar.
+648	Dica: você pode apertar um instante antes do espaço 1 ficar pronto; o jogo põe na fila.
+649	Dica: observe o giro no espaço 1 e aperte quando ele fechar, não depois.
+650	Dica: uma tecla perto da mão deixa o espaço 1 mais rápido de apertar.
+651	Dica: reaja ao brilho do espaço 1; cada pequena pausa soma ao longo da luta.
+652	Dica: uma recarga pronta e parada é dano perdido. Aperte quando o espaço 1 mostrar.
+653	Dica: as recargas voltam mais cedo quanto mais cedo você as usa.
+654	Dica: coloque suas recargas onde você alcance com pressa.
+655	Dica: quando o espaço 1 mostra uma recarga, ela já está alinhada com seus outros bônus: aperte.
+656	Dica: mantenha sua mitigação: aperte o ícone vermelho assim que acender, antes dos golpes.
+657	Dica: tanquear é tempo. O ícone vermelho mostra sua mitigação exatamente na hora certa.
+658	Dica: mitigação atrasada é golpe forte recebido. Fique de olho no ícone vermelho.
+659	Nada a melhorar: foi limpo.
+660	Ótima luta: cada parte no ponto.
+661	Nada a corrigir desta vez. Tente num alvo mais difícil.

@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.150 (2026-11-09).
+Last updated: 1.6.0.151 (2026-11-10).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -16,6 +16,9 @@ Last updated: 1.6.0.150 (2026-11-09).
 
 ## Open: build
 
+- [ ] Settings preview of the HUD: text runs over the side, panel too small for big sizes, corner icons overlap
+- [ ] Feral: energy comes back slower than our estimate (Rake shown ~1 s early)
+- [ ] Grade: pause while moving (dodging boss damage) and out of range
 - [ ] Forever: confirm the WoWSims rank mapping (data imports for 34 specs; mapping not verified)
 
 ## Proposed (waiting on a decision)
@@ -45,6 +48,12 @@ Last updated: 1.6.0.150 (2026-11-09).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.151: grade Cooldowns now counts every 20 s+ cooldown slot 1 shows (Fury of Elune wasn't "major" and was
+  ignored), timed from its "press now"; pressed early (queued) or from slots 2-3 is on time. The grade reaches the
+  report: the Watchdog keeps a fight's session open 2 s for end-of-fight results. Popup taller, letter higher,
+  more room around the score, tip inside the box; 30 tips in pools per weak part, picked at random; tip can be
+  switched off (Performance grade > Show a tip under the grade); all languages
 
 - 1.6.0.150: the grade only judges what we showed: presses with nothing in slot 1, of spells outside the
   rotation (movement, utility, a defensive or tank button pressed early, racials), and with an interrupt in slot 1

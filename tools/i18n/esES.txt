@@ -628,3 +628,28 @@
 634	%s: medido %d veces, nuestro reloj corregido %+.1f s, ahora con margen de %.1f s
 635	Nada aún: aprende de tus combates.
 636	Lo que DMGAssist ha aprendido de esta especialización
+637	Una línea de consejo sobre tu parte más floja, con otras palabras en cada combate. Desactivado: solo la nota y sus partes.
+638	Mostrar un consejo bajo la nota
+639	Consejo: %s apareció en la casilla 1 %d veces y se pulsó otra cosa. Dale prioridad.
+640	Consejo: atento a %s: la casilla 1 lo pidió %d veces en este combate.
+641	Consejo: la casilla 1 es siempre la siguiente pulsación. Las casillas 2 y 3 son un avance, no una opción.
+642	Consejo: sigue la casilla 1 en orden; la prioridad ya cuenta con tus efectos y reutilizaciones.
+643	Consejo: si dos hechizos parecen buenos, confía en la casilla 1: es el que más aporta ahora.
+644	Consejo: pasaron %.1f s con un hechizo listo sin pulsar nada. Casi siempre hay algo que pulsar.
+645	Consejo: perdiste %.1f s de lanzamiento en este combate. Pulsa el siguiente hechizo al terminar el anterior.
+646	Consejo: mantén siempre un botón en marcha; hasta un relleno es mejor que esperar.
+647	Consejo: cuando tengas que moverte, usa hechizos instantáneos para no dejar de lanzar.
+648	Consejo: puedes pulsar un instante antes de que la casilla 1 esté lista; el juego lo pone en cola.
+649	Consejo: mira el barrido de la casilla 1 y pulsa cuando se cierre, no después.
+650	Consejo: una tecla cerca de la mano hace la casilla 1 más rápida de pulsar.
+651	Consejo: reacciona al destello de la casilla 1; cada pausa pequeña suma a lo largo del combate.
+652	Consejo: una reutilización lista sin usar es daño perdido. Púlsala cuando la casilla 1 la muestre.
+653	Consejo: las reutilizaciones vuelven antes cuanto antes las usas.
+654	Consejo: asigna tus reutilizaciones donde puedas alcanzarlas con prisa.
+655	Consejo: cuando la casilla 1 muestra una reutilización ya está alineada con tus otros beneficios: púlsala.
+656	Consejo: mantén tu mitigación: pulsa el icono rojo en cuanto se ilumine, antes de los golpes.
+657	Consejo: tanquear es cuestión de tiempo. El icono rojo muestra tu mitigación justo cuando toca.
+658	Consejo: mitigación tarde significa un golpe fuerte recibido. No pierdas de vista el icono rojo.
+659	Nada que mejorar: ha sido limpio.
+660	Gran combate: cada parte en su punto.
+661	Nada que corregir esta vez. Pruébalo con un objetivo más duro.

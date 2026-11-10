@@ -39,12 +39,16 @@ local function Zone()
   return zone, inInstance, instanceType
 end
 
+local recent, recentStop -- the session that just ended, for results logged a moment after it
+M.LATE = 2
+
 function M.Start()
   local db = ns.db
   if not db or current then
     return
   end
   local zone, inInstance, instanceType = Zone()
+  recent = nil
   S.Count("sessions")
   current = {
     id = db.counters.sessions,
@@ -78,12 +82,17 @@ function M.Stop(reason)
     end
     current.perf = perf
   end
+  -- What DMGAssist works out as the fight ends (the grade) arrives just after this event: it still belongs here.
+  recent, recentStop = current, U.Now()
   current = nil
 end
 
 function M.Add(code, a, b)
   lastActivity = U.Now()
   local session = current
+  if not session and recent and U.Now() - recentStop <= M.LATE then
+    session = recent -- end-of-fight results, logged a moment after the session closed
+  end
   if not session then
     return
   end

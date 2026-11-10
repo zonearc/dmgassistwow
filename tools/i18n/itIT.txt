@@ -628,3 +628,28 @@
 634	%s: misurato %d volte, il nostro orologio corretto di %+.1f s, ora entro %.1f s
 635	Ancora niente: impara dai tuoi combattimenti.
 636	Cosa ha imparato DMGAssist per questa specializzazione
+637	Una riga di consiglio sulla tua parte più debole, scritta in modo diverso da un combattimento all'altro. Disattivato: solo il voto e le sue parti.
+638	Mostra un consiglio sotto il voto
+639	Suggerimento: %s è apparso nello slot 1 %d volte ed è stato premuto altro. Dagli la priorità.
+640	Suggerimento: occhio a %s - lo slot 1 lo ha chiesto %d volte in questo combattimento.
+641	Suggerimento: lo slot 1 è sempre la prossima pressione. Gli slot 2 e 3 sono un'anteprima, non una scelta.
+642	Suggerimento: segui lo slot 1 in ordine; la priorità tiene già conto di effetti e tempi di recupero.
+643	Suggerimento: se due incantesimi sembrano buoni, fidati dello slot 1 - è quello che rende di più ora.
+644	Suggerimento: sono passati %.1f s con un incantesimo pronto e nessuna pressione. C'è quasi sempre qualcosa da premere.
+645	Suggerimento: hai perso %.1f s di lancio in questo combattimento. Premi il prossimo incantesimo quando finisce l'ultimo.
+646	Suggerimento: tieni sempre un tasto in uso; anche un riempitivo è meglio che aspettare.
+647	Suggerimento: quando devi muoverti, usa incantesimi istantanei per non smettere di lanciare.
+648	Suggerimento: puoi premere un attimo prima che lo slot 1 sia pronto; il gioco lo mette in coda.
+649	Suggerimento: guarda la lancetta sullo slot 1 e premi quando si chiude, non dopo.
+650	Suggerimento: un tasto vicino alla mano rende lo slot 1 più rapido da premere.
+651	Suggerimento: reagisci al lampo dello slot 1; ogni piccola pausa si somma in un combattimento.
+652	Suggerimento: un tempo di recupero pronto e inutilizzato è danno perso. Premilo quando lo slot 1 lo mostra.
+653	Suggerimento: i tempi di recupero tornano prima quanto prima li usi.
+654	Suggerimento: assegna i tempi di recupero dove li raggiungi in fretta.
+655	Suggerimento: quando lo slot 1 mostra un tempo di recupero è già allineato agli altri bonus: premilo.
+656	Suggerimento: mantieni la mitigazione: premi l'icona rossa appena si accende, prima dei colpi.
+657	Suggerimento: difendere è questione di tempismo. L'icona rossa mostra la mitigazione proprio quando serve.
+658	Suggerimento: mitigazione in ritardo significa un colpo forte subito. Tieni d'occhio l'icona rossa.
+659	Niente da migliorare: pulito.
+660	Gran combattimento: ogni parte era perfetta.
+661	Niente da correggere stavolta. Provalo su un bersaglio più duro.

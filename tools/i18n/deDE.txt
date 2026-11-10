@@ -628,3 +628,28 @@
 634	%s: %d-mal gemessen, unsere Uhr um %+.1f s korrigiert, jetzt auf %.1f s genau
 635	Noch nichts: es lernt aus deinen Kämpfen.
 636	Was DMGAssist für diese Spezialisierung gelernt hat
+637	Ein Satz Rat zu deinem schwächsten Teil, von Kampf zu Kampf anders formuliert. Aus: nur die Note und ihre Teile.
+638	Einen Tipp unter der Note zeigen
+639	Tipp: %s kam %d-mal auf Platz 1, und es wurde etwas anderes gedrückt. Gib ihm Vorrang.
+640	Tipp: Achte auf %s - Platz 1 wollte es in diesem Kampf %d-mal.
+641	Tipp: Platz 1 ist immer der nächste Druck. Platz 2 und 3 sind eine Vorschau, keine Auswahl.
+642	Tipp: Folge Platz 1 der Reihe nach; die Priorität berücksichtigt deine Procs und Abklingzeiten schon.
+643	Tipp: Wenn zwei Zauber gut aussehen, vertraue Platz 1 - er bringt gerade am meisten.
+644	Tipp: %.1f s vergingen mit einem bereiten Zauber und ohne Druck. Es gibt fast immer etwas zu drücken.
+645	Tipp: Du hast in diesem Kampf %.1f s Zauberzeit verloren. Drücke den nächsten Zauber, wenn der letzte endet.
+646	Tipp: Halte immer eine Taste am Laufen; selbst ein Füllzauber ist besser als Warten.
+647	Tipp: Wenn du dich bewegen musst, nutze Spontanzauber, damit das Zaubern nicht aufhört.
+648	Tipp: Du kannst kurz bevor Platz 1 bereit ist drücken; das Spiel reiht es für dich ein.
+649	Tipp: Achte auf den Zeiger auf Platz 1 und drücke, wenn er sich schließt, nicht danach.
+650	Tipp: Eine Taste nah an deiner Hand macht Platz 1 schneller zu drücken.
+651	Tipp: Reagiere auf das Aufleuchten von Platz 1; jede kleine Pause summiert sich über einen Kampf.
+652	Tipp: Eine bereite Abklingzeit ist verlorener Schaden. Drücke sie, wenn Platz 1 sie zeigt.
+653	Tipp: Abklingzeiten kommen umso früher zurück, je früher du sie nutzt.
+654	Tipp: Lege deine Abklingzeiten dorthin, wo du sie schnell erreichst.
+655	Tipp: Wenn Platz 1 eine Abklingzeit zeigt, ist sie schon auf deine anderen Buffs abgestimmt: drück sie.
+656	Tipp: Halte deine Schadensminderung am Laufen: drücke das rote Symbol, sobald es aufleuchtet, bevor die Treffer kommen.
+657	Tipp: Tanken ist Timing. Das rote Symbol zeigt deine Schadensminderung genau dann, wenn sie fällig ist.
+658	Tipp: Späte Schadensminderung heißt ein großer Treffer. Behalte das rote Symbol im Auge.
+659	Nichts zu verbessern: das war sauber.
+660	Toller Kampf: jeder Teil saß.
+661	Diesmal nichts zu verbessern. Versuch es an einem härteren Ziel.

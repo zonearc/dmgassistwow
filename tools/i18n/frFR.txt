@@ -628,3 +628,28 @@
 634	%s : mesuré %d fois, notre horloge corrigée de %+.1f s, désormais à %.1f s près
 635	Rien pour l'instant : il apprend de vos combats.
 636	Ce que DMGAssist a appris pour cette spécialisation
+637	Une ligne de conseil sur votre point le plus faible, formulée autrement d'un combat à l'autre. Désactivé : la note et ses parties seulement.
+638	Afficher un conseil sous la note
+639	Conseil : %s est apparu %d fois dans la case 1 et autre chose a été lancé. Donnez-lui la priorité.
+640	Conseil : guettez %s - la case 1 l'a demandé %d fois dans ce combat.
+641	Conseil : la case 1 est toujours la prochaine touche. Les cases 2 et 3 sont un aperçu, pas un choix.
+642	Conseil : suivez la case 1 dans l'ordre ; la priorité tient déjà compte de vos effets et temps de recharge.
+643	Conseil : si deux sorts semblent bons, faites confiance à la case 1 - c'est le plus rentable maintenant.
+644	Conseil : %.1f s sont passées avec un sort prêt sans appui. Il y a presque toujours quelque chose à lancer.
+645	Conseil : vous avez perdu %.1f s d'incantation dans ce combat. Lancez le sort suivant quand le précédent finit.
+646	Conseil : gardez toujours une touche en cours ; même un sort de remplissage vaut mieux qu'attendre.
+647	Conseil : quand vous devez bouger, utilisez des sorts instantanés pour ne pas cesser de lancer.
+648	Conseil : vous pouvez appuyer juste avant que la case 1 soit prête ; le jeu le met en file pour vous.
+649	Conseil : suivez le balayage sur la case 1 et appuyez quand il se referme, pas après.
+650	Conseil : une touche proche de votre main rend la case 1 plus rapide à lancer.
+651	Conseil : réagissez au flash de la case 1 ; chaque petite pause s'additionne sur un combat.
+652	Conseil : un temps de recharge prêt et inutilisé, ce sont des dégâts perdus. Lancez-le quand la case 1 le montre.
+653	Conseil : les temps de recharge reviennent d'autant plus tôt que vous les utilisez tôt.
+654	Conseil : placez vos temps de recharge là où vous les atteignez vite.
+655	Conseil : quand la case 1 montre un temps de recharge, il est déjà aligné avec vos autres bonus : lancez-le.
+656	Conseil : entretenez votre atténuation : appuyez sur l'icône rouge dès qu'elle s'allume, avant les coups.
+657	Conseil : tanker, c'est le timing. L'icône rouge montre votre atténuation exactement quand elle est due.
+658	Conseil : une atténuation tardive, c'est un gros coup encaissé. Surveillez l'icône rouge.
+659	Rien à améliorer : c'était propre.
+660	Superbe combat : chaque partie était au top.
+661	Rien à corriger cette fois. Essayez sur une cible plus coriace.
