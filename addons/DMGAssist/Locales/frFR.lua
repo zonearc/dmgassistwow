@@ -657,4 +657,5 @@ ns.LOCALE_DATA.frFR = {
   ["Nothing to improve: that was clean."] = "Rien à améliorer : c'était propre.",
   ["Great fight: every part was on point."] = "Superbe combat : chaque partie était au top.",
   ["Nothing to fix this time. Try it on a harder target."] = "Rien à corriger cette fois. Essayez sur une cible plus coriace.",
+  ["Settings: press Esc, choose Options, then the AddOns tab > DMGAssist."] = "Réglages : appuyez sur Échap, choisissez Options, puis l'onglet AddOns > DMGAssist.",
 }

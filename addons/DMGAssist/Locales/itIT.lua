@@ -657,4 +657,5 @@ ns.LOCALE_DATA.itIT = {
   ["Nothing to improve: that was clean."] = "Niente da migliorare: pulito.",
   ["Great fight: every part was on point."] = "Gran combattimento: ogni parte era perfetta.",
   ["Nothing to fix this time. Try it on a harder target."] = "Niente da correggere stavolta. Provalo su un bersaglio più duro.",
+  ["Settings: press Esc, choose Options, then the AddOns tab > DMGAssist."] = "Impostazioni: premi Esc, scegli Opzioni, poi la scheda AddOn > DMGAssist.",
 }

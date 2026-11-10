@@ -653,3 +653,4 @@
 659	Nada que mejorar: ha sido limpio.
 660	Gran combate: cada parte en su punto.
 661	Nada que corregir esta vez. Pruébalo con un objetivo más duro.
+662	Opciones: pulsa Esc, elige Opciones y luego la pestaña Accesorios > DMGAssist.

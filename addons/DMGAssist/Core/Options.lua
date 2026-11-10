@@ -344,11 +344,6 @@ function O.Register()
     .. "icon on slot 1 (bottom-left by default); press it alongside slot 1.")
   Check(combat, DB, "trinkets", "On-use trinkets", true,
     "Show your on-use trinkets when they are ready, in combat, at the moments SimC uses them (with your cooldowns).")
-  Button(combat, "Each trinket", "Spells & trinkets", function()
-    if O.trinketCategory and Settings.OpenToCategory and not O.Busy() then
-      Settings.OpenToCategory(O.trinketCategory:GetID())
-    end
-  end, "Every equipped on-use trinket and every spell can be switched off on the Spells & trinkets page.")
   Header(combat, "Single target or AoE", "How DMGAssist decides between the single-target and the multi-target "
     .. "rotation.")
   Check(combat, DB, "autoDetect", "Auto-detect targets", true,
@@ -1223,33 +1218,22 @@ local function Busy()
 end
 O.Busy = Busy
 
+-- Opening the game's Settings window from addon code (Settings.OpenToCategory) runs Blizzard's panel manager
+-- inside our code: everything it shows afterwards runs tainted - the character frame, party frames, action bar
+-- cooldowns and the game menu's Edit Mode button all threw "secret value ... tainted by DMGAssist" errors
+-- (2026-11-10, still after the Edit Mode fix). So DMGAssist never opens it: the minimap button, the HUD's gear and
+-- /dmga say where the settings are, and the player opens them from the game menu.
 function O.Open()
-  if Busy() then
-    if not O.openAfterCombat then
-      O.openAfterCombat = true
-      U.Print("%s", L["Settings open as soon as the game allows it (after combat)."])
-    end
-    return false
-  end
   O.openAfterCombat = false
-  local cat = O.Register()
-  if cat and Settings.OpenToCategory then
-    Settings.OpenToCategory(cat:GetID())
-  end
-  return true
-end
-
--- Blizzard's Keybindings page, scrolled to DMGAssist's section (the same call Blizzard's Ping settings use:
--- Blizzard_SettingsDefinitions_Frame/PingSystem.lua, live and forever).
-function O.OpenKeybindings()
-  if Busy() then
-    U.Print("%s", L["Key bindings can be changed after combat."])
-    return false
-  end
-  if Settings.KEYBINDINGS_CATEGORY_ID and Settings.OpenToCategory then
-    Settings.OpenToCategory(Settings.KEYBINDINGS_CATEGORY_ID, BINDING_HEADER_DMGASSIST)
+  O.Register()
+  if SettingsPanel and U.Get(SettingsPanel.IsShown, SettingsPanel) == true then
     return true
   end
+  U.Print("%s", L["Settings: press Esc, choose Options, then the AddOns tab > DMGAssist."])
+  return false
+end
+
+function O.OpenKeybindings()
   U.Print("%s", L["Options > Keybindings > AddOns > DMGAssist."])
   return false
 end

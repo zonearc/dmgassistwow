@@ -653,3 +653,4 @@
 659	Niente da migliorare: pulito.
 660	Gran combattimento: ogni parte era perfetta.
 661	Niente da correggere stavolta. Provalo su un bersaglio più duro.
+662	Impostazioni: premi Esc, scegli Opzioni, poi la scheda AddOn > DMGAssist.

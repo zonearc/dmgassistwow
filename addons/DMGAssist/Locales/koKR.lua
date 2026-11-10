@@ -657,4 +657,5 @@ ns.LOCALE_DATA.koKR = {
   ["Nothing to improve: that was clean."] = "개선할 점 없음: 깔끔했습니다.",
   ["Great fight: every part was on point."] = "멋진 전투: 모든 항목이 완벽했습니다.",
   ["Nothing to fix this time. Try it on a harder target."] = "이번엔 고칠 것이 없습니다. 더 강한 대상에게 시도해 보세요.",
+  ["Settings: press Esc, choose Options, then the AddOns tab > DMGAssist."] = "설정: Esc를 누르고 설정을 선택한 다음 애드온 탭 > DMGAssist.",
 }

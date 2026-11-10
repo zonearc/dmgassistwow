@@ -653,3 +653,4 @@
 659	Nichts zu verbessern: das war sauber.
 660	Toller Kampf: jeder Teil saß.
 661	Diesmal nichts zu verbessern. Versuch es an einem härteren Ziel.
+662	Einstellungen: Esc drücken, Optionen wählen, dann Reiter AddOns > DMGAssist.

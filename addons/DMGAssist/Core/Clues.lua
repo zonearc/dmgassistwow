@@ -335,8 +335,10 @@ function C.ResourceBounds(pt)
   end
   if C.Enabled("usable") then
     local a = Affordability()[pt]
+    -- while the assistant says it's waiting, "affordable" answers are free procs (Clearcasting), not resource
+    local waiting = o and o.source == "wait" and o.untilT > now
     if a and (a.lo > 0 or a.hi < math.huge) then
-      lo, hi, known = math.max(lo, a.lo), math.min(hi, a.hi), true
+      lo, hi, known = math.max(lo, waiting and 0 or a.lo), math.min(hi, a.hi), true
     end
   end
   if not known or lo > hi then
@@ -500,8 +502,20 @@ function C.OnOwnCast(id)
         sh.v = v
       end
     end
+    -- A builder whose crit adds a point in the same power event (Feral's Primal Fury, Assassination's Seal Fate):
+    -- we can't tell 1 from 2, so the count is "v or v+1" (2026-11-10: Feral sat at 5 while we counted 3-4).
+    -- Lines like "combo_points>=5" then become uncertain and the game's own curve shows the right spell.
+    if gain and gain > 0 and pt == 4 and C.CRIT_BONUS[ns.Specs.current and ns.Specs.current.key or ""] then
+      local lo = sh.certain and sh.v or sh.lo or sh.v
+      local hi = sh.certain and sh.v or sh.hi or sh.v
+      local cap = sh.max and sh.max > 0 and sh.max or hi + 1
+      if hi < cap then
+        sh.lo, sh.hi, sh.certain = lo, math.min(hi + 1, cap), false
+      end
+    end
   end
 end
+C.CRIT_BONUS = { druid_feral = true, rogue_assassination = true }
 
 -- UNIT_POWER_UPDATE("player", powerToken).
 function C.OnPowerEvent(token)
@@ -546,6 +560,20 @@ local function Accrued(f, pt, now)
     lo = math.min(lo, f.max)
   end
   return lo
+end
+
+-- A fact that the resource is at most `hi` right now (the assistant waiting for energy): the floor can't be
+-- above it, so it comes down - our regeneration estimate ran ahead of the game.
+function C.CapFloor(pt, hi)
+  local f = C.floor[pt]
+  if f and type(hi) == "number" then
+    local now = GetTime()
+    local cur = Accrued(f, pt, now)
+    if cur > hi then
+      f.lo, f.at = math.max(0, hi), now
+      U.Log("floor_capped", { power = pt, was = math.floor(cur), now = math.floor(hi) })
+    end
+  end
 end
 
 function C.SyncFloor(pt, value, max)

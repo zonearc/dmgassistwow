@@ -653,3 +653,4 @@
 659	Rien à améliorer : c'était propre.
 660	Superbe combat : chaque partie était au top.
 661	Rien à corriger cette fois. Essayez sur une cible plus coriace.
+662	Réglages : appuyez sur Échap, choisissez Options, puis l'onglet AddOns > DMGAssist.

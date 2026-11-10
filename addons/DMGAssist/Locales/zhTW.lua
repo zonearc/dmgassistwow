@@ -657,4 +657,5 @@ ns.LOCALE_DATA.zhTW = {
   ["Nothing to improve: that was clean."] = "無需改進：乾淨俐落。",
   ["Great fight: every part was on point."] = "精彩的戰鬥：每一項都很到位。",
   ["Nothing to fix this time. Try it on a harder target."] = "這次沒什麼要改的。試試更難的目標。",
+  ["Settings: press Esc, choose Options, then the AddOns tab > DMGAssist."] = "設定：按 Esc，選擇「選項」，再進入「插件」分頁 > DMGAssist。",
 }

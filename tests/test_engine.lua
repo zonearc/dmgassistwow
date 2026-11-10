@@ -2371,11 +2371,10 @@ test("settings panel: every option is registered, reads and writes DMGAssistDB, 
   mock.hasTarget = false
   eq(type(ns.Update()), "table", "shown without a target when auto-hide is off")
   -- gear button and /dmga config open the panel
+  -- gear button and /dmga config say where the settings are; they never open them (it taints the game's UI)
   ns.Display.frame.gear.scripts.OnClick()
-  eq(mock.openedCategory, ns.Options.category:GetID())
-  mock.openedCategory = nil
   SlashCmdList.DMGASSIST("config")
-  eq(mock.openedCategory, ns.Options.category:GetID())
+  eq(mock.openedCategory, nil, "never opened from addon code")
 end)
 
 test("translations: every language covers the same strings, Chinese client shows Chinese", function()
@@ -2532,6 +2531,7 @@ test("shadow combo points: counted from casts, confirmed by power events, misses
   Reset()
   local ns = Boot()
   local S, UNKNOWN = ns.State, ns.Expr.UNKNOWN
+  ns.Specs.current.key = "rogue_subtlety" -- (no crit points: Feral's are tested below)
   mock.power[4], mock.powerMax[4] = 2, 5
   S.VerifyPowers()                       -- readable: the counter starts at 2
   Restrict()
@@ -4123,6 +4123,42 @@ test("performance grade: any 20 s+ cooldown slot 1 shows is graded from 'press n
   eq(h.cooldowns and math.floor(h.cooldowns), 100, "Fury of Elune graded, on time")
   ns.State.CooldownLength, ns.Engine.IsRotationSpell, ns.last = len, isRot, nil
   Gr.Reset()
+end)
+
+
+test("the assistant's 'Waiting for Energy' placeholder is never shown and caps energy below the cheapest spender", function()
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  Feral(ns, QRecord({ { a = "shred" } }))
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  local upt = UnitPowerType
+  UnitPowerType = function() return 3 end -- luacheck: ignore 121
+  mock.acSpell = 1249752
+  local r = G.Recommend(ns.ActiveRecord(ns.Specs.current), { useAssisted = true })
+  eq(r.main == nil or r.main.id ~= 1249752, true, "the stopwatch never reaches a slot")
+  eq(G.acNow, nil)
+  local _, hi = ns.Clues.ResourceBounds(3)
+  eq(hi ~= nil and hi < 40, true, "energy below Shred's 40: " .. tostring(hi))
+  UnitPowerType = upt -- luacheck: ignore 121
+  mock.acSpell, mock.inCombat, mock.restricted = nil, false, false
+end)
+
+
+test("Feral: a builder's crit point can't be told apart, so the count after a builder is 'v or v+1'", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  ns.Specs.current.key = "druid_feral"
+  mock.power[4], mock.powerMax[4] = 2, 5
+  S.VerifyPowers()
+  Restrict()
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "g1", 5221) -- Shred: +1, or +2 with Primal Fury
+  mock.Fire("UNIT_POWER_UPDATE", "player", "COMBO_POINTS")
+  local lo, hi = S.Bounds("combo_points")
+  eq(lo, 3)
+  eq(hi, 4)
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

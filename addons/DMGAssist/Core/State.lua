@@ -2158,16 +2158,26 @@ function S.RegenRate(pt)
   if not base then
     return 0
   end
-  local haste = HasteFactor()
   local current = U.Get(UnitPowerType, "player")
+  local readHaste = U.Get(UnitSpellHaste, "player")
   if current == pt then
     local r = U.Get(GetPowerRegen)
     if type(r) == "number" and r > 0 then
-      regenSeen[pt] = r / haste
+      regenSeen[pt] = { rate = r, haste = readHaste }
       return r
     end
   end
-  return (regenSeen[pt] or base) * haste
+  -- Hidden in combat: the last rate the game showed, scaled only by haste it shows too. Our own haste estimate
+  -- is unreliable where few spells have a cast time to measure it (Feral: energy came back slower than we
+  -- thought and Rake showed ~1 s early, 2026-11-10); regeneration doesn't change between in and out of combat.
+  local seen = regenSeen[pt]
+  if type(seen) == "table" then
+    if type(readHaste) == "number" and type(seen.haste) == "number" then
+      return seen.rate * (1 + readHaste / 100) / (1 + seen.haste / 100)
+    end
+    return seen.rate
+  end
+  return base * HasteFactor()
 end
 
 local function PowerNow(pt)

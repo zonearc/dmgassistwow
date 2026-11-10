@@ -266,20 +266,18 @@ test("sounds: removed choices fall back to the default; keybind color applies", 
   eq(colors.cyan, true)
 end)
 
-test("settings asked for in combat open when the fight ends (the game blocks them in combat)", function()
+test("DMGAssist never opens the game's Settings itself (it taints Blizzard's panels); it says where they are", function()
   local ns = Boot("standard")
   local opened = 0
   _G.Settings.OpenToCategory = function() opened = opened + 1 end
+  eq(ns.Options.Open(), false)
   mock.inCombat = true
   eq(ns.Options.Open(), false)
-  eq(opened, 0, "not in combat")
   mock.inCombat = false
   mock.Fire("PLAYER_REGEN_ENABLED")
-  mock.Advance(0.6) -- a moment after combat, once the game's restriction has lifted
-  eq(opened, 1, "opened after combat")
-  mock.Fire("PLAYER_REGEN_ENABLED")
   mock.Advance(0.6)
-  eq(opened, 1, "only once")
+  ns.Options.OpenKeybindings()
+  eq(opened, 0, "never opened from addon code")
 end)
 
 test("Status page: live summary, help links, and a reset of everything", function()

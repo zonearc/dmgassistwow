@@ -657,4 +657,5 @@ ns.LOCALE_DATA.ruRU = {
   ["Nothing to improve: that was clean."] = "Улучшать нечего: чисто.",
   ["Great fight: every part was on point."] = "Отличный бой: каждая часть на высоте.",
   ["Nothing to fix this time. Try it on a harder target."] = "В этот раз исправлять нечего. Попробуйте на цели посложнее.",
+  ["Settings: press Esc, choose Options, then the AddOns tab > DMGAssist."] = "Настройки: нажмите Esc, выберите «Настройки», затем вкладку «Модификации» > DMGAssist.",
 }

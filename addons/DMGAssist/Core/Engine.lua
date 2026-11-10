@@ -349,6 +349,59 @@ local function BlockedWhileActive(id)
 end
 G.BlockedWhileActive = BlockedWhileActive
 
+-- Placeholders the assistant names instead of a spell (2026-11-10: "Waiting for Energy", 1249752, for Feral).
+-- Known ones by ID (any client language); anything else it names that isn't in the spellbook, isn't a spell
+-- the player knows and has no SimC data is treated the same, and logged once so reports show what else exists.
+G.PLACEHOLDERS = { [1249752] = "energy" }
+G.placeholderSeen = {}
+function G.IsAssistantPlaceholder(id)
+  if G.PLACEHOLDERS[id] then
+    return true
+  end
+  if (M.book and M.book[id]) or M.Info(id) or (M.baseOf and M.baseOf[id]) then
+    return false
+  end
+  if U.Get(IsPlayerSpell, id) == true or U.Get(C_Spell and C_Spell.GetOverrideSpell, id) ~= id then
+    return false
+  end
+  return M.TokenForID(id) ~= nil and (M.TokenForID(id) or ""):find("^waiting") ~= nil
+end
+
+-- Nothing is affordable: the spec's main resource is below the cheapest spender of it. A ceiling for a moment.
+function G.OnAssistantWait(id)
+  if not G.placeholderSeen[id] then
+    G.placeholderSeen[id] = true
+    U.Log("assistant_placeholder", { id = id, name = M.TokenForID(id) })
+  end
+  local pt = U.Get(UnitPowerType, "player")
+  if type(pt) ~= "number" then
+    return
+  end
+  local cheapest
+  for bid, b in pairs(M.book or {}) do
+    if b.id == bid and not b.passive and not S.glow[bid] then
+      local cost = M.Cost(M.Info(bid))
+      local amount = cost and cost[pt]
+      if amount and amount > 0 and (not cheapest or amount < cheapest) then
+        cheapest = amount
+      end
+    end
+  end
+  if not cheapest then -- no spellbook scan yet: the spec's own data
+    for _, info in pairs(M.info or {}) do
+      local cost = M.Cost(info)
+      local amount = cost and cost[pt]
+      if amount and amount > 0 and not info.cmax and (not cheapest or amount < cheapest) then
+        cheapest = amount
+      end
+    end
+  end
+  if cheapest and ns.Clues and ns.Clues.SetBound then
+    ns.Clues.CapFloor(pt, cheapest - 1)
+    ns.Clues.SetBound(pt, nil, cheapest - 1, 0.6, "wait")
+  end
+end
+
 -- Is Blizzard's assistant naming a rotation spell right now (so its silence about a spell means "not yet")?
 function G.AssistantHealthy()
   return not G.acStuck
@@ -939,6 +992,13 @@ local function Decide(record, opts, targets, first)
     G.acStuck = type(ac) == "number" and ((ns.Buffs and ns.Buffs.IsBuffSpell and ns.Buffs.IsBuffSpell(ac))
       or (S.rotationSpells ~= nil and not S.BlizzardCanName(ac))) or false
     if type(ac) == "number" and ns.Buffs and ns.Buffs.IsBuffSpell and ns.Buffs.IsBuffSpell(ac) then
+      ac = nil
+    end
+    -- A placeholder the assistant uses when nothing can be pressed: "Waiting for Energy" (1249752, a stopwatch
+    -- that isn't in any spellbook). Never shown; it tells us the resource is below every spender's cost.
+    if type(ac) == "number" and G.IsAssistantPlaceholder(ac) then
+      G.OnAssistantWait(ac)
+      run.waiting = ac
       ac = nil
     end
     if type(ac) == "number" then

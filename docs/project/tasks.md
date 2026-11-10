@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.152 (2026-11-10).
+Last updated: 1.6.0.153 (2026-11-10).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -17,7 +17,6 @@ Last updated: 1.6.0.152 (2026-11-10).
 ## Open: build
 
 - [ ] Settings preview of the HUD: text runs over the side, panel too small for big sizes, corner icons overlap
-- [ ] Feral: energy comes back slower than our estimate (Rake shown ~1 s early)
 - [ ] Forever: confirm the WoWSims rank mapping (data imports for 34 specs; mapping not verified)
 
 ## Proposed (waiting on a decision)
@@ -26,6 +25,9 @@ Last updated: 1.6.0.152 (2026-11-10).
 
 ## Open: needs in-game testing (built, not yet seen in game)
 
+- [ ] Taint after /reload: settings only via Esc > Options; then the character frame, party frames, Edit Mode
+  layout menu and game menu: no "tainted by DMGAssist" errors (if any remain, next suspect: the minimap menu)
+- [ ] Feral: no stopwatch; Rake not shown before energy is there; Ferocious Bite at 5 combo points
 - [ ] Channelled and empowered spells (Windwalker, Havoc, Shadow, Devastation): slot 1 waits for the channel to end
 - [ ] Tank profiles on each tank spec (Protection Warrior first): keep-up timing, boss-mod cooldowns, Mitigation grade
 - [ ] New grade popup look and place; small icons left of slot 1; preview panel
@@ -47,6 +49,15 @@ Last updated: 1.6.0.152 (2026-11-10).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.153: taint: DMGAssist no longer opens the game's Settings window itself (Settings.OpenToCategory ran
+  Blizzard's panel manager in our code; the character frame, party frames, action bars and the game menu then ran
+  tainted). Minimap / gear / /dmga say where the settings are. Feral: energy regeneration in combat from the last
+  rate the game showed (not our haste estimate); Blizzard's "Waiting for Energy" placeholder (the stopwatch) is
+  never shown and tells us energy is below the cheapest spender (caps our floor, beats free-proc "affordable"
+  answers); other placeholders are logged (assistant_placeholder) to learn what else exists. Combo points after a
+  builder whose crit adds a point (Feral Primal Fury, Assassination Seal Fate) are "v or v+1": the game's own
+  curve then shows the finisher or the builder
 
 - 1.6.0.152: grade pauses while you move (dodging boss damage): reaction, cooldown and mitigation delays are timed
   on a clock that stops while moving, and moving is never idle time (out of range wasn't either, since 1.6.0.150)

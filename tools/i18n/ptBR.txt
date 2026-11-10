@@ -653,3 +653,4 @@
 659	Nada a melhorar: foi limpo.
 660	Ótima luta: cada parte no ponto.
 661	Nada a corrigir desta vez. Tente num alvo mais difícil.
+662	Configurações: aperte Esc, escolha Opções e depois a aba AddOns > DMGAssist.
