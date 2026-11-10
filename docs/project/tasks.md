@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.151 (2026-11-10).
+Last updated: 1.6.0.152 (2026-11-10).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -18,7 +18,6 @@ Last updated: 1.6.0.151 (2026-11-10).
 
 - [ ] Settings preview of the HUD: text runs over the side, panel too small for big sizes, corner icons overlap
 - [ ] Feral: energy comes back slower than our estimate (Rake shown ~1 s early)
-- [ ] Grade: pause while moving (dodging boss damage) and out of range
 - [ ] Forever: confirm the WoWSims rank mapping (data imports for 34 specs; mapping not verified)
 
 ## Proposed (waiting on a decision)
@@ -48,6 +47,9 @@ Last updated: 1.6.0.151 (2026-11-10).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.152: grade pauses while you move (dodging boss damage): reaction, cooldown and mitigation delays are timed
+  on a clock that stops while moving, and moving is never idle time (out of range wasn't either, since 1.6.0.150)
 
 - 1.6.0.151: grade Cooldowns now counts every 20 s+ cooldown slot 1 shows (Fury of Elune wasn't "major" and was
   ignored), timed from its "press now"; pressed early (queued) or from slots 2-3 is on time. The grade reaches the

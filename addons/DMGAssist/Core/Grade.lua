@@ -36,6 +36,12 @@ Gr.MIN_FIGHT = 20
 
 local fight -- the fight being graded
 
+-- The fight's clock without the time spent moving: reaction, cooldown and mitigation delays are measured on it,
+-- so stepping out of a boss's damage doesn't count as slow (asked for 2026-11-10).
+local function Clock(f)
+  return GetTime() - (f.moveT or 0)
+end
+
 local function DB()
   local g = ns.global or ns.db
   if type(g) ~= "table" then
@@ -82,17 +88,17 @@ function Gr.OnCombat(on)
 end
 
 -- Display: slot 1 says "press now" for this spell.
-function Gr.OnReady(id, now, main)
+function Gr.OnReady(id, _, main) -- (2nd: the time; the fight clock is used)
   local f = fight
   if not f or not id then
     return
   end
   if not (f.ready and Same(f.ready.id, id)) then
-    f.ready = { id = id, t = now }
+    f.ready = { id = id, t = Clock(f) }
   end
 
   if Gr.IsCooldown(main) and f.cdShown[Base(id)] and not f.cdReady[Base(id)] then
-    f.cdReady[Base(id)] = now -- "press now" for this cooldown: its delay is timed from here
+    f.cdReady[Base(id)] = Clock(f) -- "press now" for this cooldown: its delay is timed from here
   end
 end
 
@@ -120,7 +126,12 @@ function Gr.Tick(pressNow)
     f.readySince = now
   end
   -- idle only when you could have pressed it: in range and usable (out of range or short of resources is not on you)
-  local couldPress = pressNow and main and main.id
+  -- moving (out of boss damage, to a new spot): the clocks below stop, and it's never idle time
+  local moving = ns.State.moving == true
+  if f.lastTick and moving then
+    f.moveT = (f.moveT or 0) + math.min(0.25, now - f.lastTick)
+  end
+  local couldPress = pressNow and not moving and main and main.id
     and U.Read((U.Call(C_Spell and C_Spell.IsSpellInRange, main.id, "target"))) ~= false
     and U.Read((U.Call(C_Spell and C_Spell.IsSpellUsable, main.id))) ~= false
   if f.lastTick and couldPress and f.wasReady and now - (f.readySince or now) > Gr.IDLE_GRACE then
@@ -137,7 +148,7 @@ function Gr.Tick(pressNow)
   f.targets = math.max(f.targets, tonumber((ns.State.Targets())) or 0)
   local w = ns.last and ns.last.weave
   if w and w.source == "mitigation" and w.id and not f.mitShown[Base(w.id)] then
-    f.mitShown[Base(w.id)] = now
+    f.mitShown[Base(w.id)] = Clock(f)
   end
 end
 
@@ -183,7 +194,7 @@ function Gr.OnPress(id, r, press)
   if r.weave and r.weave.source == "mitigation" and Same(r.weave.id, id) then
     local key = Base(id)
     if f.mitShown[key] then
-      f.mit[#f.mit + 1] = now - f.mitShown[key]
+      f.mit[#f.mit + 1] = Clock(f) - f.mitShown[key]
       f.mitShown[key] = nil
     end
     return
@@ -235,13 +246,13 @@ function Gr.OnPress(id, r, press)
     end
   end
   if matched and f.ready and Same(f.ready.id, id) then
-    f.reactions[#f.reactions + 1] = math.max(0, now - f.ready.t)
+    f.reactions[#f.reactions + 1] = math.max(0, Clock(f) - f.ready.t)
     f.ready = nil
   end
   local key = Base(id)
   if f.cdShown[key] then
     -- from the moment it was ready; pressed before that (the game queues it): on time
-    f.cds[#f.cds + 1] = f.cdReady[key] and (now - f.cdReady[key]) or 0
+    f.cds[#f.cds + 1] = f.cdReady[key] and (Clock(f) - f.cdReady[key]) or 0
     f.cdShown[key], f.cdReady[key] = nil, nil
   elseif inQueue and Gr.IsCooldown({ id = id }) then
     f.cds[#f.cds + 1] = 0 -- a cooldown from slot 2 or 3, used as it came up
@@ -306,8 +317,8 @@ function Gr.Finish(f, now)
   for key in pairs(f.cdShown) do
     if type(key) == "string" and key:find("^item:") then -- luacheck: ignore 542
       -- an item never used isn't graded
-    elseif f.cdReady[key] and now - f.cdReady[key] > 3 then
-      f.cds[#f.cds + 1] = math.max(10, now - f.cdReady[key]) -- a cooldown slot 1 called ready, never used
+    elseif f.cdReady[key] and Clock(f) - f.cdReady[key] > 3 then
+      f.cds[#f.cds + 1] = math.max(10, Clock(f) - f.cdReady[key]) -- a cooldown slot 1 called ready, never used
     end
   end
   local accuracy = Clamp(f.score / f.presses * 100)
