@@ -594,8 +594,31 @@ end
 -- bars) means "not castable", like a cooldown, and the next spell takes its place. Chat says which spell, once,
 -- when it would otherwise have been ready (Choices.OnBars). Asked for 2026-11-10: "why would we ever show a
 -- spell someone can't find?"
+-- A long cooldown we cast a moment ago can't be back yet, whatever spell ID the game reported it under (Havoc's
+-- Metamorphosis: cast as one ID, looked up as another, our clock said "unknown" and slot 1 offered it every second
+-- through Meta, 2026-11-10). By name, and only well inside the cooldown (40% left for talents that cut it).
+G.RECENT_CD_MIN = 30
+G.RECENT_CD_SHARE = 0.6
+local function CastRecently(id)
+  local token = M.TokenForID(id)
+  local last = token and S.lastCastToken[token]
+  if not last or (S.combatStart and last < S.combatStart - 3) then
+    return false
+  end
+  local info = M.Info(id)
+  local cd = (S.CooldownLength and S.CooldownLength(id)) or (info and (info.chcd or info.cd))
+  if not (type(cd) == "number" and cd >= G.RECENT_CD_MIN) or (info and info.ch and info.ch > 1) then
+    return false
+  end
+  return GetTime() - last < cd * G.RECENT_CD_SHARE
+end
+G.CastRecently = CastRecently
+
 local function Castable(id)
   local castable, why = CastableRaw(id)
+  if castable ~= false and castable ~= true and id and CastRecently(id) then
+    return false, "cast" -- (only when our clock can't tell: a known clock keeps the final say)
+  end
   if castable ~= false and id and not ns.Choices.OnBars(id) then
     ns.Choices.NoteOffBars(id)
     return false, "nobar"

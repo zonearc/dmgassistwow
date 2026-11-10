@@ -4867,6 +4867,28 @@ test("a spell on none of your action bars is never shown: the next one takes its
   mock.inCombat = false
 end)
 
+test("a long cooldown cast a moment ago isn't offered again when our clock can't tell (Havoc Metamorphosis)", function()
+  Reset()
+  local ns = Boot()
+  local S, G = ns.State, ns.Engine
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", cd = 120, gcd = 1.5 }
+  Feral(ns, rec)
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  eq(G.CastRecently(5217), false, "never cast")
+  S.lastCastToken.tigers_fury = GetTime() -- cast under whatever ID
+  mock.Advance(20)
+  eq(G.CastRecently(5217), true, "20 s into a 120 s cooldown: not back")
+  mock.Advance(60)
+  eq(G.CastRecently(5217), false, "80 s in: could be back (talents cut cooldowns), our other clues decide")
+  rec.spellInfo[5217].cd = 12
+  S.lastCastToken.tigers_fury = GetTime()
+  eq(G.CastRecently(5217), false, "short cooldowns: not this rule's business")
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat = false
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

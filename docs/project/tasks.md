@@ -49,6 +49,8 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.174: a long cooldown you cast a moment ago isn't offered again while our clock can't tell it's on
+  cooldown (Havoc Metamorphosis flipping with Annihilation in slot 1 during Meta).
 - 1.6.0.173: a spell on none of your action bars is never suggested (slot 1, slots 2-3, the defensive and
   off-GCD icons, keep-ups, buffs): the next one takes its place and chat names it once. Setting "Only spells on
   your bars" (default on); forms and setups with no readable bars are exempt. After a HOLD, GO is the instant
