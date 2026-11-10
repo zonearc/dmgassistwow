@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""Draws DMGAssist's own icon: a bold gold "D" on a dark crimson disc with a gold rim, like Masque's "M".
+"""Draws DMGAssist's own icon: a bold gold "D" on a dark crimson disc, like Masque's "M".
+
+No rim of its own: the minimap button's gold ring frames it (a rim in the image sat off-centre inside the ring).
 
 Output: addons/DMGAssist/Media/DMGAssist.tga (64x64, 32-bit with alpha, uncompressed: the format WoW reads).
 Rendered at 4x and scaled down for smooth edges. Run again after changing the colours.
@@ -23,13 +25,11 @@ def main():
         g = int(14 * (1 - t) + 6 * t)
         b = int(18 * (1 - t) + 8 * t)
         d.ellipse((S / 2 - i, S / 2 - i, S / 2 + i, S / 2 + i), fill=(r, g, b, 255))
-    d.ellipse((6, 6, S - 6, S - 6), outline=(214, 160, 52, 255), width=12)
-    d.ellipse((20, 20, S - 20, S - 20), outline=(90, 56, 12, 255), width=4)
     # the letter, with a dark outline and a soft shadow
-    font = ImageFont.truetype(FONT, 176)
+    font = ImageFont.truetype(FONT, 168)
     box = d.textbbox((0, 0), "D", font=font)
     x = (S - (box[2] - box[0])) / 2 - box[0]
-    y = (S - (box[3] - box[1])) / 2 - box[1] + 2
+    y = (S - (box[3] - box[1])) / 2 - box[1]
     shadow = Image.new("RGBA", (S, S), (0, 0, 0, 0))
     ImageDraw.Draw(shadow).text((x + 6, y + 8), "D", font=font, fill=(0, 0, 0, 200))
     img = Image.alpha_composite(img, shadow.filter(ImageFilter.GaussianBlur(6)))

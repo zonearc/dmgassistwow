@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.155 (2026-11-10).
+Last updated: 1.6.0.156 (2026-11-10).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -24,8 +24,7 @@ Last updated: 1.6.0.155 (2026-11-10).
 
 ## Open: needs in-game testing (built, not yet seen in game)
 
-- [ ] Taint after /reload: settings only via Esc > Options; then the character frame, party frames, Edit Mode
-  layout menu and game menu: no "tainted by DMGAssist" errors (if any remain, next suspect: the minimap menu)
+- [ ] Taint: none logged since the Edit Mode fix (1.6.0.139); keep watching the Watchdog's error list
 - [ ] Feral: no stopwatch; Rake not shown before energy is there; Ferocious Bite at 5 combo points
 - [ ] Channelled and empowered spells (Windwalker, Havoc, Shadow, Devastation): slot 1 waits for the channel to end
 - [ ] Tank profiles on each tank spec (Protection Warrior first): keep-up timing, boss-mod cooldowns, Mitigation grade
@@ -48,6 +47,13 @@ Last updated: 1.6.0.155 (2026-11-10).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.156: settings open again from the minimap, the gear and /dmga: the Watchdog shows no taint since the Edit
+  Mode fix (1.6.0.139) - the errors pasted were BugSack's history from 2026-11-09, so 1.6.0.153's change was
+  undone. Feral: a spell the game calls usable isn't ready while our energy range is below its cost (Rake shown
+  ~1 s early with energy 0-24), unless it glows or the assistant names it. Balance: Fury of Elune left to
+  Blizzard's assistant. Grade box: 14 px margin all round. Icon: no rim of its own (the button's ring frames it),
+  letter centred
 
 - 1.6.0.155: DMGAssist's own icon: a gold "D" on a dark crimson disc with a gold rim (like Masque's "M"), on the
   minimap button and in the addon list (Media/DMGAssist.tga, drawn by tools/make_icon.py); replaces the fist

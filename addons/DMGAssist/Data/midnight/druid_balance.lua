@@ -1694,4 +1694,5 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       a = { 5176, 18104, 190984 },
     },
   },
+  volatile = { "fury_of_elune" },
 })

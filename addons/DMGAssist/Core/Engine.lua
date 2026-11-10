@@ -402,6 +402,23 @@ function G.OnAssistantWait(id)
   end
 end
 
+-- The upper end of what we know about a hidden resource is below this spell's cost.
+function G.BelowCost(id)
+  local cost = M.Cost(M.Info(id))
+  if not cost then
+    return false
+  end
+  for pt, amount in pairs(cost) do
+    if amount > 0 and type(U.Get(UnitPower, "player", pt)) ~= "number" then
+      local lo, hi = ns.Clues.ResourceBounds(pt)
+      if lo and hi and hi < amount then
+        return true
+      end
+    end
+  end
+  return false
+end
+
 -- Is Blizzard's assistant naming a rotation spell right now (so its silence about a spell means "not yet")?
 function G.AssistantHealthy()
   return not G.acStuck
@@ -493,6 +510,12 @@ local function Castable(id)
   elseif ahead and not first and S.Affordable(id) == false then
     -- (Usable now per the game: resources only grow until the next press. Our estimate is only for predicting
     -- slots 2-3 after casts we pretend.)
+    return false, "power"
+  end
+  -- "Usable" from the game, but our range for the hidden resource is below its cost (Feral: Rake shown ready with
+  -- energy known to be 0-24, 1 s before it could be pressed, 2026-11-10). The game's answer counts free procs it
+  -- doesn't tell us about; a real free one glows, and the assistant naming it is trusted.
+  if usable and first and not named and not S.glow[id] and G.BelowCost(id) then
     return false, "power"
   end
   if first and S.moving and not (ns.db and ns.db.castWhileMoving) and CastTime(id) > 0 then

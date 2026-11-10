@@ -618,7 +618,10 @@ end
 -- The bar: D on the left to S+ on the right, coloured in steps; the score's marker slides along it.
 Gr.BAR_FROM = 30 -- scores below this sit at the bar's left end
 Gr.BAR_STOPS = { { 30, "D" }, { 50, "C" }, { 64, "B" }, { 80, "A" }, { 91, "S" }, { 100, "S+" } }
-local W, BAR_W, BAR_H = 340, 300, 10
+-- PAD: the margin inside the box (2026-11-10: the letter sat too close to the top and side)
+local PAD = 14
+local W, BAR_W, BAR_H = 340 + 2 * PAD, 300, 10
+local H_TIP, H_NOTIP = 196 + 2 * PAD, 164 + 2 * PAD
 local PARTS = { { "accuracy", "Accuracy" }, { "abc", "Always casting" }, { "reaction", "Reaction" },
   { "cooldowns", "Cooldowns" }, { "mitigation", "Mitigation" } }
 
@@ -653,7 +656,7 @@ local function Frame()
     return Gr.frame
   end
   local f = CreateFrame("Frame", "DMGAssistGrade", UIParent)
-  f:SetSize(W, 196)
+  f:SetSize(W, H_TIP)
   f:SetFrameStrata("HIGH")
   Place(f)
   f:SetClampedToScreen(true)
@@ -681,9 +684,9 @@ local function Frame()
   f.edge:SetHeight(2)
   -- the letter and the title
   f.letter = f:CreateFontString(nil, "OVERLAY")
-  f.letter:SetPoint("CENTER", f, "TOPLEFT", 50, -38)
+  f.letter:SetPoint("CENTER", f, "TOPLEFT", 50 + PAD, -38 - PAD)
   f.title = f:CreateFontString(nil, "OVERLAY")
-  f.title:SetPoint("TOPLEFT", f, "TOPLEFT", 104, -14)
+  f.title:SetPoint("TOPLEFT", f, "TOPLEFT", 104 + PAD, -14 - PAD)
   f.score = f:CreateFontString(nil, "OVERLAY")
   f.score:SetPoint("TOPLEFT", f.title, "BOTTOMLEFT", 0, -9)
   f.best = f:CreateFontString(nil, "OVERLAY")
@@ -691,7 +694,7 @@ local function Frame()
   -- the bar
   f.bar = CreateFrame("Frame", nil, f)
   f.bar:SetSize(BAR_W, BAR_H)
-  f.bar:SetPoint("TOP", f, "TOP", 0, -88)
+  f.bar:SetPoint("TOP", f, "TOP", 0, -88 - PAD)
   f.segments = {}
   for i = 1, #Gr.BAR_STOPS - 1 do
     local a, b = Gr.BAR_STOPS[i], Gr.BAR_STOPS[i + 1]
@@ -719,8 +722,8 @@ local function Frame()
   f.cells = {}
   for i, part in ipairs(PARTS) do
     local cell = CreateFrame("Frame", nil, f)
-    cell:SetSize(W / #PARTS, 36)
-    cell:SetPoint("TOPLEFT", f, "TOPLEFT", (i - 1) * W / #PARTS, -116)
+    cell:SetSize((W - 2 * PAD) / #PARTS, 36)
+    cell:SetPoint("TOPLEFT", f, "TOPLEFT", PAD + (i - 1) * (W - 2 * PAD) / #PARTS, -116 - PAD)
     cell.value = cell:CreateFontString(nil, "OVERLAY")
     cell.value:SetPoint("TOP", cell, "TOP", 0, 0)
     cell.name = cell:CreateFontString(nil, "OVERLAY")
@@ -730,8 +733,8 @@ local function Frame()
     f.cells[i] = cell
   end
   f.tip = f:CreateFontString(nil, "OVERLAY")
-  f.tip:SetPoint("BOTTOMLEFT", f, "BOTTOMLEFT", 12, 10) -- inside the box, at the bottom
-  f.tip:SetWidth(W - 24)
+  f.tip:SetPoint("BOTTOMLEFT", f, "BOTTOMLEFT", 12 + PAD, 10 + PAD) -- inside the box, at the bottom
+  f.tip:SetWidth(W - 24 - 2 * PAD)
   f.tip:SetJustifyH("LEFT")
   f:Hide()
   f:SetScript("OnUpdate", function(self)
@@ -811,8 +814,8 @@ function Gr.Render(r, sample, test)
   end
   for i, cell in ipairs(shown) do
     cell:ClearAllPoints()
-    cell:SetSize(W / #shown, 36)
-    cell:SetPoint("TOPLEFT", f, "TOPLEFT", (i - 1) * W / #shown, -116)
+    cell:SetSize((W - 2 * PAD) / #shown, 36)
+    cell:SetPoint("TOPLEFT", f, "TOPLEFT", PAD + (i - 1) * (W - 2 * PAD) / #shown, -116 - PAD)
   end
   for _, cell in ipairs(shown) do
     local v = r[cell.key]
@@ -829,7 +832,7 @@ function Gr.Render(r, sample, test)
   end
   D.SetFont(f.tip, 11)
   f.tip:SetText(Gr.TipsOn() and Gr.Tip(r) or "")
-  f:SetHeight(Gr.TipsOn() and 196 or 164) -- no tip: the box ends under the parts
+  f:SetHeight(Gr.TipsOn() and H_TIP or H_NOTIP) -- no tip: the box ends under the parts
   f.tip:SetTextColor(0.9, 0.9, 0.9)
   f.sample = sample
   f.shownAt = GetTime()

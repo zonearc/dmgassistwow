@@ -2371,10 +2371,11 @@ test("settings panel: every option is registered, reads and writes DMGAssistDB, 
   mock.hasTarget = false
   eq(type(ns.Update()), "table", "shown without a target when auto-hide is off")
   -- gear button and /dmga config open the panel
-  -- gear button and /dmga config say where the settings are; they never open them (it taints the game's UI)
   ns.Display.frame.gear.scripts.OnClick()
+  eq(mock.openedCategory, ns.Options.category:GetID())
+  mock.openedCategory = nil
   SlashCmdList.DMGASSIST("config")
-  eq(mock.openedCategory, nil, "never opened from addon code")
+  eq(mock.openedCategory, ns.Options.category:GetID())
 end)
 
 test("translations: every language covers the same strings, Chinese client shows Chinese", function()
@@ -4159,6 +4160,25 @@ test("Feral: a builder's crit point can't be told apart, so the count after a bu
   local lo, hi = S.Bounds("combo_points")
   eq(lo, 3)
   eq(hi, 4)
+end)
+
+
+test("a spell the game calls usable isn't ready while our range for the hidden resource is below its cost", function()
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  Feral(ns, QRecord({ { a = "shred" } }))
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.usable[5221] = { true, false } -- "usable" (a free proc the game doesn't tell us about, or wrong)
+  ns.Clues.SetBound(3, nil, 24, 5, "wait") -- but energy is at most 24; Shred costs 40
+  local ok, why = G.Castable(5221)
+  eq(ok, false)
+  eq(why, "power")
+  ns.State.glow[5221] = true -- a real free Shred glows
+  eq(G.Castable(5221) ~= false, true, "glowing: trusted")
+  ns.State.glow[5221] = nil
+  mock.inCombat, mock.restricted = false, false
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

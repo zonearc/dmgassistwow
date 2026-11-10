@@ -32,6 +32,9 @@
     ],
     "hunter_beast_mastery": [
       "bestial_wrath"
+    ],
+    "druid_balance": [
+      "fury_of_elune"
     ]
   }
 }
