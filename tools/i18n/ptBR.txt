@@ -687,3 +687,4 @@
 693	%s está no espaço 1 mas o botão dele não tem tecla. Atribua uma (Opções > Teclas de atalho) ou use-o pela sua barra.
 694	Combates com menos de 10 segundos de intervalo (missões, de inimigo em inimigo) são avaliados juntos: uma nota 10 segundos depois do último, ou a cada 3 minutos numa sequência longa, em vez de uma após cada inimigo. Combates curtos se somam e também recebem nota. Chefes são avaliados na hora.
 695	Agrupar combates rápidos
+696	%s aparece num ícone pequeno (defensivo ou fora da recarga global) mas não tem tecla. Coloque-o numa barra e atribua uma tecla, ou oculte-o na página Feitiços e berloques.

@@ -691,4 +691,5 @@ ns.LOCALE_DATA.zhCN = {
   ["%s is in slot 1 but its button has no key. Bind one (Options > Keybindings) or press it from your bar."] = "%s 在第 1 格，但它的按钮没有按键。绑定一个（选项 > 按键设置），或从动作条上点击。",
   ["Fights less than 10 seconds apart (questing, mob to mob) are graded together: one grade 10 seconds after the last, or every 3 minutes on a long run, instead of one after every mob. Short fights add up, so they get graded too. Bosses are graded at once."] = "间隔不到 10 秒的战斗（做任务、一个接一个打怪）会合并评分：在最后一场结束 10 秒后评一次分，长时间连续战斗则每 3 分钟评一次，而不是每个怪评一次。短战斗会累加，因此也能获得评分。首领战立即评分。",
   ["Group quick fights"] = "合并短战斗",
+  ["%s is shown in a small icon (defensive or off-GCD) but has no key. Put it on a bar and give it a key, or hide it on the Spells & trinkets page."] = "%s 显示在小图标中（减伤或不占公共冷却），但没有按键。把它放到动作条上并绑定按键，或在“法术和饰品”页面隐藏它。",
 }

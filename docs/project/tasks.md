@@ -49,6 +49,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.172: any cast of yours in progress keeps slot 1 when nothing else can be pressed (Blood Consumption
+  emptied the bar). The no-key chat line also covers the small icons (defensive, off-GCD): Blood's Vampiric
+  Blood. All 9 languages.
+
 - 1.6.0.171: Bladestorm (and any channel) keeps slot 1 with HOLD instead of an empty bar while nothing else can
   be pressed. The early "press now" flash (latency + lead, for the game's spell queue) only applies to the global
   cooldown and casts; a spell waiting on its own cooldown flashes on time (early presses were refused).

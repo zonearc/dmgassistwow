@@ -687,3 +687,4 @@
 693	%s è nello slot 1 ma il suo pulsante non ha un tasto. Assegnane uno (Opzioni > Assegnazione tasti) o premilo dalla tua barra.
 694	I combattimenti a meno di 10 secondi l'uno dall'altro (missioni, da un nemico all'altro) vengono valutati insieme: un voto 10 secondi dopo l'ultimo, o ogni 3 minuti in una lunga serie, invece di uno dopo ogni nemico. I combattimenti brevi si sommano e così vengono valutati anche loro. I boss vengono valutati subito.
 695	Raggruppa i combattimenti rapidi
+696	%s è mostrato in un'icona piccola (difensiva o fuori dal tempo di recupero globale) ma non ha un tasto. Mettilo su una barra e assegnagli un tasto, oppure nascondilo nella pagina Incantesimi e monili.

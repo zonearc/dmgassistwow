@@ -4821,6 +4821,23 @@ test("slot 1 showing a spell with no key says which spell it is, once (Surging T
   eq(#mock.printed, before + 1, "setting off: quiet")
 end)
 
+test("nothing castable during a cast or channel of ours: slot 1 keeps it instead of an empty bar", function()
+  Reset()
+  local ns = Boot()
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  local real = ns.Engine.Recommend
+  ns.Engine.Recommend = function() return { queue = {} } end -- the game: nothing can be pressed while it runs
+  mock.acSpell = nil
+  mock.casting = { id = 5221, endsIn = 0.7 } -- Consumption stands in
+  local r = ns.Update()
+  ns.Engine.Recommend = real
+  eq(r and r.main and r.main.id, 5221, "the cast stays in slot 1 (Blood Consumption, 2026-11-10)")
+  eq(r.main.source, "channel")
+  mock.casting = nil
+  mock.inCombat = false
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

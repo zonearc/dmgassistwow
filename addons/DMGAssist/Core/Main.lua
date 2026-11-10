@@ -394,7 +394,8 @@ local function Update()
   -- Nothing to press while a channel (or Bladestorm) runs: slot 1 keeps showing it, with its HOLD, instead of an
   -- empty bar (Arms, 2026-11-10).
   if not result.main then
-    local chID = S.Channeling()
+    -- (or any cast of ours in progress: Blood's Consumption left the bar empty for its cast, 2026-11-10)
+    local chID = S.Channeling() or S.CurrentCast()
     if chID then
       result.main = { id = chID, token = M.TokenForID(chID), source = "channel" }
       result.queue = result.queue or {}
@@ -404,6 +405,15 @@ local function Update()
   if result.main and result.main.source ~= "channel" then
     ns.NoteShown(result.main)
     ns.Bindcheck.OnShown(result.main)
+  end
+  -- the small icons too: a defensive or off-GCD spell you have no key for (Blood's Vampiric Blood, 2026-11-10)
+  local w = result.weave
+  if w and w.id and w.token ~= "defensive" then
+    ns.Bindcheck.OnShown(w, true)
+  end
+  local d = result.defensive
+  if d and d.id then
+    ns.Bindcheck.OnShown(d, true)
   end
   D.Update(result, not ns.Integrations.hudHidden)
   ns.Integrations.OnRecommendation(result)

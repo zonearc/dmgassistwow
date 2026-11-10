@@ -143,7 +143,7 @@ end
 -- Totem showed for a whole session as "a stick icon I can't find", 2026-11-10): say which spell it is, once per
 -- spell per session, with its link.
 B.shownWarned = {}
-function B.OnShown(pick)
+function B.OnShown(pick, small)
   if not (pick and pick.id) or pick.item or pick.sample or (ns.db and ns.db.bindWarn == false) then
     return
   end
@@ -156,7 +156,10 @@ function B.OnShown(pick)
   end
   B.shownWarned[pick.id] = true
   local link = U.Get(C_Spell and C_Spell.GetSpellLink, pick.id) or Name(pick.id)
-  if OnBar(pick.id) then
+  if small then
+    U.Print(L["%s is shown in a small icon (defensive or off-GCD) but has no key. Put it on a bar and give it a key, "
+      .. "or hide it on the Spells & trinkets page."], tostring(link))
+  elseif OnBar(pick.id) then
     U.Print(L["%s is in slot 1 but its button has no key. Bind one (Options > Keybindings) or press it from your bar."],
       tostring(link))
   else
