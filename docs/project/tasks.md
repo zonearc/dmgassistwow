@@ -49,6 +49,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.161: "Beyond Assisted Combat" on the grade and the grade's history page: the share of the fight slot 1
+  showed something other than Blizzard's assistant, split into cooldowns (SimC timing), rotation (SimC's priority),
+  upkeep (DoTs, buffs, forms) and utility (interrupts, defensives, gap closers), plus extras pressed that Blizzard
+  never shows (off-GCD badge, trinkets, defensive icon). Not a damage claim. Setting to hide it; all languages
+
 - 1.6.0.160: grade: the fight is graded up to the last rotation press + 3 s (walking off a dummy while still in
   combat counted as idle and an "unused" Lunar Beam: a C for a clean Guardian fight); the report's grade line lists
   the reaction and cooldown delays (count: 25th/median/75th ms) to check the reaction number

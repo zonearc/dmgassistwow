@@ -666,4 +666,12 @@ ns.LOCALE_DATA.ruRU = {
   ["Show the grade bar"] = "Показывать полосу оценки",
   ["Show the parts"] = "Показывать части",
   ["The coloured D-to-S+ bar with a marker that slides to your score."] = "Цветная полоса от D до S+ с меткой, которая скользит к вашему результату.",
+  ["%d extras"] = "дополнительно: %d",
+  ["Beyond Assisted Combat: %d%% of the fight"] = "Сверх помощника боя: %d%% боя",
+  ["How much of the fight slot 1 showed something other than Blizzard's Assisted Combat, and why: cooldowns timed by SimC, a different core spell (SimC's priority), DoTs and buffs kept up, utility (interrupts, defensives, gap closers), plus extras Blizzard never shows (the off-GCD badge, trinkets). It shows where DMGAssist plays differently, not damage: addons can't read damage done."] = "Какую часть боя ячейка 1 показывала не то, что помощник боя Blizzard, и почему: перезарядки по расчёту SimC, другое основное заклинание (приоритет SimC), поддержание DoT и баффов, вспомогательное (прерывания, защита, сближение), а также то, чего Blizzard не показывает вовсе (значок вне общего восстановления, аксессуары). Это показывает, где DMGAssist играет иначе, а не урон: аддоны не могут читать нанесённый урон.",
+  ["Show Beyond Assisted Combat"] = "Показывать «Сверх помощника боя»",
+  ["cooldowns %d%%"] = "перезарядки %d%%",
+  ["rotation %d%%"] = "ротация %d%%",
+  ["upkeep %d%%"] = "поддержание %d%%",
+  ["utility %d%%"] = "вспомогательное %d%%",
 }

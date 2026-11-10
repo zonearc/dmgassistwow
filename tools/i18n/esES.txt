@@ -662,3 +662,11 @@
 668	Mostrar la barra de nota
 669	Mostrar las partes
 670	La barra de colores de D a S+ con una marca que se desliza hasta tu puntuación.
+671	%d extras
+672	Más allá del Combate asistido: %d%% del combate
+673	Cuánto del combate mostró el espacio 1 algo distinto al Combate asistido de Blizzard, y por qué: reutilizaciones sincronizadas por SimC, un hechizo principal distinto (la prioridad de SimC), DoT y beneficios mantenidos, utilidad (interrupciones, defensivas, acercamientos) y extras que Blizzard nunca muestra (el icono fuera del tiempo global, abalorios). Muestra dónde DMGAssist juega distinto, no el daño: los addons no pueden leer el daño infligido.
+674	Mostrar «Más allá del Combate asistido»
+675	reutilizaciones %d%%
+676	rotación %d%%
+677	mantenimiento %d%%
+678	utilidad %d%%

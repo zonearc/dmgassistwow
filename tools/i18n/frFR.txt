@@ -662,3 +662,11 @@
 668	Afficher la barre de note
 669	Afficher les parties
 670	La barre colorée de D à S+ avec un repère qui glisse jusqu'à votre score.
+671	%d extras
+672	Au-delà du Combat assisté : %d%% du combat
+673	La part du combat où l'emplacement 1 a montré autre chose que le Combat assisté de Blizzard, et pourquoi : temps de recharge calés par SimC, un autre sort principal (la priorité de SimC), DoT et améliorations maintenus, utilitaires (interruptions, défensifs, rapprochements), plus les extras que Blizzard ne montre jamais (l'icône hors temps de recharge global, les bijoux). Cela montre où DMGAssist joue différemment, pas les dégâts : les addons ne peuvent pas lire les dégâts infligés.
+674	Afficher « Au-delà du Combat assisté »
+675	temps de recharge %d%%
+676	rotation %d%%
+677	entretien %d%%
+678	utilitaires %d%%

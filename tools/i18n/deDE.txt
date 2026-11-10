@@ -662,3 +662,11 @@
 668	Notenleiste zeigen
 669	Die Teile zeigen
 670	Die farbige Leiste von D bis S+ mit einer Markierung, die zu deiner Punktzahl gleitet.
+671	%d Extras
+672	Über die Kampfassistenz hinaus: %d%% des Kampfes
+673	Wie viel des Kampfes Platz 1 etwas anderes zeigte als Blizzards Kampfassistenz, und warum: von SimC getimte Abklingzeiten, ein anderer Kernzauber (SimCs Priorität), aufrechterhaltene DoTs und Buffs, Hilfsmittel (Unterbrechungen, Verteidigung, Sprünge) sowie Extras, die Blizzard nie zeigt (das Symbol ohne globale Abklingzeit, Schmuckstücke). Es zeigt, wo DMGAssist anders spielt, nicht den Schaden: Addons können verursachten Schaden nicht lesen.
+674	„Über die Kampfassistenz hinaus" zeigen
+675	Abklingzeiten %d%%
+676	Rotation %d%%
+677	Aufrechterhaltung %d%%
+678	Hilfsmittel %d%%

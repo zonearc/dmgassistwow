@@ -140,6 +140,9 @@ function Gr.Tick(pressNow)
   elseif not pressNow then
     f.ready = nil -- reaction is timed from the latest "press now", not an earlier one
   end
+  if f.lastTick and not moving then
+    Gr.CompareTick(f, main, math.min(0.25, now - f.lastTick))
+  end
   f.lastTick, f.wasReady = now, pressNow
   local t = ns.last and ns.last.trinket
   local key = t and (t.item or t.id)
@@ -151,6 +154,84 @@ function Gr.Tick(pressNow)
   if w and w.source == "mitigation" and w.id and not f.mitShown[Base(w.id)] then
     f.mitShown[Base(w.id)] = Clock(f)
   end
+end
+
+-- Beyond Assisted Combat: every moment slot 1 and Blizzard's assistant both name a spell, whether they agree, and
+-- when they don't, why ours differs. Never a damage claim (addons can't read damage): it shows where DMGAssist
+-- plays differently from Blizzard's suggestion, by kind (asked for 2026-11-10).
+--   cooldowns: a 20 s+ cooldown timed by SimC (Blizzard names them whenever ready, or never)
+--   upkeep:    a DoT / buff kept up by our own rules or timers (Moonfire, Sunfire, forms)
+--   utility:   an interrupt, defensive or gap closer in slot 1 (Blizzard's assistant has none)
+--   rotation:  a different core spell, SimC's priority over Blizzard's
+-- Extras: presses of what Blizzard never shows at all (the off-GCD badge, trinkets, the defensive icon).
+Gr.VS_KINDS = { "cooldowns", "rotation", "upkeep", "utility" }
+local UTILITY = { interrupt = true, defensive = true, mitigation = true, gapcloser = true, form = true }
+function Gr.VsKind(main, ac)
+  if main.source and UTILITY[main.source] then
+    return "utility"
+  end
+  if main.source == "keepup" then
+    return "upkeep"
+  end
+  if Gr.IsCooldown(main) or Gr.IsCooldown({ id = ac }) then
+    return "cooldowns"
+  end
+  return "rotation"
+end
+
+function Gr.CompareTick(f, main, dt)
+  local ac = ns.Engine and ns.Engine.acNow
+  if not (main and main.id and ac and dt > 0) or (ns.Engine.acStuck == true) then
+    return
+  end
+  local vs = f.vs or { total = 0, same = 0, cooldowns = 0, rotation = 0, upkeep = 0, utility = 0 }
+  f.vs = vs
+  vs.total = vs.total + dt
+  if Same(main.id, ac) then
+    vs.same = vs.same + dt
+  else
+    local kind = Gr.VsKind(main, ac)
+    vs[kind] = vs[kind] + dt
+  end
+end
+
+-- The comparison as shares of the compared time (percent), nil when there is too little to say anything.
+function Gr.VsShares(vs, extras)
+  if not (vs and vs.total and vs.total >= 10) then
+    return nil
+  end
+  local out = { extras = extras or 0, same = 100 * vs.same / vs.total }
+  local diff = 0
+  for _, k in ipairs(Gr.VS_KINDS) do
+    out[k] = 100 * (vs[k] or 0) / vs.total
+    diff = diff + out[k]
+  end
+  out.differs = diff
+  return out
+end
+
+-- One line: "Beyond Assisted Combat: 28% of the fight - cooldowns 16% · rotation 12% · 9 extras" (kinds under 1%
+-- left out).
+function Gr.VsText(v)
+  if not v then
+    return nil
+  end
+  local parts = {}
+  local names = { cooldowns = L["cooldowns %d%%"], rotation = L["rotation %d%%"], upkeep = L["upkeep %d%%"],
+    utility = L["utility %d%%"] }
+  for _, k in ipairs(Gr.VS_KINDS) do
+    if (v[k] or 0) >= 1 then
+      parts[#parts + 1] = string.format(names[k], math.floor(v[k] + 0.5))
+    end
+  end
+  if (v.extras or 0) > 0 then
+    parts[#parts + 1] = string.format(L["%d extras"], v.extras)
+  end
+  local head = string.format(L["Beyond Assisted Combat: %d%% of the fight"], math.floor((v.differs or 0) + 0.5))
+  if #parts == 0 then
+    return head
+  end
+  return head .. " - " .. table.concat(parts, " · ")
 end
 
 -- A cooldown worth grading: a major cooldown, or any spell with a cooldown of Gr.KEY_CD seconds or more (Fury of
@@ -186,6 +267,7 @@ function Gr.OnPress(id, r, press)
     local key = "item:" .. tostring(t.item or t.id)
     f.itemsUsed = f.itemsUsed or {}
     f.itemsUsed[t.item or t.id] = true
+    f.extras = (f.extras or 0) + 1
     if f.cdShown[key] then
       f.cds[#f.cds + 1] = now - f.cdShown[key]
       f.cdShown[key] = nil
@@ -193,6 +275,7 @@ function Gr.OnPress(id, r, press)
     return
   end
   if r.weave and r.weave.source == "mitigation" and Same(r.weave.id, id) then
+    f.extras = (f.extras or 0) + 1
     local key = Base(id)
     if f.mitShown[key] then
       f.mit[#f.mit + 1] = Clock(f) - f.mitShown[key]
@@ -201,6 +284,9 @@ function Gr.OnPress(id, r, press)
     return
   end
   if not press or (r.weave and Same(r.weave.id, id)) then
+    if press and r.weave then
+      f.extras = (f.extras or 0) + 1 -- the off-GCD badge (Ironfur): Blizzard never shows it
+    end
     return
   end
   local main = r.main
@@ -233,6 +319,13 @@ function Gr.OnPress(id, r, press)
   if matched or not IsOffGCD(id) then
     f.presses = f.presses + 1
     f.lastPress, f.lastPressClock, f.idleAtPress = now, Clock(f), f.idle
+    if f.vs then
+      local snap = {}
+      for k, v in pairs(f.vs) do
+        snap[k] = v
+      end
+      f.vsAtPress = snap
+    end
     if matched then
       f.score = f.score + 1
       f.right = (f.right or 0) + 1
@@ -337,6 +430,7 @@ function Gr.Finish(f, now)
     now = f.lastPress + Gr.TAIL
     endClock = f.lastPressClock + Gr.TAIL
     f.idle = math.min(f.idle, (f.idleAtPress or 0) + Gr.TAIL)
+    f.vs = f.vsAtPress or f.vs
   end
   local length = now - f.start
   if length < (tonumber(ns.db and ns.db.gradeMinFight) or Gr.MIN_FIGHT) or f.presses < 5 then
@@ -397,7 +491,8 @@ function Gr.Finish(f, now)
   local r = { score = score, letter = Gr.Letter(score), accuracy = accuracy, abc = abc, reaction = reaction,
     reactionMs = reactionSec and math.floor(reactionSec * 1000 + 0.5), cooldowns = cd, mitigation = mit,
     length = length,
-    idle = f.idle, presses = f.presses, targets = f.targets, at = _G.time and _G.time() or 0 }
+    idle = f.idle, presses = f.presses, targets = f.targets, at = _G.time and _G.time() or 0,
+    vs = Gr.VsShares(f.vs, f.extras) }
   -- the tip: the weakest part
   local weakest, low = nil, 101
   for k in pairs(Gr.WEIGHTS) do
@@ -420,7 +515,9 @@ function Gr.Finish(f, now)
     capped = limitedBy and "yes" or nil, presses = f.presses, right = f.right or 0, slot23 = f.slot23 or 0,
     wrong = f.wrong or 0, neutral = f.neutral or 0,
     idle = string.format("%.1f", f.idle), missed = topMissed and (topMissed .. "x" .. n) or nil,
-    cds = #f.cds, mits = #f.mit, reactions = Spread(f.reactions), cdDelays = Spread(f.cds) })
+    cds = #f.cds, mits = #f.mit, reactions = Spread(f.reactions), cdDelays = Spread(f.cds),
+    vs = r.vs and string.format("same%d cd%d rot%d keep%d util%d extras%d", r.vs.same, r.vs.cooldowns,
+      r.vs.rotation, r.vs.upkeep, r.vs.utility, r.vs.extras) or nil })
   return r
 end
 
@@ -521,7 +618,8 @@ function Gr.Save(r)
   table.insert(s.history, 1, { score = r.score, letter = r.letter, accuracy = r.accuracy, abc = r.abc,
     reaction = r.reaction, reactionMs = r.reactionMs, cooldowns = r.cooldowns, mitigation = r.mitigation, at = r.at,
     targets = r.targets,
-    weakest = r.weakest, idle = r.idle, length = r.length, topMissed = r.topMissed, topMissedCount = r.topMissedCount })
+    weakest = r.weakest, idle = r.idle, length = r.length, topMissed = r.topMissed, topMissedCount = r.topMissedCount,
+    vs = r.vs })
   while #s.history > Gr.HISTORY do
     table.remove(s.history)
   end
@@ -611,6 +709,25 @@ function Gr.Report(key)
     Pct(avg.abc), L["Reaction"], ms and (math.floor(ms + 0.5) .. " ms") or "-", L["Cooldowns"], Pct(avg.cooldowns))
   if avg.mitigation then
     lines[#lines] = lines[#lines] .. string.format("   %s %s", L["Mitigation"], Pct(avg.mitigation))
+  end
+  -- Beyond Assisted Combat, on average over the fights that have it
+  local vs, vn = { differs = 0, cooldowns = 0, rotation = 0, upkeep = 0, utility = 0, extras = 0 }, 0
+  for i = 1, n do
+    local v = h[i].vs
+    if type(v) == "table" then
+      vn = vn + 1
+      for k in pairs(vs) do
+        vs[k] = vs[k] + (tonumber(v[k]) or 0)
+      end
+    end
+  end
+  if vn > 0 then
+    for k in pairs(vs) do
+      vs[k] = vs[k] / vn
+    end
+    vs.extras = math.floor(vs.extras + 0.5)
+    lines[#lines + 1] = string.format("|cffffd100%s|r  %s", string.format(L["Average of the last %d"], vn),
+      Gr.VsText(vs))
   end
   -- where to improve: the weakest part on average, with the most-missed spell of the latest fight that had one
   local weakest, low = nil, 101
@@ -773,6 +890,9 @@ local function Frame()
     cell.label = part[2]
     f.cells[i] = cell
   end
+  f.vsLine = f:CreateFontString(nil, "OVERLAY")
+  f.vsLine:SetWidth(W - 24 - 2 * PAD)
+  f.vsLine:SetJustifyH("LEFT")
   f.tip = f:CreateFontString(nil, "OVERLAY")
   f.tip:SetPoint("BOTTOMLEFT", f, "BOTTOMLEFT", 12 + PAD, 10 + PAD) -- inside the box, at the bottom
   f.tip:SetWidth(W - 24 - 2 * PAD)
@@ -859,6 +979,16 @@ function Gr.Render(r, sample, test)
   if showParts then
     y = y + 44
   end
+  local vsText = db.gradeVs ~= false and Gr.VsText(r.vs) or nil
+  f.vsLine:ClearAllPoints()
+  f.vsLine:SetPoint("TOPLEFT", f, "TOPLEFT", 12 + PAD, -y)
+  D.SetFont(f.vsLine, 11)
+  f.vsLine:SetText(vsText or "")
+  f.vsLine:SetTextColor(0.55, 0.8, 1)
+  f.vsLine:SetShown(vsText ~= nil)
+  if vsText then
+    y = y + 30 -- room for two lines
+  end
   f.contentH = y
   f.markerTo = BarX(r.score)
   f.marker:SetPoint("CENTER", f.bar, "LEFT", 0, 0)
@@ -914,7 +1044,8 @@ function Gr.Test()
 end
 
 Gr.SAMPLE = { score = 93.4, letter = "S", accuracy = 96, abc = 91, reaction = 88, reactionMs = 245, cooldowns = 95,
-  weakest = "reaction", idle = 3.2 }
+  weakest = "reaction", idle = 3.2,
+  vs = { differs = 27, same = 73, cooldowns = 15, rotation = 10, upkeep = 2, utility = 0, extras = 9 } }
 
 -- In Edit Mode, while unlocked or on the grade's settings page: a sample to place and size it.
 function Gr.ShowSample(on)

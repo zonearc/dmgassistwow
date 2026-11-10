@@ -662,3 +662,11 @@
 668	Mostra la barra del voto
 669	Mostra le parti
 670	La barra colorata da D a S+ con un indicatore che scorre fino al tuo punteggio.
+671	%d extra
+672	Oltre il Combattimento assistito: %d%% dello scontro
+673	Quanta parte dello scontro lo slot 1 ha mostrato qualcosa di diverso dal Combattimento assistito di Blizzard, e perché: tempi di recupero sincronizzati da SimC, un incantesimo principale diverso (la priorità di SimC), DoT e benefici mantenuti, utilità (interruzioni, difese, avvicinamenti) ed extra che Blizzard non mostra mai (l'icona fuori dal tempo globale, i monili). Mostra dove DMGAssist gioca diversamente, non i danni: gli addon non possono leggere i danni inflitti.
+674	Mostra «Oltre il Combattimento assistito»
+675	tempi di recupero %d%%
+676	rotazione %d%%
+677	mantenimento %d%%
+678	utilità %d%%

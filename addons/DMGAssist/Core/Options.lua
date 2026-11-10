@@ -625,6 +625,11 @@ function O.Register()
     "The coloured D-to-S+ bar with a marker that slides to your score.")
   Check(grade, DB, "gradeParts", "Show the parts", true,
     "Accuracy, Always casting, Reaction and Cooldowns (and Mitigation for tanks) under the bar.")
+  Check(grade, DB, "gradeVs", "Show Beyond Assisted Combat", true,
+    "How much of the fight slot 1 showed something other than Blizzard's Assisted Combat, and why: cooldowns timed "
+      .. "by SimC, a different core spell (SimC's priority), DoTs and buffs kept up, utility (interrupts, defensives, "
+      .. "gap closers), plus extras Blizzard never shows (the off-GCD badge, trinkets). It shows where DMGAssist plays "
+      .. "differently, not damage: addons can't read damage done.")
   Slider(grade, DB, "gradeSeconds", "Grade stays on screen", 6, 2, 15, 1,
     "How long the grade stays before it fades out. It pops in quickly and fades in under a second.", " s")
   Slider(grade, DB, "gradeMinFight", "Shortest fight to grade", 20, 10, 120, 5,

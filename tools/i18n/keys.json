@@ -669,5 +669,13 @@
 "Outlines the real action button for slot 1's spell on your bars (Blizzard's, Bartender, ElvUI, Dominos) in DMGAssist's magenta, so it never looks like Blizzard's own gold or blue highlights.",
 "Show the grade bar",
 "Show the parts",
-"The coloured D-to-S+ bar with a marker that slides to your score."
+"The coloured D-to-S+ bar with a marker that slides to your score.",
+"%d extras",
+"Beyond Assisted Combat: %d%% of the fight",
+"How much of the fight slot 1 showed something other than Blizzard's Assisted Combat, and why: cooldowns timed by SimC, a different core spell (SimC's priority), DoTs and buffs kept up, utility (interrupts, defensives, gap closers), plus extras Blizzard never shows (the off-GCD badge, trinkets). It shows where DMGAssist plays differently, not damage: addons can't read damage done.",
+"Show Beyond Assisted Combat",
+"cooldowns %d%%",
+"rotation %d%%",
+"upkeep %d%%",
+"utility %d%%"
 ]

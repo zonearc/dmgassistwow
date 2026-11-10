@@ -666,4 +666,12 @@ ns.LOCALE_DATA.zhCN = {
   ["Show the grade bar"] = "显示评级条",
   ["Show the parts"] = "显示各项",
   ["The coloured D-to-S+ bar with a marker that slides to your score."] = "从 D 到 S+ 的彩色条，标记会滑到你的分数。",
+  ["%d extras"] = "额外 %d 次",
+  ["Beyond Assisted Combat: %d%% of the fight"] = "超越辅助战斗：战斗的 %d%%",
+  ["How much of the fight slot 1 showed something other than Blizzard's Assisted Combat, and why: cooldowns timed by SimC, a different core spell (SimC's priority), DoTs and buffs kept up, utility (interrupts, defensives, gap closers), plus extras Blizzard never shows (the off-GCD badge, trinkets). It shows where DMGAssist plays differently, not damage: addons can't read damage done."] = "战斗中 1 号位显示与暴雪辅助战斗不同内容的比例及原因：由 SimC 把握时机的冷却技能、不同的核心法术（SimC 的优先级）、保持的持续伤害和增益、辅助（打断、防御、突进），以及暴雪从不显示的额外项（不占公共冷却的图标、饰品）。它显示 DMGAssist 打法不同之处，而非伤害：插件无法读取造成的伤害。",
+  ["Show Beyond Assisted Combat"] = "显示“超越辅助战斗”",
+  ["cooldowns %d%%"] = "冷却 %d%%",
+  ["rotation %d%%"] = "循环 %d%%",
+  ["upkeep %d%%"] = "维持 %d%%",
+  ["utility %d%%"] = "辅助 %d%%",
 }

@@ -666,4 +666,12 @@ ns.LOCALE_DATA.esES = {
   ["Show the grade bar"] = "Mostrar la barra de nota",
   ["Show the parts"] = "Mostrar las partes",
   ["The coloured D-to-S+ bar with a marker that slides to your score."] = "La barra de colores de D a S+ con una marca que se desliza hasta tu puntuación.",
+  ["%d extras"] = "%d extras",
+  ["Beyond Assisted Combat: %d%% of the fight"] = "Más allá del Combate asistido: %d%% del combate",
+  ["How much of the fight slot 1 showed something other than Blizzard's Assisted Combat, and why: cooldowns timed by SimC, a different core spell (SimC's priority), DoTs and buffs kept up, utility (interrupts, defensives, gap closers), plus extras Blizzard never shows (the off-GCD badge, trinkets). It shows where DMGAssist plays differently, not damage: addons can't read damage done."] = "Cuánto del combate mostró el espacio 1 algo distinto al Combate asistido de Blizzard, y por qué: reutilizaciones sincronizadas por SimC, un hechizo principal distinto (la prioridad de SimC), DoT y beneficios mantenidos, utilidad (interrupciones, defensivas, acercamientos) y extras que Blizzard nunca muestra (el icono fuera del tiempo global, abalorios). Muestra dónde DMGAssist juega distinto, no el daño: los addons no pueden leer el daño infligido.",
+  ["Show Beyond Assisted Combat"] = "Mostrar «Más allá del Combate asistido»",
+  ["cooldowns %d%%"] = "reutilizaciones %d%%",
+  ["rotation %d%%"] = "rotación %d%%",
+  ["upkeep %d%%"] = "mantenimiento %d%%",
+  ["utility %d%%"] = "utilidad %d%%",
 }

@@ -662,3 +662,11 @@
 668	Mostrar a barra da nota
 669	Mostrar as partes
 670	A barra colorida de D a S+ com um marcador que desliza até sua pontuação.
+671	%d extras
+672	Além do Combate Assistido: %d%% da luta
+673	Quanto da luta o espaço 1 mostrou algo diferente do Combate Assistido da Blizzard, e por quê: recargas cronometradas pelo SimC, um feitiço principal diferente (a prioridade do SimC), DoTs e bônus mantidos, utilidade (interrupções, defensivas, aproximações) e extras que a Blizzard nunca mostra (o ícone fora da recarga global, berloques). Mostra onde o DMGAssist joga diferente, não o dano: addons não conseguem ler o dano causado.
+674	Mostrar "Além do Combate Assistido"
+675	recargas %d%%
+676	rotação %d%%
+677	manutenção %d%%
+678	utilidade %d%%

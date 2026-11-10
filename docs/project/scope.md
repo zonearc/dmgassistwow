@@ -32,7 +32,10 @@ C 50, D: B+ reachable for most players, A takes accurate play, S is rare. Only w
 with nothing shown, outside the rotation, or with an interrupt in slot 1 are neutral; idle only while slot 1 is in
 range and usable; cooldowns shown under 2 s aren't graded. The letter uses the game's damage-number font. Never DPS:
 we can't know what a player should do. The score is never more than 6 points above the weakest part, so one weak
-habit isn't hidden by the others (decided 2026-11-10). Best and last 20 fights per spec, account-wide; trend, averages and one tip
+habit isn't hidden by the others (decided 2026-11-10). Graded up to the last rotation press + 3 s (walking off a
+dummy isn't idle). Under the parts, "Beyond Assisted Combat": how much of the fight slot 1 differed from
+Blizzard's assistant and why (cooldowns, rotation, upkeep, utility) plus extras Blizzard never shows; never a
+damage claim (decided 2026-11-10). Best and last 20 fights per spec, account-wide; trend, averages and one tip
 on the settings page. Can be turned off.
 
 ## Integrations

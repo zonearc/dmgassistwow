@@ -666,4 +666,12 @@ ns.LOCALE_DATA.koKR = {
   ["Show the grade bar"] = "등급 바 표시",
   ["Show the parts"] = "항목 표시",
   ["The coloured D-to-S+ bar with a marker that slides to your score."] = "D에서 S+까지 색이 바뀌는 바와 점수로 미끄러지는 표시.",
+  ["%d extras"] = "추가 %d회",
+  ["Beyond Assisted Combat: %d%% of the fight"] = "전투 보조 그 이상: 전투의 %d%%",
+  ["How much of the fight slot 1 showed something other than Blizzard's Assisted Combat, and why: cooldowns timed by SimC, a different core spell (SimC's priority), DoTs and buffs kept up, utility (interrupts, defensives, gap closers), plus extras Blizzard never shows (the off-GCD badge, trinkets). It shows where DMGAssist plays differently, not damage: addons can't read damage done."] = "전투 중 1번 칸이 블리자드 전투 보조와 다른 것을 보여준 비율과 그 이유: SimC가 시점을 정한 재사용 대기시간, 다른 핵심 주문(SimC 우선순위), 유지한 지속 피해와 강화 효과, 보조(차단, 방어, 돌진), 그리고 블리자드가 전혀 보여주지 않는 추가 항목(전역 재사용 대기시간 없는 아이콘, 장신구). DMGAssist가 다르게 플레이한 곳을 보여줄 뿐 피해량이 아닙니다: 애드온은 입힌 피해를 읽을 수 없습니다.",
+  ["Show Beyond Assisted Combat"] = "'전투 보조 그 이상' 표시",
+  ["cooldowns %d%%"] = "재사용 대기시간 %d%%",
+  ["rotation %d%%"] = "순환 %d%%",
+  ["upkeep %d%%"] = "유지 %d%%",
+  ["utility %d%%"] = "보조 %d%%",
 }

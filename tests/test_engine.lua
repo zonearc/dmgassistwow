@@ -4375,6 +4375,31 @@ test("performance grade: walking off a dummy at the end isn't idle time or an un
   Gr.Reset()
 end)
 
+test("beyond Assisted Combat: time slot 1 differed from Blizzard's pick, by kind, plus extras", function()
+  Reset()
+  local ns = Boot()
+  local Gr, G = ns.Grade, ns.Engine
+  local f = {}
+  G.acNow, G.acStuck = 33917, false
+  Gr.CompareTick(f, { id = 33917 }, 6) -- same spell
+  G.acNow = 77758
+  Gr.CompareTick(f, { id = 8921, source = "keepup" }, 2) -- Moonfire kept up
+  Gr.CompareTick(f, { id = 106839, source = "interrupt" }, 1)
+  Gr.CompareTick(f, { id = 213771 }, 1) -- a different core spell
+  G.acNow = nil
+  Gr.CompareTick(f, { id = 213771 }, 5) -- nothing named: not compared
+  local v = Gr.VsShares(f.vs, 3)
+  eq(math.floor(v.same + 0.5), 60)
+  eq(math.floor(v.upkeep + 0.5), 20)
+  eq(math.floor(v.utility + 0.5), 10)
+  eq(math.floor(v.rotation + 0.5), 10)
+  eq(math.floor(v.differs + 0.5), 40)
+  local text = Gr.VsText(v)
+  eq(text:find("40%", 1, true) ~= nil, true, text)
+  eq(text:find("3 extras", 1, true) ~= nil, true, text)
+  eq(Gr.VsShares({ total = 4, same = 4 }), nil, "too short to say")
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)
