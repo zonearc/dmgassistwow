@@ -670,3 +670,7 @@
 676	rotation %d%%
 677	entretien %d%%
 678	utilitaires %d%%
+679	GO
+680	ATTENDS
+681	ATTENDS pendant les canalisations
+682	Pendant qu'un de vos sorts canalisés est en cours (Coup de pied tournoyant de la grue, Poings de fureur, Fouet mental...), l'emplacement 1 affiche un ATTENDS ambré : appuyer sur quoi que ce soit maintenant l'interromprait. Un GO vert apparaît dès qu'il se termine. Les canalisations que la liste de priorités de votre spécialisation coupe exprès n'affichent pas ATTENDS.

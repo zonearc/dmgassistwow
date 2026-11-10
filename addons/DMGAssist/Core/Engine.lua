@@ -961,6 +961,31 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
   return nil
 end
 
+-- Channels SimC means to cut short: its line for the spell chains or interrupts it (Mind Flay "chain=1",
+-- "interrupt_if=ticks>=2"). Those get no HOLD cue on slot 1; every other channel does.
+local clipCache = setmetatable({}, { __mode = "k" })
+function G.ClipAllowed(id, record)
+  record = record or (ns.Specs.current and ns.Specs.current.data)
+  local token = id and M.TokenForID(id)
+  if not (token and type(record) == "table" and type(record.simc) == "table") then
+    return false
+  end
+  local set = clipCache[record]
+  if not set then
+    set = {}
+    for _, list in pairs(record.simc) do
+      for _, e in ipairs(type(list) == "table" and list or {}) do
+        local p = e.p
+        if p and (p.chain or p.interrupt or p.interrupt_if or p.interrupt_immediate or p.early_chain_if) then
+          set[e.a] = true
+        end
+      end
+    end
+    clipCache[record] = set
+  end
+  return set[token] == true
+end
+
 local function SetOf(list)
   local out = {}
   if type(list) == "table" then

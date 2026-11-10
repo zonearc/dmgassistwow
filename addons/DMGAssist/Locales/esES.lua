@@ -674,4 +674,8 @@ ns.LOCALE_DATA.esES = {
   ["rotation %d%%"] = "rotación %d%%",
   ["upkeep %d%%"] = "mantenimiento %d%%",
   ["utility %d%%"] = "utilidad %d%%",
+  ["GO"] = "YA",
+  ["HOLD"] = "ESPERA",
+  ["HOLD during channels"] = "ESPERA durante canalizaciones",
+  ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."] = "Mientras uno de tus hechizos canalizados está en curso (Patada giratoria de la grulla, Puños de furia, Tortura mental...), el espacio 1 muestra un ESPERA ámbar: pulsar cualquier cosa ahora lo cortaría. Un YA verde aparece en cuanto termina. Las canalizaciones que la lista de prioridades de tu especialización corta a propósito no muestran ESPERA.",
 }

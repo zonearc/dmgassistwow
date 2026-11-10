@@ -670,3 +670,7 @@
 676	rotação %d%%
 677	manutenção %d%%
 678	utilidade %d%%
+679	VAI
+680	SEGURE
+681	SEGURE durante canalizações
+682	Enquanto um dos seus feitiços canalizados está em andamento (Chute Giratório da Garça, Punhos da Fúria, Tortura Mental...), o espaço 1 mostra um SEGURE âmbar: apertar qualquer coisa agora o interromperia. Um VAI verde aparece assim que ele termina. Canalizações que a lista de prioridades da sua especialização corta de propósito não mostram SEGURE.

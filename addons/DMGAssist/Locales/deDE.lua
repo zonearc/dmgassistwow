@@ -674,4 +674,8 @@ ns.LOCALE_DATA.deDE = {
   ["rotation %d%%"] = "Rotation %d%%",
   ["upkeep %d%%"] = "Aufrechterhaltung %d%%",
   ["utility %d%%"] = "Hilfsmittel %d%%",
+  ["GO"] = "LOS",
+  ["HOLD"] = "HALTEN",
+  ["HOLD during channels"] = "HALTEN bei Kanalisierungen",
+  ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."] = "Während einer deiner kanalisierten Zauber läuft (Wirbelnder Kranichtritt, Fäuste des Zorns, Gedankenschinden...), zeigt Platz 1 ein bernsteinfarbenes HALTEN: Jeder Tastendruck würde ihn jetzt abbrechen. Ein grünes LOS erscheint, sobald er endet. Kanalisierungen, die die Prioritätsliste deiner Spezialisierung absichtlich abbricht, bekommen kein HALTEN.",
 }

@@ -3169,6 +3169,34 @@ test("action bar highlight: the real button for slot 1 glows", function()
   eq(hl:IsShown(), false)
 end)
 
+test("channels: slot 1 says HOLD while one runs, GO when it ends; none for channels SimC cuts short", function()
+  Reset()
+  local ns = Boot()
+  local D, S, G = ns.Display, ns.State, ns.Engine
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  ns.Update()
+  local f = D.frame
+  local cfg = D.Settings()
+  S.OnOwnCastStart(5221, true) -- a channel of ours (Shred stands in), 2 s by our clock
+  D.RenderTiming(f, cfg)
+  eq(f.hold:IsShown(), true, "HOLD while it runs")
+  eq(f.hold:GetText(), "HOLD")
+  mock.Advance(3)
+  D.RenderTiming(f, cfg)
+  eq(f.hold:GetText(), "GO", "GO when it ends")
+  mock.Advance(1)
+  D.RenderTiming(f, cfg)
+  eq(f.hold:IsShown(), false, "then gone")
+  -- a channel the list chains or cuts short: no HOLD
+  local record = ns.Specs.current.data
+  record.simc.default[#record.simc.default + 1] = { a = "shred", k = "R", p = { chain = "1" } }
+  eq(G.ClipAllowed(5221, { simc = { default = { { a = "shred", p = { chain = "1" } } } } }), true)
+  eq(G.ClipAllowed(1822, { simc = { default = { { a = "rake" } } } }), false)
+  table.remove(record.simc.default)
+  mock.inCombat = false
+end)
+
 test("visibility: hidden while mounted out of combat; preview while the settings panel is open", function()
   Reset()
   local ns = Boot()

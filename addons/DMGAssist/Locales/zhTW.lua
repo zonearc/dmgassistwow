@@ -674,4 +674,8 @@ ns.LOCALE_DATA.zhTW = {
   ["rotation %d%%"] = "循環 %d%%",
   ["upkeep %d%%"] = "維持 %d%%",
   ["utility %d%%"] = "輔助 %d%%",
+  ["GO"] = "出手",
+  ["HOLD"] = "等待",
+  ["HOLD during channels"] = "引導期間顯示等待",
+  ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."] = "當你的引導法術進行中（神鶴引項踢、怒雷破、精神鞭笞等），1 號位顯示琥珀色的「等待」：此時按任何鍵都會打斷它。結束的那一刻會顯示綠色的「出手」。你的專精優先順序清單刻意打斷的引導不會顯示「等待」。",
 }

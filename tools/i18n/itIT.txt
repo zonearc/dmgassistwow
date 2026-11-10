@@ -670,3 +670,7 @@
 676	rotazione %d%%
 677	mantenimento %d%%
 678	utilità %d%%
+679	VAI
+680	ASPETTA
+681	ASPETTA durante le canalizzazioni
+682	Mentre uno dei tuoi incantesimi canalizzati è in corso (Calcio Rotante della Gru, Pugni della Furia, Flagello Mentale...), lo slot 1 mostra un ASPETTA ambrato: premere qualsiasi tasto ora lo interromperebbe. Un VAI verde appare appena finisce. Le canalizzazioni che la lista di priorità della tua specializzazione interrompe di proposito non mostrano ASPETTA.

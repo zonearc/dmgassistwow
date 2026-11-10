@@ -674,4 +674,8 @@ ns.LOCALE_DATA.itIT = {
   ["rotation %d%%"] = "rotazione %d%%",
   ["upkeep %d%%"] = "mantenimento %d%%",
   ["utility %d%%"] = "utilità %d%%",
+  ["GO"] = "VAI",
+  ["HOLD"] = "ASPETTA",
+  ["HOLD during channels"] = "ASPETTA durante le canalizzazioni",
+  ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."] = "Mentre uno dei tuoi incantesimi canalizzati è in corso (Calcio Rotante della Gru, Pugni della Furia, Flagello Mentale...), lo slot 1 mostra un ASPETTA ambrato: premere qualsiasi tasto ora lo interromperebbe. Un VAI verde appare appena finisce. Le canalizzazioni che la lista di priorità della tua specializzazione interrompe di proposito non mostrano ASPETTA.",
 }

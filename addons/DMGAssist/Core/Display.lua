@@ -30,7 +30,7 @@ D.DEFAULTS = {
   gcdBar = true, glow = "pulse",
   hideOutOfCombat = true, showWithTarget = true, hideMounted = true, hideVehicle = true,
   debugText = false, callout = true, pressCue = true, pressLead = 50, secretBranches = true, interrupt = true, defensive = true,
-  highlight = true,
+  highlight = true, holdCue = true,
   padLabels = "xbox", rangeTint = true, stackCount = true, stackSize = 14, stackPos = "BOTTOM", weavePos = "OUTTOPLEFT", weaveSize = 40,
   weaveX = 0, weaveY = 0, trinketPos = "OUTBOTTOMLEFT", trinketSize = 40, trinketX = 0, trinketY = 0,
 }
@@ -452,10 +452,11 @@ end
 ---------------------------------------------------------------------------
 -- Building
 ---------------------------------------------------------------------------
-local function SetFont(fs, size)
+local function SetFont(fs, size, outline)
   local cfg = D.Settings()
-  if not fs:SetFont(FontPath(cfg.font), size, cfg.outline or "OUTLINE") then
-    fs:SetFont(STANDARD_TEXT_FONT or "Fonts\\FRIZQT__.TTF", size, cfg.outline or "OUTLINE")
+  outline = outline or cfg.outline or "OUTLINE"
+  if not fs:SetFont(FontPath(cfg.font), size, outline) then
+    fs:SetFont(STANDARD_TEXT_FONT or "Fonts\\FRIZQT__.TTF", size, outline)
   end
 end
 
@@ -642,6 +643,11 @@ function D.Create()
     f.flash:SetBlendMode("ADD")
   end
   f.flash:Hide()
+  -- HOLD / GO on slot 1 while one of your channels runs (D.RenderTiming): amber HOLD, then a green GO
+  f.hold = f.main:CreateFontString(nil, "OVERLAY")
+  f.hold:SetPoint("CENTER", f.main, "CENTER", 0, 0)
+  D.SetFont(f.hold, 14)
+  f.hold:Hide()
   -- every frame while shown: only the timing visuals (cheap), so the flash is on time
   f:SetScript("OnUpdate", function(self)
     if self.timingCfg then
@@ -1370,6 +1376,36 @@ function D.RenderTiming(f, cfg)
     f.wipe:Show()
   else
     f.wipe:Hide()
+  end
+  -- A channel of yours is running (Spinning Crane Kick, Fists of Fury, Mind Flay...): pressing anything now cuts it
+  -- short. Slot 1 says HOLD (amber, the wipe drains with it) until it ends, then GO (green) as the press-now flash
+  -- comes. Channels SimC chains or cuts on purpose get none (Engine G.ClipAllowed). Asked for 2026-11-10.
+  local chID, chLeft
+  if cfg.holdCue ~= false then
+    chID, chLeft = ns.State.Channeling()
+  end
+  if chID and chLeft > 0.05 and not ns.Engine.ClipAllowed(chID) then
+    local size = math.max(10, math.floor((f.main:GetHeight() or 40) * 0.3))
+    if f.holdSize ~= size then
+      f.holdSize = size
+      D.SetFont(f.hold, size, "THICKOUTLINE")
+    end
+    f.hold:SetText(L["HOLD"])
+    f.hold:SetTextColor(1, 0.6, 0.1, 0.75 + 0.25 * math.sin(now * 8))
+    f.hold:Show()
+    f.channelOn, f.goAt = true, nil
+  elseif f.channelOn then
+    f.channelOn, f.goAt = nil, now
+  end
+  if not f.channelOn then
+    if f.goAt and now - f.goAt < 0.6 then
+      f.hold:SetText(L["GO"])
+      f.hold:SetTextColor(0.3, 1, 0.35, 1 - (now - f.goAt) / 0.6)
+      f.hold:Show()
+    else
+      f.goAt = nil
+      f.hold:Hide()
+    end
   end
   -- glow / flash
   if cfg.pressCue and ready and f.flashAt and now - f.flashAt < FLASH then

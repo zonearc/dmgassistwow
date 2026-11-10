@@ -670,3 +670,7 @@
 676	Rotation %d%%
 677	Aufrechterhaltung %d%%
 678	Hilfsmittel %d%%
+679	LOS
+680	HALTEN
+681	HALTEN bei Kanalisierungen
+682	Während einer deiner kanalisierten Zauber läuft (Wirbelnder Kranichtritt, Fäuste des Zorns, Gedankenschinden...), zeigt Platz 1 ein bernsteinfarbenes HALTEN: Jeder Tastendruck würde ihn jetzt abbrechen. Ein grünes LOS erscheint, sobald er endet. Kanalisierungen, die die Prioritätsliste deiner Spezialisierung absichtlich abbricht, bekommen kein HALTEN.

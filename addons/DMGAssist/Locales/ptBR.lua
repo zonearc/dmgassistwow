@@ -674,4 +674,8 @@ ns.LOCALE_DATA.ptBR = {
   ["rotation %d%%"] = "rotação %d%%",
   ["upkeep %d%%"] = "manutenção %d%%",
   ["utility %d%%"] = "utilidade %d%%",
+  ["GO"] = "VAI",
+  ["HOLD"] = "SEGURE",
+  ["HOLD during channels"] = "SEGURE durante canalizações",
+  ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."] = "Enquanto um dos seus feitiços canalizados está em andamento (Chute Giratório da Garça, Punhos da Fúria, Tortura Mental...), o espaço 1 mostra um SEGURE âmbar: apertar qualquer coisa agora o interromperia. Um VAI verde aparece assim que ele termina. Canalizações que a lista de prioridades da sua especialização corta de propósito não mostram SEGURE.",
 }

@@ -49,6 +49,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.166: HOLD / GO on slot 1 while one of your channels runs (amber HOLD with the draining wipe, green GO
+  as it ends): every channel the game reports, so no per-spell list; channels the spec's SimC list chains or
+  interrupts on purpose (chain / interrupt / interrupt_if) get none. Setting "HOLD during channels"; all languages
+
 - 1.6.0.165: every-spec check (tests/test_scenarios.lua + tests/scenario_baseline.lua, in check.sh / CI / the
   SimC sync): 40 specs x 3 simulated fights through the real pipeline; rules + per-spec baseline. Its first run
   found five more leveling-mode specs (Havoc, Arcane, Fire, Windwalker, Outlaw, and Guardian) whose ready major

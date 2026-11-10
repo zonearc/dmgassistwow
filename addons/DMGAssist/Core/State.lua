@@ -1813,6 +1813,25 @@ function S.CurrentCast()
   return nil
 end
 
+-- Our own channel still running: spell ID and seconds left, or nil. The game's channel info when readable, else
+-- our own clock from the channel's start event (S.OnOwnCastStart). Used for slot 1's HOLD cue: pressing anything
+-- during a channel cuts it short.
+function S.Channeling()
+  local c = { U.Call(UnitChannelInfo, "player") }
+  local endMs, id = U.Read(c[5]), U.Read(c[8])
+  if type(endMs) == "number" and type(id) == "number" then
+    return id, math.max(0, endMs / 1000 - GetTime())
+  end
+  local mine = S.myCast
+  if mine and mine.channel and not mine.ended then
+    local left = mine.t + mine.len - GetTime()
+    if left > 0 then
+      return mine.id, left
+    end
+  end
+  return nil
+end
+
 ---------------------------------------------------------------------------
 -- Auras: read while readable (by spell ID, so any language), learn durations and cast -> aura links
 ---------------------------------------------------------------------------
