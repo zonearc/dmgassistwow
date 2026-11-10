@@ -13,7 +13,8 @@
 --   on the tank  Earth Shield (Restoration Shaman), Beacon of Light (Holy Paladin): our own, on the group's tank
 -- Also when it runs out within 5 minutes. Only spells you know and can cast now; each can be hidden on the
 -- "Spells & trinkets" page like any spell, and the whole thing switched off (Combat > Buff reminders).
--- Auras are read only out of combat, where the game shows them in full.
+-- Auras are read only out of combat, where the game shows them in full. In combat, Blizzard's assistant naming one of
+-- these buffs says it's missing (B.FromAssistant).
 
 local _, ns = ...
 local U = ns.U
@@ -252,19 +253,60 @@ function B.Invalidate()
   B.cachedAt = nil
 end
 
--- Slot 1 out of combat: the missing buff first, the rest of the queue moves along.
+-- In combat the game hides our buffs, but Blizzard's assistant still sees them: when it names one of the buffs
+-- above (Lightning Shield dropped mid-fight, 2026-11-10) for B.ASSIST_SETTLE seconds, that buff is missing. It goes
+-- to slot 1 until you cast it; poisons go to slot 2 (a lethal / non-lethal swap mid-fight shouldn't push the
+-- rotation aside). Only buffs you know, can cast now and haven't hidden.
+B.ASSIST_SETTLE = 1
+function B.FromAssistant()
+  if (ns.db and ns.db.buffReminders == false) or not ns.State.combatStart then
+    return nil
+  end
+  local G = ns.Engine
+  local id, since = G and G.acName, G and G.acNamedAt
+  if type(id) ~= "number" or not since or ns.State.Now() - since < B.ASSIST_SETTLE or not B.IsBuffSpell(id) then
+    return nil
+  end
+  local state = ns.Specs.current
+  local spec = state and state.key or ""
+  local _, class = U.Call(UnitClass, "player")
+  for _, e in ipairs(B.LIST) do
+    local inGroup = false
+    for _, g in ipairs(type(e.group) == "table" and e.group or {}) do
+      inGroup = inGroup or g == id
+    end
+    if (e.id == id or inGroup) and Applies(e, class, spec) then
+      if Known(id) and not ns.Choices.IsHidden(id) and Usable(id) then
+        return { id = id, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(id) or nil, source = "buff",
+          why = "assisted" }, inGroup and class == "ROGUE"
+      end
+      return nil
+    end
+  end
+  return nil
+end
+
+-- Slot 1 out of combat: the missing buff first, the rest of the queue moves along. In combat: the buff Blizzard's
+-- assistant asks for (slot 2 for a poison).
 function B.Apply(result)
   local pick = B.Missing()
+  local second
+  if not pick then
+    pick, second = B.FromAssistant()
+  end
   if not (pick and result) then
     return result
   end
   local queue = { pick }
+  if second and result.main then
+    queue = { result.main, pick }
+  end
   for _, p in ipairs(result.queue or { result.main }) do
-    if p.id ~= pick.id and #queue < 3 then
+    if p.id ~= pick.id and #queue < 3 and not (queue[1] and queue[1].id == p.id) then
       queue[#queue + 1] = p
     end
   end
-  result.queue, result.main = queue, pick
+  result.queue, result.main = queue, queue[1]
   result.branch = nil
   return result
 end

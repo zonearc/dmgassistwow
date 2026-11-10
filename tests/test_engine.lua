@@ -4052,6 +4052,34 @@ test("rogue: a finisher the game calls unusable with points read is still castab
 end)
 
 
+test("buffs in combat: Blizzard's assistant naming a missing buff puts it in slot 1", function()
+  Reset()
+  local book = {}
+  for i, b in ipairs(FERAL_BOOK) do
+    book[i] = b
+  end
+  book[#book + 1] = { spellID = 1126, name = "Mark of the Wild" }
+  mock.book = book
+  local ns = Boot()
+  local G = ns.Engine
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.acSpell = 1126
+  local r = G.Recommend(ns.ActiveRecord(ns.Specs.current), { useAssisted = true })
+  ns.Buffs.Apply(r)
+  eq(r.main and r.main.id ~= 1126, true, "named just now: not yet (a passing suggestion)")
+  mock.Advance(ns.Buffs.ASSIST_SETTLE + 0.1)
+  r = G.Recommend(ns.ActiveRecord(ns.Specs.current), { useAssisted = true })
+  ns.Buffs.Apply(r)
+  eq(r.main.id, 1126, "named for a second: the buff is missing, slot 1")
+  eq(r.main.source, "buff")
+  mock.acSpell = 5221
+  r = G.Recommend(ns.ActiveRecord(ns.Specs.current), { useAssisted = true })
+  ns.Buffs.Apply(r)
+  eq(r.main.id ~= 1126, true, "cast (the assistant moved on): gone")
+  mock.acSpell, mock.inCombat = nil, false
+end)
+
 test("performance grade: a press of what slot 1 showed just before it switched counts; an unused potion doesn't", function()
   Reset()
   local ns = Boot()
