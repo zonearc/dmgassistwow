@@ -79,3 +79,9 @@ simulate healing. Each is a keep-up rule in Core/Essentials.lua, with its own se
 - Cooldowns our data lacks (Void Volley) are learned from the game's "not ready yet" refusals.
 Spells a keep-up adds carry fallback cooldown / charge data (SpellMap.EXTRA_INFO), and the every-spec check has
 a group fight (boss, party of 5, healing support) where each keep-up must be cast.
+
+## Only what you can press (decided 2026-11-10)
+
+DMGAssist never suggests a spell you have no button for: being on one of your action bars is a requirement,
+like being off cooldown (Choices.OnBars, setting "Only spells on your bars"). The skipped spell is named in chat
+once, so you can add it.

@@ -81,7 +81,7 @@ end
 --     cooldown soonest, so slot 3 isn't blank.
 function LV.Lead(result, record)
   local ac = result and result.acSpell
-  if not ac or ns.Choices.IsHidden(ac) or ns.Engine.IsHeld(ac) then
+  if not ac or ns.Choices.Skip(ac) or ns.Engine.IsHeld(ac) then
     return result
   end
   local pick = { id = ac, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(ac) or nil,

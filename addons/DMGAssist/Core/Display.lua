@@ -377,7 +377,22 @@ function D.BuildKeymap()
   end
   keymap, keymapAt = map, GetTime()
   keyCache = {}
+  D.keymapSerial = (D.keymapSerial or 0) + 1
   return map
+end
+
+-- For Choices.OnBars: which build of the bar map the answers are from, and whether any button was read at all.
+function D.KeymapSerial()
+  if not keymap then
+    D.BuildKeymap()
+  end
+  return D.keymapSerial or 0
+end
+function D.HasButtons()
+  if not keymap then
+    D.BuildKeymap()
+  end
+  return next(buttonsBySpell) ~= nil
 end
 
 -- The key for an item (on-use trinket) on the bars.
@@ -643,6 +658,14 @@ function D.Create()
     f.flash:SetBlendMode("ADD")
   end
   f.flash:Hide()
+  -- the keybind always reads above the wipe and the flash (the flash's fade covered it, 2026-11-10)
+  if f.flash.SetDrawLayer then
+    f.flash:SetDrawLayer("OVERLAY", -1)
+    f.wipe:SetDrawLayer("OVERLAY", -2)
+  end
+  if f.main.key and f.main.key.SetDrawLayer then
+    f.main.key:SetDrawLayer("OVERLAY", 7)
+  end
   -- HOLD / GO on slot 1 while one of your channels runs (D.RenderTiming): amber HOLD, then a green GO
   f.hold = f.main:CreateFontString(nil, "OVERLAY")
   f.hold:SetPoint("CENTER", f.main, "CENTER", 0, 0)
@@ -1411,8 +1434,12 @@ function D.RenderTiming(f, cfg)
   end
   -- glow / flash
   if f.goAt and now - f.goAt < 0.6 then
+    -- the channel ended: GO is the green border alone, at once; no white flash fading over the icon and its key
+    -- after a HOLD (it read as "ready a beat late", 2026-11-10)
+    f.flash:Hide()
+    f.flashedFor = id
     f.glow:Show()
-    f.glow:SetColorTexture(0.2, 1, 0.3, 1 - (now - f.goAt) / 0.6) -- the channel ended: GO
+    f.glow:SetColorTexture(0.2, 1, 0.3, 1 - (now - f.goAt) / 0.6)
   elseif cfg.pressCue and ready and f.flashAt and now - f.flashAt < FLASH then
     local t = (now - f.flashAt) / FLASH
     f.glow:Show()

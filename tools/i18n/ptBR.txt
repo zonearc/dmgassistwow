@@ -688,3 +688,6 @@
 694	Combates com menos de 10 segundos de intervalo (missões, de inimigo em inimigo) são avaliados juntos: uma nota 10 segundos depois do último, ou a cada 3 minutos numa sequência longa, em vez de uma após cada inimigo. Combates curtos se somam e também recebem nota. Chefes são avaliados na hora.
 695	Agrupar combates rápidos
 696	%s aparece num ícone pequeno (defensivo ou fora da recarga global) mas não tem tecla. Coloque-o numa barra e atribua uma tecla, ou oculte-o na página Feitiços e berloques.
+697	%s faz parte da sua rotação mas não está nas suas barras de ação, então o DMGAssist o ignora. Arraste-o do grimório para uma barra (e atribua uma tecla) para que seja sugerido.
+698	Só feitiços nas suas barras
+699	Um feitiço que não está em nenhuma das suas barras de ação nunca é sugerido: o próximo toma o lugar dele, e o bate-papo diz qual uma vez. Desligado: qualquer feitiço que você conhece pode ser sugerido.

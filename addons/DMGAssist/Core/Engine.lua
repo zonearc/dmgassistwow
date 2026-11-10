@@ -503,7 +503,7 @@ local function TooFar(id)
 end
 G.TooFar = TooFar
 
-local function Castable(id)
+local function CastableRaw(id)
   local rule = G.TARGET_RULES[id] or G.TARGET_RULES[(M.baseOf and M.baseOf[id]) or id]
   if rule and not rule(id) then
     return false, "target"
@@ -588,6 +588,19 @@ local function Castable(id)
     return false
   end
   return ready
+end
+
+-- A spell you can't press isn't shown: not on any of your action bars (a hero talent's new button, a class trial's
+-- bars) means "not castable", like a cooldown, and the next spell takes its place. Chat says which spell, once,
+-- when it would otherwise have been ready (Choices.OnBars). Asked for 2026-11-10: "why would we ever show a
+-- spell someone can't find?"
+local function Castable(id)
+  local castable, why = CastableRaw(id)
+  if castable ~= false and id and not ns.Choices.OnBars(id) then
+    ns.Choices.NoteOffBars(id)
+    return false, "nobar"
+  end
+  return castable, why
 end
 G.Castable = Castable
 
@@ -1437,7 +1450,7 @@ function G.Steady(result)
   end
   -- is the shown spell still pressable?
   local ok, why = Castable(held.pick.id)
-  if why == "refused" then
+  if why == "refused" or why == "nobar" then -- (not on your bars: it never will be pressable)
     held = { pick = main, at = now }
     return result
   end

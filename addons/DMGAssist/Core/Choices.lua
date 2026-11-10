@@ -7,7 +7,7 @@
 -- Trinkets are switched off per item (Trinkets.SetOff), on the same page.
 
 local _, ns = ...
-local U = ns.U
+local U, L = ns.U, ns.L
 
 local C = {}
 ns.Choices = C
@@ -78,6 +78,67 @@ function C.IsHidden(id)
     return false
   end
   return t[id] == true or t[Base(id)] == true
+end
+
+-- On one of your action bars (any bar addon that uses the game's action slots, or a macro casting it)? Forms
+-- live on the stance bar and are exempt; with no buttons read at all (an unsupported bar addon) nothing is
+-- filtered. Setting barsRequired (default on). Cached until the bars change.
+local onBarsMemo, onBarsSerial = {}, nil
+function C.OnBars(id)
+  if not id or (ns.db and ns.db.barsRequired == false) then
+    return true
+  end
+  local D = ns.Display
+  if not (D and D.ButtonFor) or (ns.Essentials and ns.Essentials.FORMS and ns.Essentials.FORMS[id]) then
+    return true
+  end
+  local serial = D.KeymapSerial and D.KeymapSerial() or 0
+  if serial ~= onBarsSerial then
+    onBarsMemo, onBarsSerial = {}, serial
+  end
+  local known = onBarsMemo[id]
+  if known ~= nil then
+    return known
+  end
+  local on = true
+  if D.HasButtons and D.HasButtons() then
+    on = D.ButtonFor(id) ~= nil
+    if not on then
+      for _, sid in ipairs({ id, Base(id) }) do
+        local slots = U.Get(C_ActionBar and C_ActionBar.FindSpellActionButtons, sid)
+        if type(slots) == "table" and #slots > 0 then
+          on = true
+          break
+        end
+      end
+    end
+  end
+  onBarsMemo[id] = on
+  return on
+end
+
+-- Not to be suggested at all: hidden by you, or on none of your bars (noted in chat once).
+function C.Skip(id)
+  if C.IsHidden(id) then
+    return true
+  end
+  if not C.OnBars(id) then
+    C.NoteOffBars(id)
+    return true
+  end
+  return false
+end
+
+C.offBarsNoted = {}
+function C.NoteOffBars(id)
+  local key = Base(id)
+  if C.offBarsNoted[key] or (ns.db and ns.db.bindWarn == false) then
+    return
+  end
+  C.offBarsNoted[key] = true
+  local link = U.Get(C_Spell and C_Spell.GetSpellLink, id) or C.Name(id)
+  U.Print(L["%s is in your rotation but isn't on your action bars, so DMGAssist skips it. Drag it from the "
+    .. "spellbook onto a bar (and give it a key) to have it suggested."], tostring(link))
 end
 
 function C.SetHidden(id, hidden)

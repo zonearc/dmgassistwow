@@ -91,7 +91,7 @@ function F.Spell()
     local usable = id and U.Read((U.Call(C_Spell and C_Spell.IsSpellUsable, id)))
     local blocked = id and ns.Engine.BlockedWhileActive and ns.Engine.BlockedWhileActive(id)
     if id and allowed and usable ~= false and not blocked and ns.State.CooldownReady(id) ~= false
-      and not ns.Choices.IsHidden(id) then
+      and not ns.Choices.Skip(id) then
       return id, token
     end
   end

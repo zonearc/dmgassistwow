@@ -4838,6 +4838,35 @@ test("nothing castable during a cast or channel of ours: slot 1 keeps it instead
   mock.inCombat = false
 end)
 
+test("a spell on none of your action bars is never shown: the next one takes its place, chat says which", function()
+  Reset()
+  local ns = Boot()
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  local r = ns.Update()
+  local first, second = r.queue[1].id, r.queue[2] and r.queue[2].id
+  eq(second ~= nil and second ~= first, true, "two different spells to start with")
+  eq(ns.Choices.OnBars(first), true, "no bars read at all: nothing is filtered")
+  -- the bars hold the second spell only
+  ActionButton3 = { action = 3, commandName = "ACTIONBUTTON3", shown = true, events = {}, scripts = {} }
+  setmetatable(ActionButton3, getmetatable(ns.Display.frame))
+  mock.actionInfo = { [3] = { "spell", second } }
+  mock.bindings = { ACTIONBUTTON3 = "3" }
+  ns.Display.InvalidateKeybinds()
+  local before = #mock.printed
+  mock.Advance(3)
+  r = ns.Update()
+  eq(r.main and r.main.id ~= first, true, "the spell you can't press is skipped (Vampiric Blood, 2026-11-10)")
+  eq(#mock.printed > before, true, "and chat says which one")
+  ns.db.barsRequired = false
+  mock.Advance(3)
+  ns.Update()
+  eq(ns.Choices.OnBars(first), true, "setting off: every spell counts as pressable again")
+  ns.db.barsRequired = nil
+  ActionButton3 = nil
+  mock.inCombat = false
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

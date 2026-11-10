@@ -692,4 +692,7 @@ ns.LOCALE_DATA.zhCN = {
   ["Fights less than 10 seconds apart (questing, mob to mob) are graded together: one grade 10 seconds after the last, or every 3 minutes on a long run, instead of one after every mob. Short fights add up, so they get graded too. Bosses are graded at once."] = "间隔不到 10 秒的战斗（做任务、一个接一个打怪）会合并评分：在最后一场结束 10 秒后评一次分，长时间连续战斗则每 3 分钟评一次，而不是每个怪评一次。短战斗会累加，因此也能获得评分。首领战立即评分。",
   ["Group quick fights"] = "合并短战斗",
   ["%s is shown in a small icon (defensive or off-GCD) but has no key. Put it on a bar and give it a key, or hide it on the Spells & trinkets page."] = "%s 显示在小图标中（减伤或不占公共冷却），但没有按键。把它放到动作条上并绑定按键，或在“法术和饰品”页面隐藏它。",
+  ["%s is in your rotation but isn't on your action bars, so DMGAssist skips it. Drag it from the spellbook onto a bar (and give it a key) to have it suggested."] = "%s 在你的循环中，但不在你的动作条上，因此 DMGAssist 会跳过它。把它从法术书拖到动作条上（并绑定按键）即可被推荐。",
+  ["Only spells on your bars"] = "只推荐动作条上的技能",
+  ["A spell that isn't on any of your action bars is never suggested: the next one takes its place, and chat says which spell once. Off: every spell you know can be suggested."] = "不在任何动作条上的技能永远不会被推荐：由下一个技能替代，聊天框会提示一次是哪个技能。关闭：你会的所有技能都可能被推荐。",
 }

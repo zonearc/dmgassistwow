@@ -136,7 +136,7 @@ local function Resolve(e)
 end
 
 local function Ready(id)
-  if ns.Choices.IsHidden(id) or ns.Engine.IsHeld(id) then
+  if ns.Choices.Skip(id) or ns.Engine.IsHeld(id) then
     return false
   end
   local usable = U.Read((U.Call(C_Spell and C_Spell.IsSpellUsable, id)))

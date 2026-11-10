@@ -325,6 +325,9 @@ function O.Register()
     "Hunters: with a boss targeted (before the pull too), Hunter's Mark comes first in slot 1 until it is on it.")
   Slider(combat, DB, "ironfurStacks", "Ironfur stacks", G.ironfurStacks or 3, 0, 5, 1,
     "Guardian: keep this many Ironfur stacks up (counted from your casts). 0 = off.")
+  Check(combat, DB, "barsRequired", "Only spells on your bars", true,
+    "A spell that isn't on any of your action bars is never suggested: the next one takes its place, and chat says "
+      .. "which spell once. Off: every spell you know can be suggested.")
   Check(combat, DB, "skipHold", "Hold skipped spells", true,
     "Skip the spell in the first slot three times and it is held until combat ends. Cast it yourself to bring it back.")
   Check(combat, DB, "castWhileMoving", "Casts while moving", false,

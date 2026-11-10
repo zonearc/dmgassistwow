@@ -692,4 +692,7 @@ ns.LOCALE_DATA.koKR = {
   ["Fights less than 10 seconds apart (questing, mob to mob) are graded together: one grade 10 seconds after the last, or every 3 minutes on a long run, instead of one after every mob. Short fights add up, so they get graded too. Bosses are graded at once."] = "10초 이내로 이어지는 전투(퀘스트, 몹에서 몹으로)는 함께 평가합니다. 몹마다 한 번이 아니라 마지막 전투 10초 후, 또는 긴 연속 전투에서는 3분마다 한 번 평가합니다. 짧은 전투가 합쳐지므로 짧은 전투도 평가됩니다. 우두머리는 바로 평가합니다.",
   ["Group quick fights"] = "짧은 전투 묶기",
   ["%s is shown in a small icon (defensive or off-GCD) but has no key. Put it on a bar and give it a key, or hide it on the Spells & trinkets page."] = "%s 주문이 작은 아이콘(방어 또는 전역 재사용 대기시간 외)에 표시되지만 키가 없습니다. 단축바에 놓고 키를 지정하거나, 주문 및 장신구 페이지에서 숨기세요.",
+  ["%s is in your rotation but isn't on your action bars, so DMGAssist skips it. Drag it from the spellbook onto a bar (and give it a key) to have it suggested."] = "%s 주문은 순환에 포함되지만 행동 단축바에 없어서 DMGAssist가 건너뜁니다. 주문책에서 단축바로 끌어다 놓으면(키도 지정) 추천됩니다.",
+  ["Only spells on your bars"] = "단축바에 있는 주문만",
+  ["A spell that isn't on any of your action bars is never suggested: the next one takes its place, and chat says which spell once. Off: every spell you know can be suggested."] = "어느 행동 단축바에도 없는 주문은 추천하지 않습니다. 다음 주문이 그 자리를 채우고, 채팅에 어떤 주문인지 한 번 알려줍니다. 끄면: 아는 모든 주문을 추천할 수 있습니다.",
 }

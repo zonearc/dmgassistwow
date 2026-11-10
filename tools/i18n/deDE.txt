@@ -688,3 +688,6 @@
 694	Kämpfe, zwischen denen weniger als 10 Sekunden liegen (Questen, von Gegner zu Gegner), werden zusammen bewertet: eine Bewertung 10 Sekunden nach dem letzten oder alle 3 Minuten bei einer langen Serie statt einer nach jedem Gegner. Kurze Kämpfe zählen zusammen und werden so auch bewertet. Bosse werden sofort bewertet.
 695	Kurze Kämpfe zusammenfassen
 696	%s wird in einem kleinen Symbol angezeigt (Verteidigung oder außerhalb der globalen Abklingzeit), hat aber keine Taste. Leg ihn auf eine Leiste und belege eine Taste, oder blende ihn auf der Seite Zauber & Schmuckstücke aus.
+697	%s gehört zu deiner Rotation, liegt aber auf keiner Aktionsleiste, daher überspringt DMGAssist ihn. Zieh ihn aus dem Zauberbuch auf eine Leiste (und belege eine Taste), damit er vorgeschlagen wird.
+698	Nur Zauber auf deinen Leisten
+699	Ein Zauber, der auf keiner deiner Aktionsleisten liegt, wird nie vorgeschlagen: Der nächste nimmt seinen Platz ein, und der Chat nennt den Zauber einmal. Aus: Jeder bekannte Zauber kann vorgeschlagen werden.

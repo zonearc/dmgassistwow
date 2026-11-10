@@ -49,6 +49,12 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.173: a spell on none of your action bars is never suggested (slot 1, slots 2-3, the defensive and
+  off-GCD icons, keep-ups, buffs): the next one takes its place and chat names it once. Setting "Only spells on
+  your bars" (default on); forms and setups with no readable bars are exempt. After a HOLD, GO is the instant
+  green border only (no white flash fading over the icon); the keybind always draws above the flash and wipe.
+  All 9 languages.
+
 - 1.6.0.172: any cast of yours in progress keeps slot 1 when nothing else can be pressed (Blood Consumption
   emptied the bar). The no-key chat line also covers the small icons (defensive, off-GCD): Blood's Vampiric
   Blood. All 9 languages.

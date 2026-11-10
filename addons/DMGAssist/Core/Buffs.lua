@@ -183,7 +183,7 @@ local function Check(entry)
   if entry.group then
     local best
     for _, id in ipairs(entry.group) do
-      if Known(id) and not ns.Choices.IsHidden(id) then
+      if Known(id) and not ns.Choices.Skip(id) then
         local left = Left("player", Name(id))
         if not Low(left) then
           return nil -- one of them is up
@@ -194,7 +194,7 @@ local function Check(entry)
     return best and Usable(best) and best or nil
   end
   local id = entry.id
-  if not Known(id) or ns.Choices.IsHidden(id) or not Usable(id) then
+  if not Known(id) or ns.Choices.Skip(id) or not Usable(id) then
     return nil
   end
   if entry.weapon then
@@ -276,7 +276,7 @@ function B.FromAssistant()
       inGroup = inGroup or g == id
     end
     if (e.id == id or inGroup) and Applies(e, class, spec) then
-      if Known(id) and not ns.Choices.IsHidden(id) and Usable(id) then
+      if Known(id) and not ns.Choices.Skip(id) and Usable(id) then
         return { id = id, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(id) or nil, source = "buff",
           why = "assisted" }, inGroup and class == "ROGUE"
       end

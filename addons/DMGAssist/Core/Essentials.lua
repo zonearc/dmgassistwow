@@ -64,7 +64,7 @@ X.FORMS = {
 
 function X.Form(result)
   local ac = result and result.acSpell
-  if ac and X.FORMS[ac] and not ns.Choices.IsHidden(ac) and ns.Engine.Castable(ac) ~= false then
+  if ac and X.FORMS[ac] and not ns.Choices.Skip(ac) and ns.Engine.Castable(ac) ~= false then
     return { id = ac, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(ac) or nil, source = "assisted",
       why = "form" }
   end
@@ -166,6 +166,7 @@ local function Usable(id)
   end
   local usable = U.Read((U.Call(C_Spell and C_Spell.IsSpellUsable, id)))
   return usable == true and ns.State.CooldownReady(id) ~= false and not ns.Engine.IsHeld(id)
+    and not ns.Choices.Skip(id) -- (hidden, or on none of your bars)
 end
 
 local function HostileTarget()
