@@ -76,9 +76,28 @@ end
 -- While leveling, Blizzard's Assisted Combat picks slot 1 (it knows what a low-level character should press);
 -- the priority list, walked over the spells the character knows, fills slots 2 and 3. Without a suggestion from
 -- Blizzard the list leads as usual.
-function LV.Lead(result)
+-- Two exceptions (2026-11-10, a level 80 Destruction Warlock):
+--   * a major cooldown the priority list picks for certain keeps slot 1. Blizzard's assistant never names major
+--     cooldowns, so behind its pick Summon Infernal sat in slot 2 for 40 s;
+--   * slots left empty (Blizzard's pick taken out of the list, sometimes twice) are filled with what comes off
+--     cooldown soonest, so slot 3 isn't blank.
+function LV.Lead(result, record)
   local ac = result and result.acSpell
   if not ac or ns.Choices.IsHidden(ac) or ns.Engine.IsHeld(ac) then
+    return result
+  end
+  local main = result.main
+  if main and main.id and main.id ~= ac and main.source == "simc" and (main.major or (ns.Grade
+    and ns.Grade.IsCooldown and ns.Grade.IsCooldown(main))) then
+    local queue = { main, { id = ac, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(ac) or nil,
+      source = "assisted", why = "leveling" } }
+    for _, p in ipairs(result.queue or {}) do
+      if #queue < 3 and p and p.id and p.id ~= main.id and p.id ~= ac then
+        queue[#queue + 1] = p
+      end
+    end
+    LV.Fill(queue, record)
+    result.queue, result.main, result.branch = queue, main, nil
     return result
   end
   local pick = { id = ac, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(ac) or nil,
@@ -119,12 +138,22 @@ function LV.Lead(result)
     table.remove(rest, 1)
   end
   for _, p in ipairs(rest) do
-    if #queue < 3 then
+    if #queue < 3 and not (queue[1] and queue[1].id == p.id) and not (queue[2] and queue[2].id == p.id) then
       queue[#queue + 1] = p
     end
   end
+  LV.Fill(queue, record)
   result.queue, result.main, result.branch = queue, queue[1], nil
   return result
+end
+
+function LV.Fill(queue, record)
+  if #queue >= 3 or not record then
+    return
+  end
+  for _, p in ipairs(ns.Engine.Soonest(record, queue, 3 - #queue)) do
+    queue[#queue + 1] = p
+  end
 end
 
 ---------------------------------------------------------------------------

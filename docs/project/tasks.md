@@ -49,6 +49,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.162: leveling mode (below max level with few of the list's spells, Blizzard's pick in slot 1): a major
+  cooldown the priority list picks for certain keeps slot 1 (Summon Infernal sat in slot 2 for 40 s behind
+  Blizzard's pick: its assistant never names major cooldowns), and slots emptied by taking Blizzard's pick out of
+  the list are filled with what comes off cooldown soonest (slot 3 was often blank)
+
 - 1.6.0.161: "Beyond Assisted Combat" on the grade and the grade's history page: the share of the fight slot 1
   showed something other than Blizzard's assistant, split into cooldowns (SimC timing), rotation (SimC's priority),
   upkeep (DoTs, buffs, forms) and utility (interrupts, defensives, gap closers), plus extras pressed that Blizzard

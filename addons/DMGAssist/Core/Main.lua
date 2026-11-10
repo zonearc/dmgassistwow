@@ -374,7 +374,7 @@ function ns.Update()
   result.callout = ns.BossMods.Callout()
   G.Steady(result)
   if state.leveling then
-    ns.Leveling.Lead(result) -- Blizzard's pick in slot 1, the priority list after it
+    ns.Leveling.Lead(result, ns.ActiveRecord(state)) -- Blizzard's pick in slot 1, the priority list after it
   end
   ns.Essentials.Apply(result)
   ns.Trinkets.Apply(result)
