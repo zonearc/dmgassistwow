@@ -18,7 +18,7 @@ local U, L = ns.U, ns.L
 local MM = {}
 ns.Minimap = MM
 
-local ICON = "Interface\\Icons\\Spell_Holy_FistOfJustice"
+local ICON = "Interface\\AddOns\\DMGAssist\\Media\\DMGAssist" -- our own "D" (tools/make_icon.py)
 local button
 
 local function OpenWatchdogReport()
@@ -161,9 +161,8 @@ local function Create()
   bg:SetPoint("TOPLEFT", 7, -5)
   local icon = button:CreateTexture(nil, "ARTWORK")
   icon:SetTexture(ICON)
-  icon:SetSize(17, 17)
-  icon:SetPoint("TOPLEFT", 7, -6)
-  icon:SetTexCoord(0.05, 0.95, 0.05, 0.95)
+  icon:SetSize(20, 20) -- our round "D" fills the button (it has its own rim: no cropping like a spell icon)
+  icon:SetPoint("TOPLEFT", 7, -5)
   local border = button:CreateTexture(nil, "OVERLAY")
   border:SetTexture("Interface\\Minimap\\MiniMap-TrackingBorder")
   border:SetSize(53, 53)

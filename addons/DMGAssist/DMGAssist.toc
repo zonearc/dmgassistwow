@@ -4,7 +4,7 @@
 ## Author: zonearc
 ## X-License: All Rights Reserved
 ## Version: 1.6.0
-## IconTexture: Interface\Icons\Spell_Holy_FistOfJustice
+## IconTexture: Interface\AddOns\DMGAssist\Media\DMGAssist
 ## AddonCompartmentFunc: DMGAssist_OnCompartmentClick
 ## SavedVariables: DMGAssistDB
 ## OptionalDeps: DMGAssist_Watchdog

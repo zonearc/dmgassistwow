@@ -4,7 +4,7 @@ The working list for DMGAssist. Kept current with every change: a task is added 
 when it ships (with the version), and anything waiting on in-game testing says so. Scope and decisions:
 [scope.md](scope.md).
 
-Last updated: 1.6.0.154 (2026-11-10).
+Last updated: 1.6.0.155 (2026-11-10).
 
 ## Launch: Wednesday 2026-11-11 (owner: zonearc)
 
@@ -48,6 +48,9 @@ Last updated: 1.6.0.154 (2026-11-10).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.155: DMGAssist's own icon: a gold "D" on a dark crimson disc with a gold rim (like Masque's "M"), on the
+  minimap button and in the addon list (Media/DMGAssist.tga, drawn by tools/make_icon.py); replaces the fist
 
 - 1.6.0.154: settings preview: the dark panel is fitted to everything the HUD shows (slots, small icons, title row,
   bars) after every change, with the label wrapping inside it; the docked HUD stays on screen
