@@ -2055,6 +2055,17 @@ local function AuraState(unit, token)
   -- Inferred facts (assistant oracle, glows) about the present, when the game won't show the aura itself.
   if not read and not (V and #V.prev > 0) then
     local up, remains = ns.Clues.AuraFact(unit, token)
+    if up == true and remains == UNKNOWN then
+      -- The clue says it's up but not for how long: our own clock still knows (a Sunfire we cast 6 s ago).
+      -- Without this every "remains<2" / refreshable line stayed unknown all fight (Balance, 2026-11-10).
+      local clocks = unit == "player" and S.auraUntil or S.dotUntil
+      for _, t in ipairs(list) do
+        if clocks[t] and clocks[t] > now then
+          remains = clocks[t] - now
+          break
+        end
+      end
+    end
     if up ~= nil then
       return up, remains, up and 1 or 0
     end

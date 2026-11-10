@@ -49,6 +49,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.159: DoT time left: a clue that a DoT is up (Blizzard's assistant not asking for it) no longer hides our
+  own clock's time left, so "remains<2" / refreshable lines decide again (Balance Sunfire was cast once a fight)
+
 - 1.6.0.158: Balance: a spell the assistant has named for 6 s+ without being cast no longer locks out the spells
   left to Blizzard (Fury of Elune sat ready while it named Sunfire); fight_remains / time_to_die never drop under
   10 s while a fight goes on, and a fight longer than the usual one uses your longer fights of that kind (32 s into

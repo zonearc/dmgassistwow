@@ -2542,6 +2542,19 @@ test("glows: learned out of combat, then reveal the proc in combat", function()
   eq(DMGAssistDB.learned.druid_feral.glowAura[5221], "clearcasting")
 end)
 
+test("a clue that a DoT is up keeps our own clock's time left", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  S.dotUntil.moonfire = GetTime() + 10
+  ns.Clues.SetAura("target", "moonfire", true, 5, "assisted")
+  local r = S.Resolve("remains", { action = "moonfire", vars = {} })
+  eq(type(r), "number", "time left known")
+  eq(math.floor(r + 0.5), 10)
+end)
+
 test("an inference source that keeps being wrong switches itself off", function()
   Reset()
   local ns = Boot()
