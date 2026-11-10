@@ -49,6 +49,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.160: grade: the fight is graded up to the last rotation press + 3 s (walking off a dummy while still in
+  combat counted as idle and an "unused" Lunar Beam: a C for a clean Guardian fight); the report's grade line lists
+  the reaction and cooldown delays (count: 25th/median/75th ms) to check the reaction number
+
 - 1.6.0.159: DoT time left: a clue that a DoT is up (Blizzard's assistant not asking for it) no longer hides our
   own clock's time left, so "remains<2" / refreshable lines decide again (Balance Sunfire was cast once a fight)
 

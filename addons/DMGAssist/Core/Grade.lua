@@ -232,6 +232,7 @@ function Gr.OnPress(id, r, press)
   end
   if matched or not IsOffGCD(id) then
     f.presses = f.presses + 1
+    f.lastPress, f.lastPressClock, f.idleAtPress = now, Clock(f), f.idle
     if matched then
       f.score = f.score + 1
       f.right = (f.right or 0) + 1
@@ -310,7 +311,33 @@ function Gr.DelayScore(sec)
   return Clamp(100 - (sec - 2) / 8 * 100)
 end
 
+-- "n:low/median/high" of a list of seconds (25th / 50th / 75th percentile, ms), for the report.
+local function Spread(list)
+  if #list == 0 then
+    return nil
+  end
+  local t = {}
+  for i, v in ipairs(list) do
+    t[i] = v
+  end
+  table.sort(t)
+  local function at(q)
+    return math.floor(t[math.max(1, math.min(#t, math.floor(q * #t + 0.5)))] * 1000 + 0.5)
+  end
+  return string.format("%d:%d/%d/%d", #t, at(0.25), at(0.5), at(0.75))
+end
+
+-- The fight is graded up to your last rotation press plus Gr.TAIL seconds: a dummy keeps you in combat after you
+-- stop, and walking away from it isn't idle time or an unused cooldown (Guardian, 2026-11-10: 20 s of walking off
+-- at the end counted as 14 s idle and Lunar Beam "never used", a C for a clean fight).
+Gr.TAIL = 3
 function Gr.Finish(f, now)
+  local endClock = Clock(f)
+  if f.lastPress and now - f.lastPress > Gr.TAIL then
+    now = f.lastPress + Gr.TAIL
+    endClock = f.lastPressClock + Gr.TAIL
+    f.idle = math.min(f.idle, (f.idleAtPress or 0) + Gr.TAIL)
+  end
   local length = now - f.start
   if length < (tonumber(ns.db and ns.db.gradeMinFight) or Gr.MIN_FIGHT) or f.presses < 5 then
     return nil
@@ -318,8 +345,8 @@ function Gr.Finish(f, now)
   for key in pairs(f.cdShown) do
     if type(key) == "string" and key:find("^item:") then -- luacheck: ignore 542
       -- an item never used isn't graded
-    elseif f.cdReady[key] and Clock(f) - f.cdReady[key] > 3 then
-      f.cds[#f.cds + 1] = math.max(10, Clock(f) - f.cdReady[key]) -- a cooldown slot 1 called ready, never used
+    elseif f.cdReady[key] and endClock - f.cdReady[key] > 3 then
+      f.cds[#f.cds + 1] = math.max(10, endClock - f.cdReady[key]) -- a cooldown slot 1 called ready, never used
     end
   end
   local accuracy = Clamp(f.score / f.presses * 100)
@@ -335,8 +362,8 @@ function Gr.Finish(f, now)
     cd = sum / #f.cds
   end
   for _, shownAt in pairs(f.mitShown) do
-    if now - shownAt > 2 then
-      f.mit[#f.mit + 1] = math.max(5, now - shownAt) -- shown, never pressed
+    if endClock - shownAt > 2 then
+      f.mit[#f.mit + 1] = math.max(5, endClock - shownAt) -- shown, never pressed
     end
   end
   local mit
@@ -393,7 +420,7 @@ function Gr.Finish(f, now)
     capped = limitedBy and "yes" or nil, presses = f.presses, right = f.right or 0, slot23 = f.slot23 or 0,
     wrong = f.wrong or 0, neutral = f.neutral or 0,
     idle = string.format("%.1f", f.idle), missed = topMissed and (topMissed .. "x" .. n) or nil,
-    cds = #f.cds, mits = #f.mit })
+    cds = #f.cds, mits = #f.mit, reactions = Spread(f.reactions), cdDelays = Spread(f.cds) })
   return r
 end
 

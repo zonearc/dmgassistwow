@@ -4359,6 +4359,22 @@ test("performance grade: one weak part caps the total (no S+ with 88% always cas
   Gr.Reset()
 end)
 
+test("performance grade: walking off a dummy at the end isn't idle time or an unused cooldown", function()
+  Reset()
+  local ns = Boot()
+  local Gr = ns.Grade
+  Gr.Reset()
+  -- 60 s of play, then 20 s walking away while still in combat: 14 s of "idle" and a cooldown ready at the end
+  local f = { start = mock.now - 80, presses = 40, score = 40, reactions = { 0.2 }, idle = 15, cds = { 0 },
+    cdShown = { [204066] = mock.now - 15 }, cdReady = { [204066] = mock.now - 15 }, missed = {}, mit = {},
+    mitShown = {}, targets = 1, lastPress = mock.now - 20, lastPressClock = mock.now - 20, idleAtPress = 1 }
+  local r = Gr.Finish(f, mock.now)
+  eq(math.floor(r.length + 0.5), 60 + Gr.TAIL, "graded to the last press + " .. Gr.TAIL .. " s")
+  eq(r.idle <= 1 + Gr.TAIL, true, "the walk-off isn't idle")
+  eq(r.cooldowns, 100, "a cooldown that came up after you stopped isn't 'never used'")
+  Gr.Reset()
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)
