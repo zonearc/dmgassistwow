@@ -49,6 +49,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.171: Bladestorm (and any channel) keeps slot 1 with HOLD instead of an empty bar while nothing else can
+  be pressed. The early "press now" flash (latency + lead, for the game's spell queue) only applies to the global
+  cooldown and casts; a spell waiting on its own cooldown flashes on time (early presses were refused).
+
 - 1.6.0.170: Holy Judgment shown 3 s after every cast: a timing correction learned from one stale sample (our
   clock still ran from before the pull) is no longer learned (resynced only), the assistant's own earliness
   (~1.5 s, measured) isn't counted as our error, and saved corrections from fewer than 3 samples are dropped once.

@@ -1752,6 +1752,7 @@ local function RecordCast(id, how)
     S.history[#S.history] = nil
   end
   LearnFromRefusals(id, GetTime())
+  S.NoteBusy(id, token)
   S.lastCast[id] = GetTime()
   local byToken = M.TokenForID and M.TokenForID(id)
   for _, t in ipairs({ token, byToken }) do
@@ -1989,7 +1990,27 @@ function S.Channeling()
       return mine.id, left
     end
   end
+  -- Spells that aren't channels to the game but leave nothing else to press while they run (Bladestorm: the
+  -- bar went empty for its 6 s, 2026-11-10): the same HOLD, from our cast.
+  local b = S.busy
+  if b then
+    local left = b.t + b.len - GetTime()
+    if left > 0 then
+      return b.id, left
+    end
+    S.busy = nil
+  end
   return nil
+end
+
+S.BUSY = { bladestorm = 6 } -- token -> seconds (the data's duration first)
+function S.NoteBusy(id, token)
+  local d = token and S.BUSY[token]
+  if not d then
+    return
+  end
+  local info = M.Info(id)
+  S.busy = { id = id, t = GetTime(), len = (info and info.d and info.d > 0) and info.d or d }
 end
 
 ---------------------------------------------------------------------------

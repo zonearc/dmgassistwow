@@ -391,8 +391,20 @@ local function Update()
     result.trinket = result.trinket or D.SAMPLE_ITEM
   end
   ns.last = result
-  ns.NoteShown(result.main)
-  ns.Bindcheck.OnShown(result.main)
+  -- Nothing to press while a channel (or Bladestorm) runs: slot 1 keeps showing it, with its HOLD, instead of an
+  -- empty bar (Arms, 2026-11-10).
+  if not result.main then
+    local chID = S.Channeling()
+    if chID then
+      result.main = { id = chID, token = M.TokenForID(chID), source = "channel" }
+      result.queue = result.queue or {}
+      table.insert(result.queue, 1, result.main)
+    end
+  end
+  if result.main and result.main.source ~= "channel" then
+    ns.NoteShown(result.main)
+    ns.Bindcheck.OnShown(result.main)
+  end
   D.Update(result, not ns.Integrations.hudHidden)
   ns.Integrations.OnRecommendation(result)
   -- Decision log: one line per change of pick (not every tick).

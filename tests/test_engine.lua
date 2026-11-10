@@ -3195,6 +3195,14 @@ test("channels: slot 1 says HOLD while one runs, GO when it ends; none for chann
   eq(G.ClipAllowed(5221, { simc = { default = { { a = "shred", p = { chain = "1" } } } } }), true)
   eq(G.ClipAllowed(1822, { simc = { default = { { a = "rake" } } } }), false)
   table.remove(record.simc.default)
+  -- Bladestorm isn't a channel to the game, but nothing else can be pressed while it runs: the same HOLD
+  ns.SpellMap.byID[227847] = "bladestorm"
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "cast-bs", 227847)
+  local id, left = S.Channeling()
+  eq(id, 227847, "Bladestorm holds slot 1 (Arms: the bar went empty, 2026-11-10)")
+  eq(left > 5, true)
+  mock.Advance(7)
+  eq(S.Channeling(), nil, "over after its duration")
   mock.inCombat = false
 end)
 

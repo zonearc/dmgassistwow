@@ -1354,6 +1354,12 @@ function D.RenderTiming(f, cfg)
   end
   f.lastWait = wait
   local lead = (tonumber(cfg.pressLead) or 50) / 1000 + D.Latency()
+  -- The game queues an early press only for the global cooldown or a cast ending; a press before the spell's own
+  -- cooldown is back is refused ("not ready yet"). Waiting on the cooldown, the flash comes on time, not early
+  -- (Warrior: flash, press, refused, 0.2 s later it went: 2026-11-10).
+  if cdLeft > busy + 0.01 then
+    lead = 0
+  end
   local ready = wait <= lead
   local now = GetTime()
   if ready then
