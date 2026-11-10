@@ -278,6 +278,12 @@ function mock.Install(env)
   function FrameMethods:GetCenter()
     return 100, 100
   end
+  function FrameMethods:GetLeft()
+    return 80
+  end
+  function FrameMethods:GetBottom()
+    return 80
+  end
   function FrameMethods:GetEffectiveScale()
     return 1
   end

@@ -49,6 +49,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.163: taint: the action bar highlight is placed at the button's screen position instead of anchored to
+  Blizzard's button (Edit Mode, party frames and the bars ran "tainted by DMGAssist" again on 1.6.0.159; the
+  highlight was the only new contact with Blizzard frames since 1.6.0.139). To confirm with Logs/taint.log
+
 - 1.6.0.162: leveling mode (below max level with few of the list's spells, Blizzard's pick in slot 1): a major
   cooldown the priority list picks for certain keeps slot 1 (Summon Infernal sat in slot 2 for 40 s behind
   Blizzard's pick: its assistant never names major cooldowns), and slots emptied by taking Blizzard's pick out of

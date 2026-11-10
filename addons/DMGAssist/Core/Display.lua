@@ -1253,11 +1253,25 @@ local function RenderHighlight(f, result, cfg)
     f.hl:Hide()
     return
   end
-  if f.hl.button ~= button then
+  -- Placed at the button's position on screen, never anchored to it: our frame stays out of Blizzard's action
+  -- button layout entirely (anchored to the button, Edit Mode and the bars ran "tainted by DMGAssist",
+  -- 2026-11-10). Re-placed when the button or its position changes.
+  local l, b = U.Get(button.GetLeft, button), U.Get(button.GetBottom, button)
+  local w, h = U.Get(button.GetWidth, button), U.Get(button.GetHeight, button)
+  local scale = U.Get(button.GetEffectiveScale, button)
+  local ui = U.Get(UIParent.GetEffectiveScale, UIParent)
+  if not (type(l) == "number" and type(b) == "number" and type(w) == "number" and type(h) == "number"
+    and type(scale) == "number" and type(ui) == "number" and ui > 0) then
+    f.hl:Hide()
+    return
+  end
+  local k = scale / ui
+  local key = string.format("%.1f:%.1f:%.1f:%.1f", l * k, b * k, w * k, h * k)
+  if f.hl.button ~= button or f.hl.placed ~= key then
     f.hl:ClearAllPoints()
-    f.hl:SetPoint("TOPLEFT", button, "TOPLEFT", -1, 1)
-    f.hl:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 1, -1)
-    f.hl.button = button
+    f.hl:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", l * k - 1, b * k - 1)
+    f.hl:SetSize(w * k + 2, h * k + 2)
+    f.hl.button, f.hl.placed = button, key
   end
   f.hl:SetAlpha(f.pressNow and 1 or (0.55 + 0.25 * math.sin(GetTime() * 5)))
   f.hl:Show()

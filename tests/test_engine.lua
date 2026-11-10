@@ -3161,6 +3161,8 @@ test("action bar highlight: the real button for slot 1 glows", function()
   local hl = ns.Display.frame.hl
   eq(hl:IsShown(), true)
   eq(hl.button, ActionButton3)
+  local _, rel = hl:GetPoint(1)
+  eq(rel ~= ActionButton3, true, "placed on screen, never anchored to Blizzard's button (taint)")
   eq(ns.Display.Keybind(id), "3", "binding from the button's commandName")
   ns.db.hud.highlight = false
   ns.Update()
