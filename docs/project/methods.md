@@ -1,0 +1,49 @@
+# How changes are made (methods we follow)
+
+Written down so that a fix for one class doesn't quietly break another. Keep this up to date.
+
+## 1. Shared routines first
+
+- A behaviour that applies to more than one class goes in a shared step, never in a class-specific branch.
+  Example: "a ready major cooldown never waits behind Blizzard's pick" is one function (Engine
+  `G.PromoteReadyMajor`) run after every path (normal, leveling, Blizzard fallback), not three copies.
+- Per-spec knowledge lives in **data tables** (`G.SKIP`, `G.NO_ESCALATE`, `G.COMBAT_UNUSABLE`,
+  `G.BLOCKED_WHILE_ACTIVE`, `Tanks.PROFILES`, `Essentials.KEEPUPS`, `Buffs.LIST`), read by shared code. Adding
+  a spell to a table is safe; adding an `if spec == ...` branch is the last resort.
+- When a report shows one spec failing, ask which *rule* failed, then check every spec that hits that rule
+  (the scenario check does this mechanically).
+
+## 2. Every change goes through the every-spec check
+
+- `tests/test_scenarios.lua` plays simulated dummy fights for all 40 specs (one target, five targets,
+  leveling mode) through `ns.Update` with the game's restrictions on.
+- **Rules** (must always hold): no errors; slot 1 never empty; a ready major cooldown never waits behind
+  Blizzard's pick; no hold longer than it lasts; nothing from `G.SKIP` ever shown.
+- **Baseline** (`tests/scenario_baseline.lua`): major cooldowns used, spells used, empty slots, slot 1 flips.
+  Worse than the baseline fails the build.
+
+## 3. Changing the baseline honestly
+
+When the **simulation** changes (more realism), the numbers move for reasons that aren't the addon's:
+1. Put the *old* addon code back (`git show HEAD:<file> > <file>`), keep the new simulation.
+2. `lua5.1 tests/test_scenarios.lua --update` — the fair baseline.
+3. Restore the new addon code and run the check: every difference now is the addon's doing.
+4. For each difference: a regression → fix it; intended → say why in the commit, then `--update`.
+Never `--update` just to make a failure go away.
+
+## 4. Before a fix
+
+- Decode the report, find the decision trace, and name the cause in one sentence before writing code.
+- Check whether the cause is in shared code (then the fix helps or hurts every spec — run the check) or data.
+- Add a unit test in `tests/test_engine.lua` for the exact case, named after the behaviour.
+
+## 5. Secret values (Midnight)
+
+- Never boolean-test or compare a value that can be secret; read it with `U.Read` / `U.Get` and treat
+  `nil` as unknown. Unknown is a third state, not false.
+- Never anchor our frames to Blizzard's protected frames or write fields on them (taint).
+
+## 6. Releases
+
+- `./scripts/check.sh` must pass (exit code checked), then commit with `[release]`, then confirm the nightly.
+- Every player-facing string translated into all 9 languages in the same change.

@@ -1997,9 +1997,10 @@ test("leveling: below max level with few of the list's spells, Blizzard's assist
   -- a major cooldown the list picks for certain keeps slot 1 (Blizzard's assistant never names those)
   r = ns.Leveling.Lead({ acSpell = 184575, main = { id = 31884, major = true, source = "simc" },
     queue = { { id = 31884, major = true, source = "simc" }, { id = 184575 }, { id = 184575 } } })
-  eq(r.main.id, 31884, "Avenging Wrath keeps slot 1 while leveling")
+  eq(r.main.id, 184575, "the lead itself puts Blizzard's pick first")
+  ns.Engine.PromoteReadyMajor(r)
+  eq(r.main.id, 31884, "a ready major cooldown takes slot 1 (the shared step, every path)")
   eq(r.queue[2].id, 184575, "Blizzard's pick next")
-  eq(r.queue[3], nil, "no repeat of Blizzard's pick")
   eq(ns.Describe(state):find("leveling", 1, true) ~= nil, true, "Status says so")
   ns.db.levelingMode = "simc"
   LV.Evaluate(state)

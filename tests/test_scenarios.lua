@@ -47,13 +47,17 @@ local function Boot()
   return ns
 end
 
--- One castable spell per action token the data knows (like the fuzz test).
+-- One castable spell per action token the data knows (like the fuzz test). No racials: a character has one
+-- race's, and the data lists every race's (some without their real cooldown, so they'd be pressed forever).
+local RACIALS = { arcane_torrent = true, berserking = true, blood_fury = true, fireblood = true,
+  ancestral_call = true, bag_of_tricks = true, lights_judgment = true, arcane_pulse = true, haymaker = true,
+  rocket_barrage = true, azerite_surge = true, shadowmeld = true, war_stomp = true, quaking_palm = true }
 local function BookFor(record)
   local book, seen = {}, {}
   for token, e in pairs(record.spells or {}) do
     local id = e.a and e.a[1]
     local info = id and record.spellInfo[id]
-    if id and not seen[id] and info and not info.pas then
+    if id and not seen[id] and info and not info.pas and not RACIALS[token] then
       seen[id] = true
       book[#book + 1] = { spellID = id, name = token }
     end
@@ -62,10 +66,15 @@ local function BookFor(record)
   return book
 end
 
+-- Major cooldowns: the ones Blizzard leaves out of its assistant, minus movement (Fel Rush, Vengeful Retreat are on
+-- that list but aren't damage cooldowns, and are never forced in: Engine G.NO_ESCALATE).
+local NS -- set after boot
 local function Majors(record)
   local set = {}
   for _, t in ipairs(record.blizzardExcluded or {}) do
-    set[t] = true
+    if not (NS and NS.Engine.NO_ESCALATE[t]) then
+      set[t] = true
+    end
   end
   return set
 end
@@ -91,16 +100,22 @@ local function Fight(ns, key, record, book, scenario)
   mock.Fire("PLAYER_REGEN_DISABLED")
   local start = mock.now
   local m = { ticks = 0, noMain = 0, no2 = 0, no3 = 0, flips = 0, maxStuck = 0, maxHold = 0, errors = 0,
-    presses = 0, pressed = {}, majorsCast = {}, majorsKnown = 0, firstError = nil }
+    presses = 0, pressed = {}, majorsCast = {}, majorsKnown = 0, firstError = nil, onCd = 0, skipShown = {} }
   for token in pairs(majors) do
     if M.SpellID(token) then
       m.majorsKnown = m.majorsKnown + 1
     end
   end
-  local gcdEnd, lastMain, lastPress, stuck = 0, nil, -10, {}
+  local gcdEnd, lastMain, lastPress, stuck, charges = 0, nil, -10, {}, {}
   while mock.now - start < FIGHT do
     mock.Advance(TICK)
     local now = mock.now
+    for id, c in pairs(charges) do
+      while c.next and now >= c.next do
+        c.n = c.n + 1
+        c.next = c.n < c.max and (c.next + c.len) or nil
+      end
+    end
     for id, c in pairs(mock.cooldowns) do
       if c.start + c.duration <= now then
         mock.cooldowns[id] = nil
@@ -112,7 +127,7 @@ local function Fight(ns, key, record, book, scenario)
       local token = M.TokenForID(b.spellID)
       -- (forms and buffs only when you're out of them: the real assistant names those just then)
       if not mock.cooldowns[b.spellID] and not (token and majors[token]) and not ns.Essentials.FORMS[b.spellID]
-        and not ns.Buffs.IsBuffSpell(b.spellID) then
+        and not ns.Buffs.IsBuffSpell(b.spellID) and not (token and G.SKIP[token]) then
         mock.acSpell = b.spellID
         break
       end
@@ -138,6 +153,17 @@ local function Fight(ns, key, record, book, scenario)
     end
     if not q[3] then
       m.no3 = m.no3 + 1
+    end
+    -- shown as ready while its cooldown is still running (not marked "not yet")
+    if main and main.id and mock.cooldowns[main.id] and not main.readyAt and main.source ~= "soon"
+      and now - lastPress > 0.3 then
+      m.onCd = m.onCd + 1
+    end
+    -- never something that isn't pressed by hand (auto attacks, group cooldowns)
+    for _, p in ipairs(q) do
+      if p and p.token and G.SKIP[p.token] then
+        m.skipShown[p.token] = true
+      end
     end
     if main and lastMain and main.id ~= lastMain and now - lastPress > 0.45 then
       m.flips = m.flips + 1
@@ -177,12 +203,24 @@ local function Fight(ns, key, record, book, scenario)
       local ct = tonumber(info.ct) or 0
       gcdEnd = now + math.max(gcd, ct, 0.5)
       mock.cooldowns[61304] = { active = true, start = now, duration = math.max(gcd, 0.5), onGCD = true }
-      local cd = tonumber(info.chcd) or tonumber(info.cd) or 0
-      if cd > 1.5 then
+      local chcd = tonumber(info.chcd)
+      local cd = tonumber(info.cd) or 0
+      if chcd and chcd > 0 then
+        -- charges: on cooldown only when the last one is spent; one recharges at a time
+        local c = charges[id] or { n = tonumber(info.ch) or 2, max = tonumber(info.ch) or 2 }
+        charges[id] = c
+        c.n = c.n - 1
+        c.next = c.next or (now + chcd)
+        c.len = chcd
+        if c.n <= 0 then
+          mock.cooldowns[id] = { active = true, start = c.next - chcd, duration = chcd }
+        end
+      elseif cd > 1.5 then
         mock.cooldowns[id] = { active = true, start = now, duration = cd }
       end
       mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "cast-" .. m.presses, id)
       m.presses = m.presses + 1
+      if _G.SCEN_PRESS then _G.SCEN_PRESS(now - start, id) end
       m.pressed[id] = true
       lastPress = now
       local token = M.TokenForID(id)
@@ -204,7 +242,7 @@ local function Fight(ns, key, record, book, scenario)
     errors = m.errors, firstError = m.firstError, maxStuck = m.maxStuck, maxHold = m.maxHold,
     noMainPct = 100 * m.noMain / m.ticks, no2Pct = 100 * m.no2 / m.ticks, no3Pct = 100 * m.no3 / m.ticks,
     flipsPerMin = m.flips * 60 / FIGHT, distinct = distinct, majorsCast = majorsCast, majorsKnown = m.majorsKnown,
-    presses = m.presses,
+    presses = m.presses, onCdPct = 100 * m.onCd / m.ticks, skipShown = m.skipShown,
   }
 end
 
@@ -215,6 +253,8 @@ local SCENARIOS = {
 }
 
 local ns = Boot()
+_G.SCEN_NS = ns
+NS = ns
 local keys = {}
 for key in pairs(ns.Data.specs.midnight) do
   if not FILTER or key:find(FILTER, 1, true) then
@@ -236,6 +276,16 @@ for _, key in ipairs(keys) do
   local record = ns.Data.specs.midnight[key]
   local book = BookFor(record)
   mock.book = book
+  -- a hero talent tree, as every max-level character has: the first one the spec's lists branch on
+  mock.heroTree = nil
+  for _, name in ipairs(record.simcOrder or {}) do
+    for _, e in ipairs(record.simc[name] or {}) do
+      local tree = type(e.c) == "string" and e.c:match("hero_tree%.([%w_]+)")
+      if tree and not mock.heroTree then
+        mock.heroTree = tree
+      end
+    end
+  end
   ns.SpellMap.SetData(record)
   ns.SpellMap.Refresh()
   ns.State.Bind(key)
@@ -253,6 +303,9 @@ for _, key in ipairs(keys) do
     end
     if r.maxStuck > STUCK_MAX then
       Fail(string.format("%s: a ready major cooldown waited %.1f s in slot 2/3 behind Blizzard's pick", id, r.maxStuck))
+    end
+    for token in pairs(r.skipShown) do
+      Fail(string.format("%s: showed %s (never pressed by hand)", id, token))
     end
     if r.maxHold > ns.Engine.HOLD_FOR + 1 then
       Fail(string.format("%s: a spell was held %.1f s", id, r.maxHold))
@@ -291,8 +344,8 @@ for _, key in ipairs(keys) do
   for _, sc in ipairs(SCENARIOS) do
     local id = key .. "/" .. sc.name
     local r = results[id]
-    print(string.format("  %-34s %3d/%-2d %6d %6.0f%% %6.0f%% %8.1f %6.1fs %6.1fs", id, r.majorsCast, r.majorsKnown,
-      r.distinct, r.noMainPct, r.no3Pct, r.flipsPerMin, r.maxStuck, r.maxHold))
+    print(string.format("  %-34s %3d/%-2d %6d %6.0f%% %6.0f%% %8.1f %6.1fs %6.1fs %5.0f%%", id, r.majorsCast,
+      r.majorsKnown, r.distinct, r.noMainPct, r.no3Pct, r.flipsPerMin, r.maxStuck, r.maxHold, r.onCdPct))
   end
 end
 print(string.format("\n%d specs x %d fights in %.1f s", #keys, #SCENARIOS, os.clock() - t0))

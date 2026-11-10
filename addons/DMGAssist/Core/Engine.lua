@@ -24,6 +24,10 @@ G.SKIP = {
   cancel_buff = true, retarget_auto_attack = true, variable = true, call_action_list = true,
   run_action_list = true, start_moving = true, stop_moving = true, cancel_action = true, wait_for_cooldown = true,
   sequence = true, strict_sequence = true, swap_action_list = true,
+  -- Auto Shot runs by itself (a hunter's auto attack); Bloodlust and its twins are the group's call (Sated), not
+  -- the rotation's: found by tests/test_scenarios.lua, 2026-11-10.
+  auto_shot = true, bloodlust = true, heroism = true, time_warp = true, primal_rage = true,
+  fury_of_the_aspects = true,
 }
 
 -- Interrupts: SimC only fires these while the target casts something interruptible, which the lists leave to
@@ -509,6 +513,12 @@ local function Castable(id)
     if S.CooldownReady(id) == false then
       return false
     end
+    -- Stealth can't be entered in combat (Vanish / Shadowmeld drop combat first): while the game hides whether
+    -- it's usable, it isn't (Stealth and Prowl kept slot 1 in combat in the every-spec check, 2026-11-10).
+    local token = M.TokenForID(id)
+    if token and G.COMBAT_UNUSABLE[token] and S.combatStart then
+      return false
+    end
     return UNKNOWN
   end
   local ahead = S.Lookahead()
@@ -641,8 +651,15 @@ G.WAIT = 4          -- seconds SimC must have wanted it, uncorroborated, before 
 G.LAPSE = 1.5       -- a gap longer than this between sightings starts the wait again
 G.waiting = {}
 
+-- Never forced in by waiting: leaps and steps move you (Vengeful Retreat, Infernal Strike), and mana channels
+-- depend on a mana level we may not see (Evocation). Their own conditions decide. Found 2026-11-10.
+G.NO_ESCALATE = { vengeful_retreat = true, infernal_strike = true, fel_rush = true, heroic_leap = true,
+  disengage = true, roll = true, chi_torpedo = true, blink = true, shimmer = true, evocation = true,
+  death_grip = true, charge = true, wild_charge = true, shadowstep = true, harpoon = true, feral_lunge = true }
+G.COMBAT_UNUSABLE = { stealth = true, prowl = true }
+
 local function Waited(id, token, run, castable)
-  if not run.first or castable ~= true then
+  if not run.first or castable ~= true or G.NO_ESCALATE[token] then
     return nil
   end
   local cd = S.CooldownLength and S.CooldownLength(id)
@@ -1087,6 +1104,12 @@ local function Decide(record, opts, targets, first)
     if type(ac) == "number" and ns.Buffs and ns.Buffs.IsBuffSpell and ns.Buffs.IsBuffSpell(ac) then
       ac = nil
     end
+    -- Never what we show for the rotation, whoever names it: interrupts (the Interrupts module shows them while
+    -- a target casts), auto attacks, Bloodlust, movement (Essentials' gap closer handles that).
+    local acToken = type(ac) == "number" and M.TokenForID(ac)
+    if acToken and G.SKIP[acToken] then
+      ac = nil
+    end
     -- A placeholder the assistant uses when nothing can be pressed: "Waiting for Energy" (1249752, a stopwatch
     -- that isn't in any spellbook). Never shown; it tells us the resource is below every spender's cost.
     if type(ac) == "number" and G.IsAssistantPlaceholder(ac) then
@@ -1412,6 +1435,30 @@ function G.Steady(result)
     end
   end
   result.queue, result.main, result.steadied = out, held.pick, main.token
+  return result
+end
+
+-- One rule for every path (normal, leveling, Blizzard's pick as fallback): a major cooldown the priority list
+-- wants and that can be pressed now never waits in slot 2 or 3 behind Blizzard's pick. Blizzard's assistant never
+-- names major cooldowns, so behind its pick they would never come up (Summon Infernal 40 s in slot 2, 2026-11-10;
+-- six more specs found by tests/test_scenarios.lua). Runs after Steady and the leveling lead, in Main.
+function G.PromoteReadyMajor(result)
+  local queue = result and result.queue
+  local main = result and result.main
+  if not (queue and main and main.source == "assisted") then
+    return result
+  end
+  for i = 2, #queue do
+    local p = queue[i]
+    if p and p.id and p.major and type(p.source) == "string" and (p.source:find("^simc") or p.source == "rules")
+      and not p.readyAt
+      and Castable(p.id) == true then
+      table.remove(queue, i)
+      table.insert(queue, 1, p)
+      result.main, result.branch = p, nil
+      return result
+    end
+  end
   return result
 end
 

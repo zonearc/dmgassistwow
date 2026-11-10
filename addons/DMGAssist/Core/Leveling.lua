@@ -76,36 +76,12 @@ end
 -- While leveling, Blizzard's Assisted Combat picks slot 1 (it knows what a low-level character should press);
 -- the priority list, walked over the spells the character knows, fills slots 2 and 3. Without a suggestion from
 -- Blizzard the list leads as usual.
--- Two exceptions (2026-11-10, a level 80 Destruction Warlock):
---   * a major cooldown the priority list picks for certain keeps slot 1. Blizzard's assistant never names major
---     cooldowns, so behind its pick Summon Infernal sat in slot 2 for 40 s;
---   * slots left empty (Blizzard's pick taken out of the list, sometimes twice) are filled with what comes off
+-- A ready major cooldown still takes slot 1: Engine G.PromoteReadyMajor runs after this, for every path.
+-- Slots left empty (Blizzard's pick taken out of the list, sometimes twice) are filled with what comes off
 --     cooldown soonest, so slot 3 isn't blank.
 function LV.Lead(result, record)
   local ac = result and result.acSpell
   if not ac or ns.Choices.IsHidden(ac) or ns.Engine.IsHeld(ac) then
-    return result
-  end
-  -- the first major cooldown anywhere in the list's three that can be pressed now (slot 1 of the list, or the
-  -- next one or two: behind Blizzard's pick it would never come up, test_scenarios.lua found five specs)
-  local main
-  for _, p in ipairs(result.queue or { result.main }) do
-    if p and p.id and p.id ~= ac and type(p.source) == "string" and p.source:find("^simc") and p.major
-      and ns.Engine.Castable(p.id) == true and not p.readyAt then
-      main = p
-      break
-    end
-  end
-  if main then
-    local queue = { main, { id = ac, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(ac) or nil,
-      source = "assisted", why = "leveling" } }
-    for _, p in ipairs(result.queue or {}) do
-      if #queue < 3 and p and p.id and p.id ~= main.id and p.id ~= ac then
-        queue[#queue + 1] = p
-      end
-    end
-    LV.Fill(queue, record)
-    result.queue, result.main, result.branch = queue, main, nil
     return result
   end
   local pick = { id = ac, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(ac) or nil,

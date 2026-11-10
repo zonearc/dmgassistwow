@@ -49,6 +49,14 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.167: every-spec sweep: Auto Shot and Bloodlust (and twins) never shown; anything in the "never press by
+  hand" list is ignored even when Blizzard's assistant names it (interrupts come from the Interrupts module only);
+  Stealth / Prowl not castable in combat while the game hides usability; leaps, steps and Evocation never forced
+  in by waiting (G.NO_ESCALATE); one shared step for every path: a ready major cooldown (SimC or Blizzard's
+  written rules) never waits behind Blizzard's pick (G.PromoteReadyMajor, replaces the leveling-only rule).
+  Simulation made realistic: charges, no racials, a hero tree, an assistant that never names forms / buffs /
+  interrupts. Baseline re-recorded against the old code first, then compared (method in docs/project/methods.md)
+
 - 1.6.0.166: HOLD / GO on slot 1 while one of your channels runs (amber HOLD with the draining wipe, green GO
   as it ends): every channel the game reports, so no per-spell list; channels the spec's SimC list chains or
   interrupts on purpose (chain / interrupt / interrupt_if) get none. Setting "HOLD during channels"; all languages
