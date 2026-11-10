@@ -86,9 +86,17 @@ function LV.Lead(result, record)
   if not ac or ns.Choices.IsHidden(ac) or ns.Engine.IsHeld(ac) then
     return result
   end
-  local main = result.main
-  if main and main.id and main.id ~= ac and main.source == "simc" and (main.major or (ns.Grade
-    and ns.Grade.IsCooldown and ns.Grade.IsCooldown(main))) then
+  -- the first major cooldown anywhere in the list's three that can be pressed now (slot 1 of the list, or the
+  -- next one or two: behind Blizzard's pick it would never come up, test_scenarios.lua found five specs)
+  local main
+  for _, p in ipairs(result.queue or { result.main }) do
+    if p and p.id and p.id ~= ac and type(p.source) == "string" and p.source:find("^simc") and p.major
+      and ns.Engine.Castable(p.id) == true and not p.readyAt then
+      main = p
+      break
+    end
+  end
+  if main then
     local queue = { main, { id = ac, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(ac) or nil,
       source = "assisted", why = "leveling" } }
     for _, p in ipairs(result.queue or {}) do

@@ -54,6 +54,12 @@ their users see keys on the icons.
 - Every settings section: a title that makes sense alone and an explanation line; every option: a tooltip
   (a test enforces it).
 - ./scripts/check.sh passes before every commit.
+- Every spec, every change (decided 2026-11-10): tests/test_scenarios.lua plays simulated dummy fights for all 40
+  specs (one target, five targets, leveling mode) through the real pipeline with the game's restrictions on. Rules
+  that must always hold: no errors, slot 1 never empty, a ready major cooldown never waits behind Blizzard's pick,
+  no endless hold. And no spec may get worse than tests/scenario_baseline.lua (major cooldowns used, spells used,
+  empty slots, slot 1 flips). A fix for one class that breaks another fails the build, in CI and in the weekly
+  SimC sync. The baseline is updated (--update) only for an intended change, said in the commit.
 
 ## Tanks (decided 2026-11-09)
 

@@ -49,6 +49,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.165: every-spec check (tests/test_scenarios.lua + tests/scenario_baseline.lua, in check.sh / CI / the
+  SimC sync): 40 specs x 3 simulated fights through the real pipeline; rules + per-spec baseline. Its first run
+  found five more leveling-mode specs (Havoc, Arcane, Fire, Windwalker, Outlaw, and Guardian) whose ready major
+  cooldown sat behind Blizzard's pick: fixed (any ready major cooldown in the list's three takes slot 1)
+
 - 1.6.0.164: buffs in combat: when Blizzard's assistant names one of the tracked buffs (Lightning Shield, raid
   buffs, imbues) for a second, it is missing: slot 1 until cast (poisons: slot 2). Buffs are hidden from addons in
   combat; the assistant still sees them (Elemental, Lightning Shield dropped mid-fight and was never shown)
