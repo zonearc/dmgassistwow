@@ -690,5 +690,9 @@
 "Hunter's Mark on bosses",
 "Hunters: with a boss targeted (before the pull too), Hunter's Mark comes first in slot 1 until it is on it.",
 "In a party or raid: Discipline keeps Atonement up all the time (Shield, or Radiance when several are missing); Mistweaver casts Renewing Mist whenever a charge is ready. Solo, nothing changes.",
-"With healing support: this many Atonements, counted from your casts, between big hits."
+"With healing support: this many Atonements, counted from your casts, between big hits.",
+"%s is in slot 1 but isn't on your action bars. Drag it from the spellbook (hero talent spells are on a later page) onto a bar and give it a key, or hide it on the Spells & trinkets page.",
+"%s is in slot 1 but its button has no key. Bind one (Options > Keybindings) or press it from your bar.",
+"Fights less than 10 seconds apart (questing, mob to mob) are graded together: one grade 10 seconds after the last, or every 3 minutes on a long run, instead of one after every mob. Short fights add up, so they get graded too. Bosses are graded at once.",
+"Group quick fights"
 ]

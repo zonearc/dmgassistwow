@@ -138,3 +138,30 @@ function B.MaybeNotice(inCombat)
       .. "(also Settings > DMGAssist > Missing keybinds)."], n)
   end
 end
+
+-- Slot 1 shows a spell you have no key for (a hero talent's new button never put on a bar: Enhancement's Surging
+-- Totem showed for a whole session as "a stick icon I can't find", 2026-11-10): say which spell it is, once per
+-- spell per session, with its link.
+B.shownWarned = {}
+function B.OnShown(pick)
+  if not (pick and pick.id) or pick.item or pick.sample or (ns.db and ns.db.bindWarn == false) then
+    return
+  end
+  if B.shownWarned[pick.id] then
+    return
+  end
+  local key = ns.Display.PickKeybind(pick)
+  if key and key ~= "" then
+    return
+  end
+  B.shownWarned[pick.id] = true
+  local link = U.Get(C_Spell and C_Spell.GetSpellLink, pick.id) or Name(pick.id)
+  if OnBar(pick.id) then
+    U.Print(L["%s is in slot 1 but its button has no key. Bind one (Options > Keybindings) or press it from your bar."],
+      tostring(link))
+  else
+    U.Print(L["%s is in slot 1 but isn't on your action bars. Drag it from the spellbook (hero talent spells are on "
+      .. "a later page) onto a bar and give it a key, or hide it on the Spells & trinkets page."], tostring(link))
+  end
+end
+

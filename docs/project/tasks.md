@@ -49,6 +49,18 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.170: Holy Judgment shown 3 s after every cast: a timing correction learned from one stale sample (our
+  clock still ran from before the pull) is no longer learned (resynced only), the assistant's own earliness
+  (~1.5 s, measured) isn't counted as our error, and saved corrections from fewer than 3 samples are dropped once.
+  Grade popup hides when a fight starts; quick fights (under 10 s apart) chain into one grade, shown 10 s after
+  the last or every 3 minutes (setting "Group quick fights", default on), so short questing fights get graded
+  too. Feral: a press refused for Energy (or range, facing) no longer holds the spell back (only "not ready yet"
+  does). Elemental: Spiritwalker's Grace / Hover / Spatial Paradox let cast-time spells stay while moving; an
+  enemy leaving range a moment still counts 1.5 s (count no longer jumps 1..7 on the move). Slot 1 showing a
+  spell with no key prints which spell it is, with its link, once (Surging Totem). Every-spec check: Blizzard's
+  simulated assistant names spells up to 1.5 s early like the real one, baseline re-recorded fairly, new metric
+  "shown ready while on cooldown". All 9 languages.
+
 - 1.6.0.169: Hunter's Mark on bosses (all hunter specs, before the pull too, once per target; setting, default
   on). Healing support for groups (setting, default off): Discipline keeps Atonement up between big hits (Shield
   first, Radiance when several are missing), Mistweaver spends Renewing Mist charges. Cooldowns the data lacks

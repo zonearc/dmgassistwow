@@ -198,6 +198,25 @@ local function HittingDummy()
   return S.combatStart ~= nil
 end
 
+S.RANGE_GRACE = 1.5 -- s an enemy we were fighting still counts after leaving range
+
+-- Buffs that let cast-time spells be cast while moving, from our own cast (seconds, the data's duration first).
+-- Found in the game's own spell descriptions ("cast while moving", "castable while moving", 12.0 dump): Spiritwalker's
+-- Grace, Hover, Spatial Paradox. Channels the game marks usable while moving (Rapid Fire, Fists of Fury, Penance)
+-- report no cast time, so they are never skipped in the first place.
+S.MOVE_CASTS = { [79206] = 15, [358267] = 6, [406732] = 10 }
+function S.CastsWhileMoving()
+  local now = GetTime()
+  for id, d in pairs(S.MOVE_CASTS) do
+    local last = S.lastCast[id]
+    local info = last and M.Info(id)
+    if last and now - last < ((info and info.d and info.d > 0) and info.d or d) then
+      return true
+    end
+  end
+  return false
+end
+
 function S.CountEnemies()
   local probe = RangeProbe()
   local now = GetTime()
@@ -216,8 +235,16 @@ function S.CountEnemies()
       local dead = U.Get(UnitIsDead, unit)
       local inRange = probe and U.Get(C_Spell and C_Spell.IsSpellInRange, probe, unit)
       local seen = S.seenEnemies[key]
-      if hostile == false or dead == true or inRange == false then
+      local graced = inRange == false and seen and now - seen.t <= S.RANGE_GRACE
+      if hostile == false or dead == true or (inRange == false and not graced) then
         S.seenEnemies[key] = nil -- not an enemy, dead, or someone else's fight far away
+      elseif graced then
+        -- just out of range while you move (Elemental walking among dummies: the count jumped 1..7 every
+        -- tenth of a second, 2026-11-10): still in the fight for a moment
+        n, remembered = n + 1, remembered + 1
+        if seen.dummy then
+          dummies = dummies + 1
+        end
       elseif hostile and (inCombat or (S.combatStart and S.IsDummy(unit) and HittingDummy(unit))) then
         if not seen then
           seen = { dummy = S.IsDummy(unit) }
@@ -1025,6 +1052,7 @@ end
 -- The list shipped with each update (M.volatile, from the weekly import) starts known-erratic spells flagged.
 -- Settings > DMGAssist > "Forget learned timing" clears it all.
 ---------------------------------------------------------------------------
+S.ASSISTED_EARLY = 1.5   -- Blizzard names a spell about this long before it is back: not counted as our error
 S.ASSISTED_LEAD = 2.5    -- Blizzard naming a spell this far ahead of our clock: our clock is wrong (closer: just early)
 S.SPREAD_UNRELIABLE = 1.5 -- running spread above this after 3+ measurements: erratic -> Blizzard decides
 S.AGREE_TO_TRUST = 4     -- agreements with our clock that un-flag a spell
@@ -1154,7 +1182,16 @@ function S.ObserveAssistedCharge(id)
     t.agree = 0
   end
   local now = GetTime()
-  S.LearnTiming(id, -left, "assisted")
+  -- Learn only from a clock this fight's own cast started: at the pull our clock still runs from a cast before
+  -- combat (and the cooldown cuts other spells gave it since), so the gap says nothing about the cooldown. Holy
+  -- Judgment learned 4.5 s too short from one such sample and was shown 3 s after every cast (2026-11-10).
+  -- Blizzard also names a spell a little before it is back (Holy Shock named 1.6 s before the game took it):
+  -- that part isn't our clock's error.
+  local last = S.lastCast[id]
+  local fresh = last ~= nil and S.combatStart ~= nil and last >= S.combatStart
+  if fresh then
+    S.LearnTiming(id, -(left - S.ASSISTED_EARLY), "assisted")
+  end
   -- and it's ready now: one charge back, or the cooldown done
   if info then
     local list = S.chargeUse[GroupOf(id)]
@@ -1168,7 +1205,7 @@ function S.ObserveAssistedCharge(id)
   else
     S.lastCast[id] = now - (CooldownLength(id) or 0)
   end
-  U.Log("assisted_ready", { spell = name, ours = string.format("%.1f", left) })
+  U.Log("assisted_ready", { spell = name, ours = string.format("%.1f", left), learned = fresh or nil })
 end
 
 -- The display shows a spell ready in slot 1 (the flash): if you then wait and cast it later with nothing in
@@ -1223,7 +1260,25 @@ local function IsCooldownError(msg)
   return type(msg) == "string" and ((ERR_SPELL_COOLDOWN and msg == ERR_SPELL_COOLDOWN)
     or (ERR_ABILITY_COOLDOWN and msg == ERR_ABILITY_COOLDOWN))
 end
+-- Any other reason the game gives (not enough Energy, out of range, facing) means the spell IS ready: the
+-- refused-press hold is for cooldowns only. Feral pressing Rake a moment before the Energy was there got Rake
+-- held and Swipe put in slot 1, again and again (2026-11-10).
+local lastOtherError = nil
 function S.OnUIError(_, msg)
+  if type(msg) == "string" and not IsCooldownError(msg) then
+    local now = GetTime()
+    lastOtherError = now
+    local f = lastFailed
+    if f and now - f.t <= S.REFUSAL_PAIR and f.held then
+      S.notBefore[f.id] = f.prevHold -- undo the hold this refusal set
+      local p = S.pressed[f.id]
+      if p then
+        p.refusedInRow = f.prevRow
+      end
+      f.held = nil
+    end
+    return
+  end
   if not IsCooldownError(msg) then
     return
   end
@@ -1259,17 +1314,19 @@ function S.OnCastFailed(id)
   end
   local now = GetTime()
   local offGCD = (S.GCDRemains() or 0) <= 0.05
-  lastFailed = { id = id, t = now, offGCD = offGCD }
+  local p0 = S.pressed[id]
+  lastFailed = { id = id, t = now, offGCD = offGCD, prevHold = S.notBefore[id], prevRow = p0 and p0.refusedInRow }
   if offGCD and lastCooldownError and now - lastCooldownError <= S.REFUSAL_PAIR then
     lastFailed.used = true
     NoteCooldownRefusal(id, now)
   end
+  local otherReason = lastOtherError ~= nil and now - lastOtherError <= S.REFUSAL_PAIR
   -- Refused outside the global cooldown while our clock calls it ready: it isn't, right now. Hold it back so slot 1
   -- moves on to what you can press, longer with each refusal, until Blizzard names it or the hold runs out.
-  if (S.GCDRemains() or 0) <= 0.05 then
+  if offGCD and not otherReason then
+    lastFailed.held = true
     local left = OurLeft(id, ChargeInfo(id))
     if left == nil or left <= 0.3 then
-      local p0 = S.pressed[id]
       local k = (p0 and now - p0.last <= 2) and math.min(#S.REFUSE_HOLD, (p0.refusedInRow or 0) + 1) or 1
       S.notBefore[id] = now + S.REFUSE_HOLD[k]
       if p0 and now - p0.last <= 2 then
@@ -3237,6 +3294,16 @@ function S.Bind(key)
   l.unreliable = type(l.unreliable) == "table" and l.unreliable or {}
   S.chargeSpentAt, S.readyShown = {}, nil -- liveCharges: re-read by S.Calibrate
   l.timing = type(l.timing) == "table" and l.timing or {}
+  -- 1.6.0.170: corrections resting on one or two samples, learned before the stale-clock fix, are dropped once
+  -- (relearned within a fight or two)
+  if (l.timingVersion or 0) < 2 then
+    for name, t in pairs(l.timing) do
+      if type(t) ~= "table" or (t.n or 0) < 3 then
+        l.timing[name] = nil
+      end
+    end
+    l.timingVersion = 2
+  end
   S.stackUntil, S.consumeLeft = {}, {}
   l.stacking = type(l.stacking) == "table" and l.stacking or {}
   readAuras.player, readAuras.target = nil, nil

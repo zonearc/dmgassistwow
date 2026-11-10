@@ -579,7 +579,8 @@ local function Castable(id)
   if usable and first and not named and not S.glow[id] and G.BelowCost(id) then
     return false, "power"
   end
-  if first and S.moving and not (ns.db and ns.db.castWhileMoving) and CastTime(id) > 0 then
+  -- (Spiritwalker's Grace and the like let you: the Elemental bar emptied while it ran, 2026-11-10)
+  if first and S.moving and not (ns.db and ns.db.castWhileMoving) and CastTime(id) > 0 and not S.CastsWhileMoving() then
     return false, "moving"
   end
   local ready = S.CooldownReady(id)

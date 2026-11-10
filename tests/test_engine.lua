@@ -3256,6 +3256,34 @@ test("movement: cast-time spells are skipped while moving (setting), instants ar
   ns.db.castWhileMoving = true
   mock.Fire("PLAYER_STARTED_MOVING")
   eq(ns.Engine.Recommend(rec, {}).main.token, "rip", "setting allows it")
+  -- Spiritwalker's Grace (or Hover, Ice Floes) cast: cast-time spells come back while it lasts
+  ns.db.castWhileMoving = false
+  ns.State.lastCast[79206] = GetTime()
+  eq(ns.Engine.Recommend(rec, {}).main.token, "rip", "Spiritwalker's Grace: cast while moving (Elemental, 2026-11-10)")
+  mock.Advance(16)
+  eq(ns.Engine.Recommend(rec, {}).main.token, "shred", "after it ends: skipped again")
+  mock.Fire("PLAYER_STOPPED_MOVING")
+end)
+
+test("enemy count: an enemy we fight that steps out of range a moment still counts (no 1..7 jumps on the move)", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "shred", k = "R" } })
+  rec.spellInfo[5221] = { n = "shred", r = 5, gcd = 1 } -- a ranged spell to probe range with
+  Feral(ns, rec)
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.nameplates = 3
+  eq(S.CountEnemies(), 3)
+  mock.inRange = setmetatable({}, { __index = function() return false end }) -- every spell: out of range
+  mock.Advance(0.5)
+  eq(S.CountEnemies(), 3, "out of range for half a second: still counted")
+  mock.Advance(2)
+  eq(S.CountEnemies(), 0, "gone for good after the grace")
+  mock.inRange = nil
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat = false
 end)
 
 test("snapshot: full decision trace stored in the Watchdog log", function()
@@ -3968,6 +3996,7 @@ test("performance grade: presses scored against slot 1, graded after a real figh
   Reset()
   local ns = Boot()
   local Gr = ns.Grade
+  ns.db.gradeChain = false -- one fight at a time here (chaining has its own test)
   local spec = Gr.SpecKey()
   Gr.Reset()
   local A, B, C = { id = 101, token = "spell_a" }, { id = 102, token = "spell_b" }, { id = 103, token = "spell_c" }
@@ -4006,6 +4035,10 @@ test("performance grade: presses scored against slot 1, graded after a real figh
   eq(got.letter, Gr.Letter(got.score))
   eq(s.best.score, got.score, "first fight is the best")
   eq(Gr.frame and Gr.frame:IsShown(), true, "popup shown")
+  Gr.OnCombat(true)
+  eq(Gr.frame:IsShown(), false, "a new fight starts: the popup makes way (it stayed up in combat, 2026-11-10)")
+  Gr.OnCombat(false) -- far too short to grade
+  eq(Gr.frame:IsShown(), false, "a moment in combat (an evading dummy) brings nothing back")
   -- report
   local lines = Gr.Report()
   eq(type(lines) == "table" and #lines >= 3, true, "report lines")
@@ -4032,6 +4065,7 @@ test("performance grade: a trinket from the items icon counts as cooldown use, n
   Reset()
   local ns = Boot()
   local Gr = ns.Grade
+  ns.db.gradeChain = false -- one fight at a time here (chaining has its own test)
   Gr.Reset()
   local A = { id = 101, token = "spell_a" }
   local r = { main = A, queue = { A }, trinket = { id = 5000, item = 777 } }
@@ -4127,6 +4161,7 @@ test("performance grade: a press of what slot 1 showed just before it switched c
   Reset()
   local ns = Boot()
   local Gr = ns.Grade
+  ns.db.gradeChain = false -- one fight at a time here (chaining has its own test)
   Gr.Reset()
   local A, B = { id = 101, token = "spell_a" }, { id = 102, token = "spell_b" }
   local potion = { id = 6000, item = 999 }
@@ -4264,6 +4299,7 @@ test("performance grade: any 20 s+ cooldown slot 1 shows is graded from 'press n
   Reset()
   local ns = Boot()
   local Gr = ns.Grade
+  ns.db.gradeChain = false -- one fight at a time here (chaining has its own test)
   Gr.Reset()
   local len = ns.State.CooldownLength
   ns.State.CooldownLength = function(id) return id == 202770 and 60 or 0 end
@@ -4427,6 +4463,7 @@ test("performance grade: one weak part caps the total (no S+ with 88% always cas
   Reset()
   local ns = Boot()
   local Gr = ns.Grade
+  ns.db.gradeChain = false -- one fight at a time here (chaining has its own test)
   Gr.Reset()
   -- the fight from the 2026-11-10 report: 40 of 41 right, 58 ms, cooldowns on time, 6.9 s idle in 61 s
   local f = { start = mock.now - 61, presses = 41, score = 40.75, reactions = { 0.058 }, idle = 6.9, cds = { 0, 0 },
@@ -4442,6 +4479,7 @@ test("performance grade: walking off a dummy at the end isn't idle time or an un
   Reset()
   local ns = Boot()
   local Gr = ns.Grade
+  ns.db.gradeChain = false -- one fight at a time here (chaining has its own test)
   Gr.Reset()
   -- 60 s of play, then 20 s walking away while still in combat: 14 s of "idle" and a cooldown ready at the end
   local f = { start = mock.now - 80, presses = 40, score = 40, reactions = { 0.2 }, idle = 15, cds = { 0 },
@@ -4641,6 +4679,138 @@ test("cooldowns our data lacks are learned from the game refusing the cast (Void
   eq(S.CooldownLength(id) ~= nil, true, "now our clock has it")
   mock.Fire("PLAYER_REGEN_ENABLED")
   mock.inCombat = false
+end)
+
+test("Blizzard naming a spell: learned only from this fight's own cast, less the assistant's usual earliness", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", cd = 12, gcd = 1.5 }
+  Feral(ns, rec)
+  -- cast before the pull: at the pull our clock still runs from it
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  mock.Advance(4)
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Advance(1)
+  S.acNamed = nil
+  S.ObserveAssistedCharge(5217) -- ours: 7 s left
+  eq(S.learned.timing.tigers_fury, nil, "a clock from before the fight teaches nothing (Holy Judgment, 2026-11-10)")
+  eq(S.CooldownReady(5217), true, "but Blizzard's word resyncs it: ready")
+  -- cast in this fight, named 6 s early by our clock: 1.5 s of that is Blizzard naming it early
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  mock.Advance(6)
+  S.acNamed = nil
+  S.ObserveAssistedCharge(5217)
+  eq(S.learned.timing.tigers_fury and S.learned.timing.tigers_fury.mean, -4.5, "learned: -(6 - 1.5)")
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat, mock.restricted = false, false
+end)
+
+test("timing corrections from one or two samples are dropped once (stale-clock fix, 1.6.0.170)", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  Feral(ns, rec)
+  -- saved by an earlier version
+  S.learned.timing = { judgment = { n = 1, mean = -4.5, spread = 0 }, holy_shock = { n = 7, mean = -1.2, spread = 1.2 } }
+  S.learned.timingVersion = nil
+  S.Bind(ns.Specs.current.key)
+  eq(S.learned.timing.judgment, nil, "one sample: dropped")
+  eq(S.learned.timing.holy_shock and S.learned.timing.holy_shock.n, 7, "seven: kept")
+  eq(S.learned.timingVersion, 2)
+end)
+
+test("performance grade: quick fights chain (mob to mob), one grade after the gap or every 3 minutes", function()
+  Reset()
+  local ns = Boot()
+  local Gr = ns.Grade
+  local spec = Gr.SpecKey()
+  Gr.Reset()
+  local A = { id = 101, token = "spell_a" }
+  local r = { main = A, queue = { A } }
+  local isRot = ns.Engine.IsRotationSpell
+  ns.Engine.IsRotationSpell = function() return true end
+  local function Mob(seconds)
+    Gr.OnCombat(true)
+    for _ = 1, seconds / 1.5 do
+      Gr.OnPress(101, r, true)
+      mock.Advance(1.5)
+    end
+    Gr.OnCombat(false)
+  end
+  Mob(12)
+  eq(Gr.Summary(spec), nil, "a 12 s mob alone isn't long enough")
+  mock.Advance(4) -- run to the next one
+  Mob(12)
+  eq(Gr.Summary(spec), nil, "the chain goes on: nothing shown yet")
+  mock.Advance(Gr.CHAIN_GAP + 0.1)
+  local s = Gr.Summary(spec)
+  eq(s ~= nil and #s.history, 1, "10 s out of combat: one grade for both")
+  eq(s.history[1].fights, 2)
+  eq(math.floor(s.history[1].length + 0.5), 24, "the run between them doesn't count")
+  eq(s.history[1].abc > 95, true, "nor as idle time: " .. s.history[1].abc)
+  -- a long run: graded at a fight's end once it has gone 3 minutes, without waiting
+  for _ = 1, 16 do
+    Mob(12)
+    mock.Advance(3)
+  end
+  s = Gr.Summary(spec)
+  eq(#s.history >= 2, true, "a long chain is graded at least every 3 minutes")
+  -- off: every fight on its own, at once
+  Gr.Reset()
+  mock.Advance(Gr.CHAIN_GAP + 1)
+  ns.db.gradeChain = false
+  Mob(24)
+  s = Gr.Summary(spec)
+  eq(s ~= nil and #s.history, 1, "setting off: graded at the fight's end")
+  ns.Engine.IsRotationSpell = isRot
+end)
+
+test("a press refused for Energy (or range, facing) never holds the spell back; one refused as not ready does", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", cd = 30, gcd = 1.5 }
+  Feral(ns, rec)
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Advance(2)
+  -- Rake a moment before the Energy is there (the failed cast first, then the game's message)
+  S.OnCastFailed(1822)
+  S.OnUIError(nil, "Not enough energy")
+  eq(S.RefusedHold(1822), false, "not enough Energy: Rake stays in slot 1 (Feral, 2026-11-10)")
+  mock.Advance(0.3)
+  S.OnUIError(nil, "Out of range.") -- (the message can come first too)
+  S.OnCastFailed(1822)
+  eq(S.RefusedHold(1822), false, "out of range: no hold either")
+  mock.Advance(1)
+  S.OnCastFailed(1822)
+  S.OnUIError(nil, ERR_SPELL_COOLDOWN)
+  eq(S.RefusedHold(1822), true, "'not ready yet': held a moment")
+  mock.Advance(3)
+  S.OnCastFailed(1822) -- no message at all (quiet failure): held as before
+  eq(S.RefusedHold(1822), true)
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat, mock.restricted = false, false
+end)
+
+test("slot 1 showing a spell with no key says which spell it is, once (Surging Totem, 2026-11-10)", function()
+  Reset()
+  local ns = Boot()
+  local B = ns.Bindcheck
+  local before = #mock.printed
+  B.OnShown({ id = 5221, token = "shred" })
+  eq(#mock.printed, before + 1, "one chat line")
+  eq(tostring(mock.printed[#mock.printed]):find("slot 1", 1, true) ~= nil, true, tostring(mock.printed[#mock.printed]))
+  B.OnShown({ id = 5221, token = "shred" })
+  eq(#mock.printed, before + 1, "once per spell per session")
+  ns.db.bindWarn = false
+  B.OnShown({ id = 1822, token = "rake" })
+  eq(#mock.printed, before + 1, "setting off: quiet")
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

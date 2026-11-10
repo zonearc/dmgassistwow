@@ -40,7 +40,9 @@ local fight -- the fight being graded
 -- The fight's clock without the time spent moving: reaction, cooldown and mitigation delays are measured on it,
 -- so stepping out of a boss's damage doesn't count as slow (asked for 2026-11-10).
 local function Clock(f)
-  return GetTime() - (f.moveT or 0)
+  -- (and without the time between chained fights, including the one being waited out)
+  local waiting = f.pausedAt and (GetTime() - f.pausedAt) or 0
+  return GetTime() - (f.moveT or 0) - (f.gaps or 0) - waiting
 end
 
 local function DB()
@@ -72,20 +74,73 @@ end
 ---------------------------------------------------------------------------
 -- During the fight
 ---------------------------------------------------------------------------
+-- Quick fights chain (questing, mob to mob): a fight that starts within Gr.CHAIN_GAP of the last one's end
+-- continues it, and the grade comes once you've been out of combat that long, or at a fight's end once the chain
+-- has run Gr.CHAIN_MAX. A popup after every 10 s mob, six a minute, was too much; and fights shorter than
+-- Gr.MIN_FIGHT were never graded at all (Balance, Springpaw Lynx, 2026-11-10). Time between fights counts
+-- for nothing. Bosses are graded at once. Setting gradeChain (default on).
+Gr.CHAIN_GAP = 10
+Gr.CHAIN_MAX = 180
+local pending -- the chain waiting out the gap
+
+local function Publish(f, at)
+  local r = Gr.Finish(f, at)
+  if r then
+    Gr.Show(r)
+  end
+end
+
+local function Chaining()
+  return not (ns.db and ns.db.gradeChain == false)
+end
+
 function Gr.OnCombat(on)
+  local now = GetTime()
   if on then
-    fight = { start = GetTime(), presses = 0, score = 0, reactions = {}, idle = 0, lastTick = nil,
+    -- a new fight: the last one's grade makes way (it stayed up when a dummy pulled you back in, 2026-11-10)
+    local fr = Gr.frame
+    if fr and fr:IsShown() and not fr.sample then
+      fr:Hide()
+    end
+    local p = pending
+    pending = nil
+    if p and now - p.pausedAt <= Gr.CHAIN_GAP then
+      p.gaps = (p.gaps or 0) + (now - p.pausedAt)
+      p.lastTick, p.pausedAt = nil, nil
+      p.fights = (p.fights or 1) + 1
+      fight = p
+      return
+    end
+    fight = { start = now, presses = 0, score = 0, reactions = {}, idle = 0, lastTick = nil, fights = 1,
       ready = nil, cds = {}, cdShown = {}, cdReady = {}, missed = {}, instead = {}, targets = 0, mit = {}, mitShown = {} }
     return
   end
   local f = fight
   fight = nil
-  if f and Gr.Enabled() then
-    local r = Gr.Finish(f, GetTime())
-    if r then
-      Gr.Show(r)
-    end
+  if not (f and Gr.Enabled()) then
+    return
   end
+  local boss = ns.State and ns.State.FightContext and ns.State.FightContext() == "boss"
+  if not Chaining() or boss or now - f.start - (f.gaps or 0) >= Gr.CHAIN_MAX then
+    Publish(f, now)
+    return
+  end
+  -- wait out the gap: another fight soon continues this one
+  f.pausedAt, f.endAt = now, now
+  pending = f
+  if C_Timer and C_Timer.After then
+    C_Timer.After(Gr.CHAIN_GAP + 0.05, function()
+      if pending == f and not fight then
+        pending = nil
+        Publish(f, f.endAt)
+      end
+    end)
+  end
+end
+
+-- The chain waiting for its gap to pass (for the report and tests).
+function Gr.Pending()
+  return pending
 end
 
 -- Display: slot 1 says "press now" for this spell.
@@ -432,7 +487,7 @@ function Gr.Finish(f, now)
     f.idle = math.min(f.idle, (f.idleAtPress or 0) + Gr.TAIL)
     f.vs = f.vsAtPress or f.vs
   end
-  local length = now - f.start
+  local length = now - f.start - (f.gaps or 0)
   if length < (tonumber(ns.db and ns.db.gradeMinFight) or Gr.MIN_FIGHT) or f.presses < 5 then
     return nil
   end
@@ -490,7 +545,7 @@ function Gr.Finish(f, now)
   score = capped
   local r = { score = score, letter = Gr.Letter(score), accuracy = accuracy, abc = abc, reaction = reaction,
     reactionMs = reactionSec and math.floor(reactionSec * 1000 + 0.5), cooldowns = cd, mitigation = mit,
-    length = length,
+    length = length, fights = f.fights,
     idle = f.idle, presses = f.presses, targets = f.targets, at = _G.time and _G.time() or 0,
     vs = Gr.VsShares(f.vs, f.extras) }
   -- the tip: the weakest part
@@ -618,7 +673,8 @@ function Gr.Save(r)
   table.insert(s.history, 1, { score = r.score, letter = r.letter, accuracy = r.accuracy, abc = r.abc,
     reaction = r.reaction, reactionMs = r.reactionMs, cooldowns = r.cooldowns, mitigation = r.mitigation, at = r.at,
     targets = r.targets,
-    weakest = r.weakest, idle = r.idle, length = r.length, topMissed = r.topMissed, topMissedCount = r.topMissedCount,
+    weakest = r.weakest, idle = r.idle, length = r.length, fights = r.fights, topMissed = r.topMissed,
+    topMissedCount = r.topMissedCount,
     vs = r.vs })
   while #s.history > Gr.HISTORY do
     table.remove(s.history)

@@ -683,3 +683,7 @@
 689	Chasseurs : avec un boss en cible (avant le pull aussi), Marque du chasseur passe en premier dans l'emplacement 1 jusqu'à ce qu'elle soit posée.
 690	En groupe ou en raid : Discipline maintient Expiation en permanence (Bouclier, ou Radiance quand plusieurs manquent) ; Tisse-brume lance Brume de rénovation dès qu'une charge est prête. En solo, rien ne change.
 691	Avec le soutien de soins : ce nombre d'Expiations, comptées à partir de vos sorts, entre les gros coups.
+692	%s est dans l'emplacement 1 mais n'est sur aucune barre d'action. Faites-le glisser depuis le grimoire (les sorts des talents héroïques sont sur une page suivante) sur une barre et attribuez-lui une touche, ou masquez-le sur la page Sorts et bijoux.
+693	%s est dans l'emplacement 1 mais son bouton n'a pas de touche. Attribuez-en une (Options > Raccourcis) ou utilisez-le depuis votre barre.
+694	Les combats séparés de moins de 10 secondes (quêtes, d'un monstre à l'autre) sont notés ensemble : une note 10 secondes après le dernier, ou toutes les 3 minutes sur une longue série, au lieu d'une après chaque monstre. Les combats courts s'additionnent et sont donc notés eux aussi. Les boss sont notés tout de suite.
+695	Regrouper les combats rapides

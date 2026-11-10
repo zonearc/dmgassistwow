@@ -687,4 +687,8 @@ ns.LOCALE_DATA.koKR = {
   ["Hunters: with a boss targeted (before the pull too), Hunter's Mark comes first in slot 1 until it is on it."] = "사냥꾼: 우두머리를 대상으로 잡으면(전투 시작 전에도) 징표가 걸릴 때까지 사냥꾼의 징표가 1번 칸에 먼저 나옵니다.",
   ["In a party or raid: Discipline keeps Atonement up all the time (Shield, or Radiance when several are missing); Mistweaver casts Renewing Mist whenever a charge is ready. Solo, nothing changes."] = "파티나 공격대에서: 수양은 속죄를 항상 유지합니다(보호막, 여러 개가 빠지면 광휘). 운무는 충전이 준비될 때마다 소생의 안개를 시전합니다. 혼자일 때는 바뀌는 것이 없습니다.",
   ["With healing support: this many Atonements, counted from your casts, between big hits."] = "치유 지원 사용 시: 큰 피해 사이에 유지할 속죄 수(내 시전으로 셉니다).",
+  ["%s is in slot 1 but isn't on your action bars. Drag it from the spellbook (hero talent spells are on a later page) onto a bar and give it a key, or hide it on the Spells & trinkets page."] = "%s 주문이 1번 칸에 있지만 행동 단축바에 없습니다. 주문책(영웅 특성 주문은 뒤쪽 페이지에 있음)에서 단축바로 끌어다 놓고 키를 지정하거나, 주문 및 장신구 페이지에서 숨기세요.",
+  ["%s is in slot 1 but its button has no key. Bind one (Options > Keybindings) or press it from your bar."] = "%s 주문이 1번 칸에 있지만 버튼에 키가 없습니다. 키를 지정하거나(설정 > 단축키) 단축바에서 누르세요.",
+  ["Fights less than 10 seconds apart (questing, mob to mob) are graded together: one grade 10 seconds after the last, or every 3 minutes on a long run, instead of one after every mob. Short fights add up, so they get graded too. Bosses are graded at once."] = "10초 이내로 이어지는 전투(퀘스트, 몹에서 몹으로)는 함께 평가합니다. 몹마다 한 번이 아니라 마지막 전투 10초 후, 또는 긴 연속 전투에서는 3분마다 한 번 평가합니다. 짧은 전투가 합쳐지므로 짧은 전투도 평가됩니다. 우두머리는 바로 평가합니다.",
+  ["Group quick fights"] = "짧은 전투 묶기",
 }

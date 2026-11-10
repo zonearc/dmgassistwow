@@ -392,6 +392,7 @@ local function Update()
   end
   ns.last = result
   ns.NoteShown(result.main)
+  ns.Bindcheck.OnShown(result.main)
   D.Update(result, not ns.Integrations.hudHidden)
   ns.Integrations.OnRecommendation(result)
   -- Decision log: one line per change of pick (not every tick).

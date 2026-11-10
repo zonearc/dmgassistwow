@@ -683,3 +683,7 @@
 689	Cazadores: con un jefe como objetivo (también antes del pull), Marca del cazador va primero en la casilla 1 hasta que la tenga.
 690	En grupo o banda: Disciplina mantiene Expiación todo el tiempo (Escudo, o Resplandor cuando faltan varias); Tejedor de niebla lanza Niebla renovadora siempre que haya una carga lista. En solitario no cambia nada.
 691	Con apoyo de sanación: tantas Expiaciones, contadas a partir de tus lanzamientos, entre golpes fuertes.
+692	%s está en la casilla 1 pero no está en tus barras de acción. Arrástralo desde el libro de hechizos (los hechizos de talentos de héroe están en una página posterior) a una barra y asígnale una tecla, u ocúltalo en la página Hechizos y abalorios.
+693	%s está en la casilla 1 pero su botón no tiene tecla. Asigna una (Opciones > Asignación de teclas) o púlsalo desde tu barra.
+694	Los combates con menos de 10 segundos entre ellos (misiones, de enemigo en enemigo) se califican juntos: una calificación 10 segundos después del último, o cada 3 minutos en una racha larga, en lugar de una tras cada enemigo. Los combates cortos se suman y también se califican. Los jefes se califican al momento.
+695	Agrupar combates rápidos

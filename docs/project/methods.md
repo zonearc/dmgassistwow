@@ -44,6 +44,15 @@ Written down so that a fix for one class doesn't quietly break another. Keep thi
 - Look at what the check's player actually pressed (`SCEN_PRESS`, `SCEN_RESULTS`) when adding a feature: "all
   rules hold" with one spell pressed 25 times is a bug the rules don't name.
 
+## 2c. Spell behaviour from the game's own descriptions, not memory
+
+- A rule about a kind of spell (cast while moving, channels, "not ready" vs "not enough Energy") is built from the
+  game's spell descriptions in the SimC dump (`.libraries/simc/*/SpellDataDump`), searched for the wording, and
+  the list kept next to the rule with the search noted. Spiritwalker's Grace was missed when the list was written
+  from memory.
+- Learn from the game only what it actually told us: a refusal counts as "on cooldown" only with the game's
+  "not ready yet" message; a sample taken against a clock from before the fight teaches nothing.
+
 ## 3. Changing the baseline honestly
 
 When the **simulation** changes (more realism), the numbers move for reasons that aren't the addon's:

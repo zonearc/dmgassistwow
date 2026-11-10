@@ -687,4 +687,8 @@ ns.LOCALE_DATA.zhTW = {
   ["Hunters: with a boss targeted (before the pull too), Hunter's Mark comes first in slot 1 until it is on it."] = "獵人：目標是首領時（開怪前也算），獵人印記排在第 1 格，直到印記掛上。",
   ["In a party or raid: Discipline keeps Atonement up all the time (Shield, or Radiance when several are missing); Mistweaver casts Renewing Mist whenever a charge is ready. Solo, nothing changes."] = "在小隊或團隊中：戒律始終保持救贖（盾，缺幾個時用耀）；織霧只要有一層充能就施放復甦之霧。單人時不變。",
   ["With healing support: this many Atonements, counted from your casts, between big hits."] = "開啟治療支援時：在大傷害之間保持這麼多救贖（按你的施法計數）。",
+  ["%s is in slot 1 but isn't on your action bars. Drag it from the spellbook (hero talent spells are on a later page) onto a bar and give it a key, or hide it on the Spells & trinkets page."] = "%s 在第 1 格，但不在你的快捷列上。從法術書（英雄天賦法術在後面的頁面）拖到快捷列上並綁定按鍵，或在「法術與飾品」頁面隱藏它。",
+  ["%s is in slot 1 but its button has no key. Bind one (Options > Keybindings) or press it from your bar."] = "%s 在第 1 格，但它的按鈕沒有按鍵。綁定一個（選項 > 按鍵設定），或從快捷列上點擊。",
+  ["Fights less than 10 seconds apart (questing, mob to mob) are graded together: one grade 10 seconds after the last, or every 3 minutes on a long run, instead of one after every mob. Short fights add up, so they get graded too. Bosses are graded at once."] = "間隔不到 10 秒的戰鬥（解任務、一隻接一隻打怪）會合併評分：在最後一場結束 10 秒後評一次分，長時間連續戰鬥則每 3 分鐘評一次，而不是每隻怪評一次。短戰鬥會累加，因此也能獲得評分。首領戰立即評分。",
+  ["Group quick fights"] = "合併短戰鬥",
 }

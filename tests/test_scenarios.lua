@@ -33,6 +33,7 @@ local TICK = 0.2      -- seconds between decisions
 local STUCK_MAX = 6   -- a ready major cooldown may wait behind Blizzard's pick at most this long
 local NO_PICK_MAX = 10 -- percent of the fight with nothing in slot 1
 local BASELINE = "tests/scenario_baseline.lua"
+local AC_EARLY = 1.5 -- s: Blizzard's assistant names a spell this long before it is back
 local PERF_NONE_MAX = 20 -- ms per update (this interpreter) when nothing can be cast: no repeated look-ahead
 
 local function Boot()
@@ -159,12 +160,16 @@ local function Fight(ns, key, record, book, scenario)
         mock.cooldowns[id] = nil
       end
     end
-    -- Blizzard's assistant: the first ready rotation spell (never a major cooldown)
+    -- Blizzard's assistant: the first rotation spell that is ready or about to be (never a major cooldown). The
+    -- real one names a spell up to a second or two before it is back (Holy Shock 1.6 s, Judgment 2.8 s early in
+    -- a Holy Paladin log, 2026-11-10); one that named only ready spells taught our clock wrong numbers.
     mock.acSpell = nil
     for _, b in ipairs(book) do
       local token = M.TokenForID(b.spellID)
+      local cd = mock.cooldowns[b.spellID]
+      local soon = not cd or (cd.start + cd.duration - now) <= AC_EARLY
       -- (forms and buffs only when you're out of them: the real assistant names those just then)
-      if not mock.cooldowns[b.spellID] and not (token and majors[token]) and not ns.Essentials.FORMS[b.spellID]
+      if soon and not (token and majors[token]) and not ns.Essentials.FORMS[b.spellID]
         and not keepIDs[b.spellID]
         and not ns.Buffs.IsBuffSpell(b.spellID) and not (token and G.SKIP[token]) then
         mock.acSpell = b.spellID
@@ -415,6 +420,10 @@ for _, key in ipairs(keys) do
       if r.noMainPct > (b.noMainPct or 0) + 5 then
         Fail(string.format("%s: slot 1 empty %.0f%%, was %.0f%%", id, r.noMainPct, b.noMainPct))
       end
+      -- shown ready while its cooldown still runs (Holy Judgment, Void Volley): never more than before
+      if b.onCdPct and r.onCdPct > b.onCdPct + 5 then
+        Fail(string.format("%s: shown ready while on cooldown %.0f%% of the time, was %.0f%%", id, r.onCdPct, b.onCdPct))
+      end
       if r.flipsPerMin > (b.flipsPerMin or 0) * 1.5 + 3 then
         Fail(string.format("%s: slot 1 flips %.1f/min, was %.1f/min", id, r.flipsPerMin, b.flipsPerMin))
       end
@@ -456,7 +465,8 @@ if UPDATE then
   for _, id in ipairs(ids) do
     local r = results[id]
     out[#out + 1] = string.format('  ["%s"] = { majorsCast = %d, distinct = %d, noMainPct = %.1f, no3Pct = %.1f, '
-      .. "flipsPerMin = %.1f },", id, r.majorsCast, r.distinct, r.noMainPct, r.no3Pct, r.flipsPerMin)
+      .. "flipsPerMin = %.1f, onCdPct = %.1f },", id, r.majorsCast, r.distinct, r.noMainPct, r.no3Pct, r.flipsPerMin,
+      r.onCdPct)
   end
   out[#out + 1] = "}"
   local f = assert(io.open(BASELINE, "w"))

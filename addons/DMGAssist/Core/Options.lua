@@ -646,6 +646,10 @@ function O.Register()
     "How long the grade stays before it fades out. It pops in quickly and fades in under a second.", " s")
   Slider(grade, DB, "gradeMinFight", "Shortest fight to grade", 20, 10, 120, 5,
     "Fights shorter than this aren't graded, so trash pulls and a quick hit on a critter don't count.", " s")
+  Check(grade, DB, "gradeChain", "Group quick fights", true,
+    "Fights less than 10 seconds apart (questing, mob to mob) are graded together: one grade 10 seconds after the "
+      .. "last, or every 3 minutes on a long run, instead of one after every mob. Short fights add up, so they get "
+      .. "graded too. Bosses are graded at once.")
   Header(grade, "Position", "Drag the grade where you want it while the icons are unlocked or in Edit Mode; a "
     .. "sample shows while you do.")
   Button(grade, "Sample grade", "Show a sample grade", function()
