@@ -99,7 +99,9 @@ local function CopyVars(from)
   return out
 end
 
+G.castSerial = 0
 function G.OnOwnCast()
+  G.castSerial = G.castSerial + 1
   if pendingVars and S.combatStart then
     G.fightVars = pendingVars
     pendingVars = nil
@@ -482,10 +484,32 @@ function G.FinisherBlockedByHiddenPoints(id)
   return found and S.CooldownReady(id) ~= false
 end
 
+-- Area spells centred on you (yards): no use while the target is known to be farther than that (Holy Nova cast
+-- from 40 yards, 2026-11-10). "Known" = one of your spells with a range is out of range (Clues.DistanceBounds);
+-- without such a spell it can't be told and the spell stays allowed.
+G.NEAR_ONLY = { holy_nova = 12, arcane_explosion = 10, spinning_crane_kick = 8, thunder_clap = 8, whirlwind = 8,
+  consecration = 8, divine_storm = 8, fan_of_knives = 10, shuriken_storm = 10, swipe_bear = 8, swipe_cat = 8,
+  thrash_bear = 8, thrash_cat = 8, blade_dance = 8, death_sweep = 8, immolation_aura = 8, crash_lightning = 8,
+  bladestorm = 8, breath_of_sindragosa = 12, remorseless_winter = 8 }
+
+local function TooFar(id)
+  local token = M.TokenForID(id)
+  local radius = token and G.NEAR_ONLY[token]
+  if not radius then
+    return false
+  end
+  local lo = ns.Clues.DistanceBounds()
+  return type(lo) == "number" and lo > radius
+end
+G.TooFar = TooFar
+
 local function Castable(id)
   local rule = G.TARGET_RULES[id] or G.TARGET_RULES[(M.baseOf and M.baseOf[id]) or id]
   if rule and not rule(id) then
     return false, "target"
+  end
+  if TooFar(id) then
+    return false, "range"
   end
   if BlockedWhileActive(id) then
     return false, "active"
@@ -915,7 +939,15 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         end
       elseif id then
         local cond = Condition(e)
-        local castable, why = Castable(id)
+        -- once per spell per decision: lists name the same spell on many lines, and with nothing castable the
+        -- whole list is walked (11 ms per decision for Windwalker, 2026-11-10)
+        local memo = run.castMemo
+        local c = memo[id]
+        if not c then
+          c = { Castable(id) }
+          memo[id] = c
+        end
+        local castable, why = c[1], c[2]
         local pooling = run.poolNext
         run.poolNext = nil
         if run.trace then
@@ -1080,6 +1112,7 @@ local function Decide(record, opts, targets, first)
     trace = (first and opts.trace) and {} or nil,
   }
   run.first = first
+  run.castMemo = {}
   run.resolve = function(name)
     local v = S.Resolve(name, run.ctx)
     if v == UNKNOWN then

@@ -35,7 +35,7 @@ F.TOKENS = {
   "divine_protection", "shield_of_vengeance", "word_of_glory", "flash_of_light", "ardent_defender",
   "guardian_of_ancient_kings", "lay_on_hands", "divine_shield",
   -- priest
-  "desperate_prayer", "dispersion", "fade",
+  "power_word_shield", "desperate_prayer", "vampiric_embrace", "dispersion", "fade", -- Fade last: threat only
   -- rogue
   "crimson_vial", "feint", "evasion", "cloak_of_shadows",
   -- shaman

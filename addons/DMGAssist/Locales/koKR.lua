@@ -678,4 +678,5 @@ ns.LOCALE_DATA.koKR = {
   ["HOLD"] = "대기",
   ["HOLD during channels"] = "정신 집중 중 대기 표시",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."] = "정신 집중 주문(회전 학다리차기, 분노의 주먹, 정신의 채찍 등)이 진행되는 동안 1번 칸에 주황색 대기가 표시됩니다: 지금 아무 키나 누르면 끊깁니다. 끝나는 순간 초록색 지금이 표시됩니다. 전문화 우선순위 목록이 일부러 끊는 정신 집중에는 대기가 표시되지 않습니다.",
+  ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. Its border flashes green the moment it ends."] = "정신 집중 주문(회전 학다리차기, 분노의 주먹, 정신의 채찍 등)이 진행되는 동안 1번 칸에 주황색 대기가 표시됩니다: 지금 아무 키나 누르면 끊깁니다. 끝나는 순간 테두리가 초록색으로 번쩍입니다.",
 }

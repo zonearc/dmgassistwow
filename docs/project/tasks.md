@@ -49,6 +49,16 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.168: speed with nothing castable (BM Hunter without a gun dropped to 30 fps): each spell is checked once
+  per decision instead of once per look-ahead step, and the enemy count (every nameplate) is read once per update
+  instead of on every timing lookup. Worst spec 48 ms -> under 20 ms per update in the check; the whole check
+  runs in under 2 minutes instead of 8. Area spells that hit only around you (Holy Nova, Arcane Explosion,
+  Spinning Crane Kick, Whirlwind, ...) aren't shown when the game says the target is farther than they reach.
+  HOLD on every channel you cast (Mind Flay, Volley, ...); the GO text is gone: slot 1's border flashes green
+  when the channel ends, the keybind stays readable. Shadow Priest defensives: Power Word: Shield, Desperate
+  Prayer, Vampiric Embrace and Dispersion come before Fade (Fade only drops threat). The every-spec check gained
+  a "nothing castable" fight with a speed limit, and every spec now starts from a fresh load
+
 - 1.6.0.167: every-spec sweep: Auto Shot and Bloodlust (and twins) never shown; anything in the "never press by
   hand" list is ignored even when Blizzard's assistant names it (interrupts come from the Interrupts module only);
   Stealth / Prowl not castable in combat while the game hides usability; leaps, steps and Evocation never forced

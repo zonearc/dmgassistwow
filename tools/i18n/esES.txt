@@ -674,3 +674,4 @@
 680	ESPERA
 681	ESPERA durante canalizaciones
 682	Mientras uno de tus hechizos canalizados está en curso (Patada giratoria de la grulla, Puños de furia, Tortura mental...), el espacio 1 muestra un ESPERA ámbar: pulsar cualquier cosa ahora lo cortaría. Un YA verde aparece en cuanto termina. Las canalizaciones que la lista de prioridades de tu especialización corta a propósito no muestran ESPERA.
+683	Mientras uno de tus hechizos canalizados está en curso (Patada giratoria de la grulla, Puños de furia, Tortura mental...), el espacio 1 muestra un ESPERA ámbar: pulsar cualquier cosa ahora lo cortaría. Su borde destella en verde en cuanto termina.

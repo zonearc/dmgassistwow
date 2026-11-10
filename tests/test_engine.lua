@@ -3185,10 +3185,8 @@ test("channels: slot 1 says HOLD while one runs, GO when it ends; none for chann
   eq(f.hold:GetText(), "HOLD")
   mock.Advance(3)
   D.RenderTiming(f, cfg)
-  eq(f.hold:GetText(), "GO", "GO when it ends")
-  mock.Advance(1)
-  D.RenderTiming(f, cfg)
-  eq(f.hold:IsShown(), false, "then gone")
+  eq(f.hold:IsShown(), false, "ended: the text goes (it covered the keybind)")
+  eq(f.goAt ~= nil, true, "GO is the green border flash")
   -- a channel the list chains or cuts short: no HOLD
   local record = ns.Specs.current.data
   record.simc.default[#record.simc.default + 1] = { a = "shred", k = "R", p = { chain = "1" } }
@@ -3196,6 +3194,20 @@ test("channels: slot 1 says HOLD while one runs, GO when it ends; none for chann
   eq(G.ClipAllowed(1822, { simc = { default = { { a = "rake" } } } }), false)
   table.remove(record.simc.default)
   mock.inCombat = false
+end)
+
+test("area spells centred on you: not while the target is known to be farther than their radius", function()
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  ns.SpellMap.byID[106785] = "swipe_cat"
+  local real = ns.Clues.DistanceBounds
+  ns.Clues.DistanceBounds = function() return 30.5, math.huge end
+  eq(G.TooFar(106785), true, "target beyond 30 yards: Swipe (8 yards) does nothing")
+  eq(select(2, G.Castable(106785)), "range")
+  ns.Clues.DistanceBounds = function() return 0, 30 end
+  eq(G.TooFar(106785), false, "can't tell: allowed")
+  ns.Clues.DistanceBounds = real
 end)
 
 test("visibility: hidden while mounted out of combat; preview while the settings panel is open", function()

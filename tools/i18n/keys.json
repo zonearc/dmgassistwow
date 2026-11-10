@@ -681,5 +681,6 @@
 "GO",
 "HOLD",
 "HOLD during channels",
-"While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."
+"While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD.",
+"While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. Its border flashes green the moment it ends."
 ]

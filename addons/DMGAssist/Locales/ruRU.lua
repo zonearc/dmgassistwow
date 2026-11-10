@@ -678,4 +678,5 @@ ns.LOCALE_DATA.ruRU = {
   ["HOLD"] = "ЖДИ",
   ["HOLD during channels"] = "ЖДИ во время поддержания",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."] = "Пока поддерживается одно из ваших заклинаний (Удар журавля, Неистовые кулаки, Пытка разума...), ячейка 1 показывает янтарное ЖДИ: любое нажатие сейчас его прервёт. Зелёное ЖМИ появляется в момент окончания. Для поддерживаемых заклинаний, которые список приоритетов вашей специализации прерывает намеренно, ЖДИ не показывается.",
+  ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. Its border flashes green the moment it ends."] = "Пока поддерживается одно из ваших заклинаний (Удар журавля, Неистовые кулаки, Пытка разума...), ячейка 1 показывает янтарное ЖДИ: любое нажатие сейчас его прервёт. В момент окончания рамка вспыхивает зелёным.",
 }

@@ -1377,14 +1377,14 @@ function D.RenderTiming(f, cfg)
   else
     f.wipe:Hide()
   end
-  -- A channel of yours is running (Spinning Crane Kick, Fists of Fury, Mind Flay...): pressing anything now cuts it
-  -- short. Slot 1 says HOLD (amber, the wipe drains with it) until it ends, then GO (green) as the press-now flash
-  -- comes. Channels SimC chains or cuts on purpose get none (Engine G.ClipAllowed). Asked for 2026-11-10.
+  -- A channel of yours is running (Spinning Crane Kick, Fists of Fury, Mind Flay, Volley...): pressing anything now
+  -- cuts it short. Slot 1 says HOLD (amber, the wipe drains with it) until it ends, then its border flashes green
+  -- (GO). Every channel, including the ones SimC clips (Mind Flay): asked for 2026-11-10.
   local chID, chLeft
   if cfg.holdCue ~= false then
     chID, chLeft = ns.State.Channeling()
   end
-  if chID and chLeft > 0.05 and not ns.Engine.ClipAllowed(chID) then
+  if chID and chLeft > 0.05 then
     local size = math.max(10, math.floor((f.main:GetHeight() or 40) * 0.3))
     if f.holdSize ~= size then
       f.holdSize = size
@@ -1398,17 +1398,16 @@ function D.RenderTiming(f, cfg)
     f.channelOn, f.goAt = nil, now
   end
   if not f.channelOn then
-    if f.goAt and now - f.goAt < 0.6 then
-      f.hold:SetText(L["GO"])
-      f.hold:SetTextColor(0.3, 1, 0.35, 1 - (now - f.goAt) / 0.6)
-      f.hold:Show()
-    else
+    f.hold:Hide() -- GO is a green border flash (below), never text: text covered the keybind (2026-11-10)
+    if f.goAt and now - f.goAt >= 0.6 then
       f.goAt = nil
-      f.hold:Hide()
     end
   end
   -- glow / flash
-  if cfg.pressCue and ready and f.flashAt and now - f.flashAt < FLASH then
+  if f.goAt and now - f.goAt < 0.6 then
+    f.glow:Show()
+    f.glow:SetColorTexture(0.2, 1, 0.3, 1 - (now - f.goAt) / 0.6) -- the channel ended: GO
+  elseif cfg.pressCue and ready and f.flashAt and now - f.flashAt < FLASH then
     local t = (now - f.flashAt) / FLASH
     f.glow:Show()
     f.glow:SetColorTexture(1, 1, 0.75, 1 - 0.5 * t)

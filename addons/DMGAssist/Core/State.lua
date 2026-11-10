@@ -248,6 +248,7 @@ end
 
 function S.ForgetEnemies()
   S.seenEnemies = {}
+  if S.ForgetTargets then S.ForgetTargets() end
 end
 
 -- The spec's own AoE switch point, read from its priority list: the smallest target count at which it calls
@@ -311,7 +312,34 @@ function S.ActiveMode()
 end
 
 -- Returns targets, label ("ST", "AOE", "AUTO 3", "ST?" = auto could not read, primary mode used).
+-- Every timing lookup asks for the count (TimingKeys): reading all nameplates each time was a third of an update
+-- with nothing castable. Inside one update pass (S.BeginPass .. S.EndPass) the first count is reused; outside a
+-- pass, and in every new pass, it is read fresh, so a mode or settings change applies at once.
+local targetsMemo = {}
+local passSerial, inPass = 0, false
+local CountTargets
+function S.BeginPass()
+  passSerial, inPass = passSerial + 1, true
+end
+function S.EndPass()
+  inPass = false
+end
 function S.Targets()
+  local m = targetsMemo
+  if inPass and m.pass == passSerial then
+    return m.n, m.label
+  end
+  local n, label = CountTargets()
+  if inPass then
+    m.pass, m.n, m.label = passSerial, n, label
+  end
+  return n, label
+end
+function S.ForgetTargets()
+  targetsMemo.pass = nil
+end
+
+function CountTargets()
   local set = S.Settings()
   local mode = S.ActiveMode()
   if mode == "auto" then

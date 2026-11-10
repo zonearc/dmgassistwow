@@ -678,4 +678,5 @@ ns.LOCALE_DATA.zhCN = {
   ["HOLD"] = "等待",
   ["HOLD during channels"] = "引导期间显示等待",
   ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your spec's priority list cuts short on purpose get no HOLD."] = "当你的引导法术进行中（神鹤引项踢、怒雷破、精神鞭笞等），1 号位显示琥珀色的“等待”：此时按任何键都会打断它。结束的那一刻会显示绿色的“出手”。你的专精优先级列表有意打断的引导不会显示“等待”。",
+  ["While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an amber HOLD: pressing anything now would cut it short. Its border flashes green the moment it ends."] = "当你的引导法术进行中（神鹤引项踢、怒雷破、精神鞭笞等），1 号位显示琥珀色的“等待”：此时按任何键都会打断它。结束的那一刻边框会闪绿光。",
 }

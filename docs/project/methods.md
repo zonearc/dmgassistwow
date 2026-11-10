@@ -22,6 +22,18 @@ Written down so that a fix for one class doesn't quietly break another. Keep thi
 - **Baseline** (`tests/scenario_baseline.lua`): major cooldowns used, spells used, empty slots, slot 1 flips.
   Worse than the baseline fails the build.
 
+## 2a. Speed: read once, reuse inside the decision
+
+- A value that can't change inside one update (the enemy count, whether a spell is castable right now) is read
+  once and reused: `S.BeginPass` / `S.EndPass` around `ns.Update` (enemy count), `run.castMemo` inside one
+  decision. Outside a pass everything is read fresh, so a setting change applies at once.
+- The check's "none" fight (nothing castable) has a speed limit: that is the worst case, where the look-ahead
+  walks every step and finds nothing.
+- Profile before guessing: a `debug.sethook` sampler around `tests/test_scenarios.lua <spec>`; the tests replace
+  `print`, so write results to `io.stderr`.
+- A filtered run (`tests/test_scenarios.lua rogue`) is for profiling and debugging only: the simulated game
+  carries some state from spec to spec, so its numbers differ from the full run the baseline was taken from.
+
 ## 3. Changing the baseline honestly
 
 When the **simulation** changes (more realism), the numbers move for reasons that aren't the addon's:

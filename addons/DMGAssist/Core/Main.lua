@@ -345,7 +345,7 @@ function ns.BurstAllowed()
   return (tonumber(n) or 0) >= (tonumber(ns.db.bigPull) or ns.BIG_PULL)
 end
 
-function ns.Update()
+local function Update()
   local state = Specs.current
   if not state or state.status ~= "ready" or not state.data then
     D.Update(nil, false)
@@ -415,6 +415,14 @@ function ns.Update()
       trinket = result.trinket and result.trinket.token or nil, weave = result.weave and result.weave.token or nil,
     })
   end
+  return result
+end
+
+-- One update is one pass: values that cannot change inside it (the enemy count) are read once.
+function ns.Update()
+  S.BeginPass()
+  local result = Update()
+  S.EndPass()
   return result
 end
 

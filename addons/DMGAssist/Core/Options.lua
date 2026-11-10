@@ -522,8 +522,7 @@ function O.Register()
     "The main icon is darkened until your GCD or cast is about to end, then flashes: press it then.")
   Check(display, HUD, "holdCue", "HOLD during channels", H.holdCue ~= false,
     "While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an "
-      .. "amber HOLD: pressing anything now would cut it short. A green GO shows the moment it ends. Channels your "
-      .. "spec's priority list cuts short on purpose get no HOLD.")
+      .. "amber HOLD: pressing anything now would cut it short. Its border flashes green the moment it ends.")
   Slider(display, HUD, "pressLead", "Flash lead time", H.pressLead, 0, 300, 10,
     "How long before the exact moment the flash comes, for reaction time.", " ms")
   Check(display, HUD, "gcdBar", "GCD bar", H.gcdBar, "A thin bar under slot 1 that empties with your global cooldown.")

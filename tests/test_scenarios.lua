@@ -33,6 +33,7 @@ local TICK = 0.2      -- seconds between decisions
 local STUCK_MAX = 6   -- a ready major cooldown may wait behind Blizzard's pick at most this long
 local NO_PICK_MAX = 10 -- percent of the fight with nothing in slot 1
 local BASELINE = "tests/scenario_baseline.lua"
+local PERF_NONE_MAX = 20 -- ms per update (this interpreter) when nothing can be cast: no repeated look-ahead
 
 local function Boot()
   mock.frames, mock.timers, mock.printed = {}, {}, {}
@@ -132,7 +133,15 @@ local function Fight(ns, key, record, book, scenario)
         break
       end
     end
+    if scenario.unusable then
+      for _, b in ipairs(book) do
+        mock.usable[b.spellID] = { false, false } -- no weapon: nothing can be cast
+      end
+    end
+    local c0 = os.clock()
     local ok, r = pcall(ns.Update)
+    local ms = (os.clock() - c0) * 1000
+    m.msTotal, m.msPeak = (m.msTotal or 0) + ms, math.max(m.msPeak or 0, ms)
     if _G.SCEN_DEBUG and scenario.name == (_G.SCEN_ONLY or scenario.name) then
       _G.SCEN_DEBUG(now - start, r)
     end
@@ -243,6 +252,7 @@ local function Fight(ns, key, record, book, scenario)
     noMainPct = 100 * m.noMain / m.ticks, no2Pct = 100 * m.no2 / m.ticks, no3Pct = 100 * m.no3 / m.ticks,
     flipsPerMin = m.flips * 60 / FIGHT, distinct = distinct, majorsCast = majorsCast, majorsKnown = m.majorsKnown,
     presses = m.presses, onCdPct = 100 * m.onCd / m.ticks, skipShown = m.skipShown,
+    msAvg = (m.msTotal or 0) / m.ticks, msPeak = m.msPeak or 0,
   }
 end
 
@@ -250,6 +260,7 @@ local SCENARIOS = {
   { name = "st", targets = 1 },
   { name = "aoe", targets = 5 },
   { name = "lvl", targets = 1, leveling = true },
+  { name = "none", targets = 1, unusable = true }, -- nothing castable (no weapon, silenced, out of resources)
 }
 
 local ns = Boot()
@@ -273,6 +284,11 @@ end
 
 local t0 = os.clock()
 for _, key in ipairs(keys) do
+  -- every spec from a fresh load: nothing learned in one spec's fights may change another's
+  ns = Boot()
+  _G.SCEN_NS, NS = ns, ns
+  -- the last spec's load is garbage now: collect it here so its cost isn't timed as this spec's
+  collectgarbage("collect")
   local record = ns.Data.specs.midnight[key]
   local book = BookFor(record)
   mock.book = book
@@ -294,11 +310,12 @@ for _, key in ipairs(keys) do
     local id = key .. "/" .. sc.name
     local r = Fight(ns, key, record, book, sc)
     results[id] = r
+    if _G.SCEN_RESULTS then _G.SCEN_RESULTS(id, r) end
     -- rules
     if r.errors > 0 then
       Fail(string.format("%s: %d errors (first: %s)", id, r.errors, tostring(r.firstError)))
     end
-    if r.noMainPct > NO_PICK_MAX then
+    if r.noMainPct > NO_PICK_MAX and not sc.unusable then
       Fail(string.format("%s: nothing in slot 1 for %.0f%% of the fight", id, r.noMainPct))
     end
     if r.maxStuck > STUCK_MAX then
@@ -306,6 +323,9 @@ for _, key in ipairs(keys) do
     end
     for token in pairs(r.skipShown) do
       Fail(string.format("%s: showed %s (never pressed by hand)", id, token))
+    end
+    if sc.unusable and r.msAvg > PERF_NONE_MAX then
+      Fail(string.format("%s: %.1f ms per update with nothing castable (limit %d)", id, r.msAvg, PERF_NONE_MAX))
     end
     if r.maxHold > ns.Engine.HOLD_FOR + 1 then
       Fail(string.format("%s: a spell was held %.1f s", id, r.maxHold))
@@ -396,6 +416,8 @@ if #failures > 0 then
   for _, f in ipairs(failures) do
     print("  " .. f)
   end
-  os.exit(1)
+  if not _G.SCEN_NOEXIT then
+    os.exit(1)
+  end
 end
 print("all rules hold")
