@@ -49,6 +49,16 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.158: Balance: a spell the assistant has named for 6 s+ without being cast no longer locks out the spells
+  left to Blizzard (Fury of Elune sat ready while it named Sunfire); fight_remains / time_to_die never drop under
+  10 s while a fight goes on, and a fight longer than the usual one uses your longer fights of that kind (32 s into
+  a dummy pull Sunfire / Moonfire stopped refreshing: "time_to_die>5" read false); a skip is judged by what slot 1
+  showed when you pressed (a press landing 50 ms after a change, or a Starfire started before it, is no skip) and a
+  hold lapses after 20 s (Eclipse was held for a whole fight); Eclipse is blocked during Incarnation as Lunar /
+  Solar Eclipse too (slot 1 flipped Eclipse / Starfall every second). Guardian: Ironfur's next stack is asked a GCD
+  plus reaction time before the oldest ends. Grade: capped at the weakest part + 6. Watchdog: the grade line lands
+  in the fight it grades
+
 - 1.6.0.157: cooldowns from the game's own tooltip out of combat ("1 min cooldown", any language, talents
   included) ahead of SimC's base number, and every cooldown cast in a fight learned when it ends (Convoke the
   Spirits: 120 s in SimC's data, 1 min talented, never shown again). Nothing affordable while Blizzard waits for

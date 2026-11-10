@@ -28,6 +28,7 @@ Gr.LETTERS = { { 96, "S+" }, { 91, "S" }, { 86, "A+" }, { 80, "A" }, { 72, "B+" 
 Gr.COLORS = { ["S+"] = { 1, 0.85, 0.25 }, S = { 1, 0.6, 0.15 }, ["A+"] = { 0.85, 0.5, 1 }, A = { 0.7, 0.4, 1 },
   ["B+"] = { 0.35, 0.75, 1 }, B = { 0.3, 0.6, 1 }, C = { 0.35, 0.85, 0.35 }, D = { 0.65, 0.65, 0.65 } }
 Gr.SLOT23 = 0.75
+Gr.WEAK_GAP = 6
 Gr.LATE_SWITCH = 0.6
 Gr.IDLE_GRACE = 0.25
 Gr.MIN_SHOWN = 2 -- a cooldown shown for less than this before slot 1 moved on isn't graded
@@ -354,6 +355,18 @@ function Gr.Finish(f, now)
     end
   end
   local score = weight > 0 and total / weight or 0
+  -- One clearly weaker part can't hide behind the others: the total is at most Gr.WEAK_GAP above the weakest
+  -- part (2026-11-10: 99% accuracy, full reaction and cooldowns hid 88% always-casting and gave S+ for an easy
+  -- dummy fight). S+ takes every part strong.
+  local lowest
+  for k in pairs(Gr.WEIGHTS) do
+    if parts[k] and (not lowest or parts[k] < lowest) then
+      lowest = parts[k]
+    end
+  end
+  local capped = lowest and math.min(score, lowest + Gr.WEAK_GAP) or score
+  local limitedBy = capped < score - 0.05
+  score = capped
   local r = { score = score, letter = Gr.Letter(score), accuracy = accuracy, abc = abc, reaction = reaction,
     reactionMs = reactionSec and math.floor(reactionSec * 1000 + 0.5), cooldowns = cd, mitigation = mit,
     length = length,
@@ -377,7 +390,8 @@ function Gr.Finish(f, now)
     abc = math.floor(abc), reaction = r.reactionMs, cooldowns = cd and math.floor(cd),
     mitigation = mit and math.floor(mit), length = math.floor(length),
     -- what the accuracy is made of, to check it against the fight's log
-    presses = f.presses, right = f.right or 0, slot23 = f.slot23 or 0, wrong = f.wrong or 0, neutral = f.neutral or 0,
+    capped = limitedBy and "yes" or nil, presses = f.presses, right = f.right or 0, slot23 = f.slot23 or 0,
+    wrong = f.wrong or 0, neutral = f.neutral or 0,
     idle = string.format("%.1f", f.idle), missed = topMissed and (topMissed .. "x" .. n) or nil,
     cds = #f.cds, mits = #f.mit })
   return r

@@ -19,6 +19,14 @@ ns.Sessions = M
 local current
 local lastActivity = 0
 
+local recent, recentStop -- the session that just ended, for results logged a moment after it
+M.LATE = 2
+
+-- The session that ended a moment ago (M.LATE): end-of-fight results still belong to it.
+function M.Recent()
+  return recent ~= nil and U.Now() - (recentStop or 0) <= M.LATE
+end
+
 function M.Active()
   return current ~= nil
 end
@@ -39,8 +47,6 @@ local function Zone()
   return zone, inInstance, instanceType
 end
 
-local recent, recentStop -- the session that just ended, for results logged a moment after it
-M.LATE = 2
 
 function M.Start()
   local db = ns.db

@@ -1200,6 +1200,32 @@ test("skipping the slot-1 spell three times holds it until combat ends; casting 
   eq(G.IsHeld(1079), true)
   mock.Fire("PLAYER_REGEN_ENABLED")
   eq(G.IsHeld(1079), false, "combat ended: released")
+  -- a hold lapses on its own
+  G.OnPlayerCast(106830, r.main)
+  G.OnPlayerCast(106830, r.main)
+  G.OnPlayerCast(106830, r.main)
+  eq(G.IsHeld(1079), true)
+  mock.Advance(G.HOLD_FOR + 1)
+  eq(G.IsHeld(1079), false, "back after G.HOLD_FOR seconds")
+end)
+
+test("skips: a press decided before slot 1 changed is judged by what slot 1 showed then", function()
+  Reset()
+  local ns = Boot()
+  ns.NoteShown({ id = 1822, token = "rake" })
+  mock.Advance(1)
+  ns.NoteShown({ id = 106951, token = "berserk" })
+  mock.Advance(0.05)
+  eq(ns.ShownForPress(1822).id, 1822, "landed 50 ms after slot 1 changed: you pressed what it showed")
+  eq(ns.ShownForPress(5221).id, 1822, "another spell: judged by what slot 1 showed when you pressed")
+  mock.Advance(1)
+  eq(ns.ShownForPress(5221).id, 106951, "long after the change: the current pick")
+  -- a cast-time spell: decided when its cast started
+  ns.OnOwnCastStart(194153)
+  mock.Advance(1.5)
+  ns.NoteShown({ id = 1233272, token = "eclipse" })
+  mock.Advance(0.3)
+  eq(ns.ShownForPress(194153).id, 106951, "Starfire started before Eclipse showed: no skip of Eclipse")
 end)
 
 test("major cooldowns on bosses and big pulls only (optional)", function()
@@ -2160,6 +2186,9 @@ test("Eclipse is not recommended again while it is active, even with a charge le
   S.lastCastToken.incarnation_chosen_of_elune = GetTime()
   mock.Advance(16)
   eq(G.BlockedWhileActive(1233272), true, "Incarnation: 20 s")
+  ns.SpellMap.byID[1233272] = "lunar_eclipse"
+  eq(G.BlockedWhileActive(1233272), true, "the button as Lunar Eclipse: same rule")
+  ns.SpellMap.byID[1233272] = "eclipse"
   S.combatStart = nil
 end)
 
@@ -3556,6 +3585,43 @@ test("fight length: learned per kind of fight from your own fights; SimC default
   ns.db.fightMode, ns.db.fightLength = "custom", 120
   eq(S.FightLength(), 120)
   eq(S.LearnedFightLength("boss"), nil, "bosses learned separately")
+  -- a fight that outlasts the usual one isn't ending on cue
+  ns.db.fightMode = "learned"
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Advance(10)
+  eq(S.Resolve("fight_remains", {}), 15, "usual fight: 25 s, 10 s in")
+  mock.Advance(20)
+  eq(S.Resolve("target.time_to_die", {}), S.FIGHT_LEFT_MIN, "past the usual length: never about to end")
+  local list = (ns.global or ns.db).fights.world
+  list[#list + 1], list[#list + 2] = 90, 100
+  eq(S.Resolve("target.time_to_die", {}), 60, "your longer fights of this kind went on to 90-100 s")
+  list[#list], list[#list - 1] = nil, nil
+  mock.Advance(25)
+  eq(S.Resolve("expected_combat_length", {}), 25)
+  ns.db.fightMode = "custom"
+  eq(S.Resolve("fight_remains", {}), 65, "custom 120 s, 55 s in: as given")
+  mock.inCombat = false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
+test("assistant fixated on one spell you don't cast: spells left to Blizzard follow our own clock again", function()
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  G.NoteAssistant(93402)
+  eq(G.AssistantHealthy(), true)
+  mock.Advance(G.FIXATED + 1)
+  G.NoteAssistant(93402)
+  eq(G.AssistantHealthy(), false, "the same spell for longer than G.FIXATED, never cast")
+  ns.State.lastCast[93402] = GetTime()
+  G.NoteAssistant(93402)
+  eq(G.AssistantHealthy(), true, "you cast it: it's naming the next one")
+  G.NoteAssistant(194153)
+  eq(G.AssistantHealthy(), true, "a new spell")
+  G.acStuck = false
 end)
 
 test("enemy count: remembered through combat-flag gaps; dummies longer; one unreadable plate is not fatal", function()
@@ -3630,6 +3696,10 @@ test("essentials: keep-up stacks from own casts, gap closer only out of melee ra
   mock.Advance(1.6)
   r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
   eq(r.weave, nil, "three stacks up (default 3)")
+  local oldest = math.min(unpack(X.stacks[5217]))
+  mock.Advance(oldest - GetTime() - X.StackLead() + 0.1) -- the oldest ends within a GCD plus reaction time
+  r = X.Apply({ main = { id = 5221, token = "shred" }, queue = { { id = 5221, token = "shred" } } })
+  eq(r.weave and r.weave.token, "tigers_fury", "refresh asked before the oldest stack drops")
   mock.Advance(30) -- the spell's own duration from the data
   eq(X.Stacks(5217), 0, "stacks expire")
   ns.db.ironfurStacks = 0
@@ -4258,6 +4328,22 @@ test("an 'affordable' floor above anything our own energy count could reach is a
   local lo = C.ResourceBounds(3)
   eq(lo ~= nil and lo < 40, true, "not 40+: " .. tostring(lo))
   mock.inCombat, mock.restricted = false, false
+end)
+
+
+test("performance grade: one weak part caps the total (no S+ with 88% always casting)", function()
+  Reset()
+  local ns = Boot()
+  local Gr = ns.Grade
+  Gr.Reset()
+  -- the fight from the 2026-11-10 report: 40 of 41 right, 58 ms, cooldowns on time, 6.9 s idle in 61 s
+  local f = { start = mock.now - 61, presses = 41, score = 40.75, reactions = { 0.058 }, idle = 6.9, cds = { 0, 0 },
+    cdShown = {}, cdReady = {}, missed = {}, mit = {}, mitShown = {}, targets = 5 }
+  local r = Gr.Finish(f, mock.now)
+  eq(math.floor(r.abc + 0.5), 89)
+  eq(r.score <= r.abc + Gr.WEAK_GAP, true, "capped at the weakest part + " .. Gr.WEAK_GAP)
+  eq(r.letter ~= "S+", true, "not S+: " .. r.letter)
+  Gr.Reset()
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

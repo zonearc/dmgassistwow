@@ -78,7 +78,7 @@ end
 -- Blizzard the list leads as usual.
 function LV.Lead(result)
   local ac = result and result.acSpell
-  if not ac or ns.Choices.IsHidden(ac) or (ns.Engine.held and ns.Engine.held[ac]) then
+  if not ac or ns.Choices.IsHidden(ac) or ns.Engine.IsHeld(ac) then
     return result
   end
   local pick = { id = ac, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(ac) or nil,

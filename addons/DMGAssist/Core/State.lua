@@ -2593,6 +2593,37 @@ local function CombatTime()
   return V and V.dt or 0
 end
 
+-- How much longer this fight lasts, for fight_remains / time_to_die. A fight that has already outlasted the usual
+-- one is not ending on cue: 32 s into a dummy pull the learned length said "5 s left", and every "time_to_die>5"
+-- DoT line (Sunfire, Moonfire) stopped refreshing for the rest of a 95 s fight (Balance, 2026-11-10). Past fights
+-- that went on longer than this one say how much longer (their median); never less than S.FIGHT_LEFT_MIN seconds
+-- while the fight is still going, so DoTs and cooldowns aren't dropped for an end we can't see. A custom length
+-- (Settings) is taken as given.
+S.FIGHT_LEFT_MIN = 10
+function S.FightRemains()
+  local len, t = S.FightLength(), CombatTime()
+  local db = ns.db or {}
+  if db.fightMode == "custom" then
+    return math.max(1, len - t)
+  end
+  local left = len - t
+  if left < 2 * S.FIGHT_LEFT_MIN and (db.fightMode or "learned") == "learned" then
+    local g = ns.global or ns.db
+    local list = g and type(g.fights) == "table" and g.fights[S.fightContext or S.FightContext()]
+    local longer = {}
+    for _, v in ipairs(type(list) == "table" and list or {}) do
+      if type(v) == "number" and v > t then
+        longer[#longer + 1] = v - t
+      end
+    end
+    if #longer > 0 then
+      table.sort(longer)
+      left = math.max(left, longer[math.floor((#longer + 1) / 2)])
+    end
+  end
+  return math.max(S.FIGHT_LEFT_MIN, left)
+end
+
 -- ctx: { action = token of the line being evaluated, vars = table, targets = n }
 function S.Resolve(name, ctx)
   local p = Split(name)
@@ -2648,12 +2679,14 @@ function S.Resolve(name, ctx)
       return ctx.targets
     end
     return (S.Targets())
-  elseif head == "fight_remains" or head == "time_to_die" or head == "expected_combat_length" then
-    return math.max(1, S.FightLength() - CombatTime())
+  elseif head == "fight_remains" or head == "time_to_die" then
+    return S.FightRemains()
+  elseif head == "expected_combat_length" then
+    return S.FightLength()
   elseif head == "target" then
     local f = p[2]
     if f == "time_to_die" then
-      return math.max(1, S.FightLength() - CombatTime())
+      return S.FightRemains()
     elseif f == "distance" then
       if ns.Clues.DistanceBounds() then
         return UNKNOWN -- decided from the range bounds in comparisons

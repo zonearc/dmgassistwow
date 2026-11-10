@@ -110,7 +110,7 @@ DMGAssistWatchdog = {
     local long = type(kind) == "string" and (kind:find("_summary$") or kind:find("_trace$"))
     local limit = long and 2000 or 200
     kind, data = U.Safe(kind, 40), U.Safe(data, limit)
-    if ns.Sessions.Active() then
+    if ns.Sessions.Active() or ns.Sessions.Recent() then -- (the grade: logged as the fight ends)
       ns.Sessions.Add("D", kind, data)
     else
       ns.Store.Note("dmgassist", { kind = kind, data = data }) -- outside combat (e.g. end-of-fight summaries)

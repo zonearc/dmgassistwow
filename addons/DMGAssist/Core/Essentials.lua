@@ -2,7 +2,8 @@
 -- (interrupts and defensives still come first).
 --
 -- Off-GCD keep-ups (Ironfur) never take slot 1: they are drawn as a small "weave" badge on slot 1's corner, one at
--- a time with at least a GCD between suggestions, so stacks build while the rotation keeps generating Rage and
+-- a time with at least a GCD between suggestions (a stack ending within a GCD plus reaction time counts as gone),
+-- so stacks build while the rotation keeps generating Rage and
 -- threat (front-loading three at the pull starved both, and slot 1 flipped between Ironfur and the rotation).
 --
 -- Keep-ups (tanks): SimC simulates damage, not survival or threat, so it spends Rage on Ironfur only in narrow
@@ -71,6 +72,14 @@ X.GAP_CLOSERS = {
 X.stacks = {} -- spell id -> { expiry, ... } from our own casts
 X.lastWeave = {} -- spell id -> time of our last cast of it
 X.WEAVE_GAP = 1.5 -- seconds between two suggestions of the same off-GCD keep-up
+-- A stack counts as gone this long before it ends: the GCD you are in plus a human reaction, so the next cast
+-- lands while the old one is still up (counting only the last 0.5 s, stacks kept dropping to one before the
+-- refresh landed).
+X.REACTION = 0.4
+function X.StackLead()
+  local gcd = tonumber((ns.State.GCD())) or 1.5
+  return math.min(2.5, gcd + X.REACTION)
+end
 X.WEAVE_HOLD = 0.6 -- once shown, the badge stays while the spell flickers unusable for less than this
 
 function X.OnOwnCast(id)
@@ -268,7 +277,7 @@ function X.KeepUp()
       if k.kind == "stacks" then
         local want = tonumber(ns.db[k.setting]) or 3
         local last = X.lastWeave[k.id]
-        if want > 0 and X.Stacks(k.id, 0.5) < want and not (last and GetTime() - last < X.WEAVE_GAP) then
+        if want > 0 and X.Stacks(k.id, X.StackLead()) < want and not (last and GetTime() - last < X.WEAVE_GAP) then
           return { id = k.id, token = k.token, source = "keepup", weave = true }
         end
       elseif k.kind == "dot" and HostileTarget() then

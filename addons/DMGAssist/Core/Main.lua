@@ -390,6 +390,7 @@ function ns.Update()
     result.trinket = result.trinket or D.SAMPLE_ITEM
   end
   ns.last = result
+  ns.NoteShown(result.main)
   D.Update(result, not ns.Integrations.hudHidden)
   ns.Integrations.OnRecommendation(result)
   -- Decision log: one line per change of pick (not every tick).
@@ -540,6 +541,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     or event == "UNIT_SPELLCAST_EMPOWER_START" then
     if arg1 == "player" then
       S.OnOwnCastStart(arg3, event ~= "UNIT_SPELLCAST_START")
+      ns.OnOwnCastStart(U.Read(arg3))
     else
       ns.Interrupts.OnTargetCastStart()
     end
@@ -821,8 +823,50 @@ local function IsPress(id)
 end
 ns.IsPress = IsPress
 
+-- What slot 1 showed when a press was decided. The cast event comes after the press: an instant lands a frame or
+-- two later, a cast-time spell when its bar ends. If slot 1 changed in between, the latest pick is not what you were
+-- looking at (2026-11-10, Balance: Starfall and Starfire landed 50 ms after slot 1 flipped to Eclipse; three such
+-- "skips" held Eclipse for the rest of the fight). A cast matching anything slot 1 showed since the press counts.
+local shownLog, castStart = {}, nil
+ns.PRESS_WINDOW = 0.35 -- seconds before an instant's cast event that its press may have been decided
+function ns.NoteShown(main)
+  local last = shownLog[#shownLog]
+  if main and main.id and not (last and last.main.id == main.id) then
+    shownLog[#shownLog + 1] = { t = GetTime(), main = main }
+    if #shownLog > 16 then
+      table.remove(shownLog, 1)
+    end
+  end
+end
+
+function ns.OnOwnCastStart(id)
+  castStart = { id = id, t = GetTime() }
+end
+
+function ns.ShownForPress(id)
+  local now, baseOf = GetTime(), ns.SpellMap.baseOf or {}
+  local from = now - ns.PRESS_WINDOW
+  if castStart and castStart.id == id and now - castStart.t < 10 then
+    from = math.min(from, castStart.t)
+  end
+  local base = baseOf[id] or id
+  for i = #shownLog, 1, -1 do
+    local e = shownLog[i]
+    local after = shownLog[i + 1]
+    if not after or after.t >= from then -- on screen at some point since the press
+      if (baseOf[e.main.id] or e.main.id) == base then
+        return e.main
+      end
+    end
+    if e.t <= from then
+      return e.main -- what slot 1 showed when the press was decided
+    end
+  end
+  return ns.last and ns.last.main
+end
+
 function ns.OnOwnCast(id)
-  local shown = ns.last and ns.last.main
+  local shown = ns.ShownForPress(id)
   ns.Essentials.OnOwnCast(id)
   ns.Trinkets.OnOwnCast(id)
   local press = IsPress(id)

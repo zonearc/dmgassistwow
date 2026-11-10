@@ -31,7 +31,8 @@ cooldowns 20% (within 2 s full, 10 s none; unused items not graded). Letters S+ 
 C 50, D: B+ reachable for most players, A takes accurate play, S is rare. Only what we showed is graded: presses
 with nothing shown, outside the rotation, or with an interrupt in slot 1 are neutral; idle only while slot 1 is in
 range and usable; cooldowns shown under 2 s aren't graded. The letter uses the game's damage-number font. Never DPS:
-we can't know what a player should do. Best and last 20 fights per spec, account-wide; trend, averages and one tip
+we can't know what a player should do. The score is never more than 6 points above the weakest part, so one weak
+habit isn't hidden by the others (decided 2026-11-10). Best and last 20 fights per spec, account-wide; trend, averages and one tip
 on the settings page. Can be turned off.
 
 ## Integrations

@@ -323,12 +323,19 @@ G.BLOCKED_WHILE_ACTIVE = {
   lay_on_hands = { divine_shield = 30, blessing_of_protection = 30, lay_on_hands = 30 },
   -- Shadow: no Vampiric Embrace while it runs (15 s)
   vampiric_embrace = { vampiric_embrace = 15 },
-
 }
+-- The Eclipse button is Lunar or Solar Eclipse in game (its spell ID names the form): same rule. Without these
+-- Eclipse was offered during Incarnation, the game refused it, and slot 1 flipped Eclipse / Starfall every
+-- second (2026-11-10).
+G.BLOCKED_WHILE_ACTIVE.lunar_eclipse = G.BLOCKED_WHILE_ACTIVE.eclipse
+G.BLOCKED_WHILE_ACTIVE.solar_eclipse = G.BLOCKED_WHILE_ACTIVE.eclipse
 
 local function BlockedWhileActive(id)
-  local token = M.TokenForID and (M.TokenForID((M.baseOf and M.baseOf[id]) or id) or M.TokenForID(id))
-  local rule = token and G.BLOCKED_WHILE_ACTIVE[token]
+  local base = (M.baseOf and M.baseOf[id]) or id
+  local rule
+  for _, t in ipairs(M.TokenForID and { M.TokenForID(base) or false, M.TokenForID(id) or false } or {}) do
+    rule = rule or (t and G.BLOCKED_WHILE_ACTIVE[t])
+  end
   if not rule then
     return false
   end
@@ -420,8 +427,28 @@ function G.BelowCost(id)
 end
 
 -- Is Blizzard's assistant naming a rotation spell right now (so its silence about a spell means "not yet")?
+-- The assistant names one spell at a time. If it keeps naming the same one for G.FIXATED seconds and you don't cast
+-- it, it can't name anything else meanwhile: spells left to it ("Blizzard decides") would never come back. Balance,
+-- 2026-11-10: it named Sunfire for 45 s and Fury of Elune sat ready the whole time. Our own clock decides then.
+G.FIXATED = 6
 function G.AssistantHealthy()
-  return not G.acStuck
+  return not G.acStuck and not G.acFixated
+end
+
+function G.NoteAssistant(ac)
+  local now = S.Now()
+  if type(ac) ~= "number" then
+    G.acName, G.acNamedAt, G.acFixated = nil, nil, false
+    return
+  end
+  if ac ~= G.acName or not G.acNamedAt then
+    G.acName, G.acNamedAt = ac, now
+  end
+  local since = S.SinceCast and S.SinceCast(ac)
+  if type(since) == "number" and now - since > G.acNamedAt then
+    G.acNamedAt = now - since -- cast since it was first named: it is naming the next one
+  end
+  G.acFixated = now - G.acNamedAt > G.FIXATED
 end
 
 -- The game calls a combo point finisher "not usable" (no reason given) while our combo point read says it can be
@@ -587,15 +614,26 @@ function G.OnPlayerCast(castID, shown, enabled, queue)
   local n = (G.skips[shown.id] or 0) + 1
   G.skips[shown.id] = n
   if n >= G.SKIPS_TO_HOLD then
-    G.held[shown.id] = true
+    G.held[shown.id] = S.Now()
     G.skips[shown.id] = nil
     return "held", shown.id
   end
   return nil
 end
 
+-- A hold lapses after G.HOLD_FOR seconds: a spell you skipped three times comes back on its own instead of
+-- staying away for the rest of the fight (Eclipse, 2026-11-10: held from 17 s to the end of a 95 s fight).
+G.HOLD_FOR = 20
 function G.IsHeld(id)
-  return id and G.held[id] or false
+  local t = id and G.held[id]
+  if not t then
+    return false
+  end
+  if type(t) == "number" and S.Now() - t > G.HOLD_FOR then
+    G.held[id] = nil
+    return false
+  end
+  return true
 end
 
 G.KEY_COOLDOWN = 20 -- seconds of cooldown that make a spell "key"
@@ -850,7 +888,7 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         if run.trace then
           run.trace[#run.trace + 1] = string.format("%s:%s nothing to mitigate", name, a)
         end
-      elseif id and G.held[id] then
+      elseif id and G.IsHeld(id) then
         if run.trace then
           run.trace[#run.trace + 1] = string.format("%s:%s held (you skipped it)", name, a)
         end
@@ -1018,6 +1056,7 @@ local function Decide(record, opts, targets, first)
     local ac = U.Get(C_AssistedCombat and C_AssistedCombat.GetNextCastSpell, false)
     -- A buff, poison or weapon imbue named in combat (Numbing Poison missing: the assistant named it for a whole
     -- fight) says nothing about the rotation: ignored, the buff reminder covers it.
+    G.NoteAssistant(ac)
     G.acStuck = type(ac) == "number" and ((ns.Buffs and ns.Buffs.IsBuffSpell and ns.Buffs.IsBuffSpell(ac))
       or (S.rotationSpells ~= nil and not S.BlizzardCanName(ac))) or false
     if type(ac) == "number" and ns.Buffs and ns.Buffs.IsBuffSpell and ns.Buffs.IsBuffSpell(ac) then
@@ -1072,7 +1111,7 @@ local function Decide(record, opts, targets, first)
   local pick
   -- The player's "first when ready" spells come before the list whenever they can be cast.
   for _, fid in ipairs(ns.Choices.FirstSpells()) do
-    if not G.held[fid] then
+    if not G.IsHeld(fid) then
       local castable = Castable(fid)
       if castable == true or (castable == UNKNOWN and S.CooldownReady(fid) == true) then
         pick = { id = fid, token = M.TokenForID(fid), source = "first" }
@@ -1099,7 +1138,7 @@ local function Decide(record, opts, targets, first)
   -- Death on a full-health dummy; cooldown and power: it also names the next important spell while that is still
   -- on cooldown, and Judgment showed in slot 1 with 2 s left, 2026-11-09) and to spells the player is holding.
   -- On cooldown, the look-ahead below shows it a moment early, marked as not ready yet.
-  if not pick and run.acSpell and not G.held[run.acSpell] and not ns.Choices.IsHidden(run.acSpell) then
+  if not pick and run.acSpell and not G.IsHeld(run.acSpell) and not ns.Choices.IsHidden(run.acSpell) then
     local castable, why = Castable(run.acSpell)
     if castable ~= false then
       pick = { id = run.acSpell, token = M.TokenForID(run.acSpell), source = "assisted" }
@@ -1187,7 +1226,7 @@ function G.Soonest(record, have, count)
       local id = not G.SKIP[e.a] and M.SpellID(e.a) or nil
       if id and not seen[id] then
         seen[id] = true
-        if not G.held[id] and not ns.Choices.IsHidden(id) then
+        if not G.IsHeld(id) and not ns.Choices.IsHidden(id) then
           local castable, why = Castable(id)
           local left = S.CooldownRemains(id)
           if castable ~= true and why == nil and type(left) == "number" and left > 0 and left <= G.SOON_MAX then
