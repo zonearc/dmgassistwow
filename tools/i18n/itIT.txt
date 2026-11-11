@@ -812,3 +812,6 @@
 818	PREMI START
 819	Lancia il primo incantesimo per avviare il Flow
 820	SI PARTE!
+821	Gioca l'HUD come un gioco ritmico, o tieni le icone classiche. Cambia quando vuoi con l'interruttore CLASSICO / FLOW sotto l'HUD, /dmga flow o un tasto.
+822	Gioca l'HUD come un gioco ritmico: le note scorrono da destra a sinistra fino a una linea e la raggiungono quando l'incantesimo si può premere. Interruzioni, difese e monili compaiono nella fila bonus sopra. I colpi creano una serie; 5, 10, 25, 50 di fila valgono una stella. Cambia quando vuoi con l'interruttore CLASSICO / FLOW sotto l'HUD o /dmga flow.
+823	Quale stile? (Cambia quando vuoi con l'interruttore CLASSICO / FLOW sotto l'HUD, o /dmga flow.)

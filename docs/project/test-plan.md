@@ -20,7 +20,7 @@ Done and looking good: Balance, DK, Mage (all), DH (Havoc, Vengeance, Devourer),
   1 for a moment. Do it 3+ times in one fight: the grade's tip names the key and the spell.
 
 ## 2c. Game mode (1.6.0.189)
-- Click the CLASSIC / FLOW switch above the HUD (or /dmga flow). On a dummy: notes slide right to left and reach the line as each
+- Click the CLASSIC / FLOW switch under the HUD (or /dmga flow). On a dummy: notes slide right to left and reach the line as each
 - Flow mode, one note in the box: on a dummy, watch for two icons on the landing spot at once (there should never
   be). Let a note sit on the line 2 s while the HUD changes its mind: it should drop away red and the streak reset.
   Notes should never touch; a "next" that never comes up should vanish after about 3 presses.

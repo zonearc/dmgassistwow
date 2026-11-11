@@ -69,6 +69,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.205: Flow mode look (tested 2026-11-11): the action row is short, dark, coral-bordered (was a tall red
+  bar over the lane); no DEFEND! on login (the low-health defensive no longer counts); big words in a thin outline
+  (THICKOUTLINE looked blurry); "press start" on a dark gradient box above the notes, fading in 0.25 s; the
+  CLASSIC / FLOW switch is at the bottom right in both modes.
 - 1.6.0.204: Flow mode "press start" (READY, PLAYER ONE? / INSERT COIN / PRESS START until the set's first hit,
   then LET'S GO!); the grade box's Flow score line wraps inside the box instead of running out of it.
 - 1.6.0.203: Game mode is now Flow mode (owner's pick): CLASSIC / FLOW switch, /dmga flow (/dmga game still

@@ -35,8 +35,8 @@ G.ICON = 56
 G.HIT_X = 50        -- the hit line, from the left edge
 G.HEAD = 0          -- (the streak row is below the lane, 2026-11-11: "put them below it")
 G.FOOT = 36         -- the streak row, under the lane
-G.BONUS_H = 62      -- the bonus row, between the streak row and the lane
-G.BONUS_ICON = 48
+G.BONUS_H = 44      -- the action row above the lane (smaller than the lane, never over it: 2026-11-11)
+G.BONUS_ICON = 34
 G.DOT_EVERY = 0.5   -- the lane's dots: one per half second
 G.BONUS_POINTS = 150
 G.BONUS_TAG = { kick = "KICK!", defend = "DEFEND!", item = "POWER UP!" }
@@ -256,7 +256,7 @@ function G.LaneY()
 end
 
 function G.BonusY()
-  return -(G.HEAD + G.BONUS_H / 2 + 6)
+  return -(G.HEAD + (G.BONUS_H - 6) / 2) -- its icons end 6 px above the lane
 end
 
 function G.Create()
@@ -325,36 +325,42 @@ function G.Create()
     dot:SetSize(6, 6)
     f.dots[i] = dot
   end
-  -- the action track above the lane: only there while a defensive, interrupt or item waits on it
+  -- the action row above the lane: dark like the lane, with a thin coral border (not a red bar, 2026-11-11: "red
+  -- row is not going to be loved... subtle but clear it's important"); the border wakes up when something waits
+  local actH = G.BONUS_ICON + 6
   f.actTrack = f:CreateTexture(nil, "BACKGROUND", nil, 1)
-  f.actTrack:SetColorTexture(0.6, 0.08, 0.06, 0.35)
+  f.actTrack:SetColorTexture(0.04, 0.04, 0.07, 0.5)
   f.actTrack:SetPoint("LEFT", f, "TOPLEFT", 0, G.BonusY())
-  f.actTrack:SetSize(G.WIDTH, G.BONUS_ICON + 12)
-  f.actTrack:SetAlpha(0)
-  -- urgent look: red edges and a warning sign at its start, so it never reads like a buff icon
+  f.actTrack:SetSize(G.WIDTH, actH)
   f.actEdges = {}
-  for i, dy in ipairs({ (G.BONUS_ICON + 12) / 2, -(G.BONUS_ICON + 12) / 2 }) do
+  for i, side in ipairs({ { "TOPLEFT", "TOPRIGHT" }, { "BOTTOMLEFT", "BOTTOMRIGHT" }, { "TOPLEFT", "BOTTOMLEFT" },
+    { "TOPRIGHT", "BOTTOMRIGHT" } }) do
     local e = f:CreateTexture(nil, "ARTWORK")
-    e:SetColorTexture(1, 0.2, 0.15, 0.9)
-    e:SetPoint("LEFT", f, "TOPLEFT", 0, G.BonusY() + dy)
-    e:SetSize(G.WIDTH, 2)
-    e:SetAlpha(0)
+    e:SetColorTexture(1, 0.5, 0.4, 1)
+    e:SetPoint(side[1], f.actTrack, side[1], 0, 0)
+    e:SetPoint(side[2], f.actTrack, side[2], 0, 0)
+    if i <= 2 then
+      e:SetHeight(1)
+    else
+      e:SetWidth(1)
+    end
     f.actEdges[i] = e
   end
   f.actSign = f:CreateFontString(nil, "OVERLAY")
-  D.SetFont(f.actSign, 26, "THICKOUTLINE")
+  D.SetFont(f.actSign, 20)
+  f.actSign:SetShadowOffset(1, -1)
   f.actSign:SetPoint("CENTER", f, "TOPLEFT", 12, G.BonusY())
-  f.actSign:SetTextColor(1, 0.25, 0.2)
+  f.actSign:SetTextColor(1, 0.55, 0.45)
   f.actSign:SetText("!")
   f.actSign:SetAlpha(0)
   f.actBox = f:CreateTexture(nil, "ARTWORK")
-  f.actBox:SetColorTexture(1, 0.3, 0.25, 0.35)
+  f.actBox:SetColorTexture(1, 0.5, 0.4, 0.25)
   f.actBox:SetPoint("CENTER", f, "TOPLEFT", G.HIT_X, G.BonusY())
-  f.actBox:SetSize(G.BONUS_ICON + 10, G.BONUS_ICON + 10)
+  f.actBox:SetSize(G.BONUS_ICON + 4, G.BONUS_ICON + 4)
   f.actBox:SetAlpha(0)
   -- the alarm: a red edge around everything
   f.alarm = f:CreateTexture(nil, "BACKGROUND", nil, -1)
-  f.alarm:SetColorTexture(1, 0.1, 0.05, 0.8)
+  f.alarm:SetColorTexture(1, 0.35, 0.25, 0.6)
   f.alarm:SetPoint("TOPLEFT", f, "TOPLEFT", -6, 6)
   f.alarm:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", 6, G.FOOT - 6)
   f.alarm:SetAlpha(0)
@@ -382,7 +388,9 @@ function G.Create()
   f.judge:SetPoint("BOTTOMLEFT", f, "TOPLEFT", G.HIT_X - 12, -(G.HEAD + G.BONUS_H) + 4)
   f.judge:Hide()
   f.pop = f:CreateFontString(nil, "OVERLAY")
-  D.SetFont(f.pop, G.LANE - 12, "THICKOUTLINE") -- almost the whole lane: kudos you can't miss
+  D.SetFont(f.pop, G.LANE - 20, "OUTLINE") -- big kudos; a thin outline and a shadow (THICKOUTLINE looked blurry)
+  f.pop:SetShadowOffset(2, -2)
+  f.pop:SetShadowColor(0, 0, 0, 0.9)
   f.pop:SetPoint("BOTTOM", f, "TOP", 0, 4) -- above everything: the lane stays readable under it
   f.pop:SetTextColor(1, 0.85, 0.2)
   f.pop:Hide()
@@ -392,11 +400,35 @@ function G.Create()
   f.slip:SetTextColor(1, 0.55, 0.2)
   -- before a set's first press: an arcade "press start" over the lane (2026-11-11: "like it's waiting for you to
   -- play it"); your first spell starts the Flow
-  f.ready = f:CreateFontString(nil, "OVERLAY")
-  D.SetFont(f.ready, 30, "THICKOUTLINE")
-  f.ready:SetPoint("CENTER", f, "TOPLEFT", G.HIT_X + G.ICON + (G.WIDTH - G.HIT_X - G.ICON) / 2, G.LaneY() + 10)
+  -- its own layer over the notes: a dark box, darkest in the middle, the waiting notes a faint hint behind
+  -- (2026-11-11: "the insert coin text is behind the icons"); it fades out fast on the first hit
+  local rf = CreateFrame("Frame", nil, f)
+  rf:SetFrameLevel(f:GetFrameLevel() + 20)
+  rf:SetPoint("TOPLEFT", f, "TOPLEFT", 0, -(G.HEAD + G.BONUS_H))
+  rf:SetSize(G.WIDTH, G.LANE)
+  rf:SetAlpha(0)
+  f.readyFrame = rf
+  rf.bg = {}
+  for i = 1, 2 do
+    local t = rf:CreateTexture(nil, "BACKGROUND")
+    t:SetColorTexture(1, 1, 1, 1)
+    t:SetPoint(i == 1 and "LEFT" or "RIGHT", rf, i == 1 and "LEFT" or "RIGHT", 0, 0)
+    t:SetSize(G.WIDTH / 2, G.LANE)
+    local a0, a1 = i == 1 and 0.55 or 0.88, i == 1 and 0.88 or 0.55
+    if t.SetGradient and CreateColor then
+      t:SetGradient("HORIZONTAL", CreateColor(0, 0, 0, a0), CreateColor(0, 0, 0, a1))
+    else
+      t:SetVertexColor(0, 0, 0, 0.75)
+    end
+    rf.bg[i] = t
+  end
+  f.ready = rf:CreateFontString(nil, "OVERLAY")
+  D.SetFont(f.ready, 30, "OUTLINE")
+  f.ready:SetShadowOffset(2, -2)
+  f.ready:SetShadowColor(0, 0, 0, 0.9)
+  f.ready:SetPoint("CENTER", rf, "CENTER", 0, 9)
   f.ready:SetTextColor(1, 0.85, 0.2)
-  f.readySub = f:CreateFontString(nil, "OVERLAY")
+  f.readySub = rf:CreateFontString(nil, "OVERLAY")
   D.SetFont(f.readySub, 13)
   f.readySub:SetPoint("TOP", f.ready, "BOTTOM", 0, -4)
   f.readySub:SetTextColor(1, 1, 1)
@@ -466,7 +498,7 @@ local function NewNote(f)
   -- the bonus row's call: KICK! / DEFEND! / POWER UP!
   n.tag = n:CreateFontString(nil, "OVERLAY")
   ns.Display.SetFont(n.tag, 13)
-  n.tag:SetPoint("BOTTOM", n, "TOP", 0, 2)
+  n.tag:SetPoint("LEFT", n, "RIGHT", 6, 0)
   return n
 end
 
@@ -732,7 +764,7 @@ function G.Render()
             n.x = target
           end
         end
-        if w.t <= 0.05 and not n.alarmed then
+        if w.t <= 0.05 and not n.alarmed and w.special ~= "health" then
           n.alarmed = true
           f.alarmAt = now
           G.Kudos(f, L[G.BONUS_TAG[w.bonus]], { 1, 0.25, 0.2 }, true)
@@ -740,9 +772,11 @@ function G.Render()
           n.alarmed = nil
         end
       else
-        n.x = G.HIT_X + (w.slot - 1) * (G.BONUS_ICON + 56)
+        n.x = G.HIT_X + (w.slot - 1) * (G.BONUS_ICON + 96)
       end
-      actions = actions + 1
+      if w.special ~= "health" then
+        actions = actions + 1
+      end
       y = G.BonusY()
       local pulse = 0.6 + 0.4 * math.abs(math.sin(now * 4))
       n.tag:SetText(L[G.BONUS_TAG[w.bonus]])
@@ -878,14 +912,13 @@ function G.Render()
       n:SetPoint("CENTER", f, "TOPLEFT", n.x, G.LaneY() - (1 - a) * G.LANE * 0.7)
     end
   end
-  -- the action track shows only while something's on it
+  -- the action row is always there, quiet; its border and "!" wake up while something waits on it
   G.actAlpha = (G.actAlpha or 0) + ((actions > 0 and 1 or 0) - (G.actAlpha or 0)) * math.min(1, elapsed * 10)
   local beat = 0.6 + 0.4 * math.abs(math.sin(now * 5))
-  f.actTrack:SetAlpha(G.actAlpha)
   f.actBox:SetAlpha(G.actAlpha * beat)
   f.actSign:SetAlpha(G.actAlpha * beat)
   for _, e in ipairs(f.actEdges) do
-    e:SetAlpha(G.actAlpha)
+    e:SetAlpha(0.3 + 0.6 * G.actAlpha * beat)
   end
   -- the alarm: the whole frame's edge flashes red when a defensive or interrupt lands
   local al = f.alarmAt and (1 - (now - f.alarmAt) / 1.2) or 0
@@ -968,16 +1001,27 @@ G.READY_WORDS = { "READY, PLAYER ONE?", "INSERT COIN", "PRESS START" }
 function G.RenderReady(f, now)
   local fight = UnitAffectingCombat and UnitAffectingCombat("player")
   local waiting = not fight and G.hits == 0 and G.score == 0
+  local elapsed = math.min(0.1, now - (G.readyAt or now))
+  G.readyAt = now
+  G.readyAlpha = G.readyAlpha or 0
+  if waiting then
+    G.readyAlpha = math.min(1, G.readyAlpha + elapsed * 4)
+  else
+    G.readyAlpha = math.max(0, G.readyAlpha - elapsed / 0.25) -- gone in a quarter second: the game is on
+  end
+  f.readyFrame:SetAlpha(G.readyAlpha)
   if not waiting then
     G.readyWord = nil
-    f.ready:Hide()
-    f.readySub:Hide()
+    if G.readyAlpha <= 0 then
+      f.ready:Hide()
+      f.readySub:Hide()
+    end
     return
   end
   if not G.readyWord then
     G.readyWord = G.READY_WORDS[math.random(#G.READY_WORDS)]
   end
-  local pulse = 0.55 + 0.45 * math.abs(math.sin(now * 2.5))
+  local pulse = 0.65 + 0.35 * math.abs(math.sin(now * 2.5))
   f.ready:SetText(L[G.readyWord])
   f.ready:SetAlpha(pulse)
   f.ready:Show()

@@ -634,10 +634,11 @@ function D.Create()
   f.gear.tex = f.gear:CreateTexture(nil, "ARTWORK")
   f.gear.tex:SetAllPoints(f.gear)
   f.gear.tex:SetTexture("Interface\\Buttons\\UI-OptionsButton")
-  -- Game mode switch: always there, just above the HUD's top-right corner (Game.lua).
+  -- The CLASSIC / FLOW switch: always there, just under the HUD's bottom-right corner, where Flow mode has it too
+  -- (2026-11-11: "bottom right so it's consistent in both modes"). Game.lua.
   if ns.Game then
     f.gameBtn = ns.Game.ToggleButton(f)
-    f.gameBtn:SetPoint("BOTTOMRIGHT", f, "TOPRIGHT", 0, 2)
+    f.gameBtn:SetPoint("TOPRIGHT", f, "BOTTOMRIGHT", 0, -4)
   end
   f.gear:SetScript("OnClick", function()
     if ns.Options and ns.Options.Open then

@@ -83,7 +83,7 @@ W.QUESTIONS = {
         Hud().hideOutOfCombat = false
       end },
     } },
-  { text = "Which style? (Switch any time with the CLASSIC / FLOW switch above the HUD, or /dmga flow.)",
+  { text = "Which style? (Switch any time with the CLASSIC / FLOW switch under the HUD, or /dmga flow.)",
     options = {
       { "Classic: the next three spells as icons", function()
         ns.db.gameMode = false

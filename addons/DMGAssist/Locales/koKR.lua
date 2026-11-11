@@ -816,4 +816,7 @@ ns.LOCALE_DATA.koKR = {
   ["PRESS START"] = "START를 누르세요",
   ["Hit your first spell to start the Flow"] = "첫 주문을 시전하면 Flow가 시작됩니다",
   ["LET'S GO!"] = "가자!",
+  ["Play the HUD like a rhythm game, or keep the classic icons. Switch any time with the CLASSIC / FLOW switch under the HUD, /dmga flow, or a key binding."] = "HUD를 리듬 게임처럼 플레이하거나 기본 아이콘을 유지하세요. HUD 아래의 기본 / FLOW 스위치, /dmga flow, 또는 단축키로 언제든 전환합니다.",
+  ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the CLASSIC / FLOW switch under the HUD or /dmga flow."] = "HUD를 리듬 게임처럼 플레이합니다: 노트가 오른쪽에서 왼쪽으로 미끄러져 선에 닿을 때 주문을 누를 수 있습니다. 차단, 생존기, 장신구는 그 위 보너스 줄에 나타납니다. 맞히면 연속 기록이 쌓이고, 5, 10, 25, 50연속마다 별을 얻습니다. HUD 아래의 기본 / FLOW 스위치이나 /dmga flow으로 언제든 전환하세요.",
+  ["Which style? (Switch any time with the CLASSIC / FLOW switch under the HUD, or /dmga flow.)"] = "어떤 방식으로 할까요? (HUD 아래의 기본 / FLOW 스위치이나 /dmga flow으로 언제든 전환할 수 있습니다.)",
 }

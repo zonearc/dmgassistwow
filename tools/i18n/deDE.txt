@@ -812,3 +812,6 @@
 818	START DRÜCKEN
 819	Wirke deinen ersten Zauber, um den Flow zu starten
 820	LOS GEHT'S!
+821	Spiele das HUD wie ein Rhythmusspiel oder behalte die klassischen Symbole. Jederzeit umschaltbar mit dem Schalter KLASSISCH / FLOW unter dem HUD, /dmga flow oder einer Tastenbelegung.
+822	Spiele das HUD wie ein Rhythmusspiel: Noten gleiten von rechts nach links zu einer Linie und erreichen sie, wenn der Zauber gedrückt werden kann. Unterbrechungen, Verteidigungen und Schmuckstücke erscheinen in der Bonusreihe darüber. Treffer bauen eine Serie auf; 5, 10, 25, 50 in Folge bringen einen Stern. Jederzeit umschalten mit dem Schalter KLASSISCH / FLOW unter dem HUD oder /dmga flow.
+823	Welcher Stil? (Jederzeit umschaltbar mit dem Schalter KLASSISCH / FLOW unter dem HUD oder /dmga flow.)

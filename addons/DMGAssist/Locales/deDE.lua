@@ -816,4 +816,7 @@ ns.LOCALE_DATA.deDE = {
   ["PRESS START"] = "START DRÜCKEN",
   ["Hit your first spell to start the Flow"] = "Wirke deinen ersten Zauber, um den Flow zu starten",
   ["LET'S GO!"] = "LOS GEHT'S!",
+  ["Play the HUD like a rhythm game, or keep the classic icons. Switch any time with the CLASSIC / FLOW switch under the HUD, /dmga flow, or a key binding."] = "Spiele das HUD wie ein Rhythmusspiel oder behalte die klassischen Symbole. Jederzeit umschaltbar mit dem Schalter KLASSISCH / FLOW unter dem HUD, /dmga flow oder einer Tastenbelegung.",
+  ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the CLASSIC / FLOW switch under the HUD or /dmga flow."] = "Spiele das HUD wie ein Rhythmusspiel: Noten gleiten von rechts nach links zu einer Linie und erreichen sie, wenn der Zauber gedrückt werden kann. Unterbrechungen, Verteidigungen und Schmuckstücke erscheinen in der Bonusreihe darüber. Treffer bauen eine Serie auf; 5, 10, 25, 50 in Folge bringen einen Stern. Jederzeit umschalten mit dem Schalter KLASSISCH / FLOW unter dem HUD oder /dmga flow.",
+  ["Which style? (Switch any time with the CLASSIC / FLOW switch under the HUD, or /dmga flow.)"] = "Welcher Stil? (Jederzeit umschaltbar mit dem Schalter KLASSISCH / FLOW unter dem HUD oder /dmga flow.)",
 }

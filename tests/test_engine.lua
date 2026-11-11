@@ -5859,13 +5859,25 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   mock.inCombat = false
   Game.Render()
   eq(Game.frame.ready:IsShown(), true, "waiting for the first press")
+  eq(Game.frame.readyFrame:GetFrameLevel() > Game.frame:GetFrameLevel(), true, "over the notes, not behind them")
   local word = Game.frame.ready:GetText()
   eq(word == "READY, PLAYER ONE?" or word == "INSERT COIN" or word == "PRESS START", true, word)
   eq(Game.frame.readySub:GetText(), "Hit your first spell to start the Flow")
   Game.OnJudged("hit", 201)
   eq(Game.frame.pop:GetText(), "LET'S GO!")
-  Game.Render()
-  eq(Game.frame.ready:IsShown(), false, "the Flow is on")
+  for _ = 1, 6 do
+    mock.now = mock.now + 0.05
+    Game.Render()
+  end
+  eq(Game.frame.ready:IsShown(), false, "the Flow is on: the box faded in a quarter second")
+  eq(Game.readyAlpha, 0)
+  -- the low-health defensive is always listed (the game shows it when health is low): no alarm, no DEFEND!, the
+  -- action row stays quiet (it shouted DEFEND! on login, 2026-11-11)
+  Game.frame.alarmAt, Game.actAlpha, Game.kudosAt = nil, 0, nil
+  Game.frame.pop:SetText("")
+  Run({ main = A, queue = { A }, defensive = { id = 22812, how = "render", threshold = 35 } }, 1)
+  eq(Game.frame.alarmAt, nil, "no alarm") eq(Game.frame.pop:GetText(), "", "no DEFEND!")
+  eq(Game.actAlpha < 0.05, true, "the action row stays quiet")
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

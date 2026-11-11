@@ -662,11 +662,11 @@ function O.Register()
   ---------------------------------------------------------------- Game mode & grades: everything that makes it a game
   local game = Category("Flow mode & grades", main)
   Header(game, "Flow mode", "Play the HUD like a rhythm game, or keep the classic icons. Switch any time with the "
-    .. "CLASSIC / FLOW switch above the HUD, /dmga flow, or a key binding.")
+    .. "CLASSIC / FLOW switch under the HUD, /dmga flow, or a key binding.")
   Check(game, DB, "gameMode", "Flow mode", false,
     "Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be "
       .. "pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, "
-      .. "25, 50 in a row earn a star. Switch any time with the CLASSIC / FLOW switch above the HUD or /dmga flow.")
+      .. "25, 50 in a row earn a star. Switch any time with the CLASSIC / FLOW switch under the HUD or /dmga flow.")
   Slider(game, HUD, "gameOffset", "Flow timing offset", H.gameOffset or 0, -200, 300, 10,
     "Flow mode: moves the moment a note reaches the line (and flashes). If your presses feel late, raise it: the "
       .. "note arrives that much sooner. Like a rhythm game's calibration.", " ms")

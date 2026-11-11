@@ -39,8 +39,8 @@ damage claim (decided 2026-11-10). Best and last 20 fights per spec, account-wid
 on the settings page. Can be turned off.
 
 ## Flow mode (decided 2026-11-11; first called Game mode)
-- A second display style, switched any time (the CLASSIC / FLOW slider switch above the HUD and in the lanes' foot
-  row, /dmga flow, keybind, minimap menu, Settings; asked as the 4th welcome question, Classic suggested). Classic
+- A second display style, switched any time (the CLASSIC / FLOW slider switch at the bottom right of both: under the
+  classic HUD and in the lanes' foot row, /dmga flow, keybind, minimap menu, Settings; asked as the 4th welcome question, Classic suggested). Classic
   stays the default. (A 16 px drum icon was first; "too small, no one will see it", 2026-11-11.) Named "Flow
   mode" by the owner (2026-11-11; Rhythm and Tempo were the other candidates). The code keeps its first name
   (Game.lua, db.gameMode); /dmga game still works next to /dmga flow.
@@ -59,8 +59,13 @@ on the settings page. Can be turned off.
   every press shows a small coloured word at the spot. Defensives / interrupts / items: an action track opens
   above the lane only while one waits (red, edged, "!"); a boss hit's defensive scrolls in from its timer and
   lands when it should be pressed, with a red alarm around the frame and a big "DEFEND!".
+- The action row (2026-11-11, "the red row... looks terrible"): shorter than the lane (icons 34 px, 6 px clear
+  of it), dark like the lane with a thin coral border that wakes up (and a "!") while something waits; the
+  "KICK!"-style word sits right of its icon. The low-health defensive (always listed, shown by the game when
+  health is low) never wakes it, sounds the alarm or shouts DEFEND!. Big words use a thin outline and a shadow.
 - Press start (2026-11-11): out of combat before a set's first press, the lane shows an arcade headline
-  (READY, PLAYER ONE? / INSERT COIN / PRESS START) and "Hit your first spell to start the Flow"; the first hit pops
+  (READY, PLAYER ONE? / INSERT COIN / PRESS START) and "Hit your first spell to start the Flow" on a dark gradient
+  box over the lane (the waiting notes a faint hint behind it), gone in a quarter second on the first hit; the first hit pops
   LET'S GO!. The grade box gives the Flow score its own wrapped row (it ran out of the box beside the grade score).
 - Presses are judged against what slot 1 showed when they were decided, and a cast's note bursts when the cast
   begins (a right Starfire showed a red X: its cast event came after slot 1 moved on).

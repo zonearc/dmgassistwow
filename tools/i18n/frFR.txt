@@ -812,3 +812,6 @@
 818	APPUYEZ SUR START
 819	Lancez votre premier sort pour démarrer le Flow
 820	C'EST PARTI !
+821	Jouez le HUD comme un jeu de rythme, ou gardez les icônes classiques. Changez à tout moment avec l'interrupteur CLASSIQUE / FLOW sous le HUD, /dmga flow ou un raccourci.
+822	Jouez le HUD comme un jeu de rythme : les notes glissent de droite à gauche vers une ligne et l'atteignent quand le sort peut être lancé. Interruptions, défensifs et bijoux apparaissent dans la rangée bonus au-dessus. Les réussites forment une série ; 5, 10, 25, 50 d'affilée rapportent une étoile. Changez à tout moment avec l'interrupteur CLASSIQUE / FLOW sous le HUD ou /dmga flow.
+823	Quel style ? (Changez à tout moment avec l'interrupteur CLASSIQUE / FLOW sous le HUD, ou /dmga flow.)
