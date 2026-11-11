@@ -5863,14 +5863,65 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   local word = Game.frame.ready:GetText()
   eq(word == "READY, PLAYER ONE?" or word == "INSERT COIN" or word == "PRESS START", true, word)
   eq(Game.frame.readySub:GetText(), "Hit your first spell to start the Flow")
-  Game.OnJudged("hit", 201)
+  -- any spell starts it, out of combat too (Moonkin Form before the pull isn't judged, it still starts the Flow)
+  ns.OnOwnCast(201)
+  eq(Game.started, true)
   eq(Game.frame.pop:GetText(), "LET'S GO!")
   for _ = 1, 6 do
     mock.now = mock.now + 0.05
     Game.Render()
   end
-  eq(Game.frame.ready:IsShown(), false, "the Flow is on: the box faded in a quarter second")
+  eq(Game.frame.ready:IsShown(), false, "the Flow is on: the box gone at once")
   eq(Game.readyAlpha, 0)
+  -- a cast running: its bar runs from the landing box to the next note, which lands as the cast ends
+  local cc = ns.State.CurrentCast
+  local left = 1.2
+  ns.State.CurrentCast = function() return 194153, left end
+  for k, n in pairs(Game.notes) do
+    n:Hide()
+    Game.notes[k] = nil
+  end
+  Run({ main = B, queue = { B, A } }, 1, 0)
+  local nb = Game.notes["1:202:1"]
+  local px = (Game.WIDTH - Game.HIT_X - Game.ICON / 2 - 2) / Game.LOOK
+  eq(math.abs(nb.x - (Game.HIT_X + left * px)) < 2, true, "the next note waits for the cast: x " .. nb.x)
+  eq(Game.frame.castTrack:IsShown(), true)
+  local barEnd = Game.HIT_X + Game.ICON / 2 + 6 + Game.frame.castFill:GetWidth()
+  eq(math.abs(barEnd - (nb.x - Game.ICON / 2 - 2)) < 0.5, true, "the bar ends at the next note")
+  local w1 = Game.frame.castFill:GetWidth()
+  left = 0.4
+  Run({ main = B, queue = { B, A } }, 0.5, 0)
+  eq(Game.frame.castFill:GetWidth() < w1, true, "the bar shrinks as the note comes in")
+  left = 0
+  Run({ main = B, queue = { B, A } }, 0.5, 0)
+  eq(Game.frame.castTrack:IsShown(), false, "cast over: no bar")
+  eq(math.floor(nb.x + 0.5), Game.HIT_X, "the note is in the box as the cast ends")
+  ns.State.CurrentCast = cc
+  -- no spell for IDLE_PAUSE seconds (running to the group): the lanes pause, notes stop; the next spell resumes
+  for k, n in pairs(Game.notes) do
+    n:Hide()
+    Game.notes[k] = nil
+  end
+  ns.OnOwnCast(201)
+  Run({ main = A, queue = { A, B } }, 1, 1.0)
+  eq(Game.paused, false, "playing")
+  Run({ main = A, queue = { A, B } }, Game.IDLE_PAUSE + 0.5, 1.0)
+  eq(Game.paused, true, "paused after IDLE_PAUSE s with no spell")
+  eq(Game.frame.ready:GetText(), "PAUSED")
+  local frozen = Game.notes["1:202:1"].x
+  Game.streak = 5
+  Run({ main = A, queue = { A, B } }, 3, 0)
+  eq(Game.notes["1:202:1"].x, frozen, "nothing slides while paused")
+  eq(Game.streak, 5, "a pause never costs the streak")
+  ns.OnOwnCast(201)
+  eq(Game.paused, false) eq(Game.frame.pop:GetText(), "Back in the Flow!")
+  Run({ main = A, queue = { A, B } }, 0.5, 0)
+  eq(Game.notes["1:202:1"].x < frozen, true, "moving again")
+  -- the grade sits above the lanes, not on them
+  ns.db.gradePoint = nil
+  ns.Grade.Render(ns.Grade.SAMPLE, false, true)
+  local p1, rel, p2 = ns.Grade.frame:GetPoint()
+  eq(p1, "BOTTOM") eq(rel, Game.frame) eq(p2, "TOP")
   -- the low-health defensive is always listed (the game shows it when health is low): no alarm, no DEFEND!, the
   -- action row stays quiet (it shouted DEFEND! on login, 2026-11-11)
   Game.frame.alarmAt, Game.actAlpha, Game.kudosAt = nil, 0, nil

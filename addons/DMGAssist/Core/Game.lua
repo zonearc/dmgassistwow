@@ -60,6 +60,7 @@ G.EXPIRE = 1.2
 -- A "next" the engine keeps putting off (Moonfire parked mid-lane for minutes, 2026-11-11) is hidden after it's
 -- been passed over PASS_MAX times; it's back when it's slot 1 (the most a real slot 3 is passed over is twice).
 G.PASS_MAX = 3
+G.IDLE_PAUSE = 6    -- no spell for this long (running, catching up to the group): the lanes pause
 G.GAP_MIN = 8       -- pixels between two notes at the least, whatever their times
 G.GLIDE = 14        -- how fast a note glides to a new place (per second, exponential)
 G.PERFECT, G.GREAT = 0.25, 0.6 -- seconds from the line
@@ -366,10 +367,10 @@ function G.Create()
   f.alarm:SetAlpha(0)
   -- your cast in progress: a dim track as long as the cast, a bright bar filling it left to right (2026-11-11)
   f.castTrack = f:CreateTexture(nil, "BORDER", nil, 1)
-  f.castTrack:SetHeight(G.BAR_H + 6)
+  f.castTrack:SetHeight(G.BAR_H + 10)
   f.castTrack:Hide()
   f.castFill = f:CreateTexture(nil, "BORDER", nil, 2)
-  f.castFill:SetHeight(G.BAR_H + 6)
+  f.castFill:SetHeight(G.BAR_H)
   f.castFill:Hide()
   -- the arrival burst: a gold square that grows out of the spot and fades
   f.burst = f:CreateTexture(nil, "OVERLAY")
@@ -524,7 +525,9 @@ function G.HoldTime(id)
   return 0, nil
 end
 
--- Your cast or channel running: track = its whole length from the landing spot, fill = how much has passed.
+-- Your cast or channel running: a bar from the landing box to the next note, which rides on its end. As the cast
+-- runs the next note slides in and the bar shrinks; the note reaches the box the moment the cast ends (2026-11-11:
+-- a bar fixed at the line let spells 2 and 3 pass over it, "you lose that connection"). Bright core, dim halo.
 function G.RenderCast(f)
   local S = ns.State
   local id, left = S.CurrentCast()
@@ -534,27 +537,27 @@ function G.RenderCast(f)
     f.castFill:Hide()
     return
   end
-  if not (G.curCast and G.curCast.id == id) then
-    G.curCast = { id = id, total = left }
+  local from = G.HIT_X + G.ICON / 2 + 6 -- just right of the landing box
+  local main = G.mainNote
+  local to = (main and main.x or XFor(left - G.Offset())) - G.ICON / 2 - 2
+  local width = to - from
+  if width < 2 then
+    f.castTrack:Hide()
+    f.castFill:Hide()
+    return
   end
-  local total = math.max(G.curCast.total, left)
-  G.curCast.total = total
-  local px = (G.WIDTH - G.HIT_X - G.ICON / 2 - 2) / G.LOOK
-  local width = math.min(total * px, G.WIDTH - G.HIT_X - 4)
-  local done = math.max(0, math.min(1, 1 - left / total))
-  local channel = S.Channeling() == id
   local r, g, b = 1, 0.85, 0.3
-  if channel then
+  if S.Channeling() == id then
     r, g, b = 0.35, 0.65, 1
   end
   f.castTrack:ClearAllPoints()
-  f.castTrack:SetPoint("LEFT", f, "TOPLEFT", G.HIT_X, G.LaneY())
-  f.castTrack:SetWidth(math.max(1, width))
+  f.castTrack:SetPoint("LEFT", f, "TOPLEFT", from, G.LaneY())
+  f.castTrack:SetWidth(width)
   f.castTrack:SetColorTexture(r, g, b, 0.25)
   f.castTrack:Show()
   f.castFill:ClearAllPoints()
-  f.castFill:SetPoint("LEFT", f, "TOPLEFT", G.HIT_X, G.LaneY())
-  f.castFill:SetWidth(math.max(1, width * done))
+  f.castFill:SetPoint("LEFT", f, "TOPLEFT", from, G.LaneY())
+  f.castFill:SetWidth(width)
   f.castFill:SetColorTexture(math.min(1, r + 0.1), math.min(1, g + 0.1), math.min(1, b + 0.1), 0.9)
   f.castFill:Show()
 end
@@ -715,8 +718,24 @@ function G.Render()
   local now = GetTime()
   local df = D.frame
   local wait = (df and df.lastWait or 0) - G.Offset()
+  -- casting or channelling: the next note can't land before it ends (the bar to it shows the rest of the cast)
+  local _, castLeft = ns.State.CurrentCast()
+  if castLeft and castLeft > 0 then
+    wait = math.max(wait, castLeft - G.Offset())
+  end
   local elapsed = math.min(0.1, now - (G.lastRender or now))
   G.lastRender = now
+  -- paused: no spell for IDLE_PAUSE seconds (and none being cast). Nothing slides, the dots stop, the clock for a
+  -- quiet miss stops; your next spell picks it up again (2026-11-11: "if I stop for like 5-7s, pause the game")
+  local casting = select(2, ns.State.CurrentCast())
+  if casting and casting > 0 then
+    G.lastAct = now
+  end
+  G.paused = (G.started and G.lastAct and now - G.lastAct >= G.IDLE_PAUSE) and true or false
+  if G.paused then
+    elapsed = 0
+  end
+  G.clock = (G.clock or 0) + elapsed
   local want = Wanted(r, wait)
   -- a hidden "next" is back once it's off the queue (or it's slot 1)
   for key in pairs(G.hidden or {}) do
@@ -800,13 +819,16 @@ function G.Render()
         end
       end
       prevX, prevT = n.x, w.t
+      if G.paused then
+        n.readyAt = nil
+      end
       if w.main then
         n.passed = 0
         if G.hidden then
           G.hidden[w.key] = nil
         end
         -- waiting on the line with you free to press it: the clock for a quiet miss
-        if w.t <= 0.05 then
+        if w.t <= 0.05 and not G.paused then
           n.readyAt = n.readyAt or now
         else
           n.readyAt = nil
@@ -924,7 +946,7 @@ function G.Render()
   local al = f.alarmAt and (1 - (now - f.alarmAt) / 1.2) or 0
   f.alarm:SetAlpha(al > 0 and (0.4 + 0.6 * math.abs(math.sin(now * 12))) * al or 0)
   -- the lane's dots: one every DOT_EVERY seconds, scrolling with the notes (eaten at the line)
-  local phase = now % G.DOT_EVERY
+  local phase = G.clock % G.DOT_EVERY
   for i, dot in ipairs(f.dots) do
     local x = G.HIT_X + ((i - 1) * G.DOT_EVERY + G.DOT_EVERY - phase) * px
     if x > G.HIT_X + G.ICON / 2 and x < G.WIDTH - 4 then
@@ -996,18 +1018,39 @@ function G.Render()
   RenderStreak(f)
 end
 
+-- Your first spell of a set (any spell, in combat or out): the press-start box goes, LET'S GO!
+function G.Started()
+  if not G.On() then
+    return
+  end
+  G.lastAct = GetTime()
+  if G.paused then
+    G.paused = false -- back from a pause: the lanes pick up where they stopped
+    if G.frame then
+      G.Kudos(G.frame, L["Back in the Flow!"], { 0.4, 1, 0.5 }, true)
+    end
+  end
+  if G.started then
+    return
+  end
+  G.started = true
+  if G.frame and G.hits == 0 and G.score == 0 then
+    G.Kudos(G.frame, L["LET'S GO!"], { 0.4, 1, 0.5 }, true)
+  end
+end
+
 -- "Press start": out of combat with nothing played yet this set. A fresh headline each time it comes up.
 G.READY_WORDS = { "READY, PLAYER ONE?", "INSERT COIN", "PRESS START" }
 function G.RenderReady(f, now)
   local fight = UnitAffectingCombat and UnitAffectingCombat("player")
-  local waiting = not fight and G.hits == 0 and G.score == 0
+  local waiting = (not fight and not G.started and G.hits == 0 and G.score == 0) or G.paused
   local elapsed = math.min(0.1, now - (G.readyAt or now))
   G.readyAt = now
   G.readyAlpha = G.readyAlpha or 0
   if waiting then
     G.readyAlpha = math.min(1, G.readyAlpha + elapsed * 4)
   else
-    G.readyAlpha = math.max(0, G.readyAlpha - elapsed / 0.25) -- gone in a quarter second: the game is on
+    G.readyAlpha = math.max(0, G.readyAlpha - elapsed / 0.15) -- gone at once: the next key must be readable
   end
   f.readyFrame:SetAlpha(G.readyAlpha)
   if not waiting then
@@ -1022,10 +1065,10 @@ function G.RenderReady(f, now)
     G.readyWord = G.READY_WORDS[math.random(#G.READY_WORDS)]
   end
   local pulse = 0.65 + 0.35 * math.abs(math.sin(now * 2.5))
-  f.ready:SetText(L[G.readyWord])
+  f.ready:SetText(G.paused and L["PAUSED"] or L[G.readyWord])
   f.ready:SetAlpha(pulse)
   f.ready:Show()
-  f.readySub:SetText(L["Hit your first spell to start the Flow"])
+  f.readySub:SetText(G.paused and L["Hit your next spell to jump back in"] or L["Hit your first spell to start the Flow"])
   f.readySub:Show()
 end
 
@@ -1220,7 +1263,7 @@ function G.OnJudged(kind, id)
     end
   else
     local fire
-    local first = G.hits == 0 and G.score == 0 -- the set's first hit: the Flow starts
+    local first = not G.started -- the set's first hit: the Flow starts (if no cast started it already)
     local c = G.cast
     if kind == "hit" and c and id and (baseOf[c.id] or c.id) == (baseOf[id] or id) and GetTime() - c.at < 10 then
       judge, fire = c.judge, c.fire -- judged when the cast began
@@ -1265,7 +1308,7 @@ function G.OnJudged(kind, id)
       end
     end
     if first then
-      Kudos(f, L["LET'S GO!"], { 0.4, 1, 0.5 }, true)
+      G.Started()
     elseif milestone then
       Kudos(f, L[G.WORDS[milestone]], nil, true)
     elseif fire then
@@ -1303,6 +1346,7 @@ function G.EndSet()
     perfect = G.hits > 0 and math.floor(100 * G.perfects / (G.hits + (G.misses or 0)) + 0.5) or 0,
     misses = G.misses or 0 }
   G.score, G.setBest, G.hits, G.perfects, G.misses = 0, 0, 0, 0, 0
+  G.started, G.paused, G.lastAct = nil, false, nil -- the next set waits for its first press
   G.streak, G.stars = 0, 0
   return out
 end

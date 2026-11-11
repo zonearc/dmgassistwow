@@ -168,6 +168,9 @@ function mock.Install(env)
   function FrameMethods:SetSize(w, h)
     self.width, self.height = w, h
   end
+  function FrameMethods:SetWidth(w)
+    self.width = w
+  end
   function FrameMethods:SetText(t)
     self.text = t
   end
@@ -246,7 +249,7 @@ function mock.Install(env)
     "SetDrawLayer", "SetBackdropColor",
     "SetBackdropBorderColor", "SetStatusBarTexture", "SetStatusBarColor", "SetMinMaxValues",
     "SetJustifyH", "SetTextColor", "SetAllPoints", "SetMovable", "RegisterForDrag",
-    "SetClampedToScreen", "SetMultiLine", "SetAutoFocus", "SetFontObject", "SetWidth", "SetScrollChild",
+    "SetClampedToScreen", "SetMultiLine", "SetAutoFocus", "SetFontObject", "SetScrollChild",
     "SetCursorPosition", "SetFocus", "HighlightText", "ClearFocus", "StartMoving", "StopMovingOrSizing",
     "RegisterForClicks", "SetVertexColor", "HasFocus", "SetMaxLetters", "SetSpacing", "SetHighlightTexture", "SetOwner", "AddLine" }) do
     FrameMethods[name] = noop

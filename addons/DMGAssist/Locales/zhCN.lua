@@ -819,4 +819,7 @@ ns.LOCALE_DATA.zhCN = {
   ["Play the HUD like a rhythm game, or keep the classic icons. Switch any time with the CLASSIC / FLOW switch under the HUD, /dmga flow, or a key binding."] = "把HUD当作节奏游戏来玩，或保留经典图标。随时可用HUD下方的 经典 / FLOW 开关、/dmga flow 或按键绑定切换。",
   ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the CLASSIC / FLOW switch under the HUD or /dmga flow."] = "把HUD当作节奏游戏来玩：音符从右向左滑向判定线，到达时正好可以按下该技能。打断、减伤和饰品会出现在上方的奖励行。命中会累积连击；连续5、10、25、50次各得一颗星。随时可用HUD下方的 经典 / FLOW 开关或 /dmga flow 切换。",
   ["Which style? (Switch any time with the CLASSIC / FLOW switch under the HUD, or /dmga flow.)"] = "选择哪种风格？（随时可用HUD下方的 经典 / FLOW 开关或 /dmga flow 切换。）",
+  ["PAUSED"] = "已暂停",
+  ["Hit your next spell to jump back in"] = "施放下一个技能即可继续",
+  ["Back in the Flow!"] = "回到Flow！",
 }

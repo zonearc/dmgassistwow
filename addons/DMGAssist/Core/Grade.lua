@@ -931,6 +931,9 @@ local function Place(f)
   local pos = ns.db and type(ns.db.gradePoint) == "table" and ns.db.gradePoint
   if pos then
     f:SetPoint(pos[1] or "CENTER", UIParent, pos[2] or "CENTER", tonumber(pos[3]) or 0, tonumber(pos[4]) or 0)
+  elseif ns.Game and ns.Game.On() and ns.Game.frame and ns.Game.frame:IsShown() then
+    -- Flow mode: above the lanes, never over them (it sat on the lane, 2026-11-11: "doesn't look clean")
+    f:SetPoint("BOTTOM", ns.Game.frame, "TOP", 0, 10)
   elseif ns.Display.Home then
     f:SetPoint("BOTTOM", ns.Display.Home(), "TOP", 0, 14)
   else

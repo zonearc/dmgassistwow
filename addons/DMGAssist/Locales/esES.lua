@@ -819,4 +819,7 @@ ns.LOCALE_DATA.esES = {
   ["Play the HUD like a rhythm game, or keep the classic icons. Switch any time with the CLASSIC / FLOW switch under the HUD, /dmga flow, or a key binding."] = "Juega con el HUD como un juego de ritmo, o mantén los iconos clásicos. Cambia cuando quieras con el interruptor CLÁSICO / FLOW bajo el HUD, /dmga flow o una tecla.",
   ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the CLASSIC / FLOW switch under the HUD or /dmga flow."] = "Juega con el HUD como un juego de ritmo: las notas se deslizan de derecha a izquierda hasta una línea y la alcanzan cuando se puede pulsar el hechizo. Interrupciones, defensivas y abalorios aparecen en la fila de bonus encima. Los aciertos forman una racha; 5, 10, 25, 50 seguidos dan una estrella. Cambia cuando quieras con el interruptor CLÁSICO / FLOW bajo el HUD o /dmga flow.",
   ["Which style? (Switch any time with the CLASSIC / FLOW switch under the HUD, or /dmga flow.)"] = "¿Qué estilo? (Cambia cuando quieras con el interruptor CLÁSICO / FLOW bajo el HUD, o /dmga flow.)",
+  ["PAUSED"] = "PAUSA",
+  ["Hit your next spell to jump back in"] = "Lanza tu siguiente hechizo para volver",
+  ["Back in the Flow!"] = "¡De vuelta en el Flow!",
 }

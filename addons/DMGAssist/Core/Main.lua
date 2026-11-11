@@ -899,6 +899,7 @@ end
 function ns.OnOwnCastStart(id)
   castStart = { id = id, t = GetTime() }
   if ns.Game then
+    ns.Game.Started()
     ns.Game.OnCastStart(id) -- the note bursts the moment the cast begins
   end
 end
@@ -926,6 +927,9 @@ function ns.ShownForPress(id)
 end
 
 function ns.OnOwnCast(id)
+  if ns.Game then
+    ns.Game.Started() -- any spell starts the Flow, in combat or not (Moonkin Form before the pull, 2026-11-11)
+  end
   local shown = ns.ShownForPress(id)
   ns.Essentials.OnOwnCast(id)
   ns.Trinkets.OnOwnCast(id)

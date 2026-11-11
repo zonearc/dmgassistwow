@@ -69,6 +69,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.207: Flow mode: pause after 6 s without a spell (next spell resumes), any spell starts the Flow and the
+  press-start box goes in 0.15 s, the cast bar links the landing box to the next note, the grade box sits above
+  the lanes.
 - 1.6.0.205: Flow mode look (tested 2026-11-11): the action row is short, dark, coral-bordered (was a tall red
   bar over the lane); no DEFEND! on login (the low-health defensive no longer counts); big words in a thin outline
   (THICKOUTLINE looked blurry); "press start" on a dark gradient box above the notes, fading in 0.25 s; the

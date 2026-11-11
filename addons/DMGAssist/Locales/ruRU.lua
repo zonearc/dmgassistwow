@@ -819,4 +819,7 @@ ns.LOCALE_DATA.ruRU = {
   ["Play the HUD like a rhythm game, or keep the classic icons. Switch any time with the CLASSIC / FLOW switch under the HUD, /dmga flow, or a key binding."] = "Играйте с HUD как в ритм-игру или оставьте обычные значки. Переключайте в любой момент переключателем КЛАССИКА / FLOW под HUD, /dmga flow или клавишей.",
   ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the CLASSIC / FLOW switch under the HUD or /dmga flow."] = "Играйте с HUD как в ритм-игру: ноты скользят справа налево к линии и достигают её, когда заклинание можно нажать. Прерывания, защита и аксессуары появляются в бонусном ряду над ней. Попадания складываются в серию; за 5, 10, 25, 50 подряд даётся звезда. Переключайте в любой момент переключателем КЛАССИКА / FLOW под HUD или /dmga flow.",
   ["Which style? (Switch any time with the CLASSIC / FLOW switch under the HUD, or /dmga flow.)"] = "Какой стиль? (Переключайте в любой момент переключателем КЛАССИКА / FLOW под HUD или /dmga flow.)",
+  ["PAUSED"] = "ПАУЗА",
+  ["Hit your next spell to jump back in"] = "Примените следующее заклинание, чтобы вернуться",
+  ["Back in the Flow!"] = "Снова во Flow!",
 }

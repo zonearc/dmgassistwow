@@ -67,6 +67,13 @@ on the settings page. Can be turned off.
   (READY, PLAYER ONE? / INSERT COIN / PRESS START) and "Hit your first spell to start the Flow" on a dark gradient
   box over the lane (the waiting notes a faint hint behind it), gone in a quarter second on the first hit; the first hit pops
   LET'S GO!. The grade box gives the Flow score its own wrapped row (it ran out of the box beside the grade score).
+- Pause (2026-11-11): no spell for 6 s and none being cast (running, catching up to the group) freezes the
+  lanes under a PAUSED box; the next spell resumes ("Back in the Flow!"). A pause never costs the streak and its
+  time never counts toward a quiet miss. Any spell starts a set's Flow, in combat or not (the press-start box went
+  only when the fight began, hiding the next key).
+- The cast bar runs from the landing box to the next note, which rides on its end and reaches the box the moment
+  the cast ends; the bar shrinks as the cast runs (a bar fixed at the line let later notes pass over it).
+- The grade box sits above the Flow lanes (unless moved), never over them.
 - Presses are judged against what slot 1 showed when they were decided, and a cast's note bursts when the cast
   begins (a right Starfire showed a red X: its cast event came after slot 1 moved on).
 - Notes only move left: a later target (a new global cooldown, a wrong press) pauses a note where it is. A wrong
