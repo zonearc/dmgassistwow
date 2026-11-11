@@ -74,7 +74,7 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
-- 1.6.0.209: Flow mode timing (report 2026-11-11, "lost a streak at 12... hit it right when it flashed"): a note
+- 1.6.0.208: Flow mode timing (report 2026-11-11, "lost a streak at 12... hit it right when it flashed"): a note
   that waited on the line while a Starfire was still casting counted as a quiet miss when the engine swapped it at
   the cast's end. Fixed: no quiet-miss clock while casting (the note now also waits for the cast); a press matched
   to a note that just swapped away bursts nothing; PRESS_WINDOW 0.35 -> 0.6 s (WoW's spell queue window plus a
