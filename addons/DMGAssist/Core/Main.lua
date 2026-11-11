@@ -912,6 +912,7 @@ function ns.OnOwnCast(id)
   local shown = ns.ShownForPress(id)
   ns.Essentials.OnOwnCast(id)
   ns.Trinkets.OnOwnCast(id)
+  ns.Defensives.OnOwnCast(id)
   local press = IsPress(id)
   if inCombat then
     ns.Grade.OnPress(id, ns.last, press)

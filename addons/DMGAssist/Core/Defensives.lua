@@ -69,6 +69,32 @@ F.ONLY_WHEN = {
   end,
 }
 
+-- Heals and heal-like "defensives": for when you're actually low, never ahead of a boss mod's hit (a Balance Druid
+-- at full health was told to cast Regrowth for an AoE once Barkskin was on cooldown, 1.6.0.185 dungeon report).
+F.HEALS = { frenzied_regeneration = true, renewal = true, regrowth = true, renewing_blaze = true,
+  exhilaration = true, word_of_glory = true, flash_of_light = true, lay_on_hands = true, desperate_prayer = true,
+  crimson_vial = true, healing_surge = true, dark_pact = true, impending_victory = true, victory_rush = true }
+
+-- A defensive you cast is up until its duration ends: the hit it was for is covered, don't ask for a second one.
+F.upUntil = 0
+
+function F.OnOwnCast(id)
+  local M = ns.SpellMap
+  local token = M.TokenForID and M.TokenForID(id)
+  if not (token and F.SET and F.SET[token]) or F.HEALS[token] then
+    return
+  end
+  local info = M.Info(id)
+  local dur = info and tonumber(info.d) or 0
+  if dur > 0 then
+    F.upUntil = math.max(F.upUntil, GetTime() + dur)
+  end
+end
+
+function F.Covered()
+  return GetTime() < F.upUntil
+end
+
 F.stats = { shown = 0 }
 F.shown = false
 
@@ -81,8 +107,8 @@ local function IsTank()
   return role == "TANK"
 end
 
--- First known defensive that is ready.
-function F.Spell()
+-- First known defensive that is ready (noHeals: skip the heals, for a hit that hasn't landed yet).
+function F.Spell(noHeals)
   local M = ns.SpellMap
   for _, token in ipairs(F.TOKENS) do
     local id = M.SpellID(token)
@@ -91,7 +117,7 @@ function F.Spell()
     local usable = id and U.Read((U.Call(C_Spell and C_Spell.IsSpellUsable, id)))
     local blocked = id and ns.Engine.BlockedWhileActive and ns.Engine.BlockedWhileActive(id)
     if id and allowed and usable ~= false and not blocked and ns.State.CooldownReady(id) ~= false
-      and not ns.Choices.Skip(id) then
+      and not ns.Choices.Skip(id) and not (noHeals and F.HEALS[token]) then
       return id, token
     end
   end
@@ -136,15 +162,19 @@ function F.Evaluate()
     return nil
   end
   local B = ns.BossMods
-  local lead = F.Lead(id, tonumber(ns.db and ns.db.defensiveLead) or 3)
-  if mode ~= "health" then
+  local pre = id -- ahead of a hit: a real defensive, not a heal (tanks: their own profile's choice)
+  if not tank then
+    pre = F.Spell(true)
+  end
+  if mode ~= "health" and pre and not F.Covered() then
+    local lead = F.Lead(pre, tonumber(ns.db and ns.db.defensiveLead) or 3)
     if B.Alert("defensive") then
-      return { id = id, how = "decided", why = "bossmod" }
+      return { id = pre, how = "decided", why = "bossmod" }
     end
-    local aoe = B.Next("aoe")
-    local hit = IsTank() and B.Next("role") or nil
+    local aoe = B.NextHit("aoe")
+    local hit = IsTank() and B.NextHit("role") or nil
     if (aoe and aoe <= lead) or (hit and hit <= lead) then
-      return { id = id, how = "decided", why = aoe and "aoe" or "tankhit" }
+      return { id = pre, how = "decided", why = aoe and "aoe" or "tankhit" }
     end
   end
   if mode ~= "bossmods" then

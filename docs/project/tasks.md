@@ -55,6 +55,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.186: one defensive per hit - a defensive you cast covers the hit for its duration, no second one is asked
+  for; heals (Regrowth, Word of Glory, Crimson Vial...) are only for low health, never ahead of a boss-mod hit (a
+  Balance Druid at full health was shown Regrowth right after Barkskin, dungeon report). Defensives are timed to the
+  boss's damage: DBM's timer counts to the cast's start, so the boss spell's cast time is added.
 - 1.6.0.185: boss-mod defensives are timed from the defensive's own duration (spell data): shown at the middle of
   "time to press it" (2 s + 0.5 s) and "the hit still lands 1.5 s inside the buff", never earlier than 6 s, never
   later than the Big hit warning setting allows. Barkskin (8 s) now shows 4.5 s before a hit (was a flat 3 s).

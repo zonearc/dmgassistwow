@@ -54,10 +54,18 @@ local function StartTimer(id, text, seconds, spellID, kind, source)
   if not B.Enabled() or type(seconds) ~= "number" or seconds <= 0 then
     return
   end
+  -- Boss mod timers count to the start of the boss's cast; its damage lands when the cast finishes.
+  local cast = 0
+  local info = type(spellID) == "number" and U.Get(C_Spell and C_Spell.GetSpellInfo, spellID)
+  local ms = type(info) == "table" and U.Read(info.castTime)
+  if type(ms) == "number" and ms > 0 and ms <= 10000 then
+    cast = ms / 1000
+  end
   B.timers[source .. ":" .. tostring(id)] = { text = text, spellID = spellID, expires = Now() + seconds,
-    kind = kind or "generic", source = source }
+    kind = kind or "generic", source = source, cast = cast }
   if kind and kind ~= "generic" then
-    U.Log("bossmod_timer", { kind = kind, seconds = math.floor(seconds + 0.5), spell = spellID, source = source })
+    U.Log("bossmod_timer", { kind = kind, seconds = math.floor(seconds + 0.5), spell = spellID, source = source,
+      cast = cast > 0 and cast or nil })
   end
 end
 
@@ -246,7 +254,7 @@ function B.Next(kind)
   local best, bestT
   for id, t in pairs(B.timers) do
     local left = t.expires - now
-    if left < -1 then
+    if left + (t.cast or 0) < -1 then
       B.timers[id] = nil
     elseif left >= 0 and (kind == nil or t.kind == kind) and (not best or left < best) then
       best, bestT = left, t
@@ -284,6 +292,22 @@ local function TimerDue(kind)
     end
   end
   return nil
+end
+
+-- Seconds until the damage of the soonest timer of a kind lands: its timer plus the boss's cast time.
+-- Kept until the damage lands (a timer that ran out while the boss is still casting still counts).
+function B.NextHit(kind)
+  if not B.Enabled() then
+    return nil
+  end
+  local now, best, bestT = Now(), nil, nil
+  for _, t in pairs(B.timers) do
+    local left = t.expires + (t.cast or 0) - now
+    if t.kind == kind and left >= 0 and (not best or left < best) then
+      best, bestT = left, t
+    end
+  end
+  return best, bestT
 end
 
 function B.Alert(kind)

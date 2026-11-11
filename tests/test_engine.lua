@@ -3190,6 +3190,51 @@ test("defensives: timed from the buff's duration - time to press it, and the hit
   ns.BossMods.Reset()
 end)
 
+test("defensives: one per hit - once Barkskin is up the hit is covered; a heal is never asked for ahead of a hit", function()
+  Reset()
+  DefBook()
+  mock.book[#mock.book + 1] = { spellID = 8936, name = "Regrowth" }
+  local dbm = FakeBossMods()
+  local ns = Boot()
+  dbm.DBM_TimerBegin("DBM_TimerBegin", "aoe", "Void Eruption", 4, 0, "cd", 1, 2) -- AoE in 4 s
+  eq(ns.Update().defensive.id, 22812, "Barkskin for the hit")
+  ns.OnOwnCast(22812)
+  mock.cooldowns[22812] = { active = true }
+  mock.now = mock.now + 1
+  eq(ns.Update().defensive, nil, "Barkskin is up: covered, not Survival Instincts or Regrowth next")
+  -- no defensive up, Barkskin on cooldown, no other real defensive known: Regrowth (a heal) is not a pre-hit one
+  mock.now = mock.now + 10
+  for i = #mock.book, 1, -1 do
+    if mock.book[i].spellID == 61336 then
+      table.remove(mock.book, i)
+    end
+  end
+  ns.SpellMap.Refresh()
+  dbm.DBM_TimerBegin("DBM_TimerBegin", "aoe2", "Void Eruption", 2, 0, "cd", 1, 2)
+  ns.Update()
+  local d = ns.Update().defensive
+  eq(d == nil or d.why ~= "aoe", true, "no Regrowth at full health for an incoming AoE")
+  ns.BossMods.Reset()
+  mock.cooldowns[22812] = nil
+end)
+
+test("defensives: timed to when the boss's cast finishes (DBM times the cast's start)", function()
+  Reset()
+  DefBook()
+  local dbm = FakeBossMods()
+  local ns = Boot()
+  mock.castTimes = { [777] = 3000 } -- a 3 s cast
+  dbm.DBM_TimerBegin("DBM_TimerBegin", "aoe", "Void Eruption", 6, 0, "cd", 777, 2) -- cast starts in 6 s
+  eq(math.floor(ns.BossMods.NextHit("aoe") + 0.5), 9, "damage lands in 6 + 3 s")
+  eq(ns.Update().defensive, nil, "9 s from the damage: too early")
+  mock.now = mock.now + 4.6
+  eq(ns.Update().defensive and ns.Update().defensive.id, 22812, "4.4 s from the damage: Barkskin")
+  mock.now = mock.now + 2
+  eq(ns.Update().defensive and ns.Update().defensive.id, 22812, "timer ran out, boss still casting: still shown")
+  mock.castTimes = nil
+  ns.BossMods.Reset()
+end)
+
 test("sounds: on the rising edge only, throttled, 'none' silences, master switch", function()
   Reset()
   KickBook()
