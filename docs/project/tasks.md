@@ -14,7 +14,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 - [ ] CurseForge: release type Beta, screenshots, project public
 - [ ] Paste docs/curseforge-description.md into the CurseForge description if it doesn't sync by itself
 
-## Open: build
+## Open
+
+- Balance on a dungeon boss: Sunfire shown 3 times while Wrath / Starfall were cast instead (grade "missed
+  sunfire x3"); the target's DoTs are hidden in combat. Watch in LFR.: build
 
 - Preservation: Fire Breath refused once (8.4 s, session 246) with no cast that fight; cause unknown, watch.
 - SimC terms we don't read yet (tools audit, 2026-11-11): soul_fragments (Vengeance, Devourer), rtb_buffs
@@ -55,6 +58,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.187: slots 2-3 don't promise a second spender from a hidden resource after a pretend cast already spent from
+  it unless the known minimum covers it (Balance AoE showed "Starfall > Starfall" from Astral Power "34 or more";
+  following it ran dry). Engine 211 tests; every-spec check holds (Havoc / Survival leveling improved).
 - 1.6.0.186: one defensive per hit - a defensive you cast covers the hit for its duration, no second one is asked
   for; heals (Regrowth, Word of Glory, Crimson Vial...) are only for low health, never ahead of a boss-mod hit (a
   Balance Druid at full health was shown Regrowth right after Barkskin, dungeon report). Defensives are timed to the

@@ -5093,6 +5093,28 @@ test("slots 2-3: after pretending Void Ray (100 Fury), Void Ray isn't affordable
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("slots 2-3: Starfall (50 Astral Power, known only '34 or more') isn't promised twice in a row", function()
+  Reset()
+  local ns = Boot()
+  local S, G, C = ns.State, ns.Engine, ns.Clues
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[191034] = { n = "starfall", gcd = 1.5, cost = { [8] = 50 } }
+  Feral(ns, rec)
+  mock.powerMax[8] = 100
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  C.bounds[8] = { lo = 34, hi = math.huge, untilT = GetTime() + 10, source = "usable" }
+  S.BeginLookahead(0)
+  eq(G.BelowCostAhead(191034), false, "nothing spent yet: the game's 'usable' decides slot 1")
+  S.Apply(191034)
+  local lo, hi = S.PowerBounds(8)
+  eq(lo, 0) eq(hi, 50)
+  eq(G.BelowCostAhead(191034), true, "after one Starfall from an unknown pool, a second isn't promised")
+  S.EndLookahead()
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 test("Subtlety at 7/7 combo points on 5 targets spends them (Blizzard's assistant stuck on a missing poison)", function()
   Reset()
   local ns = Boot()

@@ -1,4 +1,4 @@
-# In-game test plan (current: 1.6.0.186)
+# In-game test plan (current: 1.6.0.187)
 
 Send `/dmgw` after each item. Note anything odd with a rough time ("at ~20 s slot 1 went blank").
 

@@ -440,8 +440,15 @@ function G.BelowCostAhead(id)
   end
   for pt, amount in pairs(cost) do
     if amount > 0 and type(U.Get(UnitPower, "player", pt)) ~= "number" then
-      local _, hi = S.PowerBounds(pt)
+      local lo, hi = S.PowerBounds(pt)
       if hi and hi < amount then
+        return true
+      end
+      -- A pretend cast already spent from this hidden pool: only promise another spender we know is affordable
+      -- (Balance in AoE, 2026-11-11: "Starfall > Starfall" from Astral Power known only as "34 or more"; following
+      -- slot 2 ran you dry).
+      local V = S.Lookahead()
+      if lo and lo < amount and V and V.power and (V.power[pt] or 0) < 0 then
         return true
       end
     end
