@@ -1,4 +1,4 @@
-# In-game test plan (current: 1.6.0.187)
+# In-game test plan (current: 1.6.0.188)
 
 Send `/dmgw` after each item. Note anything odd with a rough time ("at ~20 s slot 1 went blank").
 
@@ -14,6 +14,10 @@ Done and looking good: Balance, DK, Mage (all), DH (Havoc, Vengeance, Devourer),
 ## 2. Interrupts
 - Done on Balance (worked). Delves now behave like the open world (any interruptible cast). Do 2-3 more: rogue Kick, shaman Wind Shear, DH Disrupt, warrior Pummel.
 - `/dmga test interrupt`, then open-world caster mobs. Kick when it shows; it should vanish after.
+
+## 2b. Wrong-key hint (1.6.0.188)
+- On a dummy, press the key next to slot 1's a few times on purpose (5 when it shows 6): "5 » 6" appears under slot
+  1 for a moment. Do it 3+ times in one fight: the grade's tip names the key and the spell.
 
 ## 3. DBM / BigWigs
 - `/dbm test`, with a dummy targeted. Over ~60 s the text above the HUD shows ADDS, AOE, TANK HIT and an

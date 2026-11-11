@@ -693,3 +693,6 @@
 699	Un sort qui n'est sur aucune de vos barres d'action n'est jamais suggéré : le suivant prend sa place, et le chat indique lequel une fois. Désactivé : tout sort connu peut être suggéré.
 700	%s est absent (l'assistant de Blizzard le demande), DMGAssist l'affiche donc jusqu'à ce que vous l'appliquiez. Ignorez-le et il disparaît pour le reste du combat.
 701	Propose une défensive au moins ce délai avant un gros coup annoncé par un addon de boss. Les défensives qui durent plus longtemps apparaissent plus tôt, pour vous laisser le temps de l'activer et que le coup tombe bien pendant son effet.
+702	Indice de mauvaise touche
+703	Si vous appuyez sur la touche juste à côté de celle affichée en case 1 (5 au lieu de 6), ou oubliez son Maj / Ctrl / Alt, la case 1 affiche brièvement les deux touches, par exemple « 5 » 6 ». Une erreur qui se répète devient le conseil du combat.
+704	Conseil : vous avez appuyé sur %s %d fois alors que la case 1 affichait %s (%s). Si cette touche est difficile à atteindre, placez le sort sur une touche plus accessible.

@@ -29,7 +29,8 @@ D.DEFAULTS = {
   font = "default", outline = "OUTLINE", calloutSize = 14,
   gcdBar = true, glow = "pulse",
   hideOutOfCombat = true, showWithTarget = true, hideMounted = true, hideVehicle = true,
-  debugText = false, callout = true, pressCue = true, pressLead = 50, secretBranches = true, interrupt = true, defensive = true,
+  debugText = false, callout = true, slipHint = true,
+  pressCue = true, pressLead = 50, secretBranches = true, interrupt = true, defensive = true,
   highlight = true, holdCue = true,
   padLabels = "xbox", rangeTint = true, stackCount = true, stackSize = 14, stackPos = "BOTTOM", weavePos = "OUTTOPLEFT", weaveSize = 40,
   weaveX = 0, weaveY = 0, trinketPos = "OUTBOTTOMLEFT", trinketSize = 40, trinketX = 0, trinketY = 0,
@@ -766,6 +767,12 @@ function D.Create()
   SetFont(f.callout, cfg.calloutSize or 14)
   f.callout:SetPoint("BOTTOMLEFT", f, "TOPLEFT", 2, 3)
   f.callout:SetTextColor(1, 0.25, 0.2)
+  -- Wrong-key hint (D.ShowSlip): the key you hit and the one slot 1 showed, for a moment, under slot 1.
+  f.slip = f.main:CreateFontString(nil, "OVERLAY")
+  SetFont(f.slip, 12)
+  f.slip:SetPoint("TOP", f.main, "BOTTOM", 0, -2)
+  f.slip:SetTextColor(1, 0.55, 0.2)
+  f.slip:Hide()
   f.debug = f:CreateFontString(nil, "OVERLAY")
   SetFont(f.debug, 9)
   f.debug:SetJustifyH("LEFT")
@@ -949,6 +956,26 @@ function D.Rebuild()
   Layout(f, cfg)
   D.SetLocked(ns.db and ns.db.locked)
   D.FitPreview() -- the settings preview's panel follows the new sizes
+end
+
+-- You pressed the key next to the one slot 1 showed (Grade.NoteSlip): "5 » 6" under slot 1 for SLIP_SHOW seconds.
+D.SLIP_SHOW = 1.2
+function D.ShowSlip(got, want)
+  local f = D.frame
+  if not (f and f.slip) or D.Settings().slipHint == false then
+    return
+  end
+  f.slip:SetText(tostring(got) .. " \194\187 " .. tostring(want))
+  f.slip:Show()
+  local at = GetTime()
+  f.slipAt = at
+  if C_Timer and C_Timer.After then
+    C_Timer.After(D.SLIP_SHOW, function()
+      if f.slipAt == at then
+        f.slip:Hide()
+      end
+    end)
+  end
 end
 
 ---------------------------------------------------------------------------

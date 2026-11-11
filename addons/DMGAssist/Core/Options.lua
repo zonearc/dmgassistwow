@@ -533,6 +533,9 @@ function O.Register()
     "A glow around slot 1. Only slot 1 moves, so it always draws your eye first.")
   Check(display, HUD, "pressCue", "Press-now flash", H.pressCue,
     "The main icon is darkened until your GCD or cast is about to end, then flashes: press it then.")
+  Check(display, HUD, "slipHint", "Wrong-key hint", H.slipHint ~= false,
+    "When you press the key right next to the one slot 1 showed (5 instead of 6), or forget its Shift / Ctrl / Alt, "
+      .. "slot 1 shows both keys for a moment, like \"5 » 6\". A slip that keeps happening becomes the fight's tip.")
   Check(display, HUD, "holdCue", "HOLD during channels", H.holdCue ~= false,
     "While one of your channeled spells runs (Spinning Crane Kick, Fists of Fury, Mind Flay...), slot 1 shows an "
       .. "amber HOLD: pressing anything now would cut it short. Its border flashes green the moment it ends.")

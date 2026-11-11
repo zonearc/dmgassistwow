@@ -697,4 +697,7 @@ ns.LOCALE_DATA.zhCN = {
   ["A spell that isn't on any of your action bars is never suggested: the next one takes its place, and chat says which spell once. Off: every spell you know can be suggested."] = "不在任何动作条上的技能永远不会被推荐：由下一个技能替代，聊天框会提示一次是哪个技能。关闭：你会的所有技能都可能被推荐。",
   ["%s is missing (Blizzard's assistant asks for it), so DMGAssist shows it until you apply it. Ignore it and it goes away for the rest of the fight."] = "缺少%s（暴雪助手要求使用），DMGAssist会一直显示直到你施放。忽略它，本场战斗剩余时间内将不再显示。",
   ["Suggest a defensive at least this long before a big hit that a boss mod announces. Defensives that last longer show earlier, so you have time to press it and the hit lands well inside it."] = "在首领插件预告的大伤害前至少这么久建议使用减伤技能。持续时间更长的减伤会更早显示，让你有时间按下，并且伤害稳稳落在其持续时间内。",
+  ["Wrong-key hint"] = "按错键提示",
+  ["When you press the key right next to the one slot 1 showed (5 instead of 6), or forget its Shift / Ctrl / Alt, slot 1 shows both keys for a moment, like \"5 » 6\". A slip that keeps happening becomes the fight's tip."] = "当你按了1号位所示按键旁边的键（按了5而不是6），或漏按 Shift / Ctrl / Alt 时，1号位会短暂显示两个按键，例如“5 » 6”。反复出现的误按会成为本场战斗的提示。",
+  ["Tip: you pressed %s %d times when slot 1 showed %s (%s). If that key is hard to reach, move the spell to one that's easier to hit."] = "提示：你按了 %s 共 %d 次，而1号位显示的是 %s（%s）。如果这个键不好按，把该技能移到更顺手的键上。",
 }

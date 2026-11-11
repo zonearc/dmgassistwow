@@ -58,6 +58,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.188: wrong-key hint. A wrong press on the key right next to the one slot 1 showed (5 for 6, Q for W, F2
+  for F3), or the right key with a missing / extra Shift / Ctrl / Alt, shows "5 » 6" under slot 1 for 1.2 s
+  (Display > Alerts and effects > Wrong-key hint, on by default). The fight's grade counts slips; the same slip 3+
+  times becomes the tip ("you pressed 5 4 times when slot 1 showed 6 (Starsurge) - move the spell if the key is
+  hard to reach"). Keyboard only (controller buttons have no neighbours). Translated in 9 locales.
 - 1.6.0.187: slots 2-3 don't promise a second spender from a hidden resource after a pretend cast already spent from
   it unless the known minimum covers it (Balance AoE showed "Starfall > Starfall" from Astral Power "34 or more";
   following it ran dry). Engine 211 tests; every-spec check holds (Havoc / Survival leveling improved).

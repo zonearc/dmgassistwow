@@ -697,4 +697,7 @@ ns.LOCALE_DATA.koKR = {
   ["A spell that isn't on any of your action bars is never suggested: the next one takes its place, and chat says which spell once. Off: every spell you know can be suggested."] = "어느 행동 단축바에도 없는 주문은 추천하지 않습니다. 다음 주문이 그 자리를 채우고, 채팅에 어떤 주문인지 한 번 알려줍니다. 끄면: 아는 모든 주문을 추천할 수 있습니다.",
   ["%s is missing (Blizzard's assistant asks for it), so DMGAssist shows it until you apply it. Ignore it and it goes away for the rest of the fight."] = "%s 없음(블리자드 도우미가 요청함). 적용할 때까지 DMGAssist가 표시합니다. 무시하면 이번 전투 동안 사라집니다.",
   ["Suggest a defensive at least this long before a big hit that a boss mod announces. Defensives that last longer show earlier, so you have time to press it and the hit lands well inside it."] = "보스 모드가 알리는 큰 공격 최소 이 시간 전에 생존기를 제안합니다. 지속 시간이 긴 생존기는 더 일찍 표시되어, 누를 시간이 있고 공격이 효과 시간 안에 충분히 들어옵니다.",
+  ["Wrong-key hint"] = "잘못 누른 키 알림",
+  ["When you press the key right next to the one slot 1 showed (5 instead of 6), or forget its Shift / Ctrl / Alt, slot 1 shows both keys for a moment, like \"5 » 6\". A slip that keeps happening becomes the fight's tip."] = "1번 칸이 보여준 키 바로 옆 키를 누르거나(6 대신 5) Shift / Ctrl / Alt를 빠뜨리면, 1번 칸에 두 키가 잠시 \"5 » 6\"처럼 표시됩니다. 같은 실수가 반복되면 전투 팁으로 알려 줍니다.",
+  ["Tip: you pressed %s %d times when slot 1 showed %s (%s). If that key is hard to reach, move the spell to one that's easier to hit."] = "팁: %s 키를 %d번 눌렀지만 1번 칸은 %s (%s)을(를) 보여주고 있었습니다. 그 키가 누르기 어렵다면 주문을 더 누르기 쉬운 키로 옮기세요.",
 }

@@ -693,3 +693,6 @@
 699	Un incantesimo che non è su nessuna delle tue barre delle azioni non viene mai suggerito: il successivo prende il suo posto e la chat lo indica una volta. Disattivato: può essere suggerito ogni incantesimo che conosci.
 700	Manca %s (l'assistente di Blizzard lo richiede), quindi DMGAssist lo mostra finché non lo applichi. Se lo ignori, sparisce per il resto del combattimento.
 701	Suggerisce una difensiva almeno questo tempo prima di un colpo pesante annunciato da un addon dei boss. Le difensive che durano di più compaiono prima, così hai il tempo di premerla e il colpo arriva ben dentro la sua durata.
+702	Avviso tasto sbagliato
+703	Se premi il tasto subito accanto a quello mostrato nello slot 1 (5 invece di 6), o dimentichi Maiusc / Ctrl / Alt, lo slot 1 mostra per un attimo entrambi i tasti, come "5 » 6". Un errore che si ripete diventa il consiglio dello scontro.
+704	Consiglio: hai premuto %s %d volte quando lo slot 1 mostrava %s (%s). Se quel tasto è scomodo da raggiungere, sposta l'incantesimo su uno più comodo.

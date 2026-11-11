@@ -112,7 +112,7 @@ function Gr.OnCombat(on)
       return
     end
     fight = { start = now, presses = 0, score = 0, reactions = {}, idle = 0, lastTick = nil, fights = 1,
-      ready = nil, cds = {}, cdShown = {}, cdReady = {}, missed = {}, instead = {}, targets = 0, mit = {}, mitShown = {} }
+      ready = nil, cds = {}, cdShown = {}, cdReady = {}, missed = {}, instead = {}, targets = 0, mit = {}, mitShown = {}, slips = {} }
     return
   end
   local f = fight
@@ -310,6 +310,70 @@ end
 
 -- Every cast of yours: r = the recommendation that was showing; press = it was a button press (Main.lua IsPress:
 -- one per press, and only spells you know, so item uses are never presses).
+-- Key slips: a wrong press on the key right next to the one slot 1 showed (5 for 6, Q for W, F2 for F3), or the
+-- same key without (or with) its Shift / Ctrl / Alt. Asked for 2026-11-11: "my hand was one key to the left and I
+-- didn't realize". Slot 1 shows it for a moment ("5 » 6"), and a slip that keeps happening becomes the fight's tip.
+Gr.KEY_ROWS = { "1234567890-=", "QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM" }
+Gr.SLIP_TIP = 3 -- the same slip this many times in a fight: it's the tip
+
+local function SplitKey(k)
+  if type(k) ~= "string" or k == "" or k:find("|", 1, true) or k:find("+", 1, true) then
+    return nil -- no key, or a controller button / glyph: no keyboard neighbours
+  end
+  return k:match("^([SCA]*)(.+)$")
+end
+
+local function RowPos(base)
+  for r, row in ipairs(Gr.KEY_ROWS) do
+    local i = row:find(base, 1, true)
+    if #base == 1 and i then
+      return r, i
+    end
+  end
+  return nil
+end
+
+-- true when `got` is a likely slip for `want` (both key texts as the HUD shows them: "5", "S5", "F3", "CQ").
+function Gr.IsSlip(want, got)
+  local wm, wb = SplitKey(want)
+  local gm, gb = SplitKey(got)
+  if not (wb and gb) or want == got then
+    return false
+  end
+  if wb == gb then
+    return wm ~= gm -- the right key, the wrong modifier
+  end
+  if wm ~= gm then
+    return false
+  end
+  local wf, gf = tonumber(wb:match("^F(%d+)$")), tonumber(gb:match("^F(%d+)$"))
+  if wf and gf then
+    return math.abs(wf - gf) == 1
+  end
+  local wr, wi = RowPos(wb)
+  local gr, gi = RowPos(gb)
+  return wr ~= nil and wr == gr and math.abs(wi - gi) == 1
+end
+
+local function NoteSlip(f, main, id)
+  local D = ns.Display
+  if not (D and D.PickKeybind and D.Keybind) then
+    return
+  end
+  local want, got = D.PickKeybind(main), D.Keybind(id)
+  if not Gr.IsSlip(want, got) then
+    return
+  end
+  local key = want .. ">" .. got
+  local e = f.slips[key] or { want = want, got = got, n = 0, id = main.id }
+  e.n = e.n + 1
+  f.slips[key] = e
+  if D.ShowSlip then
+    D.ShowSlip(got, want)
+  end
+end
+Gr.NoteSlip = NoteSlip
+
 function Gr.OnPress(id, r, press)
   local f = fight
   if not (f and id and r) then
@@ -389,6 +453,7 @@ function Gr.OnPress(id, r, press)
       f.slot23 = (f.slot23 or 0) + 1
     else
       f.wrong = (f.wrong or 0) + 1
+      NoteSlip(f, main, id)
       local want = main and (main.token or tostring(main.id))
       if want then
         f.missed[want] = (f.missed[want] or 0) + 1
@@ -562,6 +627,15 @@ function Gr.Finish(f, now)
     end
   end
   r.weakest, r.topMissed, r.topMissedCount = weakest, topMissed, n
+  local slip
+  for _, e in pairs(f.slips or {}) do
+    if not slip or e.n > slip.n then
+      slip = e
+    end
+  end
+  if slip then
+    r.slipWant, r.slipGot, r.slipCount, r.slipSpell = slip.want, slip.got, slip.n, slip.id
+  end
   Gr.Save(r)
   U.Log("grade", { letter = r.letter, score = string.format("%.1f", score), accuracy = math.floor(accuracy),
     abc = math.floor(abc), reaction = r.reactionMs, cooldowns = cd and math.floor(cd),
@@ -570,6 +644,7 @@ function Gr.Finish(f, now)
     capped = limitedBy and "yes" or nil, presses = f.presses, right = f.right or 0, slot23 = f.slot23 or 0,
     wrong = f.wrong or 0, neutral = f.neutral or 0,
     idle = string.format("%.1f", f.idle), missed = topMissed and (topMissed .. "x" .. n) or nil,
+    slip = slip and (slip.got .. "for" .. slip.want .. "x" .. slip.n) or nil,
     cds = #f.cds, mits = #f.mit, reactions = Spread(f.reactions), cdDelays = Spread(f.cds),
     vs = r.vs and string.format("same%d cd%d rot%d keep%d util%d extras%d", r.vs.same, r.vs.cooldowns,
       r.vs.rotation, r.vs.upkeep, r.vs.utility, r.vs.extras) or nil })
@@ -579,6 +654,9 @@ end
 -- Tips: several wordings of each piece of advice, one picked at random from the ones that fit the weakest part,
 -- so the popup doesn't read the same after every fight (asked for 2026-11-10). %s / %d / %.1f as noted per pool.
 Gr.TIPS = {
+  -- %s = the key you pressed, %d = how many times, %s = the key slot 1 showed, %s = its spell
+  slip = { "Tip: you pressed %s %d times when slot 1 showed %s (%s). If that key is hard to reach, move the spell "
+    .. "to one that's easier to hit." },
   named = { -- %s = the spell slot 1 asked for, %d = how many times
     "Tip: slot 1 asked for %s %d times when you pressed something else.",
     "Tip: %s came up in slot 1 %d times and something else got pressed. Give it the priority.",
@@ -633,6 +711,10 @@ end
 
 function Gr.Tip(r)
   local T = Gr.TIPS
+  if (tonumber(r.slipCount) or 0) >= Gr.SLIP_TIP and r.weakest ~= nil then
+    local name = r.slipSpell and U.Get(C_Spell and C_Spell.GetSpellName, r.slipSpell) or "?"
+    return string.format(Pick(T.slip), r.slipGot, r.slipCount, r.slipWant, name)
+  end
   if r.weakest == "accuracy" then
     if r.topMissed then
       local name = r.topMissed:gsub("_", " ")
@@ -674,7 +756,8 @@ function Gr.Save(r)
     reaction = r.reaction, reactionMs = r.reactionMs, cooldowns = r.cooldowns, mitigation = r.mitigation, at = r.at,
     targets = r.targets,
     weakest = r.weakest, idle = r.idle, length = r.length, fights = r.fights, topMissed = r.topMissed,
-    topMissedCount = r.topMissedCount,
+    topMissedCount = r.topMissedCount, slipWant = r.slipWant, slipGot = r.slipGot, slipCount = r.slipCount,
+    slipSpell = r.slipSpell,
     vs = r.vs })
   while #s.history > Gr.HISTORY do
     table.remove(s.history)

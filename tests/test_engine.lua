@@ -4171,6 +4171,55 @@ test("performance grade: presses scored against slot 1, graded after a real figh
   ns.Engine.IsRotationSpell = isRot
 end)
 
+test("wrong-key hint: the key next to slot 1's ('5' for '6') shows for a moment and becomes the tip", function()
+  Reset()
+  local ns = Boot()
+  local Gr, D = ns.Grade, ns.Display
+  ns.db.gradeChain = false
+  local spec = Gr.SpecKey()
+  Gr.Reset()
+  eq(Gr.IsSlip("6", "5"), true, "one key to the left")
+  eq(Gr.IsSlip("6", "7"), true, "one key to the right")
+  eq(Gr.IsSlip("6", "8"), false, "two keys away: a choice, not a slip")
+  eq(Gr.IsSlip("W", "Q"), true)
+  eq(Gr.IsSlip("S5", "5"), true, "forgot Shift")
+  eq(Gr.IsSlip("F3", "F2"), true)
+  eq(Gr.IsSlip("S6", "5"), false, "another key and another modifier")
+  eq(Gr.IsSlip("LT+A", "A"), false, "controller: no keyboard neighbours")
+  eq(Gr.IsSlip("6", nil), false)
+  local keys = { [78674] = "6", [194153] = "5" }
+  local pk, kb = D.PickKeybind, D.Keybind
+  D.PickKeybind = function(p) return keys[p and p.id] end
+  D.Keybind = function(id) return keys[id] end
+  local isRot = ns.Engine.IsRotationSpell
+  ns.Engine.IsRotationSpell = function() return true end
+  local SS = { id = 78674, token = "starsurge" }
+  local r = { main = SS, queue = { SS } }
+  Gr.OnCombat(true)
+  for i = 1, 12 do
+    Gr.OnPress(i <= 4 and 194153 or 78674, r, true)
+    if i == 1 then
+      eq(D.frame.slip:IsShown(), true, "shown under slot 1")
+      eq(D.frame.slip:GetText():find("5", 1, true) ~= nil and D.frame.slip:GetText():find("6", 1, true) ~= nil, true)
+    end
+    mock.now = mock.now + 2.5
+  end
+  Gr.OnCombat(false)
+  local got = Gr.Summary(spec).history[1]
+  eq(got.slipWant, "6") eq(got.slipGot, "5") eq(got.slipCount, 4)
+  local tip = Gr.Tip(got)
+  eq(tip:find("5", 1, true) ~= nil and tip:find("4", 1, true) ~= nil and tip:find("6", 1, true) ~= nil, true, tip)
+  ns.db.hud = ns.db.hud or {}
+  ns.db.hud.slipHint = false
+  D.frame.slip:Hide()
+  D.ShowSlip("5", "6")
+  eq(D.frame.slip:IsShown(), false, "switched off")
+  ns.db.hud.slipHint = nil
+  D.PickKeybind, D.Keybind = pk, kb
+  ns.Engine.IsRotationSpell = isRot
+  Gr.Reset(spec)
+end)
+
 test("performance grade: a trinket from the items icon counts as cooldown use, never accuracy", function()
   Reset()
   local ns = Boot()
