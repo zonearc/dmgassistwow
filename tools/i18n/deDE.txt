@@ -779,3 +779,5 @@
 785	Bonus +%d
 786	Spiele das HUD wie ein Rhythmusspiel: Noten gleiten von rechts nach links zu einer Linie und erreichen sie, wenn der Zauber gedrückt werden kann. Unterbrechungen, Verteidigungen und Schmuckstücke erscheinen in der Bonusreihe darüber. Treffer bauen eine Serie auf; 5, 10, 25, 50 in Folge bringen einen Stern. Jederzeit umschalten mit der Trommel am HUD oder /dmga game.
 787	POWER-MODUS!
+788	AOE
+789	PERFEKT x%d

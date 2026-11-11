@@ -37,7 +37,8 @@ def decode(text: str):
     text = "".join(text.split())  # copy/paste may add line breaks
     if text.startswith("DMGW1:"):
         raw = base64.b64decode(text[6:] + "=" * (-len(text[6:]) % 4))
-        return json.loads(inflate(raw).decode("utf-8"))
+        # a report cut mid-character (a long note trimmed by bytes) must still decode
+        return json.loads(inflate(raw).decode("utf-8", errors="replace"))
     if text.startswith("DMGW0:"):
         return {"format": "lua-literal", "lua": text[6:]}
     raise ValueError("not a DMGAssist Watchdog export (expected DMGW1: or DMGW0: prefix)")

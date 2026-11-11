@@ -783,4 +783,6 @@ ns.LOCALE_DATA.esES = {
   ["Bonus +%d"] = "Bonus +%d",
   ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the drum button on the HUD or /dmga game."] = "Juega con el HUD como un juego de ritmo: las notas se deslizan de derecha a izquierda hasta una línea y la alcanzan cuando se puede pulsar el hechizo. Interrupciones, defensivas y abalorios aparecen en la fila de bonus encima. Los aciertos forman una racha; 5, 10, 25, 50 seguidos dan una estrella. Cambia cuando quieras con el botón del tambor en el HUD o /dmga game.",
   ["POWER MODE!"] = "¡MODO PODER!",
+  ["AOE"] = "AOE",
+  ["PERFECT x%d"] = "¡PERFECTO! x%d",
 }

@@ -783,4 +783,6 @@ ns.LOCALE_DATA.zhTW = {
   ["Bonus +%d"] = "獎勵 +%d",
   ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the drum button on the HUD or /dmga game."] = "把HUD當作節奏遊戲來玩：音符從右向左滑向判定線，到達時正好可以按下該技能。打斷、減傷和飾品會出現在上方的獎勵行。命中會累積連擊；連續5、10、25、50次各得一顆星。隨時可用HUD上的鼓按鈕或 /dmga game 切換。",
   ["POWER MODE!"] = "力量模式！",
+  ["AOE"] = "群體",
+  ["PERFECT x%d"] = "完美 x%d",
 }

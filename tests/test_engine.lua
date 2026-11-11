@@ -4435,6 +4435,92 @@ test("game mode: hold bars for casts and channels, flame notes for major cooldow
   ns.commands.game("off")
 end)
 
+test("game mode: a cast-time spell is judged when its cast begins (no red X for a right Starfire), kudos are rare", function()
+  Reset()
+  local ns = Boot()
+  local Game, D = ns.Game, ns.Display
+  ns.commands.game("on")
+  Game.held, Game.pending, Game.cast = nil, nil, nil
+  for k, n in pairs(Game.notes) do
+    n:Hide()
+    Game.notes[k] = nil
+  end
+  local SF, SS = { id = 194153, token = "starfire" }, { id = 78674, token = "starsurge" }
+  mock.book = { { spellID = 194153, name = "Starfire" }, { spellID = 78674, name = "Starsurge" } }
+  ns.SpellMap.Refresh()
+  D.Update({ main = SF, queue = { SF, SS } }, true)
+  D.frame.lastWait = 0
+  for _ = 1, 30 do
+    mock.now = mock.now + 0.05
+    Game.Render()
+  end
+  local isRot = ns.Engine.IsRotationSpell
+  ns.Engine.IsRotationSpell = function() return true end
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  Game.streak = 0
+  ns.NoteShown(SF)
+  ns.OnOwnCastStart(194153) -- Starfire's bar starts: its note bursts now
+  eq(Game.notes["1:194153:1"], nil, "the Starfire note burst at the start of the cast")
+  -- slot 1 moves on while the bar runs
+  mock.now = mock.now + 0.1
+  local after = { main = SS, queue = { SS } }
+  ns.last = after
+  ns.NoteShown(SS)
+  D.Update(after, true)
+  mock.now = mock.now + 2.2
+  ns.OnOwnCast(194153)
+  eq(Game.lastJudge ~= "miss", true, "a right Starfire is a hit, not a red X")
+  eq(Game.streak, 1)
+  -- kudos: a big word only for moments, at most one per KUDOS_GAP
+  Game.kudosAt = nil
+  Game.Kudos(Game.frame, "A")
+  Game.Kudos(Game.frame, "B")
+  eq(Game.frame.pop:GetText(), "A", "a second word right after is held back")
+  mock.inCombat = false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  ns.Engine.IsRotationSpell = isRot
+  ns.commands.game("off")
+end)
+
+test("game mode: a boss hit's defensive scrolls in on the action track and lands when it's time; lane dots", function()
+  Reset()
+  DefBook()
+  local dbm = FakeBossMods()
+  local ns = Boot()
+  local Game, D = ns.Game, ns.Display
+  ns.commands.game("on")
+  Game.held, Game.pending = nil, nil
+  for k, n in pairs(Game.notes) do
+    n:Hide()
+    Game.notes[k] = nil
+  end
+  dbm.DBM_TimerBegin("DBM_TimerBegin", "aoe", "Void Eruption", 7, 0, "cd", 1, 2) -- AoE in 7 s
+  local inc = Game.IncomingHit()
+  eq(inc and inc.id, 22812, "Barkskin is the one coming")
+  eq(math.floor(inc.t + 0.5), 3, "lands 4.5 s before the hit: 2.5 s from now (rounded)")
+  local A = { id = 101, token = "a" }
+  D.Update({ main = A, queue = { A } }, true)
+  D.frame.lastWait = 0
+  for _ = 1, 40 do
+    mock.now = mock.now + 0.05
+    Game.Render()
+  end
+  local def = Game.notes["b:def"]
+  eq(def ~= nil, true, "on the action track")
+  eq(def.x > Game.HIT_X, true, "still sliding in")
+  eq(Game.actAlpha > 0.5, true, "the action track opened")
+  local dots = 0
+  for _, dot in ipairs(Game.frame.dots) do
+    if dot:IsShown() then
+      dots = dots + 1
+    end
+  end
+  eq(dots >= 4, true, "the lane's dots")
+  ns.BossMods.Reset()
+  ns.commands.game("off")
+end)
+
 test("game mode: slots 2-3 only swap when the new pick holds (no jitter); slot 1 is always the truth", function()
   Reset()
   local ns = Boot()

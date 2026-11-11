@@ -896,6 +896,9 @@ end
 
 function ns.OnOwnCastStart(id)
   castStart = { id = id, t = GetTime() }
+  if ns.Game then
+    ns.Game.OnCastStart(id) -- the note bursts the moment the cast begins
+  end
 end
 
 function ns.ShownForPress(id)
@@ -927,7 +930,15 @@ function ns.OnOwnCast(id)
   ns.Defensives.OnOwnCast(id)
   local press = IsPress(id)
   if inCombat then
-    ns.Grade.OnPress(id, ns.last, press)
+    -- Judged against what slot 1 showed when the press was decided: a cast-time spell's cast event comes when its
+    -- bar ends, after slot 1 has moved on (a right Starfire showed Game mode's red X, 2026-11-11).
+    local judge = ns.last
+    local baseOf = ns.SpellMap.baseOf or {}
+    if shown and shown.id and judge and judge.main ~= shown and (baseOf[shown.id] or shown.id) == (baseOf[id] or id) then
+      judge = setmetatable({ main = shown, queue = { shown, judge.queue and judge.queue[2], judge.queue and judge.queue[3] } },
+        { __index = judge })
+    end
+    ns.Grade.OnPress(id, judge, press)
   end
   if not press then
     return

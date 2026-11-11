@@ -69,6 +69,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.201: Game mode round 4 (docs/project/scope.md): landing spot + burst, live cast bar, lane dots, streak row
+  under the lane, big but rare kudos, the action track for defensives / interrupts / items with timed boss-hit
+  defensives and a red alarm. Fixed: a right cast-time spell showed a red X (judged at the cast's end); swapped notes
+  overlapped the arriving one. Report decoder survives a note cut mid-character.
 - 1.6.0.199: Game mode hold bars (casts yellow, channels blue, next note after them), flame notes (major cooldowns,
   x2), power mode (haste burst or a major cooldown: blue lane, x2). Spell data now flags channels ("chan", from
   SpellDataDump's "Is Channelled").

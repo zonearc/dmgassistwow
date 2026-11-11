@@ -783,4 +783,6 @@ ns.LOCALE_DATA.ruRU = {
   ["Bonus +%d"] = "Бонус +%d",
   ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the drum button on the HUD or /dmga game."] = "Играйте с HUD как в ритм-игру: ноты скользят справа налево к линии и достигают её, когда заклинание можно нажать. Прерывания, защита и аксессуары появляются в бонусном ряду над ней. Попадания складываются в серию; за 5, 10, 25, 50 подряд даётся звезда. Переключайте в любой момент кнопкой-барабаном на HUD или /dmga game.",
   ["POWER MODE!"] = "РЕЖИМ МОЩИ!",
+  ["AOE"] = "АОЕ",
+  ["PERFECT x%d"] = "ИДЕАЛЬНО x%d",
 }

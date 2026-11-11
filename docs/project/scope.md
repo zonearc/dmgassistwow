@@ -49,6 +49,15 @@ on the settings page. Can be turned off.
   they last, and the next note comes after it (cast time or the GCD, whichever is longer; channels flagged from
   the spell data's "Is Channelled"); major cooldowns are flame notes worth double; power mode (Bloodlust / a haste
   burst, or 15 s after a major cooldown) turns the lane electric blue and doubles every hit.
+- Round 4 (2026-11-11): a framed landing spot (not just a line) with a big gold burst when a note reaches it; a
+  live cast bar (dim track the cast's length, bright fill left to right); dots every 0.5 s scroll along the lane;
+  the streak row sits under the lane (bigger), the big words above everything, almost the lane's height, and only
+  for moments (milestones, flame hits, bonuses, power mode, every 5th Perfect in a row, at most one per 5 s);
+  every press shows a small coloured word at the spot. Defensives / interrupts / items: an action track opens
+  above the lane only while one waits (red, edged, "!"); a boss hit's defensive scrolls in from its timer and
+  lands when it should be pressed, with a red alarm around the frame and a big "DEFEND!".
+- Presses are judged against what slot 1 showed when they were decided, and a cast's note bursts when the cast
+  begins (a right Starfire showed a red X: its cast event came after slot 1 moved on).
 - Notes only move left: a later target (a new global cooldown, a wrong press) pauses a note where it is. A wrong
   press shakes the note with a red X and it stays: press it now. A hit bursts the note at the line.
 - A note reaches the line exactly when the spell can be pressed (the classic press-now clock); slots 2-3 follow,

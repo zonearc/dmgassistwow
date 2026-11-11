@@ -33,9 +33,11 @@ G.WIDTH = 560
 G.LANE = 76
 G.ICON = 56
 G.HIT_X = 50        -- the hit line, from the left edge
-G.HEAD = 28         -- streak row
+G.HEAD = 0          -- (the streak row is below the lane, 2026-11-11: "put them below it")
+G.FOOT = 36         -- the streak row, under the lane
 G.BONUS_H = 62      -- the bonus row, between the streak row and the lane
-G.BONUS_ICON = 40
+G.BONUS_ICON = 48
+G.DOT_EVERY = 0.5   -- the lane's dots: one per half second
 G.BONUS_POINTS = 150
 G.BONUS_TAG = { kick = "KICK!", defend = "DEFEND!", item = "POWER UP!" }
 G.BONUS_DONE = { kick = "Interrupted!", defend = "Safe!", item = "Powered up!" }
@@ -54,7 +56,7 @@ G.STICK = 0.35      -- seconds a new slot 2-3 pick must hold before its note swa
 G.GLIDE = 14        -- how fast a note glides to a new place (per second, exponential)
 G.PERFECT, G.GREAT = 0.25, 0.6 -- seconds from the line
 G.SET_GAP = 20      -- seconds out of combat that end a set (and bring the grade)
-G.FLASH = 0.3       -- the hit box's flash when a note reaches the line
+G.FLASH = 0.5       -- the landing spot's flash (and burst) when a note reaches it
 G.POINTS = { perfect = 100, great = 75, good = 50 }
 G.MULT_EVERY, G.MULT_MAX = 10, 4
 G.MILESTONES = { 5, 10, 15, 25, 40, 50, 75, 100, 150, 200, 300, 500 }
@@ -72,6 +74,7 @@ G.PHRASES = {
   good = { "Good", "Not bad", "Almost!", "Keep it up", "Nice try" },
   miss = { "Oh, too bad...", "Missed!", "So close...", "Shake it off", "Next one!" },
 }
+G.JUDGE_WORD = { perfect = "PERFECT!", great = "Great!", good = "Good", miss = "Missed!" }
 G.JUDGE_COLOR = { perfect = { 1, 0.85, 0.2 }, great = { 0.4, 1, 0.4 }, good = { 0.6, 0.8, 1 }, miss = { 1, 0.3, 0.3 } }
 G.LANE_COLOR = { { 1, 0.8, 0.3 }, { 1, 0.3, 0.3 }, { 0.4, 0.7, 1 } }
 G.TOGGLE_ICON = "Interface\\Icons\\INV_Misc_Drum_01"
@@ -185,7 +188,7 @@ function G.Create()
   local D = ns.Display
   local f = CreateFrame("Frame", "DMGAssistGame", UIParent)
   G.frame = f
-  f:SetSize(G.WIDTH, G.HEAD + G.BONUS_H + G.LANE)
+  f:SetSize(G.WIDTH, G.HEAD + G.BONUS_H + G.LANE + G.FOOT)
   f:SetFrameStrata("MEDIUM")
   f:SetClampedToScreen(true)
   f:SetMovable(true)
@@ -199,7 +202,7 @@ function G.Create()
   f:EnableMouse(false)
   f.bg = f:CreateTexture(nil, "BACKGROUND")
   f.bg:SetPoint("TOPLEFT", f, "TOPLEFT", 0, -(G.HEAD + G.BONUS_H))
-  f.bg:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", 0, 0)
+  f.bg:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", 0, G.FOOT)
   f.bg:SetColorTexture(0.04, 0.04, 0.07, 0.55)
   f.lane = f:CreateTexture(nil, "BORDER")
   f.lane:SetColorTexture(1, 0.8, 0.3, 0.08)
@@ -210,26 +213,99 @@ function G.Create()
   f.line:SetColorTexture(1, 0.82, 0.25, 0.9)
   f.line:SetPoint("TOPLEFT", f, "TOPLEFT", G.HIT_X - 1, -(G.HEAD + G.BONUS_H))
   f.line:SetSize(3, G.LANE)
+  -- the landing spot: a framed square the notes drop into, not just a line (2026-11-11)
   f.boxes = {}
   local b = f:CreateTexture(nil, "ARTWORK")
   b:SetColorTexture(1, 1, 1, 0.1)
-  b:SetSize(G.ICON + 8, G.ICON + 8)
+  b:SetSize(G.ICON + 12, G.ICON + 12)
   b:SetPoint("CENTER", f, "TOPLEFT", G.HIT_X, G.LaneY())
   f.boxes[1] = b
+  f.frame = {}
+  local edge = 4
+  for i, side in ipairs({ { "TOPLEFT", "TOPRIGHT", nil, edge }, { "BOTTOMLEFT", "BOTTOMRIGHT", nil, edge },
+    { "TOPLEFT", "BOTTOMLEFT", edge, nil }, { "TOPRIGHT", "BOTTOMRIGHT", edge, nil } }) do
+    local t = f:CreateTexture(nil, "OVERLAY")
+    t:SetColorTexture(1, 0.82, 0.25, 0.95)
+    t:SetPoint(side[1], b, side[1], 0, 0)
+    t:SetPoint(side[2], b, side[2], 0, 0)
+    if side[3] then
+      t:SetWidth(side[3])
+    else
+      t:SetHeight(side[4])
+    end
+    f.frame[i] = t
+  end
+  -- the lane: a faint centre line and dots that scroll with the notes, so it reads as a track (2026-11-11)
+  f.mid = f:CreateTexture(nil, "BORDER")
+  f.mid:SetColorTexture(1, 0.85, 0.4, 0.15)
+  f.mid:SetPoint("LEFT", f, "TOPLEFT", G.HIT_X, G.LaneY())
+  f.mid:SetSize(G.WIDTH - G.HIT_X - 4, 2)
+  f.dots = {}
+  for i = 1, math.ceil(G.LOOK / G.DOT_EVERY) + 1 do
+    local dot = f:CreateTexture(nil, "BORDER", nil, 1)
+    dot:SetColorTexture(1, 0.85, 0.4, 0.45)
+    dot:SetSize(6, 6)
+    f.dots[i] = dot
+  end
+  -- the action track above the lane: only there while a defensive, interrupt or item waits on it
+  f.actTrack = f:CreateTexture(nil, "BACKGROUND", nil, 1)
+  f.actTrack:SetColorTexture(0.6, 0.08, 0.06, 0.35)
+  f.actTrack:SetPoint("LEFT", f, "TOPLEFT", 0, G.BonusY())
+  f.actTrack:SetSize(G.WIDTH, G.BONUS_ICON + 12)
+  f.actTrack:SetAlpha(0)
+  -- urgent look: red edges and a warning sign at its start, so it never reads like a buff icon
+  f.actEdges = {}
+  for i, dy in ipairs({ (G.BONUS_ICON + 12) / 2, -(G.BONUS_ICON + 12) / 2 }) do
+    local e = f:CreateTexture(nil, "ARTWORK")
+    e:SetColorTexture(1, 0.2, 0.15, 0.9)
+    e:SetPoint("LEFT", f, "TOPLEFT", 0, G.BonusY() + dy)
+    e:SetSize(G.WIDTH, 2)
+    e:SetAlpha(0)
+    f.actEdges[i] = e
+  end
+  f.actSign = f:CreateFontString(nil, "OVERLAY")
+  D.SetFont(f.actSign, 26, "THICKOUTLINE")
+  f.actSign:SetPoint("CENTER", f, "TOPLEFT", 12, G.BonusY())
+  f.actSign:SetTextColor(1, 0.25, 0.2)
+  f.actSign:SetText("!")
+  f.actSign:SetAlpha(0)
+  f.actBox = f:CreateTexture(nil, "ARTWORK")
+  f.actBox:SetColorTexture(1, 0.3, 0.25, 0.35)
+  f.actBox:SetPoint("CENTER", f, "TOPLEFT", G.HIT_X, G.BonusY())
+  f.actBox:SetSize(G.BONUS_ICON + 10, G.BONUS_ICON + 10)
+  f.actBox:SetAlpha(0)
+  -- the alarm: a red edge around everything
+  f.alarm = f:CreateTexture(nil, "BACKGROUND", nil, -1)
+  f.alarm:SetColorTexture(1, 0.1, 0.05, 0.8)
+  f.alarm:SetPoint("TOPLEFT", f, "TOPLEFT", -6, 6)
+  f.alarm:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", 6, G.FOOT - 6)
+  f.alarm:SetAlpha(0)
+  -- your cast in progress: a dim track as long as the cast, a bright bar filling it left to right (2026-11-11)
+  f.castTrack = f:CreateTexture(nil, "BORDER", nil, 1)
+  f.castTrack:SetHeight(G.BAR_H + 6)
+  f.castTrack:Hide()
+  f.castFill = f:CreateTexture(nil, "BORDER", nil, 2)
+  f.castFill:SetHeight(G.BAR_H + 6)
+  f.castFill:Hide()
+  -- the arrival burst: a gold square that grows out of the spot and fades
+  f.burst = f:CreateTexture(nil, "OVERLAY")
+  f.burst:SetColorTexture(1, 0.85, 0.3, 0)
+  f.burst:SetPoint("CENTER", b, "CENTER", 0, 0)
+  f.burst:SetSize(G.ICON, G.ICON)
   f.streak = f:CreateFontString(nil, "OVERLAY")
-  D.SetFont(f.streak, 16)
-  f.streak:SetPoint("TOPLEFT", f, "TOPLEFT", 24, -5)
+  D.SetFont(f.streak, 20)
+  f.streak:SetPoint("TOPLEFT", f, "TOPLEFT", 26, -(G.HEAD + G.BONUS_H + G.LANE + 6))
   f.stars = {}
   f.toggle = G.ToggleButton(f)
-  f.toggle:SetPoint("TOPLEFT", f, "TOPLEFT", 2, -2)
+  f.toggle:SetPoint("TOPLEFT", f, "TOPLEFT", 2, -(G.HEAD + G.BONUS_H + G.LANE + 8))
   -- the judgement ("Perfect!") over the line, and the streak word ("On fire!") in the middle of the lanes
   f.judge = f:CreateFontString(nil, "OVERLAY")
   D.SetFont(f.judge, 20)
   f.judge:SetPoint("BOTTOMLEFT", f, "TOPLEFT", G.HIT_X - 12, -(G.HEAD + G.BONUS_H) + 4)
   f.judge:Hide()
   f.pop = f:CreateFontString(nil, "OVERLAY")
-  D.SetFont(f.pop, 34)
-  f.pop:SetPoint("CENTER", f, "TOPLEFT", G.WIDTH / 2 + 40, G.LaneY())
+  D.SetFont(f.pop, G.LANE - 12, "THICKOUTLINE") -- almost the whole lane: kudos you can't miss
+  f.pop:SetPoint("BOTTOM", f, "TOP", 0, 4) -- above everything: the lane stays readable under it
   f.pop:SetTextColor(1, 0.85, 0.2)
   f.pop:Hide()
   f.slip = f:CreateFontString(nil, "OVERLAY")
@@ -250,8 +326,8 @@ local function Star(f, i)
   if not s then
     s = f:CreateTexture(nil, "OVERLAY")
     s:SetTexture("Interface\\COMMON\\FavoritesIcon")
-    s:SetSize(18, 18)
-    s:SetPoint("TOPRIGHT", f, "TOPRIGHT", -(4 + (i - 1) * 19), -4)
+    s:SetSize(24, 24)
+    s:SetPoint("TOPRIGHT", f, "TOPRIGHT", -(4 + (i - 1) * 25), -(G.HEAD + G.BONUS_H + G.LANE + 6))
     f.stars[i] = s
   end
   return s
@@ -328,6 +404,70 @@ function G.HoldTime(id)
   return 0, nil
 end
 
+-- Your cast or channel running: track = its whole length from the landing spot, fill = how much has passed.
+function G.RenderCast(f)
+  local S = ns.State
+  local id, left = S.CurrentCast()
+  if not (id and left and left > 0) then
+    G.curCast = nil
+    f.castTrack:Hide()
+    f.castFill:Hide()
+    return
+  end
+  if not (G.curCast and G.curCast.id == id) then
+    G.curCast = { id = id, total = left }
+  end
+  local total = math.max(G.curCast.total, left)
+  G.curCast.total = total
+  local px = (G.WIDTH - G.HIT_X - G.ICON / 2 - 2) / G.LOOK
+  local width = math.min(total * px, G.WIDTH - G.HIT_X - 4)
+  local done = math.max(0, math.min(1, 1 - left / total))
+  local channel = S.Channeling() == id
+  local r, g, b = 1, 0.85, 0.3
+  if channel then
+    r, g, b = 0.35, 0.65, 1
+  end
+  f.castTrack:ClearAllPoints()
+  f.castTrack:SetPoint("LEFT", f, "TOPLEFT", G.HIT_X, G.LaneY())
+  f.castTrack:SetWidth(math.max(1, width))
+  f.castTrack:SetColorTexture(r, g, b, 0.25)
+  f.castTrack:Show()
+  f.castFill:ClearAllPoints()
+  f.castFill:SetPoint("LEFT", f, "TOPLEFT", G.HIT_X, G.LaneY())
+  f.castFill:SetWidth(math.max(1, width * done))
+  f.castFill:SetColorTexture(math.min(1, r + 0.1), math.min(1, g + 0.1), math.min(1, b + 0.1), 0.9)
+  f.castFill:Show()
+end
+
+-- A boss mod's big hit coming within the lane's view: { id = the defensive, t = seconds until it should be
+-- pressed } (Defensives.Lead before the hit, so it lands on the line exactly when the classic HUD would show it).
+function G.IncomingHit()
+  local B, F = ns.BossMods, ns.Defensives
+  if not (B and B.NextHit and F and F.Spell) or (ns.db and ns.db.defensiveMode == "off") then
+    return nil
+  end
+  local left = B.NextHit("aoe")
+  local role = ns.Specs and ns.Specs.current and ns.Specs.current.role
+  if role == "TANK" then
+    local tank = B.NextHit("role")
+    if tank and (not left or tank < left) then
+      left = tank
+    end
+  end
+  if not left then
+    return nil
+  end
+  local id = F.Spell(true)
+  if not id then
+    return nil
+  end
+  local t = left - F.Lead(id, tonumber(ns.db and ns.db.defensiveLead) or 3)
+  if t > G.LOOK then
+    return nil
+  end
+  return { id = id, t = math.max(0, t) }
+end
+
 -- Power mode: a haste burst (Bloodlust and the like, State.boost) or a major cooldown just used.
 function G.PowerOn()
   local now = GetTime()
@@ -372,13 +512,19 @@ local function Wanted(r, wait)
   local intr = r.interrupt
   if intr and intr.id and (intr.how == "decided" or intr.how == "render") then
     Bonus({ key = "b:kick", pick = { id = intr.id, source = "interrupt" }, special = "interrupt", intr = intr,
-      bonus = "kick" })
+      bonus = "kick", timed = true })
   end
   local d = r.defensive
   local w = r.weave
+  local incoming = not (d and d.id) and G.IncomingHit()
   if d and d.id and (d.how == "decided" or d.how == "render") then
-    Bonus({ key = "b:def:" .. d.id, pick = { id = d.id, source = "defensive" },
-      special = d.how == "render" and "health" or "urgent", def = d, bonus = "defend" })
+    Bonus({ key = "b:def", pick = { id = d.id, source = "defensive" },
+      special = d.how == "render" and "health" or "urgent", def = d, bonus = "defend", timed = true })
+  elseif incoming then
+    -- a boss mod's hit on its way: the defensive scrolls in and lands when it's time to press it
+    Bonus({ key = "b:def", pick = { id = incoming.id, source = "defensive" }, special = "urgent", bonus = "defend",
+      timed = true })
+    want[#want].t = incoming.t
   elseif w and w.id then
     Bonus({ key = "b:" .. tostring(w.id), pick = w, special = w.urgent and "urgent", bonus = "defend" })
   end
@@ -448,6 +594,7 @@ function G.Render()
   G.lastRender = now
   local want = Wanted(r, wait)
   local keep = {}
+  local actions = 0
   for _, w in ipairs(want) do
     local n = G.notes[w.key]
     if not n then
@@ -464,9 +611,28 @@ function G.Render()
     n.source:SetText("")
     local y = G.LaneY()
     if w.lane == 2 then
-      -- the bonus row: pops in above the line, with its call over it
+      -- the action track: opens above the lane when something needs doing. Interrupts and defensives slide in
+      -- (a boss hit's defensive from as far as its timer) and land on the same line; items wait beside it.
       n:SetSize(G.BONUS_ICON, G.BONUS_ICON)
-      n.x = G.HIT_X + (w.slot - 1) * (G.BONUS_ICON + 56)
+      if w.timed then
+        local target = XFor(w.t)
+        if target < n.x then
+          n.x = n.x + (target - n.x) * math.min(1, elapsed * G.GLIDE)
+          if math.abs(n.x - target) < 0.5 then
+            n.x = target
+          end
+        end
+        if w.t <= 0.05 and not n.alarmed then
+          n.alarmed = true
+          f.alarmAt = now
+          G.Kudos(f, L[G.BONUS_TAG[w.bonus]], { 1, 0.25, 0.2 }, true)
+        elseif w.t > 0.05 then
+          n.alarmed = nil
+        end
+      else
+        n.x = G.HIT_X + (w.slot - 1) * (G.BONUS_ICON + 56)
+      end
+      actions = actions + 1
       y = G.BonusY()
       local pulse = 0.6 + 0.4 * math.abs(math.sin(now * 4))
       n.tag:SetText(L[G.BONUS_TAG[w.bonus]])
@@ -550,16 +716,43 @@ function G.Render()
   for key, n in pairs(G.notes) do
     if not keep[key] then
       n.fade = n.fade or now
-      local a = 1 - (now - n.fade) / 0.25
+      local a = 1 - (now - n.fade) / 0.2
       if a <= 0 then
         n:Hide()
         G.notes[key] = nil
         G.pool = G.pool or {}
         G.pool[#G.pool + 1] = n
       else
-        n:SetAlpha(a)
-        n:SetPoint("CENTER", f, "TOPLEFT", n.x, n.lane == 2 and G.BonusY() or G.LaneY())
+        n:SetAlpha(a * 0.6)
+        -- swapped out: it drops away below the lane, so it never sits on top of the note arriving
+        local drop = (1 - a) * G.LANE * 0.6
+        n:SetPoint("CENTER", f, "TOPLEFT", n.x, (n.lane == 2 and G.BonusY() or G.LaneY()) - drop)
       end
+    end
+  end
+  -- the action track shows only while something's on it
+  G.actAlpha = (G.actAlpha or 0) + ((actions > 0 and 1 or 0) - (G.actAlpha or 0)) * math.min(1, elapsed * 10)
+  local beat = 0.6 + 0.4 * math.abs(math.sin(now * 5))
+  f.actTrack:SetAlpha(G.actAlpha)
+  f.actBox:SetAlpha(G.actAlpha * beat)
+  f.actSign:SetAlpha(G.actAlpha * beat)
+  for _, e in ipairs(f.actEdges) do
+    e:SetAlpha(G.actAlpha)
+  end
+  -- the alarm: the whole frame's edge flashes red when a defensive or interrupt lands
+  local al = f.alarmAt and (1 - (now - f.alarmAt) / 1.2) or 0
+  f.alarm:SetAlpha(al > 0 and (0.4 + 0.6 * math.abs(math.sin(now * 12))) * al or 0)
+  -- the lane's dots: one every DOT_EVERY seconds, scrolling with the notes (eaten at the line)
+  local px = (G.WIDTH - G.HIT_X - G.ICON / 2 - 2) / G.LOOK
+  local phase = now % G.DOT_EVERY
+  for i, dot in ipairs(f.dots) do
+    local x = G.HIT_X + ((i - 1) * G.DOT_EVERY + G.DOT_EVERY - phase) * px
+    if x > G.HIT_X + G.ICON / 2 and x < G.WIDTH - 4 then
+      dot:ClearAllPoints()
+      dot:SetPoint("CENTER", f, "TOPLEFT", x, G.LaneY())
+      dot:Show()
+    else
+      dot:Hide()
     end
   end
   -- pressed notes: a quick burst where they were hit
@@ -576,6 +769,7 @@ function G.Render()
       n:SetSize(G.ICON * (1 + (1 - a) * 0.6), G.ICON * (1 + (1 - a) * 0.6))
     end
   end
+  G.RenderCast(f)
   local power = G.PowerOn()
   if power then
     local p2 = 0.5 + 0.5 * math.abs(math.sin(now * 3))
@@ -589,15 +783,22 @@ function G.Render()
   end
   if power and not G.powerShown then
     G.powerShown = true
-    Flash(f.pop, L["POWER MODE!"], { 0.4, 0.8, 1 })
+    G.Kudos(f, L["POWER MODE!"], { 0.4, 0.8, 1 }, true)
   elseif not power then
     G.powerShown = nil
   end
   local fl = f.flashAt and (1 - (now - f.flashAt) / G.FLASH) or 0
   if fl > 0 then
-    f.boxes[1]:SetColorTexture(1, 0.85, 0.3, 0.15 + 0.75 * fl)
+    f.boxes[1]:SetColorTexture(1, 0.85, 0.3, 0.25 + 0.7 * fl)
+    local grow = G.ICON * (1 + (1 - fl) * 1.2)
+    f.burst:SetSize(grow, grow)
+    f.burst:SetColorTexture(1, 0.85, 0.3, 0.6 * fl)
   else
     f.boxes[1]:SetColorTexture(1, 1, 1, 0.1)
+    f.burst:SetColorTexture(1, 0.85, 0.3, 0)
+  end
+  for _, t in ipairs(f.frame) do
+    t:SetAlpha(G.PowerOn() and 0.6 or (0.75 + 0.25 * fl))
   end
   -- pop-ups fade
   for _, fs in ipairs({ f.judge, f.pop, f.slip }) do
@@ -695,42 +896,100 @@ end
 G.Consume = Consume
 
 -- From the grade, for each press it judges: "hit" (slot 1), "near" (slot 2 or 3), "miss" (anything else).
-function G.OnJudged(kind)
+-- The lane note for a spell: its first note (the one at the line), else the note slot 1 had.
+local function NoteFor(id)
+  local baseOf = ns.SpellMap.baseOf or {}
+  for key, n in pairs(G.notes) do
+    local nid, k = key:match("^1:(%d+):(%d+)$")
+    if k == "1" and tonumber(nid) and (baseOf[tonumber(nid)] or tonumber(nid)) == (baseOf[id] or id) then
+      return n
+    end
+  end
+  return G.mainNote
+end
+
+-- How close to the line a press came: early (queued) presses count from the note still sliding in.
+local function Timing()
+  local arrived = G.arrived and G.arrived.at
+  local wait = (ns.Display.frame and ns.Display.frame.lastWait or 0) - G.Offset()
+  local off = arrived and (GetTime() - arrived) or -wait
+  if math.abs(off) <= G.PERFECT then
+    return "perfect"
+  elseif math.abs(off) <= G.GREAT then
+    return "great"
+  end
+  return "good"
+end
+
+-- A big word over the lane, for moments that earn it - never every press (2026-11-11: "too often, it's noise").
+G.KUDOS_GAP = 5
+local function Kudos(f, text, color, force)
+  local now = GetTime()
+  if not force and G.kudosAt and now - G.kudosAt < G.KUDOS_GAP then
+    return
+  end
+  G.kudosAt = now
+  Flash(f.pop, text, color or { 1, 0.85, 0.2 })
+end
+G.Kudos = Kudos
+
+-- A cast begins: its note bursts at the line now, timed now (its cast event only comes when the bar ends).
+function G.OnCastStart(id)
+  if not G.On() or not id then
+    return
+  end
+  local note = NoteFor(id)
+  if not note or note.lane ~= 1 then
+    return
+  end
+  G.cast = { id = id, at = GetTime(), judge = Timing(), fire = note.fire, color = note }
+  Consume(note)
+  if note == G.mainNote then
+    G.mainNote = nil
+  end
+  G.arrived = nil
+end
+
+function G.OnJudged(kind, id)
   if not G.On() then
     return
   end
   local f = G.Create()
   local judge
+  local baseOf = ns.SpellMap.baseOf or {}
   if kind == "miss" then
     judge = "miss"
     G.Break()
+    G.perfectRun = 0
     if G.mainNote then
       G.mainNote.missAt = GetTime() -- the note shakes with a red X and stays: press it now
     end
   else
-    if kind == "near" then
+    local fire
+    local c = G.cast
+    if kind == "hit" and c and id and (baseOf[c.id] or c.id) == (baseOf[id] or id) and GetTime() - c.at < 10 then
+      judge, fire = c.judge, c.fire -- judged when the cast began
+      G.cast = nil
+    elseif kind == "near" then
       judge = "good"
     else
-      local arrived = G.arrived and G.arrived.at
-      local wait = (ns.Display.frame and ns.Display.frame.lastWait or 0) - G.Offset()
-      local off = arrived and (GetTime() - arrived) or -wait -- early (queued) presses: negative
-      if math.abs(off) <= G.PERFECT then
-        judge = "perfect"
-      elseif math.abs(off) <= G.GREAT then
-        judge = "great"
-      else
-        judge = "good"
+      judge = Timing()
+      local note = id and NoteFor(id) or G.mainNote
+      fire = note and note.fire
+      if kind == "hit" then
+        Consume(note)
+        if note == G.mainNote then
+          G.mainNote = nil
+        end
       end
-    end
-    local fire = kind == "hit" and G.mainNote and G.mainNote.fire
-    if kind == "hit" then
-      Consume(G.mainNote)
-      G.mainNote = nil
     end
     G.streak = G.streak + 1
     G.hits = G.hits + 1
     if judge == "perfect" then
       G.perfects = G.perfects + 1
+      G.perfectRun = (G.perfectRun or 0) + 1
+    else
+      G.perfectRun = 0
     end
     local points = G.POINTS[judge] * G.Mult()
     if fire then
@@ -743,18 +1002,29 @@ function G.OnJudged(kind)
     G.score = G.score + points
     G.setBest = math.max(G.setBest, G.streak)
     G.arrived = nil -- the next note's arrival is timed afresh
+    local milestone
     for i, m in ipairs(G.MILESTONES) do
       if G.streak == m then
         G.stars = i
-        Flash(f.pop, L[G.WORDS[m]])
+        milestone = m
       end
+    end
+    if milestone then
+      Kudos(f, L[G.WORDS[milestone]], nil, true)
+    elseif fire then
+      Kudos(f, L["Blazing!"], { 1, 0.5, 0.1 }, true)
+    elseif G.perfectRun > 0 and G.perfectRun % 5 == 0 then
+      Kudos(f, string.format(L["PERFECT x%d"], G.perfectRun), G.JUDGE_COLOR.perfect)
+    elseif judge ~= "good" and G.streak % 12 == 0 then
+      Kudos(f, Phrase(G.PHRASES[judge]), G.JUDGE_COLOR[judge])
     end
     if G.streak > G.Best() then
       SaveBest()
     end
   end
   G.lastJudge = judge
-  Flash(f.judge, Phrase(G.PHRASES[judge]), G.JUDGE_COLOR[judge])
+  -- every press: the small word at the line (colour = how close), the big ones above are for moments
+  Flash(f.judge, L[G.JUDGE_WORD[judge]], G.JUDGE_COLOR[judge])
 end
 
 -- The set ends (the grade is being made, after SET_GAP out of combat): its numbers for the grade, then a fresh set.
@@ -794,8 +1064,8 @@ function G.OnBonus(kind)
     SaveBest()
   end
   G.lastJudge = "bonus"
-  Flash(f.pop, L[G.BONUS_DONE[kind] or "Powered up!"] .. "  " .. string.format(L["Bonus +%d"], points),
-    { 1, 0.7, 0.2 })
+  Kudos(f, L[G.BONUS_DONE[kind] or "Powered up!"] .. "  " .. string.format(L["Bonus +%d"], points),
+    { 1, 0.7, 0.2 }, true)
 end
 
 -- A key slip ("5 » 6") shows under the hit line instead of under slot 1.
