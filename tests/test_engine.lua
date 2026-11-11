@@ -4942,6 +4942,30 @@ test("Devourer on 8 targets: Blizzard's Reap / Eradicate wins over the Consume f
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("slots 2-3: after pretending Void Ray (100 Fury), Void Ray isn't affordable again (Fury hidden, known 100+)", function()
+  Reset()
+  local ns = Boot()
+  local S, G, C = ns.State, ns.Engine, ns.Clues
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[473728] = { n = "void_ray", gcd = 1.5, cost = { [17] = 100 } }
+  Feral(ns, rec)
+  mock.powerMax[17] = 100
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  C.bounds[17] = { lo = 100, hi = math.huge, untilT = GetTime() + 10, source = "assisted" }
+  local lo, hi = S.PowerBounds(17)
+  eq(lo, 100, "now: 100") eq(hi, 100, "capped at the maximum")
+  S.BeginLookahead(0)
+  eq(G.BelowCostAhead(473728), false, "the first Void Ray is affordable")
+  S.Apply(473728)
+  local _, after = S.PowerBounds(17)
+  eq(after, 0, "after spending 100 of at most 100: nothing left")
+  eq(G.BelowCostAhead(473728), true, "a second Void Ray isn't next")
+  S.EndLookahead()
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

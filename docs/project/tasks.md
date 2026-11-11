@@ -51,6 +51,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.176: slots 2-3 spend hidden resources too: after a pretend Void Ray (100 Fury) the next isn't Void Ray
+  again (the range is capped at the maximum before the spend). A major cooldown whose own line says "not now"
+  isn't promoted to slot 1 from slots 2-3 (Subtlety's Shadow Blades blinked in every 4 s). Every-spec check:
+  Devourer 2-3 majors and 3-4 spells (was 0-1, 1-2); Subtlety AoE and Preservation leveling slot 3 always filled.
 - 1.6.0.175: Devourer DH on several targets follows Blizzard into Reap / Eradicate instead of sitting on Consume.
   A spell that "applies itself" for a GCD or less (Eradicate, Reap, Spinning Crane Kick...) is its cast, not the
   buff of that name, so buff.eradicate (Void Ray's) is unknown rather than "certainly down".

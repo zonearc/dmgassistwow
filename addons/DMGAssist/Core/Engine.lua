@@ -432,6 +432,23 @@ function G.BelowCost(id)
   return false
 end
 
+-- Slots 2-3: the hidden resource's range after the casts we pretend (S.PowerBounds) is below the cost.
+function G.BelowCostAhead(id)
+  local cost = M.Cost(M.Info(id))
+  if not cost then
+    return false
+  end
+  for pt, amount in pairs(cost) do
+    if amount > 0 and type(U.Get(UnitPower, "player", pt)) ~= "number" then
+      local _, hi = S.PowerBounds(pt)
+      if hi and hi < amount then
+        return true
+      end
+    end
+  end
+  return false
+end
+
 -- Is Blizzard's assistant naming a rotation spell right now (so its silence about a spell means "not yet")?
 -- The assistant names one spell at a time. If it keeps naming the same one for G.FIXATED seconds and you don't cast
 -- it, it can't name anything else meanwhile: spells left to it ("Blizzard decides") would never come back. Balance,
@@ -568,7 +585,7 @@ local function CastableRaw(id)
         return false, "power"
       end
     end
-  elseif ahead and not first and S.Affordable(id) == false then
+  elseif ahead and not first and (S.Affordable(id) == false or G.BelowCostAhead(id)) then
     -- (Usable now per the game: resources only grow until the next press. Our estimate is only for predicting
     -- slots 2-3 after casts we pretend.)
     return false, "power"
@@ -1009,6 +1026,16 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
           if run.trace then
             run.trace[#run.trace] = run.trace[#run.trace] .. " cond=" .. tostring(t)
           end
+          if run.first and not isBlizzard then
+            -- for G.PromoteReadyMajor: a token is "not now" when every one of its lines read so far was false
+            if t == false then
+              if run.notNow[a] == nil then
+                run.notNow[a] = true
+              end
+            else
+              run.notNow[a] = false
+            end
+          end
           if t ~= false then
             local certain = t == true and castable == true and not maybe
             if run.cooldowns[a] and not run.burst then
@@ -1149,6 +1176,10 @@ local function Decide(record, opts, targets, first)
     trace = (first and opts.trace) and {} or nil,
   }
   run.first = first
+  run.notNow = {}
+  if first then
+    G.notNow = run.notNow
+  end
   run.castMemo = {}
   run.resolve = function(name)
     local v = S.Resolve(name, run.ctx)
@@ -1512,6 +1543,9 @@ end
 -- wants and that can be pressed now never waits in slot 2 or 3 behind Blizzard's pick. Blizzard's assistant never
 -- names major cooldowns, so behind its pick they would never come up (Summon Infernal 40 s in slot 2, 2026-11-10;
 -- six more specs found by tests/test_scenarios.lua). Runs after Steady and the leveling lead, in Main.
+-- Not one whose own SimC line said "not now" at this moment (all its lines false): from slot 3, two pretend casts
+-- away, it comes and goes as the GCD runs down (Subtlety's Shadow Blades blinked into slot 1 every 4 s once slot 3
+-- stopped repeating Shuriken Storm, 2026-11-11).
 function G.PromoteReadyMajor(result)
   local queue = result and result.queue
   local main = result and result.main
@@ -1522,6 +1556,7 @@ function G.PromoteReadyMajor(result)
     local p = queue[i]
     if p and p.id and p.major and type(p.source) == "string" and (p.source:find("^simc") or p.source == "rules")
       and not p.readyAt
+      and not (p.token and G.notNow and G.notNow[p.token])
       and Castable(p.id) == true then
       table.remove(queue, i)
       table.insert(queue, 1, p)

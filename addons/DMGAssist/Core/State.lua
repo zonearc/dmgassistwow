@@ -2527,6 +2527,35 @@ function S.Affordable(id)
   return result
 end
 
+-- lo, hi for a hidden resource at the overlay's moment: the inferred range, capped at the maximum, then what the
+-- pretend casts spent / gained and regeneration. Capped first: "100 or more" Fury minus Void Ray's 100 is 0-0, not
+-- "up to 100" (slots 2 and 3 both said Void Ray, Devourer 2026-11-10).
+function S.PowerBounds(pt, max)
+  local lo, hi = ns.Clues.ResourceBounds(pt)
+  if not lo then
+    return nil
+  end
+  if type(max) ~= "number" then
+    max = U.Get(UnitPowerMax, "player", pt)
+  end
+  if type(max) == "number" and max > 0 then
+    hi = math.min(hi, max)
+    lo = math.min(lo, max)
+  end
+  if V and V.power[pt] then
+    lo, hi = math.max(0, lo + V.power[pt]), math.max(0, hi + V.power[pt])
+  end
+  if V and V.dt > 0 then
+    local gained = S.RegenRate(pt) * V.dt
+    lo, hi = lo + gained, hi + gained
+  end
+  if type(max) == "number" and max > 0 then
+    hi = math.min(hi, max)
+    lo = math.min(lo, max)
+  end
+  return lo, hi
+end
+
 -- lo, hi for a resource term whose exact value is hidden ("combo_points", "energy.deficit"); nil otherwise.
 function S.Bounds(name)
   if name == "target.distance" then
@@ -2543,20 +2572,9 @@ function S.Bounds(name)
   if type(cur) == "number" then
     return nil -- exact value known; the resolver already returns it
   end
-  local lo, hi = ns.Clues.ResourceBounds(pt)
+  local lo, hi = S.PowerBounds(pt, max)
   if not lo then
     return nil
-  end
-  if V and V.power[pt] then
-    lo, hi = math.max(0, lo + V.power[pt]), hi + V.power[pt]
-  end
-  if V and V.dt > 0 then
-    local gained = S.RegenRate(pt) * V.dt
-    lo, hi = lo + gained, hi + gained
-  end
-  if type(max) == "number" and max > 0 then
-    hi = math.min(hi, max)
-    lo = math.min(lo, max)
   end
   if field == "deficit" then
     if type(max) ~= "number" then
