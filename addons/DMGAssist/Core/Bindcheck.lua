@@ -132,11 +132,9 @@ function B.MaybeNotice(inCombat)
     return
   end
   B.noticed[key] = true
-  local n = #B.Missing()
-  if n > 0 then
-    U.Print(L["%d spells in your rotation have no key binding. /dmga unbound lists them "
-      .. "(also Settings > DMGAssist > Missing keybinds)."], n)
-  end
+  -- No chat line any more: it counted every spell SimC's lists name, the other hero tree's and unused talent
+  -- choices included, so it named spells "not even in this spec" (2026-11-11). A spell slot 1 actually shows
+  -- without a key is named by B.OnShown; /dmga unbound and the settings page still list them all.
 end
 
 -- Slot 1 shows a spell you have no key for (a hero talent's new button never put on a bar: Enhancement's Surging

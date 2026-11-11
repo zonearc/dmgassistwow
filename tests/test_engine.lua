@@ -5035,24 +5035,24 @@ test("Subtlety at 7/7 combo points on 5 targets spends them (Blizzard's assistan
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
-test("Thistle Tea with the automatic talent is never suggested: the game drinks it for you", function()
+test("Thistle Tea (381623) drinks itself below 30 Energy: never suggested unless you took the button choice", function()
   Reset()
   local ns = Boot()
   local M, G = ns.SpellMap, ns.Engine
   local rec = QRecord({ { a = "thistle_tea", k = "T" } })
   rec.spellInfo[381623] = { n = "thistle_tea", cd = 1, ch = 3, chcd = 60 }
-  rec.spellInfo[469779] = { n = "thistle_tea", pas = true, tal = true }
+  rec.spellInfo[1298826] = { n = "thistle_tea", cd = 1, ch = 3, chcd = 60 }
   rec.spells.thistle_tea = { a = { 381623, 1298826, 469779 } }
   mock.book = { { spellID = 381623, name = "Thistle Tea" } }
-  mock.talents = { { name = "Thistle Tea", spellID = 469779, rank = 1 } }
+  mock.talents = {} -- the automatic talent isn't readable on a class-trial character
   Feral(ns, rec)
   M.Refresh()
   eq(M.IsAutomatic(381623), true)
   local castable, why = G.Castable(381623)
   eq(castable, false) eq(why, "auto")
-  mock.talents = {}
+  mock.talents = { { name = "Thistle Tea", spellID = 1298826, rank = 1 } }
   M.Refresh()
-  eq(M.IsAutomatic(381623), false, "the button version (other choice) is suggested as usual")
+  eq(M.IsAutomatic(381623), false, "the button choice: suggested as usual")
 end)
 
 test("Blizzard still naming a spell you just cast teaches nothing and doesn't mark it ready (Eternity Surge)", function()
@@ -5120,6 +5120,31 @@ test("Subtlety on 5 targets waiting for Energy: the Shuriken Storm it's pooling 
   eq(r.main and r.main.token, "shuriken_storm", "the spell it's waiting for")
   eq(r.main and r.main.source, "pool", "shown as waiting")
   mock.acSpell, mock.inCombat, mock.restricted = nil, false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
+test("an off-bar spell on a line that says 'not now' isn't named in chat (the other hero tree's spells)", function()
+  Reset()
+  local ns = Boot()
+  local rec = QRecord({ { a = "tigers_fury", c = "0", k = "S" }, { a = "shred", k = "S" } })
+  Feral(ns, rec)
+  ns.Specs.current = { key = "druid_feral", status = "ready", data = rec, branch = "midnight", client = "Midnight" }
+  ActionButton3 = { action = 3, commandName = "ACTIONBUTTON3", shown = true, events = {}, scripts = {} }
+  setmetatable(ActionButton3, getmetatable(ns.Display.frame))
+  mock.actionInfo = { [3] = { "spell", 5221 } } -- Shred on a bar, Tiger's Fury nowhere
+  mock.bindings = { ACTIONBUTTON3 = "3" }
+  ns.Display.InvalidateKeybinds()
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  local before = #mock.printed
+  ns.Engine.Recommend(rec, {})
+  local named = false
+  for i = before + 1, #mock.printed do
+    named = named or tostring(mock.printed[i]):find("action bars", 1, true) ~= nil
+  end
+  eq(named, false, "its line is false: nothing said")
+  ActionButton3 = nil
+  mock.inCombat = false
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 

@@ -55,6 +55,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.180: Thistle Tea 381623 is automatic unless the button choice (1298826) is known (the automatic talent
+  wasn't readable on a class-trial character). "Not on your action bars" is said only when the line wants the spell
+  right now; the login "N spells have no key binding" line is gone (it counted the other hero tree's and unused
+  talents' spells). /dmga unbound and the settings page still list everything.
 - 1.6.0.179: waiting for a resource, slot 1 shows the spell being pooled for (shaded) instead of Blizzard's pick when
   SimC's own line rules that pick out: Subtlety on 5 targets showed Gloomblade then switched to Shuriken Storm when
   the Energy came, 21 times in 3 minutes without a press.

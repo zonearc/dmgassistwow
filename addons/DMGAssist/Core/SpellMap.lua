@@ -88,12 +88,21 @@ end
 -- below 30, drink a Thistle Tea"; the other choice, 1298826, is a button. SimC's line (energy.pct<30) is the
 -- automatic trigger itself, so with 469779 it was suggested for nothing, and shown "on cooldown" right after the
 -- game drank it (Assassination, 2026-11-11). spellID -> the talent that makes it automatic.
+-- The value is the OTHER choice, the one that makes it a plain button: 381623's own tooltip carries the automatic
+-- drink, and the automatic talent (469779) wasn't readable on a class-trial character, so Thistle Tea was still
+-- suggested (2026-11-11). Automatic unless the button choice (1298826) is known.
 M.AUTO_TRIGGERED = {
-  [381623] = 469779,
+  [381623] = 1298826,
 }
 function M.IsAutomatic(id)
-  local talent = id and M.AUTO_TRIGGERED[id]
-  return talent ~= nil and M.talentsRead and (M.talentIDs[talent] or 0) > 0 or false
+  local buttonChoice = id and M.AUTO_TRIGGERED[id]
+  if not buttonChoice then
+    return false
+  end
+  if (M.talentIDs[buttonChoice] or 0) > 0 or (M.book and M.book[buttonChoice]) then
+    return false
+  end
+  return true
 end
 
 -- Bind the current spec's generated spell data.

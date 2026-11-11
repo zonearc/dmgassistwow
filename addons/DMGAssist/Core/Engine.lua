@@ -640,8 +640,7 @@ local function Castable(id)
     return false, "cast" -- (only when our clock can't tell: a known clock keeps the final say)
   end
   if castable ~= false and id and not ns.Choices.OnBars(id) then
-    ns.Choices.NoteOffBars(id)
-    return false, "nobar"
+    return false, "nobar" -- chat names it only when a line wants it right now (Walk)
   end
   return castable, why
 end
@@ -1020,6 +1019,11 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         end
         -- The first line held back only by a resource it is waiting for: if nothing at all can be pressed
         -- (Blizzard's "Waiting for Energy"), this is what slot 1 shows, as "waiting", instead of an empty HUD.
+        -- Off your bars: say so only when this line wants it right now. Checking every line named spells from the
+        -- other hero tree and unused talent choices ("missing spells not even in this spec", 2026-11-11).
+        if castable == false and why == "nobar" and run.first and not isBlizzard and Test(cond, run, a) == true then
+          ns.Choices.NoteOffBars(id)
+        end
         if castable == false and why == "power" and not run.powerBlocked and not isBlizzard and not maybe
           and Test(cond, run, a) ~= false then
           run.powerBlocked = { id = id, token = a, source = "pool" }
