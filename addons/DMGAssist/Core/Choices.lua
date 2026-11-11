@@ -130,9 +130,20 @@ function C.Skip(id)
 end
 
 C.offBarsNoted = {}
+-- For a moment after a spec / talent / spell-list change the old spec's lists run against the new bars: the
+-- Assassination spells were named "not on your bars" right after switching to Outlaw, before "Spec changed"
+-- (2026-11-11). Nothing is said (or marked as said) until things settle.
+C.QUIET = 4
+function C.QuietNotes()
+  C.quietUntil = GetTime() + C.QUIET
+end
+function C.NotesQuiet()
+  return C.quietUntil ~= nil and GetTime() < C.quietUntil
+end
+
 function C.NoteOffBars(id)
   local key = Base(id)
-  if C.offBarsNoted[key] or (ns.db and ns.db.bindWarn == false) then
+  if C.offBarsNoted[key] or (ns.db and ns.db.bindWarn == false) or C.NotesQuiet() then
     return
   end
   C.offBarsNoted[key] = true

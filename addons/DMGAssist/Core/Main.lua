@@ -506,8 +506,15 @@ local DEFAULTS = { enabled = true, burst = true,
   minimap = true, minimapAngle = 220 }
 ns.DEFAULTS = DEFAULTS
 
+local SPEC_EVENTS = {}
+for _, e in ipairs(Specs.EVENTS) do
+  SPEC_EVENTS[e] = true
+end
 frame:SetScript("OnEvent", function(_, event, ...)
   local arg1, _, arg3 = ...
+  if SPEC_EVENTS[event] then
+    ns.Choices.QuietNotes() -- mid spec switch: the old spec's spells against the new bars
+  end
   if event == "ADDON_LOADED" then
     if arg1 == ADDON_NAME then
       ns.Profiles.Load(DEFAULTS) -- ns.db: this character's profile (shared "Default" unless chosen otherwise)

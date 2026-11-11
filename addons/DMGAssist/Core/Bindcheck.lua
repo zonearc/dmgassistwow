@@ -142,7 +142,8 @@ end
 -- spell per session, with its link.
 B.shownWarned = {}
 function B.OnShown(pick, small)
-  if not (pick and pick.id) or pick.item or pick.sample or (ns.db and ns.db.bindWarn == false) then
+  if not (pick and pick.id) or pick.item or pick.sample or (ns.db and ns.db.bindWarn == false)
+    or ns.Choices.NotesQuiet() then
     return
   end
   if B.shownWarned[pick.id] then

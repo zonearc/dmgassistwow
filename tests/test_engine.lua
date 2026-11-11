@@ -5185,6 +5185,20 @@ test("Assassination right after Fan of Knives (everything short of Energy): slot
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("mid spec switch (spells / talents just changed) nothing is named as off your bars; after it settles it is", function()
+  Reset()
+  local ns = Boot()
+  local C = ns.Choices
+  local printed = #mock.printed
+  mock.Fire("SPELLS_CHANGED")
+  C.NoteOffBars(5217)
+  eq(#mock.printed, printed, "quiet right after the change")
+  eq(C.offBarsNoted[5217], nil, "and not marked as said")
+  mock.Advance(C.QUIET + 0.5)
+  C.NoteOffBars(5217)
+  eq(#mock.printed, printed + 1, "named once things settle")
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)
