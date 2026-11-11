@@ -3,7 +3,7 @@
 -- Mode (DMGAssistDB.defensiveMode, Options > Combat > Defensives): "smart" (default) = boss mod calls + low health,
 -- "bossmods" = only boss mod calls, "health" = only low health, "off".
 --   Boss mods: a DBM/BigWigs "defensive" alert, or an AoE / tank-hit timer (tank hits only for tanks) landing within
---   defensiveLead seconds (default 3) -> a real decision.
+--   the defensive's lead (F.Lead) -> a real decision.
 --   Low health: UnitHealthPercent("player") is secret in combat; a step curve at the threshold (default 35%) turns
 --   it into the icon's alpha, so the game shows the defensive only while you are actually low.
 -- The spell: the first defensive the player knows that is off cooldown and usable now, in the order below (lighter
@@ -98,6 +98,32 @@ function F.Spell()
   return nil
 end
 
+-- How many seconds before a boss mod's big hit to show this defensive. Two things must hold whenever you press it
+-- inside the window: you need time to see it and press it (REACT, plus SETTLE for the GCD / the buff applying), and
+-- the hit must still land well inside the buff (TAIL spare at the end, for timer drift and hits that tick).
+--   earliest useful lead = duration - TAIL (pressed the moment it shows, the buff still covers the hit)
+--   latest lead          = REACT + SETTLE (pressed REACT seconds late, it's still up before the hit)
+-- We show it at the middle of that range, never less than the "Big hit warning" setting and never more than MAX_LEAD
+-- (boss timers drift). A buff too short for both shows late enough to still cover the hit; a heal with no duration
+-- shows at the setting.
+-- Barkskin (8 s): window 2.5..6.5 -> shown 4.5 s before the hit.
+F.REACT, F.SETTLE, F.TAIL, F.MAX_LEAD = 2, 0.5, 1.5, 6
+
+function F.Lead(id, setting)
+  setting = setting or 3
+  local info = id and ns.SpellMap.Info(id)
+  local dur = info and tonumber(info.d)
+  if not dur or dur <= 0 then
+    return setting
+  end
+  local latest, earliest = F.REACT + F.SETTLE, dur - F.TAIL
+  if earliest < latest then
+    return math.min(setting, math.max(earliest, F.SETTLE))
+  end
+  local lead = math.max((latest + earliest) / 2, setting)
+  return math.min(lead, earliest, F.MAX_LEAD)
+end
+
 -- nil, or { id =, how = "decided" | "render", why =, threshold = }
 function F.Evaluate()
   local mode = F.Mode()
@@ -110,7 +136,7 @@ function F.Evaluate()
     return nil
   end
   local B = ns.BossMods
-  local lead = tonumber(ns.db and ns.db.defensiveLead) or 3
+  local lead = F.Lead(id, tonumber(ns.db and ns.db.defensiveLead) or 3)
   if mode ~= "health" then
     if B.Alert("defensive") then
       return { id = id, how = "decided", why = "bossmod" }

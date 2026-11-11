@@ -696,4 +696,5 @@ ns.LOCALE_DATA.koKR = {
   ["Only spells on your bars"] = "단축바에 있는 주문만",
   ["A spell that isn't on any of your action bars is never suggested: the next one takes its place, and chat says which spell once. Off: every spell you know can be suggested."] = "어느 행동 단축바에도 없는 주문은 추천하지 않습니다. 다음 주문이 그 자리를 채우고, 채팅에 어떤 주문인지 한 번 알려줍니다. 끄면: 아는 모든 주문을 추천할 수 있습니다.",
   ["%s is missing (Blizzard's assistant asks for it), so DMGAssist shows it until you apply it. Ignore it and it goes away for the rest of the fight."] = "%s 없음(블리자드 도우미가 요청함). 적용할 때까지 DMGAssist가 표시합니다. 무시하면 이번 전투 동안 사라집니다.",
+  ["Suggest a defensive at least this long before a big hit that a boss mod announces. Defensives that last longer show earlier, so you have time to press it and the hit lands well inside it."] = "보스 모드가 알리는 큰 공격 최소 이 시간 전에 생존기를 제안합니다. 지속 시간이 긴 생존기는 더 일찍 표시되어, 누를 시간이 있고 공격이 효과 시간 안에 충분히 들어옵니다.",
 }

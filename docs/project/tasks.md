@@ -55,6 +55,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.185: boss-mod defensives are timed from the defensive's own duration (spell data): shown at the middle of
+  "time to press it" (2 s + 0.5 s) and "the hit still lands 1.5 s inside the buff", never earlier than 6 s, never
+  later than the Big hit warning setting allows. Barkskin (8 s) now shows 4.5 s before a hit (was a flat 3 s).
+  DBM test confirmed in game: all 7 test timers read with the right kinds, the interrupt timer becomes a call.
 - 1.6.0.184: a boss-mod interrupt timer that runs out counts as the boss mod's interrupt call (some modules only
   time the cast; DBM's /dbm test does exactly that with "Important Interrupt"). Boss-mod timers, calls and DBM test
   starts are now in the /dmgw report (the first /dbm test report showed nothing to check against).

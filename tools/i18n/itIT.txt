@@ -692,3 +692,4 @@
 698	Solo incantesimi sulle tue barre
 699	Un incantesimo che non è su nessuna delle tue barre delle azioni non viene mai suggerito: il successivo prende il suo posto e la chat lo indica una volta. Disattivato: può essere suggerito ogni incantesimo che conosci.
 700	Manca %s (l'assistente di Blizzard lo richiede), quindi DMGAssist lo mostra finché non lo applichi. Se lo ignori, sparisce per il resto del combattimento.
+701	Suggerisce una difensiva almeno questo tempo prima di un colpo pesante annunciato da un addon dei boss. Le difensive che durano di più compaiono prima, così hai il tempo di premerla e il colpo arriva ben dentro la sua durata.

@@ -692,3 +692,4 @@
 698	Nur Zauber auf deinen Leisten
 699	Ein Zauber, der auf keiner deiner Aktionsleisten liegt, wird nie vorgeschlagen: Der nächste nimmt seinen Platz ein, und der Chat nennt den Zauber einmal. Aus: Jeder bekannte Zauber kann vorgeschlagen werden.
 700	%s fehlt (Blizzards Assistent verlangt danach), daher zeigt DMGAssist es an, bis du es anwendest. Ignorierst du es, verschwindet es für den Rest des Kampfes.
+701	Schlägt eine Verteidigung mindestens so lange vor einem großen Treffer vor, den ein Boss-Mod ankündigt. Länger wirkende Verteidigungen erscheinen früher, damit du Zeit zum Drücken hast und der Treffer gut innerhalb ihrer Wirkung landet.

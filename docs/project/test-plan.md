@@ -1,4 +1,4 @@
-# In-game test plan (current: 1.6.0.184)
+# In-game test plan (current: 1.6.0.185)
 
 Send `/dmgw` after each item. Note anything odd with a rough time ("at ~20 s slot 1 went blank").
 
@@ -18,7 +18,9 @@ Done and looking good: Balance, DK, Mage (all), DH (Havoc, Vengeance, Devourer),
 ## 3. DBM / BigWigs
 - `/dbm test`, with a dummy targeted. Over ~60 s the text above the HUD shows ADDS, AOE, TANK HIT and an
   INTERRUPT countdown; at 20 s the interrupt timer runs out and, if the dummy is casting, your interrupt takes
-  slot 1 for ~3 s. Then `/dmgw` (the report lists each boss-mod timer and call).
+  slot 1 for ~3 s. Then `/dmgw` (the report lists each boss-mod timer and call). Done, works (1.6.0.184).
+- Defensive timing: at "Boom!" (60 s) the defensive shows a few seconds early, sized to its duration (Barkskin 8 s
+  -> 4.5 s before), so it's up when the hit lands with time to spare.
 - Real: a heroic dungeon boss with a known interrupt or add wave.
 
 ## 4. Heroic dungeon, then LFR

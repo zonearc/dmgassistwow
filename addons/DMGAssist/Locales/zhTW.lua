@@ -696,4 +696,5 @@ ns.LOCALE_DATA.zhTW = {
   ["Only spells on your bars"] = "只推薦快捷列上的技能",
   ["A spell that isn't on any of your action bars is never suggested: the next one takes its place, and chat says which spell once. Off: every spell you know can be suggested."] = "不在任何快捷列上的技能永遠不會被推薦：由下一個技能替代，聊天框會提示一次是哪個技能。關閉：你會的所有技能都可能被推薦。",
   ["%s is missing (Blizzard's assistant asks for it), so DMGAssist shows it until you apply it. Ignore it and it goes away for the rest of the fight."] = "缺少%s（暴雪助手要求使用），DMGAssist會一直顯示直到你施放。忽略它，本場戰鬥剩餘時間內將不再顯示。",
+  ["Suggest a defensive at least this long before a big hit that a boss mod announces. Defensives that last longer show earlier, so you have time to press it and the hit lands well inside it."] = "在首領插件預告的大傷害前至少這麼久建議使用減傷技能。持續時間更長的減傷會更早顯示，讓你有時間按下，並且傷害穩穩落在其持續時間內。",
 }

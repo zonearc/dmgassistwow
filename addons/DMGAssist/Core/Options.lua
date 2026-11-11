@@ -413,7 +413,8 @@ function O.Register()
   Slider(combat, DB, "defensiveHealth", "Low health", G.defensiveHealth or 35, 10, 70, 5,
     "In combat, at or below this much health a defensive is suggested.", "%")
   Slider(combat, DB, "defensiveLead", "Big hit warning", G.defensiveLead or 3, 1, 8, 1,
-    "Suggest a defensive this long before a big hit that a boss mod announces.", "s")
+    "Suggest a defensive at least this long before a big hit that a boss mod announces. Defensives that last "
+      .. "longer show earlier, so you have time to press it and the hit lands well inside it.", "s")
   Header(combat, "Tanks", "For tank specs, slots 1-3 stay your damage rotation and your mitigation shows in the "
     .. "defensive icon, timed to how your spec tanks.")
   Check(combat, DB, "tankProfile", "Tank mitigation in the defensive icon", true,

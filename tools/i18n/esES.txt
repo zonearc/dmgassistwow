@@ -692,3 +692,4 @@
 698	Solo hechizos en tus barras
 699	Un hechizo que no está en ninguna de tus barras de acción nunca se sugiere: el siguiente ocupa su lugar y el chat dice cuál es una vez. Desactivado: se puede sugerir cualquier hechizo que conozcas.
 700	Falta %s (el asistente de Blizzard lo pide), así que DMGAssist lo muestra hasta que lo apliques. Si lo ignoras, desaparece durante el resto del combate.
+701	Sugiere una defensiva al menos este tiempo antes de un golpe fuerte que anuncie un addon de jefes. Las defensivas que duran más aparecen antes, para que tengas tiempo de pulsarla y el golpe caiga de lleno dentro de ella.

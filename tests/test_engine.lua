@@ -3163,6 +3163,33 @@ test("defensives: boss mod warning -> decided with sound; low health in combat -
   eq(r.defensive, nil, "readable full health: nothing")
 end)
 
+test("defensives: timed from the buff's duration - time to press it, and the hit lands well inside it", function()
+  Reset()
+  DefBook()
+  local dbm = FakeBossMods()
+  local ns = Boot()
+  local F = ns.Defensives
+  local info = ns.SpellMap.Info(22812)
+  eq(info and info.d, 8, "Barkskin lasts 8 s (spell data)")
+  eq(F.Lead(22812, 3), 4.5, "8 s buff: shown 4.5 s before (2.5 s to press, 1.5 s spare at the end)")
+  local real = ns.SpellMap.Info
+  ns.SpellMap.Info = function(id)
+    return ({ [1] = { d = 0 }, [2] = { d = 3 }, [3] = { d = 60 }, [4] = { d = 6 } })[id]
+  end
+  eq(F.Lead(1, 3), 3, "no duration (a heal): the Big hit warning setting")
+  eq(F.Lead(2, 3), 1.5, "3 s buff: late enough that it still covers the hit")
+  eq(F.Lead(3, 3), 6, "long buff: capped, boss timers drift")
+  eq(F.Lead(4, 3), 3.5, "6 s buff")
+  eq(F.Lead(4, 5), 4.5, "a longer setting is honoured up to what the buff can cover")
+  ns.SpellMap.Info = real
+  dbm.DBM_TimerBegin("DBM_TimerBegin", "boom", "Boom!", 6, 0, "cd", 1, 2) -- AoE in 6 s
+  eq(ns.Update().defensive, nil, "6 s out: too early for Barkskin")
+  mock.now = mock.now + 1.6
+  local r = ns.Update()
+  eq(r.defensive and r.defensive.why, "aoe", "4.4 s out: Barkskin now")
+  ns.BossMods.Reset()
+end)
+
 test("sounds: on the rising edge only, throttled, 'none' silences, master switch", function()
   Reset()
   KickBook()
