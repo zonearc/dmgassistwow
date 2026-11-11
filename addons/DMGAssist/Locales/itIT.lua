@@ -695,4 +695,5 @@ ns.LOCALE_DATA.itIT = {
   ["%s is in your rotation but isn't on your action bars, so DMGAssist skips it. Drag it from the spellbook onto a bar (and give it a key) to have it suggested."] = "%s fa parte della tua rotazione ma non è sulle tue barre delle azioni, quindi DMGAssist lo salta. Trascinalo dal libro degli incantesimi su una barra (e assegnagli un tasto) perché venga suggerito.",
   ["Only spells on your bars"] = "Solo incantesimi sulle tue barre",
   ["A spell that isn't on any of your action bars is never suggested: the next one takes its place, and chat says which spell once. Off: every spell you know can be suggested."] = "Un incantesimo che non è su nessuna delle tue barre delle azioni non viene mai suggerito: il successivo prende il suo posto e la chat lo indica una volta. Disattivato: può essere suggerito ogni incantesimo che conosci.",
+  ["%s is missing (Blizzard's assistant asks for it), so DMGAssist shows it until you apply it. Ignore it and it goes away for the rest of the fight."] = "Manca %s (l'assistente di Blizzard lo richiede), quindi DMGAssist lo mostra finché non lo applichi. Se lo ignori, sparisce per il resto del combattimento.",
 }

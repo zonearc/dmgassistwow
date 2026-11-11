@@ -17,7 +17,7 @@
 -- these buffs says it's missing (B.FromAssistant).
 
 local _, ns = ...
-local U = ns.U
+local U, L = ns.U, ns.L
 
 local B = {}
 ns.Buffs = B
@@ -288,11 +288,39 @@ end
 
 -- Slot 1 out of combat: the missing buff first, the rest of the queue moves along. In combat: the buff Blizzard's
 -- assistant asks for (slot 2 for a poison).
+-- In combat a reminder you leave alone for B.IGNORED seconds is dropped for the rest of that fight: you've seen
+-- it and chose to fight on (a missing Amplifying Poison held slot 2 for a whole 2-minute fight, 2026-11-11). Chat
+-- says once what it is: the icon alone didn't tell.
+B.IGNORED = 20
+B.seen, B.noted = {}, {}
+local function Ignored(pick)
+  local S = ns.State
+  local fight = S.combatStart
+  if not (fight and pick.why == "assisted") then
+    return false
+  end
+  local s = B.seen[pick.id]
+  if not s or s.fight ~= fight then
+    s = { fight = fight, at = S.Now() }
+    B.seen[pick.id] = s
+  end
+  if not B.noted[pick.id] then
+    B.noted[pick.id] = true
+    local link = U.Get(C_Spell and C_Spell.GetSpellLink, pick.id) or ns.Choices.Name(pick.id)
+    U.Print(L["%s is missing (Blizzard's assistant asks for it), so DMGAssist shows it until you apply it. "
+      .. "Ignore it and it goes away for the rest of the fight."], tostring(link))
+  end
+  return S.Now() - s.at > B.IGNORED
+end
+
 function B.Apply(result)
   local pick = B.Missing()
   local second
   if not pick then
     pick, second = B.FromAssistant()
+    if pick and Ignored(pick) then
+      pick = nil
+    end
   end
   if not (pick and result) then
     return result

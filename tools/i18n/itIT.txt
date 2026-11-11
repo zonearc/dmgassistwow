@@ -691,3 +691,4 @@
 697	%s fa parte della tua rotazione ma non è sulle tue barre delle azioni, quindi DMGAssist lo salta. Trascinalo dal libro degli incantesimi su una barra (e assegnagli un tasto) perché venga suggerito.
 698	Solo incantesimi sulle tue barre
 699	Un incantesimo che non è su nessuna delle tue barre delle azioni non viene mai suggerito: il successivo prende il suo posto e la chat lo indica una volta. Disattivato: può essere suggerito ogni incantesimo che conosci.
+700	Manca %s (l'assistente di Blizzard lo richiede), quindi DMGAssist lo mostra finché non lo applichi. Se lo ignori, sparisce per il resto del combattimento.

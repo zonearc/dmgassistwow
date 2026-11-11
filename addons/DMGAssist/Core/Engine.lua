@@ -632,6 +632,9 @@ end
 G.CastRecently = CastRecently
 
 local function Castable(id)
+  if id and M.IsAutomatic(id) then
+    return false, "auto" -- the game casts it for you (M.AUTO_TRIGGERED)
+  end
   local castable, why = CastableRaw(id)
   if castable ~= false and castable ~= true and id and CastRecently(id) then
     return false, "cast" -- (only when our clock can't tell: a known clock keeps the final say)

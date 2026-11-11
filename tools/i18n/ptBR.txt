@@ -691,3 +691,4 @@
 697	%s faz parte da sua rotação mas não está nas suas barras de ação, então o DMGAssist o ignora. Arraste-o do grimório para uma barra (e atribua uma tecla) para que seja sugerido.
 698	Só feitiços nas suas barras
 699	Um feitiço que não está em nenhuma das suas barras de ação nunca é sugerido: o próximo toma o lugar dele, e o bate-papo diz qual uma vez. Desligado: qualquer feitiço que você conhece pode ser sugerido.
+700	%s está faltando (o assistente da Blizzard pede por ele), então o DMGAssist o mostra até você aplicá-lo. Se ignorar, ele some pelo resto da luta.

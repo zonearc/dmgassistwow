@@ -695,4 +695,5 @@ ns.LOCALE_DATA.koKR = {
   ["%s is in your rotation but isn't on your action bars, so DMGAssist skips it. Drag it from the spellbook onto a bar (and give it a key) to have it suggested."] = "%s 주문은 순환에 포함되지만 행동 단축바에 없어서 DMGAssist가 건너뜁니다. 주문책에서 단축바로 끌어다 놓으면(키도 지정) 추천됩니다.",
   ["Only spells on your bars"] = "단축바에 있는 주문만",
   ["A spell that isn't on any of your action bars is never suggested: the next one takes its place, and chat says which spell once. Off: every spell you know can be suggested."] = "어느 행동 단축바에도 없는 주문은 추천하지 않습니다. 다음 주문이 그 자리를 채우고, 채팅에 어떤 주문인지 한 번 알려줍니다. 끄면: 아는 모든 주문을 추천할 수 있습니다.",
+  ["%s is missing (Blizzard's assistant asks for it), so DMGAssist shows it until you apply it. Ignore it and it goes away for the rest of the fight."] = "%s 없음(블리자드 도우미가 요청함). 적용할 때까지 DMGAssist가 표시합니다. 무시하면 이번 전투 동안 사라집니다.",
 }

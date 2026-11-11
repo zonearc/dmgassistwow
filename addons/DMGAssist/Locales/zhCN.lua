@@ -695,4 +695,5 @@ ns.LOCALE_DATA.zhCN = {
   ["%s is in your rotation but isn't on your action bars, so DMGAssist skips it. Drag it from the spellbook onto a bar (and give it a key) to have it suggested."] = "%s 在你的循环中，但不在你的动作条上，因此 DMGAssist 会跳过它。把它从法术书拖到动作条上（并绑定按键）即可被推荐。",
   ["Only spells on your bars"] = "只推荐动作条上的技能",
   ["A spell that isn't on any of your action bars is never suggested: the next one takes its place, and chat says which spell once. Off: every spell you know can be suggested."] = "不在任何动作条上的技能永远不会被推荐：由下一个技能替代，聊天框会提示一次是哪个技能。关闭：你会的所有技能都可能被推荐。",
+  ["%s is missing (Blizzard's assistant asks for it), so DMGAssist shows it until you apply it. Ignore it and it goes away for the rest of the fight."] = "缺少%s（暴雪助手要求使用），DMGAssist会一直显示直到你施放。忽略它，本场战斗剩余时间内将不再显示。",
 }

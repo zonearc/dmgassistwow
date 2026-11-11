@@ -695,4 +695,5 @@ ns.LOCALE_DATA.frFR = {
   ["%s is in your rotation but isn't on your action bars, so DMGAssist skips it. Drag it from the spellbook onto a bar (and give it a key) to have it suggested."] = "%s fait partie de votre rotation mais n'est sur aucune barre d'action, donc DMGAssist l'ignore. Faites-le glisser du grimoire sur une barre (et attribuez-lui une touche) pour qu'il soit suggéré.",
   ["Only spells on your bars"] = "Seulement les sorts sur vos barres",
   ["A spell that isn't on any of your action bars is never suggested: the next one takes its place, and chat says which spell once. Off: every spell you know can be suggested."] = "Un sort qui n'est sur aucune de vos barres d'action n'est jamais suggéré : le suivant prend sa place, et le chat indique lequel une fois. Désactivé : tout sort connu peut être suggéré.",
+  ["%s is missing (Blizzard's assistant asks for it), so DMGAssist shows it until you apply it. Ignore it and it goes away for the rest of the fight."] = "%s est absent (l'assistant de Blizzard le demande), DMGAssist l'affiche donc jusqu'à ce que vous l'appliquiez. Ignorez-le et il disparaît pour le reste du combat.",
 }

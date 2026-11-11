@@ -59,6 +59,14 @@ Written down so that a fix for one class doesn't quietly break another. Keep thi
   either the simulation can't play that spec (Devourer: Fury never changes, so Void Ray forever) or the addon is
   wrong. Back it with a test on the real data and the report's setup.
 
+## 2d. Every SimC term a spec uses must be one we read
+
+- A term we don't recognise makes its line a guess, and a guess can be "confirmed" by Blizzard's simpler written
+  rule: Subtlety's cp_max_spend did that to the finisher gate. When a spec misbehaves, list the terms in its lists
+  that S.Resolve doesn't know before anything else, and look each up in SimC's class module (create_expression).
+- When Blizzard's assistant is stuck on a buff all fight (a missing poison), we run on SimC alone: those specs show
+  every gap at once.
+
 ## 3. Changing the baseline honestly
 
 When the **simulation** changes (more realism), the numbers move for reasons that aren't the addon's:

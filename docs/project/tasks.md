@@ -16,6 +16,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- SimC terms we don't read yet (tools audit, 2026-11-11): soul_fragments (Vengeance, Devourer), rtb_buffs
+  (Outlaw), scorch_execute (Fire), energize_amount (Balance), movement (Warriors), tick_time, apex.N (always 0).
+  Each turns its lines into guesses that only Blizzard's pick can confirm.
 - The every-spec check can't play Devourer (Fury never changes in the simulation, so Void Ray forever). Model
   spent/gained resources per spell, or mark such rows as not meaningful.
 - [ ] Forever: confirm the WoWSims rank mapping (data imports for 34 specs; mapping not verified)
@@ -51,6 +54,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.177: rogue finishers. SimC's cp_max_spend (the most combo points a finisher uses) and effective_combo_points
+  (Supercharger as a range) are read; "talent.ancient_arts_3" (the Nth talent of a name, apex tiers) is read.
+  Subtlety at 7/7 combo points showed Shuriken Storm forever, now Eviscerate. Thistle Tea with the automatic talent
+  (469779) is never suggested. A missing buff/poison Blizzard asks for is explained once in chat and dropped for
+  the fight after 20 s ignored. Windwalker's combo_strike (63 lines) is read from our own casts.
 - 1.6.0.176: slots 2-3 spend hidden resources too: after a pretend Void Ray (100 Fury) the next isn't Void Ray
   again (the range is capped at the maximum before the spend). A major cooldown whose own line says "not now"
   isn't promoted to slot 1 from slots 2-3 (Subtlety's Shadow Blades blinked in every 4 s). Every-spec check:

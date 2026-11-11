@@ -4147,6 +4147,9 @@ test("buffs in combat: Blizzard's assistant naming a missing buff puts it in slo
   mock.book = book
   local ns = Boot()
   local G = ns.Engine
+  local printed = {}
+  local oldPrint = ns.U.Print
+  ns.U.Print = function(fmt, ...) printed[#printed + 1] = string.format(fmt, ...) end
   mock.inCombat = true
   mock.Fire("PLAYER_REGEN_DISABLED")
   mock.acSpell = 1126
@@ -4162,6 +4165,22 @@ test("buffs in combat: Blizzard's assistant naming a missing buff puts it in slo
   r = G.Recommend(ns.ActiveRecord(ns.Specs.current), { useAssisted = true })
   ns.Buffs.Apply(r)
   eq(r.main.id ~= 1126, true, "cast (the assistant moved on): gone")
+  -- left alone: chat says once what it is, and after B.IGNORED seconds it stops pushing for this fight
+  mock.acSpell = 1126
+  G.Recommend(ns.ActiveRecord(ns.Specs.current), { useAssisted = true })
+  mock.Advance(ns.Buffs.ASSIST_SETTLE + 0.1)
+  r = G.Recommend(ns.ActiveRecord(ns.Specs.current), { useAssisted = true })
+  ns.Buffs.Apply(r)
+  eq(r.main.id, 1126, "missing again: shown")
+  eq(#printed, 1, "chat said once what it is")
+  r = G.Recommend(ns.ActiveRecord(ns.Specs.current), { useAssisted = true })
+  ns.Buffs.Apply(r)
+  eq(#printed, 1, "once")
+  mock.Advance(ns.Buffs.IGNORED + 1)
+  r = G.Recommend(ns.ActiveRecord(ns.Specs.current), { useAssisted = true })
+  ns.Buffs.Apply(r)
+  eq(r.main.id ~= 1126, true, "ignored for 20 s: gone for the rest of the fight")
+  ns.U.Print = oldPrint
   mock.acSpell, mock.inCombat = nil, false
 end)
 
@@ -4964,6 +4983,70 @@ test("slots 2-3: after pretending Void Ray (100 Fury), Void Ray isn't affordable
   S.EndLookahead()
   mock.inCombat, mock.restricted = false, false
   mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
+test("Subtlety at 7/7 combo points on 5 targets spends them (Blizzard's assistant stuck on a missing poison)", function()
+  Reset()
+  local ns = Boot()
+  local M, S = ns.SpellMap, ns.State
+  local key = "rogue_subtlety"
+  local record = ns.Data.specs.midnight[key]
+  local book = {}
+  for _, token in ipairs({ "shuriken_storm", "backstab", "eviscerate", "black_powder", "secret_technique",
+    "shadow_dance", "shadow_blades", "slice_and_dice", "rupture", "shadowstrike", "symbols_of_death" }) do
+    local id = record.spells[token] and record.spells[token].a[1]
+    if id then
+      book[#book + 1] = { spellID = id, name = token }
+    end
+  end
+  mock.book = book
+  mock.heroTree = "trickster"
+  mock.talents = {}
+  ns.Specs.current = { key = key, status = "ready", data = record, branch = "midnight", client = "Midnight" }
+  M.SetData(record)
+  M.Refresh()
+  S.Bind(key)
+  mock.power[4], mock.powerMax[4] = 7, 7 -- combo points: readable in combat (the report: combo_points=ok)
+  mock.powerReadable[4] = true
+  mock.power[3], mock.powerMax[3] = 60, 100
+  mock.nameplates = 5
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  for _, token in ipairs({ "shadow_blades", "shadow_dance", "symbols_of_death" }) do
+    local id = M.SpellID(token)
+    if id then
+      mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "cd", id)
+      mock.cooldowns[id] = { active = true, start = mock.now, duration = 90 }
+    end
+  end
+  mock.Advance(20)
+  mock.usable[M.SpellID("shadowstrike")] = { false, false } -- only in Stealth / Shadow Dance
+  local r = ns.Update()
+  local builders = { shuriken_storm = true, backstab = true, shadowstrike = true, gloomblade = true }
+  assert(r.main and not builders[r.main.token], "a finisher, not a builder: got "
+    .. tostring(r.main and r.main.token))
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
+test("Thistle Tea with the automatic talent is never suggested: the game drinks it for you", function()
+  Reset()
+  local ns = Boot()
+  local M, G = ns.SpellMap, ns.Engine
+  local rec = QRecord({ { a = "thistle_tea", k = "T" } })
+  rec.spellInfo[381623] = { n = "thistle_tea", cd = 1, ch = 3, chcd = 60 }
+  rec.spellInfo[469779] = { n = "thistle_tea", pas = true, tal = true }
+  rec.spells.thistle_tea = { a = { 381623, 1298826, 469779 } }
+  mock.book = { { spellID = 381623, name = "Thistle Tea" } }
+  mock.talents = { { name = "Thistle Tea", spellID = 469779, rank = 1 } }
+  Feral(ns, rec)
+  M.Refresh()
+  eq(M.IsAutomatic(381623), true)
+  local castable, why = G.Castable(381623)
+  eq(castable, false) eq(why, "auto")
+  mock.talents = {}
+  M.Refresh()
+  eq(M.IsAutomatic(381623), false, "the button version (other choice) is suggested as usual")
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

@@ -698,5 +698,6 @@
 "%s is shown in a small icon (defensive or off-GCD) but has no key. Put it on a bar and give it a key, or hide it on the Spells & trinkets page.",
 "%s is in your rotation but isn't on your action bars, so DMGAssist skips it. Drag it from the spellbook onto a bar (and give it a key) to have it suggested.",
 "Only spells on your bars",
-"A spell that isn't on any of your action bars is never suggested: the next one takes its place, and chat says which spell once. Off: every spell you know can be suggested."
+"A spell that isn't on any of your action bars is never suggested: the next one takes its place, and chat says which spell once. Off: every spell you know can be suggested.",
+"%s is missing (Blizzard's assistant asks for it), so DMGAssist shows it until you apply it. Ignore it and it goes away for the rest of the fight."
 ]

@@ -695,4 +695,5 @@ ns.LOCALE_DATA.ruRU = {
   ["%s is in your rotation but isn't on your action bars, so DMGAssist skips it. Drag it from the spellbook onto a bar (and give it a key) to have it suggested."] = "%s входит в вашу ротацию, но его нет на панелях команд, поэтому DMGAssist его пропускает. Перетащите его из книги заклинаний на панель (и назначьте клавишу), чтобы он предлагался.",
   ["Only spells on your bars"] = "Только заклинания на панелях",
   ["A spell that isn't on any of your action bars is never suggested: the next one takes its place, and chat says which spell once. Off: every spell you know can be suggested."] = "Заклинание, которого нет ни на одной из ваших панелей команд, никогда не предлагается: его место занимает следующее, а в чате один раз сообщается, какое именно. Выкл.: может предлагаться любое известное заклинание.",
+  ["%s is missing (Blizzard's assistant asks for it), so DMGAssist shows it until you apply it. Ignore it and it goes away for the rest of the fight."] = "Отсутствует %s (помощник Blizzard просит его), поэтому DMGAssist показывает его, пока вы его не примените. Если проигнорировать, он исчезнет до конца боя.",
 }

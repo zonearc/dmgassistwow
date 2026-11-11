@@ -2527,6 +2527,24 @@ function S.Affordable(id)
   return result
 end
 
+-- Rogue effective_combo_points (sc_rogue.cpp current_effective_cp): combo points (at most the spendable maximum),
+-- plus Supercharger's bonus while one of its hidden charges is up. lo, hi; nil when combo points are unknown.
+S.SUPERCHARGE_BONUS = 3 -- Supercharger 2 + Forced Induction 1, the most it can add
+local function EffectiveCP()
+  local cur, max = PowerNow(4)
+  if type(cur) ~= "number" then
+    return nil
+  end
+  if type(max) == "number" and max > 0 then
+    cur = math.min(cur, max)
+  end
+  local rank = M.TalentRank("supercharger")
+  if cur == 0 or rank == 0 then
+    return cur, cur
+  end
+  return cur, cur + S.SUPERCHARGE_BONUS
+end
+
 -- lo, hi for a hidden resource at the overlay's moment: the inferred range, capped at the maximum, then what the
 -- pretend casts spent / gained and regeneration. Capped first: "100 or more" Fury minus Void Ray's 100 is 0-0, not
 -- "up to 100" (slots 2 and 3 both said Void Ray, Devourer 2026-11-10).
@@ -2562,6 +2580,9 @@ function S.Bounds(name)
     return ns.Clues.DistanceBounds()
   elseif name == "target.health.pct" then
     return ns.Clues.NamedBounds(name)
+  end
+  if name == "effective_combo_points" then
+    return EffectiveCP()
   end
   local head, field = name:match("^([%w_]+)%.?([%w_]*)$")
   local pt = head and PowerType(head)
@@ -2867,6 +2888,18 @@ function S.Resolve(name, ctx)
 
   if POWER[head] then
     return Power(head, p[2], ctx)
+  elseif head == "cp_max_spend" then
+    -- rogue: the most combo points a finisher uses (sc_rogue.cpp consume_cp_max: 5 + the stratagem talents), which
+    -- is the maximum the game shows. Unread, every rogue's "finish at max combo points" list was unknown and a
+    -- builder was shown at 7/7 (Subtlety, 2026-11-11).
+    local max = U.Get(UnitPowerMax, "player", 4)
+    return (type(max) == "number" and max > 0) and max or UNKNOWN
+  elseif head == "effective_combo_points" then
+    local lo, hi = EffectiveCP()
+    if lo and lo == hi then
+      return lo
+    end
+    return UNKNOWN
   elseif head == "talent" then
     local r = M.TalentRank(p[2] or "")
     if r == nil then
@@ -2947,6 +2980,18 @@ function S.Resolve(name, ctx)
     return S.GCD()
   elseif head == "time" or head == "combat_time" then
     return CombatTime()
+  elseif head == "combo_strike" then
+    -- Windwalker (sc_monk.cpp is_combo_strike): true unless this ability was the last one used (true at the start
+    -- of a fight). From our own casts, pretend ones first. Unread, 63 Windwalker lines were guesses.
+    local action = ctx and ctx.action
+    if not action then
+      return UNKNOWN
+    end
+    local last = (V and V.prev[1]) or (S.history[1] and S.history[1].token)
+    if not last then
+      return 1
+    end
+    return last == action and 0 or 1
   elseif head == "prev_gcd" or head == "prev" or head == "prev_off_gcd" then
     local n, token = 1, p[2]
     if tonumber(p[2]) then

@@ -83,6 +83,19 @@ function M.IsCastEffect(id, ap)
   return ai and (ai.d or 0) <= M.CAST_EFFECT_MAX or false
 end
 
+-- Spells the game casts for you once a talent is chosen (choice nodes in Midnight). From the game's spell data
+-- (SpellDataDump): Thistle Tea 381623 is "Triggered By" the passive Thistle Tea 469779, "When your Energy is reduced
+-- below 30, drink a Thistle Tea"; the other choice, 1298826, is a button. SimC's line (energy.pct<30) is the
+-- automatic trigger itself, so with 469779 it was suggested for nothing, and shown "on cooldown" right after the
+-- game drank it (Assassination, 2026-11-11). spellID -> the talent that makes it automatic.
+M.AUTO_TRIGGERED = {
+  [381623] = 469779,
+}
+function M.IsAutomatic(id)
+  local talent = id and M.AUTO_TRIGGERED[id]
+  return talent ~= nil and M.talentsRead and (M.talentIDs[talent] or 0) > 0 or false
+end
+
 -- Bind the current spec's generated spell data.
 function M.SetData(record)
   record = type(record) == "table" and record or {}
@@ -311,7 +324,32 @@ function M.TalentRank(token)
       return r
     end
   end
-  return nil
+  return M.NthTalentRank(token)
+end
+
+-- SimC's "talent.ancient_arts_3": the 3rd talent of that name (apex tiers are separate talents with one name;
+-- engine/player/player.cpp splits a trailing number off as the index). Ours: that name's talent IDs in order.
+-- Unread, Subtlety's line "Shuriken Storm at max combo points for the apex" was unknown, Blizzard's simple rule
+-- for Shuriken Storm (2+ targets) "confirmed" it, and it was shown at 7/7 combo points (2026-11-11).
+function M.NthTalentRank(token)
+  local base, n = token:match("^(.+)_(%d+)$")
+  n = tonumber(n)
+  local e = base and M.data[base]
+  if not (e and n and n >= 1) then
+    return nil
+  end
+  local ids = {}
+  for _, id in ipairs(e.t or e.a or {}) do
+    local info = M.info[id]
+    if e.t or (info and info.tal) then
+      ids[#ids + 1] = id
+    end
+  end
+  table.sort(ids)
+  if #ids < n then
+    return nil
+  end
+  return M.talentIDs[ids[n]] or 0
 end
 
 -- Is this hero tree active? 1 / 0, or nil when unknown.

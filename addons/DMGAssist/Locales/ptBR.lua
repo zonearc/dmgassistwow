@@ -695,4 +695,5 @@ ns.LOCALE_DATA.ptBR = {
   ["%s is in your rotation but isn't on your action bars, so DMGAssist skips it. Drag it from the spellbook onto a bar (and give it a key) to have it suggested."] = "%s faz parte da sua rotação mas não está nas suas barras de ação, então o DMGAssist o ignora. Arraste-o do grimório para uma barra (e atribua uma tecla) para que seja sugerido.",
   ["Only spells on your bars"] = "Só feitiços nas suas barras",
   ["A spell that isn't on any of your action bars is never suggested: the next one takes its place, and chat says which spell once. Off: every spell you know can be suggested."] = "Um feitiço que não está em nenhuma das suas barras de ação nunca é sugerido: o próximo toma o lugar dele, e o bate-papo diz qual uma vez. Desligado: qualquer feitiço que você conhece pode ser sugerido.",
+  ["%s is missing (Blizzard's assistant asks for it), so DMGAssist shows it until you apply it. Ignore it and it goes away for the rest of the fight."] = "%s está faltando (o assistente da Blizzard pede por ele), então o DMGAssist o mostra até você aplicá-lo. Se ignorar, ele some pelo resto da luta.",
 }

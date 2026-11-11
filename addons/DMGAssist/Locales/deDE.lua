@@ -695,4 +695,5 @@ ns.LOCALE_DATA.deDE = {
   ["%s is in your rotation but isn't on your action bars, so DMGAssist skips it. Drag it from the spellbook onto a bar (and give it a key) to have it suggested."] = "%s gehört zu deiner Rotation, liegt aber auf keiner Aktionsleiste, daher überspringt DMGAssist ihn. Zieh ihn aus dem Zauberbuch auf eine Leiste (und belege eine Taste), damit er vorgeschlagen wird.",
   ["Only spells on your bars"] = "Nur Zauber auf deinen Leisten",
   ["A spell that isn't on any of your action bars is never suggested: the next one takes its place, and chat says which spell once. Off: every spell you know can be suggested."] = "Ein Zauber, der auf keiner deiner Aktionsleisten liegt, wird nie vorgeschlagen: Der nächste nimmt seinen Platz ein, und der Chat nennt den Zauber einmal. Aus: Jeder bekannte Zauber kann vorgeschlagen werden.",
+  ["%s is missing (Blizzard's assistant asks for it), so DMGAssist shows it until you apply it. Ignore it and it goes away for the rest of the fight."] = "%s fehlt (Blizzards Assistent verlangt danach), daher zeigt DMGAssist es an, bis du es anwendest. Ignorierst du es, verschwindet es für den Rest des Kampfes.",
 }
