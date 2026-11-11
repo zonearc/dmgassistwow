@@ -488,7 +488,7 @@ function mock.Install(env)
   end
   env.IsInInstance = function()
     if mock.instance then
-      return true, "party"
+      return true, type(mock.instance) == "string" and mock.instance or "party"
     end
     return false, "none"
   end

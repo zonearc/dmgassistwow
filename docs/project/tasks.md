@@ -55,6 +55,8 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.183: interrupts in delves (scenarios) work like the open world (any interruptible cast); only dungeons and
+  raids use the boss-mod / Blizzard-important filter. Wind Shear never showed on Mind Flay in a delve.
 - 1.6.0.182: no "not on your bars" / "no key" chat for 4 s after a spec, talent or spell-list change (switching
   Assassination -> Outlaw named Assassination spells against the new bars). In-game test plan: docs/project/test-plan.md.
 - 1.6.0.181: when nothing at all can be shown, slot 1 shows the spell it's waiting for (shaded) instead of going

@@ -38,11 +38,15 @@ function I.Mode()
   return m
 end
 
+-- Dungeons and raids only. Delves (and other scenarios) are solo content like the open world: any interruptible
+-- cast counts. As "instances" they only showed casts Blizzard flags important, so Wind Shear never appeared on Mind
+-- Flay in a delve (2026-11-11).
 local function InInstance()
   local inside, kind = U.Call(IsInInstance)
   inside, kind = U.Read(inside), U.Read(kind)
-  return inside == true and (kind == "party" or kind == "raid" or kind == "scenario")
+  return inside == true and (kind == "party" or kind == "raid")
 end
+I.InInstance = InInstance
 
 -- The decision for this tick. Returns nil, or { id =, how = "decided" | "render", needImportant = bool, why = }.
 function I.Evaluate()

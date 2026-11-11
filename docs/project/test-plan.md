@@ -1,4 +1,4 @@
-# In-game test plan (current: 1.6.0.182)
+# In-game test plan (current: 1.6.0.183)
 
 Send `/dmgw` after each item. Note anything odd with a rough time ("at ~20 s slot 1 went blank").
 
@@ -12,7 +12,7 @@ Done and looking good: Balance, DK, Mage (all), DH (Havoc, Vengeance, Devourer),
   shown as ready, slot 1 never blank, no chat about spells you don't have.
 
 ## 2. Interrupts
-- Done on Balance (worked). Do 2-3 more: rogue Kick, shaman Wind Shear, DH Disrupt, warrior Pummel.
+- Done on Balance (worked). Delves now behave like the open world (any interruptible cast). Do 2-3 more: rogue Kick, shaman Wind Shear, DH Disrupt, warrior Pummel.
 - `/dmga test interrupt`, then open-world caster mobs. Kick when it shows; it should vanish after.
 
 ## 3. DBM / BigWigs

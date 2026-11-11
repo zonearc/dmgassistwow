@@ -5199,6 +5199,20 @@ test("mid spec switch (spells / talents just changed) nothing is named as off yo
   eq(#mock.printed, printed + 1, "named once things settle")
 end)
 
+test("interrupts: delves (scenarios) count as open world, dungeons and raids as instances", function()
+  Reset()
+  local ns = Boot()
+  local I = ns.Interrupts
+  mock.instance = "scenario"
+  eq(I.InInstance(), false, "a delve: any interruptible cast, like the open world")
+  mock.instance = "party"
+  eq(I.InInstance(), true, "a dungeon")
+  mock.instance = "raid"
+  eq(I.InInstance(), true, "a raid")
+  mock.instance = nil
+  eq(I.InInstance(), false, "open world")
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)
