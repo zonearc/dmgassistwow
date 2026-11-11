@@ -69,6 +69,8 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.204: Flow mode "press start" (READY, PLAYER ONE? / INSERT COIN / PRESS START until the set's first hit,
+  then LET'S GO!); the grade box's Flow score line wraps inside the box instead of running out of it.
 - 1.6.0.203: Game mode is now Flow mode (owner's pick): CLASSIC / FLOW switch, /dmga flow (/dmga game still
   works), settings group "Flow mode & grades", all 9 languages.
 

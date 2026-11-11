@@ -814,5 +814,10 @@
 "Turn DMGAssist on or off, move it, and pick its language. Everything else is in three groups below: Status & Help, Core (Combat, Display, Sounds, Integrations, Advanced) and Flow mode & grades.",
 "Which style? (Switch any time with the CLASSIC / FLOW switch above the HUD, or /dmga flow.)",
 "Switch Flow mode on / off",
-"Flow mode on / off: notes slide into a hit line, streaks and stars"
+"Flow mode on / off: notes slide into a hit line, streaks and stars",
+"READY, PLAYER ONE?",
+"INSERT COIN",
+"PRESS START",
+"Hit your first spell to start the Flow",
+"LET'S GO!"
 ]

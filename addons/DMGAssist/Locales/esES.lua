@@ -811,4 +811,9 @@ ns.LOCALE_DATA.esES = {
   ["Which style? (Switch any time with the CLASSIC / FLOW switch above the HUD, or /dmga flow.)"] = "¿Qué estilo? (Cambia cuando quieras con el interruptor CLÁSICO / FLOW sobre el HUD, o /dmga flow.)",
   ["Switch Flow mode on / off"] = "Activar / desactivar el modo Flow",
   ["Flow mode on / off: notes slide into a hit line, streaks and stars"] = "Modo Flow sí / no: las notas se deslizan hasta una línea, rachas y estrellas",
+  ["READY, PLAYER ONE?"] = "¿LISTO, JUGADOR UNO?",
+  ["INSERT COIN"] = "INSERTA MONEDA",
+  ["PRESS START"] = "PULSA START",
+  ["Hit your first spell to start the Flow"] = "Lanza tu primer hechizo para empezar el Flow",
+  ["LET'S GO!"] = "¡VAMOS!",
 }

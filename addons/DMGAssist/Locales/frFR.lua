@@ -811,4 +811,9 @@ ns.LOCALE_DATA.frFR = {
   ["Which style? (Switch any time with the CLASSIC / FLOW switch above the HUD, or /dmga flow.)"] = "Quel style ? (Changez à tout moment avec l'interrupteur CLASSIQUE / FLOW au-dessus du HUD, ou /dmga flow.)",
   ["Switch Flow mode on / off"] = "Activer / désactiver le mode Flow",
   ["Flow mode on / off: notes slide into a hit line, streaks and stars"] = "Mode Flow oui / non : les notes glissent vers une ligne, séries et étoiles",
+  ["READY, PLAYER ONE?"] = "PRÊT, JOUEUR UN ?",
+  ["INSERT COIN"] = "INSÉREZ UNE PIÈCE",
+  ["PRESS START"] = "APPUYEZ SUR START",
+  ["Hit your first spell to start the Flow"] = "Lancez votre premier sort pour démarrer le Flow",
+  ["LET'S GO!"] = "C'EST PARTI !",
 }

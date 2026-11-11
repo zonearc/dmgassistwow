@@ -1061,6 +1061,9 @@ local function Frame()
     cell.label = part[2]
     f.cells[i] = cell
   end
+  -- Flow mode's line: its own row the box's width (beside the score it ran out of the box, 2026-11-11)
+  f.flow = f:CreateFontString(nil, "OVERLAY")
+  f.flow:SetJustifyH("LEFT")
   f.vsLine = f:CreateFontString(nil, "OVERLAY")
   f.vsLine:SetWidth(W - 24 - 2 * PAD)
   f.vsLine:SetJustifyH("LEFT")
@@ -1130,12 +1133,9 @@ function Gr.Render(r, sample, test)
   f.score:SetText(string.format("%.1f", r.score))
   f.score:SetTextColor(1, 1, 1)
   D.SetFont(f.best, 14)
-  local best = r.newBest and L["New best!"] or ""
-  if r.game then
-    best = best .. (best ~= "" and "  " or "") .. string.format(L["Flow score %d, best streak %d, %d%% perfect"],
-      r.game.score, r.game.bestStreak, r.game.perfect) .. (r.game.newBest and (" " .. L["(new high score)"]) or "")
-  end
-  f.best:SetText(best)
+  f.best:SetText(r.newBest and L["New best!"] or "")
+  local flow = r.game and (string.format(L["Flow score %d, best streak %d, %d%% perfect"], r.game.score,
+    r.game.bestStreak, r.game.perfect) .. (r.game.newBest and (" " .. L["(new high score)"]) or "")) or nil
   f.best:SetTextColor(1, 0.82, 0.1)
   -- Settings > Performance grade: the box's opacity, the size, and which parts show (the box re-flows to fit)
   local db = ns.db or {}
@@ -1145,6 +1145,19 @@ function Gr.Render(r, sample, test)
   f:SetScale(math.max(0.5, math.min(1.5, (tonumber(db.gradeScale) or 100) / 100)))
   local showBar, showParts = db.gradeBar ~= false, db.gradeParts ~= false
   local y = 88 + PAD
+  f.flow:ClearAllPoints()
+  f.flow:SetPoint("TOPLEFT", f, "TOPLEFT", PAD, -(y - 10))
+  f.flow:SetWidth(W - 2 * PAD)
+  if f.flow.SetWordWrap then
+    f.flow:SetWordWrap(true)
+  end
+  D.SetFont(f.flow, 12)
+  f.flow:SetText(flow or "")
+  f.flow:SetTextColor(1, 0.82, 0.1)
+  f.flow:SetShown(flow ~= nil)
+  if flow then
+    y = y + 26 -- room for two lines
+  end
   f.bar:ClearAllPoints()
   f.bar:SetPoint("TOP", f, "TOP", 0, -y)
   f.bar:SetShown(showBar)

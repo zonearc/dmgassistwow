@@ -807,3 +807,8 @@
 813	¿Qué estilo? (Cambia cuando quieras con el interruptor CLÁSICO / FLOW sobre el HUD, o /dmga flow.)
 814	Activar / desactivar el modo Flow
 815	Modo Flow sí / no: las notas se deslizan hasta una línea, rachas y estrellas
+816	¿LISTO, JUGADOR UNO?
+817	INSERTA MONEDA
+818	PULSA START
+819	Lanza tu primer hechizo para empezar el Flow
+820	¡VAMOS!

@@ -4356,7 +4356,7 @@ test("game mode: one lane and a bonus row, notes reach the line when ready, stre
   Gr.OnCombat(false)
   mock.Advance(Game.SET_GAP + 1)
   eq(Game.score, 0, "set over: fresh set")
-  eq(Gr.frame and Gr.frame.best:GetText():find("Flow score", 1, true) ~= nil, true, "the grade shows the set")
+  eq(Gr.frame and Gr.frame.flow:GetText():find("Flow score", 1, true) ~= nil, true, "the grade shows the set")
   -- timing offset: notes reach the line that much sooner
   ns.db.hud = ns.db.hud or {}
   ns.db.hud.gameOffset = 200
@@ -5853,6 +5853,19 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   eq(sw.goal, 0, "CLASSIC lit")
   ns.commands.flow("on")
   eq(Game.On(), true, "/dmga flow on (its name since 1.6.0.203; /dmga game still works)")
+  -- press start: out of combat with nothing played yet, the lane waits for you; the first hit says LET'S GO!
+  Game.EndSet()
+  Game.score, Game.hits = 0, 0
+  mock.inCombat = false
+  Game.Render()
+  eq(Game.frame.ready:IsShown(), true, "waiting for the first press")
+  local word = Game.frame.ready:GetText()
+  eq(word == "READY, PLAYER ONE?" or word == "INSERT COIN" or word == "PRESS START", true, word)
+  eq(Game.frame.readySub:GetText(), "Hit your first spell to start the Flow")
+  Game.OnJudged("hit", 201)
+  eq(Game.frame.pop:GetText(), "LET'S GO!")
+  Game.Render()
+  eq(Game.frame.ready:IsShown(), false, "the Flow is on")
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

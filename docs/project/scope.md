@@ -59,6 +59,9 @@ on the settings page. Can be turned off.
   every press shows a small coloured word at the spot. Defensives / interrupts / items: an action track opens
   above the lane only while one waits (red, edged, "!"); a boss hit's defensive scrolls in from its timer and
   lands when it should be pressed, with a red alarm around the frame and a big "DEFEND!".
+- Press start (2026-11-11): out of combat before a set's first press, the lane shows an arcade headline
+  (READY, PLAYER ONE? / INSERT COIN / PRESS START) and "Hit your first spell to start the Flow"; the first hit pops
+  LET'S GO!. The grade box gives the Flow score its own wrapped row (it ran out of the box beside the grade score).
 - Presses are judged against what slot 1 showed when they were decided, and a cast's note bursts when the cast
   begins (a right Starfire showed a red X: its cast event came after slot 1 moved on).
 - Notes only move left: a later target (a new global cooldown, a wrong press) pauses a note where it is. A wrong

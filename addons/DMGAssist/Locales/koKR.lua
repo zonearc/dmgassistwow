@@ -811,4 +811,9 @@ ns.LOCALE_DATA.koKR = {
   ["Which style? (Switch any time with the CLASSIC / FLOW switch above the HUD, or /dmga flow.)"] = "어떤 방식으로 할까요? (HUD 위의 기본 / FLOW 스위치이나 /dmga flow으로 언제든 전환할 수 있습니다.)",
   ["Switch Flow mode on / off"] = "Flow 모드 켜기 / 끄기",
   ["Flow mode on / off: notes slide into a hit line, streaks and stars"] = "Flow 모드 켜기 / 끄기: 노트가 선으로 미끄러져 오고, 연속 기록과 별",
+  ["READY, PLAYER ONE?"] = "준비됐나, 플레이어 원?",
+  ["INSERT COIN"] = "코인을 넣으세요",
+  ["PRESS START"] = "START를 누르세요",
+  ["Hit your first spell to start the Flow"] = "첫 주문을 시전하면 Flow가 시작됩니다",
+  ["LET'S GO!"] = "가자!",
 }

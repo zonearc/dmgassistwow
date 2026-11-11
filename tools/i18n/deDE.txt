@@ -807,3 +807,8 @@
 813	Welcher Stil? (Jederzeit umschaltbar mit dem Schalter KLASSISCH / FLOW über dem HUD oder /dmga flow.)
 814	Flow-Modus an / aus
 815	Flow-Modus an / aus: Noten gleiten zu einer Trefferlinie, Serien und Sterne
+816	BEREIT, SPIELER EINS?
+817	MÜNZE EINWERFEN
+818	START DRÜCKEN
+819	Wirke deinen ersten Zauber, um den Flow zu starten
+820	LOS GEHT'S!

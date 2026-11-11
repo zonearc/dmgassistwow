@@ -811,4 +811,9 @@ ns.LOCALE_DATA.ruRU = {
   ["Which style? (Switch any time with the CLASSIC / FLOW switch above the HUD, or /dmga flow.)"] = "Какой стиль? (Переключайте в любой момент переключателем КЛАССИКА / FLOW над HUD или /dmga flow.)",
   ["Switch Flow mode on / off"] = "Включить / выключить режим Flow",
   ["Flow mode on / off: notes slide into a hit line, streaks and stars"] = "Режим Flow вкл / выкл: ноты скользят к линии, серии и звёзды",
+  ["READY, PLAYER ONE?"] = "ГОТОВ, ИГРОК ОДИН?",
+  ["INSERT COIN"] = "ВСТАВЬТЕ МОНЕТУ",
+  ["PRESS START"] = "НАЖМИТЕ START",
+  ["Hit your first spell to start the Flow"] = "Примените первое заклинание, чтобы запустить Flow",
+  ["LET'S GO!"] = "ПОЕХАЛИ!",
 }

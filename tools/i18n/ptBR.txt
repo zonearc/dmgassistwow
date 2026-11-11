@@ -807,3 +807,8 @@
 813	Qual estilo? (Troque quando quiser com o interruptor CLÁSSICO / FLOW acima do HUD, ou /dmga flow.)
 814	Ligar / desligar o modo Flow
 815	Modo Flow sim / não: as notas deslizam até uma linha, sequências e estrelas
+816	PRONTO, JOGADOR UM?
+817	INSIRA UMA FICHA
+818	APERTE START
+819	Lance seu primeiro feitiço para começar o Flow
+820	VAMOS LÁ!

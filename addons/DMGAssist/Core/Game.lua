@@ -390,6 +390,16 @@ function G.Create()
   D.SetFont(f.slip, 16)
   f.slip:SetPoint("TOP", f, "BOTTOMLEFT", G.HIT_X, -2)
   f.slip:SetTextColor(1, 0.55, 0.2)
+  -- before a set's first press: an arcade "press start" over the lane (2026-11-11: "like it's waiting for you to
+  -- play it"); your first spell starts the Flow
+  f.ready = f:CreateFontString(nil, "OVERLAY")
+  D.SetFont(f.ready, 30, "THICKOUTLINE")
+  f.ready:SetPoint("CENTER", f, "TOPLEFT", G.HIT_X + G.ICON + (G.WIDTH - G.HIT_X - G.ICON) / 2, G.LaneY() + 10)
+  f.ready:SetTextColor(1, 0.85, 0.2)
+  f.readySub = f:CreateFontString(nil, "OVERLAY")
+  D.SetFont(f.readySub, 13)
+  f.readySub:SetPoint("TOP", f.ready, "BOTTOM", 0, -4)
+  f.readySub:SetTextColor(1, 1, 1)
   f.slip:Hide()
   f:SetScript("OnUpdate", function()
     G.Render()
@@ -949,7 +959,30 @@ function G.Render()
       end
     end
   end
+  G.RenderReady(f, now)
   RenderStreak(f)
+end
+
+-- "Press start": out of combat with nothing played yet this set. A fresh headline each time it comes up.
+G.READY_WORDS = { "READY, PLAYER ONE?", "INSERT COIN", "PRESS START" }
+function G.RenderReady(f, now)
+  local fight = UnitAffectingCombat and UnitAffectingCombat("player")
+  local waiting = not fight and G.hits == 0 and G.score == 0
+  if not waiting then
+    G.readyWord = nil
+    f.ready:Hide()
+    f.readySub:Hide()
+    return
+  end
+  if not G.readyWord then
+    G.readyWord = G.READY_WORDS[math.random(#G.READY_WORDS)]
+  end
+  local pulse = 0.55 + 0.45 * math.abs(math.sin(now * 2.5))
+  f.ready:SetText(L[G.readyWord])
+  f.ready:SetAlpha(pulse)
+  f.ready:Show()
+  f.readySub:SetText(L["Hit your first spell to start the Flow"])
+  f.readySub:Show()
 end
 
 ---------------------------------------------------------------------------
@@ -1143,6 +1176,7 @@ function G.OnJudged(kind, id)
     end
   else
     local fire
+    local first = G.hits == 0 and G.score == 0 -- the set's first hit: the Flow starts
     local c = G.cast
     if kind == "hit" and c and id and (baseOf[c.id] or c.id) == (baseOf[id] or id) and GetTime() - c.at < 10 then
       judge, fire = c.judge, c.fire -- judged when the cast began
@@ -1186,7 +1220,9 @@ function G.OnJudged(kind, id)
         milestone = m
       end
     end
-    if milestone then
+    if first then
+      Kudos(f, L["LET'S GO!"], { 0.4, 1, 0.5 }, true)
+    elseif milestone then
       Kudos(f, L[G.WORDS[milestone]], nil, true)
     elseif fire then
       Kudos(f, L["Blazing!"], { 1, 0.5, 0.1 }, true)

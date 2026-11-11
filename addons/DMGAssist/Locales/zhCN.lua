@@ -811,4 +811,9 @@ ns.LOCALE_DATA.zhCN = {
   ["Which style? (Switch any time with the CLASSIC / FLOW switch above the HUD, or /dmga flow.)"] = "选择哪种风格？（随时可用HUD上方的 经典 / FLOW 开关或 /dmga flow 切换。）",
   ["Switch Flow mode on / off"] = "开启 / 关闭Flow模式",
   ["Flow mode on / off: notes slide into a hit line, streaks and stars"] = "Flow模式开 / 关：音符滑向判定线，连击和星星",
+  ["READY, PLAYER ONE?"] = "准备好了吗，玩家一？",
+  ["INSERT COIN"] = "请投币",
+  ["PRESS START"] = "按下开始",
+  ["Hit your first spell to start the Flow"] = "施放第一个技能即可开始Flow",
+  ["LET'S GO!"] = "开始吧！",
 }
