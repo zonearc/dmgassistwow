@@ -7,8 +7,14 @@
 -- A spell's note reaches the line exactly when it can be pressed: the same clock as the classic HUD's press-now
 -- flash (Display.RenderTiming), so a 1.5 s global cooldown is a 1.5 s slide. Slots 2-3 follow behind it.
 -- Presses are judged by the performance grade (Grade.OnPress): the right spell is a hit (Perfect / Great / Good by
--- how close to the line), slot 2 or 3 a Good, anything else a miss. Hits build a streak; 5, 10, 25, 50, 100 and 200
--- in a row pop a word and add a star. The best streak per spec is kept.
+-- how close to the line), slot 2 or 3 a Good, anything else a miss. Hits build a streak and a score: points per hit
+-- (Perfect 100, Great 75, Good 50) times a multiplier that grows every 10 in a row (up to x4). Streak milestones pop
+-- a word that escalates (Nice! ... Streak Champion! ... Immortal!) and earn stars and a rank (Bronze ... Mythic).
+-- A set is a run of pulls: it lasts until you've been out of combat SET_GAP seconds (chain pulls, a long boss and
+-- the trash after it are one set); then the performance grade shows with the set's score and best streak.
+-- Only a wrong spell breaks the streak: waiting (nothing to hit, moving, a mechanic) never does.
+-- The note flashes the line the moment it can be pressed; "Game timing offset" (ms) moves that moment for latency
+-- and reaction, like a rhythm game's calibration.
 --
 -- What slot 1 says is never changed (it's the right press); slots 2-3 only swap when the new pick holds for STICK
 -- seconds, so the lane doesn't jitter when the engine's look-ahead flickers. Purely visual: nothing is pressed for
@@ -29,16 +35,31 @@ G.HEAD = 20         -- streak row above the lanes
 G.STICK = 0.35      -- seconds a new slot 2-3 pick must hold before its note swaps
 G.GLIDE = 14        -- how fast a note glides to a new place (per second, exponential)
 G.PERFECT, G.GREAT = 0.25, 0.6 -- seconds from the line
-G.IDLE_BREAK = 3    -- a note waiting at the line this long without a press breaks the streak
-G.MILESTONES = { 5, 10, 25, 50, 100, 200 }
-G.WORDS = { [5] = "Nice!", [10] = "Great!", [25] = "Awesome!", [50] = "On fire!", [100] = "Unstoppable!",
-  [200] = "Legendary!" }
-G.JUDGE_TEXT = { perfect = "Perfect!", great = "Great", good = "Good", miss = "Miss" }
+G.SET_GAP = 20      -- seconds out of combat that end a set (and bring the grade)
+G.FLASH = 0.3       -- the hit box's flash when a note reaches the line
+G.POINTS = { perfect = 100, great = 75, good = 50 }
+G.MULT_EVERY, G.MULT_MAX = 10, 4
+G.MILESTONES = { 5, 10, 15, 25, 40, 50, 75, 100, 150, 200, 300, 500 }
+G.WORDS = { [5] = "Nice!", [10] = "Great streak!", [15] = "Keep it up!", [25] = "Awesome!", [40] = "Excellent!",
+  [50] = "On fire!", [75] = "Blazing!", [100] = "Unstoppable!", [150] = "Streak Champion!", [200] = "Legendary!",
+  [300] = "Godlike!", [500] = "Immortal!" }
+G.STAR_MAX = 5
+-- rank by streak: { from, name, color }
+G.RANKS = { { 10, "Bronze", { 0.8, 0.5, 0.25 } }, { 25, "Silver", { 0.8, 0.8, 0.85 } }, { 50, "Gold", { 1, 0.82, 0.2 } },
+  { 100, "Platinum", { 0.6, 0.9, 1 } }, { 200, "Diamond", { 0.55, 0.75, 1 } }, { 500, "Mythic", { 1, 0.5, 0.1 } } }
+-- what a press says: mild first, more excited later in each list; the multiplier unlocks the later ones
+G.PHRASES = {
+  perfect = { "PERFECT!", "Spot on!", "Bullseye!", "Flawless!", "Right on the beat!" },
+  great = { "Great!", "Nice timing!", "Sharp!", "Excellent!", "Well played!" },
+  good = { "Good", "Not bad", "Almost!", "Keep it up", "Nice try" },
+  miss = { "Oh, too bad...", "Missed!", "So close...", "Shake it off", "Next one!" },
+}
 G.JUDGE_COLOR = { perfect = { 1, 0.85, 0.2 }, great = { 0.4, 1, 0.4 }, good = { 0.6, 0.8, 1 }, miss = { 1, 0.3, 0.3 } }
 G.LANE_COLOR = { { 1, 0.8, 0.3 }, { 1, 0.3, 0.3 }, { 0.4, 0.7, 1 } }
 G.TOGGLE_ICON = "Interface\\Icons\\INV_Misc_Drum_01"
 
 G.streak, G.stars = 0, 0
+G.score, G.setBest, G.hits, G.perfects = 0, 0, 0, 0
 G.notes = {}
 
 function G.On()
@@ -53,6 +74,26 @@ end
 function G.Best(key)
   local b = ns.db and type(ns.db.gameBest) == "table" and ns.db.gameBest
   return b and tonumber(b[key or SpecKey()]) or 0
+end
+
+function G.Mult()
+  return math.min(G.MULT_MAX, 1 + math.floor(G.streak / G.MULT_EVERY))
+end
+
+function G.Rank()
+  local rank
+  for _, r in ipairs(G.RANKS) do
+    if G.streak >= r[1] then
+      rank = r
+    end
+  end
+  return rank
+end
+
+-- ms: positive = the note reaches the line (and flashes) that much earlier, for someone who presses late
+function G.Offset()
+  local hud = ns.db and ns.db.hud
+  return (tonumber(hud and hud.gameOffset) or 0) / 1000
 end
 
 local function SaveBest()
@@ -199,15 +240,21 @@ end
 
 local function RenderStreak(f)
   local best = G.Best()
-  local text = string.format(L["Streak %d"], G.streak)
+  local text = string.format(L["Streak %d"], G.streak) .. "  |cffffd100x" .. G.Mult() .. "|r  "
+    .. string.format(L["Score %d"], G.score)
+  local rank = G.Rank()
+  if rank then
+    local c = rank[3]
+    text = text .. string.format("  |cff%02x%02x%02x%s|r", c[1] * 255, c[2] * 255, c[3] * 255, L[rank[2]])
+  end
   if best > 0 then
     text = text .. "  |cff999999" .. string.format(L["Best %d"], best) .. "|r"
   end
   f.streak:SetText(text)
-  for i = 1, #G.MILESTONES do
+  for i = 1, G.STAR_MAX do
     local s = (i <= G.stars) and Star(f, i) or f.stars[i]
     if s then
-      s:SetShown(i <= G.stars)
+      s:SetShown(i <= math.min(G.STAR_MAX, G.stars))
     end
   end
 end
@@ -314,7 +361,7 @@ function G.Render()
   local cfg = D.Settings()
   local now = GetTime()
   local df = D.frame
-  local wait = df and df.lastWait or 0
+  local wait = (df and df.lastWait or 0) - G.Offset()
   local elapsed = math.min(0.1, now - (G.lastRender or now))
   G.lastRender = now
   local want = Wanted(r, wait)
@@ -362,16 +409,13 @@ function G.Render()
     end
     if w.main then
       if w.t <= 0.05 then
-        G.arrived = G.arrived or { id = w.pick.id, at = now }
-        if G.arrived.id ~= w.pick.id then
+        -- reaching the line: one flash of the hit box, the instant it can be pressed (waiting never costs you)
+        if not G.arrived or G.arrived.id ~= w.pick.id then
           G.arrived = { id = w.pick.id, at = now }
-        end
-        if G.streak > 0 and ns.State.combatStart and now - G.arrived.at > G.IDLE_BREAK and not G.idleBroken then
-          G.idleBroken = true
-          G.Break()
+          f.flashAt = now
         end
       else
-        G.arrived, G.idleBroken = nil, nil
+        G.arrived = nil
       end
     end
     n:Show()
@@ -391,6 +435,12 @@ function G.Render()
         n:SetPoint("CENTER", f, "TOPLEFT", n.x, -(G.HEAD + ((n.lane or 1) - 0.5) * G.LANE))
       end
     end
+  end
+  local fl = f.flashAt and (1 - (now - f.flashAt) / G.FLASH) or 0
+  if fl > 0 then
+    f.boxes[1]:SetColorTexture(1, 0.85, 0.3, 0.15 + 0.75 * fl)
+  else
+    f.boxes[1]:SetColorTexture(1, 1, 1, 0.1)
   end
   -- pop-ups fade
   for _, fs in ipairs({ f.judge, f.pop, f.slip }) do
@@ -446,6 +496,13 @@ function G.Break()
   G.streak, G.stars = 0, 0
 end
 
+-- A word from a list: the mild end at x1, more of the list as the multiplier grows.
+local function Phrase(list)
+  local upto = math.min(#list, 1 + G.Mult())
+  return L[list[math.random(upto)]]
+end
+G.Phrase = Phrase
+
 -- From the grade, for each press it judges: "hit" (slot 1), "near" (slot 2 or 3), "miss" (anything else).
 function G.OnJudged(kind)
   if not G.On() then
@@ -461,7 +518,7 @@ function G.OnJudged(kind)
       judge = "good"
     else
       local arrived = G.arrived and G.arrived.at
-      local wait = ns.Display.frame and ns.Display.frame.lastWait or 0
+      local wait = (ns.Display.frame and ns.Display.frame.lastWait or 0) - G.Offset()
       local off = arrived and (GetTime() - arrived) or -wait -- early (queued) presses: negative
       if math.abs(off) <= G.PERFECT then
         judge = "perfect"
@@ -472,7 +529,12 @@ function G.OnJudged(kind)
       end
     end
     G.streak = G.streak + 1
-    G.idleBroken = nil
+    G.hits = G.hits + 1
+    if judge == "perfect" then
+      G.perfects = G.perfects + 1
+    end
+    G.score = G.score + G.POINTS[judge] * G.Mult()
+    G.setBest = math.max(G.setBest, G.streak)
     G.arrived = nil -- the next note's arrival is timed afresh
     for i, m in ipairs(G.MILESTONES) do
       if G.streak == m then
@@ -485,7 +547,29 @@ function G.OnJudged(kind)
     end
   end
   G.lastJudge = judge
-  Flash(f.judge, L[G.JUDGE_TEXT[judge]], G.JUDGE_COLOR[judge])
+  Flash(f.judge, Phrase(G.PHRASES[judge]), G.JUDGE_COLOR[judge])
+end
+
+-- The set ends (the grade is being made, after SET_GAP out of combat): its numbers for the grade, then a fresh set.
+function G.EndSet()
+  if not G.On() or (G.hits == 0 and G.score == 0) then
+    return nil
+  end
+  SaveBest()
+  local best = ns.db and type(ns.db.gameBestScore) == "table" and ns.db.gameBestScore or {}
+  if ns.db then
+    ns.db.gameBestScore = best
+  end
+  local key = SpecKey()
+  local newBest = G.score > (tonumber(best[key]) or 0)
+  if newBest then
+    best[key] = G.score
+  end
+  local out = { score = G.score, bestStreak = G.setBest, hits = G.hits, newBest = newBest,
+    perfect = G.hits > 0 and math.floor(100 * G.perfects / G.hits + 0.5) or 0 }
+  G.score, G.setBest, G.hits, G.perfects = 0, 0, 0, 0
+  G.streak, G.stars = 0, 0
+  return out
 end
 
 -- A key slip ("5 » 6") shows under the hit line instead of under slot 1.
@@ -494,7 +578,8 @@ function G.ShowSlip(got, want)
   Flash(f.slip, tostring(got) .. " \194\187 " .. tostring(want))
 end
 
--- A fight ends: the streak carries on to the next fight (a streak is about your presses, not one pull).
+-- A fight ends: the streak and score carry on to the next pull; the set ends with the grade (Grade.lua waits
+-- SET_GAP out of combat in Game mode).
 function G.OnCombat(inCombat)
   if not inCombat and G.streak > 0 then
     SaveBest()

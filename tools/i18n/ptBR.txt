@@ -720,3 +720,38 @@
 726	Ótimo
 727	Bom
 728	Errou
+729	Pontos %d
+730	Bronze
+731	Prata
+732	Ouro
+733	Platina
+734	Diamante
+735	Mítico
+736	PERFEITO!
+737	Na mosca!
+738	Bem no alvo!
+739	Impecável!
+740	No ritmo exato!
+741	Bom timing!
+742	Afiado!
+743	Excelente!
+744	Bem jogado!
+745	Nada mal
+746	Quase!
+747	Continue assim
+748	Boa tentativa
+749	Ah, que pena...
+750	Errou!
+751	Foi por pouco...
+752	Deixa pra lá
+753	Vamos à próxima!
+754	Ótima sequência!
+755	Continue assim!
+756	Em chamas!
+757	Campeão de sequência!
+758	Divino!
+759	Imortal!
+760	Ajuste de tempo do modo jogo
+761	Modo jogo: move o momento em que uma nota chega à linha (e pisca). Se seus toques parecem atrasados, aumente: a nota chega mais cedo. Como a calibração de um jogo de ritmo.
+762	Pontos do jogo %d, melhor sequência %d, %d%% perfeitos
+763	(novo recorde)

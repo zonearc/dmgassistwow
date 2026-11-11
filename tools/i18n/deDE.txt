@@ -720,3 +720,38 @@
 726	Super
 727	Gut
 728	Daneben
+729	Punkte %d
+730	Bronze
+731	Silber
+732	Gold
+733	Platin
+734	Diamant
+735	Mythisch
+736	PERFEKT!
+737	Genau richtig!
+738	Volltreffer!
+739	Makellos!
+740	Genau im Takt!
+741	Gutes Timing!
+742	Scharf!
+743	Ausgezeichnet!
+744	Gut gespielt!
+745	Nicht schlecht
+746	Fast!
+747	Weiter so
+748	Netter Versuch
+749	Oh, schade ...
+750	Verfehlt!
+751	So knapp ...
+752	Abhaken
+753	Die Nächste!
+754	Tolle Serie!
+755	Weiter so!
+756	Lodernd!
+757	Serienmeister!
+758	Göttlich!
+759	Unsterblich!
+760	Spielmodus-Zeitversatz
+761	Spielmodus: verschiebt den Moment, in dem eine Note die Linie erreicht (und aufblitzt). Fühlen sich deine Tastendrücke spät an, erhöhe ihn: Die Note kommt entsprechend früher an. Wie die Kalibrierung eines Rhythmusspiels.
+762	Spielpunkte %d, beste Serie %d, %d%% perfekt
+763	(neuer Höchststand)

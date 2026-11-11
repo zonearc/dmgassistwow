@@ -720,3 +720,38 @@
 726	Génial
 727	Bien
 728	Raté
+729	Score %d
+730	Bronze
+731	Argent
+732	Or
+733	Platine
+734	Diamant
+735	Mythique
+736	PARFAIT !
+737	Pile !
+738	En plein dans le mille !
+739	Impeccable !
+740	Pile dans le rythme !
+741	Bon timing !
+742	Précis !
+743	Excellent !
+744	Bien joué !
+745	Pas mal
+746	Presque !
+747	Continuez
+748	Bel essai
+749	Oh, dommage...
+750	Raté !
+751	Si près...
+752	On oublie
+753	À la suivante !
+754	Belle série !
+755	Continuez comme ça !
+756	Enflammé !
+757	Champion des séries !
+758	Divin !
+759	Immortel !
+760	Décalage du mode jeu
+761	Mode jeu : déplace le moment où une note atteint la ligne (et clignote). Si vos appuis semblent en retard, augmentez-le : la note arrive d'autant plus tôt. Comme le calibrage d'un jeu de rythme.
+762	Score du jeu %d, meilleure série %d, %d%% parfaits
+763	(nouveau record)

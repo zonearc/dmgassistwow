@@ -29,7 +29,7 @@ D.DEFAULTS = {
   font = "default", outline = "OUTLINE", calloutSize = 14,
   gcdBar = true, glow = "pulse",
   hideOutOfCombat = true, showWithTarget = true, hideMounted = true, hideVehicle = true,
-  debugText = false, callout = true, slipHint = true,
+  debugText = false, callout = true, slipHint = true, gameOffset = 0,
   pressCue = true, pressLead = 50, secretBranches = true, interrupt = true, defensive = true,
   highlight = true, holdCue = true,
   padLabels = "xbox", rangeTint = true, stackCount = true, stackSize = 14, stackPos = "BOTTOM", weavePos = "OUTTOPLEFT", weaveSize = 40,

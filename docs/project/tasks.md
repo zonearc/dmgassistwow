@@ -61,6 +61,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.190: Game mode, round 2 (asked 2026-11-11): flash on the line when a note arrives; timing offset in ms
+  (Settings > Display); score with a x1-x4 multiplier; ranks Bronze ... Mythic; 12 escalating streak words and 20
+  judgement phrases that get more excited as the multiplier grows; sets that run across pulls until 20 s out of
+  combat, then the grade shows the set's score / best streak / % perfect; waiting never breaks a streak.
 - 1.6.0.189: Game mode (docs/project/scope.md "Game mode"): three lanes right to left into a hit line, notes timed to
   when each spell can be pressed, Perfect / Great / Good / Miss, streaks with stars at 5/10/25/50/100/200, best
   streak per spec, slots 2-3 held against jitter. Switch: drum button on both HUDs, /dmga game, keybind, minimap

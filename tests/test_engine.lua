@@ -4272,15 +4272,45 @@ test("game mode: three lanes, notes reach the line when ready, hits build a stre
     mock.now = mock.now + 1.4
   end
   eq(Game.streak, 10) eq(Game.stars, 2, "5 and 10")
-  eq(Game.frame.pop:GetText(), "Great!")
+  eq(Game.frame.pop:GetText(), "Great streak!")
   eq(Game.lastJudge, "perfect", "pressed as the note sat on the line")
+  eq(Game.Mult(), 2, "x2 from 10 in a row")
+  eq(Game.Rank()[2], "Bronze")
+  eq(Game.score, 50 + 8 * 100 + 100 * 2, "Perfect = 100 x multiplier (the first note waited 2 s: a Good)")
+  -- waiting with nothing to hit never breaks the streak
+  D.frame.lastWait = 0
+  for _ = 1, 30 do
+    mock.now = mock.now + 1
+    Game.Render()
+  end
+  eq(Game.streak, 10, "30 s at the line: still 10")
+  eq(Game.frame.flashAt ~= nil, true, "the line flashed when the note arrived")
   Gr.OnPress(102, r, true)
   eq(Game.streak, 11, "slot 2 keeps the streak (a Good)")
   eq(Game.lastJudge, "good")
   Gr.OnPress(999, r, true)
   eq(Game.streak, 0, "a miss breaks it") eq(Game.lastJudge, "miss")
   eq(Game.Best(), 11, "best streak kept")
+  -- the set runs across pulls: 10 s out of combat and a new pull carry on; 20 s ends it with the grade
+  local score = Game.score
   Gr.OnCombat(false)
+  mock.Advance(10)
+  Gr.OnCombat(true)
+  eq(Game.score, score, "next pull: same set")
+  Gr.OnPress(101, r, true)
+  mock.now = mock.now + 5
+  Gr.OnCombat(false)
+  mock.Advance(Game.SET_GAP + 1)
+  eq(Game.score, 0, "set over: fresh set")
+  eq(Gr.frame and Gr.frame.best:GetText():find("Game score", 1, true) ~= nil, true, "the grade shows the set")
+  -- timing offset: notes reach the line that much sooner
+  ns.db.hud = ns.db.hud or {}
+  ns.db.hud.gameOffset = 200
+  Game.arrived = nil
+  D.frame.lastWait = 0.15
+  Game.Render()
+  eq(Game.arrived ~= nil, true, "0.15 s left, 200 ms offset: on the line")
+  ns.db.hud.gameOffset = nil
   ns.Engine.IsRotationSpell = isRot
   -- slips show under the hit line in game mode
   Game.frame.slip:Hide()

@@ -1,4 +1,4 @@
-# In-game test plan (current: 1.6.0.189)
+# In-game test plan (current: 1.6.0.190)
 
 Send `/dmgw` after each item. Note anything odd with a rough time ("at ~20 s slot 1 went blank").
 
@@ -23,6 +23,9 @@ Done and looking good: Balance, DK, Mage (all), DH (Havoc, Vengeance, Devourer),
 - Click the drum above the HUD (or /dmga game). On a dummy: notes slide right to left and reach the line as each
   spell is ready; press on the line for Perfect. 5 in a row: "Nice!" and a star; a wrong spell: Miss, streak 0.
 - Pull a boss-mod AoE or drop low: the defensive drops into the middle lane; a trinket into the bottom lane.
+- The line's box flashes as each note arrives. Try Settings > Display > Game timing offset if Perfects feel hard.
+- Chain a few pulls, then wait 20 s: the grade shows the set's score and best streak. Standing still or moving
+  mid-pull never breaks the streak; only a wrong spell does.
 - Tell me: too fast / slow, icons too small / big, does anything jump around, is the line easy to see.
 
 ## 3. DBM / BigWigs

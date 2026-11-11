@@ -47,8 +47,17 @@ on the settings page. Can be turned off.
   spaced by GCD / cast time. The classic HUD keeps running unseen (its clock, the grade's ready moments, the action
   bar highlight).
 - Judged by the performance grade's own press scoring: slot 1 = Perfect / Great / Good by distance from the line,
-  slot 2-3 = Good, anything else = Miss. Streak milestones 5, 10, 25, 50, 100, 200 pop a word and add a star; best
-  streak per spec saved. A note left at the line 3 s in combat breaks the streak.
+  slot 2-3 = Good, anything else = Miss. Only a wrong spell breaks the streak; waiting (nothing to hit, moving,
+  a mechanic) never does.
+- Score: Perfect 100 / Great 75 / Good 50 points x a multiplier (+1 per 10 in a row, up to x4). Ranks by streak:
+  Bronze 10, Silver 25, Gold 50, Platinum 100, Diamond 200, Mythic 500. Milestones (5 ... 500) pop an escalating
+  word and add a star (5 shown). Each judgement says one of 5 phrases; the higher the multiplier, the more excited
+  the pool it picks from.
+- A set is a run of pulls: it lasts until 20 s out of combat (chain pulls, a boss and the trash after it are one
+  set; bosses wait too), then the performance grade shows with the set's score, best streak and % perfect. Best
+  streak and best set score per spec saved.
+- The hit box flashes once when a note reaches the line. "Game timing offset" (-200..300 ms) moves that moment
+  for latency and reaction, like a rhythm game's calibration.
 - Stability: slot 1 is never changed (it's the right press). Slots 2-3 only swap when the new pick holds 0.35 s.
   Making the engine itself "commit" to picks (less swapping at the cost of exactness) is not done: measure it in
   the every-spec check first.

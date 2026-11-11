@@ -720,3 +720,38 @@
 726	Grande
 727	Bene
 728	Mancato
+729	Punti %d
+730	Bronzo
+731	Argento
+732	Oro
+733	Platino
+734	Diamante
+735	Mitico
+736	PERFETTO!
+737	Giusto!
+738	Centro!
+739	Impeccabile!
+740	A tempo perfetto!
+741	Ottimo tempismo!
+742	Preciso!
+743	Eccellente!
+744	Ben giocato!
+745	Niente male
+746	Quasi!
+747	Continua così
+748	Bel tentativo
+749	Oh, peccato...
+750	Mancato!
+751	Per un pelo...
+752	Lascia stare
+753	Alla prossima!
+754	Gran serie!
+755	Continua così!
+756	Infuocato!
+757	Campione di serie!
+758	Divino!
+759	Immortale!
+760	Sfasamento modalità gioco
+761	Modalità gioco: sposta il momento in cui una nota raggiunge la linea (e lampeggia). Se le tue pressioni sembrano in ritardo, alzalo: la nota arriva tanto prima. Come la calibrazione di un gioco ritmico.
+762	Punti gioco %d, serie migliore %d, %d%% perfetti
+763	(nuovo record)

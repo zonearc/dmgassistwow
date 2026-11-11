@@ -90,8 +90,17 @@ local function Publish(f, at)
   end
 end
 
+local function GameOn()
+  return ns.Game ~= nil and ns.Game.On()
+end
+
+-- Game mode plays a whole set of pulls as one: chained always, until Game.SET_GAP out of combat, bosses included.
 local function Chaining()
-  return not (ns.db and ns.db.gradeChain == false)
+  return GameOn() or not (ns.db and ns.db.gradeChain == false)
+end
+
+local function ChainGap()
+  return GameOn() and ns.Game.SET_GAP or Gr.CHAIN_GAP
 end
 
 function Gr.OnCombat(on)
@@ -104,7 +113,7 @@ function Gr.OnCombat(on)
     end
     local p = pending
     pending = nil
-    if p and now - p.pausedAt <= Gr.CHAIN_GAP then
+    if p and now - p.pausedAt <= ChainGap() then
       p.gaps = (p.gaps or 0) + (now - p.pausedAt)
       p.lastTick, p.pausedAt = nil, nil
       p.fights = (p.fights or 1) + 1
@@ -121,7 +130,7 @@ function Gr.OnCombat(on)
     return
   end
   local boss = ns.State and ns.State.FightContext and ns.State.FightContext() == "boss"
-  if not Chaining() or boss or now - f.start - (f.gaps or 0) >= Gr.CHAIN_MAX then
+  if not Chaining() or (not GameOn() and (boss or now - f.start - (f.gaps or 0) >= Gr.CHAIN_MAX)) then
     Publish(f, now)
     return
   end
@@ -129,7 +138,7 @@ function Gr.OnCombat(on)
   f.pausedAt, f.endAt = now, now
   pending = f
   if C_Timer and C_Timer.After then
-    C_Timer.After(Gr.CHAIN_GAP + 0.05, function()
+    C_Timer.After(ChainGap() + 0.05, function()
       if pending == f and not fight then
         pending = nil
         Publish(f, f.endAt)
@@ -646,6 +655,7 @@ function Gr.Finish(f, now)
   if slip then
     r.slipWant, r.slipGot, r.slipCount, r.slipSpell = slip.want, slip.got, slip.n, slip.id
   end
+  r.game = ns.Game and ns.Game.EndSet() or nil -- Game mode: the set's score and best streak
   Gr.Save(r)
   U.Log("grade", { letter = r.letter, score = string.format("%.1f", score), accuracy = math.floor(accuracy),
     abc = math.floor(abc), reaction = r.reactionMs, cooldowns = cd and math.floor(cd),
@@ -1108,7 +1118,12 @@ function Gr.Render(r, sample, test)
   f.score:SetText(string.format("%.1f", r.score))
   f.score:SetTextColor(1, 1, 1)
   D.SetFont(f.best, 14)
-  f.best:SetText(r.newBest and L["New best!"] or "")
+  local best = r.newBest and L["New best!"] or ""
+  if r.game then
+    best = best .. (best ~= "" and "  " or "") .. string.format(L["Game score %d, best streak %d, %d%% perfect"],
+      r.game.score, r.game.bestStreak, r.game.perfect) .. (r.game.newBest and (" " .. L["(new high score)"]) or "")
+  end
+  f.best:SetText(best)
   f.best:SetTextColor(1, 0.82, 0.1)
   -- Settings > Performance grade: the box's opacity, the size, and which parts show (the box re-flows to fit)
   local db = ns.db or {}

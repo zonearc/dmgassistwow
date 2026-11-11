@@ -532,6 +532,9 @@ function O.Register()
       .. "spell can be pressed. Top lane: damage. Middle: defensives and heals. Bottom: trinkets and potions. "
       .. "Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the drum button on the "
       .. "HUD or /dmga game.")
+  Slider(display, HUD, "gameOffset", "Game timing offset", H.gameOffset or 0, -200, 300, 10,
+    "Game mode: moves the moment a note reaches the line (and flashes). If your presses feel late, raise it: the "
+      .. "note arrives that much sooner. Like a rhythm game's calibration.", " ms")
   Header(display, "Alerts and effects", "How the icons tell you when to press, and what needs your attention most.")
   Choice(display, HUD, "glow", "Main icon glow", H.glow,
     { { "none", "None" }, { "border", "Steady" }, { "pulse", "Pulse" } },
