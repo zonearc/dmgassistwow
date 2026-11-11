@@ -5079,6 +5079,50 @@ test("Blizzard still naming a spell you just cast teaches nothing and doesn't ma
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("Subtlety on 5 targets waiting for Energy: the Shuriken Storm it's pooling for, not Blizzard's Gloomblade", function()
+  Reset()
+  local ns = Boot()
+  local M, S = ns.SpellMap, ns.State
+  local key = "rogue_subtlety"
+  local record = ns.Data.specs.midnight[key]
+  local book = {}
+  for _, token in ipairs({ "shuriken_storm", "gloomblade", "eviscerate", "black_powder", "secret_technique",
+    "shadow_dance", "shadow_blades", "shadowstrike" }) do
+    local id = record.spells[token] and record.spells[token].a[1]
+    if id then
+      book[#book + 1] = { spellID = id, name = token }
+    end
+  end
+  mock.book = book
+  mock.heroTree = "trickster"
+  mock.talents = {}
+  ns.Specs.current = { key = key, status = "ready", data = record, branch = "midnight", client = "Midnight" }
+  M.SetData(record)
+  M.Refresh()
+  S.Bind(key)
+  mock.power[4], mock.powerMax[4], mock.powerReadable[4] = 2, 7, true
+  mock.power[3], mock.powerMax[3] = 20, 100
+  mock.nameplates = 5
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  for _, token in ipairs({ "shadow_blades", "shadow_dance" }) do
+    local id = M.SpellID(token)
+    if id then
+      mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "cd", id)
+      mock.cooldowns[id] = { active = true, start = mock.now, duration = 90 }
+    end
+  end
+  mock.Advance(20)
+  mock.usable[M.SpellID("shuriken_storm")] = { false, true } -- not enough Energy
+  mock.usable[M.SpellID("shadowstrike")] = { false, false }
+  mock.acSpell = M.SpellID("gloomblade")
+  local r = ns.Update()
+  eq(r.main and r.main.token, "shuriken_storm", "the spell it's waiting for")
+  eq(r.main and r.main.source, "pool", "shown as waiting")
+  mock.acSpell, mock.inCombat, mock.restricted = nil, false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

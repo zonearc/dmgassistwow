@@ -55,6 +55,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.179: waiting for a resource, slot 1 shows the spell being pooled for (shaded) instead of Blizzard's pick when
+  SimC's own line rules that pick out: Subtlety on 5 targets showed Gloomblade then switched to Shuriken Storm when
+  the Energy came, 21 times in 3 minutes without a press.
 - 1.6.0.178: Blizzard's assistant still naming a spell you released under 1.5 s ago is ignored (S.ASSISTED_STALE):
   after every Eternity Surge / Fire Breath it was read as "ready 10-28 s early", the cooldown was marked done and
   key 5 sat in slot 2 for most of its 30 s (Devastation). Saved corrections of -3 s or more are dropped once.
