@@ -696,3 +696,27 @@
 702	Hinweis bei falscher Taste
 703	Drückst du die Taste direkt neben der, die Platz 1 zeigt (5 statt 6), oder vergisst Umschalt / Strg / Alt, zeigt Platz 1 kurz beide Tasten, etwa „5 » 6“. Passiert das immer wieder, wird es zum Tipp des Kampfes.
 704	Tipp: Du hast %s %d-mal gedrückt, als Platz 1 %s zeigte (%s). Ist diese Taste schwer zu erreichen, lege den Zauber auf eine leichter erreichbare.
+705	Spielmodus
+706	Spiele das HUD wie ein Rhythmusspiel: Noten gleiten von rechts nach links zu einer Linie links und erreichen sie, wenn der Zauber gedrückt werden kann. Obere Spur: Schaden. Mitte: Verteidigung und Heilung. Unten: Schmuckstücke und Tränke. Treffer bauen eine Serie auf; 5, 10, 25, 50 in Folge bringen einen Stern. Jederzeit umschalten mit der Trommel am HUD oder /dmga game.
+707	Spielmodus: an (klicken für das klassische HUD)
+708	Spielmodus: aus (klicken, um es als Spiel zu spielen)
+709	Serie %d
+710	Bestwert %d
+711	Spielmodus an: Triff jede Note, wenn sie die Linie erreicht. Klicke die Trommel (oder /dmga game), um zurückzuschalten.
+712	Spielmodus aus: Das klassische HUD ist zurück.
+713	Welcher Stil? (Jederzeit umschaltbar mit der Trommel am HUD oder /dmga game.)
+714	Klassisch: die nächsten drei Zauber als Symbole
+715	Spielmodus: Noten gleiten zu einer Trefferlinie, mit Serien
+716	Spielmodus an / aus
+717	Spielmodus an / aus: Noten gleiten zu einer Trefferlinie, Serien und Sterne
+718	die Einrichtungsfragen erneut (wo, wie groß, wann anzeigen, welcher Stil)
+719	Schön!
+720	Super!
+721	Klasse!
+722	In Fahrt!
+723	Unaufhaltsam!
+724	Legendär!
+725	Perfekt!
+726	Super
+727	Gut
+728	Daneben

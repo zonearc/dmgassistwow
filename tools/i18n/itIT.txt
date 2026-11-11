@@ -696,3 +696,27 @@
 702	Avviso tasto sbagliato
 703	Se premi il tasto subito accanto a quello mostrato nello slot 1 (5 invece di 6), o dimentichi Maiusc / Ctrl / Alt, lo slot 1 mostra per un attimo entrambi i tasti, come "5 » 6". Un errore che si ripete diventa il consiglio dello scontro.
 704	Consiglio: hai premuto %s %d volte quando lo slot 1 mostrava %s (%s). Se quel tasto è scomodo da raggiungere, sposta l'incantesimo su uno più comodo.
+705	Modalità gioco
+706	Gioca l'HUD come un gioco ritmico: le note scorrono da destra a sinistra fino a una linea a sinistra e la raggiungono quando l'incantesimo si può premere. Corsia in alto: danni. Centro: difese e cure. In basso: monili e pozioni. I colpi creano una serie; 5, 10, 25, 50 di fila valgono una stella. Cambia quando vuoi con il pulsante del tamburo sull'HUD o /dmga game.
+707	Modalità gioco: attiva (clic per l'HUD classico)
+708	Modalità gioco: disattivata (clic per giocarlo come un gioco)
+709	Serie %d
+710	Record %d
+711	Modalità gioco attiva: colpisci ogni nota quando raggiunge la linea. Clicca il tamburo (o /dmga game) per tornare indietro.
+712	Modalità gioco disattivata: torna l'HUD classico.
+713	Quale stile? (Cambia quando vuoi con il pulsante del tamburo sull'HUD, o /dmga game.)
+714	Classico: i prossimi tre incantesimi come icone
+715	Modalità gioco: le note scorrono fino a una linea, con serie
+716	Attiva / disattiva la modalità gioco
+717	Modalità gioco sì / no: le note scorrono fino a una linea, serie e stelle
+718	di nuovo le domande iniziali (dove, quanto grande, quando mostrarlo, quale stile)
+719	Bene!
+720	Grande!
+721	Fantastico!
+722	In fiamme!
+723	Inarrestabile!
+724	Leggendario!
+725	Perfetto!
+726	Grande
+727	Bene
+728	Mancato

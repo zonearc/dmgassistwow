@@ -1,5 +1,5 @@
--- Welcome.lua: three questions the first time DMGAssist runs (per settings profile, so alts sharing the Default
--- profile are asked once): where the HUD goes, how big, and when it shows. Each has a suggested answer; "Use the
+-- Welcome.lua: four questions the first time DMGAssist runs (per settings profile, so alts sharing the Default
+-- profile are asked once): where the HUD goes, how big, when it shows, and classic or Game mode. Each has a suggested answer; "Use the
 -- suggestions" answers all three at once. Asked again with /dmga welcome or the button on the main settings page.
 -- Players who had already placed the HUD before this existed are not asked.
 
@@ -81,6 +81,15 @@ W.QUESTIONS = {
       end },
       { "Always", function()
         Hud().hideOutOfCombat = false
+      end },
+    } },
+  { text = "Which style? (Switch any time with the drum button on the HUD, or /dmga game.)",
+    options = {
+      { "Classic: the next three spells as icons", function()
+        ns.db.gameMode = false
+      end },
+      { "Game mode: notes slide into a hit line, with streaks", function()
+        ns.db.gameMode = true
       end },
     } },
 }

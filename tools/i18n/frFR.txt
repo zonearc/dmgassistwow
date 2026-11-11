@@ -696,3 +696,27 @@
 702	Indice de mauvaise touche
 703	Si vous appuyez sur la touche juste à côté de celle affichée en case 1 (5 au lieu de 6), ou oubliez son Maj / Ctrl / Alt, la case 1 affiche brièvement les deux touches, par exemple « 5 » 6 ». Une erreur qui se répète devient le conseil du combat.
 704	Conseil : vous avez appuyé sur %s %d fois alors que la case 1 affichait %s (%s). Si cette touche est difficile à atteindre, placez le sort sur une touche plus accessible.
+705	Mode jeu
+706	Jouez le HUD comme un jeu de rythme : les notes glissent de droite à gauche vers une ligne à gauche et l'atteignent quand le sort peut être lancé. Couloir du haut : dégâts. Milieu : défensifs et soins. Bas : bijoux et potions. Les réussites forment une série ; 5, 10, 25, 50 d'affilée rapportent une étoile. Changez à tout moment avec le bouton tambour du HUD ou /dmga game.
+707	Mode jeu : activé (cliquez pour le HUD classique)
+708	Mode jeu : désactivé (cliquez pour y jouer comme à un jeu)
+709	Série %d
+710	Record %d
+711	Mode jeu activé : touchez chaque note quand elle atteint la ligne. Cliquez sur le tambour (ou /dmga game) pour revenir.
+712	Mode jeu désactivé : le HUD classique est de retour.
+713	Quel style ? (Changez à tout moment avec le bouton tambour du HUD, ou /dmga game.)
+714	Classique : les trois prochains sorts en icônes
+715	Mode jeu : les notes glissent vers une ligne, avec des séries
+716	Activer / désactiver le mode jeu
+717	Mode jeu oui / non : les notes glissent vers une ligne, séries et étoiles
+718	les questions de configuration à nouveau (où, quelle taille, quand afficher, quel style)
+719	Bien !
+720	Génial !
+721	Superbe !
+722	En feu !
+723	Inarrêtable !
+724	Légendaire !
+725	Parfait !
+726	Génial
+727	Bien
+728	Raté

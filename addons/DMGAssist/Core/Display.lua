@@ -634,6 +634,11 @@ function D.Create()
   f.gear.tex = f.gear:CreateTexture(nil, "ARTWORK")
   f.gear.tex:SetAllPoints(f.gear)
   f.gear.tex:SetTexture("Interface\\Buttons\\UI-OptionsButton")
+  -- Game mode switch: always there, just above the HUD's top-right corner (Game.lua).
+  if ns.Game then
+    f.gameBtn = ns.Game.ToggleButton(f)
+    f.gameBtn:SetPoint("BOTTOMRIGHT", f, "TOPRIGHT", 0, 2)
+  end
   f.gear:SetScript("OnClick", function()
     if ns.Options and ns.Options.Open then
       ns.Options.Open()
@@ -961,6 +966,13 @@ end
 -- You pressed the key next to the one slot 1 showed (Grade.NoteSlip): "5 » 6" under slot 1 for SLIP_SHOW seconds.
 D.SLIP_SHOW = 1.2
 function D.ShowSlip(got, want)
+  if D.Settings().slipHint == false then
+    return
+  end
+  if ns.Game and ns.Game.On() then
+    ns.Game.ShowSlip(got, want)
+    return
+  end
   local f = D.frame
   if not (f and f.slip) or D.Settings().slipHint == false then
     return
@@ -1014,6 +1026,8 @@ local function SetIcon(icon, pick, cfg, isMain, labelText)
   icon:SetAlpha(alpha)
   icon:Show()
 end
+
+D.NewIcon, D.SetIcon = Icon, SetIcon
 
 -- The target mode in force, for the title row: "AUTO · AOE 5 targets" (orange) / "AUTO · ST 1 target" (light
 -- blue); "AOE (manual)" after the key binding; "AOE ?" when nothing can be counted (the fallback mode is used).
@@ -1151,6 +1165,8 @@ local function SetAlphaBool(frame, value, ifTrue, ifFalse)
   end
 end
 
+D.SetAlphaBool = SetAlphaBool
+
 -- result.interrupt from Interrupts.Evaluate: "decided" ones are already slot 1 of the queue; "render" ones are
 -- drawn over slot 1 with secret-driven alpha.
 local function RenderInterrupt(f, result, cfg)
@@ -1174,6 +1190,23 @@ end
 -- secret health percent (UnitHealthPercent with a curve, input 0..1): visible only at or below the threshold.
 local healthCurves = {}
 
+-- 1 at or below `threshold` (0..1) of the player's health, else 0: the game computes it from the secret health
+-- percent (a step curve), so it can only be used as an alpha. nil when the game can't.
+function D.HealthAlpha(threshold)
+  local key = string.format("%.2f", threshold)
+  local c = healthCurves[key]
+  if not c and C_CurveUtil and C_CurveUtil.CreateCurve then
+    c = U.Call(C_CurveUtil.CreateCurve)
+    if c then
+      c:SetType(Enum and Enum.LuaCurveType and Enum.LuaCurveType.Step or 1)
+      c:AddPoint(0, 1)
+      c:AddPoint(threshold + 0.0001, 0)
+      healthCurves[key] = c
+    end
+  end
+  return c and U.Call(UnitHealthPercent, "player", true, c)
+end
+
 local function RenderDefensive(f, result, cfg)
   local d = result.defensive
   if not (cfg.defensive and d and d.how == "render") then
@@ -1189,25 +1222,12 @@ local function RenderDefensive(f, result, cfg)
   f.def:SetSize(size, size)
   f.def:SetPoint(a[1], f.slots[1], a[2], a[3] + (tonumber(cfg.weaveX) or 0), a[4] + (tonumber(cfg.weaveY) or 0))
   f.def.urgent = true
-  if d.how == "render" then
-    local key = string.format("%.2f", d.threshold)
-    local c = healthCurves[key]
-    if not c and C_CurveUtil and C_CurveUtil.CreateCurve then
-      c = U.Call(C_CurveUtil.CreateCurve)
-      if c then
-        c:SetType(Enum and Enum.LuaCurveType and Enum.LuaCurveType.Step or 1)
-        c:AddPoint(0, 1)
-        c:AddPoint(d.threshold + 0.0001, 0)
-        healthCurves[key] = c
-      end
-    end
-    local alpha = c and U.Call(UnitHealthPercent, "player", true, c)
-    if alpha == nil then
-      f.def:Hide()
-      return
-    end
-    f.def:SetAlpha(alpha)
+  local alpha = D.HealthAlpha(d.threshold)
+  if alpha == nil then
+    f.def:Hide()
+    return
   end
+  f.def:SetAlpha(alpha)
 end
 
 local function RenderBadge(f, icon, pick, cfg, key, default)
@@ -1509,6 +1529,9 @@ end
 
 function D.Update(result, visible)
   local f = D.Create()
+  if ns.Game then
+    ns.Game.Update(result, visible)
+  end
   if not visible or not result or not result.main then
     f:Hide()
     if f.hl then
@@ -1572,6 +1595,9 @@ function D.Update(result, visible)
     f.debug:Hide()
   end
   RenderHighlight(f, result, cfg)
+  -- Game mode: the lanes show instead; this HUD keeps running unseen (its clock times the notes, the press-now
+  -- moment feeds the grade, the action bar highlight stays).
+  f:SetAlpha((ns.Game and ns.Game.On()) and 0 or cfg.alpha)
   f:Show()
 end
 
@@ -1581,6 +1607,9 @@ function D.SetLocked(locked)
   local f = D.Create()
   f:EnableMouse(not locked)
   f.locked = locked
+  if ns.Game then
+    ns.Game.SetLocked(locked)
+  end
   if ns.Grade then
     ns.Grade.SyncSample()
   end

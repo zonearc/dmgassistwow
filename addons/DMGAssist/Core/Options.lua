@@ -527,6 +527,11 @@ function O.Register()
   Choice(display, HUD, "nameColor", "Spell name color", H.nameColor, ns.Display.TEXT_COLORS,
     "The color of the spell names.")
   Check(display, HUD, "labels", "NOW / NEXT labels", H.labels, "NOW above slot 1 and NEXT above slots 2 and 3.")
+  Check(display, DB, "gameMode", "Game mode", false,
+    "Play the HUD like a rhythm game: notes slide right to left into a line on the left and reach it when the "
+      .. "spell can be pressed. Top lane: damage. Middle: defensives and heals. Bottom: trinkets and potions. "
+      .. "Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the drum button on the "
+      .. "HUD or /dmga game.")
   Header(display, "Alerts and effects", "How the icons tell you when to press, and what needs your attention most.")
   Choice(display, HUD, "glow", "Main icon glow", H.glow,
     { { "none", "None" }, { "border", "Steady" }, { "pulse", "Pulse" } },

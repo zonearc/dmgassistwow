@@ -576,3 +576,4 @@ BINDING_HEADER_DMGASSIST = "DMGAssist"
 BINDING_NAME_DMGASSIST_CYCLEMODE = L["Switch target mode (Auto / Single / AoE)"]
 BINDING_NAME_DMGASSIST_BURST = L["Toggle major cooldowns"]
 BINDING_NAME_DMGASSIST_TOGGLE = L["Show or hide DMGAssist"]
+BINDING_NAME_DMGASSIST_GAME = L["Switch Game mode on / off"]

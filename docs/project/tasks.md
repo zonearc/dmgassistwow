@@ -16,6 +16,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open
 
+- Game mode, after first in-game feedback: tune LOOK (4 s of lane), sizes, judgement windows (Perfect 0.25 s,
+  Great 0.6 s); optional sounds (hit tick, streak chime, default off); an engine "commit" option measured in the
+  every-spec check (fewer swaps vs. exactness).
 - Balance on a dungeon boss: Sunfire shown 3 times while Wrath / Starfall were cast instead (grade "missed
   sunfire x3"); the target's DoTs are hidden in combat. Watch in LFR.: build
 
@@ -58,6 +61,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.189: Game mode (docs/project/scope.md "Game mode"): three lanes right to left into a hit line, notes timed to
+  when each spell can be pressed, Perfect / Great / Good / Miss, streaks with stars at 5/10/25/50/100/200, best
+  streak per spec, slots 2-3 held against jitter. Switch: drum button on both HUDs, /dmga game, keybind, minimap
+  menu, Settings > Display, 4th welcome question. 24 new strings in 9 locales.
 - 1.6.0.188: wrong-key hint. A wrong press on the key right next to the one slot 1 showed (5 for 6, Q for W, F2
   for F3), or the right key with a missing / extra Shift / Ctrl / Alt, shows "5 » 6" under slot 1 for 1.2 s
   (Display > Alerts and effects > Wrong-key hint, on by default). The fight's grade counts slips; the same slip 3+

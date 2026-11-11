@@ -445,14 +445,24 @@ function Gr.OnPress(id, r, press)
       end
       f.vsAtPress = snap
     end
+    local game = ns.Game
     if matched then
       f.score = f.score + 1
       f.right = (f.right or 0) + 1
+      if game then
+        game.OnJudged("hit")
+      end
     elseif (queue[2] and Same(queue[2].id, id)) or (queue[3] and Same(queue[3].id, id)) then
       f.score = f.score + Gr.SLOT23
       f.slot23 = (f.slot23 or 0) + 1
+      if game then
+        game.OnJudged("near")
+      end
     else
       f.wrong = (f.wrong or 0) + 1
+      if game then
+        game.OnJudged("miss")
+      end
       NoteSlip(f, main, id)
       local want = main and (main.token or tostring(main.id))
       if want then

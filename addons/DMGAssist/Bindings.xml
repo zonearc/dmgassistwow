@@ -8,4 +8,7 @@
 	<Binding name="DMGASSIST_TOGGLE" category="ADDONS">
 		DMGAssist_Toggle()
 	</Binding>
+	<Binding name="DMGASSIST_GAME" category="ADDONS">
+		DMGAssist_ToggleGame()
+	</Binding>
 </Bindings>

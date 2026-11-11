@@ -17,7 +17,8 @@ globals = {
   "SlashCmdList",
   "UISpecialFrames", "StaticPopupDialogs",
   "BINDING_HEADER_DMGASSIST", "BINDING_NAME_DMGASSIST_CYCLEMODE", "BINDING_NAME_DMGASSIST_BURST",
-  "BINDING_NAME_DMGASSIST_TOGGLE", "DMGAssist_CycleMode", "DMGAssist_ToggleBurst", "DMGAssist_Toggle",
+  "BINDING_NAME_DMGASSIST_TOGGLE", "BINDING_NAME_DMGASSIST_GAME", "DMGAssist_ToggleGame", "DMGAssist_CycleMode",
+  "DMGAssist_ToggleBurst", "DMGAssist_Toggle",
   "DMGAssist_OnCompartmentClick",
 }
 

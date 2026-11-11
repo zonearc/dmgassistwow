@@ -46,6 +46,7 @@ Core\Diagnostics.lua
 Core\Grade.lua
 Core\Engine.lua
 Core\Display.lua
+Core\Game.lua
 Core\Options.lua
 Core\Settings.xml
 Core\Minimap.lua

@@ -567,6 +567,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     ns.Options.OnCombatEnded() -- after the combat flags clear
     ns.Engine.OnCombat()
     ns.Grade.OnCombat(false) -- before the fight's log closes, so the grade is in reports
+    ns.Game.OnCombat(false)
     ns.Diagnostics.OnCombat(false)
     S.Calibrate()
     if spellsDirty then
@@ -703,6 +704,17 @@ function commands.off()
   ns.db.enabled = false
   D.Update(nil, false)
   U.Print(L["Recommendations off."])
+end
+
+-- /dmga game [on|off]: the HUD as a rhythm game (Game.lua); without an argument, switches.
+function commands.game(arg)
+  if arg == "on" then
+    ns.Game.Toggle(true)
+  elseif arg == "off" then
+    ns.Game.Toggle(false)
+  else
+    ns.Game.Toggle()
+  end
 end
 
 function commands.burst()
@@ -1011,6 +1023,7 @@ function commands.help()
     { "/dmga", "status" },
     { "/dmga on | off", "show or hide recommendations" },
     { "/dmga burst", "toggle major cooldowns" },
+    { "/dmga game", "Game mode on / off: notes slide into a hit line, streaks and stars" },
     { "/dmga mode st | aoe", "primary target mode" },
     { "/dmga mode", "cycle Auto / Single / AoE (also a key binding)" },
     { "/dmga auto on | off", "auto-detect targets from nameplates" },
@@ -1023,7 +1036,7 @@ function commands.help()
     { "/dmga keys", "refresh keybinds" },
     { "/dmga report", "report an issue or give feedback: describe it, copy the report, open the issue page" },
     { "/dmga spec on|off", "DMGAssist on or off for the spec you are in (an alt's healing spec, for example)" },
-    { "/dmga welcome", "the three setup questions again (where, how big, when to show)" },
+    { "/dmga welcome", "the setup questions again (where, how big, when to show, which style)" },
     { "/dmga unbound", "list recommended spells that have no keybind" },
     { "/dmga test", "test the defensive alert (8 seconds)" },
     { "/dmga test interrupt | assisted | bossmods", "test the interrupt alert, Assisted Combat, or boss mod detection" },
@@ -1044,6 +1057,10 @@ end
 
 function DMGAssist_ToggleBurst()
   commands.burst()
+end
+
+function DMGAssist_ToggleGame()
+  commands.game("")
 end
 
 function DMGAssist_Toggle()

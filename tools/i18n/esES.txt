@@ -696,3 +696,27 @@
 702	Aviso de tecla equivocada
 703	Si pulsas la tecla justo al lado de la que muestra la casilla 1 (5 en vez de 6), u olvidas su Mayús / Ctrl / Alt, la casilla 1 muestra ambas teclas un momento, como «5 » 6». Si el error se repite, se convierte en el consejo del combate.
 704	Consejo: pulsaste %s %d veces cuando la casilla 1 mostraba %s (%s). Si esa tecla te cuesta alcanzarla, mueve el hechizo a una más cómoda.
+705	Modo juego
+706	Juega con el HUD como un juego de ritmo: las notas se deslizan de derecha a izquierda hasta una línea a la izquierda y la alcanzan cuando se puede pulsar el hechizo. Carril superior: daño. Medio: defensivas y curaciones. Inferior: abalorios y pociones. Los aciertos forman una racha; 5, 10, 25, 50 seguidos dan una estrella. Cambia cuando quieras con el botón del tambor en el HUD o /dmga game.
+707	Modo juego: activado (clic para el HUD clásico)
+708	Modo juego: desactivado (clic para jugarlo como un juego)
+709	Racha %d
+710	Mejor %d
+711	Modo juego activado: acierta cada nota cuando llegue a la línea. Pulsa el tambor (o /dmga game) para volver.
+712	Modo juego desactivado: vuelve el HUD clásico.
+713	¿Qué estilo? (Cambia cuando quieras con el botón del tambor en el HUD, o /dmga game.)
+714	Clásico: los tres siguientes hechizos como iconos
+715	Modo juego: las notas se deslizan hasta una línea, con rachas
+716	Activar / desactivar el modo juego
+717	Modo juego sí / no: las notas se deslizan hasta una línea, rachas y estrellas
+718	las preguntas iniciales otra vez (dónde, qué tamaño, cuándo mostrar, qué estilo)
+719	¡Bien!
+720	¡Genial!
+721	¡Increíble!
+722	¡En llamas!
+723	¡Imparable!
+724	¡Legendario!
+725	¡Perfecto!
+726	Genial
+727	Bien
+728	Fallo

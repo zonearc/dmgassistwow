@@ -1,4 +1,4 @@
-# In-game test plan (current: 1.6.0.188)
+# In-game test plan (current: 1.6.0.189)
 
 Send `/dmgw` after each item. Note anything odd with a rough time ("at ~20 s slot 1 went blank").
 
@@ -18,6 +18,12 @@ Done and looking good: Balance, DK, Mage (all), DH (Havoc, Vengeance, Devourer),
 ## 2b. Wrong-key hint (1.6.0.188)
 - On a dummy, press the key next to slot 1's a few times on purpose (5 when it shows 6): "5 » 6" appears under slot
   1 for a moment. Do it 3+ times in one fight: the grade's tip names the key and the spell.
+
+## 2c. Game mode (1.6.0.189)
+- Click the drum above the HUD (or /dmga game). On a dummy: notes slide right to left and reach the line as each
+  spell is ready; press on the line for Perfect. 5 in a row: "Nice!" and a star; a wrong spell: Miss, streak 0.
+- Pull a boss-mod AoE or drop low: the defensive drops into the middle lane; a trinket into the bottom lane.
+- Tell me: too fast / slow, icons too small / big, does anything jump around, is the line easy to see.
 
 ## 3. DBM / BigWigs
 - `/dbm test`, with a dummy targeted. Over ~60 s the text above the HUD shows ADDS, AOE, TANK HIT and an

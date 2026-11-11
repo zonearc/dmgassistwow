@@ -2115,7 +2115,7 @@ test("Masque: the icons join a DMGAssist group when Masque is installed; nothing
   ns.Integrations.group = nil
 end)
 
-test("welcome: three questions once per profile, suggestions applied, skipped for anyone already set up", function()
+test("welcome: four questions once per profile, suggestions applied, skipped for anyone already set up", function()
   Reset()
   local ns = Boot()
   ns.Display.Create()
@@ -2123,10 +2123,11 @@ test("welcome: three questions once per profile, suggestions applied, skipped fo
   ns.Welcome.MaybeAsk()
   local w = DMGAssistWelcome
   eq(w and w:IsShown(), true, "asked on first login")
-  for n = 1, 3 do
+  for n = 1, 4 do
     w.buttons[2].scripts.OnClick(w.buttons[2]) -- the second answer each time
   end
   eq(ns.db.welcomed, true)
+  eq(ns.db.gameMode, true, "Game mode chosen")
   eq(ns.db.point[1], "CENTER", "middle of the screen")
   eq(ns.db.hud.scale, 0.8, "small")
   eq(ns.db.hud.showWithTarget, false, "only in combat")
@@ -2457,7 +2458,7 @@ test("key bindings file calls functions that exist", function()
     eq(type(_G[fn]), "function", fn)
     count = count + 1
   end
-  eq(count, 3)
+  eq(count, 4)
   for name in xml:gmatch('name="([%w_]+)"') do
     eq(type(_G["BINDING_NAME_" .. name]), "string", name)
   end
@@ -4218,6 +4219,98 @@ test("wrong-key hint: the key next to slot 1's ('5' for '6') shows for a moment 
   D.PickKeybind, D.Keybind = pk, kb
   ns.Engine.IsRotationSpell = isRot
   Gr.Reset(spec)
+end)
+
+test("game mode: three lanes, notes reach the line when ready, hits build a streak with stars, misses break it", function()
+  Reset()
+  local ns = Boot()
+  local Gr, Game, D = ns.Grade, ns.Game, ns.Display
+  ns.db.gradeChain = false
+  Gr.Reset()
+  ns.db.gameBest = nil
+  eq(Game.On(), false, "classic by default")
+  ns.commands.game("on")
+  eq(Game.On(), true, "/dmga game on")
+  local A, B, C = { id = 101, token = "a" }, { id = 102, token = "b" }, { id = 103, token = "c" }
+  local res = { main = A, queue = { A, B, C }, defensive = { id = 22812, how = "decided", why = "aoe" },
+    trinket = { item = 5512, id = 6262, source = "trinket" } }
+  D.Update(res, true)
+  eq(Game.frame:IsShown(), true, "lanes shown")
+  eq(D.frame.alpha, 0, "the classic HUD runs unseen")
+  D.frame.lastWait = 1.0
+  Game.Render()
+  local lanes = {}
+  for _, n in pairs(Game.notes) do
+    lanes[n.lane] = (lanes[n.lane] or 0) + 1
+  end
+  eq(lanes[1], 3, "top lane: the rotation") eq(lanes[2], 1, "middle: the defensive") eq(lanes[3], 1, "bottom: the item")
+  -- the slot 1 note heads to where it reaches the line in 1 s; at 0 s it sits on the line
+  for _ = 1, 40 do
+    mock.now = mock.now + 0.05
+    Game.Render()
+  end
+  local main = Game.notes["1:101:1"]
+  eq(main ~= nil, true)
+  local x1 = main.x
+  D.frame.lastWait = 0
+  for _ = 1, 40 do
+    mock.now = mock.now + 0.05
+    Game.Render()
+  end
+  eq(math.floor(main.x + 0.5), Game.HIT_X, "on the line when ready")
+  eq(x1 > main.x, true, "it slid right to left")
+  -- presses: 10 right ones -> streak 10, two stars, "Great!" popped
+  local isRot = ns.Engine.IsRotationSpell
+  ns.Engine.IsRotationSpell = function() return true end
+  local r = { main = A, queue = { A, B, C } }
+  Gr.OnCombat(true)
+  for _ = 1, 10 do
+    D.frame.lastWait = 0
+    Game.Render() -- the note reaches the line
+    mock.now = mock.now + 0.1
+    Gr.OnPress(101, r, true) -- 0.1 s later
+    mock.now = mock.now + 1.4
+  end
+  eq(Game.streak, 10) eq(Game.stars, 2, "5 and 10")
+  eq(Game.frame.pop:GetText(), "Great!")
+  eq(Game.lastJudge, "perfect", "pressed as the note sat on the line")
+  Gr.OnPress(102, r, true)
+  eq(Game.streak, 11, "slot 2 keeps the streak (a Good)")
+  eq(Game.lastJudge, "good")
+  Gr.OnPress(999, r, true)
+  eq(Game.streak, 0, "a miss breaks it") eq(Game.lastJudge, "miss")
+  eq(Game.Best(), 11, "best streak kept")
+  Gr.OnCombat(false)
+  ns.Engine.IsRotationSpell = isRot
+  -- slips show under the hit line in game mode
+  Game.frame.slip:Hide()
+  D.ShowSlip("5", "6")
+  eq(Game.frame.slip:IsShown(), true)
+  ns.commands.game("off")
+  eq(Game.On(), false)
+  D.Update(res, true)
+  eq(Game.frame:IsShown(), false, "classic again")
+  eq(D.frame.alpha ~= 0, true)
+  Gr.Reset()
+end)
+
+test("game mode: slots 2-3 only swap when the new pick holds (no jitter); slot 1 is always the truth", function()
+  Reset()
+  local ns = Boot()
+  local Game = ns.Game
+  Game.held, Game.pending = nil, nil
+  local A, B, C, X = { id = 1 }, { id = 2 }, { id = 3 }, { id = 9 }
+  local q = Game.Steady({ A, B, C }, 100)
+  eq(q[2].id, 2)
+  q = Game.Steady({ A, X, C }, 100.1)
+  eq(q[2].id, 2, "a flicker in slot 2: held")
+  q = Game.Steady({ A, B, C }, 100.2)
+  eq(q[2].id, 2, "and it flicked back: no swap at all")
+  Game.Steady({ A, X, C }, 100.3)
+  q = Game.Steady({ A, X, C }, 100.7)
+  eq(q[2].id, 9, "held 0.4 s: it swaps")
+  q = Game.Steady({ X, C, B }, 100.8)
+  eq(q[1].id, 9, "slot 1 is never held back")
 end)
 
 test("performance grade: a trinket from the items icon counts as cooldown use, never accuracy", function()

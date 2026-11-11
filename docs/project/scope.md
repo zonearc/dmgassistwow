@@ -38,6 +38,22 @@ Blizzard's assistant and why (cooldowns, rotation, upkeep, utility) plus extras 
 damage claim (decided 2026-11-10). Best and last 20 fights per spec, account-wide; trend, averages and one tip
 on the settings page. Can be turned off.
 
+## Game mode (decided 2026-11-11)
+- A second display style, switched any time (drum button on the HUD, /dmga game, keybind, minimap menu, Settings >
+  Display; asked as the 4th welcome question, Classic suggested). Classic stays the default.
+- Three lanes scrolling right to left into a hit line on the left: top = damage rotation (an interrupt drops in
+  gold-edged), middle = defensives / heals / tank mitigation, bottom = trinkets, potions, items.
+- A note reaches the line exactly when the spell can be pressed (the classic press-now clock); slots 2-3 follow,
+  spaced by GCD / cast time. The classic HUD keeps running unseen (its clock, the grade's ready moments, the action
+  bar highlight).
+- Judged by the performance grade's own press scoring: slot 1 = Perfect / Great / Good by distance from the line,
+  slot 2-3 = Good, anything else = Miss. Streak milestones 5, 10, 25, 50, 100, 200 pop a word and add a star; best
+  streak per spec saved. A note left at the line 3 s in combat breaks the streak.
+- Stability: slot 1 is never changed (it's the right press). Slots 2-3 only swap when the new pick holds 0.35 s.
+  Making the engine itself "commit" to picks (less swapping at the cost of exactness) is not done: measure it in
+  the every-spec check first.
+- Purely visual; nothing is pressed for the player.
+
 ## Integrations
 
 Supported and listed in the settings: Masque, DBM, BigWigs, LittleWigs, WeakAuras (DMGAssistAPI), Blizzard's

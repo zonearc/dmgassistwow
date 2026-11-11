@@ -696,3 +696,27 @@
 702	Aviso de tecla errada
 703	Se você apertar a tecla logo ao lado da mostrada no espaço 1 (5 em vez de 6), ou esquecer o Shift / Ctrl / Alt, o espaço 1 mostra as duas teclas por um instante, como "5 » 6". Um erro que se repete vira a dica da luta.
 704	Dica: você apertou %s %d vezes quando o espaço 1 mostrava %s (%s). Se essa tecla é difícil de alcançar, mova o feitiço para uma mais fácil.
+705	Modo jogo
+706	Jogue o HUD como um jogo de ritmo: as notas deslizam da direita para a esquerda até uma linha à esquerda e chegam nela quando o feitiço pode ser usado. Faixa de cima: dano. Meio: defensivas e curas. Embaixo: berloques e poções. Acertos formam uma sequência; 5, 10, 25, 50 seguidos valem uma estrela. Troque quando quiser com o botão do tambor no HUD ou /dmga game.
+707	Modo jogo: ligado (clique para o HUD clássico)
+708	Modo jogo: desligado (clique para jogar como um jogo)
+709	Sequência %d
+710	Recorde %d
+711	Modo jogo ligado: acerte cada nota quando ela chegar à linha. Clique no tambor (ou /dmga game) para voltar.
+712	Modo jogo desligado: o HUD clássico voltou.
+713	Qual estilo? (Troque quando quiser com o botão do tambor no HUD, ou /dmga game.)
+714	Clássico: os próximos três feitiços como ícones
+715	Modo jogo: as notas deslizam até uma linha, com sequências
+716	Ligar / desligar o modo jogo
+717	Modo jogo sim / não: as notas deslizam até uma linha, sequências e estrelas
+718	as perguntas iniciais de novo (onde, qual tamanho, quando mostrar, qual estilo)
+719	Boa!
+720	Ótimo!
+721	Incrível!
+722	Pegando fogo!
+723	Imparável!
+724	Lendário!
+725	Perfeito!
+726	Ótimo
+727	Bom
+728	Errou
