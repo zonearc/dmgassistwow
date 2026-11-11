@@ -1323,6 +1323,12 @@ local function Decide(record, opts, targets, first)
     end
   end
   pick = pick or run.firstMaybe or run.firstRuleMaybe
+  -- Nothing at all: the spell it's waiting for, shaded, rather than an empty slot 1. Right after Fan of Knives every
+  -- line was short of Energy and Blizzard's Mutilate sat in the GCD, so slot 1 blinked out after each press
+  -- (Assassination, 2026-11-11).
+  if not pick and run.first then
+    pick = run.powerBlocked or run.powerBlockedMaybe
+  end
   if pick and pick.token and run.cooldowns[pick.token] then
     pick.major = true -- a major cooldown (for the "burst" sound); shown in the queue like any other spell
   end

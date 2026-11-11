@@ -55,6 +55,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.181: when nothing at all can be shown, slot 1 shows the spell it's waiting for (shaded) instead of going
+  blank: right after Fan of Knives every Assassination line was short of Energy and Blizzard's Mutilate sat in the
+  GCD, so the bar blinked out after each press.
 - 1.6.0.180: Thistle Tea 381623 is automatic unless the button choice (1298826) is known (the automatic talent
   wasn't readable on a class-trial character). "Not on your action bars" is said only when the line wants the spell
   right now; the login "N spells have no key binding" line is gone (it counted the other hero tree's and unused

@@ -5148,6 +5148,43 @@ test("an off-bar spell on a line that says 'not now' isn't named in chat (the ot
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("Assassination right after Fan of Knives (everything short of Energy): slot 1 waits, it doesn't go blank", function()
+  Reset()
+  local ns = Boot()
+  local M, S = ns.SpellMap, ns.State
+  local key = "rogue_assassination"
+  local record = ns.Data.specs.midnight[key]
+  local book = {}
+  for _, token in ipairs({ "fan_of_knives", "crimson_tempest", "mutilate", "envenom", "garrote", "rupture", "shiv" }) do
+    local id = record.spells[token] and record.spells[token].a[1]
+    if id then
+      book[#book + 1] = { spellID = id, name = token }
+    end
+  end
+  mock.book = book
+  mock.talents = {}
+  ns.Specs.current = { key = key, status = "ready", data = record, branch = "midnight", client = "Midnight" }
+  M.SetData(record)
+  M.Refresh()
+  S.Bind(key)
+  mock.power[4], mock.powerMax[4], mock.powerReadable[4] = 2, 7, true
+  mock.power[3], mock.powerMax[3] = 20, 100
+  mock.nameplates = 4
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Advance(20)
+  for _, b in ipairs(book) do
+    mock.usable[b.spellID] = { false, true } -- not enough Energy for anything
+  end
+  mock.usable[M.SpellID("mutilate")] = { false, false }
+  mock.acSpell = M.SpellID("mutilate")
+  local r = ns.Update()
+  eq(r.main ~= nil and r.main.id ~= nil, true, "something in slot 1")
+  eq(r.main and r.main.source, "pool", "shown as waiting for Energy")
+  mock.acSpell, mock.inCombat, mock.restricted = nil, false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)
