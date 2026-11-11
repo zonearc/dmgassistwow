@@ -4747,7 +4747,13 @@ test("timing corrections from one or two samples are dropped once (stale-clock f
   S.Bind(ns.Specs.current.key)
   eq(S.learned.timing.judgment, nil, "one sample: dropped")
   eq(S.learned.timing.holy_shock and S.learned.timing.holy_shock.n, 7, "seven: kept")
-  eq(S.learned.timingVersion, 2)
+  eq(S.learned.timingVersion, 3)
+  -- 1.6.0.178: a big "ready earlier" correction (the assistant still naming a spell just cast) is dropped once
+  S.learned.timing = { eternity_surge = { n = 3, mean = -18, spread = 0 }, holy_shock = { n = 7, mean = -1.2, spread = 1.2 } }
+  S.learned.timingVersion = 2
+  S.Bind(ns.Specs.current.key)
+  eq(S.learned.timing.eternity_surge, nil, "-18 s: dropped")
+  eq(S.learned.timing.holy_shock and S.learned.timing.holy_shock.n, 7, "-1.2 s: kept")
 end)
 
 test("performance grade: quick fights chain (mob to mob), one grade after the gap or every 3 minutes", function()
@@ -5047,6 +5053,30 @@ test("Thistle Tea with the automatic talent is never suggested: the game drinks 
   mock.talents = {}
   M.Refresh()
   eq(M.IsAutomatic(381623), false, "the button version (other choice) is suggested as usual")
+end)
+
+test("Blizzard still naming a spell you just cast teaches nothing and doesn't mark it ready (Eternity Surge)", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", cd = 30, gcd = 1 }
+  Feral(ns, rec)
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Advance(1)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  mock.Advance(0.05)
+  S.acNamed = nil
+  S.ObserveAssistedCharge(5217) -- the assistant hasn't moved on yet
+  eq(S.learned.timing.tigers_fury, nil, "nothing learned")
+  eq(S.CooldownReady(5217), false, "still on its 30 s cooldown")
+  mock.Advance(20)
+  S.acNamed = nil
+  S.ObserveAssistedCharge(5217) -- 20 s later: a real "ready early"
+  eq(S.learned.timing.tigers_fury ~= nil, true, "that one is learned")
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

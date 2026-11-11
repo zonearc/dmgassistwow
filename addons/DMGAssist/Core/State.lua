@@ -1143,12 +1143,24 @@ local function OurLeft(id, info)
   return nil
 end
 
+S.ASSISTED_STALE = 1.5
 -- Blizzard's assistant names this spell right now (called once per decision).
 function S.ObserveAssistedCharge(id)
   -- Once each time Blizzard starts naming it, not every frame it keeps naming it: right after a correction our
   -- clock agrees for as long as Blizzard keeps naming the spell, which isn't news (1.6.0.124 counted every frame
   -- and un-flagged Wildfire Bomb within a second of flagging it).
   if S.acNamed == id then
+    return
+  end
+  -- Still naming what you just cast is the assistant catching up, not "ready again": right after each Eternity
+  -- Surge / Fire Breath (empowered: released a moment after the press) it was taken as "our clock is 10-28 s
+  -- slow", the cooldown was marked done, and slot 2 showed key 5 for most of its 30 s (Devastation, 2026-11-11).
+  -- (With 2+ charges a charge is left, so naming it again right away is true: Aimed Shot.)
+  local token = M.TokenForID(id)
+  local castAt = (token and S.lastCastToken[token]) or S.lastCast[id]
+  local ci = M.Info(id)
+  local multi = ci and ci.ch and ci.ch > 1
+  if castAt and not multi and GetTime() - castAt < S.ASSISTED_STALE then
     return
   end
   S.acNamed = id
@@ -3394,6 +3406,16 @@ function S.Bind(key)
       end
     end
     l.timingVersion = 2
+  end
+  -- 1.6.0.178: "ready much earlier than our clock" learned from the assistant still naming a spell just cast
+  -- (S.ASSISTED_STALE) is dropped once: Eternity Surge kept -18 s and showed in slot 2 most of its cooldown.
+  if (l.timingVersion or 0) < 3 then
+    for name, t in pairs(l.timing) do
+      if type(t) == "table" and type(t.mean) == "number" and t.mean <= -3 then
+        l.timing[name] = nil
+      end
+    end
+    l.timingVersion = 3
   end
   S.stackUntil, S.consumeLeft = {}, {}
   l.stacking = type(l.stacking) == "table" and l.stacking or {}

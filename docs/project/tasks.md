@@ -16,6 +16,7 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- Preservation: Fire Breath refused once (8.4 s, session 246) with no cast that fight; cause unknown, watch.
 - SimC terms we don't read yet (tools audit, 2026-11-11): soul_fragments (Vengeance, Devourer), rtb_buffs
   (Outlaw), scorch_execute (Fire), energize_amount (Balance), movement (Warriors), tick_time, apex.N (always 0).
   Each turns its lines into guesses that only Blizzard's pick can confirm.
@@ -54,6 +55,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.178: Blizzard's assistant still naming a spell you released under 1.5 s ago is ignored (S.ASSISTED_STALE):
+  after every Eternity Surge / Fire Breath it was read as "ready 10-28 s early", the cooldown was marked done and
+  key 5 sat in slot 2 for most of its 30 s (Devastation). Saved corrections of -3 s or more are dropped once.
 - 1.6.0.177: rogue finishers. SimC's cp_max_spend (the most combo points a finisher uses) and effective_combo_points
   (Supercharger as a range) are read; "talent.ancient_arts_3" (the Nth talent of a name, apex tiers) is read.
   Subtlety at 7/7 combo points showed Shuriken Storm forever, now Eviscerate. Thistle Tea with the automatic talent
