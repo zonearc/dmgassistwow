@@ -5354,6 +5354,44 @@ test("Outlaw: rtb_buffs is Roll the Bones' sets (1-4) - read when shown, 1-4 aft
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("SimC terms now read: scorch_execute, energize_amount, apex.N, movement.distance, soul_fragments", function()
+  Reset()
+  local ns = Boot()
+  local M, S = ns.SpellMap, ns.State
+  -- Fire: Scorch execute at 30% health (or Heat Shimmer), only with the talent
+  local rank = M.TalentRank
+  M.TalentRank = function(t) if t == "scorch" then return 1 end return rank(t) end
+  local uh, uhm = UnitHealth, UnitHealthMax
+  local hp = 250
+  UnitHealth = function() return hp end
+  UnitHealthMax = function() return 1000 end
+  eq(S.Resolve("scorch_execute.active", {}), 1, "25% health: execute")
+  hp = 800
+  local v = S.Resolve("scorch_execute.active", {})
+  eq(v == 0 or v == ns.Expr.UNKNOWN, true, "80%: not (or unknown while Heat Shimmer can't be read)")
+  M.TalentRank = function(t) if t == "scorch" then return 0 end return rank(t) end
+  eq(S.Resolve("scorch_execute.active", {}), 0, "no talent: never")
+  M.TalentRank = rank
+  UnitHealth, UnitHealthMax = uh, uhm
+  -- Balance: the line's own spell's resource
+  local spellID, info = M.SpellID, M.Info
+  M.SpellID = function(t) if t == "full_moon" then return 274283 end return spellID(t) end
+  M.Info = function(id) if id == 274283 then return { gain = { [8] = 50 } } end return info(id) end
+  eq(S.Resolve("energize_amount", { action = "full_moon" }), 50)
+  M.SpellID, M.Info = spellID, info
+  -- apex.N: tiers of the spec's apex talent
+  M.apexRank = 2
+  eq(S.Resolve("apex.1", {}), 1) eq(S.Resolve("apex.2", {}), 1) eq(S.Resolve("apex.3", {}), 0)
+  M.apexRank = 0
+  eq(S.Resolve("apex.3", {}), 0, "no apex talent")
+  -- Warriors' charge: movement.distance is the distance to the target
+  eq(S.Resolve("movement.distance", {}), S.Resolve("target.distance", {}))
+  -- Demon Hunter: the Soul Fragments buff's stacks when readable (none here: 0), else a 0..cap range
+  local lo, hi = S.SoulFragments(nil)
+  eq(lo, 0) eq(hi == 0 or hi >= 6, true)
+  eq(S.Resolve("soul_fragments.inactive", {}), 0)
+end)
+
 test("Subtlety at 7/7 combo points on 5 targets spends them (Blizzard's assistant stuck on a missing poison)", function()
   Reset()
   local ns = Boot()

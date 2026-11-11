@@ -448,8 +448,13 @@ local function ScanSpellbook()
   return true
 end
 
+-- SimC's apex.N (player.cpp: the spec tree's tiered "apex" talent, its Nth tier): the ranks bought in the one
+-- tiered node outside the hero trees. M.apexRank; 0 when the spec has none.
+M.TIERED_NODE = 1 -- Enum.TraitNodeType.Tiered
+
 local function ScanTalents()
   local talents, talentSpell, talentIDs = {}, {}, {}
+  local apex = 0
   local configID = U.Get(C_ClassTalents and C_ClassTalents.GetActiveConfigID)
   if type(configID) ~= "number" then
     return false
@@ -472,6 +477,10 @@ local function ScanTalents()
           -- A hero-tree node only counts while its hero tree is the active one.
           if U.Read(node.subTreeID) and U.Read(node.subTreeActive) == false then
             rank = 0
+          end
+          local tiered = (Enum and Enum.TraitNodeType and Enum.TraitNodeType.Tiered) or M.TIERED_NODE
+          if U.Read(node.type) == tiered and not U.Read(node.subTreeID) then
+            apex = math.max(apex, rank)
           end
           for _, entryID in ipairs(node.entryIDs) do
             local entry = U.Get(C_Traits.GetEntryInfo, configID, entryID)
@@ -504,6 +513,7 @@ local function ScanTalents()
     end
   end
   M.talents, M.talentSpell, M.talentIDs = talents, talentSpell, talentIDs
+  M.apexRank = apex
   M.heroTree = nil
   local hero = U.Get(C_ClassTalents.GetActiveHeroTalentSpec)
   if type(hero) == "number" then

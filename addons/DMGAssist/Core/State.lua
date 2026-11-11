@@ -2588,7 +2588,7 @@ end
 
 -- lo, hi for a resource term whose exact value is hidden ("combo_points", "energy.deficit"); nil otherwise.
 function S.Bounds(name)
-  if name == "target.distance" then
+  if name == "target.distance" or name == "movement.distance" then
     return ns.Clues.DistanceBounds()
   elseif name == "target.health.pct" then
     return ns.Clues.NamedBounds(name)
@@ -2597,6 +2597,8 @@ function S.Bounds(name)
     return EffectiveCP()
   elseif name == "rtb_buffs" then
     return S.RtbSets()
+  elseif name:match("^soul_fragments") then
+    return S.SoulFragments(name:match("^soul_fragments%.(%a+)$"))
   end
   local head, field = name:match("^([%w_]+)%.?([%w_]*)$")
   local pt = head and PowerType(head)
@@ -2880,9 +2882,66 @@ local function RtbSets()
 end
 S.RtbSets = RtbSets
 
+-- Fire's scorch_execute.active (sc_mage.cpp scorch_execute_active): with the Scorch talent, while Heat Shimmer is up
+-- or the target is at or below Scorch's threshold (effect #2: 30% health, SpellDataDump mage.txt).
+S.SCORCH_EXECUTE = 30
+local function ScorchExecute()
+  local rank = M.TalentRank("scorch")
+  if rank == 0 then
+    return 0
+  end
+  local shimmer = AuraTerm("player", "heat_shimmer", "up")
+  if shimmer == 1 then
+    return 1
+  end
+  local hp = S.Resolve("target.health.pct", {})
+  local verdict
+  if type(hp) == "number" then
+    verdict = hp <= S.SCORCH_EXECUTE and 1 or 0
+  else
+    local lo, hi = S.Bounds("target.health.pct")
+    if hi and hi <= S.SCORCH_EXECUTE then
+      verdict = 1
+    elseif lo and lo > S.SCORCH_EXECUTE then
+      verdict = 0
+    end
+  end
+  if verdict == 1 then
+    return rank == nil and UNKNOWN or 1
+  end
+  if verdict == 0 and shimmer == 0 then
+    return 0
+  end
+  return UNKNOWN
+end
+
+-- Demon Hunter soul_fragments (sc_demon_hunter.cpp: fragments on the ground; .total adds incoming, .inactive the
+-- ones not yet pickable): the game shows them as the Soul Fragments buff's stacks (203981), and as Spirit Bomb's
+-- cast count on the action button. lo, hi: exact when either is readable, else 0..SOUL_CAP.
+S.SOUL_CAP = { demonhunter_vengeance = 6, demonhunter_devourer = 50 }
+local function SoulFragments(field)
+  if field == "inactive" then
+    return 0, 0
+  end
+  local st = AuraTerm("player", "soul_fragments", "stack")
+  if type(st) == "number" then
+    return st, st
+  end
+  if not V then
+    local bomb = M.SpellID("spirit_bomb") or M.SpellID("soul_cleave")
+    local n = bomb and U.Read((U.Call(C_Spell and C_Spell.GetSpellCastCount, bomb)))
+    if type(n) == "number" then
+      return n, n
+    end
+  end
+  local key = ns.Specs and ns.Specs.current and ns.Specs.current.key
+  return 0, S.SOUL_CAP[key] or 6
+end
+S.SoulFragments = SoulFragments
+
 local STATIC_ZERO = { set_bonus = true, equipped = true, trinket = true, main_hand = true, off_hand = true,
   item = true, bugs = true, covenant = true, runeforge = true,
-  consumable = true, potion = true, apex = true }
+  consumable = true, potion = true }
 
 local function CombatTime()
   if S.combatStart then
@@ -2935,6 +2994,36 @@ function S.Resolve(name, ctx)
     -- builder was shown at 7/7 (Subtlety, 2026-11-11).
     local max = U.Get(UnitPowerMax, "player", 4)
     return (type(max) == "number" and max > 0) and max or UNKNOWN
+  elseif head == "soul_fragments" then
+    local lo, hi = SoulFragments(p[2])
+    if lo == hi then
+      return lo
+    end
+    return UNKNOWN -- decided from the range in comparisons (S.Bounds)
+  elseif head == "movement" and p[2] == "distance" then
+    -- Warriors' "charge,if=movement.distance>5": how far you'd have to move, i.e. the distance to the target
+    return S.Resolve("target.distance", ctx)
+  elseif head == "apex" then
+    -- apex.N: the Nth tier of the spec's apex talent is bought (SpellMap.ScanTalents)
+    local n = tonumber(p[2])
+    if not n or M.apexRank == nil then
+      return UNKNOWN
+    end
+    return M.apexRank >= n and 1 or 0
+  elseif head == "scorch_execute" then
+    return ScorchExecute()
+  elseif head == "energize_amount" then
+    -- Balance (sc_druid.cpp): the resource the line's own spell gives (the moons' Astral Power), from spell data
+    local id = ctx and ctx.action and M.SpellID(ctx.action)
+    local info = id and M.Info(id)
+    if info and type(info.gain) == "table" then
+      local total = 0
+      for _, amount in pairs(info.gain) do
+        total = total + amount
+      end
+      return total
+    end
+    return id and 0 or UNKNOWN
   elseif head == "rtb_buffs" then
     local lo, hi = RtbSets()
     if lo == hi then

@@ -23,8 +23,8 @@ Last updated: 1.6.0.157 (2026-11-10).
   sunfire x3"); the target's DoTs are hidden in combat. Watch in LFR.
 
 - Preservation: Fire Breath refused once (8.4 s, session 246) with no cast that fight; cause unknown, watch.
-- SimC terms we don't read yet (tools audit, 2026-11-11): soul_fragments (Vengeance, Devourer), scorch_execute (Fire), energize_amount (Balance), movement (Warriors), tick_time, apex.N (always 0).
-  Each turns its lines into guesses that only Blizzard's pick can confirm.
+- SimC tick_time: only in interrupt_if (channel cut-off conditions), which the engine doesn't evaluate (it only
+  uses interrupt_if to skip the HOLD cue). Read it if interrupt_if ever gets evaluated.
 - The every-spec check can't play Devourer (Fury never changes in the simulation, so Void Ray forever). Model
   spent/gained resources per spell, or mark such rows as not meaningful.
 - [ ] Forever: confirm the WoWSims rank mapping (data imports for 34 specs; mapping not verified)
@@ -60,6 +60,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.197: SimC terms read (from sc_mage / sc_druid / sc_demon_hunter / player.cpp): scorch_execute.active
+  (Scorch talent + Heat Shimmer or target <= 30%), energize_amount (the line's spell's gain), apex.N (the spec's
+  tiered apex talent, from the trait tree), movement.distance (= target distance), soul_fragments[.total/.inactive]
+  (Soul Fragments buff stacks or Spirit Bomb's cast count, else 0..cap). Every-spec check holds.
 - 1.6.0.196: settings preview shows what each Display control does: a sample target-mode title, a sample boss
   call-out and sample keybinds while docked; Masque re-skins after size changes (the icons stayed small while
   only the box grew); Game mode's lanes take the docked HUD's place in the preview.
