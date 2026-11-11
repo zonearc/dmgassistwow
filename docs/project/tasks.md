@@ -16,6 +16,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- Settings preview (asked 2026-11-11): icon size sliders resize only the gold box, not the icons; the target mode
+  title and other text options show nothing in the preview, so toggling them changes nothing visible. Every
+  Display control should change the matching part of the preview, with sample text where the real HUD has text.
 - Game mode, after first in-game feedback: tune LOOK (4 s of lane), sizes, judgement windows (Perfect 0.25 s,
   Great 0.6 s); optional sounds (hit tick, streak chime, default off); an engine "commit" option measured in the
   every-spec check (fewer swaps vs. exactness).
@@ -60,6 +63,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.195: Settings regrouped (decided 2026-11-11): DMGAssist > Status & Help (Status, Missing keybinds, Help),
+  Core (Combat, Display, Sounds, Integrations, Advanced, Spells & trinkets), Game mode & grades (Game mode switch,
+  timing offset, records; Performance grade and its report). Builds fixed: kernel.org's Ubuntu mirror (apt checks
+  Ubuntu's signatures), first nightly since 1.6.0.185 = 1.6.0.194.
 - 1.6.0.191: Outlaw rtb_buffs read: Midnight's Roll the Bones is one buff rolled into 1-4 sets (One of a Kind
   1214933, Double Trouble 1214934, Triple Threat 1214935, Jackpot 1214937, sc_rogue.cpp roll_the_bones_t). Read
   when the game shows the set; else 1-4 while it's up (our cast within 30 s), 0 without it.

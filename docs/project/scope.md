@@ -63,6 +63,11 @@ on the settings page. Can be turned off.
   the every-spec check first.
 - Purely visual; nothing is pressed for the player.
 
+## Settings pages (decided 2026-11-11)
+- DMGAssist (essentials: on/off, minimap, lock, language, setup, profiles), then three groups:
+  Status & Help (Status, Missing keybinds, Help); Core (Combat, Display, Sounds, Integrations, Advanced, Spells &
+  trinkets); Game mode & grades (the Game mode switch, timing offset, records; Performance grade + Grade report).
+
 ## Integrations
 
 Supported and listed in the settings: Masque, DBM, BigWigs, LittleWigs, WeakAuras (DMGAssistAPI), Blizzard's

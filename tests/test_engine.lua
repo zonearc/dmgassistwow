@@ -3460,7 +3460,7 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   local headers = 0
   local cats = mock.settingsCategories
   local mine = {}
-  for i = #cats - 11, #cats do
+  for i = #cats - 14, #cats do
     mine[#mine + 1] = cats[i]
   end
   for _, c in ipairs(mine) do
@@ -3476,9 +3476,17 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   for i, c in ipairs(mine) do
     names[i] = c.name
   end
-  eq(table.concat(names, ","), "DMGAssist,Status,Combat,Display,Sounds,Integrations,Performance grade,Grade report,Advanced,"
-    .. "Spells & trinkets,Missing keybinds,Help")
-  eq(mine[9].parent, mine[1], "every page under DMGAssist")
+  eq(table.concat(names, ","), "DMGAssist,Status & Help,Status,Core,Combat,Display,Sounds,Integrations,Advanced,"
+    .. "Spells & trinkets,Game mode & grades,Performance grade,Grade report,Missing keybinds,Help")
+  local byName = {}
+  for _, c in ipairs(mine) do
+    byName[c.name] = c
+  end
+  eq(byName["Status & Help"].parent, mine[1], "three groups under DMGAssist")
+  eq(byName["Core"].parent, mine[1]) eq(byName["Game mode & grades"].parent, mine[1])
+  eq(byName["Combat"].parent, byName["Core"], "Combat is in Core")
+  eq(byName["Performance grade"].parent, byName["Game mode & grades"], "the grade is with Game mode")
+  eq(byName["Help"].parent, byName["Status & Help"])
   local fonts = mock.settings.DMGASSIST_FONT.options()
   eq(fonts[1].value, "default")
   mock.settings.DMGASSIST_ICONSIZE:SetValue(80)

@@ -242,13 +242,16 @@ function O.Register()
   local H = ns.Display.DEFAULTS
   local G = ns.DEFAULTS or {}
 
-  -- Pages: DMGAssist (the essentials), Status (what is working), Combat (how it thinks and what it shows),
-  -- Display (visuals only), Sounds, Integrations (what it uses from Blizzard and other addons), Advanced.
+  -- Pages (decided 2026-11-11): DMGAssist (the essentials), then three groups -
+  --   Status & Help: Status, Help, Missing keybinds;
+  --   Core: Combat, Display, Sounds, Integrations, Spells & trinkets, Advanced;
+  --   Game mode & grades: the Game mode switch and its timing, Performance grade (and its report).
 
   ---------------------------------------------------------------- main page
   local main = Category("DMGAssist")
-  Header(main, "Getting started", "Turn DMGAssist on or off, move it, and pick its language. Everything else is on "
-    .. "the pages below: Combat (what it recommends), Display (how it looks), Sounds, Integrations, Advanced.")
+  Header(main, "Getting started", "Turn DMGAssist on or off, move it, and pick its language. Everything else is in "
+    .. "three groups below: Status & Help, Core (Combat, Display, Sounds, Integrations, Advanced) and Game mode & "
+    .. "grades.")
   Check(main, DB, "enabled", "Show recommendations", true,
     "Show the spells to press. Off hides the icons completely (the key binding and /dmga on | off do the same).")
   Check(main, DB, "minimap", "Minimap button", true,
@@ -286,7 +289,7 @@ function O.Register()
   Header(main, "Setup and reset", "Answer the first-time questions again, bind keys, or start over.")
   Button(main, "Quick setup", "Run the setup again", function()
     ns.Welcome.Open()
-  end, "Three questions: where the HUD goes, how big, and when it shows.")
+  end, "Four questions: where the HUD goes, how big, when it shows, and classic or Game mode.")
   Button(main, "Key bindings", "Set key bindings", O.OpenKeybindings, KEYS_TIP)
   Button(main, "Learned timing", "Forget learned timing", function()
     SlashCmdList.DMGASSIST("relearn")
@@ -298,10 +301,24 @@ function O.Register()
     "Every setting on every DMGAssist page, in the profile in use.")
   O.RegisterProfiles(main)
 
-  O.RegisterStatus(main)
+  ---------------------------------------------------------------- Status & Help
+  local help = Category("Status & Help", main)
+  Header(help, "Status & Help", "What DMGAssist sees right now (Status), how to use it (Help), and spells it may "
+    .. "recommend that have no key yet (Missing keybinds): the pages below.")
+  Button(help, "Report", "Report an issue", function()
+    if SlashCmdList.DMGASSIST then
+      SlashCmdList.DMGASSIST("report")
+    end
+  end, "Describe what went wrong, copy the report, and open the issue page (also /dmga report).")
+  O.RegisterStatus(help)
+
+  ---------------------------------------------------------------- Core
+  local core = Category("Core", main)
+  Header(core, "Core settings", "How DMGAssist thinks and looks: Combat, Display, Sounds, Integrations, Spells & "
+    .. "trinkets and Advanced, on the pages below.")
 
   ---------------------------------------------------------------- combat: how it thinks and what it shows
-  local combat = Category("Combat", main)
+  local combat = Category("Combat", core)
   Header(combat, "What to recommend", "How many spells are shown, and which kinds of spells DMGAssist may suggest.")
   Slider(combat, DB, "queue", "Spells shown", G.queue or 3, 1, 3, 1,
     "How many icons: slot 1 is the spell to press now, slots 2 and 3 are what comes after it.")
@@ -448,7 +465,7 @@ function O.Register()
     "Hide the icons while you're in a vehicle (one with its own action bar).")
 
   ---------------------------------------------------------------- display: visuals only
-  local display = Category("Display", main)
+  local display = Category("Display", core)
   Header(display, "Size and spacing", "How big the icons are and the space between them. To move them, unlock on "
     .. "the first page and drag, or use Blizzard's Edit Mode.")
   Slider(display, HUD, "scale", "Scale", H.scale, 0.5, 2, 0.05, "The size of everything at once, icons and text.")
@@ -527,14 +544,6 @@ function O.Register()
   Choice(display, HUD, "nameColor", "Spell name color", H.nameColor, ns.Display.TEXT_COLORS,
     "The color of the spell names.")
   Check(display, HUD, "labels", "NOW / NEXT labels", H.labels, "NOW above slot 1 and NEXT above slots 2 and 3.")
-  Check(display, DB, "gameMode", "Game mode", false,
-    "Play the HUD like a rhythm game: notes slide right to left into a line on the left and reach it when the "
-      .. "spell can be pressed. Top lane: damage. Middle: defensives and heals. Bottom: trinkets and potions. "
-      .. "Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the drum button on the "
-      .. "HUD or /dmga game.")
-  Slider(display, HUD, "gameOffset", "Game timing offset", H.gameOffset or 0, -200, 300, 10,
-    "Game mode: moves the moment a note reaches the line (and flashes). If your presses feel late, raise it: the "
-      .. "note arrives that much sooner. Like a rhythm game's calibration.", " ms")
   Header(display, "Alerts and effects", "How the icons tell you when to press, and what needs your attention most.")
   Choice(display, HUD, "glow", "Main icon glow", H.glow,
     { { "none", "None" }, { "border", "Steady" }, { "pulse", "Pulse" } },
@@ -560,7 +569,7 @@ function O.Register()
   Slider(display, HUD, "calloutSize", "Callout text size", H.calloutSize, 10, 28, 1, "The size of the callout text.")
 
   ---------------------------------------------------------------- sounds
-  local sounds = Category("Sounds", main)
+  local sounds = Category("Sounds", core)
   Header(sounds, "Sounds", "A sound for each kind of alert, so you hear it even when you're not looking. Choose "
     .. "None to silence one.")
   Check(sounds, DB, "sounds", "Sound alerts", true, "All DMGAssist sounds on or off.")
@@ -573,7 +582,7 @@ function O.Register()
   end)
 
   ---------------------------------------------------------------- integrations: Blizzard and other addons
-  local integrations = Category("Integrations", main)
+  local integrations = Category("Integrations", core)
   Header(integrations, "Blizzard's Assisted Combat", "The game's own rotation helper. DMGAssist asks it about "
     .. "things the game hides from addons.")
   Check(integrations, DB, "useAssisted", "Assisted Combat", true,
@@ -633,8 +642,50 @@ function O.Register()
     ns.Integrations.PrintDetected()
   end, "Lists in chat each supported addon: in use, found, or not installed (also /dmga addons).")
 
+  ---------------------------------------------------------------- advanced
+  local advanced = Category("Advanced", core)
+  Header(advanced, "Hidden game values", "In combat the game hides some values from addons (combo points, for "
+    .. "example). How to handle them.")
+  Check(advanced, HUD, "secretBranches", "Show both options when unsure", H.secretBranches,
+    "When a hidden resource decides (e.g. 4 or 5 combo points), show both spells; the game makes the right one visible.")
+  Header(advanced, "Troubleshooting", "Tools for finding out why DMGAssist picked something, and for reporting a "
+    .. "problem.")
+  Check(advanced, HUD, "debugText", "Decision details", H.debugText,
+    "Shows where each pick came from: SimC, Assisted Combat, Blizzard rules, or a guess.")
+  Button(advanced, "Snapshot", "Save a decision snapshot", function()
+    if SlashCmdList.DMGASSIST then
+      SlashCmdList.DMGASSIST("snapshot")
+    end
+  end, "Saves every line the engine checked into the Watchdog log (same as /dmga snapshot).")
+  O.RegisterSpellChoices(core)
+
+  ---------------------------------------------------------------- Game mode & grades: everything that makes it a game
+  local game = Category("Game mode & grades", main)
+  Header(game, "Game mode", "Play the HUD like a rhythm game, or keep the classic icons. Switch any time with the "
+    .. "drum button on the HUD, /dmga game, or a key binding.")
+  Check(game, DB, "gameMode", "Game mode", false,
+    "Play the HUD like a rhythm game: notes slide right to left into a line on the left and reach it when the "
+      .. "spell can be pressed. Top lane: damage. Middle: defensives and heals. Bottom: trinkets and potions. "
+      .. "Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the drum button on the "
+      .. "HUD or /dmga game.")
+  Slider(game, HUD, "gameOffset", "Game timing offset", H.gameOffset or 0, -200, 300, 10,
+    "Game mode: moves the moment a note reaches the line (and flashes). If your presses feel late, raise it: the "
+      .. "note arrives that much sooner. Like a rhythm game's calibration.", " ms")
+  Button(game, "Records", "Forget this spec's game records", function()
+    if ns.db then
+      local key = ns.Grade.SpecKey()
+      if type(ns.db.gameBest) == "table" then
+        ns.db.gameBest[key] = nil
+      end
+      if type(ns.db.gameBestScore) == "table" then
+        ns.db.gameBestScore[key] = nil
+      end
+      U.Print(L["Game records for this spec forgotten."])
+    end
+  end, "Clears the best streak and best set score of the spec you are in. Other specs keep theirs.")
+
   ---------------------------------------------------------------- performance grade
-  local grade = Category("Performance grade", main)
+  local grade = Category("Performance grade", game)
   Header(grade, "End-of-fight grade", "After each real fight, a grade from S+ to D pops up above the icons, with "
     .. "four parts: accuracy, always casting, reaction and cooldowns.")
   Check(grade, DB, "grade", "Show the grade after fights", true,
@@ -682,25 +733,8 @@ function O.Register()
   end, "Clears the best grade and history of the spec you are in. Other specs keep theirs.")
   O.RegisterGradeReport(grade)
 
-  ---------------------------------------------------------------- advanced
-  local advanced = Category("Advanced", main)
-  Header(advanced, "Hidden game values", "In combat the game hides some values from addons (combo points, for "
-    .. "example). How to handle them.")
-  Check(advanced, HUD, "secretBranches", "Show both options when unsure", H.secretBranches,
-    "When a hidden resource decides (e.g. 4 or 5 combo points), show both spells; the game makes the right one visible.")
-  Header(advanced, "Troubleshooting", "Tools for finding out why DMGAssist picked something, and for reporting a "
-    .. "problem.")
-  Check(advanced, HUD, "debugText", "Decision details", H.debugText,
-    "Shows where each pick came from: SimC, Assisted Combat, Blizzard rules, or a guess.")
-  Button(advanced, "Snapshot", "Save a decision snapshot", function()
-    if SlashCmdList.DMGASSIST then
-      SlashCmdList.DMGASSIST("snapshot")
-    end
-  end, "Saves every line the engine checked into the Watchdog log (same as /dmga snapshot).")
-
-  O.RegisterSpellChoices(main)
-  O.RegisterBindcheck(main)
-  O.RegisterHelp(main)
+  O.RegisterBindcheck(help)
+  O.RegisterHelp(help)
 
   Settings.RegisterAddOnCategory(main)
   O.category = main

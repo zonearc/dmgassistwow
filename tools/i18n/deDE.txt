@@ -755,3 +755,18 @@
 761	Spielmodus: verschiebt den Moment, in dem eine Note die Linie erreicht (und aufblitzt). Fühlen sich deine Tastendrücke spät an, erhöhe ihn: Die Note kommt entsprechend früher an. Wie die Kalibrierung eines Rhythmusspiels.
 762	Spielpunkte %d, beste Serie %d, %d%% perfekt
 763	(neuer Höchststand)
+764	Löscht die beste Serie und die beste Satzpunktzahl der Spezialisierung, in der du bist. Andere Spezialisierungen behalten ihre.
+765	Kern
+766	Kerneinstellungen
+767	Beschreibe, was schiefging, kopiere den Bericht und öffne die Fehlerseite (auch /dmga report).
+768	Spielrekorde dieser Spezialisierung vergessen
+769	Vier Fragen: wo das HUD hinkommt, wie groß, wann es erscheint, und klassisch oder Spielmodus.
+770	Spielmodus & Bewertungen
+771	Spielrekorde dieser Spezialisierung vergessen.
+772	Wie DMGAssist denkt und aussieht: Kampf, Anzeige, Sounds, Integrationen, Zauber & Schmuckstücke und Erweitert, auf den Seiten darunter.
+773	Spiele das HUD wie ein Rhythmusspiel oder behalte die klassischen Symbole. Jederzeit umschaltbar mit der Trommel am HUD, /dmga game oder einer Tastenbelegung.
+774	Rekorde
+775	Melden
+776	Status & Hilfe
+777	Schalte DMGAssist ein oder aus, verschiebe es und wähle die Sprache. Alles andere ist in drei Gruppen darunter: Status & Hilfe, Kern (Kampf, Anzeige, Sounds, Integrationen, Erweitert) und Spielmodus & Bewertungen.
+778	Was DMGAssist gerade sieht (Status), wie man es benutzt (Hilfe) und empfohlene Zauber ohne Taste (Fehlende Tastenbelegungen): die Seiten darunter.

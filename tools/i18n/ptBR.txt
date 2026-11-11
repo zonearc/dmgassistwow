@@ -755,3 +755,18 @@
 761	Modo jogo: move o momento em que uma nota chega à linha (e pisca). Se seus toques parecem atrasados, aumente: a nota chega mais cedo. Como a calibração de um jogo de ritmo.
 762	Pontos do jogo %d, melhor sequência %d, %d%% perfeitos
 763	(novo recorde)
+764	Apaga a melhor sequência e a melhor pontuação de set da especialização atual. As outras mantêm as delas.
+765	Núcleo
+766	Configurações principais
+767	Descreva o que deu errado, copie o relatório e abra a página de problemas (também /dmga report).
+768	Esquecer os recordes de jogo desta especialização
+769	Quatro perguntas: onde fica o HUD, qual tamanho, quando aparece, e clássico ou modo jogo.
+770	Modo jogo e notas
+771	Recordes de jogo desta especialização esquecidos.
+772	Como o DMGAssist pensa e aparece: Combate, Exibição, Sons, Integrações, Feitiços e berloques e Avançado, nas páginas abaixo.
+773	Jogue o HUD como um jogo de ritmo ou mantenha os ícones clássicos. Troque quando quiser com o botão do tambor no HUD, /dmga game ou uma tecla.
+774	Recordes
+775	Relatar
+776	Status e ajuda
+777	Ligue ou desligue o DMGAssist, mova-o e escolha o idioma. Todo o resto está em três grupos abaixo: Status e ajuda, Núcleo (Combate, Exibição, Sons, Integrações, Avançado) e Modo jogo e notas.
+778	O que o DMGAssist vê agora (Status), como usá-lo (Ajuda) e feitiços recomendáveis sem tecla (Teclas faltando): as páginas abaixo.

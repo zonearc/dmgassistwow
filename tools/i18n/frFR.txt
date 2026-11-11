@@ -755,3 +755,18 @@
 761	Mode jeu : déplace le moment où une note atteint la ligne (et clignote). Si vos appuis semblent en retard, augmentez-le : la note arrive d'autant plus tôt. Comme le calibrage d'un jeu de rythme.
 762	Score du jeu %d, meilleure série %d, %d%% parfaits
 763	(nouveau record)
+764	Efface la meilleure série et le meilleur score de set de la spécialisation actuelle. Les autres gardent les leurs.
+765	Base
+766	Réglages de base
+767	Décrivez ce qui n'allait pas, copiez le rapport et ouvrez la page des problèmes (aussi /dmga report).
+768	Oublier les records de jeu de cette spécialisation
+769	Quatre questions : où va le HUD, quelle taille, quand il s'affiche, et classique ou mode jeu.
+770	Mode jeu et notes
+771	Records de jeu de cette spécialisation oubliés.
+772	Comment DMGAssist réfléchit et s'affiche : Combat, Affichage, Sons, Intégrations, Sorts et bijoux et Avancé, dans les pages ci-dessous.
+773	Jouez le HUD comme un jeu de rythme, ou gardez les icônes classiques. Changez à tout moment avec le bouton tambour du HUD, /dmga game ou un raccourci.
+774	Records
+775	Signaler
+776	État et aide
+777	Activez ou désactivez DMGAssist, déplacez-le et choisissez sa langue. Tout le reste est dans trois groupes ci-dessous : État et aide, Base (Combat, Affichage, Sons, Intégrations, Avancé) et Mode jeu et notes.
+778	Ce que DMGAssist voit maintenant (État), comment l'utiliser (Aide) et les sorts recommandables sans touche (Raccourcis manquants) : les pages ci-dessous.

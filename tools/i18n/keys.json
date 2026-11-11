@@ -762,5 +762,20 @@
 "Game timing offset",
 "Game mode: moves the moment a note reaches the line (and flashes). If your presses feel late, raise it: the note arrives that much sooner. Like a rhythm game's calibration.",
 "Game score %d, best streak %d, %d%% perfect",
-"(new high score)"
+"(new high score)",
+"Clears the best streak and best set score of the spec you are in. Other specs keep theirs.",
+"Core",
+"Core settings",
+"Describe what went wrong, copy the report, and open the issue page (also /dmga report).",
+"Forget this spec's game records",
+"Four questions: where the HUD goes, how big, when it shows, and classic or Game mode.",
+"Game mode & grades",
+"Game records for this spec forgotten.",
+"How DMGAssist thinks and looks: Combat, Display, Sounds, Integrations, Spells & trinkets and Advanced, on the pages below.",
+"Play the HUD like a rhythm game, or keep the classic icons. Switch any time with the drum button on the HUD, /dmga game, or a key binding.",
+"Records",
+"Report",
+"Status & Help",
+"Turn DMGAssist on or off, move it, and pick its language. Everything else is in three groups below: Status & Help, Core (Combat, Display, Sounds, Integrations, Advanced) and Game mode & grades.",
+"What DMGAssist sees right now (Status), how to use it (Help), and spells it may recommend that have no key yet (Missing keybinds): the pages below."
 ]
