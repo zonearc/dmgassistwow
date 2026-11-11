@@ -2977,6 +2977,36 @@ test("interrupts: smart mode in dungeons only for important casts or boss mod ca
   eq(mock.IsSecret(ns.Display.frame.kickGate.alpha.fromBoolean), true, "importance gate from a secret")
 end)
 
+test("interrupts: a boss mod interrupt timer running out counts as its call (DBM /dbm test)", function()
+  Reset()
+  KickBook()
+  local dbm = FakeBossMods()
+  local ns = Boot()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = kind end }
+  mock.instance = true
+  mock.targetCast = { notInterruptible = false, id = 9999 }
+  mock.important = {}
+  dbm.DBM_TestModStarted("DBM_TestModStarted")
+  dbm.DBM_TimerBegin("DBM_TimerBegin", "t4", "Important Interrupt", 20, "136116", "cd", nil, 4)
+  eq(ns.Update().interrupt, nil, "20 s out: not yet")
+  eq(ns.BossMods.Callout(), nil, "beyond the 10 s look-ahead: no callout yet")
+  mock.now = mock.now + 15
+  eq(ns.BossMods.Callout().label, "INTERRUPT", "countdown in the last 10 s")
+  eq(ns.BossMods.Callout().seconds ~= nil, true)
+  mock.now = mock.now + 5
+  local r = ns.Update()
+  eq(r.interrupt and r.interrupt.why, "bossmod", "timer ran out: the cast starts now")
+  mock.now = mock.now + 4
+  eq(ns.Update().interrupt, nil, "the call fades after a few seconds")
+  local seen = table.concat(logged, ",")
+  eq(seen:find("bossmod_test") ~= nil, true, "test start logged")
+  eq(seen:find("bossmod_timer") ~= nil, true, "timer logged")
+  eq(seen:find("bossmod_alert") ~= nil, true, "call logged")
+  DMGAssistWatchdog = nil
+  ns.BossMods.Reset()
+end)
+
 test("interrupts: modes off / instances / bossmods", function()
   Reset()
   KickBook()

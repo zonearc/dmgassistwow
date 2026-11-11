@@ -56,6 +56,9 @@ local function StartTimer(id, text, seconds, spellID, kind, source)
   end
   B.timers[source .. ":" .. tostring(id)] = { text = text, spellID = spellID, expires = Now() + seconds,
     kind = kind or "generic", source = source }
+  if kind and kind ~= "generic" then
+    U.Log("bossmod_timer", { kind = kind, seconds = math.floor(seconds + 0.5), spell = spellID, source = source })
+  end
 end
 
 local function StopTimer(id, source)
@@ -124,6 +127,10 @@ function B.dbm.End()
   B.engaged = false
 end
 
+function B.dbm.TestStarted()
+  U.Log("bossmod_test", { source = "DBM" })
+end
+
 local function HookDBM()
   if B.sources.DBM or type(DBM) ~= "table" or type(DBM.RegisterCallback) ~= "function" then
     return false
@@ -131,7 +138,7 @@ local function HookDBM()
   local map = {
     DBM_TimerBegin = B.dbm.TimerBegin, DBM_TimerStop = B.dbm.TimerStop, DBM_TimerUpdate = B.dbm.TimerUpdate,
     DBM_Announce = B.dbm.Announce, DBM_SetStage = B.dbm.SetStage, DBM_Pull = B.dbm.Pull, DBM_Kill = B.dbm.End,
-    DBM_Wipe = B.dbm.End,
+    DBM_Wipe = B.dbm.End, DBM_TestModStarted = B.dbm.TestStarted,
   }
   for event, fn in pairs(map) do
     pcall(DBM.RegisterCallback, DBM, event, fn)
@@ -260,10 +267,32 @@ function B.Next(kind)
   return best, bestT
 end
 
+-- An interrupt timer that has just run out means the cast is starting now: that is a boss mod's interrupt call too
+-- (some modules only time the cast and never announce it; DBM's /dbm test does exactly this, "Important Interrupt").
+local DUE_BEFORE, DUE_AFTER = 0.5, ALERT_TTL
+
+local function TimerDue(kind)
+  local now = Now()
+  for _, t in pairs(B.timers) do
+    local left = t.expires - now
+    if t.kind == kind and left <= DUE_BEFORE and left >= -DUE_AFTER then
+      if not t.due then
+        t.due = true
+        U.Log("bossmod_alert", { kind = kind, spell = t.spellID, source = t.source, from = "timer" })
+      end
+      return { text = t.text, spellID = t.spellID, untilT = t.expires + DUE_AFTER, source = t.source }
+    end
+  end
+  return nil
+end
+
 function B.Alert(kind)
   local a = B.alerts[kind]
   if a and a.untilT > Now() then
     return a
+  end
+  if kind == "interrupt" and B.Enabled() then
+    return TimerDue(kind)
   end
   return nil
 end

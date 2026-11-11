@@ -1,4 +1,4 @@
-# In-game test plan (current: 1.6.0.183)
+# In-game test plan (current: 1.6.0.184)
 
 Send `/dmgw` after each item. Note anything odd with a rough time ("at ~20 s slot 1 went blank").
 
@@ -16,7 +16,9 @@ Done and looking good: Balance, DK, Mage (all), DH (Havoc, Vengeance, Devourer),
 - `/dmga test interrupt`, then open-world caster mobs. Kick when it shows; it should vanish after.
 
 ## 3. DBM / BigWigs
-- Out of combat: `/dbm test` (or BigWigs options > Test), then `/dmgw`.
+- `/dbm test`, with a dummy targeted. Over ~60 s the text above the HUD shows ADDS, AOE, TANK HIT and an
+  INTERRUPT countdown; at 20 s the interrupt timer runs out and, if the dummy is casting, your interrupt takes
+  slot 1 for ~3 s. Then `/dmgw` (the report lists each boss-mod timer and call).
 - Real: a heroic dungeon boss with a known interrupt or add wave.
 
 ## 4. Heroic dungeon, then LFR
