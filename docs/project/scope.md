@@ -38,11 +38,12 @@ Blizzard's assistant and why (cooldowns, rotation, upkeep, utility) plus extras 
 damage claim (decided 2026-11-10). Best and last 20 fights per spec, account-wide; trend, averages and one tip
 on the settings page. Can be turned off.
 
-## Game mode (decided 2026-11-11)
-- A second display style, switched any time (the CLASSIC / GAME slider switch above the HUD and in the lanes' foot
-  row, /dmga game, keybind, minimap menu, Settings; asked as the 4th welcome question, Classic suggested). Classic
-  stays the default. (A 16 px drum icon was first; "too small, no one will see it", 2026-11-11.) The name "Game
-  mode" is a working name: a final name is the owner's call (see tasks.md).
+## Flow mode (decided 2026-11-11; first called Game mode)
+- A second display style, switched any time (the CLASSIC / FLOW slider switch above the HUD and in the lanes' foot
+  row, /dmga flow, keybind, minimap menu, Settings; asked as the 4th welcome question, Classic suggested). Classic
+  stays the default. (A 16 px drum icon was first; "too small, no one will see it", 2026-11-11.) Named "Flow
+  mode" by the owner (2026-11-11; Rhythm and Tempo were the other candidates). The code keeps its first name
+  (Game.lua, db.gameMode); /dmga game still works next to /dmga flow.
 - One lane scrolling right to left into a hit line (the rotation, slots 1-3), notes about 1.7x the classic icon,
   and a bonus row above it where interrupts ("KICK!"), defensives / heals ("DEFEND!") and trinkets / potions
   ("POWER UP!") pop in when needed; grabbing one adds to the streak and scores a bonus. (Three lanes were tried

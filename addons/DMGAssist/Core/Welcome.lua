@@ -83,12 +83,12 @@ W.QUESTIONS = {
         Hud().hideOutOfCombat = false
       end },
     } },
-  { text = "Which style? (Switch any time with the CLASSIC / GAME switch above the HUD, or /dmga game.)",
+  { text = "Which style? (Switch any time with the CLASSIC / FLOW switch above the HUD, or /dmga flow.)",
     options = {
       { "Classic: the next three spells as icons", function()
         ns.db.gameMode = false
       end },
-      { "Game mode: notes slide into a hit line, with streaks", function()
+      { "Flow mode: notes slide into a hit line, with streaks", function()
         ns.db.gameMode = true
       end },
     } },

@@ -250,7 +250,7 @@ function O.Register()
   ---------------------------------------------------------------- main page
   local main = Category("DMGAssist")
   Header(main, "Getting started", "Turn DMGAssist on or off, move it, and pick its language. Everything else is in "
-    .. "three groups below: Status & Help, Core (Combat, Display, Sounds, Integrations, Advanced) and Game mode & "
+    .. "three groups below: Status & Help, Core (Combat, Display, Sounds, Integrations, Advanced) and Flow mode & "
     .. "grades.")
   Check(main, DB, "enabled", "Show recommendations", true,
     "Show the spells to press. Off hides the icons completely (the key binding and /dmga on | off do the same).")
@@ -289,7 +289,7 @@ function O.Register()
   Header(main, "Setup and reset", "Answer the first-time questions again, bind keys, or start over.")
   Button(main, "Quick setup", "Run the setup again", function()
     ns.Welcome.Open()
-  end, "Four questions: where the HUD goes, how big, when it shows, and classic or Game mode.")
+  end, "Four questions: where the HUD goes, how big, when it shows, and classic or Flow mode.")
   Button(main, "Key bindings", "Set key bindings", O.OpenKeybindings, KEYS_TIP)
   Button(main, "Learned timing", "Forget learned timing", function()
     SlashCmdList.DMGASSIST("relearn")
@@ -660,17 +660,17 @@ function O.Register()
   O.RegisterSpellChoices(core)
 
   ---------------------------------------------------------------- Game mode & grades: everything that makes it a game
-  local game = Category("Game mode & grades", main)
-  Header(game, "Game mode", "Play the HUD like a rhythm game, or keep the classic icons. Switch any time with the "
-    .. "CLASSIC / GAME switch above the HUD, /dmga game, or a key binding.")
-  Check(game, DB, "gameMode", "Game mode", false,
+  local game = Category("Flow mode & grades", main)
+  Header(game, "Flow mode", "Play the HUD like a rhythm game, or keep the classic icons. Switch any time with the "
+    .. "CLASSIC / FLOW switch above the HUD, /dmga flow, or a key binding.")
+  Check(game, DB, "gameMode", "Flow mode", false,
     "Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be "
       .. "pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, "
-      .. "25, 50 in a row earn a star. Switch any time with the CLASSIC / GAME switch above the HUD or /dmga game.")
-  Slider(game, HUD, "gameOffset", "Game timing offset", H.gameOffset or 0, -200, 300, 10,
-    "Game mode: moves the moment a note reaches the line (and flashes). If your presses feel late, raise it: the "
+      .. "25, 50 in a row earn a star. Switch any time with the CLASSIC / FLOW switch above the HUD or /dmga flow.")
+  Slider(game, HUD, "gameOffset", "Flow timing offset", H.gameOffset or 0, -200, 300, 10,
+    "Flow mode: moves the moment a note reaches the line (and flashes). If your presses feel late, raise it: the "
       .. "note arrives that much sooner. Like a rhythm game's calibration.", " ms")
-  Button(game, "Records", "Forget this spec's game records", function()
+  Button(game, "Records", "Forget this spec's Flow records", function()
     if ns.db then
       local key = ns.Grade.SpecKey()
       if type(ns.db.gameBest) == "table" then
@@ -679,7 +679,7 @@ function O.Register()
       if type(ns.db.gameBestScore) == "table" then
         ns.db.gameBestScore[key] = nil
       end
-      U.Print(L["Game records for this spec forgotten."])
+      U.Print(L["Flow records for this spec forgotten."])
     end
   end, "Clears the best streak and best set score of the spec you are in. Other specs keep theirs.")
 

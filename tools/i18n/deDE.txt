@@ -787,3 +787,23 @@
 793	Spiele das HUD wie ein Rhythmusspiel oder behalte die klassischen Symbole. Jederzeit umschaltbar mit dem Schalter KLASSISCH / SPIEL über dem HUD, /dmga game oder einer Tastenbelegung.
 794	Spiele das HUD wie ein Rhythmusspiel: Noten gleiten von rechts nach links zu einer Linie und erreichen sie, wenn der Zauber gedrückt werden kann. Unterbrechungen, Verteidigungen und Schmuckstücke erscheinen in der Bonusreihe darüber. Treffer bauen eine Serie auf; 5, 10, 25, 50 in Folge bringen einen Stern. Jederzeit umschalten mit dem Schalter KLASSISCH / SPIEL über dem HUD oder /dmga game.
 795	Welcher Stil? (Jederzeit umschaltbar mit dem Schalter KLASSISCH / SPIEL über dem HUD oder /dmga game.)
+796	FLOW
+797	Flow-Modus
+798	Flow-Modus & Bewertungen
+799	Flow-Modus aus: Das klassische HUD ist zurück.
+800	Flow-Modus an: Triff jede Note, wenn sie die Linie erreicht. Klicke den Schalter KLASSISCH / FLOW (oder /dmga flow), um zurückzuschalten.
+801	Flow-Modus: verschiebt den Moment, in dem eine Note die Linie erreicht (und aufblitzt). Fühlen sich deine Tastendrücke spät an, erhöhe ihn: Die Note kommt entsprechend früher an. Wie die Kalibrierung eines Rhythmusspiels.
+802	Flow-Modus: Noten gleiten zu einer Trefferlinie, mit Serien
+803	Flow-Modus: aus (klicken, um das HUD wie ein Rhythmusspiel zu spielen)
+804	Flow-Modus: an (klicken für das klassische HUD)
+805	Flow-Rekorde dieser Spezialisierung vergessen.
+806	Flow-Punkte %d, beste Serie %d, %d%% perfekt
+807	Flow-Zeitversatz
+808	Flow-Rekorde dieser Spezialisierung vergessen
+809	Vier Fragen: wo das HUD hinkommt, wie groß, wann es erscheint, und klassisch oder Flow-Modus.
+810	Spiele das HUD wie ein Rhythmusspiel oder behalte die klassischen Symbole. Jederzeit umschaltbar mit dem Schalter KLASSISCH / FLOW über dem HUD, /dmga flow oder einer Tastenbelegung.
+811	Spiele das HUD wie ein Rhythmusspiel: Noten gleiten von rechts nach links zu einer Linie und erreichen sie, wenn der Zauber gedrückt werden kann. Unterbrechungen, Verteidigungen und Schmuckstücke erscheinen in der Bonusreihe darüber. Treffer bauen eine Serie auf; 5, 10, 25, 50 in Folge bringen einen Stern. Jederzeit umschalten mit dem Schalter KLASSISCH / FLOW über dem HUD oder /dmga flow.
+812	Schalte DMGAssist ein oder aus, verschiebe es und wähle die Sprache. Alles andere ist in drei Gruppen darunter: Status & Hilfe, Kern (Kampf, Anzeige, Sounds, Integrationen, Erweitert) und Flow-Modus & Bewertungen.
+813	Welcher Stil? (Jederzeit umschaltbar mit dem Schalter KLASSISCH / FLOW über dem HUD oder /dmga flow.)
+814	Flow-Modus an / aus
+815	Flow-Modus an / aus: Noten gleiten zu einer Trefferlinie, Serien und Sterne

@@ -3504,15 +3504,15 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
     names[i] = c.name
   end
   eq(table.concat(names, ","), "DMGAssist,Status & Help,Status,Core,Combat,Display,Sounds,Integrations,Advanced,"
-    .. "Spells & trinkets,Game mode & grades,Performance grade,Grade report,Missing keybinds,Help")
+    .. "Spells & trinkets,Flow mode & grades,Performance grade,Grade report,Missing keybinds,Help")
   local byName = {}
   for _, c in ipairs(mine) do
     byName[c.name] = c
   end
   eq(byName["Status & Help"].parent, mine[1], "three groups under DMGAssist")
-  eq(byName["Core"].parent, mine[1]) eq(byName["Game mode & grades"].parent, mine[1])
+  eq(byName["Core"].parent, mine[1]) eq(byName["Flow mode & grades"].parent, mine[1])
   eq(byName["Combat"].parent, byName["Core"], "Combat is in Core")
-  eq(byName["Performance grade"].parent, byName["Game mode & grades"], "the grade is with Game mode")
+  eq(byName["Performance grade"].parent, byName["Flow mode & grades"], "the grade is with Flow mode")
   eq(byName["Help"].parent, byName["Status & Help"])
   local fonts = mock.settings.DMGASSIST_FONT.options()
   eq(fonts[1].value, "default")
@@ -4356,7 +4356,7 @@ test("game mode: one lane and a bonus row, notes reach the line when ready, stre
   Gr.OnCombat(false)
   mock.Advance(Game.SET_GAP + 1)
   eq(Game.score, 0, "set over: fresh set")
-  eq(Gr.frame and Gr.frame.best:GetText():find("Game score", 1, true) ~= nil, true, "the grade shows the set")
+  eq(Gr.frame and Gr.frame.best:GetText():find("Flow score", 1, true) ~= nil, true, "the grade shows the set")
   -- timing offset: notes reach the line that much sooner
   ns.db.hud = ns.db.hud or {}
   ns.db.hud.gameOffset = 200
@@ -5845,13 +5845,14 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   eq(Game.notes["1:8921:1"] ~= nil, true, "Moonfire is back as slot 1")
   -- the switch: CLASSIC | GAME, the lit half follows the mode
   local sw = Game.frame.toggle
-  eq(sw.left:GetText(), "CLASSIC") eq(sw.right:GetText(), "GAME")
+  eq(sw.left:GetText(), "CLASSIC") eq(sw.right:GetText(), "FLOW")
   eq(sw.goal, 1, "GAME lit")
   sw:GetScript("OnClick")(sw)
   eq(Game.On(), false, "a click switches to the classic HUD")
   sw:GetScript("OnUpdate")(sw, 0.05)
   eq(sw.goal, 0, "CLASSIC lit")
-  ns.commands.game("on")
+  ns.commands.flow("on")
+  eq(Game.On(), true, "/dmga flow on (its name since 1.6.0.203; /dmga game still works)")
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

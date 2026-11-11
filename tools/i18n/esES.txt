@@ -787,3 +787,23 @@
 793	Juega con el HUD como un juego de ritmo, o mantén los iconos clásicos. Cambia cuando quieras con el interruptor CLÁSICO / JUEGO sobre el HUD, /dmga game o una tecla.
 794	Juega con el HUD como un juego de ritmo: las notas se deslizan de derecha a izquierda hasta una línea y la alcanzan cuando se puede pulsar el hechizo. Interrupciones, defensivas y abalorios aparecen en la fila de bonus encima. Los aciertos forman una racha; 5, 10, 25, 50 seguidos dan una estrella. Cambia cuando quieras con el interruptor CLÁSICO / JUEGO sobre el HUD o /dmga game.
 795	¿Qué estilo? (Cambia cuando quieras con el interruptor CLÁSICO / JUEGO sobre el HUD, o /dmga game.)
+796	FLOW
+797	Modo Flow
+798	Modo Flow y notas
+799	Modo Flow desactivado: vuelve el HUD clásico.
+800	Modo Flow activado: acierta cada nota cuando llegue a la línea. Pulsa el interruptor CLÁSICO / FLOW (o /dmga flow) para volver.
+801	Modo Flow: mueve el momento en que una nota llega a la línea (y destella). Si tus pulsaciones van tarde, súbelo: la nota llega ese tiempo antes. Como la calibración de un juego de ritmo.
+802	Modo Flow: las notas se deslizan hasta una línea, con rachas
+803	Modo Flow: desactivado (clic para jugar con el HUD como un juego de ritmo)
+804	Modo Flow: activado (clic para el HUD clásico)
+805	Récords Flow de esta especialización olvidados.
+806	Puntos Flow %d, mejor racha %d, %d%% perfectos
+807	Desfase de tiempo del modo Flow
+808	Olvidar los récords Flow de esta especialización
+809	Cuatro preguntas: dónde va el HUD, qué tamaño, cuándo se muestra, y clásico o modo Flow.
+810	Juega con el HUD como un juego de ritmo, o mantén los iconos clásicos. Cambia cuando quieras con el interruptor CLÁSICO / FLOW sobre el HUD, /dmga flow o una tecla.
+811	Juega con el HUD como un juego de ritmo: las notas se deslizan de derecha a izquierda hasta una línea y la alcanzan cuando se puede pulsar el hechizo. Interrupciones, defensivas y abalorios aparecen en la fila de bonus encima. Los aciertos forman una racha; 5, 10, 25, 50 seguidos dan una estrella. Cambia cuando quieras con el interruptor CLÁSICO / FLOW sobre el HUD o /dmga flow.
+812	Activa o desactiva DMGAssist, muévelo y elige su idioma. Todo lo demás está en tres grupos abajo: Estado y ayuda, Núcleo (Combate, Visualización, Sonidos, Integraciones, Avanzado) y Modo Flow y notas.
+813	¿Qué estilo? (Cambia cuando quieras con el interruptor CLÁSICO / FLOW sobre el HUD, o /dmga flow.)
+814	Activar / desactivar el modo Flow
+815	Modo Flow sí / no: las notas se deslizan hasta una línea, rachas y estrellas

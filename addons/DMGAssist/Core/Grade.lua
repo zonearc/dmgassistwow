@@ -1132,7 +1132,7 @@ function Gr.Render(r, sample, test)
   D.SetFont(f.best, 14)
   local best = r.newBest and L["New best!"] or ""
   if r.game then
-    best = best .. (best ~= "" and "  " or "") .. string.format(L["Game score %d, best streak %d, %d%% perfect"],
+    best = best .. (best ~= "" and "  " or "") .. string.format(L["Flow score %d, best streak %d, %d%% perfect"],
       r.game.score, r.game.bestStreak, r.game.perfect) .. (r.game.newBest and (" " .. L["(new high score)"]) or "")
   end
   f.best:SetText(best)

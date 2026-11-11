@@ -15,12 +15,12 @@
 -- A set is a run of pulls: it lasts until you've been out of combat SET_GAP seconds (chain pulls, a long boss and
 -- the trash after it are one set); then the performance grade shows with the set's score and best streak.
 -- Only a wrong spell breaks the streak: waiting (nothing to hit, moving, a mechanic) never does.
--- The note flashes the line the moment it can be pressed; "Game timing offset" (ms) moves that moment for latency
+-- The note flashes the line the moment it can be pressed; "Flow timing offset" (ms) moves that moment for latency
 -- and reaction, like a rhythm game's calibration.
 --
 -- What slot 1 says is never changed (it's the right press); slots 2-3 only swap when the new pick holds for STICK
 -- seconds, so the lane doesn't jitter when the engine's look-ahead flickers. Purely visual: nothing is pressed for
--- you. Switch with the controller button on either HUD, /dmga game, or the minimap menu.
+-- you. Switch with the controller button on either HUD, /dmga flow, or the minimap menu.
 
 local _, ns = ...
 local U, L = ns.U, ns.L
@@ -193,7 +193,7 @@ function G.ToggleButton(parent)
   b.right = b:CreateFontString(nil, "OVERLAY")
   ns.Display.SetFont(b.right, 11)
   b.right:SetPoint("CENTER", b, "RIGHT", -G.SWITCH_W / 4, 0)
-  b.right:SetText(L["GAME"])
+  b.right:SetText(L["FLOW"])
   SwitchRefresh(b, true)
   b:SetScript("OnClick", function()
     G.Toggle()
@@ -222,8 +222,8 @@ function G.ToggleButton(parent)
   b:SetScript("OnEnter", function(self)
     if GameTooltip then
       GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-      GameTooltip:AddLine(G.On() and L["Game mode: on (click for the classic HUD)"]
-        or L["Game mode: off (click to play it as a game)"], 1, 1, 1)
+      GameTooltip:AddLine(G.On() and L["Flow mode: on (click for the classic HUD)"]
+        or L["Flow mode: off (click to play the HUD like a rhythm game)"], 1, 1, 1)
       GameTooltip:Show()
     end
   end)
@@ -1274,9 +1274,9 @@ function G.Toggle(on)
     on = not G.On()
   end
   ns.db.gameMode = on and true or false
-  local msg = L["Game mode off: the classic HUD is back."]
+  local msg = L["Flow mode off: the classic HUD is back."]
   if on then
-    msg = L["Game mode on: hit each note as it reaches the line. Click the CLASSIC / GAME switch (or /dmga game) "
+    msg = L["Flow mode on: hit each note as it reaches the line. Click the CLASSIC / FLOW switch (or /dmga flow) "
       .. "to switch back."]
   end
   U.Print("%s", msg)

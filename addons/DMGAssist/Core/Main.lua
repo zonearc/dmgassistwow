@@ -706,7 +706,7 @@ function commands.off()
   U.Print(L["Recommendations off."])
 end
 
--- /dmga game [on|off]: the HUD as a rhythm game (Game.lua); without an argument, switches.
+-- /dmga flow [on|off]: the HUD as a rhythm game (Game.lua); without an argument, switches.
 function commands.game(arg)
   if arg == "on" then
     ns.Game.Toggle(true)
@@ -716,6 +716,8 @@ function commands.game(arg)
     ns.Game.Toggle()
   end
 end
+
+commands.flow = commands.game
 
 function commands.burst()
   ns.db.burst = ns.db.burst == false
@@ -1034,7 +1036,7 @@ function commands.help()
     { "/dmga", "status" },
     { "/dmga on | off", "show or hide recommendations" },
     { "/dmga burst", "toggle major cooldowns" },
-    { "/dmga game", "Game mode on / off: notes slide into a hit line, streaks and stars" },
+    { "/dmga flow", "Flow mode on / off: notes slide into a hit line, streaks and stars" },
     { "/dmga mode st | aoe", "primary target mode" },
     { "/dmga mode", "cycle Auto / Single / AoE (also a key binding)" },
     { "/dmga auto on | off", "auto-detect targets from nameplates" },
