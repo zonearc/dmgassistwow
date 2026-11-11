@@ -959,6 +959,11 @@ function D.Rebuild()
   SetFont(f.callout, cfg.calloutSize or 14)
   SetFont(f.debug, 9)
   Layout(f, cfg)
+  -- Masque draws its skin at the size the icons had when skinned: re-skin so a new size shows (the preview's icons
+  -- stayed small while only the box around them grew, 2026-11-11)
+  if ns.Integrations and ns.Integrations.ReSkin then
+    ns.Integrations.ReSkin()
+  end
   D.SetLocked(ns.db and ns.db.locked)
   D.FitPreview() -- the settings preview's panel follows the new sizes
 end
@@ -1001,7 +1006,11 @@ local function SetIcon(icon, pick, cfg, isMain, labelText)
   local tex = pick.texture or U.Get(C_Spell and C_Spell.GetSpellTexture, pick.id)
   icon.tex:SetTexture(tex or 134400) -- 134400: question mark icon
   icon.source:SetText(SOURCE_TEXT[pick.source] or "")
-  icon.key:SetText(cfg.keybind and D.PickKeybind(pick) or "")
+  local key = cfg.keybind and D.PickKeybind(pick) or nil
+  if cfg.keybind and not key and D.InPreview() then
+    key = "5" -- a sample, so the keybind's size, colour and place can be set
+  end
+  icon.key:SetText(key or "")
   local name = cfg.spellNames and U.Get(C_Spell and C_Spell.GetSpellName, pick.id) or ""
   icon.name:SetText(name or "")
   icon.label:SetText(cfg.labels and labelText or "")
@@ -1034,9 +1043,19 @@ D.NewIcon, D.SetIcon = Icon, SetIcon
 -- AOE once the count reaches the spec's switch point (State.AoeTargets).
 local MODE_COLOR = { ST = "|cff66ccff", AOE = "|cffff9933" }
 
+-- The settings preview: the HUD docked beside the settings panel. Everything a Display control changes shows there,
+-- with sample text where the real HUD only has text in a fight (asked 2026-11-11: "when you check and uncheck them,
+-- the user has no idea what is happening").
+function D.InPreview()
+  return D.frame ~= nil and D.frame.docked == true
+end
+
 function D.ModeText()
   local S = ns.State
   if not S.combatStart then
+    if D.InPreview() then
+      return string.format("|cff999999%s ·|r %s%s %d %s|r", L["AUTO"], MODE_COLOR.AOE, L["AOE"], 3, L["targets"])
+    end
     return "" -- the mode only matters in a fight: nothing until combat starts
   end
   local n, label = S.Targets()
@@ -1570,6 +1589,9 @@ function D.Update(result, visible)
     f.modeText:SetText(mode)
   end
   local c = result.callout
+  if cfg.callout and not c and f.docked then
+    c = { label = "AOE", kind = "aoe", seconds = 5 } -- the preview: a sample boss call-out
+  end
   if cfg.callout and c then
     local icon = c.spellID and U.Get(C_Spell and C_Spell.GetSpellTexture, c.spellID)
     local text = L[c.label]

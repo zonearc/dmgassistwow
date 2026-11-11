@@ -28,6 +28,11 @@ Done and looking good: Balance, DK, Mage (all), DH (Havoc, Vengeance, Devourer),
   mid-pull never breaks the streak; only a wrong spell does.
 - Tell me: too fast / slow, icons too small / big, does anything jump around, is the line easy to see.
 
+## 2d. Settings preview (1.6.0.196)
+- Open Settings > DMGAssist > Core > Display: change icon sizes (the icons themselves resize, with Masque too),
+  toggle the target mode title, keybinds, boss call-outs: each shows in the preview. With Game mode on, the lanes
+  show in the preview.
+
 ## 3. DBM / BigWigs
 - `/dbm test`, with a dummy targeted. Over ~60 s the text above the HUD shows ADDS, AOE, TANK HIT and an
   INTERRUPT countdown; at 20 s the interrupt timer runs out and, if the dummy is casting, your interrupt takes

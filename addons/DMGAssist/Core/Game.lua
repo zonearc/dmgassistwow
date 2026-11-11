@@ -476,6 +476,18 @@ function G.Update(result, visible)
   G.result = result
   G.queue = G.Steady(result.queue or { result.main }, GetTime())
   f:SetScale(ns.Display.Settings().scale or 1)
+  -- The settings preview: the lanes take the docked HUD's place, so what you set is what you see.
+  local preview = ns.Display.InPreview and ns.Display.InPreview()
+  if preview and not G.docked then
+    G.docked = true
+    f:SetFrameStrata("FULLSCREEN_DIALOG")
+    f:ClearAllPoints()
+    f:SetPoint("TOPLEFT", ns.Display.frame, "TOPLEFT", 0, 0)
+  elseif not preview and G.docked then
+    G.docked = false
+    f:SetFrameStrata("MEDIUM")
+    Place(f)
+  end
   f:Show()
 end
 

@@ -23,6 +23,13 @@ local function Masque()
   return ok and lib or nil
 end
 
+-- After the HUD's sizes change: Masque lays its skin out again at the new size.
+function I.ReSkin()
+  if I.group and I.group.ReSkin then
+    pcall(I.group.ReSkin, I.group)
+  end
+end
+
 function I.MasqueActive()
   return I.group ~= nil
 end

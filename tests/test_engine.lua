@@ -3454,6 +3454,33 @@ test("settings: every option has a tooltip, every section an explanation line", 
   eq(#(ns.Options.subtitles or {}) >= 20, true, "sections registered")
 end)
 
+test("settings preview: every Display control shows - sample mode title, call-out and keybinds; icons re-skin", function()
+  Reset()
+  local ns = Boot()
+  local D = ns.Display
+  local f = D.Create()
+  _G.SettingsPanel = setmetatable({ events = {}, scripts = {} }, getmetatable(UIParent))
+  eq(D.ModeText(), "", "out of combat, not previewing: no mode")
+  D.SetPreviewDock(true)
+  eq(D.InPreview(), true)
+  eq(D.ModeText():find(ns.L["AOE"], 1, true) ~= nil, true, "a sample mode title in the preview")
+  local A = { id = 101, token = "a" }
+  D.Update({ main = A, queue = { A } }, true)
+  eq(f.callout:IsShown(), true, "a sample call-out")
+  eq(f.slots[1].key:GetText(), "5", "a sample keybind where none is bound")
+  local reskins = 0
+  ns.Integrations.group = { ReSkin = function() reskins = reskins + 1 end }
+  ns.db.hud = ns.db.hud or {}
+  ns.db.hud.iconSize = 80
+  D.Rebuild()
+  eq(reskins, 1, "Masque lays its skin out at the new size")
+  eq(f.slots[1].width, 80)
+  ns.Integrations.group = nil
+  D.SetPreviewDock(false)
+  eq(D.InPreview(), false)
+  _G.SettingsPanel = nil
+end)
+
 test("settings: sections on every page, fonts listed, reset restores defaults", function()
   Reset()
   local ns = Boot()
