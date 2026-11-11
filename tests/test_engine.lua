@@ -4256,7 +4256,7 @@ test("wrong-key hint: the key next to slot 1's ('5' for '6') shows for a moment 
   Gr.Reset(spec)
 end)
 
-test("game mode: three lanes, notes reach the line when ready, hits build a streak with stars, misses break it", function()
+test("game mode: one lane and a bonus row, notes reach the line when ready, streaks, stars, misses break it", function()
   Reset()
   local ns = Boot()
   local Gr, Game, D = ns.Grade, ns.Game, ns.Display
@@ -4278,7 +4278,7 @@ test("game mode: three lanes, notes reach the line when ready, hits build a stre
   for _, n in pairs(Game.notes) do
     lanes[n.lane] = (lanes[n.lane] or 0) + 1
   end
-  eq(lanes[1], 3, "top lane: the rotation") eq(lanes[2], 1, "middle: the defensive") eq(lanes[3], 1, "bottom: the item")
+  eq(lanes[1], 3, "the lane: the rotation") eq(lanes[2], 2, "the bonus row: the defensive and the item")
   -- the slot 1 note heads to where it reaches the line in 1 s; at 0 s it sits on the line
   for _ = 1, 40 do
     mock.now = mock.now + 0.05
@@ -4294,6 +4294,14 @@ test("game mode: three lanes, notes reach the line when ready, hits build a stre
   end
   eq(math.floor(main.x + 0.5), Game.HIT_X, "on the line when ready")
   eq(x1 > main.x, true, "it slid right to left")
+  -- a new global cooldown (a press elsewhere): the note pauses, it never slides back to the right
+  D.frame.lastWait = 1.5
+  for _ = 1, 20 do
+    mock.now = mock.now + 0.05
+    Game.Render()
+  end
+  eq(math.floor(main.x + 0.5), Game.HIT_X, "paused at the line, no bounce")
+  D.frame.lastWait = 0
   -- presses: 10 right ones -> streak 10, two stars, "Great!" popped
   local isRot = ns.Engine.IsRotationSpell
   ns.Engine.IsRotationSpell = function() return true end
@@ -4311,7 +4319,7 @@ test("game mode: three lanes, notes reach the line when ready, hits build a stre
   eq(Game.lastJudge, "perfect", "pressed as the note sat on the line")
   eq(Game.Mult(), 2, "x2 from 10 in a row")
   eq(Game.Rank()[2], "Bronze")
-  eq(Game.score, 50 + 8 * 100 + 100 * 2, "Perfect = 100 x multiplier (the first note waited 2 s: a Good)")
+  eq(Game.score, 9 * 100 + 100 * 2, "Perfect = 100 x multiplier")
   -- waiting with nothing to hit never breaks the streak
   D.frame.lastWait = 0
   for _ = 1, 30 do
@@ -4323,8 +4331,19 @@ test("game mode: three lanes, notes reach the line when ready, hits build a stre
   Gr.OnPress(102, r, true)
   eq(Game.streak, 11, "slot 2 keeps the streak (a Good)")
   eq(Game.lastJudge, "good")
+  D.frame.lastWait = 0
+  Game.Render()
+  local mainNote = Game.mainNote
   Gr.OnPress(999, r, true)
   eq(Game.streak, 0, "a miss breaks it") eq(Game.lastJudge, "miss")
+  eq(mainNote and mainNote.missAt ~= nil, true, "the note gets a red X and stays")
+  Game.Render()
+  eq(mainNote.xmark:IsShown(), true)
+  -- a bonus grabbed (the defensive in the bonus row) adds to the streak
+  local rb = { main = A, queue = { A, B, C }, weave = { id = 22812, source = "defensive", urgent = true } }
+  Gr.OnPress(22812, rb, true)
+  eq(Game.streak, 1, "bonus: +1") eq(Game.lastJudge, "bonus")
+  Game.streak = 0
   eq(Game.Best(), 11, "best streak kept")
   -- the set runs across pulls: 10 s out of combat and a new pull carry on; 20 s ends it with the grade
   local score = Game.score

@@ -41,8 +41,12 @@ on the settings page. Can be turned off.
 ## Game mode (decided 2026-11-11)
 - A second display style, switched any time (drum button on the HUD, /dmga game, keybind, minimap menu, Settings >
   Display; asked as the 4th welcome question, Classic suggested). Classic stays the default.
-- Three lanes scrolling right to left into a hit line on the left: top = damage rotation (an interrupt drops in
-  gold-edged), middle = defensives / heals / tank mitigation, bottom = trinkets, potions, items.
+- One lane scrolling right to left into a hit line (the rotation, slots 1-3), notes about 1.7x the classic icon,
+  and a bonus row above it where interrupts ("KICK!"), defensives / heals ("DEFEND!") and trinkets / potions
+  ("POWER UP!") pop in when needed; grabbing one adds to the streak and scores a bonus. (Three lanes were tried
+  first, 1.6.0.189-196: two of them sat empty most of the time.)
+- Notes only move left: a later target (a new global cooldown, a wrong press) pauses a note where it is. A wrong
+  press shakes the note with a red X and it stays: press it now. A hit bursts the note at the line.
 - A note reaches the line exactly when the spell can be pressed (the classic press-now clock); slots 2-3 follow,
   spaced by GCD / cast time. The classic HUD keeps running unseen (its clock, the grade's ready moments, the action
   bar highlight).

@@ -1,0 +1,71 @@
+diff --git a/tests/test_scenarios.lua b/tests/test_scenarios.lua
+index 8f77e18..9994c0c 100644
+--- a/tests/test_scenarios.lua
++++ b/tests/test_scenarios.lua
+@@ -110,6 +110,28 @@ local function KeepUpBook(ns, key, book)
+   return out, extra
+ end
+ 
++-- Resources move: a press pays its cost and grants its gain (spell data), Energy / Focus / Mana come back over
++-- time, and a spell you can't afford reads "not enough" (IsSpellUsable's noPower), like in the game. Before this,
++-- resources stayed at 60% all fight and the check couldn't play Devourer (Void Ray forever, 2026-11-11).
++local REGEN = { [0] = 2, [2] = 5, [3] = 10 } -- per second, as % of the maximum
++local function Afford(info)
++  for pt, amount in pairs(info and info.cost or {}) do
++    if (mock.power[pt] or 0) < amount then
++      return false
++    end
++  end
++  return true
++end
++
++local function Pay(info)
++  for pt, amount in pairs(info and info.cost or {}) do
++    mock.power[pt] = math.max(0, (mock.power[pt] or 0) - amount)
++  end
++  for pt, amount in pairs(info and info.gain or {}) do
++    mock.power[pt] = math.min(mock.powerMax[pt] or 100, (mock.power[pt] or 0) + amount)
++  end
++end
++
+ local function Fight(ns, key, record, book, scenario)
+   local M, G = ns.SpellMap, ns.Engine
+   local majors = Majors(record)
+@@ -149,6 +171,9 @@ local function Fight(ns, key, record, book, scenario)
+   while mock.now - start < FIGHT do
+     mock.Advance(TICK)
+     local now = mock.now
++    for pt, pct in pairs(REGEN) do
++      mock.power[pt] = math.min(mock.powerMax[pt], mock.power[pt] + mock.powerMax[pt] * pct / 100 * TICK)
++    end
+     for id, c in pairs(charges) do
+       while c.next and now >= c.next do
+         c.n = c.n + 1
+@@ -176,9 +201,13 @@ local function Fight(ns, key, record, book, scenario)
+         break
+       end
+     end
+-    if scenario.unusable then
+-      for _, b in ipairs(book) do
++    for _, b in ipairs(book) do
++      if scenario.unusable then
+         mock.usable[b.spellID] = { false, false } -- no weapon: nothing can be cast
++      elseif not Afford(M.Info(b.spellID)) then
++        mock.usable[b.spellID] = { false, true } -- not enough resource
++      else
++        mock.usable[b.spellID] = nil
+       end
+     end
+     local c0 = os.clock()
+@@ -248,9 +277,10 @@ local function Fight(ns, key, record, book, scenario)
+     end
+     -- the player: presses slot 1 when the GCD allows and it isn't shown as "not yet"
+     if r and main and main.id and now >= gcdEnd and not (main.readyAt and main.readyAt > now)
+-      and not mock.cooldowns[main.id] then
++      and not mock.cooldowns[main.id] and Afford(M.Info(main.id)) then
+       local id = main.id
+       local info = M.Info(id) or {}
++      Pay(info)
+       local gcd = tonumber(info.gcd) or 1.5
+       local ct = tonumber(info.ct) or 0
+       gcdEnd = now + math.max(gcd, ct, 0.5)

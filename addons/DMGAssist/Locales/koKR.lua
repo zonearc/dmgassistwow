@@ -774,4 +774,12 @@ ns.LOCALE_DATA.koKR = {
   ["Status & Help"] = "상태와 도움말",
   ["Turn DMGAssist on or off, move it, and pick its language. Everything else is in three groups below: Status & Help, Core (Combat, Display, Sounds, Integrations, Advanced) and Game mode & grades."] = "DMGAssist를 켜고 끄고, 옮기고, 언어를 고르세요. 나머지는 아래 세 그룹에 있습니다: 상태와 도움말, 핵심(전투, 표시, 소리, 연동, 고급), 게임 모드와 평가.",
   ["What DMGAssist sees right now (Status), how to use it (Help), and spells it may recommend that have no key yet (Missing keybinds): the pages below."] = "DMGAssist가 지금 보는 것(상태), 사용법(도움말), 키가 없는 추천 주문(빠진 단축키): 아래 페이지들입니다.",
+  ["KICK!"] = "차단!",
+  ["DEFEND!"] = "방어!",
+  ["POWER UP!"] = "강화!",
+  ["Interrupted!"] = "차단 성공!",
+  ["Safe!"] = "안전!",
+  ["Powered up!"] = "강화 완료!",
+  ["Bonus +%d"] = "보너스 +%d",
+  ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the drum button on the HUD or /dmga game."] = "HUD를 리듬 게임처럼 플레이합니다: 노트가 오른쪽에서 왼쪽으로 미끄러져 선에 닿을 때 주문을 누를 수 있습니다. 차단, 생존기, 장신구는 그 위 보너스 줄에 나타납니다. 맞히면 연속 기록이 쌓이고, 5, 10, 25, 50연속마다 별을 얻습니다. HUD의 북 버튼이나 /dmga game으로 언제든 전환하세요.",
 }

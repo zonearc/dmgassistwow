@@ -16,6 +16,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- Every-spec check with moving resources (docs/project/patches/sim-resources.patch): presses pay costs and grant
+  gains, Energy / Focus / Mana regenerate. Applied, 27 results changed in 8 specs (Retribution shown ready on
+  cooldown 71%, Fury flips 9/min, Mistweaver slot 3 empty, Havoc / Subtlety / Assassination / Windwalker flips,
+  Vengeance no majors, Devourer on-cooldown 6%). Sort which are real engine issues and which are the model (Holy
+  Power 3-cost vs 5 max, no Rage from auto attacks, Chi), then adopt.
 - Game mode, after first in-game feedback: tune LOOK (4 s of lane), sizes, judgement windows (Perfect 0.25 s,
   Great 0.6 s); optional sounds (hit tick, streak chime, default off); an engine "commit" option measured in the
   every-spec check (fewer swaps vs. exactness).
@@ -60,6 +65,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.198: Game mode, round 3 (tested 2026-11-11: "the bounce is super annoying", two empty lanes, too small):
+  one lane plus a bonus row (KICK! / DEFEND! / POWER UP!, grabbing one is a bonus), about 1.7x bigger, notes only
+  move left (pause, never bounce), a wrong press shakes the note with a red X and it stays, a hit bursts the note and
+  the next one keeps sliding.
 - 1.6.0.197: SimC terms read (from sc_mage / sc_druid / sc_demon_hunter / player.cpp): scorch_execute.active
   (Scorch talent + Heat Shimmer or target <= 30%), energize_amount (the line's spell's gain), apex.N (the spec's
   tiered apex talent, from the trait tree), movement.distance (= target distance), soul_fragments[.total/.inactive]

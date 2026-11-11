@@ -774,4 +774,12 @@ ns.LOCALE_DATA.ruRU = {
   ["Status & Help"] = "Статус и помощь",
   ["Turn DMGAssist on or off, move it, and pick its language. Everything else is in three groups below: Status & Help, Core (Combat, Display, Sounds, Integrations, Advanced) and Game mode & grades."] = "Включайте и выключайте DMGAssist, перемещайте его и выбирайте язык. Всё остальное — в трёх группах ниже: Статус и помощь, Основное (Бой, Отображение, Звуки, Интеграции, Дополнительно) и Игровой режим и оценки.",
   ["What DMGAssist sees right now (Status), how to use it (Help), and spells it may recommend that have no key yet (Missing keybinds): the pages below."] = "Что DMGAssist видит сейчас (Статус), как им пользоваться (Помощь) и рекомендуемые заклинания без клавиши (Нет клавиш): страницы ниже.",
+  ["KICK!"] = "ПРЕРВИ!",
+  ["DEFEND!"] = "ЗАЩИТИСЬ!",
+  ["POWER UP!"] = "УСИЛЕНИЕ!",
+  ["Interrupted!"] = "Прервано!",
+  ["Safe!"] = "В безопасности!",
+  ["Powered up!"] = "Усилено!",
+  ["Bonus +%d"] = "Бонус +%d",
+  ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the drum button on the HUD or /dmga game."] = "Играйте с HUD как в ритм-игру: ноты скользят справа налево к линии и достигают её, когда заклинание можно нажать. Прерывания, защита и аксессуары появляются в бонусном ряду над ней. Попадания складываются в серию; за 5, 10, 25, 50 подряд даётся звезда. Переключайте в любой момент кнопкой-барабаном на HUD или /dmga game.",
 }

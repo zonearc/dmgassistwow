@@ -774,4 +774,12 @@ ns.LOCALE_DATA.itIT = {
   ["Status & Help"] = "Stato e aiuto",
   ["Turn DMGAssist on or off, move it, and pick its language. Everything else is in three groups below: Status & Help, Core (Combat, Display, Sounds, Integrations, Advanced) and Game mode & grades."] = "Attiva o disattiva DMGAssist, spostalo e scegli la lingua. Tutto il resto è in tre gruppi sotto: Stato e aiuto, Base (Combattimento, Visualizzazione, Suoni, Integrazioni, Avanzate) e Modalità gioco e voti.",
   ["What DMGAssist sees right now (Status), how to use it (Help), and spells it may recommend that have no key yet (Missing keybinds): the pages below."] = "Cosa vede DMGAssist ora (Stato), come usarlo (Aiuto) e incantesimi consigliabili senza tasto (Tasti mancanti): le pagine sotto.",
+  ["KICK!"] = "INTERROMPI!",
+  ["DEFEND!"] = "DIFENDITI!",
+  ["POWER UP!"] = "POTENZIAMENTO!",
+  ["Interrupted!"] = "Interrotto!",
+  ["Safe!"] = "Al sicuro!",
+  ["Powered up!"] = "Potenziato!",
+  ["Bonus +%d"] = "Bonus +%d",
+  ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the drum button on the HUD or /dmga game."] = "Gioca l'HUD come un gioco ritmico: le note scorrono da destra a sinistra fino a una linea e la raggiungono quando l'incantesimo si può premere. Interruzioni, difese e monili compaiono nella fila bonus sopra. I colpi creano una serie; 5, 10, 25, 50 di fila valgono una stella. Cambia quando vuoi con il tamburo sull'HUD o /dmga game.",
 }

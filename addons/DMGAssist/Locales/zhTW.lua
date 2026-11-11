@@ -774,4 +774,12 @@ ns.LOCALE_DATA.zhTW = {
   ["Status & Help"] = "狀態與說明",
   ["Turn DMGAssist on or off, move it, and pick its language. Everything else is in three groups below: Status & Help, Core (Combat, Display, Sounds, Integrations, Advanced) and Game mode & grades."] = "開啟或關閉DMGAssist、移動它並選擇語言。其餘內容分為下方三組：狀態與說明、核心（戰鬥、顯示、聲音、整合、進階）以及遊戲模式與評分。",
   ["What DMGAssist sees right now (Status), how to use it (Help), and spells it may recommend that have no key yet (Missing keybinds): the pages below."] = "DMGAssist目前看到的內容（狀態）、使用方法（說明），以及可能推薦但沒有按鍵的技能（缺少按鍵綁定）：見下方頁面。",
+  ["KICK!"] = "打斷！",
+  ["DEFEND!"] = "防禦！",
+  ["POWER UP!"] = "強化！",
+  ["Interrupted!"] = "打斷成功！",
+  ["Safe!"] = "安全！",
+  ["Powered up!"] = "已強化！",
+  ["Bonus +%d"] = "獎勵 +%d",
+  ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the drum button on the HUD or /dmga game."] = "把HUD當作節奏遊戲來玩：音符從右向左滑向判定線，到達時正好可以按下該技能。打斷、減傷和飾品會出現在上方的獎勵行。命中會累積連擊；連續5、10、25、50次各得一顆星。隨時可用HUD上的鼓按鈕或 /dmga game 切換。",
 }

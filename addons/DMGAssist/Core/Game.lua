@@ -1,9 +1,11 @@
 -- Game.lua: Game mode, the HUD as a rhythm game (asked for 2026-11-11: "like Guitar Hero... a mini game").
 --
--- Three lanes scroll right to left into a hit line on the left:
---   top    - the damage rotation (slots 1-3; an interrupt drops in here too, gold-edged),
---   middle - defensives, heals and tank mitigation (the red icon of the classic HUD),
---   bottom - trinkets, potions and other items (the gold icon).
+-- One lane scrolls right to left into a hit line on the left: the damage rotation (slots 1-3). Notes only ever
+-- move left: after a press (a new global cooldown) or a wrong press they pause where they are and flow on when
+-- their time catches up, never bounce back (2026-11-11: "the bounce is super annoying").
+-- Everything else pops into the bonus row above the line when it's needed, as a bonus to grab: an interrupt
+-- ("KICK!"), a defensive or heal ("DEFEND!"), a trinket or potion ("POWER UP!"). Grabbing one adds to the streak and
+-- scores a bonus. (Three lanes were tried first: two of them sat empty most of the time.)
 -- A spell's note reaches the line exactly when it can be pressed: the same clock as the classic HUD's press-now
 -- flash (Display.RenderTiming), so a 1.5 s global cooldown is a 1.5 s slide. Slots 2-3 follow behind it.
 -- Presses are judged by the performance grade (Grade.OnPress): the right spell is a hit (Perfect / Great / Good by
@@ -27,11 +29,17 @@ local G = {}
 ns.Game = G
 
 G.LOOK = 4          -- seconds of lane shown ahead of the hit line
-G.WIDTH = 330
-G.LANE = 40
-G.ICON = 32
-G.HIT_X = 28        -- the hit line, from the left edge
-G.HEAD = 20         -- streak row above the lanes
+G.WIDTH = 560
+G.LANE = 76
+G.ICON = 56
+G.HIT_X = 50        -- the hit line, from the left edge
+G.HEAD = 28         -- streak row
+G.BONUS_H = 62      -- the bonus row, between the streak row and the lane
+G.BONUS_ICON = 40
+G.BONUS_POINTS = 150
+G.BONUS_TAG = { kick = "KICK!", defend = "DEFEND!", item = "POWER UP!" }
+G.BONUS_DONE = { kick = "Interrupted!", defend = "Safe!", item = "Powered up!" }
+G.MISS_SHOW = 0.7   -- the red X on a note after a wrong press
 G.STICK = 0.35      -- seconds a new slot 2-3 pick must hold before its note swaps
 G.GLIDE = 14        -- how fast a note glides to a new place (per second, exponential)
 G.PERFECT, G.GREAT = 0.25, 0.6 -- seconds from the line
@@ -152,6 +160,14 @@ local function Place(f)
   end
 end
 
+function G.LaneY()
+  return -(G.HEAD + G.BONUS_H + G.LANE / 2)
+end
+
+function G.BonusY()
+  return -(G.HEAD + G.BONUS_H / 2 + 6)
+end
+
 function G.Create()
   if G.frame then
     return G.frame
@@ -159,7 +175,7 @@ function G.Create()
   local D = ns.Display
   local f = CreateFrame("Frame", "DMGAssistGame", UIParent)
   G.frame = f
-  f:SetSize(G.WIDTH, G.HEAD + 3 * G.LANE)
+  f:SetSize(G.WIDTH, G.HEAD + G.BONUS_H + G.LANE)
   f:SetFrameStrata("MEDIUM")
   f:SetClampedToScreen(true)
   f:SetMovable(true)
@@ -172,49 +188,42 @@ function G.Create()
   end)
   f:EnableMouse(false)
   f.bg = f:CreateTexture(nil, "BACKGROUND")
-  f.bg:SetPoint("TOPLEFT", f, "TOPLEFT", 0, -G.HEAD)
+  f.bg:SetPoint("TOPLEFT", f, "TOPLEFT", 0, -(G.HEAD + G.BONUS_H))
   f.bg:SetPoint("BOTTOMRIGHT", f, "BOTTOMRIGHT", 0, 0)
   f.bg:SetColorTexture(0.04, 0.04, 0.07, 0.55)
-  f.lanes = {}
-  for i = 1, 3 do
-    local t = f:CreateTexture(nil, "BORDER")
-    local c = G.LANE_COLOR[i]
-    t:SetColorTexture(c[1], c[2], c[3], 0.08)
-    t:SetPoint("TOPLEFT", f, "TOPLEFT", 0, -(G.HEAD + (i - 1) * G.LANE) - 2)
-    t:SetSize(G.WIDTH, G.LANE - 4)
-    f.lanes[i] = t
-  end
-  -- the hit line, and a box per lane where the notes land
+  f.lane = f:CreateTexture(nil, "BORDER")
+  f.lane:SetColorTexture(1, 0.8, 0.3, 0.08)
+  f.lane:SetPoint("TOPLEFT", f, "TOPLEFT", 0, -(G.HEAD + G.BONUS_H) - 2)
+  f.lane:SetSize(G.WIDTH, G.LANE - 4)
+  -- the hit line, and the box where the notes land
   f.line = f:CreateTexture(nil, "ARTWORK")
   f.line:SetColorTexture(1, 0.82, 0.25, 0.9)
-  f.line:SetPoint("TOPLEFT", f, "TOPLEFT", G.HIT_X - 1, -G.HEAD)
-  f.line:SetSize(2, 3 * G.LANE)
+  f.line:SetPoint("TOPLEFT", f, "TOPLEFT", G.HIT_X - 1, -(G.HEAD + G.BONUS_H))
+  f.line:SetSize(3, G.LANE)
   f.boxes = {}
-  for i = 1, 3 do
-    local b = f:CreateTexture(nil, "ARTWORK")
-    b:SetColorTexture(1, 1, 1, 0.1)
-    b:SetSize(G.ICON + 6, G.ICON + 6)
-    b:SetPoint("CENTER", f, "TOPLEFT", G.HIT_X, -(G.HEAD + (i - 0.5) * G.LANE))
-    f.boxes[i] = b
-  end
+  local b = f:CreateTexture(nil, "ARTWORK")
+  b:SetColorTexture(1, 1, 1, 0.1)
+  b:SetSize(G.ICON + 8, G.ICON + 8)
+  b:SetPoint("CENTER", f, "TOPLEFT", G.HIT_X, G.LaneY())
+  f.boxes[1] = b
   f.streak = f:CreateFontString(nil, "OVERLAY")
-  D.SetFont(f.streak, 13)
-  f.streak:SetPoint("TOPLEFT", f, "TOPLEFT", 22, -3)
+  D.SetFont(f.streak, 16)
+  f.streak:SetPoint("TOPLEFT", f, "TOPLEFT", 24, -5)
   f.stars = {}
   f.toggle = G.ToggleButton(f)
   f.toggle:SetPoint("TOPLEFT", f, "TOPLEFT", 2, -2)
   -- the judgement ("Perfect!") over the line, and the streak word ("On fire!") in the middle of the lanes
   f.judge = f:CreateFontString(nil, "OVERLAY")
-  D.SetFont(f.judge, 14)
-  f.judge:SetPoint("BOTTOMLEFT", f, "TOPLEFT", G.HIT_X - 10, -G.HEAD + 2)
+  D.SetFont(f.judge, 20)
+  f.judge:SetPoint("BOTTOMLEFT", f, "TOPLEFT", G.HIT_X - 12, -(G.HEAD + G.BONUS_H) + 4)
   f.judge:Hide()
   f.pop = f:CreateFontString(nil, "OVERLAY")
-  D.SetFont(f.pop, 24)
-  f.pop:SetPoint("CENTER", f, "CENTER", 30, -G.HEAD / 2)
+  D.SetFont(f.pop, 34)
+  f.pop:SetPoint("CENTER", f, "TOPLEFT", G.WIDTH / 2 + 40, G.LaneY())
   f.pop:SetTextColor(1, 0.85, 0.2)
   f.pop:Hide()
   f.slip = f:CreateFontString(nil, "OVERLAY")
-  D.SetFont(f.slip, 12)
+  D.SetFont(f.slip, 16)
   f.slip:SetPoint("TOP", f, "BOTTOMLEFT", G.HIT_X, -2)
   f.slip:SetTextColor(1, 0.55, 0.2)
   f.slip:Hide()
@@ -231,8 +240,8 @@ local function Star(f, i)
   if not s then
     s = f:CreateTexture(nil, "OVERLAY")
     s:SetTexture("Interface\\COMMON\\FavoritesIcon")
-    s:SetSize(14, 14)
-    s:SetPoint("TOPRIGHT", f, "TOPRIGHT", -(4 + (i - 1) * 15), -3)
+    s:SetSize(18, 18)
+    s:SetPoint("TOPRIGHT", f, "TOPRIGHT", -(4 + (i - 1) * 19), -4)
     f.stars[i] = s
   end
   return s
@@ -269,6 +278,16 @@ local function NewNote(f)
   n.edge:SetPoint("TOPLEFT", n, "TOPLEFT", -2, 2)
   n.edge:SetPoint("BOTTOMRIGHT", n, "BOTTOMRIGHT", 2, -2)
   n.edge:SetColorTexture(1, 1, 1, 0.5)
+  -- a wrong press: a red X over the note (it stays: press it now)
+  n.xmark = n:CreateTexture(nil, "OVERLAY")
+  n.xmark:SetTexture("Interface\\Buttons\\UI-GroupLoot-Pass-Up")
+  n.xmark:SetPoint("CENTER", n, "CENTER", 0, 0)
+  n.xmark:SetSize(G.ICON * 0.8, G.ICON * 0.8)
+  n.xmark:Hide()
+  -- the bonus row's call: KICK! / DEFEND! / POWER UP!
+  n.tag = n:CreateFontString(nil, "OVERLAY")
+  ns.Display.SetFont(n.tag, 13)
+  n.tag:SetPoint("BOTTOM", n, "TOP", 0, 2)
   return n
 end
 
@@ -297,22 +316,29 @@ local function Wanted(r, wait)
       t = t + math.max(gcd, (cast or 0) / 1000)
     end
   end
+  -- the bonus row (lane 2): what isn't the rotation, when it's needed
+  local bonus = 0
+  local function Bonus(entry)
+    bonus = bonus + 1
+    entry.lane, entry.t, entry.slot = 2, 0, bonus
+    want[#want + 1] = entry
+  end
   local intr = r.interrupt
   if intr and intr.id and (intr.how == "decided" or intr.how == "render") then
-    want[#want + 1] = { key = "1:kick", lane = 1, pick = { id = intr.id, source = "interrupt" }, t = 0,
-      special = "interrupt", intr = intr }
+    Bonus({ key = "b:kick", pick = { id = intr.id, source = "interrupt" }, special = "interrupt", intr = intr,
+      bonus = "kick" })
   end
   local d = r.defensive
   local w = r.weave
   if d and d.id and (d.how == "decided" or d.how == "render") then
-    want[#want + 1] = { key = "2:def:" .. d.id, lane = 2, pick = { id = d.id, source = "defensive" }, t = 0,
-      special = d.how == "render" and "health" or "urgent", def = d }
+    Bonus({ key = "b:def:" .. d.id, pick = { id = d.id, source = "defensive" },
+      special = d.how == "render" and "health" or "urgent", def = d, bonus = "defend" })
   elseif w and w.id then
-    want[#want + 1] = { key = "2:" .. tostring(w.id), lane = 2, pick = w, t = 0, special = w.urgent and "urgent" }
+    Bonus({ key = "b:" .. tostring(w.id), pick = w, special = w.urgent and "urgent", bonus = "defend" })
   end
   local it = r.trinket
   if it and (it.id or it.item) then
-    want[#want + 1] = { key = "3:" .. tostring(it.item or it.id), lane = 3, pick = it, t = 0 }
+    Bonus({ key = "b:item:" .. tostring(it.item or it.id), pick = it, bonus = "item" })
   end
   return want
 end
@@ -380,14 +406,42 @@ function G.Render()
     n.name:SetText("")
     n.label:SetText("")
     n.source:SetText("")
-    local target = XFor(w.t)
-    n.x = n.x + (target - n.x) * math.min(1, elapsed * G.GLIDE)
-    if math.abs(n.x - target) < 0.5 then
-      n.x = target
+    local y = G.LaneY()
+    if w.lane == 2 then
+      -- the bonus row: pops in above the line, with its call over it
+      n:SetSize(G.BONUS_ICON, G.BONUS_ICON)
+      n.x = G.HIT_X + (w.slot - 1) * (G.BONUS_ICON + 56)
+      y = G.BonusY()
+      local pulse = 0.6 + 0.4 * math.abs(math.sin(now * 4))
+      n.tag:SetText(L[G.BONUS_TAG[w.bonus]])
+      n.tag:SetTextColor(1, 0.4 + 0.45 * pulse, 0.2)
+      n.tag:Show()
+    else
+      n:SetSize(G.ICON, G.ICON)
+      n.tag:Hide()
+      -- only ever left: a later target (a new global cooldown, a wrong press) pauses the note where it is
+      local target = XFor(w.t)
+      if target < n.x then
+        n.x = n.x + (target - n.x) * math.min(1, elapsed * G.GLIDE)
+        if math.abs(n.x - target) < 0.5 then
+          n.x = target
+        end
+      end
+    end
+    local shake = 0
+    if n.missAt and now - n.missAt < G.MISS_SHOW then
+      n.xmark:Show()
+      shake = 4 * math.sin((now - n.missAt) * 50)
+    else
+      n.xmark:Hide()
+      n.missAt = nil
     end
     n:ClearAllPoints()
-    n:SetPoint("CENTER", f, "TOPLEFT", n.x, -(G.HEAD + (w.lane - 0.5) * G.LANE))
-    local c = G.LANE_COLOR[w.lane]
+    n:SetPoint("CENTER", f, "TOPLEFT", n.x + shake, y)
+    if w.main then
+      G.mainNote = n
+    end
+    local c = G.LANE_COLOR[1]
     if w.special == "interrupt" then
       n.edge:SetColorTexture(1, 0.85, 0.2, 0.9)
     elseif w.special == "urgent" or w.special == "health" then
@@ -395,7 +449,7 @@ function G.Render()
     else
       n.edge:SetColorTexture(c[1], c[2], c[3], (w.main and w.t <= 0.05) and 0.95 or 0.35)
     end
-    n:SetAlpha(w.main and 1 or (w.lane == 1 and 0.75 or 1))
+    n:SetAlpha((w.main or w.lane == 2) and 1 or 0.75)
     -- hidden facts the game decides (combat): the same alpha tricks as the classic HUD
     if w.intr and w.intr.how == "render" then
       D.SetAlphaBool(n, w.intr.notInterruptible, 0, 1)
@@ -432,8 +486,22 @@ function G.Render()
         G.pool[#G.pool + 1] = n
       else
         n:SetAlpha(a)
-        n:SetPoint("CENTER", f, "TOPLEFT", n.x, -(G.HEAD + ((n.lane or 1) - 0.5) * G.LANE))
+        n:SetPoint("CENTER", f, "TOPLEFT", n.x, n.lane == 2 and G.BonusY() or G.LaneY())
       end
+    end
+  end
+  -- pressed notes: a quick burst where they were hit
+  for i = #(G.fading or {}), 1, -1 do
+    local n = G.fading[i]
+    local a = 1 - (now - n.fade) / 0.3
+    if a <= 0 then
+      n:Hide()
+      table.remove(G.fading, i)
+      G.pool = G.pool or {}
+      G.pool[#G.pool + 1] = n
+    else
+      n:SetAlpha(a)
+      n:SetSize(G.ICON * (1 + (1 - a) * 0.6), G.ICON * (1 + (1 - a) * 0.6))
     end
   end
   local fl = f.flashAt and (1 - (now - f.flashAt) / G.FLASH) or 0
@@ -515,6 +583,38 @@ local function Phrase(list)
 end
 G.Phrase = Phrase
 
+-- A hit: the pressed note bursts at the line and the ones behind keep sliding (a second note of the same spell
+-- becomes the first, it doesn't jump).
+local function Consume(note)
+  if not note then
+    return
+  end
+  local hitID
+  for key, n in pairs(G.notes) do
+    if n == note then
+      G.notes[key] = nil
+      hitID = key:match("^1:(.-):%d+$")
+    end
+  end
+  note.fade = GetTime()
+  G.fading = G.fading or {}
+  G.fading[#G.fading + 1] = note
+  if hitID then
+    local moved = {}
+    for key, n in pairs(G.notes) do
+      local id, k = key:match("^1:(.-):(%d+)$")
+      if id == hitID and tonumber(k) > 1 then
+        moved[id .. ":" .. (tonumber(k) - 1)] = n
+        G.notes[key] = nil
+      end
+    end
+    for key, n in pairs(moved) do
+      G.notes["1:" .. key] = n
+    end
+  end
+end
+G.Consume = Consume
+
 -- From the grade, for each press it judges: "hit" (slot 1), "near" (slot 2 or 3), "miss" (anything else).
 function G.OnJudged(kind)
   if not G.On() then
@@ -525,6 +625,9 @@ function G.OnJudged(kind)
   if kind == "miss" then
     judge = "miss"
     G.Break()
+    if G.mainNote then
+      G.mainNote.missAt = GetTime() -- the note shakes with a red X and stays: press it now
+    end
   else
     if kind == "near" then
       judge = "good"
@@ -539,6 +642,10 @@ function G.OnJudged(kind)
       else
         judge = "good"
       end
+    end
+    if kind == "hit" then
+      Consume(G.mainNote)
+      G.mainNote = nil
     end
     G.streak = G.streak + 1
     G.hits = G.hits + 1
@@ -582,6 +689,25 @@ function G.EndSet()
   G.score, G.setBest, G.hits, G.perfects = 0, 0, 0, 0
   G.streak, G.stars = 0, 0
   return out
+end
+
+-- A bonus grabbed (an interrupt, defensive, trinket or potion from the bonus row): it adds to the streak.
+function G.OnBonus(kind)
+  if not G.On() then
+    return
+  end
+  local f = G.Create()
+  G.streak = G.streak + 1
+  G.hits = G.hits + 1
+  G.setBest = math.max(G.setBest, G.streak)
+  local points = G.BONUS_POINTS * G.Mult()
+  G.score = G.score + points
+  if G.streak > G.Best() then
+    SaveBest()
+  end
+  G.lastJudge = "bonus"
+  Flash(f.pop, L[G.BONUS_DONE[kind] or "Powered up!"] .. "  " .. string.format(L["Bonus +%d"], points),
+    { 1, 0.7, 0.2 })
 end
 
 -- A key slip ("5 » 6") shows under the hit line instead of under slot 1.

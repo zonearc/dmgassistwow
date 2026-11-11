@@ -664,10 +664,9 @@ function O.Register()
   Header(game, "Game mode", "Play the HUD like a rhythm game, or keep the classic icons. Switch any time with the "
     .. "drum button on the HUD, /dmga game, or a key binding.")
   Check(game, DB, "gameMode", "Game mode", false,
-    "Play the HUD like a rhythm game: notes slide right to left into a line on the left and reach it when the "
-      .. "spell can be pressed. Top lane: damage. Middle: defensives and heals. Bottom: trinkets and potions. "
-      .. "Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the drum button on the "
-      .. "HUD or /dmga game.")
+    "Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be "
+      .. "pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, "
+      .. "25, 50 in a row earn a star. Switch any time with the drum button on the HUD or /dmga game.")
   Slider(game, HUD, "gameOffset", "Game timing offset", H.gameOffset or 0, -200, 300, 10,
     "Game mode: moves the moment a note reaches the line (and flashes). If your presses feel late, raise it: the "
       .. "note arrives that much sooner. Like a rhythm game's calibration.", " ms")

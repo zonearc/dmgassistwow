@@ -391,7 +391,11 @@ function Gr.OnPress(id, r, press)
   local now = GetTime()
   -- items and the staying-alive icon: cooldown use, never accuracy
   local t = r.trinket
+  local game = ns.Game
   if t and Same(t.id, id) then
+    if game then
+      game.OnBonus("item")
+    end
     local key = "item:" .. tostring(t.item or t.id)
     f.itemsUsed = f.itemsUsed or {}
     f.itemsUsed[t.item or t.id] = true
@@ -404,6 +408,9 @@ function Gr.OnPress(id, r, press)
   end
   if r.weave and r.weave.source == "mitigation" and Same(r.weave.id, id) then
     f.extras = (f.extras or 0) + 1
+    if game then
+      game.OnBonus("defend")
+    end
     local key = Base(id)
     if f.mitShown[key] then
       f.mit[#f.mit + 1] = Clock(f) - f.mitShown[key]
@@ -414,6 +421,9 @@ function Gr.OnPress(id, r, press)
   if not press or (r.weave and Same(r.weave.id, id)) then
     if press and r.weave then
       f.extras = (f.extras or 0) + 1 -- the off-GCD badge (Ironfur): Blizzard never shows it
+      if game and r.weave.source == "defensive" then
+        game.OnBonus("defend")
+      end
     end
     return
   end
@@ -422,6 +432,9 @@ function Gr.OnPress(id, r, press)
   -- An interrupt in slot 1 is your call: judge against the rotation behind it.
   if main and main.source == "interrupt" then
     if Same(main.id, id) then
+      if game then
+        game.OnBonus("kick")
+      end
       return
     end
     queue = { queue[2], queue[3] }
@@ -454,7 +467,6 @@ function Gr.OnPress(id, r, press)
       end
       f.vsAtPress = snap
     end
-    local game = ns.Game
     if matched then
       f.score = f.score + 1
       f.right = (f.right or 0) + 1

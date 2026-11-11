@@ -770,3 +770,11 @@
 776	État et aide
 777	Activez ou désactivez DMGAssist, déplacez-le et choisissez sa langue. Tout le reste est dans trois groupes ci-dessous : État et aide, Base (Combat, Affichage, Sons, Intégrations, Avancé) et Mode jeu et notes.
 778	Ce que DMGAssist voit maintenant (État), comment l'utiliser (Aide) et les sorts recommandables sans touche (Raccourcis manquants) : les pages ci-dessous.
+779	INTERROMPEZ !
+780	DÉFENDEZ-VOUS !
+781	BONUS !
+782	Interrompu !
+783	À l'abri !
+784	Boosté !
+785	Bonus +%d
+786	Jouez le HUD comme un jeu de rythme : les notes glissent de droite à gauche vers une ligne et l'atteignent quand le sort peut être lancé. Interruptions, défensifs et bijoux apparaissent dans la rangée bonus au-dessus. Les réussites forment une série ; 5, 10, 25, 50 d'affilée rapportent une étoile. Changez à tout moment avec le bouton tambour du HUD ou /dmga game.
