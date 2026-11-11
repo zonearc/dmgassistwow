@@ -23,8 +23,7 @@ Last updated: 1.6.0.157 (2026-11-10).
   sunfire x3"); the target's DoTs are hidden in combat. Watch in LFR.
 
 - Preservation: Fire Breath refused once (8.4 s, session 246) with no cast that fight; cause unknown, watch.
-- SimC terms we don't read yet (tools audit, 2026-11-11): soul_fragments (Vengeance, Devourer), rtb_buffs
-  (Outlaw), scorch_execute (Fire), energize_amount (Balance), movement (Warriors), tick_time, apex.N (always 0).
+- SimC terms we don't read yet (tools audit, 2026-11-11): soul_fragments (Vengeance, Devourer), scorch_execute (Fire), energize_amount (Balance), movement (Warriors), tick_time, apex.N (always 0).
   Each turns its lines into guesses that only Blizzard's pick can confirm.
 - The every-spec check can't play Devourer (Fury never changes in the simulation, so Void Ray forever). Model
   spent/gained resources per spell, or mark such rows as not meaningful.
@@ -61,6 +60,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.191: Outlaw rtb_buffs read: Midnight's Roll the Bones is one buff rolled into 1-4 sets (One of a Kind
+  1214933, Double Trouble 1214934, Triple Threat 1214935, Jackpot 1214937, sc_rogue.cpp roll_the_bones_t). Read
+  when the game shows the set; else 1-4 while it's up (our cast within 30 s), 0 without it.
 - 1.6.0.190: Game mode, round 2 (asked 2026-11-11): flash on the line when a note arrives; timing offset in ms
   (Settings > Display); score with a x1-x4 multiplier; ranks Bronze ... Mythic; 12 escalating streak words and 20
   judgement phrases that get more excited as the multiplier grows; sets that run across pulls until 20 s out of

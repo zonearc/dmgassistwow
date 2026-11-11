@@ -5287,6 +5287,38 @@ test("slots 2-3: Starfall (50 Astral Power, known only '34 or more') isn't promi
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("Outlaw: rtb_buffs is Roll the Bones' sets (1-4) - read when shown, 1-4 after our cast, 0 without it", function()
+  Reset()
+  local ns = Boot()
+  local M, S = ns.SpellMap, ns.State
+  local key = "rogue_outlaw"
+  local record = ns.Data.specs.midnight[key]
+  mock.book = { { spellID = record.spells.roll_the_bones.a[1], name = "roll_the_bones" } }
+  ns.Specs.current = { key = key, status = "ready", data = record, branch = "midnight", client = "Midnight" }
+  M.SetData(record)
+  M.Refresh()
+  S.Bind(key)
+  local direct = S.DirectAura
+  local shown = {}
+  S.DirectAura = function(id)
+    return shown[id] and { present = true, expires = GetTime() + 20, stacks = 1 } or { present = false }
+  end
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  eq(S.Resolve("rtb_buffs", {}), 0, "never rolled: 0")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "rtb", M.SpellID("roll_the_bones"))
+  local lo, hi = S.Bounds("rtb_buffs")
+  eq(lo, 1) eq(hi, 4)
+  shown[1214935] = true -- Triple Threat
+  eq(S.Resolve("rtb_buffs", {}), 3, "the set the game shows")
+  shown[1214935] = nil
+  mock.now = mock.now + 31
+  eq(S.Resolve("rtb_buffs", {}), 0, "expired")
+  S.DirectAura = direct
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 test("Subtlety at 7/7 combo points on 5 targets spends them (Blizzard's assistant stuck on a missing poison)", function()
   Reset()
   local ns = Boot()

@@ -2595,6 +2595,8 @@ function S.Bounds(name)
   end
   if name == "effective_combo_points" then
     return EffectiveCP()
+  elseif name == "rtb_buffs" then
+    return S.RtbSets()
   end
   local head, field = name:match("^([%w_]+)%.?([%w_]*)$")
   local pt = head and PowerType(head)
@@ -2851,6 +2853,33 @@ local function AuraTerm(unit, token, field)
   return UNKNOWN
 end
 
+-- Outlaw's Roll the Bones in Midnight (sc_rogue.cpp roll_the_bones_t): one buff, rolled into 1-4 "sets", each its own
+-- aura: One of a Kind 1214933, Double Trouble 1214934, Triple Threat 1214935, Jackpot 1214937 (SpellDataDump).
+-- rtb_buffs is the sets rolled (0 without the buff). lo, hi: read when the game shows the set; otherwise 1-4 while
+-- Roll the Bones is up (our own cast within its 30 s counts as up), or 0-4 when we can't tell.
+S.RTB_SETS = { 1214933, 1214934, 1214935, 1214937 }
+S.RTB_DURATION = 30
+local function RtbSets()
+  local up = AuraTerm("player", "roll_the_bones", "up")
+  if up == 0 then
+    return 0, 0
+  end
+  if not V then
+    for n, aid in ipairs(S.RTB_SETS) do
+      local d = S.DirectAura and S.DirectAura(aid)
+      if d and d.present then
+        return n, n
+      end
+    end
+  end
+  local last = S.lastCastToken.roll_the_bones
+  if up == 1 or (last and GetTime() - last < S.RTB_DURATION) then
+    return 1, #S.RTB_SETS
+  end
+  return 0, #S.RTB_SETS
+end
+S.RtbSets = RtbSets
+
 local STATIC_ZERO = { set_bonus = true, equipped = true, trinket = true, main_hand = true, off_hand = true,
   item = true, bugs = true, covenant = true, runeforge = true,
   consumable = true, potion = true, apex = true }
@@ -2906,6 +2935,12 @@ function S.Resolve(name, ctx)
     -- builder was shown at 7/7 (Subtlety, 2026-11-11).
     local max = U.Get(UnitPowerMax, "player", 4)
     return (type(max) == "number" and max > 0) and max or UNKNOWN
+  elseif head == "rtb_buffs" then
+    local lo, hi = RtbSets()
+    if lo == hi then
+      return lo
+    end
+    return UNKNOWN -- decided from the range in comparisons (S.Bounds)
   elseif head == "effective_combo_points" then
     local lo, hi = EffectiveCP()
     if lo and lo == hi then
