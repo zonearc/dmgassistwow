@@ -16,11 +16,15 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
-- Every-spec check with moving resources (docs/project/patches/sim-resources.patch): presses pay costs and grant
-  gains, Energy / Focus / Mana regenerate. Applied, 27 results changed in 8 specs (Retribution shown ready on
-  cooldown 71%, Fury flips 9/min, Mistweaver slot 3 empty, Havoc / Subtlety / Assassination / Windwalker flips,
-  Vengeance no majors, Devourer on-cooldown 6%). Sort which are real engine issues and which are the model (Holy
-  Power 3-cost vs 5 max, no Rage from auto attacks, Chi), then adopt.
+- Every-spec check realism (worked on 2026-11-11, saved, not adopted):
+  - docs/project/patches/sim-charges.patch: the simulation reports charges via GetSpellCharges like the game.
+    Fixed a false "Retribution shows Blade of Justice on cooldown 71%" (1-charge spells looked ready). Alone it
+    shifts Holy Paladin (Shield of the Righteous fills Crusader Strike's recharge: more flips, sensible) and
+    Vengeance group (Metamorphosis is pressed at 1.8 s yet "majors used 0": find why the count misses it).
+  - docs/project/patches/sim-resources.patch: costs / gains / regen, Stealth unusable in combat, the stand-in
+    assistant only names what's affordable, each spec pays only resources it uses. Blocked by data: rogue combo
+    point gains aren't in the spell data, so combo points never build (Subtlety / Outlaw / Assassination stall);
+    Mistweaver's spells carry Windwalker costs. Fury's new flips are correct (Execute when Rage allows).
 - Game mode, after first in-game feedback: tune LOOK (4 s of lane), sizes, judgement windows (Perfect 0.25 s,
   Great 0.6 s); optional sounds (hit tick, streak chime, default off); an engine "commit" option measured in the
   every-spec check (fewer swaps vs. exactness).

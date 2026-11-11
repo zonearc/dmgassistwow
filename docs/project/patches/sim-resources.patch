@@ -1,8 +1,8 @@
 diff --git a/tests/test_scenarios.lua b/tests/test_scenarios.lua
-index 8f77e18..9994c0c 100644
+index 8f77e18..207257d 100644
 --- a/tests/test_scenarios.lua
 +++ b/tests/test_scenarios.lua
-@@ -110,6 +110,28 @@ local function KeepUpBook(ns, key, book)
+@@ -110,8 +110,56 @@ local function KeepUpBook(ns, key, book)
    return out, extra
  end
  
@@ -10,9 +10,32 @@ index 8f77e18..9994c0c 100644
 +-- time, and a spell you can't afford reads "not enough" (IsSpellUsable's noPower), like in the game. Before this,
 +-- resources stayed at 60% all fight and the check couldn't play Devourer (Void Ray forever, 2026-11-11).
 +local REGEN = { [0] = 2, [2] = 5, [3] = 10 } -- per second, as % of the maximum
++-- Which resources a spec really spends: Energy (rogues, Feral, Windwalker, Brewmaster), Focus (hunters), and any
++-- other resource one of its own spells generates. Shared spell data carries costs a spec never pays in the game
++-- (Mistweaver's Tiger Palm still lists Windwalker's Energy and Chi); Mana is left out (a 2-minute fight never
++-- runs a caster dry in the game).
++local uses = {}
++local function Uses(key, record)
++  local set = {}
++  if key:find("^rogue_") or key == "druid_feral" or key == "monk_windwalker" or key == "monk_brewmaster" then
++    set[3] = true
++  end
++  if key:find("^hunter_") then
++    set[2] = true
++  end
++  for _, info in pairs(record.info or {}) do
++    for pt in pairs(type(info) == "table" and info.gain or {}) do
++      if pt ~= 0 then
++        set[pt] = true
++      end
++    end
++  end
++  return set
++end
++
 +local function Afford(info)
 +  for pt, amount in pairs(info and info.cost or {}) do
-+    if (mock.power[pt] or 0) < amount then
++    if uses[pt] and (mock.power[pt] or 0) < amount then
 +      return false
 +    end
 +  end
@@ -21,7 +44,9 @@ index 8f77e18..9994c0c 100644
 +
 +local function Pay(info)
 +  for pt, amount in pairs(info and info.cost or {}) do
-+    mock.power[pt] = math.max(0, (mock.power[pt] or 0) - amount)
++    if uses[pt] then
++      mock.power[pt] = math.max(0, (mock.power[pt] or 0) - amount)
++    end
 +  end
 +  for pt, amount in pairs(info and info.gain or {}) do
 +    mock.power[pt] = math.min(mock.powerMax[pt] or 100, (mock.power[pt] or 0) + amount)
@@ -30,8 +55,19 @@ index 8f77e18..9994c0c 100644
 +
  local function Fight(ns, key, record, book, scenario)
    local M, G = ns.SpellMap, ns.Engine
++  uses = Uses(key, record)
    local majors = Majors(record)
-@@ -149,6 +171,9 @@ local function Fight(ns, key, record, book, scenario)
+   local keepIDs, baseBook = {}, book
+   if scenario.group then
+@@ -123,6 +171,7 @@ local function Fight(ns, key, record, book, scenario)
+   ns.db.healSupport = scenario.group and true or nil
+   -- the game state at the pull
+   mock.cooldowns, mock.usable, mock.auras = {}, {}, { player = {}, target = {} }
++  mock.charges = {}
+   mock.power, mock.powerMax, mock.powerReadable = {}, {}, {}
+   for pt = 0, 19 do
+     mock.powerMax[pt] = (pt == 4 or pt == 7 or pt == 9 or pt == 12 or pt == 16 or pt == 19) and 5 or 100
+@@ -149,11 +198,15 @@ local function Fight(ns, key, record, book, scenario)
    while mock.now - start < FIGHT do
      mock.Advance(TICK)
      local now = mock.now
@@ -41,7 +77,21 @@ index 8f77e18..9994c0c 100644
      for id, c in pairs(charges) do
        while c.next and now >= c.next do
          c.n = c.n + 1
-@@ -176,9 +201,13 @@ local function Fight(ns, key, record, book, scenario)
+         c.next = c.n < c.max and (c.next + c.len) or nil
+       end
++      mock.charges[id] = { c.n, c.max } -- what GetSpellCharges says, like the game
+     end
+     for id, c in pairs(mock.cooldowns) do
+       if c.start + c.duration <= now then
+@@ -169,16 +222,22 @@ local function Fight(ns, key, record, book, scenario)
+       local cd = mock.cooldowns[b.spellID]
+       local soon = not cd or (cd.start + cd.duration - now) <= AC_EARLY
+       -- (forms and buffs only when you're out of them: the real assistant names those just then)
+-      if soon and not (token and majors[token]) and not ns.Essentials.FORMS[b.spellID]
++      if soon and Afford(M.Info(b.spellID)) and not (token and majors[token]) and not ns.Essentials.FORMS[b.spellID]
+         and not keepIDs[b.spellID]
+         and not ns.Buffs.IsBuffSpell(b.spellID) and not (token and G.SKIP[token]) then
+         mock.acSpell = b.spellID
          break
        end
      end
@@ -50,6 +100,8 @@ index 8f77e18..9994c0c 100644
 +    for _, b in ipairs(book) do
 +      if scenario.unusable then
          mock.usable[b.spellID] = { false, false } -- no weapon: nothing can be cast
++      elseif G.COMBAT_UNUSABLE[M.TokenForID(b.spellID) or ""] then
++        mock.usable[b.spellID] = { false, false } -- Stealth / Prowl: not in combat
 +      elseif not Afford(M.Info(b.spellID)) then
 +        mock.usable[b.spellID] = { false, true } -- not enough resource
 +      else
@@ -57,7 +109,7 @@ index 8f77e18..9994c0c 100644
        end
      end
      local c0 = os.clock()
-@@ -248,9 +277,10 @@ local function Fight(ns, key, record, book, scenario)
+@@ -248,9 +307,10 @@ local function Fight(ns, key, record, book, scenario)
      end
      -- the player: presses slot 1 when the GCD allows and it isn't shown as "not yet"
      if r and main and main.id and now >= gcdEnd and not (main.readyAt and main.readyAt > now)
@@ -69,3 +121,11 @@ index 8f77e18..9994c0c 100644
        local gcd = tonumber(info.gcd) or 1.5
        local ct = tonumber(info.ct) or 0
        gcdEnd = now + math.max(gcd, ct, 0.5)
+@@ -262,6 +322,7 @@ local function Fight(ns, key, record, book, scenario)
+         local c = charges[id] or { n = tonumber(info.ch) or 2, max = tonumber(info.ch) or 2 }
+         charges[id] = c
+         c.n = c.n - 1
++        mock.charges[id] = { c.n, c.max }
+         c.next = c.next or (now + chcd)
+         c.len = chcd
+         if c.n <= 0 then

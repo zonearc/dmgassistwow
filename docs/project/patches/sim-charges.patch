@@ -1,0 +1,28 @@
+diff --git a/tests/test_scenarios.lua b/tests/test_scenarios.lua
+index 8f77e18..3ed7021 100644
+--- a/tests/test_scenarios.lua
++++ b/tests/test_scenarios.lua
+@@ -123,6 +123,7 @@ local function Fight(ns, key, record, book, scenario)
+   ns.db.healSupport = scenario.group and true or nil
+   -- the game state at the pull
+   mock.cooldowns, mock.usable, mock.auras = {}, {}, { player = {}, target = {} }
++  mock.charges = {}
+   mock.power, mock.powerMax, mock.powerReadable = {}, {}, {}
+   for pt = 0, 19 do
+     mock.powerMax[pt] = (pt == 4 or pt == 7 or pt == 9 or pt == 12 or pt == 16 or pt == 19) and 5 or 100
+@@ -154,6 +155,7 @@ local function Fight(ns, key, record, book, scenario)
+         c.n = c.n + 1
+         c.next = c.n < c.max and (c.next + c.len) or nil
+       end
++      mock.charges[id] = { c.n, c.max } -- what GetSpellCharges says, like the game
+     end
+     for id, c in pairs(mock.cooldowns) do
+       if c.start + c.duration <= now then
+@@ -262,6 +264,7 @@ local function Fight(ns, key, record, book, scenario)
+         local c = charges[id] or { n = tonumber(info.ch) or 2, max = tonumber(info.ch) or 2 }
+         charges[id] = c
+         c.n = c.n - 1
++        mock.charges[id] = { c.n, c.max }
+         c.next = c.next or (now + chcd)
+         c.len = chcd
+         if c.n <= 0 then
