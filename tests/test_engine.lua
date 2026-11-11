@@ -5776,6 +5776,84 @@ test("interrupts: delves (scenarios) count as open world, dungeons and raids as 
   eq(I.InInstance(), false, "open world")
 end)
 
+test("game mode: one note in the box, real gaps between notes, a put-off next hides, the switch is clear", function()
+  Reset()
+  local ns = Boot()
+  local Game, D = ns.Game, ns.Display
+  ns.commands.game("on")
+  Game.held, Game.pending, Game.cast, Game.hidden, Game.dropping = nil, nil, nil, nil, nil
+  for k, n in pairs(Game.notes) do
+    n:Hide()
+    Game.notes[k] = nil
+  end
+  local A, B, M = { id = 201, token = "a" }, { id = 202, token = "b" }, { id = 8921, token = "moonfire" }
+  local function Run(res, secs, wait)
+    D.Update(res, true)
+    for _ = 1, math.floor(secs / 0.05) do
+      D.frame.lastWait = wait or 0
+      mock.now = mock.now + 0.05
+      Game.Render()
+    end
+  end
+  Game.streak = 7
+  Run({ main = A, queue = { A, B } }, 2)
+  local a = Game.notes["1:201:1"]
+  eq(math.floor(a.x + 0.5), Game.HIT_X, "A waits on the line")
+  -- the engine swaps them: B is slot 1 now, A goes back - A must not stay in the box under B
+  Run({ main = B, queue = { B, A } }, 0.05)
+  Run({ main = B, queue = { B, A } }, 1)
+  local b, a2 = Game.notes["1:202:1"], Game.notes["1:201:1"]
+  eq(math.floor(b.x + 0.5), Game.HIT_X, "B on the line")
+  eq(a2 ~= nil and a2.x > Game.HIT_X + Game.ICON, true, "A came back in behind B, out of the box")
+  eq(Game.streak, 0, "A waited 2 s on the line with nothing in the way: a quiet miss")
+  eq(Game.misses, 1)
+  -- a quick swap (no time on the line) is no miss
+  Game.streak = 3
+  Run({ main = A, queue = { A, B } }, 0.5)
+  Run({ main = B, queue = { B, A } }, 0.5)
+  eq(Game.streak, 3, "under EXPIRE on the line: not a miss")
+  -- two notes never touch: each stays its real time behind the one before (at least an icon and a gap apart)
+  for _ = 1, 20 do
+    Run({ main = A, queue = { A, B, M } }, 0.1)
+    Run({ main = A, queue = { A, M, B } }, 0.1)
+  end
+  local xs = {}
+  for key, n in pairs(Game.notes) do
+    if key:sub(1, 2) == "1:" then
+      xs[#xs + 1] = n.x
+    end
+  end
+  table.sort(xs)
+  eq(#xs, 3, "three lane notes")
+  for i = 2, #xs do
+    eq(xs[i] - xs[i - 1] >= Game.ICON + Game.GAP_MIN - 1, true, "gap " .. (xs[i] - xs[i - 1]))
+  end
+  -- Moonfire stays "next" press after press while slot 1 moves on: it goes out of sight, back when it's slot 1
+  for k, n in pairs(Game.notes) do
+    n:Hide()
+    Game.notes[k] = nil
+  end
+  Game.hidden = nil
+  for i = 1, 4 do
+    local now = (i % 2 == 1) and A or B
+    Run({ main = now, queue = { now, M } }, 0.5)
+    Game.Consume(Game.notes["1:" .. now.id .. ":1"])
+  end
+  Run({ main = A, queue = { A, M } }, 0.1)
+  eq(Game.notes["1:8921:1"], nil, "a put-off next is hidden")
+  Run({ main = M, queue = { M, A } }, 0.5)
+  eq(Game.notes["1:8921:1"] ~= nil, true, "Moonfire is back as slot 1")
+  -- the switch: CLASSIC | GAME, the lit half follows the mode
+  local sw = Game.frame.toggle
+  eq(sw.left:GetText(), "CLASSIC") eq(sw.right:GetText(), "GAME")
+  eq(sw.goal, 1, "GAME lit")
+  sw:GetScript("OnClick")(sw)
+  eq(Game.On(), false, "a click switches to the classic HUD")
+  sw:GetScript("OnUpdate")(sw, 0.05)
+  eq(sw.goal, 0, "CLASSIC lit")
+  ns.commands.game("on")
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

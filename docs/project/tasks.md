@@ -25,6 +25,8 @@ Last updated: 1.6.0.157 (2026-11-10).
     assistant only names what's affordable, each spec pays only resources it uses. Blocked by data: rogue combo
     point gains aren't in the spell data, so combo points never build (Subtlety / Outlaw / Assassination stall);
     Mistweaver's spells carry Windwalker costs. Fury's new flips are correct (Execute when Rage allows).
+- Game mode's name: "Game mode" is a working name. Proposed: "Rhythm" (switch reads CLASSIC / RHYTHM), owner
+  to decide; renaming touches about 25 translated strings.
 - Game mode, after first in-game feedback: tune LOOK (4 s of lane), sizes, judgement windows (Perfect 0.25 s,
   Great 0.6 s); optional sounds (hit tick, streak chime, default off); an engine "commit" option measured in the
   every-spec check (fewer swaps vs. exactness).
@@ -68,6 +70,12 @@ Last updated: 1.6.0.157 (2026-11-10).
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
 
 ## Done (recent)
+
+- 1.6.0.202: Game mode (report 2026-11-11, Balance on dummies): one note in the box (a note the engine moves back
+  drops away and comes in again; waiting 1.2 s on the line first is a quiet miss); notes keep their real time
+  apart and never touch ("5,6 right next to each other"); a "next" passed over 3 times hides (Moonfire parked
+  mid-lane); a note is pooled once only (two notes could share one frame). The drum is now a CLASSIC / GAME
+  slider switch above the HUD and in the lanes' foot row.
 
 - 1.6.0.201: Game mode round 4 (docs/project/scope.md): landing spot + burst, live cast bar, lane dots, streak row
   under the lane, big but rare kudos, the action track for defensives / interrupts / items with timed boss-hit

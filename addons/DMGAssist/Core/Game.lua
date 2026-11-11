@@ -53,6 +53,14 @@ G.POWER_MULT = 2
 G.POWER_TIME = 15
 G.BAR_H = 10
 G.STICK = 0.35      -- seconds a new slot 2-3 pick must hold before its note swaps
+-- One note in the box (2026-11-11: "two spells sitting in the cast location... I have no idea which one"): only
+-- slot 1 may stand on the line. A note the engine moves back while it waits there drops away and comes in again
+-- from the right; if it waited EXPIRE seconds with you free to press it, that's a miss (the score shows it).
+G.EXPIRE = 1.2
+-- A "next" the engine keeps putting off (Moonfire parked mid-lane for minutes, 2026-11-11) is hidden after it's
+-- been passed over PASS_MAX times; it's back when it's slot 1 (the most a real slot 3 is passed over is twice).
+G.PASS_MAX = 3
+G.GAP_MIN = 8       -- pixels between two notes at the least, whatever their times
 G.GLIDE = 14        -- how fast a note glides to a new place (per second, exponential)
 G.PERFECT, G.GREAT = 0.25, 0.6 -- seconds from the line
 G.SET_GAP = 20      -- seconds out of combat that end a set (and bring the grade)
@@ -77,7 +85,6 @@ G.PHRASES = {
 G.JUDGE_WORD = { perfect = "PERFECT!", great = "Great!", good = "Good", miss = "Missed!" }
 G.JUDGE_COLOR = { perfect = { 1, 0.85, 0.2 }, great = { 0.4, 1, 0.4 }, good = { 0.6, 0.8, 1 }, miss = { 1, 0.3, 0.3 } }
 G.LANE_COLOR = { { 1, 0.8, 0.3 }, { 1, 0.3, 0.3 }, { 0.4, 0.7, 1 } }
-G.TOGGLE_ICON = "Interface\\Icons\\INV_Misc_Drum_01"
 
 G.streak, G.stars = 0, 0
 G.score, G.setBest, G.hits, G.perfects = 0, 0, 0, 0
@@ -131,16 +138,86 @@ end
 ---------------------------------------------------------------------------
 -- Frames
 ---------------------------------------------------------------------------
--- The switch: a small drum icon, on the classic HUD and on the lanes, always clickable.
+-- The switch: a two-way slider, CLASSIC | GAME, on the classic HUD and on the lanes, always clickable (2026-11-11:
+-- "the drum is too small... something more mechanical looking that makes it absolutely clear"). The lit half is
+-- the mode you're in; the knob slides across when you click.
+G.SWITCH_W, G.SWITCH_H = 140, 22
+G.switches = {}
+local function SwitchRefresh(b, snap)
+  local on = G.On()
+  b.goal = on and 1 or 0
+  if snap or not b.pos then
+    b.pos = b.goal
+  end
+  local half = (G.SWITCH_W - 4) / 2
+  b.knob:ClearAllPoints()
+  b.knob:SetPoint("LEFT", b, "LEFT", 2 + b.pos * half, 0)
+  local lit, dim = { 0.08, 0.06, 0.02 }, { 0.6, 0.6, 0.6 }
+  local l, r = on and dim or lit, on and lit or dim
+  b.left:SetTextColor(l[1], l[2], l[3])
+  b.right:SetTextColor(r[1], r[2], r[3])
+  if on then
+    b.knob:SetColorTexture(1, 0.62, 0.15, 0.95)
+  else
+    b.knob:SetColorTexture(0.75, 0.8, 0.9, 0.9)
+  end
+end
+G.SwitchRefresh = SwitchRefresh
+
 function G.ToggleButton(parent)
   local b = CreateFrame("Button", nil, parent)
-  b:SetSize(16, 16)
-  b.tex = b:CreateTexture(nil, "ARTWORK")
-  b.tex:SetAllPoints(b)
-  b.tex:SetTexture(G.TOGGLE_ICON)
-  b:SetAlpha(0.7)
+  b:SetSize(G.SWITCH_W, G.SWITCH_H)
+  b.bg = b:CreateTexture(nil, "BACKGROUND")
+  b.bg:SetAllPoints(b)
+  b.bg:SetColorTexture(0.02, 0.02, 0.04, 0.85)
+  b.edges = {}
+  for i, side in ipairs({ { "TOPLEFT", "TOPRIGHT" }, { "BOTTOMLEFT", "BOTTOMRIGHT" }, { "TOPLEFT", "BOTTOMLEFT" },
+    { "TOPRIGHT", "BOTTOMRIGHT" } }) do
+    local e = b:CreateTexture(nil, "BORDER")
+    e:SetColorTexture(1, 0.82, 0.3, 0.7)
+    e:SetPoint(side[1], b, side[1], 0, 0)
+    e:SetPoint(side[2], b, side[2], 0, 0)
+    if i <= 2 then
+      e:SetHeight(1)
+    else
+      e:SetWidth(1)
+    end
+    b.edges[i] = e
+  end
+  b.knob = b:CreateTexture(nil, "ARTWORK")
+  b.knob:SetSize((G.SWITCH_W - 4) / 2, G.SWITCH_H - 4)
+  b.left = b:CreateFontString(nil, "OVERLAY")
+  ns.Display.SetFont(b.left, 11)
+  b.left:SetPoint("CENTER", b, "LEFT", G.SWITCH_W / 4, 0)
+  b.left:SetText(L["CLASSIC"])
+  b.right = b:CreateFontString(nil, "OVERLAY")
+  ns.Display.SetFont(b.right, 11)
+  b.right:SetPoint("CENTER", b, "RIGHT", -G.SWITCH_W / 4, 0)
+  b.right:SetText(L["GAME"])
+  SwitchRefresh(b, true)
   b:SetScript("OnClick", function()
     G.Toggle()
+  end)
+  b:SetScript("OnShow", function(self)
+    SwitchRefresh(self, true)
+  end)
+  -- the knob slides; in combat the switch steps back (it's still there, and lights up under the mouse)
+  b:SetScript("OnUpdate", function(self, elapsed)
+    local goal = G.On() and 1 or 0
+    if goal ~= self.goal then
+      SwitchRefresh(self)
+    end
+    if self.pos ~= self.goal then
+      local step = math.min(1, (elapsed or 0) * 10)
+      self.pos = self.pos + (self.goal - self.pos) * step
+      if math.abs(self.pos - self.goal) < 0.02 then
+        self.pos = self.goal
+      end
+      SwitchRefresh(self)
+    end
+    local fight = UnitAffectingCombat and UnitAffectingCombat("player")
+    local over = self.IsMouseOver and self:IsMouseOver()
+    self:SetAlpha(over and 1 or (fight and 0.45 or 0.9))
   end)
   b:SetScript("OnEnter", function(self)
     if GameTooltip then
@@ -155,6 +232,7 @@ function G.ToggleButton(parent)
       GameTooltip:Hide()
     end
   end)
+  G.switches[#G.switches + 1] = b
   return b
 end
 
@@ -294,10 +372,10 @@ function G.Create()
   f.burst:SetSize(G.ICON, G.ICON)
   f.streak = f:CreateFontString(nil, "OVERLAY")
   D.SetFont(f.streak, 20)
-  f.streak:SetPoint("TOPLEFT", f, "TOPLEFT", 26, -(G.HEAD + G.BONUS_H + G.LANE + 6))
+  f.streak:SetPoint("TOPLEFT", f, "TOPLEFT", 8, -(G.HEAD + G.BONUS_H + G.LANE + 8))
   f.stars = {}
   f.toggle = G.ToggleButton(f)
-  f.toggle:SetPoint("TOPLEFT", f, "TOPLEFT", 2, -(G.HEAD + G.BONUS_H + G.LANE + 8))
+  f.toggle:SetPoint("TOPRIGHT", f, "TOPRIGHT", -4, -(G.HEAD + G.BONUS_H + G.LANE + 7))
   -- the judgement ("Perfect!") over the line, and the streak word ("On fire!") in the middle of the lanes
   f.judge = f:CreateFontString(nil, "OVERLAY")
   D.SetFont(f.judge, 20)
@@ -327,7 +405,7 @@ local function Star(f, i)
     s = f:CreateTexture(nil, "OVERLAY")
     s:SetTexture("Interface\\COMMON\\FavoritesIcon")
     s:SetSize(24, 24)
-    s:SetPoint("TOPRIGHT", f, "TOPRIGHT", -(4 + (i - 1) * 25), -(G.HEAD + G.BONUS_H + G.LANE + 6))
+    s:SetPoint("LEFT", f.streak, "RIGHT", 6 + (i - 1) * 25, 0) -- after the streak text, clear of the switch
     f.stars[i] = s
   end
   return s
@@ -486,6 +564,7 @@ end
 -- so a note keeps sliding when the queue moves up (slot 2 becomes slot 1 after a press).
 local function Wanted(r, wait)
   local want = {}
+  G.listed = {}
   local q = G.queue or {}
   local t = math.max(0, wait or 0)
   local seen = {}
@@ -497,8 +576,12 @@ local function Wanted(r, wait)
       local gcd = (ns.State.GCD and ns.State.GCD(p.id)) or 1.5
       local hold, holdKind = G.HoldTime(p.id)
       local fire = p.major or (ns.Grade and ns.Grade.IsCooldown and ns.Grade.IsCooldown(p)) or nil
-      want[#want + 1] = { key = "1:" .. k .. ":" .. seen[k], lane = 1, pick = p, t = t, main = i == 1,
-        hold = hold, holdKind = holdKind, fire = fire and true or nil }
+      local key = "1:" .. k .. ":" .. seen[k]
+      G.listed[key] = true
+      if i == 1 or not (G.hidden and G.hidden[key]) then
+        want[#want + 1] = { key = key, lane = 1, pick = p, t = t, main = i == 1,
+          hold = hold, holdKind = holdKind, fire = fire and true or nil }
+      end
       t = t + math.max(gcd, hold)
     end
   end
@@ -593,16 +676,33 @@ function G.Render()
   local elapsed = math.min(0.1, now - (G.lastRender or now))
   G.lastRender = now
   local want = Wanted(r, wait)
+  -- a hidden "next" is back once it's off the queue (or it's slot 1)
+  for key in pairs(G.hidden or {}) do
+    if not G.listed[key] then
+      G.hidden[key] = nil
+    end
+  end
   local keep = {}
   local actions = 0
+  local px = (G.WIDTH - G.HIT_X - G.ICON / 2 - 2) / G.LOOK
+  local prevX, prevT -- the lane note before this one
   for _, w in ipairs(want) do
     local n = G.notes[w.key]
+    if n and w.lane == 1 and not w.main and prevX then
+      -- only slot 1 stands on the line: a note moved back while it waited there drops away
+      local minX = prevX + math.max(G.ICON + G.GAP_MIN, (w.t - (prevT or 0)) * px)
+      if n.x < minX and n.x < G.HIT_X + G.ICON * 0.75 then
+        G.Drop(n, w.key)
+        n = nil
+      end
+    end
     if not n then
       n = table.remove(G.pool or {}) or NewNote(f)
       n.x = G.WIDTH + G.ICON -- slides in from the right
-      n.fade = nil
+      n.passed, n.readyAt, n.missAt, n.alarmed = 0, nil, nil, nil
       G.notes[w.key] = n
     end
+    n.fade = nil -- wanted again: not fading (a stale fade time would drop it at once later)
     keep[w.key] = true
     n.lane, n.main = w.lane, w.main
     D.SetIcon(n, w.pick, cfg, w.main or w.lane > 1, "")
@@ -641,13 +741,34 @@ function G.Render()
     else
       n:SetSize(G.ICON, G.ICON)
       n.tag:Hide()
-      -- only ever left: a later target (a new global cooldown, a wrong press) pauses the note where it is
+      -- left, never right: a later target (a new global cooldown, a wrong press) pauses the note where it is.
+      -- The one exception keeps the timeline true: a note never closer to the one before it than their real time
+      -- apart (and never touching), so two notes side by side always mean "one, then the other".
       local target = XFor(w.t)
-      if target < n.x then
+      local minX = prevX and (prevX + math.max(G.ICON + G.GAP_MIN, (w.t - (prevT or 0)) * px)) or nil
+      if minX and target < minX then
+        target = minX
+      end
+      if target < n.x or (minX and n.x < minX) then
         n.x = n.x + (target - n.x) * math.min(1, elapsed * G.GLIDE)
         if math.abs(n.x - target) < 0.5 then
           n.x = target
         end
+      end
+      prevX, prevT = n.x, w.t
+      if w.main then
+        n.passed = 0
+        if G.hidden then
+          G.hidden[w.key] = nil
+        end
+        -- waiting on the line with you free to press it: the clock for a quiet miss
+        if w.t <= 0.05 then
+          n.readyAt = n.readyAt or now
+        else
+          n.readyAt = nil
+        end
+      else
+        n.readyAt = nil
       end
     end
     local shake = 0
@@ -665,7 +786,6 @@ function G.Render()
     end
     n.fire = w.fire
     if w.lane == 1 and w.hold and w.hold > 0 then
-      local px = (G.WIDTH - G.HIT_X - G.ICON / 2 - 2) / G.LOOK
       n.bar:SetWidth(math.max(4, w.hold * px))
       if w.holdKind == "channel" then
         n.bar:SetColorTexture(0.3, 0.6, 1, 0.75)
@@ -730,6 +850,24 @@ function G.Render()
       end
     end
   end
+  -- dropped from the line: it falls away (red when it counted as a miss)
+  for i = #(G.dropping or {}), 1, -1 do
+    local n = G.dropping[i]
+    local a = 1 - (now - n.fade) / 0.35
+    if a <= 0 then
+      n:Hide()
+      table.remove(G.dropping, i)
+      G.pool = G.pool or {}
+      G.pool[#G.pool + 1] = n
+    else
+      n:SetAlpha(a * 0.8)
+      if n.dropMiss then
+        n.edge:SetColorTexture(1, 0.2, 0.2, a)
+      end
+      n:ClearAllPoints()
+      n:SetPoint("CENTER", f, "TOPLEFT", n.x, G.LaneY() - (1 - a) * G.LANE * 0.7)
+    end
+  end
   -- the action track shows only while something's on it
   G.actAlpha = (G.actAlpha or 0) + ((actions > 0 and 1 or 0) - (G.actAlpha or 0)) * math.min(1, elapsed * 10)
   local beat = 0.6 + 0.4 * math.abs(math.sin(now * 5))
@@ -743,7 +881,6 @@ function G.Render()
   local al = f.alarmAt and (1 - (now - f.alarmAt) / 1.2) or 0
   f.alarm:SetAlpha(al > 0 and (0.4 + 0.6 * math.abs(math.sin(now * 12))) * al or 0)
   -- the lane's dots: one every DOT_EVERY seconds, scrolling with the notes (eaten at the line)
-  local px = (G.WIDTH - G.HIT_X - G.ICON / 2 - 2) / G.LOOK
   local phase = now % G.DOT_EVERY
   for i, dot in ipairs(f.dots) do
     local x = G.HIT_X + ((i - 1) * G.DOT_EVERY + G.DOT_EVERY - phase) * px
@@ -866,8 +1003,8 @@ G.Phrase = Phrase
 -- A hit: the pressed note bursts at the line and the ones behind keep sliding (a second note of the same spell
 -- becomes the first, it doesn't jump).
 local function Consume(note)
-  if not note then
-    return
+  if not note or note.fade then
+    return -- already going (a note goes back to the pool once: twice would put one frame under two notes)
   end
   local hitID
   for key, n in pairs(G.notes) do
@@ -892,8 +1029,48 @@ local function Consume(note)
       G.notes["1:" .. key] = n
     end
   end
+  -- every other lane note was passed over once; one the engine keeps putting off goes out of sight
+  for key, n in pairs(G.notes) do
+    if key:sub(1, 2) == "1:" then
+      n.passed = (n.passed or 0) + 1
+      if n.passed >= G.PASS_MAX and n ~= G.mainNote then
+        G.hidden = G.hidden or {}
+        G.hidden[key] = true
+      end
+    end
+  end
 end
 G.Consume = Consume
+
+-- A note leaves the line without a press (the engine moved it back): it falls away; a miss if it waited there.
+function G.Drop(n, key)
+  if G.notes[key] == n then
+    G.notes[key] = nil
+  end
+  local missed = n.readyAt and GetTime() - n.readyAt >= G.EXPIRE
+  n.fade = GetTime()
+  n.dropMiss = missed or nil
+  n.readyAt = nil
+  G.dropping = G.dropping or {}
+  G.dropping[#G.dropping + 1] = n
+  if G.mainNote == n then
+    G.mainNote = nil
+  end
+  if missed then
+    G.QuietMiss()
+  end
+end
+
+-- A note that ran out of time: the streak breaks and the set's Perfect share counts it, without the shake.
+function G.QuietMiss()
+  G.Break()
+  G.perfectRun = 0
+  G.misses = (G.misses or 0) + 1
+  G.lastJudge = "miss"
+  if G.frame then
+    Flash(G.frame.judge, L[G.JUDGE_WORD.miss], G.JUDGE_COLOR.miss)
+  end
+end
 
 -- From the grade, for each press it judges: "hit" (slot 1), "near" (slot 2 or 3), "miss" (anything else).
 -- The lane note for a spell: its first note (the one at the line), else the note slot 1 had.
@@ -1043,8 +1220,9 @@ function G.EndSet()
     best[key] = G.score
   end
   local out = { score = G.score, bestStreak = G.setBest, hits = G.hits, newBest = newBest,
-    perfect = G.hits > 0 and math.floor(100 * G.perfects / G.hits + 0.5) or 0 }
-  G.score, G.setBest, G.hits, G.perfects = 0, 0, 0, 0
+    perfect = G.hits > 0 and math.floor(100 * G.perfects / (G.hits + (G.misses or 0)) + 0.5) or 0,
+    misses = G.misses or 0 }
+  G.score, G.setBest, G.hits, G.perfects, G.misses = 0, 0, 0, 0, 0
   G.streak, G.stars = 0, 0
   return out
 end
@@ -1096,8 +1274,12 @@ function G.Toggle(on)
     on = not G.On()
   end
   ns.db.gameMode = on and true or false
-  U.Print("%s", on and L["Game mode on: hit each note as it reaches the line. Click the drum (or /dmga game) to switch back."]
-    or L["Game mode off: the classic HUD is back."])
+  local msg = L["Game mode off: the classic HUD is back."]
+  if on then
+    msg = L["Game mode on: hit each note as it reaches the line. Click the CLASSIC / GAME switch (or /dmga game) "
+      .. "to switch back."]
+  end
+  U.Print("%s", msg)
   if not on and G.frame then
     G.frame:Hide()
   end

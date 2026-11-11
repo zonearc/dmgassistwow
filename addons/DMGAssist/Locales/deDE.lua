@@ -785,4 +785,10 @@ ns.LOCALE_DATA.deDE = {
   ["POWER MODE!"] = "POWER-MODUS!",
   ["AOE"] = "AOE",
   ["PERFECT x%d"] = "PERFEKT x%d",
+  ["CLASSIC"] = "KLASSISCH",
+  ["GAME"] = "SPIEL",
+  ["Game mode on: hit each note as it reaches the line. Click the CLASSIC / GAME switch (or /dmga game) to switch back."] = "Spielmodus an: Triff jede Note, wenn sie die Linie erreicht. Klicke den Schalter KLASSISCH / SPIEL (oder /dmga game), um zurückzuschalten.",
+  ["Play the HUD like a rhythm game, or keep the classic icons. Switch any time with the CLASSIC / GAME switch above the HUD, /dmga game, or a key binding."] = "Spiele das HUD wie ein Rhythmusspiel oder behalte die klassischen Symbole. Jederzeit umschaltbar mit dem Schalter KLASSISCH / SPIEL über dem HUD, /dmga game oder einer Tastenbelegung.",
+  ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the CLASSIC / GAME switch above the HUD or /dmga game."] = "Spiele das HUD wie ein Rhythmusspiel: Noten gleiten von rechts nach links zu einer Linie und erreichen sie, wenn der Zauber gedrückt werden kann. Unterbrechungen, Verteidigungen und Schmuckstücke erscheinen in der Bonusreihe darüber. Treffer bauen eine Serie auf; 5, 10, 25, 50 in Folge bringen einen Stern. Jederzeit umschalten mit dem Schalter KLASSISCH / SPIEL über dem HUD oder /dmga game.",
+  ["Which style? (Switch any time with the CLASSIC / GAME switch above the HUD, or /dmga game.)"] = "Welcher Stil? (Jederzeit umschaltbar mit dem Schalter KLASSISCH / SPIEL über dem HUD oder /dmga game.)",
 }

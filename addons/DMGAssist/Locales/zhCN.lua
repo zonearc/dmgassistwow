@@ -785,4 +785,10 @@ ns.LOCALE_DATA.zhCN = {
   ["POWER MODE!"] = "力量模式！",
   ["AOE"] = "群体",
   ["PERFECT x%d"] = "完美 x%d",
+  ["CLASSIC"] = "经典",
+  ["GAME"] = "游戏",
+  ["Game mode on: hit each note as it reaches the line. Click the CLASSIC / GAME switch (or /dmga game) to switch back."] = "游戏模式已开启：音符到达判定线时按下。点击 经典 / 游戏 开关（或 /dmga game）可切换回来。",
+  ["Play the HUD like a rhythm game, or keep the classic icons. Switch any time with the CLASSIC / GAME switch above the HUD, /dmga game, or a key binding."] = "把HUD当作节奏游戏来玩，或保留经典图标。随时可用HUD上方的 经典 / 游戏 开关、/dmga game 或按键绑定切换。",
+  ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the CLASSIC / GAME switch above the HUD or /dmga game."] = "把HUD当作节奏游戏来玩：音符从右向左滑向判定线，到达时正好可以按下该技能。打断、减伤和饰品会出现在上方的奖励行。命中会累积连击；连续5、10、25、50次各得一颗星。随时可用HUD上方的 经典 / 游戏 开关或 /dmga game 切换。",
+  ["Which style? (Switch any time with the CLASSIC / GAME switch above the HUD, or /dmga game.)"] = "选择哪种风格？（随时可用HUD上方的 经典 / 游戏 开关或 /dmga game 切换。）",
 }

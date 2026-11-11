@@ -788,5 +788,11 @@
 "Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the drum button on the HUD or /dmga game.",
 "POWER MODE!",
 "AOE",
-"PERFECT x%d"
+"PERFECT x%d",
+"CLASSIC",
+"GAME",
+"Game mode on: hit each note as it reaches the line. Click the CLASSIC / GAME switch (or /dmga game) to switch back.",
+"Play the HUD like a rhythm game, or keep the classic icons. Switch any time with the CLASSIC / GAME switch above the HUD, /dmga game, or a key binding.",
+"Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the CLASSIC / GAME switch above the HUD or /dmga game.",
+"Which style? (Switch any time with the CLASSIC / GAME switch above the HUD, or /dmga game.)"
 ]

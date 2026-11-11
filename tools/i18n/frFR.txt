@@ -781,3 +781,9 @@
 787	MODE PUISSANCE !
 788	AOE
 789	PARFAIT x%d
+790	CLASSIQUE
+791	JEU
+792	Mode jeu activé : touchez chaque note quand elle atteint la ligne. Cliquez sur l'interrupteur CLASSIQUE / JEU (ou /dmga game) pour revenir.
+793	Jouez le HUD comme un jeu de rythme, ou gardez les icônes classiques. Changez à tout moment avec l'interrupteur CLASSIQUE / JEU au-dessus du HUD, /dmga game ou un raccourci.
+794	Jouez le HUD comme un jeu de rythme : les notes glissent de droite à gauche vers une ligne et l'atteignent quand le sort peut être lancé. Interruptions, défensifs et bijoux apparaissent dans la rangée bonus au-dessus. Les réussites forment une série ; 5, 10, 25, 50 d'affilée rapportent une étoile. Changez à tout moment avec l'interrupteur CLASSIQUE / JEU au-dessus du HUD ou /dmga game.
+795	Quel style ? (Changez à tout moment avec l'interrupteur CLASSIQUE / JEU au-dessus du HUD, ou /dmga game.)

@@ -39,8 +39,10 @@ damage claim (decided 2026-11-10). Best and last 20 fights per spec, account-wid
 on the settings page. Can be turned off.
 
 ## Game mode (decided 2026-11-11)
-- A second display style, switched any time (drum button on the HUD, /dmga game, keybind, minimap menu, Settings >
-  Display; asked as the 4th welcome question, Classic suggested). Classic stays the default.
+- A second display style, switched any time (the CLASSIC / GAME slider switch above the HUD and in the lanes' foot
+  row, /dmga game, keybind, minimap menu, Settings; asked as the 4th welcome question, Classic suggested). Classic
+  stays the default. (A 16 px drum icon was first; "too small, no one will see it", 2026-11-11.) The name "Game
+  mode" is a working name: a final name is the owner's call (see tasks.md).
 - One lane scrolling right to left into a hit line (the rotation, slots 1-3), notes about 1.7x the classic icon,
   and a bonus row above it where interrupts ("KICK!"), defensives / heals ("DEFEND!") and trinkets / potions
   ("POWER UP!") pop in when needed; grabbing one adds to the streak and scores a bonus. (Three lanes were tried
@@ -60,12 +62,20 @@ on the settings page. Can be turned off.
   begins (a right Starfire showed a red X: its cast event came after slot 1 moved on).
 - Notes only move left: a later target (a new global cooldown, a wrong press) pauses a note where it is. A wrong
   press shakes the note with a red X and it stays: press it now. A hit bursts the note at the line.
+- One note in the box (2026-11-11): only slot 1 stands on the line. When the engine moves the waiting note back
+  (slot 1 and 2 swap), it drops away and slides in again behind the new one. If it waited 1.2 s or more on the
+  line with the player free to press, that's a quiet miss: the streak breaks and the set's % perfect counts it
+  (no shake, the note falls away red). A quicker swap costs nothing.
+- Real gaps: a note is never closer to the note before it than their time apart (and never touching), so two
+  notes side by side always mean "one, then the other" (the one case a note moves right).
+- A "next" the engine keeps putting off (Moonfire as slot 2 for minutes while slot 1 moves on) is hidden after
+  it's passed over 3 times; it's back when it becomes slot 1 or leaves the queue.
 - A note reaches the line exactly when the spell can be pressed (the classic press-now clock); slots 2-3 follow,
   spaced by GCD / cast time. The classic HUD keeps running unseen (its clock, the grade's ready moments, the action
   bar highlight).
 - Judged by the performance grade's own press scoring: slot 1 = Perfect / Great / Good by distance from the line,
-  slot 2-3 = Good, anything else = Miss. Only a wrong spell breaks the streak; waiting (nothing to hit, moving,
-  a mechanic) never does.
+  slot 2-3 = Good, anything else = Miss. A wrong spell breaks the streak, and so does a note that ran out of
+  time on the line (above); waiting with the note still slot 1 (nothing to hit, moving, a mechanic) never does.
 - Score: Perfect 100 / Great 75 / Good 50 points x a multiplier (+1 per 10 in a row, up to x4). Ranks by streak:
   Bronze 10, Silver 25, Gold 50, Platinum 100, Diamond 200, Mythic 500. Milestones (5 ... 500) pop an escalating
   word and add a star (5 shown). Each judgement says one of 5 phrases; the higher the multiplier, the more excited

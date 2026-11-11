@@ -785,4 +785,10 @@ ns.LOCALE_DATA.ruRU = {
   ["POWER MODE!"] = "РЕЖИМ МОЩИ!",
   ["AOE"] = "АОЕ",
   ["PERFECT x%d"] = "ИДЕАЛЬНО x%d",
+  ["CLASSIC"] = "КЛАССИКА",
+  ["GAME"] = "ИГРА",
+  ["Game mode on: hit each note as it reaches the line. Click the CLASSIC / GAME switch (or /dmga game) to switch back."] = "Игровой режим включён: попадайте по каждой ноте, когда она достигает линии. Нажмите переключатель КЛАССИКА / ИГРА (или /dmga game), чтобы вернуться.",
+  ["Play the HUD like a rhythm game, or keep the classic icons. Switch any time with the CLASSIC / GAME switch above the HUD, /dmga game, or a key binding."] = "Играйте с HUD как в ритм-игру или оставьте обычные значки. Переключайте в любой момент переключателем КЛАССИКА / ИГРА над HUD, /dmga game или клавишей.",
+  ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the CLASSIC / GAME switch above the HUD or /dmga game."] = "Играйте с HUD как в ритм-игру: ноты скользят справа налево к линии и достигают её, когда заклинание можно нажать. Прерывания, защита и аксессуары появляются в бонусном ряду над ней. Попадания складываются в серию; за 5, 10, 25, 50 подряд даётся звезда. Переключайте в любой момент переключателем КЛАССИКА / ИГРА над HUD или /dmga game.",
+  ["Which style? (Switch any time with the CLASSIC / GAME switch above the HUD, or /dmga game.)"] = "Какой стиль? (Переключайте в любой момент переключателем КЛАССИКА / ИГРА над HUD или /dmga game.)",
 }

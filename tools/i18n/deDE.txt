@@ -781,3 +781,9 @@
 787	POWER-MODUS!
 788	AOE
 789	PERFEKT x%d
+790	KLASSISCH
+791	SPIEL
+792	Spielmodus an: Triff jede Note, wenn sie die Linie erreicht. Klicke den Schalter KLASSISCH / SPIEL (oder /dmga game), um zurückzuschalten.
+793	Spiele das HUD wie ein Rhythmusspiel oder behalte die klassischen Symbole. Jederzeit umschaltbar mit dem Schalter KLASSISCH / SPIEL über dem HUD, /dmga game oder einer Tastenbelegung.
+794	Spiele das HUD wie ein Rhythmusspiel: Noten gleiten von rechts nach links zu einer Linie und erreichen sie, wenn der Zauber gedrückt werden kann. Unterbrechungen, Verteidigungen und Schmuckstücke erscheinen in der Bonusreihe darüber. Treffer bauen eine Serie auf; 5, 10, 25, 50 in Folge bringen einen Stern. Jederzeit umschalten mit dem Schalter KLASSISCH / SPIEL über dem HUD oder /dmga game.
+795	Welcher Stil? (Jederzeit umschaltbar mit dem Schalter KLASSISCH / SPIEL über dem HUD oder /dmga game.)

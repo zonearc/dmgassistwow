@@ -20,7 +20,10 @@ Done and looking good: Balance, DK, Mage (all), DH (Havoc, Vengeance, Devourer),
   1 for a moment. Do it 3+ times in one fight: the grade's tip names the key and the spell.
 
 ## 2c. Game mode (1.6.0.189)
-- Click the drum above the HUD (or /dmga game). On a dummy: notes slide right to left and reach the line as each
+- Click the CLASSIC / GAME switch above the HUD (or /dmga game). On a dummy: notes slide right to left and reach the line as each
+- Game mode, one note in the box: on a dummy, watch for two icons on the landing spot at once (there should never
+  be). Let a note sit on the line 2 s while the HUD changes its mind: it should drop away red and the streak reset.
+  Notes should never touch; a "next" that never comes up should vanish after about 3 presses.
   spell is ready; press on the line for Perfect. 5 in a row: "Nice!" and a star; a wrong spell: Miss, streak 0.
 - Pull a boss-mod AoE or drop low: the defensive drops into the middle lane; a trinket into the bottom lane.
 - The line's box flashes as each note arrives. Try Settings > Display > Game timing offset if Perfects feel hard.
