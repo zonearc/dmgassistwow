@@ -16,6 +16,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- Taint (report 2026-11-11, 1.6.0.206): "blocked: tainted=DMGAssist" in combat on Edit Mode's SetClampRectInsets
+  (15:52) and on action buttons' SetAttribute (UpdatePressAndHoldAction, 16:21). Our Edit Mode code only uses
+  hooksecurefunc + a deferred frame and the highlight is never anchored to Blizzard buttons, so the source is not
+  clear from the code: needs a taint log (/console taintLog 1, reproduce, then Logs/taint.log).
+
 - Every-spec check realism (worked on 2026-11-11, saved, not adopted):
   - docs/project/patches/sim-charges.patch: the simulation reports charges via GetSpellCharges like the game.
     Fixed a false "Retribution shows Blade of Justice on cooldown 71%" (1-charge spells looked ready). Alone it
@@ -69,6 +74,12 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.209: Flow mode timing (report 2026-11-11, "lost a streak at 12... hit it right when it flashed"): a note
+  that waited on the line while a Starfire was still casting counted as a quiet miss when the engine swapped it at
+  the cast's end. Fixed: no quiet-miss clock while casting (the note now also waits for the cast); a press matched
+  to a note that just swapped away bursts nothing; PRESS_WINDOW 0.35 -> 0.6 s (WoW's spell queue window plus a
+  reaction). Every Flow judgement is now logged ("flow" in reports). The CLASSIC / FLOW switch: plain text, the
+  mode you're in gold, the other grey, a thin gold line under it, the same in both modes.
 - 1.6.0.207: Flow mode: pause after 6 s without a spell (next spell resumes), any spell starts the Flow and the
   press-start box goes in 0.15 s, the cast bar links the landing box to the next note, the grade box sits above
   the lanes.

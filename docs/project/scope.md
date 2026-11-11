@@ -73,6 +73,8 @@ on the settings page. Can be turned off.
   only when the fight began, hiding the next key).
 - The cast bar runs from the landing box to the next note, which rides on its end and reaches the box the moment
   the cast ends; the bar shrinks as the cast runs (a bar fixed at the line let later notes pass over it).
+- No quiet-miss clock while you cast or channel; a press decided up to 0.6 s before its cast event (WoW's spell
+  queue window plus a reaction) is matched to what slot 1 showed then. Every Flow judgement is logged ("flow").
 - The grade box sits above the Flow lanes (unless moved), never over them.
 - Presses are judged against what slot 1 showed when they were decided, and a cast's note bursts when the cast
   begins (a right Starfire showed a red X: its cast event came after slot 1 moved on).

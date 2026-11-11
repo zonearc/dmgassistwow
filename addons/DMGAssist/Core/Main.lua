@@ -885,7 +885,9 @@ ns.IsPress = IsPress
 -- looking at (2026-11-10, Balance: Starfall and Starfire landed 50 ms after slot 1 flipped to Eclipse; three such
 -- "skips" held Eclipse for the rest of the fight). A cast matching anything slot 1 showed since the press counts.
 local shownLog, castStart = {}, nil
-ns.PRESS_WINDOW = 0.35 -- seconds before an instant's cast event that its press may have been decided
+ns.PRESS_WINDOW = 0.6 -- seconds before an instant's cast event that its press may have been decided: WoW's spell
+-- queue window (0.4 s by default) plus a reaction (0.35 judged a press queued in a Starfire's last moments against
+-- the pick that replaced it, 2026-11-11)
 function ns.NoteShown(main)
   local last = shownLog[#shownLog]
   if main and main.id and not (last and last.main.id == main.id) then

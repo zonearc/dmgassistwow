@@ -5896,6 +5896,18 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   Run({ main = B, queue = { B, A } }, 0.5, 0)
   eq(Game.frame.castTrack:IsShown(), false, "cast over: no bar")
   eq(math.floor(nb.x + 0.5), Game.HIT_X, "the note is in the box as the cast ends")
+  -- the streak of 12 lost (2026-11-11): the next note waits through a long cast, then the engine swaps it at the
+  -- cast's end. Casting is not "free to press": no quiet miss.
+  for k, n in pairs(Game.notes) do
+    n:Hide()
+    Game.notes[k] = nil
+  end
+  Game.streak, Game.misses = 12, 0
+  left = 2.5
+  Run({ main = A, queue = { A, B } }, 2.4, 0) -- the HUD's clock says ready, the bar still runs
+  left = 0
+  Run({ main = B, queue = { B, A } }, 0.3, 0)
+  eq(Game.streak, 12, "no miss for a note that waited while you cast") eq(Game.misses, 0)
   ns.State.CurrentCast = cc
   -- no spell for IDLE_PAUSE seconds (running to the group): the lanes pause, notes stop; the next spell resumes
   for k, n in pairs(Game.notes) do

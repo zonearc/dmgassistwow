@@ -150,18 +150,16 @@ local function SwitchRefresh(b, snap)
   if snap or not b.pos then
     b.pos = b.goal
   end
+  -- the same look in both modes (2026-11-11): plain text, the mode you're in gold, the other grey, and a thin gold
+  -- line under the one you're in that slides across
   local half = (G.SWITCH_W - 4) / 2
   b.knob:ClearAllPoints()
-  b.knob:SetPoint("LEFT", b, "LEFT", 2 + b.pos * half, 0)
-  local lit, dim = { 0.08, 0.06, 0.02 }, { 0.6, 0.6, 0.6 }
+  b.knob:SetPoint("BOTTOMLEFT", b, "BOTTOMLEFT", 2 + b.pos * half + 10, 3)
+  b.knob:SetColorTexture(1, 0.82, 0.25, 0.9)
+  local lit, dim = { 1, 0.82, 0.25 }, { 0.55, 0.55, 0.55 }
   local l, r = on and dim or lit, on and lit or dim
   b.left:SetTextColor(l[1], l[2], l[3])
   b.right:SetTextColor(r[1], r[2], r[3])
-  if on then
-    b.knob:SetColorTexture(1, 0.62, 0.15, 0.95)
-  else
-    b.knob:SetColorTexture(0.75, 0.8, 0.9, 0.9)
-  end
 end
 G.SwitchRefresh = SwitchRefresh
 
@@ -172,10 +170,15 @@ function G.ToggleButton(parent)
   b.bg:SetAllPoints(b)
   b.bg:SetColorTexture(0.02, 0.02, 0.04, 0.85)
   b.edges = {}
+  local mid = b:CreateTexture(nil, "BORDER")
+  mid:SetColorTexture(1, 0.82, 0.3, 0.35)
+  mid:SetPoint("TOP", b, "TOP", 0, -4)
+  mid:SetPoint("BOTTOM", b, "BOTTOM", 0, 4)
+  mid:SetWidth(1)
   for i, side in ipairs({ { "TOPLEFT", "TOPRIGHT" }, { "BOTTOMLEFT", "BOTTOMRIGHT" }, { "TOPLEFT", "BOTTOMLEFT" },
     { "TOPRIGHT", "BOTTOMRIGHT" } }) do
     local e = b:CreateTexture(nil, "BORDER")
-    e:SetColorTexture(1, 0.82, 0.3, 0.7)
+    e:SetColorTexture(1, 0.82, 0.3, 0.45)
     e:SetPoint(side[1], b, side[1], 0, 0)
     e:SetPoint(side[2], b, side[2], 0, 0)
     if i <= 2 then
@@ -186,13 +189,15 @@ function G.ToggleButton(parent)
     b.edges[i] = e
   end
   b.knob = b:CreateTexture(nil, "ARTWORK")
-  b.knob:SetSize((G.SWITCH_W - 4) / 2, G.SWITCH_H - 4)
+  b.knob:SetSize((G.SWITCH_W - 4) / 2 - 20, 1)
   b.left = b:CreateFontString(nil, "OVERLAY")
-  ns.Display.SetFont(b.left, 11)
+  ns.Display.SetFont(b.left, 11, "") -- no outline: plain, readable
+  b.left:SetShadowOffset(1, -1)
   b.left:SetPoint("CENTER", b, "LEFT", G.SWITCH_W / 4, 0)
   b.left:SetText(L["CLASSIC"])
   b.right = b:CreateFontString(nil, "OVERLAY")
-  ns.Display.SetFont(b.right, 11)
+  ns.Display.SetFont(b.right, 11, "")
+  b.right:SetShadowOffset(1, -1)
   b.right:SetPoint("CENTER", b, "RIGHT", -G.SWITCH_W / 4, 0)
   b.right:SetText(L["FLOW"])
   SwitchRefresh(b, true)
@@ -828,7 +833,9 @@ function G.Render()
           G.hidden[w.key] = nil
         end
         -- waiting on the line with you free to press it: the clock for a quiet miss
-        if w.t <= 0.05 and not G.paused then
+        if w.t <= 0.05 and not G.paused and not (casting and casting > 0) then
+          -- on the line, you free to press it (not paused, not casting: a Starfire still casting is not "late",
+          -- 2026-11-11: a streak of 12 lost while the bar ran)
           n.readyAt = n.readyAt or now
         else
           n.readyAt = nil
@@ -1168,6 +1175,7 @@ function G.Drop(n, key)
     G.notes[key] = nil
   end
   local missed = n.readyAt and GetTime() - n.readyAt >= G.EXPIRE
+  G.lastDrop = { id = tonumber(key:match("^1:(%d+):")), at = GetTime() }
   n.fade = GetTime()
   n.dropMiss = missed or nil
   n.readyAt = nil
@@ -1183,6 +1191,7 @@ end
 
 -- A note that ran out of time: the streak breaks and the set's Perfect share counts it, without the shake.
 function G.QuietMiss()
+  U.Log("flow", { judge = "expired", streak = G.streak })
   G.Break()
   G.perfectRun = 0
   G.misses = (G.misses or 0) + 1
@@ -1202,7 +1211,7 @@ local function NoteFor(id)
       return n
     end
   end
-  return G.mainNote
+  return nil
 end
 
 -- How close to the line a press came: early (queued) presses count from the note still sliding in.
@@ -1235,7 +1244,7 @@ function G.OnCastStart(id)
   if not G.On() or not id then
     return
   end
-  local note = NoteFor(id)
+  local note = NoteFor(id) or G.mainNote
   if not note or note.lane ~= 1 then
     return
   end
@@ -1272,7 +1281,13 @@ function G.OnJudged(kind, id)
       judge = "good"
     else
       judge = Timing()
-      local note = id and NoteFor(id) or G.mainNote
+      local note = id and NoteFor(id)
+      local baseOf2 = ns.SpellMap.baseOf or {}
+      local d = G.lastDrop
+      local justDropped = d and d.id and id and (baseOf2[d.id] or d.id) == (baseOf2[id] or id) and GetTime() - d.at < 1
+      if not note and not justDropped then
+        note = G.mainNote -- (a press matched to a note that just swapped away bursts nothing: the new one stays)
+      end
       fire = note and note.fire
       if kind == "hit" then
         Consume(note)
@@ -1323,6 +1338,7 @@ function G.OnJudged(kind, id)
     end
   end
   G.lastJudge = judge
+  U.Log("flow", { judge = judge, kind = kind, id = id, streak = G.streak })
   -- every press: the small word at the line (colour = how close), the big ones above are for moments
   Flash(f.judge, L[G.JUDGE_WORD[judge]], G.JUDGE_COLOR[judge])
 end
