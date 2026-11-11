@@ -32,10 +32,11 @@ jobs:
           ref: ${{ vars.SYNC_BRANCH || 'foundation' }}
       - name: Install Lua 5.1 and luacheck
         run: |
-          # security.ubuntu.com can be unreachable from the runners (2026-11-11, for hours): the main mirror carries the same
-          # packages, so use it.
-          sudo sed -i 's|https\?://security.ubuntu.com|http://azure.archive.ubuntu.com|g' /etc/apt/sources.list.d/*.sources /etc/apt/sources.list 2>/dev/null || true
-          sudo sed -i '/security.ubuntu.com/d' /etc/apt/apt-mirrors.txt 2>/dev/null || true
+          # The runners couldn't resolve Ubuntu's own servers for hours (2026-11-11). apt checks Ubuntu's signature on
+          # every package, so any full mirror is as safe: use kernel.org's.
+          for f in /etc/apt/sources.list.d/*.sources /etc/apt/sources.list; do
+            if [ -f "$f" ]; then sudo sed -i -E 's#mirror\+file:/etc/apt/apt-mirrors\.txt#http://mirrors.edge.kernel.org/ubuntu/#g; s#https?://([a-z0-9.-]+\.)?(archive|security)\.ubuntu\.com/ubuntu/?#http://mirrors.edge.kernel.org/ubuntu/#g' "$f"; fi
+          done
           sudo apt-get -o Acquire::Retries=3 update -qq
           sudo apt-get -o Acquire::Retries=3 install -y -qq lua5.1 liblua5.1-0-dev luarocks zip
           sudo luarocks install luacheck
