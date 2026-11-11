@@ -814,6 +814,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
         { 257044, "enemy" },
       },
       cd = 16,
+      chan = true,
       d = 2,
       gcd = 1.5,
       n = "rapid_fire",

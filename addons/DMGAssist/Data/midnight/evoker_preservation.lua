@@ -66,6 +66,7 @@ ns.RegisterSpecData("midnight", "evoker_preservation", {
       ap = {
         { 356995, "self" },
       },
+      chan = true,
       cost = { [19] = 3 },
       d = 3,
       gcd = 1.5,
@@ -347,6 +348,7 @@ ns.RegisterSpecData("midnight", "evoker_preservation", {
       ap = {
         { 1236949, "enemy" },
       },
+      chan = true,
       d = 2.5,
       gcd = 1.5,
       n = "disintegrate",

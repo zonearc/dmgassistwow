@@ -941,6 +941,7 @@ ns.RegisterSpecData("midnight", "warlock_destruction", {
         { 196447, "self" },
       },
       cd = 25,
+      chan = true,
       d = 3,
       gcd = 1.5,
       n = "channel_demonfire",

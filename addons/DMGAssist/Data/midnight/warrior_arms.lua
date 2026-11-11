@@ -1529,6 +1529,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
         { 436358, "self" },
       },
       cd = 30,
+      chan = true,
       d = 2,
       gcd = 1.5,
       n = "demolish",

@@ -4378,6 +4378,63 @@ test("game mode: one lane and a bonus row, notes reach the line when ready, stre
   Gr.Reset()
 end)
 
+test("game mode: hold bars for casts and channels, flame notes for major cooldowns, power mode doubles points", function()
+  Reset()
+  local ns = Boot()
+  local Game, D, M = ns.Game, ns.Display, ns.SpellMap
+  ns.commands.game("on")
+  Game.held, Game.pending = nil, nil
+  for k, n in pairs(Game.notes) do
+    n:Hide()
+    Game.notes[k] = nil
+  end
+  local info = M.Info
+  M.Info = function(id)
+    if id == 15407 then return { n = "mind_flay", chan = true, d = 4.5, gcd = 1.5 } end
+    return info(id)
+  end
+  local hold, kind = Game.HoldTime(15407)
+  eq(kind, "channel") eq(hold > 3, true, "a 4.5 s channel (hasted)")
+  local F = { id = 15407, token = "mind_flay" }
+  local B = { id = 102, token = "b" }
+  local CD = { id = 103, token = "dark_ascension", major = true }
+  D.Update({ main = F, queue = { F, B, CD } }, true)
+  D.frame.lastWait = 0
+  Game.Render()
+  local flay, nextNote, cdNote = Game.notes["1:15407:1"], Game.notes["1:102:1"], Game.notes["1:103:1"]
+  eq(flay.bar:IsShown(), true, "the channel trails a bar")
+  eq(cdNote.fire, true, "a major cooldown is a flame note")
+  -- the next note sits after the channel (not just one GCD later)
+  for _ = 1, 60 do
+    mock.now = mock.now + 0.05
+    Game.Render()
+  end
+  local px = (Game.WIDTH - Game.HIT_X - Game.ICON / 2 - 2) / Game.LOOK
+  eq(nextNote.x >= Game.HIT_X + hold * px - 1, true, "spaced by the channel")
+  -- flame hit: double, and power mode starts
+  local Gr = ns.Grade
+  local isRot = ns.Engine.IsRotationSpell
+  ns.Engine.IsRotationSpell = function() return true end
+  Gr.OnCombat(true)
+  Game.score, Game.streak = 0, 0
+  Game.mainNote = cdNote
+  cdNote.fire = true
+  Gr.OnPress(103, { main = CD, queue = { CD } }, true)
+  eq(Game.score >= 100 * Game.FIRE_MULT, true, "worth double")
+  eq(Game.PowerOn(), true, "power mode after a major cooldown")
+  Game.Render()
+  eq(Game.frame.pop:GetText(), ns.L["POWER MODE!"])
+  mock.now = mock.now + Game.POWER_TIME + 1
+  eq(Game.PowerOn(), false)
+  ns.State.boost.lust = { untilT = mock.now + 30 }
+  eq(Game.PowerOn(), true, "Bloodlust: power mode")
+  ns.State.boost.lust = nil
+  Gr.OnCombat(false)
+  ns.Engine.IsRotationSpell = isRot
+  M.Info = info
+  ns.commands.game("off")
+end)
+
 test("game mode: slots 2-3 only swap when the new pick holds (no jitter); slot 1 is always the truth", function()
   Reset()
   local ns = Boot()

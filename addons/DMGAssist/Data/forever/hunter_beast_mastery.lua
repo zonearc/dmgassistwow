@@ -605,4 +605,5 @@ ns.RegisterSpecData("forever", "hunter_beast_mastery", {
       a = { 437123, 409957 },
     },
   },
+  volatile = { "bestial_wrath" },
 })

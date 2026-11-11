@@ -782,4 +782,5 @@ ns.LOCALE_DATA.ptBR = {
   ["Powered up!"] = "Fortalecido!",
   ["Bonus +%d"] = "Bônus +%d",
   ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the drum button on the HUD or /dmga game."] = "Jogue o HUD como um jogo de ritmo: as notas deslizam da direita para a esquerda até uma linha e chegam nela quando o feitiço pode ser usado. Interrupções, defensivas e berloques aparecem na fileira de bônus acima. Acertos formam uma sequência; 5, 10, 25, 50 seguidos valem uma estrela. Troque quando quiser com o botão do tambor no HUD ou /dmga game.",
+  ["POWER MODE!"] = "MODO PODER!",
 }

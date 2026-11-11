@@ -237,6 +237,7 @@ ns.RegisterSpecData("midnight", "paladin_holy", {
       n = "judgment",
     },
     [228050] = {
+      chan = true,
       d = 6,
       n = "divine_shield",
     },
@@ -456,6 +457,7 @@ ns.RegisterSpecData("midnight", "paladin_holy", {
       r = 30,
     },
     [1293918] = {
+      chan = true,
       d = 10,
       n = "divine_shield",
     },

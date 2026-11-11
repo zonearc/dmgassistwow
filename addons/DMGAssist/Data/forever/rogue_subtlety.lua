@@ -1763,4 +1763,5 @@ ns.RegisterSpecData("forever", "rogue_subtlety", {
       b = { 1285372, 11329, 11327, 457437, 1857, 27617, 1856 },
     },
   },
+  volatile = { "shadow_dance" },
 })

@@ -489,6 +489,7 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       ap = {
         { 101546, "self" },
       },
+      chan = true,
       cost = { [3] = 40, [12] = 2 },
       d = 1.5,
       gcd = 1.5,
@@ -657,6 +658,7 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       ap = {
         { 212142, "self" },
       },
+      chan = true,
       d = 3,
       gcd = 1.5,
       n = "spinning_crane_kick",
@@ -725,6 +727,7 @@ ns.RegisterSpecData("forever", "monk_brewmaster", {
       ap = {
         { 322729, "self" },
       },
+      chan = true,
       cost = { [3] = 25 },
       d = 1.5,
       gcd = 1.5,

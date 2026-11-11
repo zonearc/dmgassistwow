@@ -782,4 +782,5 @@ ns.LOCALE_DATA.deDE = {
   ["Powered up!"] = "Aufgeladen!",
   ["Bonus +%d"] = "Bonus +%d",
   ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the drum button on the HUD or /dmga game."] = "Spiele das HUD wie ein Rhythmusspiel: Noten gleiten von rechts nach links zu einer Linie und erreichen sie, wenn der Zauber gedrückt werden kann. Unterbrechungen, Verteidigungen und Schmuckstücke erscheinen in der Bonusreihe darüber. Treffer bauen eine Serie auf; 5, 10, 25, 50 in Folge bringen einen Stern. Jederzeit umschalten mit der Trommel am HUD oder /dmga game.",
+  ["POWER MODE!"] = "POWER-MODUS!",
 }

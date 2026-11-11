@@ -512,6 +512,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       ap = {
         { 5143, "self" },
       },
+      chan = true,
       d = 2.5,
       gcd = 1.5,
       n = "arcane_missiles",
@@ -612,9 +613,11 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       n = "alter_time",
     },
     [139678] = {
+      chan = true,
       n = "arcane_missiles",
     },
     [145435] = {
+      chan = true,
       n = "arcane_missiles",
       r = 60,
     },
@@ -689,6 +692,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       tal = true,
     },
     [243313] = {
+      chan = true,
       n = "arcane_missiles",
       r = 60,
     },

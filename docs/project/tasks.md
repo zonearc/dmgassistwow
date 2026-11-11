@@ -65,6 +65,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.199: Game mode hold bars (casts yellow, channels blue, next note after them), flame notes (major cooldowns,
+  x2), power mode (haste burst or a major cooldown: blue lane, x2). Spell data now flags channels ("chan", from
+  SpellDataDump's "Is Channelled").
 - 1.6.0.198: Game mode, round 3 (tested 2026-11-11: "the bounce is super annoying", two empty lanes, too small):
   one lane plus a bonus row (KICK! / DEFEND! / POWER UP!, grabbing one is a bonus), about 1.7x bigger, notes only
   move left (pause, never bounce), a wrong press shakes the note with a red X and it stays, a hit bursts the note and

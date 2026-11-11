@@ -812,6 +812,7 @@ ns.RegisterSpecData("midnight", "mage_frost", {
         { 205021, "enemy" },
       },
       ch = 1,
+      chan = true,
       chcd = 60,
       d = 4,
       gcd = 1.5,

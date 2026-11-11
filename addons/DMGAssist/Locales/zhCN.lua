@@ -782,4 +782,5 @@ ns.LOCALE_DATA.zhCN = {
   ["Powered up!"] = "已强化！",
   ["Bonus +%d"] = "奖励 +%d",
   ["Play the HUD like a rhythm game: notes slide right to left into a line and reach it when the spell can be pressed. Interrupts, defensives and trinkets pop into the bonus row above it. Hits build a streak; 5, 10, 25, 50 in a row earn a star. Switch any time with the drum button on the HUD or /dmga game."] = "把HUD当作节奏游戏来玩：音符从右向左滑向判定线，到达时正好可以按下该技能。打断、减伤和饰品会出现在上方的奖励行。命中会累积连击；连续5、10、25、50次各得一颗星。随时可用HUD上的鼓按钮或 /dmga game 切换。",
+  ["POWER MODE!"] = "力量模式！",
 }

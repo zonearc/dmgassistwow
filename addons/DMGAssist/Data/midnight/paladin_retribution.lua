@@ -709,6 +709,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       n = "templars_verdict",
     },
     [228050] = {
+      chan = true,
       d = 6,
       n = "divine_shield",
     },
@@ -1232,6 +1233,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
       r = 30,
     },
     [1293918] = {
+      chan = true,
       d = 10,
       n = "divine_shield",
     },

@@ -960,4 +960,5 @@ ns.RegisterSpecData("forever", "druid_guardian", {
       a = { 417440, 417441, 417448, 417453 },
     },
   },
+  volatile = { "mangle" },
 })

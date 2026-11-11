@@ -40,6 +40,16 @@ G.BONUS_POINTS = 150
 G.BONUS_TAG = { kick = "KICK!", defend = "DEFEND!", item = "POWER UP!" }
 G.BONUS_DONE = { kick = "Interrupted!", defend = "Safe!", item = "Powered up!" }
 G.MISS_SHOW = 0.7   -- the red X on a note after a wrong press
+-- Guitar Hero's ideas, in WoW terms (asked 2026-11-11):
+--   hold bars: a cast or channel's note trails a bar as long as the cast (yellow) or channel (blue); the next note
+--     comes after it, so the gap is cast time, or the GCD when that's longer;
+--   flame notes: a major cooldown is worth double (it's the hard part to get right) and burns orange;
+--   power mode: while Bloodlust / a haste burst is up, or for POWER_TIME after a major cooldown, the lane turns
+--     electric blue and every hit scores double.
+G.FIRE_MULT = 2
+G.POWER_MULT = 2
+G.POWER_TIME = 15
+G.BAR_H = 10
 G.STICK = 0.35      -- seconds a new slot 2-3 pick must hold before its note swaps
 G.GLIDE = 14        -- how fast a note glides to a new place (per second, exponential)
 G.PERFECT, G.GREAT = 0.25, 0.6 -- seconds from the line
@@ -284,6 +294,11 @@ local function NewNote(f)
   n.xmark:SetPoint("CENTER", n, "CENTER", 0, 0)
   n.xmark:SetSize(G.ICON * 0.8, G.ICON * 0.8)
   n.xmark:Hide()
+  -- hold bar: the cast (yellow) or channel (blue) trailing the note
+  n.bar = n:CreateTexture(nil, "BACKGROUND", nil, -1)
+  n.bar:SetPoint("LEFT", n, "CENTER", 0, 0)
+  n.bar:SetHeight(G.BAR_H)
+  n.bar:Hide()
   -- the bonus row's call: KICK! / DEFEND! / POWER UP!
   n.tag = n:CreateFontString(nil, "OVERLAY")
   ns.Display.SetFont(n.tag, 13)
@@ -295,6 +310,36 @@ end
 local function XFor(t)
   local px = (G.WIDTH - G.HIT_X - G.ICON / 2 - 2) / G.LOOK
   return G.HIT_X + math.max(0, math.min(G.LOOK, t)) * px
+end
+
+-- How long pressing this keeps you busy: a channel's duration (spell data "chan", hasted), else its cast time.
+function G.HoldTime(id)
+  local data = ns.SpellMap.Info and ns.SpellMap.Info(id)
+  if data and data.chan and tonumber(data.d) then
+    local gcd = ns.State.GCD and ns.State.GCD(id) or 1.5
+    local base = tonumber(data.gcd) or 1.5
+    return data.d * (gcd / base), "channel" -- hasted like the GCD
+  end
+  local info = U.Get(C_Spell and C_Spell.GetSpellInfo, id)
+  local cast = type(info) == "table" and tonumber(U.Read(info.castTime)) or 0
+  if cast and cast > 0 then
+    return cast / 1000, "cast"
+  end
+  return 0, nil
+end
+
+-- Power mode: a haste burst (Bloodlust and the like, State.boost) or a major cooldown just used.
+function G.PowerOn()
+  local now = GetTime()
+  if G.powerUntil and now < G.powerUntil then
+    return true
+  end
+  for _, b in pairs(ns.State.boost or {}) do
+    if b.untilT and b.untilT > now then
+      return true
+    end
+  end
+  return false
 end
 
 -- The notes we want this frame: { key, lane, pick, t, special } in each lane. Keyed by spell (and its place),
@@ -309,11 +354,12 @@ local function Wanted(r, wait)
     if p and p.id then
       local k = tostring(p.item or p.id)
       seen[k] = (seen[k] or 0) + 1
-      want[#want + 1] = { key = "1:" .. k .. ":" .. seen[k], lane = 1, pick = p, t = t, main = i == 1 }
       local gcd = (ns.State.GCD and ns.State.GCD(p.id)) or 1.5
-      local info = U.Get(C_Spell and C_Spell.GetSpellInfo, p.id)
-      local cast = type(info) == "table" and tonumber(U.Read(info.castTime)) or 0
-      t = t + math.max(gcd, (cast or 0) / 1000)
+      local hold, holdKind = G.HoldTime(p.id)
+      local fire = p.major or (ns.Grade and ns.Grade.IsCooldown and ns.Grade.IsCooldown(p)) or nil
+      want[#want + 1] = { key = "1:" .. k .. ":" .. seen[k], lane = 1, pick = p, t = t, main = i == 1,
+        hold = hold, holdKind = holdKind, fire = fire and true or nil }
+      t = t + math.max(gcd, hold)
     end
   end
   -- the bonus row (lane 2): what isn't the rotation, when it's needed
@@ -375,6 +421,16 @@ function G.Steady(queue, now)
     end
   end
   return q
+end
+
+local function Flash(fs, text, color)
+  fs:SetText(text)
+  if color then
+    fs:SetTextColor(color[1], color[2], color[3])
+  end
+  fs.at = GetTime()
+  fs:SetAlpha(1)
+  fs:Show()
 end
 
 function G.Render()
@@ -441,8 +497,24 @@ function G.Render()
     if w.main then
       G.mainNote = n
     end
+    n.fire = w.fire
+    if w.lane == 1 and w.hold and w.hold > 0 then
+      local px = (G.WIDTH - G.HIT_X - G.ICON / 2 - 2) / G.LOOK
+      n.bar:SetWidth(math.max(4, w.hold * px))
+      if w.holdKind == "channel" then
+        n.bar:SetColorTexture(0.3, 0.6, 1, 0.75)
+      else
+        n.bar:SetColorTexture(1, 0.85, 0.3, 0.6)
+      end
+      n.bar:Show()
+    else
+      n.bar:Hide()
+    end
     local c = G.LANE_COLOR[1]
-    if w.special == "interrupt" then
+    if w.fire and w.lane == 1 then
+      -- a flame note: worth double, burns orange
+      n.edge:SetColorTexture(1, 0.35 + 0.3 * math.abs(math.sin(now * 6)), 0.05, 0.95)
+    elseif w.special == "interrupt" then
       n.edge:SetColorTexture(1, 0.85, 0.2, 0.9)
     elseif w.special == "urgent" or w.special == "health" then
       n.edge:SetColorTexture(1, 0.25, 0.25, 0.4 + 0.5 * math.abs(math.cos(now * math.pi * 1.5)))
@@ -504,6 +576,23 @@ function G.Render()
       n:SetSize(G.ICON * (1 + (1 - a) * 0.6), G.ICON * (1 + (1 - a) * 0.6))
     end
   end
+  local power = G.PowerOn()
+  if power then
+    local p2 = 0.5 + 0.5 * math.abs(math.sin(now * 3))
+    f.lane:SetColorTexture(0.2, 0.5, 1, 0.18 + 0.12 * p2)
+    f.line:SetColorTexture(0.4, 0.8, 1, 1)
+    f.bg:SetColorTexture(0.02, 0.05, 0.14, 0.7)
+  else
+    f.lane:SetColorTexture(1, 0.8, 0.3, 0.08)
+    f.line:SetColorTexture(1, 0.82, 0.25, 0.9)
+    f.bg:SetColorTexture(0.04, 0.04, 0.07, 0.55)
+  end
+  if power and not G.powerShown then
+    G.powerShown = true
+    Flash(f.pop, L["POWER MODE!"], { 0.4, 0.8, 1 })
+  elseif not power then
+    G.powerShown = nil
+  end
   local fl = f.flashAt and (1 - (now - f.flashAt) / G.FLASH) or 0
   if fl > 0 then
     f.boxes[1]:SetColorTexture(1, 0.85, 0.3, 0.15 + 0.75 * fl)
@@ -557,16 +646,6 @@ function G.Update(result, visible)
     Place(f)
   end
   f:Show()
-end
-
-local function Flash(fs, text, color)
-  fs:SetText(text)
-  if color then
-    fs:SetTextColor(color[1], color[2], color[3])
-  end
-  fs.at = GetTime()
-  fs:SetAlpha(1)
-  fs:Show()
 end
 
 function G.Break()
@@ -643,6 +722,7 @@ function G.OnJudged(kind)
         judge = "good"
       end
     end
+    local fire = kind == "hit" and G.mainNote and G.mainNote.fire
     if kind == "hit" then
       Consume(G.mainNote)
       G.mainNote = nil
@@ -652,7 +732,15 @@ function G.OnJudged(kind)
     if judge == "perfect" then
       G.perfects = G.perfects + 1
     end
-    G.score = G.score + G.POINTS[judge] * G.Mult()
+    local points = G.POINTS[judge] * G.Mult()
+    if fire then
+      points = points * G.FIRE_MULT
+      G.powerUntil = GetTime() + G.POWER_TIME -- a major cooldown lands: power mode
+    end
+    if G.PowerOn() then
+      points = points * G.POWER_MULT
+    end
+    G.score = G.score + points
     G.setBest = math.max(G.setBest, G.streak)
     G.arrived = nil -- the next note's arrival is timed afresh
     for i, m in ipairs(G.MILESTONES) do

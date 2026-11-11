@@ -1813,6 +1813,7 @@ ns.RegisterSpecData("forever", "demonhunter_vengeance", {
         { 212084, "self" },
       },
       cd = 40,
+      chan = true,
       cost = { [17] = 50 },
       d = 2,
       gcd = 1.5,
@@ -1991,6 +1992,7 @@ ns.RegisterSpecData("forever", "demonhunter_vengeance", {
       ap = {
         { 333105, "self" },
       },
+      chan = true,
       d = 2,
       n = "fel_devastation",
       r = 20,
@@ -2021,6 +2023,7 @@ ns.RegisterSpecData("forever", "demonhunter_vengeance", {
       ap = {
         { 346502, "self" },
       },
+      chan = true,
       d = 2,
       n = "fel_devastation",
       r = 20,
@@ -2063,6 +2066,7 @@ ns.RegisterSpecData("forever", "demonhunter_vengeance", {
       ap = {
         { 393831, "self" },
       },
+      chan = true,
       d = 2,
       n = "fel_devastation",
       r = 20,

@@ -45,6 +45,10 @@ on the settings page. Can be turned off.
   and a bonus row above it where interrupts ("KICK!"), defensives / heals ("DEFEND!") and trinkets / potions
   ("POWER UP!") pop in when needed; grabbing one adds to the streak and scores a bonus. (Three lanes were tried
   first, 1.6.0.189-196: two of them sat empty most of the time.)
+- Guitar Hero's ideas in WoW terms (2026-11-11): casts and channels trail a hold bar (yellow / blue) as long as
+  they last, and the next note comes after it (cast time or the GCD, whichever is longer; channels flagged from
+  the spell data's "Is Channelled"); major cooldowns are flame notes worth double; power mode (Bloodlust / a haste
+  burst, or 15 s after a major cooldown) turns the lane electric blue and doubles every hit.
 - Notes only move left: a later target (a new global cooldown, a wrong press) pauses a note where it is. A wrong
   press shakes the note with a red X and it stays: press it now. A hit bursts the note at the line.
 - A note reaches the line exactly when the spell can be pressed (the classic press-now clock); slots 2-3 follow,

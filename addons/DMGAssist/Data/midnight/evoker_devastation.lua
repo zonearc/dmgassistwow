@@ -911,6 +911,7 @@ ns.RegisterSpecData("midnight", "evoker_devastation", {
       ap = {
         { 356995, "self" },
       },
+      chan = true,
       cost = { [19] = 3 },
       d = 3,
       gcd = 1.5,
@@ -1006,6 +1007,7 @@ ns.RegisterSpecData("midnight", "evoker_devastation", {
         { 359073, "enemy" },
       },
       cd = 30,
+      chan = true,
       d = 2.5,
       gcd = 0.5,
       n = "eternity_surge",
@@ -1303,6 +1305,7 @@ ns.RegisterSpecData("midnight", "evoker_devastation", {
         { 382411, "enemy" },
       },
       cd = 30,
+      chan = true,
       d = 3.25,
       gcd = 0.5,
       n = "eternity_surge",
@@ -1473,6 +1476,7 @@ ns.RegisterSpecData("midnight", "evoker_devastation", {
       ap = {
         { 1236949, "enemy" },
       },
+      chan = true,
       d = 2.5,
       gcd = 1.5,
       n = "disintegrate",

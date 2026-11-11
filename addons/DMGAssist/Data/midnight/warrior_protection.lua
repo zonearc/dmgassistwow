@@ -1069,6 +1069,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
         { 436358, "self" },
       },
       cd = 30,
+      chan = true,
       d = 2,
       gcd = 1.5,
       n = "demolish",

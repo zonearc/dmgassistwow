@@ -1216,6 +1216,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       ap = {
         { 473728, "self" },
       },
+      chan = true,
       cost = { [17] = 100 },
       d = 3,
       gcd = 1.5,

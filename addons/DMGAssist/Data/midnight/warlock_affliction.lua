@@ -1078,6 +1078,7 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       ap = {
         { 198590, "enemy" },
       },
+      chan = true,
       d = 5,
       gcd = 1.5,
       n = "drain_soul",
@@ -1320,6 +1321,7 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
       ap = {
         { 1261153, "enemy" },
       },
+      chan = true,
       d = 4,
       gcd = 1.5,
       n = "malefic_grasp",

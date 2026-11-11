@@ -1126,6 +1126,7 @@ ns.RegisterSpecData("forever", "monk_windwalker", {
       ap = {
         { 101546, "self" },
       },
+      chan = true,
       cost = { [3] = 40, [12] = 2 },
       d = 1.5,
       gcd = 1.5,
@@ -1148,6 +1149,7 @@ ns.RegisterSpecData("forever", "monk_windwalker", {
         { 113656, "self" },
       },
       cd = 24,
+      chan = true,
       cost = { [12] = 3 },
       d = 4,
       gcd = 1,
@@ -1194,6 +1196,7 @@ ns.RegisterSpecData("forever", "monk_windwalker", {
       ap = {
         { 117952, "self" },
       },
+      chan = true,
       cost = { [3] = 20 },
       d = 4,
       gcd = 1.5,
@@ -1328,6 +1331,7 @@ ns.RegisterSpecData("forever", "monk_windwalker", {
       ap = {
         { 212142, "self" },
       },
+      chan = true,
       d = 3,
       gcd = 1.5,
       n = "spinning_crane_kick",
@@ -1373,6 +1377,7 @@ ns.RegisterSpecData("forever", "monk_windwalker", {
       ap = {
         { 322729, "self" },
       },
+      chan = true,
       cost = { [3] = 25 },
       d = 1.5,
       gcd = 1.5,

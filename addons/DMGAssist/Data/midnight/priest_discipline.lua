@@ -144,6 +144,7 @@ ns.RegisterSpecData("midnight", "priest_discipline", {
       },
       cd = 1.5,
       ch = 1,
+      chan = true,
       chcd = 9,
       gcd = 1.5,
       n = "penance",
@@ -170,6 +171,7 @@ ns.RegisterSpecData("midnight", "priest_discipline", {
       ap = {
         { 47758, "self" },
       },
+      chan = true,
       d = 2,
       n = "penance",
       r = 40,

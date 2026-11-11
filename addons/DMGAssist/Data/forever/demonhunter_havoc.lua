@@ -585,6 +585,7 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
         { 198013, "self" },
       },
       cd = 30,
+      chan = true,
       cost = { [17] = 30 },
       d = 2,
       gcd = 1.5,
@@ -892,6 +893,7 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       ap = {
         { 333386, "self" },
       },
+      chan = true,
       d = 2,
       n = "eye_beam",
       r = 20,
@@ -967,6 +969,7 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       ap = {
         { 346504, "self" },
       },
+      chan = true,
       d = 2,
       n = "eye_beam",
       r = 20,
@@ -1053,6 +1056,7 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       ap = {
         { 391057, "self" },
       },
+      chan = true,
       d = 2,
       n = "eye_beam",
     },
@@ -1503,4 +1507,5 @@ ns.RegisterSpecData("forever", "demonhunter_havoc", {
       t = { 452409 },
     },
   },
+  volatile = { "eye_beam" },
 })

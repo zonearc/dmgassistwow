@@ -931,4 +931,5 @@ ns.RegisterSpecData("forever", "druid_balance", {
       },
     },
   },
+  volatile = { "fury_of_elune" },
 })

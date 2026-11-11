@@ -611,6 +611,7 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
     },
     [51690] = {
       cd = 180,
+      chan = true,
       cmax = { [4] = 7 },
       cost = { [3] = 45, [4] = 1 },
       gcd = 1,

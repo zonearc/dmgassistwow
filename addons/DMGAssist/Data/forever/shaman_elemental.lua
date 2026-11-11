@@ -1383,4 +1383,5 @@ ns.RegisterSpecData("forever", "shaman_elemental", {
       a = { 16188 },
     },
   },
+  volatile = { "lava_burst" },
 })

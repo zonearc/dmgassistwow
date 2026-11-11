@@ -1471,4 +1471,5 @@ ns.RegisterSpecData("forever", "shaman_enhancement", {
       },
     },
   },
+  volatile = { "stormstrike" },
 })

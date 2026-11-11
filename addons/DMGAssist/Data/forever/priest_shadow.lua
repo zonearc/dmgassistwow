@@ -1417,4 +1417,5 @@ ns.RegisterSpecData("forever", "priest_shadow", {
       b = { 402668 },
     },
   },
+  volatile = { "mind_blast" },
 })

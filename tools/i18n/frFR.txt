@@ -778,3 +778,4 @@
 784	Boosté !
 785	Bonus +%d
 786	Jouez le HUD comme un jeu de rythme : les notes glissent de droite à gauche vers une ligne et l'atteignent quand le sort peut être lancé. Interruptions, défensifs et bijoux apparaissent dans la rangée bonus au-dessus. Les réussites forment une série ; 5, 10, 25, 50 d'affilée rapportent une étoile. Changez à tout moment avec le bouton tambour du HUD ou /dmga game.
+787	MODE PUISSANCE !

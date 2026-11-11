@@ -768,6 +768,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       ap = {
         { 15407, "self" },
       },
+      chan = true,
       d = 4.5,
       gcd = 1.5,
       n = "mind_flay",
@@ -878,6 +879,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       ap = {
         { 193473, "enemy" },
       },
+      chan = true,
       d = 10,
       n = "mind_flay",
       r = 55,
@@ -898,6 +900,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
         { 205065, "self" },
       },
       cd = 60,
+      chan = true,
       d = 4,
       gcd = 1.5,
       n = "void_torrent",
@@ -946,6 +949,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
         { 289577, "self" },
       },
       cd = 30,
+      chan = true,
       d = 3,
       gcd = 1.5,
       n = "void_torrent",
@@ -1039,6 +1043,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
       ap = {
         { 391403, "self" },
       },
+      chan = true,
       d = 1.5,
       gcd = 1.5,
       n = "mind_flay_insanity",

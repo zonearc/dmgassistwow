@@ -1457,4 +1457,5 @@ ns.RegisterSpecData("forever", "warrior_protection", {
       },
     },
   },
+  volatile = { "shield_slam" },
 })

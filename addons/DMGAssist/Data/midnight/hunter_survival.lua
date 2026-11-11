@@ -784,6 +784,7 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
         { 1261193, "self" },
       },
       cd = 60,
+      chan = true,
       cost = { [2] = 50 },
       d = 3,
       gcd = 1.5,

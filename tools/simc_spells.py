@@ -151,6 +151,8 @@ def parse_dump(text):
                 cur["hastedCooldown"] = True
             if "Hasted Global Cooldown" in val:
                 cur["hastedGcd"] = True
+            if "Is Channelled" in val:
+                cur["channel"] = True  # Game mode's hold bar: a channel lasts its Duration
     _baseline_energize(spells)
     _cooldown_links(spells)
     for s in spells.values():
@@ -613,6 +615,8 @@ def select(spells, refs, other_specs=()):
             rec["hc"] = True
         if s.get("hastedGcd"):
             rec["hg"] = True
+        if s.get("channel"):
+            rec["chan"] = True
         if s.get("cost"):
             rec["cost"] = dict(sorted(s["cost"].items()))
         if s.get("costMax"):
