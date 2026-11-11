@@ -14,13 +14,13 @@ Last updated: 1.6.0.157 (2026-11-10).
 - [ ] CurseForge: release type Beta, screenshots, project public
 - [ ] Paste docs/curseforge-description.md into the CurseForge description if it doesn't sync by itself
 
-## Open
+## Open: build
 
 - Game mode, after first in-game feedback: tune LOOK (4 s of lane), sizes, judgement windows (Perfect 0.25 s,
   Great 0.6 s); optional sounds (hit tick, streak chime, default off); an engine "commit" option measured in the
   every-spec check (fewer swaps vs. exactness).
 - Balance on a dungeon boss: Sunfire shown 3 times while Wrath / Starfall were cast instead (grade "missed
-  sunfire x3"); the target's DoTs are hidden in combat. Watch in LFR.: build
+  sunfire x3"); the target's DoTs are hidden in combat. Watch in LFR.
 
 - Preservation: Fire Breath refused once (8.4 s, session 246) with no cast that fight; cause unknown, watch.
 - SimC terms we don't read yet (tools audit, 2026-11-11): soul_fragments (Vengeance, Devourer), rtb_buffs
