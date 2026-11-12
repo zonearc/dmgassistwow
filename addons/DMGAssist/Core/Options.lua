@@ -1368,10 +1368,12 @@ O.HELP = {
       .. "INTERRUPT!, DEFEND! (a defensive or heal) and POWER UP! (a trinket or potion). After a set of pulls "
       .. "(20 seconds out of combat), your performance grade shows." },
   { "Flow: combos",
-    "When a cooldown comes up with the spells that follow it, the lane links them: violet edges, a violet line "
-      .. "between the notes and COMBO x3 over the first. Press them in order: COMBO 1/3 shows over the box as you go, "
-      .. "and the last one brings COMBO! with a violet sweep and bonus points. Another spell, or a pause of more than "
-      .. "6 seconds, quietly ends it. Combos never change what is recommended." },
+    "Now and then the lane links the next 3 notes (4 after a major cooldown): violet edges, a violet line between "
+      .. "them and COMBO x3 over the first. Keep pressing what the lane shows: COMBO 1/3 counts as you go, and the "
+      .. "last press brings COMBO! with a violet sweep and bonus points. It follows the lane like the streak does: "
+      .. "only a miss, or a pause of more than 6 seconds, ends it. Combos start on a cooldown, never in the first few "
+      .. "presses of a fight, at least 15 seconds apart, and about once a minute. They never change what is "
+      .. "recommended." },
   { "Flow: Flow State and COMBO BREAKER",
     "15 Perfect or Great hits in a row start FLOW STATE: for 12 seconds the lane glows teal and every hit scores "
       .. "double; a miss ends it. Landing an interrupt from the bonus row shows COMBO BREAKER! with a red sweep." },

@@ -67,7 +67,10 @@ Written down so that a fix for one class doesn't quietly break another. Keep thi
 - When Blizzard's assistant is stuck on a buff all fight (a missing poison), we run on SimC alone: those specs show
   every gap at once.
 
-## 2e. Combos are mined, not written
+## 2e. Combos: rules in Combos.lua, mined chains only as data
+
+- The rules (length, spacing, warm-up, due time) are constants at the top of Combos.lua; the combo moves with
+  Game.OnJudged (the streak's judgement), never with its own matching, so the two can't disagree.
 
 - `lua5.1 tools/mine_combos.lua > addons/DMGAssist/Data/Combos.lua` plays every spec's single-target and AoE
   fights for 300 s each through the real pipeline and keeps, per major cooldown, the longest chain (2-4 casts)

@@ -310,11 +310,10 @@ test("look-ahead: a line hidden behind a proc now isn't confirmed by Blizzard's 
   mock.acSpell = nil
 end)
 
-test("combos: a cooldown and what the lane shows after it; it follows the lane, breaks on another spell or a pause", function()
+test("combos: follow the lane by the streak's judgement; 3-4 presses, spaced, never at the pull, due when missing", function()
   Reset()
   local ns = Boot()
   local C = ns.Combos
-  ns.COMBO_DATA = {}
   local done, steps = 0, {}
   local onCombo, onStep = ns.Game.OnCombo, ns.Game.OnComboStep
   ns.Game.OnCombo = function(n)
@@ -323,43 +322,49 @@ test("combos: a cooldown and what the lane shows after it; it follows the lane, 
   ns.Game.OnComboStep = function(step, total)
     steps[#steps + 1] = step .. "/" .. total
   end
-  local CD, KC, BS = { id = 300, major = true }, { id = 400 }, { id = 500 }
-  local t0 = mock.now
-  local ids, already, total = C.Planned({ CD, KC, BS })
-  eq(ids and table.concat(ids, ","), "300,400,500") eq(already, 0) eq(total, 3)
-  eq(C.Planned({ KC, BS }), nil, "not a cooldown in slot 1: no combo")
-  C.Planned({ CD, KC, BS })
-  C.shownAfter = { 400, 500 }
-  eq(C.OnCast(300, t0 + 0), "start", "pressing the shown cooldown starts it")
-  -- the lane changed its mind after the press (Kill Command twice before Barbed Shot, BM 2026-11-12): it follows
-  mock.now = t0 + 0.5
-  C.Planned({ KC, KC, BS })
-  eq(C.OnCast(400, t0 + 1), "step")
-  mock.now = t0 + 1.5
-  C.Planned({ KC, BS })
-  eq(C.OnCast(400, t0 + 2), "done", "the second press of what the lane showed finishes it")
-  eq(done, 3) eq(table.concat(steps, " "), "1/3 2/3")
-  -- a press the lane didn't show ends it; a cast the game makes by itself doesn't
-  mock.now = t0 + 10
-  C.Planned({ CD, KC, BS })
-  C.OnCast(300, t0 + 10)
-  C.Planned({ KC, BS })
-  eq(C.OnCast(777, t0 + 10.5), nil, "a cast that isn't one of the spec's spells (the game's own) is ignored")
-  eq(C.run ~= nil, true)
-  local tokenFor = ns.SpellMap.TokenForID
-  ns.SpellMap.TokenForID = function(id)
-    return id == 999 and "shred" or tokenFor(id)
+  local CD, KC, BS = { id = 300 }, { id = 400 }, { id = 500 }
+  mock.cooldowns = mock.cooldowns or {}
+  local isStarter = C.IsStarter
+  C.IsStarter = function(p)
+    return p and p.id == 300 -- Bestial Wrath: a cooldown
   end
-  C.OnCast(999, t0 + 11)
-  ns.SpellMap.TokenForID = tokenFor
-  eq(C.run, nil, "another of the spec's spells ends it")
-  -- a pause
-  mock.now = t0 + 20
+  C.OnFightStart(mock.now)
+  eq(C.Planned({ CD, KC, BS }), nil, "never at the pull: a few presses first")
+  for _ = 1, C.WARMUP do
+    C.OnJudged("hit", 400)
+  end
+  local ids, already, total = C.Planned({ CD, KC, BS })
+  eq(ids and table.concat(ids, ","), "300,400,500") eq(already, 0) eq(total, 3, "three presses")
+  eq(C.Planned({ KC, BS }), nil, "slot 1 not a cooldown, a combo not yet due: none")
   C.Planned({ CD, KC, BS })
-  C.OnCast(300, t0 + 20)
+  eq(C.OnJudged("hit", 300), "start")
+  -- the addon switches what's next; the press it judges a hit (slot 2 / 3 or the spell just switched to) keeps it
+  eq(C.OnJudged("near", 999), "step", "a press the streak counts keeps the combo (a mid-press switch)")
+  eq(C.OnJudged("hit", 400), "done")
+  eq(done, 3) eq(table.concat(steps, " "), "1/3 2/3")
+  -- not back to back
+  mock.now = mock.now + 5
+  eq(C.Planned({ CD, KC, BS }), nil, "not within 15 s of the last")
+  mock.now = mock.now + C.GAP
+  eq(C.Planned({ CD, KC, BS }) ~= nil, true, "after the gap")
+  C.OnJudged("hit", 300)
+  eq(C.OnJudged("miss", 999), "broken", "only a miss ends it")
+  eq(C.run, nil)
+  -- a major cooldown: four presses
+  mock.now = mock.now + C.GAP + 1
+  local _, _, four = C.Planned({ { id = 300, major = true }, KC, BS })
+  eq(four, 4)
+  -- none for a while: any spell in the box can start one
+  C.Planned({})
+  mock.now = mock.now + C.DUE + 1
+  local due = C.Planned({ KC, BS, KC })
+  eq(due and due[1], 400, "due: the spell in the box starts one")
+  -- a pause ends it
+  C.OnJudged("hit", 400)
+  mock.now = mock.now + C.WINDOW + 1
   C.Planned({ KC, BS })
-  eq(C.OnCast(400, t0 + 20 + C.WINDOW + 1), nil, "too long a pause ends it")
-  eq(done, 3)
+  eq(C.run, nil, "too long a pause ends it")
+  C.IsStarter = isStarter
   ns.Game.OnCombo, ns.Game.OnComboStep = onCombo, onStep
   C.Reset()
 end)
@@ -6307,6 +6312,7 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   Run({ main = A, queue = { A, B } }, 0.1, 0)
   -- a cooldown in slot 1 and what follows it: linked notes (violet line between them, COMBO over the first)
   ns.Combos.Reset()
+  ns.Combos.fightPresses = ns.Combos.WARMUP -- past the warm-up
   local CD = { id = 201, token = "cd", source = "simc", major = true }
   Run({ main = CD, queue = { CD, B } }, 0.1, 0)
   eq(Game.comboPlan ~= nil, true, "the chain is planned")
@@ -6314,9 +6320,9 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   -- the cooldown pressed: the rest of the chain stays linked, counted from where it is
   local C2 = { id = 203, token = "c2", source = "simc" }
   Run({ main = CD, queue = { CD, B, C2 } }, 0.1, 0)
-  eq(ns.Combos.OnCast(201), "start")
+  eq(ns.Combos.OnJudged("hit", 201), "start")
   Run({ main = B, queue = { B, C2 } }, 0.1, 0)
-  eq(Game.comboPlan and Game.comboPlan.done, 1, "one of three done")
+  eq(Game.comboPlan and Game.comboPlan.done, 1, "one of four done (a major cooldown)")
   eq(Game.frame.comboLinks[1]:IsShown(), true, "slots 1-2 still linked")
   -- an interrupt: COMBO BREAKER!
   Game.OnBonus("kick")

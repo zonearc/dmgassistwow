@@ -111,12 +111,14 @@ on the settings page. Can be turned off.
   Making the engine itself "commit" to picks (less swapping at the cost of exactness) is not done: measure it in
   the every-spec check first.
 - Purely visual; nothing is pressed for the player.
-- Combos (decided 2026-11-12, Flow only): a cooldown in slot 1 with what follows it in slots 2-3 is a combo; the
-  lane links those notes before you get there (violet edges, a line between them, COMBO x3); after the cooldown it
-  follows the lane (each press of the spell in the box counts, for as many presses as were linked), COMBO 1/3
-  counts as you go, and finishing it shows COMBO! with a violet sweep and bonus points, apart from the streak. The chain is
-  what the rotation shows (SimC's order); chains mined from simulated fights (tools/mine_combos.lua) only fill in
-  when the queue is too short.
+- Combos (decided 2026-11-12, Flow only; rules from the owner the same day):
+  - the lane links the next 3 notes (4 when it starts on a major cooldown): violet edges, a line between them,
+    COMBO x3; COMBO 1/3 counts, COMBO! with a violet sweep and bonus points ends it, apart from the streak;
+  - it follows the lane: the linked notes are always the next ones shown, and a press moves it on whenever the
+    streak counts it (slot 1, slot 2 / 3, or a spell the addon switched to a moment before): a switch never costs
+    the combo when it doesn't cost the streak; only a miss or a 6 s pause ends it;
+  - 3-4 presses, never more; never back to back (15 s at least after the last); never in the first 5 presses of
+    a fight; about one a minute (45 s without one and any spell in the box can start one, else a cooldown does).
 - Flow State (2026-11-12): 15 Perfect / Great hits in a row -> 12 s, teal lane, double points; a miss ends it.
   COMBO BREAKER! when an interrupt lands: visual only, no sound.
 - Action box (2026-11-12): one box right over the hit box instead of a row; the most urgent waiting action pops

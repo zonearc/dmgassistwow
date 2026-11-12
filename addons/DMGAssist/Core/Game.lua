@@ -717,14 +717,6 @@ local function Wanted(r, wait)
     if k > 1 then
       G.comboPlan = { total = total, done = done or 0 }
     end
-    -- what the lane shows after the cooldown, for the first press after it (the lane may not have moved yet)
-    if (done or 0) == 0 then
-      local after = {}
-      for i = 2, #ids do
-        after[#after + 1] = ids[i]
-      end
-      ns.Combos.shownAfter = after
-    end
   end
   -- the bonus row (lane 2): what isn't the rotation, when it's needed
   -- One box, right above the hit box (2026-11-12: "show on the far left for the immediate action ... so its just
@@ -1582,6 +1574,10 @@ function G.OnJudged(kind, id)
     end
   end
   G.lastJudge = judge
+  -- combos move with the same judgement as the streak (a switch that doesn't cost the streak doesn't cost the combo)
+  if ns.Combos then
+    ns.Combos.OnJudged(kind, id)
+  end
   U.Log("flow", { judge = judge, kind = kind, id = id, streak = G.streak })
   -- every press: the small word at the line (colour = how close), the big ones above are for moments
   Flash(f.judge, L[G.JUDGE_WORD[judge]], G.JUDGE_COLOR[judge])
