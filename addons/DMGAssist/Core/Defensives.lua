@@ -78,9 +78,17 @@ F.HEALS = { frenzied_regeneration = true, renewal = true, regrowth = true, renew
 -- A defensive you cast is up until its duration ends: the hit it was for is covered, don't ask for a second one.
 F.upUntil = 0
 
+-- A heal you just cast isn't asked for again for HEAL_GRACE seconds: let it land (2026-11-12: Regrowth stayed up
+-- through three casts while a golem kept hitting; in combat health is hidden, the game shows it while you're low).
+F.HEAL_GRACE = 6
+F.healAt = {}
+
 function F.OnOwnCast(id)
   local M = ns.SpellMap
   local token = M.TokenForID and M.TokenForID(id)
+  if token and F.HEALS[token] then
+    F.healAt[token] = GetTime()
+  end
   if not (token and F.SET and F.SET[token]) or F.HEALS[token] then
     return
   end
@@ -116,6 +124,9 @@ function F.Spell(noHeals)
     local allowed = not F.ONLY_WHEN[token] or F.ONLY_WHEN[token]()
     local usable = id and U.Read((U.Call(C_Spell and C_Spell.IsSpellUsable, id)))
     local blocked = id and ns.Engine.BlockedWhileActive and ns.Engine.BlockedWhileActive(id)
+    if F.HEALS[token] and F.healAt[token] and GetTime() - F.healAt[token] < F.HEAL_GRACE then
+      blocked = true -- just cast: give it time to land
+    end
     if id and allowed and usable ~= false and not blocked and ns.State.CooldownReady(id) ~= false
       and not ns.Choices.Skip(id) and not (noHeals and F.HEALS[token]) then
       return id, token

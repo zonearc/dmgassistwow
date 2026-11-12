@@ -1691,6 +1691,15 @@ function S.AppliedAuras(id)
   return NONE
 end
 
+-- Buffs that start other buffs for their whole length, from SimC's class modules (not in the spell data):
+--   sc_druid.cpp celestial_alignment_buff_t::trigger: eclipse_lunar and eclipse_solar trigger( remains() ), and
+--   expire with it. Without this Balance showed Eclipse in slot 1 all through Celestial Alignment, when the game
+--   won't let you cast it (2026-11-12: "says to hit Q and I can't").
+S.ALSO_STARTS = {
+  celestial_alignment = { "eclipse_lunar", "eclipse_solar" },
+  incarnation_chosen_of_elune = { "eclipse_lunar", "eclipse_solar" },
+}
+
 local function StartAuraClock(token, auraID, target, from)
   local d = AuraLength(token, auraID)
   if not d then
@@ -1793,12 +1802,26 @@ local function RecordCast(id, how)
     ns.Interrupts.OnOwnCast(id)
   end
   -- Start our clocks for the auras this spell applies (SimC data, else what we learned in game).
+  local info0 = M.Info(id)
   local started = false
   for _, ap in ipairs(S.AppliedAuras(id)) do
     local ai = M.Info(ap[1])
     if ai and ai.n then
       StartAuraClock(ai.n, ap[1], ap[2], GetTime())
       started = true
+    end
+  end
+  -- Class-module links the spell data doesn't carry (SimC engine/class_modules): the cast's buff starts others
+  -- for as long as it lasts.
+  local own = info0 and info0.n or token
+  for _, extra in ipairs(own and S.ALSO_STARTS[own] or NONE) do
+    local untilT = own and S.auraUntil[own]
+    if not (untilT and untilT > GetTime()) then
+      local d = AuraLength(own, id)
+      untilT = d and GetTime() + d
+    end
+    if untilT and untilT > GetTime() then
+      S.auraUntil[extra] = untilT
     end
   end
   if not started then

@@ -870,8 +870,10 @@ function G.Render()
       G.mainNote = n
     end
     n.fire = w.fire
-    if w.lane == 1 and w.hold and w.hold > 0 then
-      n.bar:SetWidth(math.max(4, w.hold * px))
+    -- the hold bar ends at the lane's right edge (a Starfire near the end ran past the frame, 2026-11-12)
+    local room = G.WIDTH - 3 - n.x
+    if w.lane == 1 and w.hold and w.hold > 0 and room > 4 then
+      n.bar:SetWidth(math.min(math.max(4, w.hold * px), room))
       if w.holdKind == "channel" then
         n.bar:SetColorTexture(0.3, 0.6, 1, 0.75)
       else

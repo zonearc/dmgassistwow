@@ -74,6 +74,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.214: reports 2026-11-12 (Balance, dummies): Eclipse asked for during Incarnation from the pull before
+  ("says to hit Q and I can't"): the blocked-while-active rule only counted casts since combat began, and dummies
+  drop combat between pulls; and Celestial Alignment / Incarnation now start the Lunar and Solar Eclipse clocks
+  for their duration (SimC sc_druid.cpp celestial_alignment_buff_t). A heal you cast isn't asked for again for 6 s
+  (Regrowth stayed up through three casts while a golem hit). Flow: a hold bar stops at the lane's edge.
 - 1.6.0.211: Flow mode: while waiting, the next press sits in the box on the left (the dark box starts right of
   it) and nothing freezes off the right edge (that icon blinked as it froze and came back: the "weird pulsing").
   1.6.0.213 puts the intended pulses back (briefly taken out in 1.6.0.211).

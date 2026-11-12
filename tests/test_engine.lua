@@ -2184,6 +2184,7 @@ end)
 
 test("Eclipse is not recommended again while it is active, even with a charge left", function()
   Reset()
+  mock.specIndex = 1 -- Balance
   local ns = Boot()
   local G, S = ns.Engine, ns.State
   ns.SpellMap.byID[1233272] = "eclipse"
@@ -2198,6 +2199,16 @@ test("Eclipse is not recommended again while it is active, even with a charge le
   eq(G.BlockedWhileActive(1233272), true, "Incarnation: 20 s")
   ns.SpellMap.byID[1233272] = "lunar_eclipse"
   eq(G.BlockedWhileActive(1233272), true, "the button as Lunar Eclipse: same rule")
+  -- Incarnation from the last pull (dummies drop combat between pulls): still blocked (2026-11-12)
+  S.lastCastToken.incarnation_chosen_of_elune = GetTime()
+  mock.Advance(5)
+  S.combatStart = GetTime()
+  eq(G.BlockedWhileActive(1233272), true, "a new pull 5 s into Incarnation: still blocked")
+  -- and the Eclipse buffs run with it (SimC: celestial_alignment_buff_t starts both for its remains)
+  S.auraUntil.incarnation_chosen_of_elune, S.auraUntil.eclipse_lunar = nil, nil
+  S.OnSpellcastSucceeded(102560)
+  eq((S.auraUntil.eclipse_lunar or 0) > GetTime() + 15, true, "Lunar Eclipse runs with Incarnation")
+  eq((S.auraUntil.eclipse_solar or 0) > GetTime() + 15, true, "Solar Eclipse too")
   ns.SpellMap.byID[1233272] = "eclipse"
   S.combatStart = nil
 end)
@@ -3162,6 +3173,22 @@ test("defensives: boss mod warning -> decided with sound; low health in combat -
   mock.healthPct = { player = 0.9 }
   r = ns.Update()
   eq(r.defensive, nil, "readable full health: nothing")
+end)
+
+test("defensives: a heal you just cast isn't asked for again while it lands (Regrowth stayed up, 2026-11-12)", function()
+  Reset()
+  local ns = Boot()
+  local F, M = ns.Defensives, ns.SpellMap
+  local tokens, sid, tfi = F.TOKENS, M.SpellID, M.TokenForID
+  F.TOKENS = { "regrowth" }
+  M.SpellID = function(t) return t == "regrowth" and 8936 or sid(t) end
+  M.TokenForID = function(id) return id == 8936 and "regrowth" or tfi(id) end
+  eq(F.Spell(), 8936, "low and nothing else: Regrowth")
+  F.OnOwnCast(8936)
+  eq(F.Spell(), nil, "just cast: not again for a moment")
+  mock.Advance(F.HEAL_GRACE + 0.1)
+  eq(F.Spell(), 8936, "still low after it landed: again")
+  F.TOKENS, M.SpellID, M.TokenForID = tokens, sid, tfi
 end)
 
 test("defensives: timed from the buff's duration - time to press it, and the hit lands well inside it", function()
@@ -4404,6 +4431,11 @@ test("game mode: hold bars for casts and channels, flame notes for major cooldow
   Game.Render()
   local flay, nextNote, cdNote = Game.notes["1:15407:1"], Game.notes["1:102:1"], Game.notes["1:103:1"]
   eq(flay.bar:IsShown(), true, "the channel trails a bar")
+  for _, n in pairs(Game.notes) do
+    if n.bar:IsShown() then
+      eq(n.x + n.bar:GetWidth() <= Game.WIDTH - 3 + 0.01, true, "a hold bar stops at the lane's edge")
+    end
+  end
   eq(cdNote.fire, true, "a major cooldown is a flame note")
   -- the next note sits after the channel (not just one GCD later)
   for _ = 1, 60 do

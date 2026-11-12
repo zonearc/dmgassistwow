@@ -347,14 +347,17 @@ local function BlockedWhileActive(id)
   end
   local now = GetTime()
   for trigger, duration in pairs(rule) do
+    -- any cast still inside its duration, even from the last pull: the effect outlives combat (dummies drop combat
+    -- between pulls; Eclipse was offered 5 s after Incarnation from the pull before, 2026-11-12)
     local at = S.lastCastToken[trigger]
-    if at and now - at < duration and at >= (S.combatStart or S.combatEnd or 0) - 3 then
+    if at and now - at < duration then
       return true
     end
     local tid = M.SpellID(trigger)
     M.unresolved[trigger] = nil
     local since = tid and S.SinceCast(tid)
-    if since and since < duration then
+    local last = tid and S.lastCast[tid]
+    if (since and since < duration) or (last and now - last < duration) then
       return true -- includes a cast predicted earlier in this look-ahead
     end
   end
