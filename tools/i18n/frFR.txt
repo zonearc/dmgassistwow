@@ -884,3 +884,12 @@
 890	COMBO %d/%d
 891	Flow : combos
 892	Chaque spécialisation a quelques courtes chaînes qu'elle joue juste après un gros temps de recharge, trouvées dans de longs combats simulés. Lancez le temps de recharge et COMBO 1/3 s'affiche au-dessus de la case ; enchaînez les sorts suivants dans l'ordre et COMBO ! balaie la piste en violet avec des points bonus. Un autre sort, ou une pause de plus de 6 secondes, l'arrête discrètement. Les combos ne changent jamais la recommandation.
+893	COMBO x%d
+894	FLOW STATE !
+895	COMBO BREAKER !
+896	Flow : Flow State et COMBO BREAKER
+897	Petit, moyen ou grand : tout le HUD, icônes et texte. Personnalisé : affiche chaque option d'Affichage pour tout régler vous-même.
+898	Choisissez une taille et un emplacement : c'est tout ce qu'il faut à la plupart. Mettez Taille sur Personnalisé pour voir chaque option d'Affichage et l'ajuster vous-même.
+899	Quand un temps de recharge arrive avec les sorts qui le suivent, la piste les relie : bords violets, une ligne violette entre les notes et COMBO x3 au-dessus de la première. Lancez-les dans l'ordre : COMBO 1/3 s'affiche au-dessus de la case au fur et à mesure, et le dernier déclenche COMBO ! avec un balayage violet et des points bonus. Un autre sort, ou une pause de plus de 6 secondes, l'arrête discrètement. Les combos ne changent jamais la recommandation.
+900	15 réussites Parfait ou Super d'affilée lancent FLOW STATE : pendant 12 secondes la piste brille en turquoise et chaque réussite compte double ; un raté l'arrête. Réussir une interruption de la rangée bonus affiche COMBO BREAKER ! avec un balayage rouge.
+901	Barre jaune derrière une note : une incantation, aussi longue qu'elle. Barre bleue : une canalisation. Note orange en flammes : un gros temps de recharge, vaut double. Note pâle : une estimation ou en attente de ressource ; ne compte pas comme un raté. La piste devient bleu électrique (MODE PUISSANCE !) : Furie sanguinaire ou juste après un gros temps de recharge ; chaque réussite compte double. La case au-dessus de la case de frappe propose le bonus le plus urgent, un à la fois (+1 : un autre attend) : INTERROMPEZ !, DÉFENDEZ-VOUS ! (un défensif ou un soin) et BOOST ! (un bijou ou une potion). Après une série de pulls (20 secondes hors combat), votre note de performance s'affiche.

@@ -46,6 +46,12 @@ G.MISS_SHOW = 0.7   -- the red X on a note after a wrong press
 G.COMBO_COLOR = { 0.78, 0.45, 1 }
 G.COMBO_POINTS = 250 -- per spell of the chain, times the multiplier
 G.COMBO_FLASH = 0.7
+-- Flow State (decided 2026-11-12): a hot streak of FLOW_STATE_AT Perfect / Great hits in a row turns it on for
+-- FLOW_STATE_TIME seconds: the lane glows teal and every hit scores double; a miss ends it
+G.FLOW_STATE_AT, G.FLOW_STATE_TIME, G.FLOW_STATE_MULT = 15, 12, 2
+G.FLOW_STATE_COLOR = { 0.25, 1, 0.8 }
+-- an interrupt you land: COMBO BREAKER! (seen, not heard), with a red sweep
+G.BREAKER_COLOR = { 1, 0.3, 0.2 }
 -- Guitar Hero's ideas, in WoW terms (asked 2026-11-11):
 --   hold bars: a cast or channel's note trails a bar as long as the cast (yellow) or channel (blue); the next note
 --     comes after it, so the gap is cast time, or the GCD when that's longer;
@@ -363,8 +369,9 @@ function G.Create()
   local actH = G.BONUS_ICON + 6
   f.actTrack = f:CreateTexture(nil, "BACKGROUND", nil, 1)
   f.actTrack:SetColorTexture(0.04, 0.04, 0.07, 0.5)
-  f.actTrack:SetPoint("LEFT", f, "TOPLEFT", 0, G.BonusY())
-  f.actTrack:SetSize(G.WIDTH, actH)
+  -- (one box over the hit box now, not a row across the lane: 2026-11-12)
+  f.actTrack:SetPoint("CENTER", f, "TOPLEFT", G.HIT_X, G.BonusY())
+  f.actTrack:SetSize(G.BONUS_ICON + 12, actH)
   f.actEdges = {}
   for i, side in ipairs({ { "TOPLEFT", "TOPRIGHT" }, { "BOTTOMLEFT", "BOTTOMRIGHT" }, { "TOPLEFT", "BOTTOMLEFT" },
     { "TOPRIGHT", "BOTTOMRIGHT" } }) do
@@ -551,6 +558,12 @@ local function NewNote(f)
   n.tag = n:CreateFontString(nil, "OVERLAY")
   ns.Display.SetFont(n.tag, 13)
   n.tag:SetPoint("LEFT", n, "RIGHT", 6, 0)
+  -- "COMBO" over the first note of a linked chain (Combos.lua)
+  n.comboTag = n:CreateFontString(nil, "OVERLAY")
+  ns.Display.SetFont(n.comboTag, 12)
+  n.comboTag:SetPoint("BOTTOM", n, "TOP", 0, 3)
+  n.comboTag:SetTextColor(G.COMBO_COLOR[1], G.COMBO_COLOR[2], G.COMBO_COLOR[3])
+  n.comboTag:Hide()
   return n
 end
 
@@ -681,12 +694,39 @@ local function Wanted(r, wait)
       t = t + math.max(gcd, hold)
     end
   end
+  -- a combo the lane shows (Combos.lua): the chain's spells still to press, in order from slot 1, are linked
+  G.comboPlan = nil
+  local chain, done
+  if ns.Combos then
+    chain, done = ns.Combos.Planned(q) -- (both values: "a and f()" would keep only the first)
+  end
+  if chain then
+    local k = (done or 0) + 1
+    local first = true
+    for _, w in ipairs(want) do
+      local want1 = chain[k]
+      local baseOf = ns.SpellMap.baseOf or {}
+      if want1 and w.pick and w.pick.id and (baseOf[w.pick.id] or w.pick.id) == (baseOf[want1] or want1) then
+        w.combo, w.comboFirst = k, first and (done or 0) == 0
+        first = false
+        k = k + 1
+      else
+        break
+      end
+    end
+    if k > (done or 0) + 1 then
+      G.comboPlan = { total = #chain, done = done or 0 }
+    end
+  end
   -- the bonus row (lane 2): what isn't the rotation, when it's needed
-  local bonus = 0
+  -- One box, right above the hit box (2026-11-12: "show on the far left for the immediate action ... so its just
+  -- one additional slot to worry about"): the most urgent waiting action pops into it, the rest wait their turn
+  -- (interrupt, then a defensive, then the off-GCD keep-up, then a trinket / potion). The low-health defensive the
+  -- game shows only when you're low sits over it in the same box (its alpha is the game's).
+  local waiting = {}
   local function Bonus(entry)
-    bonus = bonus + 1
-    entry.lane, entry.t, entry.slot = 2, 0, bonus
-    want[#want + 1] = entry
+    entry.lane, entry.t, entry.slot = 2, 0, 1
+    waiting[#waiting + 1] = entry
   end
   local intr = r.interrupt
   if intr and intr.id and (intr.how == "decided" or intr.how == "render") then
@@ -718,6 +758,20 @@ local function Wanted(r, wait)
   if it and (it.id or it.item) then
     Bonus({ key = "b:item:" .. tostring(it.item or it.id), pick = it, bonus = "item" })
   end
+  -- the box: the first that isn't the health-only defensive, plus that one over it
+  local top
+  for _, e in ipairs(waiting) do
+    if e.special == "health" then
+      e.over = true
+      want[#want + 1] = e
+    elseif not top then
+      top = e
+    end
+  end
+  if top then
+    want[#want + 1] = top
+  end
+  G.bonusQueued = math.max(0, #waiting - (top and 1 or 0) - ((waiting[1] and waiting[1].special == "health") and 1 or 0))
   return want
 end
 
@@ -807,6 +861,7 @@ function G.Render()
     end
   end
   local keep = {}
+  local comboNotes = {}
   local actions = 0
   local px = (G.WIDTH - G.HIT_X - G.ICON / 2 - 2) / G.LOOK
   local prevX, prevT -- the lane note before this one
@@ -848,17 +903,17 @@ function G.Render()
     if w.lane == 2 then
       -- the action track: opens above the lane when something needs doing. Interrupts and defensives slide in
       -- (a boss hit's defensive from as far as its timer) and land on the same line; items wait beside it.
-      n:SetSize(G.BONUS_ICON, G.BONUS_ICON)
+      -- pops into the box: grows from small as it arrives
+      local pop = n.born and math.min(1, (now - n.born) / 0.2) or 1
+      local size = G.BONUS_ICON * (0.6 + 0.4 * pop)
+      n:SetSize(size, size)
+      n.x = G.HIT_X
+      if w.over then
+        n:SetFrameLevel((f:GetFrameLevel() or 1) + 12)
+      else
+        n:SetFrameLevel((f:GetFrameLevel() or 1) + 10)
+      end
       if w.timed then
-        local target = XFor(w.t)
-        if G.paused then
-          n.x = target -- waiting: in its place, never frozen off the edge
-        elseif target < n.x then
-          n.x = n.x + (target - n.x) * math.min(1, elapsed * G.GLIDE)
-          if math.abs(n.x - target) < 0.5 then
-            n.x = target
-          end
-        end
         if w.t <= 0.05 and not n.alarmed and w.special ~= "health" then
           n.alarmed = true
           f.alarmAt = now
@@ -866,15 +921,14 @@ function G.Render()
         elseif w.t > 0.05 then
           n.alarmed = nil
         end
-      else
-        n.x = G.HIT_X + (w.slot - 1) * (G.BONUS_ICON + 96)
       end
       if w.special ~= "health" then
         actions = actions + 1
       end
       y = G.BonusY()
       local pulse = 0.6 + 0.4 * math.abs(math.sin(now * 4))
-      n.tag:SetText(L[G.BONUS_TAG[w.bonus]])
+      local more = (not w.over and (G.bonusQueued or 0) > 0) and ("  |cffbbbbbb+" .. G.bonusQueued .. "|r") or ""
+      n.tag:SetText(L[G.BONUS_TAG[w.bonus]] .. more)
       n.tag:SetTextColor(1, 0.4 + 0.45 * pulse, 0.2)
       n.tag:Show()
     else
@@ -954,7 +1008,11 @@ function G.Render()
       n.bar:Hide()
     end
     local c = G.LANE_COLOR[1]
-    if w.fire and w.lane == 1 then
+    if w.combo and w.lane == 1 then
+      -- a linked combo note: violet, pulsing (the line between them is drawn after the notes)
+      local cc = G.COMBO_COLOR
+      n.edge:SetColorTexture(cc[1], cc[2], cc[3], 0.6 + 0.4 * math.abs(math.sin(now * 5)))
+    elseif w.fire and w.lane == 1 then
       -- a flame note: worth double, burns orange
       n.edge:SetColorTexture(1, 0.35 + 0.3 * math.abs(math.sin(now * 6)), 0.05, 0.95)
     elseif w.special == "interrupt" then
@@ -993,11 +1051,42 @@ function G.Render()
         G.arrived = nil
       end
     end
+    if w.comboFirst then
+      n.comboTag:SetText(string.format(L["COMBO x%d"], G.comboPlan and G.comboPlan.total or 2))
+      n.comboTag:Show()
+    else
+      n.comboTag:Hide()
+    end
+    if w.combo and w.lane == 1 then
+      comboNotes[#comboNotes + 1] = n
+    end
     n:Show()
+  end
+  -- the combo's link: a violet line from each linked note to the next
+  f.comboLinks = f.comboLinks or {}
+  for i = 1, math.max(#f.comboLinks, #comboNotes - 1) do
+    local a, b = comboNotes[i], comboNotes[i + 1]
+    local link = f.comboLinks[i]
+    if a and b then
+      if not link then
+        link = f:CreateTexture(nil, "ARTWORK", nil, -1)
+        f.comboLinks[i] = link
+      end
+      local cc = G.COMBO_COLOR
+      local x1, x2 = a.x + G.ICON / 2, b.x - G.ICON / 2
+      link:ClearAllPoints()
+      link:SetPoint("LEFT", f, "TOPLEFT", x1, G.LaneY())
+      link:SetSize(math.max(1, x2 - x1), 4)
+      link:SetColorTexture(cc[1], cc[2], cc[3], 0.85)
+      link:SetShown(x2 > x1)
+    elseif link then
+      link:Hide()
+    end
   end
   -- notes no longer wanted: pressed (or swapped) - fade out where they are
   for key, n in pairs(G.notes) do
     if not keep[key] then
+      n.comboTag:Hide()
       n.fade = n.fade or now
       local a = 1 - (now - n.fade) / 0.2
       if a <= 0 then
@@ -1070,7 +1159,14 @@ function G.Render()
   end
   G.RenderCast(f)
   local power = G.PowerOn()
-  if power then
+  local flowState = G.FlowStateOn()
+  if flowState then
+    local p2 = 0.5 + 0.5 * math.abs(math.sin(now * 2.5))
+    local fc = G.FLOW_STATE_COLOR
+    f.lane:SetColorTexture(fc[1], fc[2], fc[3], 0.12 + 0.12 * p2)
+    f.line:SetColorTexture(fc[1], fc[2], fc[3], 1)
+    f.bg:SetColorTexture(0.02, 0.1, 0.08, 0.7)
+  elseif power then
     local p2 = 0.5 + 0.5 * math.abs(math.sin(now * 3))
     f.lane:SetColorTexture(0.2, 0.5, 1, 0.18 + 0.12 * p2)
     f.line:SetColorTexture(0.4, 0.8, 1, 1)
@@ -1079,6 +1175,12 @@ function G.Render()
     f.lane:SetColorTexture(1, 0.8, 0.3, 0.08)
     f.line:SetColorTexture(1, 0.82, 0.25, 0.9)
     f.bg:SetColorTexture(0.04, 0.04, 0.07, 0.55)
+  end
+  if flowState and not G.flowStateShown then
+    G.flowStateShown = true
+    G.Kudos(f, L["FLOW STATE!"], G.FLOW_STATE_COLOR, true)
+  elseif not flowState then
+    G.flowStateShown = nil
   end
   if power and not G.powerShown then
     G.powerShown = true
@@ -1101,11 +1203,12 @@ function G.Render()
   end
   -- the combo sweep: a violet band that runs across the lane from the box and fades
   local cf = f.comboAt and (now - f.comboAt) / G.COMBO_FLASH or 1
+  local sc = f.sweepColor or G.COMBO_COLOR
   if cf < 1 then
     f.comboFlash:SetWidth(math.max(1, G.WIDTH * math.min(1, cf * 1.6)))
-    f.comboFlash:SetColorTexture(G.COMBO_COLOR[1], G.COMBO_COLOR[2], G.COMBO_COLOR[3], 0.55 * (1 - cf))
+    f.comboFlash:SetColorTexture(sc[1], sc[2], sc[3], 0.55 * (1 - cf))
   else
-    f.comboFlash:SetColorTexture(G.COMBO_COLOR[1], G.COMBO_COLOR[2], G.COMBO_COLOR[3], 0)
+    f.comboFlash:SetColorTexture(sc[1], sc[2], sc[3], 0)
   end
   if f.comboHint:IsShown() and ns.Combos and not ns.Combos.run then
     f.comboHint:Hide() -- the chain ended without finishing: the hint just goes
@@ -1385,6 +1488,7 @@ function G.OnJudged(kind, id)
     judge = "miss"
     G.Break()
     G.perfectRun = 0
+    G.hotRun, G.flowStateUntil = 0, nil -- a miss ends a hot streak and Flow State
     if G.mainNote then
       G.mainNote.missAt = GetTime() -- the note shakes with a red X and stays: press it now
     end
@@ -1429,6 +1533,19 @@ function G.OnJudged(kind, id)
     end
     if G.PowerOn() then
       points = points * G.POWER_MULT
+    end
+    if G.FlowStateOn() then
+      points = points * G.FLOW_STATE_MULT
+    end
+    -- the hot streak: Perfect / Great in a row; FLOW_STATE_AT of them and Flow State begins
+    if judge == "perfect" or judge == "great" then
+      G.hotRun = (G.hotRun or 0) + 1
+      if G.hotRun >= G.FLOW_STATE_AT and not G.FlowStateOn() then
+        G.flowStateUntil = GetTime() + G.FLOW_STATE_TIME
+        G.hotRun = 0
+      end
+    else
+      G.hotRun = 0
     end
     G.score = G.score + points
     G.setBest = math.max(G.setBest, G.streak)
@@ -1500,8 +1617,18 @@ function G.OnBonus(kind)
     SaveBest()
   end
   G.lastJudge = "bonus"
+  if kind == "kick" then
+    -- an interrupt landed: COMBO BREAKER! with a red sweep across the lane (a visual, no sound: decided 2026-11-12)
+    f.comboAt, f.sweepColor = GetTime(), G.BREAKER_COLOR
+    Kudos(f, L["COMBO BREAKER!"] .. "  " .. string.format(L["Bonus +%d"], points), G.BREAKER_COLOR, true)
+    return
+  end
   Kudos(f, L[G.BONUS_DONE[kind] or "Powered up!"] .. "  " .. string.format(L["Bonus +%d"], points),
     { 1, 0.7, 0.2 }, true)
+end
+
+function G.FlowStateOn()
+  return G.flowStateUntil ~= nil and GetTime() < G.flowStateUntil
 end
 
 -- A combo moves on (Combos.lua): "COMBO 2/3" over the box.
@@ -1524,7 +1651,7 @@ function G.OnCombo(length)
   local points = G.COMBO_POINTS * (length or 2) * G.Mult()
   G.score = G.score + points
   G.combos = (G.combos or 0) + 1
-  f.comboAt = GetTime()
+  f.comboAt, f.sweepColor = GetTime(), G.COMBO_COLOR
   Kudos(f, L["COMBO!"] .. "  " .. string.format(L["Bonus +%d"], points), G.COMBO_COLOR, true)
   U.Log("combo", { length = length, points = points })
 end

@@ -545,6 +545,16 @@ end
 G.TooFar = TooFar
 
 local function CastableRaw(id)
+  -- A spell that only exists while a button turns into it (Wailing Arrow on Trueshot / Bestial Wrath for a while
+  -- after you press them): once the button is back, it can't be pressed. The game kept calling Wailing Arrow usable
+  -- after it was fired, and it sat in slot 1 on the cooldown's key (2026-11-12, Marksmanship and Beast Mastery).
+  local base = M.baseOf and M.baseOf[id]
+  if base and not (M.book and M.book[id]) then
+    local now = U.Get(C_Spell and C_Spell.GetOverrideSpell, base)
+    if type(now) == "number" and now ~= id then
+      return false, "override"
+    end
+  end
   local rule = G.TARGET_RULES[id] or G.TARGET_RULES[(M.baseOf and M.baseOf[id]) or id]
   if rule and not rule(id) then
     return false, "target"

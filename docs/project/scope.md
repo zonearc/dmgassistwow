@@ -111,10 +111,15 @@ on the settings page. Can be turned off.
   Making the engine itself "commit" to picks (less swapping at the cost of exactness) is not done: measure it in
   the every-spec check first.
 - Purely visual; nothing is pressed for the player.
-- Combos (decided 2026-11-12): a 2-4 spell chain a spec reliably plays right after a major cooldown is a combo;
-  finishing it in Flow shows COMBO! with its own violet sweep and bonus points, a small achievement apart from the
-  streak (combo tiers on top of streaks were turned down: "just doubling up on streaks"). The chains come from
-  long simulated fights (tools/mine_combos.lua -> Data/Combos.lua), never by hand. Classic shows nothing.
+- Combos (decided 2026-11-12, Flow only): a cooldown in slot 1 with what follows it in slots 2-3 is a combo; the
+  lane links those notes before you get there (violet edges, a line between them, COMBO x3), COMBO 1/3 counts as
+  you go, and finishing it shows COMBO! with a violet sweep and bonus points, apart from the streak. The chain is
+  what the rotation shows (SimC's order); chains mined from simulated fights (tools/mine_combos.lua) only fill in
+  when the queue is too short.
+- Flow State (2026-11-12): 15 Perfect / Great hits in a row -> 12 s, teal lane, double points; a miss ends it.
+  COMBO BREAKER! when an interrupt lands: visual only, no sound.
+- Action box (2026-11-12): one box right over the hit box instead of a row; the most urgent waiting action pops
+  in (interrupt, defensive, keep-up, item), "+1" when another waits.
 
 ## Settings pages (decided 2026-11-11, revised 2026-11-12)
 - Every page has content; a group page says it holds pages (the + on the left) and has an Open button for each.

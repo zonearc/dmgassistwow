@@ -51,6 +51,22 @@ function DMGAssistSettingsTextMixin:Init(initializer)
   self.Text:SetWordWrap(true)
 end
 
+-- Initializers made while O.collecting is a table are kept there (the Display page hides its fine-tuning until
+-- Size is Custom, 2026-11-12: "display fine tuning is when you switch to custom").
+function O.Collect(init)
+  if O.collecting and type(init) == "table" then
+    O.collecting[#O.collecting + 1] = init
+  end
+end
+
+-- The settings list re-checks what's shown (after Size switches to or from Custom).
+function O.RepairList()
+  local inbound = _G.SettingsInbound
+  if inbound and inbound.RepairDisplay then
+    pcall(inbound.RepairDisplay)
+  end
+end
+
 -- A section: its title (the subtitle is also its tooltip) and a one-sentence explanation under it, so a new
 -- player knows what the section is for before reading the options.
 local function Header(category, text, subtitle)
@@ -58,7 +74,9 @@ local function Header(category, text, subtitle)
   if not (layout and layout.AddInitializer and type(CreateSettingsListSectionHeaderInitializer) == "function") then
     return
   end
-  layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(L[text], subtitle and L[subtitle]))
+  local head = CreateSettingsListSectionHeaderInitializer(L[text], subtitle and L[subtitle])
+  layout:AddInitializer(head)
+  O.Collect(head)
   if subtitle and Settings.CreateElementInitializer then
     local line = L[subtitle]
     local ok, init = pcall(Settings.CreateElementInitializer, "DMGAssistSettingsTextTemplate", { text = line })
@@ -68,6 +86,7 @@ local function Header(category, text, subtitle)
         return 6 + rows * 13
       end
       layout:AddInitializer(init)
+      O.Collect(init)
     end
   end
   O.subtitles = O.subtitles or {}
@@ -77,7 +96,9 @@ end
 local function Button(category, label, text, onClick, tooltip)
   local layout = O.layouts[category]
   if layout and layout.AddInitializer and type(CreateSettingsButtonInitializer) == "function" then
-    layout:AddInitializer(CreateSettingsButtonInitializer(L[label], L[text], onClick, tooltip and L[tooltip], true))
+    local init = CreateSettingsButtonInitializer(L[label], L[text], onClick, tooltip and L[tooltip], true)
+    layout:AddInitializer(init)
+    O.Collect(init)
   end
 end
 
@@ -104,7 +125,7 @@ end
 
 local function Check(category, tbl, key, name, default, tooltip)
   local setting = Make(category, tbl, key, name, default, Settings.VarType.Boolean)
-  Settings.CreateCheckbox(category, setting, Tip(tooltip))
+  O.Collect(Settings.CreateCheckbox(category, setting, Tip(tooltip)))
   return setting
 end
 
@@ -117,7 +138,7 @@ local function Slider(category, tbl, key, name, default, minV, maxV, step, toolt
       return unit and (text .. unit) or text
     end)
   end
-  Settings.CreateSlider(category, setting, options, Tip(tooltip))
+  O.Collect(Settings.CreateSlider(category, setting, options, Tip(tooltip)))
   return setting
 end
 
@@ -131,7 +152,7 @@ local function Choice(category, tbl, key, name, default, choices, tooltip)
     end
     return container:GetData()
   end
-  Settings.CreateDropdown(category, setting, GetOptions, Tip(tooltip))
+  O.Collect(Settings.CreateDropdown(category, setting, GetOptions, Tip(tooltip)))
   return setting
 end
 
@@ -486,8 +507,8 @@ function O.Register()
   local display = Category("Display", core)
   -- Quick picks first (2026-11-12: "a quick option to flip between small, medium and large sizing, side, bottom
   -- placement ... so they dont ever have to do it manually"); everything below is the custom fine-tuning.
-  Header(display, "Quick setup", "Pick a size and a place: that's all most players need. Everything below is "
-    .. "optional fine-tuning; changing it shows Custom here.")
+  Header(display, "Quick setup", "Pick a size and a place: that's all most players need. Set Size to Custom to "
+    .. "see every Display option and fine-tune it yourself.")
   local SIZES = { small = 0.8, medium = 1.0, large = 1.3 }
   local PLACES = { right = function()
     return ns.Welcome.RIGHT
@@ -510,6 +531,9 @@ function O.Register()
   local quick = setmetatable({}, {
     __index = function(_, k)
       if k == "sizePreset" then
+        if HUD().displayCustom then
+          return "custom"
+        end
         local sc = tonumber(HUD().scale) or 1
         for name, v in pairs(SIZES) do
           if math.abs(sc - v) < 0.001 then
@@ -527,7 +551,16 @@ function O.Register()
       end
     end,
     __newindex = function(_, k, v)
-      if k == "sizePreset" and SIZES[v] then
+      if k == "sizePreset" and (SIZES[v] or v == "custom") then
+        -- Custom shows every Display option below; a size hides them again (their values stay)
+        local was = HUD().displayCustom == true
+        HUD().displayCustom = v == "custom" or nil
+        if was ~= (v == "custom") then
+          O.RepairList()
+        end
+        if v == "custom" then
+          return
+        end
         HUD().scale = SIZES[v]
         if O.settings.scale and O.settings.scale.NotifyUpdate then
           pcall(O.settings.scale.NotifyUpdate, O.settings.scale)
@@ -548,11 +581,13 @@ function O.Register()
   end
   Choice(display, Quick, "sizePreset", "Size", "medium", { { "small", "Small" }, { "medium", "Medium" },
     { "large", "Large" }, { "custom", "Custom" } },
-    "Small, medium or large: the whole HUD, icons and text. Custom: set by the Scale slider below.")
+    "Small, medium or large: the whole HUD, icons and text. Custom: shows every Display option, to set each one "
+      .. "yourself.")
   Choice(display, Quick, "placePreset", "Place", "custom", { { "right", "To the right of my character" },
     { "below", "Right below my character's feet" }, { "bars", "Just above the action bars" },
     { "custom", "Custom" } },
     "Where the HUD sits. Custom: wherever you dragged it (unlock on the first page) or put it in Edit Mode.")
+  O.collecting = {} -- everything from here to the end of the page: shown with Size = Custom
   Header(display, "Size and spacing", "Custom: how big the icons are and the space between them. To move them, "
     .. "unlock on the first page and drag, or use Blizzard's Edit Mode.")
   Slider(display, HUD, "scale", "Scale", H.scale, 0.5, 2, 0.05, "The size of everything at once, icons and text.")
@@ -656,6 +691,16 @@ function O.Register()
   Slider(display, HUD, "calloutSize", "Callout text size", H.calloutSize, 10, 28, 1, "The size of the callout text.")
 
   ---------------------------------------------------------------- sounds
+  local custom = O.collecting
+  O.collecting = nil
+  O.displayCustomInits = custom
+  for _, init in ipairs(custom) do
+    if init.AddShownPredicate then
+      init:AddShownPredicate(function()
+        return HUD().displayCustom == true
+      end)
+    end
+  end
   local sounds = Category("Sounds", core)
   Header(sounds, "Sounds", "A sound for each kind of alert, so you hear it even when you're not looking. Choose "
     .. "None to silence one.")
@@ -1319,14 +1364,17 @@ O.HELP = {
     "Yellow bar behind a note: a cast, as long as the cast. Blue bar: a channel. Orange, burning note: a major "
       .. "cooldown, worth double. Faded note: a guess or waiting for resource; it doesn't count as a miss. Lane "
       .. "turns electric blue (POWER MODE!): Bloodlust or right after a major cooldown; every hit scores double. "
-      .. "The row above the lane holds bonuses to grab when they're needed: INTERRUPT!, DEFEND! (a defensive or "
-      .. "heal) and POWER UP! (a trinket or potion). After a set of pulls (20 seconds out of combat), your "
-      .. "performance grade shows." },
+      .. "The box above the hit box holds the most urgent bonus to grab, one at a time (+1 says another waits): "
+      .. "INTERRUPT!, DEFEND! (a defensive or heal) and POWER UP! (a trinket or potion). After a set of pulls "
+      .. "(20 seconds out of combat), your performance grade shows." },
   { "Flow: combos",
-    "Each spec has a few short chains it plays right after a major cooldown, found in long simulated fights. "
-      .. "Press the cooldown and COMBO 1/3 shows over the box; play the chain's next spells in order and COMBO! "
-      .. "sweeps the lane violet with bonus points. Another spell, or a pause of more than 6 seconds, quietly ends "
-      .. "it. Combos never change what is recommended." },
+    "When a cooldown comes up with the spells that follow it, the lane links them: violet edges, a violet line "
+      .. "between the notes and COMBO x3 over the first. Press them in order: COMBO 1/3 shows over the box as you go, "
+      .. "and the last one brings COMBO! with a violet sweep and bonus points. Another spell, or a pause of more than "
+      .. "6 seconds, quietly ends it. Combos never change what is recommended." },
+  { "Flow: Flow State and COMBO BREAKER",
+    "15 Perfect or Great hits in a row start FLOW STATE: for 12 seconds the lane glows teal and every hit scores "
+      .. "double; a miss ends it. Landing an interrupt from the bonus row shows COMBO BREAKER! with a red sweep." },
   { "What Flow changes to stay fun",
     "The note in the box is always exactly the spell Classic shows: that is never changed. To keep the lane "
       .. "readable, Flow smooths what comes after it: the notes behind only swap when a new pick holds for a third "
@@ -1379,7 +1427,8 @@ O.HELP = {
     "Keys are read from Blizzard's bars, Bartender, ElvUI, Dominos and macros. Missing keybinds lists what the "
       .. "rotation can ask for that has no key." },
   { "Reporting a problem",
-    "Right after it happens: /dmga report (or the minimap menu, or the Report an issue button at the top of this page). Step 1: say what "
+    "Right after it happens: /dmga report (or the minimap menu, or the Report an issue button at the top of this "
+      .. "page). Step 1: say what "
       .. "went wrong. Step 2: Ctrl+C copies your words and the report together. Step 3: open the link and paste "
       .. "it into a new issue. /dmga help lists every command." },
 }

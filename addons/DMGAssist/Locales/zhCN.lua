@@ -888,4 +888,13 @@ ns.LOCALE_DATA.zhCN = {
   ["COMBO %d/%d"] = "连招 %d/%d",
   ["Flow: combos"] = "Flow：连招",
   ["Each spec has a few short chains it plays right after a major cooldown, found in long simulated fights. Press the cooldown and COMBO 1/3 shows over the box; play the chain's next spells in order and COMBO! sweeps the lane violet with bonus points. Another spell, or a pause of more than 6 seconds, quietly ends it. Combos never change what is recommended."] = "每个专精都有几条在大技能之后打出的短连招，来自长时间的模拟战斗。按下大技能后方框上方显示“连招 1/3”；按顺序打出后续技能，“连招！”会让轨道闪过紫光并奖励分数。打出其他技能或停顿超过 6 秒会悄悄结束连招。连招从不改变推荐内容。",
+  ["COMBO x%d"] = "连招 x%d",
+  ["FLOW STATE!"] = "心流状态！",
+  ["COMBO BREAKER!"] = "连招破坏者！",
+  ["Flow: Flow State and COMBO BREAKER"] = "Flow：心流状态与连招破坏者",
+  ["Small, medium or large: the whole HUD, icons and text. Custom: shows every Display option, to set each one yourself."] = "小、中、大：整个 HUD，包括图标和文字。自定义：显示所有显示选项，由你逐项设置。",
+  ["Pick a size and a place: that's all most players need. Set Size to Custom to see every Display option and fine-tune it yourself."] = "选择大小和位置：大多数玩家只需要这些。把大小设为“自定义”即可看到所有显示选项并自行微调。",
+  ["When a cooldown comes up with the spells that follow it, the lane links them: violet edges, a violet line between the notes and COMBO x3 over the first. Press them in order: COMBO 1/3 shows over the box as you go, and the last one brings COMBO! with a violet sweep and bonus points. Another spell, or a pause of more than 6 seconds, quietly ends it. Combos never change what is recommended."] = "当大技能和随后的技能一起出现时，轨道会把它们连起来：紫色边框、音符之间的紫色连线，第一个音符上方显示“连招 x3”。按顺序按下：方框上方会显示进度“连招 1/3”，最后一个会带来“连招！”、紫色光扫和奖励分数。打出其他技能或停顿超过 6 秒会悄悄结束连招。连招从不改变推荐内容。",
+  ["15 Perfect or Great hits in a row start FLOW STATE: for 12 seconds the lane glows teal and every hit scores double; a miss ends it. Landing an interrupt from the bonus row shows COMBO BREAKER! with a red sweep."] = "连续 15 次完美或很好会开启心流状态：12 秒内轨道发出青绿色光，每次命中分数翻倍；一次失误就会结束。成功打断奖励行里的打断会显示“连招破坏者！”并伴随红色光扫。",
+  ["Yellow bar behind a note: a cast, as long as the cast. Blue bar: a channel. Orange, burning note: a major cooldown, worth double. Faded note: a guess or waiting for resource; it doesn't count as a miss. Lane turns electric blue (POWER MODE!): Bloodlust or right after a major cooldown; every hit scores double. The box above the hit box holds the most urgent bonus to grab, one at a time (+1 says another waits): INTERRUPT!, DEFEND! (a defensive or heal) and POWER UP! (a trinket or potion). After a set of pulls (20 seconds out of combat), your performance grade shows."] = "音符后的黄色长条：读条技能，长度等于读条时间。蓝色长条：引导技能。燃烧的橙色音符：大技能，分数翻倍。变淡的音符：猜测或在等待资源；不算失误。轨道变成电光蓝（能量模式！）：嗜血期间或大技能之后；每次命中分数翻倍。命中框上方的方框一次显示一个最紧急的奖励（+1 表示还有一个在等）：打断！、防御！（防御或治疗技能）和强化！（饰品或药水）。一组战斗后（脱战 20 秒），会显示你的表现评分。",
 }

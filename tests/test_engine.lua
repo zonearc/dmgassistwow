@@ -331,13 +331,29 @@ test("combos: a chain after a major cooldown finishes once, breaks on another sp
   eq(table.concat(steps, " "), "1/3 2/3")
   eq(C.OnCast(300, 3), nil, "the chain's last spell alone starts nothing")
   C.OnCast(100, 10)
-  C.OnCast(999, 11) -- another spell: the chain ends quietly
+  local tokenFor = ns.SpellMap.TokenForID
+  ns.SpellMap.TokenForID = function(id)
+    return id == 999 and "shred" or tokenFor(id)
+  end
+  eq(C.OnCast(777, 10.5), nil, "a cast the game makes by itself (not in the lists) doesn't break it")
+  eq(C.run ~= nil, true)
+  C.OnCast(999, 11) -- another of the spec's spells: the chain ends quietly
+  ns.SpellMap.TokenForID = tokenFor
   eq(C.OnCast(200, 12), nil)
   C.OnCast(100, 20)
   eq(C.OnCast(200, 20 + C.WINDOW + 1), nil, "too long a pause ends it")
   eq(done, 3)
-  ns.Game.OnCombo, ns.Game.OnComboStep = onCombo, onStep
+  -- the chain the lane shows: slot 1's cooldown and what follows it
+  C.Reset()
   ns.COMBO_DATA = {}
+  local chain, already = C.Planned({ { id = 300, major = true }, { id = 400 }, { id = 500 } })
+  eq(chain and table.concat(chain, ","), "300,400,500") eq(already, 0)
+  eq(C.Planned({ { id = 300 }, { id = 400 } }), nil, "not a cooldown in slot 1: no chain")
+  C.Planned({ { id = 300, major = true }, { id = 400 } })
+  eq(C.OnCast(300, 30), "start", "pressing the shown cooldown starts the shown chain")
+  eq(C.OnCast(400, 31), "done")
+  ns.Game.OnCombo, ns.Game.OnComboStep = onCombo, onStep
+  C.Reset()
 end)
 
 test("major cooldowns are ordinary queue lines; switched off they never show", function()
@@ -1032,6 +1048,10 @@ test("a spell a button turns into is checked as itself, not as the button's base
   -- the base on cooldown says nothing about the override's own readiness
   mock.cooldowns[22568] = { active = true, start = mock.now, duration = 30 }
   eq(ns.Engine.Castable(441591) ~= false, true, "Ravage is not held back by Bite's cooldown")
+  -- the button is back to Bite (Wailing Arrow fired, Trueshot back on its button): Ravage can't be pressed
+  mock.overrides = {}
+  mock.Advance(1)
+  eq(ns.Engine.Castable(441591), false, "gone with the override (Wailing Arrow stayed in slot 1, 2026-11-12)")
   mock.overrides = nil
   mock.cooldowns[22568] = nil
 end)
@@ -3669,6 +3689,13 @@ test("settings: Display quick picks set size and place, and read Custom after fi
   eq(size:GetValue(), "large")
   ns.db.hud.scale = 1.12
   eq(size:GetValue(), "custom", "a slider value of its own is Custom")
+  size:SetValue("custom")
+  eq(ns.db.hud.displayCustom, true, "Custom shows every Display option")
+  eq(ns.db.hud.scale, 1.12, "and changes nothing by itself")
+  eq(#ns.Options.displayCustomInits > 3, true, "the fine-tuning sections are the ones Custom shows")
+  size:SetValue("small")
+  eq(ns.db.hud.displayCustom, nil, "a size hides them again")
+  eq(ns.db.hud.scale, 0.8)
   place:SetValue("below")
   eq(ns.db.point[3], ns.Welcome.BELOW[3])
   eq(place:GetValue(), "below")
@@ -4475,7 +4502,11 @@ test("game mode: one lane and a bonus row, notes reach the line when ready, stre
   for _, n in pairs(Game.notes) do
     lanes[n.lane] = (lanes[n.lane] or 0) + 1
   end
-  eq(lanes[1], 3, "the lane: the rotation") eq(lanes[2], 2, "the bonus row: the defensive and the item")
+  eq(lanes[1], 3, "the lane: the rotation")
+  eq(lanes[2], 1, "one box over the hit box: the most urgent waiting action (2026-11-12)")
+  eq(Game.notes["b:def"] ~= nil, true, "the defensive comes before the item")
+  eq(Game.notes["b:def"].x, Game.HIT_X, "right above slot 1's box")
+  eq(Game.bonusQueued, 1, "the item waits its turn (+1)")
   -- the slot 1 note heads to where it reaches the line in 1 s; at 0 s it sits on the line
   for _ = 1, 40 do
     mock.now = mock.now + 0.05
@@ -4722,8 +4753,8 @@ test("game mode: a boss hit's defensive scrolls in on the action track and lands
     Game.Render()
   end
   local def = Game.notes["b:def"]
-  eq(def ~= nil, true, "on the action track")
-  eq(def.x > Game.HIT_X, true, "still sliding in")
+  eq(def ~= nil, true, "in the action box")
+  eq(def.x, Game.HIT_X, "in the box over slot 1, not sliding along a row (2026-11-12)")
   eq(Game.actAlpha > 0.5, true, "the action track opened")
   local dots = 0
   for _, dot in ipairs(Game.frame.dots) do
@@ -6266,6 +6297,35 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   eq(Game.score > scoreBefore, true, "combo points")
   eq(Game.frame.comboAt ~= nil, true, "the sweep starts")
   Run({ main = A, queue = { A, B } }, 0.1, 0)
+  -- a cooldown in slot 1 and what follows it: linked notes (violet line between them, COMBO over the first)
+  ns.Combos.Reset()
+  local CD = { id = 201, token = "cd", source = "simc", major = true }
+  Run({ main = CD, queue = { CD, B } }, 0.1, 0)
+  eq(Game.comboPlan ~= nil, true, "the chain is planned")
+  eq(Game.frame.comboLinks[1]:IsShown(), true, "the line between the linked notes")
+  -- the cooldown pressed: the rest of the chain stays linked, counted from where it is
+  local C2 = { id = 203, token = "c2", source = "simc" }
+  Run({ main = CD, queue = { CD, B, C2 } }, 0.1, 0)
+  eq(ns.Combos.OnCast(201), "start")
+  Run({ main = B, queue = { B, C2 } }, 0.1, 0)
+  eq(Game.comboPlan and Game.comboPlan.done, 1, "one of three done")
+  eq(Game.frame.comboLinks[1]:IsShown(), true, "slots 1-2 still linked")
+  -- an interrupt: COMBO BREAKER!
+  Game.OnBonus("kick")
+  eq(Game.frame.pop:GetText():find("COMBO BREAKER!", 1, true) ~= nil, true)
+  -- a hot streak: Flow State
+  Game.flowStateUntil, Game.hotRun = nil, Game.FLOW_STATE_AT - 1
+  Game.cast = nil
+  Game.OnJudged("near", 201) -- a Good: the hot streak needs Perfect / Great
+  eq(Game.FlowStateOn(), false)
+  Game.hotRun = Game.FLOW_STATE_AT - 1
+  Game.cast = { id = 201, at = mock.now, judge = "perfect" }
+  Game.OnJudged("hit", 201)
+  eq(Game.lastJudge, "perfect")
+  eq(Game.FlowStateOn(), true, "Flow State after the hot streak")
+  Game.OnJudged("miss", 201)
+  eq(Game.FlowStateOn(), false, "a miss ends it")
+  ns.Combos.Reset()
   -- Ironfur (the off-GCD pick) shows beside the low-health heal the game shows when you're low
   local weaveRun = { main = A, queue = { A }, defensive = { id = 22842, how = "render", threshold = 50 },
     weave = { id = 192081, source = "mitigation" } }

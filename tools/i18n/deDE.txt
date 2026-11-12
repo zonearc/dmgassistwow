@@ -884,3 +884,12 @@
 890	COMBO %d/%d
 891	Flow: Kombos
 892	Jede Spezialisierung hat ein paar kurze Ketten, die sie direkt nach einer großen Abklingzeit spielt, gefunden in langen simulierten Kämpfen. Drücke die Abklingzeit, und COMBO 1/3 erscheint über dem Feld; spiele die nächsten Zauber der Kette in Reihenfolge, und COMBO! färbt die Spur violett und gibt Bonuspunkte. Ein anderer Zauber oder mehr als 6 Sekunden Pause beenden sie still. Kombos ändern nie, was empfohlen wird.
+893	KOMBO x%d
+894	FLOW STATE!
+895	COMBO BREAKER!
+896	Flow: Flow State und COMBO BREAKER
+897	Klein, mittel oder groß: das ganze HUD, Symbole und Text. Benutzerdefiniert: zeigt jede Anzeige-Option, um alles selbst einzustellen.
+898	Wähle Größe und Platz: mehr brauchen die meisten nicht. Stelle Größe auf Benutzerdefiniert, um jede Anzeige-Option zu sehen und selbst fein einzustellen.
+899	Kommt eine Abklingzeit mit den Zaubern danach, verbindet die Spur sie: violette Ränder, eine violette Linie zwischen den Noten und KOMBO x3 über der ersten. Drücke sie der Reihe nach: KOMBO 1/3 erscheint dabei über dem Feld, und der letzte bringt KOMBO! mit einem violetten Schwung und Bonuspunkten. Ein anderer Zauber oder mehr als 6 Sekunden Pause beenden sie still. Kombos ändern nie, was empfohlen wird.
+900	15 Perfekt- oder Super-Treffer in Folge starten FLOW STATE: 12 Sekunden lang leuchtet die Spur türkis und jeder Treffer zählt doppelt; ein Fehler beendet ihn. Eine gelandete Unterbrechung aus der Bonusreihe zeigt COMBO BREAKER! mit einem roten Schwung.
+901	Gelber Balken hinter einer Note: ein Zauber mit Zauberzeit, so lang wie diese. Blauer Balken: ein kanalisierter Zauber. Orange, brennende Note: eine große Abklingzeit, zählt doppelt. Blasse Note: eine Schätzung oder wartet auf Ressource; zählt nicht als Fehler. Die Spur wird elektrisch blau (POWER-MODUS!): Kampfrausch oder direkt nach einer großen Abklingzeit; jeder Treffer zählt doppelt. Das Feld über dem Trefferfeld zeigt den dringendsten Bonus, einen nach dem anderen (+1: ein weiterer wartet): UNTERBRECHEN!, VERTEIDIGEN! (Defensivzauber oder Heilung) und POWER UP! (Schmuckstück oder Trank). Nach einer Reihe von Pulls (20 Sekunden außerhalb des Kampfes) erscheint deine Leistungsnote.

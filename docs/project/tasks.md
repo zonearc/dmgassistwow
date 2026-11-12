@@ -28,9 +28,7 @@ Last updated: 1.6.0.157 (2026-11-10).
 - Combos: 19 specs have mined chains (1.6.0.231). The other 21 got none from the simulation (it has no procs and
   few resources: Balance, Unholy, Rogue builders...); adopting the sim-resources patch or mining the Watchdog's
   real casts would add them. Validate the mined ones in game (a chain that never happens is dead weight).
-- Flow ideas still to decide with the user: a time-limited "Flow State" power-up from a hot streak, "COMBO
-  BREAKER" on interrupts; combos in Classic too or Flow only; Display fine-tuning hidden until Custom; Welcome
-  "Small" 0.8 -> 0.9.
+- Launch checklist (Launch section) waits until the owner signs off LFR and class testing (2026-11-12).
 
 - Taint (taint.log from the user, 2026-11-11): both episodes start at 15:52:17 with Edit Mode's layout dropdown
   (Menu.lua Pick -> EditModeManagerFrame:SelectLayout) running "tainted by DMGAssist"; every bar and unit frame's
@@ -96,12 +94,26 @@ Last updated: 1.6.0.157 (2026-11-10).
   row before the pull (DK); Death Coil in Flow only when Runic Power allows (Unholy); Arms / Fury Whirlwind and
   slot 2 steady without a hero tree; Guardian Moonfire keep-up only when it's on your bar; Flow keybinds all one
   size; welcome style cards; minimap menu + Edit Mode layout switch with no "tainted by DMGAssist"
-- [ ] Combos (1.6.0.231): in Flow, press a spec's cooldown and follow its chain: COMBO 1/3 ... COMBO! with the
-  violet sweep; do the mined chains happen in real play? (Elemental: Nature's Swiftness > Stormkeeper)
+- [ ] Wailing Arrow (1.6.0.232, MM / BM Dark Ranger): shown only while Trueshot / Bestial Wrath's button is Wailing
+  Arrow, with that button's key; gone once fired
+- [ ] Combos (1.6.0.232): linked violet notes when a cooldown comes up with what follows it; COMBO 1/3 ... COMBO!
+  with the violet sweep; Flow State after 15 Perfect / Great; COMBO BREAKER! on an interrupt; the action box over
+  the hit box (one at a time, +1); Display options hidden until Size = Custom
 - [ ] Elemental (1.6.0.230): slots 2 and 3 change with the fight, Lava Burst only in slot 1 with Lava Surge
 
 ## Done (recent)
 
+- 1.6.0.232: Wailing Arrow (and any spell that only exists while a button turns into it): not castable once the
+  button is back (Trueshot / Bestial Wrath after the arrow is fired); it sat in slot 1 on E while on cooldown.
+  Combos you can see: when slot 1 is a cooldown and slots 2-3 show what follows it, the lane links those
+  notes (violet pulsing edges, a violet line between them, COMBO x3 over the first); the chain is what the
+  rotation shows (SimC's order), the mined ones only fill in when the queue is too short (the mined Elemental chain
+  never happened in real play). The game's own follow-up casts (451368 / 464059) no longer break a chain. Flow
+  State: 15 Perfect / Great in a row -> 12 s teal lane, double points, a miss ends it. COMBO BREAKER! (visual, red
+  sweep) when an interrupt lands. The action row is now one box over the hit box: the most urgent waiting action
+  pops in (interrupt > defensive > keep-up > item, "+1" when another waits; the low-health defensive sits over it).
+  Display: the fine-tuning shows only with Size = Custom. User decisions 2026-11-12: combos Flow only, Small stays
+  0.8, launch checklist only after LFR and class testing are signed off.
 - 1.6.0.231: Combos in Flow. A chain a spec plays after a cooldown (Pillar of Frost > Breath of Sindragosa,
   Combustion > Meteor > Scorch, Trueshot > Aimed Shot...) shows COMBO 1/3 over the box as it goes and COMBO! with
   a violet sweep and bonus points when finished; another spell or 6 s ends it quietly. Mined by
