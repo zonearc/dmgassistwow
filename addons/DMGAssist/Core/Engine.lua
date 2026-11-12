@@ -554,6 +554,12 @@ local function CastableRaw(id)
     if type(now) == "number" and now ~= id then
       return false, "override"
     end
+    -- looking ahead: once used, the button turns back (Glacial Spike with its 5 Icicles spent filled slots 2 and 3
+    -- too; the second press cast Frostfire Bolt and was judged a miss, 2026-11-12)
+    local v = S.Lookahead()
+    if v and v.cast and v.cast[id] then
+      return false, "override"
+    end
   end
   local rule = G.TARGET_RULES[id] or G.TARGET_RULES[(M.baseOf and M.baseOf[id]) or id]
   if rule and not rule(id) then
@@ -1239,11 +1245,16 @@ end
 
 -- Is this spell part of the spec's damage rotation (any line of its SimC list)? Utility, movement and anything
 -- the lists never use is not (the grade leaves such presses out).
-function G.IsRotationSpell(id)
+-- strict: "can't tell" (no data yet, a spec being switched) is a no
+G.NOT_PLAY = { [200749] = true } -- Activating Specialization (the spec switch cast)
+function G.IsRotationSpell(id, strict)
+  if id and G.NOT_PLAY[id] then
+    return false
+  end
   local state = ns.Specs and ns.Specs.current
   local record = state and state.data and ns.ActiveRecord and ns.ActiveRecord(state)
   if not (record and id) then
-    return true -- can't tell: count it
+    return not strict -- can't tell: count it, unless strict
   end
   local actions = Prepare(record).simcActions
   for _, cand in ipairs({ id, M.baseOf and M.baseOf[id] }) do

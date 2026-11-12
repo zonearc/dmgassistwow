@@ -94,7 +94,7 @@ Last updated: 1.6.0.157 (2026-11-10).
 - [ ] Fixes 1.6.0.220-227 to confirm in game (BM / MM Black Arrow confirmed 2026-11-12: never doubled, cast almost
   every time shown; Touch of Death offered only when the game lights it, both casts went through on low dummies;
   no "tainted by DMGAssist" since the 1.6.0.227 menu fix, all taint entries are from 2026-11-11): Marksmanship
-  warns when no ranged weapon is equipped (the "bar disappears" report); Frenzied Regeneration only at full charges; Arcane Intellect not guessed while it's up (Fire); no DEFEND
+  warns when no ranged weapon is equipped (the "bar disappears" report); Frenzied Regeneration only at full charges; no DEFEND
   row before the pull (DK); Death Coil in Flow only when Runic Power allows (Unholy); Arms / Fury Whirlwind and
   slot 2 steady without a hero tree; Guardian Moonfire keep-up only when it's on your bar; Flow keybinds all one
   size; welcome style cards; minimap menu + Edit Mode layout switch with no "tainted by DMGAssist"
@@ -102,6 +102,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.240: Looking ahead, a spell that only exists while a button turns into it is used once (Glacial Spike
+  filled slots 2-3 after its Icicles were spent; the second press cast Frostfire Bolt and was judged a miss). Flow:
+  a spec switch's cast (Activating Specialization) and "can't tell" spells during the switch no longer start the
+  lanes. Minimap menu: "Move the HUD" removed (unchecking Lock position is the same). Fire: Arcane Intellect
+  confirmed in game (recast after cancelling, never shown while up).
 - 1.6.0.237: Guardian: Frenzied Regeneration with both charges full is no longer the off-GCD pick (it held the
   badge for 23 s so Ironfur never showed, and it came at 99% health): the low-health heal now shows from 85% when
   both charges are full (the game decides from your health), else at your low-health setting. Flow shows the

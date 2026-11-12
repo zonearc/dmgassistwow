@@ -1077,6 +1077,18 @@ test("a spell a button turns into is checked as itself, not as the button's base
   mock.overrides = {}
   mock.Advance(1)
   eq(ns.Engine.Castable(441591), false, "gone with the override (Wailing Arrow stayed in slot 1, 2026-11-12)")
+  -- looking ahead, once used it's gone: slots 2-3 don't repeat it (Glacial Spike x3, the second press a miss)
+  mock.overrides = { [22568] = 441591 }
+  mock.Advance(1)
+  local rec = Record()
+  rec.simcOrder = { "default" }
+  rec.simc.default = { { a = "ravage", k = "R" }, { a = "shred", k = "R" } }
+  rec.blizzard, rec.blizzardExcluded = nil, nil
+  local r = ns.Engine.Recommend(rec, {})
+  eq(r.main and r.main.id, 441591, "now: the button is Ravage")
+  for i = 2, #r.queue do
+    eq(r.queue[i].id == 441591, false, "slot " .. i .. " isn't Ravage again")
+  end
   mock.overrides = nil
   mock.cooldowns[22568] = nil
 end)
@@ -6337,6 +6349,8 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   mock.casting = { id = 200749, endsIn = 5 } -- Activating Specialization
   Game.Render()
   eq(Game.lastAct, nil, "a spec switch isn't play")
+  Game.Started(200749) -- its cast going through
+  eq(Game.lastAct, nil, "nor is its cast")
   eq(Game.paused, true)
   mock.casting = nil
   mock.inCombat = inCombat

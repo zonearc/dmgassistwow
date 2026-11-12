@@ -861,7 +861,7 @@ function G.Render()
   -- mount out of combat isn't play (2026-11-12: the lanes ran on behind the grade and a spec switch started them)
   local fightNow = UnitAffectingCombat and UnitAffectingCombat("player")
   local E = ns.Engine
-  local playCast = fightNow or (castID and E and E.IsRotationSpell and E.IsRotationSpell(castID) == true)
+  local playCast = fightNow or (castID and E and E.IsRotationSpell and E.IsRotationSpell(castID, true) == true)
   if casting and casting > 0 and playCast then
     G.lastAct = now
   end
@@ -1274,7 +1274,7 @@ function G.Started(id)
   -- out of combat a buff (Mark of the Wild on entering a dungeon) isn't play: only a rotation spell starts it
   -- (2026-11-12: "pressing a buff starts the combat window")
   local E = ns.Engine
-  if not fight and id and E and ((E.IsRotationSpell and E.IsRotationSpell(id) == false)
+  if not fight and id and E and ((E.IsRotationSpell and E.IsRotationSpell(id, true) == false)
     or (E.IsPrepSpell and E.IsPrepSpell(id))) then
     return -- a buff or a shapeshift out of combat is preparation: it doesn't start the Flow
   end
