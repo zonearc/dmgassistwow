@@ -1,0 +1,13 @@
+# Fury Warrior: Enraged Regeneration (heals, damage reduced) for big hits; Impending Victory / Victory Rush heal;
+# Spell Reflection for spells cast at you; Rallying Cry for the group.
+role   = dps
+model  = Enraged Regeneration for big hits, Impending Victory heals
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method Fury, 2026-11-12
+
+big     enraged_regeneration
+reflect spell_reflection   id=23920
+low     impending_victory  heal
+low     victory_rush       id=34428 heal
+low     enraged_regeneration
+low     rallying_cry

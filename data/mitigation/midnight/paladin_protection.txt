@@ -1,0 +1,17 @@
+# Protection Paladin: Shield of the Righteous (armor) kept up while tanking, Word of Glory heals; Eye of Tyr /
+# Ardent Defender / Guardian of Ancient Kings / Divine Protection for big hits; Lay on Hands and Divine Shield last.
+role   = tank
+model  = Shield of the Righteous up while tanking, Word of Glory heals, cooldowns for big hits
+health = 50
+source = SpellDataDump 12.x; Icy Veins / Method Protection Paladin, 2026-11-12
+
+keep    shield_of_the_righteous  id=53600 dur=4.5 refresh=1
+big     eye_of_tyr
+big     ardent_defender          id=31850
+big     guardian_of_ancient_kings
+big     divine_protection        id=498
+low     word_of_glory            id=85673 heal
+low     ardent_defender          id=31850
+low     guardian_of_ancient_kings
+low     lay_on_hands             id=633 heal
+low     divine_shield      id=642

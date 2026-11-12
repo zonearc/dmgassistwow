@@ -1,0 +1,9 @@
+# Evoker: Obsidian Scales (damage reduced; Renewing Blaze, now passive, heals part back) for big hits and at low
+# health. (Verdant Embrace and Emerald Blossom are part of the rotation, not kept for emergencies.)
+role   = healer
+model  = Obsidian Scales for big hits and at low health
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method evoker guides, 2026-11-12
+
+big     obsidian_scales
+low     obsidian_scales

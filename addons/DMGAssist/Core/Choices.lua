@@ -230,8 +230,15 @@ function C.Spells()
     Add(id)
   end
   Add(ns.Display.InterruptSpell and ns.Display.InterruptSpell(true))
-  for _, token in ipairs(ns.Defensives.TOKENS or {}) do
-    Add(M.SpellID(token))
+  local set = ns.Defensives.SpecSet and ns.Defensives.SpecSet()
+  if set then
+    for _, e in pairs(set) do
+      Add(ns.Defensives.Resolve(e))
+    end
+  else
+    for _, token in ipairs(ns.Defensives.TOKENS or {}) do
+      Add(M.SpellID(token))
+    end
   end
   M.unresolved = unresolved -- looking spells up here says nothing about the rotation
   return out

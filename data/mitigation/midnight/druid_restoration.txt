@@ -1,0 +1,10 @@
+# Restoration Druid: Barkskin; heals itself with Regrowth. (Ironbark is cast on others.)
+role   = healer
+model  = Barkskin for big hits, heals itself
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method Restoration Druid, 2026-11-12
+
+big     barkskin
+low     barkskin
+low     regrowth               id=8936 heal only=caster
+low     frenzied_regeneration  heal only=bear

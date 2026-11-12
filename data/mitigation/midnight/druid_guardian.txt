@@ -1,0 +1,15 @@
+# Guardian Druid: Ironfur stacks (armor, each cast its own 7 s stack, counted by Essentials) kept up while tanking;
+# Frenzied Regeneration heals (with both charges full already at 85%, so a charge isn't wasted); Barkskin /
+# Survival Instincts for big hits. (Rage of the Sleeper and Renewal are not in Midnight.)
+role   = tank
+model  = Ironfur stacks up while tanking, Frenzied Regeneration heals, Barkskin / Survival Instincts for big hits
+health = 50
+source = SpellDataDump 12.x; Icy Veins / Method Guardian Druid, 2026-11-12
+
+icon    ironfur
+capped  frenzied_regeneration  health=85
+big     barkskin
+big     survival_instincts     id=61336
+low     frenzied_regeneration  heal only=bear
+low     barkskin
+low     survival_instincts     id=61336

@@ -2358,6 +2358,63 @@ test("defensives: a Balance Druid is never sent to Bear Form for Frenzied Regene
   ns.Specs.current.key = saved
 end)
 
+test("mitigation map: tank profiles come from Data/Mitigation.lua (no spells the game no longer has)", function()
+  Reset()
+  local ns = Boot()
+  local T = ns.Tanks
+  local war = T.PROFILES.warrior_protection
+  eq(war.keep[1].t, "shield_block", "Shield Block kept up while tanking")
+  eq(war.reflect[1].t, "spell_reflection")
+  local bear = T.PROFILES.druid_guardian
+  eq(bear.cappedHeal and bear.cappedHeal.id, 22842, "Frenzied Regeneration at 85% with charges full")
+  eq(bear.alsoIcon[1], "ironfur")
+  for spec, name in pairs({ deathknight_blood = "rune_tap", druid_guardian = "rage_of_the_sleeper" }) do
+    for _, part in ipairs({ "big", "low", "keep", "reflect" }) do
+      for _, e in ipairs(T.PROFILES[spec][part]) do
+        eq(e.t ~= name, true, name .. " is not in Midnight")
+      end
+    end
+  end
+  eq(T.PROFILES.mage_frost, nil, "only tanks have a tank profile")
+  eq(ns.Data.mitigation.mage_frost.role, "dps", "every spec has a profile")
+end)
+
+test("mitigation map: defensives are per spec - Blood's Death Strike stays in the rotation, Unholy's is a heal", function()
+  Reset()
+  local ns = Boot()
+  local F = ns.Defensives
+  local saved = ns.Specs.current.key
+  ns.Specs.current.key = "deathknight_blood"
+  eq(F.InSet("death_strike"), false, "Blood: Death Strike is the rotation")
+  eq(F.IsDefensive({ id = 49998, token = "death_strike" }), false)
+  ns.Specs.current.key = "deathknight_unholy"
+  eq(F.InSet("death_strike"), true, "Unholy: a heal when low")
+  eq(F.IsHeal("death_strike"), true)
+  ns.Specs.current.key = saved
+end)
+
+test("mitigation map: a defensive in no rotation list is found by its ID; ahead of a hit the 'big' list, no heals", function()
+  Reset()
+  local ns = Boot()
+  local F, M = ns.Defensives, ns.SpellMap
+  local saved, spellID, ips = ns.Specs.current.key, M.SpellID, IsPlayerSpell
+  ns.Specs.current.key = "rogue_outlaw"
+  M.SpellID = function() return nil end -- none of them in SimC's spell list
+  local known = { [5277] = true, [1966] = true, [185311] = true } -- Evasion, Feint, Crimson Vial
+  IsPlayerSpell = function(id) return known[id] == true end -- luacheck: ignore 121
+  local id, token = F.Spell()
+  eq(token, "crimson_vial", "low health: the heal first")
+  eq(id, 185311)
+  token = select(2, F.Spell(true))
+  eq(token, "feint", "ahead of a hit: Feint, never the heal")
+  known[1966] = nil
+  id, token = F.Spell(true)
+  eq(token, "evasion", "next in the big list")
+  eq(id, 5277)
+  ns.Specs.current.key, M.SpellID = saved, spellID
+  IsPlayerSpell = ips -- luacheck: ignore 121
+end)
+
 test("prep spells: shapeshifts and pre-pull-only spells are preparation, fight spells aren't", function()
   Reset()
   mock.specIndex = 1 -- Balance
@@ -6066,6 +6123,46 @@ test("Subtlety on 5 targets waiting for Energy: the Shuriken Storm it's pooling 
   eq(r.main and r.main.token, "shuriken_storm", "the spell it's waiting for")
   eq(r.main and r.main.source, "pool", "shown as waiting")
   mock.acSpell, mock.inCombat, mock.restricted = nil, false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
+test("an icon with no keybind names its spell (never an unexplained icon)", function()
+  Reset()
+  local ns = Boot()
+  local D = ns.Display
+  local pk, gsn = D.PickKeybind, C_Spell.GetSpellName
+  D.PickKeybind = function() return nil end
+  C_Spell.GetSpellName = function() return "Pummel" end
+  local cfg = D.Settings()
+  cfg.keybind, cfg.spellNames = true, false
+  local icon = D.frame.slots[1]
+  D.SetIcon(icon, { id = 6552, source = "interrupt" }, cfg, true, "")
+  eq(icon.noKey, true)
+  eq(icon.name:GetText(), "Pummel", "its name where the key would be")
+  D.PickKeybind = function() return "V" end
+  D.SetIcon(icon, { id = 6552, source = "interrupt" }, cfg, true, "")
+  eq(icon.noKey, nil)
+  eq(icon.name:GetText(), "", "a key: no name (spell names off)")
+  D.PickKeybind, C_Spell.GetSpellName = pk, gsn
+end)
+
+test("every spell on its cooldown at once: slot 1 is the one ready first, shaded, never an empty bar", function()
+  -- Protection right after Thunder Clap: Shield Slam, Revenge, Demolish all cooling down emptied the HUD (2026-11-12)
+  Reset()
+  local ns = Boot()
+  local rec = QRecord({ { a = "tigers_fury", k = "S" }, { a = "shred", k = "S" } })
+  Feral(ns, rec)
+  ns.Specs.current = { key = "druid_feral", status = "ready", data = rec, branch = "midnight", client = "Midnight" }
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Advance(2)
+  mock.cooldowns[5217] = { active = true, start = mock.now, duration = 12 }
+  mock.cooldowns[5221] = { active = true, start = mock.now, duration = 6 }
+  local r = ns.Update()
+  eq(r.main and r.main.token, "shred", "the one off cooldown first")
+  eq(r.main and r.main.source, "soon", "shown as coming")
+  eq(r.queue[2] and r.queue[2].token, "tigers_fury", "then the next")
+  mock.inCombat = false
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 

@@ -1,0 +1,15 @@
+# Blood Death Knight: Bone Shield (kept above 5 stacks by Marrowrend, part of the rotation SimC already shows) and
+# Death Strike's healing do the work; Vampiric Blood / Icebound Fortitude for big hits, Anti-Magic Shell for magic.
+# (Rune Tap is not in Midnight.) Lichborne (leech) and Death Pact (a heal) are the last resorts.
+role   = tank
+model  = Bone Shield stacks (Marrowrend) and Death Strike healing from the rotation, cooldowns for big hits
+health = 50
+source = SpellDataDump 12.x; Method / Icy Veins Blood Death Knight (Bone Shield above 5), 2026-11-12
+
+big     vampiric_blood
+big     icebound_fortitude
+reflect antimagic_shell      id=48707
+low     vampiric_blood
+low     icebound_fortitude
+low     death_pact           heal
+low     lichborne            id=49039

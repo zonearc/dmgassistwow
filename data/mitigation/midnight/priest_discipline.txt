@@ -1,0 +1,13 @@
+# Priest (healer): Power Word: Shield and Desperate Prayer; heals itself with Flash Heal. (Pain Suppression /
+# Guardian Spirit are cast on others.)
+role   = healer
+model  = Power Word: Shield / Desperate Prayer, heals itself
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method priest guides, 2026-11-12
+
+big     power_word_shield   id=17
+big     desperate_prayer
+low     power_word_shield   id=17
+low     desperate_prayer    heal
+low     flash_heal          heal
+skip    dispersion          Shadow's

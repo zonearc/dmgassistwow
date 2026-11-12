@@ -918,7 +918,8 @@ function G.Render()
       end
       n.keySize, n.keyColor = ks, cfg.keybindColor
     end
-    n.name:SetText("")
+    -- no key for it: its name, so the note never sits there unexplained (Arms, 2026-11-12)
+    n.name:SetText(n.noKey and (U.Get(C_Spell and C_Spell.GetSpellName, w.pick and w.pick.id) or "") or "")
     n.label:SetText("")
     n.source:SetText("")
     local y = G.LaneY()
@@ -1052,7 +1053,7 @@ function G.Render()
     -- waiting for a resource (Death Coil with too little Runic Power, 2026-11-12) or a guess: half strength, as in
     -- the classic HUD, so it reads "coming, not yet"
     local p = w.pick
-    local dim = p and (p.source == "pool" or p.source == "guess" or p.source == "rules?") and 0.5 or 1
+    local dim = p and (p.source == "pool" or p.source == "guess" or p.source == "rules?" or p.source == "soon") and 0.5 or 1
     n.waitingFor = dim < 1 or nil
     n:SetAlpha(((w.main or w.lane == 2) and 1 or 0.75) * fadeIn * dim)
     -- hidden facts the game decides (combat): the same alpha tricks as the classic HUD

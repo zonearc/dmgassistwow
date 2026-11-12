@@ -70,6 +70,14 @@ Last updated: 1.6.0.157 (2026-11-10).
 - Blood reports (2026-11-12): 646 of ~1300 picks were the gap closer (away from the dummy for ~70 s); Lichborne
   offered at low health after Icebound Fortitude was spent (general defensives list, last resort): fine.
 
+- Regression guard across specs (owner, 2026-11-12: "downstream it broke something on another class and spec"):
+  a per-spec golden snapshot in check.sh (queue picks in scripted fights + each spec's resolved defensives) so a
+  change that alters any other spec's output fails until its new output is reviewed and accepted.
+- WoW Forever: never logged in yet. Mitigation profiles are Midnight only (Forever falls back to the old class
+  list); Forever needs its own data/mitigation/forever/ once its spell data dump is checked.
+- Racials: SimC lists carry the damage racials (Berserking, Blood Fury, Fireblood, Ancestral Call, Arcane Torrent,
+  Light's Judgment, Bag of Tricks); shown only for that race and when on your bars. Confirm on a race that has one.
+
 ## Proposed (waiting on a decision)
 
 - (none)
@@ -108,6 +116,13 @@ Last updated: 1.6.0.157 (2026-11-10).
 - [ ] Flow State after 15 Perfect / Great; COMBO BREAKER! on an interrupt (combos signed off by the owner 2026-11-12)
 
 ## Done (recent)
+
+- 1.6.0.242: Mitigation map: every spec's survival profile from data/mitigation/ (40 specs), checked against the
+  game's spell data by tools/mitigation.py (removed spells, passives, other specs' talents, game-flagged
+  defensives left out all fail the build); Tanks.lua and Defensives.lua read it. Defensives are found by spell ID
+  (Evasion, Death Pact... were never found before) and are per spec (Blood's Death Strike stays in the rotation).
+  Protection: right after Thunder Clap, with every spell on cooldown, slot 1 shows the one ready first (shaded)
+  instead of an empty bar. An icon with no keybind shows its spell's name.
 
 - 1.6.0.241: Unholy: short of Runic Power, slot 1 no longer shows Death Coil "waiting" while a castable line
   comes before it in the list (Festering Strike / Scourge Strike at 0-29 Runic Power). Interrupts: a press

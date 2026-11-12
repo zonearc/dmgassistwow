@@ -6,9 +6,10 @@
 --   the defensive's lead (F.Lead) -> a real decision.
 --   Low health: UnitHealthPercent("player") is secret in combat; a step curve at the threshold (default 35%) turns
 --   it into the icon's alpha, so the game shows the defensive only while you are actually low.
--- The spell: the first defensive the player knows that is off cooldown and usable now, in the order below (lighter
--- first, so the big ones stay for emergencies; self-heals such as Word of Glory or Healing Surge after the light
--- ones), matched by spell ID from SimC's data (any client language).
+-- The spell: each spec's own lists from Data/Mitigation.lua (built by tools/mitigation.py from the reference
+-- profiles in data/mitigation/, checked against the game's spell data): "big" ahead of a hit, "low" at low health,
+-- the first one known, off cooldown and usable, in the profile's order. F.TOKENS below is only the fallback for a
+-- spec with no profile (WoW Forever).
 
 local _, ns = ...
 local U = ns.U
@@ -69,6 +70,84 @@ F.ONLY_WHEN = {
   end,
 }
 
+-- This spec's profile (Data/Mitigation.lua), nil on WoW Forever or a spec without one.
+function F.Profile()
+  local info = ns.Client and ns.Client.info
+  if info and info.branch and info.branch ~= "midnight" then
+    return nil
+  end
+  local m = ns.Data and ns.Data.mitigation
+  return m and m[Spec()] or nil
+end
+
+-- A profile entry's spell: SimC's data first (any language), else its ID when you know it (most defensives are in
+-- no rotation list: Evasion, Death Pact... were never found by token alone).
+function F.Resolve(e)
+  local M = ns.SpellMap
+  local id = M.SpellID(e.t)
+  M.unresolved[e.t] = nil
+  if id then
+    return id
+  end
+  if e.id and (U.Get(IsPlayerSpell, e.id) == true or (M.book and M.book[e.id])) then
+    return e.id
+  end
+  return nil
+end
+
+-- A form an entry needs: "bear" (Frenzied Regeneration), "caster" (Regrowth, which would leave Bear Form).
+F.ONLY = {
+  bear = function()
+    return Spec() == "druid_guardian" or InBearForm()
+  end,
+  caster = function()
+    return Spec() ~= "druid_guardian" and not InBearForm()
+  end,
+}
+
+-- Every token of this spec's profile (all parts) -> its entry; the legacy list without a profile.
+local specSets = {}
+function F.SpecSet()
+  local p = F.Profile()
+  if not p then
+    return nil
+  end
+  local key = Spec()
+  local set = specSets[key]
+  if not set then
+    set = {}
+    for _, part in ipairs({ "keep", "big", "reflect", "low", "icon" }) do
+      for _, e in ipairs(p[part] or {}) do
+        set[e.t] = set[e.t] or e
+      end
+    end
+    specSets[key] = set
+  end
+  return set
+end
+
+-- Is this token a way of staying alive (kept out of the damage slots, for the defensive icon)? This spec's
+-- profile, and the class-wide defensives list: a defensive another spec of the class uses (Protection's Shield
+-- Wall for Fury, Fade for Shadow) is never a damage pick either (left out, Fury pressed Shield Wall in the
+-- leveling check, 2026-11-12). Spells that are rotation for one spec and a heal for another (Death Strike) are
+-- only in the profiles, so Blood keeps it.
+function F.InSet(token)
+  if not token then
+    return false
+  end
+  local set = F.SpecSet()
+  return (set ~= nil and set[token] ~= nil) or F.SET[token] == true
+end
+
+function F.IsHeal(token)
+  local set = F.SpecSet()
+  local e = set and set[token]
+  if e then
+    return e.heal == true
+  end
+  return F.HEALS[token] == true
+end
+
 -- Heals and heal-like "defensives": for when you're actually low, never ahead of a boss mod's hit (a Balance Druid
 -- at full health was told to cast Regrowth for an AoE once Barkskin was on cooldown, 1.6.0.185 dungeon report).
 F.HEALS = { frenzied_regeneration = true, renewal = true, regrowth = true, renewing_blaze = true,
@@ -83,17 +162,32 @@ F.upUntil = 0
 F.HEAL_GRACE = 6
 F.healAt = {}
 
-function F.OnOwnCast(id)
+local function TokenOf(id)
   local M = ns.SpellMap
   local token = M.TokenForID and M.TokenForID(id)
-  if token and F.HEALS[token] then
+  if token then
+    return token
+  end
+  for t, e in pairs(F.SpecSet() or {}) do
+    if e.id == id then
+      return t
+    end
+  end
+  return nil
+end
+
+function F.OnOwnCast(id)
+  local M = ns.SpellMap
+  local token = TokenOf(id)
+  if token and F.IsHeal(token) then
     F.healAt[token] = GetTime()
   end
-  if not (token and F.SET and F.SET[token]) or F.HEALS[token] then
+  if not F.InSet(token) or F.IsHeal(token) then
     return
   end
+  local set = F.SpecSet()
   local info = M.Info(id)
-  local dur = info and tonumber(info.d) or 0
+  local dur = (set and set[token] and set[token].dur) or (info and tonumber(info.d)) or 0
   if dur > 0 then
     F.upUntil = math.max(F.upUntil, GetTime() + dur)
   end
@@ -115,20 +209,41 @@ local function IsTank()
   return role == "TANK"
 end
 
--- First known defensive that is ready (noHeals: skip the heals, for a hit that hasn't landed yet).
-function F.Spell(noHeals)
+local function Usable(id, token, e, noHeals)
+  local allowed
+  if e then
+    allowed = not e.only or not F.ONLY[e.only] or F.ONLY[e.only]()
+  else
+    allowed = not F.ONLY_WHEN[token] or F.ONLY_WHEN[token]()
+  end
+  local heal = F.IsHeal(token)
+  local usable = id and U.Read((U.Call(C_Spell and C_Spell.IsSpellUsable, id)))
+  local blocked = id and ns.Engine.BlockedWhileActive and ns.Engine.BlockedWhileActive(id)
+  if heal and F.healAt[token] and GetTime() - F.healAt[token] < F.HEAL_GRACE then
+    blocked = true -- just cast: give it time to land
+  end
+  return id and allowed and usable ~= false and not blocked and ns.State.CooldownReady(id) ~= false
+    and not ns.Choices.Skip(id) and not (noHeals and heal)
+end
+
+-- First known defensive that is ready. With a profile: its "big" list ahead of a hit (noHeals), its "low" list
+-- otherwise. Without one, the legacy class list (noHeals: skip the heals, for a hit that hasn't landed yet).
+function F.Spell(noHeals, part)
+  local p = F.Profile()
+  if p then
+    for _, e in ipairs(p[part or (noHeals and "big" or "low")] or {}) do
+      local id = F.Resolve(e)
+      if Usable(id, e.t, e, noHeals) then
+        return id, e.t
+      end
+    end
+    return nil
+  end
   local M = ns.SpellMap
   for _, token in ipairs(F.TOKENS) do
     local id = M.SpellID(token)
     M.unresolved[token] = nil
-    local allowed = not F.ONLY_WHEN[token] or F.ONLY_WHEN[token]()
-    local usable = id and U.Read((U.Call(C_Spell and C_Spell.IsSpellUsable, id)))
-    local blocked = id and ns.Engine.BlockedWhileActive and ns.Engine.BlockedWhileActive(id)
-    if F.HEALS[token] and F.healAt[token] and GetTime() - F.healAt[token] < F.HEAL_GRACE then
-      blocked = true -- just cast: give it time to land
-    end
-    if id and allowed and usable ~= false and not blocked and ns.State.CooldownReady(id) ~= false
-      and not ns.Choices.Skip(id) and not (noHeals and F.HEALS[token]) then
+    if Usable(id, token, nil, noHeals) then
       return id, token
     end
   end
@@ -190,7 +305,9 @@ function F.Evaluate()
   end
   if mode ~= "bossmods" then
     -- tanks: their own threshold per spec (Combat > Tanks, 50% by default), DPS: Combat > Defensives
-    local threshold = (tank and ns.Tanks.Health() or tonumber(ns.db and ns.db.defensiveHealth) or 35) / 100
+    local prof = F.Profile()
+    local threshold = (tank and ns.Tanks.Health() or tonumber(ns.db and ns.db.defensiveHealth)
+      or (prof and prof.health) or 35) / 100
     local hp, max = U.Get(UnitHealth, "player"), U.Get(UnitHealthMax, "player")
     if type(hp) == "number" and type(max) == "number" and max > 0 then
       if hp / max <= threshold then
@@ -221,8 +338,8 @@ local function IsDefensive(p)
   if not (p and p.id) or p.source == "interrupt" or p.source == "keepup" or p.item then
     return false
   end
-  local t = p.token or (ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(p.id))
-  return t ~= nil and F.SET[t] == true
+  local t = p.token or TokenOf(p.id)
+  return F.InSet(t)
 end
 F.IsDefensive = IsDefensive
 

@@ -1,0 +1,13 @@
+# Rogue: Feint (area damage) for big hits; Crimson Vial heals; Evasion (melee), Cloak of Shadows (spells).
+role   = dps
+model  = Feint for big hits, Crimson Vial heals, Evasion / Cloak of Shadows
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method rogue guides, 2026-11-12
+
+big     feint
+big     evasion
+reflect cloak_of_shadows
+low     crimson_vial      id=185311 heal
+low     feint
+low     evasion
+low     cloak_of_shadows

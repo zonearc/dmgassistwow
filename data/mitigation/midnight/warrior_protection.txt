@@ -1,0 +1,17 @@
+# Protection Warrior: blocks and absorbs. Shield Block (melee blocked) is kept up while tanking, Ignore Pain spends
+# spare Rage on an absorb; Demoralizing Shout / Shield Wall / Last Stand for the big hits; Spell Reflection for
+# spells cast at you. Impending Victory heals when low.
+role   = tank
+model  = Shield Block up while tanking, spare Rage into Ignore Pain, cooldowns for big hits
+health = 50
+source = SpellDataDump 12.x (Big Defensive flags, cooldowns); Icy Veins / Method Protection Warrior, 2026-11-12
+
+keep    shield_block       id=2565 refresh=1 dur=6
+keep    ignore_pain        id=190456 ragePool=60 dur=4      # a Rage dump: due with 60+ Rage (or every few s unreadable)
+big     demoralizing_shout
+big     shield_wall
+big     last_stand         id=12975
+reflect spell_reflection   id=23920
+low     impending_victory  heal
+low     last_stand         id=12975
+low     shield_wall

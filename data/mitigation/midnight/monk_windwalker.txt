@@ -1,0 +1,14 @@
+# Windwalker Monk: Touch of Karma (redirects damage) and Fortifying Brew for big hits; Expel Harm / Healing Elixir /
+# Vivify heal.
+role   = dps
+model  = Touch of Karma / Fortifying Brew for big hits, Expel Harm and Vivify heal
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method Windwalker, 2026-11-12
+
+big     touch_of_karma     id=122470
+big     fortifying_brew    id=115203
+low     expel_harm         id=322101 heal
+low     healing_elixir     id=428439 heal
+low     touch_of_karma     id=122470
+low     fortifying_brew    id=115203
+low     vivify             heal

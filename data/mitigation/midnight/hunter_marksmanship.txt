@@ -1,0 +1,12 @@
+# Hunter: Exhilaration heals (you and the pet); Survival of the Fittest for big hits; Fortitude of the Bear (more
+# health); Aspect of the Turtle is the emergency (immune, can't attack).
+role   = dps
+model  = Exhilaration heals, Survival of the Fittest for big hits, Aspect of the Turtle in an emergency
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method hunter guides, 2026-11-12
+
+big     survival_of_the_fittest
+low     exhilaration            id=109304 heal
+low     survival_of_the_fittest
+low     fortitude_of_the_bear   heal
+low     aspect_of_the_turtle

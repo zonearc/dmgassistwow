@@ -1,0 +1,14 @@
+# Shadow Priest: Power Word: Shield, Desperate Prayer, Vampiric Embrace (heals from your damage); Dispersion in an
+# emergency (damage reduced, can't act).
+role   = dps
+model  = Power Word: Shield / Desperate Prayer, Vampiric Embrace, Dispersion in an emergency
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method Shadow, 2026-11-12
+
+big     power_word_shield   id=17
+big     desperate_prayer
+big     dispersion
+low     power_word_shield   id=17
+low     desperate_prayer    heal
+low     vampiric_embrace    id=15286 heal
+low     dispersion

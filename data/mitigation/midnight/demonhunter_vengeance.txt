@@ -1,0 +1,12 @@
+# Vengeance Demon Hunter: Demon Spikes (armor, parry) kept up while tanking; Fiery Brand on the target and
+# Metamorphosis (in the rotation: SimC uses it for damage too) for big hits; soul fragments heal through Soul
+# Cleave in the rotation.
+role   = tank
+model  = Demon Spikes up while tanking, Fiery Brand for big hits, Metamorphosis and Soul Cleave in the rotation
+health = 50
+source = SpellDataDump 12.x (Demon Spikes aura 203819: 12 s); Icy Veins / Method Vengeance, 2026-11-12
+
+keep    demon_spikes      id=203720 dur=12 refresh=1
+big     fiery_brand       id=204021
+low     fiery_brand       id=204021
+skip    blur              Havoc's (Vengeance tanks through Demon Spikes instead)

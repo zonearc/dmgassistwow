@@ -1039,7 +1039,10 @@ local function SetIcon(icon, pick, cfg, isMain, labelText)
     key = "5" -- a sample, so the keybind's size, colour and place can be set
   end
   icon.key:SetText(key or "")
-  local name = cfg.spellNames and U.Get(C_Spell and C_Spell.GetSpellName, pick.id) or ""
+  -- No key found (not on your bars, or bound some way we can't read): its name instead, so an icon never sits
+  -- there unexplained ("it showed a spell and I have no idea what it is. No key binding", Arms, 2026-11-12).
+  icon.noKey = cfg.keybind and not key and pick.id ~= nil and not pick.item or nil
+  local name = (cfg.spellNames or icon.noKey) and U.Get(C_Spell and C_Spell.GetSpellName, pick.id) or ""
   icon.name:SetText(name or "")
   icon.label:SetText(cfg.labels and labelText or "")
   -- Like the action bars: red when the target is out of this spell's range; on slot 1, blue when it is short of
@@ -1057,7 +1060,8 @@ local function SetIcon(icon, pick, cfg, isMain, labelText)
   end
   icon.tex:SetVertexColor(r, g, b)
   local alpha = isMain and 1 or cfg.queueAlpha
-  if cfg.dimGuesses and (pick.source == "guess" or pick.source == "rules?" or pick.source == "pool") then
+  if cfg.dimGuesses and (pick.source == "guess" or pick.source == "rules?" or pick.source == "pool"
+    or pick.source == "soon") then
     alpha = alpha * 0.5
   end
   icon:SetAlpha(alpha)

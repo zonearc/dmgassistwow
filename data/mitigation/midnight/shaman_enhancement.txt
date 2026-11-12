@@ -1,0 +1,9 @@
+# Shaman: Astral Shift for big hits and at low health; Healing Surge heals.
+role   = dps
+model  = Astral Shift, Healing Surge
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method shaman guides, 2026-11-12
+
+big     astral_shift
+low     astral_shift
+low     healing_surge     heal

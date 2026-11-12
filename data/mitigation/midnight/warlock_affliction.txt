@@ -1,0 +1,11 @@
+# Warlock: Dark Pact (absorb) and Unending Resolve for big hits; Mortal Coil heals; Drain Life in the rotation.
+role   = dps
+model  = Dark Pact / Unending Resolve for big hits, Mortal Coil heals
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method warlock guides, 2026-11-12
+
+big     dark_pact
+big     unending_resolve
+low     dark_pact
+low     mortal_coil       heal
+low     unending_resolve

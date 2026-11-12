@@ -1,0 +1,19 @@
+# Brewmaster Monk: Stagger spreads damage out; Purifying Brew clears it (only with Stagger), Celestial Brew /
+# Celestial Infusion (a choice) absorb; Fortifying Brew for big hits; Expel Harm / Healing Elixir heal.
+# (Dampen Harm is gone and Diffuse Magic is now passive, part of Fortifying Brew, in Midnight.)
+role   = tank
+model  = Stagger, cleared by Purifying Brew; Celestial Brew absorbs; Fortifying Brew for big hits
+health = 50
+source = SpellDataDump 12.x; Icy Veins / Method Brewmaster, 2026-11-12
+
+keep    purifying_brew       stagger dur=4 refresh=0
+keep    celestial_brew       dur=8 refresh=0
+keep    celestial_infusion   dur=8 refresh=0
+big     fortifying_brew      id=115203
+big     celestial_brew
+big     celestial_infusion
+low     expel_harm           id=322101 heal
+low     healing_elixir       id=428439 heal
+low     celestial_brew
+low     celestial_infusion
+low     fortifying_brew      id=115203

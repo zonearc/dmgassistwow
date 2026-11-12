@@ -164,6 +164,14 @@ goes in the red icon, picked by the profile: keep-up first, then cooldowns on in
 reactive buttons on boss-mod calls, emergencies on low health (tank default 50%, per spec, editable). The grade
 adds Mitigation for tanks. Built in Core/Tanks.lua (1.6.0.146); Midnight only (WoW Forever tanks follow their lists).
 
+## Mitigation map (decided 2026-11-12)
+
+Every spec (40) has a mitigation profile: how it survives (`model`), tank keep-ups, big-hit cooldowns, the
+targeted-spell answer, and its low-health list in priority order with heals marked, plus a default health
+threshold (tanks 50%, others 35%; the settings override). Built from the game's spell data and the class guides
+(Method, Icy Veins), see methods 2f. Defensives are per spec: a spell is only pulled out of the damage slots for a
+spec whose profile lists it (Blood's Death Strike is rotation, Unholy's is a heal).
+
 ## Keep-ups beyond SimC (decided 2026-11-10)
 
 Some spells a player needs are left out of SimC's lists because SimC casts them before the pull or doesn't

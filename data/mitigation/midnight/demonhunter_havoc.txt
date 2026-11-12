@@ -1,0 +1,10 @@
+# Havoc Demon Hunter: Blur (dodge, damage reduced) for big hits and at low health; Darkness for the group.
+role   = dps
+model  = Blur for big hits, Darkness for the group, leech from Demon's Bite / Chaos Strike
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method Havoc, 2026-11-12
+
+big     blur        id=198589
+big     darkness    id=196718
+low     blur        id=198589
+low     darkness    id=196718

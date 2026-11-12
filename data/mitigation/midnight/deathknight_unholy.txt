@@ -1,0 +1,14 @@
+# Death Knight (damage): Icebound Fortitude for big hits, Anti-Magic Shell for magic; at low health Death Strike
+# heals (spends Runic Power), then Icebound, Death Pact, Lichborne.
+role   = dps
+model  = Death Strike heals, Icebound Fortitude / Anti-Magic Shell for big hits
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method death knight guides, 2026-11-12
+
+big     icebound_fortitude
+reflect antimagic_shell     id=48707
+low     death_strike        id=49998 heal
+low     icebound_fortitude
+low     death_pact          heal
+low     lichborne           id=49039
+skip    vampiric_blood      Blood's

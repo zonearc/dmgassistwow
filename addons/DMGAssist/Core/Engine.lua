@@ -746,7 +746,7 @@ function G.OnPlayerCast(castID, shown, enabled, queue)
   end
   -- Off-GCD presses (no GCD in the data: Ironfur) are pressed alongside slot 1, not instead of it.
   if enabled == false or (info and (info.gcd == nil or info.gcd == 0)) or shown.source == "interrupt" or shown.source == "guess"
-    or shown.source == "pool" then
+    or shown.source == "pool" or shown.source == "soon" then
     return nil -- off-GCD presses are no skip; a kick is tied to one enemy cast
   end
   local n = (G.skips[shown.id] or 0) + 1
@@ -1575,9 +1575,17 @@ local function Queue(record, opts, targets)
     last = nextPick
   end
   local have = #result.queue
-  if result.main and have < depth then
+  if have < depth then
+    -- Nothing at all to press (every spell on its cooldown at once: Protection right after Thunder Clap with
+    -- Shield Slam, Revenge and Demolish all cooling down emptied the bar, 2026-11-12): slot 1 is the spell that
+    -- comes off cooldown first, shaded until it's ready, rather than an empty HUD.
     for _, p in ipairs(G.Soonest(record, result.queue, depth - have)) do
       result.queue[#result.queue + 1] = p
+    end
+    if not result.main and result.queue[1] then
+      result.main = result.queue[1]
+      -- "not yet" until then, like Blizzard's not-ready pick (Leveling): never counted as shown ready
+      result.main.readyAt = S.Now() + (result.main.wait or 0)
     end
   end
   result.casting = castID

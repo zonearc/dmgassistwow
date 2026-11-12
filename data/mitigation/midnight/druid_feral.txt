@@ -1,0 +1,12 @@
+# Feral Druid: Survival Instincts and Barkskin; Regrowth (instant with Predatory Swiftness) heals out of Bear Form.
+role   = dps
+model  = Survival Instincts / Barkskin for big hits, Regrowth at low health
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method Feral, 2026-11-12
+
+big     barkskin
+big     survival_instincts     id=61336
+low     barkskin
+low     regrowth               id=8936 heal only=caster
+low     survival_instincts     id=61336
+low     frenzied_regeneration  heal only=bear

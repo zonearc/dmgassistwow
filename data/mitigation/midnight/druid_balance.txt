@@ -1,0 +1,10 @@
+# Balance Druid: Barkskin; Regrowth heals in Moonkin Form (never leave it for Bear Form's Frenzied Regeneration).
+role   = dps
+model  = Barkskin for big hits, Regrowth at low health
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method Balance, 2026-11-12
+
+big     barkskin
+low     barkskin
+low     regrowth               id=8936 heal only=caster
+low     frenzied_regeneration  heal only=bear

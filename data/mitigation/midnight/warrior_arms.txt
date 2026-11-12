@@ -1,0 +1,15 @@
+# Arms Warrior: Die by the Sword (parry, damage reduced) and Ignore Pain (a choice) for big hits; Impending Victory /
+# Victory Rush heal; Spell Reflection for spells cast at you; Rallying Cry for the group.
+role   = dps
+model  = Die by the Sword / Ignore Pain for big hits, Impending Victory heals
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method Arms, 2026-11-12
+
+big     die_by_the_sword
+big     ignore_pain        id=1277297
+reflect spell_reflection   id=23920
+low     impending_victory  heal
+low     victory_rush       id=34428 heal
+low     ignore_pain        id=1277297
+low     die_by_the_sword
+low     rallying_cry

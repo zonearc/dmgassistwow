@@ -450,8 +450,8 @@ function Gr.OnPress(id, r, press)
   end
   local inQueue = Same(main.id, id) or (queue[2] and Same(queue[2].id, id)) or (queue[3] and Same(queue[3].id, id))
     or (f.prevShown and Same(f.prevShown.id, id))
-  if not inQueue and (ns.Engine.IsRotationSpell(id) == false or (ns.Defensives and ns.Defensives.SET
-    and ns.Defensives.SET[ns.SpellMap.TokenForID(id) or ""]) or (ns.Tanks and ns.Tanks.InIcon(ns.SpellMap.TokenForID(id)))) then
+  if not inQueue and (ns.Engine.IsRotationSpell(id) == false or (ns.Defensives and ns.Defensives.InSet
+    and ns.Defensives.InSet(ns.SpellMap.TokenForID(id))) or (ns.Tanks and ns.Tanks.InIcon(ns.SpellMap.TokenForID(id)))) then
     f.neutral = (f.neutral or 0) + 1
     return
   end

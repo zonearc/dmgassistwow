@@ -81,6 +81,17 @@ Written down so that a fix for one class doesn't quietly break another. Keep thi
   assistant nor a glow confirmed is not confirmed by Blizzard's rules in later steps either (Elemental's Lava
   Burst, 2026-11-12).
 
+## 2f. Survival comes from reference profiles, checked against game data
+
+How each spec stays alive (tank keep-ups, big-hit cooldowns, the "spell aimed at you" answer, the low-health list
+in priority order) lives in `data/mitigation/<branch>/<spec>.txt`, one file per spec, never in code.
+`tools/mitigation.py` resolves every spell in SimC's SpellDataDump, fills cooldowns / durations / charges, refuses
+spells the game no longer has (Rune Tap, Rage of the Sleeper, Renewal were in the old lists), passives (Diffuse
+Magic, Renewing Blaze, Shield of Vengeance are now passive) and other specs' talents, and fails when a spell the
+game flags "Big Defensive" for that spec is neither listed nor skipped with a reason. It writes
+`Data/Mitigation.lua`; `tests/test_mitigation.py` fails while that file is stale. After a game patch: refresh the
+SimC library, run the tool, fix what it reports.
+
 ## 3. Changing the baseline honestly
 
 When the **simulation** changes (more realism), the numbers move for reasons that aren't the addon's:

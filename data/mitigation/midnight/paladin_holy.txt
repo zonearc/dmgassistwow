@@ -1,0 +1,11 @@
+# Holy Paladin: Divine Protection for big hits; Word of Glory heals; Lay on Hands and Divine Shield last.
+role   = healer
+model  = Divine Protection for big hits, Word of Glory heals, Lay on Hands / Divine Shield last
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method Holy Paladin, 2026-11-12
+
+big     divine_protection  id=498
+low     word_of_glory      id=85673 heal
+low     divine_protection  id=498
+low     lay_on_hands       id=633 heal
+low     divine_shield      id=642

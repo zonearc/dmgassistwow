@@ -1,0 +1,11 @@
+# Mistweaver Monk: Fortifying Brew for big hits; heals itself (Healing Elixir, Vivify). (Life Cocoon is cast on others.)
+role   = healer
+model  = Fortifying Brew for big hits, heals itself
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method Mistweaver, 2026-11-12
+
+big     fortifying_brew    id=115203
+low     healing_elixir     id=428439 heal
+low     fortifying_brew    id=115203
+low     vivify             heal
+skip    touch_of_karma     Windwalker's

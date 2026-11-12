@@ -1,0 +1,14 @@
+# Mage: the spec's barrier (absorb) first, then Greater Invisibility (damage reduced), Alter Time (back to the health
+# you had), Ice Block / Ice Cold in an emergency.
+role   = dps
+model  = barrier absorbs, Alter Time, Ice Block / Ice Cold in an emergency
+health = 35
+source = SpellDataDump 12.x; Icy Veins / Method mage guides, 2026-11-12
+
+big     prismatic_barrier
+big     ice_cold
+low     prismatic_barrier
+low     greater_invisibility
+low     alter_time              id=342245
+low     ice_cold
+low     ice_block

@@ -24,61 +24,36 @@ ns.Tanks = T
 
 T.HEALTH = 50 -- default low-health threshold for tanks (DPS stay at Combat > Defensives > Low health)
 
-T.PROFILES = {
-  warrior_protection = {
-    keep = {
-      { t = "shield_block", id = 2565, dur = 6, refresh = 1 },
-      { t = "ignore_pain", id = 190456, dur = 4, refresh = 0, ragePool = 60 },
-    },
-    big = { { t = "demoralizing_shout", id = 1160 }, { t = "shield_wall", id = 871 }, { t = "last_stand", id = 12975 } },
-    reflect = { { t = "spell_reflection", id = 23920 } },
-    low = { { t = "last_stand", id = 12975 }, { t = "shield_wall", id = 871 }, { t = "impending_victory", id = 202168 } },
-  },
-  druid_guardian = {
-    -- Ironfur stacks: Essentials (counted from your casts). Frenzied Regeneration is a reactive heal: at your low
-    -- health setting as usual, and with both charges full already at 85% so a charge isn't wasted (waiting for 50%
-    -- wasted them; offering it at 99% wasted the heal, 2026-11-12). Shown by the game from your health.
-    keep = {},
-    cappedHeal = { id = 22842, health = 85 },
-    big = { { t = "barkskin", id = 22812 }, { t = "rage_of_the_sleeper", id = 200851 },
-      { t = "survival_instincts", id = 61336 } },
-    reflect = {},
-    low = { { t = "frenzied_regeneration", id = 22842 }, { t = "survival_instincts", id = 61336 },
-      { t = "barkskin", id = 22812 } },
-    alsoIcon = { "ironfur" },
-  },
-  deathknight_blood = {
-    keep = {},
-    big = { { t = "vampiric_blood", id = 55233 }, { t = "rune_tap", id = 194679 },
-      { t = "icebound_fortitude", id = 48792 } },
-    reflect = { { t = "antimagic_shell", id = 48707 } },
-    low = { { t = "vampiric_blood", id = 55233 }, { t = "icebound_fortitude", id = 48792 },
-      { t = "rune_tap", id = 194679 } },
-  },
-  demonhunter_vengeance = {
-    keep = { { t = "demon_spikes", id = 203720, dur = 8, refresh = 1 } },
-    big = { { t = "fiery_brand", id = 204021 }, { t = "demon_spikes", id = 203720 } },
-    reflect = {},
-    low = { { t = "fiery_brand", id = 204021 } },
-  },
-  monk_brewmaster = {
-    keep = {
-      { t = "purifying_brew", id = 119582, dur = 4, refresh = 0, stagger = true },
-      { t = "celestial_brew", id = 322507, dur = 8, refresh = 0 },
-    },
-    big = { { t = "fortifying_brew", id = 115203 }, { t = "dampen_harm", id = 122278 } },
-    reflect = { { t = "diffuse_magic", id = 122783 } },
-    low = { { t = "fortifying_brew", id = 115203 }, { t = "celestial_brew", id = 322507 } },
-  },
-  paladin_protection = {
-    keep = { { t = "shield_of_the_righteous", id = 53600, dur = 4.5, refresh = 1 } },
-    big = { { t = "eye_of_tyr", id = 387174 }, { t = "ardent_defender", id = 31850 },
-      { t = "guardian_of_ancient_kings", id = 86659 }, { t = "divine_protection", id = 498 } },
-    reflect = {},
-    low = { { t = "word_of_glory", id = 85673 }, { t = "ardent_defender", id = 31850 },
-      { t = "lay_on_hands", id = 633 }, { t = "divine_shield", id = 642 } },
-  },
-}
+-- Each tank's profile comes from Data/Mitigation.lua (tools/mitigation.py: the reference profiles in
+-- data/mitigation/<branch>/<spec>.txt, every spell checked against the game's own spell data), in this shape:
+--   keep, big, reflect, low = lists of { t = token, id = spell ID, dur, refresh, stagger, ragePool, ... }
+--   alsoIcon = tokens kept out of the damage slots, cappedHeal = { id, health }
+local converted = {}
+local function FromData(spec)
+  local m = ns.Data and ns.Data.mitigation and ns.Data.mitigation[spec]
+  if not (m and m.role == "tank") then
+    return nil
+  end
+  local p = converted[spec]
+  if p and p.src == m then
+    return p
+  end
+  p = { src = m, keep = m.keep or {}, big = m.big or {}, reflect = m.reflect or {}, low = m.low or {},
+    alsoIcon = {}, health = m.health }
+  for _, e in ipairs(m.icon or {}) do
+    p.alsoIcon[#p.alsoIcon + 1] = e.t
+  end
+  if m.capped then
+    p.cappedHeal = { id = m.capped.id, health = m.capped.health }
+  end
+  converted[spec] = p
+  return p
+end
+
+-- T.PROFILES[spec]: read through to the data (kept as a table for the tests and the options).
+T.PROFILES = setmetatable({}, { __index = function(_, spec)
+  return FromData(spec)
+end })
 
 local function Spec()
   return ns.Specs.current and ns.Specs.current.key or ""
@@ -127,16 +102,7 @@ end
 
 -- The spell for an entry: SimC's data first (any language), else the ID if you know it.
 local function Resolve(e)
-  local M = ns.SpellMap
-  local id = M.SpellID(e.t)
-  M.unresolved[e.t] = nil
-  if id then
-    return id
-  end
-  if e.id and (U.Get(IsPlayerSpell, e.id) == true or (M.book and M.book[e.id])) then
-    return e.id
-  end
-  return nil
+  return ns.Defensives.Resolve(e)
 end
 
 local function Ready(id)
@@ -151,9 +117,11 @@ local function Ready(id)
 end
 
 local function First(list)
+  local F = ns.Defensives
   for _, e in ipairs(list or {}) do
     local id = Resolve(e)
-    if id and Ready(id) then
+    if id and Ready(id) and not (e.only and F.ONLY[e.only] and not F.ONLY[e.only]())
+      and not (e.heal and F.healAt[e.t] and GetTime() - F.healAt[e.t] < F.HEAL_GRACE) then
       return id, e.t
     end
   end
@@ -172,7 +140,8 @@ end
 function T.Health()
   local spec = Spec()
   local by = ns.db and type(ns.db.tankHealth) == "table" and ns.db.tankHealth
-  local base = tonumber(by and by[spec]) or T.HEALTH
+  local prof = T.Profile()
+  local base = tonumber(by and by[spec]) or (prof and prof.health) or T.HEALTH
   -- the low-health heal with all its charges full: a higher threshold, so a charge isn't left capped
   local p = T.Profile()
   local c = p and p.cappedHeal
