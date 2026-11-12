@@ -87,10 +87,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 - [ ] Single-target dummy fights (boss numbers learned separately from 5-dummy pulls)
 - [ ] Boss mods in a real dungeon or raid (DBM test hook works); interrupts in a dungeon (smart mode)
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
-- [ ] Fixes 1.6.0.220-227 to confirm in game: Black Arrow only at <=20% / >=80% or with Deathblow (BM and
-  Marksmanship, both modes); no double Black Arrow; a new slot 1 always flashes (BM); Marksmanship warns when no
-  ranged weapon is equipped (the "bar disappears" report); Touch of Death not shown when the target can't take
-  it; Frenzied Regeneration only at full charges; Arcane Intellect not guessed while it's up (Fire); no DEFEND
+- [ ] Fixes 1.6.0.220-227 to confirm in game (BM / MM Black Arrow confirmed 2026-11-12: never doubled, cast almost
+  every time shown; Touch of Death offered only when the game lights it, both casts went through on low dummies;
+  no "tainted by DMGAssist" since the 1.6.0.227 menu fix, all taint entries are from 2026-11-11): Marksmanship
+  warns when no ranged weapon is equipped (the "bar disappears" report); Frenzied Regeneration only at full charges; Arcane Intellect not guessed while it's up (Fire); no DEFEND
   row before the pull (DK); Death Coil in Flow only when Runic Power allows (Unholy); Arms / Fury Whirlwind and
   slot 2 steady without a hero tree; Guardian Moonfire keep-up only when it's on your bar; Flow keybinds all one
   size; welcome style cards; minimap menu + Edit Mode layout switch with no "tainted by DMGAssist"
