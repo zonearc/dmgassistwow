@@ -87,6 +87,8 @@ local function Publish(f, at)
   local r = Gr.Finish(f, at)
   if r then
     Gr.Show(r)
+  elseif ns.Game and ns.Game.On() then
+    ns.Game.EndSet() -- too short to grade (breaks taken out): the Flow set still ends, the next starts fresh
   end
 end
 
@@ -458,8 +460,25 @@ function Gr.OnPress(id, r, press)
     matched = true -- slot 1 had just switched away from this spell: your press was right when you made it
   end
   if matched or not IsOffGCD(id) then
+    -- A break: BREAK seconds or more with no spell (between packs, a cutscene, a boss walking across the room, Flow
+    -- mode's pause). Nothing was on you: the stretch leaves the fight's length and its idle time is given back
+    -- (2026-11-12: "Always casting" 33% after waiting between packs on dummies).
+    local gap = f.lastPress and (now - f.lastPress) or 0
+    if gap >= Gr.BREAK then
+      local moved = (f.moveT or 0) - (f.moveAtPress or 0) -- already off the clock
+      local cut = math.max(0, gap - moved)
+      f.idle = f.idleAtPress or f.idle
+      f.gaps = (f.gaps or 0) + cut
+      f.breaks = (f.breaks or 0) + 1
+      f.ready = nil -- no reaction time from a "press now" before the break
+      local clock = Clock(f)
+      for k, at in pairs(f.cdReady) do
+        f.cdReady[k] = math.min(at, clock) -- ready during the break: from now, not before
+      end
+    end
     f.presses = f.presses + 1
     f.lastPress, f.lastPressClock, f.idleAtPress = now, Clock(f), f.idle
+    f.moveAtPress = f.moveT or 0
     if f.vs then
       local snap = {}
       for k, v in pairs(f.vs) do
@@ -575,6 +594,7 @@ end
 -- stop, and walking away from it isn't idle time or an unused cooldown (Guardian, 2026-11-10: 20 s of walking off
 -- at the end counted as 14 s idle and Lunar Beam "never used", a C for a clean fight).
 Gr.TAIL = 3
+Gr.BREAK = 6 -- seconds with no spell that make a break (same as Flow mode's pause)
 function Gr.Finish(f, now)
   local endClock = Clock(f)
   if f.lastPress and now - f.lastPress > Gr.TAIL then

@@ -383,7 +383,13 @@ function G.Create()
   f.burst:SetPoint("CENTER", b, "CENTER", 0, 0)
   f.burst:SetSize(G.ICON, G.ICON)
   f.streak = f:CreateFontString(nil, "OVERLAY")
-  D.SetFont(f.streak, 20)
+  D.SetFont(f.streak, 15)
+  -- never under the switch or the stars (they overlapped at "Streak 48 x4 Score 16100 Silver Best 48", 2026-11-12)
+  f.streak:SetWidth(G.WIDTH - G.SWITCH_W - G.STAR_MAX * 17 - 24)
+  f.streak:SetJustifyH("LEFT")
+  if f.streak.SetWordWrap then
+    f.streak:SetWordWrap(false)
+  end
   f.streak:SetPoint("TOPLEFT", f, "TOPLEFT", 8, -(G.HEAD + G.BONUS_H + G.LANE + 8))
   f.stars = {}
   f.toggle = G.ToggleButton(f)
@@ -453,8 +459,8 @@ local function Star(f, i)
   if not s then
     s = f:CreateTexture(nil, "OVERLAY")
     s:SetTexture("Interface\\COMMON\\FavoritesIcon")
-    s:SetSize(24, 24)
-    s:SetPoint("LEFT", f.streak, "RIGHT", 6 + (i - 1) * 25, 0) -- after the streak text, clear of the switch
+    s:SetSize(16, 16)
+    s:SetPoint("RIGHT", f.toggle, "LEFT", -6 - (i - 1) * 17, 0) -- left of the switch, never on the text
     f.stars[i] = s
   end
   return s
@@ -770,7 +776,8 @@ function G.Render()
     end
     if not n then
       n = table.remove(G.pool or {}) or NewNote(f)
-      n.x = G.WIDTH + G.ICON -- slides in from the right
+      n.x = G.WIDTH - G.ICON / 2 - 2 -- comes in at the lane's right edge (inside the frame) and fades in
+      n.born = now
       n.passed, n.readyAt, n.missAt, n.alarmed = 0, nil, nil, nil
       G.notes[w.key] = n
     end
@@ -894,7 +901,8 @@ function G.Render()
     else
       n.edge:SetColorTexture(c[1], c[2], c[3], (w.main and w.t <= 0.05) and 0.95 or 0.35)
     end
-    n:SetAlpha((w.main or w.lane == 2) and 1 or 0.75)
+    local fadeIn = n.born and math.min(1, (now - n.born) / 0.25) or 1
+    n:SetAlpha(((w.main or w.lane == 2) and 1 or 0.75) * fadeIn)
     -- hidden facts the game decides (combat): the same alpha tricks as the classic HUD
     if w.intr and w.intr.how == "render" then
       D.SetAlphaBool(n, w.intr.notInterruptible, 0, 1)
@@ -1041,8 +1049,14 @@ end
 
 -- Any spell of yours (Main.lua: cast start and cast): the waiting screen goes at once. In combat it cheers: LET'S
 -- GO! from the start screen, Back in the Flow! from a pause; a buff out of combat just clears it.
-function G.Started()
+function G.Started(id)
   if not G.On() then
+    return
+  end
+  local fight = UnitAffectingCombat and UnitAffectingCombat("player")
+  -- out of combat a buff (Mark of the Wild on entering a dungeon) isn't play: only a rotation spell starts it
+  -- (2026-11-12: "pressing a buff starts the combat window")
+  if not fight and id and ns.Engine and ns.Engine.IsRotationSpell and ns.Engine.IsRotationSpell(id) == false then
     return
   end
   G.lastAct = GetTime()
@@ -1051,7 +1065,6 @@ function G.Started()
   end
   local start = G.startScreen
   G.paused, G.startScreen = false, false -- the lanes pick up where they stopped
-  local fight = UnitAffectingCombat and UnitAffectingCombat("player")
   if G.frame and fight then
     if start then
       G.Kudos(G.frame, L["LET'S GO!"], { 0.4, 1, 0.5 }, true)

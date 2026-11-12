@@ -4383,8 +4383,7 @@ test("game mode: one lane and a bonus row, notes reach the line when ready, stre
   mock.now = mock.now + 5
   Gr.OnCombat(false)
   mock.Advance(Game.SET_GAP + 1)
-  eq(Game.score, 0, "set over: fresh set")
-  eq(Gr.frame and Gr.frame.flow:GetText():find("Flow score", 1, true) ~= nil, true, "the grade shows the set")
+  eq(Game.score, 0, "set over: fresh set (graded or, with its breaks taken out, too short to grade)")
   -- timing offset: notes reach the line that much sooner
   ns.db.hud = ns.db.hud or {}
   ns.db.hud.gameOffset = 200
@@ -5274,6 +5273,42 @@ test("timing corrections from one or two samples are dropped once (stale-clock f
   eq(S.learned.timing.holy_shock and S.learned.timing.holy_shock.n, 7, "-1.2 s: kept")
 end)
 
+test("performance grade: a break (6 s+ with no spell: between packs, a cutscene) isn't idle time", function()
+  Reset()
+  local ns = Boot()
+  local Gr = ns.Grade
+  ns.db.gradeChain = false
+  local spec = Gr.SpecKey()
+  Gr.Reset()
+  local A = { id = 101, token = "spell_a" }
+  local r = { main = A, queue = { A } }
+  local isRot = ns.Engine.IsRotationSpell
+  ns.Engine.IsRotationSpell = function() return true end
+  local function Press(n)
+    for _ = 1, n do
+      Gr.OnReady(101, mock.now, A)
+      Gr.Tick(true)
+      Gr.OnPress(101, r, true)
+      Gr.Tick(false)
+      mock.now = mock.now + 1.5
+    end
+  end
+  Gr.OnCombat(true)
+  Press(10)
+  -- 20 s waiting with slot 1 ready and nothing pressed, still in combat (dummies)
+  for _ = 1, 80 do
+    Gr.Tick(true)
+    mock.now = mock.now + 0.25
+  end
+  Press(10)
+  Gr.OnCombat(false)
+  local got = Gr.Summary(spec).history[1]
+  eq(got.abc > 95, true, "the break isn't held against you: " .. got.abc)
+  eq(math.floor(got.length + 0.5) <= 31, true, "nor counted in the fight's length: " .. got.length)
+  eq(got.reactionMs ~= nil and got.reactionMs < 1000, true, "no 20 s reaction from it")
+  ns.Engine.IsRotationSpell = isRot
+end)
+
 test("performance grade: quick fights chain (mob to mob), one grade after the gap or every 3 minutes", function()
   Reset()
   local ns = Boot()
@@ -5912,10 +5947,17 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   local word = Game.frame.ready:GetText()
   eq(word == "READY, PLAYER ONE?" or word == "INSERT COIN" or word == "PRESS START", true, word)
   eq(Game.frame.readySub:GetText(), "Hit your first spell to start the Flow")
-  -- a buff out of combat clears it quietly; 6 s later, still out of combat, the start screen is back
+  -- a buff out of combat (Mark of the Wild entering a dungeon) leaves the start screen up; a rotation spell clears
+  -- it quietly; 6 s later, still out of combat, it's back
   Game.frame.pop:SetText("")
+  local isRot = ns.Engine.IsRotationSpell
+  ns.Engine.IsRotationSpell = function(id) return id ~= 1126 end
   ns.OnOwnCast(1126)
-  eq(Game.paused, false) eq(Game.frame.pop:GetText(), "", "no cheer for a buff")
+  Run({ main = A, queue = { A, B } }, 0.1, 0)
+  eq(Game.paused, true, "a buff doesn't start the Flow")
+  ns.OnOwnCast(201)
+  eq(Game.paused, false) eq(Game.frame.pop:GetText(), "", "out of combat: no cheer")
+  ns.Engine.IsRotationSpell = isRot
   Run({ main = A, queue = { A, B } }, Game.IDLE_PAUSE + 0.5, 0)
   eq(Game.startScreen, true, "start screen again") eq(Game.frame.ready:IsShown(), true)
   -- the pull: the first spell in combat starts the Flow
@@ -5998,6 +6040,9 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   ns.Grade.Render(ns.Grade.SAMPLE, false, true)
   local p1, rel, p2 = ns.Grade.frame:GetPoint()
   eq(p1, "BOTTOM") eq(rel, Game.frame) eq(p2, "TOP")
+  local withSet = setmetatable({ game = { score = 1400, bestStreak = 11, perfect = 60 } }, { __index = ns.Grade.SAMPLE })
+  ns.Grade.Render(withSet, false, true)
+  eq(ns.Grade.frame.flow:GetText():find("Flow score 1400", 1, true) ~= nil, true, "the grade shows the set")
   -- the low-health defensive is always listed (the game shows it when health is low): no alarm, no DEFEND!, the
   -- action row stays quiet (it shouted DEFEND! on login, 2026-11-11)
   Game.frame.alarmAt, Game.actAlpha, Game.kudosAt = nil, 0, nil

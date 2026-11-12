@@ -74,6 +74,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.216: grade: a break (6 s+ with no spell: between packs, a cutscene, a boss walking off) leaves the fight's
+  length and its idle time is given back ("Always casting 33%" after waiting between packs); a Flow set ends even
+  when it's too short to grade. Flow: a buff out of combat (Mark of the Wild) no longer starts it; notes come in
+  inside the lane and fade in; the foot row's text never runs under the stars or the switch.
 - 1.6.0.215: reports 2026-11-12 (Balance, dummies): Eclipse asked for during Incarnation from the pull before
   ("says to hit Q and I can't"): the blocked-while-active rule only counted casts since combat began, and dummies
   drop combat between pulls; and Celestial Alignment / Incarnation now start the Lunar and Solar Eclipse clocks
