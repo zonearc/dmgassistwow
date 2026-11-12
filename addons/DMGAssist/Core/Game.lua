@@ -810,8 +810,9 @@ function G.Render()
         actions = actions + 1
       end
       y = G.BonusY()
+      local pulse = 0.6 + 0.4 * math.abs(math.sin(now * 4))
       n.tag:SetText(L[G.BONUS_TAG[w.bonus]])
-      n.tag:SetTextColor(1, 0.65, 0.2) -- steady: nothing on the lanes pulses (2026-11-12: "a weird rhythm")
+      n.tag:SetTextColor(1, 0.4 + 0.45 * pulse, 0.2)
       n.tag:Show()
     else
       n:SetSize(G.ICON, G.ICON)
@@ -883,11 +884,11 @@ function G.Render()
     local c = G.LANE_COLOR[1]
     if w.fire and w.lane == 1 then
       -- a flame note: worth double, burns orange
-      n.edge:SetColorTexture(1, 0.5, 0.05, 0.95)
+      n.edge:SetColorTexture(1, 0.35 + 0.3 * math.abs(math.sin(now * 6)), 0.05, 0.95)
     elseif w.special == "interrupt" then
       n.edge:SetColorTexture(1, 0.85, 0.2, 0.9)
     elseif w.special == "urgent" or w.special == "health" then
-      n.edge:SetColorTexture(1, 0.25, 0.25, 0.9)
+      n.edge:SetColorTexture(1, 0.25, 0.25, 0.4 + 0.5 * math.abs(math.cos(now * math.pi * 1.5)))
     else
       n.edge:SetColorTexture(c[1], c[2], c[3], (w.main and w.t <= 0.05) and 0.95 or 0.35)
     end
@@ -954,7 +955,7 @@ function G.Render()
   end
   -- the action row is always there, quiet; its border and "!" wake up while something waits on it
   G.actAlpha = (G.actAlpha or 0) + ((actions > 0 and 1 or 0) - (G.actAlpha or 0)) * math.min(1, elapsed * 10)
-  local beat = 1
+  local beat = 0.6 + 0.4 * math.abs(math.sin(now * 5))
   f.actBox:SetAlpha(G.actAlpha * beat)
   f.actSign:SetAlpha(G.actAlpha * beat)
   for _, e in ipairs(f.actEdges) do
@@ -962,7 +963,7 @@ function G.Render()
   end
   -- the alarm: the whole frame's edge flashes red when a defensive or interrupt lands
   local al = f.alarmAt and (1 - (now - f.alarmAt) / 1.2) or 0
-  f.alarm:SetAlpha(al > 0 and 0.7 * al or 0)
+  f.alarm:SetAlpha(al > 0 and (0.4 + 0.6 * math.abs(math.sin(now * 12))) * al or 0)
   -- the lane's dots: one every DOT_EVERY seconds, scrolling with the notes (eaten at the line)
   local phase = G.clock % G.DOT_EVERY
   for i, dot in ipairs(f.dots) do
@@ -992,7 +993,7 @@ function G.Render()
   G.RenderCast(f)
   local power = G.PowerOn()
   if power then
-    local p2 = 0.6
+    local p2 = 0.5 + 0.5 * math.abs(math.sin(now * 3))
     f.lane:SetColorTexture(0.2, 0.5, 1, 0.18 + 0.12 * p2)
     f.line:SetColorTexture(0.4, 0.8, 1, 1)
     f.bg:SetColorTexture(0.02, 0.05, 0.14, 0.7)
@@ -1082,7 +1083,7 @@ function G.RenderReady(f, now)
   if not G.readyWord then
     G.readyWord = G.READY_WORDS[math.random(#G.READY_WORDS)]
   end
-  local pulse = 1
+  local pulse = 0.65 + 0.35 * math.abs(math.sin(now * 2.5))
   f.ready:SetText(G.startScreen and L[G.readyWord] or L["PAUSED"])
   f.ready:SetAlpha(pulse)
   f.ready:Show()
