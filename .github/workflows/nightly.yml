@@ -42,6 +42,9 @@ jobs:
           ./scripts/fetch-wowsims.sh .libraries/wowsims
       - name: Regenerate data
         run: python3 tools/simc_import.py --simc .libraries/simc --wowsims .libraries/wowsims --summary .libraries/data-summary.md
+      - name: Check the mitigation map against the latest game data
+        # a game patch that removes or changes a defensive fails here, instead of shipping a stale map
+        run: python3 tools/mitigation.py --check
       - name: Check and package
         run: |
           base=$(sed -n 's/^## Version: *//p' addons/DMGAssist/DMGAssist.toc | tr -d '\r')

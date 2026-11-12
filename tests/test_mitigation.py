@@ -58,5 +58,16 @@ class MitigationMap(unittest.TestCase):
             os.unlink(fh.name)
 
 
+class TocLoadsTheMap(unittest.TestCase):
+    """Hand-kept data files sit outside the importer's generated block, or every regeneration drops them
+    (Data/Mitigation.lua and Data/Combos.lua were missing from the 1.6.0.242 nightly)."""
+
+    def test_hand_kept_data_is_outside_the_generated_block(self):
+        toc = open(os.path.join(ROOT, "addons", "DMGAssist", "DMGAssist.toc"), encoding="utf-8").read()
+        head = toc.split("# BEGIN GENERATED DATA", 1)[0]
+        for name in ("Data\\Mitigation.lua", "Data\\Combos.lua"):
+            self.assertIn(name, head)
+
+
 if __name__ == "__main__":
     unittest.main()
