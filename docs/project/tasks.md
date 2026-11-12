@@ -80,7 +80,19 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Proposed (waiting on a decision)
 
-- (none)
+- Patch watch + release channels (owner, 2026-11-12):
+  - Every other Tuesday (patch day): pull the new game data (SimC SpellDataDump / class modules, already fetched
+    by the nightly; Wago DB2 tables as a second structured source) and the hotfix notes (Blizzard news JSON,
+    Wowhead RSS, Warcraft Wiki), diff spells / costs / cooldowns / defensives against the last run, write an
+    impact report per spec, fix what needs fixing, release an alpha.
+  - Channels on GitHub + CurseForge: alpha after a patch for X days, beta for a week once issue reports settle,
+    then release when reports stop.
+  - Issues: fix substantive ones that come with a valid log within 72 h; never guess at reports without a log;
+    never add feature requests without the owner's approval; a weekly feature-request list for review.
+  - Expansions: v1.x = Midnight, v2.x = the next expansion (beta access, a build per beta update); one addon that
+    detects the client, or separate lines.
+  - Needs: network access to blizzard.com / wowhead.com / wago.tools (blocked in this session), CurseForge
+    release-type support in the release workflow, decisions on X days and on one addon vs separate lines.
 
 ## Open: needs in-game testing (built, not yet seen in game)
 
