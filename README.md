@@ -87,7 +87,7 @@ nothing automated. You press every button.
 Install DMGAssist from **[CurseForge](https://www.curseforge.com/wow/addons/dmgassist)**: the CurseForge app installs
 it and keeps it up to date by itself. That is the only download. (The CurseForge page also has the zip for a manual
 install: unzip it into `World of Warcraft/_retail_/Interface/AddOns/`.) The package holds DMGAssist and its
-*Report an Issue* tool, which shows under DMGAssist in the game's AddOns list.
+*DMGAssist Watchdog* tool (for reporting an issue), which shows under DMGAssist in the game's AddOns list.
 
 ## Using it
 
@@ -142,7 +142,7 @@ A broken callback is dropped and never breaks DMGAssist.
 
 ## Reporting a problem
 
-Install **DMGAssist_Watchdog** ("DMGAssist - Report an Issue" in the AddOns list) next to DMGAssist. It records
+Install **DMGAssist_Watchdog** ("DMGAssist Watchdog" in the AddOns list) next to DMGAssist. It records
 what DMGAssist saw and decided, with no setup. Right after the problem, type `/dmga report` (or right-click the
 minimap button → *Report an issue*). The window walks you through it:
 

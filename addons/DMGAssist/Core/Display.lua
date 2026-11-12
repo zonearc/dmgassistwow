@@ -1408,6 +1408,9 @@ function D.RenderTiming(f, cfg)
   if busy > (f.lastBusy or 0) + 0.05 or id ~= f.momentId then
     if id ~= f.momentId then
       ns.State.readyShown = nil -- a different spell in slot 1: an earlier "ready" no longer counts as waited for
+      -- and it flashes when it's ready, even if the spell before it was ready too: a priority change put a new
+      -- spell in slot 1 with no flash, it "just arrived there" (BM, 2026-11-12)
+      f.pressNow = false
     end
     f.readyFor, f.flashedFor, f.momentId = nil, nil, id
   end

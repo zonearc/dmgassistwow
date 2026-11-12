@@ -4857,6 +4857,33 @@ test("tank profile: keep-up while tanking, cooldowns before a tank hit, reflect 
 end)
 
 
+test("Guardian: Frenzied Regeneration while tanking whenever both charges are full", function()
+  Reset()
+  mock.specIndex = 3 -- Guardian
+  local ns = Boot()
+  local T, S = ns.Tanks, ns.State
+  local ips, uts = IsPlayerSpell, UnitThreatSituation
+  IsPlayerSpell = function(id) return id == 22842 end -- luacheck: ignore 121
+  UnitThreatSituation = function() return 3 end -- luacheck: ignore 121
+  local info = ns.SpellMap.Info(22842)
+  info.chLive = 2
+  mock.charges = { [22842] = { 2, 2 } }
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  eq(S.MaxCharges(22842), 2)
+  local p = T.Pick()
+  eq(p and p.token, "frenzied_regeneration", "two charges, tanking: use one")
+  mock.charges[22842] = { 1, 2 }
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 22842)
+  eq((T.Pick() or {}).token == "frenzied_regeneration", false, "one left: kept for when you're low")
+  mock.charges = nil
+  info.chLive = nil
+  IsPlayerSpell, UnitThreatSituation = ips, uts -- luacheck: ignore 121
+  mock.inCombat = false
+  mock.specIndex = 2
+end)
+
+
 test("a hidden channel runs for its duration: its own 'succeeded' at the start doesn't end it", function()
   Reset()
   local ns = Boot()

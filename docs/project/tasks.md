@@ -21,13 +21,9 @@ Last updated: 1.6.0.157 (2026-11-10).
   in the locals; Blizzard's Assisted Highlight or Masque reskinning. The "tainted by DMGAssist" blocks are still
   worth a taint.log look.
 
-- BM (report 2026-11-12): "spells pop into slot 1 on a priority change without the flash". Check the flash trigger
-  when slot 1 changes to a spell that's already ready (no cooldown end to flash on).
 - Survival: checked on dummies, good (2026-11-12). Windwalker / Brewmaster: good apart from Touch of Death.
 - Wording: "Kick" for interrupts — consider "Interrupt" in UI text (decide with user).
 
-- Guardian (report 2026-11-12): Frenzied Regeneration only at the low-health threshold; with 2 charges / 21 s
-  recharge it's used much earlier (when a charge would cap). Needs the charge count and a "not full health" read.
 - Icon + key check (2026-11-12): "wrong icon for Ironfur, and no keybind": confirm which pick (a gap closer, Wild
   Charge 102401 vs Bear's 16979, also showed in slot 1) with the user; check shapeshift overrides' icon/keybind.
 - Flow ideas to decide with the user: a time-limited "Flow State" power-up from a hot streak, combos over linked
@@ -92,6 +88,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.222: a new spell in slot 1 flashes when ready even if the one before it was ready too (BM: "pops in
+  without the flash"); Guardian uses Frenzied Regeneration while tanking whenever both charges are full (low
+  health still shows it); the Watchdog shows as "DMGAssist Watchdog" in the AddOns list.
 - 1.6.0.221: Black Arrow only above 80% / below 20% target health or with Deathblow (SimC 466930 effects #2/#3);
   a spell the game refuses with "Invalid target" is held for that target (Touch of Death on dummies); leveling
   mode never puts Blizzard's pick in slot 2 when it can't be used on this target. Marksmanship / Beast Mastery

@@ -974,6 +974,12 @@ local function PendingRecharges(group, at)
   return out
 end
 
+-- Most charges this spell holds (talents included, as the game reports them), or nil for a spell without charges.
+function S.MaxCharges(id)
+  local info = ChargeInfo(id)
+  return info and MaxCharges(info) or nil
+end
+
 -- Charges available now (or at the look-ahead moment), or nil for a spell without charges.
 function S.Charges(id)
   local info = ChargeInfo(id)

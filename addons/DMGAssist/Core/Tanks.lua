@@ -35,7 +35,10 @@ T.PROFILES = {
     low = { { t = "last_stand", id = 12975 }, { t = "shield_wall", id = 871 }, { t = "impending_victory", id = 202168 } },
   },
   druid_guardian = {
-    keep = {}, -- Ironfur stacks: Essentials (counted from your casts)
+    -- Ironfur stacks: Essentials (counted from your casts). Frenzied Regeneration: whenever both charges are full
+    -- while you tank, so a charge never sits capped (2 charges, ~21 s recharge: waiting for 50% health wasted
+    -- them, 2026-11-12); not again within its 3 s heal.
+    keep = { { t = "frenzied_regeneration", id = 22842, dur = 3, capped = true } },
     big = { { t = "barkskin", id = 22812 }, { t = "rage_of_the_sleeper", id = 200851 },
       { t = "survival_instincts", id = 61336 } },
     reflect = {},
@@ -181,6 +184,11 @@ local function Due(e, id)
     end
   end
   local since = S.SinceCast(id)
+  if e.capped then
+    local c, max = S.Charges(id), S.MaxCharges(id)
+    return type(c) == "number" and type(max) == "number" and max >= 2 and c >= max
+      and (since == nil or since >= (e.dur or 0))
+  end
   if e.ragePool then
     local rage = S.PowerNow(1)
     if type(rage) == "number" then
