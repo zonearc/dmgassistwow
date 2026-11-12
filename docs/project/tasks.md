@@ -16,10 +16,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
-- UI errors (2026-11-12, only DBM + DMGAssist loaded): ActionButton.lua:996 "attempt to call a nil value" on
-  SPELL_ACTIVATION_OVERLAY_GLOW_SHOW, AssistedCombatManager.lua:190 (6516x), "tainted by DMGAssist" blocks on
-  SetAttribute / Edit Mode / GetAuraDataByIndex. Needs: the same session with DMGAssist disabled (is it ours?)
-  and Logs/taint.log lines naming DMGAssist (taintLog is on in testing mode). Audit every call into Blizzard Lua.
+- UI errors (2026-11-12): AssistedCombatManager.lua "attempt to call a nil value" also happens with DMGAssist
+  disabled (user test, DBM + BugSack + Masque loaded): not ours. ActionButton1 had no AssistedCombatHighlightFrame
+  in the locals; Blizzard's Assisted Highlight or Masque reskinning. The "tainted by DMGAssist" blocks are still
+  worth a taint.log look.
 
 - BM (report 2026-11-12): "spells pop into slot 1 on a priority change without the flash". Check the flash trigger
   when slot 1 changes to a spell that's already ready (no cooldown end to flash on).
