@@ -1140,11 +1140,14 @@ local function Prepare(record)
   if p then
     return p
   end
-  p = { blizzardByAction = {}, cooldowns = SetOf(record.blizzardExcluded), simcActions = {} }
-  for _, list in pairs(type(record.simc) == "table" and record.simc or {}) do
+  p = { blizzardByAction = {}, cooldowns = SetOf(record.blizzardExcluded), simcActions = {}, fightActions = {} }
+  for name, list in pairs(type(record.simc) == "table" and record.simc or {}) do
     for _, e in ipairs(type(list) == "table" and list or {}) do
       if type(e) == "table" and e.a then
         p.simcActions[e.a] = true
+        if name ~= "precombat" then
+          p.fightActions[e.a] = true -- used in the fight itself, not only as preparation
+        end
       end
     end
   end
@@ -1182,6 +1185,30 @@ function G.IsRotationSpell(id)
     end
   end
   return false
+end
+
+-- A spell that's preparation, not play: a shapeshift / stance / aura (Bear Form, Moonkin Form), or one the lists
+-- only use before the pull. Out of combat these don't start Flow mode (2026-11-12: "switching specs and hitting
+-- Bear Form starts the flow").
+function G.IsPrepSpell(id)
+  local token = id and M.TokenForID(id)
+  local base = id and M.baseOf and M.baseOf[id]
+  token = token or (base and M.TokenForID(base))
+  local info = not token and id and M.Info and M.Info(id)
+  token = token or (info and info.n)
+  if not token then
+    return false
+  end
+  if token:find("_form$") or token:find("stance") or token:find("presence") or token:find("_aura$") then
+    return true
+  end
+  local state = ns.Specs and ns.Specs.current
+  local record = state and state.data and ns.ActiveRecord and ns.ActiveRecord(state)
+  if not record then
+    return false
+  end
+  local p = Prepare(record)
+  return p.simcActions[token] == true and not p.fightActions[token]
 end
 
 -- One decision at the current overlay moment.

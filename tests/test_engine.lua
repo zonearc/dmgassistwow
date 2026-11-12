@@ -2182,6 +2182,15 @@ test("defensives: a Balance Druid is never sent to Bear Form for Frenzied Regene
   ns.Specs.current.key = saved
 end)
 
+test("prep spells: shapeshifts and pre-pull-only spells are preparation, fight spells aren't", function()
+  Reset()
+  mock.specIndex = 1 -- Balance
+  local ns = Boot()
+  local E = ns.Engine
+  eq(E.IsPrepSpell(24858), true, "Moonkin Form (24858): prep")
+  eq(E.IsPrepSpell(194153), false, "Starfire: play")
+end)
+
 test("Eclipse is not recommended again while it is active, even with a charge left", function()
   Reset()
   mock.specIndex = 1 -- Balance
@@ -5955,6 +5964,12 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   ns.OnOwnCast(1126)
   Run({ main = A, queue = { A, B } }, 0.1, 0)
   eq(Game.paused, true, "a buff doesn't start the Flow")
+  local isPrep = ns.Engine.IsPrepSpell
+  ns.Engine.IsPrepSpell = function(id) return id == 5487 end -- Bear Form
+  ns.OnOwnCast(5487)
+  Run({ main = A, queue = { A, B } }, 0.1, 0)
+  eq(Game.paused, true, "a shapeshift out of combat is prep: no Flow")
+  ns.Engine.IsPrepSpell = isPrep
   ns.OnOwnCast(201)
   eq(Game.paused, false) eq(Game.frame.pop:GetText(), "", "out of combat: no cheer")
   ns.Engine.IsRotationSpell = isRot

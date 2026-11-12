@@ -74,6 +74,8 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.219: Flow: out of combat a shapeshift / stance / pre-pull-only spell (Bear Form after a spec swap) is
+  preparation and doesn't start it.
 - 1.6.0.218: Flow judges a press by when its note reached the line (79 of 89 hits were "Good", none Perfect: a
   queued instant's cast event comes as the next GCD begins, and the HUD's wait then said 1.5 s).
 - 1.6.0.217: grade: a break (6 s+ with no spell: between packs, a cutscene, a boss walking off) leaves the fight's

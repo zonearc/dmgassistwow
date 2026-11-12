@@ -1063,8 +1063,10 @@ function G.Started(id)
   local fight = UnitAffectingCombat and UnitAffectingCombat("player")
   -- out of combat a buff (Mark of the Wild on entering a dungeon) isn't play: only a rotation spell starts it
   -- (2026-11-12: "pressing a buff starts the combat window")
-  if not fight and id and ns.Engine and ns.Engine.IsRotationSpell and ns.Engine.IsRotationSpell(id) == false then
-    return
+  local E = ns.Engine
+  if not fight and id and E and ((E.IsRotationSpell and E.IsRotationSpell(id) == false)
+    or (E.IsPrepSpell and E.IsPrepSpell(id))) then
+    return -- a buff or a shapeshift out of combat is preparation: it doesn't start the Flow
   end
   G.lastAct = GetTime()
   if not G.paused then
