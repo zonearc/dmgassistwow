@@ -669,7 +669,10 @@ local function Wanted(r, wait)
   -- the off-GCD pick (Ironfur, Shield Block...): beside a defensive the game only shows when you're low, not
   -- behind it (2026-11-12: Guardian never saw Ironfur in Flow, only Frenzied Regeneration)
   local lowOnly = d and d.id and d.how == "render"
-  if w and w.id and (lowOnly or not (d and d.id) and not incoming) and not (d and d.id == w.id) then
+  -- out of combat the action row stays empty for keep-up picks: "DEFEND" before the pull read as "use a defensive
+  -- now" (Blood, 2026-11-12)
+  local fighting = ns.State and ns.State.combatStart
+  if fighting and w and w.id and (lowOnly or not (d and d.id) and not incoming) and not (d and d.id == w.id) then
     Bonus({ key = "b:" .. tostring(w.id), pick = w, special = w.urgent and "urgent", bonus = "defend" })
   end
   local it = r.trinket
@@ -913,7 +916,12 @@ function G.Render()
       n.edge:SetColorTexture(c[1], c[2], c[3], (w.main and w.t <= 0.05) and 0.95 or 0.35)
     end
     local fadeIn = n.born and math.min(1, (now - n.born) / 0.25) or 1
-    n:SetAlpha(((w.main or w.lane == 2) and 1 or 0.75) * fadeIn)
+    -- waiting for a resource (Death Coil with too little Runic Power, 2026-11-12) or a guess: half strength, as in
+    -- the classic HUD, so it reads "coming, not yet"
+    local p = w.pick
+    local dim = p and (p.source == "pool" or p.source == "guess" or p.source == "rules?") and 0.5 or 1
+    n.waitingFor = dim < 1 or nil
+    n:SetAlpha(((w.main or w.lane == 2) and 1 or 0.75) * fadeIn * dim)
     -- hidden facts the game decides (combat): the same alpha tricks as the classic HUD
     if w.intr and w.intr.how == "render" then
       D.SetAlphaBool(n, w.intr.notInterruptible, 0, 1)
@@ -1215,7 +1223,7 @@ function G.Drop(n, key)
   if G.notes[key] == n then
     G.notes[key] = nil
   end
-  local missed = n.readyAt and GetTime() - n.readyAt >= G.EXPIRE
+  local missed = n.readyAt and GetTime() - n.readyAt >= G.EXPIRE and not n.waitingFor -- (nothing to press yet)
   G.lastDrop = { id = tonumber(key:match("^1:(%d+):")), at = GetTime() }
   n.fade = GetTime()
   n.dropMiss = missed or nil

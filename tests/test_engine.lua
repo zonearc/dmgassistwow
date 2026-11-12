@@ -6160,10 +6160,15 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   Game.OnJudged("hit", 201)
   eq(Game.lastJudge, "perfect", "a queued press right on the beat: Perfect, not Good")
   -- Ironfur (the off-GCD pick) shows beside the low-health heal the game shows when you're low
-  Run({ main = A, queue = { A }, defensive = { id = 22842, how = "render", threshold = 50 },
-    weave = { id = 192081, source = "mitigation" } }, 0.2, 0)
+  local weaveRun = { main = A, queue = { A }, defensive = { id = 22842, how = "render", threshold = 50 },
+    weave = { id = 192081, source = "mitigation" } }
+  Run(weaveRun, 0.2, 0)
+  eq(Game.notes["b:192081"], nil, "out of combat: no keep-up pick in the action row (DEFEND before the pull)")
+  ns.State.combatStart = mock.now
+  Run(weaveRun, 0.2, 0)
   eq(Game.notes["b:192081"] ~= nil, true, "Ironfur in the action row")
   eq(Game.notes["b:def"] ~= nil, true, "Frenzied Regeneration too")
+  ns.State.combatStart = nil
   -- the low-health defensive is always listed (the game shows it when health is low): no alarm, no DEFEND!, the
   -- action row stays quiet (it shouted DEFEND! on login, 2026-11-11)
   Game.frame.alarmAt, Game.actAlpha, Game.kudosAt = nil, 0, nil

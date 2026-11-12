@@ -16,6 +16,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- Unholy (2026-11-12): "lots of resource issues": Runic Power is hidden in combat (range 0..29 when Death Coil needs
+  30). Check the Runic Power estimate (gains from Festering Strike / Scourge Strike / runes, Dark Transformation).
+- Mage: Frost good (2026-11-12). Fire: "only 1 icon to start" was everything blocked while moving.
+
 - UI errors (2026-11-12): AssistedCombatManager.lua "attempt to call a nil value" also happens with DMGAssist
   disabled (user test, DBM + BugSack + Masque loaded): not ours. ActionButton1 had no AssistedCombatHighlightFrame
   in the locals; Blizzard's Assisted Highlight or Masque reskinning. The "tainted by DMGAssist" blocks are still
@@ -88,6 +92,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.224: a raid buff (Arcane Intellect) isn't guessed into slot 1 from Blizzard's list in combat (its aura is
+  hidden there; Fire showed it while moving); Flow's action row stays empty before the pull (Blood: "DEFEND" out of
+  combat); Flow draws "waiting for the resource" and guess notes at half strength, as the classic HUD does, and
+  doesn't count them as misses (Unholy: Death Coil without the Runic Power).
 - 1.6.0.222: a new spell in slot 1 flashes when ready even if the one before it was ready too (BM: "pops in
   without the flash"); Guardian uses Frenzied Regeneration while tanking whenever both charges are full (low
   health still shows it); the Watchdog shows as "DMGAssist Watchdog" in the AddOns list.

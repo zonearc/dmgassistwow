@@ -1102,7 +1102,10 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
               if run.first and not run.branch and not maybe and castable == true then
                 run.branch = G.Branch(cond, run, id, a)
               end
-            elseif not run.firstRuleMaybe then
+            elseif not run.firstRuleMaybe and not (ns.Buffs and ns.Buffs.IsBuffSpell and ns.Buffs.IsBuffSpell(id)) then
+              -- (a raid buff on an unknown "aura down" isn't guessed: in combat the aura is hidden, so Arcane
+              -- Intellect, already up, filled slot 1 whenever the rest couldn't be cast while moving, 2026-11-12;
+              -- the buff reminder handles those)
               run.firstRuleMaybe = { id = id, token = a, source = "rules?" }
             end
           end
