@@ -884,4 +884,8 @@ ns.LOCALE_DATA.ruRU = {
   ["Custom"] = "Своё",
   ["Just above the action bars"] = "Прямо над панелями команд",
   ["Move the HUD"] = "Переместить HUD",
+  ["COMBO!"] = "КОМБО!",
+  ["COMBO %d/%d"] = "КОМБО %d/%d",
+  ["Flow: combos"] = "Flow: комбо",
+  ["Each spec has a few short chains it plays right after a major cooldown, found in long simulated fights. Press the cooldown and COMBO 1/3 shows over the box; play the chain's next spells in order and COMBO! sweeps the lane violet with bonus points. Another spell, or a pause of more than 6 seconds, quietly ends it. Combos never change what is recommended."] = "У каждой специализации есть несколько коротких цепочек, которые она играет сразу после большого восстановления; они найдены в долгих симуляциях боя. Нажмите восстановление — над рамкой появится «КОМБО 1/3»; сыграйте следующие заклинания цепочки по порядку, и «КОМБО!» окрасит дорожку фиолетовым и даст бонусные очки. Другое заклинание или пауза дольше 6 секунд тихо её завершает. Комбо не меняют рекомендации.",
 }

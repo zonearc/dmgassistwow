@@ -1322,6 +1322,11 @@ O.HELP = {
       .. "The row above the lane holds bonuses to grab when they're needed: INTERRUPT!, DEFEND! (a defensive or "
       .. "heal) and POWER UP! (a trinket or potion). After a set of pulls (20 seconds out of combat), your "
       .. "performance grade shows." },
+  { "Flow: combos",
+    "Each spec has a few short chains it plays right after a major cooldown, found in long simulated fights. "
+      .. "Press the cooldown and COMBO 1/3 shows over the box; play the chain's next spells in order and COMBO! "
+      .. "sweeps the lane violet with bonus points. Another spell, or a pause of more than 6 seconds, quietly ends "
+      .. "it. Combos never change what is recommended." },
   { "What Flow changes to stay fun",
     "The note in the box is always exactly the spell Classic shows: that is never changed. To keep the lane "
       .. "readable, Flow smooths what comes after it: the notes behind only swap when a new pick holds for a third "

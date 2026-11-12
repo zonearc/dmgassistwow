@@ -880,3 +880,7 @@
 886	Personalizado
 887	Justo encima de las barras de acción
 888	Mover el HUD
+889	¡COMBO!
+890	COMBO %d/%d
+891	Flow: combos
+892	Cada especialización tiene unas pocas cadenas cortas que juega justo después de una gran reutilización, halladas en largos combates simulados. Pulsa la reutilización y aparece COMBO 1/3 sobre la casilla; lanza en orden los siguientes hechizos de la cadena y ¡COMBO! barre el carril en violeta con puntos extra. Otro hechizo, o una pausa de más de 6 segundos, la termina sin aviso. Los combos nunca cambian lo recomendado.

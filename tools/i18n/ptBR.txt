@@ -880,3 +880,7 @@
 886	Personalizado
 887	Logo acima das barras de ação
 888	Mover o HUD
+889	COMBO!
+890	COMBO %d/%d
+891	Flow: combos
+892	Cada especialização tem algumas cadeias curtas que usa logo após uma grande recarga, encontradas em longos combates simulados. Aperte a recarga e COMBO 1/3 aparece sobre a caixa; use os próximos feitiços da cadeia em ordem e COMBO! varre a pista em violeta com pontos bônus. Outro feitiço, ou uma pausa de mais de 6 segundos, encerra sem alarde. Combos nunca mudam a recomendação.

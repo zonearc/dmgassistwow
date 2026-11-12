@@ -880,3 +880,7 @@
 886	Personalizzato
 887	Appena sopra le barre delle azioni
 888	Sposta l'HUD
+889	COMBO!
+890	COMBO %d/%d
+891	Flow: combo
+892	Ogni specializzazione ha alcune brevi catene che gioca subito dopo un grande tempo di recupero, trovate in lunghi combattimenti simulati. Premi il tempo di recupero e sopra la casella appare COMBO 1/3; lancia in ordine i successivi incantesimi della catena e COMBO! attraversa la corsia in viola con punti bonus. Un altro incantesimo, o una pausa di oltre 6 secondi, la chiude senza clamore. Le combo non cambiano mai il consiglio.

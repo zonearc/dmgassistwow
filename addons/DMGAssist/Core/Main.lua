@@ -974,6 +974,7 @@ function ns.OnOwnCast(id)
         { __index = judge })
     end
     ns.Grade.OnPress(id, judge, press)
+    ns.Combos.OnCast(id)
   end
   if not press then
     return

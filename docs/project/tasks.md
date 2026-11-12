@@ -25,9 +25,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 - Survival: checked on dummies, good (2026-11-12). Windwalker / Brewmaster: good apart from Touch of Death.
 
-- Combos (decided 2026-11-12): a 2-4 spell chain that each spec reliably casts after a major cooldown (mined from
-  long every-spec simulations, SimC lists) becomes a combo; finishing it in Flow pops COMBO with its own flash,
-  separate from streaks. Build: miner -> per-spec data file -> Flow announcement + flash -> translations, tests.
+- Combos: 19 specs have mined chains (1.6.0.231). The other 21 got none from the simulation (it has no procs and
+  few resources: Balance, Unholy, Rogue builders...); adopting the sim-resources patch or mining the Watchdog's
+  real casts would add them. Validate the mined ones in game (a chain that never happens is dead weight).
 - Flow ideas still to decide with the user: a time-limited "Flow State" power-up from a hot streak, "COMBO
   BREAKER" on interrupts; combos in Classic too or Flow only; Display fine-tuning hidden until Custom; Welcome
   "Small" 0.8 -> 0.9.
@@ -96,10 +96,17 @@ Last updated: 1.6.0.157 (2026-11-10).
   row before the pull (DK); Death Coil in Flow only when Runic Power allows (Unholy); Arms / Fury Whirlwind and
   slot 2 steady without a hero tree; Guardian Moonfire keep-up only when it's on your bar; Flow keybinds all one
   size; welcome style cards; minimap menu + Edit Mode layout switch with no "tainted by DMGAssist"
+- [ ] Combos (1.6.0.231): in Flow, press a spec's cooldown and follow its chain: COMBO 1/3 ... COMBO! with the
+  violet sweep; do the mined chains happen in real play? (Elemental: Nature's Swiftness > Stormkeeper)
 - [ ] Elemental (1.6.0.230): slots 2 and 3 change with the fight, Lava Burst only in slot 1 with Lava Surge
 
 ## Done (recent)
 
+- 1.6.0.231: Combos in Flow. A chain a spec plays after a cooldown (Pillar of Frost > Breath of Sindragosa,
+  Combustion > Meteor > Scorch, Trueshot > Aimed Shot...) shows COMBO 1/3 over the box as it goes and COMBO! with
+  a violet sweep and bonus points when finished; another spell or 6 s ends it quietly. Mined by
+  tools/mine_combos.lua (300 s simulated fights, every spec) into Data/Combos.lua; 19 specs so far. Guide entry
+  "Flow: combos" in 9 languages.
 - 1.6.0.230: Look-ahead (slots 2-3): a SimC line uncertain now because of a hidden proc (buff.*), and not confirmed
   by the assistant or a glow, isn't confirmed by Blizzard's rules in later steps either. Elemental showed Lava
   Burst in slots 2 and 3 almost all the time (needs Lava Surge) while slot 1 never took it: "only the primary

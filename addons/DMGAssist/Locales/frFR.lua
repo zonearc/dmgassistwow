@@ -884,4 +884,8 @@ ns.LOCALE_DATA.frFR = {
   ["Custom"] = "Personnalisé",
   ["Just above the action bars"] = "Juste au-dessus des barres d'action",
   ["Move the HUD"] = "Déplacer le HUD",
+  ["COMBO!"] = "COMBO !",
+  ["COMBO %d/%d"] = "COMBO %d/%d",
+  ["Flow: combos"] = "Flow : combos",
+  ["Each spec has a few short chains it plays right after a major cooldown, found in long simulated fights. Press the cooldown and COMBO 1/3 shows over the box; play the chain's next spells in order and COMBO! sweeps the lane violet with bonus points. Another spell, or a pause of more than 6 seconds, quietly ends it. Combos never change what is recommended."] = "Chaque spécialisation a quelques courtes chaînes qu'elle joue juste après un gros temps de recharge, trouvées dans de longs combats simulés. Lancez le temps de recharge et COMBO 1/3 s'affiche au-dessus de la case ; enchaînez les sorts suivants dans l'ordre et COMBO ! balaie la piste en violet avec des points bonus. Un autre sort, ou une pause de plus de 6 secondes, l'arrête discrètement. Les combos ne changent jamais la recommandation.",
 }

@@ -880,3 +880,7 @@
 886	Benutzerdefiniert
 887	Direkt über den Aktionsleisten
 888	HUD verschieben
+889	COMBO!
+890	COMBO %d/%d
+891	Flow: Kombos
+892	Jede Spezialisierung hat ein paar kurze Ketten, die sie direkt nach einer großen Abklingzeit spielt, gefunden in langen simulierten Kämpfen. Drücke die Abklingzeit, und COMBO 1/3 erscheint über dem Feld; spiele die nächsten Zauber der Kette in Reihenfolge, und COMBO! färbt die Spur violett und gibt Bonuspunkte. Ein anderer Zauber oder mehr als 6 Sekunden Pause beenden sie still. Kombos ändern nie, was empfohlen wird.

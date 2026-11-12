@@ -884,4 +884,8 @@ ns.LOCALE_DATA.koKR = {
   ["Custom"] = "사용자 지정",
   ["Just above the action bars"] = "행동 단축바 바로 위",
   ["Move the HUD"] = "HUD 이동",
+  ["COMBO!"] = "콤보!",
+  ["COMBO %d/%d"] = "콤보 %d/%d",
+  ["Flow: combos"] = "Flow: 콤보",
+  ["Each spec has a few short chains it plays right after a major cooldown, found in long simulated fights. Press the cooldown and COMBO 1/3 shows over the box; play the chain's next spells in order and COMBO! sweeps the lane violet with bonus points. Another spell, or a pause of more than 6 seconds, quietly ends it. Combos never change what is recommended."] = "각 전문화에는 주요 재사용 대기시간 직후에 쓰는 짧은 연계가 몇 개 있으며, 긴 모의 전투에서 찾아냈습니다. 재사용 대기시간 기술을 누르면 상자 위에 콤보 1/3이 뜨고, 연계의 다음 주문을 순서대로 쓰면 콤보!와 함께 레인이 보라색으로 번쩍이고 보너스 점수를 받습니다. 다른 주문을 쓰거나 6초 넘게 멈추면 조용히 끝납니다. 콤보는 추천 내용을 바꾸지 않습니다.",
 }

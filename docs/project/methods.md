@@ -67,6 +67,17 @@ Written down so that a fix for one class doesn't quietly break another. Keep thi
 - When Blizzard's assistant is stuck on a buff all fight (a missing poison), we run on SimC alone: those specs show
   every gap at once.
 
+## 2e. Combos are mined, not written
+
+- `lua5.1 tools/mine_combos.lua > addons/DMGAssist/Data/Combos.lua` plays every spec's single-target and AoE
+  fights for 300 s each through the real pipeline and keeps, per major cooldown, the longest chain (2-4 casts)
+  that followed at least 60% of its presses, seen twice or more, and not only the spec's filler. Re-run it after a
+  SimC import or an engine change that moves the order, and read the diff: a combo that disappears says the
+  rotation after that cooldown changed.
+- Look-ahead (slots 2-3): a line that is uncertain now because of a hidden proc (buff.*) and that neither the
+  assistant nor a glow confirmed is not confirmed by Blizzard's rules in later steps either (Elemental's Lava
+  Burst, 2026-11-12).
+
 ## 3. Changing the baseline honestly
 
 When the **simulation** changes (more realism), the numbers move for reasons that aren't the addon's:

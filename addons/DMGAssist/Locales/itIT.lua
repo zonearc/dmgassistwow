@@ -884,4 +884,8 @@ ns.LOCALE_DATA.itIT = {
   ["Custom"] = "Personalizzato",
   ["Just above the action bars"] = "Appena sopra le barre delle azioni",
   ["Move the HUD"] = "Sposta l'HUD",
+  ["COMBO!"] = "COMBO!",
+  ["COMBO %d/%d"] = "COMBO %d/%d",
+  ["Flow: combos"] = "Flow: combo",
+  ["Each spec has a few short chains it plays right after a major cooldown, found in long simulated fights. Press the cooldown and COMBO 1/3 shows over the box; play the chain's next spells in order and COMBO! sweeps the lane violet with bonus points. Another spell, or a pause of more than 6 seconds, quietly ends it. Combos never change what is recommended."] = "Ogni specializzazione ha alcune brevi catene che gioca subito dopo un grande tempo di recupero, trovate in lunghi combattimenti simulati. Premi il tempo di recupero e sopra la casella appare COMBO 1/3; lancia in ordine i successivi incantesimi della catena e COMBO! attraversa la corsia in viola con punti bonus. Un altro incantesimo, o una pausa di oltre 6 secondi, la chiude senza clamore. Le combo non cambiano mai il consiglio.",
 }

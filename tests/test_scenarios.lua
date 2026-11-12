@@ -28,7 +28,7 @@ for _, a in ipairs(arg or {}) do
   end
 end
 
-local FIGHT = 40      -- seconds per fight
+local FIGHT = tonumber(_G.SCEN_FIGHT) or 40 -- seconds per fight (the combo miner runs longer ones)
 local TICK = 0.2      -- seconds between decisions
 local STUCK_MAX = 6   -- a ready major cooldown may wait behind Blizzard's pick at most this long
 local NO_PICK_MAX = 10 -- percent of the fight with nothing in slot 1

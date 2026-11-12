@@ -884,4 +884,8 @@ ns.LOCALE_DATA.ptBR = {
   ["Custom"] = "Personalizado",
   ["Just above the action bars"] = "Logo acima das barras de ação",
   ["Move the HUD"] = "Mover o HUD",
+  ["COMBO!"] = "COMBO!",
+  ["COMBO %d/%d"] = "COMBO %d/%d",
+  ["Flow: combos"] = "Flow: combos",
+  ["Each spec has a few short chains it plays right after a major cooldown, found in long simulated fights. Press the cooldown and COMBO 1/3 shows over the box; play the chain's next spells in order and COMBO! sweeps the lane violet with bonus points. Another spell, or a pause of more than 6 seconds, quietly ends it. Combos never change what is recommended."] = "Cada especialização tem algumas cadeias curtas que usa logo após uma grande recarga, encontradas em longos combates simulados. Aperte a recarga e COMBO 1/3 aparece sobre a caixa; use os próximos feitiços da cadeia em ordem e COMBO! varre a pista em violeta com pontos bônus. Outro feitiço, ou uma pausa de mais de 6 segundos, encerra sem alarde. Combos nunca mudam a recomendação.",
 }

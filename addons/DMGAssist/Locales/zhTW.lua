@@ -884,4 +884,8 @@ ns.LOCALE_DATA.zhTW = {
   ["Custom"] = "自訂",
   ["Just above the action bars"] = "快捷列正上方",
   ["Move the HUD"] = "移動 HUD",
+  ["COMBO!"] = "連招！",
+  ["COMBO %d/%d"] = "連招 %d/%d",
+  ["Flow: combos"] = "Flow：連招",
+  ["Each spec has a few short chains it plays right after a major cooldown, found in long simulated fights. Press the cooldown and COMBO 1/3 shows over the box; play the chain's next spells in order and COMBO! sweeps the lane violet with bonus points. Another spell, or a pause of more than 6 seconds, quietly ends it. Combos never change what is recommended."] = "每個專精都有幾條在大技能之後打出的短連招，來自長時間的模擬戰鬥。按下大技能後方框上方顯示「連招 1/3」；按順序打出後續技能，「連招！」會讓軌道閃過紫光並獎勵分數。打出其他技能或停頓超過 6 秒會悄悄結束連招。連招從不改變推薦內容。",
 }

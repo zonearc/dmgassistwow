@@ -42,6 +42,10 @@ G.BONUS_POINTS = 150
 G.BONUS_TAG = { kick = "INTERRUPT!", defend = "DEFEND!", item = "POWER UP!" }
 G.BONUS_DONE = { kick = "Interrupted!", defend = "Safe!", item = "Powered up!" }
 G.MISS_SHOW = 0.7   -- the red X on a note after a wrong press
+-- Combos (Combos.lua): a chain finished after a major cooldown, its own colour, flash and points
+G.COMBO_COLOR = { 0.78, 0.45, 1 }
+G.COMBO_POINTS = 250 -- per spell of the chain, times the multiplier
+G.COMBO_FLASH = 0.7
 -- Guitar Hero's ideas, in WoW terms (asked 2026-11-11):
 --   hold bars: a cast or channel's note trails a bar as long as the cast (yellow) or channel (blue); the next note
 --     comes after it, so the gap is cast time, or the GCD when that's longer;
@@ -405,6 +409,18 @@ function G.Create()
   f.burst:SetColorTexture(1, 0.85, 0.3, 0)
   f.burst:SetPoint("CENTER", b, "CENTER", 0, 0)
   f.burst:SetSize(G.ICON, G.ICON)
+  -- the combo flash (Combos.lua): the whole lane sweeps violet, unlike anything a streak does
+  f.comboFlash = f:CreateTexture(nil, "OVERLAY", nil, 2)
+  f.comboFlash:SetPoint("TOPLEFT", f.lane, "TOPLEFT", 0, 0)
+  f.comboFlash:SetPoint("BOTTOMLEFT", f.lane, "BOTTOMLEFT", 0, 0)
+  f.comboFlash:SetWidth(1)
+  f.comboFlash:SetColorTexture(G.COMBO_COLOR[1], G.COMBO_COLOR[2], G.COMBO_COLOR[3], 0)
+  -- "COMBO 2/3" over the landing box while a chain is going
+  f.comboHint = f:CreateFontString(nil, "OVERLAY")
+  D.SetFont(f.comboHint, 13)
+  f.comboHint:SetPoint("BOTTOM", b, "TOP", 0, 4)
+  f.comboHint:SetTextColor(G.COMBO_COLOR[1], G.COMBO_COLOR[2], G.COMBO_COLOR[3])
+  f.comboHint:Hide()
   f.streak = f:CreateFontString(nil, "OVERLAY")
   D.SetFont(f.streak, 17)
   -- never under the switch or the stars (they overlapped at "Streak 48 x4 Score 16100 Silver Best 48", 2026-11-12)
@@ -1083,6 +1099,17 @@ function G.Render()
   for _, t in ipairs(f.frame) do
     t:SetAlpha(G.PowerOn() and 0.6 or (0.75 + 0.25 * fl))
   end
+  -- the combo sweep: a violet band that runs across the lane from the box and fades
+  local cf = f.comboAt and (now - f.comboAt) / G.COMBO_FLASH or 1
+  if cf < 1 then
+    f.comboFlash:SetWidth(math.max(1, G.WIDTH * math.min(1, cf * 1.6)))
+    f.comboFlash:SetColorTexture(G.COMBO_COLOR[1], G.COMBO_COLOR[2], G.COMBO_COLOR[3], 0.55 * (1 - cf))
+  else
+    f.comboFlash:SetColorTexture(G.COMBO_COLOR[1], G.COMBO_COLOR[2], G.COMBO_COLOR[3], 0)
+  end
+  if f.comboHint:IsShown() and ns.Combos and not ns.Combos.run then
+    f.comboHint:Hide() -- the chain ended without finishing: the hint just goes
+  end
   -- pop-ups fade
   for _, fs in ipairs({ f.judge, f.pop, f.slip }) do
     if fs:IsShown() and fs.at then
@@ -1475,6 +1502,31 @@ function G.OnBonus(kind)
   G.lastJudge = "bonus"
   Kudos(f, L[G.BONUS_DONE[kind] or "Powered up!"] .. "  " .. string.format(L["Bonus +%d"], points),
     { 1, 0.7, 0.2 }, true)
+end
+
+-- A combo moves on (Combos.lua): "COMBO 2/3" over the box.
+function G.OnComboStep(step, total)
+  if not G.On() then
+    return
+  end
+  local f = G.Create()
+  f.comboHint:SetText(string.format(L["COMBO %d/%d"], step, total))
+  f.comboHint:Show()
+end
+
+-- A combo finished: COMBO! with the violet sweep and its points (a small achievement, apart from the streak).
+function G.OnCombo(length)
+  if not G.On() then
+    return
+  end
+  local f = G.Create()
+  f.comboHint:Hide()
+  local points = G.COMBO_POINTS * (length or 2) * G.Mult()
+  G.score = G.score + points
+  G.combos = (G.combos or 0) + 1
+  f.comboAt = GetTime()
+  Kudos(f, L["COMBO!"] .. "  " .. string.format(L["Bonus +%d"], points), G.COMBO_COLOR, true)
+  U.Log("combo", { length = length, points = points })
 end
 
 -- A key slip ("5 » 6") shows under the hit line instead of under slot 1.

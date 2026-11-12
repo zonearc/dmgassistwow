@@ -884,4 +884,8 @@ ns.LOCALE_DATA.deDE = {
   ["Custom"] = "Benutzerdefiniert",
   ["Just above the action bars"] = "Direkt über den Aktionsleisten",
   ["Move the HUD"] = "HUD verschieben",
+  ["COMBO!"] = "COMBO!",
+  ["COMBO %d/%d"] = "COMBO %d/%d",
+  ["Flow: combos"] = "Flow: Kombos",
+  ["Each spec has a few short chains it plays right after a major cooldown, found in long simulated fights. Press the cooldown and COMBO 1/3 shows over the box; play the chain's next spells in order and COMBO! sweeps the lane violet with bonus points. Another spell, or a pause of more than 6 seconds, quietly ends it. Combos never change what is recommended."] = "Jede Spezialisierung hat ein paar kurze Ketten, die sie direkt nach einer großen Abklingzeit spielt, gefunden in langen simulierten Kämpfen. Drücke die Abklingzeit, und COMBO 1/3 erscheint über dem Feld; spiele die nächsten Zauber der Kette in Reihenfolge, und COMBO! färbt die Spur violett und gibt Bonuspunkte. Ein anderer Zauber oder mehr als 6 Sekunden Pause beenden sie still. Kombos ändern nie, was empfohlen wird.",
 }

@@ -44,6 +44,7 @@ Core\Welcome.lua
 Core\Sounds.lua
 Core\Diagnostics.lua
 Core\Grade.lua
+Core\Combos.lua
 Core\Engine.lua
 Core\Display.lua
 Core\Game.lua
@@ -52,6 +53,7 @@ Core\Settings.xml
 Core\Minimap.lua
 
 # BEGIN GENERATED DATA (tools/simc_import.py)
+Data\Combos.lua
 Data\midnight\Index.lua [AllowLoadGameType standard]
 Data\midnight\deathknight_blood.lua [AllowLoadGameType standard]
 Data\midnight\deathknight_frost.lua [AllowLoadGameType standard]

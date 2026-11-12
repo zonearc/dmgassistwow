@@ -310,6 +310,36 @@ test("look-ahead: a line hidden behind a proc now isn't confirmed by Blizzard's 
   mock.acSpell = nil
 end)
 
+test("combos: a chain after a major cooldown finishes once, breaks on another spell or a pause", function()
+  Reset()
+  local ns = Boot()
+  local C = ns.Combos
+  ns.COMBO_DATA = { druid_feral = { { 100, 200, 300 } } }
+  ns.Specs.current = { key = "druid_feral" }
+  local done, steps = 0, {}
+  local onCombo, onStep = ns.Game.OnCombo, ns.Game.OnComboStep
+  ns.Game.OnCombo = function(n)
+    done = done + n
+  end
+  ns.Game.OnComboStep = function(step, total)
+    steps[#steps + 1] = step .. "/" .. total
+  end
+  eq(C.OnCast(100, 0), "start")
+  eq(C.OnCast(200, 1), "step")
+  eq(C.OnCast(300, 2), "done")
+  eq(done, 3, "finished once, three spells long")
+  eq(table.concat(steps, " "), "1/3 2/3")
+  eq(C.OnCast(300, 3), nil, "the chain's last spell alone starts nothing")
+  C.OnCast(100, 10)
+  C.OnCast(999, 11) -- another spell: the chain ends quietly
+  eq(C.OnCast(200, 12), nil)
+  C.OnCast(100, 20)
+  eq(C.OnCast(200, 20 + C.WINDOW + 1), nil, "too long a pause ends it")
+  eq(done, 3)
+  ns.Game.OnCombo, ns.Game.OnComboStep = onCombo, onStep
+  ns.COMBO_DATA = {}
+end)
+
 test("major cooldowns are ordinary queue lines; switched off they never show", function()
   Reset()
   local ns = Boot()
@@ -6227,6 +6257,15 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   D.frame.lastWait = 1.5 -- the queued press went off as the GCD ended: the HUD already shows the next GCD
   Game.OnJudged("hit", 201)
   eq(Game.lastJudge, "perfect", "a queued press right on the beat: Perfect, not Good")
+  -- a combo: "COMBO 1/2" over the box, then COMBO! with its violet sweep and points
+  local scoreBefore = Game.score
+  Game.OnComboStep(1, 2)
+  eq(Game.frame.comboHint:GetText(), "COMBO 1/2")
+  Game.OnCombo(2)
+  eq(Game.frame.pop:GetText():find("COMBO!", 1, true) ~= nil, true, "the announcement")
+  eq(Game.score > scoreBefore, true, "combo points")
+  eq(Game.frame.comboAt ~= nil, true, "the sweep starts")
+  Run({ main = A, queue = { A, B } }, 0.1, 0)
   -- Ironfur (the off-GCD pick) shows beside the low-health heal the game shows when you're low
   local weaveRun = { main = A, queue = { A }, defensive = { id = 22842, how = "render", threshold = 50 },
     weave = { id = 192081, source = "mitigation" } }
