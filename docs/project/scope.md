@@ -70,7 +70,8 @@ on the settings page. Can be turned off.
 - Waiting (2026-11-12, one rule): no spell for 6 s and none being cast freezes the lanes under a box: out of
   combat the arcade start screen (READY, PLAYER ONE? / INSERT COIN / PRESS START), in combat PAUSED (running,
   catching up to the group). Any spell clears it; in combat it cheers (LET'S GO! / Back in the Flow!), a buff out
-  of combat clears it quietly. A pause never costs the streak and its
+  of combat clears it quietly. The next press sits in the landing box, left of the dark box, so it's where presses always
+  are; the rest wait in their places. Nothing on the lanes pulses: what waits is lit, steadily. A pause never costs the streak and its
   time never counts toward a quiet miss. Any spell starts a set's Flow, in combat or not (the press-start box went
   only when the fight began, hiding the next key).
 - The cast bar runs from the landing box to the next note, which rides on its end and reaches the box the moment

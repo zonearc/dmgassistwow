@@ -74,6 +74,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.212: Flow mode: while waiting, the next press sits in the box on the left (the dark box starts right of
+  it) and nothing freezes off the right edge; nothing pulses any more (action row border and "!", KICK!-style
+  words, defensive and flame borders, the alarm, power mode, the PAUSED text): steady when something waits.
 - 1.6.0.210: Flow mode (reports 2026-11-12): a Starfire begun right after slot 1 flipped got a red X ("it wants
   Q, I hit Q, it says I'm wrong"): a cast-time spell's press may now be decided up to 0.6 s before its bar began.
   Waiting is one rule: no spell for 6 s (none casting) = the arcade start screen out of combat, PAUSED in combat,

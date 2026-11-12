@@ -5944,15 +5944,23 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   Run({ main = A, queue = { A, B } }, Game.IDLE_PAUSE + 0.5, 1.0)
   eq(Game.paused, true, "paused after IDLE_PAUSE s with no spell")
   eq(Game.frame.ready:GetText(), "PAUSED")
+  eq(Game.notes["1:201:1"].x, Game.HIT_X, "paused: the next press waits in the box")
+  Run({ main = A, queue = { A, B } }, 0.1, 0)
   local frozen = Game.notes["1:202:1"].x
   Game.streak = 5
   Run({ main = A, queue = { A, B } }, 3, 0)
   eq(Game.notes["1:202:1"].x, frozen, "nothing slides while paused")
   eq(Game.streak, 5, "a pause never costs the streak")
+  -- a note that comes in during a pause takes its place at once (it froze off the right edge, 2026-11-12)
+  local M2 = { id = 202770, token = "fury_of_elune" }
+  Run({ main = A, queue = { A, M2 } }, 0.5, 0)
+  Run({ main = A, queue = { A, M2 } }, 0.5, 0)
+  eq(Game.notes["1:202770:1"].x < Game.WIDTH, true, "not off the edge")
+  Run({ main = A, queue = { A, B } }, 0.5, 0)
   ns.OnOwnCast(201)
   eq(Game.paused, false) eq(Game.frame.pop:GetText(), "Back in the Flow!")
   Run({ main = A, queue = { A, B } }, 0.5, 0)
-  eq(Game.notes["1:202:1"].x < frozen, true, "moving again")
+  eq(Game.frame.ready:IsShown() == false or Game.readyAlpha < 1, true, "the PAUSED box is going")
   -- the grade sits above the lanes, not on them
   ns.db.gradePoint = nil
   ns.Grade.Render(ns.Grade.SAMPLE, false, true)
