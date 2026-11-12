@@ -10,6 +10,9 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 import mitigation  # noqa: E402
 
 
+# The checks read SimC's SpellDataDump (.libraries/simc, a local checkout CI doesn't have). The generated
+# Data/Mitigation.lua is committed; the local ./scripts/check.sh runs these before every commit.
+@unittest.skipUnless(os.path.isdir(mitigation.DUMP), "SimC SpellDataDump not checked out (.libraries/simc)")
 class MitigationMap(unittest.TestCase):
     def test_generated_file_is_current_and_all_checks_pass(self):
         r = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "mitigation.py"), "--check"],
