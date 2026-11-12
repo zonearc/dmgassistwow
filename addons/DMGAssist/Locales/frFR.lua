@@ -823,4 +823,9 @@ ns.LOCALE_DATA.frFR = {
   ["Hit your next spell to jump back in"] = "Lancez votre prochain sort pour reprendre",
   ["Back in the Flow!"] = "De retour dans le Flow !",
   ["This spec's shots need a bow, gun or crossbow equipped: with your current weapon they can't be used, so DMGAssist has nothing to show."] = "Les tirs de cette spécialisation exigent un arc, une arme à feu ou une arbalète équipés : avec votre arme actuelle ils sont inutilisables, DMGAssist n'a donc rien à afficher.",
+  ["INTERRUPT!"] = "INTERROMPEZ !",
+  ["Pick your style"] = "Choisissez votre style",
+  ["Your next three spells as icons. Press the big one."] = "Vos trois prochains sorts en icônes. Appuyez sur la grande.",
+  ["Spells slide into the box. Press each one as it lands and build a streak."] = "Les sorts glissent jusqu'à la case. Appuyez sur chacun à son arrivée et enchaînez une série.",
+  ["Switch any time with the CLASSIC / FLOW switch under the HUD."] = "Changez quand vous voulez avec le sélecteur CLASSIC / FLOW sous le HUD.",
 }

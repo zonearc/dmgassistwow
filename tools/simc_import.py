@@ -575,7 +575,7 @@ def import_branch(simc_root, branch, out_root, errors, wowsims_root=None):
             this = specname.replace("_", " ").title()
             others = {n for n in specs_by_class[cls] if n != this}
             refs = simc_spells.references([record["simc"]] + ([record["blizzard"]] if blz else []))
-            ids, info = simc_spells.select(class_spells[cls], refs, others)
+            ids, info = simc_spells.select(class_spells[cls], refs, others, this)
             record["spells"] = ids
             record["spellInfo"] = info
             record["heroTrees"] = simc_spells.hero_trees(class_spells[cls], refs["hero"])

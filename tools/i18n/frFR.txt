@@ -819,3 +819,8 @@
 825	Lancez votre prochain sort pour reprendre
 826	De retour dans le Flow !
 827	Les tirs de cette spécialisation exigent un arc, une arme à feu ou une arbalète équipés : avec votre arme actuelle ils sont inutilisables, DMGAssist n'a donc rien à afficher.
+828	INTERROMPEZ !
+829	Choisissez votre style
+830	Vos trois prochains sorts en icônes. Appuyez sur la grande.
+831	Les sorts glissent jusqu'à la case. Appuyez sur chacun à son arrivée et enchaînez une série.
+832	Changez quand vous voulez avec le sélecteur CLASSIC / FLOW sous le HUD.

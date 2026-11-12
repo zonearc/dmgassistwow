@@ -823,4 +823,9 @@ ns.LOCALE_DATA.esES = {
   ["Hit your next spell to jump back in"] = "Lanza tu siguiente hechizo para volver",
   ["Back in the Flow!"] = "¡De vuelta en el Flow!",
   ["This spec's shots need a bow, gun or crossbow equipped: with your current weapon they can't be used, so DMGAssist has nothing to show."] = "Los disparos de esta especialización necesitan un arco, un arma de fuego o una ballesta equipados: con tu arma actual no se pueden usar, así que DMGAssist no tiene nada que mostrar.",
+  ["INTERRUPT!"] = "¡INTERRUMPE!",
+  ["Pick your style"] = "Elige tu estilo",
+  ["Your next three spells as icons. Press the big one."] = "Tus próximos tres hechizos como iconos. Pulsa el grande.",
+  ["Spells slide into the box. Press each one as it lands and build a streak."] = "Los hechizos se deslizan hasta la caja. Pulsa cada uno al llegar y encadena una racha.",
+  ["Switch any time with the CLASSIC / FLOW switch under the HUD."] = "Cambia cuando quieras con el interruptor CLASSIC / FLOW bajo el HUD.",
 }

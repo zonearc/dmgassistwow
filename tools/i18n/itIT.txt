@@ -819,3 +819,8 @@
 825	Lancia il prossimo incantesimo per rientrare
 826	Di nuovo nel Flow!
 827	I colpi di questa specializzazione richiedono un arco, un'arma da fuoco o una balestra equipaggiati: con l'arma attuale non si possono usare, quindi DMGAssist non ha nulla da mostrare.
+828	INTERROMPI!
+829	Scegli il tuo stile
+830	I tuoi prossimi tre incantesimi come icone. Premi quella grande.
+831	Gli incantesimi scorrono fino al riquadro. Premi ognuno quando arriva e costruisci una serie.
+832	Cambia quando vuoi con l'interruttore CLASSIC / FLOW sotto l'HUD.

@@ -157,5 +157,29 @@ GCD              : 1 seconds
         self.assertIn(8921, ids["moonfire"]["a"], "the plain name keeps every Moonfire")
 
 
+    def test_negative_cost_is_a_gain_per_spec(self):
+        dump = """SimulationCraft
+
+Name             : Vampiric Strike (id=433895) [Spell Family (15)]
+Resource         : 1 Rune (5) (id=305979)
+Resource         : -15 Runic Power (6) (id=305981) w/ Blood Death Knight (id=137008)
+Resource         : -10 Runic Power (6) (id=305982) w/ Unholy Death Knight (id=137007)
+GCD              : 1.5 seconds
+
+Name             : Scourge Strike (id=55090) [Spell Family (15)]
+Resource         : 1 Rune (5) (id=6262)
+Resource         : -10 Runic Power (6) (id=10648)
+GCD              : 1.5 seconds
+"""
+        spells = ss.parse_dump(dump)
+        refs = {"action": {"vampiric_strike", "scourge_strike"}, "aura": set(), "talent": set()}
+        _, unholy = ss.select(spells, refs, (), "Unholy")
+        self.assertEqual(unholy[55090]["gain"], {6: 10}, "a rune spell gives Runic Power")
+        self.assertEqual(unholy[55090]["cost"], {5: 1})
+        self.assertEqual(unholy[433895]["gain"], {6: 10}, "Unholy's amount")
+        _, blood = ss.select(spells, refs, (), "Blood")
+        self.assertEqual(blood[433895]["gain"], {6: 15}, "Blood's amount")
+
+
 if __name__ == "__main__":
     unittest.main()

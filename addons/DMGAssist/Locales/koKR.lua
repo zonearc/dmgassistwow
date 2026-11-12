@@ -823,4 +823,9 @@ ns.LOCALE_DATA.koKR = {
   ["Hit your next spell to jump back in"] = "다음 주문을 시전하면 다시 시작합니다",
   ["Back in the Flow!"] = "다시 Flow로!",
   ["This spec's shots need a bow, gun or crossbow equipped: with your current weapon they can't be used, so DMGAssist has nothing to show."] = "이 전문화의 사격은 활, 총 또는 석궁을 장착해야 합니다. 현재 무기로는 사용할 수 없어 DMGAssist가 표시할 것이 없습니다.",
+  ["INTERRUPT!"] = "차단!",
+  ["Pick your style"] = "스타일을 고르세요",
+  ["Your next three spells as icons. Press the big one."] = "다음 세 가지 주문을 아이콘으로 보여줍니다. 큰 것을 누르세요.",
+  ["Spells slide into the box. Press each one as it lands and build a streak."] = "주문이 상자로 미끄러져 들어옵니다. 도착할 때마다 눌러 연속 기록을 쌓으세요.",
+  ["Switch any time with the CLASSIC / FLOW switch under the HUD."] = "HUD 아래의 CLASSIC / FLOW 스위치로 언제든 바꿀 수 있습니다.",
 }

@@ -823,4 +823,9 @@ ns.LOCALE_DATA.zhTW = {
   ["Hit your next spell to jump back in"] = "施放下一個技能即可繼續",
   ["Back in the Flow!"] = "回到Flow！",
   ["This spec's shots need a bow, gun or crossbow equipped: with your current weapon they can't be used, so DMGAssist has nothing to show."] = "此專精的射擊需要裝備弓、槍或弩：目前的武器無法使用這些技能，因此 DMGAssist 沒有可顯示的內容。",
+  ["INTERRUPT!"] = "打斷！",
+  ["Pick your style"] = "選擇你的風格",
+  ["Your next three spells as icons. Press the big one."] = "以圖示顯示接下來的三個技能。按下最大的那個。",
+  ["Spells slide into the box. Press each one as it lands and build a streak."] = "技能滑入方框。每個技能抵達時按下，累積連擊。",
+  ["Switch any time with the CLASSIC / FLOW switch under the HUD."] = "隨時可用 HUD 下方的 CLASSIC / FLOW 開關切換。",
 }

@@ -2185,9 +2185,14 @@ test("welcome: four questions once per profile, suggestions applied, skipped for
   ns.Welcome.MaybeAsk()
   local w = DMGAssistWelcome
   eq(w and w:IsShown(), true, "asked on first login")
-  for n = 1, 4 do
+  for n = 1, 3 do
     w.buttons[2].scripts.OnClick(w.buttons[2]) -- the second answer each time
   end
+  -- the style question: two cards side by side (Classic / Flow) with the "switch any time" note, no buttons
+  eq(w.cards[1]:IsShown() and w.cards[2]:IsShown(), true, "Classic and Flow cards")
+  eq(w.buttons[1]:IsShown(), false, "no plain buttons on the style question")
+  eq(w.switchNote:IsShown(), true, "you can switch any time")
+  w.cards[2].scripts.OnClick(w.cards[2])
   eq(ns.db.welcomed, true)
   eq(ns.db.gameMode, true, "Game mode chosen")
   eq(ns.db.point[1], "CENTER", "middle of the screen")
@@ -2645,6 +2650,29 @@ test("a clue that a DoT is up keeps our own clock's time left", function()
   local r = S.Resolve("remains", { action = "moonfire", vars = {} })
   eq(type(r), "number", "time left known")
   eq(math.floor(r + 0.5), 10)
+end)
+
+test("keep-up DoT: skipped presses set it aside; not shown when it's on no bar you can see", function()
+  Reset()
+  local ns = Boot()
+  local G, X = ns.Engine, ns.Essentials
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  local shown = { id = 8921, token = "moonfire", source = "keepup" }
+  ns.SpellMap.info[5221] = ns.SpellMap.info[5221] or { n = "shred", gcd = 1 }
+  for _ = 1, G.SKIPS_TO_HOLD do
+    G.OnPlayerCast(5221, shown, true, { shown })
+  end
+  eq(G.IsHeld(8921), true, "pressed past it: set aside")
+  G.held, G.skips = {}, {}
+  local kb, bf = ns.Display.Keybind, ns.Display.ButtonFor
+  ns.Display.Keybind = function() return nil end
+  ns.Display.ButtonFor = function() return nil end
+  eq(X.OnThisBar(8921), false, "no key and no visible button: not on this bar")
+  ns.Display.Keybind = function() return "5" end
+  eq(X.OnThisBar(8921), true, "bound: shown")
+  ns.Display.Keybind, ns.Display.ButtonFor = kb, bf
+  mock.inCombat = false
 end)
 
 test("an inference source that keeps being wrong switches itself off", function()

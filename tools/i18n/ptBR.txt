@@ -819,3 +819,8 @@
 825	Lance seu próximo feitiço para voltar
 826	De volta ao Flow!
 827	Os disparos desta especialização exigem um arco, arma de fogo ou besta equipados: com sua arma atual eles não podem ser usados, então o DMGAssist não tem nada para mostrar.
+828	INTERROMPA!
+829	Escolha seu estilo
+830	Seus próximos três feitiços como ícones. Aperte o grande.
+831	Os feitiços deslizam até a caixa. Aperte cada um quando chegar e faça uma sequência.
+832	Troque quando quiser com o seletor CLASSIC / FLOW abaixo do HUD.

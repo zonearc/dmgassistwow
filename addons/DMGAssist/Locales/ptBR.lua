@@ -823,4 +823,9 @@ ns.LOCALE_DATA.ptBR = {
   ["Hit your next spell to jump back in"] = "Lance seu próximo feitiço para voltar",
   ["Back in the Flow!"] = "De volta ao Flow!",
   ["This spec's shots need a bow, gun or crossbow equipped: with your current weapon they can't be used, so DMGAssist has nothing to show."] = "Os disparos desta especialização exigem um arco, arma de fogo ou besta equipados: com sua arma atual eles não podem ser usados, então o DMGAssist não tem nada para mostrar.",
+  ["INTERRUPT!"] = "INTERROMPA!",
+  ["Pick your style"] = "Escolha seu estilo",
+  ["Your next three spells as icons. Press the big one."] = "Seus próximos três feitiços como ícones. Aperte o grande.",
+  ["Spells slide into the box. Press each one as it lands and build a streak."] = "Os feitiços deslizam até a caixa. Aperte cada um quando chegar e faça uma sequência.",
+  ["Switch any time with the CLASSIC / FLOW switch under the HUD."] = "Troque quando quiser com o seletor CLASSIC / FLOW abaixo do HUD.",
 }

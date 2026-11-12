@@ -16,8 +16,6 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
-- Unholy (2026-11-12): "lots of resource issues": Runic Power is hidden in combat (range 0..29 when Death Coil needs
-  30). Check the Runic Power estimate (gains from Festering Strike / Scourge Strike / runes, Dark Transformation).
 - Mage: Frost good (2026-11-12). Fire: "only 1 icon to start" was everything blocked while moving.
 
 - UI errors (2026-11-12): AssistedCombatManager.lua "attempt to call a nil value" also happens with DMGAssist
@@ -26,13 +24,9 @@ Last updated: 1.6.0.157 (2026-11-10).
   worth a taint.log look.
 
 - Survival: checked on dummies, good (2026-11-12). Windwalker / Brewmaster: good apart from Touch of Death.
-- Wording: "Kick" for interrupts — consider "Interrupt" in UI text (decide with user).
 
-- Icon + key check (2026-11-12): "wrong icon for Ironfur, and no keybind": confirm which pick (a gap closer, Wild
-  Charge 102401 vs Bear's 16979, also showed in slot 1) with the user; check shapeshift overrides' icon/keybind.
 - Flow ideas to decide with the user: a time-limited "Flow State" power-up from a hot streak, combos over linked
-  spell clusters (COMBO / ULTRA / ULTIMATE), "COMBO BREAKER" on interrupts; left/right CLASSIC / FLOW picker with
-  mock-ups in the welcome questions.
+  spell clusters (COMBO / ULTRA / ULTIMATE), "COMBO BREAKER" on interrupts.
 
 - Taint (report 2026-11-11, 1.6.0.206): "blocked: tainted=DMGAssist" in combat on Edit Mode's SetClampRectInsets
   (15:52) and on action buttons' SetAttribute (UpdatePressAndHoldAction, 16:21). Our Edit Mode code only uses
@@ -92,6 +86,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.226: Runic Power: rune spells' negative costs are gains (importer: "-10 Runic Power", per spec with "w/
+  Unholy Death Knight"), so Death Coil isn't held back for Runic Power you have. Flow says INTERRUPT! (was KICK!).
+  Welcome: the style question is two cards side by side (Classic three icons / Flow lane with notes sliding in), a
+  sentence each, "switch any time". Keep-up DoTs only when on the bar you see (key or visible button); pressing
+  past one sets it aside (Guardian's Moonfire in Bear Form was the "wrong Ironfur icon, no key", report r158).
 - 1.6.0.225: without a hero tree, SimC lists split by the hero tree's keystone talent (Arms: talent.demolish /
   talent.slayers_dominance; Fury: slayers_dominance / lightning_strikes) fall back to the first one that fits, as
   hero_tree.X splits already did. Arms ran entirely on Blizzard's simpler rules (slot 2 guesses, Battle Shout).

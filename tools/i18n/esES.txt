@@ -819,3 +819,8 @@
 825	Lanza tu siguiente hechizo para volver
 826	¡De vuelta en el Flow!
 827	Los disparos de esta especialización necesitan un arco, un arma de fuego o una ballesta equipados: con tu arma actual no se pueden usar, así que DMGAssist no tiene nada que mostrar.
+828	¡INTERRUMPE!
+829	Elige tu estilo
+830	Tus próximos tres hechizos como iconos. Pulsa el grande.
+831	Los hechizos se deslizan hasta la caja. Pulsa cada uno al llegar y encadena una racha.
+832	Cambia cuando quieras con el interruptor CLASSIC / FLOW bajo el HUD.

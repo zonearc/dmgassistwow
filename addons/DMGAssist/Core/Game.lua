@@ -4,7 +4,7 @@
 -- move left: after a press (a new global cooldown) or a wrong press they pause where they are and flow on when
 -- their time catches up, never bounce back (2026-11-11: "the bounce is super annoying").
 -- Everything else pops into the bonus row above the line when it's needed, as a bonus to grab: an interrupt
--- ("KICK!"), a defensive or heal ("DEFEND!"), a trinket or potion ("POWER UP!"). Grabbing one adds to the streak and
+-- ("INTERRUPT!"), a defensive or heal ("DEFEND!"), a trinket or potion ("POWER UP!"). Grabbing one adds to the streak and
 -- scores a bonus. (Three lanes were tried first: two of them sat empty most of the time.)
 -- A spell's note reaches the line exactly when it can be pressed: the same clock as the classic HUD's press-now
 -- flash (Display.RenderTiming), so a 1.5 s global cooldown is a 1.5 s slide. Slots 2-3 follow behind it.
@@ -39,7 +39,7 @@ G.BONUS_H = 44      -- the action row above the lane (smaller than the lane, nev
 G.BONUS_ICON = 34
 G.DOT_EVERY = 0.5   -- the lane's dots: one per half second
 G.BONUS_POINTS = 150
-G.BONUS_TAG = { kick = "KICK!", defend = "DEFEND!", item = "POWER UP!" }
+G.BONUS_TAG = { kick = "INTERRUPT!", defend = "DEFEND!", item = "POWER UP!" }
 G.BONUS_DONE = { kick = "Interrupted!", defend = "Safe!", item = "Powered up!" }
 G.MISS_SHOW = 0.7   -- the red X on a note after a wrong press
 -- Guitar Hero's ideas, in WoW terms (asked 2026-11-11):
@@ -508,7 +508,7 @@ local function NewNote(f)
   n.bar:SetPoint("LEFT", n, "CENTER", 0, 0)
   n.bar:SetHeight(G.BAR_H)
   n.bar:Hide()
-  -- the bonus row's call: KICK! / DEFEND! / POWER UP!
+  -- the bonus row's call: INTERRUPT! / DEFEND! / POWER UP!
   n.tag = n:CreateFontString(nil, "OVERLAY")
   ns.Display.SetFont(n.tag, 13)
   n.tag:SetPoint("LEFT", n, "RIGHT", 6, 0)

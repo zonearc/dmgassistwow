@@ -823,4 +823,9 @@ ns.LOCALE_DATA.ruRU = {
   ["Hit your next spell to jump back in"] = "Примените следующее заклинание, чтобы вернуться",
   ["Back in the Flow!"] = "Снова во Flow!",
   ["This spec's shots need a bow, gun or crossbow equipped: with your current weapon they can't be used, so DMGAssist has nothing to show."] = "Выстрелам этой специализации нужен лук, огнестрельное оружие или арбалет: с текущим оружием их нельзя применить, поэтому DMGAssist нечего показать.",
+  ["INTERRUPT!"] = "ПРЕРВИ!",
+  ["Pick your style"] = "Выберите стиль",
+  ["Your next three spells as icons. Press the big one."] = "Три следующих заклинания значками. Жмите большой.",
+  ["Spells slide into the box. Press each one as it lands and build a streak."] = "Заклинания въезжают в рамку. Жмите каждое, когда оно доходит, и набирайте серию.",
+  ["Switch any time with the CLASSIC / FLOW switch under the HUD."] = "Переключайтесь в любой момент переключателем CLASSIC / FLOW под HUD.",
 }

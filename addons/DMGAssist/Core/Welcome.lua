@@ -1,6 +1,6 @@
 -- Welcome.lua: four questions the first time DMGAssist runs (per settings profile, so alts sharing the Default
--- profile are asked once): where the HUD goes, how big, when it shows, and classic or Game mode. Each has a suggested answer; "Use the
--- suggestions" answers all three at once. Asked again with /dmga welcome or the button on the main settings page.
+-- profile are asked once): where the HUD goes, how big, when it shows, and Classic or Flow (two cards). Each has a
+-- suggested answer; "Use the suggestions" answers the rest at once. Asked again with /dmga welcome or the button on the main settings page.
 -- Players who had already placed the HUD before this existed are not asked.
 
 local _, ns = ...
@@ -83,7 +83,7 @@ W.QUESTIONS = {
         Hud().hideOutOfCombat = false
       end },
     } },
-  { text = "Which style? (Switch any time with the CLASSIC / FLOW switch under the HUD, or /dmga flow.)",
+  { text = "Pick your style", pick = true,
     options = {
       { "Classic: the next three spells as icons", function()
         ns.db.gameMode = false
@@ -95,6 +95,87 @@ W.QUESTIONS = {
 }
 
 local frame, step
+
+-- The style question: two cards side by side, each with a small live preview (2026-11-12: "left Classic with its
+-- 3 boxes, right Flow with a mockup, a sentence each, and that you can switch any time").
+W.CARDS = {
+  { title = "CLASSIC", text = "Your next three spells as icons. Press the big one." },
+  { title = "FLOW", text = "Spells slide into the box. Press each one as it lands and build a streak." },
+}
+local ICONS = { 136048, 132096, 135808 } -- generic spell icons for the previews
+local function Card(parent, n)
+  local c = CreateFrame("Button", nil, parent, "BackdropTemplate")
+  c:SetSize(204, 150)
+  if c.SetBackdrop then
+    c:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8X8", edgeFile = "Interface\\Buttons\\WHITE8X8", edgeSize = 1 })
+    c:SetBackdropColor(0.05, 0.05, 0.07, 0.9)
+    c:SetBackdropBorderColor(0.35, 0.35, 0.4, 1)
+  end
+  c.title = c:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
+  c.title:SetPoint("TOP", 0, -8)
+  c.preview = CreateFrame("Frame", nil, c)
+  c.preview:SetSize(184, 50)
+  c.preview:SetPoint("TOP", 0, -34)
+  c.text = c:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+  c.text:SetPoint("TOPLEFT", c.preview, "BOTTOMLEFT", 0, -8)
+  c.text:SetWidth(184)
+  c.text:SetJustifyH("LEFT")
+  if n == 1 then
+    -- three icons, the first one big
+    for i, tex in ipairs(ICONS) do
+      local t = c.preview:CreateTexture(nil, "ARTWORK")
+      local size = i == 1 and 46 or 32
+      t:SetSize(size, size)
+      t:SetTexture(tex)
+      t:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+      if i == 1 then
+        t:SetPoint("LEFT", 20, 0)
+      else
+        t:SetPoint("LEFT", c.preview.icons[i - 1], "RIGHT", 6, i == 2 and -7 or 0)
+      end
+      c.preview.icons = c.preview.icons or {}
+      c.preview.icons[i] = t
+    end
+  else
+    -- a lane: a gold box on the left, notes sliding into it
+    local lane = c.preview:CreateTexture(nil, "BACKGROUND")
+    lane:SetAllPoints()
+    lane:SetColorTexture(0.12, 0.12, 0.16, 1)
+    local box = c.preview:CreateTexture(nil, "BORDER")
+    box:SetSize(40, 40)
+    box:SetPoint("LEFT", 6, 0)
+    box:SetColorTexture(1, 0.8, 0.2, 0.35)
+    c.preview.notes = {}
+    for i, tex in ipairs(ICONS) do
+      local t = c.preview:CreateTexture(nil, "ARTWORK")
+      t:SetSize(32, 32)
+      t:SetTexture(tex)
+      t:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+      c.preview.notes[i] = t
+    end
+    c.preview:SetScript("OnUpdate", function(self)
+      local w = self:GetWidth() or 184
+      local now = GetTime()
+      for i, t in ipairs(self.notes) do
+        local x = (w - 40) - ((now * 45 + (i - 1) * 60) % (w - 30))
+        t:ClearAllPoints()
+        t:SetPoint("LEFT", math.max(10, x), 0)
+        t:SetAlpha(x < 10 and 0 or 1)
+      end
+    end)
+  end
+  c:SetScript("OnEnter", function(self)
+    if self.SetBackdropBorderColor then
+      self:SetBackdropBorderColor(1, 0.8, 0.2, 1)
+    end
+  end)
+  c:SetScript("OnLeave", function(self)
+    if self.SetBackdropBorderColor then
+      self:SetBackdropBorderColor(0.35, 0.35, 0.4, 1)
+    end
+  end)
+  return c
+end
 
 local function Finish()
   ns.db.welcomed = true
@@ -113,8 +194,14 @@ local function Show(i)
   local q = W.QUESTIONS[i]
   frame.count:SetText(string.format(L["Question %d of %d"], i, #W.QUESTIONS))
   frame.question:SetText(L[q.text])
+  for n, card in ipairs(frame.cards) do
+    card:SetShown(q.pick == true)
+    card.title:SetText(L[W.CARDS[n].title])
+    card.text:SetText(L[W.CARDS[n].text])
+  end
+  frame.switchNote:SetShown(q.pick == true)
   for n, button in ipairs(frame.buttons) do
-    local o = q.options[n]
+    local o = not q.pick and q.options[n]
     if o then
       button:SetText(n == 1 and (L[o[1]] .. "  |cff88ff88" .. L["(suggested)"] .. "|r") or L[o[1]])
       button:Show()
@@ -139,7 +226,7 @@ end
 
 local function Build()
   frame = CreateFrame("Frame", "DMGAssistWelcome", UIParent, "BasicFrameTemplateWithInset")
-  frame:SetSize(460, 260)
+  frame:SetSize(460, 300)
   frame:SetPoint("CENTER", 0, 80)
   frame:SetFrameStrata("DIALOG")
   frame:SetMovable(true)
@@ -168,6 +255,22 @@ local function Build()
     frame.buttons[n] = b
     anchor = b
   end
+  frame.cards = {}
+  for n = 1, 2 do
+    local c = Card(frame, n)
+    c:SetPoint("TOPLEFT", frame.question, "BOTTOMLEFT", (n - 1) * 216, -10)
+    c:SetScript("OnClick", function()
+      Answer(n)
+    end)
+    c:Hide()
+    frame.cards[n] = c
+  end
+  frame.switchNote = frame:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
+  frame.switchNote:SetPoint("TOPLEFT", frame.cards[1], "BOTTOMLEFT", 0, -6)
+  frame.switchNote:SetWidth(420)
+  frame.switchNote:SetJustifyH("LEFT")
+  frame.switchNote:SetText(L["Switch any time with the CLASSIC / FLOW switch under the HUD."])
+  frame.switchNote:Hide()
   local skip = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
   skip:SetSize(200, 22)
   skip:SetPoint("BOTTOMRIGHT", -14, 12)

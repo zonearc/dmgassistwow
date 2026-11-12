@@ -138,6 +138,18 @@ def parse_dump(text):
             s = re.search(r"(\d+) maximum", val)
             if s:
                 cur["stacks"] = int(s.group(1))
+        elif key == "Resource" and val.startswith("-"):
+            # A negative cost is a gain: rune spells give Runic Power this way ("-10 Runic Power (6)"), and
+            # "w/ Unholy Death Knight" limits it to that spec. Unread, Unholy's Runic Power was counted from
+            # Festering Strike alone and Death Coil waited 26 s (2026-11-12).
+            c = COST.match(val[1:])
+            if c and "%" not in val.split("(")[0]:
+                pt, amount = int(c.group(4)), _num(c.group(1))
+                w = re.search(r"\) w/ (.+?) \(id=", val)
+                if w:
+                    cur.setdefault("gainSpec", {}).setdefault(w.group(1), {})[pt] = amount
+                else:
+                    cur.setdefault("costGain", {})[pt] = amount
         elif key == "Resource":
             c = COST.match(val)
             if c and "%" not in val.split("(")[0]:
@@ -550,7 +562,19 @@ def _aura_rank(s):
 MAX_IDS = 12  # ranked spells (Forever) can have up to ~10 ranks
 
 
-def select(spells, refs, other_specs=()):
+def _gain(s, this_spec):
+    """Energize effects first; a negative cost adds what they don't cover (for this spec, when qualified)."""
+    gain = dict(s.get("gain") or {})
+    extra = dict(s.get("costGain") or {})
+    for who, g in (s.get("gainSpec") or {}).items():
+        if this_spec and who.startswith(this_spec + " "):
+            extra.update(g)
+    for pt, amount in extra.items():
+        gain.setdefault(pt, amount)
+    return gain
+
+
+def select(spells, refs, other_specs=(), this_spec=None):
     """refs: {"action": set(tokens), "aura": set(tokens), "talent": set(tokens)}.
     Returns (ids_by_token, info_by_id) with only what the spec's lists reference."""
     by = index_by_token(spells)
@@ -621,8 +645,9 @@ def select(spells, refs, other_specs=()):
             rec["cost"] = dict(sorted(s["cost"].items()))
         if s.get("costMax"):
             rec["cmax"] = dict(sorted(s["costMax"].items()))
-        if s.get("gain"):
-            rec["gain"] = dict(sorted(s["gain"].items()))
+        gain = _gain(s, this_spec)
+        if gain:
+            rec["gain"] = dict(sorted(gain.items()))
         applies = []
         if s.get("aura") and s.get("duration"):
             applies.append([sid, s["aura"]])

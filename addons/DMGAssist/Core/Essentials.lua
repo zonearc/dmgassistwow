@@ -169,6 +169,20 @@ local function Usable(id)
     and not ns.Choices.Skip(id) -- (hidden, or on none of your bars)
 end
 
+-- On the bar you're looking at (a key, or a button you can see): a keep-up DoT bound only on the caster bar
+-- showed in Bear Form with no key and an icon you couldn't place (Guardian's Moonfire, 2026-11-12).
+function X.OnThisBar(id)
+  local D = ns.Display
+  if not (D and D.Keybind and D.ButtonFor) then
+    return true
+  end
+  if D.Keybind(id) then
+    return true
+  end
+  local b = D.ButtonFor(id)
+  return b ~= nil and U.Get(b.IsVisible, b) == true
+end
+
 local function HostileTarget()
   return U.Get(UnitExists, "target") == true and U.Get(UnitCanAttack, "player", "target") == true
     and U.Get(UnitIsDead, "target") ~= true
@@ -413,7 +427,7 @@ function X.KeepUp()
         if want > 0 and X.Stacks(k.id, X.StackLead()) < want and not (last and GetTime() - last < X.WEAVE_GAP) then
           return { id = k.id, token = k.token, source = "keepup", weave = true }
         end
-      elseif k.kind == "dot" and HostileTarget() then
+      elseif k.kind == "dot" and HostileTarget() and X.OnThisBar(k.id) then
         local S = ns.State
         local ok = ns.Expr.Test(k.cond, function(name)
           return S.Resolve(name, { vars = {} })
