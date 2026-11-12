@@ -4265,6 +4265,7 @@ test("game mode: one lane and a bonus row, notes reach the line when ready, stre
   ns.db.gameBest = nil
   eq(Game.On(), false, "classic by default")
   ns.commands.game("on")
+  Game.IDLE_PAUSE, Game.lastAct = 1e9, mock.now -- playing (the idle pause has its own test)
   eq(Game.On(), true, "/dmga game on")
   local A, B, C = { id = 101, token = "a" }, { id = 102, token = "b" }, { id = 103, token = "c" }
   local res = { main = A, queue = { A, B, C }, defensive = { id = 22812, how = "decided", why = "aoe" },
@@ -4472,6 +4473,19 @@ test("game mode: a cast-time spell is judged when its cast begins (no red X for 
   ns.OnOwnCast(194153)
   eq(Game.lastJudge ~= "miss", true, "a right Starfire is a hit, not a red X")
   eq(Game.streak, 1)
+  -- decided while Starfire showed, its bar began 0.13 s after slot 1 flipped to Eclipse (2026-11-12): a hit
+  local EC = { id = 1233272, token = "eclipse" }
+  ns.last = { main = SF, queue = { SF } }
+  ns.NoteShown(SF)
+  mock.now = mock.now + 1.5
+  ns.last = { main = EC, queue = { EC } }
+  ns.NoteShown(EC)
+  mock.now = mock.now + 0.13
+  ns.OnOwnCastStart(194153)
+  mock.now = mock.now + 1.5
+  ns.OnOwnCast(194153)
+  eq(Game.lastJudge ~= "miss", true, "Starfire started 0.13 s after the flip: no red X")
+  eq(Game.streak, 2)
   -- kudos: a big word only for moments, at most one per KUDOS_GAP
   Game.kudosAt = nil
   Game.Kudos(Game.frame, "A")
@@ -4490,6 +4504,7 @@ test("game mode: a boss hit's defensive scrolls in on the action track and lands
   local ns = Boot()
   local Game, D = ns.Game, ns.Display
   ns.commands.game("on")
+  Game.IDLE_PAUSE, Game.lastAct = 1e9, mock.now -- playing (the idle pause has its own test)
   Game.held, Game.pending = nil, nil
   for k, n in pairs(Game.notes) do
     n:Hide()
@@ -5781,6 +5796,7 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   local ns = Boot()
   local Game, D = ns.Game, ns.Display
   ns.commands.game("on")
+  Game.IDLE_PAUSE, Game.lastAct = 1e9, mock.now -- playing (the idle pause has its own test)
   Game.held, Game.pending, Game.cast, Game.hidden, Game.dropping = nil, nil, nil, nil, nil
   for k, n in pairs(Game.notes) do
     n:Hide()
@@ -5857,15 +5873,22 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   Game.EndSet()
   Game.score, Game.hits = 0, 0
   mock.inCombat = false
+  Game.IDLE_PAUSE = 6
   Game.Render()
   eq(Game.frame.ready:IsShown(), true, "waiting for the first press")
   eq(Game.frame.readyFrame:GetFrameLevel() > Game.frame:GetFrameLevel(), true, "over the notes, not behind them")
   local word = Game.frame.ready:GetText()
   eq(word == "READY, PLAYER ONE?" or word == "INSERT COIN" or word == "PRESS START", true, word)
   eq(Game.frame.readySub:GetText(), "Hit your first spell to start the Flow")
-  -- any spell starts it, out of combat too (Moonkin Form before the pull isn't judged, it still starts the Flow)
+  -- a buff out of combat clears it quietly; 6 s later, still out of combat, the start screen is back
+  Game.frame.pop:SetText("")
+  ns.OnOwnCast(1126)
+  eq(Game.paused, false) eq(Game.frame.pop:GetText(), "", "no cheer for a buff")
+  Run({ main = A, queue = { A, B } }, Game.IDLE_PAUSE + 0.5, 0)
+  eq(Game.startScreen, true, "start screen again") eq(Game.frame.ready:IsShown(), true)
+  -- the pull: the first spell in combat starts the Flow
+  mock.inCombat = true
   ns.OnOwnCast(201)
-  eq(Game.started, true)
   eq(Game.frame.pop:GetText(), "LET'S GO!")
   for _ = 1, 6 do
     mock.now = mock.now + 0.05
@@ -5910,6 +5933,7 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   eq(Game.streak, 12, "no miss for a note that waited while you cast") eq(Game.misses, 0)
   ns.State.CurrentCast = cc
   -- no spell for IDLE_PAUSE seconds (running to the group): the lanes pause, notes stop; the next spell resumes
+  Game.IDLE_PAUSE = 6
   for k, n in pairs(Game.notes) do
     n:Hide()
     Game.notes[k] = nil

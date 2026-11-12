@@ -736,7 +736,12 @@ function G.Render()
   if casting and casting > 0 then
     G.lastAct = now
   end
-  G.paused = (G.started and G.lastAct and now - G.lastAct >= G.IDLE_PAUSE) and true or false
+  -- One rule (2026-11-12: buffs out of combat used up the press-start screen, and it never came back): no spell
+  -- for IDLE_PAUSE seconds and none being cast = waiting. Out of combat it's the arcade start screen, in combat
+  -- PAUSED; either way nothing slides, and any spell picks it up again.
+  local fight = UnitAffectingCombat and UnitAffectingCombat("player")
+  G.paused = (not G.lastAct or now - G.lastAct >= G.IDLE_PAUSE) and true or false
+  G.startScreen = G.paused and not fight
   if G.paused then
     elapsed = 0
   end
@@ -1025,32 +1030,32 @@ function G.Render()
   RenderStreak(f)
 end
 
--- Your first spell of a set (any spell, in combat or out): the press-start box goes, LET'S GO!
+-- Any spell of yours (Main.lua: cast start and cast): the waiting screen goes at once. In combat it cheers: LET'S
+-- GO! from the start screen, Back in the Flow! from a pause; a buff out of combat just clears it.
 function G.Started()
   if not G.On() then
     return
   end
   G.lastAct = GetTime()
-  if G.paused then
-    G.paused = false -- back from a pause: the lanes pick up where they stopped
-    if G.frame then
-      G.Kudos(G.frame, L["Back in the Flow!"], { 0.4, 1, 0.5 }, true)
-    end
-  end
-  if G.started then
+  if not G.paused then
     return
   end
-  G.started = true
-  if G.frame and G.hits == 0 and G.score == 0 then
-    G.Kudos(G.frame, L["LET'S GO!"], { 0.4, 1, 0.5 }, true)
+  local start = G.startScreen
+  G.paused, G.startScreen = false, false -- the lanes pick up where they stopped
+  local fight = UnitAffectingCombat and UnitAffectingCombat("player")
+  if G.frame and fight then
+    if start then
+      G.Kudos(G.frame, L["LET'S GO!"], { 0.4, 1, 0.5 }, true)
+    else
+      G.Kudos(G.frame, L["Back in the Flow!"], { 0.4, 1, 0.5 }, true)
+    end
   end
 end
 
 -- "Press start": out of combat with nothing played yet this set. A fresh headline each time it comes up.
 G.READY_WORDS = { "READY, PLAYER ONE?", "INSERT COIN", "PRESS START" }
 function G.RenderReady(f, now)
-  local fight = UnitAffectingCombat and UnitAffectingCombat("player")
-  local waiting = (not fight and not G.started and G.hits == 0 and G.score == 0) or G.paused
+  local waiting = G.paused
   local elapsed = math.min(0.1, now - (G.readyAt or now))
   G.readyAt = now
   G.readyAlpha = G.readyAlpha or 0
@@ -1072,10 +1077,11 @@ function G.RenderReady(f, now)
     G.readyWord = G.READY_WORDS[math.random(#G.READY_WORDS)]
   end
   local pulse = 0.65 + 0.35 * math.abs(math.sin(now * 2.5))
-  f.ready:SetText(G.paused and L["PAUSED"] or L[G.readyWord])
+  f.ready:SetText(G.startScreen and L[G.readyWord] or L["PAUSED"])
   f.ready:SetAlpha(pulse)
   f.ready:Show()
-  f.readySub:SetText(G.paused and L["Hit your next spell to jump back in"] or L["Hit your first spell to start the Flow"])
+  f.readySub:SetText(G.startScreen and L["Hit your first spell to start the Flow"]
+    or L["Hit your next spell to jump back in"])
   f.readySub:Show()
 end
 
@@ -1272,7 +1278,7 @@ function G.OnJudged(kind, id)
     end
   else
     local fire
-    local first = not G.started -- the set's first hit: the Flow starts (if no cast started it already)
+    local first = G.paused -- a judged hit always gets the lanes going (its cast normally did already)
     local c = G.cast
     if kind == "hit" and c and id and (baseOf[c.id] or c.id) == (baseOf[id] or id) and GetTime() - c.at < 10 then
       judge, fire = c.judge, c.fire -- judged when the cast began
@@ -1345,6 +1351,7 @@ end
 
 -- The set ends (the grade is being made, after SET_GAP out of combat): its numbers for the grade, then a fresh set.
 function G.EndSet()
+  G.lastAct = nil -- the next set waits for its first spell (the start screen), even after an empty set
   if not G.On() or (G.hits == 0 and G.score == 0) then
     return nil
   end
@@ -1362,7 +1369,6 @@ function G.EndSet()
     perfect = G.hits > 0 and math.floor(100 * G.perfects / (G.hits + (G.misses or 0)) + 0.5) or 0,
     misses = G.misses or 0 }
   G.score, G.setBest, G.hits, G.perfects, G.misses = 0, 0, 0, 0, 0
-  G.started, G.paused, G.lastAct = nil, false, nil -- the next set waits for its first press
   G.streak, G.stars = 0, 0
   return out
 end

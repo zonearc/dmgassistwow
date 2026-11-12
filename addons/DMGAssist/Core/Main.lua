@@ -910,7 +910,9 @@ function ns.ShownForPress(id)
   local now, baseOf = GetTime(), ns.SpellMap.baseOf or {}
   local from = now - ns.PRESS_WINDOW
   if castStart and castStart.id == id and now - castStart.t < 10 then
-    from = math.min(from, castStart.t)
+    -- a cast-time spell: decided up to PRESS_WINDOW before its bar began (a Starfire started 0.13 s after slot 1
+    -- flipped to Eclipse was judged a miss, 2026-11-12: "it wants me to hit Q, I do, and it says I'm wrong")
+    from = math.min(from, castStart.t - ns.PRESS_WINDOW)
   end
   local base = baseOf[id] or id
   for i = #shownLog, 1, -1 do

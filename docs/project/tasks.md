@@ -74,6 +74,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.210: Flow mode (reports 2026-11-12): a Starfire begun right after slot 1 flipped got a red X ("it wants
+  Q, I hit Q, it says I'm wrong"): a cast-time spell's press may now be decided up to 0.6 s before its bar began.
+  Waiting is one rule: no spell for 6 s (none casting) = the arcade start screen out of combat, PAUSED in combat,
+  notes frozen; any spell clears it (in combat with LET'S GO! / Back in the Flow!). Buffs out of combat no longer
+  use up the start screen, and it comes back after every set.
 - 1.6.0.208: Flow mode timing (report 2026-11-11, "lost a streak at 12... hit it right when it flashed"): a note
   that waited on the line while a Starfire was still casting counted as a quiet miss when the engine swapped it at
   the cast's end. Fixed: no quiet-miss clock while casting (the note now also waits for the cast); a press matched

@@ -67,13 +67,16 @@ on the settings page. Can be turned off.
   (READY, PLAYER ONE? / INSERT COIN / PRESS START) and "Hit your first spell to start the Flow" on a dark gradient
   box over the lane (the waiting notes a faint hint behind it), gone in a quarter second on the first hit; the first hit pops
   LET'S GO!. The grade box gives the Flow score its own wrapped row (it ran out of the box beside the grade score).
-- Pause (2026-11-11): no spell for 6 s and none being cast (running, catching up to the group) freezes the
-  lanes under a PAUSED box; the next spell resumes ("Back in the Flow!"). A pause never costs the streak and its
+- Waiting (2026-11-12, one rule): no spell for 6 s and none being cast freezes the lanes under a box: out of
+  combat the arcade start screen (READY, PLAYER ONE? / INSERT COIN / PRESS START), in combat PAUSED (running,
+  catching up to the group). Any spell clears it; in combat it cheers (LET'S GO! / Back in the Flow!), a buff out
+  of combat clears it quietly. A pause never costs the streak and its
   time never counts toward a quiet miss. Any spell starts a set's Flow, in combat or not (the press-start box went
   only when the fight began, hiding the next key).
 - The cast bar runs from the landing box to the next note, which rides on its end and reaches the box the moment
   the cast ends; the bar shrinks as the cast runs (a bar fixed at the line let later notes pass over it).
-- No quiet-miss clock while you cast or channel; a press decided up to 0.6 s before its cast event (WoW's spell
+- No quiet-miss clock while you cast or channel; a press decided up to 0.6 s before its cast event (a cast-time
+  spell: before its bar began) (WoW's spell
   queue window plus a reaction) is matched to what slot 1 showed then. Every Flow judgement is logged ("flow").
 - The grade box sits above the Flow lanes (unless moved), never over them.
 - Presses are judged against what slot 1 showed when they were decided, and a cast's note bursts when the cast
