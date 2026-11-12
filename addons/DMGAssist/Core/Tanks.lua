@@ -35,10 +35,11 @@ T.PROFILES = {
     low = { { t = "last_stand", id = 12975 }, { t = "shield_wall", id = 871 }, { t = "impending_victory", id = 202168 } },
   },
   druid_guardian = {
-    -- Ironfur stacks: Essentials (counted from your casts). Frenzied Regeneration: whenever both charges are full
-    -- while you tank, so a charge never sits capped (2 charges, ~21 s recharge: waiting for 50% health wasted
-    -- them, 2026-11-12); not again within its 3 s heal.
-    keep = { { t = "frenzied_regeneration", id = 22842, dur = 3, capped = true } },
+    -- Ironfur stacks: Essentials (counted from your casts). Frenzied Regeneration is a reactive heal: at your low
+    -- health setting as usual, and with both charges full already at 85% so a charge isn't wasted (waiting for 50%
+    -- wasted them; offering it at 99% wasted the heal, 2026-11-12). Shown by the game from your health.
+    keep = {},
+    cappedHeal = { id = 22842, health = 85 },
     big = { { t = "barkskin", id = 22812 }, { t = "rage_of_the_sleeper", id = 200851 },
       { t = "survival_instincts", id = 61336 } },
     reflect = {},
@@ -171,7 +172,18 @@ end
 function T.Health()
   local spec = Spec()
   local by = ns.db and type(ns.db.tankHealth) == "table" and ns.db.tankHealth
-  return tonumber(by and by[spec]) or T.HEALTH
+  local base = tonumber(by and by[spec]) or T.HEALTH
+  -- the low-health heal with all its charges full: a higher threshold, so a charge isn't left capped
+  local p = T.Profile()
+  local c = p and p.cappedHeal
+  if c and T.LowSpell() == c.id then
+    local S = ns.State
+    local n, max = S.Charges(c.id), S.MaxCharges(c.id)
+    if type(n) == "number" and type(max) == "number" and max >= 2 and n >= max then
+      return math.max(base, c.health)
+    end
+  end
+  return base
 end
 
 -- A keep-up button is due: it was never cast this fight, or its effect ends within `refresh`.

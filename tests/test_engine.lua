@@ -5011,7 +5011,7 @@ test("tank profile: keep-up while tanking, cooldowns before a tank hit, reflect 
 end)
 
 
-test("Guardian: Frenzied Regeneration while tanking whenever both charges are full", function()
+test("Guardian: Frenzied Regeneration with both charges full at 85% health, not at 99%; Ironfur keeps its badge", function()
   Reset()
   mock.specIndex = 3 -- Guardian
   local ns = Boot()
@@ -5025,18 +5025,17 @@ test("Guardian: Frenzied Regeneration while tanking whenever both charges are fu
   mock.inCombat = true
   mock.Fire("PLAYER_REGEN_DISABLED")
   eq(S.MaxCharges(22842), 2)
-  local p = T.Pick()
-  eq(p and p.token, "frenzied_regeneration", "two charges, tanking: use one")
+  eq((T.Pick() or {}).token == "frenzied_regeneration", false,
+    "never the off-GCD badge (it held Ironfur back for 23 s, 2026-11-12)")
+  eq(T.Health(), 85, "both charges full: shown from 85% health (the game decides from your health)")
   mock.charges[22842] = { 1, 2 }
-  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 22842)
-  eq((T.Pick() or {}).token == "frenzied_regeneration", false, "one left: kept for when you're low")
+  eq(T.Health(), T.HEALTH, "one left: back to your low-health setting")
   mock.charges = nil
   info.chLive = nil
   IsPlayerSpell, UnitThreatSituation = ips, uts -- luacheck: ignore 121
   mock.inCombat = false
   mock.specIndex = 2
 end)
-
 
 test("a hidden channel runs for its duration: its own 'succeeded' at the start doesn't end it", function()
   Reset()
@@ -6321,6 +6320,16 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   eq(Game.frame.pop:GetText():find("COMBO!", 1, true) ~= nil, true, "the announcement")
   eq(Game.score > scoreBefore, true, "combo points")
   eq(Game.frame.comboAt ~= nil, true, "the sweep starts")
+  -- the counted keep-up (Ironfur stacks) beside the action box, as on the classic HUD
+  local stackInfo = D.StackInfo
+  D.StackInfo = function()
+    return { id = 192081 }, 2, 3
+  end
+  Game.Render()
+  eq(Game.frame.stackText:IsShown(), true)
+  eq((Game.frame.stackText:GetText() or ""):find("2", 1, true) ~= nil, true, "2 of 3")
+  D.StackInfo = stackInfo
+  Game.Render()
   -- out of combat a cast that isn't a rotation spell (switching spec, a 5 s cast) doesn't wake the lanes
   local inCombat = mock.inCombat
   mock.inCombat = false

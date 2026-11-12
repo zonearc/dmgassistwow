@@ -1331,7 +1331,10 @@ local function RenderWeave(f, result, cfg)
 end
 
 -- "<icon> 2/3": our counted stacks of the spec's stacking keep-up, and the target (orange when below it).
-local function RenderStacks(f, cfg)
+-- The counted keep-up (Ironfur stacks, Atonement): its keep-up, how many now and how many wanted, or nil. Shared
+-- by the classic HUD and Flow (2026-11-12: "Flow needs a guardian stack counter for ironfur").
+function D.StackInfo(cfg)
+  cfg = cfg or D.Settings()
   local X = ns.Essentials
   local k = cfg.stackCount ~= false and ns.db and X and X.CountedKeepUp()
   if k and k.kind == "stacks" and ns.db.tankEssentials == false then
@@ -1341,12 +1344,18 @@ local function RenderStacks(f, cfg)
     k = nil -- solo there is no one to keep Atonement on
   end
   if not k then
+    return nil
+  end
+  return k, X.Stacks(k.id), tonumber(ns.db[k.setting]) or (k.kind == "atonement" and 5 or 3)
+end
+
+local function RenderStacks(f, cfg)
+  local k, n, want = D.StackInfo(cfg)
+  if not k then
     f.stack:Hide()
     f.stackBox:Hide()
     return
   end
-  local n = X.Stacks(k.id)
-  local want = tonumber(ns.db[k.setting]) or (k.kind == "atonement" and 5 or 3)
   local size = tonumber(cfg.stackSize) or 14
   SetFont(f.stack, size)
   -- Below the icon by default: drawn over it, the count read like part of the recommendation.

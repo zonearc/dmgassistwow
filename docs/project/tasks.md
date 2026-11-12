@@ -102,6 +102,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.237: Guardian: Frenzied Regeneration with both charges full is no longer the off-GCD pick (it held the
+  badge for 23 s so Ironfur never showed, and it came at 99% health): the low-health heal now shows from 85% when
+  both charges are full (the game decides from your health), else at your low-health setting. Flow shows the
+  counted keep-up (Ironfur stacks, Atonement) beside the action box, as the classic HUD does.
 - 1.6.0.236: A damage tick the game logs as a cast (Spinning Crane Kick's 107270) is no longer taken as a press:
   it came in the same frame as the cast and Brewmaster's Spinning Crane Kick presses were never judged.
   Flow: out of combat a cast that isn't a rotation spell (switching spec, 5 s) no longer keeps the lanes

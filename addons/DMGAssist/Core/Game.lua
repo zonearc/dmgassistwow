@@ -422,6 +422,12 @@ function G.Create()
   f.comboFlash:SetPoint("BOTTOMLEFT", f.lane, "BOTTOMLEFT", 0, 0)
   f.comboFlash:SetWidth(1)
   f.comboFlash:SetColorTexture(G.COMBO_COLOR[1], G.COMBO_COLOR[2], G.COMBO_COLOR[3], 0)
+  -- the counted keep-up (Ironfur stacks, Atonement) left of the action box, as on the classic HUD
+  f.stackText = f:CreateFontString(nil, "OVERLAY")
+  D.SetFont(f.stackText, 14)
+  f.stackText:SetPoint("RIGHT", f, "TOPLEFT", G.HIT_X - G.BONUS_ICON / 2 - 4, G.BonusY())
+  f.stackText:SetJustifyH("RIGHT")
+  f.stackText:Hide()
   -- "COMBO 2/3" over the landing box while a chain is going
   f.comboHint = f:CreateFontString(nil, "OVERLAY")
   D.SetFont(f.comboHint, 13)
@@ -1141,7 +1147,7 @@ function G.Render()
   G.actAlpha = (G.actAlpha or 0) + ((actions > 0 and 1 or 0) - (G.actAlpha or 0)) * math.min(1, elapsed * 10)
   local beat = 0.6 + 0.4 * math.abs(math.sin(now * 5))
   f.actBox:SetAlpha(G.actAlpha * beat)
-  f.actSign:SetAlpha(G.actAlpha * beat)
+  f.actSign:SetAlpha(f.stackText:IsShown() and 0 or G.actAlpha * beat) -- (the stack count takes its place)
   for _, e in ipairs(f.actEdges) do
     e:SetAlpha(0.3 + 0.6 * G.actAlpha * beat)
   end
@@ -1217,6 +1223,18 @@ function G.Render()
   end
   for _, t in ipairs(f.frame) do
     t:SetAlpha(G.PowerOn() and 0.6 or (0.75 + 0.25 * fl))
+  end
+  -- the stack count: orange while under what you want, white once there
+  local sk, sn, swant
+  if ns.Display.StackInfo then
+    sk, sn, swant = ns.Display.StackInfo() -- (all three: "a and f()" keeps only the first)
+  end
+  if sk and type(sn) == "number" and type(swant) == "number" then
+    local col = (swant > 0 and sn < swant) and "|cffff9933" or "|cffffffff"
+    f.stackText:SetText(col .. sn .. "|r|cff999999/" .. swant .. "|r")
+    f.stackText:Show()
+  else
+    f.stackText:Hide()
   end
   -- the combo sweep: a violet band that runs across the lane from the box and fades
   local cf = f.comboAt and (now - f.comboAt) / G.COMBO_FLASH or 1
