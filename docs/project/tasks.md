@@ -94,15 +94,19 @@ Last updated: 1.6.0.157 (2026-11-10).
   row before the pull (DK); Death Coil in Flow only when Runic Power allows (Unholy); Arms / Fury Whirlwind and
   slot 2 steady without a hero tree; Guardian Moonfire keep-up only when it's on your bar; Flow keybinds all one
   size; welcome style cards; minimap menu + Edit Mode layout switch with no "tainted by DMGAssist"
-- [ ] Wailing Arrow (1.6.0.232, MM / BM Dark Ranger): shown only while Trueshot / Bestial Wrath's button is Wailing
-  Arrow, with that button's key; gone once fired
 - [ ] Combos (1.6.0.232): linked violet notes when a cooldown comes up with what follows it; COMBO 1/3 ... COMBO!
   with the violet sweep; Flow State after 15 Perfect / Great; COMBO BREAKER! on an interrupt; the action box over
-  the hit box (one at a time, +1); Display options hidden until Size = Custom
+  the hit box (one at a time, +1); 1.6.0.233: the combo follows the lane after the cooldown; nothing overlaps the
+  action box
 - [ ] Elemental (1.6.0.230): slots 2 and 3 change with the fight, Lava Burst only in slot 1 with Lava Surge
 
 ## Done (recent)
 
+- 1.6.0.233: Combos follow the lane: after the cooldown, each press of the spell in the box moves the combo on, for
+  as many presses as were linked (BM showed Kill Command twice before Barbed Shot and the fixed chain ended after the
+  first press). Flow layout: the judgement word and COMBO 1/3 sit right of the action box (they were on it); the
+  action box row is 6 px taller with its icons 10 px above the lane; COMBO x3 shows only while its note is on its
+  way. Signed off by the user 2026-11-12: Wailing Arrow fix, Display options only with Size Custom.
 - 1.6.0.232: Wailing Arrow (and any spell that only exists while a button turns into it): not castable once the
   button is back (Trueshot / Bestial Wrath after the arrow is fired); it sat in slot 1 on E while on cooldown.
   Combos you can see: when slot 1 is a cooldown and slots 2-3 show what follows it, the lane links those

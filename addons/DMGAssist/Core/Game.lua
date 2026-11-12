@@ -35,7 +35,7 @@ G.ICON = 56
 G.HIT_X = 50        -- the hit line, from the left edge
 G.HEAD = 0          -- (the streak row is below the lane, 2026-11-11: "put them below it")
 G.FOOT = 36         -- the streak row, under the lane
-G.BONUS_H = 44      -- the action row above the lane (smaller than the lane, never over it: 2026-11-11)
+G.BONUS_H = 50      -- the action box's row above the lane (smaller than the lane, never over it: 2026-11-11)
 G.BONUS_ICON = 34
 G.DOT_EVERY = 0.5   -- the lane's dots: one per half second
 G.BONUS_POINTS = 150
@@ -295,7 +295,7 @@ function G.LaneY()
 end
 
 function G.BonusY()
-  return -(G.HEAD + (G.BONUS_H - 6) / 2) -- its icons end 6 px above the lane
+  return -(G.HEAD + (G.BONUS_H - 10) / 2) -- its icons end 10 px above the lane (2026-11-12: a few px up)
 end
 
 function G.Create()
@@ -425,7 +425,8 @@ function G.Create()
   -- "COMBO 2/3" over the landing box while a chain is going
   f.comboHint = f:CreateFontString(nil, "OVERLAY")
   D.SetFont(f.comboHint, 13)
-  f.comboHint:SetPoint("BOTTOM", b, "TOP", 0, 4)
+  -- right of the action box, at the top of its row (it sat on the box, 2026-11-12)
+  f.comboHint:SetPoint("TOPLEFT", f, "TOPLEFT", G.HIT_X + G.BONUS_ICON / 2 + 10, -(G.HEAD + 2))
   f.comboHint:SetTextColor(G.COMBO_COLOR[1], G.COMBO_COLOR[2], G.COMBO_COLOR[3])
   f.comboHint:Hide()
   f.streak = f:CreateFontString(nil, "OVERLAY")
@@ -443,7 +444,8 @@ function G.Create()
   -- the judgement ("Perfect!") over the line, and the streak word ("On fire!") in the middle of the lanes
   f.judge = f:CreateFontString(nil, "OVERLAY")
   D.SetFont(f.judge, 20)
-  f.judge:SetPoint("BOTTOMLEFT", f, "TOPLEFT", G.HIT_X - 12, -(G.HEAD + G.BONUS_H) + 4)
+  -- right of the action box, at the bottom of its row ("Good" sat on the box, 2026-11-12)
+  f.judge:SetPoint("BOTTOMLEFT", f, "TOPLEFT", G.HIT_X + G.BONUS_ICON / 2 + 10, -(G.HEAD + G.BONUS_H) + 4)
   f.judge:Hide()
   f.pop = f:CreateFontString(nil, "OVERLAY")
   D.SetFont(f.pop, G.LANE - 20, "OUTLINE") -- big kudos; a thin outline and a shadow (THICKOUTLINE looked blurry)
@@ -557,7 +559,7 @@ local function NewNote(f)
   -- the bonus row's call: INTERRUPT! / DEFEND! / POWER UP!
   n.tag = n:CreateFontString(nil, "OVERLAY")
   ns.Display.SetFont(n.tag, 13)
-  n.tag:SetPoint("LEFT", n, "RIGHT", 6, 0)
+  n.tag:SetPoint("LEFT", n, "RIGHT", 110, 0) -- past the judgement word beside the box
   -- "COMBO" over the first note of a linked chain (Combos.lua)
   n.comboTag = n:CreateFontString(nil, "OVERLAY")
   ns.Display.SetFont(n.comboTag, 12)
@@ -694,28 +696,34 @@ local function Wanted(r, wait)
       t = t + math.max(gcd, hold)
     end
   end
-  -- a combo the lane shows (Combos.lua): the chain's spells still to press, in order from slot 1, are linked
+  -- a combo the lane shows (Combos.lua): the notes it links, from slot 1
   G.comboPlan = nil
-  local chain, done
+  local ids, done, total
   if ns.Combos then
-    chain, done = ns.Combos.Planned(q) -- (both values: "a and f()" would keep only the first)
+    ids, done, total = ns.Combos.Planned(q) -- (all three values: "a and f()" would keep only the first)
   end
-  if chain then
-    local k = (done or 0) + 1
-    local first = true
+  if ids then
+    local k = 1
+    local baseOf = ns.SpellMap.baseOf or {}
     for _, w in ipairs(want) do
-      local want1 = chain[k]
-      local baseOf = ns.SpellMap.baseOf or {}
+      local want1 = ids[k]
       if want1 and w.pick and w.pick.id and (baseOf[w.pick.id] or w.pick.id) == (baseOf[want1] or want1) then
-        w.combo, w.comboFirst = k, first and (done or 0) == 0
-        first = false
+        w.combo, w.comboFirst = k, k == 1 and (done or 0) == 0
         k = k + 1
       else
         break
       end
     end
-    if k > (done or 0) + 1 then
-      G.comboPlan = { total = #chain, done = done or 0 }
+    if k > 1 then
+      G.comboPlan = { total = total, done = done or 0 }
+    end
+    -- what the lane shows after the cooldown, for the first press after it (the lane may not have moved yet)
+    if (done or 0) == 0 then
+      local after = {}
+      for i = 2, #ids do
+        after[#after + 1] = ids[i]
+      end
+      ns.Combos.shownAfter = after
     end
   end
   -- the bonus row (lane 2): what isn't the rotation, when it's needed
@@ -1051,7 +1059,8 @@ function G.Render()
         G.arrived = nil
       end
     end
-    if w.comboFirst then
+    -- (only while the note is on its way: in the box the tag would sit on the action box above it)
+    if w.comboFirst and n.x > G.HIT_X + G.ICON then
       n.comboTag:SetText(string.format(L["COMBO x%d"], G.comboPlan and G.comboPlan.total or 2))
       n.comboTag:Show()
     else

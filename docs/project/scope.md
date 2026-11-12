@@ -112,8 +112,9 @@ on the settings page. Can be turned off.
   the every-spec check first.
 - Purely visual; nothing is pressed for the player.
 - Combos (decided 2026-11-12, Flow only): a cooldown in slot 1 with what follows it in slots 2-3 is a combo; the
-  lane links those notes before you get there (violet edges, a line between them, COMBO x3), COMBO 1/3 counts as
-  you go, and finishing it shows COMBO! with a violet sweep and bonus points, apart from the streak. The chain is
+  lane links those notes before you get there (violet edges, a line between them, COMBO x3); after the cooldown it
+  follows the lane (each press of the spell in the box counts, for as many presses as were linked), COMBO 1/3
+  counts as you go, and finishing it shows COMBO! with a violet sweep and bonus points, apart from the streak. The chain is
   what the rotation shows (SimC's order); chains mined from simulated fights (tools/mine_combos.lua) only fill in
   when the queue is too short.
 - Flow State (2026-11-12): 15 Perfect / Great hits in a row -> 12 s, teal lane, double points; a miss ends it.

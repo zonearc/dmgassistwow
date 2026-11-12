@@ -310,12 +310,11 @@ test("look-ahead: a line hidden behind a proc now isn't confirmed by Blizzard's 
   mock.acSpell = nil
 end)
 
-test("combos: a chain after a major cooldown finishes once, breaks on another spell or a pause", function()
+test("combos: a cooldown and what the lane shows after it; it follows the lane, breaks on another spell or a pause", function()
   Reset()
   local ns = Boot()
   local C = ns.Combos
-  ns.COMBO_DATA = { druid_feral = { { 100, 200, 300 } } }
-  ns.Specs.current = { key = "druid_feral" }
+  ns.COMBO_DATA = {}
   local done, steps = 0, {}
   local onCombo, onStep = ns.Game.OnCombo, ns.Game.OnComboStep
   ns.Game.OnCombo = function(n)
@@ -324,34 +323,43 @@ test("combos: a chain after a major cooldown finishes once, breaks on another sp
   ns.Game.OnComboStep = function(step, total)
     steps[#steps + 1] = step .. "/" .. total
   end
-  eq(C.OnCast(100, 0), "start")
-  eq(C.OnCast(200, 1), "step")
-  eq(C.OnCast(300, 2), "done")
-  eq(done, 3, "finished once, three spells long")
-  eq(table.concat(steps, " "), "1/3 2/3")
-  eq(C.OnCast(300, 3), nil, "the chain's last spell alone starts nothing")
-  C.OnCast(100, 10)
+  local CD, KC, BS = { id = 300, major = true }, { id = 400 }, { id = 500 }
+  local t0 = mock.now
+  local ids, already, total = C.Planned({ CD, KC, BS })
+  eq(ids and table.concat(ids, ","), "300,400,500") eq(already, 0) eq(total, 3)
+  eq(C.Planned({ KC, BS }), nil, "not a cooldown in slot 1: no combo")
+  C.Planned({ CD, KC, BS })
+  C.shownAfter = { 400, 500 }
+  eq(C.OnCast(300, t0 + 0), "start", "pressing the shown cooldown starts it")
+  -- the lane changed its mind after the press (Kill Command twice before Barbed Shot, BM 2026-11-12): it follows
+  mock.now = t0 + 0.5
+  C.Planned({ KC, KC, BS })
+  eq(C.OnCast(400, t0 + 1), "step")
+  mock.now = t0 + 1.5
+  C.Planned({ KC, BS })
+  eq(C.OnCast(400, t0 + 2), "done", "the second press of what the lane showed finishes it")
+  eq(done, 3) eq(table.concat(steps, " "), "1/3 2/3")
+  -- a press the lane didn't show ends it; a cast the game makes by itself doesn't
+  mock.now = t0 + 10
+  C.Planned({ CD, KC, BS })
+  C.OnCast(300, t0 + 10)
+  C.Planned({ KC, BS })
+  eq(C.OnCast(777, t0 + 10.5), nil, "a cast that isn't one of the spec's spells (the game's own) is ignored")
+  eq(C.run ~= nil, true)
   local tokenFor = ns.SpellMap.TokenForID
   ns.SpellMap.TokenForID = function(id)
     return id == 999 and "shred" or tokenFor(id)
   end
-  eq(C.OnCast(777, 10.5), nil, "a cast the game makes by itself (not in the lists) doesn't break it")
-  eq(C.run ~= nil, true)
-  C.OnCast(999, 11) -- another of the spec's spells: the chain ends quietly
+  C.OnCast(999, t0 + 11)
   ns.SpellMap.TokenForID = tokenFor
-  eq(C.OnCast(200, 12), nil)
-  C.OnCast(100, 20)
-  eq(C.OnCast(200, 20 + C.WINDOW + 1), nil, "too long a pause ends it")
+  eq(C.run, nil, "another of the spec's spells ends it")
+  -- a pause
+  mock.now = t0 + 20
+  C.Planned({ CD, KC, BS })
+  C.OnCast(300, t0 + 20)
+  C.Planned({ KC, BS })
+  eq(C.OnCast(400, t0 + 20 + C.WINDOW + 1), nil, "too long a pause ends it")
   eq(done, 3)
-  -- the chain the lane shows: slot 1's cooldown and what follows it
-  C.Reset()
-  ns.COMBO_DATA = {}
-  local chain, already = C.Planned({ { id = 300, major = true }, { id = 400 }, { id = 500 } })
-  eq(chain and table.concat(chain, ","), "300,400,500") eq(already, 0)
-  eq(C.Planned({ { id = 300 }, { id = 400 } }), nil, "not a cooldown in slot 1: no chain")
-  C.Planned({ { id = 300, major = true }, { id = 400 } })
-  eq(C.OnCast(300, 30), "start", "pressing the shown cooldown starts the shown chain")
-  eq(C.OnCast(400, 31), "done")
   ns.Game.OnCombo, ns.Game.OnComboStep = onCombo, onStep
   C.Reset()
 end)
