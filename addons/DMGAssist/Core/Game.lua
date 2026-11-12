@@ -778,7 +778,7 @@ function G.Render()
       n = table.remove(G.pool or {}) or NewNote(f)
       n.x = G.WIDTH - G.ICON / 2 - 2 -- comes in at the lane's right edge (inside the frame) and fades in
       n.born = now
-      n.passed, n.readyAt, n.missAt, n.alarmed = 0, nil, nil, nil
+      n.passed, n.readyAt, n.missAt, n.alarmed, n.arriveAt, n.lastT = 0, nil, nil, nil, nil, nil
       G.notes[w.key] = n
     end
     n.fade = nil -- wanted again: not fading (a stale fade time would drop it at once later)
@@ -843,6 +843,13 @@ function G.Render()
         end
       end
       prevX, prevT = n.x, w.t
+      -- the note's own timing, for judging a press (Timing): when it reached the line, else how far it still had
+      n.lastT, n.lastTAt = w.t, now
+      if w.t <= 0.05 then
+        n.arriveAt = n.arriveAt or now
+      else
+        n.arriveAt = nil
+      end
       if G.paused then
         n.readyAt = nil
       end
@@ -1243,10 +1250,19 @@ local function NoteFor(id)
 end
 
 -- How close to the line a press came: early (queued) presses count from the note still sliding in.
-local function Timing()
+-- From the note pressed (2026-11-12: 79 of 89 hits were "Good", none Perfect: an instant's cast event comes after
+-- the next GCD has begun, and the HUD's wait then said 1.5 s): when it reached the line, else what it still had.
+local function Timing(note)
+  local now = GetTime()
+  local off
+  if note and note.arriveAt then
+    off = now - note.arriveAt
+  elseif note and note.lastT then
+    off = -math.max(0, note.lastT - (now - (note.lastTAt or now)))
+  end
   local arrived = G.arrived and G.arrived.at
   local wait = (ns.Display.frame and ns.Display.frame.lastWait or 0) - G.Offset()
-  local off = arrived and (GetTime() - arrived) or -wait
+  off = off or (arrived and (now - arrived)) or -wait
   if math.abs(off) <= G.PERFECT then
     return "perfect"
   elseif math.abs(off) <= G.GREAT then
@@ -1276,7 +1292,7 @@ function G.OnCastStart(id)
   if not note or note.lane ~= 1 then
     return
   end
-  G.cast = { id = id, at = GetTime(), judge = Timing(), fire = note.fire, color = note }
+  G.cast = { id = id, at = GetTime(), judge = Timing(note), fire = note.fire, color = note }
   Consume(note)
   if note == G.mainNote then
     G.mainNote = nil
@@ -1308,8 +1324,8 @@ function G.OnJudged(kind, id)
     elseif kind == "near" then
       judge = "good"
     else
-      judge = Timing()
       local note = id and NoteFor(id)
+      judge = Timing(note or G.mainNote)
       local baseOf2 = ns.SpellMap.baseOf or {}
       local d = G.lastDrop
       local justDropped = d and d.id and id and (baseOf2[d.id] or d.id) == (baseOf2[id] or id) and GetTime() - d.at < 1

@@ -74,7 +74,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
-- 1.6.0.216: grade: a break (6 s+ with no spell: between packs, a cutscene, a boss walking off) leaves the fight's
+- 1.6.0.218: Flow judges a press by when its note reached the line (79 of 89 hits were "Good", none Perfect: a
+  queued instant's cast event comes as the next GCD begins, and the HUD's wait then said 1.5 s).
+- 1.6.0.217: grade: a break (6 s+ with no spell: between packs, a cutscene, a boss walking off) leaves the fight's
   length and its idle time is given back ("Always casting 33%" after waiting between packs); a Flow set ends even
   when it's too short to grade. Flow: a buff out of combat (Mark of the Wild) no longer starts it; notes come in
   inside the lane and fade in; the foot row's text never runs under the stars or the switch.

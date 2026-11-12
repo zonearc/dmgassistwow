@@ -6043,6 +6043,18 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   local withSet = setmetatable({ game = { score = 1400, bestStreak = 11, perfect = 60 } }, { __index = ns.Grade.SAMPLE })
   ns.Grade.Render(withSet, false, true)
   eq(ns.Grade.frame.flow:GetText():find("Flow score 1400", 1, true) ~= nil, true, "the grade shows the set")
+  -- an instant's cast event comes as the next GCD begins: judged by when its note reached the line, not by the new
+  -- GCD's wait (79 of 89 hits were "Good", none Perfect, 2026-11-12)
+  for k, n in pairs(Game.notes) do
+    n:Hide()
+    Game.notes[k] = nil
+  end
+  Run({ main = A, queue = { A, B } }, 1, 0.6) -- coming in
+  Run({ main = A, queue = { A, B } }, 0.05, 0.08) -- last frame: 0.08 s to go
+  mock.now = mock.now + 0.05
+  D.frame.lastWait = 1.5 -- the queued press went off as the GCD ended: the HUD already shows the next GCD
+  Game.OnJudged("hit", 201)
+  eq(Game.lastJudge, "perfect", "a queued press right on the beat: Perfect, not Good")
   -- the low-health defensive is always listed (the game shows it when health is low): no alarm, no DEFEND!, the
   -- action row stays quiet (it shouted DEFEND! on login, 2026-11-11)
   Game.frame.alarmAt, Game.actAlpha, Game.kudosAt = nil, 0, nil
