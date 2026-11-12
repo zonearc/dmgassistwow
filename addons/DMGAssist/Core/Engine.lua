@@ -1096,13 +1096,13 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         end
         if castable == false and why == "power" and not run.powerBlocked and not isBlizzard and not maybe
           and Test(cond, run, a) ~= false then
-          run.powerBlocked = { id = id, token = a, source = "pool" }
+          run.powerBlocked = { id = id, token = a, source = "pool", behind = run.firstMaybe ~= nil }
         end
         -- (also under an uncertain gate, e.g. Subtlety's "build if energy>60" with Energy hidden: used only when
         -- SimC rules out Blizzard's pick, see below)
         if castable == false and why == "power" and not run.powerBlockedMaybe and not isBlizzard
           and Test(cond, run, a) ~= false then
-          run.powerBlockedMaybe = { id = id, token = a, source = "pool" }
+          run.powerBlockedMaybe = { id = id, token = a, source = "pool", behind = run.firstMaybe ~= nil }
         end
         if castable ~= false then
           local t = Test(cond, run, a)
@@ -1415,10 +1415,21 @@ local function Decide(record, opts, targets, first)
   -- Storm when the Energy came, 21 times in 3 minutes without a press (2026-11-11).
   local acToken = run.acSpell and M.TokenForID(run.acSpell)
   local acRuledOut = acToken and run.notNow and run.notNow[acToken] == true
-  if not pick and run.first and run.powerBlocked and (run.waiting or not run.acSpell or acRuledOut) then
-    pick = run.powerBlocked -- waiting for the resource: the spell it's for, shaded
-  elseif not pick and run.first and acRuledOut and run.powerBlockedMaybe then
-    pick = run.powerBlockedMaybe
+  -- Not when a castable line came before it in the list (only its condition unreadable): Unholy at 0-29 Runic
+  -- Power showed Death Coil, "waiting", over Festering Strike and Scourge Strike earlier in the same list
+  -- (2026-11-12): that line instead. Blizzard's own "waiting" still shows the spell it waits for.
+  local blocked = run.powerBlocked
+  if blocked and blocked.behind and not run.waiting then
+    blocked = run.firstMaybe
+  end
+  local blockedMaybe = run.powerBlockedMaybe
+  if blockedMaybe and blockedMaybe.behind then
+    blockedMaybe = run.firstMaybe
+  end
+  if not pick and run.first and blocked and (run.waiting or not run.acSpell or acRuledOut) then
+    pick = blocked -- waiting for the resource: the spell it's for, shaded (or the castable line before it)
+  elseif not pick and run.first and acRuledOut and blockedMaybe then
+    pick = blockedMaybe
   end
   -- Blizzard's assistant as the fallback: still subject to our own checks (target rules: it suggests Touch of
   -- Death on a full-health dummy; cooldown and power: it also names the next important spell while that is still

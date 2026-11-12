@@ -3251,6 +3251,10 @@ test("interrupts: pressing it or skipping it (casting the next spell) clears it 
   local ns = Boot()
   mock.targetCast = { notInterruptible = false, id = 9999 }
   eq(ns.Update().interrupt.how, "decided")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "x", 5221) -- a press already on its way as it appeared
+  eq(ns.Interrupts.stats.skipped, 0, "not skipped within the first moments (Blood: gone after 0.8 s, 2026-11-12)")
+  eq(ns.Update().interrupt.how, "decided", "still up")
+  mock.Advance(2.1)
   mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "x", 5221) -- player pressed Shred instead
   eq(ns.Interrupts.stats.skipped, 1)
   eq(ns.Update().interrupt, nil, "skipped: stays out of the way for this cast")
@@ -3268,6 +3272,7 @@ test("interrupts: skip detected from the GCD when cast events are secret", funct
   local ns = Boot()
   mock.targetCast = { notInterruptible = false, id = 9999 }
   ns.Update()
+  mock.Advance(2.1) -- past the moment a press already on its way still lands
   mock.Fire("SPELL_UPDATE_COOLDOWN")
   mock.cooldowns[61304] = { active = true, start = mock.now, duration = 1 }
   mock.Fire("SPELL_UPDATE_COOLDOWN") -- a GCD started: some on-GCD spell was pressed
@@ -4704,6 +4709,39 @@ test("game mode: hold bars for casts and channels, flame notes for major cooldow
   ns.commands.game("off")
 end)
 
+test("game mode: an interrupt the game decides never flashes INTERRUPT! by itself (uninterruptible: no spell, no call)", function()
+  Reset()
+  local ns = Boot()
+  local Game, D = ns.Game, ns.Display
+  ns.commands.game("on")
+  Game.held, Game.pending = nil, nil
+  for k, n in pairs(Game.notes) do
+    n:Hide()
+    Game.notes[k] = nil
+  end
+  local calls = {}
+  local kudos = Game.Kudos
+  Game.Kudos = function(f, text, ...)
+    calls[#calls + 1] = text
+    return kudos(f, text, ...)
+  end
+  local A = { id = 101, token = "a" }
+  Game.frame.alarmAt = nil
+  D.Update({ main = A, queue = { A }, interrupt = { id = 47528, how = "render", notInterruptible = true } }, true)
+  Game.Render()
+  eq(#calls, 0, "no big call for a secret interrupt")
+  eq(Game.frame.alarmAt, nil, "no red edge")
+  D.Update({ main = A, queue = { A }, interrupt = { id = 47528, how = "decided" } }, true)
+  for k, n in pairs(Game.notes) do
+    n:Hide()
+    Game.notes[k] = nil
+  end
+  Game.Render()
+  eq(#calls, 1, "a decided interrupt still calls")
+  Game.Kudos = kudos
+  ns.commands.game("off")
+end)
+
 test("game mode: a cast-time spell is judged when its cast begins (no red X for a right Starfire), kudos are rare", function()
   Reset()
   local ns = Boot()
@@ -6027,6 +6065,25 @@ test("Subtlety on 5 targets waiting for Energy: the Shuriken Storm it's pooling 
   local r = ns.Update()
   eq(r.main and r.main.token, "shuriken_storm", "the spell it's waiting for")
   eq(r.main and r.main.source, "pool", "shown as waiting")
+  mock.acSpell, mock.inCombat, mock.restricted = nil, false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
+test("short of the resource for a spender, but a castable line came first: that line, not the spender 'waiting'", function()
+  -- Unholy at 0-29 Runic Power showed Death Coil, waiting, over Festering Strike earlier in the list (2026-11-12)
+  Reset()
+  local ns = Boot()
+  local rec = QRecord({ { a = "tigers_fury", c = "0", k = "S" }, { a = "shred", c = "mystery_value>3", k = "S" },
+    { a = "ferocious_bite", k = "S" } })
+  Feral(ns, rec)
+  ns.Specs.current = { key = "druid_feral", status = "ready", data = rec, branch = "midnight", client = "Midnight" }
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Advance(5)
+  mock.usable[22568] = { false, true } -- Ferocious Bite: not enough
+  mock.acSpell = 5217 -- Blizzard's pick, ruled out by its own line
+  local r = ns.Update()
+  eq(r.main and r.main.token, "shred", "the castable line before it")
   mock.acSpell, mock.inCombat, mock.restricted = nil, false, false
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)

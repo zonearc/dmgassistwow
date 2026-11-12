@@ -936,7 +936,11 @@ function G.Render()
         n:SetFrameLevel((f:GetFrameLevel() or 1) + 10)
       end
       if w.timed then
-        if w.t <= 0.05 and not n.alarmed and w.special ~= "health" then
+        -- (not for an interrupt the game decides: its icon is hidden when the cast can't be interrupted, and the
+        -- big call and the red edge can't be, so "INTERRUPT!" flashed with no spell on an uninterruptible cast,
+        -- 2026-11-12; the tag beside the box is part of the note and hides with it)
+        if w.t <= 0.05 and not n.alarmed and w.special ~= "health"
+          and not (w.intr and w.intr.how == "render") then
           n.alarmed = true
           f.alarmAt = now
           G.Kudos(f, L[G.BONUS_TAG[w.bonus]], { 1, 0.25, 0.2 }, true)

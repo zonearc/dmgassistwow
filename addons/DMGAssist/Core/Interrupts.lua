@@ -29,6 +29,10 @@ I.MODES = { "smart", "everywhere", "instances", "bossmods", "off" }
 I.skipped = false
 I.shown = false
 I.stats = { shown = 0, used = 0, skipped = 0 }
+-- Seconds after the interrupt appears in which pressing another spell doesn't count as skipping it: that press was
+-- already on its way. Blood's Mind Freeze showed for 0.8 s and was gone, hidden by a Death Strike pressed before it
+-- could be seen (2026-11-12).
+I.GRACE = 2
 
 function I.Mode()
   local m = ns.db and ns.db.interruptMode
@@ -105,6 +109,7 @@ function I.Apply(result)
   result.interrupt = intr
   if intr and not I.shown then
     I.shown = true
+    I.shownAt = GetTime()
     I.stats.shown = I.stats.shown + 1
     U.Log("interrupt_shown", { how = intr.how, why = intr.why })
   elseif not intr then
@@ -133,6 +138,8 @@ function I.OnOwnCast(id)
   if id == kick then
     I.stats.used = I.stats.used + 1
     U.Log("interrupt_used", {})
+  elseif I.InGrace() then
+    return
   else
     I.skipped = true
     I.stats.skipped = I.stats.skipped + 1
@@ -143,8 +150,12 @@ end
 
 -- A GCD started while the interrupt was up. Interrupts are off the GCD, so another spell was pressed — unless the
 -- interrupt's own cooldown also started (checked a moment later). Works even when cast events are secret.
+function I.InGrace()
+  return I.shownAt ~= nil and GetTime() - I.shownAt < I.GRACE
+end
+
 function I.OnGCDStarted()
-  if not I.shown then
+  if not I.shown or I.InGrace() then
     return
   end
   local kick = ns.Display.InterruptSpell()

@@ -63,6 +63,13 @@ Last updated: 1.6.0.157 (2026-11-10).
   readiness for a 1 s GCD spec (energy hidden); Blizzard's assistant named Touch of Death all fight (refused on
   the dummies) and was set aside after 20 wrong checks; no mitigation weave on dummies (nothing hits them).
 
+- Blood Death Knight: a Bone Shield count beside slot 1 (like Ironfur's). Method / Icy Veins: keep it above 5
+  stacks with Marrowrend; SimC's list asks for Marrowrend under 6 and already shows it. Bone Shield charges are
+  spent by hits taken, so they can't be counted from casts like Ironfur; needs the game's own aura count (hidden
+  in combat in 12.x: check whether a hidden count can still be drawn as text).
+- Blood reports (2026-11-12): 646 of ~1300 picks were the gap closer (away from the dummy for ~70 s); Lichborne
+  offered at low health after Icebound Fortitude was spent (general defensives list, last resort): fine.
+
 ## Proposed (waiting on a decision)
 
 - (none)
@@ -101,6 +108,13 @@ Last updated: 1.6.0.157 (2026-11-10).
 - [ ] Flow State after 15 Perfect / Great; COMBO BREAKER! on an interrupt (combos signed off by the owner 2026-11-12)
 
 ## Done (recent)
+
+- 1.6.0.241: Unholy: short of Runic Power, slot 1 no longer shows Death Coil "waiting" while a castable line
+  comes before it in the list (Festering Strike / Scourge Strike at 0-29 Runic Power). Interrupts: a press
+  already on its way when the interrupt appears (first 2 s) no longer counts as skipping it (Blood: Mind Freeze
+  shown for 0.8 s, then hidden by a Death Strike). Flow: an interrupt the game decides no longer flashes
+  "INTERRUPT!" and the red edge on its own (the icon is hidden on a cast that can't be interrupted, so the call
+  showed with no spell). Not seeing DEFEND before the pull on DK confirms 1.6.0.226.
 
 - 1.6.0.240: Looking ahead, a spell that only exists while a button turns into it is used once (Glacial Spike
   filled slots 2-3 after its Icicles were spent; the second press cast Frostfire Bolt and was judged a miss). Flow:
