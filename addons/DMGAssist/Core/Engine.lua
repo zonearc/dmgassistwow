@@ -920,6 +920,20 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         -- (spells the player doesn't have are skipped as usual).
         run.heroFallback = sub
       end
+      -- The same split written as the hero tree's keystone talent (Arms: run_action_list,name=colossus_st,
+      -- if=talent.demolish / slayer_st if=talent.slayers_dominance). Without any hero tree neither ran, SimC said
+      -- nothing and Blizzard's simpler rules filled every slot (2026-11-12): the first such list whose other
+      -- conditions hold is used.
+      if sub and t == false and not isBlizzard and not run.heroFallback and a == "run_action_list"
+        and type(e.c) == "string" and M.talentsRead and not M.heroTree then
+        local talent, rest = e.c:match("^talent%.([%w_]+)(.*)$")
+        if talent and M.TalentRank(talent) == 0 and (rest == "" or rest:sub(1, 1) == "&") then
+          local other = rest ~= "" and rest:sub(2) or nil
+          if not other or Test(other, run) ~= false then
+            run.heroFallback = sub
+          end
+        end
+      end
       if sub and t ~= false then
         local r = Walk(lists, sub, maybe or t == UNKNOWN, depth + 1, run, isBlizzard)
         if r then

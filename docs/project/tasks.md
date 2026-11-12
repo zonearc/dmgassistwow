@@ -92,6 +92,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.225: without a hero tree, SimC lists split by the hero tree's keystone talent (Arms: talent.demolish /
+  talent.slayers_dominance; Fury: slayers_dominance / lightning_strikes) fall back to the first one that fits, as
+  hero_tree.X splits already did. Arms ran entirely on Blizzard's simpler rules (slot 2 guesses, Battle Shout).
+  Every-spec check: Fury 7 spells instead of 4, slot 3 always filled (was empty), majors used 1 instead of 2 in
+  the 2-minute fight (the hero lists hold them for their windows; watch this).
 - 1.6.0.224: a raid buff (Arcane Intellect) isn't guessed into slot 1 from Blizzard's list in combat (its aura is
   hidden there; Fire showed it while moving); Flow's action row stays empty before the pull (Blood: "DEFEND" out of
   combat); Flow draws "waiting for the resource" and guess notes at half strength, as the classic HUD does, and
