@@ -74,7 +74,7 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
-- 1.6.0.214: reports 2026-11-12 (Balance, dummies): Eclipse asked for during Incarnation from the pull before
+- 1.6.0.215: reports 2026-11-12 (Balance, dummies): Eclipse asked for during Incarnation from the pull before
   ("says to hit Q and I can't"): the blocked-while-active rule only counted casts since combat began, and dummies
   drop combat between pulls; and Celestial Alignment / Incarnation now start the Lunar and Solar Eclipse clocks
   for their duration (SimC sc_druid.cpp celestial_alignment_buff_t). A heal you cast isn't asked for again for 6 s
