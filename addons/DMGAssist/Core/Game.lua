@@ -34,7 +34,7 @@ G.LANE = 76
 G.ICON = 56
 G.HIT_X = 50        -- the hit line, from the left edge
 G.HEAD = 0          -- (the streak row is below the lane, 2026-11-11: "put them below it")
-G.FOOT = 36         -- the streak row, under the lane
+G.FOOT = 50         -- the streak rows, under the lane (two lines: streak and score, then rank and best)
 G.BONUS_H = 50      -- the action box's row above the lane (smaller than the lane, never over it: 2026-11-11)
 G.BONUS_ICON = 34
 G.DOT_EVERY = 0.5   -- the lane's dots: one per half second
@@ -437,7 +437,15 @@ function G.Create()
   if f.streak.SetWordWrap then
     f.streak:SetWordWrap(false)
   end
-  f.streak:SetPoint("TOPLEFT", f, "TOPLEFT", 8, -(G.HEAD + G.BONUS_H + G.LANE + 8))
+  f.streak:SetPoint("TOPLEFT", f, "TOPLEFT", 8, -(G.HEAD + G.BONUS_H + G.LANE + 6))
+  f.streak2 = f:CreateFontString(nil, "OVERLAY")
+  D.SetFont(f.streak2, 17)
+  f.streak2:SetWidth(G.WIDTH - G.SWITCH_W - G.STAR_MAX * 17 - 24)
+  f.streak2:SetJustifyH("LEFT")
+  if f.streak2.SetWordWrap then
+    f.streak2:SetWordWrap(false)
+  end
+  f.streak2:SetPoint("TOPLEFT", f.streak, "BOTTOMLEFT", 0, -3)
   f.stars = {}
   f.toggle = G.ToggleButton(f)
   f.toggle:SetPoint("TOPRIGHT", f, "TOPRIGHT", -4, -(G.HEAD + G.BONUS_H + G.LANE + 7))
@@ -518,15 +526,18 @@ local function RenderStreak(f)
   local best = G.Best()
   local text = string.format(L["Streak %d"], G.streak) .. "  |cffffd100x" .. G.Mult() .. "|r  "
     .. string.format(L["Score %d"], G.score)
+  -- rank and best on a second line, same size (on one line "Gold" and "Best" were cut to "...", 2026-11-12)
+  local second = {}
   local rank = G.Rank()
   if rank then
     local c = rank[3]
-    text = text .. string.format("  |cff%02x%02x%02x%s|r", c[1] * 255, c[2] * 255, c[3] * 255, L[rank[2]])
+    second[#second + 1] = string.format("|cff%02x%02x%02x%s|r", c[1] * 255, c[2] * 255, c[3] * 255, L[rank[2]])
   end
   if best > 0 then
-    text = text .. "  |cff999999" .. string.format(L["Best %d"], best) .. "|r"
+    second[#second + 1] = "|cff999999" .. string.format(L["Best %d"], best) .. "|r"
   end
   f.streak:SetText(text)
+  f.streak2:SetText(table.concat(second, "  "))
   for i = 1, G.STAR_MAX do
     local s = (i <= G.stars) and Star(f, i) or f.stars[i]
     if s then

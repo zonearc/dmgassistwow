@@ -98,6 +98,8 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.235: Flow foot row on two lines at the same size (streak, multiplier and score; then rank and best):
+  "Gold" and "Best" were cut to "..." on one line.
 - Signed off in game 2026-11-12: combos (1.6.0.234), Elemental slots 2-3, Wailing Arrow, Display Quick setup /
   Custom, settings pages, preview, text sizes, welcome.
 - 1.6.0.234: Combo rules from the owner: a combo moves with the streak's judgement (a mid-press switch keeps
