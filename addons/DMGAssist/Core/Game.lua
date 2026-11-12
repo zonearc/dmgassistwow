@@ -665,7 +665,11 @@ local function Wanted(r, wait)
     Bonus({ key = "b:def", pick = { id = incoming.id, source = "defensive" }, special = "urgent", bonus = "defend",
       timed = true })
     want[#want].t = incoming.t
-  elseif w and w.id then
+  end
+  -- the off-GCD pick (Ironfur, Shield Block...): beside a defensive the game only shows when you're low, not
+  -- behind it (2026-11-12: Guardian never saw Ironfur in Flow, only Frenzied Regeneration)
+  local lowOnly = d and d.id and d.how == "render"
+  if w and w.id and (lowOnly or not (d and d.id) and not incoming) and not (d and d.id == w.id) then
     Bonus({ key = "b:" .. tostring(w.id), pick = w, special = w.urgent and "urgent", bonus = "defend" })
   end
   local it = r.trinket

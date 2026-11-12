@@ -16,6 +16,14 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- Guardian (report 2026-11-12): Frenzied Regeneration only at the low-health threshold; with 2 charges / 21 s
+  recharge it's used much earlier (when a charge would cap). Needs the charge count and a "not full health" read.
+- Icon + key check (2026-11-12): "wrong icon for Ironfur, and no keybind": confirm which pick (a gap closer, Wild
+  Charge 102401 vs Bear's 16979, also showed in slot 1) with the user; check shapeshift overrides' icon/keybind.
+- Flow ideas to decide with the user: a time-limited "Flow State" power-up from a hot streak, combos over linked
+  spell clusters (COMBO / ULTRA / ULTIMATE), "COMBO BREAKER" on interrupts; left/right CLASSIC / FLOW picker with
+  mock-ups in the welcome questions.
+
 - Taint (report 2026-11-11, 1.6.0.206): "blocked: tainted=DMGAssist" in combat on Edit Mode's SetClampRectInsets
   (15:52) and on action buttons' SetAttribute (UpdatePressAndHoldAction, 16:21). Our Edit Mode code only uses
   hooksecurefunc + a deferred frame and the highlight is never anchored to Blizzard buttons, so the source is not
@@ -74,6 +82,8 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.220: Flow: the off-GCD pick (Ironfur) shows in the action row beside the low-health heal; that heal
+  (always listed, shown by the game when you're low) used to hide it, so Guardian only ever saw Frenzied Regen.
 - 1.6.0.219: Flow: out of combat a shapeshift / stance / pre-pull-only spell (Bear Form after a spec swap) is
   preparation and doesn't start it.
 - 1.6.0.218: Flow judges a press by when its note reached the line (79 of 89 hits were "Good", none Perfect: a
