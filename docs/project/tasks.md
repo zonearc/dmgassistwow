@@ -25,8 +25,12 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 - Survival: checked on dummies, good (2026-11-12). Windwalker / Brewmaster: good apart from Touch of Death.
 
-- Flow ideas to decide with the user: a time-limited "Flow State" power-up from a hot streak, combos over linked
-  spell clusters (COMBO / ULTRA / ULTIMATE), "COMBO BREAKER" on interrupts.
+- Combos (decided 2026-11-12): a 2-4 spell chain that each spec reliably casts after a major cooldown (mined from
+  long every-spec simulations, SimC lists) becomes a combo; finishing it in Flow pops COMBO with its own flash,
+  separate from streaks. Build: miner -> per-spec data file -> Flow announcement + flash -> translations, tests.
+- Flow ideas still to decide with the user: a time-limited "Flow State" power-up from a hot streak, "COMBO
+  BREAKER" on interrupts; combos in Classic too or Flow only; Display fine-tuning hidden until Custom; Welcome
+  "Small" 0.8 -> 0.9.
 
 - Taint (taint.log from the user, 2026-11-11): both episodes start at 15:52:17 with Edit Mode's layout dropdown
   (Menu.lua Pick -> EditModeManagerFrame:SelectLayout) running "tainted by DMGAssist"; every bar and unit frame's
@@ -85,6 +89,13 @@ Last updated: 1.6.0.157 (2026-11-10).
 - [ ] Single-target dummy fights (boss numbers learned separately from 5-dummy pulls)
 - [ ] Boss mods in a real dungeon or raid (DBM test hook works); interrupts in a dungeon (smart mode)
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
+- [ ] Fixes 1.6.0.220-227 to confirm in game: Black Arrow only at <=20% / >=80% or with Deathblow (BM and
+  Marksmanship, both modes); no double Black Arrow; a new slot 1 always flashes (BM); Marksmanship warns when no
+  ranged weapon is equipped (the "bar disappears" report); Touch of Death not shown when the target can't take
+  it; Frenzied Regeneration only at full charges; Arcane Intellect not guessed while it's up (Fire); no DEFEND
+  row before the pull (DK); Death Coil in Flow only when Runic Power allows (Unholy); Arms / Fury Whirlwind and
+  slot 2 steady without a hero tree; Guardian Moonfire keep-up only when it's on your bar; Flow keybinds all one
+  size; welcome style cards; minimap menu + Edit Mode layout switch with no "tainted by DMGAssist"
 - [ ] 1.6.0.228 settings: Status & Help guide reads well; Display Quick setup (size / place) moves the HUD;
   Spells, trinkets & potion parts are clear; preview has no overlapping text; text is readable
 
