@@ -815,6 +815,8 @@ local function SameSpender(id, other)
 end
 G.SameSpender = SameSpender
 
+G.uncertainNow = {} -- SimC lines uncertain now and not confirmed by the assistant or a glow (see Corroborated)
+
 local function Corroborated(id, token, run, castable)
   -- The game's own button highlight (a proc glow: Earthquake / Earth Shock with enough Maelstrom, a free
   -- spender) says "press this" about exactly the hidden state that made the line uncertain.
@@ -842,6 +844,12 @@ local function Corroborated(id, token, run, castable)
     end
   end
   local rules = run.blizzardByAction[token]
+  -- Looking ahead, Blizzard's rules don't confirm a line that nobody confirmed now: the hidden state that made it
+  -- uncertain (a proc: Lava Surge) is just as hidden later. Elemental showed Lava Burst in slots 2 and 3 nearly
+  -- all the time, and slot 1 never took it (2026-11-12: "only the primary button changes").
+  if rules and not run.first and G.uncertainNow[token] then
+    rules = nil
+  end
   if rules then
     for _, e in ipairs(rules) do
       if Test(e.c, run, token) == true then
@@ -1113,6 +1121,17 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
                 run.visiting[name] = nil
                 return { id = id, token = a, source = "simc+" .. how }
               end
+              -- only a hidden proc (buff.*) stays hidden later; a resource can build by then (Unholy's Runic Power)
+              if run.first and run.acSpell and cond then
+                run.lineUnknown = {}
+                E.Test(cond, run.resolve, run.bounds)
+                for term in pairs(run.lineUnknown) do
+                  if type(term) == "string" and term:find("^buff%.") then
+                    G.uncertainNow[a] = true
+                  end
+                end
+                run.lineUnknown = nil
+              end
               if not run.firstMaybe then
                 run.firstMaybe = { id = id, token = a, source = "guess" }
               end
@@ -1268,6 +1287,7 @@ local function Decide(record, opts, targets, first)
   run.notNow = {}
   if first then
     G.notNow = run.notNow
+    G.uncertainNow = {}
   end
   run.castMemo = {}
   run.resolve = function(name)

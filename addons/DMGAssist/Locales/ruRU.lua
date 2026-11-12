@@ -883,4 +883,5 @@ ns.LOCALE_DATA.ruRU = {
   ["Your potion, your on-use trinkets and every spell, each on or off for this spec."] = "Ваше зелье, аксессуары с эффектом «Использование» и каждое заклинание — вкл. или выкл. для этой специализации.",
   ["Custom"] = "Своё",
   ["Just above the action bars"] = "Прямо над панелями команд",
+  ["Move the HUD"] = "Переместить HUD",
 }

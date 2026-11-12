@@ -100,6 +100,15 @@ function MM.FillMenu(_, root)
   root:CreateCheckbox(L["Lock position"], DbFlag("locked"), function()
     Run("lock")
   end)
+  -- Move: unlocks the HUD to drag (2026-11-12: "no edit mode in the new menu"). Blizzard's Edit Mode is never
+  -- opened from here: an addon opening it taints Edit Mode (it stays in the game menu, Esc > Edit Mode).
+  root:CreateButton(L["Move the HUD"], function()
+    if ns.db then
+      ns.db.locked = false
+      ns.Display.SetLocked(false)
+      U.Print("%s", L["The HUD is unlocked: drag it where you like, then lock it in Settings > DMGAssist."])
+    end
+  end)
   root:CreateCheckbox(L["Sound alerts"], DbFlag("sounds"), function()
     ns.db.sounds = ns.db.sounds == false
   end)

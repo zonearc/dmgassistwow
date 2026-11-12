@@ -883,4 +883,5 @@ ns.LOCALE_DATA.zhCN = {
   ["Your potion, your on-use trinkets and every spell, each on or off for this spec."] = "你的药水、可使用饰品和每个技能，按本专精分别开关。",
   ["Custom"] = "自定义",
   ["Just above the action bars"] = "动作条正上方",
+  ["Move the HUD"] = "移动 HUD",
 }

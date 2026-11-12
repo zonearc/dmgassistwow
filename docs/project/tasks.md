@@ -96,11 +96,15 @@ Last updated: 1.6.0.157 (2026-11-10).
   row before the pull (DK); Death Coil in Flow only when Runic Power allows (Unholy); Arms / Fury Whirlwind and
   slot 2 steady without a hero tree; Guardian Moonfire keep-up only when it's on your bar; Flow keybinds all one
   size; welcome style cards; minimap menu + Edit Mode layout switch with no "tainted by DMGAssist"
-- [ ] 1.6.0.228 settings: Status & Help guide reads well; Display Quick setup (size / place) moves the HUD;
-  Spells, trinkets & potion parts are clear; preview has no overlapping text; text is readable
+- [ ] Elemental (1.6.0.230): slots 2 and 3 change with the fight, Lava Burst only in slot 1 with Lava Surge
 
 ## Done (recent)
 
+- 1.6.0.230: Look-ahead (slots 2-3): a SimC line uncertain now because of a hidden proc (buff.*), and not confirmed
+  by the assistant or a glow, isn't confirmed by Blizzard's rules in later steps either. Elemental showed Lava
+  Burst in slots 2 and 3 almost all the time (needs Lava Surge) while slot 1 never took it: "only the primary
+  button changes". Minimap menu: Move the HUD (unlocks to drag; Edit Mode stays in Esc for taint reasons).
+  User signed off 1.6.0.228 settings, preview, text sizes, Flow and welcome (2026-11-12).
 - 1.6.0.228: Settings. Status & Help is one page with the live status, Report an issue and a full guide (Classic
   vs Flow, every tag, badge, bar and colour, what Flow smooths to stay fun, the grade); the empty Status and Help
   sub-pages are gone. Group pages (DMGAssist, Core, Flow mode & grades) say they hold pages (+ on the left) and

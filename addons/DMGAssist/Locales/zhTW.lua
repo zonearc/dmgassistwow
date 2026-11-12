@@ -883,4 +883,5 @@ ns.LOCALE_DATA.zhTW = {
   ["Your potion, your on-use trinkets and every spell, each on or off for this spec."] = "你的藥水、可使用飾品和每個技能，按本專精分別開關。",
   ["Custom"] = "自訂",
   ["Just above the action bars"] = "快捷列正上方",
+  ["Move the HUD"] = "移動 HUD",
 }

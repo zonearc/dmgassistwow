@@ -883,4 +883,5 @@ ns.LOCALE_DATA.frFR = {
   ["Your potion, your on-use trinkets and every spell, each on or off for this spec."] = "Votre potion, vos bijoux utilisables et chaque sort, activés ou non pour cette spécialisation.",
   ["Custom"] = "Personnalisé",
   ["Just above the action bars"] = "Juste au-dessus des barres d'action",
+  ["Move the HUD"] = "Déplacer le HUD",
 }

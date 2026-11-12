@@ -883,4 +883,5 @@ ns.LOCALE_DATA.deDE = {
   ["Your potion, your on-use trinkets and every spell, each on or off for this spec."] = "Dein Trank, deine Schmuckstücke mit Benutzen-Effekt und jeder Zauber, jeweils ein oder aus für diese Spezialisierung.",
   ["Custom"] = "Benutzerdefiniert",
   ["Just above the action bars"] = "Direkt über den Aktionsleisten",
+  ["Move the HUD"] = "HUD verschieben",
 }

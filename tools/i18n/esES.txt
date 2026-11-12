@@ -879,3 +879,4 @@
 885	Tu poción, tus abalorios de uso y cada hechizo, activados o no para esta especialización.
 886	Personalizado
 887	Justo encima de las barras de acción
+888	Mover el HUD

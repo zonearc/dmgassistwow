@@ -879,3 +879,4 @@
 885	Votre potion, vos bijoux utilisables et chaque sort, activés ou non pour cette spécialisation.
 886	Personnalisé
 887	Juste au-dessus des barres d'action
+888	Déplacer le HUD

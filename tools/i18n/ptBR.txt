@@ -879,3 +879,4 @@
 885	Sua poção, seus berloques de uso e cada feitiço, ligados ou não para esta especialização.
 886	Personalizado
 887	Logo acima das barras de ação
+888	Mover o HUD

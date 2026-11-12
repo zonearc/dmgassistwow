@@ -883,4 +883,5 @@ ns.LOCALE_DATA.itIT = {
   ["Your potion, your on-use trinkets and every spell, each on or off for this spec."] = "La tua pozione, i tuoi monili utilizzabili e ogni incantesimo, attivi o no per questa specializzazione.",
   ["Custom"] = "Personalizzato",
   ["Just above the action bars"] = "Appena sopra le barre delle azioni",
+  ["Move the HUD"] = "Sposta l'HUD",
 }

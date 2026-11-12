@@ -288,6 +288,28 @@ test("confident SimC line wins, even against the assistant", function()
   eq(r.main.source, "simc")
 end)
 
+test("look-ahead: a line hidden behind a proc now isn't confirmed by Blizzard's rules later", function()
+  Reset()
+  local ns = Boot()
+  Restrict()
+  local rec = Record()
+  rec.simcOrder = { "default" }
+  rec.simc.default = {
+    { a = "shred", k = "R", c = "buff.clearcasting.up" }, -- a proc: hidden in combat
+    { a = "thrash", k = "R" },
+  }
+  rec.blizzard = { default = { { a = "shred", k = "R" }, { a = "thrash", k = "R" } } }
+  rec.blizzardExcluded = nil
+  mock.acSpell = 106830 -- the assistant says Thrash: it doesn't see the proc either
+  local r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(r.main.token, "thrash")
+  for i = 2, #r.queue do
+    eq(r.queue[i].token == "shred" and r.queue[i].source == "simc+rules", false,
+      "slot " .. i .. " is not the proc spell on Blizzard's word (Elemental's Lava Burst, 2026-11-12)")
+  end
+  mock.acSpell = nil
+end)
+
 test("major cooldowns are ordinary queue lines; switched off they never show", function()
   Reset()
   local ns = Boot()

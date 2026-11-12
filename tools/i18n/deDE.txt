@@ -879,3 +879,4 @@
 885	Dein Trank, deine Schmuckstücke mit Benutzen-Effekt und jeder Zauber, jeweils ein oder aus für diese Spezialisierung.
 886	Benutzerdefiniert
 887	Direkt über den Aktionsleisten
+888	HUD verschieben

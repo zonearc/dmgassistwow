@@ -883,4 +883,5 @@ ns.LOCALE_DATA.koKR = {
   ["Your potion, your on-use trinkets and every spell, each on or off for this spec."] = "이 전문화의 물약, 사용 효과 장신구, 각 주문을 켜고 끄기.",
   ["Custom"] = "사용자 지정",
   ["Just above the action bars"] = "행동 단축바 바로 위",
+  ["Move the HUD"] = "HUD 이동",
 }

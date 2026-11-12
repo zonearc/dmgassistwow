@@ -879,3 +879,4 @@
 885	La tua pozione, i tuoi monili utilizzabili e ogni incantesimo, attivi o no per questa specializzazione.
 886	Personalizzato
 887	Appena sopra le barre delle azioni
+888	Sposta l'HUD
