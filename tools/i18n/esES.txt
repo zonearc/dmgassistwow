@@ -824,3 +824,58 @@
 830	Tus próximos tres hechizos como iconos. Pulsa el grande.
 831	Los hechizos se deslizan hasta la caja. Pulsa cada uno al llegar y encadena una racha.
 832	Cambia cuando quieras con el interruptor CLASSIC / FLOW bajo el HUD.
+833	%s está en la casilla 1 pero no está en tus barras de acción. Arrástralo desde el libro de hechizos (los hechizos de talentos de héroe están en una página posterior) a una barra y asígnale una tecla, u ocúltalo en la página Hechizos, abalorios y poción.
+834	%s aparece en un icono pequeño (defensivo o fuera del tiempo global) pero no tiene tecla. Ponlo en una barra y asígnale una tecla, u ocúltalo en la página Hechizos, abalorios y poción.
+835	%s. Se sugiere en la insignia de objetos junto a la casilla 1 cuando SimC usa una poción (con tus grandes reutilizaciones). Haz clic en la casilla para cambiarla y clic derecho para quitarla.
+836	Una etiqueta en la esquina del icono dice de dónde sale la elección: ninguna = la lista de prioridades de SimulationCraft, AC = el Combate asistido de Blizzard, B = las reglas escritas de Blizzard, ? = una estimación (también atenuada), ... = esperando recurso, BUFF = un beneficio que renovar antes del pull. Insignias en las esquinas del icono grande: borde rojo = un hechizo para pulsar a la vez, fuera del tiempo global (Pelaje de hierro, Bloqueo con escudo) o un defensivo; borde dorado = un abalorio de uso o tu poción. Un icono con borde rojo junto al HUD: interrumpe ya. Texto rojo sobre el HUD: un aviso de tu addon de jefes.
+837	Tras una serie de pulls, una calificación de S+ a D en ambos modos: pulsar el hechizo mostrado (precisión), no quedarte parado cuando está listo (lanzar siempre), lo rápido que lo pulsas (reacción) y lo pronto que usas grandes reutilizaciones, abalorios y pociones. Nunca habla de daño: eso lo muestra el medidor de daño del juego. Modo Flow y notas > Informe de calificaciones tiene tu mejor nota, tus series recientes y dónde mejorar.
+838	Icono grande (AHORA): púlsalo. Una sombra oscura cuenta atrás hasta que se pueda pulsar y luego destella. Iconos pequeños (SIGUIENTE): lo que viene después. Barra dorada bajo los iconos: tu tiempo global de reutilización. Fila de título: el modo de objetivo y cuántos enemigos se cuentan (AUTO · AOE 3 objetivos). Icono rojo: tu objetivo está fuera del alcance de ese hechizo. Icono grande azul: aún no tienes recurso suficiente. HOLD sobre el icono grande: estás canalizando, déjalo terminar. "5 » 6" debajo: pulsaste 5, el icono grande pedía 6.
+839	Addons de jefes, Masque, addons de barras y sus pruebas.
+840	Clásico: etiquetas e insignias
+841	Clásico: lo que ves
+842	Combate, Visualización, Sonidos, Integraciones, Avanzado, y tus hechizos, abalorios y poción.
+843	Núcleo es un grupo: sus ajustes están en las páginas de dentro. Haz clic en el + junto a Núcleo, a la izquierda, para verlas, o abre una aquí.
+844	Personalizado: el tamaño de los iconos y el espacio entre ellos. Para moverlos, desbloquea en la primera página y arrastra, o usa el modo de edición de Blizzard.
+845	DMGAssist muestra tu rotación de dos formas, y ambas coinciden siempre en el hechizo que pulsar ahora. CLÁSICO: tres iconos; el grande es el hechizo que pulsar y los dos pequeños vienen después. FLOW: los mismos hechizos se deslizan por un carril hasta una casilla, como en un juego de ritmo; pulsa cada uno al llegar para hacer una racha y puntos. Cambia cuando quieras con el interruptor CLÁSICO / FLOW bajo el HUD, /dmga flow o el menú del minimapa.
+846	Abalorios equipados con efecto de uso. Marcado: se muestra en la insignia de objetos junto a la casilla 1 cuando SimC lo usa (con tus grandes reutilizaciones). Sin marcar: nunca se muestra.
+847	Cada abalorio de uso equipado y cada hechizo se pueden desactivar en la página Hechizos, abalorios y poción.
+848	Todo lo demás está en tres grupos, cada uno con páginas dentro: haz clic en el + junto a DMGAssist, a la izquierda, para verlas, o abre uno aquí.
+849	Modo Flow y notas tiene más páginas dentro: haz clic en el + a su lado, a la izquierda, o abre una aquí.
+850	Flow: notas, barras y colores
+851	Flow: lo que ves
+852	Para %s. Lo que DMGAssist puede mostrarte, en tres partes: la poción que sugiere con tus grandes reutilizaciones, tus abalorios de uso y tus hechizos. Se guarda por especialización (abalorios por objeto), entre actualizaciones y cambios de equipo.
+853	Cómo funciona
+854	Más ajustes
+855	Ninguna poción elegida. Haz clic en la casilla y elige una de tus bolsas: DMGAssist la sugerirá en la insignia de objetos junto a la casilla 1 cuando SimC use una poción (con tus grandes reutilizaciones).
+856	Ninguno equipado: aquí solo aparecen abalorios con efecto de uso. Equipa uno y aparecerá.
+857	Abrir
+858	Fuera de combate, un beneficio que falta va a la casilla 1: beneficios de banda, escudos, imbuiciones de arma, venenos, y Escudo de tierra o Señal de la Luz en tu tanque. Cada uno se puede ocultar en la página Hechizos, abalorios y poción.
+859	Páginas internas
+860	Elige un tamaño y una posición: es todo lo que la mayoría necesita. Lo de abajo es ajuste fino opcional; si lo cambias, aquí verás Personalizado.
+861	Posición
+862	Poción
+863	Justo después de que ocurra: /dmga report (o el menú del minimapa, o el botón Informar de un problema arriba en esta página). Paso 1: di qué salió mal. Paso 2: Ctrl+C copia tus palabras y el informe juntos. Paso 3: abre el enlace y pégalo en una nueva incidencia. /dmga help muestra todos los comandos.
+864	Ahora mismo
+865	Tamaño, disposición, fuentes, texto de teclas, insignias y lo que muestra el HUD.
+866	Pequeño, mediano o grande: todo el HUD, iconos y texto. Personalizado: lo fija el control de escala de abajo.
+867	Sonidos para interrupciones, defensivos, avisos de jefe y reutilizaciones.
+868	Hechizos
+869	Los hechizos (notas) se deslizan de derecha a izquierda hasta la casilla de la izquierda. Una nota llega justo cuando se puede pulsar: la casilla destella, púlsala entonces. Perfecto, Genial o Bien indica lo cerca que estuviste. Cada acierto suma a tu racha y puntuación (bajo el carril); cada 10 seguidos sube el multiplicador, hasta x4. Las estrellas y un rango (Bronce a Mítico) crecen con la racha. Una X roja: hechizo equivocado, la racha se rompe. Esperar (moverte, una mecánica, nada que pulsar) nunca la rompe.
+870	Hechizos, abalorios y poción
+871	Hechizos, abalorios y poción: desmarca un hechizo o abalorio para no verlo nunca, o marca Primero cuando esté listo para poner un hechizo en la casilla 1 siempre que se pueda lanzar. Se guarda por especialización, también entre actualizaciones.
+872	La nota en la casilla es siempre exactamente el hechizo que muestra Clásico: eso nunca cambia. Para que el carril se lea bien, Flow suaviza lo que viene después: las notas de detrás solo cambian si una nueva elección se mantiene un tercio de segundo, un hechizo que la rotación sigue posponiendo se oculta tras pasarlo por alto tres veces, las notas nunca retroceden (se paran y siguen), solo hay una nota en la casilla y el carril se pausa si no hay nada que pulsar durante 6 segundos. Así el carril es más tranquilo que los iconos pequeños de Clásico, pero nunca menos acertado en lo que pulsar ahora. Puntuación, rachas y estrellas son por diversión y para aprender el ritmo: nunca cambian lo recomendado. El desfase de sincronización de Flow (Modo Flow y notas) mueve el destello según tu latencia.
+873	El modo de juego de ritmo, su sincronización y la calificación de rendimiento.
+874	Marcado: puede mostrarse. Sin marcar: nunca se muestra (el siguiente hechizo ocupa su lugar). Primero cuando esté listo: en la casilla 1 siempre que se pueda lanzar (solo interrupciones, defensivos y acercamientos van antes).
+875	Sincronización, depuración y los interruptores que rara vez se usan.
+876	Activa o desactiva DMGAssist, muévelo y elige su idioma. Más ajustes al final de esta página.
+877	Dos formas de jugar
+878	Lo que DMGAssist ve ahora mismo, una guía de Clásico y Flow, qué significa cada etiqueta, insignia y color, y Informar de un problema.
+879	Lo que Flow ajusta para ser divertido
+880	Qué recomendar, objetivo único o área, interrupciones, defensivos, abalorios, recordatorios de beneficios y subida de nivel.
+881	Cuándo aparece la calificación, qué mide y dónde está.
+882	Dónde está el HUD. Personalizado: donde lo arrastraste (desbloquea en la primera página) o lo pusiste en el modo de edición.
+883	Barra amarilla tras una nota: un lanzamiento, tan larga como dura. Barra azul: una canalización. Nota naranja en llamas: una gran reutilización, vale el doble. Nota desvaída: una estimación o esperando recurso; no cuenta como fallo. El carril se vuelve azul eléctrico (¡MODO PODER!): Ansia de sangre o justo tras una gran reutilización; cada acierto vale el doble. La fila sobre el carril tiene bonificaciones que coger cuando hacen falta: ¡INTERRUMPE!, ¡DEFIÉNDETE! (un defensivo o curación) y ¡POTENCIA! (un abalorio o poción). Tras una serie de pulls (20 segundos fuera de combate), aparece tu calificación de rendimiento.
+884	Tu mejor calificación, tus series recientes y dónde mejorar, para esta especialización.
+885	Tu poción, tus abalorios de uso y cada hechizo, activados o no para esta especialización.
+886	Personalizado
+887	Justo encima de las barras de acción

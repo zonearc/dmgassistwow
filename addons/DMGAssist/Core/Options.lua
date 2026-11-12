@@ -135,6 +135,17 @@ local function Choice(category, tbl, key, name, default, choices, tooltip)
   return setting
 end
 
+-- A button that opens another page (every group page lists its pages, 2026-11-12: "if they are just menu titles,
+-- make it clear you need to go under each one with the + sign")
+local function GoTo(category, label, target, tooltip)
+  Button(category, label, "Open", function()
+    local c = type(target) == "function" and target() or target
+    if c and Settings.OpenToCategory and not (O.Busy and O.Busy()) then
+      Settings.OpenToCategory(c:GetID())
+    end
+  end, tooltip)
+end
+
 local function Category(name, parent)
   local category, layout
   if parent then
@@ -244,14 +255,13 @@ function O.Register()
 
   -- Pages (decided 2026-11-11): DMGAssist (the essentials), then three groups -
   --   Status & Help: Status, Help, Missing keybinds;
-  --   Core: Combat, Display, Sounds, Integrations, Spells & trinkets, Advanced;
+  --   Core: Combat, Display, Sounds, Integrations, Spells, trinkets & potion, Advanced;
   --   Game mode & grades: the Game mode switch and its timing, Performance grade (and its report).
 
   ---------------------------------------------------------------- main page
   local main = Category("DMGAssist")
-  Header(main, "Getting started", "Turn DMGAssist on or off, move it, and pick its language. Everything else is in "
-    .. "three groups below: Status & Help, Core (Combat, Display, Sounds, Integrations, Advanced) and Flow mode & "
-    .. "grades.")
+  Header(main, "Getting started", "Turn DMGAssist on or off, move it, and pick its language. More settings are "
+    .. "at the bottom of this page.")
   Check(main, DB, "enabled", "Show recommendations", true,
     "Show the spells to press. Off hides the icons completely (the key binding and /dmga on | off do the same).")
   Check(main, DB, "minimap", "Minimap button", true,
@@ -300,22 +310,30 @@ function O.Register()
   Button(main, "Defaults", "Reset everything to defaults", O.ResetAll,
     "Every setting on every DMGAssist page, in the profile in use.")
   O.RegisterProfiles(main)
+  Header(main, "More settings", "Everything else is in three groups, each with pages inside: click the + beside "
+    .. "DMGAssist on the left to see them, or open one here.")
+  GoTo(main, "Status & Help", function()
+    return O.groups and O.groups.help
+  end, "What DMGAssist sees right now, a guide to Classic and Flow, what every tag, badge and colour means, and "
+    .. "Report an issue.")
+  GoTo(main, "Core", function()
+    return O.groups and O.groups.core
+  end, "Combat, Display, Sounds, Integrations, Advanced, and your spells, trinkets and potion.")
+  GoTo(main, "Flow mode & grades", function()
+    return O.groups and O.groups.game
+  end, "The rhythm-game mode, its timing, and the performance grade.")
 
   ---------------------------------------------------------------- Status & Help
-  local help = Category("Status & Help", main)
-  Header(help, "Status & Help", "What DMGAssist sees right now (Status), how to use it (Help), and spells it may "
-    .. "recommend that have no key yet (Missing keybinds): the pages below.")
-  Button(help, "Report", "Report an issue", function()
-    if SlashCmdList.DMGASSIST then
-      SlashCmdList.DMGASSIST("report")
-    end
-  end, "Describe what went wrong, copy the report, and open the issue page (also /dmga report).")
-  O.RegisterStatus(help)
+  -- One page with the live status, the report button and the whole guide (2026-11-12: "whats the point of a status
+  -- window and help window if there's no statuses shown and no help shown?" - they were sub-pages nobody opened).
+  local help = O.RegisterGuide(main)
+  O.groups = { help = help }
 
   ---------------------------------------------------------------- Core
   local core = Category("Core", main)
-  Header(core, "Core settings", "How DMGAssist thinks and looks: Combat, Display, Sounds, Integrations, Spells & "
-    .. "trinkets and Advanced, on the pages below.")
+  O.groups.core = core
+  Header(core, "Core settings", "Core is a group: its settings are on the pages inside it. Click the + beside "
+    .. "Core on the left to see them, or open one here.")
 
   ---------------------------------------------------------------- combat: how it thinks and what it shows
   local combat = Category("Combat", core)
@@ -361,16 +379,16 @@ function O.Register()
       .. "it on a keyed button), and when you have unspent talent points after a level-up.")
   Check(combat, DB, "buffReminders", "Buff reminders", true,
     "Out of combat, a missing buff goes in slot 1: raid buffs, shields, weapon imbues, poisons, and Earth Shield "
-      .. "or Beacon of Light on your tank. Each can be hidden on the Spells & trinkets page.")
+      .. "or Beacon of Light on your tank. Each can be hidden on the Spells, trinkets & potion page.")
   Header(combat, "On-use trinkets", "Trinkets you activate yourself. A ready one appears in the gold-edged items "
     .. "icon on slot 1 (bottom-left by default); press it alongside slot 1.")
   Check(combat, DB, "trinkets", "On-use trinkets", true,
     "Show your on-use trinkets when they are ready, in combat, at the moments SimC uses them (with your cooldowns).")
-  Button(combat, "Each trinket", "Spells & trinkets", function()
+  Button(combat, "Each trinket", "Spells, trinkets & potion", function()
     if O.trinketCategory and Settings.OpenToCategory and not O.Busy() then
       Settings.OpenToCategory(O.trinketCategory:GetID())
     end
-  end, "Every equipped on-use trinket and every spell can be switched off on the Spells & trinkets page.")
+  end, "Every equipped on-use trinket and every spell can be switched off on the Spells, trinkets & potion page.")
   Header(combat, "Single target or AoE", "How DMGAssist decides between the single-target and the multi-target "
     .. "rotation.")
   Check(combat, DB, "autoDetect", "Auto-detect targets", true,
@@ -466,8 +484,77 @@ function O.Register()
 
   ---------------------------------------------------------------- display: visuals only
   local display = Category("Display", core)
-  Header(display, "Size and spacing", "How big the icons are and the space between them. To move them, unlock on "
-    .. "the first page and drag, or use Blizzard's Edit Mode.")
+  -- Quick picks first (2026-11-12: "a quick option to flip between small, medium and large sizing, side, bottom
+  -- placement ... so they dont ever have to do it manually"); everything below is the custom fine-tuning.
+  Header(display, "Quick setup", "Pick a size and a place: that's all most players need. Everything below is "
+    .. "optional fine-tuning; changing it shows Custom here.")
+  local SIZES = { small = 0.8, medium = 1.0, large = 1.3 }
+  local PLACES = { right = function()
+    return ns.Welcome.RIGHT
+  end, below = function()
+    return ns.Welcome.BELOW
+  end, bars = function()
+    return ns.Welcome.AboveBars()
+  end }
+  local function SamePoint(a, b)
+    if type(a) ~= "table" or type(b) ~= "table" then
+      return false
+    end
+    for i = 1, 4 do
+      if a[i] ~= b[i] then
+        return false
+      end
+    end
+    return true
+  end
+  local quick = setmetatable({}, {
+    __index = function(_, k)
+      if k == "sizePreset" then
+        local sc = tonumber(HUD().scale) or 1
+        for name, v in pairs(SIZES) do
+          if math.abs(sc - v) < 0.001 then
+            return name
+          end
+        end
+        return "custom"
+      elseif k == "placePreset" then
+        for name, at in pairs(PLACES) do
+          if SamePoint(ns.db and ns.db.point, at()) then
+            return name
+          end
+        end
+        return "custom"
+      end
+    end,
+    __newindex = function(_, k, v)
+      if k == "sizePreset" and SIZES[v] then
+        HUD().scale = SIZES[v]
+        if O.settings.scale and O.settings.scale.NotifyUpdate then
+          pcall(O.settings.scale.NotifyUpdate, O.settings.scale)
+        end
+      elseif k == "placePreset" and PLACES[v] then
+        local at = PLACES[v]()
+        local point = { at[1], at[2], at[3], at[4] }
+        if ns.Display.InPreview() then
+          ns.db.point = point -- the preview stays docked; the HUD goes there when the settings close
+        else
+          ns.Welcome.Place(point)
+        end
+      end
+    end,
+  })
+  local function Quick()
+    return quick
+  end
+  Choice(display, Quick, "sizePreset", "Size", "medium", { { "small", "Small" }, { "medium", "Medium" },
+    { "large", "Large" }, { "custom", "Custom" } },
+    "Small, medium or large: the whole HUD, icons and text. Custom: set by the Scale slider below.")
+  Choice(display, Quick, "placePreset", "Place", "custom", { { "right", "To the right of my character" },
+    { "below", "Right below my character's feet" }, { "bars", "Just above the action bars" },
+    { "custom", "Custom" } },
+    "Where the HUD sits. Custom: wherever you dragged it (unlock on the first page) or put it in Edit Mode.")
+  Header(display, "Size and spacing", "Custom: how big the icons are and the space between them. To move them, "
+    .. "unlock on the first page and drag, or use Blizzard's Edit Mode.")
   Slider(display, HUD, "scale", "Scale", H.scale, 0.5, 2, 0.05, "The size of everything at once, icons and text.")
   Slider(display, HUD, "iconSize", "Main icon size", H.iconSize, 24, 96, 1, "The size of slot 1, the spell to press now.")
   Slider(display, HUD, "nextSize", "Next icon size", H.nextSize, 16, 80, 1, "The size of slots 2 and 3, what comes next.")
@@ -657,10 +744,24 @@ function O.Register()
       SlashCmdList.DMGASSIST("snapshot")
     end
   end, "Saves every line the engine checked into the Watchdog log (same as /dmga snapshot).")
-  O.RegisterSpellChoices(core)
+  local choices = O.RegisterSpellChoices(core)
+  -- Core's own page: a button per page inside it
+  for _, page in ipairs({
+    { "Combat", combat, "What to recommend, single target or AoE, interrupts, defensives, trinkets, buff reminders "
+      .. "and leveling." },
+    { "Display", display, "Size, layout, fonts, keybind text, badges and what the HUD shows." },
+    { "Sounds", sounds, "Sounds for interrupts, defensives, boss calls and cooldowns." },
+    { "Integrations", integrations, "Boss mods, Masque, bar addons and the tests for them." },
+    { "Advanced", advanced, "Timing, debugging and the rarely needed switches." },
+    { "Spells, trinkets & potion", choices, "Your potion, your on-use trinkets and every spell, each on or off "
+      .. "for this spec." },
+  }) do
+    GoTo(core, page[1], page[2], page[3])
+  end
 
   ---------------------------------------------------------------- Game mode & grades: everything that makes it a game
   local game = Category("Flow mode & grades", main)
+  O.groups.game = game
   Header(game, "Flow mode", "Play the HUD like a rhythm game, or keep the classic icons. Switch any time with the "
     .. "CLASSIC / FLOW switch under the HUD, /dmga flow, or a key binding.")
   Check(game, DB, "gameMode", "Flow mode", false,
@@ -730,10 +831,13 @@ function O.Register()
     ns.Grade.Reset(ns.Grade.SpecKey())
     U.Print(L["Grades for this spec forgotten."])
   end, "Clears the best grade and history of the spec you are in. Other specs keep theirs.")
-  O.RegisterGradeReport(grade)
+  local report = O.RegisterGradeReport(grade)
+  Header(game, "Pages inside", "Flow mode & grades has more pages inside it: click the + beside it on the left, "
+    .. "or open one here.")
+  GoTo(game, "Performance grade", grade, "When the grade shows, what it measures, and its place.")
+  GoTo(game, "Grade report", report, "Your best grade, recent sets and where to improve, for this spec.")
 
-  O.RegisterBindcheck(help)
-  O.RegisterHelp(help)
+  O.missingCategory = O.RegisterBindcheck(help)
 
   Settings.RegisterAddOnCategory(main)
   O.category = main
@@ -766,75 +870,101 @@ local function CopyBox(parent, text, width)
   return box
 end
 
-function O.RegisterStatus(parent)
+function O.RegisterGuide(parent)
   local frame = CreateFrame("Frame")
   frame:SetSize(600, 560)
   local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
   title:SetPoint("TOPLEFT", 16, -16)
-  title:SetText(L["Status"])
-  local body = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-  body:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -12)
-  body:SetWidth(560)
-  body:SetJustifyH("LEFT")
-  body:SetSpacing(4)
-
-  local help = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-  help:SetPoint("TOPLEFT", body, "BOTTOMLEFT", 0, -18)
-  help:SetText(L["Help and updates"])
-  local rows = {
-    { "Download (CurseForge)", ns.LINKS.curseforge },
-    { "Report a problem", ns.LINKS.issues },
-  }
-  local anchor = help
-  for _, row in ipairs(rows) do
-    local label = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-    label:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -10)
-    label:SetWidth(130)
-    label:SetJustifyH("LEFT")
-    label:SetText(L[row[1]])
-    local box = CopyBox(frame, row[2], 400)
-    box:SetPoint("LEFT", label, "RIGHT", 8, 0)
-    anchor = label
-  end
-  local how = frame:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-  how:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -12)
-  how:SetWidth(560)
-  how:SetJustifyH("LEFT")
-  how:SetText(L["To report a problem or give feedback: press Report an issue (or type /dmga report). It walks "
-    .. "you through it: say what went wrong, copy the report, paste it on the issue page."])
-
+  title:SetText(L["Status & Help"])
   local report = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
-  report:SetSize(220, 24)
-  report:SetPoint("TOPLEFT", how, "BOTTOMLEFT", 0, -12)
+  report:SetSize(180, 22)
+  report:SetPoint("LEFT", title, "RIGHT", 24, 0)
   report:SetText(L["Report an issue"])
   report:SetScript("OnClick", function()
     ns.OpenReport()
   end)
-
-  local reset = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
-  reset:SetSize(220, 24)
-  reset:SetPoint("TOPLEFT", report, "BOTTOMLEFT", 0, -10)
-  reset:SetText(L["Reset everything to defaults"])
-  reset:SetScript("OnClick", function()
-    O.ResetAll()
-    frame:GetScript("OnShow")(frame)
+  -- the page inside this one
+  local missing = CreateFrame("Button", nil, frame, "UIPanelButtonTemplate")
+  missing:SetSize(180, 22)
+  missing:SetPoint("LEFT", report, "RIGHT", 8, 0)
+  missing:SetText(L["Missing keybinds"])
+  missing:SetScript("OnClick", function()
+    if O.missingCategory and Settings.OpenToCategory and not O.Busy() then
+      Settings.OpenToCategory(O.missingCategory:GetID())
+    end
   end)
-
-  -- the author
-  local author = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-  author:SetPoint("TOPLEFT", reset, "BOTTOMLEFT", 0, -22)
-  author:SetWidth(560)
-  author:SetJustifyH("LEFT")
+  local scroll = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
+  scroll:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -12)
+  scroll:SetSize(560, 490)
+  local content = CreateFrame("Frame", nil, scroll)
+  content:SetSize(540, 10)
+  scroll:SetScrollChild(content)
+  local parts = {}
+  local function Text(template, width)
+    local fs = content:CreateFontString(nil, "ARTWORK", template)
+    fs:SetJustifyH("LEFT")
+    if width then
+      fs:SetWidth(width)
+    end
+    parts[#parts + 1] = fs
+    return fs
+  end
+  -- Right now: what DMGAssist sees (ns.StatusLines), refreshed whenever the page is shown
+  local statusHead = Text("GameFontNormalLarge")
+  statusHead:SetPoint("TOPLEFT", 0, 0)
+  statusHead:SetText(L["Right now"])
+  local body = Text("GameFontHighlight", 530)
+  body:SetPoint("TOPLEFT", statusHead, "BOTTOMLEFT", 0, -8)
+  body:SetSpacing(3)
+  -- the guide
+  local guideHead = Text("GameFontNormalLarge")
+  guideHead:SetPoint("TOPLEFT", body, "BOTTOMLEFT", 0, -20)
+  guideHead:SetText(L["How it works"])
+  local anchor = guideHead
+  for _, entry in ipairs(O.HELP) do
+    local head = Text("GameFontNormal")
+    head:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -14)
+    head:SetText(L[entry[1]])
+    local text = Text("GameFontHighlight", 530)
+    text:SetPoint("TOPLEFT", head, "BOTTOMLEFT", 0, -4)
+    text:SetSpacing(2)
+    text:SetText(L[entry[2]])
+    anchor = text
+  end
+  -- links (the game can't open web pages: read-only boxes to copy) and the author
+  local linksHead = Text("GameFontNormalLarge")
+  linksHead:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -20)
+  linksHead:SetText(L["Help and updates"])
+  anchor = linksHead
+  for _, row in ipairs({ { "Download (CurseForge)", ns.LINKS.curseforge }, { "Report a problem", ns.LINKS.issues } }) do
+    local label = Text("GameFontHighlightSmall", 130)
+    label:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -12)
+    label:SetText(L[row[1]])
+    local box = CopyBox(content, row[2], 380)
+    box:SetPoint("LEFT", label, "RIGHT", 8, 0)
+    anchor = label
+  end
+  local author = Text("GameFontNormal", 530)
+  author:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 0, -18)
   author:SetText(string.format(L["Written and maintained by %s"], ns.AUTHOR))
 
+  local function Fit()
+    local h = 0
+    for _, fs in ipairs(parts) do
+      local sh = U.Get(fs.GetStringHeight, fs)
+      h = h + (type(sh) == "number" and sh > 0 and sh or 14) + 14
+    end
+    content:SetHeight(h + 60)
+  end
   frame:SetScript("OnShow", function()
     local lines = {}
     for _, kv in ipairs(ns.StatusLines and ns.StatusLines() or {}) do
       lines[#lines + 1] = "|cffffd100" .. kv[1] .. ":|r  " .. kv[2]
     end
     body:SetText(table.concat(lines, "\n"))
+    Fit()
   end)
-  local category = Settings.RegisterCanvasLayoutSubcategory(parent, frame, L["Status"])
+  local category = Settings.RegisterCanvasLayoutSubcategory(parent, frame, L["Status & Help"])
   O.statusFrame, O.statusBody = frame, body
   return category
 end
@@ -892,7 +1022,7 @@ function O.RegisterGradeReport(parent)
 end
 
 ---------------------------------------------------------------------------
--- Spells & trinkets page: for the spec you are in, every spell DMGAssist can show (from its priority lists, plus
+-- Spells, trinkets & potion page: for the spec you are in, every spell DMGAssist can show (from its priority lists, plus
 -- the interrupt, defensives, gap closer and keep-ups) and every equipped on-use trinket, each with a checkbox.
 -- Unchecked = never shown (the next spell takes its place; no other priority changes). Spells are remembered per
 -- spec, trinkets per item, in the profile: list updates and gear swaps keep the choices. Rebuilt whenever the page
@@ -903,7 +1033,7 @@ function O.RegisterSpellChoices(parent)
   frame:SetSize(600, 560)
   local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
   title:SetPoint("TOPLEFT", 16, -16)
-  title:SetText(L["Spells & trinkets"])
+  title:SetText(L["Spells, trinkets & potion"])
   -- The whole spec on or off (an alt's healing spec played without DMGAssist).
   local specOn = CreateFrame("CheckButton", nil, frame, "UICheckButtonTemplate")
   specOn:SetSize(24, 24)
@@ -921,9 +1051,14 @@ function O.RegisterSpellChoices(parent)
   intro:SetJustifyH("LEFT")
   -- Potion for this spec: click to choose from the potions in your bags (the settings panel covers the bags, so
   -- dragging can't work), right-click to clear. Dropping one on the box still works if the bags are reachable.
+  -- Three parts, each with its own heading (2026-11-12: "separate these out so people know how to use the potion
+  -- system ... I dont even see where to manage my trinkets"): Potion, Trinkets, Spells.
+  local potionHead = frame:CreateFontString(nil, "ARTWORK", "GameFontNormal")
+  potionHead:SetPoint("TOPLEFT", intro, "BOTTOMLEFT", 0, -12)
+  potionHead:SetText(L["Potion"])
   local potion = CreateFrame("Button", nil, frame)
   potion:SetSize(32, 32)
-  potion:SetPoint("TOPLEFT", intro, "BOTTOMLEFT", 0, -10)
+  potion:SetPoint("TOPLEFT", potionHead, "BOTTOMLEFT", 0, -6)
   potion.bg = potion:CreateTexture(nil, "BACKGROUND")
   potion.bg:SetAllPoints()
   potion.bg:SetColorTexture(1, 0.78, 0.2, 0.35)
@@ -940,12 +1075,13 @@ function O.RegisterSpellChoices(parent)
     if item then
       local name = (C_Item and C_Item.GetItemNameByID and U.Get(C_Item.GetItemNameByID, item)) or ("item " .. item)
       potion.icon:SetTexture((C_Item and C_Item.GetItemIconByID and U.Get(C_Item.GetItemIconByID, item)) or 134400)
-      potion.label:SetText(string.format(L["Potion: %s. Shown in the items icon when SimC uses a potion "
-        .. "(with your big cooldowns). Click the box to change it, right-click to remove it."], tostring(name)))
+      potion.label:SetText(string.format(L["%s. Suggested in the items badge beside slot 1 when SimC drinks a "
+        .. "potion (with your big cooldowns). Click the box to change it, right-click to remove it."],
+        tostring(name)))
     else
       potion.icon:SetTexture(nil)
-      potion.label:SetText(L["Potion: click this box and pick one of the potions in your bags to add it to your "
-        .. "rotation (this spec only). It shows in the items icon when SimC uses a potion."])
+      potion.label:SetText(L["No potion chosen. Click the box and pick one from your bags: DMGAssist then "
+        .. "suggests it in the items badge beside slot 1 when SimC drinks a potion (with your big cooldowns)."])
     end
   end
   local function ChoosePotion(owner)
@@ -989,11 +1125,31 @@ function O.RegisterSpellChoices(parent)
     end
   end)
   local scroll = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
-  scroll:SetPoint("TOPLEFT", potion, "BOTTOMLEFT", 0, -10)
-  scroll:SetSize(540, 400)
+  scroll:SetPoint("TOPLEFT", potion, "BOTTOMLEFT", 0, -12)
+  scroll:SetSize(540, 360)
   local content = CreateFrame("Frame", nil, scroll)
   content:SetSize(520, 10)
   scroll:SetScrollChild(content)
+  -- section headings inside the list: "Trinkets" and "Spells", each with a line saying what its boxes do
+  local heads = {}
+  local function Head(i, y, text, sub)
+    local h = heads[i]
+    if not h then
+      h = { title = content:CreateFontString(nil, "ARTWORK", "GameFontNormal"),
+        sub = content:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall") }
+      h.sub:SetWidth(510)
+      h.sub:SetJustifyH("LEFT")
+      heads[i] = h
+    end
+    h.title:ClearAllPoints()
+    h.title:SetPoint("TOPLEFT", 0, -y)
+    h.title:SetText(text)
+    h.sub:ClearAllPoints()
+    h.sub:SetPoint("TOPLEFT", h.title, "BOTTOMLEFT", 0, -3)
+    h.sub:SetText(sub)
+    return y + 36
+  end
+  O.choiceHeads = heads
   local rows = {}
   local function Row(i)
     local row = rows[i]
@@ -1037,17 +1193,15 @@ function O.RegisterSpellChoices(parent)
       end)
       rows[i] = row
     end
-    row:ClearAllPoints()
-    row:SetPoint("TOPLEFT", 0, -(i - 1) * 28)
     return row
   end
   local function Refresh()
     local state = ns.Specs.current
     specOn:SetChecked(not ns.Choices.SpecOff())
     ShowPotion()
-    local entries = {}
+    local trinkets = {}
     for _, info in ipairs(ns.Trinkets.List()) do
-      entries[#entries + 1] = { item = info.item, name = tostring(info.name), texture = info.texture,
+      trinkets[#trinkets + 1] = { item = info.item, name = tostring(info.name), texture = info.texture,
         on = not ns.Trinkets.IsOff(info.item),
         note = info.slot == 13 and L["trinket, top slot"] or L["trinket, bottom slot"] }
     end
@@ -1060,18 +1214,42 @@ function O.RegisterSpellChoices(parent)
     table.sort(spells, function(a, b)
       return a.name < b.name
     end)
+    local specName = state and state.key and state.key:gsub("_", " ") or "?"
+    intro:SetText(string.format(L["For %s. What DMGAssist may show you, in three parts: the potion it suggests "
+      .. "with your big cooldowns, your on-use trinkets, and your spells. Kept per spec (trinkets per item), "
+      .. "through updates and gear swaps."], specName))
+    local y, n = 0, 0
+    local trinketSub = L["Equipped trinkets you can use. Ticked: shown in the items badge beside slot 1 when "
+      .. "SimC uses it (with your big cooldowns). Unticked: never shown."]
+    if #trinkets == 0 then
+      trinketSub = L["None equipped: only trinkets with a Use: effect are listed here. Equip one and it shows up."]
+    end
+    if ns.db and ns.db.trinkets == false then
+      trinketSub = L["On-use trinkets are switched off (Combat > Trinkets)."]
+    end
+    y = Head(1, y, L["Trinkets"], trinketSub)
+    local function Place(e)
+      n = n + 1
+      local row = Row(n)
+      row:ClearAllPoints()
+      row:SetPoint("TOPLEFT", 0, -y)
+      y = y + 28
+      return row, e
+    end
+    local entries = {}
+    for _, e in ipairs(trinkets) do
+      entries[#entries + 1] = e
+    end
     for _, e in ipairs(spells) do
       entries[#entries + 1] = e
     end
-    local specName = state and state.key and state.key:gsub("_", " ") or "?"
-    intro:SetText(string.format(L["For %s. Unchecked: never shown (the next spell takes its place). First when "
-      .. "ready: in slot 1 whenever it can be cast (only interrupts, defensives and gap closers come before it). "
-      .. "Spells are remembered per spec and trinkets per item, so updates and gear swaps keep your choices."],
-      specName)
-      .. (ns.db and ns.db.trinkets == false and ("\n" .. L["On-use trinkets are switched off (Combat > Trinkets)."])
-        or ""))
-    for i, e in ipairs(entries) do
-      local row = Row(i)
+    for i, e0 in ipairs(entries) do
+      if i == #trinkets + 1 then
+        y = Head(2, y + 10, L["Spells"], L["Ticked: may be shown. Unticked: never shown (the next spell takes its "
+          .. "place). First when ready: in slot 1 whenever it can be cast (only interrupts, defensives and gap "
+          .. "closers come before it)."])
+      end
+      local row, e = Place(e0)
       row.item, row.spell = e.item, e.spell
       row:SetChecked(e.on)
       row.first:SetShown(e.spell ~= nil)
@@ -1080,10 +1258,15 @@ function O.RegisterSpellChoices(parent)
       row.label:SetText(e.note and string.format("%s |cff999999(%s)|r", e.name, e.note) or e.name)
       row:Show()
     end
-    for i = #entries + 1, #rows do
+    if #spells == 0 then
+      y = Head(2, y + 10, L["Spells"], L["Ticked: may be shown. Unticked: never shown (the next spell takes its "
+        .. "place). First when ready: in slot 1 whenever it can be cast (only interrupts, defensives and gap "
+        .. "closers come before it)."])
+    end
+    for i = n + 1, #rows do
       rows[i]:Hide()
     end
-    content:SetHeight(math.max(10, #entries * 28))
+    content:SetHeight(math.max(10, y))
   end
   frame:SetScript("OnShow", Refresh)
   for _, event in ipairs({ "PLAYER_EQUIPMENT_CHANGED", "PLAYER_SPECIALIZATION_CHANGED", "TRAIT_CONFIG_UPDATED",
@@ -1099,7 +1282,7 @@ function O.RegisterSpellChoices(parent)
       end)
     end
   end)
-  local category = Settings.RegisterCanvasLayoutSubcategory(parent, frame, L["Spells & trinkets"])
+  local category = Settings.RegisterCanvasLayoutSubcategory(parent, frame, L["Spells, trinkets & potion"])
   O.trinketCategory, O.choicesFrame = category, frame
   return category
 end
@@ -1108,11 +1291,51 @@ end
 -- Help page: the few things worth knowing, in plain words.
 ---------------------------------------------------------------------------
 O.HELP = {
-  { "The icons",
-    "NOW is the spell to press next; the two NEXT icons follow. A small label on an icon says where a pick came "
-      .. "from: none = SimC's priority list, AC = Blizzard's Assisted Combat, B = Blizzard's written rules, "
-      .. "? = a best guess (dimmed), ... = waiting for a resource. The small badge on slot 1's corner is an off-GCD "
-      .. "spell (Ironfur, trinkets) to press alongside." },
+  { "Two ways to play",
+    "DMGAssist shows your rotation in two ways, and both always agree on the spell to press now. CLASSIC: three "
+      .. "icons; the big one is the spell to press, the two small ones come after it. FLOW: the same spells slide "
+      .. "along a lane into a box like a rhythm game; press each one as it lands to build a streak and a score. "
+      .. "Switch any time with the CLASSIC / FLOW switch under the HUD, /dmga flow, or the minimap menu." },
+  { "Classic: what you see",
+    "Big icon (NOW): press it. A dark shade over it counts down until it can be pressed, then it flashes. Small "
+      .. "icons (NEXT): what comes after it. Gold bar under the icons: your global cooldown. Title row: the target "
+      .. "mode and how many enemies are counted (AUTO · AOE 3 targets). Red icon: your target is out of that "
+      .. "spell's range. Blue big icon: not enough resource yet. HOLD over the big icon: you are channeling, let it "
+      .. "finish. \"5 » 6\" under it: you pressed 5, the big icon wanted 6." },
+  { "Classic: tags and badges",
+    "A tag in an icon's corner says where the pick came from: none = SimulationCraft's priority list, AC = "
+      .. "Blizzard's Assisted Combat, B = Blizzard's written rules, ? = a best guess (also dimmed), ... = waiting "
+      .. "for resource, BUFF = a buff to put back up before the pull. Badges at the big icon's corners: red edge = "
+      .. "a spell to press alongside it, off the global cooldown (Ironfur, Shield Block) or a defensive; gold edge "
+      .. "= an on-use trinket or your potion. A red-edged icon beside the HUD: interrupt now. Red text above the "
+      .. "HUD: a warning from your boss mod." },
+  { "Flow: what you see",
+    "Spells (notes) slide from right to left into the box on the left. A note reaches the box exactly when it "
+      .. "can be pressed: the box flashes, press it then. Perfect, Great or Good says how close you were. Every hit "
+      .. "adds to your streak and score (under the lane); every 10 in a row raises the multiplier, up to x4. Stars "
+      .. "and a rank (Bronze to Mythic) grow with the streak. A red X: wrong spell, the streak breaks. Waiting "
+      .. "(moving, a mechanic, nothing to press) never breaks it." },
+  { "Flow: notes, bars and colours",
+    "Yellow bar behind a note: a cast, as long as the cast. Blue bar: a channel. Orange, burning note: a major "
+      .. "cooldown, worth double. Faded note: a guess or waiting for resource; it doesn't count as a miss. Lane "
+      .. "turns electric blue (POWER MODE!): Bloodlust or right after a major cooldown; every hit scores double. "
+      .. "The row above the lane holds bonuses to grab when they're needed: INTERRUPT!, DEFEND! (a defensive or "
+      .. "heal) and POWER UP! (a trinket or potion). After a set of pulls (20 seconds out of combat), your "
+      .. "performance grade shows." },
+  { "What Flow changes to stay fun",
+    "The note in the box is always exactly the spell Classic shows: that is never changed. To keep the lane "
+      .. "readable, Flow smooths what comes after it: the notes behind only swap when a new pick holds for a third "
+      .. "of a second, a spell the rotation keeps putting off is hidden after being passed over three times, notes "
+      .. "never slide backwards (they pause and flow on), only one note stands in the box, and the lane pauses "
+      .. "when there's nothing to press for 6 seconds. So the lane is calmer than Classic's small icons, never less "
+      .. "right about what to press now. Score, streaks and stars are for fun and for learning the rhythm: they "
+      .. "never change what is recommended. Flow timing offset (Flow mode & grades) moves the flash for your "
+      .. "latency." },
+  { "Performance grade",
+    "After a set of pulls, a grade from S+ to D in both modes: pressing the spell shown (accuracy), never sitting "
+      .. "idle while it's ready (always be casting), how quickly you press it (reaction) and how soon you use big "
+      .. "cooldowns, trinkets and potions. It never claims damage: the game's damage meter shows that. Flow mode & "
+      .. "grades > Grade report has your best, your recent sets and where to improve." },
   { "Where the rotation comes from",
     "Each spec follows SimulationCraft's priority list, the same lists theorycrafters use. The game hides a lot "
       .. "in combat (procs, exact resources); Blizzard's Assisted Combat and the glow on your buttons fill those "
@@ -1135,7 +1358,7 @@ O.HELP = {
     "Skip the spell in slot 1 three times and it is held for the rest of the fight (\"saving it\"). Cast it "
       .. "yourself and it comes back. Only spells with a real cooldown are held." },
   { "Your choices",
-    "Spells & trinkets: untick a spell or trinket to never see it, or tick First when ready to put a spell in "
+    "Spells, trinkets & potion: untick a spell or trinket to never see it, or tick First when ready to put a spell in "
       .. "slot 1 whenever it can be cast. Kept per spec, through updates." },
   { "Buff reminders",
     "Out of combat, a buff your rotation expects is put in slot 1 when it is missing or runs out within 5 minutes: "
@@ -1151,40 +1374,10 @@ O.HELP = {
     "Keys are read from Blizzard's bars, Bartender, ElvUI, Dominos and macros. Missing keybinds lists what the "
       .. "rotation can ask for that has no key." },
   { "Reporting a problem",
-    "Right after it happens: /dmga report (or the minimap menu, or Status > Report an issue). Step 1: say what "
+    "Right after it happens: /dmga report (or the minimap menu, or the Report an issue button at the top of this page). Step 1: say what "
       .. "went wrong. Step 2: Ctrl+C copies your words and the report together. Step 3: open the link and paste "
       .. "it into a new issue. /dmga help lists every command." },
 }
-
-function O.RegisterHelp(parent)
-  local frame = CreateFrame("Frame")
-  frame:SetSize(600, 560)
-  local title = frame:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-  title:SetPoint("TOPLEFT", 16, -16)
-  title:SetText(L["Help"])
-  local scroll = CreateFrame("ScrollFrame", nil, frame, "UIPanelScrollFrameTemplate")
-  scroll:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -10)
-  scroll:SetSize(560, 480)
-  local content = CreateFrame("Frame", nil, scroll)
-  content:SetSize(540, 10)
-  scroll:SetScrollChild(content)
-  local y = 0
-  for _, entry in ipairs(O.HELP) do
-    local head = content:CreateFontString(nil, "ARTWORK", "GameFontNormal")
-    head:SetPoint("TOPLEFT", 0, -y)
-    head:SetText(L[entry[1]])
-    local body = content:CreateFontString(nil, "ARTWORK", "GameFontHighlight")
-    body:SetPoint("TOPLEFT", head, "BOTTOMLEFT", 0, -4)
-    body:SetWidth(530)
-    body:SetJustifyH("LEFT")
-    body:SetSpacing(2)
-    body:SetText(L[entry[2]])
-    local h = (body.GetStringHeight and body:GetStringHeight()) or 60
-    y = y + 18 + (type(h) == "number" and h > 0 and h or 60) + 14
-  end
-  content:SetHeight(y)
-  return Settings.RegisterCanvasLayoutSubcategory(parent, frame, L["Help"])
-end
 
 ---------------------------------------------------------------------------
 -- Missing keybinds page: every spell (and on-use trinket) DMGAssist can recommend that has no key, with its icon,

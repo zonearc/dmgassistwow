@@ -85,9 +85,21 @@ Last updated: 1.6.0.157 (2026-11-10).
 - [ ] Single-target dummy fights (boss numbers learned separately from 5-dummy pulls)
 - [ ] Boss mods in a real dungeon or raid (DBM test hook works); interrupts in a dungeon (smart mode)
 - [ ] Buff reminders on other classes; specs not tried yet; LFR; WoW Forever; a clean install
+- [ ] 1.6.0.228 settings: Status & Help guide reads well; Display Quick setup (size / place) moves the HUD;
+  Spells, trinkets & potion parts are clear; preview has no overlapping text; text is readable
 
 ## Done (recent)
 
+- 1.6.0.228: Settings. Status & Help is one page with the live status, Report an issue and a full guide (Classic
+  vs Flow, every tag, badge, bar and colour, what Flow smooths to stay fun, the grade); the empty Status and Help
+  sub-pages are gone. Group pages (DMGAssist, Core, Flow mode & grades) say they hold pages (+ on the left) and
+  have Open buttons for each. Display starts with Quick setup: Size (Small / Medium / Large / Custom) and Place
+  (right of character / below / above the action bars / Custom); the rest is custom fine-tuning. "Spells,
+  trinkets & potion" (renamed) has three headed parts: Potion, Trinkets (says when none are equipped) and Spells
+  (says what the boxes do). Preview: the label's room fits its wrapped lines (it ran over the title), the
+  CLASSIC / FLOW switch widens to fit its words (CLASSIC ran into FLOW), the BUFF corner tag is smaller, slot
+  labels 9 -> 11, Flow streak text 15 -> 17, switch text 11 -> 12. Battle Shout report: from a 1.6.0.225
+  session (fixed in 224).
 - 1.6.0.227: our own right-click menu (minimap, potion picker) instead of Blizzard_Menu (taint into Edit Mode's
   layout dropdown, taint.log 2026-11-11); Flow notes re-apply the keybind size and colour when drawn (reused
   notes kept an old size: small keys next to large ones).

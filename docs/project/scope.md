@@ -112,10 +112,15 @@ on the settings page. Can be turned off.
   the every-spec check first.
 - Purely visual; nothing is pressed for the player.
 
-## Settings pages (decided 2026-11-11)
-- DMGAssist (essentials: on/off, minimap, lock, language, setup, profiles), then three groups:
-  Status & Help (Status, Missing keybinds, Help); Core (Combat, Display, Sounds, Integrations, Advanced, Spells &
-  trinkets); Game mode & grades (the Game mode switch, timing offset, records; Performance grade + Grade report).
+## Settings pages (decided 2026-11-11, revised 2026-11-12)
+- Every page has content; a group page says it holds pages (the + on the left) and has an Open button for each.
+- DMGAssist (essentials: on/off, minimap, lock, language, setup, profiles, links to the groups), then three groups:
+  Status & Help (one page: live status, Report an issue, the full guide; inside it Missing keybinds); Core
+  (Combat, Display, Sounds, Integrations, Advanced, Spells, trinkets & potion); Flow mode & grades (the Flow
+  switch, timing offset, records; Performance grade + Grade report).
+- Display starts with Quick setup (Size: Small / Medium / Large, Place: right / below / above the bars, each
+  with Custom); the rest of the page is fine-tuning.
+- Spells, trinkets & potion: three headed parts, Potion, Trinkets, Spells.
 
 ## Integrations
 

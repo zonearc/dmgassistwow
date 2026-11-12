@@ -152,7 +152,8 @@ local function SwitchRefresh(b, snap)
   end
   -- the same look in both modes (2026-11-11): plain text, the mode you're in gold, the other grey, and a thin gold
   -- line under the one you're in that slides across
-  local half = (G.SWITCH_W - 4) / 2
+  G.FitSwitch(b)
+  local half = ((b.w or G.SWITCH_W) - 4) / 2
   b.knob:ClearAllPoints()
   b.knob:SetPoint("BOTTOMLEFT", b, "BOTTOMLEFT", 2 + b.pos * half + 10, 3)
   b.knob:SetColorTexture(1, 0.82, 0.25, 0.9)
@@ -162,6 +163,28 @@ local function SwitchRefresh(b, snap)
   b.right:SetTextColor(r[1], r[2], r[3])
 end
 G.SwitchRefresh = SwitchRefresh
+
+-- Each half is at least as wide as its word plus a margin: in some fonts and languages "CLASSIC" ran into "FLOW"
+-- (2026-11-12: "CLASSIC|LOW"). The switch grows to the left (it is anchored by its right edge).
+function G.FitSwitch(b)
+  local need = G.SWITCH_W
+  for _, fs in ipairs({ b.left, b.right }) do
+    local w = fs and U.Get(fs.GetStringWidth, fs)
+    if type(w) == "number" and w > 0 then
+      need = math.max(need, 2 * (w + 20) + 4)
+    end
+  end
+  need = math.floor(need + 0.5)
+  if b.w ~= need then
+    b.w = need
+    b:SetWidth(need)
+    b.knob:SetWidth((need - 4) / 2 - 20)
+    b.left:ClearAllPoints()
+    b.left:SetPoint("CENTER", b, "LEFT", need / 4, 0)
+    b.right:ClearAllPoints()
+    b.right:SetPoint("CENTER", b, "RIGHT", -need / 4, 0)
+  end
+end
 
 function G.ToggleButton(parent)
   local b = CreateFrame("Button", nil, parent)
@@ -191,12 +214,12 @@ function G.ToggleButton(parent)
   b.knob = b:CreateTexture(nil, "ARTWORK")
   b.knob:SetSize((G.SWITCH_W - 4) / 2 - 20, 1)
   b.left = b:CreateFontString(nil, "OVERLAY")
-  ns.Display.SetFont(b.left, 11, "") -- no outline: plain, readable
+  ns.Display.SetFont(b.left, 12, "") -- no outline: plain, readable
   b.left:SetShadowOffset(1, -1)
   b.left:SetPoint("CENTER", b, "LEFT", G.SWITCH_W / 4, 0)
   b.left:SetText(L["CLASSIC"])
   b.right = b:CreateFontString(nil, "OVERLAY")
-  ns.Display.SetFont(b.right, 11, "")
+  ns.Display.SetFont(b.right, 12, "")
   b.right:SetShadowOffset(1, -1)
   b.right:SetPoint("CENTER", b, "RIGHT", -G.SWITCH_W / 4, 0)
   b.right:SetText(L["FLOW"])
@@ -383,7 +406,7 @@ function G.Create()
   f.burst:SetPoint("CENTER", b, "CENTER", 0, 0)
   f.burst:SetSize(G.ICON, G.ICON)
   f.streak = f:CreateFontString(nil, "OVERLAY")
-  D.SetFont(f.streak, 15)
+  D.SetFont(f.streak, 17)
   -- never under the switch or the stars (they overlapped at "Streak 48 x4 Score 16100 Silver Best 48", 2026-11-12)
   f.streak:SetWidth(G.WIDTH - G.SWITCH_W - G.STAR_MAX * 17 - 24)
   f.streak:SetJustifyH("LEFT")

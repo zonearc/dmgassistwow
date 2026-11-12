@@ -1,4 +1,4 @@
--- Choices.lua: spells the player has switched off (Settings > DMGAssist > Spells & trinkets).
+-- Choices.lua: spells the player has switched off (Settings > DMGAssist > Spells, trinkets & potion).
 --
 -- Per spec, by spell ID (the base spell, so a talent or form override of it is covered too): a hidden spell is
 -- never shown, in any slot, as an interrupt, defensive, gap closer or keep-up. No priority changes: SimC's order

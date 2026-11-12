@@ -36,7 +36,7 @@ nothing automated. You press every button.
 - **Tank and melee essentials.** Guardian keeps Ironfur stacks (default 3) and Moonfire up. Melee specs out of
   range get their charge or leap first (Wild Charge, Charge, Shadowstep, Harpoon, Feral Lunge, Death Grip).
 - **On-use trinkets and potions.** Every equipped on-use trinket is shown when it is ready and SimC's list says
-  to use it (what each trinket does is read from its own description). Choose a potion on the Spells & trinkets
+  to use it (what each trinket does is read from its own description). Choose a potion on the Spells, trinkets & potion
   page (click the gold box, or `/dmga potion` and shift-click it) and it's shown when SimC uses one, once per fight. Switch off any trinket you'd rather press yourself; the
   choice follows the trinket through gear and spec swaps.
 - **Healers too.** SimC publishes no rotation for most healing specs, so DMGAssist ships its own damage lists
@@ -49,7 +49,7 @@ nothing automated. You press every button.
   Intellect, Fortitude, Mark of the Wild, Battle Shout, Blessing of the Bronze, Skyfury) on you or anyone in
   range, Lightning / Water Shield, shaman weapon imbues, rogue poisons, and Earth Shield or Beacon of Light on your
   tank. Also when one runs out within 5 minutes. Each can be hidden; Combat > Buff reminders turns it off.
-- **Your choice of spells.** Settings > DMGAssist > Spells & trinkets lists every spell your spec can be shown
+- **Your choice of spells.** Settings > DMGAssist > Spells, trinkets & potion lists every spell your spec can be shown
   and every equipped on-use trinket. Untick one and it is never shown; the next spell takes its place. Tick
   "First when ready" and that spell goes to slot 1 whenever it can be cast. Kept per spec (trinkets per item),
   so updates and gear swaps keep your choices.
@@ -71,7 +71,7 @@ nothing automated. You press every button.
   exactly that. It switches to the SimC list by itself as you learn more. Learn a spell with no key and you get one
   chat line (not when the game already put it on a keyed button); unspent talent points after a level-up too.
 - **Per spec.** Switch DMGAssist off for one spec only (an alt's healing spec you play without it): minimap menu,
-  Spells & trinkets page, or `/dmga spec off`.
+  Spells, trinkets & potion page, or `/dmga spec off`.
 - **Range and resource colors.** Like the action bars: an icon turns red when the target is out of range, and slot 1
   turns blue when you are short of resource.
 - **Three questions to start.** Where the HUD goes, how big, when it shows, each with a suggested answer.

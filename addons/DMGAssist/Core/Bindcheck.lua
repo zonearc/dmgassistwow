@@ -157,13 +157,13 @@ function B.OnShown(pick, small)
   local link = U.Get(C_Spell and C_Spell.GetSpellLink, pick.id) or Name(pick.id)
   if small then
     U.Print(L["%s is shown in a small icon (defensive or off-GCD) but has no key. Put it on a bar and give it a key, "
-      .. "or hide it on the Spells & trinkets page."], tostring(link))
+      .. "or hide it on the Spells, trinkets & potion page."], tostring(link))
   elseif OnBar(pick.id) then
     U.Print(L["%s is in slot 1 but its button has no key. Bind one (Options > Keybindings) or press it from your bar."],
       tostring(link))
   else
     U.Print(L["%s is in slot 1 but isn't on your action bars. Drag it from the spellbook (hero talent spells are on "
-      .. "a later page) onto a bar and give it a key, or hide it on the Spells & trinkets page."], tostring(link))
+      .. "a later page) onto a bar and give it a key, or hide it on the Spells, trinkets & potion page."], tostring(link))
   end
 end
 

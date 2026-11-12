@@ -824,3 +824,58 @@
 830	Seus próximos três feitiços como ícones. Aperte o grande.
 831	Os feitiços deslizam até a caixa. Aperte cada um quando chegar e faça uma sequência.
 832	Troque quando quiser com o seletor CLASSIC / FLOW abaixo do HUD.
+833	%s está no espaço 1 mas não está nas suas barras de ação. Arraste-o do grimório (os feitiços de talentos heroicos ficam numa página seguinte) para uma barra e atribua uma tecla, ou oculte-o na página Feitiços, berloques e poção.
+834	%s aparece num ícone pequeno (defensivo ou fora da recarga global) mas não tem tecla. Coloque-o numa barra e atribua uma tecla, ou oculte-o na página Feitiços, berloques e poção.
+835	%s. Sugerida no selo de itens ao lado do espaço 1 quando o SimC usa uma poção (com suas grandes recargas). Clique na caixa para trocar, clique direito para remover.
+836	Uma etiqueta no canto do ícone diz de onde veio a escolha: nenhuma = a lista de prioridades do SimulationCraft, AC = o Combate Assistido da Blizzard, B = as regras escritas da Blizzard, ? = um palpite (também esmaecido), ... = esperando recurso, BUFF = um bônus a renovar antes do pull. Selos nos cantos do ícone grande: borda vermelha = um feitiço para apertar junto, fora da recarga global (Pelame de Ferro, Bloqueio com Escudo) ou um defensivo; borda dourada = um berloque de uso ou sua poção. Um ícone de borda vermelha ao lado do HUD: interrompa agora. Texto vermelho acima do HUD: um aviso do seu addon de chefe.
+837	Depois de uma série de pulls, uma nota de S+ a D nos dois modos: apertar o feitiço mostrado (precisão), nunca ficar parado quando ele está pronto (sempre conjurando), a rapidez com que aperta (reação) e quão cedo usa grandes recargas, berloques e poções. Ela nunca fala de dano: o medidor de dano do jogo mostra isso. Modo Flow e notas > Relatório de notas tem sua melhor, suas sessões recentes e onde melhorar.
+838	Ícone grande (AGORA): aperte. Uma sombra escura faz a contagem até poder apertar, depois ele pisca. Ícones pequenos (PRÓXIMO): o que vem depois. Barra dourada sob os ícones: sua recarga global. Linha de título: o modo de alvo e quantos inimigos são contados (AUTO · AOE 3 alvos). Ícone vermelho: o alvo está fora do alcance desse feitiço. Ícone grande azul: recurso ainda insuficiente. HOLD sobre o ícone grande: você está canalizando, deixe terminar. "5 » 6" embaixo: você apertou 5, o ícone grande pedia 6.
+839	Addons de chefe, Masque, addons de barras e os testes deles.
+840	Clássico: etiquetas e selos
+841	Clássico: o que você vê
+842	Combate, Exibição, Sons, Integrações, Avançado, e seus feitiços, berloques e poção.
+843	Núcleo é um grupo: as configurações estão nas páginas dentro dele. Clique no + ao lado de Núcleo, à esquerda, para vê-las, ou abra uma aqui.
+844	Personalizado: o tamanho dos ícones e o espaço entre eles. Para movê-los, destrave na primeira página e arraste, ou use o modo de edição da Blizzard.
+845	O DMGAssist mostra sua rotação de dois jeitos, e os dois sempre concordam no feitiço a usar agora. CLÁSSICO: três ícones; o grande é o feitiço a apertar, os dois pequenos vêm depois. FLOW: os mesmos feitiços deslizam por uma pista até uma caixa, como num jogo de ritmo; aperte cada um quando chegar para fazer sequência e pontos. Troque quando quiser com a chave CLÁSSICO / FLOW sob o HUD, /dmga flow ou o menu do minimapa.
+846	Berloques equipados com efeito de uso. Marcado: aparece no selo de itens ao lado do espaço 1 quando o SimC o usa (com suas grandes recargas). Desmarcado: nunca aparece.
+847	Cada berloque de uso equipado e cada feitiço podem ser desligados na página Feitiços, berloques e poção.
+848	Todo o resto está em três grupos, cada um com páginas dentro: clique no + ao lado de DMGAssist, à esquerda, para vê-las, ou abra um aqui.
+849	Modo Flow e notas tem mais páginas dentro: clique no + ao lado, à esquerda, ou abra uma aqui.
+850	Flow: notas, barras e cores
+851	Flow: o que você vê
+852	Para %s. O que o DMGAssist pode mostrar, em três partes: a poção sugerida com suas grandes recargas, seus berloques de uso e seus feitiços. Salvo por especialização (berloques por item), mesmo com atualizações e troca de equipamento.
+853	Como funciona
+854	Mais configurações
+855	Nenhuma poção escolhida. Clique na caixa e escolha uma das suas bolsas: o DMGAssist vai sugeri-la no selo de itens ao lado do espaço 1 quando o SimC usar uma poção (com suas grandes recargas).
+856	Nenhum equipado: só berloques com efeito de uso aparecem aqui. Equipe um e ele aparece.
+857	Abrir
+858	Fora de combate, um bônus que está faltando vai para o espaço 1: bônus de raide, escudos, imbuições de arma, venenos, e Escudo de Terra ou Farol da Luz no seu tanque. Cada um pode ser ocultado na página Feitiços, berloques e poção.
+859	Páginas internas
+860	Escolha um tamanho e uma posição: é tudo de que a maioria precisa. O resto abaixo é ajuste fino opcional; ao mudá-lo, aparece Personalizado aqui.
+861	Posição
+862	Poção
+863	Logo depois que acontecer: /dmga report (ou o menu do minimapa, ou o botão Relatar um problema no topo desta página). Passo 1: diga o que deu errado. Passo 2: Ctrl+C copia suas palavras e o relatório juntos. Passo 3: abra o link e cole tudo em uma nova issue. /dmga help lista todos os comandos.
+864	Agora
+865	Tamanho, layout, fontes, texto de atalhos, selos e o que o HUD mostra.
+866	Pequeno, médio ou grande: todo o HUD, ícones e texto. Personalizado: definido pelo controle Escala abaixo.
+867	Sons para interrupções, defensivos, avisos de chefe e recargas.
+868	Feitiços
+869	Os feitiços (notas) deslizam da direita para a esquerda até a caixa à esquerda. Uma nota chega à caixa exatamente quando pode ser usada: a caixa pisca, aperte nessa hora. Perfeito, Ótimo ou Bom diz o quão perto você foi. Cada acerto soma à sequência e à pontuação (sob a pista); a cada 10 seguidos o multiplicador sobe, até x4. Estrelas e um nível (Bronze a Mítico) crescem com a sequência. Um X vermelho: feitiço errado, a sequência quebra. Esperar (andar, uma mecânica, nada para apertar) nunca quebra.
+870	Feitiços, berloques e poção
+871	Feitiços, berloques e poção: desmarque um feitiço ou berloque para nunca vê-lo, ou marque Primeiro quando pronto para colocar um feitiço no espaço 1 sempre que puder ser lançado. Salvo por especialização, mesmo entre atualizações.
+872	A nota na caixa é sempre exatamente o feitiço que o Clássico mostra: isso nunca muda. Para manter a pista legível, o Flow suaviza o que vem depois: as notas de trás só trocam quando uma nova escolha se mantém por um terço de segundo, um feitiço que a rotação vive adiando some depois de ser pulado três vezes, as notas nunca voltam para trás (param e seguem), só uma nota fica na caixa, e a pista pausa quando não há nada para apertar por 6 segundos. Assim a pista é mais calma que os ícones pequenos do Clássico, mas nunca menos certa sobre o que apertar agora. Pontuação, sequências e estrelas são para diversão e para aprender o ritmo: nunca mudam a recomendação. O ajuste de tempo do Flow (Modo Flow e notas) move o brilho conforme sua latência.
+873	O modo de jogo de ritmo, seu tempo e a nota de desempenho.
+874	Marcado: pode aparecer. Desmarcado: nunca aparece (o próximo feitiço toma o lugar). Primeiro quando pronto: no espaço 1 sempre que puder ser lançado (só interrupções, defensivos e aproximações vêm antes).
+875	Tempo, depuração e as opções raramente necessárias.
+876	Ligue ou desligue o DMGAssist, mova-o e escolha o idioma. Mais configurações no fim desta página.
+877	Dois jeitos de jogar
+878	O que o DMGAssist vê agora, um guia do Clássico e do Flow, o que significa cada etiqueta, selo e cor, e Relatar um problema.
+879	O que o Flow ajusta para ser divertido
+880	O que recomendar, alvo único ou área, interrupções, defensivos, berloques, lembretes de bônus e evolução de nível.
+881	Quando a nota aparece, o que ela mede e onde fica.
+882	Onde o HUD fica. Personalizado: onde você o arrastou (destrave na primeira página) ou colocou no modo de edição.
+883	Barra amarela atrás de uma nota: um lançamento, do tamanho do tempo de conjuração. Barra azul: uma canalização. Nota laranja em chamas: uma grande recarga, vale o dobro. Nota apagada: um palpite ou esperando recurso; não conta como erro. A pista fica azul elétrico (MODO PODER!): Sede de Sangue ou logo após uma grande recarga; cada acerto vale o dobro. A linha acima da pista traz bônus para pegar quando necessário: INTERROMPA!, DEFENDA! (um defensivo ou cura) e TURBINE! (um berloque ou poção). Depois de uma série de pulls (20 segundos fora de combate), aparece sua nota de desempenho.
+884	Sua melhor nota, sessões recentes e onde melhorar, para esta especialização.
+885	Sua poção, seus berloques de uso e cada feitiço, ligados ou não para esta especialização.
+886	Personalizado
+887	Logo acima das barras de ação

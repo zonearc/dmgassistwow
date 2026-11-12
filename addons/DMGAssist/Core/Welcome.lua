@@ -24,6 +24,9 @@ local function Place(point)
 end
 
 -- Next to the character: most UIs keep that space free (unit frames and bars sit lower and to the sides).
+W.Place = function(point)
+  return Place(point)
+end
 W.RIGHT = { "CENTER", "CENTER", 190, -40 }
 W.BELOW = { "CENTER", "CENTER", 0, -125 }
 

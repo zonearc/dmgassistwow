@@ -506,7 +506,7 @@ local function Icon(parent, size, cfg)
   f.name:SetPoint("TOP", f, "BOTTOM", 0, -2)
   f.name:SetWidth(size + 24)
   f.label = f:CreateFontString(nil, "OVERLAY")
-  SetFont(f.label, 9)
+  SetFont(f.label, 11) -- 9 was hard to read (2026-11-12: "text has gotten smaller ... illegible")
   f.label:SetPoint("BOTTOM", f, "TOP", 0, 3)
   f:Hide()
   return f
@@ -845,15 +845,31 @@ local function FitNow(f)
       end
     end
   end
+  -- the switch under the HUD is part of it too
+  local sw = f.gameBtn
+  if sw and U.Get(sw.IsShown, sw) == true then
+    local sl, sb = U.Get(sw.GetLeft, sw), U.Get(sw.GetBottom, sw)
+    if sl and sb then
+      l, b = math.min(l, sl), math.min(b, sb)
+    end
+  end
   local x1, x2 = l - fl - PREVIEW_PAD, r - fl + PREVIEW_PAD
-  local y1, y2 = t - fb + PREVIEW_PAD + LABEL_ROOM, b - fb - PREVIEW_PAD
+  -- the label's room is as tall as the label wraps (a fixed 30 let three lines run over the title row, 2026-11-12)
+  local room = LABEL_ROOM
+  if f.previewLabel then
+    f.previewLabel:SetWidth(math.max(80, x2 - x1 - 16))
+    local h = U.Get(f.previewLabel.GetStringHeight, f.previewLabel)
+    if type(h) == "number" and h > 0 then
+      room = math.max(LABEL_ROOM, h + 14)
+    end
+  end
+  local y1, y2 = t - fb + PREVIEW_PAD + room, b - fb - PREVIEW_PAD
   p:ClearAllPoints()
   p:SetPoint("TOPLEFT", f, "BOTTOMLEFT", x1, y1)
   p:SetPoint("BOTTOMRIGHT", f, "BOTTOMLEFT", x2, y2)
   if f.previewLabel then
     f.previewLabel:ClearAllPoints()
     f.previewLabel:SetPoint("TOPLEFT", p, "TOPLEFT", 8, -6)
-    f.previewLabel:SetWidth(math.max(80, x2 - x1 - 16))
   end
 end
 
@@ -1007,7 +1023,17 @@ local function SetIcon(icon, pick, cfg, isMain, labelText)
   end
   local tex = pick.texture or U.Get(C_Spell and C_Spell.GetSpellTexture, pick.id)
   icon.tex:SetTexture(tex or 134400) -- 134400: question mark icon
-  icon.source:SetText(SOURCE_TEXT[pick.source] or "")
+  -- the corner tag: a letter or two at a quarter of the icon; a word (BUFF) smaller, so it stays in its corner
+  -- instead of covering the icon (2026-11-12 screenshot: a huge "BUFF" over slot 1)
+  local tag = SOURCE_TEXT[pick.source] or ""
+  local side = U.Get(icon.GetWidth, icon)
+  side = type(side) == "number" and side > 0 and side or 40
+  local tagSize = #tag > 2 and math.max(8, math.floor(side / 6)) or math.max(9, math.floor(side / 4))
+  if icon.tagSize ~= tagSize then
+    icon.tagSize = tagSize
+    SetFont(icon.source, tagSize)
+  end
+  icon.source:SetText(tag)
   local key = cfg.keybind and D.PickKeybind(pick) or nil
   if cfg.keybind and not key and D.InPreview() then
     key = "5" -- a sample, so the keybind's size, colour and place can be set

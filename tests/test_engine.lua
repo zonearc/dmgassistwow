@@ -3607,13 +3607,30 @@ test("settings preview: every Display control shows - sample mode title, call-ou
   _G.SettingsPanel = nil
 end)
 
+test("settings: Display quick picks set size and place, and read Custom after fine-tuning", function()
+  Reset()
+  local ns = Boot()
+  local size, place = mock.settings.DMGASSIST_SIZEPRESET, mock.settings.DMGASSIST_PLACEPRESET
+  eq(size:GetValue(), "medium", "default scale reads Medium")
+  size:SetValue("large")
+  eq(ns.db.hud.scale, 1.3)
+  eq(size:GetValue(), "large")
+  ns.db.hud.scale = 1.12
+  eq(size:GetValue(), "custom", "a slider value of its own is Custom")
+  place:SetValue("below")
+  eq(ns.db.point[3], ns.Welcome.BELOW[3])
+  eq(place:GetValue(), "below")
+  place:SetValue("custom")
+  eq(place:GetValue(), "below", "Custom changes nothing")
+end)
+
 test("settings: sections on every page, fonts listed, reset restores defaults", function()
   Reset()
   local ns = Boot()
   local headers = 0
   local cats = mock.settingsCategories
   local mine = {}
-  for i = #cats - 14, #cats do
+  for i = #cats - 12, #cats do
     mine[#mine + 1] = cats[i]
   end
   for _, c in ipairs(mine) do
@@ -3629,8 +3646,8 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   for i, c in ipairs(mine) do
     names[i] = c.name
   end
-  eq(table.concat(names, ","), "DMGAssist,Status & Help,Status,Core,Combat,Display,Sounds,Integrations,Advanced,"
-    .. "Spells & trinkets,Flow mode & grades,Performance grade,Grade report,Missing keybinds,Help")
+  eq(table.concat(names, ","), "DMGAssist,Status & Help,Core,Combat,Display,Sounds,Integrations,Advanced,"
+    .. "Spells, trinkets & potion,Flow mode & grades,Performance grade,Grade report,Missing keybinds")
   local byName = {}
   for _, c in ipairs(mine) do
     byName[c.name] = c
@@ -3639,7 +3656,8 @@ test("settings: sections on every page, fonts listed, reset restores defaults", 
   eq(byName["Core"].parent, mine[1]) eq(byName["Flow mode & grades"].parent, mine[1])
   eq(byName["Combat"].parent, byName["Core"], "Combat is in Core")
   eq(byName["Performance grade"].parent, byName["Flow mode & grades"], "the grade is with Flow mode")
-  eq(byName["Help"].parent, byName["Status & Help"])
+  eq(byName["Missing keybinds"].parent, byName["Status & Help"], "keybinds under Status & Help")
+  eq(byName["Status & Help"].frame ~= nil, true, "Status & Help is a page with content, not an empty header")
   local fonts = mock.settings.DMGASSIST_FONT.options()
   eq(fonts[1].value, "default")
   mock.settings.DMGASSIST_ICONSIZE:SetValue(80)

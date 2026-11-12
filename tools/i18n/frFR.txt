@@ -824,3 +824,58 @@
 830	Vos trois prochains sorts en icônes. Appuyez sur la grande.
 831	Les sorts glissent jusqu'à la case. Appuyez sur chacun à son arrivée et enchaînez une série.
 832	Changez quand vous voulez avec le sélecteur CLASSIC / FLOW sous le HUD.
+833	%s est dans l'emplacement 1 mais n'est sur aucune barre d'action. Faites-le glisser depuis le grimoire (les sorts des talents héroïques sont sur une page suivante) sur une barre et attribuez-lui une touche, ou masquez-le sur la page Sorts, bijoux et potion.
+834	%s s'affiche dans une petite icône (défensive ou hors temps de recharge global) mais n'a pas de touche. Placez-le sur une barre et attribuez-lui une touche, ou masquez-le sur la page Sorts, bijoux et potion.
+835	%s. Proposée dans le badge d'objets à côté de l'emplacement 1 quand SimC boit une potion (avec vos gros temps de recharge). Cliquez sur la case pour la changer, clic droit pour la retirer.
+836	Une étiquette dans le coin d'une icône indique d'où vient le choix : aucune = la liste de priorités de SimulationCraft, AC = le Combat assisté de Blizzard, B = les règles écrites de Blizzard, ? = une estimation (aussi assombrie), ... = en attente de ressource, BUFF = une amélioration à remettre avant le pull. Badges aux coins de la grande icône : bord rouge = un sort à lancer en même temps, hors temps de recharge global (Fourrure de fer, Maîtrise du blocage) ou un défensif ; bord doré = un bijou utilisable ou votre potion. Une icône à bord rouge à côté du HUD : interrompez maintenant. Texte rouge au-dessus du HUD : une alerte de votre addon de boss.
+837	Après une série de pulls, une note de S+ à D dans les deux modes : lancer le sort affiché (précision), ne jamais rester inactif quand il est prêt (toujours lancer), la vitesse à laquelle vous appuyez (réaction) et la rapidité d'usage des gros temps de recharge, bijoux et potions. Elle ne prétend jamais mesurer les dégâts : le compteur de dégâts du jeu le fait. Mode Flow et notes > Rapport de notes donne votre meilleure note, vos séries récentes et où progresser.
+838	Grande icône (MAINTENANT) : appuyez dessus. Un voile sombre décompte jusqu'à ce qu'elle soit utilisable, puis elle clignote. Petites icônes (SUIVANT) : ce qui vient ensuite. Barre dorée sous les icônes : votre temps de recharge global. Ligne de titre : le mode de cible et le nombre d'ennemis comptés (AUTO · AOE 3 cibles). Icône rouge : votre cible est hors de portée de ce sort. Grande icône bleue : pas encore assez de ressource. HOLD sur la grande icône : vous canalisez, laissez finir. "5 » 6" dessous : vous avez appuyé sur 5, la grande icône voulait 6.
+839	Addons de boss, Masque, addons de barres et leurs tests.
+840	Classique : étiquettes et badges
+841	Classique : ce que vous voyez
+842	Combat, Affichage, Sons, Intégrations, Avancé, et vos sorts, bijoux et potion.
+843	Base est un groupe : ses réglages sont sur les pages qu'il contient. Cliquez sur le + à côté de Base à gauche pour les voir, ou ouvrez-en une ici.
+844	Personnalisé : la taille des icônes et l'espace entre elles. Pour les déplacer, déverrouillez sur la première page et faites glisser, ou utilisez le mode Édition de Blizzard.
+845	DMGAssist affiche votre rotation de deux façons, toujours d'accord sur le sort à lancer maintenant. CLASSIQUE : trois icônes ; la grande est le sort à lancer, les deux petites viennent ensuite. FLOW : les mêmes sorts glissent sur une piste jusqu'à une case, comme dans un jeu de rythme ; appuyez sur chacun quand il arrive pour faire une série et marquer des points. Changez à tout moment avec l'interrupteur CLASSIQUE / FLOW sous le HUD, /dmga flow ou le menu de la minicarte.
+846	Bijoux équipés utilisables. Coché : affiché dans le badge d'objets à côté de l'emplacement 1 quand SimC l'utilise (avec vos gros temps de recharge). Décoché : jamais affiché.
+847	Chaque bijou à utiliser équipé et chaque sort peuvent être désactivés sur la page Sorts, bijoux et potion.
+848	Tout le reste est dans trois groupes, chacun avec ses pages : cliquez sur le + à côté de DMGAssist à gauche pour les voir, ou ouvrez-en un ici.
+849	Mode Flow et notes contient d'autres pages : cliquez sur le + à côté à gauche, ou ouvrez-en une ici.
+850	Flow : notes, barres et couleurs
+851	Flow : ce que vous voyez
+852	Pour %s. Ce que DMGAssist peut vous montrer, en trois parties : la potion proposée avec vos gros temps de recharge, vos bijoux utilisables et vos sorts. Gardé par spécialisation (bijoux par objet), malgré les mises à jour et changements d'équipement.
+853	Comment ça marche
+854	Plus de réglages
+855	Aucune potion choisie. Cliquez sur la case et choisissez-en une dans vos sacs : DMGAssist la proposera dans le badge d'objets à côté de l'emplacement 1 quand SimC boit une potion (avec vos gros temps de recharge).
+856	Aucun équipé : seuls les bijoux avec un effet Utiliser sont listés ici. Équipez-en un et il apparaîtra.
+857	Ouvrir
+858	Hors combat, une amélioration manquante va dans la case 1 : améliorations de raid, boucliers, imprégnations d'arme, poisons, et Bouclier de terre ou Guide de lumière sur votre tank. Chacune peut être masquée sur la page Sorts, bijoux et potion.
+859	Pages internes
+860	Choisissez une taille et un emplacement : c'est tout ce qu'il faut à la plupart. Tout ce qui suit est un réglage fin facultatif ; le modifier affiche Personnalisé ici.
+861	Emplacement
+862	Potion
+863	Juste après le problème : /dmga report (ou le menu de la minicarte, ou le bouton Signaler un problème en haut de cette page). Étape 1 : dites ce qui s'est mal passé. Étape 2 : Ctrl+C copie vos mots et le rapport ensemble. Étape 3 : ouvrez le lien et collez le tout dans un nouveau ticket. /dmga help liste toutes les commandes.
+864	En ce moment
+865	Taille, disposition, polices, texte des raccourcis, badges et ce qu'affiche le HUD.
+866	Petit, moyen ou grand : tout le HUD, icônes et texte. Personnalisé : réglé par le curseur Échelle plus bas.
+867	Sons pour les interruptions, défensifs, alertes de boss et temps de recharge.
+868	Sorts
+869	Les sorts (notes) glissent de droite à gauche jusqu'à la case de gauche. Une note atteint la case exactement quand on peut l'utiliser : la case clignote, appuyez à ce moment. Parfait, Super ou Bien indique votre précision. Chaque réussite ajoute à la série et au score (sous la piste) ; tous les 10 d'affilée, le multiplicateur monte, jusqu'à x4. Les étoiles et un rang (Bronze à Mythique) grandissent avec la série. Un X rouge : mauvais sort, la série est brisée. Attendre (se déplacer, une mécanique, rien à lancer) ne la brise jamais.
+870	Sorts, bijoux et potion
+871	Sorts, bijoux et potion : décochez un sort ou un bijou pour ne jamais le voir, ou cochez En premier dès que prêt pour placer un sort dans la case 1 dès qu'il peut être lancé. Gardé par spécialisation, même après les mises à jour.
+872	La note dans la case est toujours exactement le sort que montre Classique : cela ne change jamais. Pour garder la piste lisible, Flow lisse ce qui suit : les notes derrière ne changent que si un nouveau choix tient un tiers de seconde, un sort que la rotation repousse sans cesse est masqué après avoir été sauté trois fois, les notes ne reculent jamais (elles s'arrêtent puis repartent), une seule note se tient dans la case, et la piste se met en pause s'il n'y a rien à lancer pendant 6 secondes. La piste est donc plus calme que les petites icônes de Classique, sans jamais être moins juste sur le sort à lancer maintenant. Score, séries et étoiles sont là pour le plaisir et pour apprendre le rythme : ils ne changent jamais la recommandation. Le décalage de timing Flow (Mode Flow et notes) déplace le flash selon votre latence.
+873	Le mode jeu de rythme, son timing et la note de performance.
+874	Coché : peut être affiché. Décoché : jamais affiché (le sort suivant prend sa place). D'abord quand prêt : à l'emplacement 1 dès qu'il peut être lancé (seuls interruptions, défensifs et rapprochements passent avant).
+875	Timing, débogage et les options rarement utiles.
+876	Activez ou désactivez DMGAssist, déplacez-le et choisissez sa langue. Plus de réglages en bas de cette page.
+877	Deux façons de jouer
+878	Ce que DMGAssist voit en ce moment, un guide de Classique et Flow, le sens de chaque étiquette, badge et couleur, et Signaler un problème.
+879	Ce que Flow ajuste pour rester amusant
+880	Quoi recommander, cible unique ou zone, interruptions, défensifs, bijoux, rappels d'améliorations et montée de niveau.
+881	Quand la note s'affiche, ce qu'elle mesure et où elle se place.
+882	Où se trouve le HUD. Personnalisé : là où vous l'avez glissé (déverrouillez sur la première page) ou placé en mode Édition.
+883	Barre jaune derrière une note : une incantation, aussi longue qu'elle. Barre bleue : une canalisation. Note orange en flammes : un gros temps de recharge, vaut double. Note pâle : une estimation ou en attente de ressource ; ne compte pas comme un raté. La piste devient bleu électrique (MODE PUISSANCE !) : Furie sanguinaire ou juste après un gros temps de recharge ; chaque réussite compte double. La rangée au-dessus de la piste propose des bonus à saisir quand il le faut : INTERROMPEZ !, DÉFENDEZ-VOUS ! (un défensif ou un soin) et BOOST ! (un bijou ou une potion). Après une série de pulls (20 secondes hors combat), votre note de performance s'affiche.
+884	Votre meilleure note, vos séries récentes et où progresser, pour cette spécialisation.
+885	Votre potion, vos bijoux utilisables et chaque sort, activés ou non pour cette spécialisation.
+886	Personnalisé
+887	Juste au-dessus des barres d'action

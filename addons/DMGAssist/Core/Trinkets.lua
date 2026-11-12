@@ -312,7 +312,7 @@ local function HostileTarget()
 end
 
 ---------------------------------------------------------------------------
--- Potions: one you choose per spec (drag it onto the Spells & trinkets page). Shown in the items icon in combat
+-- Potions: one you choose per spec (drag it onto the Spells, trinkets & potion page). Shown in the items icon in combat
 -- when the spec's SimC list has a potion line that says now, the potion is in your bags and off cooldown.
 ---------------------------------------------------------------------------
 local function SpecKey()

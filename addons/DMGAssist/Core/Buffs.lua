@@ -12,7 +12,7 @@
 --   auras        a paladin aura (Devotion, Concentration or Crusader)
 --   on the tank  Earth Shield (Restoration Shaman), Beacon of Light (Holy Paladin): our own, on the group's tank
 -- Also when it runs out within 5 minutes. Only spells you know and can cast now; each can be hidden on the
--- "Spells & trinkets" page like any spell, and the whole thing switched off (Combat > Buff reminders).
+-- "Spells, trinkets & potion" page like any spell, and the whole thing switched off (Combat > Buff reminders).
 -- Auras are read only out of combat, where the game shows them in full. In combat, Blizzard's assistant naming one of
 -- these buffs says it's missing (B.FromAssistant).
 
@@ -161,7 +161,7 @@ local function Applies(entry, class, spec)
   return not entry.specs or entry.specs[spec] == true
 end
 
--- The spells this spec can be reminded of (for the Spells & trinkets page).
+-- The spells this spec can be reminded of (for the Spells, trinkets & potion page).
 function B.Spells()
   local state = ns.Specs.current
   local spec = state and state.key or ""

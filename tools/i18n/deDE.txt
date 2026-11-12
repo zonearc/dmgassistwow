@@ -824,3 +824,58 @@
 830	Deine nächsten drei Zauber als Symbole. Drück das große.
 831	Zauber gleiten in die Box. Drück jeden, sobald er ankommt, und bau eine Serie auf.
 832	Jederzeit umschaltbar mit dem CLASSIC-/FLOW-Schalter unter dem HUD.
+833	%s steht auf Platz 1, liegt aber auf keiner Aktionsleiste. Zieh ihn aus dem Zauberbuch (Zauber der Heldentalente stehen auf einer späteren Seite) auf eine Leiste und belege eine Taste, oder blende ihn auf der Seite Zauber, Schmuckstücke & Trank aus.
+834	%s wird in einem kleinen Symbol angezeigt (Verteidigung oder außerhalb der globalen Abklingzeit), hat aber keine Taste. Leg ihn auf eine Leiste und belege eine Taste, oder blende ihn auf der Seite Zauber, Schmuckstücke & Trank aus.
+835	%s. Wird im Gegenstands-Abzeichen neben Platz 1 vorgeschlagen, wenn SimC einen Trank nimmt (mit deinen großen Abklingzeiten). Klicke auf das Feld, um ihn zu ändern, Rechtsklick entfernt ihn.
+836	Eine Markierung in der Symbolecke sagt, woher die Wahl kommt: keine = SimulationCrafts Prioritätenliste, AC = Blizzards Kampfassistent, B = Blizzards geschriebene Regeln, ? = beste Schätzung (auch abgedunkelt), ... = wartet auf Ressource, BUFF = ein Buff, den du vor dem Pull erneuern solltest. Abzeichen an den Ecken des großen Symbols: roter Rand = ein Zauber zum Mitdrücken, außerhalb der globalen Abklingzeit (Eisenfell, Schildblock) oder ein Defensivzauber; goldener Rand = ein Schmuckstück mit Benutzen-Effekt oder dein Trank. Ein rot umrandetes Symbol neben dem HUD: jetzt unterbrechen. Roter Text über dem HUD: eine Warnung deines Boss-Addons.
+837	Nach einer Reihe von Pulls eine Note von S+ bis D, in beiden Modi: den gezeigten Zauber drücken (Genauigkeit), nie untätig sein, wenn er bereit ist (immer zaubern), wie schnell du drückst (Reaktion) und wie bald du große Abklingzeiten, Schmuckstücke und Tränke nutzt. Sie behauptet nie etwas über Schaden: das zeigt der Schadensmesser des Spiels. Flow-Modus & Bewertungen > Notenbericht zeigt deine beste Note, die letzten Durchgänge und wo du besser werden kannst.
+838	Großes Symbol (JETZT): drücke es. Ein dunkler Schatten zählt herunter, bis es geht, dann blinkt es. Kleine Symbole (NÄCHSTE): was danach kommt. Goldener Balken unter den Symbolen: deine globale Abklingzeit. Titelzeile: Zielmodus und wie viele Gegner gezählt werden (AUTO · AOE 3 Ziele). Rotes Symbol: dein Ziel ist außer Reichweite dieses Zaubers. Blaues großes Symbol: noch nicht genug Ressource. HOLD über dem großen Symbol: du kanalisierst, lass es auslaufen. "5 » 6" darunter: du hast 5 gedrückt, gewollt war 6.
+839	Boss-Addons, Masque, Leisten-Addons und die Tests dafür.
+840	Klassisch: Markierungen und Abzeichen
+841	Klassisch: was du siehst
+842	Kampf, Anzeige, Klänge, Integrationen, Erweitert sowie deine Zauber, Schmuckstücke und dein Trank.
+843	Kern ist eine Gruppe: die Einstellungen stehen auf den Seiten darin. Klicke links auf das + neben Kern, um sie zu sehen, oder öffne eine hier.
+844	Benutzerdefiniert: wie groß die Symbole sind und der Abstand dazwischen. Zum Verschieben auf der ersten Seite entsperren und ziehen, oder Blizzards Bearbeitungsmodus nutzen.
+845	DMGAssist zeigt deine Rotation auf zwei Arten, und beide sind sich beim Zauber für jetzt immer einig. KLASSISCH: drei Symbole; das große ist der Zauber, den du drückst, die zwei kleinen folgen danach. FLOW: dieselben Zauber gleiten wie in einem Rhythmusspiel über eine Spur in ein Feld; drücke jeden, wenn er ankommt, und baue eine Serie und Punkte auf. Wechsle jederzeit mit dem Schalter KLASSISCH / FLOW unter dem HUD, /dmga flow oder dem Minikartenmenü.
+846	Angelegte Schmuckstücke mit Benutzen-Effekt. Angehakt: im Gegenstands-Abzeichen neben Platz 1 gezeigt, wenn SimC es benutzt (mit deinen großen Abklingzeiten). Nicht angehakt: nie gezeigt.
+847	Jedes angelegte Schmuckstück mit Benutzeffekt und jeder Zauber kann auf der Seite Zauber, Schmuckstücke & Trank abgeschaltet werden.
+848	Alles Weitere steht in drei Gruppen mit eigenen Seiten: klicke links auf das + neben DMGAssist, um sie zu sehen, oder öffne eine hier.
+849	Flow-Modus & Bewertungen hat weitere Seiten: klicke links auf das + daneben, oder öffne eine hier.
+850	Flow: Noten, Balken und Farben
+851	Flow: was du siehst
+852	Für %s. Was DMGAssist dir zeigen darf, in drei Teilen: der Trank zu deinen großen Abklingzeiten, deine Schmuckstücke mit Benutzen-Effekt und deine Zauber. Pro Spezialisierung gespeichert (Schmuckstücke pro Gegenstand), auch über Updates und Ausrüstungswechsel.
+853	So funktioniert es
+854	Weitere Einstellungen
+855	Kein Trank gewählt. Klicke auf das Feld und wähle einen aus deinen Taschen: DMGAssist schlägt ihn dann im Gegenstands-Abzeichen neben Platz 1 vor, wenn SimC einen Trank nimmt (mit deinen großen Abklingzeiten).
+856	Keins angelegt: hier stehen nur Schmuckstücke mit einem Benutzen-Effekt. Lege eins an, dann erscheint es.
+857	Öffnen
+858	Außerhalb des Kampfes kommt ein fehlender Buff in Feld 1: Schlachtzugsbuffs, Schilde, Waffenverzauberungen, Gifte sowie Erdschild oder Flamme des Glaubens auf deinem Tank. Jeder kann auf der Seite Zauber, Schmuckstücke & Trank verborgen werden.
+859	Unterseiten
+860	Wähle Größe und Platz: mehr brauchen die meisten nicht. Alles darunter ist optionales Feintuning; änderst du es, steht hier Benutzerdefiniert.
+861	Platz
+862	Trank
+863	Direkt nachdem es passiert ist: /dmga report (oder das Minikarten-Menü oder die Schaltfläche Problem melden oben auf dieser Seite). Schritt 1: sag, was schiefging. Schritt 2: Strg+C kopiert deine Worte und den Bericht zusammen. Schritt 3: öffne den Link und füge alles in ein neues Issue ein. /dmga help listet alle Befehle auf.
+864	Gerade jetzt
+865	Größe, Anordnung, Schriften, Tastentext, Abzeichen und was das HUD zeigt.
+866	Klein, mittel oder groß: das ganze HUD, Symbole und Text. Benutzerdefiniert: über den Skalierungsregler unten.
+867	Klänge für Unterbrechungen, Defensivzauber, Boss-Warnungen und Abklingzeiten.
+868	Zauber
+869	Zauber (Noten) gleiten von rechts nach links in das Feld links. Eine Note erreicht das Feld genau dann, wenn sie gedrückt werden kann: das Feld blinkt, dann drücken. Perfekt, Super oder Gut sagt, wie genau du warst. Jeder Treffer erhöht Serie und Punkte (unter der Spur); alle 10 in Folge steigt der Multiplikator, bis x4. Sterne und ein Rang (Bronze bis Mythisch) wachsen mit der Serie. Ein rotes X: falscher Zauber, die Serie reißt. Warten (Laufen, eine Mechanik, nichts zu drücken) reißt sie nie.
+870	Zauber, Schmuckstücke & Trank
+871	Zauber, Schmuckstücke & Trank: entferne den Haken bei einem Zauber oder Schmuckstück, um es nie zu sehen, oder hake Zuerst, wenn bereit an, um einen Zauber in Feld 1 zu setzen, sobald er gewirkt werden kann. Pro Spezialisierung gespeichert, auch über Updates.
+872	Die Note im Feld ist immer genau der Zauber, den Klassisch zeigt: das wird nie verändert. Damit die Spur lesbar bleibt, glättet Flow, was danach kommt: die Noten dahinter tauschen erst, wenn eine neue Wahl eine Drittelsekunde hält, ein Zauber, den die Rotation ständig verschiebt, wird nach dreimal Übergehen ausgeblendet, Noten gleiten nie rückwärts (sie halten an und fließen weiter), nur eine Note steht im Feld, und die Spur pausiert, wenn 6 Sekunden nichts zu drücken ist. Die Spur ist also ruhiger als die kleinen Symbole von Klassisch, aber nie weniger richtig beim Zauber für jetzt. Punkte, Serien und Sterne sind zum Spaß und um den Rhythmus zu lernen: sie ändern nie, was empfohlen wird. Flow-Timing-Versatz (Flow-Modus & Bewertungen) verschiebt das Blinken für deine Latenz.
+873	Der Rhythmusspiel-Modus, sein Timing und die Leistungsnote.
+874	Angehakt: kann gezeigt werden. Nicht angehakt: nie gezeigt (der nächste Zauber rückt nach). Zuerst wenn bereit: auf Platz 1, sobald er gewirkt werden kann (nur Unterbrechungen, Defensivzauber und Sprungzauber kommen davor).
+875	Timing, Fehlersuche und selten gebrauchte Schalter.
+876	Schalte DMGAssist ein oder aus, verschiebe es und wähle seine Sprache. Weitere Einstellungen findest du unten auf dieser Seite.
+877	Zwei Spielweisen
+878	Was DMGAssist gerade sieht, eine Anleitung zu Klassisch und Flow, was jede Markierung, jedes Abzeichen und jede Farbe bedeutet, und Problem melden.
+879	Was Flow für den Spielspaß anpasst
+880	Was empfohlen wird, Einzelziel oder Flächenschaden, Unterbrechungen, Defensivzauber, Schmuckstücke, Buff-Erinnerungen und Leveln.
+881	Wann die Note erscheint, was sie misst und wo sie steht.
+882	Wo das HUD sitzt. Benutzerdefiniert: dort, wohin du es gezogen hast (auf der ersten Seite entsperren) oder im Bearbeitungsmodus.
+883	Gelber Balken hinter einer Note: ein Zauber mit Zauberzeit, so lang wie diese. Blauer Balken: ein kanalisierter Zauber. Orange, brennende Note: eine große Abklingzeit, zählt doppelt. Blasse Note: eine Schätzung oder wartet auf Ressource; zählt nicht als Fehler. Die Spur wird elektrisch blau (POWER-MODUS!): Kampfrausch oder direkt nach einer großen Abklingzeit; jeder Treffer zählt doppelt. Die Reihe über der Spur bietet Boni, wenn sie gebraucht werden: UNTERBRECHEN!, VERTEIDIGEN! (Defensivzauber oder Heilung) und POWER UP! (Schmuckstück oder Trank). Nach einer Reihe von Pulls (20 Sekunden außerhalb des Kampfes) erscheint deine Leistungsnote.
+884	Deine beste Note, letzte Durchgänge und wo du dich verbessern kannst, für diese Spezialisierung.
+885	Dein Trank, deine Schmuckstücke mit Benutzen-Effekt und jeder Zauber, jeweils ein oder aus für diese Spezialisierung.
+886	Benutzerdefiniert
+887	Direkt über den Aktionsleisten

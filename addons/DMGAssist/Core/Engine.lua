@@ -987,7 +987,7 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         end
       end
     elseif a == "potion" and not isBlizzard then
-      -- A potion you chose (Spells & trinkets page) is shown by the Trinkets module when a line here says now.
+      -- A potion you chose (Spells, trinkets & potion page) is shown by the Trinkets module when a line here says now.
       if run.potion ~= true then
         local t = Test(e.c, run)
         if maybe and t == true then

@@ -824,3 +824,58 @@
 830	I tuoi prossimi tre incantesimi come icone. Premi quella grande.
 831	Gli incantesimi scorrono fino al riquadro. Premi ognuno quando arriva e costruisci una serie.
 832	Cambia quando vuoi con l'interruttore CLASSIC / FLOW sotto l'HUD.
+833	%s è nello slot 1 ma non è sulle tue barre delle azioni. Trascinalo dal libro degli incantesimi (gli incantesimi dei talenti eroici sono in una pagina successiva) su una barra e assegnagli un tasto, oppure nascondilo nella pagina Incantesimi, monili e pozione.
+834	%s è mostrato in un'icona piccola (difensiva o fuori dal tempo di recupero globale) ma non ha un tasto. Mettilo su una barra e assegnagli un tasto, oppure nascondilo nella pagina Incantesimi, monili e pozione.
+835	%s. Suggerita nel badge degli oggetti accanto allo slot 1 quando SimC beve una pozione (con i tuoi grandi tempi di recupero). Clicca la casella per cambiarla, clic destro per rimuoverla.
+836	Un'etichetta nell'angolo dell'icona dice da dove viene la scelta: nessuna = la lista di priorità di SimulationCraft, AC = il Combattimento assistito di Blizzard, B = le regole scritte di Blizzard, ? = una stima (anche attenuata), ... = in attesa di risorsa, BUFF = un buff da rimettere prima del pull. Badge agli angoli dell'icona grande: bordo rosso = un incantesimo da premere insieme, fuori dal tempo di recupero globale (Pelliccia di ferro, Blocco con lo scudo) o un difensivo; bordo dorato = un monile utilizzabile o la tua pozione. Un'icona con bordo rosso accanto all'HUD: interrompi ora. Testo rosso sopra l'HUD: un avviso del tuo addon dei boss.
+837	Dopo una serie di pull, un voto da S+ a D in entrambe le modalità: premere l'incantesimo mostrato (precisione), non restare mai fermo quando è pronto (lancia sempre), quanto in fretta lo premi (reazione) e quanto presto usi grandi tempi di recupero, monili e pozioni. Non parla mai di danni: lo mostra il misuratore di danni del gioco. Modalità Flow e voti > Rapporto voti ha il tuo migliore, le serie recenti e dove migliorare.
+838	Icona grande (ORA): premila. Un'ombra scura fa il conto alla rovescia finché si può premere, poi lampeggia. Icone piccole (PROSSIMO): cosa viene dopo. Barra dorata sotto le icone: il tuo tempo di recupero globale. Riga del titolo: la modalità bersaglio e quanti nemici sono contati (AUTO · AOE 3 bersagli). Icona rossa: il bersaglio è fuori portata per quell'incantesimo. Icona grande blu: risorsa non ancora sufficiente. HOLD sull'icona grande: stai canalizzando, lascialo finire. "5 » 6" sotto: hai premuto 5, l'icona grande voleva 6.
+839	Addon dei boss, Masque, addon delle barre e i relativi test.
+840	Classico: etichette e badge
+841	Classico: cosa vedi
+842	Combattimento, Visualizzazione, Suoni, Integrazioni, Avanzate, e i tuoi incantesimi, monili e pozione.
+843	Base è un gruppo: le sue impostazioni sono nelle pagine interne. Clicca il + accanto a Base a sinistra per vederle, oppure aprine una qui.
+844	Personalizzato: quanto sono grandi le icone e lo spazio tra di esse. Per spostarle, sblocca nella prima pagina e trascina, oppure usa la modalità modifica di Blizzard.
+845	DMGAssist mostra la tua rotazione in due modi, sempre d'accordo sull'incantesimo da premere ora. CLASSICO: tre icone; la grande è l'incantesimo da premere, le due piccole vengono dopo. FLOW: gli stessi incantesimi scorrono su una corsia fino a una casella, come in un gioco ritmico; premi ognuno quando arriva per fare una serie e punti. Cambia quando vuoi con l'interruttore CLASSICO / FLOW sotto l'HUD, /dmga flow o il menu della minimappa.
+846	Monili equipaggiati utilizzabili. Spuntato: mostrato nel badge degli oggetti accanto allo slot 1 quando SimC lo usa (con i tuoi grandi tempi di recupero). Non spuntato: mai mostrato.
+847	Ogni monile a uso equipaggiato e ogni incantesimo possono essere disattivati nella pagina Incantesimi, monili e pozione.
+848	Tutto il resto è in tre gruppi, ognuno con pagine interne: clicca il + accanto a DMGAssist a sinistra per vederle, oppure aprine uno qui.
+849	Modalità Flow e voti ha altre pagine interne: clicca il + accanto a sinistra, oppure aprine una qui.
+850	Flow: note, barre e colori
+851	Flow: cosa vedi
+852	Per %s. Cosa può mostrarti DMGAssist, in tre parti: la pozione suggerita con i tuoi grandi tempi di recupero, i tuoi monili utilizzabili e i tuoi incantesimi. Salvato per specializzazione (monili per oggetto), anche dopo aggiornamenti e cambi di equipaggiamento.
+853	Come funziona
+854	Altre impostazioni
+855	Nessuna pozione scelta. Clicca la casella e scegline una dalle borse: DMGAssist la suggerirà nel badge degli oggetti accanto allo slot 1 quando SimC beve una pozione (con i tuoi grandi tempi di recupero).
+856	Nessuno equipaggiato: qui compaiono solo i monili con un effetto Usa. Equipane uno e apparirà.
+857	Apri
+858	Fuori dal combattimento, un potenziamento mancante va nello slot 1: potenziamenti d'incursione, scudi, infusioni dell'arma, veleni, e Scudo di Terra o Faro di Luce sul tuo difensore. Ognuno può essere nascosto nella pagina Incantesimi, monili e pozione.
+859	Pagine interne
+860	Scegli una dimensione e una posizione: è tutto ciò che serve a quasi tutti. Il resto qui sotto è una regolazione fine facoltativa; se lo cambi qui appare Personalizzato.
+861	Posizione
+862	Pozione
+863	Subito dopo il problema: /dmga report (o il menu della minimappa, o il pulsante Segnala un problema in cima a questa pagina). Passo 1: di' cosa è andato storto. Passo 2: Ctrl+C copia insieme le tue parole e il rapporto. Passo 3: apri il link e incolla tutto in una nuova segnalazione. /dmga help elenca tutti i comandi.
+864	Adesso
+865	Dimensione, disposizione, caratteri, testo dei tasti, badge e cosa mostra l'HUD.
+866	Piccolo, medio o grande: tutto l'HUD, icone e testo. Personalizzato: impostato dal cursore Scala qui sotto.
+867	Suoni per interruzioni, difensivi, avvisi dei boss e tempi di recupero.
+868	Incantesimi
+869	Gli incantesimi (note) scorrono da destra a sinistra fino alla casella a sinistra. Una nota arriva alla casella proprio quando si può premere: la casella lampeggia, premi allora. Perfetto, Ottimo o Buono dice quanto eri preciso. Ogni colpo aggiunge alla serie e al punteggio (sotto la corsia); ogni 10 di fila il moltiplicatore sale, fino a x4. Stelle e un grado (Bronzo fino a Mitico) crescono con la serie. Una X rossa: incantesimo sbagliato, la serie si rompe. Aspettare (muoversi, una meccanica, niente da premere) non la rompe mai.
+870	Incantesimi, monili e pozione
+871	Incantesimi, monili e pozione: togli la spunta a un incantesimo o monile per non vederlo mai, oppure spunta Per primo quando pronto per mettere un incantesimo nello slot 1 ogni volta che può essere lanciato. Salvato per specializzazione, anche dopo gli aggiornamenti.
+872	La nota nella casella è sempre esattamente l'incantesimo mostrato da Classico: questo non cambia mai. Per mantenere leggibile la corsia, Flow ammorbidisce ciò che viene dopo: le note dietro cambiano solo se una nuova scelta resta per un terzo di secondo, un incantesimo che la rotazione continua a rimandare viene nascosto dopo essere stato saltato tre volte, le note non tornano mai indietro (si fermano e ripartono), nella casella c'è una sola nota, e la corsia va in pausa se per 6 secondi non c'è niente da premere. Così la corsia è più calma delle icone piccole di Classico, ma mai meno corretta su cosa premere ora. Punteggio, serie e stelle sono per divertimento e per imparare il ritmo: non cambiano mai il consiglio. Lo scostamento di tempismo Flow (Modalità Flow e voti) sposta il lampo in base alla tua latenza.
+873	La modalità gioco ritmico, il suo tempismo e il voto prestazione.
+874	Spuntato: può essere mostrato. Non spuntato: mai mostrato (l'incantesimo successivo prende il suo posto). Primo quando pronto: nello slot 1 ogni volta che si può lanciare (solo interruzioni, difensivi e avvicinamenti vengono prima).
+875	Tempismo, debug e gli interruttori usati di rado.
+876	Attiva o disattiva DMGAssist, spostalo e scegli la lingua. Altre impostazioni in fondo a questa pagina.
+877	Due modi di giocare
+878	Cosa vede DMGAssist adesso, una guida a Classico e Flow, il significato di ogni etichetta, badge e colore, e Segnala un problema.
+879	Cosa cambia Flow per restare divertente
+880	Cosa consigliare, bersaglio singolo o ad area, interruzioni, difensivi, monili, promemoria dei buff e livellamento.
+881	Quando appare il voto, cosa misura e dove si trova.
+882	Dove si trova l'HUD. Personalizzato: dove l'hai trascinato (sblocca nella prima pagina) o messo in modalità modifica.
+883	Barra gialla dietro una nota: un lancio, lunga quanto il lancio. Barra blu: una canalizzazione. Nota arancione in fiamme: un grande tempo di recupero, vale doppio. Nota sbiadita: una stima o in attesa di risorsa; non conta come errore. La corsia diventa blu elettrico (MODALITÀ POTENZA!): Brama di sangue o subito dopo un grande tempo di recupero; ogni colpo vale doppio. La riga sopra la corsia offre bonus da prendere quando servono: INTERROMPI!, DIFENDITI! (un difensivo o una cura) e POTENZIA! (un monile o una pozione). Dopo una serie di pull (20 secondi fuori combattimento), appare il tuo voto prestazione.
+884	Il tuo voto migliore, le serie recenti e dove migliorare, per questa specializzazione.
+885	La tua pozione, i tuoi monili utilizzabili e ogni incantesimo, attivi o no per questa specializzazione.
+886	Personalizzato
+887	Appena sopra le barre delle azioni
