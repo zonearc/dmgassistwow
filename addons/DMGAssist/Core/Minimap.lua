@@ -4,8 +4,10 @@
 --   Left-drag    move the button around the minimap (the angle is saved in DMGAssistDB.minimapAngle)
 --   Right-click  menu: Settings, Watchdog report, quick toggles (shown, out of combat, cooldowns, lock,
 --                sounds), target mode, hide this button
--- The menu is Blizzard_Menu's MenuUtil.CreateContextMenu with buttons, checkboxes and radios (present on live
--- 12.1.5 and forever 1.60.1). Its actions are the slash commands' (ns.commands), so both behave the same.
+-- The menu is our own small frame (MM.ContextMenu), not Blizzard_Menu: the shared menu system ran Edit Mode's layout
+-- dropdown "tainted by DMGAssist" afterwards, and Edit Mode then blocked in combat on every bar and unit frame
+-- (taint.log, 2026-11-11 15:52). Same builder calls as MenuUtil (CreateTitle / CreateButton / CreateCheckbox /
+-- CreateRadio / CreateDivider). Its actions are the slash commands' (ns.commands), so both behave the same.
 --
 -- Options > DMGAssist > "Minimap button" (DMGAssistDB.minimap) shows or hides it. The compartment entry comes
 -- from the TOC (AddonCompartmentFunc = DMGAssist_OnCompartmentClick); Blizzard_Minimap's AddonCompartment.lua
@@ -118,12 +120,137 @@ function MM.FillMenu(_, root)
   end)
 end
 
-local function OpenMenu(owner)
-  if MenuUtil and MenuUtil.CreateContextMenu then
-    MenuUtil.CreateContextMenu(owner, MM.FillMenu)
-  else
-    ns.Options.Open() -- no menu system on this client: the settings have everything the menu has
+-- Our own context menu: a plain frame of rows built with the MenuUtil-style calls, closed by a click elsewhere,
+-- Escape, or picking a button. Checkboxes and radios stay open and refresh, like Blizzard's.
+local menu
+local ROW = 18
+local function MenuFrame()
+  if menu then
+    return menu
   end
+  menu = CreateFrame("Frame", "DMGAssistContextMenu", UIParent, "BackdropTemplate")
+  menu:SetFrameStrata("FULLSCREEN_DIALOG")
+  menu:SetClampedToScreen(true)
+  if menu.SetBackdrop then
+    menu:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8X8", edgeFile = "Interface\\Buttons\\WHITE8X8", edgeSize = 1 })
+    menu:SetBackdropColor(0.06, 0.06, 0.08, 0.96)
+    menu:SetBackdropBorderColor(0.4, 0.4, 0.45, 1)
+  end
+  menu.rows = {}
+  menu:EnableMouse(true)
+  menu:RegisterEvent("GLOBAL_MOUSE_DOWN")
+  menu:SetScript("OnEvent", function(self)
+    if self:IsShown() and U.Get(self.IsMouseOver, self) ~= true then
+      self:Hide()
+    end
+  end)
+  if type(UISpecialFrames) == "table" then
+    table.insert(UISpecialFrames, "DMGAssistContextMenu") -- Escape closes it
+  end
+  return menu
+end
+
+local function Row(i)
+  local r = menu.rows[i]
+  if not r then
+    r = CreateFrame("Button", nil, menu)
+    r:SetHeight(ROW)
+    r.text = r:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    r.text:SetPoint("LEFT", 22, 0)
+    r.text:SetJustifyH("LEFT")
+    r.mark = r:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+    r.mark:SetPoint("LEFT", 6, 0)
+    r.hl = r:CreateTexture(nil, "HIGHLIGHT")
+    r.hl:SetAllPoints()
+    r.hl:SetColorTexture(1, 1, 1, 0.08)
+    r.line = r:CreateTexture(nil, "ARTWORK")
+    r.line:SetHeight(1)
+    r.line:SetPoint("LEFT", 6, 0)
+    r.line:SetPoint("RIGHT", -6, 0)
+    r.line:SetColorTexture(0.4, 0.4, 0.45, 0.8)
+    menu.rows[i] = r
+  end
+  return r
+end
+
+function MM.ContextMenu(owner, fill)
+  local f = MenuFrame()
+  local items = {}
+  local root = {}
+  function root.CreateTitle(_, text)
+    items[#items + 1] = { kind = "title", text = text }
+  end
+  function root.CreateButton(_, text, fn)
+    items[#items + 1] = { kind = "button", text = text, fn = fn }
+  end
+  function root.CreateCheckbox(_, text, get, set)
+    items[#items + 1] = { kind = "check", text = text, get = get, fn = set }
+  end
+  function root.CreateRadio(_, text, get, set)
+    items[#items + 1] = { kind = "radio", text = text, get = get, fn = set }
+  end
+  function root.CreateDivider(_)
+    items[#items + 1] = { kind = "divider" }
+  end
+  fill(owner, root)
+  local width = 160
+  local function Refresh()
+    for i, it in ipairs(items) do
+      local r = Row(i)
+      r.text:SetText(it.text or "")
+      r.line:SetShown(it.kind == "divider")
+      r:SetHeight(it.kind == "divider" and 7 or ROW)
+      U.Call(r.text.SetFontObject, r.text, it.kind == "title" and "GameFontNormalSmall" or "GameFontHighlightSmall")
+      local mark = ""
+      if it.kind == "check" then
+        mark = it.get() and "|cff88ff88\226\156\147|r" or "|cff666666-|r"
+      elseif it.kind == "radio" then
+        mark = it.get() and "|cffffd100\226\151\143|r" or "|cff666666\226\151\139|r"
+      end
+      r.mark:SetText(mark)
+      r:EnableMouse(it.kind ~= "title" and it.kind ~= "divider")
+      width = math.max(width, (tonumber(U.Get(r.text.GetStringWidth, r.text)) or 0) + 34)
+    end
+  end
+  Refresh()
+  local y = -6
+  for i, it in ipairs(items) do
+    local r = menu.rows[i]
+    r:ClearAllPoints()
+    r:SetPoint("TOPLEFT", 4, y)
+    r:SetPoint("RIGHT", -4, 0)
+    r:SetScript("OnClick", function()
+      if not it.fn then
+        return
+      end
+      it.fn()
+      if it.kind == "button" then
+        f:Hide()
+      else
+        Refresh()
+      end
+    end)
+    r:Show()
+    y = y - r:GetHeight()
+  end
+  for i = #items + 1, #menu.rows do
+    menu.rows[i]:Hide()
+  end
+  f:SetSize(width + 8, -y + 6)
+  f:ClearAllPoints()
+  local x, cy = U.Call(GetCursorPosition)
+  local scale = tonumber(U.Get(UIParent.GetEffectiveScale, UIParent)) or 1
+  if type(x) == "number" and type(cy) == "number" and scale > 0 then
+    f:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x / scale, cy / scale)
+  else
+    f:SetPoint("TOPLEFT", owner or UIParent, "BOTTOMLEFT")
+  end
+  f:Show()
+end
+ns.ContextMenu = MM.ContextMenu
+
+local function OpenMenu(owner)
+  MM.ContextMenu(owner, MM.FillMenu)
 end
 
 -- One handler for the minimap button and the compartment.

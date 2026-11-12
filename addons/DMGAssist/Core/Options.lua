@@ -950,11 +950,7 @@ function O.RegisterSpellChoices(parent)
   end
   local function ChoosePotion(owner)
     local list = ns.Trinkets.PotionsInBags()
-    if not (MenuUtil and MenuUtil.CreateContextMenu) then
-      U.Print("%s", L["Type /dmga potion and shift-click a potion to choose it."])
-      return
-    end
-    MenuUtil.CreateContextMenu(owner, function(_, root)
+    ns.ContextMenu(owner, function(_, root)
       root:CreateTitle(L["Potion for this spec"])
       if #list == 0 then
         root:CreateButton(L["No potions in your bags"], function() end)

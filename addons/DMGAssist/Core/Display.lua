@@ -477,6 +477,7 @@ local function SetFont(fs, size, outline)
 end
 
 D.SetFont = SetFont
+D.SetColor = SetColor
 
 -- Keybind text offset from its anchor: inset from a corner, none when centred.
 local function KeyX(pos)

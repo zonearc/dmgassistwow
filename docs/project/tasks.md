@@ -28,10 +28,12 @@ Last updated: 1.6.0.157 (2026-11-10).
 - Flow ideas to decide with the user: a time-limited "Flow State" power-up from a hot streak, combos over linked
   spell clusters (COMBO / ULTRA / ULTIMATE), "COMBO BREAKER" on interrupts.
 
-- Taint (report 2026-11-11, 1.6.0.206): "blocked: tainted=DMGAssist" in combat on Edit Mode's SetClampRectInsets
-  (15:52) and on action buttons' SetAttribute (UpdatePressAndHoldAction, 16:21). Our Edit Mode code only uses
-  hooksecurefunc + a deferred frame and the highlight is never anchored to Blizzard buttons, so the source is not
-  clear from the code: needs a taint log (/console taintLog 1, reproduce, then Logs/taint.log).
+- Taint (taint.log from the user, 2026-11-11): both episodes start at 15:52:17 with Edit Mode's layout dropdown
+  (Menu.lua Pick -> EditModeManagerFrame:SelectLayout) running "tainted by DMGAssist"; every bar and unit frame's
+  SetClampRectInsets / SetScaleBase was then blocked, and at 16:21 the action buttons read tainted fields
+  (ActionBar.lua:247 GetSpellFlyoutDirection, autoCastEnabled) and SetAttribute was blocked. The taint enters
+  through Blizzard_Menu: our minimap / potion menus used MenuUtil.CreateContextMenu. 1.6.0.227 uses our own menu
+  frame instead. Verify: no "tainted by DMGAssist" after using the minimap menu and switching Edit Mode layouts.
 
 - Every-spec check realism (worked on 2026-11-11, saved, not adopted):
   - docs/project/patches/sim-charges.patch: the simulation reports charges via GetSpellCharges like the game.
@@ -86,6 +88,9 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.227: our own right-click menu (minimap, potion picker) instead of Blizzard_Menu (taint into Edit Mode's
+  layout dropdown, taint.log 2026-11-11); Flow notes re-apply the keybind size and colour when drawn (reused
+  notes kept an old size: small keys next to large ones).
 - 1.6.0.226: Runic Power: rune spells' negative costs are gains (importer: "-10 Runic Power", per spec with "w/
   Unholy Death Knight"), so Death Coil isn't held back for Runic Power you have. Flow says INTERRUPT! (was KICK!).
   Welcome: the style question is two cards side by side (Classic three icons / Flow lane with notes sliding in), a

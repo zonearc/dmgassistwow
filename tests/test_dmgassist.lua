@@ -213,9 +213,27 @@ test("minimap button: left-click shows/hides, drag moves, right-click menu has s
     CreateRadio = function(_, t, get, set) items[#items + 1] = { kind = "radio", text = t, get = get, set = set } end,
   }
   DMGAssistWatchdog = { OpenReport = function() end }
-  MenuUtil = { CreateContextMenu = function(owner, gen) eq(owner, b) gen(owner, root) end }
+  local realMenu = ns.Minimap.ContextMenu
+  ns.Minimap.ContextMenu = function(owner, gen) eq(owner, b) gen(owner, root) end
   b.scripts.OnClick(b, "RightButton")
-  MenuUtil, DMGAssistWatchdog = nil, nil
+  ns.Minimap.ContextMenu = realMenu
+  -- our own menu frame (not Blizzard_Menu, which tainted Edit Mode): rows, a checkbox flips and stays open
+  realMenu(b, ns.Minimap.FillMenu)
+  local m = _G.DMGAssistContextMenu
+  eq(m and m:IsShown(), true, "our menu opens")
+  local lockRow
+  for _, r in ipairs(m.rows) do
+    if r.text:GetText() == "Lock position" then
+      lockRow = r
+    end
+  end
+  local locked = ns.db.locked ~= false
+  lockRow.scripts.OnClick(lockRow)
+  eq(ns.db.locked ~= false, not locked, "checkbox flips")
+  eq(m:IsShown(), true, "a checkbox keeps the menu open")
+  lockRow.scripts.OnClick(lockRow)
+  m:Hide()
+  DMGAssistWatchdog = nil
   local by = {}
   for _, it in ipairs(items) do
     by[it.text] = it

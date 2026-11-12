@@ -792,6 +792,16 @@ function G.Render()
     keep[w.key] = true
     n.lane, n.main = w.lane, w.main
     D.SetIcon(n, w.pick, cfg, w.main or w.lane > 1, "")
+    -- every note's key in the size and colour set now: notes are reused, and one made before the keybind size
+    -- changed kept its old size, so keys showed small next to large ones (2026-11-12)
+    local ks = tonumber(cfg.keybindSize) or 18
+    if n.keySize ~= ks or n.keyColor ~= cfg.keybindColor then
+      D.SetFont(n.key, ks)
+      if D.SetColor then
+        D.SetColor(n.key, cfg.keybindColor)
+      end
+      n.keySize, n.keyColor = ks, cfg.keybindColor
+    end
     n.name:SetText("")
     n.label:SetText("")
     n.source:SetText("")
