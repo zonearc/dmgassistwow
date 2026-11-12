@@ -369,6 +369,18 @@ test("combos: follow the lane by the streak's judgement; 3-4 presses, spaced, ne
   C.Reset()
 end)
 
+test("a damage tick the game logs as a cast isn't a press (Spinning Crane Kick's first tick took the press)", function()
+  Reset()
+  local ns = Boot()
+  local isPlayer = IsPlayerSpell
+  IsPlayerSpell = function(id)
+    return id == 107270 or (isPlayer and isPlayer(id))
+  end
+  mock.Advance(1)
+  eq(ns.IsPress(107270), false, "the tick: known, but not in the spellbook or on a bar")
+  IsPlayerSpell = isPlayer
+end)
+
 test("major cooldowns are ordinary queue lines; switched off they never show", function()
   Reset()
   local ns = Boot()
@@ -6309,6 +6321,16 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   eq(Game.frame.pop:GetText():find("COMBO!", 1, true) ~= nil, true, "the announcement")
   eq(Game.score > scoreBefore, true, "combo points")
   eq(Game.frame.comboAt ~= nil, true, "the sweep starts")
+  -- out of combat a cast that isn't a rotation spell (switching spec, a 5 s cast) doesn't wake the lanes
+  local inCombat = mock.inCombat
+  mock.inCombat = false
+  Game.lastAct = nil
+  mock.casting = { id = 200749, endsIn = 5 } -- Activating Specialization
+  Game.Render()
+  eq(Game.lastAct, nil, "a spec switch isn't play")
+  eq(Game.paused, true)
+  mock.casting = nil
+  mock.inCombat = inCombat
   -- the foot row: streak and score on the first line, rank and best on the second (one line cut them to "...")
   eq((Game.frame.streak:GetText() or ""):find("Best", 1, true), nil, "best is on the second line")
   eq(Game.frame.streak2 ~= nil, true)

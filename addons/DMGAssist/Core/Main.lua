@@ -898,7 +898,12 @@ local function IsPress(id)
   if now - lastPress < 0.1 then
     return false -- another piece of the same press
   end
-  local known = U.Get(IsPlayerSpell, id) == true or (ns.SpellMap.book and ns.SpellMap.book[id] ~= nil)
+  -- a spell you press: in the spellbook, or known and on a bar. Not a damage tick the game logs as a cast: Spinning
+  -- Crane Kick's first tick (107270) came in the same frame as the cast and took the press, so the cast itself was
+  -- never judged (Brewmaster, 2026-11-12)
+  local SM = ns.SpellMap
+  local known = (SM.book and SM.book[id] ~= nil)
+    or (U.Get(IsPlayerSpell, id) == true and (not SM.Pressable or SM.Pressable(id)))
   if known then
     lastPress = now
   end

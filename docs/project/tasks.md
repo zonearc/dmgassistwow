@@ -59,6 +59,10 @@ Last updated: 1.6.0.157 (2026-11-10).
   spent/gained resources per spell, or mark such rows as not meaningful.
 - [ ] Forever: confirm the WoWSims rank mapping (data imports for 34 specs; mapping not verified)
 
+- Brewmaster report (2026-11-12): 21 of 22 Flow judgements "Good", none Perfect: check note timing against
+  readiness for a 1 s GCD spec (energy hidden); Blizzard's assistant named Touch of Death all fight (refused on
+  the dummies) and was set aside after 20 wrong checks; no mitigation weave on dummies (nothing hits them).
+
 ## Proposed (waiting on a decision)
 
 - (none)
@@ -98,6 +102,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.236: A damage tick the game logs as a cast (Spinning Crane Kick's 107270) is no longer taken as a press:
+  it came in the same frame as the cast and Brewmaster's Spinning Crane Kick presses were never judged.
+  Flow: out of combat a cast that isn't a rotation spell (switching spec, 5 s) no longer keeps the lanes
+  running: they ran on behind the grade and a spec switch started them like a press.
 - 1.6.0.235: Flow foot row on two lines at the same size (streak, multiplier and score; then rank and best):
   "Gold" and "Best" were cut to "..." on one line.
 - Signed off in game 2026-11-12: combos (1.6.0.234), Elemental slots 2-3, Wailing Arrow, Display Quick setup /

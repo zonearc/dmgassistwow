@@ -850,8 +850,13 @@ function G.Render()
   G.lastRender = now
   -- paused: no spell for IDLE_PAUSE seconds (and none being cast). Nothing slides, the dots stop, the clock for a
   -- quiet miss stops; your next spell picks it up again (2026-11-11: "if I stop for like 5-7s, pause the game")
-  local casting = select(2, ns.State.CurrentCast())
-  if casting and casting > 0 then
+  local castID, casting = ns.State.CurrentCast()
+  -- a cast keeps it going in combat, or out of it when it's a rotation spell: switching spec (a 5 s cast) or a
+  -- mount out of combat isn't play (2026-11-12: the lanes ran on behind the grade and a spec switch started them)
+  local fightNow = UnitAffectingCombat and UnitAffectingCombat("player")
+  local E = ns.Engine
+  local playCast = fightNow or (castID and E and E.IsRotationSpell and E.IsRotationSpell(castID) == true)
+  if casting and casting > 0 and playCast then
     G.lastAct = now
   end
   -- One rule (2026-11-12: buffs out of combat used up the press-start screen, and it never came back): no spell
