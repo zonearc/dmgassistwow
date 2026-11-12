@@ -818,3 +818,4 @@
 824	PAUSE
 825	Lancez votre prochain sort pour reprendre
 826	De retour dans le Flow !
+827	Les tirs de cette spécialisation exigent un arc, une arme à feu ou une arbalète équipés : avec votre arme actuelle ils sont inutilisables, DMGAssist n'a donc rien à afficher.

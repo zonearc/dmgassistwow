@@ -677,6 +677,68 @@ test("Touch of Death only on a target with less health than your maximum", funct
   UnitHealth, UnitHealthMax = oldHealth, oldMax
 end)
 
+test("Black Arrow only above 80% or below 20% target health, or with Deathblow", function()
+  Reset()
+  local ns = Boot()
+  local G, S = ns.Engine, ns.State
+  local hp = 500
+  local oldHealth, oldMax = UnitHealth, UnitHealthMax
+  UnitHealth = function(unit)
+    return unit == "target" and hp or 1000
+  end
+  UnitHealthMax = function()
+    return 1000
+  end
+  local ok, why = G.Castable(466930)
+  eq(ok, false, "dummy at 50%")
+  eq(why, "target")
+  hp = 900
+  eq(G.Castable(466930) ~= false, true, "above 80%")
+  hp = 150
+  eq(G.Castable(466930) ~= false, true, "below 20%")
+  hp = 500
+  S.glow[466930] = true
+  eq(G.Castable(466930) ~= false, true, "Deathblow lights it")
+  S.glow[466930] = nil
+  UnitHealth, UnitHealthMax = oldHealth, oldMax
+end)
+
+test("'Invalid target': the spell is held for that target until you switch", function()
+  Reset()
+  local ns = Boot()
+  local G, S = ns.Engine, ns.State
+  S.combatStart = mock.now
+  _G.SPELL_FAILED_BAD_TARGETS = "Invalid target"
+  S.OnCastFailed(322109)
+  S.OnUIError(nil, "Invalid target")
+  local ok, why = G.Castable(322109)
+  eq(ok, false, "refused for this target")
+  eq(why, "target")
+  S.OnTargetChanged()
+  eq(S.TargetRefused(322109), false, "a new target clears it")
+  S.combatStart = nil
+end)
+
+test("leveling: Blizzard's pick that can't be used on this target isn't shown in any slot", function()
+  Reset()
+  local ns = Boot()
+  local oldHealth, oldMax = UnitHealth, UnitHealthMax
+  UnitHealth = function(unit)
+    return unit == "target" and 5000 or 1000
+  end
+  UnitHealthMax = function()
+    return 1000
+  end
+  local A, B = { id = 5221, source = "simc" }, { id = 1822, source = "simc" }
+  local r = ns.Leveling.Lead({ acSpell = 322109, main = A, queue = { A, B } }, nil)
+  local shown = false
+  for _, p in ipairs(r.queue or {}) do
+    shown = shown or p.id == 322109
+  end
+  eq(shown, false, "Touch of Death on a full-health dummy: not in slot 2")
+  UnitHealth, UnitHealthMax = oldHealth, oldMax
+end)
+
 test("nothing castable now: the slot shows the first spell ready within a few seconds, not nothing", function()
   Reset()
   local ns = Boot()

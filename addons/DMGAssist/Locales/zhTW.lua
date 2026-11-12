@@ -822,4 +822,5 @@ ns.LOCALE_DATA.zhTW = {
   ["PAUSED"] = "已暫停",
   ["Hit your next spell to jump back in"] = "施放下一個技能即可繼續",
   ["Back in the Flow!"] = "回到Flow！",
+  ["This spec's shots need a bow, gun or crossbow equipped: with your current weapon they can't be used, so DMGAssist has nothing to show."] = "此專精的射擊需要裝備弓、槍或弩：目前的武器無法使用這些技能，因此 DMGAssist 沒有可顯示的內容。",
 }

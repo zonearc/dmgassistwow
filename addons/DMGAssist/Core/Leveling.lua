@@ -84,6 +84,12 @@ function LV.Lead(result, record)
   if not ac or ns.Choices.Skip(ac) or ns.Engine.IsHeld(ac) then
     return result
   end
+  -- Not usable on this target at all (Touch of Death on a full-health dummy): not shown in any slot (it sat in
+  -- slot 2 and couldn't be pressed, Brewmaster 2026-11-12).
+  local _, whyNot = ns.Engine.Castable(ac)
+  if whyNot == "target" then
+    return result
+  end
   local pick = { id = ac, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(ac) or nil,
     source = "assisted", why = "leveling" }
   -- Blizzard's assistant also names a spell that is still on cooldown (the next important one, to wait for):

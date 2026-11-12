@@ -16,6 +16,16 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- UI errors (2026-11-12, only DBM + DMGAssist loaded): ActionButton.lua:996 "attempt to call a nil value" on
+  SPELL_ACTIVATION_OVERLAY_GLOW_SHOW, AssistedCombatManager.lua:190 (6516x), "tainted by DMGAssist" blocks on
+  SetAttribute / Edit Mode / GetAuraDataByIndex. Needs: the same session with DMGAssist disabled (is it ours?)
+  and Logs/taint.log lines naming DMGAssist (taintLog is on in testing mode). Audit every call into Blizzard Lua.
+
+- BM (report 2026-11-12): "spells pop into slot 1 on a priority change without the flash". Check the flash trigger
+  when slot 1 changes to a spell that's already ready (no cooldown end to flash on).
+- Survival: checked on dummies, good (2026-11-12). Windwalker / Brewmaster: good apart from Touch of Death.
+- Wording: "Kick" for interrupts — consider "Interrupt" in UI text (decide with user).
+
 - Guardian (report 2026-11-12): Frenzied Regeneration only at the low-health threshold; with 2 charges / 21 s
   recharge it's used much earlier (when a charge would cap). Needs the charge count and a "not full health" read.
 - Icon + key check (2026-11-12): "wrong icon for Ironfur, and no keybind": confirm which pick (a gap closer, Wild
@@ -82,6 +92,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.221: Black Arrow only above 80% / below 20% target health or with Deathblow (SimC 466930 effects #2/#3);
+  a spell the game refuses with "Invalid target" is held for that target (Touch of Death on dummies); leveling
+  mode never puts Blizzard's pick in slot 2 when it can't be used on this target. Marksmanship / Beast Mastery
+  with a non-ranged weapon equipped: chat says the shots need a bow, gun or crossbow (the game marks them all
+  unusable, so the display was empty). Cooldown Manager icons: no Blizzard Lua method called on them (taint).
 - 1.6.0.220: Flow: the off-GCD pick (Ironfur) shows in the action row beside the low-health heal; that heal
   (always listed, shown by the game when you're low) used to hide it, so Guardian only ever saw Frenzied Regen.
 - 1.6.0.219: Flow: out of combat a shapeshift / stance / pre-pull-only spell (Bear Form after a spec swap) is

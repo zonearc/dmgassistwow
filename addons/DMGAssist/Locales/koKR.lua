@@ -822,4 +822,5 @@ ns.LOCALE_DATA.koKR = {
   ["PAUSED"] = "일시 정지",
   ["Hit your next spell to jump back in"] = "다음 주문을 시전하면 다시 시작합니다",
   ["Back in the Flow!"] = "다시 Flow로!",
+  ["This spec's shots need a bow, gun or crossbow equipped: with your current weapon they can't be used, so DMGAssist has nothing to show."] = "이 전문화의 사격은 활, 총 또는 석궁을 장착해야 합니다. 현재 무기로는 사용할 수 없어 DMGAssist가 표시할 것이 없습니다.",
 }

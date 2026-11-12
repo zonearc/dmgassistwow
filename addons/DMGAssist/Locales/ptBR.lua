@@ -822,4 +822,5 @@ ns.LOCALE_DATA.ptBR = {
   ["PAUSED"] = "PAUSADO",
   ["Hit your next spell to jump back in"] = "Lance seu próximo feitiço para voltar",
   ["Back in the Flow!"] = "De volta ao Flow!",
+  ["This spec's shots need a bow, gun or crossbow equipped: with your current weapon they can't be used, so DMGAssist has nothing to show."] = "Os disparos desta especialização exigem um arco, arma de fogo ou besta equipados: com sua arma atual eles não podem ser usados, então o DMGAssist não tem nada para mostrar.",
 }

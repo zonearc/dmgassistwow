@@ -818,3 +818,4 @@
 824	PAUSE
 825	Wirke deinen nächsten Zauber, um wieder einzusteigen
 826	Zurück im Flow!
+827	Die Schüsse dieser Spezialisierung brauchen einen Bogen, eine Schusswaffe oder eine Armbrust: mit deiner aktuellen Waffe sind sie nicht nutzbar, daher kann DMGAssist nichts anzeigen.

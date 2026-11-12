@@ -818,3 +818,4 @@
 824	PAUSA
 825	Lancia il prossimo incantesimo per rientrare
 826	Di nuovo nel Flow!
+827	I colpi di questa specializzazione richiedono un arco, un'arma da fuoco o una balestra equipaggiati: con l'arma attuale non si possono usare, quindi DMGAssist non ha nulla da mostrare.

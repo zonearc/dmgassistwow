@@ -310,6 +310,20 @@ G.TARGET_RULES = {
     end
     return S.glow[id] == true
   end,
+  -- Black Arrow (Dark Ranger): only on enemies above 80% or below 20% health (effects #3 / #2 of 466930), or with
+  -- Deathblow (it lights the button). It was shown on a dummy at 50% and couldn't be pressed (BM, 2026-11-12).
+  -- Health unreadable: only when the game lights it or Blizzard's assistant names it.
+  [466930] = function(id)
+    if S.glow[id] == true then
+      return true
+    end
+    local hp, maxHp = U.Get(UnitHealth, "target"), U.Get(UnitHealthMax, "target")
+    if type(hp) == "number" and type(maxHp) == "number" and maxHp > 0 and hp > 0 then
+      local pct = hp / maxHp * 100
+      return pct <= 20 or pct >= 80
+    end
+    return G.acNow == id
+  end,
 }
 
 -- Spells the game won't cast while an effect runs ("A more powerful spell is already active"), even with a charge
@@ -533,6 +547,11 @@ G.TooFar = TooFar
 local function CastableRaw(id)
   local rule = G.TARGET_RULES[id] or G.TARGET_RULES[(M.baseOf and M.baseOf[id]) or id]
   if rule and not rule(id) then
+    return false, "target"
+  end
+  -- The game refused it for this target ("Invalid target": Touch of Death on a training dummy, 2026-11-12):
+  -- not for this target, until you switch or the game lights it.
+  if S.TargetRefused and S.TargetRefused(id) and S.glow[id] ~= true then
     return false, "target"
   end
   if TooFar(id) then

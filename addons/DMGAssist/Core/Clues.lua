@@ -680,10 +680,9 @@ function C.ReadCooldownManager(readable)
           local sid = type(info) == "table" and U.Read(info.spellID)
           local token = sid and M.AuraToken(sid, U.Get(C_Spell and C_Spell.GetSpellName, sid))
           if token then
-            local unit = U.Get(item.GetAuraDataUnit, item)
-            if unit ~= "target" then
-              unit = "player"
-            end
+            -- Only plain fields are read here: calling Blizzard's own Lua methods on these frames (GetAuraDataUnit)
+            -- runs their code from ours and can leave it "tainted by DMGAssist" (2026-11-12). Buff icons: player.
+            local unit = "player"
             seen = seen + 1
             local truth = readable and readable[unit]
             if truth then

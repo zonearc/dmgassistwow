@@ -14,6 +14,27 @@ local STATUS_TEXT = {
   unsupported_client = "this game client is not supported",
 }
 
+-- Marksmanship and Beast Mastery shots need a bow, gun or crossbow: with a Survival polearm still equipped every
+-- shot is unusable and the display stays empty (only Trueshot showed, 2026-11-12). Said once per spec / gear change.
+local RANGED_SPECS = { hunter_marksmanship = true, hunter_beast_mastery = true }
+local RANGED_SUB = { [2] = true, [3] = true, [18] = true } -- bow, gun, crossbow (item class 2)
+local rangedWarned = nil
+local function CheckRangedWeapon(key)
+  if not (key and RANGED_SPECS[key]) or rangedWarned == key then
+    return
+  end
+  local item = U.Get(GetInventoryItemID, "player", 16)
+  if type(item) ~= "number" or not (C_Item and C_Item.GetItemInfoInstant) then
+    return
+  end
+  local _, _, _, _, _, classID, subID = C_Item.GetItemInfoInstant(item)
+  if classID == 2 and type(subID) == "number" and not RANGED_SUB[subID] then
+    rangedWarned = key
+    U.Print(L["This spec's shots need a bow, gun or crossbow equipped: with your current weapon they can't be used, "
+      .. "so DMGAssist has nothing to show."])
+  end
+end
+
 local function Describe(state)
   if not state then
     return "not started"
@@ -136,6 +157,8 @@ Specs.OnChange(function(state, previous)
   if previous then
     U.Print(L["Spec changed: %s"], Describe(state))
   end
+  rangedWarned = nil
+  CheckRangedWeapon(state.key)
 end)
 
 ---------------------------------------------------------------------------
@@ -543,6 +566,8 @@ frame:SetScript("OnEvent", function(_, event, ...)
     D.InvalidateKeybinds()
     if event == "PLAYER_EQUIPMENT_CHANGED" then
       S.ForgetTalentCache() -- set bonuses come and go with gear
+      rangedWarned = nil
+      CheckRangedWeapon(Specs.current and Specs.current.key)
     end
   elseif event == "PLAYER_REGEN_DISABLED" then
     inCombat = true

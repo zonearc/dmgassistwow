@@ -818,3 +818,4 @@
 824	PAUSA
 825	Lanza tu siguiente hechizo para volver
 826	¡De vuelta en el Flow!
+827	Los disparos de esta especialización necesitan un arco, un arma de fuego o una ballesta equipados: con tu arma actual no se pueden usar, así que DMGAssist no tiene nada que mostrar.

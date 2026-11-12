@@ -822,4 +822,5 @@ ns.LOCALE_DATA.deDE = {
   ["PAUSED"] = "PAUSE",
   ["Hit your next spell to jump back in"] = "Wirke deinen nächsten Zauber, um wieder einzusteigen",
   ["Back in the Flow!"] = "Zurück im Flow!",
+  ["This spec's shots need a bow, gun or crossbow equipped: with your current weapon they can't be used, so DMGAssist has nothing to show."] = "Die Schüsse dieser Spezialisierung brauchen einen Bogen, eine Schusswaffe oder eine Armbrust: mit deiner aktuellen Waffe sind sie nicht nutzbar, daher kann DMGAssist nichts anzeigen.",
 }

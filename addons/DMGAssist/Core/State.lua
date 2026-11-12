@@ -1276,11 +1276,33 @@ end
 -- refused-press hold is for cooldowns only. Feral pressing Rake a moment before the Energy was there got Rake
 -- held and Swipe put in slot 1, again and again (2026-11-10).
 local lastOtherError = nil
+-- "Invalid target" and the like: the spell can't be used on this target (Touch of Death on a training dummy, Black
+-- Arrow at the wrong health). Held for this target, up to S.TARGET_REFUSED_FOR seconds (health moves).
+S.targetRefused = {}
+S.TARGET_REFUSED_FOR = 15
+local function IsTargetError(msg)
+  for _, k in ipairs({ "SPELL_FAILED_BAD_TARGETS", "SPELL_FAILED_TARGET_AURASTATE", "ERR_INVALID_TARGET",
+    "SPELL_FAILED_BAD_IMPLICIT_TARGETS" }) do
+    local g = _G[k]
+    if type(g) == "string" and msg == g then
+      return true
+    end
+  end
+  return false
+end
+function S.TargetRefused(id)
+  local t = S.targetRefused[id] or (M.baseOf and M.baseOf[id] and S.targetRefused[M.baseOf[id]])
+  return t ~= nil and GetTime() - t < S.TARGET_REFUSED_FOR
+end
 function S.OnUIError(_, msg)
   if type(msg) == "string" and not IsCooldownError(msg) then
     local now = GetTime()
     lastOtherError = now
     local f = lastFailed
+    if f and now - f.t <= S.REFUSAL_PAIR and IsTargetError(msg) then
+      S.targetRefused[f.id] = now
+      U.Log("target_refused", { spell = M.TokenForID(f.id) or f.id })
+    end
     if f and now - f.t <= S.REFUSAL_PAIR and f.held then
       S.notBefore[f.id] = f.prevHold -- undo the hold this refusal set
       local p = S.pressed[f.id]
@@ -2163,6 +2185,7 @@ end
 function S.OnTargetChanged()
   ns.Clues.OnTargetChanged()
   S.dotUntil = {}
+  S.targetRefused = {}
   readAuras.target = nil
   S.OnAura("target")
 end

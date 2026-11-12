@@ -818,3 +818,4 @@
 824	PAUSADO
 825	Lance seu próximo feitiço para voltar
 826	De volta ao Flow!
+827	Os disparos desta especialização exigem um arco, arma de fogo ou besta equipados: com sua arma atual eles não podem ser usados, então o DMGAssist não tem nada para mostrar.
