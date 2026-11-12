@@ -94,14 +94,12 @@ Last updated: 1.6.0.157 (2026-11-10).
   row before the pull (DK); Death Coil in Flow only when Runic Power allows (Unholy); Arms / Fury Whirlwind and
   slot 2 steady without a hero tree; Guardian Moonfire keep-up only when it's on your bar; Flow keybinds all one
   size; welcome style cards; minimap menu + Edit Mode layout switch with no "tainted by DMGAssist"
-- [ ] Combos (1.6.0.232): linked violet notes when a cooldown comes up with what follows it; COMBO 1/3 ... COMBO!
-  with the violet sweep; Flow State after 15 Perfect / Great; COMBO BREAKER! on an interrupt; the action box over
-  the hit box (one at a time, +1); 1.6.0.233: nothing overlaps the action box; 1.6.0.234: a combo
-  survives a mid-press switch, 3-4 presses, 15 s apart, not in the first presses, about one a minute
-- [ ] Elemental (1.6.0.230): slots 2 and 3 change with the fight, Lava Burst only in slot 1 with Lava Surge
+- [ ] Flow State after 15 Perfect / Great; COMBO BREAKER! on an interrupt (combos signed off by the owner 2026-11-12)
 
 ## Done (recent)
 
+- Signed off in game 2026-11-12: combos (1.6.0.234), Elemental slots 2-3, Wailing Arrow, Display Quick setup /
+  Custom, settings pages, preview, text sizes, welcome.
 - 1.6.0.234: Combo rules from the owner: a combo moves with the streak's judgement (a mid-press switch keeps
   both), 3 presses (4 from a major cooldown), at least 15 s apart, not in a fight's first 5 presses, and one is due
   after 45 s without (any spell in the box can start it then). Guide text updated in 9 languages.
