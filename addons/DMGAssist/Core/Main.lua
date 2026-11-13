@@ -969,6 +969,7 @@ function ns.OnOwnCast(id)
     ns.Game.Started(id) -- a spell starts the Flow (in combat any spell; out of it, a rotation spell)
   end
   local shown = ns.ShownForPress(id)
+  ns.Diagnostics.OnOwnCast(id, inCombat) -- (casts before the pull: prepull_casts)
   if inCombat then
     ns.Diagnostics.OnPress(id, shown, ns.last) -- was slot 2 right? (prediction_summary)
     ns.Learner.OnPress(id, shown, ns.last) -- the shadow learner (learner_summary, press lines)

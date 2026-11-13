@@ -142,6 +142,15 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.258: Outlaw run on 1.6.0.257 (167 s). Slot 1 steady 94% (8 changes in 108). Prediction over the last three
+  fights (replay, learner carried over): slot 2 42%, learner 51%, 65% where the full situation was known; in game
+  learner 57/112 vs SimC 53/112, running lead 3 points (live needs 10). Adrenaline Rush: majors_at_pull read
+  "not ready, 180 s left" with nothing on cooldown before the pull (screenshot); never cast in the fight. Our clock,
+  links and charges ruled out; most likely cast as the opener just before combat (out of combat slot 1 shows it,
+  SimC opens with it; 3 min cooldown > 2.5 min dummy fights). Not provable from the log: now logged:
+  prepull_casts (own casts in the 10 s before the pull) and the game's raw cooldown readout per major at the pull.
+  Other cooldowns used on time (Blade Rush 61-63 s gaps on 60 s, Blade Flurry and Roll the Bones on cooldown).
+  Energy: 8 presses refused "Not enough energy" during the blue waits: the waits were real.
 - 1.6.0.257: Outlaw run on 1.6.0.256 (142 s). Learner shadow: 41/95 vs SimC 37/95 on the same presses; confident
   guesses 18/22 (82%); replay: full situation 59%, cp+lit 57%. "Slot 1 steady 76%" was mostly a measuring error:
   23 of 29 changes were the next cast starting from the spell queue (the spell that left slot 1 was cast 0.02-0.2

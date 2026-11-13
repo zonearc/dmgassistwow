@@ -448,7 +448,36 @@ local function MajorReady(id)
   return S.CooldownReady and S.CooldownReady(id) == true
 end
 
+-- Your own casts just before the pull: those aren't in the fight's log (it starts with combat), and a major used
+-- as the opener is "on cooldown" at the pull (Adrenaline Rush read 180 s left, 2026-11-13).
+G.PREPULL = 10
+G.recentCasts = {}
+function G.OnOwnCast(id, inCombat)
+  if inCombat or not id then
+    return
+  end
+  local list = G.recentCasts
+  list[#list + 1] = { id = id, at = GetTime() }
+  if #list > 8 then
+    table.remove(list, 1)
+  end
+end
+
+local function PrepullCasts()
+  local now, parts = GetTime(), {}
+  for _, c in ipairs(G.recentCasts) do
+    if now - c.at <= G.PREPULL then
+      parts[#parts + 1] = string.format("%s@-%.1f", tostring(ns.SpellMap.TokenForID(c.id) or c.id), now - c.at)
+    end
+  end
+  G.recentCasts = {}
+  if #parts > 0 then
+    U.Log("prepull_casts", table.concat(parts, " "))
+  end
+end
+
 function G.MajorsAtPull()
+  PrepullCasts()
   G.majors, G.majorLogs = {}, 0
   local parts = {}
   for _, token in ipairs(MajorTokens()) do
@@ -457,8 +486,22 @@ function G.MajorsAtPull()
       local ready = MajorReady(id)
       G.majors[token] = { id = id, ready = ready }
       local left = not ready and ns.State.CooldownRemains and ns.State.CooldownRemains(id)
+      -- the game's own readout as well: Adrenaline Rush read "180 s left" at the pull with nothing on cooldown
+      -- (screenshot, 2026-11-13), so what the game says matters, field by field
+      local info = U.Get(C_Spell and C_Spell.GetSpellCooldown, id)
+      local raw = "?"
+      if type(info) == "table" then
+        local now = GetTime()
+        local start, dur = U.Read(info.startTime), U.Read(info.duration)
+        raw = string.format("start=%s dur=%s enabled=%s active=%s gcd=%s",
+          type(start) == "number" and string.format("%.1f", start - now) or tostring(start),
+          tostring(dur), tostring(U.Read(info.isEnabled)), tostring(U.Read(info.isActive)),
+          tostring(U.Read(info.isOnGCD)))
+      end
       parts[#parts + 1] = token .. "=" .. (ready and "ready"
         or ("not_ready(left=" .. (type(left) == "number" and string.format("%.0f", left) or "?") .. ")"))
+        .. "[id=" .. id .. " " .. raw .. " ourlast=" .. tostring(ns.State.lastCast and ns.State.lastCast[id]
+          and string.format("%.0f", GetTime() - ns.State.lastCast[id]) or "-") .. "]"
     end
   end
   if #parts > 0 then

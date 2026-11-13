@@ -3702,6 +3702,8 @@ test("diagnostics: major cooldowns - state at the pull, when one comes back, the
   Feral(ns, rec)
   ns.Specs.current = { key = "druid_feral", status = "ready", data = rec, branch = "midnight", client = "Midnight" }
   mock.cooldowns[5217] = { start = mock.now - 10, duration = 30, active = true } -- used before the pull
+  G.OnOwnCast(5217, false)
+  mock.Advance(2)
   G.OnCombat(true)
   local TF, SH = { id = 5217, token = "tigers_fury", source = "simc" }, { id = 5221, token = "shred", source = "simc" }
   G.OnPick({ main = SH, queue = { SH } })
@@ -3719,6 +3721,11 @@ test("diagnostics: major cooldowns - state at the pull, when one comes back, the
   eq(lines[2], "major ready=true s=tigers_fury")
   eq(lines[3], "major_shown s=tigers_fury slot=2", "first seen in slot 2")
   eq(#lines, 3, "logged once")
+  local prepull
+  for _, l in ipairs(logged) do
+    if l[1] == "prepull_casts" then prepull = l[2] end
+  end
+  eq(prepull, "tigers_fury@-2.0", "the cast just before the pull")
   G.OnCombat(false)
   DMGAssistWatchdog = nil -- luacheck: ignore 111
 end)
