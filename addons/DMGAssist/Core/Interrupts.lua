@@ -67,7 +67,7 @@ function I.Evaluate()
   if I.testUntil and GetTime() < I.testUntil then
     return { id = id, how = "decided", why = "test" } -- /dmga test interrupt (Settings > Integrations)
   end
-  local casting, notInterruptible, spellID = ns.Display.TargetCast()
+  local casting, notInterruptible, spellID, castLen = ns.Display.TargetCast()
   if not casting or I.skipped then
     return nil
   end
@@ -99,7 +99,7 @@ function I.Evaluate()
   if needImportant and not impSecret and important ~= true then
     return nil
   end
-  local result = { id = id, needImportant = needImportant, notInterruptible = notInterruptible,
+  local result = { id = id, needImportant = needImportant, notInterruptible = notInterruptible, castLen = castLen,
     important = important, why = bossCall and "bossmod" or (needImportant and "important" or mode) }
   if bossCall or (not niSecret and not impSecret) then
     result.how = "decided"
@@ -116,9 +116,17 @@ function I.Apply(result)
   if intr and not I.shown then
     I.shown = true
     I.shownAt = GetTime()
+    I.castLen = intr.castLen
     I.stats.shown = I.stats.shown + 1
-    U.Log("interrupt_shown", { how = intr.how, why = intr.why })
+    U.Log("interrupt_shown", { how = intr.how, why = intr.why,
+      cast = intr.castLen and string.format("%.1f", intr.castLen) or "hidden" })
   elseif not intr then
+    if I.shown and I.shownAt then
+      -- how long it was up, and the cast's own length when readable: "interrupts popping for less than a
+      -- second" (2026-11-13) - the boss's short cast, or us hiding it early?
+      U.Log("interrupt_gone", { up = string.format("%.1f", GetTime() - I.shownAt),
+        cast = I.castLen and string.format("%.1f", I.castLen) or "hidden" })
+    end
     I.shown = false
   end
   if intr and intr.how == "decided" then

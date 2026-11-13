@@ -3382,6 +3382,28 @@ test("interrupts: the fight summary counts the target's casts and the ones it co
   eq(I.stats.locked - locked0, 1, "an interruptible one isn't locked")
 end)
 
+test("interrupts: each alert logs the cast's length and how long it stayed up", function()
+  -- "popping for less than a second" (2026-11-13): the boss's short cast, or us hiding it early?
+  Reset()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, data } end } -- luacheck: ignore 111
+  KickBook()
+  local ns = Boot()
+  mock.targetCast = { notInterruptible = false, id = 9999 }
+  ns.Update()
+  mock.Advance(0.6)
+  mock.targetCast = nil -- the cast ends
+  ns.Update()
+  local shown, gone
+  for _, l in ipairs(logged) do
+    if l[1] == "interrupt_shown" then shown = l[2] end
+    if l[1] == "interrupt_gone" then gone = l[2] end
+  end
+  eq(tostring(shown):find("cast=1.0", 1, true) ~= nil, true, "the cast's whole length: " .. tostring(shown))
+  eq(tostring(gone):find("up=0.6", 1, true) ~= nil, true, "how long it was up: " .. tostring(gone))
+  DMGAssistWatchdog = nil -- luacheck: ignore 111
+end)
+
 test("interrupts: skip detected from the GCD when cast events are secret", function()
   Reset()
   KickBook()

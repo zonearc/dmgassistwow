@@ -1193,14 +1193,24 @@ function D.InterruptSpell(includeHidden)
   return nil
 end
 
+-- The cast's whole length in seconds, when the game lets us read its start and end (nil when hidden).
+local function CastLength(startMS, endMS)
+  startMS, endMS = U.Read(startMS), U.Read(endMS)
+  if type(startMS) == "number" and type(endMS) == "number" and endMS > startMS then
+    return (endMS - startMS) / 1000
+  end
+  return nil
+end
+
 local function TargetCast()
   local c = { U.Call(UnitCastingInfo, "target") }
   if U.IsSecret(c[1]) or c[1] ~= nil then
-    return true, c[8], c[9]   -- casting, notInterruptible, spellID (either may be secret)
+    -- casting, notInterruptible, spellID (either may be secret), length (s, or nil)
+    return true, c[8], c[9], CastLength(c[4], c[5])
   end
   c = { U.Call(UnitChannelInfo, "target") }
   if U.IsSecret(c[1]) or c[1] ~= nil then
-    return true, c[7], c[8]
+    return true, c[7], c[8], CastLength(c[4], c[5])
   end
   return false
 end

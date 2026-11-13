@@ -129,6 +129,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.248: Each interrupt alert logs the target cast's whole length (when readable) and how long the alert stayed
+  up (interrupt_gone), to tell a boss's sub-second cast from us hiding it early (owner, 2026-11-13: "popping for
+  less than a second"). The 1.6.0.247 log showed 6 alerts about 12 s apart, none skipped: each ended with the cast.
+
 - 1.6.0.247: The interrupt summary counts the target's casts and the ones it couldn't be interrupted on (a boss
   with no interrupt shown: did it cast at all?). Reviewed 2026-11-13: Protection Warrior defensives as built
   (Shield Block keep-up, Ignore Pain, Impending Victory, owner: "feels GOOD"); Unholy's two Death and Decays in a
