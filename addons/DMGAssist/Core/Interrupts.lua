@@ -28,7 +28,9 @@ I.MODES = { "smart", "everywhere", "instances", "bossmods", "off" }
 
 I.skipped = false
 I.shown = false
-I.stats = { shown = 0, used = 0, skipped = 0 }
+-- targetCasts: casts the target began this fight; locked: of those, ones we could read as uninterruptible (in the
+-- report: "never saw an interrupt against this boss", 2026-11-13, and nothing said whether it cast at all)
+I.stats = { shown = 0, used = 0, skipped = 0, targetCasts = 0, locked = 0 }
 -- Seconds after the interrupt appears in which pressing another spell doesn't count as skipping it: that press was
 -- already on its way. Blood's Mind Freeze showed for 0.8 s and was gone, hidden by a Death Strike pressed before it
 -- could be seen (2026-11-12).
@@ -88,6 +90,10 @@ function I.Evaluate()
   end
   local impSecret = needImportant and U.IsSecret(important)
   if not niSecret and notInterruptible == true then
+    if not I.lockedCounted then
+      I.lockedCounted = true
+      I.stats.locked = (I.stats.locked or 0) + 1
+    end
     return nil
   end
   if needImportant and not impSecret and important ~= true then
@@ -172,4 +178,6 @@ end
 -- The target began a new cast (or we changed target): a new chance to interrupt.
 function I.OnTargetCastStart()
   I.skipped = false
+  I.stats.targetCasts = (I.stats.targetCasts or 0) + 1
+  I.lockedCounted = nil
 end

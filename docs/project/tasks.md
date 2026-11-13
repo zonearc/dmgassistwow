@@ -129,6 +129,12 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.247: The interrupt summary counts the target's casts and the ones it couldn't be interrupted on (a boss
+  with no interrupt shown: did it cast at all?). Reviewed 2026-11-13: Protection Warrior defensives as built
+  (Shield Block keep-up, Ignore Pain, Impending Victory, owner: "feels GOOD"); Unholy's two Death and Decays in a
+  row follow SimC (Cycle of Death on 3+ targets while Putrefy isn't at max charges; no full-charges rule
+  outside adds).
+
 - 1.6.0.246: Look-ahead: a line hidden behind a proc (Outlaw's Pistol Shot on Opportunity) is never guessed into
   slots 2-3 unless its button is lit; it was marked only when Blizzard's assistant had a pick, and Outlaw often has
   none, so the row rewrote itself all fight. Combos: the first of a fight comes 15 s after the pull (was 45 s);

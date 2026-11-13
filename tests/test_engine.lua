@@ -3362,6 +3362,26 @@ test("interrupts: pressing it or skipping it (casting the next spell) clears it 
   eq(ns.Update().interrupt, nil, "on cooldown")
 end)
 
+test("interrupts: the fight summary counts the target's casts and the ones it couldn't be interrupted on", function()
+  -- "never saw an interrupt against this boss" (2026-11-13): nothing said whether the boss cast at all
+  Reset()
+  KickBook()
+  local ns = Boot()
+  local I = ns.Interrupts
+  local casts0, locked0 = I.stats.targetCasts, I.stats.locked
+  mock.targetCast = { notInterruptible = true, id = 9999 }
+  mock.Fire("UNIT_SPELLCAST_START", "target")
+  ns.Update()
+  ns.Update()
+  eq(I.stats.targetCasts - casts0, 1, "one cast")
+  eq(I.stats.locked - locked0, 1, "counted once, however many updates")
+  mock.targetCast = { notInterruptible = false, id = 9998 }
+  mock.Fire("UNIT_SPELLCAST_START", "target")
+  eq(ns.Update().interrupt.how, "decided")
+  eq(I.stats.targetCasts - casts0, 2)
+  eq(I.stats.locked - locked0, 1, "an interruptible one isn't locked")
+end)
+
 test("interrupts: skip detected from the GCD when cast events are secret", function()
   Reset()
   KickBook()
