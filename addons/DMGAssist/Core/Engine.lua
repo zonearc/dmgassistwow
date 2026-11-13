@@ -1067,6 +1067,13 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         if run.trace then
           run.trace[#run.trace + 1] = string.format("%s:%s ruled out by SimC now", name, a)
         end
+      elseif id and isBlizzard and not run.first and run.simcActions[a] and not run.fightActions[a]
+          and not run.cooldowns[a] then
+        -- Looking ahead, Blizzard's rules don't predict a spell SimC only casts before the pull: Unholy's slot 2 was
+        -- Raise Dead on every step (SimC: precombat only), so the prediction was wrong every time (2026-11-13).
+        if run.trace then
+          run.trace[#run.trace + 1] = string.format("%s:%s SimC uses it only before the pull", name, a)
+        end
       elseif id and LineOnCooldown(e, id) then
         if run.trace then
           run.trace[#run.trace + 1] = string.format("%s:%s line_cd", name, a)
@@ -1321,6 +1328,7 @@ local function Decide(record, opts, targets, first)
     unresolved = {},
     cooldowns = prep.cooldowns,
     simcActions = prep.simcActions,
+    fightActions = prep.fightActions,
     blizzardByAction = prep.blizzardByAction,
     burst = opts.burst ~= false,
     override = {},

@@ -966,6 +966,9 @@ function ns.OnOwnCast(id)
     ns.Game.Started(id) -- a spell starts the Flow (in combat any spell; out of it, a rotation spell)
   end
   local shown = ns.ShownForPress(id)
+  if inCombat then
+    ns.Diagnostics.OnPress(id, shown, ns.last) -- was slot 2 right? (prediction_summary)
+  end
   ns.Essentials.OnOwnCast(id)
   ns.Trinkets.OnOwnCast(id)
   ns.Defensives.OnOwnCast(id)

@@ -239,7 +239,73 @@ function G.Tick(force)
   end
 end
 
+-- Prediction: when you press what slot 1 showed, was slot 2 right about what comes next? Per fight: how often, and
+-- which predictions most often turned out to be something else ("pred>actual"), the data for any learning later
+-- (owner, 2026-11-13: "I want you to see what I'm seeing" - the row reshuffling on Outlaw).
+G.PRED_SETTLE = 0.15 -- seconds after the press before the next slot 1 counts (the press has to register first)
+G.pred = { n = 0, hit = 0, miss = {} }
+
+function G.OnPress(id, shown, last)
+  if not (id and shown and shown.id and last and last.queue) then
+    return
+  end
+  local baseOf = ns.SpellMap.baseOf or {}
+  if (baseOf[shown.id] or shown.id) ~= (baseOf[id] or id) then
+    return -- something other than slot 1: nothing was predicted for that
+  end
+  local q2 = last.queue[2]
+  if q2 and q2.id then
+    G.pending = { token = q2.token or tostring(q2.id), id = q2.id, at = GetTime() }
+  end
+end
+
+local function Settle(result)
+  local p = G.pending
+  if not p or GetTime() - p.at < G.PRED_SETTLE then
+    return
+  end
+  G.pending = nil
+  local main = result and result.main
+  if not (main and main.id) then
+    return
+  end
+  local baseOf = ns.SpellMap.baseOf or {}
+  local pr = G.pred
+  pr.n = pr.n + 1
+  if (baseOf[main.id] or main.id) == (baseOf[p.id] or p.id) then
+    pr.hit = pr.hit + 1
+  else
+    local k = p.token .. ">" .. tostring(main.token or main.id)
+    pr.miss[k] = (pr.miss[k] or 0) + 1
+  end
+end
+G.SettlePrediction = Settle
+
+function G.PredictionText()
+  local pr = G.pred
+  if pr.n == 0 then
+    return nil
+  end
+  local misses = {}
+  for k, v in pairs(pr.miss) do
+    misses[#misses + 1] = { k, v }
+  end
+  table.sort(misses, function(a, b)
+    if a[2] ~= b[2] then
+      return a[2] > b[2]
+    end
+    return a[1] < b[1]
+  end)
+  local top = {}
+  for i = 1, math.min(6, #misses) do
+    top[i] = misses[i][1] .. "x" .. misses[i][2]
+  end
+  return string.format("hit=%d%% n=%d misses: %s", math.floor(100 * pr.hit / pr.n + 0.5), pr.n,
+    #top > 0 and table.concat(top, " ") or "none")
+end
+
 function G.OnPick(result)
+  Settle(result)
   local main = result and result.main
   local source = main and main.source or "none"
   if result and result.branch then
@@ -278,6 +344,10 @@ function G.Summary()
   U.Log("clue_summary", "checks/wrong/facts " .. table.concat(clues, " "))
   U.Log("pick_summary", G.picks)
   U.Log("interrupt_summary", ns.Interrupts.stats)
+  local pred = G.PredictionText()
+  if pred then
+    U.Log("prediction_summary", pred)
+  end
   local errors = {}
   for msg, n in pairs(U.callErrors or {}) do
     errors[#errors + 1] = n .. "x " .. msg
@@ -287,12 +357,14 @@ function G.Summary()
   end
   U.Log("haste_summary", { source = ns.State.hasteSource })
   G.range, G.picks = {}, {}
+  G.pred, G.pending = { n = 0, hit = 0, miss = {} }, nil
 end
 
 function G.OnCombat(inCombat)
   G.traces = 0
   if inCombat then
     G.range, G.picks = {}, {}
+    G.pred, G.pending = { n = 0, hit = 0, miss = {} }, nil
     G.Tick(true)
   else
     G.Tick(true)

@@ -146,6 +146,8 @@ local function Fight(ns, key, record, book, scenario)
     end
   end
   local gcdEnd, lastMain, lastPress, stuck, charges = 0, nil, -10, {}, {}
+  local predict -- slot 2's spell when slot 1 was pressed: checked against slot 1 on the next tick
+  m.predN, m.predHit = 0, 0
   while mock.now - start < FIGHT do
     mock.Advance(TICK)
     local now = mock.now
@@ -250,6 +252,14 @@ local function Fight(ns, key, record, book, scenario)
     if r and main and main.id and now >= gcdEnd and not (main.readyAt and main.readyAt > now)
       and not mock.cooldowns[main.id] then
       local id = main.id
+      -- prediction: was slot 2 at the last press what you pressed next? (as the in-game summary measures it)
+      if predict then
+        m.predN = m.predN + 1
+        if id == predict then
+          m.predHit = m.predHit + 1
+        end
+      end
+      predict = q[2] and q[2].id or nil
       local info = M.Info(id) or {}
       local gcd = tonumber(info.gcd) or 1.5
       local ct = tonumber(info.ct) or 0
@@ -308,6 +318,7 @@ local function Fight(ns, key, record, book, scenario)
     noMainPct = 100 * m.noMain / m.ticks, no2Pct = 100 * m.no2 / m.ticks, no3Pct = 100 * m.no3 / m.ticks,
     flipsPerMin = m.flips * 60 / FIGHT, distinct = distinct, majorsCast = majorsCast, majorsKnown = m.majorsKnown,
     presses = m.presses, onCdPct = 100 * m.onCd / m.ticks, skipShown = m.skipShown,
+    predPct = m.predN > 0 and 100 * m.predHit / m.predN or nil,
     msAvg = (m.msTotal or 0) / m.ticks, msPeak = m.msPeak or 0, keepPressed = keepPressed, keepKnown = keepKnown,
   }
 end
@@ -424,6 +435,10 @@ for _, key in ipairs(keys) do
       if b.onCdPct and r.onCdPct > b.onCdPct + 5 then
         Fail(string.format("%s: shown ready while on cooldown %.0f%% of the time, was %.0f%%", id, r.onCdPct, b.onCdPct))
       end
+      -- slot 2 predicting slot 1 (the row reshuffling, Outlaw 2026-11-13): never much worse than before
+      if b.predPct and r.predPct and r.predPct < b.predPct - 10 then
+        Fail(string.format("%s: slot 2 right %.0f%% of the time, was %.0f%%", id, r.predPct, b.predPct))
+      end
       if r.flipsPerMin > (b.flipsPerMin or 0) * 1.5 + 3 then
         Fail(string.format("%s: slot 1 flips %.1f/min, was %.1f/min", id, r.flipsPerMin, b.flipsPerMin))
       end
@@ -437,14 +452,15 @@ for _, key in ipairs(keys) do
 end
 
 print("DMGAssist scenarios: every spec, simulated dummy fights with the game's restrictions")
-print(string.format("  %-34s %6s %6s %7s %7s %8s %7s %7s", "spec/fight", "majors", "spells", "slot1-", "slot3-",
-  "flips/m", "stuck", "held"))
+print(string.format("  %-34s %6s %6s %7s %7s %8s %7s %7s %6s %6s", "spec/fight", "majors", "spells", "slot1-",
+  "slot3-", "flips/m", "stuck", "held", "oncd", "pred"))
 for _, key in ipairs(keys) do
   for _, sc in ipairs(SCENARIOS) do
     local id = key .. "/" .. sc.name
     local r = results[id]
-    print(string.format("  %-34s %3d/%-2d %6d %6.0f%% %6.0f%% %8.1f %6.1fs %6.1fs %5.0f%%", id, r.majorsCast,
-      r.majorsKnown, r.distinct, r.noMainPct, r.no3Pct, r.flipsPerMin, r.maxStuck, r.maxHold, r.onCdPct))
+    print(string.format("  %-34s %3d/%-2d %6d %6.0f%% %6.0f%% %8.1f %6.1fs %6.1fs %5.0f%% %5s", id, r.majorsCast,
+      r.majorsKnown, r.distinct, r.noMainPct, r.no3Pct, r.flipsPerMin, r.maxStuck, r.maxHold, r.onCdPct,
+      r.predPct and string.format("%.0f%%", r.predPct) or "-"))
   end
 end
 print(string.format("\n%d specs x %d fights in %.1f s", #keys, #SCENARIOS, os.clock() - t0))
@@ -461,12 +477,13 @@ if UPDATE then
   end
   table.sort(ids)
   local out = { "-- Written by: lua5.1 tests/test_scenarios.lua --update. Each spec's numbers in the simulated fights;",
-    "-- tests/test_scenarios.lua fails when one gets worse. Update only for an intended change.", "return {" }
+    "-- tests/test_scenarios.lua fails when one gets worse. Update only for an intended change.",
+    "-- luacheck: no max line length", "return {" }
   for _, id in ipairs(ids) do
     local r = results[id]
     out[#out + 1] = string.format('  ["%s"] = { majorsCast = %d, distinct = %d, noMainPct = %.1f, no3Pct = %.1f, '
-      .. "flipsPerMin = %.1f, onCdPct = %.1f },", id, r.majorsCast, r.distinct, r.noMainPct, r.no3Pct, r.flipsPerMin,
-      r.onCdPct)
+      .. "flipsPerMin = %.1f, onCdPct = %.1f%s },", id, r.majorsCast, r.distinct, r.noMainPct, r.no3Pct, r.flipsPerMin,
+      r.onCdPct, r.predPct and string.format(", predPct = %.1f", r.predPct) or "")
   end
   out[#out + 1] = "}"
   local f = assert(io.open(BASELINE, "w"))

@@ -3457,6 +3457,30 @@ test("diagnostics: logs when an input goes dark, the ranges seen, and a per-figh
   DMGAssistWatchdog = nil
 end)
 
+test("diagnostics: prediction - pressing slot 1, was slot 2 right about what came next?", function()
+  Reset()
+  local ns = Boot()
+  local G = ns.Diagnostics
+  G.OnCombat(true)
+  local SS, PS, DI = { id = 193315, token = "sinister_strike" }, { id = 185763, token = "pistol_shot" },
+    { id = 2098, token = "dispatch" }
+  -- predicted Dispatch, Dispatch came: a hit
+  G.OnPress(193315, SS, { main = SS, queue = { SS, DI } })
+  mock.Advance(0.2)
+  G.OnPick({ main = DI, queue = { DI } })
+  -- predicted Dispatch, Pistol Shot came (a proc): a miss, named
+  G.OnPress(193315, SS, { main = SS, queue = { SS, DI } })
+  mock.Advance(0.2)
+  G.OnPick({ main = PS, queue = { PS } })
+  -- a press of something other than slot 1 predicts nothing
+  G.OnPress(2098, SS, { main = SS, queue = { SS, DI } })
+  mock.Advance(0.2)
+  G.OnPick({ main = PS, queue = { PS } })
+  eq(G.PredictionText(), "hit=50% n=2 misses: dispatch>pistol_shotx1")
+  G.OnCombat(false)
+  eq(G.PredictionText(), nil, "starts over each fight")
+end)
+
 test("diagnostics: our own failing calls are counted and the first of each is logged", function()
   Reset()
   local logged = {}
@@ -6264,6 +6288,29 @@ test("look-ahead: Blizzard's rules never bring back a spell SimC ruled out now (
   eq(r.main and r.main.token, "shred")
   for i = 2, #r.queue do
     eq(r.queue[i].token ~= "tigers_fury", true, "slot " .. i .. ": not the spell SimC ruled out")
+  end
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
+test("look-ahead: Blizzard's rules don't predict a spell SimC casts only before the pull (Unholy's Raise Dead)", function()
+  -- Raise Dead filled Unholy's slot 2 on every step; SimC casts it only in precombat (2026-11-13). Slot 1 still
+  -- follows the game, so a ghoul that dies mid-fight is still named there.
+  Reset()
+  local ns = Boot()
+  local rec = QRecord({ { a = "tigers_fury", c = "0", k = "S" }, { a = "shred", c = "!prev_gcd.1.shred", k = "S" } })
+  rec.simc.precombat = { { a = "rip", k = "S" } }
+  rec.blizzard = { default = { { a = "rip", k = "R" } } }
+  rec.blizzardOrder = { "default" }
+  Feral(ns, rec)
+  ns.Specs.current = { key = "druid_feral", status = "ready", data = rec, branch = "midnight", client = "Midnight" }
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Advance(5)
+  local r = ns.Update()
+  eq(r.main and r.main.token, "shred")
+  for i = 2, #r.queue do
+    eq(r.queue[i].token ~= "rip", true, "slot " .. i .. ": not the precombat-only spell")
   end
   mock.inCombat, mock.restricted = false, false
   mock.Fire("PLAYER_REGEN_ENABLED")

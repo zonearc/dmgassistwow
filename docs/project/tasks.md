@@ -129,6 +129,13 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.250: Prediction measurement. Every fight's summary now logs `prediction_summary` (how often slot 2 at a
+  press was the next spell pressed, and the most common misses: "shown > pressed xN"); the scenario test records
+  each spec's rate and fails on a drop of more than 10 points. Look-ahead no longer predicts spells SimC casts only
+  before the pull (Unholy's Raise Dead sat in slot 2 every step; Enhancement's imbues). Slot 1 still names them
+  when the game does (a dead ghoul). Finding: the simulated rate is low for specs whose slot 1 comes from the
+  simulator's stand-in for Blizzard's assistant (it always names the first ready spell), so real numbers come
+  from in-game reports. No pattern learning built: waiting for in-game data that shows a repeatable miss.
 - 1.6.0.249: Look-ahead (slots 2-3, every spec): Blizzard's written rules no longer bring in a spell SimC's own
   lines rule out in the same step (Outlaw's Vanish, which SimC uses only with Hidden Opportunity, sat in slot 2
   from Blizzard's "vanish if not stealthed" and never reached slot 1). Major cooldowns keep their path (the
