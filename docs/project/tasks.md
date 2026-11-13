@@ -79,6 +79,19 @@ Last updated: 1.6.0.157 (2026-11-10).
   Light's Judgment, Bag of Tricks); shown only for that race and when on your bars. Confirm on a race that has one.
 
 ## Proposed (waiting on a decision)
+- Prediction plan (owner, 2026-11-13), in order: (1) measurement (1.6.0.252); (2) slot 1 commitment: keep the
+  shown spell until pressed while its SimC line still holds, switching only for situations (interrupt, defensive)
+  or a line that turns false: UX over the last bit of optimisation; (3) learning, slots 2-3 only (never slot 1, so
+  it cannot cost damage): per spec + talent loadout, damage rotation only (no defensives, trinkets, potions,
+  interrupts, tank mitigation); patterns = last 1-2 presses + readable state (combo points, lit buttons, target
+  count) -> next press; used once >= 20 samples and >= 90% confident and beating SimC's forecast there; kept across
+  sessions (SavedVariables), recent fights weigh more, a pattern whose accuracy drops is dropped and relearned
+  (hotfixes, talent changes); a "?" on slot 2 for true coin flips.
+- Sharing (owner idea, 2026-11-13, not approved to build): addons can't reach the internet; in-game addon messages
+  reach party/raid/guild/whisper only. So (a) guild/party Flow score boards: in-game, out of combat; (b) global
+  leaderboards and a shared prediction baseline: opt-in upload of SavedVariables by a companion (tools/send-logs.py
+  is the start), aggregated per spec + talent build into a reference file shipped with each release. Self-reported
+  scores can be faked: boards would be for fun, not proof.
 
 - Patch watch + release channels (owner, 2026-11-12):
   - Every other Tuesday (patch day): pull the new game data (SimC SpellDataDump / class modules, already fetched
@@ -129,6 +142,13 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.252: Prediction measurement, round 2 (owner targets: slot 1 steady 95% between presses, slot 2 right
+  80-85%, slot 3 secondary; Flow and Classic alike). `prediction_summary` adds slot1_steady (changes between
+  presses; interrupts/defensives/trinkets/potions/buffs counted apart as situational), slot 3, slot 2 by where the
+  guess came from (simc / rules / guess...), a last-press baseline, and how many presses followed slot 1. Volley
+  casts (Fan the Hammer) count as one press. Fix: "waiting for a resource" shows a line SimC is sure of or a lit
+  button, never an unlit proc spell (8 of 19 slot 1 changes in the Outlaw run were waiting Pistol Shot -> the real
+  pick when Energy came).
 - 1.6.0.251: Outlaw dummy report. (1) Slot 1 "waiting for a resource" no longer fades to half strength in either
   display: full strength with Blizzard's blue "not enough" tint (it read as a broken, see-through icon). In the log
   every dimmed stretch ended within 0.04 s of the press going through, but Energy is hidden in combat, so (2) each

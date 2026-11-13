@@ -3487,21 +3487,33 @@ test("diagnostics: prediction - pressing slot 1, was slot 2 right about what cam
   local ns = Boot()
   local G = ns.Diagnostics
   G.OnCombat(true)
-  local SS, PS, DI = { id = 193315, token = "sinister_strike" }, { id = 185763, token = "pistol_shot" },
-    { id = 2098, token = "dispatch" }
+  local SS, PS, DI = { id = 193315, token = "sinister_strike", source = "simc" },
+    { id = 185763, token = "pistol_shot", source = "simc" }, { id = 2098, token = "dispatch", source = "rules" }
   -- predicted Dispatch, Dispatch came: a hit
-  G.OnPress(193315, SS, { main = SS, queue = { SS, DI } })
+  G.OnPress(193315, SS, { main = SS, queue = { SS, DI, PS } })
   mock.Advance(0.2)
+  G.OnPick({ main = DI, queue = { DI, PS } }) -- (slot 3 said Pistol Shot: it is slot 2 now)
+  mock.Advance(0.5)
   G.OnPick({ main = DI, queue = { DI } })
-  -- predicted Dispatch, Pistol Shot came (a proc): a miss, named
-  G.OnPress(193315, SS, { main = SS, queue = { SS, DI } })
-  mock.Advance(0.2)
+  G.OnPick({ main = PS, queue = { PS } }) -- slot 1 changes its mind before the press
+  G.OnPick({ main = { id = 6552, token = "kick", source = "interrupt" }, queue = {} }) -- a situation: apart
   G.OnPick({ main = PS, queue = { PS } })
+  mock.Advance(0.5)
+  -- predicted Dispatch, Pistol Shot came (a proc): a miss, named
+  G.OnPress(185763, PS, { main = PS, queue = { PS, DI } })
+  G.OnPress(185763, PS, { main = PS, queue = { PS, DI } }) -- the volley's next shot: the same press
+  mock.Advance(0.2)
+  G.OnPick({ main = SS, queue = { SS } })
+  mock.Advance(0.7)
+  G.OnPress(193315, SS, { main = SS, queue = { SS } }) -- a steady window
+  mock.Advance(0.7)
   -- a press of something other than slot 1 predicts nothing
   G.OnPress(2098, SS, { main = SS, queue = { SS, DI } })
   mock.Advance(0.2)
   G.OnPick({ main = PS, queue = { PS } })
-  eq(G.PredictionText(), "hit=50% n=2 misses: dispatch>pistol_shotx1")
+  eq(G.PredictionText(), "hit=50% n=2 misses: dispatch>sinister_strikex1 | slot1_steady=50% windows=2 changes=1 "
+    .. "situational=2 | slot3=100% n3=1 | slot2_by_source rules=1/2 | lastpress_baseline=100% n=2 | "
+    .. "followed=75% presses=4")
   G.OnCombat(false)
   eq(G.PredictionText(), nil, "starts over each fight")
 end)
@@ -6364,6 +6376,28 @@ test("look-ahead: Blizzard's rules don't predict a spell SimC casts only before 
   for i = 2, #r.queue do
     eq(r.queue[i].token ~= "rip", true, "slot " .. i .. ": not the precombat-only spell")
   end
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
+test("waiting for a resource: the spell is one SimC is sure of, not an unlit proc spell (Outlaw's Pistol Shot)", function()
+  -- waiting showed Pistol Shot (Opportunity, not lit), then Sinister Strike when the Energy came (2026-11-13)
+  Reset()
+  local ns = Boot()
+  local rec = QRecord({ { a = "shred", c = "buff.clearcasting.up", k = "S" }, { a = "ferocious_bite", k = "S" } })
+  Feral(ns, rec)
+  ns.Specs.current = { key = "druid_feral", status = "ready", data = rec, branch = "midnight", client = "Midnight" }
+  Restrict() -- auras hidden: the proc is unknown, as in combat
+  mock.Advance(5)
+  mock.usable[5221] = { false, true } -- Shred: not enough Energy
+  mock.usable[22568] = { false, true } -- Ferocious Bite: not enough either
+  local r = ns.Update()
+  eq(r.main and r.main.token, "ferocious_bite", "the line it is sure of")
+  eq(r.main and r.main.source, "pool")
+  mock.Fire("SPELL_ACTIVATION_OVERLAY_GLOW_SHOW", 5221) -- the proc is lit: then it is the one
+  r = ns.Engine.Recommend(rec, { useAssisted = true }) -- (the decision: Update holds slot 1 a moment)
+  eq(r.main and r.main.token, "shred", "lit: the proc spell")
+  ns.State.glow[5221] = nil
   mock.inCombat, mock.restricted = false, false
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)

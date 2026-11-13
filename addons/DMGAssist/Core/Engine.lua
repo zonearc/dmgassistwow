@@ -1113,9 +1113,13 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         if castable == false and why == "nobar" and run.first and not isBlizzard and Test(cond, run, a) == true then
           ns.Choices.NoteOffBars(id)
         end
-        if castable == false and why == "power" and not run.powerBlocked and not isBlizzard and not maybe
-          and Test(cond, run, a) ~= false then
-          run.powerBlocked = { id = id, token = a, source = "pool", behind = run.firstMaybe ~= nil }
+        -- (a line SimC is sure of, or a lit button: Outlaw waited for Energy showing Pistol Shot, a hidden proc
+        -- that wasn't lit, then switched to Sinister Strike when the Energy came: 8 of 19 changes, 2026-11-13)
+        if castable == false and why == "power" and not run.powerBlocked and not isBlizzard and not maybe then
+          local t = Test(cond, run, a)
+          if t == true or (t ~= false and S.glow[id]) then
+            run.powerBlocked = { id = id, token = a, source = "pool", behind = run.firstMaybe ~= nil }
+          end
         end
         -- (also under an uncertain gate, e.g. Subtlety's "build if energy>60" with Energy hidden: used only when
         -- SimC rules out Blizzard's pick, see below)

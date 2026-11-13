@@ -243,43 +243,111 @@ end
 -- which predictions most often turned out to be something else ("pred>actual"), the data for any learning later
 -- (owner, 2026-11-13: "I want you to see what I'm seeing" - the row reshuffling on Outlaw).
 G.PRED_SETTLE = 0.15 -- seconds after the press before the next slot 1 counts (the press has to register first)
-G.pred = { n = 0, hit = 0, miss = {} }
+G.PRESS_SAME = 0.6    -- the same spell again within this: one press (Fan the Hammer's volley is 3 casts)
+-- Slot 1 swapped for one of these is a situation, not the rotation changing its mind (counted apart)
+G.SITUATIONAL = { interrupt = true, defensive = true, gapcloser = true, potion = true, trinket = true, buff = true }
+-- Targets (owner, 2026-11-13): slot 1 steady 95% of the time between presses, slot 2 right 80-85%; slot 3 matters
+-- least. "steady": slot 1 didn't change between one press and the next. Slot 2 right: what it showed at the press
+-- was slot 1 once the press settled; slot 3 right: it was slot 2 then. The baseline: how often "the spell that
+-- followed this one most often in this fight" came next, a fixed guess from the last press alone.
+local function NewPred()
+  return { n = 0, hit = 0, miss = {}, bySource = {}, n3 = 0, hit3 = 0,
+    win = { n = 0, steady = 0, changes = 0, situational = 0 }, follow = {}, presses = 0, followed = 0 }
+end
+G.pred = NewPred()
+
+local function Base(id)
+  local baseOf = ns.SpellMap.baseOf or {}
+  return id and (baseOf[id] or id)
+end
 
 function G.OnPress(id, shown, last)
-  if not (id and shown and shown.id and last and last.queue) then
-    return
+  local pr = G.pred
+  local now = GetTime()
+  local lp = G.lastPress
+  if lp and Base(lp.id) == Base(id) and now - lp.at < G.PRESS_SAME then
+    return -- the rest of one press
   end
-  local baseOf = ns.SpellMap.baseOf or {}
-  if (baseOf[shown.id] or shown.id) ~= (baseOf[id] or id) then
+  G.lastPress = { id = id, at = now }
+  pr.presses = pr.presses + 1
+  local win = G.window
+  G.window = nil
+  if not (id and shown and shown.id and last and last.queue) or Base(shown.id) ~= Base(id) then
+    G.prevToken = nil
     return -- something other than slot 1: nothing was predicted for that
   end
-  local q2 = last.queue[2]
+  pr.followed = pr.followed + 1
+  if win then
+    win = pr.win
+    win.n = win.n + 1
+    if not G.windowChanged then
+      win.steady = win.steady + 1
+    end
+  end
+  local token = shown.token or tostring(id)
+  if G.prevToken and not G.SITUATIONAL[shown.source or ""] then
+    local f = pr.follow[G.prevToken] or {}
+    pr.follow[G.prevToken] = f
+    f[token] = (f[token] or 0) + 1
+  end
+  G.prevToken = not G.SITUATIONAL[shown.source or ""] and token or nil
+  local q2, q3 = last.queue[2], last.queue[3]
   if q2 and q2.id then
-    G.pending = { token = q2.token or tostring(q2.id), id = q2.id, at = GetTime() }
+    G.pending = { token = q2.token or tostring(q2.id), id = q2.id, at = now, source = q2.source or "?",
+      q3 = q3 and q3.id and { id = q3.id } or nil }
   end
 end
 
 local function Settle(result)
+  local main = result and result.main
   local p = G.pending
-  if not p or GetTime() - p.at < G.PRED_SETTLE then
+  if not p then
+    -- between presses: does slot 1 change its mind?
+    if G.window and main and main.id and Base(main.id) ~= G.window then
+      local pr = G.pred
+      if G.SITUATIONAL[main.source or ""] or G.SITUATIONAL[G.windowSource or ""] then
+        pr.win.situational = pr.win.situational + 1
+      else
+        pr.win.changes = pr.win.changes + 1
+        G.windowChanged = true
+      end
+      G.window, G.windowSource = Base(main.id), main.source
+    end
+    return
+  end
+  if GetTime() - p.at < G.PRED_SETTLE then
     return
   end
   G.pending = nil
-  local main = result and result.main
   if not (main and main.id) then
     return
   end
-  local baseOf = ns.SpellMap.baseOf or {}
   local pr = G.pred
   pr.n = pr.n + 1
-  if (baseOf[main.id] or main.id) == (baseOf[p.id] or p.id) then
+  local src = pr.bySource[p.source] or { n = 0, hit = 0 }
+  pr.bySource[p.source] = src
+  src.n = src.n + 1
+  if Base(main.id) == Base(p.id) then
     pr.hit = pr.hit + 1
+    src.hit = src.hit + 1
   else
     local k = p.token .. ">" .. tostring(main.token or main.id)
     pr.miss[k] = (pr.miss[k] or 0) + 1
   end
+  local q2 = result.queue and result.queue[2]
+  if p.q3 and q2 and q2.id then
+    pr.n3 = pr.n3 + 1
+    if Base(q2.id) == Base(p.q3.id) then
+      pr.hit3 = pr.hit3 + 1
+    end
+  end
+  G.window, G.windowSource, G.windowChanged = Base(main.id), main.source, false
 end
 G.SettlePrediction = Settle
+
+local function Pct(a, b)
+  return math.floor(100 * a / b + 0.5)
+end
 
 function G.PredictionText()
   local pr = G.pred
@@ -300,8 +368,44 @@ function G.PredictionText()
   for i = 1, math.min(6, #misses) do
     top[i] = misses[i][1] .. "x" .. misses[i][2]
   end
-  return string.format("hit=%d%% n=%d misses: %s", math.floor(100 * pr.hit / pr.n + 0.5), pr.n,
+  local text = string.format("hit=%d%% n=%d misses: %s", Pct(pr.hit, pr.n), pr.n,
     #top > 0 and table.concat(top, " ") or "none")
+  local w = pr.win
+  local extra = {}
+  if w.n > 0 then
+    extra[#extra + 1] = string.format("slot1_steady=%d%% windows=%d changes=%d situational=%d", Pct(w.steady, w.n), w.n,
+      w.changes, w.situational)
+  end
+  if pr.n3 > 0 then
+    extra[#extra + 1] = string.format("slot3=%d%% n3=%d", Pct(pr.hit3, pr.n3), pr.n3)
+  end
+  local srcs = {}
+  for src, c in pairs(pr.bySource) do
+    srcs[#srcs + 1] = string.format("%s=%d/%d", src, c.hit, c.n)
+  end
+  table.sort(srcs)
+  if #srcs > 0 then
+    extra[#extra + 1] = "slot2_by_source " .. table.concat(srcs, " ")
+  end
+  local best, total = 0, 0
+  for _, f in pairs(pr.follow) do
+    local top1 = 0
+    for _, c in pairs(f) do
+      total = total + c
+      top1 = math.max(top1, c)
+    end
+    best = best + top1
+  end
+  if total > 0 then
+    extra[#extra + 1] = string.format("lastpress_baseline=%d%% n=%d", Pct(best, total), total)
+  end
+  if pr.presses > 0 then
+    extra[#extra + 1] = string.format("followed=%d%% presses=%d", Pct(pr.followed, pr.presses), pr.presses)
+  end
+  if #extra > 0 then
+    text = text .. " | " .. table.concat(extra, " | ")
+  end
+  return text
 end
 
 function G.OnPick(result)
@@ -357,14 +461,16 @@ function G.Summary()
   end
   U.Log("haste_summary", { source = ns.State.hasteSource })
   G.range, G.picks = {}, {}
-  G.pred, G.pending = { n = 0, hit = 0, miss = {} }, nil
+  G.pred, G.pending = NewPred(), nil
+  G.window, G.windowChanged, G.prevToken, G.lastPress = nil, nil, nil, nil
 end
 
 function G.OnCombat(inCombat)
   G.traces = 0
   if inCombat then
     G.range, G.picks = {}, {}
-    G.pred, G.pending = { n = 0, hit = 0, miss = {} }, nil
+    G.pred, G.pending = NewPred(), nil
+    G.window, G.windowChanged, G.prevToken, G.lastPress = nil, nil, nil, nil
     G.Tick(true)
   else
     G.Tick(true)
