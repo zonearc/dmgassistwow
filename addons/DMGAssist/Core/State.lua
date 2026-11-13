@@ -347,6 +347,9 @@ local passSerial, inPass = 0, false
 local CountTargets
 function S.BeginPass()
   passSerial, inPass = passSerial + 1, true
+  if S.SnapshotReady then
+    S.SnapshotReady()
+  end
 end
 function S.EndPass()
   inPass = false
@@ -888,6 +891,9 @@ function S.CooldownRemains(id)
   end
   if V and V.cd[id] then
     return math.max(0, V.cd[id] - Now())
+  end
+  if S.StillReadyFromBefore and S.StillReadyFromBefore(id) then
+    return 0 -- ready before the fight, not cast since (S.SnapshotReady)
   end
   local info = CooldownInfo(id)
   if not info then
@@ -1649,6 +1655,49 @@ function S.OwnClockReady(id)
   return Now() + (V and V.cdShift[id] or 0) - last >= length - 0.05
 end
 
+-- Ready before the fight and not cast since: still ready. In restricted combat the game's readout for Adrenaline
+-- Rush said "180 s left" from the pull with the spell never cast (a /reload, idle, then the pull: 2026-11-13), so it
+-- never came up all fight; the moment combat ended it read ready again. Only a cast starts a cooldown, and we see
+-- our casts (by ID and by name). Read once a second while out of combat, when the game's readout is honest.
+S.readyBeforeFight = {} -- spellID -> GetTime() it last read ready out of combat
+S.SNAPSHOT_EVERY = 1
+local lastSnapshot = -10
+function S.SnapshotReady()
+  local now = GetTime()
+  if S.combatStart or now - lastSnapshot < S.SNAPSHOT_EVERY then
+    return
+  end
+  lastSnapshot = now
+  for id, b in pairs(M.book or {}) do
+    if b.id == id and not b.passive then
+      local info = CooldownInfo(id)
+      if info then
+        local active, onGCD = U.Read(info.isActive), U.Read(info.isOnGCD)
+        if active == false or onGCD == true then
+          S.readyBeforeFight[id] = now
+        elseif active == true then
+          S.readyBeforeFight[id] = nil
+        end
+      end
+    end
+  end
+end
+
+local function StillReadyFromBefore(id)
+  local at = S.combatStart and S.readyBeforeFight[id]
+  if not at then
+    return false
+  end
+  local last = S.lastCast[id]
+  if last and last >= at then
+    return false
+  end
+  local token = M.TokenForID and M.TokenForID(id)
+  local byName = token and S.lastCastToken and S.lastCastToken[token]
+  return not (byName and byName >= at)
+end
+S.StillReadyFromBefore = StillReadyFromBefore
+
 function S.CooldownReady(id)
   if ChargeInfo(id) then
     local c = S.Charges(id)
@@ -1658,6 +1707,9 @@ function S.CooldownReady(id)
   end
   if V and V.cd[id] then
     return V.cd[id] <= Now()
+  end
+  if StillReadyFromBefore(id) then
+    return true
   end
   local info = CooldownInfo(id)
   if not info then
@@ -3579,6 +3631,7 @@ function S.Bind(key)
   S.learned = l
   ns.Clues.Reset(l.glowAura)
   S.auraUntil, S.dotUntil, S.lastCast, S.wasActive, S.glow = {}, {}, {}, {}, {}
+  S.readyBeforeFight = {} -- (with our cast records: S.SnapshotReady fills it again within a second)
   S.cdRefusal = {}
   l.unreliable = type(l.unreliable) == "table" and l.unreliable or {}
   S.chargeSpentAt, S.readyShown = {}, nil -- liveCharges: re-read by S.Calibrate

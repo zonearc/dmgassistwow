@@ -142,6 +142,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.259: Adrenaline Rush never recommended in combat (owner: never cast; /reload, idle, pull). The game's
+  restricted-combat readout said "180 s left" from the pull, and it read ready the moment combat ended (fight 410:
+  shown at 142 s, which a real cast at the pull couldn't be). Fix: out of combat, once a second, which cooldown
+  spells read ready (S.SnapshotReady); in combat such a spell stays ready until we see it cast (by ID or name).
+  My earlier "cast before the pull" reading was wrong.
 - 1.6.0.258: Outlaw run on 1.6.0.257 (167 s). Slot 1 steady 94% (8 changes in 108). Prediction over the last three
   fights (replay, learner carried over): slot 2 42%, learner 51%, 65% where the full situation was known; in game
   learner 57/112 vs SimC 53/112, running lead 3 points (live needs 10). Adrenaline Rush: majors_at_pull read

@@ -1747,6 +1747,31 @@ local function Feral(ns, rec)
   mock.power[4], mock.powerMax[4] = 0, 5
 end
 
+test("a cooldown ready before the pull stays ready until we see it cast, whatever combat's readout says", function()
+  -- Adrenaline Rush: /reload, idle, pull - the game read "180 s left" all fight, never cast (Outlaw, 2026-11-13)
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "tigers_fury", k = "R" }, { a = "shred", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", cd = 180, gcd = 0 }
+  Feral(ns, rec)
+  eq(ns.SpellMap.book[5217] ~= nil, true, "in the spellbook")
+  ns.Update() -- out of combat: read ready
+  mock.Advance(1.5)
+  ns.Update()
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.cooldowns[5217] = { start = mock.now, duration = 180, active = true } -- the readout in combat
+  eq(S.CooldownReady(5217), true, "never cast: still ready")
+  eq(S.CooldownRemains(5217), 0)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217) -- now really cast
+  mock.Advance(1)
+  eq(S.CooldownReady(5217), false, "cast: on cooldown")
+  mock.cooldowns[5217] = nil
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 test("real cooldowns: the game's own recharge on load, and casts sooner than our data allows correct it", function()
   Reset()
   local ns = Boot()
