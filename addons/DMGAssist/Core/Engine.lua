@@ -1059,6 +1059,14 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         if run.trace then
           run.trace[#run.trace + 1] = string.format("%s:%s held (you skipped it)", name, a)
         end
+      elseif id and isBlizzard and not run.first and run.notNow[a] == true and not run.cooldowns[a] then
+        -- Looking ahead, Blizzard's rules don't bring back a spell SimC's own lines ruled out in this same step: Outlaw's
+        -- Vanish (SimC: only with Hidden Opportunity) sat in slot 2 from Blizzard's "vanish if not stealthed" and
+        -- never reached slot 1 (2026-11-13). (Not the major cooldowns: the assistant never names them, so Blizzard's
+        -- rules are what bring them into the queue.)
+        if run.trace then
+          run.trace[#run.trace + 1] = string.format("%s:%s ruled out by SimC now", name, a)
+        end
       elseif id and LineOnCooldown(e, id) then
         if run.trace then
           run.trace[#run.trace + 1] = string.format("%s:%s line_cd", name, a)
@@ -1109,8 +1117,9 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
           if run.trace then
             run.trace[#run.trace] = run.trace[#run.trace] .. " cond=" .. tostring(t)
           end
-          if run.first and not isBlizzard then
-            -- for G.PromoteReadyMajor: a token is "not now" when every one of its lines read so far was false
+          if not isBlizzard then
+            -- a token is "not now" when every one of its lines read so far was false (G.PromoteReadyMajor reads the
+            -- first decision's; each look-ahead step keeps its own, for Blizzard's rules below)
             if t == false then
               if run.notNow[a] == nil then
                 run.notNow[a] = true

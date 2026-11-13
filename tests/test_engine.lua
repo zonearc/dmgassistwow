@@ -6247,6 +6247,28 @@ test("every spell on its cooldown at once: slot 1 is the one ready first, shaded
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("look-ahead: Blizzard's rules never bring back a spell SimC ruled out now (Outlaw's Vanish in slot 2)", function()
+  -- Vanish sat in slot 2 all fight from Blizzard's "vanish if not stealthed", SimC said no (2026-11-13)
+  Reset()
+  local ns = Boot()
+  -- Shred now (certain); a second Shred in a row is ruled out, so nothing certain is left for slot 2
+  local rec = QRecord({ { a = "tigers_fury", c = "0", k = "S" }, { a = "shred", c = "!prev_gcd.1.shred", k = "S" } })
+  rec.blizzard = { default = { { a = "tigers_fury", k = "R" } } }
+  rec.blizzardOrder = { "default" }
+  Feral(ns, rec)
+  ns.Specs.current = { key = "druid_feral", status = "ready", data = rec, branch = "midnight", client = "Midnight" }
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Advance(5)
+  local r = ns.Update()
+  eq(r.main and r.main.token, "shred")
+  for i = 2, #r.queue do
+    eq(r.queue[i].token ~= "tigers_fury", true, "slot " .. i .. ": not the spell SimC ruled out")
+  end
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 test("short of the resource for a spender, but a castable line came first: that line, not the spender 'waiting'", function()
   -- Unholy at 0-29 Runic Power showed Death Coil, waiting, over Festering Strike earlier in the list (2026-11-12)
   Reset()

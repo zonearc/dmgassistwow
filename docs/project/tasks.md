@@ -129,6 +129,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.249: Look-ahead (slots 2-3, every spec): Blizzard's written rules no longer bring in a spell SimC's own
+  lines rule out in the same step (Outlaw's Vanish, which SimC uses only with Hidden Opportunity, sat in slot 2
+  from Blizzard's "vanish if not stealthed" and never reached slot 1). Major cooldowns keep their path (the
+  assistant never names them).
+
 - 1.6.0.248: Each interrupt alert logs the target cast's whole length (when readable) and how long the alert stayed
   up (interrupt_gone), to tell a boss's sub-second cast from us hiding it early (owner, 2026-11-13: "popping for
   less than a second"). The 1.6.0.247 log showed 6 alerts about 12 s apart, none skipped: each ended with the cast.
