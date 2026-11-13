@@ -142,6 +142,12 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.262: Outlaw run on 1.6.0.261 (138 s). Adrenaline Rush ready at 64 s, slot 3 until 119 s: its line
+  (Improved Adrenaline Rush, effective_combo_points<=2) was never certain live - Supercharger's hidden charges add up
+  to 3, so 1-2 combo points read "1..5". Fix (all specs): a major cooldown whose line can't be decided is taken once
+  ready G.MAJOR_PATIENCE (5) s. Blue at 50+ Energy: G.BelowCost overruled the game's "usable" with our estimate
+  (regeneration it can't see, Adrenaline Rush's); now only when clearly short (10+ below). Learner live: running
+  51% vs SimC 38% (505 presses); this fight next press 52/104 vs 32/104.
 - 1.6.0.261: Outlaw run on 1.6.0.260 (163 s). Restless Blades works: Adrenaline Rush ready again at 60 s (was 180).
   It then sat in slots 2-3 until 131 s: Improved Adrenaline Rush's line wants combo points <= 2, true only right after
   a finisher, and the steady hold kept the held Sinister Strike in slot 1 for that one press. Fix: a major cooldown

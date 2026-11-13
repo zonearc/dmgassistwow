@@ -112,6 +112,7 @@ function G.OnCombat()
   G.fightVars, pendingVars = {}, nil
   G.waiting = {}
   G.held, G.skips = {}, {}
+  G.majorReadySince = {}
   G.releaseCount = 0 -- (steady_release lines: per fight)
 end
 
@@ -434,6 +435,7 @@ function G.OnAssistantWait(id)
 end
 
 -- The upper end of what we know about a hidden resource is below this spell's cost.
+G.BELOW_COST_MARGIN = 10
 function G.BelowCost(id)
   local cost = M.Cost(M.Info(id))
   if not cost then
@@ -442,7 +444,9 @@ function G.BelowCost(id)
   for pt, amount in pairs(cost) do
     if amount > 0 and type(U.Get(UnitPower, "player", pt)) ~= "number" then
       local lo, hi = ns.Clues.ResourceBounds(pt)
-      if lo and hi and hi < amount then
+      -- clearly short only: our range is an estimate (regeneration it can't see, such as Adrenaline Rush's, made
+      -- it low), and the game said usable. Slot 1 showed blue at 50+ Energy (Outlaw, 2026-11-13).
+      if lo and hi and hi < amount - G.BELOW_COST_MARGIN then
         return true
       end
     end
@@ -1147,8 +1151,26 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
               run.notNow[a] = false
             end
           end
+          -- How long each major cooldown has been pressable (live decisions): for the patience rule below.
+          if run.first and run.cooldowns[a] then
+            if castable == true then
+              G.majorReadySince[a] = G.majorReadySince[a] or S.Now()
+            else
+              G.majorReadySince[a] = nil
+            end
+          end
           if t ~= false then
             local certain = t == true and castable == true and not maybe
+            -- A major cooldown whose line can't be decided (a hidden buff in it: Improved Adrenaline Rush "at 2
+            -- effective combo points or fewer", where Supercharger's hidden charges add up to 3) is taken once it
+            -- has been ready G.MAJOR_PATIENCE s: it sat in slot 3 for a minute (Outlaw, 2026-11-13).
+            if not certain and run.first and castable == true and run.cooldowns[a] and run.burst and not isBlizzard
+              and G.majorReadySince[a] and S.Now() - G.majorReadySince[a] >= G.MAJOR_PATIENCE then
+              certain = true
+              if run.trace then
+                run.trace[#run.trace] = run.trace[#run.trace] .. " (major ready a while: taken)"
+              end
+            end
             if run.cooldowns[a] and not run.burst then
               -- Major cooldowns switched off: they are not recommended at all. Switched on (the default) they
               -- are ordinary lines in SimC's order, in the same three slots as everything else; lists such as
@@ -1664,6 +1686,8 @@ end
 --   * the shown spell is dropped at once if the game refused your press of it, or once it has been
 --     uncastable for G.UNCASTABLE_FOR.
 -- Interrupts and defensives are applied after this and still take slot 1 at once.
+G.MAJOR_PATIENCE = 5
+G.majorReadySince = {}
 G.DEBOUNCE = 0.5
 G.REACH = 0.6
 G.DEBOUNCE_FAST = 0.2 -- "Fast": changes show sooner, the hold before the press is short

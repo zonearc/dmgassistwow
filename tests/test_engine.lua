@@ -400,6 +400,30 @@ test("look-ahead: a lit proc spell, once pressed, isn't guessed back in (by SimC
   mock.acSpell = nil
 end)
 
+test("a ready major cooldown whose line can't be decided (a hidden buff) is taken after a few seconds", function()
+  -- Improved Adrenaline Rush "at 2 effective combo points or fewer", Supercharger hidden: slot 3 for a minute
+  Reset()
+  local ns = Boot()
+  Restrict()
+  local rec = Record()
+  rec.simcOrder = { "default" }
+  rec.simc.default = {
+    { a = "shred", k = "R", c = "buff.clearcasting.up" }, -- a major here, its line hidden in combat
+    { a = "thrash", k = "R" },
+  }
+  rec.blizzard = nil
+  rec.blizzardExcluded = { "shred" }
+  mock.acSpell = nil
+  ns.SpellMap.SetData(rec)
+  ns.Engine.OnCombat()
+  local r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(r.main.token, "thrash", "undecided: not yet")
+  mock.Advance(ns.Engine.MAJOR_PATIENCE + 0.5)
+  r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(r.main.token, "shred", "ready a while: taken")
+  mock.acSpell = nil
+end)
+
 test("combos: follow the lane by the streak's judgement; 3-4 presses, spaced, never at the pull, due when missing", function()
   Reset()
   local ns = Boot()
