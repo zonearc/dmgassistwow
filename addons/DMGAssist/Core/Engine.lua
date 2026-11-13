@@ -1727,6 +1727,15 @@ function G.Steady(result)
     held.cand, held.badSince = nil, nil
     return result
   end
+  -- A major cooldown SimC wants right now takes slot 1 at once: its window can be one press long (Improved
+  -- Adrenaline Rush: "at 2 combo points or fewer", right after a finisher). Held behind Sinister Strike it waited in
+  -- slot 2, the window closed, and Adrenaline Rush took 70 s to reach slot 1 (Outlaw, 2026-11-13). Rare (about one
+  -- a minute), so slot 1 stays steady otherwise.
+  if main.major and type(main.source) == "string" and main.source:find("^simc") and not held.pick.major then
+    Released("major", held.pick, main)
+    held = { pick = main, at = now }
+    return result
+  end
   -- is the shown spell still pressable?
   local ok, why = Castable(held.pick.id)
   if why == "refused" or why == "nobar" then -- (not on your bars: it never will be pressable)

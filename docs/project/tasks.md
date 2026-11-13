@@ -142,6 +142,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.261: Outlaw run on 1.6.0.260 (163 s). Restless Blades works: Adrenaline Rush ready again at 60 s (was 180).
+  It then sat in slots 2-3 until 131 s: Improved Adrenaline Rush's line wants combo points <= 2, true only right after
+  a finisher, and the steady hold kept the held Sinister Strike in slot 1 for that one press. Fix: a major cooldown
+  SimC wants now takes slot 1 at once (G.Steady, released "major"). Learner went LIVE on its own (running 52% vs
+  SimC 40% over 413 presses); this fight next press 66/121 vs 39/121; in slot 2 learned 18/39. Slot 1 steady 99%.
 - 1.6.0.260: Outlaw run on 1.6.0.259. prepull_casts showed Adrenaline Rush cast at the instant of the pull (combo
   points 7 at 0.09 s: Improved Adrenaline Rush); out of combat slot 1 is Adrenaline Rush (SimC's opener), so it was
   the first key pressed. The real bug: Restless Blades (79096) wasn't modelled - "finishing moves reduce the

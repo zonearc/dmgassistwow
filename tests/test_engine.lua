@@ -1459,6 +1459,27 @@ test("steady slot 1: a moment short of Energy keeps the shown spell (it waits); 
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("steady slot 1: a major cooldown SimC wants now takes slot 1 at once (its window can be one press)", function()
+  -- Improved Adrenaline Rush (at 2 combo points or fewer) waited 70 s behind held Sinister Strikes (2026-11-13)
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  G.ResetSteady()
+  local rip, shred = { id = 1079, token = "rip", source = "simc" }, { id = 5221, token = "shred", source = "simc" }
+  local tf = { id = 5217, token = "tigers_fury", source = "simc", major = true }
+  mock.cooldowns[61304] = { start = mock.now - 0.1, duration = 1.5, active = true }
+  G.Steady({ main = rip, queue = { rip, shred } })
+  mock.now = mock.now + 0.5
+  local r = G.Steady({ main = shred, queue = { shred, rip } })
+  eq(r.main.token, "rip", "an ordinary change waits")
+  mock.now = mock.now + 0.1
+  r = G.Steady({ main = tf, queue = { tf, rip } })
+  eq(r.main.token, "tigers_fury", "the major cooldown: at once")
+  mock.cooldowns[61304] = nil
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 test("skipping the slot-1 spell three times holds it until combat ends; casting it brings it back", function()
   Reset()
   local ns = Boot()
