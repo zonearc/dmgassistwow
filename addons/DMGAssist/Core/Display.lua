@@ -1058,10 +1058,14 @@ local function SetIcon(icon, pick, cfg, isMain, labelText)
       end
     end
   end
+  -- waiting for a resource: Blizzard's own blue "not enough" tint at full strength. Half strength read as a broken,
+  -- see-through slot 1 while you were only a second short of Energy (Outlaw, 2026-11-13).
+  if pick.source == "pool" and r == 1 then
+    r, g, b = 0.45, 0.55, 1
+  end
   icon.tex:SetVertexColor(r, g, b)
   local alpha = isMain and 1 or cfg.queueAlpha
-  if cfg.dimGuesses and (pick.source == "guess" or pick.source == "rules?" or pick.source == "pool"
-    or pick.source == "soon") then
+  if cfg.dimGuesses and (pick.source == "guess" or pick.source == "rules?" or pick.source == "soon") then
     alpha = alpha * 0.5
   end
   icon:SetAlpha(alpha)

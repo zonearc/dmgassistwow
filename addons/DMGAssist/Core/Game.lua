@@ -1050,11 +1050,12 @@ function G.Render()
       n.edge:SetColorTexture(c[1], c[2], c[3], (w.main and w.t <= 0.05) and 0.95 or 0.35)
     end
     local fadeIn = n.born and math.min(1, (now - n.born) / 0.25) or 1
-    -- waiting for a resource (Death Coil with too little Runic Power, 2026-11-12) or a guess: half strength, as in
+    -- a guess: half strength, as in
     -- the classic HUD, so it reads "coming, not yet"
     local p = w.pick
-    local dim = p and (p.source == "pool" or p.source == "guess" or p.source == "rules?" or p.source == "soon") and 0.5 or 1
-    n.waitingFor = dim < 1 or nil
+    -- (waiting for a resource: full strength, tinted blue by SetIcon, 2026-11-13)
+    local dim = p and (p.source == "guess" or p.source == "rules?" or p.source == "soon") and 0.5 or 1
+    n.waitingFor = (dim < 1 or (p and p.source == "pool")) or nil
     n:SetAlpha(((w.main or w.lane == 2) and 1 or 0.75) * fadeIn * dim)
     -- hidden facts the game decides (combat): the same alpha tricks as the classic HUD
     if w.intr and w.intr.how == "render" then

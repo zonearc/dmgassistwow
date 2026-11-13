@@ -1300,11 +1300,21 @@ function S.TargetRefused(id)
   local t = S.targetRefused[id] or (M.baseOf and M.baseOf[id] and S.targetRefused[M.baseOf[id]])
   return t ~= nil and GetTime() - t < S.TARGET_REFUSED_FOR
 end
+local refusedLogged = {}
 function S.OnUIError(_, msg)
   if type(msg) == "string" and not IsCooldownError(msg) then
     local now = GetTime()
     lastOtherError = now
     local f = lastFailed
+    -- every refused press, with the game's reason ("Not enough energy"): whether a dimmed slot 1 was really short
+    -- (Outlaw: "I wasn't waiting on energy, I would press it anyway and it went through", 2026-11-13). At most one
+    -- per spell a second.
+    if f and now - f.t <= S.REFUSAL_PAIR and now - (refusedLogged[f.id] or 0) >= 1 then
+      refusedLogged[f.id] = now
+      local shown = ns.last and ns.last.main
+      U.Log("refused", { spell = M.TokenForID(f.id) or f.id, why = msg,
+        shown = shown and (tostring(shown.token) .. "/" .. tostring(shown.source)) or nil })
+    end
     if f and now - f.t <= S.REFUSAL_PAIR and IsTargetError(msg) then
       S.targetRefused[f.id] = now
       U.Log("target_refused", { spell = M.TokenForID(f.id) or f.id })

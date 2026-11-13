@@ -339,6 +339,31 @@ test("look-ahead: a hidden proc line is never predicted into slots 2-3 unless it
   mock.acSpell = nil
 end)
 
+test("look-ahead: pressing a lit proc spell spends its glow (Outlaw's Pistol Shot after Pistol Shot)", function()
+  -- slot 2 said Pistol Shot again after a lit Pistol Shot 20 times; you pressed it 4 (Fan the Hammer fires the
+  -- whole volley in one press and spends Opportunity, 2026-11-13)
+  Reset()
+  local ns = Boot()
+  Restrict()
+  local rec = Record()
+  rec.simcOrder = { "default" }
+  rec.simc.default = {
+    { a = "shred", k = "R", c = "buff.clearcasting.up" }, -- a proc: hidden in combat
+    { a = "thrash", k = "R" },
+  }
+  rec.blizzard = nil
+  rec.blizzardExcluded = nil
+  mock.acSpell = nil
+  rec.spellInfo = { [106830] = { n = "thrash", cd = 6, gcd = 1 } }
+  ns.SpellMap.SetData(rec)
+  ns.State.glow[5221] = true
+  local r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(r.main.token, "shred", "the lit button now")
+  eq(r.queue[2] and r.queue[2].token, "thrash", "then not the same proc again")
+  ns.State.glow[5221] = nil
+  mock.acSpell = nil
+end)
+
 test("combos: follow the lane by the streak's judgement; 3-4 presses, spaced, never at the pull, due when missing", function()
   Reset()
   local ns = Boot()
@@ -5845,6 +5870,33 @@ test("a press refused for Energy (or range, facing) never holds the spell back; 
   eq(S.RefusedHold(1822), true)
   mock.Fire("PLAYER_REGEN_ENABLED")
   mock.inCombat, mock.restricted = false, false
+end)
+
+test("a refused press is logged with the game's reason and what slot 1 showed (dimmed 'waiting' checks)", function()
+  -- "I wasn't waiting on energy... I would press it anyway and it went through" (Outlaw, 2026-11-13)
+  Reset()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, data } end } -- luacheck: ignore 111
+  local ns = Boot()
+  local S = ns.State
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Advance(2)
+  S.OnCastFailed(1822)
+  S.OnUIError(nil, "Not enough energy")
+  S.OnCastFailed(1822) -- pressed again at once: one line a second per spell
+  S.OnUIError(nil, "Not enough energy")
+  local n, data = 0, nil
+  for _, l in ipairs(logged) do
+    if l[1] == "refused" then
+      n, data = n + 1, l[2]
+    end
+  end
+  eq(n, 1, "once")
+  eq(tostring(data):find("Not enough energy", 1, true) ~= nil, true, "the reason: " .. tostring(data))
+  mock.inCombat = false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  DMGAssistWatchdog = nil -- luacheck: ignore 111
 end)
 
 test("slot 1 showing a spell with no key says which spell it is, once (Surging Totem, 2026-11-10)", function()

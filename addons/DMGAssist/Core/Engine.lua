@@ -836,7 +836,11 @@ G.uncertainNow = {} -- SimC lines uncertain now and not confirmed by the assista
 local function Corroborated(id, token, run, castable)
   -- The game's own button highlight (a proc glow: Earthquake / Earth Shock with enough Maelstrom, a free
   -- spender) says "press this" about exactly the hidden state that made the line uncertain.
-  if castable == true and (S.glow[id] or (run.override[id] and S.glow[run.override[id]])) then
+  -- Looking ahead, not once that spell has been pressed in this look-ahead: pressing it spends the proc (Outlaw's
+  -- Pistol Shot predicted again after a lit Pistol Shot was right 4 times in 20, 2026-11-13).
+  local ahead = S.Lookahead()
+  local spent = ahead and (ahead.cast[id] or (run.override[id] and ahead.cast[run.override[id]]))
+  if castable == true and not spent and (S.glow[id] or (run.override[id] and S.glow[run.override[id]])) then
     return "glow"
   end
   if run.acSpell then

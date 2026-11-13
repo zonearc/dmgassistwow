@@ -129,6 +129,12 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.251: Outlaw dummy report. (1) Slot 1 "waiting for a resource" no longer fades to half strength in either
+  display: full strength with Blizzard's blue "not enough" tint (it read as a broken, see-through icon). In the log
+  every dimmed stretch ended within 0.04 s of the press going through, but Energy is hidden in combat, so (2) each
+  press the game refuses is now logged with its reason and what slot 1 showed (`refused`), to tell "really short"
+  from "we were wrong". (3) Look-ahead: pressing a lit proc spell spends its glow, so slot 2 no longer predicts
+  Pistol Shot again after a lit Pistol Shot (right 4 of 20 times). Prediction in that run: 44% over 84 presses.
 - 1.6.0.250: Prediction measurement. Every fight's summary now logs `prediction_summary` (how often slot 2 at a
   press was the next spell pressed, and the most common misses: "shown > pressed xN"); the scenario test records
   each spec's rate and fails on a drop of more than 10 points. Look-ahead no longer predicts spells SimC casts only
