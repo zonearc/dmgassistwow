@@ -310,6 +310,35 @@ test("look-ahead: a line hidden behind a proc now isn't confirmed by Blizzard's 
   mock.acSpell = nil
 end)
 
+test("look-ahead: a hidden proc line is never predicted into slots 2-3 unless its button is lit (Outlaw Pistol Shot)", function()
+  -- Outlaw: slots 2-3 kept showing Pistol Shot (Opportunity, a random proc), so the row rewrote itself (2026-11-13)
+  Reset()
+  local ns = Boot()
+  Restrict()
+  local rec = Record()
+  rec.simcOrder = { "default" }
+  rec.simc.default = {
+    { a = "shred", k = "R", c = "buff.clearcasting.up" }, -- a proc: hidden in combat
+    { a = "thrash", k = "R" },
+  }
+  rec.blizzard = nil
+  rec.blizzardExcluded = nil
+  mock.acSpell = nil -- no assistant pick (Outlaw often has none)
+  -- once Thrash is used, nothing certain is left for slots 2-3
+  rec.spellInfo = { [106830] = { n = "thrash", cd = 6, gcd = 1 } }
+  ns.SpellMap.SetData(rec)
+  local r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(r.main.token, "thrash")
+  for i = 2, #r.queue do
+    eq(r.queue[i].token ~= "shred", true, "slot " .. i .. ": no guessed proc spell")
+  end
+  ns.State.glow[5221] = true -- the game lights Shred: the proc is really up
+  r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(r.main.token, "shred", "a lit button takes slot 1")
+  ns.State.glow[5221] = nil
+  mock.acSpell = nil
+end)
+
 test("combos: follow the lane by the streak's judgement; 3-4 presses, spaced, never at the pull, due when missing", function()
   Reset()
   local ns = Boot()
@@ -364,6 +393,16 @@ test("combos: follow the lane by the streak's judgement; 3-4 presses, spaced, ne
   mock.now = mock.now + C.WINDOW + 1
   C.Planned({ KC, BS })
   eq(C.run, nil, "too long a pause ends it")
+  -- the first of a fight: sooner than the later ones (Warrior got one only near the end, 2026-11-13)
+  C.OnFightStart(mock.now)
+  for _ = 1, C.WARMUP do
+    C.OnJudged("hit", 400)
+  end
+  eq(C.Planned({ KC, BS }), nil, "the first: not right after the warm-up")
+  mock.now = mock.now + C.FIRST_DUE + 1
+  local first = C.Planned({ KC, BS, KC })
+  eq(first and first[1], 400, "the first: FIRST_DUE s after the pull, well before DUE")
+  eq(C.FIRST_DUE < C.DUE, true)
   C.IsStarter = isStarter
   ns.Game.OnCombo, ns.Game.OnComboStep = onCombo, onStep
   C.Reset()

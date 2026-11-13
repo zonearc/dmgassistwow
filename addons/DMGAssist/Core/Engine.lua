@@ -1133,12 +1133,25 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
               return { id = id, token = a, source = isBlizzard and "rules" or "simc" }
             elseif not isBlizzard then
               local how = Corroborated(id, a, run, castable)
-              if how then
+              -- Looking ahead, a line hidden now only behind a proc (buff.opportunity: Outlaw's Pistol Shot) is
+              -- not predicted unless the game lights the button: guessed into slots 2-3, the row rewrote itself
+              -- every time the proc did or didn't come (2026-11-13: "the entire spell row in flow is constantly
+              -- bouncing"). Slots 2-3 show the steady baseline; a real proc lights up and takes slot 1.
+              if how and how ~= "glow" and not run.first and G.uncertainNow[a] then
+                how = nil
+              end
+              if not how and not run.first and G.uncertainNow[a] then
+                if run.trace then
+                  run.trace[#run.trace] = run.trace[#run.trace] .. " (hidden proc: not predicted)"
+                end
+              elseif how then
                 run.visiting[name] = nil
                 return { id = id, token = a, source = "simc+" .. how }
               end
               -- only a hidden proc (buff.*) stays hidden later; a resource can build by then (Unholy's Runic Power)
-              if run.first and run.acSpell and cond then
+              -- (with or without the assistant's pick: Outlaw often has none, and Pistol Shot was guessed into
+              -- slots 2-3 all fight, 2026-11-13)
+              if run.first and cond then
                 run.lineUnknown = {}
                 E.Test(cond, run.resolve, run.bounds)
                 for term in pairs(run.lineUnknown) do
@@ -1148,7 +1161,7 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
                 end
                 run.lineUnknown = nil
               end
-              if not run.firstMaybe then
+              if not run.firstMaybe and (run.first or not G.uncertainNow[a]) then
                 run.firstMaybe = { id = id, token = a, source = "guess" }
               end
               if run.first and not run.branch and not maybe and castable == true then

@@ -44,6 +44,7 @@ G.BONUS_DONE = { kick = "Interrupted!", defend = "Safe!", item = "Powered up!" }
 G.MISS_SHOW = 0.7   -- the red X on a note after a wrong press
 -- Combos (Combos.lua): a chain finished after a major cooldown, its own colour, flash and points
 G.COMBO_COLOR = { 0.78, 0.45, 1 }
+G.COMBO_FIRE = { 1, 0.5, 0.08 } -- a finished combo sweeps the lane in fire
 G.COMBO_POINTS = 250 -- per spell of the chain, times the multiplier
 G.COMBO_FLASH = 0.7
 -- Flow State (decided 2026-11-12): a hot streak of FLOW_STATE_AT Perfect / Great hits in a row turns it on for
@@ -1036,9 +1037,8 @@ function G.Render()
     end
     local c = G.LANE_COLOR[1]
     if w.combo and w.lane == 1 then
-      -- a linked combo note: violet, pulsing (the line between them is drawn after the notes)
-      local cc = G.COMBO_COLOR
-      n.edge:SetColorTexture(cc[1], cc[2], cc[3], 0.6 + 0.4 * math.abs(math.sin(now * 5)))
+      -- a linked combo note: its edge burns like the line between them (drawn after the notes)
+      n.edge:SetColorTexture(1, 0.4 + 0.4 * math.abs(math.sin(now * 9)), 0.05, 0.7 + 0.3 * math.abs(math.sin(now * 5)))
     elseif w.fire and w.lane == 1 then
       -- a flame note: worth double, burns orange
       n.edge:SetColorTexture(1, 0.35 + 0.3 * math.abs(math.sin(now * 6)), 0.05, 0.95)
@@ -1090,25 +1090,46 @@ function G.Render()
     end
     n:Show()
   end
-  -- the combo's link: a violet line from each linked note to the next
+  -- the combo's link: a burning line from each linked note to the next (the owner, 2026-11-13: "too subtle ... make
+  -- the lines on fire"): a flickering orange-to-yellow core with a soft flame glow above it, rising and falling
   f.comboLinks = f.comboLinks or {}
+  f.comboFlames = f.comboFlames or {}
   for i = 1, math.max(#f.comboLinks, #comboNotes - 1) do
     local a, b = comboNotes[i], comboNotes[i + 1]
-    local link = f.comboLinks[i]
+    local link, flame = f.comboLinks[i], f.comboFlames[i]
     if a and b then
       if not link then
         link = f:CreateTexture(nil, "ARTWORK", nil, -1)
         f.comboLinks[i] = link
+        flame = f:CreateTexture(nil, "ARTWORK", nil, -2)
+        if flame.SetBlendMode then
+          flame:SetBlendMode("ADD")
+        end
+        f.comboFlames[i] = flame
       end
-      local cc = G.COMBO_COLOR
       local x1, x2 = a.x + G.ICON / 2, b.x - G.ICON / 2
+      local flick = math.abs(math.sin(now * 9 + i)) * 0.5 + math.abs(math.sin(now * 23 + i * 2)) * 0.5
       link:ClearAllPoints()
       link:SetPoint("LEFT", f, "TOPLEFT", x1, G.LaneY())
-      link:SetSize(math.max(1, x2 - x1), 4)
-      link:SetColorTexture(cc[1], cc[2], cc[3], 0.85)
+      link:SetSize(math.max(1, x2 - x1), 5)
+      link:SetColorTexture(1, 0.45 + 0.25 * flick, 0.08, 0.95)
+      if link.SetGradient and CreateColor then
+        link:SetGradient("VERTICAL", CreateColor(1, 0.25, 0.02, 0.95), CreateColor(1, 0.85, 0.2, 0.95))
+      end
+      flame:ClearAllPoints()
+      flame:SetPoint("BOTTOMLEFT", link, "BOTTOMLEFT", 0, 0)
+      flame:SetSize(math.max(1, x2 - x1), 8 + 10 * flick)
+      flame:SetColorTexture(1, 0.4, 0.05, 0.35 + 0.35 * flick)
+      if flame.SetGradient and CreateColor then
+        flame:SetGradient("VERTICAL", CreateColor(1, 0.35, 0.05, 0.5 + 0.3 * flick), CreateColor(1, 0.8, 0.1, 0))
+      end
       link:SetShown(x2 > x1)
+      flame:SetShown(x2 > x1)
     elseif link then
       link:Hide()
+      if flame then
+        flame:Hide()
+      end
     end
   end
   -- notes no longer wanted: pressed (or swapped) - fade out where they are
@@ -1695,7 +1716,7 @@ function G.OnCombo(length)
   local points = G.COMBO_POINTS * (length or 2) * G.Mult()
   G.score = G.score + points
   G.combos = (G.combos or 0) + 1
-  f.comboAt, f.sweepColor = GetTime(), G.COMBO_COLOR
+  f.comboAt, f.sweepColor = GetTime(), G.COMBO_FIRE
   Kudos(f, L["COMBO!"] .. "  " .. string.format(L["Bonus +%d"], points), G.COMBO_COLOR, true)
   U.Log("combo", { length = length, points = points })
 end

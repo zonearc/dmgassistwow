@@ -10,7 +10,7 @@
 --   * LENGTH presses (MAX_LENGTH when it starts on a major cooldown), never more;
 --   * never back to back: GAP seconds at least after the last one;
 --   * at least one every minute or so: DUE seconds without one and any spell in the box can start one, not only a
---     cooldown;
+--     cooldown; the first of a fight already FIRST_DUE seconds after the pull (once the warm-up is done);
 --   * never at the very start of a fight: WARMUP presses first, so you're settled before one is put in front of you.
 -- A cooldown in slot 1 (a major one, or any spell with a cooldown of COOLDOWN s or more) starts one when the rules
 -- allow. The chains mined from simulated fights (tools/mine_combos.lua, Data/Combos.lua) are no longer used for the
@@ -27,6 +27,7 @@ C.COOLDOWN = 30    -- a spell with at least this cooldown can start one
 C.LENGTH, C.MAX_LENGTH = 3, 4
 C.GAP = 15         -- seconds after the last combo before the next can start
 C.DUE = 45         -- seconds without one: any spell in the box can start the next
+C.FIRST_DUE = 15   -- the first of a fight comes sooner (Warrior: one only near the end of a dummy fight, 2026-11-13)
 C.WARMUP = 5       -- presses into a fight before the first
 
 local function Info(id)
@@ -95,7 +96,7 @@ function C.Planned(queue)
   end
   local starter = C.IsStarter(q1)
   local since = C.lastAt or C.fightAt
-  local due = since ~= nil and now - since >= C.DUE
+  local due = since ~= nil and now - since >= (C.lastAt and C.DUE or C.FIRST_DUE)
   if not starter and not due then
     return nil
   end

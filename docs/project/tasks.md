@@ -129,6 +129,12 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.246: Look-ahead: a line hidden behind a proc (Outlaw's Pistol Shot on Opportunity) is never guessed into
+  slots 2-3 unless its button is lit; it was marked only when Blizzard's assistant had a pick, and Outlaw often has
+  none, so the row rewrote itself all fight. Combos: the first of a fight comes 15 s after the pull (was 45 s);
+  the linked lines burn (flickering fire core with a rising flame glow), linked notes burn, and a finished combo
+  sweeps the lane in fire. Rogue combos were already running (3-step ones logged).
+
 - 1.6.0.242: Mitigation map: every spec's survival profile from data/mitigation/ (40 specs), checked against the
   game's spell data by tools/mitigation.py (removed spells, passives, other specs' talents, game-flagged
   defensives left out all fail the build); Tanks.lua and Defensives.lua read it. Defensives are found by spell ID
