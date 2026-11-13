@@ -87,11 +87,11 @@ Last updated: 1.6.0.157 (2026-11-10).
   count) -> next press; used once >= 20 samples and >= 90% confident and beating SimC's forecast there; kept across
   sessions (SavedVariables), recent fights weigh more, a pattern whose accuracy drops is dropped and relearned
   (hotfixes, talent changes); a "?" on slot 2 for true coin flips.
-- Sharing (owner idea, 2026-11-13, not approved to build): addons can't reach the internet; in-game addon messages
-  reach party/raid/guild/whisper only. So (a) guild/party Flow score boards: in-game, out of combat; (b) global
-  leaderboards and a shared prediction baseline: opt-in upload of SavedVariables by a companion (tools/send-logs.py
-  is the start), aggregated per spec + talent build into a reference file shipped with each release. Self-reported
-  scores can be faked: boards would be for fun, not proof.
+- Shared prediction baseline (optional, owner 2026-11-13; build only if it shows benefit): opt-in upload of
+  learned patterns by a companion (tools/send-logs.py reads SavedVariables), combined per spec + talent build into
+  a reference file shipped with each release, so a new install starts from what everyone learned. Worth it only if
+  local learning works and the combined patterns predict better than one player's own. Score boards: dropped
+  (self-reported scores can be faked; a key inside the addon can't stop that, its code is readable by anyone).
 
 - Patch watch + release channels (owner, 2026-11-12):
   - Every other Tuesday (patch day): pull the new game data (SimC SpellDataDump / class modules, already fetched
