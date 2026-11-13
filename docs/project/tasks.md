@@ -81,7 +81,7 @@ Last updated: 1.6.0.157 (2026-11-10).
 ## Proposed (waiting on a decision)
 - Prediction plan (owner, 2026-11-13), in order: (1) measurement (1.6.0.252); (2) slot 1 commitment (built 1.6.0.253): keep the
   shown spell until pressed while its SimC line still holds, switching only for situations (interrupt, defensive)
-  or a line that turns false: UX over the last bit of optimisation; (3) learning, slots 2-3 only (never slot 1, so
+  or a line that turns false: UX over the last bit of optimisation; (3) learning (shadow mode built 1.6.0.255), slots 2-3 only (never slot 1, so
   it cannot cost damage): per spec + talent loadout, damage rotation only (no defensives, trinkets, potions,
   interrupts, tank mitigation); patterns = last 1-2 presses + readable state (combo points, lit buttons, target
   count) -> next press; used once >= 20 samples and >= 90% confident and beating SimC's forecast there; kept across
@@ -142,6 +142,13 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.255: Prediction learner in shadow mode (Core/Learner.lua). At every damage-rotation press it learns which
+  spell came next in that situation (last two presses, secondary resource, lit buttons, ST/AoE; coarser fallbacks
+  while a situation is new), guesses the next press silently, and scores itself against slot 2 on the same presses
+  (`learner_summary`). One `press` line per press for offline study: tools/prediction-report.py replays them
+  through several learner designs (last1, last2, full, backoff, hybrid). Kept per spec + talent loadout in
+  DMGAssistDB.learner, older fights weigh less (x0.97 per fight). Defensives, trinkets, potions, interrupts and
+  precombat spells are left out. Goes live (slot 2 only) once it clearly beats slot 2.
 - 1.6.0.253: Outlaw run on 1.6.0.252: slot 2 right 44% (simc 18/32, simc+glow 4/5, rules? 3/15, guess 1/7), slot 1
   steady 86% (target 95%), slot 3 56%, last-press baseline 48%. (1) Look-ahead never guesses a hidden-proc spell
   back in: the "behind a hidden proc" mark is set before a glow confirms the line (a lit Pistol Shot, once pressed

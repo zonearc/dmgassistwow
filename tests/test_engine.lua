@@ -3586,6 +3586,47 @@ test("diagnostics: prediction - pressing slot 1, was slot 2 right about what cam
   eq(G.PredictionText(), nil, "starts over each fight")
 end)
 
+test("learner (shadow): learns what you press next per situation, scores itself against slot 2, keeps it", function()
+  Reset()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, tostring(data) } end } -- luacheck: ignore 111
+  local ns = Boot()
+  local L = ns.Learner
+  local rec = QRecord({ { a = "shred", k = "S" }, { a = "rip", k = "S" } })
+  Feral(ns, rec)
+  ns.Specs.current = { key = "druid_feral", status = "ready", data = rec, branch = "midnight", client = "Midnight" }
+  ns.global = ns.global or {}
+  ns.global.learner = nil
+  L.OnCombat(true)
+  local SH, RI = { id = 5221, token = "shred", source = "simc" }, { id = 1079, token = "rip", source = "simc" }
+  for _ = 1, 8 do -- always Shred then Rip; slot 2 keeps saying Shred again
+    L.OnPress(5221, SH, { main = SH, queue = { SH, SH } })
+    L.OnPress(5221, SH, { main = SH, queue = { SH, SH } }) -- (the same press: ignored)
+    mock.Advance(1)
+    L.OnPress(1079, RI, { main = RI, queue = { RI, SH } })
+    mock.Advance(1)
+  end
+  L.OnPress(999999, nil, nil) -- not a rotation spell: ignored
+  local text = L.SummaryText()
+  eq(text:find("presses=16", 1, true) ~= nil, true, text)
+  eq(text:find("slot2=47% n=15", 1, true) ~= nil, true, "slot 2 right after Rip only (7 of 15): " .. text)
+  local store = L.Store()
+  local guess = L.Guess(store, { "shred" })
+  eq(guess, "rip", "after Shred: Rip")
+  L.OnCombat(false)
+  local summary, presses = nil, 0
+  for _, l in ipairs(logged) do
+    if l[1] == "learner_summary" then summary = l[2] end
+    if l[1] == "press" then presses = presses + 1 end
+  end
+  eq(summary ~= nil, true, "learner_summary logged")
+  eq(presses, 16, "one press line per press")
+  eq(store.fights, 1)
+  eq(store.next.shred.rip < 8 and store.next.shred.rip > 7, true, "older counts weigh a little less after the fight")
+  eq(ns.global.learner[next(ns.global.learner)] == store, true, "kept in DMGAssistDB (across sessions)")
+  DMGAssistWatchdog = nil -- luacheck: ignore 111
+end)
+
 test("diagnostics: our own failing calls are counted and the first of each is logged", function()
   Reset()
   local logged = {}

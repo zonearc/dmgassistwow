@@ -578,6 +578,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     ns.Essentials.Reset()
     ns.Engine.OnCombat()
     ns.Diagnostics.OnCombat(true)
+    ns.Learner.OnCombat(true)
     ns.Grade.OnCombat(true)
     if ns.TESTING then
       -- test builds: one decision snapshot a few seconds into every fight, without chat output
@@ -594,6 +595,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     ns.Engine.OnCombat()
     ns.Grade.OnCombat(false) -- before the fight's log closes, so the grade is in reports
     ns.Game.OnCombat(false)
+    ns.Learner.OnCombat(false)
     ns.Diagnostics.OnCombat(false)
     S.Calibrate()
     if spellsDirty then
@@ -968,6 +970,7 @@ function ns.OnOwnCast(id)
   local shown = ns.ShownForPress(id)
   if inCombat then
     ns.Diagnostics.OnPress(id, shown, ns.last) -- was slot 2 right? (prediction_summary)
+    ns.Learner.OnPress(id, shown, ns.last) -- the shadow learner (learner_summary, press lines)
   end
   ns.Essentials.OnOwnCast(id)
   ns.Trinkets.OnOwnCast(id)
