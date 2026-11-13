@@ -142,6 +142,13 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.264: Balance report (83 s AoE, exported mid-fight). Slot 2 (SimC look-ahead) 29/51 = 57%; 13 of 22 misses
+  predicted a repeat of slot 1 (Starfall>Starfall, Starfire>Starfire) while play alternated: Astral Power is hidden
+  and our data has Starfire's base 8 (Lunar Eclipse and talents raise it). Learner: specs without a combo-point-like
+  resource now key on the spender's resource in steps of 20 (Astral Power, Maelstrom, Insanity, Fury, Runic Power).
+  Resource gains are now read from the game's tooltips out of combat (S.LearnGains: "Generates 12 Astral Power"
+  where our data had Starfire's base 8; talents included). Open (owner): Flow lane shows two notes touching, then the second lands on slot 1 and is swapped - spacing is
+  ~130 px per GCD, so the cause isn't visible in the log; screenshot requested.
 - 1.6.0.263: Report on 1.6.0.261 (not 262: the energy-estimate fix wasn't in it). Outlaw fight = the 262 report.
   Subtlety fight (82 s, no daggers): "waiting for energy" 22 of 56 picks, real (the game said no power; Shuriken Storm
   on 5 targets at 0-39 Energy). Secret Technique x3, Gloomblade x2 refused "Must have a Dagger equipped in the main

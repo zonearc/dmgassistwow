@@ -78,12 +78,25 @@ local function Store()
 end
 L.Store = Store
 
+-- Specs without one: the spender's resource in steps of L.SPENDER_STEP (Astral Power, Maelstrom, Insanity, Fury,
+-- Runic Power): Balance alternates Starfire / Starfall on Astral Power the game hides, and without it the learner
+-- couldn't tell "enough for Starfall" from "not yet" (slot 2 repeated the spell just pressed 13 times in 22
+-- misses, 2026-11-13). Our estimate of it (PowerNow) is enough for low / mid / high.
+L.SPENDER = { 8, 11, 13, 17, 6 }
+L.SPENDER_STEP = 20
 local function Secondary()
   for _, pt in ipairs(L.SECONDARY) do
     local max = U.Get(UnitPowerMax, "player", pt)
     if type(max) == "number" and max > 0 then
       local cur = ns.State.PowerNow and ns.State.PowerNow(pt)
       return type(cur) == "number" and tostring(math.floor(cur + 0.5)) or "?"
+    end
+  end
+  for _, pt in ipairs(L.SPENDER) do
+    local max = U.Get(UnitPowerMax, "player", pt)
+    if type(max) == "number" and max > 0 then
+      local cur = ns.State.PowerNow and ns.State.PowerNow(pt)
+      return type(cur) == "number" and ("p" .. math.floor(cur / L.SPENDER_STEP)) or "p?"
     end
   end
   return "-"

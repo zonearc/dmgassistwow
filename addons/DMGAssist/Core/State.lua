@@ -1691,8 +1691,54 @@ end
 S.readyBeforeFight = {} -- spellID -> GetTime() it last read ready out of combat
 S.SNAPSHOT_EVERY = 1
 local lastSnapshot = -10
+-- Resource gains as the game's own tooltip states them, talents included ("Generates 12 Astral Power" where our
+-- data has Starfire's base 8: the owner's tooltip, 2026-11-13). Read out of combat every GAIN_EVERY s; the number
+-- right before the resource's name. Not found (another language, other wording): our data's number stays.
+S.GAIN_EVERY = 10
+S.POWER_NAMES = { [3] = { "ENERGY", "Energy" }, [4] = { "COMBO_POINTS", "combo point" }, [1] = { "RAGE", "Rage" },
+  [2] = { "FOCUS", "Focus" }, [6] = { "RUNIC_POWER", "Runic Power" }, [8] = { "ASTRAL_POWER", "Astral Power" },
+  [9] = { "HOLY_POWER", "Holy Power" }, [11] = { "MAELSTROM", "Maelstrom" }, [12] = { "CHI", "Chi" },
+  [13] = { "INSANITY", "Insanity" }, [17] = { "FURY", "Fury" }, [7] = { "SOUL_SHARDS", "Soul Shard" } }
+local lastGains = -100
+function S.LearnGains()
+  local now = GetTime()
+  if S.combatStart or now - lastGains < S.GAIN_EVERY then
+    return
+  end
+  lastGains = now
+  local learned = 0
+  for id, info in pairs(M.info or {}) do
+    if type(info) == "table" and type(info.gain) == "table" then
+      local desc = U.Get(C_Spell and C_Spell.GetSpellDescription, id)
+      if type(desc) == "string" and desc ~= "" then
+        info.gainBase = info.gainBase or {}
+        for pt, amount in pairs(info.gain) do
+          info.gainBase[pt] = info.gainBase[pt] or amount
+          local names = S.POWER_NAMES[pt]
+          local found
+          for _, n in ipairs(names or {}) do
+            local name = _G[n] or n
+            if type(name) == "string" and name ~= "" then
+              found = found or desc:match("(%d+)%s+" .. name:gsub("(%p)", "%%%1"))
+            end
+          end
+          local v = tonumber(found)
+          if v and v > 0 and v ~= info.gain[pt] then
+            info.gain[pt] = v
+            learned = learned + 1
+          end
+        end
+      end
+    end
+  end
+  if learned > 0 then
+    U.Log("gains_learned", { n = learned })
+  end
+end
+
 function S.SnapshotReady()
   local now = GetTime()
+  S.LearnGains()
   if S.combatStart or now - lastSnapshot < S.SNAPSHOT_EVERY then
     return
   end

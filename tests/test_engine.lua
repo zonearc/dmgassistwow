@@ -6211,6 +6211,23 @@ test("a refused press is logged with the game's reason and what slot 1 showed (d
   DMGAssistWatchdog = nil -- luacheck: ignore 111
 end)
 
+test("resource gains are read from the game's tooltip (talents included) out of combat", function()
+  -- Starfire: our data 8 Astral Power, the tooltip "Generates 12 Astral Power" (owner, 2026-11-13)
+  Reset()
+  local ns = Boot()
+  local rec = QRecord({ { a = "shred", k = "S" } })
+  Feral(ns, rec)
+  mock.spellDescriptions = mock.spellDescriptions or {}
+  local old = C_Spell.GetSpellDescription
+  C_Spell.GetSpellDescription = function(id)
+    if id == 5221 then return "Shreds the target. Awards 2 combo points." end
+    return ""
+  end
+  ns.State.LearnGains()
+  eq(ns.SpellMap.Info(5221).gain[4], 2, "Shred: 1 in our data, 2 per the tooltip")
+  C_Spell.GetSpellDescription = old
+end)
+
 test("a spell the game refuses for your weapon is held back until your gear changes", function()
   -- Subtlety without daggers: Secret Technique / Gloomblade shown and refused again and again (2026-11-13)
   Reset()
