@@ -3664,6 +3664,65 @@ test("learner: live in slot 2 only after clearly beating SimC's forecast; steps 
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("diagnostics: slot 1 moving on because you'd already pressed it (spell queue) isn't a change", function()
+  -- Outlaw 2026-11-13: 23 of 29 counted changes were the next cast starting from the queue, its event ~0.1 s later
+  Reset()
+  local ns = Boot()
+  local G = ns.Diagnostics
+  G.OnCombat(true)
+  local SS, PS, DI = { id = 193315, token = "sinister_strike", source = "simc" },
+    { id = 185763, token = "pistol_shot", source = "simc" }, { id = 2098, token = "dispatch", source = "simc" }
+  G.OnPress(193315, SS, { main = SS, queue = { SS, PS } })
+  mock.Advance(0.2)
+  G.OnPick({ main = PS, queue = { PS, DI } }) -- settled: slot 1 is Pistol Shot
+  mock.Advance(0.8)
+  G.OnPick({ main = DI, queue = { DI } }) -- the queued Pistol Shot started: slot 1 moves on...
+  mock.Advance(0.08)
+  G.OnPress(185763, PS, { main = PS, queue = { PS, DI } }) -- ...and its cast event arrives
+  mock.Advance(0.2)
+  G.OnPick({ main = DI, queue = { DI } })
+  mock.Advance(0.8)
+  G.OnPick({ main = SS, queue = { SS } }) -- a real change: nothing pressed
+  mock.Advance(0.5)
+  G.OnPress(193315, SS, { main = SS, queue = { SS } })
+  local text = G.PredictionText()
+  eq(text:find("slot1_steady=50% windows=2 changes=1", 1, true) ~= nil, true, text)
+  G.OnCombat(false)
+end)
+
+test("diagnostics: major cooldowns - state at the pull, when one comes back, the slot it first shows in", function()
+  -- "it didn't redo Adrenaline Rush when it was ready" (Outlaw, 2026-11-13)
+  Reset()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, tostring(data) } end } -- luacheck: ignore 111
+  local ns = Boot()
+  local G = ns.Diagnostics
+  local rec = QRecord({ { a = "tigers_fury", k = "S" }, { a = "shred", k = "S" } })
+  rec.blizzardExcluded = { "tigers_fury" }
+  Feral(ns, rec)
+  ns.Specs.current = { key = "druid_feral", status = "ready", data = rec, branch = "midnight", client = "Midnight" }
+  mock.cooldowns[5217] = { start = mock.now - 10, duration = 30, active = true } -- used before the pull
+  G.OnCombat(true)
+  local TF, SH = { id = 5217, token = "tigers_fury", source = "simc" }, { id = 5221, token = "shred", source = "simc" }
+  G.OnPick({ main = SH, queue = { SH } })
+  mock.Advance(21)
+  mock.cooldowns[5217] = nil -- back
+  G.OnPick({ main = SH, queue = { SH, TF } })
+  G.OnPick({ main = TF, queue = { TF, SH } })
+  local lines = {}
+  for _, l in ipairs(logged) do
+    if l[1]:find("^major") then
+      lines[#lines + 1] = l[1] .. " " .. l[2]
+    end
+  end
+  eq(lines[1]:find("majors_at_pull tigers_fury=not_ready", 1, true) ~= nil, true, lines[1])
+  eq(lines[2], "major ready=true s=tigers_fury")
+  eq(lines[3], "major_shown s=tigers_fury slot=2", "first seen in slot 2")
+  eq(#lines, 3, "logged once")
+  G.OnCombat(false)
+  DMGAssistWatchdog = nil -- luacheck: ignore 111
+end)
+
 test("diagnostics: our own failing calls are counted and the first of each is logged", function()
   Reset()
   local logged = {}

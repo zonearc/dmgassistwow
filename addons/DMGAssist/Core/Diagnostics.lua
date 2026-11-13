@@ -261,6 +261,25 @@ local function Base(id)
   return id and (baseOf[id] or id)
 end
 
+-- A change of slot 1 counts once it is clear it wasn't your press: with the game's spell queue the next cast starts
+-- the moment the GCD ends and slot 1 moves on, but the cast event arrives up to ~0.2 s later. 23 of 29 "changes"
+-- in an Outlaw fight were that (2026-11-13): the spell that left slot 1 was cast right after.
+G.QUEUED_PRESS = 0.3
+local function CommitChange()
+  local c = G.pendingChange
+  G.pendingChange = nil
+  if not c then
+    return
+  end
+  local pr = G.pred
+  if c.situational then
+    pr.win.situational = pr.win.situational + 1
+  else
+    pr.win.changes = pr.win.changes + 1
+    G.windowChanged = true
+  end
+end
+
 function G.OnPress(id, shown, last)
   local pr = G.pred
   local now = GetTime()
@@ -269,6 +288,12 @@ function G.OnPress(id, shown, last)
     return -- the rest of one press
   end
   G.lastPress = { id = id, at = now }
+  local c = G.pendingChange
+  if c and c.from == Base(id) and now - c.at <= G.QUEUED_PRESS then
+    G.pendingChange = nil -- it left slot 1 because you had pressed it
+  else
+    CommitChange()
+  end
   pr.presses = pr.presses + 1
   local win = G.window
   G.window = nil
@@ -303,14 +328,13 @@ local function Settle(result)
   local p = G.pending
   if not p then
     -- between presses: does slot 1 change its mind?
+    if G.pendingChange and GetTime() - G.pendingChange.at > G.QUEUED_PRESS then
+      CommitChange()
+    end
     if G.window and main and main.id and Base(main.id) ~= G.window then
-      local pr = G.pred
-      if G.SITUATIONAL[main.source or ""] or G.SITUATIONAL[G.windowSource or ""] then
-        pr.win.situational = pr.win.situational + 1
-      else
-        pr.win.changes = pr.win.changes + 1
-        G.windowChanged = true
-      end
+      CommitChange()
+      G.pendingChange = { from = G.window, at = GetTime(),
+        situational = G.SITUATIONAL[main.source or ""] or G.SITUATIONAL[G.windowSource or ""] }
       G.window, G.windowSource = Base(main.id), main.source
     end
     return
@@ -408,8 +432,71 @@ function G.PredictionText()
   return text
 end
 
+-- Major cooldowns, per fight (Outlaw 2026-11-13: "it didn't redo Adrenaline Rush when it was ready"; the decision
+-- traces stop after 40, so the end of a long fight wasn't visible): each one's state at the pull, every time it
+-- becomes pressable or stops being, and the first slot it shows in after that. Its casts are the C lines.
+G.MAJOR_LOGS = 40
+local function MajorTokens()
+  local state = ns.Specs and ns.Specs.current
+  local record = state and state.data
+  return type(record) == "table" and type(record.blizzardExcluded) == "table" and record.blizzardExcluded or {}
+end
+
+-- (its cooldown only: whether it could be pressed is the engine's business, and asking reads more of the game)
+local function MajorReady(id)
+  local S = ns.State
+  return S.CooldownReady and S.CooldownReady(id) == true
+end
+
+function G.MajorsAtPull()
+  G.majors, G.majorLogs = {}, 0
+  local parts = {}
+  for _, token in ipairs(MajorTokens()) do
+    local id = ns.SpellMap.SpellID(token)
+    if id then
+      local ready = MajorReady(id)
+      G.majors[token] = { id = id, ready = ready }
+      local left = not ready and ns.State.CooldownRemains and ns.State.CooldownRemains(id)
+      parts[#parts + 1] = token .. "=" .. (ready and "ready"
+        or ("not_ready(left=" .. (type(left) == "number" and string.format("%.0f", left) or "?") .. ")"))
+    end
+  end
+  if #parts > 0 then
+    U.Log("majors_at_pull", table.concat(parts, " "))
+  end
+end
+
+local function TrackMajors(result)
+  if not G.majors then
+    return
+  end
+  for token, m in pairs(G.majors) do
+    local ready = MajorReady(m.id)
+    if ready ~= m.ready then
+      m.ready, m.shown = ready, nil
+      if G.majorLogs < G.MAJOR_LOGS then
+        G.majorLogs = G.majorLogs + 1
+        U.Log("major", { s = token, ready = ready })
+      end
+    end
+    if ready and not m.shown then
+      for i, p in ipairs(result and result.queue or {}) do
+        if p and (p.id == m.id or p.token == token) then
+          m.shown = i
+          if G.majorLogs < G.MAJOR_LOGS then
+            G.majorLogs = G.majorLogs + 1
+            U.Log("major_shown", { s = token, slot = i })
+          end
+          break
+        end
+      end
+    end
+  end
+end
+
 function G.OnPick(result)
   Settle(result)
+  TrackMajors(result)
   local main = result and result.main
   local source = main and main.source or "none"
   if result and result.branch then
@@ -448,6 +535,7 @@ function G.Summary()
   U.Log("clue_summary", "checks/wrong/facts " .. table.concat(clues, " "))
   U.Log("pick_summary", G.picks)
   U.Log("interrupt_summary", ns.Interrupts.stats)
+  CommitChange()
   local pred = G.PredictionText()
   if pred then
     U.Log("prediction_summary", pred)
@@ -462,7 +550,7 @@ function G.Summary()
   U.Log("haste_summary", { source = ns.State.hasteSource })
   G.range, G.picks = {}, {}
   G.pred, G.pending = NewPred(), nil
-  G.window, G.windowChanged, G.prevToken, G.lastPress = nil, nil, nil, nil
+  G.window, G.windowChanged, G.prevToken, G.lastPress, G.pendingChange = nil, nil, nil, nil, nil
 end
 
 function G.OnCombat(inCombat)
@@ -470,9 +558,11 @@ function G.OnCombat(inCombat)
   if inCombat then
     G.range, G.picks = {}, {}
     G.pred, G.pending = NewPred(), nil
-    G.window, G.windowChanged, G.prevToken, G.lastPress = nil, nil, nil, nil
+    G.window, G.windowChanged, G.prevToken, G.lastPress, G.pendingChange = nil, nil, nil, nil, nil
+    G.MajorsAtPull()
     G.Tick(true)
   else
+    G.majors = nil
     G.Tick(true)
     G.Summary()
   end

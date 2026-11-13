@@ -142,6 +142,15 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.257: Outlaw run on 1.6.0.256 (142 s). Learner shadow: 41/95 vs SimC 37/95 on the same presses; confident
+  guesses 18/22 (82%); replay: full situation 59%, cp+lit 57%. "Slot 1 steady 76%" was mostly a measuring error:
+  23 of 29 changes were the next cast starting from the spell queue (the spell that left slot 1 was cast 0.02-0.2
+  s later); all 29 steady_release lines were "settle". Real steady ~94%. Fixed: a change counts only if the spell
+  that left slot 1 isn't cast within 0.3 s. Adrenaline Rush: not castable from 0.1 s into the fight (our clock /
+  the game: on cooldown), shown at once when combat ended: most likely used before the pull; not provable from the
+  log (traces stop at 40), so majors are now logged per fight: majors_at_pull, major (ready/not), major_shown
+  (slot). Roll the Bones: used on cooldown (45 s; 2, 48, 94 s). Energy starvation clustered at 97-104 s with
+  Thistle Tea twice: the stretch without Adrenaline Rush.
 - 1.6.0.256: Outlaw run on 1.6.0.255. Learner (shadow) beat slot 2 in its first fight: 27/58 vs 17/58 on the same
   presses. Replay of the press lines (tools/prediction-report.py) picked the key order spell+secondary
   resource+lit buttons > last two presses > spell (52% cold start, 55% with slot 2 as fallback, vs slot 2 38%;
