@@ -79,7 +79,7 @@ Last updated: 1.6.0.157 (2026-11-10).
   Light's Judgment, Bag of Tricks); shown only for that race and when on your bars. Confirm on a race that has one.
 
 ## Proposed (waiting on a decision)
-- Prediction plan (owner, 2026-11-13), in order: (1) measurement (1.6.0.252); (2) slot 1 commitment: keep the
+- Prediction plan (owner, 2026-11-13), in order: (1) measurement (1.6.0.252); (2) slot 1 commitment (built 1.6.0.253): keep the
   shown spell until pressed while its SimC line still holds, switching only for situations (interrupt, defensive)
   or a line that turns false: UX over the last bit of optimisation; (3) learning, slots 2-3 only (never slot 1, so
   it cannot cost damage): per spec + talent loadout, damage rotation only (no defensives, trinkets, potions,
@@ -142,6 +142,14 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.253: Outlaw run on 1.6.0.252: slot 2 right 44% (simc 18/32, simc+glow 4/5, rules? 3/15, guess 1/7), slot 1
+  steady 86% (target 95%), slot 3 56%, last-press baseline 48%. (1) Look-ahead never guesses a hidden-proc spell
+  back in: the "behind a hidden proc" mark is set before a glow confirms the line (a lit Pistol Shot, once pressed
+  in the look-ahead, came back as a guess), and Blizzard's uncertain rules (rules?) respect it too. After Sinister
+  Strike the next press was Sinister Strike 10/21, Pistol Shot 4/21. (2) Steady slot 1 (default): keeps the shown
+  spell until pressed while SimC's line for it isn't false; a moment short of the resource waits up to 2 s
+  (G.POWER_WAIT) instead of jumping to whatever is castable (most of the 9 changes, about 1 s after a press).
+  "Fast" keeps the old behaviour; interrupts and defensives still take slot 1 at once.
 - 1.6.0.252: Prediction measurement, round 2 (owner targets: slot 1 steady 95% between presses, slot 2 right
   80-85%, slot 3 secondary; Flow and Classic alike). `prediction_summary` adds slot1_steady (changes between
   presses; interrupts/defensives/trinkets/potions/buffs counted apart as situational), slot 3, slot 2 by where the

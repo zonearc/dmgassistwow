@@ -364,6 +364,42 @@ test("look-ahead: pressing a lit proc spell spends its glow (Outlaw's Pistol Sho
   mock.acSpell = nil
 end)
 
+test("look-ahead: a lit proc spell, once pressed, isn't guessed back in (by SimC's lines or Blizzard's rules)", function()
+  -- Outlaw 2026-11-13 (1.6.0.252): "pistol_shot(simc+glow) > pistol_shot(guess)" right 1 in 7, and Blizzard's
+  -- "rules?" Pistol Shot after Sinister Strike right 3 in 15
+  Reset()
+  local ns = Boot()
+  Restrict()
+  local rec = Record()
+  rec.simcOrder = { "default" }
+  rec.simc.default = {
+    { a = "shred", k = "R", c = "buff.clearcasting.up" }, -- a proc: hidden in combat
+    { a = "thrash", k = "R" },
+  }
+  rec.blizzard = nil
+  rec.blizzardExcluded = nil
+  mock.acSpell = nil
+  rec.spellInfo = { [106830] = { n = "thrash", cd = 6, gcd = 1 } }
+  ns.SpellMap.SetData(rec)
+  ns.State.glow[5221] = true
+  local r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(r.main.token, "shred", "lit now")
+  for i = 2, #r.queue do
+    eq(r.queue[i].token ~= "shred", true, "slot " .. i .. ": not guessed back once pressed")
+  end
+  ns.State.glow[5221] = nil
+  -- Blizzard's rules for it, its condition unknown: not in slots 2-3 either
+  rec.blizzard = { default = { { a = "shred", c = "buff.clearcasting.up", k = "R" } } }
+  rec.blizzardOrder = { "default" }
+  ns.SpellMap.SetData(rec)
+  r = ns.Engine.Recommend(rec, { useAssisted = true })
+  eq(r.main.token, "thrash")
+  for i = 2, #r.queue do
+    eq(r.queue[i].token ~= "shred", true, "slot " .. i .. ": no 'rules?' guess of the proc spell")
+  end
+  mock.acSpell = nil
+end)
+
 test("combos: follow the lane by the streak's judgement; 3-4 presses, spaced, never at the pull, due when missing", function()
   Reset()
   local ns = Boot()
@@ -1367,7 +1403,14 @@ test("steady slot 1: short flips never show, nothing changes while you reach for
   G.Steady({ main = shred, queue = { shred, rip, rake } })
   mock.now = mock.now + 0.55
   r = G.Steady({ main = shred, queue = { shred, rip, rake } })
-  eq(r.main.token, "shred", "mid-GCD, a change that holds for 0.5 s shows")
+  eq(r.main.token, "rip", "mid-GCD, SimC still wants it: held until pressed (Steady, 2026-11-13)")
+  local notNow = G.notNow
+  G.notNow = { rip = true } -- SimC's own line rules it out now
+  G.Steady({ main = shred, queue = { shred, rip, rake } })
+  mock.now = mock.now + 0.55
+  r = G.Steady({ main = shred, queue = { shred, rip, rake } })
+  eq(r.main.token, "shred", "mid-GCD, ruled out by SimC: a change that holds for 0.5 s shows")
+  G.notNow = notNow
   -- the last moments before the press: nothing changes, however long the new pick holds
   mock.now = mock.now + 1.0
   r = G.Steady({ main = rake, queue = { rake, shred, rip } })
@@ -1387,6 +1430,31 @@ test("steady slot 1: short flips never show, nothing changes while you reach for
   mock.now = mock.now + 0.1
   r = G.Steady({ main = rip, queue = { rip, rake, shred } })
   eq(r.main.token, "rake", "a second change right after the press waits (one free change per press)")
+  mock.cooldowns[61304] = nil
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
+test("steady slot 1: a moment short of Energy keeps the shown spell (it waits); a long wait lets go", function()
+  -- Outlaw 2026-11-13: Energy dipped under Sinister Strike's cost after a press and slot 1 jumped to Blade Flurry
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  G.ResetSteady()
+  local rip, shred = { id = 1079, token = "rip", source = "simc" }, { id = 5221, token = "shred", source = "simc" }
+  mock.cooldowns[61304] = { start = mock.now - 0.1, duration = 1.5, active = true }
+  G.Steady({ main = rip, queue = { rip, shred } })
+  mock.now = mock.now + 0.5
+  mock.usable[1079] = { false, true } -- short of Energy
+  G.Steady({ main = shred, queue = { shred, rip } })
+  mock.now = mock.now + 0.6
+  local r = G.Steady({ main = shred, queue = { shred, rip } })
+  eq(r.main.token, "rip", "short a moment: still slot 1")
+  eq(r.queue[2].token, "shred", "the other pick next")
+  mock.now = mock.now + 1.6
+  r = G.Steady({ main = shred, queue = { shred, rip } })
+  eq(r.main.token, "shred", "short for over 2 s: lets go")
+  mock.usable[1079] = nil
   mock.cooldowns[61304] = nil
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)

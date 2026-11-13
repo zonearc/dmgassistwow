@@ -1156,6 +1156,20 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
               run.visiting[name] = nil
               return { id = id, token = a, source = isBlizzard and "rules" or "simc" }
             elseif not isBlizzard then
+              -- only a hidden proc (buff.*) stays hidden later; a resource can build by then (Unholy's Runic Power)
+              -- (with or without the assistant's pick: Outlaw often has none, and Pistol Shot was guessed into
+              -- slots 2-3 all fight, 2026-11-13). Marked before a glow confirms it now: once the look-ahead has
+              -- pressed it the glow is spent, and Pistol Shot came back as a guess (right 1 in 7, 2026-11-13).
+              if run.first and cond then
+                run.lineUnknown = {}
+                E.Test(cond, run.resolve, run.bounds)
+                for term in pairs(run.lineUnknown) do
+                  if type(term) == "string" and term:find("^buff%.") then
+                    G.uncertainNow[a] = true
+                  end
+                end
+                run.lineUnknown = nil
+              end
               local how = Corroborated(id, a, run, castable)
               -- Looking ahead, a line hidden now only behind a proc (buff.opportunity: Outlaw's Pistol Shot) is
               -- not predicted unless the game lights the button: guessed into slots 2-3, the row rewrote itself
@@ -1172,26 +1186,16 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
                 run.visiting[name] = nil
                 return { id = id, token = a, source = "simc+" .. how }
               end
-              -- only a hidden proc (buff.*) stays hidden later; a resource can build by then (Unholy's Runic Power)
-              -- (with or without the assistant's pick: Outlaw often has none, and Pistol Shot was guessed into
-              -- slots 2-3 all fight, 2026-11-13)
-              if run.first and cond then
-                run.lineUnknown = {}
-                E.Test(cond, run.resolve, run.bounds)
-                for term in pairs(run.lineUnknown) do
-                  if type(term) == "string" and term:find("^buff%.") then
-                    G.uncertainNow[a] = true
-                  end
-                end
-                run.lineUnknown = nil
-              end
               if not run.firstMaybe and (run.first or not G.uncertainNow[a]) then
                 run.firstMaybe = { id = id, token = a, source = "guess" }
               end
               if run.first and not run.branch and not maybe and castable == true then
                 run.branch = G.Branch(cond, run, id, a)
               end
-            elseif not run.firstRuleMaybe and not (ns.Buffs and ns.Buffs.IsBuffSpell and ns.Buffs.IsBuffSpell(id)) then
+            elseif not run.firstRuleMaybe and not (ns.Buffs and ns.Buffs.IsBuffSpell and ns.Buffs.IsBuffSpell(id))
+              and (run.first or not G.uncertainNow[a]) then
+              -- (looking ahead, not a hidden-proc spell either: Blizzard's "Pistol Shot after Sinister Strike" was
+              -- right 3 times in 15; you pressed Sinister Strike again twice as often, 2026-11-13)
               -- (a raid buff on an unknown "aura down" isn't guessed: in combat the aura is hidden, so Arcane
               -- Intellect, already up, filled slot 1 whenever the rest couldn't be cast while moving, 2026-11-12;
               -- the buff reminder handles those)
@@ -1661,6 +1665,7 @@ G.REACH = 0.6
 G.DEBOUNCE_FAST = 0.2 -- "Fast": changes show sooner, the hold before the press is short
 G.REACH_FAST = 0.25
 G.UNCASTABLE_FOR = 0.2
+G.POWER_WAIT = 2.0 -- Steady: short of the resource this long before slot 1 lets go
 G.LOCK_MAX = 4.0 -- safety: a pick shown this long without a press is re-decided freely
 local held -- { pick, at, cand, candAt, badSince }
 local lastReady, pressedAt = 0, -10
@@ -1708,9 +1713,14 @@ function G.Steady(result)
     held = { pick = main, at = now }
     return result
   end
+  local fast = ns.db and ns.db.slotHold == "fast"
+  -- Steady: a moment short of the resource isn't a reason to change: the Energy comes back and slot 1 waits (blue).
+  -- Right after Sinister Strike, Energy dipped under its cost and slot 1 jumped to whatever could be pressed
+  -- (Blade Flurry, Roll the Bones), 9 changes in 56 presses (Outlaw, 2026-11-13; target: steady 95%).
+  local wait = (why == "power" and not fast) and G.POWER_WAIT or G.UNCASTABLE_FOR
   if ok == false then
     held.badSince = held.badSince or now
-    if now - held.badSince >= G.UNCASTABLE_FOR then
+    if now - held.badSince >= wait then
       held = { pick = main, at = now }
       return result
     end
@@ -1719,9 +1729,13 @@ function G.Steady(result)
   end
   -- a different pick: never while you're reaching for slot 1; otherwise once it has held for G.DEBOUNCE.
   -- Settings > Combat > "Slot 1 changes": Steady (default) or Fast (for players who react quickly).
-  local fast = ns.db and ns.db.slotHold == "fast"
+  -- Steady keeps the shown spell until you press it while SimC still wants it (its line isn't false now): what
+  -- became better meanwhile waits in slot 2 (owner, 2026-11-13: "slot 1 stays the same 95% of the time, only a
+  -- switch in a real emergency"; a moved finger costs about what the better spell gains).
   local reach, debounce = fast and G.REACH_FAST or G.REACH, fast and G.DEBOUNCE_FAST or G.DEBOUNCE
-  if ready <= reach then
+  local stillWanted = not fast and held.pick.token and not (G.notNow and G.notNow[held.pick.token] == true)
+    and held.pick.source ~= "pool" and held.pick.source ~= "guess" and held.pick.source ~= "soon"
+  if ready <= reach or stillWanted then
     held.cand = nil
   elseif held.cand ~= main.id then
     held.cand, held.candAt = main.id, now
