@@ -112,6 +112,7 @@ function G.OnCombat()
   G.fightVars, pendingVars = {}, nil
   G.waiting = {}
   G.held, G.skips = {}, {}
+  G.releaseCount = 0 -- (steady_release lines: per fight)
 end
 
 -- SimC's target_if: "min:expr" / "max:expr" choose among targets (we only see the current one, so they add
@@ -1679,6 +1680,18 @@ function G.ReadyIn()
   return math.max(S.GCDRemains() or 0, castLeft or 0)
 end
 
+-- Why slot 1 let go of the spell it was holding (one line each, at most G.RELEASE_LOGS a fight): Outlaw 1.6.0.255
+-- showed lit Pistol Shot -> Dispatch about a second after a press 13 times with no hold in the log.
+G.RELEASE_LOGS = 40
+G.releaseCount = 0
+local function Released(reason, from, to, extra)
+  if G.releaseCount >= G.RELEASE_LOGS or not (from and to) or from.id == to.id then
+    return
+  end
+  G.releaseCount = G.releaseCount + 1
+  U.Log("steady_release", { why = reason, from = from.token or from.id, to = to.token or to.id, extra = extra })
+end
+
 function G.Steady(result)
   local main = result and result.main
   if not main or not main.id or not S.combatStart then
@@ -1693,6 +1706,9 @@ function G.Steady(result)
     pressedAt = now
   end
   if pressed or not held or now - held.at > G.LOCK_MAX then
+    if held and not pressed then
+      Released("lock_max", held.pick, main)
+    end
     held = { pick = main, at = now, fresh = pressed }
     return result
   end
@@ -1700,6 +1716,7 @@ function G.Steady(result)
   -- change in the same moment waits like any other (Balance flipped Starsurge > Sunfire > Starsurge within
   -- 0.3 s of each cast while the player was pressing quickly, 2026-11-09).
   if now - pressedAt < G.PRESS_SETTLE and held.fresh and held.pick.id ~= main.id then
+    Released("settle", held.pick, main)
     held = { pick = main, at = now }
     return result
   end
@@ -1710,6 +1727,7 @@ function G.Steady(result)
   -- is the shown spell still pressable?
   local ok, why = Castable(held.pick.id)
   if why == "refused" or why == "nobar" then -- (not on your bars: it never will be pressable)
+    Released(why, held.pick, main)
     held = { pick = main, at = now }
     return result
   end
@@ -1721,6 +1739,7 @@ function G.Steady(result)
   if ok == false then
     held.badSince = held.badSince or now
     if now - held.badSince >= wait then
+      Released("uncastable", held.pick, main, tostring(why))
       held = { pick = main, at = now }
       return result
     end
@@ -1740,6 +1759,8 @@ function G.Steady(result)
   elseif held.cand ~= main.id then
     held.cand, held.candAt = main.id, now
   elseif now - held.candAt >= debounce then
+    Released(stillWanted == false and held.pick.token and G.notNow and G.notNow[held.pick.token] == true
+      and "simc_ruled_out" or "debounce", held.pick, main, held.pick.source)
     held = { pick = main, at = now }
     return result
   end
@@ -1782,5 +1803,5 @@ function G.PromoteReadyMajor(result)
 end
 
 function G.ResetSteady()
-  held, lastReady, pressedAt = nil, 0, -10
+  held, lastReady, pressedAt, G.releaseCount = nil, 0, -10, 0
 end

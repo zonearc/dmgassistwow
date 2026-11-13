@@ -400,6 +400,7 @@ local function Update()
     ns.Leveling.Lead(result, ns.ActiveRecord(state)) -- Blizzard's pick in slot 1, the priority list after it
   end
   G.PromoteReadyMajor(result) -- a ready major cooldown never waits behind Blizzard's pick, on any path
+  ns.Learner.Apply(result) -- slot 2 from the learner, once it has earned it (Learner.lua)
   ns.Essentials.Apply(result)
   ns.Trinkets.Apply(result)
   ns.Buffs.Apply(result) -- before interrupts and defensives: those always take slot 1

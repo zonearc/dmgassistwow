@@ -142,6 +142,16 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.256: Outlaw run on 1.6.0.255. Learner (shadow) beat slot 2 in its first fight: 27/58 vs 17/58 on the same
+  presses. Replay of the press lines (tools/prediction-report.py) picked the key order spell+secondary
+  resource+lit buttons > last two presses > spell (52% cold start, 55% with slot 2 as fallback, vs slot 2 38%;
+  74% where the full situation had >= 3 samples). Built: that order, MIN_N 3; auto-promotion per spec + loadout:
+  live in slot 2 once it leads SimC's forecast by >= 10 points over >= 100 presses (decayed), back to shadow under
+  3 points; live, SimC's forecast moves to slot 3 and slot 1 is never touched. Scored always against SimC's own
+  forecast (result.simcNext). Regression found: slot 1 steady 77% (24 changes), mostly lit Pistol Shot ->
+  Dispatch ~1 s after a press when the combo points update (finish condition becomes true) with no hold in the
+  log; cause not visible, so `steady_release` now logs why slot 1 let go (lock_max, settle, refused, nobar,
+  uncastable+why, debounce/simc_ruled_out).
 - 1.6.0.255: Prediction learner in shadow mode (Core/Learner.lua). At every damage-rotation press it learns which
   spell came next in that situation (last two presses, secondary resource, lit buttons, ST/AoE; coarser fallbacks
   while a situation is new), guesses the next press silently, and scores itself against slot 2 on the same presses

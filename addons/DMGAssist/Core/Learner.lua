@@ -22,7 +22,13 @@ local L = {}
 ns.Learner = L
 local U = ns.U
 
-L.MIN_N = 4          -- a situation needs this many samples before the learner guesses from it
+L.MIN_N = 3          -- a situation needs this many samples before the learner guesses from it
+-- Live in slot 2 once it has clearly beaten SimC's forecast on the same presses (per spec and loadout), and back to
+-- shadow when its lead shrinks: L.LIVE_N presses (decayed like the counts), a lead of L.LIVE_LEAD to go live,
+-- under L.DROP_LEAD to step back.
+L.LIVE_N = 100
+L.LIVE_LEAD = 0.10
+L.DROP_LEAD = 0.03
 L.CONFIDENT = 0.9    -- "confident" guesses: the share it would show live first
 L.DECAY = 0.97       -- each fight end: old counts x this (recent fights weigh more)
 L.FLOOR = 0.05       -- counts below this are forgotten
@@ -104,12 +110,15 @@ local function Targets()
   return n >= aoe and "aoe" or "st"
 end
 
--- The situation right after pressing `token`: most specific first, then two coarser ones for when it is new.
+-- The situation right after pressing `token`: most specific first, then coarser ones for when it is new. Chosen by
+-- replaying the first real fight's presses (Outlaw, 2026-11-13, tools/prediction-report.py): the spell + secondary
+-- resource + lit buttons, then the last two presses, then the spell alone guessed 52% from a cold start (55% with
+-- slot 2 where it had no guess) against slot 2's 38%; adding the target count or a third press did worse.
 local function Situations(token, before)
   local cp, lit, tg = Secondary(), Lit(), Targets()
   return {
-    token .. "<" .. tostring(before or "-") .. "|" .. cp .. "|" .. lit .. "|" .. tg,
-    token .. "|" .. lit .. "|" .. tg,
+    token .. "|" .. cp .. "|" .. lit,
+    token .. "<" .. tostring(before or "-"),
     token,
   }, cp, lit, tg
 end
@@ -220,6 +229,14 @@ function L.OnPress(id, shown, last)
         if p.slot2 == token then
           fight.bothSlot2 = fight.bothSlot2 + 1
         end
+        -- the running score that decides live or shadow
+        if store then
+          local vs = store.vs or { n = 0, learner = 0, simc = 0 }
+          store.vs = vs
+          vs.n = vs.n + 1
+          vs.learner = vs.learner + (ok and 1 or 0)
+          vs.simc = vs.simc + (p.slot2 == token and 1 or 0)
+        end
       end
     end
     if p.slot2 then
@@ -235,6 +252,9 @@ function L.OnPress(id, shown, last)
   local guess, conf, level = Guess(store, keys)
   local q2 = last and last.queue and last.queue[2]
   local slot2 = q2 and (q2.token or (q2.id and ns.SpellMap.TokenForID(q2.id)))
+  if last and last.simcNext ~= nil then
+    slot2 = last.simcNext or nil -- live: compare with SimC's own forecast, not the learner's slot 2
+  end
   -- (slot 2 counts only when you pressed what slot 1 showed: otherwise it was a forecast for another press)
   local followed = shown and shown.id and (baseOf[shown.id] or shown.id) == base
   prev = { token = token, keys = keys,
@@ -248,6 +268,61 @@ local function Pct(a, b)
   return b > 0 and math.floor(100 * a / b + 0.5) or 0
 end
 
+-- Live or shadow, from the running score (with a gap between the two thresholds, so it doesn't flicker).
+function L.Live(store)
+  store = store or Store()
+  local vs = store and store.vs
+  if not vs or vs.n < L.LIVE_N then
+    if store then
+      store.live = nil
+    end
+    return false
+  end
+  local lead = (vs.learner - vs.simc) / vs.n
+  if store.live then
+    if lead < L.DROP_LEAD then
+      store.live = nil
+    end
+  elseif lead >= L.LIVE_LEAD then
+    store.live = true
+  end
+  return store.live == true
+end
+
+-- Live: slot 2 is the learner's guess for the press after slot 1 (SimC's forecast moves to slot 3). Never slot 1.
+function L.Apply(result)
+  local main = result and result.main
+  local queue = result and result.queue
+  if not (main and main.id and queue and ns.State.combatStart) or L.SITUATIONAL[main.source or ""] then
+    return result
+  end
+  local store = Store()
+  if not (store and L.Live(store)) or not Rotation(main.id) then
+    return result
+  end
+  local token = main.token or ns.SpellMap.TokenForID(main.id)
+  if not token then
+    return result
+  end
+  local keys = Situations(token, prev and prev.token)
+  local guess = Guess(store, keys)
+  local q2 = queue[2]
+  local simcNext = q2 and (q2.token or (q2.id and ns.SpellMap.TokenForID(q2.id)))
+  result.simcNext = simcNext or false
+  local id = guess and ns.SpellMap.SpellID(guess)
+  if not id or guess == simcNext then
+    return result
+  end
+  local out, size = { queue[1], { id = id, token = guess, source = "learned" } }, math.max(#queue, 2)
+  for i = 2, #queue do
+    if #out < size and queue[i] and queue[i].token ~= guess then
+      out[#out + 1] = queue[i]
+    end
+  end
+  result.queue = out
+  return result
+end
+
 function L.SummaryText()
   local f = fight
   if f.presses == 0 then
@@ -258,11 +333,13 @@ function L.SummaryText()
   for _ in pairs(store and store.next or {}) do
     situations = situations + 1
   end
-  return string.format("learner=%d%% n=%d | slot2=%d%% n=%d | same presses: learner=%d/%d slot2=%d/%d | "
-    .. "confident(>=%.0f%%)=%d/%d | presses=%d situations=%d fights=%d profile=%s",
+  local vs = store and store.vs or { n = 0, learner = 0, simc = 0 }
+  return string.format("learner=%d%% n=%d | simc_slot2=%d%% n=%d | same presses: learner=%d/%d simc=%d/%d | "
+    .. "confident(>=%.0f%%)=%d/%d | presses=%d situations=%d fights=%d | running: learner=%d%% simc=%d%% n=%.0f %s"
+    .. " | profile=%s",
     Pct(f.hit, f.n), f.n, Pct(f.slot2hit, f.slot2n), f.slot2n, f.bothLearner, f.both, f.bothSlot2, f.both,
     100 * L.CONFIDENT, f.confHit, f.conf, f.presses, situations, store and store.fights or 0,
-    tostring(ProfileKey()))
+    Pct(vs.learner, vs.n), Pct(vs.simc, vs.n), vs.n, L.Live(store) and "LIVE" or "shadow", tostring(ProfileKey()))
 end
 
 -- Fight end: older counts weigh less, tiny ones are forgotten, and the store stays bounded.
@@ -317,6 +394,10 @@ function L.OnCombat(inCombat)
   if store and fight.presses > 0 then
     store.fights = (store.fights or 0) + 1
     Decay(store)
+    local vs = store.vs
+    if vs then
+      vs.n, vs.learner, vs.simc = vs.n * L.DECAY, vs.learner * L.DECAY, vs.simc * L.DECAY
+    end
   end
   fight, prev, lastPress = NewFight(), nil, nil
 end

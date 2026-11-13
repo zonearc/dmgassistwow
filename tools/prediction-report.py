@@ -8,7 +8,9 @@ For each fight: the in-game summaries (prediction_summary, learner_summary), the
   last1      the spell that most often followed the last press (no other context)
   last2      ... the last two presses
   full       last two presses + secondary resource + lit buttons + single target / AoE (the in-game learner)
-  backoff    full, falling back to coarser situations while a situation is new (the in-game learner's guess)
+  backoff    the in-game learner: spell + secondary resource + lit buttons, then the last two presses, then the
+             spell alone while a situation is new
+  cp_lit     spell + secondary resource + lit buttons only
   hybrid     the learner when its situation is confident (>= --conf), slot 2 otherwise
 
 Every learner is scored online: it guesses before it sees each press, then learns it, as in the game. Fights in
@@ -52,7 +54,7 @@ class Model:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("decoded")
-    ap.add_argument("--min-n", type=int, default=4)
+    ap.add_argument("--min-n", type=int, default=3)
     ap.add_argument("--conf", type=float, default=0.9)
     args = ap.parse_args()
     data = json.load(open(args.decoded))
@@ -61,8 +63,9 @@ def main():
         "last1": lambda c: [c["s"]],
         "last2": lambda c: [c["s"] + "<" + c["prev"]],
         "full": lambda c: [c["s"] + "<" + c["prev"] + "|" + c["cp"] + "|" + c["lit"] + "|" + c["tg"]],
-        "backoff": lambda c: [c["s"] + "<" + c["prev"] + "|" + c["cp"] + "|" + c["lit"] + "|" + c["tg"],
-                              c["s"] + "|" + c["lit"] + "|" + c["tg"], c["s"]],
+        # the in-game learner (Core/Learner.lua Situations)
+        "backoff": lambda c: [c["s"] + "|" + c["cp"] + "|" + c["lit"], c["s"] + "<" + c["prev"], c["s"]],
+        "cp_lit": lambda c: [c["s"] + "|" + c["cp"] + "|" + c["lit"]],
     }
     models = {name: Model(fn, args.min_n) for name, fn in designs.items()}
     totals = collections.defaultdict(lambda: [0, 0])
@@ -109,7 +112,7 @@ def main():
                 fight["hybrid"][1] += hybrid == truth
             for m in models.values():
                 m.learn(ctx, truth)
-        for name in ["slot2", "last1", "last2", "full", "backoff", "hybrid"]:
+        for name in ["slot2", "last1", "last2", "full", "cp_lit", "backoff", "hybrid"]:
             n, hit = fight[name]
             totals[name][0] += n
             totals[name][1] += hit
@@ -117,7 +120,7 @@ def main():
                 print("   %-8s %3d%%  (%d/%d)" % (name, round(100 * hit / n), hit, n))
 
     print("== all fights (learners carry over between fights)")
-    for name in ["slot2", "last1", "last2", "full", "backoff", "hybrid"]:
+    for name in ["slot2", "last1", "last2", "full", "cp_lit", "backoff", "hybrid"]:
         n, hit = totals[name]
         if n:
             print("   %-8s %3d%%  (%d/%d)" % (name, round(100 * hit / n), hit, n))

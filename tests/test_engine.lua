@@ -3627,6 +3627,43 @@ test("learner (shadow): learns what you press next per situation, scores itself 
   DMGAssistWatchdog = nil -- luacheck: ignore 111
 end)
 
+test("learner: live in slot 2 only after clearly beating SimC's forecast; steps back when its lead shrinks", function()
+  Reset()
+  local ns = Boot()
+  local L = ns.Learner
+  local rec = QRecord({ { a = "shred", k = "S" }, { a = "rip", k = "S" }, { a = "rake", k = "S" } })
+  rec.spells.rake = { a = { 1822 } }
+  Feral(ns, rec)
+  ns.Specs.current = { key = "druid_feral", status = "ready", data = rec, branch = "midnight", client = "Midnight" }
+  ns.global = ns.global or {}
+  ns.global.learner = nil
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  local store = L.Store()
+  store.next["shred"] = { rip = 9, rake = 1 } -- after Shred: Rip, 9 times in 10
+  local SH, RA = { id = 5221, token = "shred", source = "simc" }, { id = 1822, token = "rake", source = "simc" }
+  local function Result()
+    return { main = SH, queue = { SH, RA, { id = 22568, token = "ferocious_bite", source = "simc" } } }
+  end
+  store.vs = { n = 60, learner = 40, simc = 10 }
+  local r = L.Apply(Result())
+  eq(r.queue[2].token, "rake", "too few presses yet: shadow (slot 2 is SimC's)")
+  store.vs = { n = 120, learner = 60, simc = 40 }
+  r = L.Apply(Result())
+  eq(r.queue[2].token, "rip", "a clear lead over 120 presses: live")
+  eq(r.queue[2].source, "learned")
+  eq(r.queue[3].token, "rake", "SimC's forecast moves to slot 3")
+  eq(#r.queue, 3)
+  eq(r.main.token, "shred", "slot 1 untouched")
+  eq(r.simcNext, "rake", "SimC's own forecast kept for scoring")
+  store.vs = { n = 120, learner = 50, simc = 45 } -- lead 4%: inside the gap, stays live
+  eq(L.Live(store), true)
+  store.vs = { n = 120, learner = 46, simc = 45 } -- lead under 3%: back to shadow
+  eq(L.Live(store), false)
+  store.vs = { n = 120, learner = 50, simc = 45 }
+  eq(L.Live(store), false, "and stays there until it leads by 10% again")
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 test("diagnostics: our own failing calls are counted and the first of each is logged", function()
   Reset()
   local logged = {}
