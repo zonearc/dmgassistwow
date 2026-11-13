@@ -6211,6 +6211,28 @@ test("a refused press is logged with the game's reason and what slot 1 showed (d
   DMGAssistWatchdog = nil -- luacheck: ignore 111
 end)
 
+test("a spell the game refuses for your weapon is held back until your gear changes", function()
+  -- Subtlety without daggers: Secret Technique / Gloomblade shown and refused again and again (2026-11-13)
+  Reset()
+  SPELL_FAILED_EQUIPPED_ITEM_CLASS_MAINHAND = "Must have a %s equipped in the main hand" -- luacheck: ignore 111
+  local ns = Boot()
+  local S = ns.State
+  eq(S.IsEquipError("Must have a Dagger equipped in the main hand"), true)
+  eq(S.IsEquipError("Not enough energy"), false)
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  S.OnCastFailed(1822)
+  S.OnUIError(nil, "Must have a Dagger equipped in the main hand")
+  local ok, why = ns.Engine.Castable(1822)
+  eq(ok, false)
+  eq(why, "equipment")
+  mock.Fire("PLAYER_EQUIPMENT_CHANGED")
+  eq(S.EquipRefused(1822), false, "new gear: try again")
+  mock.inCombat = false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  SPELL_FAILED_EQUIPPED_ITEM_CLASS_MAINHAND = nil -- luacheck: ignore 111
+end)
+
 test("slot 1 showing a spell with no key says which spell it is, once (Surging Totem, 2026-11-10)", function()
   Reset()
   local ns = Boot()

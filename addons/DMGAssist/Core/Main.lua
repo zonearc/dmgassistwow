@@ -567,6 +567,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     D.InvalidateKeybinds()
     if event == "PLAYER_EQUIPMENT_CHANGED" then
       S.ForgetTalentCache() -- set bonuses come and go with gear
+      S.OnEquipmentChanged() -- spells refused for the weapon may work now
       rangedWarned = nil
       CheckRangedWeapon(Specs.current and Specs.current.key)
     end

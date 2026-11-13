@@ -1302,6 +1302,31 @@ local function IsTargetError(msg)
   end
   return false
 end
+-- Refused for the weapon you hold ("Must have a Dagger equipped in the main hand": Subtlety's Gloomblade and
+-- Secret Technique, shown again and again, 2026-11-13). The game's "usable" doesn't check weapons, so the refusal
+-- is how we learn it; held back until your gear changes.
+S.equipRefused = {}
+local function IsEquipError(msg)
+  for _, k in ipairs({ "SPELL_FAILED_EQUIPPED_ITEM_CLASS_MAINHAND", "SPELL_FAILED_EQUIPPED_ITEM_CLASS_OFFHAND",
+    "SPELL_FAILED_EQUIPPED_ITEM_CLASS", "SPELL_FAILED_EQUIPPED_ITEM" }) do
+    local g = _G[k]
+    if type(g) == "string" then
+      local pattern = "^" .. g:gsub("([%(%)%.%+%-%*%?%[%]%^%$])", "%%%1"):gsub("%%s", ".+"):gsub("%%d", "%%d+") .. "$"
+      if msg == g or msg:find(pattern) then
+        return true
+      end
+    end
+  end
+  return false
+end
+S.IsEquipError = IsEquipError
+function S.EquipRefused(id)
+  return S.equipRefused[id] or (M.baseOf and M.baseOf[id] and S.equipRefused[M.baseOf[id]]) or false
+end
+function S.OnEquipmentChanged()
+  S.equipRefused = {}
+end
+
 function S.TargetRefused(id)
   local t = S.targetRefused[id] or (M.baseOf and M.baseOf[id] and S.targetRefused[M.baseOf[id]])
   return t ~= nil and GetTime() - t < S.TARGET_REFUSED_FOR
@@ -1320,6 +1345,10 @@ function S.OnUIError(_, msg)
       local shown = ns.last and ns.last.main
       U.Log("refused", { spell = M.TokenForID(f.id) or f.id, why = msg,
         shown = shown and (tostring(shown.token) .. "/" .. tostring(shown.source)) or nil })
+    end
+    if f and now - f.t <= S.REFUSAL_PAIR and IsEquipError(msg) then
+      S.equipRefused[f.id] = true
+      U.Log("equip_refused", { spell = M.TokenForID(f.id) or f.id })
     end
     if f and now - f.t <= S.REFUSAL_PAIR and IsTargetError(msg) then
       S.targetRefused[f.id] = now

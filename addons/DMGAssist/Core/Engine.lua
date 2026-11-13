@@ -550,6 +550,9 @@ end
 G.TooFar = TooFar
 
 local function CastableRaw(id)
+  if S.EquipRefused and S.EquipRefused(id) then
+    return false, "equipment" -- (refused for the weapon you hold, until your gear changes)
+  end
   -- A spell that only exists while a button turns into it (Wailing Arrow on Trueshot / Bestial Wrath for a while
   -- after you press them): once the button is back, it can't be pressed. The game kept calling Wailing Arrow usable
   -- after it was fired, and it sat in slot 1 on the cooldown's key (2026-11-12, Marksmanship and Beast Mastery).

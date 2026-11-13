@@ -142,6 +142,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.263: Report on 1.6.0.261 (not 262: the energy-estimate fix wasn't in it). Outlaw fight = the 262 report.
+  Subtlety fight (82 s, no daggers): "waiting for energy" 22 of 56 picks, real (the game said no power; Shuriken Storm
+  on 5 targets at 0-39 Energy). Secret Technique x3, Gloomblade x2 refused "Must have a Dagger equipped in the main
+  hand" and kept being shown: now a spell refused for the weapon is held back until PLAYER_EQUIPMENT_CHANGED
+  (S.equipRefused, Castable "equipment", log equip_refused). Subtlety learner (shadow) 27/29 vs SimC 9/29.
 - 1.6.0.262: Outlaw run on 1.6.0.261 (138 s). Adrenaline Rush ready at 64 s, slot 3 until 119 s: its line
   (Improved Adrenaline Rush, effective_combo_points<=2) was never certain live - Supercharger's hidden charges add up
   to 3, so 1-2 combo points read "1..5". Fix (all specs): a major cooldown whose line can't be decided is taken once
