@@ -583,7 +583,8 @@ def import_branch(simc_root, branch, out_root, errors, wowsims_root=None):
             # and the game's own spell descriptions. tools/simc_modules.py, tools/simc_spells.py.
             module_dir = os.path.join(simc_root, branch, "engine", "class_modules")
             module_links, module_review = simc_modules.links(module_dir, cls, class_spells[cls])
-            extra = [list(l) for l in module_links] + EXTRA_LINKS.get(cls, [])
+            extra = [list(l) for l in module_links] + [x for x in EXTRA_LINKS.get(cls, [])
+                                                       if not isinstance(x, dict) or x.get("branch", branch) == branch]
             links, review = simc_spells.links_for(class_spells[cls], ids, extra)
             review = review + [r for r in module_review if any(a in r for a in ids)]
             if links:

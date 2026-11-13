@@ -1064,7 +1064,10 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         if run.trace then
           run.trace[#run.trace + 1] = string.format("%s:%s held (you skipped it)", name, a)
         end
-      elseif id and isBlizzard and not run.first and run.notNow[a] == true and not run.cooldowns[a] then
+      elseif id and isBlizzard and not run.first and (run.notNow[a] == true or (G.notNow and G.notNow[a] == true))
+          and not run.cooldowns[a] then
+        -- (also when SimC ruled it out in the live decision: a look-ahead step that skips SimC's sub-list never
+        -- reads its line, and Blizzard's "Vanish when not stealthed" put Vanish in slot 2, 2026-11-13)
         -- Looking ahead, Blizzard's rules don't bring back a spell SimC's own lines ruled out in this same step: Outlaw's
         -- Vanish (SimC: only with Hidden Opportunity) sat in slot 2 from Blizzard's "vanish if not stealthed" and
         -- never reached slot 1 (2026-11-13). (Not the major cooldowns: the assistant never names them, so Blizzard's

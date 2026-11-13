@@ -142,6 +142,15 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.260: Outlaw run on 1.6.0.259. prepull_casts showed Adrenaline Rush cast at the instant of the pull (combo
+  points 7 at 0.09 s: Improved Adrenaline Rush); out of combat slot 1 is Adrenaline Rush (SimC's opener), so it was
+  the first key pressed. The real bug: Restless Blades (79096) wasn't modelled - "finishing moves reduce the
+  remaining cooldown of many Rogue skills by 1 sec per combo point spent" (Adrenaline Rush, Between the Eyes, Blade
+  Flurry, Blade Rush, Grappling Hook, Keep it Rolling, Killing Spree, Roll the Bones, Sprint). Our clock kept 180 s,
+  so Adrenaline Rush never came back in a fight. Added to data/spell-links.json (rogue, branch midnight; the importer
+  now honours "branch"); test guards the Outlaw data. Vanish in slots 2-3: Blizzard's "vanish if not stealthed"
+  rule in look-ahead steps that skip SimC's cds sub-list; now a spell SimC ruled out in the live decision isn't
+  predicted by Blizzard's rules either. Slot 1 steady 95%; learner 58/103 vs SimC 46/103 (running 50 vs 44).
 - 1.6.0.259: Adrenaline Rush never recommended in combat (owner: never cast; /reload, idle, pull). The game's
   restricted-combat readout said "180 s left" from the pull, and it read ready the moment combat ended (fight 410:
   shown at 142 s, which a real cast at the pull couldn't be). Fix: out of combat, once a second, which cooldown

@@ -1,5 +1,5 @@
 {
-  "_about": "Spell interdependencies the importer can't read from the game's spell descriptions (tools/simc_spells.py). By class. source: the cast spell's SimC token, or \"*\" with power = resource type for 'per point spent'. seconds: number, \"reset\" or \"charge\". requires: talent spell ID (0 = none). covers: the start of the description sentence this rule replaces, so it leaves the review list. Merged on every weekly import. volatile: {\"<class>_<spec>\": [action tokens]} spells whose cooldown can't be timed (shown when Blizzard's Assisted Combat names them until the player's own data shows our clock agrees); added when reports from several players show the same spell left to Blizzard.",
+  "_about": "Spell interdependencies the importer can't read from the game's spell descriptions (tools/simc_spells.py). By class. source: the cast spell's SimC token, or \"*\" with power = resource type for 'per point spent'. seconds: number, \"reset\" or \"charge\". requires: talent spell ID (0 = none). covers: the start of the description sentence this rule replaces, so it leaves the review list. Merged on every weekly import. volatile: {\"<class>_<spec>\": [action tokens]} spells whose cooldown can't be timed (shown when Blizzard's Assisted Combat names them until the player's own data shows our clock agrees); added when reports from several players show the same spell left to Blizzard. branch: only for that game version (\"midnight\" / \"forever\"); none = both.",
   "volatile": {
     "warrior_arms": [
       "colossus_smash",
@@ -36,5 +36,97 @@
     "druid_balance": [
       "fury_of_elune"
     ]
-  }
+  },
+  "rogue": [
+    {
+      "source": "*",
+      "target": "adrenaline_rush",
+      "seconds": 1,
+      "power": 4,
+      "requires": 79096,
+      "covers": "Finishing moves reduce the remaining cooldown of many Rogue skills",
+      "why": "Restless Blades (79096, Outlaw): 1 s per combo point spent. Adrenaline Rush stayed 'on cooldown' 180 s in game (2026-11-13)",
+      "branch": "midnight"
+    },
+    {
+      "source": "*",
+      "target": "between_the_eyes",
+      "seconds": 1,
+      "power": 4,
+      "requires": 79096,
+      "covers": "Finishing moves reduce the remaining cooldown of many Rogue skills",
+      "why": "Restless Blades (79096, Outlaw): 1 s per combo point spent. Adrenaline Rush stayed 'on cooldown' 180 s in game (2026-11-13)",
+      "branch": "midnight"
+    },
+    {
+      "source": "*",
+      "target": "blade_flurry",
+      "seconds": 1,
+      "power": 4,
+      "requires": 79096,
+      "covers": "Finishing moves reduce the remaining cooldown of many Rogue skills",
+      "why": "Restless Blades (79096, Outlaw): 1 s per combo point spent. Adrenaline Rush stayed 'on cooldown' 180 s in game (2026-11-13)",
+      "branch": "midnight"
+    },
+    {
+      "source": "*",
+      "target": "blade_rush",
+      "seconds": 1,
+      "power": 4,
+      "requires": 79096,
+      "covers": "Finishing moves reduce the remaining cooldown of many Rogue skills",
+      "why": "Restless Blades (79096, Outlaw): 1 s per combo point spent. Adrenaline Rush stayed 'on cooldown' 180 s in game (2026-11-13)",
+      "branch": "midnight"
+    },
+    {
+      "source": "*",
+      "target": "grappling_hook",
+      "seconds": 1,
+      "power": 4,
+      "requires": 79096,
+      "covers": "Finishing moves reduce the remaining cooldown of many Rogue skills",
+      "why": "Restless Blades (79096, Outlaw): 1 s per combo point spent. Adrenaline Rush stayed 'on cooldown' 180 s in game (2026-11-13)",
+      "branch": "midnight"
+    },
+    {
+      "source": "*",
+      "target": "keep_it_rolling",
+      "seconds": 1,
+      "power": 4,
+      "requires": 79096,
+      "covers": "Finishing moves reduce the remaining cooldown of many Rogue skills",
+      "why": "Restless Blades (79096, Outlaw): 1 s per combo point spent. Adrenaline Rush stayed 'on cooldown' 180 s in game (2026-11-13)",
+      "branch": "midnight"
+    },
+    {
+      "source": "*",
+      "target": "killing_spree",
+      "seconds": 1,
+      "power": 4,
+      "requires": 79096,
+      "covers": "Finishing moves reduce the remaining cooldown of many Rogue skills",
+      "why": "Restless Blades (79096, Outlaw): 1 s per combo point spent. Adrenaline Rush stayed 'on cooldown' 180 s in game (2026-11-13)",
+      "branch": "midnight"
+    },
+    {
+      "source": "*",
+      "target": "roll_the_bones",
+      "seconds": 1,
+      "power": 4,
+      "requires": 79096,
+      "covers": "Finishing moves reduce the remaining cooldown of many Rogue skills",
+      "why": "Restless Blades (79096, Outlaw): 1 s per combo point spent. Adrenaline Rush stayed 'on cooldown' 180 s in game (2026-11-13)",
+      "branch": "midnight"
+    },
+    {
+      "source": "*",
+      "target": "sprint",
+      "seconds": 1,
+      "power": 4,
+      "requires": 79096,
+      "covers": "Finishing moves reduce the remaining cooldown of many Rogue skills",
+      "why": "Restless Blades (79096, Outlaw): 1 s per combo point spent. Adrenaline Rush stayed 'on cooldown' 180 s in game (2026-11-13)",
+      "branch": "midnight"
+    }
+  ]
 }

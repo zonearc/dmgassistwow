@@ -182,6 +182,13 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
     { "preparation", "blade_flurry", "reset", 0, 0 },
     { "preparation", "blade_rush", "reset", 0, 0 },
     { "preparation", "killing_spree", "reset", 0, 0 },
+    { "*", "adrenaline_rush", 1, 79096, 4 },
+    { "*", "between_the_eyes", 1, 79096, 4 },
+    { "*", "blade_flurry", 1, 79096, 4 },
+    { "*", "blade_rush", 1, 79096, 4 },
+    { "*", "keep_it_rolling", 1, 79096, 4 },
+    { "*", "killing_spree", 1, 79096, 4 },
+    { "*", "roll_the_bones", 1, 79096, 4 },
   },
   class = "rogue",
   gameMatch = {

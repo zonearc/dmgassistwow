@@ -1311,7 +1311,14 @@
     "preparation>between_the_eyes:reset",
     "preparation>blade_flurry:reset",
     "preparation>blade_rush:reset",
-    "preparation>killing_spree:reset"
+    "preparation>killing_spree:reset",
+    "*>adrenaline_rush:1 per pt4 req79096",
+    "*>between_the_eyes:1 per pt4 req79096",
+    "*>blade_flurry:1 per pt4 req79096",
+    "*>blade_rush:1 per pt4 req79096",
+    "*>keep_it_rolling:1 per pt4 req79096",
+    "*>killing_spree:1 per pt4 req79096",
+    "*>roll_the_bones:1 per pt4 req79096"
    ],
    "mode": 1,
    "read": 17,

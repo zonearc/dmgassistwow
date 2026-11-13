@@ -1747,6 +1747,24 @@ local function Feral(ns, rec)
   mock.power[4], mock.powerMax[4] = 0, 5
 end
 
+test("Outlaw data: Restless Blades - every finisher's combo points take time off Adrenaline Rush and the rest", function()
+  -- Adrenaline Rush was counted at its full 180 s and never came back in a fight (2026-11-13). The game's text:
+  -- "Finishing moves reduce the remaining cooldown of many Rogue skills by 1 sec per combo point spent."
+  Reset()
+  local ns = Boot()
+  local rec = ns.Data.Get("midnight", "rogue_outlaw")
+  local found = {}
+  for _, l in ipairs(rec.cdLinks or {}) do
+    if l[1] == "*" and l[3] == 1 and l[4] == 79096 and l[5] == 4 then
+      found[l[2]] = true
+    end
+  end
+  for _, t in ipairs({ "adrenaline_rush", "between_the_eyes", "blade_flurry", "blade_rush", "killing_spree",
+    "roll_the_bones" }) do
+    eq(found[t], true, t)
+  end
+end)
+
 test("a cooldown ready before the pull stays ready until we see it cast, whatever combat's readout says", function()
   -- Adrenaline Rush: /reload, idle, pull - the game read "180 s left" all fight, never cast (Outlaw, 2026-11-13)
   Reset()
@@ -6589,6 +6607,32 @@ test("look-ahead: Blizzard's rules never bring back a spell SimC ruled out now (
   eq(r.main and r.main.token, "shred")
   for i = 2, #r.queue do
     eq(r.queue[i].token ~= "tigers_fury", true, "slot " .. i .. ": not the spell SimC ruled out")
+  end
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
+test("look-ahead: a spell SimC ruled out in the live decision isn't predicted by Blizzard's rules either", function()
+  -- Outlaw: SimC's cooldown list (Vanish false) is called only sometimes; in a look-ahead step that skipped it,
+  -- Blizzard's "vanish if not stealthed" put Vanish in slot 2 (2026-11-13)
+  Reset()
+  local ns = Boot()
+  local rec = QRecord({
+    { a = "call_action_list", p = { name = "cds" }, c = "!prev_gcd.1.shred", k = "S" },
+    { a = "shred", c = "!prev_gcd.1.shred", k = "S" },
+  })
+  rec.simc.cds = { { a = "tigers_fury", c = "0", k = "S" } }
+  rec.blizzard = { default = { { a = "tigers_fury", k = "R" } } }
+  rec.blizzardOrder = { "default" }
+  Feral(ns, rec)
+  ns.Specs.current = { key = "druid_feral", status = "ready", data = rec, branch = "midnight", client = "Midnight" }
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Advance(5)
+  local r = ns.Update()
+  eq(r.main and r.main.token, "shred")
+  for i = 2, #r.queue do
+    eq(r.queue[i].token ~= "tigers_fury", true, "slot " .. i .. ": not the spell SimC ruled out now")
   end
   mock.inCombat, mock.restricted = false, false
   mock.Fire("PLAYER_REGEN_ENABLED")
