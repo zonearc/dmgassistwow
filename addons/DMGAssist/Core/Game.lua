@@ -987,7 +987,11 @@ function G.Render()
         -- waiting: the next press sits in the box, where presses always are, the rest in their places (a note
         -- that came in during a pause froze off the right edge, 2026-11-12: "keep it on the left")
         n.x = w.main and G.HIT_X or target
-      elseif target < n.x or (minX and n.x < minX) then
+      elseif minX and n.x < minX then
+        -- pushed right by the note before it: at once, not gliding. The glide let two notes touch for a moment
+        -- whenever a note was added or swapped in front (Balance, 2026-11-14: "two spells back to back").
+        n.x = target
+      elseif target < n.x then
         n.x = n.x + (target - n.x) * math.min(1, elapsed * G.GLIDE)
         if math.abs(n.x - target) < 0.5 then
           n.x = target

@@ -142,6 +142,12 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.271: Balance check on 1.6.0.270 (dummies, exported mid-fight). Working: anchor_summary, state_trace (20
+  presses), tooltip gains (gains_learned n=3). Found: Astral Power was never counted (no floor in any Balance fight,
+  no floor_check ever): resources were read only while the HUD showed, and "show with a target" hid it out of
+  combat. Now read every update and at the pull; `floors_at_pull` logs what we count from. Flow: a note pushed
+  right by the one before jumps there instead of gliding (the glide could let two notes touch for a moment);
+  the "two spells back to back" case wasn't reproduced in tests - mark it (mark key) if it shows again.
 - 1.6.0.270: Extended log (owner, 2026-11-14), `/dmga extended` (on / off, kept; off by default): one `state_trace`
   line per press in combat with what the game showed then: slots 1-3 with sources, Blizzard's pick, targets, GCD
   left, lit spells, usable / short-of-resource spells, cooldowns left, resources, our hidden-resource estimates.

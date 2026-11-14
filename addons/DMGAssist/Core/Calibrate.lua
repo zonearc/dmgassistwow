@@ -358,6 +358,13 @@ function K.OnCombat(inCombat)
     K.since, K.fight = {}, {}
     K.ApplyAll()
     K.Anchor()
+    -- which hidden resources we count from the pull, and from what (nothing listed: we can't count them)
+    local floors = {}
+    for pt, f in pairs(ns.Clues.floor) do
+      floors[#floors + 1] = pt .. "=" .. math.floor(f.lo)
+    end
+    table.sort(floors)
+    U.Log("floors_at_pull", #floors > 0 and table.concat(floors, " ") or "none")
     return
   end
   U.Log("corrections_summary", K.CorrectionsText())

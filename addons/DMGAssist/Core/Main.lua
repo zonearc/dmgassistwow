@@ -380,6 +380,10 @@ local function Update()
   D.MaybeRefreshKeymap(inCombat)
   ns.Bindcheck.MaybeNotice(inCombat)
   ns.Diagnostics.Tick()
+  -- Resources are read while the game shows them, whether or not the HUD is up: with "show with a target" the HUD
+  -- was hidden out of combat, so Astral Power was never read and never counted (Balance, 2026-11-14: no count
+  -- in any fight).
+  S.VerifyPowers()
   local show = ShouldShow()
   -- the settings window is open: dock the HUD beside it as a live preview (see Display.lua)
   local settingsOpen = not inCombat and SettingsPanel ~= nil and U.Get(SettingsPanel.IsShown, SettingsPanel) == true
@@ -388,7 +392,6 @@ local function Update()
     D.Update(nil, false)
     return nil
   end
-  S.VerifyPowers()
   ns.Clues.ReadCooldownManager(S.ReadableAuras())
   local result = G.Recommend(ns.ActiveRecord(state), {
     burst = ns.BurstAllowed(),
@@ -572,6 +575,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
       CheckRangedWeapon(Specs.current and Specs.current.key)
     end
   elseif event == "PLAYER_REGEN_DISABLED" then
+    S.VerifyPowers() -- the last readable values before the game hides them
     inCombat = true
     stuck.ignored, stuck.snapped = 0, {}
     lastLogged = nil -- the first pick of every fight is logged (and traced)

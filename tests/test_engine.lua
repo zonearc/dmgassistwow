@@ -3883,6 +3883,16 @@ test("extended log: off by default; /dmga extended logs what the game showed at 
   DMGAssistWatchdog = nil -- luacheck: ignore 111
 end)
 
+test("hidden resources: read while the HUD is hidden (no target), so the count starts at the pull", function()
+  -- Balance 2026-11-14: "show with a target" hid the HUD out of combat, Astral Power was never read, never counted
+  Reset()
+  local ns = Boot()
+  mock.hasTarget = false
+  mock.power[8], mock.powerMax[8], mock.powerReadable[8] = 30, 100, true
+  eq(ns.Update(), nil, "hidden: no target")
+  eq(ns.Clues.floor[8] ~= nil and ns.Clues.floor[8].lo, 30, "read anyway")
+end)
+
 test("learner (shadow): learns what you press next per situation, scores itself against slot 2, keeps it", function()
   Reset()
   local logged = {}
@@ -7131,9 +7141,24 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   Run({ main = B, queue = { B, A } }, 0.5)
   eq(Game.streak, 3, "under EXPIRE on the line: not a miss")
   -- two notes never touch: each stays its real time behind the one before (at least an icon and a gap apart)
+  -- (not even for a frame while a swapped note slides: Balance 2026-11-14, "two spells back to back")
+  local function Gaps()
+    local seen = {}
+    for key, n in pairs(Game.notes) do
+      if key:sub(1, 2) == "1:" and n:IsShown() then
+        seen[#seen + 1] = n.x
+      end
+    end
+    table.sort(seen)
+    for i = 2, #seen do
+      eq(seen[i] - seen[i - 1] >= Game.ICON + Game.GAP_MIN - 1, true, "touching mid-slide: " .. (seen[i] - seen[i - 1]))
+    end
+  end
   for _ = 1, 20 do
-    Run({ main = A, queue = { A, B, M } }, 0.1)
-    Run({ main = A, queue = { A, M, B } }, 0.1)
+    Run({ main = A, queue = { A, B, M } }, 0.05)
+    Gaps()
+    Run({ main = A, queue = { A, M, B } }, 0.05)
+    Gaps()
   end
   local xs = {}
   for key, n in pairs(Game.notes) do
