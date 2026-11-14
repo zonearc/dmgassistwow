@@ -28,13 +28,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install Lua 5.1 and luacheck
         run: |
-          # The runners couldn't resolve Ubuntu's own servers for hours (2026-11-11). apt checks Ubuntu's signature on
-          # every package, so any full mirror is as safe: use kernel.org's.
-          for f in /etc/apt/sources.list.d/*.sources /etc/apt/sources.list; do
-            if [ -f "$f" ]; then sudo sed -i -E 's#mirror\+file:/etc/apt/apt-mirrors\.txt#http://mirrors.edge.kernel.org/ubuntu/#g; s#https?://([a-z0-9.-]+\.)?(archive|security)\.ubuntu\.com/ubuntu/?#http://mirrors.edge.kernel.org/ubuntu/#g' "$f"; fi
-          done
-          sudo apt-get -o Acquire::Retries=3 -o Acquire::ForceIPv4=true update -qq
-          sudo apt-get -o Acquire::Retries=3 -o Acquire::ForceIPv4=true install -y -qq lua5.1 liblua5.1-0-dev luarocks zip
+          ./scripts/ci-apt.sh lua5.1 liblua5.1-0-dev luarocks zip  # Ubuntu's servers, then other mirrors
           sudo luarocks install luacheck
       - name: Fetch SimC and WoWSims
         run: |
