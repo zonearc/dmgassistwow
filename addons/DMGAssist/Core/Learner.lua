@@ -30,8 +30,10 @@ L.LIVE_N = 100
 -- Before that, situation by situation: one the learner has seen at least LOCAL_N times, going the same way at least
 -- LOCAL_CONF of the time, takes slot 2 at once (its confident guesses were right 18/22 and 19/22 on Outlaw while
 -- the whole spec still trailed the 10-point bar: owner, 2026-11-14, "why isn't it adapting in real time?").
-L.LOCAL_N = 5
-L.LOCAL_CONF = 0.8
+L.LOCAL_N = 8
+L.LOCAL_CONF = 0.85
+L.LOCAL_VS_N = 20   -- presses compared with SimC's forecast before a situation can take slot 2 on its own
+L.LOCAL_LEAD = 0.15 -- its confidence must beat SimC's accuracy so far by this much
 L.LIVE_LEAD = 0.10
 L.DROP_LEAD = 0.03
 L.CONFIDENT = 0.9    -- "confident" guesses: the share it would show live first
@@ -324,7 +326,16 @@ function L.Apply(result)
   end
   local keys = Situations(token, prev and prev.token)
   local guess, conf, level, total = Guess(store, keys)
-  local confident = guess and level and level <= 2 and conf >= L.LOCAL_CONF and (total or 0) >= L.LOCAL_N
+  -- (and clearly better than SimC's own forecast has been for this spec: where SimC is already right 90-100% of the
+  -- time, an 80% guess would make slot 2 worse - Survival and Holy Priest in the simulated fights, 2026-11-14)
+  local vs = store.vs
+  local simcRate = vs and vs.n >= L.LOCAL_VS_N and vs.simc / vs.n or nil
+  -- (not for healers: their next spell follows the group's health, which a situation here doesn't include - the
+  -- Holy Priest group fights got worse with it)
+  local profile = ns.Defensives and ns.Defensives.Profile and ns.Defensives.Profile()
+  local healer = profile and profile.role == "healer"
+  local confident = not healer and guess and level and level <= 2 and (total or 0) >= L.LOCAL_N and simcRate
+    and conf >= math.max(L.LOCAL_CONF, simcRate + L.LOCAL_LEAD)
   if not (L.Live(store) or confident) then
     return result
   end

@@ -3769,9 +3769,13 @@ test("learner: live in slot 2 only after clearly beating SimC's forecast; steps 
   store.vs = { n = 60, learner = 40, simc = 10 }
   local r = L.Apply(Result())
   eq(r.queue[2].token, "rake", "too few presses yet, and only the coarse situation known: SimC's slot 2")
-  store.next["shred<-"] = { rip = 6 } -- this exact situation: 6 of 6
+  store.next["shred<-"] = { rip = 9 } -- this exact situation: 9 of 9
   r = L.Apply(Result())
   eq(r.queue[2].token, "rip", "a situation it knows well: slot 2 at once, before the whole spec qualifies")
+  store.vs = { n = 60, learner = 40, simc = 58 } -- SimC right 97% here: a 90% guess isn't clearly better
+  store.next["shred<-"] = { rip = 9, rake = 1 }
+  r = L.Apply(Result())
+  eq(r.queue[2].token, "rake", "SimC already better than the guess: its slot 2 stays")
   store.next["shred<-"] = nil
   store.vs = { n = 120, learner = 60, simc = 40 }
   r = L.Apply(Result())

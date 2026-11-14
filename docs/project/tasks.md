@@ -146,8 +146,10 @@ Last updated: 1.6.0.157 (2026-11-10).
   on earlier fights, scored on later ones: Balance 35-41% (32 fights; SimC slot 2 57%), Outlaw 54%, Survival 56%,
   Fury/Elemental/Feral 41-44%. Cast order alone lacks the state (resources, procs, cooldowns); pooled logs mix
   ST/AoE, talents and versions - not used as a seed. What works: the learner's confident guesses (18/22, 19/22 on
-  Outlaw). Now a situation seen >= 5 times going one way >= 80% takes slot 2 at once (L.LOCAL_N / L.LOCAL_CONF),
-  before the whole spec passes the 10-point bar.
+  Outlaw). Now a situation seen >= 8 times going one way >= 85%, and 15 points above SimC's measured accuracy for
+  the spec (after 20 compared presses), takes slot 2 at once; not for healers. 1.6.0.266 was pushed with a failing
+  check (Survival / Holy Priest simulated slot 2 regressed; my command didn't stop on the failed check) - fixed in
+  1.6.0.267 with these guards.
 - 1.6.0.265: Faster testing (owner, 2026-11-14: "feels like we'll do this 300 more times"). Mark key (Key Bindings >
   DMGAssist "Mark this moment", or /dmga mark): logs `mark` (slots with sources and readyAt, the Flow lane as drawn:
   spell, time, x, hold; GCD left; resources) plus a full decision snapshot. `lane_close`: two Flow notes drawn under
