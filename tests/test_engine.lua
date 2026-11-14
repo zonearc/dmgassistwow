@@ -3768,7 +3768,11 @@ test("learner: live in slot 2 only after clearly beating SimC's forecast; steps 
   end
   store.vs = { n = 60, learner = 40, simc = 10 }
   local r = L.Apply(Result())
-  eq(r.queue[2].token, "rake", "too few presses yet: shadow (slot 2 is SimC's)")
+  eq(r.queue[2].token, "rake", "too few presses yet, and only the coarse situation known: SimC's slot 2")
+  store.next["shred<-"] = { rip = 6 } -- this exact situation: 6 of 6
+  r = L.Apply(Result())
+  eq(r.queue[2].token, "rip", "a situation it knows well: slot 2 at once, before the whole spec qualifies")
+  store.next["shred<-"] = nil
   store.vs = { n = 120, learner = 60, simc = 40 }
   r = L.Apply(Result())
   eq(r.queue[2].token, "rip", "a clear lead over 120 presses: live")

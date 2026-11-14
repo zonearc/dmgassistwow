@@ -27,6 +27,11 @@ L.MIN_N = 3          -- a situation needs this many samples before the learner g
 -- shadow when its lead shrinks: L.LIVE_N presses (decayed like the counts), a lead of L.LIVE_LEAD to go live,
 -- under L.DROP_LEAD to step back.
 L.LIVE_N = 100
+-- Before that, situation by situation: one the learner has seen at least LOCAL_N times, going the same way at least
+-- LOCAL_CONF of the time, takes slot 2 at once (its confident guesses were right 18/22 and 19/22 on Outlaw while
+-- the whole spec still trailed the 10-point bar: owner, 2026-11-14, "why isn't it adapting in real time?").
+L.LOCAL_N = 5
+L.LOCAL_CONF = 0.8
 L.LIVE_LEAD = 0.10
 L.DROP_LEAD = 0.03
 L.CONFIDENT = 0.9    -- "confident" guesses: the share it would show live first
@@ -148,7 +153,7 @@ local function Guess(store, keys)
         end
       end
       if total >= L.MIN_N and best then
-        return best, bestN / total, level
+        return best, bestN / total, level, total
       end
     end
   end
@@ -310,7 +315,7 @@ function L.Apply(result)
     return result
   end
   local store = Store()
-  if not (store and L.Live(store)) or not Rotation(main.id) then
+  if not store or not Rotation(main.id) then
     return result
   end
   local token = main.token or ns.SpellMap.TokenForID(main.id)
@@ -318,7 +323,11 @@ function L.Apply(result)
     return result
   end
   local keys = Situations(token, prev and prev.token)
-  local guess = Guess(store, keys)
+  local guess, conf, level, total = Guess(store, keys)
+  local confident = guess and level and level <= 2 and conf >= L.LOCAL_CONF and (total or 0) >= L.LOCAL_N
+  if not (L.Live(store) or confident) then
+    return result
+  end
   local q2 = queue[2]
   local simcNext = q2 and (q2.token or (q2.id and ns.SpellMap.TokenForID(q2.id)))
   result.simcNext = simcNext or false
