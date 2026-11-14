@@ -622,6 +622,9 @@ def import_branch(simc_root, branch, out_root, errors, wowsims_root=None):
             review = review + [r for r in module_review if any(a in r for a in ids)]
             if links:
                 record["cdLinks"] = links
+            alinks = simc_spells.aura_links(class_spells[cls], ids, {v.get("n") for v in info.values()})
+            if alinks:
+                record["auraLinks"] = alinks
             record["_review"] = review
             vol = sorted(set(volatile_targets(review, ids, info, simc)) | set(EXTRA_VOLATILE.get(spec, [])))
             if vol:

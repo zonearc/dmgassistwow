@@ -400,6 +400,75 @@ def links_for(spells, ids, extra=()):
     return links, review
 
 
+# "Casting Starfall extends the duration of active Moonfires and Sunfires by ${$s1}.1 sec, up to $s2 sec."
+# (Aetherial Kindling): a cast that lengthens auras already running. Without it Balance was shown Sunfire 3.7 times
+# a minute where SimC with the same talents casts it 0.4 (Starfall keeps it up; 2026-11-14).
+EXTEND = re.compile(r"(?:^|[.!]\s*|\s)(?:Casting |Each (?:cast of |blast of )?|During [A-Z][A-Za-z' ]*? )?(?P<src>(?:Your )?[A-Z][A-Za-z':\- ]*?)"
+                    r"(?: will)? extends? the (?:remaining )?duration of (?:an? )?(?:active )?(?:your )?(?P<targets>[A-Z][A-Za-z':, -]*?)"
+                    r"(?: on [a-z][a-z ]*?)? by (?P<val>\$\{[^}]*\}(?:\.\d)?|\$[sm]\d+|\d+(?:\.\d+)?) sec(?:onds)?"
+                    r"(?:, up to (?:a maximum of )?(?P<cap>\$\{[^}]*\}|\$s\d+|\d+(?:\.\d+)?) sec)?")
+FINISHERS = re.compile(r"^(?:your )?finishing moves?$", re.I)
+
+
+def _value(sp, raw):
+    if not raw:
+        return 0
+    if raw.startswith("${"):
+        return _expr_value(sp, raw.split("}")[0] + "}")
+    return _link_value(sp, raw)
+
+
+def aura_links(spells, ids, known=()):
+    """[source token, aura token, seconds, requires spell ID (0 = none), cap seconds (0 = none)] for this spec's
+    spells: casting the source lengthens the target aura while it runs, its remaining time capped at cap. Source
+    "*finisher": any finishing move. Wordings that name a spell through a talent switch ($?s123[A][B]) are left out."""
+    actions = set(ids)
+    by_name = {}
+    for sp in spells.values():
+        by_name.setdefault(sp["name"].lower(), sp)
+
+    def named(name):
+        name = name.strip()
+        low = name.lower()
+        if low.startswith("your "):
+            low = low[5:]
+        return by_name.get(low) or (low.endswith("s") and by_name.get(low[:-1])) or None
+
+    out = []
+    for sp in sorted(spells.values(), key=lambda x: x["id"]):
+        if "effects" not in sp and "effects_raw" not in sp:
+            continue
+        sp = dict(sp, effects=sp.get("effects") or sp.get("effects_raw"))
+        desc = sp.get("desc") or ""
+        for m in EXTEND.finditer(desc):
+            if "$?" in m.group(0):
+                continue
+            sec = _value(sp, m.group("val"))
+            cap = _value(sp, m.group("cap")) if m.group("cap") else 0
+            if not sec:
+                continue
+            srcs = []
+            for part in re.split(r"\s+and\s+|,\s*", m.group("src")):
+                if FINISHERS.match(part.strip()):
+                    srcs.append("*finisher")
+                else:
+                    hit = named(part)
+                    if hit and hit["token"] in actions:
+                        srcs.append(hit["token"])
+            targets = [named(n) for n in re.split(r",\s*(?:and\s+)?|\s+and\s+", m.group("targets"))]
+            # "... by 0.5 sec per combo point spent": seconds per point (power type 4) of a finisher
+            per_point = 4 if re.match(r"\s*(?:per|for each) combo point", desc[m.end():]) else 0
+            for src in srcs:
+                for tgt in targets:
+                    if tgt and (tgt["token"] in actions or tgt["token"] in known):
+                        row = [src, tgt["token"], round(sec, 3), sp["id"] if sp["passive"] else 0, round(cap or 0, 3)]
+                        if per_point:
+                            row.append(per_point)
+                        if row not in out and src != tgt["token"]:
+                            out.append(row)
+    return out
+
+
 def _link_value(spell, expr, raw=False):
     if re.fullmatch(r"\d+(?:\.\d+)?", expr or ""):
         return float(expr)

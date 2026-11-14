@@ -3937,6 +3937,37 @@ test("hidden even out of combat: the count starts from a safe 0 at every pull an
   ns.State.combatStart = nil
 end)
 
+test("a cast that lengthens running auras: Starfall keeps Sunfire up (Aetherial Kindling), live and in the look-ahead", function()
+  -- Balance 2026-11-14: Sunfire shown 3.7 times a minute; SimC with the same talents casts it 0.4 (Starfall extends it)
+  Reset()
+  local ns = Boot()
+  local S, M = ns.State, ns.SpellMap
+  M.info[191034] = { n = "starfall", cost = { [8] = 50 } }
+  M.info[93402] = { n = "sunfire" }
+  M.auraLinksBySource = { starfall = { { "starfall", "sunfire", 3, 0, 28 } } }
+  local now = GetTime()
+  S.dotUntil.sunfire = now + 5
+  S.ApplyLinks(191034, false)
+  eq(S.dotUntil.sunfire, now + 8, "+3 s")
+  for _ = 1, 20 do
+    S.ApplyLinks(191034, false)
+  end
+  eq(S.dotUntil.sunfire, now + 28, "never past 28 s left")
+  S.dotUntil.sunfire = now - 1
+  S.ApplyLinks(191034, false)
+  eq(S.dotUntil.sunfire, now - 1, "only auras that are running")
+  S.dotUntil.sunfire = now + 4
+  S.BeginLookahead(0)
+  S.ApplyLinks(191034, true)
+  S.EndLookahead()
+  eq(S.dotUntil.sunfire, now + 4, "the look-ahead's pretend Starfall leaves the live clock alone")
+  M.auraLinksBySource = { ["*finisher"] = { { "*finisher", "tigers_fury", 0.5, 0, 0, 4 } } }
+  M.info[22568] = { n = "ferocious_bite", cost = { [4] = 1 }, cmax = { [4] = 5 } }
+  S.auraUntil.tigers_fury = now + 2
+  S.ApplyLinks(22568, false)
+  eq(S.auraUntil.tigers_fury, now + 4.5, "a finisher: 0.5 s per combo point, a full spend")
+end)
+
 test("learner (shadow): learns what you press next per situation, scores itself against slot 2, keeps it", function()
   Reset()
   local logged = {}

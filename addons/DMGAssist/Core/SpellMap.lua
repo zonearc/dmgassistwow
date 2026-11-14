@@ -129,6 +129,14 @@ function M.SetData(record)
       table.insert(M.linksBySource[l[1]], l)
     end
   end
+  -- Casts that lengthen auras already running (tools/simc_spells.py aura_links): { source, aura, seconds, requires,
+  -- cap, per point power type }. Balance's Aetherial Kindling: each Starfall adds 3 s to Moonfire and Sunfire (up to
+  -- 28 s); without it Sunfire was shown 9x as often as SimC casts it with the same talents (2026-11-14).
+  M.auraLinksBySource = {}
+  for _, l in ipairs(type(record.auraLinks) == "table" and record.auraLinks or {}) do
+    M.auraLinksBySource[l[1]] = M.auraLinksBySource[l[1]] or {}
+    table.insert(M.auraLinksBySource[l[1]], l)
+  end
   -- Auras our own casts apply (by SimC data): for these "not seen = down" is safe; procs are not.
   M.applied = {}
   for id, info in pairs(M.info) do

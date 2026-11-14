@@ -1591,9 +1591,49 @@ local function ReduceTarget(token, amount, lookahead)
   end
 end
 
+-- A cast that lengthens auras already running (M.auraLinksBySource): the live clocks, or the look-ahead's.
+function S.ExtendAuras(id, lookahead)
+  local info = M.Info(id)
+  local token = (info and info.n) or M.TokenForID(id)
+  local byToken = M.auraLinksBySource or {}
+  local lists = { byToken[token or false] }
+  local finisher = info and info.cmax and info.cmax[4]
+  if finisher then
+    lists[#lists + 1] = byToken["*finisher"]
+  end
+  local now = lookahead and V and Now() or GetTime()
+  for _, list in ipairs(lists) do
+    for _, l in ipairs(list) do
+      if Requires(l[4]) then
+        local target, seconds, cap = l[2], l[3], l[5] or 0
+        if l[6] == 4 then
+          seconds = seconds * (finisher or 1) -- per combo point spent (a finisher: assume a full spend)
+        end
+        local live = S.dotUntil[target] ~= nil and S.dotUntil or S.auraUntil
+        local over = lookahead and V and (live == S.dotUntil and V.dot or V.aura) or nil
+        local base = (over and over[target]) or live[target]
+        if type(base) == "number" and base > now then
+          local new = base + seconds
+          if cap > 0 then
+            new = math.min(new, now + cap)
+          end
+          if new > base then
+            if over then
+              over[target] = new
+            else
+              live[target] = new
+            end
+          end
+        end
+      end
+    end
+  end
+end
+
 function S.ApplyLinks(id, lookahead)
   local info = M.Info(id)
   local token = (info and info.n) or M.TokenForID(id)
+  S.ExtendAuras(id, lookahead)
   if not token or not M.linksBySource then
     return
   end

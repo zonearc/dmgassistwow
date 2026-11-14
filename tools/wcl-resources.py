@@ -27,6 +27,7 @@ import json
 import os
 import re
 import subprocess
+import time
 import sys
 
 API = "https://www.warcraftlogs.com/api/v2/client"
@@ -42,11 +43,19 @@ POWERS = {1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 16, 17, 18, 19}
 MIN_RATE = 0.1  # passive income below this per second is noise (a Balance druid's one bear-form Rage tick)
 
 
-def query(q, variables=None):
+def query(q, variables=None, tries=6):
     body = json.dumps({"query": q, "variables": variables or {}})
-    out = subprocess.run(["curl", "-sS", "--max-time", "60", API, "-H", "Content-Type: application/json",
-                          "-d", body], capture_output=True, text=True).stdout
-    d = json.loads(out)
+    for attempt in range(tries):
+        out = subprocess.run(["curl", "-sS", "--max-time", "60", API, "-H", "Content-Type: application/json",
+                              "-d", body], capture_output=True, text=True).stdout
+        try:
+            d = json.loads(out)
+            break
+        except ValueError:
+            # rate limited or a hiccup: wait (the hourly points come back), then again
+            time.sleep(min(600, 30 * 2 ** attempt))
+    else:
+        raise RuntimeError("no answer from the API")
     if "errors" in d:
         raise RuntimeError(json.dumps(d["errors"])[:300])
     return d["data"]

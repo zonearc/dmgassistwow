@@ -2,6 +2,9 @@
 -- Data only. k = how DMGAssist can know the condition in combat: R read, S static, M mode toggle, T tracked by us, U unknown.
 local _, ns = ...
 ns.RegisterSpecData("midnight", "rogue_subtlety", {
+  auraLinks = {
+    { "*finisher", "shadow_blades", 0.2, 208892, 0, 4 },
+  },
   blizzard = {
     assisted_combat = {
       {

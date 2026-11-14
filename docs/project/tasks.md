@@ -168,6 +168,14 @@ for every spec, before asking for more in-game logs.
 
 ## Done (recent)
 
+- 1.6.0.274: Casts that lengthen running auras. Balance (owner's talents, SimC 6 targets): Sunfire 0.4/min vs
+  DMGAssist 3.7/min - Aetherial Kindling (327541): "Casting Starfall extends the duration of active Moonfires and
+  Sunfires by 3 sec, up to 28 sec" (sc_druid.cpp starfall_t::execute adjust_duration). The importer now reads
+  "extends the duration of" wordings (tools/simc_spells.py aura_links -> record.auraLinks: source, aura, seconds,
+  requires, cap, per combo point): Balance Starfall -> Moonfire/Sunfire, Frost DK Frostwyrm's Fury -> Pillar of
+  Frost, Fury Raging Blow -> Recklessness, Feral / Subtlety finishers per point. State.ExtendAuras applies them to
+  the live clocks and the look-ahead's. Wordings through talent switches ($?s...) are left out (review later:
+  Shadow Void Bolt, Affliction, Demonology, Disc Penance).
 - 1.6.0.273: Warcraft Logs (owner's paid month; access token saved as the environment's credential).
   tools/wcl-resources.py: per spec, the top heroic player on each boss of The Venomous Abyss (6 fights), their
   resource events (every gain with its ability) and casts -> data/resource-gains.json: per-cast gains of spells

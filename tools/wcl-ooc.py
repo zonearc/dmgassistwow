@@ -38,6 +38,17 @@ def scale(pt, mx):
     return 1.0
 
 
+EDGE_MS = 12000  # the window read at each end of a fight
+
+
+def edge(code, f, source, start, end):
+    d = W.query("query($c:String!,$f:[Int],$s:Int,$st:Float,$en:Float){reportData{report(code:$c){"
+                "events(fightIDs:$f,sourceID:$s,dataType:Casts,startTime:$st,endTime:$en,includeResources:true,"
+                "limit:200){data}}}}", {"c": code, "f": [f["id"]], "s": source, "st": start, "en": end})
+    ev = d["reportData"]["report"]["events"]["data"]
+    return [e for e in ev if e.get("type") == "cast" and e.get("classResources")]
+
+
 def report_rows(code, name):
     d = W.query("query($c:String!){reportData{report(code:$c){fights{id startTime endTime encounterID}"
                 " masterData{actors(type:\"Player\"){id name}}}}}", {"c": code})
@@ -51,8 +62,10 @@ def report_rows(code, name):
     for f in fights:
         if used >= MAX_FIGHTS:
             break
-        ev = W.events(code, f["id"], ids[0], "Casts", f["startTime"], f["endTime"], resources=True)
-        ev = [e for e in ev if e.get("type") == "cast" and e.get("classResources")]
+        # only the first and the last casts matter: two small reads instead of the whole fight
+        first = edge(code, f, ids[0], f["startTime"], min(f["endTime"], f["startTime"] + EDGE_MS))
+        last = edge(code, f, ids[0], max(f["startTime"], f["endTime"] - EDGE_MS), f["endTime"]) if first else []
+        ev = first[:1] + last[-1:]
         if not ev:
             prev = None
             continue

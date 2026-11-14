@@ -181,5 +181,27 @@ GCD              : 1.5 seconds
         self.assertEqual(blood[433895]["gain"], {6: 15}, "Blood's amount")
 
 
+class AuraLinkTests(unittest.TestCase):
+    def spell(self, sid, name, desc="", passive=False, values=()):
+        return {"id": sid, "name": name, "token": ss.token(name), "passive": passive, "desc": desc,
+                "effects": [{"n": i + 1, "detail": " Base Value: %s | Target: Self (1)" % v} for i, v in enumerate(values)]}
+
+    def test_extends_running_auras(self):
+        spells = {
+            1: self.spell(1, "Starfall"), 2: self.spell(2, "Moonfire"), 3: self.spell(3, "Sunfire"),
+            4: self.spell(4, "Aetherial Kindling", "Casting Starfall extends the duration of active Moonfires and "
+                          "Sunfires by ${$s1}.1 sec, up to $s2 sec.", True, (3, 28)),
+            5: self.spell(5, "Tiger's Fury"), 6: self.spell(6, "Ferocious Bite"),
+            7: self.spell(7, "Fury of Nature", "Finishing moves extend the duration of Tiger's Fury by ${$s1/10}.1 "
+                          "sec per combo point spent.", True, (5,)),
+            8: self.spell(8, "Odd", "Each cast extends the duration of $?s123[Moonfire][Sunfire] by $s1 sec.", True, (2,)),
+        }
+        links = ss.aura_links(spells, ["starfall", "moonfire", "sunfire", "tigers_fury"])
+        self.assertIn(["starfall", "moonfire", 3.0, 4, 28.0], links)
+        self.assertIn(["starfall", "sunfire", 3.0, 4, 28.0], links)
+        self.assertIn(["*finisher", "tigers_fury", 0.5, 7, 0, 4], links)
+        self.assertEqual(len(links), 3, "a talent switch in the wording is left out")
+
+
 if __name__ == "__main__":
     unittest.main()

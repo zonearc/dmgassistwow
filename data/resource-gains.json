@@ -1,6 +1,61 @@
 {
  "_about": "Measured from public Warcraft Logs reports by tools/wcl-resources.py: per spec, gains per cast (gains: spellID -> powerType -> amount) and passive income per second (passive: powerType -> per second). No player data is kept.",
  "midnight": {
+  "deathknight_blood": {
+   "ooc": {
+    "6": {
+     "max": 125.0,
+     "n": 5,
+     "rate": -3.4,
+     "rateFast": -4.08,
+     "rest": null
+    }
+   }
+  },
+  "deathknight_frost": {
+   "ooc": {
+    "6": {
+     "max": 100.0,
+     "n": 8,
+     "rate": null,
+     "rateFast": null,
+     "rest": 40.0
+    }
+   }
+  },
+  "deathknight_unholy": {
+   "ooc": {
+    "5": {
+     "max": 6.0,
+     "n": 8,
+     "rate": null,
+     "rateFast": null,
+     "rest": 6.0
+    }
+   }
+  },
+  "demonhunter_devourer": {
+   "ooc": {
+    "17": {
+     "max": 140.0,
+     "n": 39,
+     "rate": -1.75,
+     "rateFast": -6.76,
+     "rest": 16.0
+    }
+   }
+  },
+  "demonhunter_havoc": {
+   "ooc": {
+    "17": {
+     "max": 170.0,
+     "n": 20,
+     "rate": 4.55,
+     "rateFast": -1.25,
+     "rest": 22.0
+    }
+   }
+  },
   "druid_balance": {
    "detail": [
     {
@@ -133,9 +188,9 @@
    "ooc": {
     "8": {
      "max": 140.0,
-     "n": 17,
-     "rate": -2.69,
-     "rateFast": -4.96,
+     "n": 14,
+     "rate": -0.26,
+     "rateFast": -2.93,
      "rest": 20.0
     }
    },
