@@ -231,6 +231,7 @@ ns.RegisterSpecData("midnight", "priest_shadow", {
   },
   heroTrees = {},
   key = "priest_shadow",
+  passiveGain = { [13] = 5.269 },
   simc = {
     aoe = {
       {

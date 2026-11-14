@@ -156,6 +156,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
   },
   heroTrees = {},
   key = "warlock_demonology",
+  passiveGain = { [7] = 0.784 },
   simc = {
     default = {
       {

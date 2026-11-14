@@ -559,8 +559,12 @@ for _, pt in pairs(C.BUILT) do
 end
 C.floor = {} -- pt -> { lo =, max =, at = time of lo, moved = true once a cast changed it }
 
+-- Measured passive income (State.PassiveGain) counts at this share: it comes from procs, so over a few seconds it
+-- can run below its average, and the count must stay a lower bound.
+C.PASSIVE_SHARE = 0.6
 local function Accrued(f, pt, now)
-  local lo = f.lo + (C.REGEN[pt] or 0) * math.max(0, now - f.at)
+  local passive = ns.State.PassiveGain and ns.State.PassiveGain(pt) or 0
+  local lo = f.lo + ((C.REGEN[pt] or 0) + C.PASSIVE_SHARE * passive) * math.max(0, now - f.at)
   if type(f.max) == "number" and f.max > 0 then
     lo = math.min(lo, f.max)
   end
@@ -596,6 +600,36 @@ function C.SyncFloor(pt, value, max)
     end
   end
   C.floor[pt] = { lo = value, max = max, at = GetTime() }
+end
+
+-- Midnight hides Astral Power, Energy and Rage even out of combat (Balance 2026-11-14: "secret, never ok" all
+-- session), so a count can't start from a value the game shows. At the pull it starts from what is certain:
+-- full for Astral Power after a few seconds out of combat (it refills; owner: "starts at 100 and refreshes within
+-- seconds"), nothing for the rest (Rage, Insanity... drain). Casts, passive income and the game's affordability
+-- answers move it from there (Calibrate.Snap: up when proven more, down when the game says a spender is out of
+-- reach).
+C.OOC_FULL = { [8] = true } -- Astral Power refills to full within seconds out of combat (owner, 2026-11-14)
+C.OOC_FULL_AFTER = 5         -- seconds out of combat before we count it as full
+function C.SeedFloors(ooc)
+  local used = {}
+  for _, info in pairs(M.info or {}) do
+    for _, t in ipairs({ M.Cost(info) or {}, info.gain or {} }) do
+      for pt in pairs(t) do
+        used[pt] = true
+      end
+    end
+  end
+  -- (Energy and Focus are left to the affordability answers and regeneration: an opener cast from stealth spends
+  -- before the pull is seen, so "full after a rest" could start above the truth.)
+  for _, pt in pairs(C.BUILT) do
+    local f = C.floor[pt]
+    if used[pt] and (not f or f.seeded) and not C.REGEN[pt] then -- (last fight's count drained since: anew)
+      local max = ns.State.PowerMax and ns.State.PowerMax(pt)
+      local full = C.OOC_FULL[pt] and (ooc == nil or ooc >= C.OOC_FULL_AFTER)
+      C.floor[pt] = { lo = full and (type(max) == "number" and max or 100) or 0, max = max, at = GetTime(),
+        seeded = true }
+    end
+  end
 end
 
 -- The game proved at least `v` (Calibrate.Snap): the counted floor comes up to it.

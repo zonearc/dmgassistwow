@@ -1,0 +1,2625 @@
+{
+ "_about": "Measured from public Warcraft Logs reports by tools/wcl-resources.py: per spec, gains per cast (gains: spellID -> powerType -> amount) and passive income per second (passive: powerType -> per second). No player data is kept.",
+ "midnight": {
+  "druid_balance": {
+   "detail": [
+    {
+     "casts": 76,
+     "gain": 8,
+     "hits": 76,
+     "id": 8921,
+     "pt": 8,
+     "token": "moonfire",
+     "total": 605,
+     "waste": 70
+    },
+    {
+     "casts": 0,
+     "hits": 1,
+     "id": 17057,
+     "perSecond": 0.022,
+     "pt": 1,
+     "token": null,
+     "total": 25,
+     "waste": 0
+    },
+    {
+     "casts": 74,
+     "gain": 6,
+     "hits": 74,
+     "id": 93402,
+     "pt": 8,
+     "token": "sunfire",
+     "total": 443,
+     "waste": 19
+    },
+    {
+     "casts": 4,
+     "gain": 8,
+     "hits": 4,
+     "id": 190984,
+     "pt": 8,
+     "token": "wrath",
+     "total": 32,
+     "waste": 0
+    },
+    {
+     "casts": 391,
+     "gain": 12,
+     "hits": 391,
+     "id": 194153,
+     "pt": 8,
+     "token": "starfire",
+     "total": 4689,
+     "waste": 157
+    },
+    {
+     "casts": 0,
+     "hits": 85,
+     "id": 202430,
+     "perSecond": 0.076,
+     "pt": 8,
+     "token": null,
+     "total": 85,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 1543,
+     "id": 202497,
+     "perSecond": 2.753,
+     "pt": 8,
+     "token": null,
+     "total": 3084,
+     "waste": 129
+    },
+    {
+     "casts": 47,
+     "hits": 706,
+     "id": 202770,
+     "perSecond": 1.256,
+     "pt": 8,
+     "token": "fury_of_elune",
+     "total": 1407,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 32,
+     "id": 274283,
+     "perSecond": 0.571,
+     "pt": 8,
+     "token": "full_moon",
+     "total": 640,
+     "waste": 2
+    },
+    {
+     "casts": 0,
+     "hits": 62,
+     "id": 424588,
+     "perSecond": 0.166,
+     "pt": 8,
+     "token": null,
+     "total": 186,
+     "waste": 11
+    },
+    {
+     "casts": 0,
+     "hits": 58,
+     "id": 428682,
+     "perSecond": 0.311,
+     "pt": 8,
+     "token": null,
+     "total": 348,
+     "waste": 12
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "190984": {
+     "8": 8
+    },
+    "194153": {
+     "8": 12
+    },
+    "8921": {
+     "8": 8
+    },
+    "93402": {
+     "8": 6
+    }
+   },
+   "passive": {
+    "8": 5.133
+   },
+   "seconds": 1120.3,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "druid_feral": {
+   "detail": [
+    {
+     "casts": 107,
+     "gain": 1,
+     "hits": 109,
+     "id": 1822,
+     "pt": 4,
+     "token": "rake",
+     "total": 136,
+     "waste": 19
+    },
+    {
+     "casts": 39,
+     "gain": 50,
+     "hits": 39,
+     "id": 5217,
+     "pt": 3,
+     "token": "tigers_fury",
+     "total": 1950,
+     "waste": 639
+    },
+    {
+     "casts": 339,
+     "gain": 1,
+     "hits": 386,
+     "id": 5221,
+     "pt": 4,
+     "token": "shred",
+     "total": 492,
+     "waste": 99
+    },
+    {
+     "casts": 0,
+     "hits": 273,
+     "id": 16953,
+     "perSecond": 0.238,
+     "pt": 4,
+     "token": null,
+     "total": 273,
+     "waste": 93
+    },
+    {
+     "casts": 24,
+     "gain": 2,
+     "hits": 24,
+     "id": 106785,
+     "pt": 4,
+     "token": "swipe",
+     "total": 46,
+     "waste": 17
+    },
+    {
+     "casts": 0,
+     "hits": 397,
+     "id": 114113,
+     "perSecond": 3.399,
+     "pt": 3,
+     "token": null,
+     "total": 3900,
+     "waste": 442
+    },
+    {
+     "casts": 92,
+     "gain": 1,
+     "hits": 97,
+     "id": 155625,
+     "pt": 4,
+     "token": "moonfire",
+     "total": 124,
+     "waste": 17
+    },
+    {
+     "casts": 0,
+     "hits": 165,
+     "id": 274838,
+     "perSecond": 0.144,
+     "pt": 4,
+     "token": "feral_frenzy",
+     "total": 165,
+     "waste": 48
+    },
+    {
+     "casts": 0,
+     "hits": 233,
+     "id": 343216,
+     "perSecond": 0.203,
+     "pt": 4,
+     "token": "berserk",
+     "total": 233,
+     "waste": 112
+    },
+    {
+     "casts": 0,
+     "hits": 115,
+     "id": 391874,
+     "perSecond": 0.1,
+     "pt": 4,
+     "token": null,
+     "total": 115,
+     "waste": 4
+    },
+    {
+     "casts": 0,
+     "hits": 111,
+     "id": 405191,
+     "perSecond": 0.201,
+     "pt": 4,
+     "token": null,
+     "total": 231,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 19,
+     "id": 1244550,
+     "perSecond": 0.166,
+     "pt": 3,
+     "token": null,
+     "total": 190,
+     "waste": 56
+    },
+    {
+     "casts": 0,
+     "hits": 61,
+     "id": 1280352,
+     "perSecond": 0.129,
+     "pt": 4,
+     "token": null,
+     "total": 148,
+     "waste": 0
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "106785": {
+     "4": 2
+    },
+    "155625": {
+     "4": 1
+    },
+    "1822": {
+     "4": 1
+    },
+    "5217": {
+     "3": 50
+    },
+    "5221": {
+     "4": 1
+    }
+   },
+   "passive": {
+    "3": 3.564,
+    "4": 1.015
+   },
+   "seconds": 1147.6,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "druid_guardian": {
+   "detail": [
+    {
+     "casts": 9,
+     "gain": 1,
+     "hits": 9,
+     "id": 1822,
+     "pt": 4,
+     "token": "rake",
+     "total": 9,
+     "waste": 4
+    },
+    {
+     "casts": 0,
+     "hits": 2,
+     "id": 16953,
+     "perSecond": 0.002,
+     "pt": 4,
+     "token": null,
+     "total": 2,
+     "waste": 1
+    },
+    {
+     "casts": 0,
+     "hits": 16,
+     "id": 17057,
+     "perSecond": 0.327,
+     "pt": 1,
+     "token": "bear_form",
+     "total": 400,
+     "waste": 0
+    },
+    {
+     "casts": 484,
+     "gain": 17,
+     "hits": 484,
+     "id": 33917,
+     "pt": 1,
+     "token": "mangle",
+     "total": 8719,
+     "waste": 64
+    },
+    {
+     "casts": 382,
+     "hits": 501,
+     "id": 77758,
+     "perSecond": 2.05,
+     "pt": 1,
+     "token": "thrash",
+     "total": 2504,
+     "waste": 2
+    },
+    {
+     "casts": 0,
+     "hits": 237,
+     "id": 195707,
+     "perSecond": 0.582,
+     "pt": 1,
+     "token": null,
+     "total": 711,
+     "waste": 3
+    },
+    {
+     "casts": 0,
+     "hits": 235,
+     "id": 202770,
+     "perSecond": 0.577,
+     "pt": 1,
+     "token": null,
+     "total": 705,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 201,
+     "id": 202770,
+     "perSecond": 0.329,
+     "pt": 8,
+     "token": null,
+     "total": 402,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 71,
+     "id": 203961,
+     "perSecond": 0.174,
+     "pt": 1,
+     "token": null,
+     "total": 213,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 65,
+     "id": 274838,
+     "perSecond": 0.053,
+     "pt": 4,
+     "token": null,
+     "total": 65,
+     "waste": 37
+    },
+    {
+     "casts": 0,
+     "hits": 40,
+     "id": 428682,
+     "perSecond": 0.196,
+     "pt": 1,
+     "token": null,
+     "total": 239,
+     "waste": 5
+    },
+    {
+     "casts": 0,
+     "hits": 228,
+     "id": 430581,
+     "perSecond": 0.933,
+     "pt": 1,
+     "token": null,
+     "total": 1140,
+     "waste": 10
+    },
+    {
+     "casts": 0,
+     "hits": 209,
+     "id": 1253582,
+     "perSecond": 1.367,
+     "pt": 1,
+     "token": "red_moon",
+     "total": 1670,
+     "waste": 23
+    },
+    {
+     "casts": 0,
+     "hits": 354,
+     "id": 1308125,
+     "perSecond": 2.316,
+     "pt": 1,
+     "token": null,
+     "total": 2830,
+     "waste": 30
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "1822": {
+     "4": 1
+    },
+    "33917": {
+     "1": 17
+    }
+   },
+   "passive": {
+    "1": 8.523,
+    "8": 0.329
+   },
+   "seconds": 1221.7,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "druid_restoration": {
+   "detail": [
+    {
+     "casts": 0,
+     "hits": 6,
+     "id": 1822,
+     "perSecond": 0.005,
+     "pt": 4,
+     "token": "rake",
+     "total": 6,
+     "waste": 0
+    },
+    {
+     "casts": 77,
+     "gain": 8,
+     "hits": 17,
+     "id": 8921,
+     "pt": 8,
+     "token": "moonfire",
+     "total": 135,
+     "waste": 6
+    },
+    {
+     "casts": 63,
+     "gain": 6,
+     "hits": 24,
+     "id": 93402,
+     "pt": 8,
+     "token": "sunfire",
+     "total": 144,
+     "waste": 0
+    },
+    {
+     "casts": 4,
+     "gain": 8,
+     "hits": 4,
+     "id": 190984,
+     "pt": 8,
+     "token": "wrath",
+     "total": 32,
+     "waste": 0
+    },
+    {
+     "casts": 73,
+     "gain": 12,
+     "hits": 73,
+     "id": 194153,
+     "pt": 8,
+     "token": "starfire",
+     "total": 876,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 110,
+     "id": 202430,
+     "perSecond": 0.086,
+     "pt": 8,
+     "token": null,
+     "total": 110,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 159,
+     "id": 202497,
+     "perSecond": 0.25,
+     "pt": 8,
+     "token": null,
+     "total": 318,
+     "waste": 6
+    },
+    {
+     "casts": 4,
+     "hits": 64,
+     "id": 202770,
+     "perSecond": 0.101,
+     "pt": 8,
+     "token": null,
+     "total": 128,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 9,
+     "id": 274283,
+     "perSecond": 0.283,
+     "pt": 8,
+     "token": null,
+     "total": 360,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 11,
+     "id": 428682,
+     "perSecond": 0.052,
+     "pt": 8,
+     "token": null,
+     "total": 66,
+     "waste": 0
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "190984": {
+     "8": 8
+    },
+    "194153": {
+     "8": 12
+    },
+    "8921": {
+     "8": 8
+    },
+    "93402": {
+     "8": 6
+    }
+   },
+   "passive": {
+    "8": 0.771
+   },
+   "seconds": 1273.3,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "evoker_augmentation": {
+   "detail": [],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {},
+   "passive": {},
+   "seconds": 1196.1,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "evoker_devastation": {
+   "detail": [],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {},
+   "passive": {},
+   "seconds": 1377.3,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "evoker_preservation": {
+   "detail": [],
+   "difficulty": 4,
+   "fights": 5,
+   "gains": {},
+   "passive": {},
+   "seconds": 1085.1,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "hunter_beast_mastery": {
+   "detail": [
+    {
+     "casts": 0,
+     "hits": 663,
+     "id": 246152,
+     "perSecond": 3.016,
+     "pt": 2,
+     "token": "barbed_shot",
+     "total": 4496,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 1859,
+     "id": 1264783,
+     "perSecond": 3.741,
+     "pt": 2,
+     "token": null,
+     "total": 5577,
+     "waste": 2786
+    },
+    {
+     "casts": 0,
+     "hits": 280,
+     "id": 1282660,
+     "perSecond": 4.695,
+     "pt": 2,
+     "token": "barbed_shot",
+     "total": 7000,
+     "waste": 1202
+    },
+    {
+     "casts": 0,
+     "hits": 415,
+     "id": 1282710,
+     "perSecond": 2.784,
+     "pt": 2,
+     "token": null,
+     "total": 4150,
+     "waste": 192
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {},
+   "passive": {
+    "2": 14.236
+   },
+   "seconds": 1490.8,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "hunter_marksmanship": {
+   "detail": [
+    {
+     "casts": 0,
+     "hits": 97,
+     "id": 77443,
+     "perSecond": 1.772,
+     "pt": 2,
+     "token": "steady_shot",
+     "total": 2425,
+     "waste": 854
+    },
+    {
+     "casts": 0,
+     "hits": 1677,
+     "id": 263585,
+     "perSecond": 3.676,
+     "pt": 2,
+     "token": "rapid_fire",
+     "total": 5031,
+     "waste": 2123
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {},
+   "passive": {
+    "2": 5.447
+   },
+   "seconds": 1368.7,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "hunter_survival": {
+   "detail": [
+    {
+     "casts": 323,
+     "gain": 20,
+     "hits": 323,
+     "id": 259489,
+     "pt": 2,
+     "token": "kill_command",
+     "total": 6460,
+     "waste": 362
+    },
+    {
+     "casts": 0,
+     "hits": 2,
+     "id": 459976,
+     "perSecond": 0.047,
+     "pt": 2,
+     "token": null,
+     "total": 60,
+     "waste": 34
+    },
+    {
+     "casts": 0,
+     "hits": 23,
+     "id": 1253862,
+     "perSecond": 0.894,
+     "pt": 2,
+     "token": "takedown",
+     "total": 1150,
+     "waste": 74
+    },
+    {
+     "casts": 0,
+     "hits": 23,
+     "id": 1258571,
+     "perSecond": 0.894,
+     "pt": 2,
+     "token": "takedown",
+     "total": 1150,
+     "waste": 135
+    },
+    {
+     "casts": 0,
+     "hits": 1058,
+     "id": 1292687,
+     "perSecond": 4.078,
+     "pt": 2,
+     "token": null,
+     "total": 5245,
+     "waste": 0
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "259489": {
+     "2": 20
+    }
+   },
+   "passive": {
+    "2": 5.912
+   },
+   "seconds": 1286.3,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "mage_arcane": {
+   "detail": [
+    {
+     "casts": 86,
+     "gain": 1,
+     "hits": 86,
+     "id": 30451,
+     "pt": 16,
+     "token": "arcane_blast",
+     "total": 96,
+     "waste": 86
+    },
+    {
+     "casts": 17,
+     "hits": 302,
+     "id": 153626,
+     "perSecond": 0.258,
+     "pt": 16,
+     "token": "arcane_orb",
+     "total": 302,
+     "waste": 285
+    },
+    {
+     "casts": 0,
+     "hits": 480,
+     "id": 153640,
+     "perSecond": 0.41,
+     "pt": 16,
+     "token": "arcane_orb",
+     "total": 480,
+     "waste": 157
+    },
+    {
+     "casts": 30,
+     "gain": 4,
+     "hits": 30,
+     "id": 321507,
+     "pt": 16,
+     "token": "touch_of_the_magi",
+     "total": 120,
+     "waste": 7
+    },
+    {
+     "casts": 0,
+     "hits": 1404,
+     "id": 461524,
+     "perSecond": 1.2,
+     "pt": 16,
+     "token": null,
+     "total": 1404,
+     "waste": 932
+    },
+    {
+     "casts": 132,
+     "gain": 4,
+     "hits": 132,
+     "id": 1295924,
+     "pt": 16,
+     "token": "prismatic_bolt",
+     "total": 528,
+     "waste": 469
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "1295924": {
+     "16": 4
+    },
+    "30451": {
+     "16": 1
+    },
+    "321507": {
+     "16": 4
+    }
+   },
+   "passive": {
+    "16": 1.868
+   },
+   "seconds": 1170.1,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "mage_fire": {
+   "detail": [],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {},
+   "passive": {},
+   "seconds": 1292.8,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "mage_frost": {
+   "detail": [],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {},
+   "passive": {},
+   "seconds": 1414.0,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "monk_brewmaster": {
+   "detail": [
+    {
+     "casts": 18,
+     "gain": 200,
+     "hits": 18,
+     "id": 115399,
+     "pt": 3,
+     "token": "black_ox_brew",
+     "total": 3600,
+     "waste": 2783
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "115399": {
+     "3": 200
+    }
+   },
+   "passive": {},
+   "seconds": 1576.5,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "monk_mistweaver": {
+   "detail": [],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {},
+   "passive": {},
+   "seconds": 1565.4,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "monk_windwalker": {
+   "detail": [
+    {
+     "casts": 251,
+     "gain": 2,
+     "hits": 247,
+     "id": 100780,
+     "pt": 12,
+     "token": "tiger_palm",
+     "total": 494,
+     "waste": 3
+    },
+    {
+     "casts": 1,
+     "gain": 1,
+     "hits": 1,
+     "id": 129597,
+     "pt": 12,
+     "token": "arcane_torrent",
+     "total": 1,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 16,
+     "id": 163272,
+     "perSecond": 0.012,
+     "pt": 12,
+     "token": null,
+     "total": 16,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 86,
+     "id": 392959,
+     "perSecond": 0.062,
+     "pt": 12,
+     "token": null,
+     "total": 86,
+     "waste": 1
+    },
+    {
+     "casts": 0,
+     "hits": 101,
+     "id": 451500,
+     "perSecond": 0.073,
+     "pt": 12,
+     "token": null,
+     "total": 101,
+     "waste": 3
+    },
+    {
+     "casts": 14,
+     "hits": 38,
+     "id": 1272696,
+     "perSecond": 0.055,
+     "pt": 12,
+     "token": "zenith_stomp",
+     "total": 76,
+     "waste": 7
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "100780": {
+     "12": 2
+    },
+    "129597": {
+     "12": 1
+    }
+   },
+   "passive": {
+    "12": 0.202
+   },
+   "seconds": 1383.9,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "paladin_holy": {
+   "detail": [
+    {
+     "casts": 316,
+     "gain": 1,
+     "hits": 316,
+     "id": 20473,
+     "pt": 9,
+     "token": "holy_shock",
+     "total": 316,
+     "waste": 9
+    },
+    {
+     "casts": 0,
+     "hits": 8,
+     "id": 88852,
+     "perSecond": 0.005,
+     "pt": 9,
+     "token": null,
+     "total": 8,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 238,
+     "id": 138248,
+     "perSecond": 0.161,
+     "pt": 9,
+     "token": null,
+     "total": 238,
+     "waste": 13
+    },
+    {
+     "casts": 0,
+     "hits": 362,
+     "id": 220637,
+     "perSecond": 0.245,
+     "pt": 9,
+     "token": "judgment",
+     "total": 362,
+     "waste": 11
+    },
+    {
+     "casts": 27,
+     "hits": 28,
+     "id": 432459,
+     "perSecond": 0.057,
+     "pt": 9,
+     "token": null,
+     "total": 84,
+     "waste": 0
+    },
+    {
+     "casts": 27,
+     "hits": 48,
+     "id": 432472,
+     "perSecond": 0.097,
+     "pt": 9,
+     "token": null,
+     "total": 144,
+     "waste": 7
+    },
+    {
+     "casts": 24,
+     "gain": 1,
+     "hits": 24,
+     "id": 1279187,
+     "pt": 9,
+     "token": "crusader_strike",
+     "total": 24,
+     "waste": 4
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "1279187": {
+     "9": 1
+    },
+    "20473": {
+     "9": 1
+    }
+   },
+   "passive": {
+    "9": 0.565
+   },
+   "seconds": 1478.8,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "paladin_protection": {
+   "detail": [
+    {
+     "casts": 260,
+     "gain": 1,
+     "hits": 262,
+     "id": 204019,
+     "pt": 9,
+     "token": "blessed_hammer",
+     "total": 262,
+     "waste": 3
+    },
+    {
+     "casts": 0,
+     "hits": 371,
+     "id": 220637,
+     "perSecond": 0.354,
+     "pt": 9,
+     "token": "judgment",
+     "total": 371,
+     "waste": 8
+    },
+    {
+     "casts": 19,
+     "gain": 1,
+     "hits": 19,
+     "id": 375576,
+     "pt": 9,
+     "token": "divine_toll",
+     "total": 42,
+     "waste": 2
+    },
+    {
+     "casts": 0,
+     "hits": 136,
+     "id": 1307639,
+     "perSecond": 0.39,
+     "pt": 9,
+     "token": null,
+     "total": 408,
+     "waste": 65
+    }
+   ],
+   "difficulty": 4,
+   "fights": 5,
+   "gains": {
+    "204019": {
+     "9": 1
+    },
+    "375576": {
+     "9": 1
+    }
+   },
+   "passive": {
+    "9": 0.744
+   },
+   "seconds": 1047.2,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "paladin_retribution": {
+   "detail": [
+    {
+     "casts": 170,
+     "hits": 244,
+     "id": 24275,
+     "perSecond": 0.165,
+     "pt": 9,
+     "token": "hammer_of_wrath",
+     "total": 244,
+     "waste": 79
+    },
+    {
+     "casts": 2,
+     "gain": 1,
+     "hits": 2,
+     "id": 155145,
+     "pt": 9,
+     "token": "arcane_torrent",
+     "total": 2,
+     "waste": 0
+    },
+    {
+     "casts": 184,
+     "hits": 391,
+     "id": 184575,
+     "perSecond": 0.53,
+     "pt": 9,
+     "token": "blade_of_justice",
+     "total": 782,
+     "waste": 195
+    },
+    {
+     "casts": 0,
+     "hits": 208,
+     "id": 220637,
+     "perSecond": 0.141,
+     "pt": 9,
+     "token": "judgment",
+     "total": 208,
+     "waste": 5
+    },
+    {
+     "casts": 48,
+     "gain": 3,
+     "hits": 48,
+     "id": 255937,
+     "pt": 9,
+     "token": "wake_of_ashes",
+     "total": 144,
+     "waste": 43
+    },
+    {
+     "casts": 0,
+     "hits": 970,
+     "id": 406834,
+     "perSecond": 0.658,
+     "pt": 9,
+     "token": null,
+     "total": 970,
+     "waste": 220
+    },
+    {
+     "casts": 0,
+     "hits": 80,
+     "id": 1263963,
+     "perSecond": 0.054,
+     "pt": 9,
+     "token": null,
+     "total": 80,
+     "waste": 22
+    },
+    {
+     "casts": 0,
+     "hits": 52,
+     "id": 1279408,
+     "perSecond": 0.035,
+     "pt": 9,
+     "token": "hammer_of_wrath",
+     "total": 52,
+     "waste": 14
+    },
+    {
+     "casts": 0,
+     "hits": 29,
+     "id": 1291678,
+     "perSecond": 0.02,
+     "pt": 9,
+     "token": null,
+     "total": 29,
+     "waste": 23
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "155145": {
+     "9": 1
+    },
+    "255937": {
+     "9": 3
+    }
+   },
+   "passive": {
+    "9": 1.604
+   },
+   "seconds": 1474.6,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "priest_discipline": {
+   "detail": [],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {},
+   "passive": {},
+   "seconds": 1458.6,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "priest_holy": {
+   "detail": [],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {},
+   "passive": {},
+   "seconds": 1349.1,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "priest_shadow": {
+   "detail": [
+    {
+     "casts": 48,
+     "gain": 3,
+     "hits": 48,
+     "id": 589,
+     "pt": 13,
+     "token": "shadow_word_pain",
+     "total": 144,
+     "waste": 0
+    },
+    {
+     "casts": 159,
+     "gain": 6,
+     "hits": 159,
+     "id": 8092,
+     "pt": 13,
+     "token": "mind_blast",
+     "total": 954,
+     "waste": 0
+    },
+    {
+     "casts": 179,
+     "hits": 540,
+     "id": 15407,
+     "perSecond": 1.404,
+     "pt": 13,
+     "token": "mind_flay",
+     "total": 1620,
+     "waste": 0
+    },
+    {
+     "casts": 36,
+     "gain": 4,
+     "hits": 36,
+     "id": 32379,
+     "pt": 13,
+     "token": "shadow_word_death",
+     "total": 144,
+     "waste": 0
+    },
+    {
+     "casts": 15,
+     "gain": 4,
+     "hits": 15,
+     "id": 34914,
+     "pt": 13,
+     "token": "vampiric_touch",
+     "total": 60,
+     "waste": 0
+    },
+    {
+     "casts": 23,
+     "hits": 89,
+     "id": 120644,
+     "perSecond": 0.386,
+     "pt": 13,
+     "token": "halo",
+     "total": 445,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 14,
+     "id": 199579,
+     "perSecond": 0.073,
+     "pt": 13,
+     "token": null,
+     "total": 84,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 116,
+     "id": 262485,
+     "perSecond": 0.101,
+     "pt": 13,
+     "token": null,
+     "total": 116,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 9,
+     "id": 377358,
+     "perSecond": 0.008,
+     "pt": 13,
+     "token": null,
+     "total": 9,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 307,
+     "id": 391232,
+     "perSecond": 0.266,
+     "pt": 13,
+     "token": null,
+     "total": 307,
+     "waste": 0
+    },
+    {
+     "casts": 89,
+     "hits": 344,
+     "id": 391403,
+     "perSecond": 0.596,
+     "pt": 13,
+     "token": "mind_flay_insanity",
+     "total": 688,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 862,
+     "id": 405746,
+     "perSecond": 0.747,
+     "pt": 13,
+     "token": null,
+     "total": 862,
+     "waste": 0
+    },
+    {
+     "casts": 112,
+     "gain": 6,
+     "hits": 112,
+     "id": 1227280,
+     "pt": 13,
+     "token": "tentacle_slam",
+     "total": 672,
+     "waste": 0
+    },
+    {
+     "casts": 161,
+     "hits": 261,
+     "id": 1242173,
+     "perSecond": 1.659,
+     "pt": 13,
+     "token": "void_volley",
+     "total": 1914,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 420,
+     "id": 1243113,
+     "perSecond": 0.016,
+     "pt": 13,
+     "token": null,
+     "total": 18,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 890,
+     "id": 1243114,
+     "perSecond": 0.013,
+     "pt": 13,
+     "token": null,
+     "total": 15,
+     "waste": 0
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "1227280": {
+     "13": 6
+    },
+    "32379": {
+     "13": 4
+    },
+    "34914": {
+     "13": 4
+    },
+    "589": {
+     "13": 3
+    },
+    "8092": {
+     "13": 6
+    }
+   },
+   "passive": {
+    "13": 5.269
+   },
+   "seconds": 1153.5,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "rogue_assassination": {
+   "detail": [
+    {
+     "casts": 67,
+     "gain": 1,
+     "hits": 67,
+     "id": 703,
+     "pt": 4,
+     "token": "garrote",
+     "total": 67,
+     "waste": 2
+    },
+    {
+     "casts": 324,
+     "gain": 2,
+     "hits": 322,
+     "id": 1329,
+     "pt": 4,
+     "token": "mutilate",
+     "total": 644,
+     "waste": 1
+    },
+    {
+     "casts": 1,
+     "gain": 1,
+     "hits": 1,
+     "id": 5938,
+     "pt": 4,
+     "token": "shiv",
+     "total": 1,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 944,
+     "id": 14189,
+     "perSecond": 0.728,
+     "pt": 4,
+     "token": null,
+     "total": 944,
+     "waste": 115
+    },
+    {
+     "casts": 1,
+     "hits": 1,
+     "id": 25046,
+     "perSecond": 0.012,
+     "pt": 3,
+     "token": null,
+     "total": 15,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 3150,
+     "id": 51637,
+     "perSecond": 4.997,
+     "pt": 3,
+     "token": null,
+     "total": 6482,
+     "waste": 146
+    },
+    {
+     "casts": 0,
+     "hits": 221,
+     "id": 234278,
+     "perSecond": 0.17,
+     "pt": 4,
+     "token": null,
+     "total": 221,
+     "waste": 0
+    },
+    {
+     "casts": 3,
+     "hits": 24,
+     "id": 381623,
+     "perSecond": 1.85,
+     "pt": 3,
+     "token": "thistle_tea",
+     "total": 2400,
+     "waste": 0
+    },
+    {
+     "casts": 23,
+     "gain": 1,
+     "hits": 23,
+     "id": 385627,
+     "pt": 4,
+     "token": "kingsbane",
+     "total": 23,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 18,
+     "id": 394664,
+     "perSecond": 0.028,
+     "pt": 4,
+     "token": null,
+     "total": 36,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 321,
+     "id": 454421,
+     "perSecond": 0.247,
+     "pt": 4,
+     "token": null,
+     "total": 321,
+     "waste": 1
+    },
+    {
+     "casts": 57,
+     "gain": 1,
+     "hits": 57,
+     "id": 1247227,
+     "pt": 4,
+     "token": "crimson_tempest",
+     "total": 57,
+     "waste": 1
+    },
+    {
+     "casts": 0,
+     "hits": 197,
+     "id": 1248010,
+     "perSecond": 0.853,
+     "pt": 3,
+     "token": "deathmark",
+     "total": 1106,
+     "waste": 45
+    },
+    {
+     "casts": 0,
+     "hits": 524,
+     "id": 1249208,
+     "perSecond": 2.12,
+     "pt": 3,
+     "token": null,
+     "total": 2750,
+     "waste": 32
+    },
+    {
+     "casts": 0,
+     "hits": 115,
+     "id": 1265795,
+     "perSecond": 0.089,
+     "pt": 4,
+     "token": null,
+     "total": 115,
+     "waste": 8
+    },
+    {
+     "casts": 5,
+     "gain": 100,
+     "hits": 5,
+     "id": 1298826,
+     "pt": 3,
+     "token": "thistle_tea",
+     "total": 500,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 317,
+     "id": 1298870,
+     "perSecond": 3.025,
+     "pt": 3,
+     "token": null,
+     "total": 3924,
+     "waste": 176
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "1247227": {
+     "4": 1
+    },
+    "1298826": {
+     "3": 100
+    },
+    "1329": {
+     "4": 2
+    },
+    "385627": {
+     "4": 1
+    },
+    "5938": {
+     "4": 1
+    },
+    "703": {
+     "4": 1
+    }
+   },
+   "passive": {
+    "3": 12.855,
+    "4": 1.262
+   },
+   "seconds": 1297.3,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "rogue_outlaw": {
+   "detail": [
+    {
+     "casts": 0,
+     "hits": 738,
+     "id": 35546,
+     "perSecond": 4.561,
+     "pt": 3,
+     "token": null,
+     "total": 5904,
+     "waste": 404
+    },
+    {
+     "casts": 612,
+     "gain": 1,
+     "hits": 208,
+     "id": 185763,
+     "pt": 4,
+     "token": "pistol_shot",
+     "total": 208,
+     "waste": 1
+    },
+    {
+     "casts": 366,
+     "gain": 2,
+     "hits": 366,
+     "id": 193315,
+     "pt": 4,
+     "token": "sinister_strike",
+     "total": 730,
+     "waste": 33
+    },
+    {
+     "casts": 0,
+     "hits": 208,
+     "id": 197834,
+     "perSecond": 0.321,
+     "pt": 4,
+     "token": "sinister_strike",
+     "total": 415,
+     "waste": 217
+    },
+    {
+     "casts": 0,
+     "hits": 107,
+     "id": 271896,
+     "perSecond": 0.413,
+     "pt": 3,
+     "token": "blade_rush",
+     "total": 535,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 16,
+     "id": 381623,
+     "perSecond": 1.236,
+     "pt": 3,
+     "token": null,
+     "total": 1600,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 130,
+     "id": 394120,
+     "perSecond": 0.402,
+     "pt": 4,
+     "token": null,
+     "total": 520,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 46,
+     "id": 395424,
+     "perSecond": 0.249,
+     "pt": 4,
+     "token": null,
+     "total": 322,
+     "waste": 106
+    },
+    {
+     "casts": 61,
+     "hits": 61,
+     "id": 426586,
+     "perSecond": 0.093,
+     "pt": 4,
+     "token": null,
+     "total": 121,
+     "waste": 28
+    },
+    {
+     "casts": 0,
+     "hits": 328,
+     "id": 1235074,
+     "perSecond": 0.253,
+     "pt": 4,
+     "token": "killing_spree",
+     "total": 328,
+     "waste": 88
+    },
+    {
+     "casts": 0,
+     "hits": 605,
+     "id": 1254567,
+     "perSecond": 0.467,
+     "pt": 4,
+     "token": "opportunity",
+     "total": 605,
+     "waste": 39
+    },
+    {
+     "casts": 0,
+     "hits": 923,
+     "id": 1258235,
+     "perSecond": 0.713,
+     "pt": 4,
+     "token": null,
+     "total": 923,
+     "waste": 28
+    },
+    {
+     "casts": 0,
+     "hits": 26,
+     "id": 1279356,
+     "perSecond": 0.121,
+     "pt": 4,
+     "token": null,
+     "total": 156,
+     "waste": 16
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "185763": {
+     "4": 1
+    },
+    "193315": {
+     "4": 2
+    }
+   },
+   "passive": {
+    "3": 6.211,
+    "4": 2.619
+   },
+   "seconds": 1294.4,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "rogue_subtlety": {
+   "detail": [
+    {
+     "casts": 282,
+     "gain": 1,
+     "hits": 282,
+     "id": 53,
+     "pt": 4,
+     "token": "backstab",
+     "total": 292,
+     "waste": 153
+    },
+    {
+     "casts": 0,
+     "hits": 588,
+     "id": 98440,
+     "perSecond": 14.257,
+     "pt": 3,
+     "token": null,
+     "total": 18172,
+     "waste": 356
+    },
+    {
+     "casts": 1,
+     "gain": 1,
+     "hits": 1,
+     "id": 114014,
+     "pt": 4,
+     "token": "shuriken_toss",
+     "total": 1,
+     "waste": 1
+    },
+    {
+     "casts": 164,
+     "gain": 2,
+     "hits": 164,
+     "id": 185438,
+     "pt": 4,
+     "token": "shadowstrike",
+     "total": 442,
+     "waste": 110
+    },
+    {
+     "casts": 0,
+     "hits": 2483,
+     "id": 196911,
+     "perSecond": 9.741,
+     "pt": 3,
+     "token": "shadow_techniques",
+     "total": 12415,
+     "waste": 2865
+    },
+    {
+     "casts": 0,
+     "hits": 329,
+     "id": 196980,
+     "perSecond": 1.255,
+     "pt": 3,
+     "token": null,
+     "total": 1600,
+     "waste": 0
+    },
+    {
+     "casts": 115,
+     "hits": 115,
+     "id": 212743,
+     "perSecond": 0.233,
+     "pt": 4,
+     "token": null,
+     "total": 297,
+     "waste": 79
+    },
+    {
+     "casts": 0,
+     "hits": 92,
+     "id": 343170,
+     "perSecond": 0.505,
+     "pt": 4,
+     "token": "premeditation",
+     "total": 644,
+     "waste": 459
+    },
+    {
+     "casts": 0,
+     "hits": 582,
+     "id": 426595,
+     "perSecond": 2.545,
+     "pt": 4,
+     "token": "shadow_techniques",
+     "total": 3244,
+     "waste": 0
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "114014": {
+     "4": 1
+    },
+    "185438": {
+     "4": 2
+    },
+    "53": {
+     "4": 1
+    }
+   },
+   "passive": {
+    "3": 25.253,
+    "4": 3.283
+   },
+   "seconds": 1274.6,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "shaman_elemental": {
+   "detail": [
+    {
+     "casts": 236,
+     "hits": 320,
+     "id": 51505,
+     "perSecond": 2.53,
+     "pt": 11,
+     "token": "lava_burst",
+     "total": 2335,
+     "waste": 49
+    },
+    {
+     "casts": 35,
+     "gain": 3,
+     "hits": 35,
+     "id": 188389,
+     "pt": 11,
+     "token": "flame_shock",
+     "total": 105,
+     "waste": 6
+    },
+    {
+     "casts": 0,
+     "hits": 123,
+     "id": 195897,
+     "perSecond": 0.602,
+     "pt": 11,
+     "token": null,
+     "total": 556,
+     "waste": 16
+    },
+    {
+     "casts": 0,
+     "hits": 254,
+     "id": 214815,
+     "perSecond": 1.651,
+     "pt": 11,
+     "token": "lightning_bolt",
+     "total": 1524,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 339,
+     "id": 214816,
+     "perSecond": 0.735,
+     "pt": 11,
+     "token": null,
+     "total": 678,
+     "waste": 4
+    },
+    {
+     "casts": 0,
+     "hits": 163,
+     "id": 218558,
+     "perSecond": 0.431,
+     "pt": 11,
+     "token": null,
+     "total": 398,
+     "waste": 46
+    },
+    {
+     "casts": 0,
+     "hits": 402,
+     "id": 285466,
+     "perSecond": 1.583,
+     "pt": 11,
+     "token": null,
+     "total": 1461,
+     "waste": 54
+    },
+    {
+     "casts": 43,
+     "gain": 6,
+     "hits": 43,
+     "id": 470057,
+     "pt": 11,
+     "token": "voltaic_blaze",
+     "total": 258,
+     "waste": 0
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "188389": {
+     "11": 3
+    },
+    "470057": {
+     "11": 6
+    }
+   },
+   "passive": {
+    "11": 7.533
+   },
+   "seconds": 922.9,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "shaman_enhancement": {
+   "detail": [],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {},
+   "passive": {},
+   "seconds": 1119.5,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "shaman_restoration": {
+   "detail": [],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {},
+   "passive": {},
+   "seconds": 1283.7,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "warlock_affliction": {
+   "detail": [
+    {
+     "casts": 0,
+     "hits": 230,
+     "id": 17941,
+     "perSecond": 0.199,
+     "pt": 7,
+     "token": "agony",
+     "total": 230,
+     "waste": 2
+    },
+    {
+     "casts": 0,
+     "hits": 7,
+     "id": 31117,
+     "perSecond": 0.006,
+     "pt": 7,
+     "token": "unstable_affliction",
+     "total": 7,
+     "waste": 0
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {},
+   "passive": {
+    "7": 0.205
+   },
+   "seconds": 1153.7,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "warlock_demonology": {
+   "detail": [
+    {
+     "casts": 0,
+     "hits": 309,
+     "id": 194192,
+     "perSecond": 0.217,
+     "pt": 7,
+     "token": "shadow_bolt",
+     "total": 308,
+     "waste": 4
+    },
+    {
+     "casts": 0,
+     "hits": 274,
+     "id": 280127,
+     "perSecond": 0.386,
+     "pt": 7,
+     "token": "demonbolt",
+     "total": 548,
+     "waste": 6
+    },
+    {
+     "casts": 42,
+     "gain": 3,
+     "hits": 42,
+     "id": 434506,
+     "pt": 7,
+     "token": "infernal_bolt",
+     "total": 126,
+     "waste": 1
+    },
+    {
+     "casts": 0,
+     "hits": 256,
+     "id": 1276318,
+     "perSecond": 0.18,
+     "pt": 7,
+     "token": "dominion_of_argus",
+     "total": 256,
+     "waste": 0
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "434506": {
+     "7": 3
+    }
+   },
+   "passive": {
+    "7": 0.784
+   },
+   "seconds": 1418.6,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "warlock_destruction": {
+   "detail": [],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {},
+   "passive": {},
+   "seconds": 1253.2,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "warrior_arms": {
+   "detail": [
+    {
+     "casts": 15,
+     "gain": 20,
+     "hits": 15,
+     "id": 100,
+     "pt": 1,
+     "token": "charge",
+     "total": 297,
+     "waste": 38
+    },
+    {
+     "casts": 50,
+     "gain": 15,
+     "hits": 10,
+     "id": 167105,
+     "pt": 1,
+     "token": "colossus_smash",
+     "total": 149,
+     "waste": 38
+    },
+    {
+     "casts": 0,
+     "hits": 2,
+     "id": 195707,
+     "perSecond": 0.004,
+     "pt": 1,
+     "token": null,
+     "total": 5,
+     "waste": 1
+    },
+    {
+     "casts": 0,
+     "hits": 51,
+     "id": 262232,
+     "perSecond": 0.188,
+     "pt": 1,
+     "token": null,
+     "total": 252,
+     "waste": 103
+    },
+    {
+     "casts": 353,
+     "gain": 20,
+     "hits": 46,
+     "id": 281000,
+     "pt": 1,
+     "token": "execute",
+     "total": 914,
+     "waste": 427
+    },
+    {
+     "casts": 0,
+     "hits": 225,
+     "id": 384362,
+     "perSecond": 0.836,
+     "pt": 1,
+     "token": null,
+     "total": 1119,
+     "waste": 328
+    },
+    {
+     "casts": 0,
+     "hits": 171,
+     "id": 392776,
+     "perSecond": 0.597,
+     "pt": 1,
+     "token": null,
+     "total": 799,
+     "waste": 8
+    },
+    {
+     "casts": 0,
+     "hits": 62,
+     "id": 392793,
+     "perSecond": 0.126,
+     "pt": 1,
+     "token": null,
+     "total": 168,
+     "waste": 8
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "100": {
+     "1": 20
+    },
+    "167105": {
+     "1": 15
+    },
+    "281000": {
+     "1": 20
+    }
+   },
+   "passive": {
+    "1": 1.751
+   },
+   "seconds": 1338.3,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "warrior_fury": {
+   "detail": [
+    {
+     "casts": 13,
+     "gain": 20,
+     "hits": 12,
+     "id": 100,
+     "pt": 1,
+     "token": "charge",
+     "total": 279,
+     "waste": 49
+    },
+    {
+     "casts": 27,
+     "gain": 50,
+     "hits": 27,
+     "id": 1719,
+     "pt": 1,
+     "token": "recklessness",
+     "total": 1345,
+     "waste": 44
+    },
+    {
+     "casts": 69,
+     "gain": 20,
+     "hits": 69,
+     "id": 5308,
+     "pt": 1,
+     "token": "execute",
+     "total": 1894,
+     "waste": 54
+    },
+    {
+     "casts": 60,
+     "gain": 12,
+     "hits": 60,
+     "id": 6343,
+     "pt": 1,
+     "token": "thunder_clap",
+     "total": 603,
+     "waste": 41
+    },
+    {
+     "casts": 91,
+     "gain": 8,
+     "hits": 86,
+     "id": 23881,
+     "pt": 1,
+     "token": "bloodthirst",
+     "total": 728,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 106,
+     "id": 50622,
+     "perSecond": 0.665,
+     "pt": 1,
+     "token": "bladestorm",
+     "total": 724,
+     "waste": 407
+    },
+    {
+     "casts": 187,
+     "gain": 12,
+     "hits": 187,
+     "id": 85288,
+     "pt": 1,
+     "token": "raging_blow",
+     "total": 2243,
+     "waste": 9
+    },
+    {
+     "casts": 0,
+     "hits": 50,
+     "id": 262232,
+     "perSecond": 0.284,
+     "pt": 1,
+     "token": null,
+     "total": 309,
+     "waste": 7
+    },
+    {
+     "casts": 0,
+     "hits": 18,
+     "id": 280715,
+     "perSecond": 0.09,
+     "pt": 1,
+     "token": "whirlwind",
+     "total": 98,
+     "waste": 12
+    },
+    {
+     "casts": 39,
+     "gain": 37,
+     "hits": 39,
+     "id": 280735,
+     "pt": 1,
+     "token": "execute",
+     "total": 1284,
+     "waste": 84
+    },
+    {
+     "casts": 121,
+     "gain": 12,
+     "hits": 75,
+     "id": 335096,
+     "pt": 1,
+     "token": "bloodbath",
+     "total": 968,
+     "waste": 25
+    },
+    {
+     "casts": 134,
+     "gain": 18,
+     "hits": 134,
+     "id": 335097,
+     "pt": 1,
+     "token": "crushing_blow",
+     "total": 2409,
+     "waste": 19
+    },
+    {
+     "casts": 0,
+     "hits": 123,
+     "id": 383978,
+     "perSecond": 0.603,
+     "pt": 1,
+     "token": null,
+     "total": 656,
+     "waste": 105
+    },
+    {
+     "casts": 14,
+     "gain": 30,
+     "hits": 14,
+     "id": 385059,
+     "pt": 1,
+     "token": "odyns_fury",
+     "total": 360,
+     "waste": 50
+    },
+    {
+     "casts": 0,
+     "hits": 78,
+     "id": 392793,
+     "perSecond": 0.419,
+     "pt": 1,
+     "token": null,
+     "total": 456,
+     "waste": 0
+    },
+    {
+     "casts": 76,
+     "gain": 15,
+     "hits": 76,
+     "id": 435222,
+     "pt": 1,
+     "token": "thunder_blast",
+     "total": 998,
+     "waste": 40
+    },
+    {
+     "casts": 0,
+     "hits": 191,
+     "id": 435791,
+     "perSecond": 0.526,
+     "pt": 1,
+     "token": null,
+     "total": 572,
+     "waste": 23
+    }
+   ],
+   "difficulty": 4,
+   "fights": 5,
+   "gains": {
+    "100": {
+     "1": 20
+    },
+    "1719": {
+     "1": 50
+    },
+    "23881": {
+     "1": 8
+    },
+    "280735": {
+     "1": 37
+    },
+    "335096": {
+     "1": 12
+    },
+    "335097": {
+     "1": 18
+    },
+    "385059": {
+     "1": 30
+    },
+    "435222": {
+     "1": 15
+    },
+    "5308": {
+     "1": 20
+    },
+    "6343": {
+     "1": 12
+    },
+    "85288": {
+     "1": 12
+    }
+   },
+   "passive": {
+    "1": 2.586
+   },
+   "seconds": 1088.4,
+   "updated": "2026-11-14",
+   "zone": 53
+  },
+  "warrior_protection": {
+   "detail": [
+    {
+     "casts": 20,
+     "gain": 20,
+     "hits": 18,
+     "id": 100,
+     "pt": 1,
+     "token": "charge",
+     "total": 359,
+     "waste": 42
+    },
+    {
+     "casts": 53,
+     "gain": 20,
+     "hits": 53,
+     "id": 1160,
+     "pt": 1,
+     "token": "demoralizing_shout",
+     "total": 1058,
+     "waste": 64
+    },
+    {
+     "casts": 302,
+     "gain": 5,
+     "hits": 302,
+     "id": 6343,
+     "pt": 1,
+     "token": "thunder_clap",
+     "total": 1510,
+     "waste": 88
+    },
+    {
+     "casts": 446,
+     "gain": 19,
+     "hits": 446,
+     "id": 23922,
+     "pt": 1,
+     "token": "shield_slam",
+     "total": 8723,
+     "waste": 466
+    },
+    {
+     "casts": 0,
+     "hits": 245,
+     "id": 195707,
+     "perSecond": 0.444,
+     "pt": 1,
+     "token": null,
+     "total": 733,
+     "waste": 45
+    },
+    {
+     "casts": 0,
+     "hits": 1240,
+     "id": 236282,
+     "perSecond": 1.5,
+     "pt": 1,
+     "token": null,
+     "total": 2479,
+     "waste": 103
+    },
+    {
+     "casts": 0,
+     "hits": 53,
+     "id": 262232,
+     "perSecond": 0.16,
+     "pt": 1,
+     "token": null,
+     "total": 264,
+     "waste": 3
+    },
+    {
+     "casts": 0,
+     "hits": 267,
+     "id": 334934,
+     "perSecond": 1.613,
+     "pt": 1,
+     "token": "ravager",
+     "total": 2666,
+     "waste": 208
+    },
+    {
+     "casts": 0,
+     "hits": 43,
+     "id": 384362,
+     "perSecond": 0.13,
+     "pt": 1,
+     "token": null,
+     "total": 215,
+     "waste": 0
+    },
+    {
+     "casts": 1,
+     "hits": 35,
+     "id": 385954,
+     "perSecond": 0.424,
+     "pt": 1,
+     "token": "shield_charge",
+     "total": 700,
+     "waste": 24
+    },
+    {
+     "casts": 0,
+     "hits": 50,
+     "id": 392793,
+     "perSecond": 0.179,
+     "pt": 1,
+     "token": null,
+     "total": 295,
+     "waste": 0
+    },
+    {
+     "casts": 55,
+     "gain": 8,
+     "hits": 55,
+     "id": 435222,
+     "pt": 1,
+     "token": "thunder_blast",
+     "total": 439,
+     "waste": 35
+    },
+    {
+     "casts": 0,
+     "hits": 136,
+     "id": 435791,
+     "perSecond": 0.247,
+     "pt": 1,
+     "token": null,
+     "total": 408,
+     "waste": 22
+    }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "100": {
+     "1": 20
+    },
+    "1160": {
+     "1": 20
+    },
+    "23922": {
+     "1": 19
+    },
+    "435222": {
+     "1": 8
+    },
+    "6343": {
+     "1": 5
+    }
+   },
+   "passive": {
+    "1": 4.696
+   },
+   "seconds": 1652.4,
+   "updated": "2026-11-14",
+   "zone": 53
+  }
+ }
+}

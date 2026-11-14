@@ -139,6 +139,7 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
   },
   heroTrees = {},
   key = "druid_guardian",
+  passiveGain = { [1] = 8.523, [8] = 0.329 },
   simc = {
     bear = {
       {
@@ -622,7 +623,7 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
     [33917] = {
       ch = 1,
       chcd = 6,
-      gain = { [1] = 12 },
+      gain = { [1] = 17 },
       gcd = 1.5,
       n = "mangle",
       r = 5,

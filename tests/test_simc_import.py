@@ -87,5 +87,18 @@ class AplTests(unittest.TestCase):
             os.remove(path)
 
 
+class MeasuredTests(unittest.TestCase):
+    def test_measured_gains_and_passive_income(self):
+        info = {194153: {"n": "starfire", "gain": {8: 8}}, 8921: {"n": "moonfire", "gain": {8: 8}}}
+        record = {}
+        measured = {"midnight": {"druid_balance": {"gains": {"194153": {"8": 12}, "8921": {"8": 8}, "999": {"8": 5}},
+                                                   "passive": {"8": 3.9, "1": 0}}}}
+        changes = si.apply_measured(record, info, "midnight", "druid_balance", measured)
+        self.assertEqual(info[194153]["gain"][8], 12)
+        self.assertEqual(changes, ["starfire pt8 8->12"])
+        self.assertEqual(record["passiveGain"], {8: 3.9})
+        self.assertEqual(si.apply_measured({}, info, "forever", "druid_balance", measured), [])
+
+
 if __name__ == "__main__":
     unittest.main()

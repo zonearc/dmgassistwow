@@ -2656,7 +2656,35 @@ function S.RegenSeen()
   return regenSeen
 end
 
+-- Income per second while fighting that no cast of ours explains (Shooting Stars' Astral Power, Combat Potency's
+-- Energy, passive talents), measured in real fights (tools/wcl-resources.py -> the spec data's passiveGain): top
+-- Balance druids got ~3.9 Astral Power a second from it and Outlaw rogues ~6.2 Energy, none of which we counted
+-- (2026-11-14). Not for resources the game shows in combat (combo points: counted from what we see).
+function S.PassiveGain(pt)
+  if not S.combatStart then
+    return 0
+  end
+  for _, d in pairs(ns.Clues.DISCRETE) do
+    if d == pt then
+      return 0
+    end
+  end
+  if S.REGEN_BASE[pt] then
+    -- Energy / Focus: not yet. Part of what the reader counts as passive is tied to finishers (Subtlety's
+    -- Relentless Strikes refunds ~14 Energy a second), and adding it moved slot 2 off in the every-spec check.
+    return 0
+  end
+  local state = ns.Specs and ns.Specs.current
+  local p = state and type(state.data) == "table" and state.data.passiveGain
+  return type(p) == "table" and tonumber(p[pt]) or 0
+end
+
+local BaseRegen
 function S.RegenRate(pt)
+  return BaseRegen(pt) + S.PassiveGain(pt)
+end
+
+function BaseRegen(pt)
   local base = S.REGEN_BASE[pt]
   if not base then
     return 0

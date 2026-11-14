@@ -142,6 +142,22 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.273: Warcraft Logs (owner's paid month; access token saved as the environment's credential).
+  tools/wcl-resources.py: per spec, the top heroic player on each boss of The Venomous Abyss (6 fights), their
+  resource events (every gain with its ability) and casts -> data/resource-gains.json: per-cast gains of spells
+  you cast, passive income per second (procs, ticking spells, talents). ~1200 of 9000 points/hour for all specs.
+  Found: Balance Starfire 12 (data 8), Moonfire 8 (6), Shooting Stars ~2.8 AP/s and ~5 AP/s passive in all;
+  Outlaw ~6.2 Energy/s from procs (Combat Potency). simc_import folds it in (gains; record.passiveGain).
+  Addon: State.PassiveGain / RegenRate add passive income in combat (look-ahead in full; our count at
+  Clues.PASSIVE_SHARE 0.6, still a lower bound); not for combo points etc. Balance check on 1.6.0.272:
+  Astral Power, Energy, Rage read "secret, never ok" all session even out of combat - the count never started.
+  Now hidden built resources (not Energy / Focus) get a count at each pull (Clues.SeedFloors): Astral Power full
+  after 5 s out of combat (owner: "always starts at 100 out of combat and refreshes within seconds"), others 0;
+  the game's "not affordable" brings it down (Calibrate.Snap -> CapFloor). Measured passive Energy / Focus held
+  back: part of it is finisher refunds (Subtlety Relentless Strikes ~14/s), and adding it regressed Subtlety
+  slot 2 and Survival leveling cooldowns in the every-spec check; the reader needs to tell refunds apart first. Back-to-back
+  notes: the lane keeps them at least an icon + GAP_MIN apart; at the owner's scale 8 px was ~3 px on screen,
+  so they looked touching; GAP_MIN 20.
 - 1.6.0.272: Balance check on 1.6.0.271: Astral Power still not counted (floors_at_pull had no 8; Rage and Energy
   missing too) although readability shows it readable out of combat. floors_at_pull now says, per resource, how
   it read last ("ok" / "secret") and when it last read as a number. Back-to-back notes not caught: lane_close

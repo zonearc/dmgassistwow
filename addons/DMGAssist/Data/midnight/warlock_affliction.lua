@@ -244,6 +244,7 @@ ns.RegisterSpecData("midnight", "warlock_affliction", {
     },
   },
   key = "warlock_affliction",
+  passiveGain = { [7] = 0.205 },
   simc = {
     HC_aoe = {
       {

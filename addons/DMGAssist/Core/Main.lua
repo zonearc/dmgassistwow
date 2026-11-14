@@ -576,6 +576,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     end
   elseif event == "PLAYER_REGEN_DISABLED" then
     S.VerifyPowers() -- the last readable values before the game hides them
+    ns.Clues.SeedFloors(ns.combatEndedAt and GetTime() - ns.combatEndedAt or nil) -- (hidden even out of combat)
     inCombat = true
     stuck.ignored, stuck.snapped = 0, {}
     lastLogged = nil -- the first pick of every fight is logged (and traced)
@@ -596,6 +597,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
       end)
     end
   elseif event == "PLAYER_REGEN_ENABLED" then
+    ns.combatEndedAt = GetTime()
     inCombat = false
     S.OnCombat(false)
     ns.Options.OnCombatEnded() -- after the combat flags clear

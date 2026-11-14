@@ -210,6 +210,7 @@ ns.RegisterSpecData("midnight", "rogue_assassination", {
   },
   heroTrees = {},
   key = "rogue_assassination",
+  passiveGain = { [3] = 12.855, [4] = 1.262 },
   simc = {
     cds = {
       {

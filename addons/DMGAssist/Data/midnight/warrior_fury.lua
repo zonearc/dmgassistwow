@@ -189,6 +189,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
   },
   heroTrees = {},
   key = "warrior_fury",
+  passiveGain = { [1] = 2.586 },
   simc = {
     default = {
       {
@@ -925,6 +926,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       },
       cd = 90,
       d = 12,
+      gain = { [1] = 50 },
       n = "recklessness",
       tal = true,
     },
@@ -932,6 +934,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       cd = 6,
       cmax = { [1] = 40 },
       cost = { [1] = 20 },
+      gain = { [1] = 20 },
       gcd = 1.5,
       n = "execute",
       r = 5,
@@ -939,7 +942,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     [6343] = {
       cd = 6,
       cost = { [1] = 20 },
-      gain = { [1] = 5 },
+      gain = { [1] = 12 },
       gcd = 1.5,
       n = "thunder_clap",
       tal = true,
@@ -1290,6 +1293,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       cd = 4.5,
       cmax = { [1] = 40 },
       cost = { [1] = 20 },
+      gain = { [1] = 37 },
       gcd = 1.5,
       n = "execute",
       r = 5,
@@ -1324,7 +1328,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     },
     [335096] = {
       cd = 4.5,
-      gain = { [1] = 8 },
+      gain = { [1] = 12 },
       gcd = 1.5,
       n = "bloodbath",
       r = 5,
@@ -1332,7 +1336,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     [335097] = {
       ch = 1,
       chcd = 8,
-      gain = { [1] = 12 },
+      gain = { [1] = 18 },
       gcd = 1.5,
       n = "crushing_blow",
       r = 5,
@@ -1376,7 +1380,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
         { 385060, "enemy" },
       },
       cd = 45,
-      gain = { [1] = 20 },
+      gain = { [1] = 30 },
       gcd = 1.5,
       n = "odyns_fury",
       tal = true,
@@ -1435,7 +1439,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     },
     [435222] = {
       cd = 6,
-      gain = { [1] = 7 },
+      gain = { [1] = 15 },
       gcd = 1.5,
       n = "thunder_blast",
     },

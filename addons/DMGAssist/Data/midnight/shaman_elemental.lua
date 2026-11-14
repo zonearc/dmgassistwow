@@ -225,6 +225,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
   },
   heroTrees = {},
   key = "shaman_elemental",
+  passiveGain = { [11] = 7.533 },
   simc = {
     aoe = {
       {
@@ -1264,6 +1265,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     },
     [470057] = {
       cd = 10,
+      gain = { [11] = 6 },
       gcd = 1.5,
       n = "voltaic_blaze",
       r = 40,

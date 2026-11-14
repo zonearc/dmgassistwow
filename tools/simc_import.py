@@ -479,6 +479,38 @@ EXTRA_VOLATILE = EXTRA_LINKS.pop("volatile", {}) if isinstance(EXTRA_LINKS.get("
 EXTRA_LINKS = {k: v for k, v in EXTRA_LINKS.items() if not k.startswith("_")}
 
 
+# Resource gains measured in real fights (tools/wcl-resources.py -> data/resource-gains.json), per branch and spec:
+# "gains" {spellID: {powerType: per cast}} and "passive" {powerType: per second}.
+_measured_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "resource-gains.json")
+MEASURED = json.load(open(_measured_path, encoding="utf-8")) if os.path.exists(_measured_path) else {}
+
+
+def apply_measured(record, info, branch, spec, measured=None):
+    """Fold measured gains into the spec's spell data: a spell's measured gain per cast replaces SimC's where they
+    differ (whole points), and passive income per second (procs, passive talents) goes into record.passiveGain.
+    Returns the changes, for the summary."""
+    m = (measured if measured is not None else MEASURED).get(branch, {}).get(spec)
+    if not m:
+        return []
+    changes = []
+    for sid, gains in sorted(m.get("gains", {}).items()):
+        sp = info.get(int(sid))
+        if not sp:
+            continue
+        for pt, amount in sorted(gains.items()):
+            pt, v = int(pt), int(round(amount))
+            if v <= 0:
+                continue
+            g = sp.setdefault("gain", {})
+            if g.get(pt) != v:
+                changes.append("%s pt%d %s->%d" % (sp.get("n", sid), pt, g.get(pt, 0), v))
+                g[pt] = v
+    passive = {int(pt): v for pt, v in m.get("passive", {}).items() if v and v > 0}
+    if passive:
+        record["passiveGain"] = dict(sorted(passive.items()))
+    return changes
+
+
 def import_branch(simc_root, branch, out_root, errors, wowsims_root=None):
     base = os.path.join(simc_root, branch, "ActionPriorityLists")
     sha, date = git_info(os.path.join(simc_root, branch))
@@ -578,6 +610,7 @@ def import_branch(simc_root, branch, out_root, errors, wowsims_root=None):
             ids, info = simc_spells.select(class_spells[cls], refs, others, this)
             record["spells"] = ids
             record["spellInfo"] = info
+            apply_measured(record, info, branch, spec)  # measured in real fights (data/resource-gains.json)
             record["heroTrees"] = simc_spells.hero_trees(class_spells[cls], refs["hero"])
             # Two sources, merged: SimC's class modules (the code that simulates the class: complete and tested)
             # and the game's own spell descriptions. tools/simc_modules.py, tools/simc_spells.py.

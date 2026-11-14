@@ -213,6 +213,7 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
     },
   },
   key = "rogue_outlaw",
+  passiveGain = { [3] = 6.211, [4] = 2.619 },
   simc = {
     build = {
       {
@@ -673,7 +674,7 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
     },
     [193315] = {
       cost = { [3] = 45 },
-      gain = { [4] = 1 },
+      gain = { [4] = 2 },
       gcd = 1,
       n = "sinister_strike",
       r = 5,

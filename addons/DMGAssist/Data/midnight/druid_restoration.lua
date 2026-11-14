@@ -129,6 +129,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
   },
   heroTrees = {},
   key = "druid_restoration",
+  passiveGain = { [8] = 0.771 },
   simc = {
     cat = {
       {
@@ -441,7 +442,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
       n = "bear_form",
     },
     [8921] = {
-      gain = { [8] = 6 },
+      gain = { [8] = 8 },
       gcd = 1.5,
       n = "moonfire",
       r = 40,
@@ -687,7 +688,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
     },
     [190984] = {
       ct = 1.5,
-      gain = { [8] = 6 },
+      gain = { [8] = 8 },
       gcd = 1.5,
       n = "wrath",
       r = 40,
@@ -702,7 +703,7 @@ ns.RegisterSpecData("midnight", "druid_restoration", {
     },
     [194153] = {
       ct = 2.25,
-      gain = { [8] = 8 },
+      gain = { [8] = 12 },
       gcd = 1.5,
       n = "starfire",
       r = 40,

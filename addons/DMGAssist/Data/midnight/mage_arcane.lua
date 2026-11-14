@@ -166,6 +166,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
   },
   heroTrees = {},
   key = "mage_arcane",
+  passiveGain = { [16] = 1.868 },
   simc = {
     cooldowns = {
       {
@@ -560,6 +561,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
     },
     [30451] = {
       ct = 2.25,
+      gain = { [16] = 1 },
       gcd = 1.5,
       n = "arcane_blast",
       r = 40,
@@ -726,6 +728,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
       cd = 0.5,
       ch = 1,
       chcd = 45,
+      gain = { [16] = 4 },
       n = "touch_of_the_magi",
       r = 40,
       st = 1,
@@ -890,6 +893,7 @@ ns.RegisterSpecData("midnight", "mage_arcane", {
     },
     [1295924] = {
       ct = 2.5,
+      gain = { [16] = 4 },
       gcd = 1.5,
       n = "prismatic_bolt",
       r = 40,

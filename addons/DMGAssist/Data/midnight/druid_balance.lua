@@ -242,6 +242,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     },
   },
   key = "druid_balance",
+  passiveGain = { [8] = 5.133 },
   simc = {
     aoe = {
       {
@@ -904,7 +905,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
       r = 40,
     },
     [8921] = {
-      gain = { [8] = 6 },
+      gain = { [8] = 8 },
       gcd = 1.5,
       n = "moonfire",
       r = 40,
@@ -1079,7 +1080,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     },
     [190984] = {
       ct = 1.5,
-      gain = { [8] = 6 },
+      gain = { [8] = 8 },
       gcd = 1.5,
       n = "wrath",
       r = 40,
@@ -1099,7 +1100,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     },
     [194153] = {
       ct = 2.25,
-      gain = { [8] = 8 },
+      gain = { [8] = 12 },
       gcd = 1.5,
       n = "starfire",
       r = 40,

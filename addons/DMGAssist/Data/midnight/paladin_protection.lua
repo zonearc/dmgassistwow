@@ -165,6 +165,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
   },
   heroTrees = {},
   key = "paladin_protection",
+  passiveGain = { [9] = 0.744 },
   simc = {
     default = {
       {
@@ -838,6 +839,7 @@ ns.RegisterSpecData("midnight", "paladin_protection", {
     },
     [375576] = {
       cd = 60,
+      gain = { [9] = 1 },
       gcd = 1.5,
       n = "divine_toll",
       r = 30,

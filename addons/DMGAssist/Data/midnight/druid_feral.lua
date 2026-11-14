@@ -210,6 +210,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
     },
   },
   key = "druid_feral",
+  passiveGain = { [3] = 3.564, [4] = 1.015 },
   simc = {
     aoe_builder = {
       {
@@ -914,7 +915,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
     },
     [106785] = {
       cost = { [3] = 35 },
-      gain = { [4] = 1 },
+      gain = { [4] = 2 },
       gcd = 1,
       n = "swipe",
       r = 8,

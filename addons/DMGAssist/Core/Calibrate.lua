@@ -215,7 +215,7 @@ function K.Snap()
   local now = GetTime()
   local bracket
   for pt, f in pairs(C.floor) do
-    if f.moved then
+    if f.moved or f.seeded then
       bracket = bracket or C.Affordability()
       local a = bracket[pt]
       local lo = C.FloorBounds(pt)
@@ -226,7 +226,9 @@ function K.Snap()
       -- where the data said 8) is exactly what this is for; free procs there light the spell up and are skipped.
       local ceiling = C.REGEN[pt] and C.FloorCeiling(pt)
       local free = waiting or (ceiling and a and a.lo > ceiling)
-      if a and lo and not free and a.lo > lo + 0.5 then
+      if a and lo and a.hi < lo then
+        C.CapFloor(pt, a.hi) -- the game: a spender we counted as affordable isn't: the count comes down
+      elseif a and lo and not free and a.lo > lo + 0.5 then
         local short = a.lo - lo
         C.RaiseFloor(pt, a.lo)
         K.Attribute(pt, short)

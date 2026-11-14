@@ -201,6 +201,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
   },
   heroTrees = {},
   key = "monk_windwalker",
+  passiveGain = { [12] = 0.202 },
   simc = {
     big_coc = {
       {

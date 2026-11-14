@@ -72,7 +72,7 @@ G.EXPIRE = 1.2
 -- been passed over PASS_MAX times; it's back when it's slot 1 (the most a real slot 3 is passed over is twice).
 G.PASS_MAX = 3
 G.IDLE_PAUSE = 6    -- no spell for this long (running, catching up to the group): the lanes pause
-G.GAP_MIN = 8       -- pixels between two notes at the least, whatever their times
+G.GAP_MIN = 20       -- pixels between two notes at the least, whatever their times
 G.CLOSE_T, G.CLOSE_LOGS = 0.5, 15 -- lane_close: notes closer than this (s), at most this many lines a fight
 G.laneNow = {}
 

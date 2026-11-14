@@ -3898,6 +3898,45 @@ test("hidden resources: read while the HUD is hidden (no target), so the count s
   eq(ns.Clues.floor[8] ~= nil and ns.Clues.floor[8].lo, 30, "read anyway")
 end)
 
+test("passive income: measured per spec, counted in the look-ahead in full and in our count at a safe share", function()
+  -- Balance 2026-11-14: Shooting Stars gave top druids ~3.9 Astral Power a second; we counted none
+  Reset()
+  local ns = Boot()
+  local S, C = ns.State, ns.Clues
+  ns.Specs.current = { key = "druid_balance", status = "ready", branch = "midnight", client = "Midnight",
+    data = { passiveGain = { [8] = 4, [4] = 2 } } }
+  eq(S.RegenRate(8), 0, "out of combat: nothing")
+  S.combatStart = GetTime()
+  eq(S.RegenRate(8), 4, "fighting: the measured rate")
+  ns.Specs.current.data.passiveGain[3] = 6
+  eq(S.PassiveGain(3), 0, "Energy: not yet (finisher refunds counted as passive)")
+  eq(S.PassiveGain(4), 0, "combo points: counted from what the game shows instead")
+  C.SyncFloor(8, 10, 100)
+  mock.Advance(10)
+  eq(math.floor(C.FloorBounds(8) + 0.5), 10 + 24, "our count: 60% of it (procs can run below average)")
+  S.combatStart = nil
+end)
+
+test("hidden even out of combat: the count starts from a safe 0 at every pull and builds from our casts", function()
+  -- Balance 2026-11-14: Astral Power "secret, never ok" all session, so it was never counted at all
+  Reset()
+  local ns = Boot()
+  local C, M = ns.Clues, ns.SpellMap
+  M.info[194153] = { n = "starfire", gain = { [8] = 12 } }
+  C.SeedFloors(2)
+  eq(C.FloorBounds(8), 0, "back in combat 2 s after the last fight: from nothing")
+  eq(C.floor[3], nil, "Energy: left to affordability and regeneration")
+  C.OnOwnCast(194153)
+  eq(C.FloorBounds(8), 12)
+  C.SeedFloors(30)
+  eq(C.FloorBounds(8), 100, "30 s out of combat: Astral Power refilled (owner: starts at 100)")
+  C.Affordability = function() return { [8] = { lo = 0, hi = 39 } } end -- Starsurge (40) out of reach
+  ns.State.combatStart = GetTime()
+  ns.Calibrate.Snap()
+  eq(C.FloorBounds(8), 39, "the game says otherwise: the count comes down")
+  ns.State.combatStart = nil
+end)
+
 test("learner (shadow): learns what you press next per situation, scores itself against slot 2, keeps it", function()
   Reset()
   local logged = {}
@@ -4734,10 +4773,11 @@ test("resource floors: energy regenerates at least at base rate, spenders cost, 
   Restrict()
   mock.Advance(2)
   local lo = ns.Clues.FloorBounds(3)
-  eq(math.floor(lo + 0.5), 40, "20 + 2 s x 10/s")
+  local passive = ns.Clues.PASSIVE_SHARE * ns.State.PassiveGain(3) -- (proc Energy: 0 for now)
+  eq(math.floor(lo + 0.5), math.floor(20 + 2 * (10 + passive) + 0.5), "20 + 2 s x (10/s + a safe share of procs)")
   mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5221) -- shred costs 40
   lo = ns.Clues.FloorBounds(3)
-  eq(math.floor(lo + 0.5), 0, "spent 40")
+  eq(math.floor(lo + 0.5), math.max(0, math.floor(20 + 2 * (10 + passive) - 40 + 0.5)), "spent 40")
   eq(ns.State.Bounds("energy") ~= nil, true, "the engine sees a range")
   local logged = {}
   DMGAssistWatchdog = { Log = function(kind, data) logged[kind] = data end }
@@ -6651,6 +6691,7 @@ test("slots 2-3: Starfall (50 Astral Power, known only '34 or more') isn't promi
   Feral(ns, rec)
   mock.powerMax[8] = 100
   mock.inCombat, mock.restricted = true, true
+  ns.combatEndedAt = GetTime() -- straight from the last fight: no "refilled to full" start
   mock.Fire("PLAYER_REGEN_DISABLED")
   C.bounds[8] = { lo = 34, hi = math.huge, untilT = GetTime() + 10, source = "usable" }
   S.BeginLookahead(0)

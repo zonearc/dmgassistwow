@@ -180,6 +180,7 @@ ns.RegisterSpecData("midnight", "rogue_subtlety", {
   },
   heroTrees = {},
   key = "rogue_subtlety",
+  passiveGain = { [3] = 25.253, [4] = 3.283 },
   simc = {
     build = {
       {

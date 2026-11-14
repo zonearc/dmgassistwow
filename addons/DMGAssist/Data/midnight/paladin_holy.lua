@@ -17,6 +17,7 @@ ns.RegisterSpecData("midnight", "paladin_holy", {
   },
   heroTrees = {},
   key = "paladin_holy",
+  passiveGain = { [9] = 0.565 },
   simc = {
     default = {
       {

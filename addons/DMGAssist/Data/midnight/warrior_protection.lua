@@ -208,6 +208,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
     },
   },
   key = "warrior_protection",
+  passiveGain = { [1] = 4.696 },
   simc = {
     colossus_aoe = {
       {
@@ -610,6 +611,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       },
       cd = 45,
       d = 8,
+      gain = { [1] = 20 },
       gcd = 1.5,
       n = "demoralizing_shout",
       tal = true,
@@ -694,7 +696,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
       },
       cd = 9,
       d = 8,
-      gain = { [1] = 22 },
+      gain = { [1] = 19 },
       gcd = 1.5,
       n = "shield_slam",
       r = 5,
@@ -1047,7 +1049,7 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
     },
     [435222] = {
       cd = 6,
-      gain = { [1] = 7 },
+      gain = { [1] = 8 },
       gcd = 1.5,
       n = "thunder_blast",
     },

@@ -172,6 +172,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
   },
   heroTrees = {},
   key = "warrior_arms",
+  passiveGain = { [1] = 1.751 },
   simc = {
     colossus_aoe = {
       {
@@ -1210,6 +1211,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
         { 208086, "self" },
       },
       cd = 45,
+      gain = { [1] = 15 },
       gcd = 1.5,
       n = "colossus_smash",
       tal = true,
@@ -1399,6 +1401,7 @@ ns.RegisterSpecData("midnight", "warrior_arms", {
       cd = 6,
       cmax = { [1] = 40 },
       cost = { [1] = 20 },
+      gain = { [1] = 20 },
       gcd = 1.5,
       n = "execute",
       r = 5,

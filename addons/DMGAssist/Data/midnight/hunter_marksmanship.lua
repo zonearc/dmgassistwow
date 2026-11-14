@@ -204,6 +204,7 @@ ns.RegisterSpecData("midnight", "hunter_marksmanship", {
     },
   },
   key = "hunter_marksmanship",
+  passiveGain = { [2] = 5.447 },
   simc = {
     cds = {
       {

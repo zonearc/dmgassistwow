@@ -134,6 +134,7 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
   },
   heroTrees = {},
   key = "hunter_survival",
+  passiveGain = { [2] = 5.912 },
   simc = {
     cds = {
       {
@@ -603,7 +604,7 @@ ns.RegisterSpecData("midnight", "hunter_survival", {
     [259489] = {
       ch = 2,
       chcd = 5,
-      gain = { [2] = 15 },
+      gain = { [2] = 20 },
       gcd = 1.5,
       n = "kill_command",
       r = 50,

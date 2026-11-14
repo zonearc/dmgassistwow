@@ -128,6 +128,7 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
   },
   heroTrees = {},
   key = "hunter_beast_mastery",
+  passiveGain = { [2] = 14.236 },
   simc = {
     cds = {
       {

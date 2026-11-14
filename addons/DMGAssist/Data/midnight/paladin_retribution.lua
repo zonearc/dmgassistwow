@@ -212,6 +212,7 @@ ns.RegisterSpecData("midnight", "paladin_retribution", {
   },
   heroTrees = {},
   key = "paladin_retribution",
+  passiveGain = { [9] = 1.604 },
   simc = {
     cooldowns = {
       {
