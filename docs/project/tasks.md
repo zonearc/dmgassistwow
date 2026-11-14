@@ -142,6 +142,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.265: Faster testing (owner, 2026-11-14: "feels like we'll do this 300 more times"). Mark key (Key Bindings >
+  DMGAssist "Mark this moment", or /dmga mark): logs `mark` (slots with sources and readyAt, the Flow lane as drawn:
+  spell, time, x, hold; GCD left; resources) plus a full decision snapshot. `lane_close`: two Flow notes drawn under
+  0.5 s apart, with both spells, times, GCD and hold (15 a fight). `resource_audit` per fight: each spell's data
+  gain/cost against the readable resource's real change 0.5 s after the cast. tools/prediction-report.py prints them.
 - 1.6.0.264: Balance report (83 s AoE, exported mid-fight). Slot 2 (SimC look-ahead) 29/51 = 57%; 13 of 22 misses
   predicted a repeat of slot 1 (Starfall>Starfall, Starfire>Starfire) while play alternated: Astral Power is hidden
   and our data has Starfire's base 8 (Lunar Eclipse and talents raise it). Learner: specs without a combo-point-like

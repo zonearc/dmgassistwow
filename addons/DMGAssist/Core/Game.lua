@@ -73,6 +73,18 @@ G.EXPIRE = 1.2
 G.PASS_MAX = 3
 G.IDLE_PAUSE = 6    -- no spell for this long (running, catching up to the group): the lanes pause
 G.GAP_MIN = 8       -- pixels between two notes at the least, whatever their times
+G.CLOSE_T, G.CLOSE_LOGS = 0.5, 15 -- lane_close: notes closer than this (s), at most this many lines a fight
+G.laneNow = {}
+
+-- The lane as drawn, for a mark: "spell t=time x=position" per note.
+function G.LaneText()
+  local parts = {}
+  for _, n in ipairs(G.laneNow or {}) do
+    parts[#parts + 1] = string.format("%s%s t=%.2f x=%.0f%s", n.main and "*" or "", tostring(n.s), n.t or 0, n.x or 0,
+      n.hold and n.hold > 0 and string.format(" hold=%.1f", n.hold) or "")
+  end
+  return table.concat(parts, " | ")
+end
 G.GLIDE = 14        -- how fast a note glides to a new place (per second, exponential)
 G.PERFECT, G.GREAT = 0.25, 0.6 -- seconds from the line
 G.SET_GAP = 20      -- seconds out of combat that end a set (and bring the grade)
@@ -888,6 +900,7 @@ function G.Render()
   local actions = 0
   local px = (G.WIDTH - G.HIT_X - G.ICON / 2 - 2) / G.LOOK
   local prevX, prevT -- the lane note before this one
+  G.laneNow = {}
   for _, w in ipairs(want) do
     local n = G.notes[w.key]
     if n and w.lane == 1 and not w.main and prevX then
@@ -979,6 +992,22 @@ function G.Render()
         if math.abs(n.x - target) < 0.5 then
           n.x = target
         end
+      end
+      -- two notes less than G.CLOSE_T apart: logged with their timings (owner, 2026-11-13: "two buttons side by
+      -- side with no gap... it lands on slot 1 then swaps") - at most G.CLOSE_LOGS a fight
+      if w.lane == 1 and prevT and (w.t - prevT) < G.CLOSE_T and (G.closeLogs or 0) < G.CLOSE_LOGS
+        and now - (G.closeAt or 0) > 2 then
+        G.closeLogs, G.closeAt = (G.closeLogs or 0) + 1, now
+        local prev = G.laneNow[#G.laneNow]
+        ns.U.Log("lane_close", { a = prev and prev.s, at = prevT and string.format("%.2f", prevT),
+          b = w.pick and (w.pick.token or w.pick.id), bt = string.format("%.2f", w.t),
+          gcd = string.format("%.2f", (ns.State.GCD and prev and prev.id and ns.State.GCD(prev.id)) or -1),
+          hold = prev and prev.hold and string.format("%.2f", prev.hold) or nil,
+          src = w.pick and w.pick.source, dx = string.format("%.0f", n.x - (prevX or 0)) })
+      end
+      if w.lane == 1 then
+        G.laneNow[#G.laneNow + 1] = { s = w.pick and (w.pick.token or w.pick.id), id = w.pick and w.pick.id, t = w.t,
+          x = n.x, hold = w.hold, main = w.main, src = w.pick and w.pick.source }
       end
       prevX, prevT = n.x, w.t
       -- the note's own timing, for judging a press (Timing): when it reached the line, else how far it still had
@@ -1731,6 +1760,7 @@ end
 -- A fight ends: the streak and score carry on to the next pull; the set ends with the grade (Grade.lua waits
 -- SET_GAP out of combat in Game mode).
 function G.OnCombat(inCombat)
+  G.closeLogs = 0
   if not inCombat and G.streak > 0 then
     SaveBest()
   end

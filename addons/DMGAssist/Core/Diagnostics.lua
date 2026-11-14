@@ -537,6 +537,75 @@ local function TrackMajors(result)
   end
 end
 
+-- Resource audit (asked 2026-11-14: "ensure we are tracking all spends per spell properly"): after each of your
+-- casts in combat, how each readable resource changed AUDIT_AFTER s later, against what our data says the spell
+-- gains / costs. Per fight: resource_audit "starfire pt8 data=+12 seen=+14.0 n=20". Noisy for one cast (other
+-- gains land in between), clear over many. Finishers that spend everything are compared as "all".
+G.AUDIT_AFTER = 0.5
+G.AUDIT_POWERS = { 4, 6, 7, 8, 9, 11, 12, 13, 17 }
+G.audit = {}
+local lastAudit
+function G.AuditCast(id)
+  if not (id and C_Timer and C_Timer.After) then
+    return
+  end
+  local now = GetTime()
+  if lastAudit and lastAudit.base == Base(id) and now - lastAudit.at < G.PRESS_SAME then
+    return
+  end
+  lastAudit = { base = Base(id), at = now }
+  local before = {}
+  for _, pt in ipairs(G.AUDIT_POWERS) do
+    local max = U.Get(UnitPowerMax, "player", pt)
+    local v = U.Get(UnitPower, "player", pt)
+    if type(max) == "number" and max > 0 and type(v) == "number" then
+      before[pt] = v
+    end
+  end
+  if not next(before) then
+    return
+  end
+  local token = ns.SpellMap.TokenForID(id) or tostring(id)
+  local audit = G.audit
+  C_Timer.After(G.AUDIT_AFTER, function()
+    if audit ~= G.audit then
+      return -- a new fight
+    end
+    for pt, v0 in pairs(before) do
+      local v1 = U.Get(UnitPower, "player", pt)
+      if type(v1) == "number" then
+        local key = token .. " pt" .. pt
+        local a = audit[key] or { n = 0, sum = 0, id = id, pt = pt, token = token }
+        audit[key] = a
+        a.n, a.sum = a.n + 1, a.sum + (v1 - v0)
+      end
+    end
+  end)
+end
+
+function G.AuditText()
+  local rows = {}
+  for key, a in pairs(G.audit) do
+    local info = ns.SpellMap.Info(a.id) or {}
+    local gain = info.gain and info.gain[a.pt] or 0
+    local cost = info.cost and info.cost[a.pt] or 0
+    local all = info.cmax and info.cmax[a.pt]
+    local seen = a.sum / a.n
+    if a.n >= 2 and (gain ~= 0 or cost ~= 0 or math.abs(seen) >= 1) then
+      rows[#rows + 1] = { key, string.format("%s data=%s seen=%+.1f n=%d", key,
+        all and "all" or string.format("%+d", gain - cost), seen, a.n), math.abs(seen - (gain - cost)) }
+    end
+  end
+  table.sort(rows, function(x, y)
+    return x[3] > y[3]
+  end)
+  local out = {}
+  for i = 1, math.min(20, #rows) do
+    out[i] = rows[i][2]
+  end
+  return #out > 0 and table.concat(out, " | ") or nil
+end
+
 function G.OnPick(result)
   Settle(result)
   TrackMajors(result)
@@ -579,6 +648,11 @@ function G.Summary()
   U.Log("pick_summary", G.picks)
   U.Log("interrupt_summary", ns.Interrupts.stats)
   CommitChange()
+  local audit = G.AuditText()
+  if audit then
+    U.Log("resource_audit", audit)
+  end
+  G.audit = {}
   local pred = G.PredictionText()
   if pred then
     U.Log("prediction_summary", pred)

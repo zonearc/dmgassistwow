@@ -1736,6 +1736,26 @@ function S.LearnGains()
   end
 end
 
+-- Resources as we see them now, for a mark: exact when readable, else our estimate's range.
+function S.ResourceText()
+  local parts = {}
+  for _, pt in ipairs({ 0, 1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 17 }) do
+    local max = U.Get(UnitPowerMax, "player", pt)
+    if type(max) == "number" and max > 0 then
+      local raw = U.Get(UnitPower, "player", pt)
+      if type(raw) == "number" then
+        parts[#parts + 1] = pt .. "=" .. raw
+      else
+        local lo, hi = ns.Clues.ResourceBounds(pt)
+        local est = S.PowerNow and S.PowerNow(pt)
+        parts[#parts + 1] = string.format("%d=~%s[%s..%s]", pt, tostring(est and math.floor(est + 0.5)), tostring(lo),
+          tostring(hi))
+      end
+    end
+  end
+  return table.concat(parts, " ")
+end
+
 function S.SnapshotReady()
   local now = GetTime()
   S.LearnGains()

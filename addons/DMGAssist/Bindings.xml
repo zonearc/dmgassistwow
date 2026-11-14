@@ -11,4 +11,7 @@
 	<Binding name="DMGASSIST_GAME" category="ADDONS">
 		DMGAssist_ToggleGame()
 	</Binding>
+	<Binding name="DMGASSIST_MARK" category="ADDONS">
+		DMGAssist_Mark()
+	</Binding>
 </Bindings>

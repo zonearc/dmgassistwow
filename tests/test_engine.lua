@@ -2922,6 +2922,40 @@ test("language: the setting picks another language than the game's, applied at l
   ns.SetLocale("enUS")
 end)
 
+test("mark: the moment, labelled, with the slots, the lane as drawn and the resources", function()
+  Reset()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, tostring(data) } end } -- luacheck: ignore 111
+  Boot()
+  DMGAssist_Mark()
+  local mark, snap
+  for _, l in ipairs(logged) do
+    if l[1] == "mark" then mark = l[2] end
+    if l[1] == "snapshot" then snap = true end
+  end
+  eq(mark ~= nil and mark:find("n=1", 1, true) ~= nil, true, tostring(mark))
+  eq(snap, true, "with a full decision trace")
+  DMGAssistWatchdog = nil -- luacheck: ignore 111
+end)
+
+test("resource audit: what each cast really did to a readable resource, against our data", function()
+  -- Starfire: our data 8 Astral Power, the game 12 (2026-11-13) - this finds such numbers in one fight
+  Reset()
+  local ns = Boot()
+  local G = ns.Diagnostics
+  local rec = QRecord({ { a = "shred", k = "S" } })
+  Feral(ns, rec) -- combo points readable: 0 of 5; Shred: +1 in our data
+  G.OnCombat(true)
+  for i = 1, 2 do
+    G.AuditCast(5221)
+    mock.power[4] = mock.power[4] + 2 -- the game gave 2
+    mock.Advance(0.7)
+  end
+  local text = G.AuditText()
+  eq(text ~= nil and text:find("shred pt4 data=+1 seen=+2.0 n=2", 1, true) ~= nil, true, tostring(text))
+  G.OnCombat(false)
+end)
+
 test("key bindings file calls functions that exist", function()
   Reset()
   Boot()
@@ -2931,7 +2965,7 @@ test("key bindings file calls functions that exist", function()
     eq(type(_G[fn]), "function", fn)
     count = count + 1
   end
-  eq(count, 4)
+  eq(count, 5)
   for name in xml:gmatch('name="([%w_]+)"') do
     eq(type(_G["BINDING_NAME_" .. name]), "string", name)
   end

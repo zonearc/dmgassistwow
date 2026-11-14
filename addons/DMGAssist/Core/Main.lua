@@ -974,6 +974,7 @@ function ns.OnOwnCast(id)
   if inCombat then
     ns.Diagnostics.OnPress(id, shown, ns.last) -- was slot 2 right? (prediction_summary)
     ns.Learner.OnPress(id, shown, ns.last) -- the shadow learner (learner_summary, press lines)
+    ns.Diagnostics.AuditCast(id) -- what each cast did to your resources (resource_audit)
   end
   ns.Essentials.OnOwnCast(id)
   ns.Trinkets.OnOwnCast(id)
@@ -1102,6 +1103,7 @@ function commands.help()
     { "/dmga test", "test the defensive alert (8 seconds)" },
     { "/dmga test interrupt | assisted | bossmods", "test the interrupt alert, Assisted Combat, or boss mod detection" },
     { "/dmga snapshot", "save a full decision trace for troubleshooting" },
+    { "/dmga mark", "mark this moment for your report (also a key binding)" },
     { "/dmga relearn", "forget learned cooldown timing and start learning again" },
     { "/dmga addons", "which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use" },
     { "/dmga potion", "choose the potion for this spec (shift-click it), or /dmga potion off" },
@@ -1118,6 +1120,28 @@ end
 
 function DMGAssist_ToggleBurst()
   commands.burst()
+end
+
+-- "That, right there": a labelled snapshot of the moment for the report - the Flow lane as drawn, the three
+-- slots, resources, and the full decision trace (asked 2026-11-14: so a report points at the moment, not 2 minutes).
+ns.markCount = 0
+function commands.mark()
+  ns.markCount = ns.markCount + 1
+  local r = ns.last or {}
+  local slots = {}
+  for i, p in ipairs(r.queue or {}) do
+    slots[#slots + 1] = string.format("%d:%s(%s)%s", i, tostring(p.token or p.id), tostring(p.source),
+      p.readyAt and string.format("@%.1f", p.readyAt - S.Now()) or "")
+  end
+  U.Log("mark", { n = ns.markCount, slots = table.concat(slots, " "), lane = ns.Game and ns.Game.LaneText and
+    ns.Game.LaneText() or nil, gcd = string.format("%.2f", S.GCDRemains() or 0),
+    res = S.ResourceText and S.ResourceText() or nil })
+  ns.QuietSnapshot()
+  U.Print(L["Marked (#%d): it's in your next report."], ns.markCount)
+end
+
+function DMGAssist_Mark()
+  commands.mark()
 end
 
 function DMGAssist_ToggleGame()

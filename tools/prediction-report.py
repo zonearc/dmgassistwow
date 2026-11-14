@@ -75,7 +75,8 @@ def main():
         presses = []
         print("== fight %s  %s  %.0fs  %s" % (s.get("id"), s.get("when"), s.get("duration") or 0, s.get("zone")))
         for e in s.get("events", []):
-            if len(e) > 3 and e[1] == "D" and e[2] in ("prediction_summary", "learner_summary"):
+            if len(e) > 3 and e[1] == "D" and e[2] in ("prediction_summary", "learner_summary", "resource_audit",
+                                                         "mark", "lane_close", "gains_learned"):
                 print("   %s: %s" % (e[2], e[3]))
             if len(e) > 3 and e[1] == "D" and e[2] == "press":
                 kv = parse_kv(e[3])
