@@ -591,8 +591,19 @@ function C.SyncFloor(pt, value, max)
     Record("floor", value >= counted - 0.5)
     -- The real value is readable again (after combat): how close the counted floor was.
     U.Log("floor_check", { power = pt, counted = math.floor(counted), real = value })
+    if value > counted + 0.5 and ns.Calibrate then
+      ns.Calibrate.Attribute(pt, value - counted) -- what our casts built beyond the data (Calibrate.lua)
+    end
   end
   C.floor[pt] = { lo = value, max = max, at = GetTime() }
+end
+
+-- The game proved at least `v` (Calibrate.Snap): the counted floor comes up to it.
+function C.RaiseFloor(pt, v)
+  local f = C.floor[pt]
+  if f and type(v) == "number" then
+    f.lo, f.at = type(f.max) == "number" and f.max > 0 and math.min(v, f.max) or v, GetTime()
+  end
 end
 
 function C.FloorOnCast(info)

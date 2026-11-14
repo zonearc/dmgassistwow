@@ -251,7 +251,7 @@ G.SITUATIONAL = { interrupt = true, defensive = true, gapcloser = true, potion =
 -- was slot 1 once the press settled; slot 3 right: it was slot 2 then. The baseline: how often "the spell that
 -- followed this one most often in this fight" came next, a fixed guess from the last press alone.
 local function NewPred()
-  return { n = 0, hit = 0, miss = {}, bySource = {}, n3 = 0, hit3 = 0,
+  return { n = 0, hit = 0, miss = {}, why = {}, missWhy = {}, bySource = {}, n3 = 0, hit3 = 0,
     win = { n = 0, steady = 0, changes = 0, situational = 0 }, follow = {}, presses = 0, followed = 0 }
 end
 G.pred = NewPred()
@@ -318,9 +318,44 @@ function G.OnPress(id, shown, last)
   G.prevToken = not G.SITUATIONAL[shown.source or ""] and token or nil
   local q2, q3 = last.queue[2], last.queue[3]
   if q2 and q2.id then
+    local glowing = {}
+    for gid, on in pairs(ns.State.glow or {}) do
+      glowing[gid] = on and true or nil
+    end
     G.pending = { token = q2.token or tostring(q2.id), id = q2.id, at = now, source = q2.source or "?",
-      q3 = q3 and q3.id and { id = q3.id } or nil }
+      q3 = q3 and q3.id and { id = q3.id } or nil, targets = (ns.State.Targets()), glowing = glowing }
   end
+end
+
+-- Why slot 2 was wrong (owner, 2026-11-14: tell which bucket to fix instead of guessing), judged at the moment the
+-- next slot 1 shows: the enemy count changed ("targets"); the spell now first lit up after the press ("proc"); the
+-- spell slot 2 named is still on cooldown ("cooldown") or the game says there isn't enough resource for it
+-- ("resource") - our model of the game was wrong; slot 2 was the learner's guess and it was castable ("guess");
+-- otherwise it was castable and the rotation preferred something else, from buffs, combo points or priorities
+-- our look-ahead didn't foresee ("state").
+G.MISS_WHY = { "targets", "proc", "cooldown", "resource", "guess", "state" }
+function G.MissReason(p, main)
+  local S = ns.State
+  if p.targets and S.Targets() ~= p.targets then
+    return "targets"
+  end
+  local mid = main and main.id
+  if mid and S.glow[mid] and not (p.glowing and p.glowing[mid]) then
+    return "proc"
+  end
+  local remains = S.CooldownRemains and S.CooldownRemains(p.id)
+  local gcd = S.GCDRemains and S.GCDRemains() or 0
+  if type(remains) == "number" and type(gcd) == "number" and remains > gcd + 0.2 then
+    return "cooldown"
+  end
+  local usable, noPower = U.Call(C_Spell and C_Spell.IsSpellUsable, p.id)
+  if U.Read(usable) == false and U.Read(noPower) == true then
+    return "resource"
+  end
+  if p.source == "learned" then
+    return "guess"
+  end
+  return "state"
 end
 
 local function Settle(result)
@@ -357,6 +392,11 @@ local function Settle(result)
   else
     local k = p.token .. ">" .. tostring(main.token or main.id)
     pr.miss[k] = (pr.miss[k] or 0) + 1
+    local why = G.MissReason(p, main)
+    pr.why[why] = (pr.why[why] or 0) + 1
+    local mw = pr.missWhy[k] or {}
+    pr.missWhy[k] = mw
+    mw[why] = (mw[why] or 0) + 1
   end
   local q2 = result.queue and result.queue[2]
   if p.q3 and q2 and q2.id then
@@ -390,7 +430,13 @@ function G.PredictionText()
   end)
   local top = {}
   for i = 1, math.min(6, #misses) do
-    top[i] = misses[i][1] .. "x" .. misses[i][2]
+    local mw, best, bestN = pr.missWhy[misses[i][1]] or {}, nil, 0
+    for _, w in ipairs(G.MISS_WHY) do
+      if (mw[w] or 0) > bestN then
+        best, bestN = w, mw[w]
+      end
+    end
+    top[i] = misses[i][1] .. "x" .. misses[i][2] .. (best and "(" .. best .. ")" or "")
   end
   local text = string.format("hit=%d%% n=%d misses: %s", Pct(pr.hit, pr.n), pr.n,
     #top > 0 and table.concat(top, " ") or "none")
@@ -399,6 +445,15 @@ function G.PredictionText()
   if w.n > 0 then
     extra[#extra + 1] = string.format("slot1_steady=%d%% windows=%d changes=%d situational=%d", Pct(w.steady, w.n), w.n,
       w.changes, w.situational)
+  end
+  local whys = {}
+  for _, why in ipairs(G.MISS_WHY) do
+    if pr.why[why] then
+      whys[#whys + 1] = why .. "=" .. pr.why[why]
+    end
+  end
+  if #whys > 0 then
+    extra[#extra + 1] = "miss_why " .. table.concat(whys, " ")
   end
   if pr.n3 > 0 then
     extra[#extra + 1] = string.format("slot3=%d%% n3=%d", Pct(pr.hit3, pr.n3), pr.n3)
@@ -578,6 +633,9 @@ function G.AuditCast(id)
         local a = audit[key] or { n = 0, sum = 0, id = id, pt = pt, token = token }
         audit[key] = a
         a.n, a.sum = a.n + 1, a.sum + (v1 - v0)
+        if ns.Calibrate then
+          ns.Calibrate.OnReadDelta(id, pt, v1 - v0) -- corrects our data once it's consistently different
+        end
       end
     end
   end)

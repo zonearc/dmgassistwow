@@ -350,6 +350,9 @@ function S.BeginPass()
   if S.SnapshotReady then
     S.SnapshotReady()
   end
+  if ns.Calibrate then
+    ns.Calibrate.Snap() -- the game proved more of a hidden resource than we counted (Calibrate.lua)
+  end
 end
 function S.EndPass()
   inPass = false
@@ -1715,6 +1718,9 @@ function S.LearnGains()
         for pt, amount in pairs(info.gain) do
           info.gainBase[pt] = info.gainBase[pt] or amount
           local names = S.POWER_NAMES[pt]
+          if info.gainMeasured and info.gainMeasured[pt] then
+            names = nil -- measured in play (Calibrate.lua): that beats the tooltip
+          end
           local found
           for _, n in ipairs(names or {}) do
             local name = _G[n] or n
@@ -1977,6 +1983,9 @@ local function RecordCast(id, how)
   S.ApplyLinks(id, false)
   ns.Clues.OnCast()
   ns.Clues.OnOwnCast(id)
+  if ns.Calibrate then
+    ns.Calibrate.OnOwnCast(id)
+  end
   if ns.Engine then
     ns.Engine.OnOwnCast()
   end
@@ -2914,7 +2923,8 @@ function S.Apply(id)
   end
   if info.gain then
     for pt, amount in pairs(info.gain) do
-      V.power[pt] = (V.power[pt] or 0) + amount
+      -- plus what this spell has really been building beyond the data (talents, procs: Calibrate.lua)
+      V.power[pt] = (V.power[pt] or 0) + amount + (ns.Calibrate and ns.Calibrate.Extra(id, pt) or 0)
     end
   end
   do

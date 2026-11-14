@@ -45,6 +45,7 @@ Core\Sounds.lua
 Core\Diagnostics.lua
 Core\Grade.lua
 Core\Combos.lua
+Core\Calibrate.lua
 Core\Learner.lua
 Core\Engine.lua
 Core\Display.lua

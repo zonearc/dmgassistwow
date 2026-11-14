@@ -142,6 +142,20 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.268: Resource calibration and miss reasons (owner, 2026-11-14: "#1 and #2"). SimC test first: 600
+  simulated fights (MID1 Balance / Outlaw profiles, 1 and 5 targets) as a next-press table scored on the owner's
+  real fights: Balance 28-35%, Outlaw 35-38%, below the owner's own history (35-41%, 47-54%) and SimC live (57%
+  Balance): the sim's talents and play differ (it casts Starsurge as often as Starfall; almost no Lunar Eclipse).
+  No-go; Warcraft Logs not for rotations, possibly for checking resource numbers per spec. Built instead:
+  Core/Calibrate.lua. Readable resources (combo points, holy power, chi...): the per-cast change seen in play
+  (>= 6 samples, one value >= 70%) replaces the data (`gain_fixed`). Hidden ones (Astral Power, Insanity, Fury,
+  Maelstrom, Runic Power, Rage): when the game's affordability answer proves more than our count, the count is
+  raised at once (`floor_raised`); the gap is shared between the spells that built it and, after 15 casts and
+  >= 1 per cast, added to each pretend cast in the look-ahead (the count itself stays a proven lower bound). Kept
+  per spec + talent loadout (DMGAssistDB.calibrate), older fights x0.97. `calibration_summary` per fight.
+  `prediction_summary` now has `miss_why` (targets / proc / cooldown / resource / guess / state) and each top miss
+  carries its main reason. Still to confirm in game: Balance slot 2 (57% before), whether the tooltip reader's
+  Starfire 12 shows in `gains_learned`.
 - 1.6.0.266: History check (owner: "why can't two weeks of logs help?"): next-press-from-cast-order models trained
   on earlier fights, scored on later ones: Balance 35-41% (32 fights; SimC slot 2 57%), Outlaw 54%, Survival 56%,
   Fury/Elemental/Feral 41-44%. Cast order alone lacks the state (resources, procs, cooldowns); pooled logs mix

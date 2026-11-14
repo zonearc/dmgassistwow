@@ -112,6 +112,10 @@ Never `--update` just to make a failure go away.
 - Never boolean-test or compare a value that can be secret; read it with `U.Read` / `U.Get` and treat
   `nil` as unknown. Unknown is a third state, not false.
 - Never anchor our frames to Blizzard's protected frames or write fields on them (taint).
+- Hidden in combat (Midnight): Energy, Astral Power, Rage, haste, target health. Readable: combo points and the
+  other discrete resources, cooldowns, glows, spell usability, the assistant's pick. Every count we keep of a
+  hidden value is checked against what the game still shows (usability, readable values after combat) and
+  corrected from it (Clues.lua, Calibrate.lua); corrections are kept per spec + talent loadout.
 
 ## 6. Releases
 

@@ -581,6 +581,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     ns.Engine.OnCombat()
     ns.Diagnostics.OnCombat(true)
     ns.Learner.OnCombat(true)
+    ns.Calibrate.OnCombat(true)
     ns.Grade.OnCombat(true)
     if ns.TESTING then
       -- test builds: one decision snapshot a few seconds into every fight, without chat output
@@ -598,6 +599,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     ns.Grade.OnCombat(false) -- before the fight's log closes, so the grade is in reports
     ns.Game.OnCombat(false)
     ns.Learner.OnCombat(false)
+    ns.Calibrate.OnCombat(false)
     ns.Diagnostics.OnCombat(false)
     S.Calibrate()
     if spellsDirty then

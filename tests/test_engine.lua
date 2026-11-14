@@ -3701,11 +3701,125 @@ test("diagnostics: prediction - pressing slot 1, was slot 2 right about what cam
   G.OnPress(2098, SS, { main = SS, queue = { SS, DI } })
   mock.Advance(0.2)
   G.OnPick({ main = PS, queue = { PS } })
-  eq(G.PredictionText(), "hit=50% n=2 misses: dispatch>sinister_strikex1 | slot1_steady=50% windows=2 changes=1 "
-    .. "situational=2 | slot3=100% n3=1 | slot2_by_source rules=1/2 | lastpress_baseline=100% n=2 | "
+  eq(G.PredictionText(), "hit=50% n=2 misses: dispatch>sinister_strikex1(state) | slot1_steady=50% windows=2 "
+    .. "changes=1 situational=2 | miss_why state=1 | slot3=100% n3=1 | slot2_by_source rules=1/2 | lastpress_baseline=100% n=2 | "
     .. "followed=75% presses=4")
   G.OnCombat(false)
   eq(G.PredictionText(), nil, "starts over each fight")
+end)
+
+test("diagnostics: each slot 2 miss gets a reason (targets, proc, cooldown, resource, guess, state)", function()
+  Reset()
+  local ns = Boot()
+  local G, S = ns.Diagnostics, ns.State
+  local targets, cds = 1, {}
+  S.Targets = function() return targets end
+  S.CooldownRemains = function(id) return cds[id] or 0 end
+  S.GCDRemains = function() return 0.8 end
+  S.glow = {}
+  local p = { id = 2098, token = "dispatch", source = "simc", targets = 1, glowing = {} }
+  local PS = { id = 185763, token = "pistol_shot" }
+  eq(G.MissReason(p, PS), "state", "castable, the rotation preferred another")
+  p.source = "learned"
+  eq(G.MissReason(p, PS), "guess", "castable, the learner's guess")
+  p.source = "simc"
+  mock.usable[2098] = { false, true }
+  eq(G.MissReason(p, PS), "resource", "the game: not enough resource for it")
+  cds[2098] = 0.9
+  eq(G.MissReason(p, PS), "resource", "a cooldown inside the GCD is just the GCD")
+  cds[2098] = 5
+  eq(G.MissReason(p, PS), "cooldown", "still on cooldown: our cooldown model was wrong")
+  S.glow[185763] = true
+  eq(G.MissReason(p, PS), "proc", "the spell shown lit up after the press")
+  p.glowing[185763] = true
+  eq(G.MissReason(p, PS), "cooldown", "already lit at the press: not a surprise")
+  targets = 3
+  eq(G.MissReason(p, PS), "targets", "the enemy count changed")
+end)
+
+test("calibration: readable resources - the change seen most of the time replaces the data, kept per spec", function()
+  Reset()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, tostring(data) } end } -- luacheck: ignore 111
+  local ns = Boot()
+  local K, M = ns.Calibrate, ns.SpellMap
+  ns.Specs.current = { key = "rogue_outlaw", status = "ready", branch = "midnight", client = "Midnight" }
+  ns.global = ns.global or {}
+  ns.global.calibrate = nil
+  M.info[193315] = { n = "sinister_strike", gain = { [4] = 1 }, cost = { [3] = 45 } }
+  M.info[2098] = { n = "dispatch", cost = { [4] = 1 }, cmax = { [4] = 7 } }
+  for _ = 1, 4 do
+    K.OnReadDelta(193315, 4, 2)
+  end
+  K.OnReadDelta(193315, 4, 1)
+  eq(M.info[193315].gain[4], 1, "5 samples: not yet")
+  K.OnReadDelta(193315, 4, 2)
+  eq(M.info[193315].gain[4], 2, "6 samples, 5 of them +2: the data says +2 now")
+  eq(M.info[193315].gainMeasured[4], true, "the tooltip reader leaves it alone")
+  for _ = 1, 8 do
+    K.OnReadDelta(2098, 4, -5)
+  end
+  eq(M.info[2098].gain, nil, "finishers that spend up to N are left alone")
+  K.OnReadDelta(193315, 8, 9) -- not a counted resource
+  local fixed
+  for _, l in ipairs(logged) do
+    if l[1] == "gain_fixed" then fixed = l[2] end
+  end
+  eq(fixed, "sinister_strike pt4 data=+1 seen=+2 n=6")
+  M.info[193315].gain[4] = 1 -- the spec's data loads again
+  K.OnCombat(true)
+  eq(M.info[193315].gain[4], 2, "kept across sessions (DMGAssistDB.calibrate)")
+  eq(type(ns.global.calibrate[next(ns.global.calibrate)]), "table")
+  DMGAssistWatchdog = nil -- luacheck: ignore 111
+end)
+
+test("calibration: hidden resources - the game proving more raises our count now, and the gap feeds the "
+  .. "look-ahead", function()
+  Reset()
+  local ns = Boot()
+  local K, M, C, S = ns.Calibrate, ns.SpellMap, ns.Clues, ns.State
+  ns.Specs.current = { key = "druid_balance", status = "ready", branch = "midnight", client = "Midnight" }
+  ns.global = ns.global or {}
+  ns.global.calibrate = nil
+  M.info[194153] = { n = "starfire", gain = { [8] = 8 } }
+  M.info[190984] = { n = "wrath", gain = { [8] = 6 } }
+  K.OnCombat(true)
+  S.combatStart = GetTime()
+  C.SyncFloor(8, 0, 100)
+  local bracket = {}
+  C.Affordability = function() return bracket end
+  local function Cast(id)
+    C.OnOwnCast(id)
+    K.OnOwnCast(id)
+  end
+  Cast(194153)
+  Cast(194153)
+  eq(C.FloorBounds(8), 16, "counted: 2 x 8")
+  bracket[8] = { lo = 20, hi = math.huge } -- the game: a 20-cost spender is affordable
+  K.Snap()
+  eq(C.FloorBounds(8), 20, "raised to what the game proved")
+  K.Snap()
+  eq(C.FloorBounds(8), 20, "once")
+  eq(K.Extra(194153, 8), 0, "too few casts to feed the look-ahead yet")
+  for _ = 1, 8 do
+    Cast(194153)
+    Cast(190984)
+    local lo = C.FloorBounds(8)
+    bracket[8] = { lo = lo + 7, hi = math.huge } -- 7 short per Starfire + Wrath pair
+    K.Snap()
+  end
+  local e = K.Store().hidden["194153:8"]
+  eq(e.casts, 10)
+  eq(K.Extra(194153, 8), 0, "10 casts: not yet")
+  for _ = 1, 6 do
+    Cast(194153)
+    local lo = C.FloorBounds(8)
+    bracket[8] = { lo = lo + 4, hi = math.huge }
+    K.Snap()
+  end
+  eq(K.Extra(194153, 8), 3, "16 casts, ~3.9 short each: +3 per pretend Starfire (whole points, rounded down)")
+  eq(K.Extra(190984, 8), 0, "Wrath: 8 casts, too few")
+  S.combatStart = nil
 end)
 
 test("learner (shadow): learns what you press next per situation, scores itself against slot 2, keeps it", function()
