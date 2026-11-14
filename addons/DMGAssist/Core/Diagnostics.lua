@@ -733,6 +733,74 @@ function G.AuditText()
   return #out > 0 and table.concat(out, " | ") or nil
 end
 
+-- Blizzard's Cooldown Manager, probed (owner, 2026-11-14: tracked buffs added for every proc; "see if you can get
+-- anything from it"). Its values are hidden in combat (item.isActive reads nil), but the frames themselves may say
+-- more: whether each icon is shown, its alpha, texture, cooldown timer, bar value, stack text. A few times a fight,
+-- every icon and bar is read with the game's own widget methods only (never Blizzard's Lua: taint) and each answer
+-- logged as a value, "S" (secret) or "-" (nil): cdm_probe_trace. What reads plainly can become a clue next.
+G.CDM_PROBE_VIEWERS = { "EssentialCooldownViewer", "UtilityCooldownViewer", "BuffIconCooldownViewer",
+  "BuffBarCooldownViewer" }
+G.CDM_PROBES = 3
+local function Show(v)
+  if v == nil then
+    return "-"
+  end
+  if U.IsSecret(v) then
+    return "S"
+  end
+  if type(v) == "number" then
+    return v == math.floor(v) and tostring(v) or string.format("%.2f", v)
+  end
+  if type(v) == "boolean" then
+    return v and "T" or "F"
+  end
+  return tostring(v):sub(1, 12)
+end
+local function Method(obj, name, ...)
+  if type(obj) ~= "table" or type(obj[name]) ~= "function" then
+    return nil
+  end
+  return U.Call(obj[name], obj, ...)
+end
+function G.ProbeCDM(tag)
+  G.cdmProbes = (G.cdmProbes or 0) + 1
+  if G.cdmProbes > G.CDM_PROBES then
+    return
+  end
+  local parts = { tostring(tag) }
+  for _, name in ipairs(G.CDM_PROBE_VIEWERS) do
+    local viewer = _G[name]
+    if type(viewer) == "table" then
+      local kids = { Method(viewer, "GetChildren") }
+      parts[#parts + 1] = string.format("%s[%d shown=%s]", name:gsub("CooldownViewer", ""), #kids,
+        Show(Method(viewer, "IsShown")))
+      for i = 1, math.min(#kids, 16) do
+        local item = kids[i]
+        if type(item) == "table" then
+          local cdID = U.Read(item.cooldownID)
+          local info = type(cdID) == "number" and U.Get(C_CooldownViewer and C_CooldownViewer.GetCooldownViewerCooldownInfo, cdID)
+          local sid = type(info) == "table" and U.Read(info.spellID) or nil
+          local icon = type(item.Icon) == "table" and item.Icon or nil
+          local bar = type(item.Bar) == "table" and item.Bar or nil
+          local cd = type(item.Cooldown) == "table" and item.Cooldown or nil
+          local count = type(item.Applications) == "table" and item.Applications or
+            (type(item.Count) == "table" and item.Count or nil)
+          if count and type(count.Applications) == "table" then
+            count = count.Applications
+          end
+          local cdStart, cdDur = Method(cd, "GetCooldownTimes")
+          parts[#parts + 1] = string.format("%s:sh=%s vis=%s a=%s act=%s tex=%s cd=%s/%s cdsh=%s bar=%s n=%s",
+            tostring(sid or cdID or "?"), Show(Method(item, "IsShown")), Show(Method(item, "IsVisible")),
+            Show(Method(item, "GetAlpha")), Show(item.isActive), Show(Method(icon, "GetTexture")),
+            Show(cdStart), Show(cdDur), Show(Method(cd, "IsShown")), Show(Method(bar, "GetValue")),
+            Show(Method(count, "GetText")))
+        end
+      end
+    end
+  end
+  U.Log("cdm_probe_trace", table.concat(parts, " "))
+end
+
 function G.OnPick(result)
   Settle(result)
   TrackMajors(result)
@@ -799,6 +867,22 @@ end
 
 function G.OnCombat(inCombat)
   G.traces = 0
+  G.cdmProbes = 0
+  if not inCombat then
+    G.ProbeCDM("ooc") -- the readable baseline right after the fight
+  elseif C_Timer and C_Timer.After then
+    -- a few seconds in (procs and cooldowns running), and later
+    C_Timer.After(4, function()
+      if ns.State.combatStart then
+        G.ProbeCDM("combat4s")
+      end
+    end)
+    C_Timer.After(12, function()
+      if ns.State.combatStart then
+        G.ProbeCDM("combat12s")
+      end
+    end)
+  end
   if inCombat then
     G.range, G.picks = {}, {}
     G.pred, G.pending = NewPred(), nil

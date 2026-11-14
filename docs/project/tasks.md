@@ -168,6 +168,12 @@ for every spec, before asking for more in-game logs.
 
 ## Done (recent)
 
+- 1.6.0.277: Cooldown Manager probe (owner enabled tracked buffs/bars for all procs, 2026-11-14): item.isActive
+  still reads nil in combat. cdm_probe_trace, 3 a fight (4 s, 12 s in, after combat): per viewer (Essential,
+  Utility, BuffIcon, BuffBar) and icon: shown, visible, alpha, isActive, texture, cooldown times, cooldown shown,
+  bar value, stack text - each a value, S (secret) or - (nil). Widget methods only (taint). Next: whatever reads
+  plainly becomes a clue (procs seen). The owner's 1.6.0.276 run: Astral Power counted (pull at 46 after a short
+  break), floor raised 4x in fight, Flow notes 76 px apart.
 - 1.6.0.276: Reference + offline grader (first version) and three bugs it found.
   - tools/simc-reference.py -> data/reference/<spec>.json for 30 specs: SimC profile talents (SimC's own decoder,
     debug output; hero tree), or a top player's talents from Warcraft Logs (combatant info -> class/spec/hero

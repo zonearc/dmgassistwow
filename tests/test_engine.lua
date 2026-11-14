@@ -4014,6 +4014,27 @@ test("calibration never learns that a builder builds nothing", function()
   eq(M.info[193315].gain[4], 1, "kept")
 end)
 
+test("cooldown manager probe: every icon's readable parts logged (value, S for secret, - for nil)", function()
+  Reset()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, tostring(data) } end } -- luacheck: ignore 111
+  local ns = Boot()
+  local item = { cooldownID = 7, isActive = nil,
+    IsShown = function() return true end, IsVisible = function() return true end, GetAlpha = function() return 1 end,
+    Icon = { GetTexture = function() return 1234 end } }
+  BuffIconCooldownViewer = { IsShown = function() return true end, GetChildren = function() return item end } -- luacheck: ignore 111
+  ns.Diagnostics.cdmProbes = 0
+  ns.Diagnostics.ProbeCDM("test")
+  local line
+  for _, l in ipairs(logged) do
+    if l[1] == "cdm_probe_trace" then line = l[2] end
+  end
+  eq(line ~= nil and line:find("BuffIcon[1 shown=T]", 1, true) ~= nil, true, tostring(line))
+  eq(line:find("sh=T vis=T a=1 act=- tex=1234", 1, true) ~= nil, true, line)
+  BuffIconCooldownViewer = nil -- luacheck: ignore 111
+  DMGAssistWatchdog = nil -- luacheck: ignore 111
+end)
+
 test("learner (shadow): learns what you press next per situation, scores itself against slot 2, keeps it", function()
   Reset()
   local logged = {}
