@@ -725,35 +725,40 @@ end
 -- Whether those fields are readable to addons in combat is unverified (frames carry "secret aspects", and aura
 -- instance IDs are secret); U.Read drops anything secret, and the source is graded against readable truth like
 -- every other clue. Only buffs the player chose to track in the Cooldown Manager are visible here.
-C.CDM_VIEWERS = { "BuffIconCooldownViewer", "BuffBarCooldownViewer" }
-
 function C.ReadCooldownManager(readable)
-  if not C.Enabled("cdm") then
+  local CDM = ns.CDM
+  if not C.Enabled("cdm") or CDM.Enabled() == false then
     return 0
   end
-  local seen = 0
-  for _, name in ipairs(C.CDM_VIEWERS) do
-    local viewer = _G[name]
-    if type(viewer) == "table" and type(viewer.GetChildren) == "function" then
-      for _, item in ipairs({ U.Call(viewer.GetChildren, viewer) }) do
-        local cdID = type(item) == "table" and U.Read(item.cooldownID)
-        local active = type(item) == "table" and U.Read(item.isActive)
-        if type(cdID) == "number" and type(active) == "boolean" then
-          local info = U.Get(C_CooldownViewer and C_CooldownViewer.GetCooldownViewerCooldownInfo, cdID)
-          local sid = type(info) == "table" and U.Read(info.spellID)
-          local token = sid and M.AuraToken(sid, U.Get(C_Spell and C_Spell.GetSpellName, sid))
-          if token then
-            -- Only plain fields are read here: calling Blizzard's own Lua methods on these frames (GetAuraDataUnit)
-            -- runs their code from ours and can leave it "tainted by DMGAssist" (2026-11-12). Buff icons: player.
-            local unit = "player"
-            seen = seen + 1
-            local truth = readable and readable[unit]
-            if truth then
-              Record("cdm", (truth[token] ~= nil) == active)
-            else
-              C.SetAura(unit, token, active, 0.5, "cdm")
-            end
-          end
+  local seen, now = 0, GetTime()
+  for _, b in ipairs(CDM.BuffItems()) do
+    local item, info = b.item, b.info
+    CDM.Observe(item, info, now)
+    local token = info.token
+    if token then
+      -- Only plain fields and widget methods are read here: calling Blizzard's own Lua methods on these frames
+      -- (GetAuraDataUnit) runs their code from ours and can leave it "tainted by DMGAssist" (2026-11-12).
+      local active = U.Read(item.isActive)
+      local shown
+      if type(item.IsShown) == "function" then
+        shown = U.Get(item.IsShown, item) -- (false is an answer: hidden)
+      end
+      local truth = readable and readable.player
+      if type(active) == "boolean" then
+        seen = seen + 1
+        if truth then
+          Record("cdm", (truth[token] ~= nil) == active)
+        else
+          C.SetAura("player", token, active, 0.5, "cdm")
+        end
+      end
+      if type(shown) == "boolean" then
+        if truth then
+          CDM.GradeShown(shown, truth[token] ~= nil)
+        elseif type(active) ~= "boolean" and CDM.ShownTrusted() then
+          -- isActive hidden in combat: the icon showing is the buff (proved out of combat)
+          seen = seen + 1
+          C.SetAura("player", token, shown, 0.5, "cdm_shown")
         end
       end
     end

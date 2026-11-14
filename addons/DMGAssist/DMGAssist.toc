@@ -29,6 +29,7 @@ Core\Expr.lua
 Core\SpellMap.lua
 Core\State.lua
 Core\Clues.lua
+Core\CDM.lua
 Core\BossMods.lua
 Core\Interrupts.lua
 Core\Tanks.lua

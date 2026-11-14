@@ -265,6 +265,11 @@ function ns.StatusLines()
   add("Keybinds found", keys)
   local ac = C_AssistedCombat and U.Get(C_AssistedCombat.IsAvailable)
   add("Blizzard's assisted combat", ac == true and L["available (used as a second opinion)"] or L["not available"])
+  local cdm = ns.CDM.status
+  if cdm and cdm.enabled ~= nil then
+    add("Cooldown Manager", cdm.enabled and string.format(L["on: reading %d of your key buffs (%d more to add)"],
+      cdm.have, cdm.add) or L["off"])
+  end
   add("Talents loaded", M.talentsRead and L["yes"] or L["no"])
   add("Interrupt spell", tostring(D.InterruptSpell() and U.Get(C_Spell and C_Spell.GetSpellName, D.InterruptSpell())
     or "-"))
@@ -516,7 +521,7 @@ for _, event in ipairs({ "UNIT_SPELLCAST_STOP", "UNIT_SPELLCAST_INTERRUPTED", "U
   pcall(frame.RegisterUnitEvent, frame, event, "player")
 end
 pcall(frame.RegisterUnitEvent, frame, "UNIT_SPELL_HASTE", "player")
-for _, event in ipairs({ "SPELL_UPDATE_USABLE", "SPELL_UPDATE_ICON", "COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED",
+for _, event in ipairs({ "CVAR_UPDATE", "SPELL_UPDATE_USABLE", "SPELL_UPDATE_ICON", "COOLDOWN_VIEWER_SPELL_OVERRIDE_UPDATED",
   "ENCOUNTER_START", "ENCOUNTER_END" }) do
   pcall(frame.RegisterEvent, frame, event)
 end
@@ -566,6 +571,13 @@ frame:SetScript("OnEvent", function(_, event, ...)
     ns.Options.Register()
     ns.BossMods.Hook()
     C_Timer.After(5, ns.LogLaunchState)
+    C_Timer.After(6, function()
+      -- the Cooldown Manager: on or off, what it tracks (read automatically when on), the key buffs it could add
+      if not InCombatLockdown() then
+        ns.CDM.Refresh("login")
+        ns.CDM.Announce()
+      end
+    end)
     C_Timer.After(3, ns.Welcome.MaybeAsk)
   elseif KEYBIND_EVENTS[event] then
     D.InvalidateKeybinds()
@@ -588,6 +600,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     ns.Diagnostics.OnCombat(true)
     ns.Learner.OnCombat(true)
     ns.Calibrate.OnCombat(true)
+    ns.CDM.OnCombat(true)
     ns.Grade.OnCombat(true)
     if ns.TESTING then
       -- test builds: one decision snapshot a few seconds into every fight, without chat output
@@ -608,6 +621,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     ns.Game.OnCombat(false)
     ns.Learner.OnCombat(false)
     ns.Calibrate.OnCombat(false)
+    ns.CDM.OnCombat(false)
     ns.Diagnostics.OnCombat(false)
     S.Calibrate()
     if spellsDirty then
@@ -667,6 +681,11 @@ frame:SetScript("OnEvent", function(_, event, ...)
   elseif event == "UNIT_AURA" then
     S.OnAura(U.Read(arg1))
     ns.Buffs.Invalidate()
+  elseif event == "CVAR_UPDATE" then
+    if arg1 == "cooldownViewerEnabled" and not InCombatLockdown() then
+      ns.CDM.Refresh("cvar") -- switched on or off just now: reading follows it
+      ns.CDM.Announce()
+    end
   elseif event == "UI_ERROR_MESSAGE" then
     S.OnUIError(U.Read(arg1), U.Read(select(2, ...)))
   elseif event == "PLAYER_TARGET_CHANGED" then
@@ -680,6 +699,16 @@ frame:SetScript("OnEvent", function(_, event, ...)
     end
     if event == "PLAYER_LEVEL_UP" then
       ns.Leveling.OnLevelUp()
+    end
+    if (SPELL_EVENTS[event] or SPEC_EVENTS[event]) and C_Timer and C_Timer.After and not ns.cdmRefreshPending then
+      ns.cdmRefreshPending = true -- (SPELLS_CHANGED comes in bursts: once for all of them)
+      C_Timer.After(2, function()
+        ns.cdmRefreshPending = nil
+        if not InCombatLockdown() then
+          ns.CDM.Refresh(event) -- another spec or talents: other key buffs
+          ns.CDM.Announce()
+        end
+      end)
     end
   end
 end)
@@ -1118,6 +1147,7 @@ function commands.help()
     { "/dmga snapshot", "save a full decision trace for troubleshooting" },
     { "/dmga mark", "mark this moment for your report (also a key binding)" },
     { "/dmga extended", "extended log on / off: every press records what the game showed, for reports" },
+    { "/dmga cdm", "Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it" },
     { "/dmga relearn", "forget learned cooldown timing and start learning again" },
     { "/dmga addons", "which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use" },
     { "/dmga potion", "choose the potion for this spec (shift-click it), or /dmga potion off" },
@@ -1137,6 +1167,15 @@ function DMGAssist_ToggleBurst()
 end
 
 -- Extended log: one state_trace line per press in combat (Diagnostics.StateTrace). Kept until turned off.
+-- /dmga cdm: the Cooldown Manager's state and your key buffs, in chat (the same as Settings > Integrations).
+function commands.cdm()
+  local text = ns.CDM.SettingsText()
+  U.Print("%s", L["Cooldown Manager"])
+  for line in tostring(text):gmatch("[^\n]+") do
+    print("  " .. line)
+  end
+end
+
 function commands.extended(arg)
   if arg == "on" then
     ns.db.extendedLog = true

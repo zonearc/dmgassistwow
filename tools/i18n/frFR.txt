@@ -894,3 +894,28 @@
 900	15 réussites Parfait ou Super d'affilée lancent FLOW STATE : pendant 12 secondes la piste brille en turquoise et chaque réussite compte double ; un raté l'arrête. Réussir une interruption de la rangée bonus affiche COMBO BREAKER ! avec un balayage rouge.
 901	Barre jaune derrière une note : une incantation, aussi longue qu'elle. Barre bleue : une canalisation. Note orange en flammes : un gros temps de recharge, vaut double. Note pâle : une estimation ou en attente de ressource ; ne compte pas comme un raté. La piste devient bleu électrique (MODE PUISSANCE !) : Furie sanguinaire ou juste après un gros temps de recharge ; chaque réussite compte double. La case au-dessus de la case de frappe propose le bonus le plus urgent, un à la fois (+1 : un autre attend) : INTERROMPEZ !, DÉFENDEZ-VOUS ! (un défensif ou un soin) et BOOST ! (un bijou ou une potion). Après une série de pulls (20 secondes hors combat), votre note de performance s'affiche.
 902	De temps en temps, la piste relie les 3 notes suivantes (4 après un gros temps de recharge) : bords violets, une ligne violette entre elles et COMBO x3 au-dessus de la première. Continuez à lancer ce que montre la piste : COMBO 1/3 compte au fur et à mesure, et la dernière frappe déclenche COMBO ! avec un balayage violet et des points bonus. Il suit la piste comme la série : seul un raté, ou une pause de plus de 6 secondes, l'arrête. Les combos commencent sur un temps de recharge, jamais dans les premières frappes d'un combat, à au moins 15 secondes d'intervalle et environ une fois par minute. Ils ne changent jamais la recommandation.
+903	Journal détaillé activé.
+904	Journal détaillé désactivé.
+905	journal détaillé oui / non : chaque appui enregistre ce que le jeu affichait, pour les rapports
+906	Un coach de rotation qui apprend pendant que vous jouez
+907	DMGAssist affiche les prochains sorts à lancer, construits sur les rotations de SimulationCraft et ajustés avec des valeurs mesurées sur des milliers de combats de vrais joueurs.\n\nIl continue d'apprendre pendant que vous jouez : ce que vos sorts rapportent vraiment, quand vos temps de recharge reviennent, comment se déroulent vos combats. Ce que vous voyez dans les premières minutes s'affine au fil de la session, et il s'en souvient la fois suivante.\n\nIl aide aussi les tanks à maintenir leur atténuation, signale les interruptions et les défensifs, et rappelle les améliorations manquantes.
+908	Configurer (4 questions rapides)
+909	Marquer ce moment (pour le rapport)
+910	Marqué (#%d) : ce sera dans ton prochain rapport.
+911	%d autres améliorations suivies : DMGAssist n'en a pas besoin.
+912	Gestionnaire de temps de recharge de Blizzard
+913	Gestionnaire de temps de recharge
+914	Gestionnaire de temps de recharge activé : %d de vos améliorations clés sont lues.
+915	Gestionnaire de temps de recharge activé : %d de vos améliorations clés sont lues ; %d de plus aideraient (Options > Intégrations).
+916	Améliorations clés dans le chat
+917	Indique dans le chat si le gestionnaire de temps de recharge est activé et quelles améliorations clés il suit (aussi /dmga cdm).
+918	Aucune amélioration clé pour cette spécialisation : rien à ajouter.
+919	Désactivé. Activez-le dans Options > Améliorations de jeu (Activer le gestionnaire de temps de recharge), puis suivez les améliorations ci-dessous.
+920	Activé : %d améliorations suivies, dont %d de vos améliorations clés.
+921	Le suivi des améliorations du jeu voit les procs que le jeu cache aux addons. Quand il est activé, DMGAssist lit les améliorations qu'il suit. Ne suivez que vos améliorations clés ci-dessous.
+922	Ce jeu n'a pas de gestionnaire de temps de recharge.
+923	ajoutez-la aux améliorations suivies
+924	activé : %d de vos améliorations clés lues (%d de plus à ajouter)
+925	le gestionnaire de temps de recharge ne peut pas la suivre
+926	suivie
+927	Gestionnaire de temps de recharge de Blizzard : activé ou non, et les améliorations clés à y suivre

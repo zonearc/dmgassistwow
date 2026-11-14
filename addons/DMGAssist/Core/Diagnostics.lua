@@ -767,14 +767,15 @@ function G.ProbeCDM(tag)
   if G.cdmProbes > G.CDM_PROBES then
     return
   end
-  local parts = { tostring(tag) }
+  -- one line per viewer (all four in one line ran past the log's 2000 characters before the buffs, 2026-11-14)
   for _, name in ipairs(G.CDM_PROBE_VIEWERS) do
     local viewer = _G[name]
+    local parts = { tostring(tag) }
     if type(viewer) == "table" then
       local kids = { Method(viewer, "GetChildren") }
-      parts[#parts + 1] = string.format("%s[%d shown=%s]", name:gsub("CooldownViewer", ""), #kids,
-        Show(Method(viewer, "IsShown")))
-      for i = 1, math.min(#kids, 16) do
+      parts[#parts + 1] = string.format("%s[%d shown=%s a=%s]", name:gsub("CooldownViewer", ""), #kids,
+        Show(Method(viewer, "IsShown")), Show(Method(viewer, "GetAlpha")))
+      for i = 1, math.min(#kids, 24) do
         local item = kids[i]
         if type(item) == "table" then
           local cdID = U.Read(item.cooldownID)
@@ -796,9 +797,9 @@ function G.ProbeCDM(tag)
             Show(Method(count, "GetText")))
         end
       end
+      U.Log("cdm_probe_trace", table.concat(parts, " "))
     end
   end
-  U.Log("cdm_probe_trace", table.concat(parts, " "))
 end
 
 function G.OnPick(result)

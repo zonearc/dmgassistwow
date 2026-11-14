@@ -3373,6 +3373,7 @@ test("Cooldown Manager: tracked buffs read from its frames when readable, graded
   local ns = Boot()
   local item = { cooldownID = 11, isActive = true }
   BuffIconCooldownViewer = { GetChildren = function() return item end }
+  mock.cvars.cooldownViewerEnabled = "1"
   mock.cdmInfo = { [11] = { spellID = 135700 } }
   ns.SpellMap.info[135700] = { n = "clearcasting", d = 15 }
   -- readable now: graded, not used
@@ -3391,6 +3392,147 @@ test("Cooldown Manager: tracked buffs read from its frames when readable, graded
   mock.Advance(1)
   ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
   eq(ns.State.Resolve("buff.clearcasting.up", {}), ns.Expr.UNKNOWN)
+  -- switched off in the game's options: not read at all
+  mock.cvars.cooldownViewerEnabled = "0"
+  item.isActive = true
+  mock.Advance(1)
+  eq(ns.Clues.ReadCooldownManager(ns.State.ReadableAuras()), 0)
+  mock.cvars.cooldownViewerEnabled = nil
+  BuffIconCooldownViewer = nil -- luacheck: ignore 111
+end)
+
+-- A small Fire Mage-like record: two procs the rotation checks, one buff you cast, someone else's buff.
+local function CDMRecord()
+  return {
+    key = "mage_fire",
+    simc = { default = {
+      { a = "pyroblast", c = "buff.hot_streak.react" },
+      { a = "pyroblast", c = "buff.hot_streak.react&buff.combustion.up" },
+      { a = "fire_blast", c = "buff.heating_up.react&!debuff.heating_up.up" },
+      { a = "fireball", c = "buff.bloodlust.up|buff.nothing_in_data.up" },
+    } },
+    blizzard = { assisted_combat = { { a = "pyroblast", c = "buff.hot_streak.react" } } },
+    spellInfo = {
+      [48108] = { n = "hot_streak", d = 15 },
+      [48107] = { n = "heating_up", d = 10 },
+      [190319] = { n = "combustion", cd = 120, d = 10, ap = { { 190319, "self" } } },
+      [2825] = { n = "bloodlust", d = 40 },
+      [11366] = { n = "pyroblast", ct = 4.5, gcd = 1.5 },
+    },
+  }
+end
+
+test("Cooldown Manager: key buffs are the procs your rotation checks, not buffs you cast or others give", function()
+  Reset()
+  local ns = Boot()
+  local keys = ns.CDM.KeyBuffs(CDMRecord())
+  eq(#keys, 2)
+  eq(keys[1].token, "hot_streak", "checked most often first")
+  eq(keys[1].refs, 3)
+  eq(keys[2].token, "heating_up", "debuff.heating_up is not the buff")
+  eq(keys[2].refs, 1)
+end)
+
+test("Cooldown Manager: detected on or off; settings list each key buff as tracked or 'add it'", function()
+  Reset()
+  local ns = Boot()
+  ns.Specs.current = { key = "mage_fire", data = CDMRecord() }
+  -- off: says how to turn it on, still lists what to track
+  mock.cvars.cooldownViewerEnabled = "0"
+  local st = ns.CDM.Refresh("test")
+  eq(st.enabled, false)
+  local text = ns.CDM.SettingsText()
+  eq(text:find("Gameplay Enhancements", 1, true) ~= nil, true, text)
+  -- on: Hot Streak tracked (and one buff DMGAssist doesn't need), Heating Up offered but not tracked
+  mock.cvars.cooldownViewerEnabled = "1"
+  mock.cdmInfo = { [1] = { spellID = 48108 }, [2] = { spellID = 48107 }, [3] = { spellID = 999 } }
+  ns.SpellMap.info[48108] = { n = "hot_streak" }
+  ns.SpellMap.info[48107] = { n = "heating_up" }
+  ns.SpellMap.info[999] = { n = "some_other_buff" }
+  local a, c = { cooldownID = 1 }, { cooldownID = 3 }
+  BuffIconCooldownViewer = { GetChildren = function() return a, c, {} end } -- luacheck: ignore 111
+  mock.cdmCategories = { [2] = { 1, 2, 3 } }
+  st = ns.CDM.Refresh("test")
+  eq(st.enabled, true)
+  eq(st.trackedCount, 2, "the pooled frame without a cooldown isn't one")
+  eq(st.have, 1)
+  eq(st.add, 1)
+  eq(st.clutter, 1)
+  eq(st.keys[1].where, "tracked")
+  eq(st.keys[2].where, "add")
+  text = ns.CDM.SettingsText()
+  eq(text:find("add it to Tracked Buffs", 1, true) ~= nil, true, text)
+  eq(text:find("1 other tracked buffs", 1, true) ~= nil, true, text)
+  -- one chat line per spec and session
+  mock.printed = {}
+  ns.CDM.Announce()
+  ns.CDM.Announce()
+  local lines = 0
+  for _, m in ipairs(mock.printed) do
+    if tostring(m):find("Cooldown Manager on", 1, true) then
+      lines = lines + 1
+    end
+  end
+  eq(lines, 1)
+  -- a buff the Cooldown Manager doesn't offer: said so, not suggested
+  mock.cdmCategories = { [2] = { 1, 3 } }
+  st = ns.CDM.Refresh("test")
+  eq(st.keys[2].where, "unavailable")
+  mock.cvars.cooldownViewerEnabled, mock.cdmCategories = nil, nil
+  BuffIconCooldownViewer = nil -- luacheck: ignore 111
+end)
+
+test("Cooldown Manager: an icon showing stands for its buff in combat once it proved right out of combat", function()
+  Reset()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, tostring(data) } end } -- luacheck: ignore 111
+  local ns = Boot()
+  mock.cvars.cooldownViewerEnabled = "1"
+  local shown = false
+  local item = { cooldownID = 21, isActive = nil, IsShown = function() return shown end }
+  BuffIconCooldownViewer = { GetChildren = function() return item end } -- luacheck: ignore 111
+  mock.cdmInfo = { [21] = { spellID = 135700 } }
+  ns.SpellMap.info[135700] = { n = "clearcasting", d = 15 }
+  -- out of combat: graded against the readable auras (hidden while no buff, shown while it's up)
+  for i = 1, 12 do
+    shown = i % 4 == 0
+    mock.auras.player = shown and { { name = "Clearcasting", spellId = 135700, duration = 15,
+      expirationTime = mock.now + 15 } } or {}
+    mock.Fire("UNIT_AURA", "player")
+    ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  end
+  eq(ns.CDM.ShownTrusted(), true)
+  -- in combat, isActive hidden: the icon says it, and every flip is logged for the fight
+  Restrict()
+  shown = false
+  mock.Advance(16)
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  eq(ns.State.Resolve("buff.clearcasting.up", {}), 0)
+  mock.Advance(2)
+  shown = true
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  eq(ns.State.Resolve("buff.clearcasting.up", {}), 1)
+  mock.Advance(1)
+  shown = false
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  mock.restricted, mock.inCombat = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  local line
+  for _, l in ipairs(logged) do
+    if l[1] == "cdm_buff_summary" then line = l[2] end
+  end
+  eq(line ~= nil and line:find("clearcasting:sh=ok3/S0", 1, true) ~= nil, true, tostring(line))
+  eq(line:find("flips[18.0+,19.0-]", 1, true) ~= nil, true, line)
+  -- never proved (a fresh session): the icon alone says nothing
+  ns.CDM.shownStat = { checks = 0, wrong = 0, up = 0 }
+  Restrict()
+  mock.Advance(20)
+  shown = true
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  eq(ns.State.Resolve("buff.clearcasting.up", {}), ns.Expr.UNKNOWN)
+  mock.cvars.cooldownViewerEnabled = nil
+  BuffIconCooldownViewer = nil -- luacheck: ignore 111
+  DMGAssistWatchdog = nil -- luacheck: ignore 111
 end)
 
 test("free combo point proc: 'v or v+1', and a finisher makes the count exact again", function()
@@ -4029,7 +4171,7 @@ test("cooldown manager probe: every icon's readable parts logged (value, S for s
   for _, l in ipairs(logged) do
     if l[1] == "cdm_probe_trace" then line = l[2] end
   end
-  eq(line ~= nil and line:find("BuffIcon[1 shown=T]", 1, true) ~= nil, true, tostring(line))
+  eq(line ~= nil and line:find("BuffIcon[1 shown=T a=-]", 1, true) ~= nil, true, tostring(line))
   eq(line:find("sh=T vis=T a=1 act=- tex=1234", 1, true) ~= nil, true, line)
   BuffIconCooldownViewer = nil -- luacheck: ignore 111
   DMGAssistWatchdog = nil -- luacheck: ignore 111
@@ -7230,7 +7372,7 @@ test("mid spec switch (spells / talents just changed) nothing is named as off yo
   eq(C.offBarsNoted[5217], nil, "and not marked as said")
   mock.Advance(C.QUIET + 0.5)
   C.NoteOffBars(5217)
-  eq(#mock.printed, printed + 1, "named once things settle")
+  eq(#mock.printed, printed + 1, "named once things settle: " .. table.concat(mock.printed, " | ", printed + 1))
 end)
 
 test("interrupts: delves (scenarios) count as open world, dungeons and raids as instances", function()

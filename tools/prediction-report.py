@@ -78,7 +78,8 @@ def main():
             if len(e) > 3 and e[1] == "D" and e[2] in ("prediction_summary", "learner_summary", "resource_audit",
                                                          "mark", "lane_close", "lane_close_trace", "gains_learned", "floors_at_pull",
                                                          "calibration_summary", "gain_fixed",
-                                                         "anchor_summary", "corrections_summary"):
+                                                         "anchor_summary", "corrections_summary",
+                                                         "cdm_setup", "cdm_buff_summary"):
                 print("   %s: %s" % (e[2], e[3]))
             if len(e) > 3 and e[1] == "D" and e[2] == "press":
                 kv = parse_kv(e[3])

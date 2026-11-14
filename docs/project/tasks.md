@@ -135,6 +135,8 @@ for every spec, before asking for more in-game logs.
 
 ## Open: needs in-game testing (built, not yet seen in game)
 
+- [ ] Cooldown Manager (1.6.0.280): Settings > Integrations lists your key buffs; does cdm_buff_summary show "shown"
+  readable in combat, and do its flips match the combat log's buff applied/removed? Opacity 0 still read?
 - [ ] Action bar highlight in magenta on Blizzard bars and Bartender; grade window opacity / size / bar / parts
 - [ ] Taint: none logged since the Edit Mode fix (1.6.0.139); keep watching the Watchdog's error list
 - [ ] Feral: no stopwatch; Rake not shown before energy is there; Ferocious Bite at 5 combo points
@@ -168,6 +170,26 @@ for every spec, before asking for more in-game logs.
 
 ## Done (recent)
 
+- 1.6.0.280: Cooldown Manager support (owner, 2026-11-14: "see on addon load if it's enabled ... automatically
+  start tracking ... see what it's not tracking and let them know in settings ... only track what's important").
+  New Core/CDM.lua:
+  - Detected at login, on a spec / talent change and when its option is switched (CVar cooldownViewerEnabled,
+    CVAR_UPDATE). When it's on, its tracked buffs are read automatically; when it's off, nothing is read.
+  - Key buffs per spec: the buffs SimC's and Blizzard's lists check that you don't cast yourself and that no one else
+    gives (procs and talent effects: Fire's Hot Streak / Heating Up / Pyroclasm, Outlaw's Opportunity / Audacity,
+    Fury's Enrage / Sudden Death), most checked first, at most 6, talents not taken left out.
+  - Settings > Integrations > "Blizzard's Cooldown Manager": on or off (how to turn it on), then each key buff as
+    tracked / "add it to Tracked Buffs" / "can't track it" (when the game's catalog doesn't offer it), and how many
+    other tracked buffs DMGAssist doesn't need (clutter). Same in /dmga cdm and the "Key buffs in chat" button; a
+    status line; one chat line per spec and session when it's on.
+  - In combat, where isActive is hidden, an icon's "shown" stands for its buff once it has proved right out of combat
+    (graded against readable auras: 10+ checks, 2+ while the buff was up, <=10% wrong), source cdm_shown.
+  - Logs for the next pass: cdm_setup (on/off, tracked buffs, key buffs and where each stands, the catalog's counts
+    per category, the viewer's opacity) and cdm_buff_summary per fight (per buff: shown / isActive / alpha read
+    plainly or hidden, and every moment the icon appeared or went away, to check against the combat log).
+    cdm_probe_trace is now one line per viewer (the single line ran past 2000 characters before the buffs).
+  - Translations: the new lines plus 8 earlier ones that were only in the built locale files (a rebuild would have
+    dropped them) are now in tools/i18n.
 - 1.6.0.277: Cooldown Manager probe (owner enabled tracked buffs/bars for all procs, 2026-11-14): item.isActive
   still reads nil in combat. cdm_probe_trace, 3 a fight (4 s, 12 s in, after combat): per viewer (Essential,
   Utility, BuffIcon, BuffBar) and icon: shown, visible, alpha, isActive, texture, cooldown times, cooldown shown,

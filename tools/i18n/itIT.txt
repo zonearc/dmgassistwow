@@ -894,3 +894,28 @@
 900	15 colpi Perfetto o Ottimo di fila avviano FLOW STATE: per 12 secondi la corsia brilla di turchese e ogni colpo vale doppio; un errore la chiude. Un'interruzione riuscita dalla riga dei bonus mostra COMBO BREAKER! con una scia rossa.
 901	Barra gialla dietro una nota: un lancio, lunga quanto il lancio. Barra blu: una canalizzazione. Nota arancione in fiamme: un grande tempo di recupero, vale doppio. Nota sbiadita: una stima o in attesa di risorsa; non conta come errore. La corsia diventa blu elettrico (MODALITÀ POTENZA!): Brama di sangue o subito dopo un grande tempo di recupero; ogni colpo vale doppio. La casella sopra quella di colpo mostra il bonus più urgente, uno alla volta (+1: un altro aspetta): INTERROMPI!, DIFENDITI! (un difensivo o una cura) e POTENZIA! (un monile o una pozione). Dopo una serie di pull (20 secondi fuori combattimento), appare il tuo voto prestazione.
 902	Ogni tanto la corsia collega le 3 note successive (4 dopo un grande tempo di recupero): bordi viola, una linea viola tra di esse e COMBO x3 sopra la prima. Continua a premere ciò che mostra la corsia: COMBO 1/3 conta man mano, e l'ultima pressione porta COMBO! con una scia viola e punti bonus. Segue la corsia come la serie: solo un errore, o una pausa di oltre 6 secondi, la chiude. Le combo iniziano con un tempo di recupero, mai nelle prime pressioni di un combattimento, ad almeno 15 secondi di distanza e circa una volta al minuto. Non cambiano mai il consiglio.
+903	Registro esteso attivo.
+904	Registro esteso disattivato.
+905	registro esteso sì / no: ogni pressione salva ciò che il gioco mostrava, per i rapporti
+906	Un allenatore di rotazione che impara mentre giochi
+907	DMGAssist mostra i prossimi incantesimi da usare, basati sulle rotazioni di SimulationCraft e regolati con valori misurati su migliaia di combattimenti di giocatori reali.\n\nContinua a imparare mentre giochi: quanto rendono davvero i tuoi incantesimi, quando tornano i tuoi tempi di recupero, come vanno i tuoi combattimenti. Ciò che vedi nei primi minuti diventa più preciso nel corso della sessione e se lo ricorda per la volta successiva.\n\nAiuta anche i tank a mantenere la mitigazione, segnala interruzioni e difensive e ricorda i potenziamenti mancanti.
+908	Configura (4 domande rapide)
+909	Segna questo momento (per il report)
+910	Segnato (#%d): sarà nel tuo prossimo report.
+911	%d altri benefici tracciati: a DMGAssist non servono.
+912	Gestore dei tempi di recupero di Blizzard
+913	Gestore dei tempi di recupero
+914	Gestore dei tempi di recupero attivo: lettura di %d dei tuoi benefici chiave.
+915	Gestore dei tempi di recupero attivo: lettura di %d dei tuoi benefici chiave; altri %d aiuterebbero (Impostazioni > Integrazioni).
+916	Benefici chiave in chat
+917	Indica in chat se il gestore dei tempi di recupero è attivo e quali dei tuoi benefici chiave traccia (anche /dmga cdm).
+918	Nessun beneficio chiave per questa specializzazione: niente da aggiungere.
+919	Disattivato. Attivalo in Opzioni > Miglioramenti di gioco (Attiva gestore dei tempi di recupero), poi traccia i benefici qui sotto.
+920	Attivo: %d benefici tracciati, %d dei quali sono tuoi benefici chiave.
+921	Il tracciatore di benefici del gioco vede i proc che il gioco nasconde agli addon. Se è attivo, DMGAssist legge i benefici che traccia. Traccia solo i tuoi benefici chiave qui sotto.
+922	Questo gioco non ha un gestore dei tempi di recupero.
+923	aggiungilo ai benefici tracciati
+924	attivo: lettura di %d dei tuoi benefici chiave (altri %d da aggiungere)
+925	il gestore dei tempi di recupero non può tracciarlo
+926	tracciato
+927	Gestore dei tempi di recupero di Blizzard: attivo o no, e i benefici chiave da tracciare

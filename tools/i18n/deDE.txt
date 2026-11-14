@@ -894,3 +894,28 @@
 900	15 Perfekt- oder Super-Treffer in Folge starten FLOW STATE: 12 Sekunden lang leuchtet die Spur türkis und jeder Treffer zählt doppelt; ein Fehler beendet ihn. Eine gelandete Unterbrechung aus der Bonusreihe zeigt COMBO BREAKER! mit einem roten Schwung.
 901	Gelber Balken hinter einer Note: ein Zauber mit Zauberzeit, so lang wie diese. Blauer Balken: ein kanalisierter Zauber. Orange, brennende Note: eine große Abklingzeit, zählt doppelt. Blasse Note: eine Schätzung oder wartet auf Ressource; zählt nicht als Fehler. Die Spur wird elektrisch blau (POWER-MODUS!): Kampfrausch oder direkt nach einer großen Abklingzeit; jeder Treffer zählt doppelt. Das Feld über dem Trefferfeld zeigt den dringendsten Bonus, einen nach dem anderen (+1: ein weiterer wartet): UNTERBRECHEN!, VERTEIDIGEN! (Defensivzauber oder Heilung) und POWER UP! (Schmuckstück oder Trank). Nach einer Reihe von Pulls (20 Sekunden außerhalb des Kampfes) erscheint deine Leistungsnote.
 902	Ab und zu verbindet die Spur die nächsten 3 Noten (4 nach einer großen Abklingzeit): violette Ränder, eine violette Linie dazwischen und KOMBO x3 über der ersten. Drücke weiter, was die Spur zeigt: KOMBO 1/3 zählt mit, und der letzte Druck bringt KOMBO! mit einem violetten Schwung und Bonuspunkten. Sie folgt der Spur wie die Serie: nur ein Fehler oder mehr als 6 Sekunden Pause beenden sie. Kombos beginnen mit einer Abklingzeit, nie in den ersten Drücken eines Kampfes, mindestens 15 Sekunden auseinander und etwa einmal pro Minute. Sie ändern nie, was empfohlen wird.
+903	Erweitertes Protokoll an.
+904	Erweitertes Protokoll aus.
+905	erweitertes Protokoll an / aus: jeder Tastendruck speichert, was das Spiel zeigte, für Berichte
+906	Ein Rotations-Coach, der beim Spielen lernt
+907	DMGAssist zeigt die nächsten Zauber an, aufgebaut auf den Rotationen von SimulationCraft und abgestimmt mit Werten aus Tausenden echter Kämpfe anderer Spieler.\n\nWährend du spielst, lernt es weiter: wie viel deine Zauber wirklich bringen, wann deine Abklingzeiten zurück sind, wie deine Kämpfe verlaufen. Was du in den ersten Minuten siehst, wird im Lauf einer Sitzung genauer, und es merkt sich alles für das nächste Mal.\n\nEs hilft außerdem Tanks bei ihrer Schadensminderung, ruft Unterbrechungen und Verteidigungen aus und erinnert an fehlende Buffs.
+908	Einrichten (4 kurze Fragen)
+909	Diesen Moment markieren (für den Bericht)
+910	Markiert (#%d): steht in deinem nächsten Bericht.
+911	%d weitere verfolgte Buffs: DMGAssist braucht sie nicht.
+912	Blizzards Abklingzeitenmanager
+913	Abklingzeitenmanager
+914	Abklingzeitenmanager an: %d deiner wichtigen Buffs werden gelesen.
+915	Abklingzeitenmanager an: %d deiner wichtigen Buffs werden gelesen; %d weitere würden helfen (Einstellungen > Integrationen).
+916	Wichtige Buffs im Chat
+917	Zeigt im Chat, ob der Abklingzeitenmanager an ist und welche deiner wichtigen Buffs er verfolgt (auch /dmga cdm).
+918	Keine wichtigen Buffs für diese Spezialisierung: nichts hinzuzufügen.
+919	Aus. Schalte ihn unter Optionen > Spielverbesserungen ein (Abklingzeitenmanager aktivieren) und verfolge dann die Buffs unten.
+920	An: %d Buffs verfolgt, darunter %d deiner wichtigen Buffs.
+921	Der Buff-Tracker des Spiels sieht Procs, die das Spiel vor Addons verbirgt. Ist er an, liest DMGAssist die Buffs, die er verfolgt. Verfolge unten nur deine wichtigen Buffs.
+922	Dieses Spiel hat keinen Abklingzeitenmanager.
+923	zu den verfolgten Buffs hinzufügen
+924	an: %d deiner wichtigen Buffs werden gelesen (%d weitere hinzuzufügen)
+925	der Abklingzeitenmanager kann ihn nicht verfolgen
+926	verfolgt
+927	Blizzards Abklingzeitenmanager: an oder aus, und welche wichtigen Buffs sich darin zu verfolgen lohnen

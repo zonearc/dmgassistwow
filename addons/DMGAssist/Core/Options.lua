@@ -722,6 +722,29 @@ function O.Register()
   Button(integrations, "Test", "Test Assisted Combat", function()
     SlashCmdList.DMGASSIST("test assisted")
   end, "Shows the spell Blizzard's Assisted Combat suggests right now. Target an enemy first.")
+  Header(integrations, "Blizzard's Cooldown Manager", "The game's buff tracker sees procs the game hides from "
+    .. "addons. When it's on, DMGAssist reads the buffs it tracks. Track only your key buffs below.")
+  do
+    local cdmLayout = O.layouts[integrations]
+    if cdmLayout and cdmLayout.AddInitializer and Settings.CreateElementInitializer then
+      local ok, init = pcall(Settings.CreateElementInitializer, "DMGAssistSettingsTextTemplate", {
+        text = function()
+          return (ns.CDM.SettingsText())
+        end })
+      if ok and init then
+        init.GetExtent = function()
+          -- the status (up to 2 lines), one line per key buff, the "others" line
+          local st = ns.CDM.status
+          local n = 2 + math.max(1, st and #st.keys or 1) + (st and st.clutter > 0 and 1 or 0)
+          return 8 + n * 15
+        end
+        cdmLayout:AddInitializer(init)
+      end
+    end
+  end
+  Button(integrations, "Check", "Key buffs in chat", function()
+    SlashCmdList.DMGASSIST("cdm")
+  end, "Lists in chat whether the Cooldown Manager is on and which of your key buffs it tracks (also /dmga cdm).")
   Header(integrations, "Boss mods", "DBM, BigWigs and LittleWigs warn about upcoming hits, adds and casts, so "
     .. "defensives and interrupts come on time.")
   Check(integrations, DB, "bossMods", "Boss mod timers", true,

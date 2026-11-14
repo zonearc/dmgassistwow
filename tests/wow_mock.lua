@@ -665,6 +665,9 @@ function mock.Install(env)
     GetCooldownViewerCooldownInfo = function(id)
       return mock.cdmInfo and mock.cdmInfo[id]
     end,
+    GetCooldownViewerCategorySet = function(category)
+      return mock.cdmCategories and mock.cdmCategories[category]
+    end,
   }
   env.C_RestrictedActions = {
     GetAddOnRestrictionState = function(rtype)
