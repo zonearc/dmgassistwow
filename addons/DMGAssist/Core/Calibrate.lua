@@ -130,6 +130,9 @@ function K.OnReadDelta(id, pt, delta)
   if not info or (info.cmax and info.cmax[pt]) then
     return -- finishers spend "up to N": their change depends on what you had
   end
+  if delta == 0 and not ((info.gain and info.gain[pt]) or (info.cost and info.cost[pt])) then
+    return -- a resource this spell doesn't touch (Balance's combo points)
+  end
   local store = K.Store()
   if not store then
     return
@@ -364,7 +367,14 @@ function K.OnCombat(inCombat)
       floors[#floors + 1] = pt .. "=" .. math.floor(f.lo)
     end
     table.sort(floors)
-    U.Log("floors_at_pull", #floors > 0 and table.concat(floors, " ") or "none")
+    local reads, now = {}, GetTime()
+    for pt, r in pairs(ns.State.powerRead or {}) do
+      reads[#reads + 1] = string.format("%s:%s%s", pt, tostring(r.state),
+        r.okAt and string.format("(ok %.1fs ago)", now - r.okAt) or "(never ok)")
+    end
+    table.sort(reads)
+    U.Log("floors_at_pull", (#floors > 0 and table.concat(floors, " ") or "none") .. " | read " ..
+      (#reads > 0 and table.concat(reads, " ") or "-"))
     return
   end
   U.Log("corrections_summary", K.CorrectionsText())

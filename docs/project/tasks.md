@@ -142,6 +142,14 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.272: Balance check on 1.6.0.271: Astral Power still not counted (floors_at_pull had no 8; Rage and Energy
+  missing too) although readability shows it readable out of combat. floors_at_pull now says, per resource, how
+  it read last ("ok" / "secret") and when it last read as a number. Back-to-back notes not caught: lane_close
+  only looked at time; now also logged when drawn closer than an icon + gap (`lane_close_trace`: whole lane,
+  paused, main). Calibration ignores resources a spell doesn't touch (Balance logged combo point changes of 0).
+  Warcraft Logs: client credentials saved, the token call works; the data API on the same host gets the saved
+  login instead of the bearer token (404). Needs the access token saved as a bearer credential instead (owner
+  declined for now).
 - 1.6.0.271: Balance check on 1.6.0.270 (dummies, exported mid-fight). Working: anchor_summary, state_trace (20
   presses), tooltip gains (gains_learned n=3). Found: Astral Power was never counted (no floor in any Balance fight,
   no floor_check ever): resources were read only while the HUD showed, and "show with a target" hid it out of

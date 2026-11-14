@@ -3844,6 +3844,11 @@ test("calibration: each fight logs an anchor for the game's combat log and what 
     if l[1] == "corrections_summary" then corr = l[2] end
   end
   eq(type(anchor), "string", "anchor logged at the pull")
+  local floors
+  for _, l in ipairs(logged) do
+    if l[1] == "floors_at_pull" then floors = l[2] end
+  end
+  eq(type(floors) == "string" and floors:find(" | read ", 1, true) ~= nil, true, tostring(floors))
   eq(anchor:match("^t=%d+%.%d%d%d epoch=%d+ date=%d+%-%d+%-%d+ %d+:%d+:%d+ guid=") ~= nil, true, anchor)
   eq(anchor:find("spec=rogue_outlaw", 1, true) ~= nil, true, anchor)
   eq(type(corr), "string", "corrections logged at the end")

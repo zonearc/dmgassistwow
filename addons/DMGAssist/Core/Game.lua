@@ -999,15 +999,18 @@ function G.Render()
       end
       -- two notes less than G.CLOSE_T apart: logged with their timings (owner, 2026-11-13: "two buttons side by
       -- side with no gap... it lands on slot 1 then swaps") - at most G.CLOSE_LOGS a fight
-      if w.lane == 1 and prevT and (w.t - prevT) < G.CLOSE_T and (G.closeLogs or 0) < G.CLOSE_LOGS
+      -- (or drawn closer than an icon and a gap, whatever their times: Balance 2026-11-14, still "back to back")
+      local touching = prevX and (n.x - prevX) < G.ICON + G.GAP_MIN - 1
+      if w.lane == 1 and prevT and ((w.t - prevT) < G.CLOSE_T or touching) and (G.closeLogs or 0) < G.CLOSE_LOGS
         and now - (G.closeAt or 0) > 2 then
         G.closeLogs, G.closeAt = (G.closeLogs or 0) + 1, now
         local prev = G.laneNow[#G.laneNow]
-        ns.U.Log("lane_close", { a = prev and prev.s, at = prevT and string.format("%.2f", prevT),
+        ns.U.Log("lane_close_trace", { a = prev and prev.s, at = prevT and string.format("%.2f", prevT),
           b = w.pick and (w.pick.token or w.pick.id), bt = string.format("%.2f", w.t),
           gcd = string.format("%.2f", (ns.State.GCD and prev and prev.id and ns.State.GCD(prev.id)) or -1),
           hold = prev and prev.hold and string.format("%.2f", prev.hold) or nil,
-          src = w.pick and w.pick.source, dx = string.format("%.0f", n.x - (prevX or 0)) })
+          src = w.pick and w.pick.source, dx = string.format("%.0f", n.x - (prevX or 0)), touching = touching or nil,
+          paused = G.paused or nil, main = w.main or nil, lane = G.LaneText and G.LaneText() or nil })
       end
       if w.lane == 1 then
         G.laneNow[#G.laneNow + 1] = { s = w.pick and (w.pick.token or w.pick.id), id = w.pick and w.pick.id, t = w.t,

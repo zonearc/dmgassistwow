@@ -2844,6 +2844,7 @@ function S.Bounds(name)
 end
 
 -- Grade inferred resource ranges whenever the real value is readable (out of combat, unrestricted resources).
+S.powerRead = {} -- pt -> { state = "ok" | "secret" | ..., okAt = GetTime() it last read as a number }
 function S.VerifyPowers()
   if V then
     return
@@ -2855,9 +2856,20 @@ function S.VerifyPowers()
     end
   end
   for _, pt in pairs(ns.Clues.BUILT) do
-    local cur = U.Get(UnitPower, "player", pt)
+    local raw = U.Call(UnitPower, "player", pt)
+    local cur = U.Read(raw)
+    local max = U.Get(UnitPowerMax, "player", pt)
+    if type(max) ~= "number" or max > 0 then
+      -- how each resource read, and when it last read as a number (floors_at_pull)
+      local r = S.powerRead[pt] or {}
+      S.powerRead[pt] = r
+      r.state = type(cur) == "number" and "ok" or (U.IsSecret(raw) and "secret" or tostring(raw))
+      if type(cur) == "number" then
+        r.okAt = GetTime()
+      end
+    end
     if type(cur) == "number" then
-      ns.Clues.SyncFloor(pt, cur, U.Get(UnitPowerMax, "player", pt))
+      ns.Clues.SyncFloor(pt, cur, max)
     end
   end
   local seen = {}
