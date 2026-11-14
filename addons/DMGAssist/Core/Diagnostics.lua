@@ -592,6 +592,61 @@ local function TrackMajors(result)
   end
 end
 
+-- Extended log (owner, 2026-11-14: "an extended log format that could be flipped on"; /dmga extended): at every
+-- press in combat, one `state_trace` line with what the game showed at that moment, so a fight can be replayed
+-- offline through a new build and lined up with the game's combat log (anchor_summary):
+--   t=<GetTime> p=<spell pressed> q=<slot:token(source)...> ac=<Blizzard's pick> tg=<targets> gcd=<left>
+--   glow=<lit ids> u=<usable ids> np=<ids short of resource> cd=<id:seconds left> res=<resources> est=<pt:lo-hi>
+-- Off by default: a few hundred characters a press.
+function G.StateTrace(id, last)
+  local S, M = ns.State, ns.SpellMap
+  local q = {}
+  for i, p in ipairs(last and last.queue or {}) do
+    q[i] = string.format("%d:%s(%s)", i, tostring(p.token or p.id), tostring(p.source))
+  end
+  local glow, usable, noPower, cds = {}, {}, {}, {}
+  for gid, on in pairs(S.glow or {}) do
+    if on then
+      glow[#glow + 1] = gid
+    end
+  end
+  local gcd = S.GCDRemains and S.GCDRemains() or 0
+  for bid, b in pairs(M.book or {}) do
+    if b.id == bid and not b.passive and M.Info(bid) then
+      local u, np = U.Call(C_Spell and C_Spell.IsSpellUsable, bid)
+      u, np = U.Read(u), U.Read(np)
+      if u == true then
+        usable[#usable + 1] = bid
+      elseif u == false and np == true then
+        noPower[#noPower + 1] = bid
+      end
+      local left = S.CooldownRemains and S.CooldownRemains(bid)
+      if type(left) == "number" and left > gcd + 0.05 then
+        cds[#cds + 1] = string.format("%d:%.1f", bid, left)
+      end
+    end
+  end
+  local est = {}
+  for pt in pairs(ns.Clues.floor or {}) do
+    local lo, hi = ns.Clues.ResourceBounds(pt)
+    if lo then
+      est[#est + 1] = string.format("%d:%d-%s", pt, math.floor(lo), hi == math.huge and "?" or tostring(math.floor(hi)))
+    end
+  end
+  for _, list in ipairs({ glow, usable, noPower, cds, est }) do
+    table.sort(list, function(a, b)
+      return tostring(a) < tostring(b)
+    end)
+  end
+  local function J(list)
+    return #list > 0 and table.concat(list, ",") or "-"
+  end
+  U.Log("state_trace", string.format("t=%.3f p=%s q=%s ac=%s tg=%s gcd=%.2f glow=%s u=%s np=%s cd=%s res=%s est=%s",
+    GetTime(), tostring(id), #q > 0 and table.concat(q, " ") or "-",
+    tostring(U.Get(C_AssistedCombat and C_AssistedCombat.GetNextCastSpell, false)), tostring((S.Targets())), gcd,
+    J(glow), J(usable), J(noPower), J(cds), S.ResourceText and S.ResourceText() or "-", J(est)))
+end
+
 -- Resource audit (asked 2026-11-14: "ensure we are tracking all spends per spell properly"): after each of your
 -- casts in combat, how each readable resource changed AUDIT_AFTER s later, against what our data says the spell
 -- gains / costs. Per fight: resource_audit "starfire pt8 data=+12 seen=+14.0 n=20". Noisy for one cast (other

@@ -977,6 +977,9 @@ function ns.OnOwnCast(id)
     ns.Diagnostics.OnPress(id, shown, ns.last) -- was slot 2 right? (prediction_summary)
     ns.Learner.OnPress(id, shown, ns.last) -- the shadow learner (learner_summary, press lines)
     ns.Diagnostics.AuditCast(id) -- what each cast did to your resources (resource_audit)
+    if ns.db and ns.db.extendedLog then
+      ns.Diagnostics.StateTrace(id, ns.last) -- what the game showed at this press (/dmga extended)
+    end
   end
   ns.Essentials.OnOwnCast(id)
   ns.Trinkets.OnOwnCast(id)
@@ -1106,6 +1109,7 @@ function commands.help()
     { "/dmga test interrupt | assisted | bossmods", "test the interrupt alert, Assisted Combat, or boss mod detection" },
     { "/dmga snapshot", "save a full decision trace for troubleshooting" },
     { "/dmga mark", "mark this moment for your report (also a key binding)" },
+    { "/dmga extended", "extended log on / off: every press records what the game showed, for reports" },
     { "/dmga relearn", "forget learned cooldown timing and start learning again" },
     { "/dmga addons", "which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use" },
     { "/dmga potion", "choose the potion for this spec (shift-click it), or /dmga potion off" },
@@ -1122,6 +1126,18 @@ end
 
 function DMGAssist_ToggleBurst()
   commands.burst()
+end
+
+-- Extended log: one state_trace line per press in combat (Diagnostics.StateTrace). Kept until turned off.
+function commands.extended(arg)
+  if arg == "on" then
+    ns.db.extendedLog = true
+  elseif arg == "off" then
+    ns.db.extendedLog = false
+  else
+    ns.db.extendedLog = not ns.db.extendedLog
+  end
+  U.Print(ns.db.extendedLog and L["Extended log on."] or L["Extended log off."])
 end
 
 -- "That, right there": a labelled snapshot of the moment for the report - the Flow lane as drawn, the three

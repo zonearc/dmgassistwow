@@ -3852,6 +3852,37 @@ test("calibration: each fight logs an anchor for the game's combat log and what 
   DMGAssistWatchdog = nil -- luacheck: ignore 111
 end)
 
+test("extended log: off by default; /dmga extended logs what the game showed at every press", function()
+  Reset()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, tostring(data) } end } -- luacheck: ignore 111
+  local ns = Boot()
+  local function Traces()
+    local n, last = 0, nil
+    for _, l in ipairs(logged) do
+      if l[1] == "state_trace" then n, last = n + 1, l[2] end
+    end
+    return n, last
+  end
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  ns.OnOwnCast(5221)
+  eq(Traces(), 0, "off by default")
+  SlashCmdList.DMGASSIST("extended")
+  eq(ns.db.extendedLog, true)
+  mock.usable[1079] = { false, true }
+  ns.OnOwnCast(5221)
+  local n, line = Traces()
+  eq(n, 1, "one line per press")
+  eq(line:match("^t=%d+%.%d+ p=5221 q=") ~= nil, true, line)
+  eq(line:find(" np=", 1, true) ~= nil and line:find("1079", 1, true) ~= nil, true, "short of resource: " .. line)
+  SlashCmdList.DMGASSIST("extended off")
+  ns.OnOwnCast(5221)
+  eq(Traces(), 1, "off again")
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  DMGAssistWatchdog = nil -- luacheck: ignore 111
+end)
+
 test("learner (shadow): learns what you press next per situation, scores itself against slot 2, keeps it", function()
   Reset()
   local logged = {}

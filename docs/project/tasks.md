@@ -142,6 +142,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.270: Extended log (owner, 2026-11-14), `/dmga extended` (on / off, kept; off by default): one `state_trace`
+  line per press in combat with what the game showed then: slots 1-3 with sources, Blizzard's pick, targets, GCD
+  left, lit spells, usable / short-of-resource spells, cooldowns left, resources, our hidden-resource estimates.
+  For replaying fights offline through a new build and lining them up with the combat log (anchor_summary).
 - 1.6.0.269: Reports line up with the game's combat log (owner, 2026-11-14: "so you can use outputs across
   both"). Each fight logs `anchor_summary` (GetTime and wall clock at the same moment, player GUID as the log names
   you, spec, addon version, talent loadout string) so the C lines match SPELL_CAST_SUCCESS in WoWCombatLog.txt;
