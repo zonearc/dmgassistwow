@@ -78,6 +78,32 @@ Last updated: 1.6.0.157 (2026-11-10).
 - Racials: SimC lists carry the damage racials (Berserking, Blood Fury, Fireblood, Ancestral Call, Arcane Torrent,
   Light's Judgment, Bag of Tricks); shown only for that race and when on your bars. Confirm on a race that has one.
 
+## Reference model and offline grader (owner, 2026-11-14) - IN PROGRESS
+Principle: the owner presses what DMGAssist shows, so his presses can't be the reference ("that assumes the
+source material is correct"). Build an independent reference per spec and grade DMGAssist against it, offline,
+for every spec, before asking for more in-game logs.
+- Evidence so far: Balance with the owner's exact talents (SimC talents= his loadout string, 6 targets, 100 fights)
+  casts Sunfire 0.4/min; DMGAssist had him at 3.7/min (9x). Outlaw (SimC reference talents): DMGAssist ~40% fewer
+  finishers (Dispatch 10.0 vs 16.2/min, Between the Eyes 5.1 vs 9.4), Adrenaline Rush ~0.1 vs ~1.9/min.
+  Top players' next-press pairs predicted the owner's presses worse (Balance 28-39%, Outlaw 15-37%) - expected
+  now: his presses are DMGAssist's output, not the reference.
+- 1. Reference per spec (data/reference/<spec>.json), ~10 top players per spec (raid single target and Mythic+
+  AoE apart, grouped by talent build) + SimC with the same talents and target counts: casts/min per spell,
+  openers (first casts), pairs / triples, what is cast inside burst windows (Bloodlust, major cooldowns), seconds
+  from ready to use for cooldowns, resource at each spender (pooling), DoT refresh timing, out-of-combat drain
+  (tools/wcl-ooc.py), gains / passive income (tools/wcl-resources.py). Players vs SimC gives the realistic margin
+  ("top players reach ~95% of SimC").
+- 2. Offline grader: the scenario harness gets a real world model (resources from gains / costs / passive /
+  regen, cooldowns, DoTs with durations, target counts), runs DMGAssist for every spec at 1 / 3 / 5+ targets and
+  produces the same statistics; scored against the reference, biggest deviations listed with the APL line that
+  chose the spell. Runs in check.sh: a report first, then a baseline that must not get worse.
+- 3. In game: the same statistics from each report against the reference (owner's build via anchor_summary).
+- 4. Learner priors: reference openers / pairs for the first minutes, the owner's own data after.
+- Also open from this round: out-of-combat model into the addon (replaces 1.6.0.273's "Astral Power full after
+  5 s": top players' Astral Power drains ~2.7/s, fastest ~5/s, settles ~20 with the pre-cast); Sunfire 9x;
+  welcome page + store description on self-learning; racials checked in SimC (no passive regen racials; haste
+  racials and Arcane Torrent only).
+
 ## Proposed (waiting on a decision)
 - Prediction plan (owner, 2026-11-13), in order: (1) measurement (1.6.0.252); (2) slot 1 commitment (built 1.6.0.253): keep the
   shown spell until pressed while its SimC line still holds, switching only for situations (interrupt, defensive)

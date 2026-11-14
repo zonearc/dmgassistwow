@@ -35,7 +35,7 @@ OUT = os.path.join(ROOT, "data", "resource-gains.json")
 DATA = os.path.join(ROOT, "addons", "DMGAssist", "Data", "midnight")
 
 # our spec keys -> Warcraft Logs class / spec names
-CLASS = {"death_knight": "DeathKnight", "demon_hunter": "DemonHunter"}
+CLASS = {"deathknight": "DeathKnight", "demonhunter": "DemonHunter"}
 SPEC = {"beast_mastery": "BeastMastery"}
 # resources worth measuring (the game's power types); mana, health and the like are left out
 POWERS = {1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 16, 17, 18, 19}
@@ -85,12 +85,13 @@ def top_fights(spec, zone, difficulty, want):
     return out
 
 
-def events(code, fight, source, kind, start, end):
+def events(code, fight, source, kind, start, end, resources=False):
     got = []
     while start:
-        d = query("query($c:String!,$f:[Int],$s:Int,$st:Float,$en:Float,$t:EventDataType){reportData{report(code:$c){"
-                  "events(fightIDs:$f,sourceID:$s,dataType:$t,startTime:$st,endTime:$en){data nextPageTimestamp}}}}",
-                  {"c": code, "f": [fight], "s": source, "st": start, "en": end, "t": kind})
+        d = query("query($c:String!,$f:[Int],$s:Int,$st:Float,$en:Float,$t:EventDataType,$r:Boolean){reportData{"
+                  "report(code:$c){events(fightIDs:$f,sourceID:$s,dataType:$t,startTime:$st,endTime:$en,"
+                  "includeResources:$r){data nextPageTimestamp}}}}",
+                  {"c": code, "f": [fight], "s": source, "st": start, "en": end, "t": kind, "r": resources})
         e = d["reportData"]["report"]["events"]
         got += e["data"]
         start = e["nextPageTimestamp"]
