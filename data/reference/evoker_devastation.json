@@ -1,0 +1,611 @@
+{
+ "build": "profile",
+ "profile": "MID1_Evoker_Devastation.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "evoker_devastation",
+ "talentOptions": [],
+ "talents": [
+  {
+   "id": 0,
+   "name": "Scalecommander",
+   "rank": 1,
+   "tree": "heroTree"
+  },
+  {
+   "id": 386272,
+   "name": "Titanic Wrath",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1265867,
+   "name": "Azure Sweep",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 375618,
+   "name": "Arcane Intensity",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 359073,
+   "name": "Eternity Surge",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 386283,
+   "name": "Catalyze",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 375725,
+   "name": "Heat Wave",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 371034,
+   "name": "Lay Waste",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 376872,
+   "name": "Ruby Essence Burst",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 375406,
+   "name": "Obsidian Bulwark",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 374251,
+   "name": "Cauterizing Flame",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 375554,
+   "name": "Enkindled",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 374346,
+   "name": "Overawe",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 372048,
+   "name": "Oppressing Roar",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 376166,
+   "name": "Draconic Legacy",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 375520,
+   "name": "Innate Magic",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 363916,
+   "name": "Obsidian Scales",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 358385,
+   "name": "Landslide",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 365585,
+   "name": "Expunge",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 375510,
+   "name": "Blast Furnace",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 376164,
+   "name": "Instinctive Arcana",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 386405,
+   "name": "Inner Radiance",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 369913,
+   "name": "Natural Convergence",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266151,
+   "name": "Strafing Run",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 375801,
+   "name": "Burnout",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1265802,
+   "name": "Shattering Stars",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 411165,
+   "name": "Eye of Infinity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 375722,
+   "name": "Essence Attunement",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 375757,
+   "name": "Eternity's Span",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 370839,
+   "name": "Power Swell",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 370845,
+   "name": "Spellweaver's Dominance",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 370821,
+   "name": "Scintillation",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1219723,
+   "name": "Azure Celerity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 370781,
+   "name": "Imminent Destruction",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 386348,
+   "name": "Onyx Legacy",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 376888,
+   "name": "Tyranny",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 371038,
+   "name": "Honed Aggression",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 375797,
+   "name": "Animosity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 375087,
+   "name": "Dragonrage",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 351338,
+   "name": "Quell",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 375721,
+   "name": "Azure Essence Burst",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 357211,
+   "name": "Pyre",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 372469,
+   "name": "Scarlet Adaptation",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 360995,
+   "name": "Verdant Embrace",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 369939,
+   "name": "Leaping Flames",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 369459,
+   "name": "Source of Magic",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 374227,
+   "name": "Zephyr",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 387761,
+   "name": "Panacea",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 375517,
+   "name": "Extended Flight",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 370553,
+   "name": "Tip the Scales",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 374968,
+   "name": "Time Spiral",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 365933,
+   "name": "Aerial Mastery",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 387787,
+   "name": "Regenerative Magic",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 374348,
+   "name": "Renewing Blaze",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 375544,
+   "name": "Inherent Resistance",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 375777,
+   "name": "Causality",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 418101,
+   "name": "Potent Mana",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 441176,
+   "name": "Melt Armor",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441212,
+   "name": "Extended Battle",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441180,
+   "name": "Hardened Scales",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441246,
+   "name": "Unrelenting Siege",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 434300,
+   "name": "Bombardments",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 436335,
+   "name": "Mass Disintegrate",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 433871,
+   "name": "Maneuverability",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441257,
+   "name": "Slipstream",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441245,
+   "name": "Onslaught",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1264269,
+   "name": "Legacy of the Lifebinder",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441705,
+   "name": "Might of the Black Dragonflight",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441206,
+   "name": "Wingleader",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 438587,
+   "name": "Mass Eruption",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 368838,
+   "name": "Heavy Wingbeats",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 375443,
+   "name": "Clobbering Sweep",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1261452,
+   "name": "Refined Essence",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1261448,
+   "name": "Concentrated Power",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1260745,
+   "name": "Command Squadron",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 369909,
+   "name": "Protracted Talons",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1271687,
+   "name": "Rising Fury",
+   "rank": 0,
+   "tree": "spec"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "azure_sweep": 6.8,
+    "deep_breath": 2.61,
+    "disintegrate": 17.99,
+    "dragonrage": 0.67,
+    "eternity_surge": 3.77,
+    "fire_breath": 3.35,
+    "hover": 5.45,
+    "living_flame": 3.9,
+    "tip_the_scales": 0.67,
+    "unbound_flame": 1.51,
+    "verdant_embrace": 0.34
+   },
+   "opener": [
+    "verdant_embrace",
+    "hover",
+    "living_flame",
+    "deep_breath",
+    "dragonrage",
+    "hover",
+    "tip_the_scales",
+    "eternity_surge"
+   ],
+   "pairs": {
+    "azure_sweep>azure_sweep": 98,
+    "azure_sweep>deep_breath": 12,
+    "azure_sweep>disintegrate": 28,
+    "azure_sweep>eternity_surge": 125,
+    "azure_sweep>hover": 130,
+    "deep_breath>azure_sweep": 18,
+    "deep_breath>disintegrate": 51,
+    "deep_breath>dragonrage": 20,
+    "deep_breath>fire_breath": 45,
+    "disintegrate>azure_sweep": 193,
+    "disintegrate>deep_breath": 65,
+    "disintegrate>disintegrate": 485,
+    "disintegrate>dragonrage": 10,
+    "disintegrate>eternity_surge": 22,
+    "disintegrate>fire_breath": 97,
+    "disintegrate>living_flame": 161,
+    "disintegrate>unbound_flame": 30,
+    "dragonrage>disintegrate": 8,
+    "dragonrage>hover": 29,
+    "eternity_surge>deep_breath": 31,
+    "eternity_surge>disintegrate": 139,
+    "eternity_surge>fire_breath": 33,
+    "eternity_surge>unbound_flame": 8,
+    "fire_breath>disintegrate": 153,
+    "fire_breath>living_flame": 24,
+    "hover>azure_sweep": 76,
+    "hover>disintegrate": 115,
+    "hover>eternity_surge": 42,
+    "hover>living_flame": 29,
+    "hover>tip_the_scales": 26,
+    "hover>unbound_flame": 19,
+    "living_flame>deep_breath": 31,
+    "living_flame>disintegrate": 42,
+    "living_flame>hover": 113,
+    "living_flame>unbound_flame": 29,
+    "tip_the_scales>eternity_surge": 21,
+    "tip_the_scales>fire_breath": 13,
+    "unbound_flame>disintegrate": 53,
+    "unbound_flame>hover": 28,
+    "verdant_embrace>hover": 20
+   },
+   "seconds": 3581
+  },
+  "5": {
+   "cpm": {
+    "azure_sweep": 7.4,
+    "deep_breath": 3.35,
+    "disintegrate": 7.68,
+    "dragonrage": 0.67,
+    "eternity_surge": 4.02,
+    "fire_breath": 3.68,
+    "hover": 5.09,
+    "living_flame": 4.37,
+    "pyre": 13.24,
+    "tip_the_scales": 0.67,
+    "unbound_flame": 2.28,
+    "verdant_embrace": 0.33
+   },
+   "opener": [
+    "verdant_embrace",
+    "hover",
+    "living_flame",
+    "deep_breath",
+    "dragonrage",
+    "hover",
+    "tip_the_scales",
+    "eternity_surge"
+   ],
+   "pairs": {
+    "azure_sweep>azure_sweep": 68,
+    "azure_sweep>disintegrate": 36,
+    "azure_sweep>eternity_surge": 49,
+    "azure_sweep>fire_breath": 30,
+    "azure_sweep>hover": 80,
+    "azure_sweep>living_flame": 31,
+    "azure_sweep>pyre": 134,
+    "deep_breath>deep_breath": 58,
+    "deep_breath>disintegrate": 41,
+    "deep_breath>dragonrage": 39,
+    "deep_breath>pyre": 47,
+    "disintegrate>azure_sweep": 93,
+    "disintegrate>disintegrate": 63,
+    "disintegrate>pyre": 212,
+    "disintegrate>unbound_flame": 24,
+    "dragonrage>hover": 39,
+    "eternity_surge>disintegrate": 153,
+    "eternity_surge>fire_breath": 48,
+    "fire_breath>deep_breath": 39,
+    "fire_breath>disintegrate": 131,
+    "hover>azure_sweep": 73,
+    "hover>eternity_surge": 25,
+    "hover>living_flame": 39,
+    "hover>pyre": 87,
+    "hover>tip_the_scales": 35,
+    "hover>unbound_flame": 24,
+    "living_flame>deep_breath": 37,
+    "living_flame>eternity_surge": 26,
+    "living_flame>living_flame": 86,
+    "living_flame>pyre": 81,
+    "pyre>azure_sweep": 163,
+    "pyre>deep_breath": 28,
+    "pyre>eternity_surge": 78,
+    "pyre>fire_breath": 80,
+    "pyre>hover": 131,
+    "pyre>living_flame": 82,
+    "pyre>pyre": 154,
+    "pyre>unbound_flame": 65,
+    "tip_the_scales>eternity_surge": 33,
+    "unbound_flame>pyre": 76
+   },
+   "seconds": 3584
+  }
+ }
+}

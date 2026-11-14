@@ -1,0 +1,537 @@
+{
+ "build": "top player (Warcraft Logs)",
+ "profile": "MID1_Hunter_Beast_Mastery.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "hunter_beast_mastery",
+ "talentOptions": [
+  "talents=",
+  "class_talents=126352:1/126443:1/126444:1/126447:2/126450:1/126452:1/126453:1/126454:1/126459:1/126460:2/126461:1/126465:2/126468:1/126470:1/126473:2/126475:1/126481:2/126489:1/126490:1/135705:1/135708:1/135710:2/136677:1/136685:1/126488:1/135706:2/135709:1/136673:1",
+  "hero_talents=117559:1/117563:1/117564:1/117566:1/117569:1/117576:1/117581:1/117582:1/117585:1/117589:1/136060:1/136061:1/136236:1/117588:1",
+  "spec_talents=126397:2/126400:1/126402:1/126404:1/126405:1/126406:1/126407:2/126408:1/126409:1/126415:1/126416:1/126418:1/126419:1/126420:1/126424:1/126431:1/126433:1/126435:1/126436:1/126437:1/126440:1/136679:1/137050:1/137051:2/137052:1/126427:1/126430:2/126439:1/132188:1/132189:1"
+ ],
+ "talents": [
+  {
+   "id": 147362,
+   "name": "Counter Shot",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1267003,
+   "name": "Precision Strikes",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 385539,
+   "name": "Rejuvenating Wind",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 459502,
+   "name": "Serrated Tips",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 459527,
+   "name": "Unnatural Causes",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 459517,
+   "name": "Emergency Salve",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 459542,
+   "name": "Specialized Arsenal",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 388039,
+   "name": "Lone Survivor",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 343244,
+   "name": "Disruptive Rounds",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 459534,
+   "name": "Trigger Finger",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 19577,
+   "name": "Intimidation",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 270581,
+   "name": "Natural Mending",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 378002,
+   "name": "Pathfinding",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 459450,
+   "name": "Padded Armor",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 378004,
+   "name": "Keen Eyesight",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 109215,
+   "name": "Posthaste",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 266921,
+   "name": "Born To Be Wild",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 384799,
+   "name": "Hunter's Avoidance",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1258485,
+   "name": "Improved Aspect of the Turtle",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 459455,
+   "name": "Scout's Instincts",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1258407,
+   "name": "Improved Aspect of the Cheetah",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1258402,
+   "name": "Touch of Grass",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 1268871,
+   "name": "Combat Experience",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1272094,
+   "name": "Guardian's Hide",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 264735,
+   "name": "Survival of the Fittest",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1258486,
+   "name": "Improved Feign Death",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 1258404,
+   "name": "Catlike Reflexes",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1267218,
+   "name": "Shell Wall",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1264934,
+   "name": "Frenzy",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 407412,
+   "name": "Bloody Frenzy",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 19574,
+   "name": "Bestial Wrath",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 193532,
+   "name": "Scent of Blood",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 393933,
+   "name": "War Orders",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 468695,
+   "name": "Snakeskin Quiver",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1265051,
+   "name": "Thrill of the Hunt",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 34026,
+   "name": "Kill Command",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 199530,
+   "name": "Stomp",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 469880,
+   "name": "Barbed Scales",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 193455,
+   "name": "Cobra Shot",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 424557,
+   "name": "Savagery",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 459550,
+   "name": "Go for the Throat",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1265044,
+   "name": "Jagged Wounds",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1272099,
+   "name": "Bloodshed",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 269737,
+   "name": "Alpha Predator",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 459693,
+   "name": "Thundering Hooves",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 468701,
+   "name": "Serpentine Strikes",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 231548,
+   "name": "The Beast Within",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 321014,
+   "name": "Pack Tactics",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 217200,
+   "name": "Barbed Shot",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 267116,
+   "name": "Animal Companion",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1273126,
+   "name": "Nature's Ally",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1273065,
+   "name": "Nature's Ally",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1273043,
+   "name": "Nature's Ally",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 378743,
+   "name": "Dire Command",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 385810,
+   "name": "Dire Frenzy",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 120679,
+   "name": "Dire Beast",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1232739,
+   "name": "Wildspeaker",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 459730,
+   "name": "Huntmaster's Call",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 472357,
+   "name": "Better Together",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 472741,
+   "name": "Stampede!",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 472707,
+   "name": "Shell Cover",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 472660,
+   "name": "No Mercy",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 472476,
+   "name": "Ursine Fury",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 472719,
+   "name": "Slicked Shoes",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 472550,
+   "name": "Fury of the Wyvern",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 472358,
+   "name": "Pack Mentality",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 472639,
+   "name": "Hogstrider",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 472352,
+   "name": "Dire Summons",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1264775,
+   "name": "Sharpened Fangs",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1264781,
+   "name": "Lethal Barbs",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1264792,
+   "name": "Wyvern's Gaze",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 471876,
+   "name": "Howl of the Pack Leader",
+   "rank": 1,
+   "tree": "hero"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "barbed_shot": 11.61,
+    "bestial_wrath": 2.01,
+    "blood_fury": 0.67,
+    "cobra_shot": 17.99,
+    "kill_command": 19.31,
+    "summon_pet": 0.33
+   },
+   "opener": [
+    "summon_pet",
+    "blood_fury",
+    "barbed_shot",
+    "barbed_shot",
+    "bestial_wrath",
+    "kill_command",
+    "barbed_shot",
+    "kill_command"
+   ],
+   "pairs": {
+    "barbed_shot>barbed_shot": 21,
+    "barbed_shot>bestial_wrath": 50,
+    "barbed_shot>blood_fury": 2,
+    "barbed_shot>cobra_shot": 60,
+    "barbed_shot>kill_command": 559,
+    "bestial_wrath>kill_command": 120,
+    "blood_fury>barbed_shot": 22,
+    "blood_fury>bestial_wrath": 11,
+    "blood_fury>cobra_shot": 3,
+    "blood_fury>kill_command": 4,
+    "cobra_shot>barbed_shot": 216,
+    "cobra_shot>bestial_wrath": 51,
+    "cobra_shot>blood_fury": 12,
+    "cobra_shot>cobra_shot": 331,
+    "cobra_shot>kill_command": 452,
+    "kill_command>barbed_shot": 435,
+    "kill_command>bestial_wrath": 8,
+    "kill_command>blood_fury": 6,
+    "kill_command>cobra_shot": 682,
+    "kill_command>kill_command": 20,
+    "summon_pet>blood_fury": 20
+   },
+   "seconds": 3588
+  },
+  "5": {
+   "cpm": {
+    "barbed_shot": 11.7,
+    "bestial_wrath": 2.01,
+    "blood_fury": 0.67,
+    "cobra_shot": 16.9,
+    "kill_command": 21.11,
+    "summon_pet": 0.33
+   },
+   "opener": [
+    "summon_pet",
+    "blood_fury",
+    "barbed_shot",
+    "bestial_wrath",
+    "barbed_shot",
+    "kill_command",
+    "barbed_shot",
+    "kill_command"
+   ],
+   "pairs": {
+    "barbed_shot>barbed_shot": 3,
+    "barbed_shot>bestial_wrath": 29,
+    "barbed_shot>blood_fury": 3,
+    "barbed_shot>cobra_shot": 46,
+    "barbed_shot>kill_command": 615,
+    "bestial_wrath>barbed_shot": 68,
+    "bestial_wrath>kill_command": 52,
+    "blood_fury>barbed_shot": 20,
+    "blood_fury>bestial_wrath": 18,
+    "blood_fury>kill_command": 2,
+    "cobra_shot>barbed_shot": 112,
+    "cobra_shot>bestial_wrath": 63,
+    "cobra_shot>blood_fury": 9,
+    "cobra_shot>cobra_shot": 238,
+    "cobra_shot>kill_command": 582,
+    "kill_command>barbed_shot": 497,
+    "kill_command>bestial_wrath": 10,
+    "kill_command>blood_fury": 8,
+    "kill_command>cobra_shot": 727,
+    "kill_command>kill_command": 12,
+    "summon_pet>blood_fury": 20
+   },
+   "seconds": 3590
+  }
+ }
+}

@@ -1,0 +1,610 @@
+{
+ "build": "profile",
+ "profile": "MID1_Druid_Feral.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "druid_feral",
+ "talentOptions": [],
+ "talents": [
+  {
+   "id": 0,
+   "name": "Wildstalker",
+   "rank": 1,
+   "tree": "heroTree"
+  },
+  {
+   "id": 48484,
+   "name": "Infected Wounds",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 158476,
+   "name": "Soul of the Forest",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 400320,
+   "name": "Circle of Life and Death",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1244632,
+   "name": "Lacerating Claws",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 391709,
+   "name": "Rampant Ferocity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 449645,
+   "name": "Savage Fury",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 391174,
+   "name": "Berserk: Heart of the Lion",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 343223,
+   "name": "Berserk",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 202031,
+   "name": "Sabertooth",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 231063,
+   "name": "Merciless Claws",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 384665,
+   "name": "Taste for Blood",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 236068,
+   "name": "Moment of Clarity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 391872,
+   "name": "Tiger's Tenacity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 155580,
+   "name": "Lunar Inspiration",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 390902,
+   "name": "Carnivorous Instinct",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1244544,
+   "name": "Focused Frenzy",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 274837,
+   "name": "Feral Frenzy",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 391548,
+   "name": "Ashamane's Guidance",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 391528,
+   "name": "Convoke the Spirits",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 391875,
+   "name": "Frantic Momentum",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 61336,
+   "name": "Survival Instincts",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 391045,
+   "name": "Dreadful Bleeding",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 390772,
+   "name": "Pouncing Strikes",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383352,
+   "name": "Tireless Energy",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 202021,
+   "name": "Predator",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 16864,
+   "name": "Omen of Clarity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 5217,
+   "name": "Tiger's Fury",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 102401,
+   "name": "Wild Charge",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1822,
+   "name": "Rake",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 377796,
+   "name": "Natural Recovery",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 102793,
+   "name": "Ursol's Vortex",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 33873,
+   "name": "Nurturing Instinct",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 301768,
+   "name": "Verdant Heart",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 449182,
+   "name": "Ursoc's Spirit",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 22842,
+   "name": "Frenzied Regeneration",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1079,
+   "name": "Rip",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 213764,
+   "name": "Swipe",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 159286,
+   "name": "Primal Fury",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 108299,
+   "name": "Killer Instinct",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 16931,
+   "name": "Thick Hide",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 2908,
+   "name": "Soothe",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 474678,
+   "name": "Aessina's Renewal",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 378988,
+   "name": "Lycara's Teachings",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 106898,
+   "name": "Stampeding Roar",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 377847,
+   "name": "Well-Honed Instincts",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 131768,
+   "name": "Feline Swiftness",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 474526,
+   "name": "Grievous Wounds",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 2782,
+   "name": "Remove Corruption",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 106839,
+   "name": "Skull Bash",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 400129,
+   "name": "Forestwalk",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 29166,
+   "name": "Innervate",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 449193,
+   "name": "Fluid Form",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 384667,
+   "name": "Sudden Ambush",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 441583,
+   "name": "Ravage",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 439926,
+   "name": "Wildstalker's Power",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 439901,
+   "name": "Flower Walk",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 439890,
+   "name": "Strategic Infusion",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 455461,
+   "name": "Lethal Preservation",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 439929,
+   "name": "Bond with Nature",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 439528,
+   "name": "Thriving Growth",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 440119,
+   "name": "Vigorous Creepers",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 440118,
+   "name": "Implant",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 439868,
+   "name": "Hunt Beneath the Open Skies",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1270592,
+   "name": "Patient Custodian",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 439880,
+   "name": "Resilient Flourishing",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1262034,
+   "name": "Gift of the Wild",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 449191,
+   "name": "Oakskin",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 385786,
+   "name": "Matted Fur",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 474530,
+   "name": "Circle of the Wild",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 449185,
+   "name": "Lore of the Grove",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 449184,
+   "name": "Instincts of the Claw",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 327993,
+   "name": "Improved Barkskin",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270586,
+   "name": "Rampancy",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 440120,
+   "name": "Bursting Growth",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1270565,
+   "name": "Green Thumb",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1263657,
+   "name": "Unseen Predator",
+   "rank": 0,
+   "tree": "spec"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "cat_form": 0.34,
+    "convoke_the_spirits": 1.01,
+    "feral_frenzy": 2.01,
+    "ferocious_bite": 10.54,
+    "lunar_inspiration": 3.5,
+    "prowl": 0.34,
+    "rake": 5.85,
+    "rip": 3.35,
+    "shadowmeld": 0.67,
+    "shred": 23.57,
+    "tigers_fury": 2.01
+   },
+   "opener": [
+    "cat_form",
+    "prowl",
+    "tigers_fury",
+    "rake",
+    "feral_frenzy",
+    "rip",
+    "convoke_the_spirits",
+    "ferocious_bite"
+   ],
+   "pairs": {
+    "cat_form>prowl": 20,
+    "convoke_the_spirits>ferocious_bite": 55,
+    "convoke_the_spirits>rip": 5,
+    "feral_frenzy>ferocious_bite": 90,
+    "feral_frenzy>rip": 30,
+    "ferocious_bite>convoke_the_spirits": 39,
+    "ferocious_bite>feral_frenzy": 56,
+    "ferocious_bite>ferocious_bite": 25,
+    "ferocious_bite>lunar_inspiration": 50,
+    "ferocious_bite>rake": 64,
+    "ferocious_bite>shadowmeld": 30,
+    "ferocious_bite>shred": 345,
+    "ferocious_bite>tigers_fury": 16,
+    "lunar_inspiration>ferocious_bite": 54,
+    "lunar_inspiration>rake": 7,
+    "lunar_inspiration>rip": 15,
+    "lunar_inspiration>shred": 125,
+    "prowl>tigers_fury": 20,
+    "rake>feral_frenzy": 41,
+    "rake>ferocious_bite": 54,
+    "rake>lunar_inspiration": 79,
+    "rake>rip": 21,
+    "rake>shred": 136,
+    "rake>tigers_fury": 12,
+    "rip>convoke_the_spirits": 21,
+    "rip>feral_frenzy": 20,
+    "rip>lunar_inspiration": 32,
+    "rip>rake": 21,
+    "rip>shadowmeld": 6,
+    "rip>shred": 96,
+    "shadowmeld>rake": 40,
+    "shred>ferocious_bite": 333,
+    "shred>lunar_inspiration": 48,
+    "shred>rake": 122,
+    "shred>rip": 119,
+    "shred>shred": 704,
+    "shred>tigers_fury": 66,
+    "tigers_fury>ferocious_bite": 17,
+    "tigers_fury>rake": 95,
+    "tigers_fury>rip": 8
+   },
+   "seconds": 3579
+  },
+  "5": {
+   "cpm": {
+    "cat_form": 0.33,
+    "convoke_the_spirits": 1.0,
+    "feral_frenzy": 2.01,
+    "ferocious_bite": 0.87,
+    "lunar_inspiration": 15.23,
+    "prowl": 0.33,
+    "rake": 14.9,
+    "rip": 15.25,
+    "shadowmeld": 0.67,
+    "swipe_cat": 8.62,
+    "tigers_fury": 2.01
+   },
+   "opener": [
+    "cat_form",
+    "prowl",
+    "tigers_fury",
+    "rake",
+    "feral_frenzy",
+    "rip",
+    "convoke_the_spirits",
+    "rip"
+   ],
+   "pairs": {
+    "cat_form>prowl": 20,
+    "convoke_the_spirits>rip": 59,
+    "feral_frenzy>rip": 119,
+    "ferocious_bite>feral_frenzy": 1,
+    "ferocious_bite>lunar_inspiration": 31,
+    "ferocious_bite>rake": 18,
+    "ferocious_bite>swipe_cat": 2,
+    "lunar_inspiration>feral_frenzy": 5,
+    "lunar_inspiration>ferocious_bite": 23,
+    "lunar_inspiration>lunar_inspiration": 278,
+    "lunar_inspiration>rake": 82,
+    "lunar_inspiration>rip": 252,
+    "lunar_inspiration>swipe_cat": 237,
+    "lunar_inspiration>tigers_fury": 24,
+    "prowl>tigers_fury": 20,
+    "rake>feral_frenzy": 33,
+    "rake>ferocious_bite": 25,
+    "rake>lunar_inspiration": 259,
+    "rake>rake": 165,
+    "rake>rip": 213,
+    "rake>swipe_cat": 165,
+    "rake>tigers_fury": 25,
+    "rip>convoke_the_spirits": 60,
+    "rip>feral_frenzy": 81,
+    "rip>lunar_inspiration": 232,
+    "rip>rake": 357,
+    "rip>rip": 27,
+    "rip>shadowmeld": 40,
+    "rip>swipe_cat": 89,
+    "rip>tigers_fury": 24,
+    "shadowmeld>rake": 40,
+    "swipe_cat>ferocious_bite": 3,
+    "swipe_cat>lunar_inspiration": 96,
+    "swipe_cat>rake": 142,
+    "swipe_cat>rip": 220,
+    "swipe_cat>swipe_cat": 22,
+    "swipe_cat>tigers_fury": 27,
+    "tigers_fury>lunar_inspiration": 14,
+    "tigers_fury>rake": 85,
+    "tigers_fury>rip": 21
+   },
+   "seconds": 3585
+  }
+ }
+}

@@ -1,0 +1,576 @@
+{
+ "build": "top player (Warcraft Logs)",
+ "profile": "MID1_Mage_Frost.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "mage_frost",
+ "talentOptions": [
+  "talents=",
+  "class_talents=80141:1/80142:1/80147:1/80153:1/80155:1/80157:1/80159:2/80161:1/80163:1/80170:2/80173:2/80174:1/80175:1/80181:1/80182:2/80183:1/80187:1/115877:1/126060:1/134183:1/134184:1/134185:1/134187:1/134188:1/134189:1/134190:1/134191:1/136577:1/136579:1/137410:1/80176:1",
+  "hero_talents=117257:1/117258:1/117259:1/117261:1/117262:1/117263:1/117264:1/117265:1/117266:1/128267:1/135918:1/135919:1/135946:1/117267:1",
+  "spec_talents=80214:1/80216:1/80220:1/80226:1/80227:1/80234:1/80237:1/80241:1/80242:1/80243:1/80244:1/80245:1/80248:1/80250:1/102429:1/134180:1/134405:1/134407:1/134411:1/134414:2/134415:1/134418:1/134421:1/134540:1/136182:1/136183:1/136796:1/136837:1/136839:1/137032:1/137033:2/137034:1"
+ ],
+ "talents": [
+  {
+   "id": 414658,
+   "name": "Ice Cold",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1265517,
+   "name": "Permafrost Bauble",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 455428,
+   "name": "Barrier Diffusion",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382268,
+   "name": "Flow of Time",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382490,
+   "name": "Tome of Antonidas",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386828,
+   "name": "Energized Barriers",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 342249,
+   "name": "Master of Time",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 382297,
+   "name": "Quick Witted",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 212653,
+   "name": "Shimmer",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382293,
+   "name": "Incantation of Swiftness",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 383092,
+   "name": "Arcane Warding",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 342245,
+   "name": "Alter Time",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 475,
+   "name": "Remove Curse",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 45438,
+   "name": "Ice Block",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382424,
+   "name": "Winter's Protection",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 55342,
+   "name": "Mirror Image",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382493,
+   "name": "Tome of Rhonin",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 110959,
+   "name": "Greater Invisibility",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1244031,
+   "name": "Spatial Manipulation",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1244087,
+   "name": "Time Walk",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270872,
+   "name": "Captured Thoughts",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1244069,
+   "name": "Improved Ice Barrier",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1244107,
+   "name": "Charm of Medivh",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1244105,
+   "name": "Charm of Aegwynn",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 210476,
+   "name": "Master of Escape",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 458437,
+   "name": "Inspired Intellect",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 390218,
+   "name": "Overflowing Energy",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270865,
+   "name": "Improved Counterspell",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 461261,
+   "name": "Brainstorm",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1297073,
+   "name": "Improved Warding",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 11426,
+   "name": "Ice Barrier",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 378448,
+   "name": "Fractured Frost",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 205021,
+   "name": "Ray of Frost",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1248825,
+   "name": "Frostbite",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 56377,
+   "name": "Splitting Ice",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 112965,
+   "name": "Fingers of Frost",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 460590,
+   "name": "Permafrost Lances",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 378406,
+   "name": "Wintertide",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 30455,
+   "name": "Ice Lance",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 84714,
+   "name": "Frozen Orb",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 44614,
+   "name": "Flurry",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 190447,
+   "name": "Brain Freeze",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 205030,
+   "name": "Frozen Touch",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1247729,
+   "name": "Thermal Void",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1247798,
+   "name": "Glaciate",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 385167,
+   "name": "Everlasting Frost",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1244110,
+   "name": "Glacial Bulwark",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 378947,
+   "name": "Glacial Assault",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 379993,
+   "name": "Flash Freeze",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1247769,
+   "name": "Improved Flurry",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1247759,
+   "name": "Glacial Attunement",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1246811,
+   "name": "Improved Shatter",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1247055,
+   "name": "Frigid Focus",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 190356,
+   "name": "Blizzard",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 417489,
+   "name": "Winter's Blessing",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1246832,
+   "name": "Icicles",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1247799,
+   "name": "Heart of Ice",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1247025,
+   "name": "Deep Shatter",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1247544,
+   "name": "Crystalline Refraction",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 205024,
+   "name": "Lonely Winter",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1263249,
+   "name": "Hand of Frost",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1262981,
+   "name": "Hand of Frost",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1262935,
+   "name": "Hand of Frost",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 443783,
+   "name": "Splinterstorm",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444986,
+   "name": "Spellfrost Teachings",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444483,
+   "name": "Controlled Instincts",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444968,
+   "name": "Archmage's Wrath",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444752,
+   "name": "Slippery Slinging",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444827,
+   "name": "Reactive Barrier",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444256,
+   "name": "Splintering Orbs",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1280165,
+   "name": "Augury Abounds",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444719,
+   "name": "Force of Will",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 470021,
+   "name": "Signature Spell",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1261082,
+   "name": "Polished Focus",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1261080,
+   "name": "Infused Splinters",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444675,
+   "name": "Shifting Shards",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 443739,
+   "name": "Splintering Sorcery",
+   "rank": 1,
+   "tree": "hero"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "flurry": 7.33,
+    "frostbolt": 6.46,
+    "frozen_orb": 2.34,
+    "glacial_spike": 2.34,
+    "ice_lance": 27.61,
+    "ray_of_frost": 1.71
+   },
+   "opener": [
+    "frostbolt",
+    "ray_of_frost",
+    "ice_lance",
+    "frozen_orb",
+    "flurry",
+    "ice_lance",
+    "ice_lance",
+    "ice_lance"
+   ],
+   "pairs": {
+    "flurry>flurry": 3,
+    "flurry>frostbolt": 43,
+    "flurry>frozen_orb": 28,
+    "flurry>glacial_spike": 29,
+    "flurry>ice_lance": 329,
+    "flurry>ray_of_frost": 3,
+    "frostbolt>flurry": 57,
+    "frostbolt>frostbolt": 146,
+    "frostbolt>frozen_orb": 14,
+    "frostbolt>glacial_spike": 33,
+    "frostbolt>ice_lance": 109,
+    "frostbolt>ray_of_frost": 23,
+    "frozen_orb>flurry": 126,
+    "frozen_orb>ice_lance": 14,
+    "glacial_spike>flurry": 11,
+    "glacial_spike>frozen_orb": 5,
+    "glacial_spike>ice_lance": 124,
+    "ice_lance>flurry": 235,
+    "ice_lance>frostbolt": 177,
+    "ice_lance>frozen_orb": 93,
+    "ice_lance>glacial_spike": 78,
+    "ice_lance>ice_lance": 979,
+    "ice_lance>ray_of_frost": 76,
+    "ray_of_frost>flurry": 6,
+    "ray_of_frost>ice_lance": 94
+   },
+   "seconds": 3583
+  },
+  "5": {
+   "cpm": {
+    "blizzard": 0.33,
+    "flurry": 6.96,
+    "frostbolt": 4.87,
+    "frozen_orb": 2.59,
+    "glacial_spike": 2.34,
+    "ice_lance": 28.31,
+    "ray_of_frost": 2.01
+   },
+   "opener": [
+    "blizzard",
+    "flurry",
+    "frozen_orb",
+    "ray_of_frost",
+    "flurry",
+    "ice_lance",
+    "ice_lance",
+    "ice_lance"
+   ],
+   "pairs": {
+    "blizzard>flurry": 20,
+    "flurry>flurry": 1,
+    "flurry>frostbolt": 35,
+    "flurry>frozen_orb": 46,
+    "flurry>glacial_spike": 43,
+    "flurry>ice_lance": 288,
+    "frostbolt>flurry": 47,
+    "frostbolt>frostbolt": 123,
+    "frostbolt>frozen_orb": 9,
+    "frostbolt>glacial_spike": 32,
+    "frostbolt>ice_lance": 79,
+    "frozen_orb>flurry": 119,
+    "frozen_orb>ice_lance": 13,
+    "frozen_orb>ray_of_frost": 20,
+    "glacial_spike>flurry": 9,
+    "glacial_spike>frozen_orb": 3,
+    "glacial_spike>ice_lance": 128,
+    "ice_lance>flurry": 200,
+    "ice_lance>frostbolt": 133,
+    "ice_lance>frozen_orb": 97,
+    "ice_lance>glacial_spike": 65,
+    "ice_lance>ice_lance": 1083,
+    "ice_lance>ray_of_frost": 100,
+    "ray_of_frost>flurry": 20,
+    "ray_of_frost>ice_lance": 100
+   },
+   "seconds": 3584
+  }
+ }
+}

@@ -1,0 +1,618 @@
+{
+ "build": "profile",
+ "profile": "MID1_Shaman_Enhancement.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "shaman_enhancement",
+ "talentOptions": [],
+ "talents": [
+  {
+   "id": 0,
+   "name": "Totemic",
+   "rank": 1,
+   "tree": "heroTree"
+  },
+  {
+   "id": 384149,
+   "name": "Raging Maelstrom",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 384143,
+   "name": "Overflowing Maelstrom",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 187880,
+   "name": "Maelstrom Weapon",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 318038,
+   "name": "Flametongue Weapon",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 334033,
+   "name": "Molten Assault",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1251026,
+   "name": "Overcharge",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 201900,
+   "name": "Hot Hand",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 390370,
+   "name": "Ashen Catalyst",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 334046,
+   "name": "Lashing Flames",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 384444,
+   "name": "Thorim's Invocation",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 384411,
+   "name": "Static Accumulation",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 210853,
+   "name": "Elemental Assault",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 384355,
+   "name": "Elemental Weapons",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 470057,
+   "name": "Voltaic Blaze",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 33757,
+   "name": "Windfury Weapon",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 384352,
+   "name": "Doom Winds",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 319930,
+   "name": "Stormblast",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1250364,
+   "name": "Elemental Tempo",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 289874,
+   "name": "Ride the Lightning",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1218047,
+   "name": "Primordial Storm",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 382042,
+   "name": "Surging Elements",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 392352,
+   "name": "Storm's Wrath",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 390288,
+   "name": "Unruly Winds",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 262647,
+   "name": "Forceful Winds",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 187874,
+   "name": "Crash Lightning",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 197214,
+   "name": "Sundering",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 445026,
+   "name": "Oversized Totems",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 445033,
+   "name": "Supportive Imbuements",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 445028,
+   "name": "Imbuement Mastery",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 445035,
+   "name": "Splitstream",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 445029,
+   "name": "Amplification Core",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 455630,
+   "name": "Surging Totem",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 445024,
+   "name": "Whirling Elements",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 455590,
+   "name": "Earthsurge",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 445034,
+   "name": "Lively Totems",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 445025,
+   "name": "Totemic Rebound",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 445031,
+   "name": "Wind Barrier",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 454009,
+   "name": "Tempest",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 192058,
+   "name": "Capacitor Totem",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 260878,
+   "name": "Spirit Wolf",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381689,
+   "name": "Brimming with Life",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 188443,
+   "name": "Chain Lightning",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 198103,
+   "name": "Earth Elemental",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381650,
+   "name": "Elemental Warding",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381930,
+   "name": "Mana Spring",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1064,
+   "name": "Chain Heal",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 58875,
+   "name": "Spirit Walk",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1217622,
+   "name": "Therazane's Resilience",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 378211,
+   "name": "Refreshing Waters",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 974,
+   "name": "Earth Shield",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 8143,
+   "name": "Tremor Totem",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 383010,
+   "name": "Elemental Orbit",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382886,
+   "name": "Fire and Ice",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 462796,
+   "name": "Enhanced Imbues",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 462817,
+   "name": "Jet Stream",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381647,
+   "name": "Planes Traveler",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1279819,
+   "name": "Primordial Bond",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 30884,
+   "name": "Nature's Guardian",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382215,
+   "name": "Winds of Al'Akir",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 57994,
+   "name": "Wind Shear",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 108271,
+   "name": "Astral Shift",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381655,
+   "name": "Nature's Fury",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 51485,
+   "name": "Earthgrab Totem",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382201,
+   "name": "Totemic Focus",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 192077,
+   "name": "Wind Rush Totem",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 355630,
+   "name": "Windveil",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 344357,
+   "name": "Stormflurry",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 469314,
+   "name": "Feral Spirit",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 108287,
+   "name": "Totemic Projection",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270350,
+   "name": "Instinctive Imbuements",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 60103,
+   "name": "Lava Lash",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1260874,
+   "name": "Primal Catalyst",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1263288,
+   "name": "Elemental Attunement",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1260644,
+   "name": "Totemic Momentum",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1270375,
+   "name": "Spiritual Awakening",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1262713,
+   "name": "Storm Unleashed",
+   "rank": 0,
+   "tree": "spec"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "blood_fury": 0.67,
+    "bloodlust": 0.33,
+    "crash_lightning": 7.46,
+    "doom_winds": 1.0,
+    "flame_shock": 21.01,
+    "flametongue_weapon": 0.33,
+    "lava_lash": 18.67,
+    "lightning_bolt": 4.93,
+    "lightning_shield": 0.33,
+    "primordial_storm": 2.01,
+    "stormstrike": 18.29,
+    "sundering": 2.01,
+    "surging_totem": 1.0,
+    "voltaic_blaze": 2.34,
+    "windfury_weapon": 0.33
+   },
+   "opener": [
+    "windfury_weapon",
+    "flametongue_weapon",
+    "lightning_shield",
+    "bloodlust",
+    "surging_totem",
+    "crash_lightning",
+    "voltaic_blaze",
+    "flame_shock"
+   ],
+   "pairs": {
+    "blood_fury>primordial_storm": 12,
+    "blood_fury>stormstrike": 20,
+    "bloodlust>surging_totem": 20,
+    "crash_lightning>crash_lightning": 29,
+    "crash_lightning>lava_lash": 182,
+    "crash_lightning>lightning_bolt": 31,
+    "crash_lightning>stormstrike": 138,
+    "crash_lightning>sundering": 14,
+    "crash_lightning>voltaic_blaze": 32,
+    "doom_winds>blood_fury": 40,
+    "flame_shock>crash_lightning": 253,
+    "flame_shock>doom_winds": 56,
+    "flame_shock>lava_lash": 93,
+    "flame_shock>lightning_bolt": 163,
+    "flame_shock>primordial_storm": 58,
+    "flame_shock>stormstrike": 531,
+    "flame_shock>sundering": 59,
+    "flame_shock>surging_totem": 16,
+    "flame_shock>voltaic_blaze": 21,
+    "flametongue_weapon>lightning_shield": 20,
+    "lava_lash>flame_shock": 1117,
+    "lightning_bolt>crash_lightning": 29,
+    "lightning_bolt>lava_lash": 231,
+    "lightning_bolt>stormstrike": 15,
+    "lightning_bolt>sundering": 12,
+    "lightning_shield>bloodlust": 20,
+    "primordial_storm>crash_lightning": 14,
+    "primordial_storm>lava_lash": 104,
+    "stormstrike>crash_lightning": 74,
+    "stormstrike>lava_lash": 418,
+    "stormstrike>lightning_bolt": 95,
+    "stormstrike>stormstrike": 359,
+    "stormstrike>sundering": 35,
+    "stormstrike>voltaic_blaze": 87,
+    "sundering>lava_lash": 73,
+    "sundering>primordial_storm": 31,
+    "surging_totem>crash_lightning": 29,
+    "surging_totem>lava_lash": 16,
+    "voltaic_blaze>flame_shock": 140,
+    "windfury_weapon>flametongue_weapon": 20
+   },
+   "seconds": 3589
+  },
+  "5": {
+   "cpm": {
+    "blood_fury": 0.67,
+    "bloodlust": 0.33,
+    "chain_lightning": 8.74,
+    "crash_lightning": 7.71,
+    "doom_winds": 1.0,
+    "flame_shock": 23.73,
+    "flametongue_weapon": 0.33,
+    "lava_lash": 19.45,
+    "lightning_shield": 0.33,
+    "primordial_storm": 2.01,
+    "stormstrike": 11.76,
+    "sundering": 2.01,
+    "surging_totem": 1.0,
+    "voltaic_blaze": 4.28,
+    "windfury_weapon": 0.33
+   },
+   "opener": [
+    "windfury_weapon",
+    "flametongue_weapon",
+    "lightning_shield",
+    "bloodlust",
+    "voltaic_blaze",
+    "flame_shock",
+    "surging_totem",
+    "sundering"
+   ],
+   "pairs": {
+    "blood_fury>crash_lightning": 28,
+    "blood_fury>stormstrike": 12,
+    "bloodlust>voltaic_blaze": 20,
+    "chain_lightning>crash_lightning": 50,
+    "chain_lightning>lava_lash": 346,
+    "chain_lightning>stormstrike": 64,
+    "chain_lightning>sundering": 13,
+    "chain_lightning>voltaic_blaze": 36,
+    "crash_lightning>chain_lightning": 73,
+    "crash_lightning>crash_lightning": 33,
+    "crash_lightning>lava_lash": 174,
+    "crash_lightning>stormstrike": 78,
+    "crash_lightning>voltaic_blaze": 86,
+    "doom_winds>blood_fury": 40,
+    "doom_winds>crash_lightning": 12,
+    "flame_shock>chain_lightning": 302,
+    "flame_shock>crash_lightning": 278,
+    "flame_shock>doom_winds": 58,
+    "flame_shock>lava_lash": 129,
+    "flame_shock>primordial_storm": 70,
+    "flame_shock>stormstrike": 414,
+    "flame_shock>sundering": 26,
+    "flame_shock>surging_totem": 35,
+    "flame_shock>voltaic_blaze": 99,
+    "flametongue_weapon>lightning_shield": 20,
+    "lava_lash>flame_shock": 1162,
+    "lightning_shield>bloodlust": 20,
+    "primordial_storm>crash_lightning": 14,
+    "primordial_storm>lava_lash": 92,
+    "stormstrike>chain_lightning": 145,
+    "stormstrike>crash_lightning": 46,
+    "stormstrike>lava_lash": 353,
+    "stormstrike>stormstrike": 111,
+    "stormstrike>sundering": 13,
+    "stormstrike>voltaic_blaze": 13,
+    "sundering>lava_lash": 68,
+    "sundering>primordial_storm": 44,
+    "surging_totem>sundering": 60,
+    "voltaic_blaze>flame_shock": 256,
+    "windfury_weapon>flametongue_weapon": 20
+   },
+   "seconds": 3585
+  }
+ }
+}

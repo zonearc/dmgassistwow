@@ -1,0 +1,609 @@
+{
+ "build": "top player (Warcraft Logs)",
+ "profile": "MID1_Shaman_Elemental.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "shaman_elemental",
+ "talentOptions": [
+  "talents=",
+  "class_talents=127851:1/127854:1/127855:2/127856:1/127857:1/127858:1/127859:1/127861:1/127864:1/127868:1/127871:1/127877:1/127880:1/127881:1/127884:1/127888:1/127889:1/127890:1/127892:1/127893:1/127894:2/127899:1/127905:1/127908:1/127909:1/127910:1/135591:1/136585:1/127873:1/127883:1/127891:2/127906:1",
+  "hero_talents=117455:1/117457:1/117458:1/117466:1/117472:1/117480:1/117484:1/117491:1/123630:1/123632:1/135988:1/135989:1/135990:1/117485:1",
+  "spec_talents=101844:1/101850:1/101853:1/101859:1/101860:1/101861:1/101864:1/101867:1/101870:1/101871:1/101874:1/101876:1/101879:1/101885:1/101892:1/127913:1/127917:1/127919:1/127920:1/127921:1/127924:1/101855:1/136561:1/136714:1/136972:1/136973:2/136974:1/101865:1/101869:1/101887:1/127915:1/127916:1/127922:1"
+ ],
+ "talents": [
+  {
+   "id": 192058,
+   "name": "Capacitor Totem",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 260878,
+   "name": "Spirit Wolf",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381689,
+   "name": "Brimming with Life",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 188443,
+   "name": "Chain Lightning",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 79206,
+   "name": "Spiritwalker's Grace",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 198103,
+   "name": "Earth Elemental",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381650,
+   "name": "Elemental Warding",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1064,
+   "name": "Chain Heal",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 192063,
+   "name": "Gust of Wind",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1217622,
+   "name": "Therazane's Resilience",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 974,
+   "name": "Earth Shield",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 383010,
+   "name": "Elemental Orbit",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382886,
+   "name": "Fire and Ice",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 462796,
+   "name": "Enhanced Imbues",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 51886,
+   "name": "Cleanse Spirit",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381647,
+   "name": "Planes Traveler",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1279819,
+   "name": "Primordial Bond",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 30884,
+   "name": "Nature's Guardian",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 57994,
+   "name": "Wind Shear",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 108271,
+   "name": "Astral Shift",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381655,
+   "name": "Nature's Fury",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 378081,
+   "name": "Nature's Swiftness",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 370,
+   "name": "Purge",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 192088,
+   "name": "Graceful Spirit",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 192077,
+   "name": "Wind Rush Totem",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 355630,
+   "name": "Windveil",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270350,
+   "name": "Instinctive Imbuements",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270375,
+   "name": "Spiritual Awakening",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 51505,
+   "name": "Lava Burst",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 462791,
+   "name": "Ascending Air",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382215,
+   "name": "Winds of Al'Akir",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 382201,
+   "name": "Totemic Focus",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 117013,
+   "name": "Primal Elementalist",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 333919,
+   "name": "Echo of the Elements",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 60188,
+   "name": "Elemental Fury",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 191634,
+   "name": "Stormkeeper",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 114050,
+   "name": "Ascendance",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 381936,
+   "name": "Flash of Lightning",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 378255,
+   "name": "Call of Fire",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 468626,
+   "name": "Earthshatter",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 462862,
+   "name": "Lightning Capacitor",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 191717,
+   "name": "Fury of the Storms",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1258899,
+   "name": "Tectonic Collapse",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 381726,
+   "name": "Mountains Will Fall",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 318038,
+   "name": "Flametongue Weapon",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1259047,
+   "name": "Inferno Arc",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 382032,
+   "name": "Echo Chamber",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1258895,
+   "name": "Elemental Resonance",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 462695,
+   "name": "Storm Frenzy",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1269360,
+   "name": "Amped Up",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 378193,
+   "name": "Primordial Fury",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 462440,
+   "name": "First Ascendant",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 117014,
+   "name": "Elemental Blast",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 462620,
+   "name": "Earthquake",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1269364,
+   "name": "Path of the Seer",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 16166,
+   "name": "Master of the Elements",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1270064,
+   "name": "Feedback Loop",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1270062,
+   "name": "Feedback Loop",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1270061,
+   "name": "Feedback Loop",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 462840,
+   "name": "Fusion of Elements",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 191861,
+   "name": "Power of the Maelstrom",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 170374,
+   "name": "Earthen Rage",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 462866,
+   "name": "Elemental Unity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 462867,
+   "name": "Everlasting Elements",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 381784,
+   "name": "Flames of the Firelord",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 443442,
+   "name": "Natural Harmony",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 443448,
+   "name": "Primordial Capacity",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 443425,
+   "name": "Spiritwalker's Momentum",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 443418,
+   "name": "Elemental Reverb",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 443446,
+   "name": "Final Calling",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 443447,
+   "name": "Maelstrom Supremacy",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 443451,
+   "name": "Offering from Beyond",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 448861,
+   "name": "Ancestral Swiftness",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 443445,
+   "name": "Routine Communication",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 443423,
+   "name": "Ancient Fellowship",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1270450,
+   "name": "Mystic Knowledge",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1270447,
+   "name": "Windspeaker",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1270446,
+   "name": "Ancestral Influence",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 443450,
+   "name": "Call of the Ancestors",
+   "rank": 1,
+   "tree": "hero"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "ancestral_swiftness": 2.01,
+    "ascendance": 0.67,
+    "elemental_blast": 4.7,
+    "flame_shock": 2.43,
+    "flametongue_weapon": 0.33,
+    "lava_burst": 13.99,
+    "lightning_bolt": 28.95,
+    "lightning_shield": 0.33,
+    "stormkeeper": 1.62
+   },
+   "opener": [
+    "flametongue_weapon",
+    "lightning_shield",
+    "stormkeeper",
+    "ancestral_swiftness",
+    "ascendance",
+    "flame_shock",
+    "lava_burst",
+    "lightning_bolt"
+   ],
+   "pairs": {
+    "ancestral_swiftness>ascendance": 21,
+    "ancestral_swiftness>elemental_blast": 16,
+    "ancestral_swiftness>flame_shock": 2,
+    "ancestral_swiftness>lava_burst": 21,
+    "ancestral_swiftness>lightning_bolt": 58,
+    "ancestral_swiftness>stormkeeper": 2,
+    "ascendance>flame_shock": 40,
+    "elemental_blast>ancestral_swiftness": 15,
+    "elemental_blast>ascendance": 1,
+    "elemental_blast>flame_shock": 10,
+    "elemental_blast>lava_burst": 93,
+    "elemental_blast>lightning_bolt": 152,
+    "elemental_blast>stormkeeper": 9,
+    "flame_shock>ancestral_swiftness": 5,
+    "flame_shock>elemental_blast": 12,
+    "flame_shock>lava_burst": 89,
+    "flame_shock>lightning_bolt": 34,
+    "flame_shock>stormkeeper": 3,
+    "flametongue_weapon>lightning_shield": 20,
+    "lava_burst>ancestral_swiftness": 31,
+    "lava_burst>elemental_blast": 116,
+    "lava_burst>lightning_bolt": 665,
+    "lava_burst>stormkeeper": 20,
+    "lightning_bolt>ancestral_swiftness": 47,
+    "lightning_bolt>ascendance": 3,
+    "lightning_bolt>elemental_blast": 137,
+    "lightning_bolt>flame_shock": 90,
+    "lightning_bolt>lava_burst": 609,
+    "lightning_bolt>lightning_bolt": 788,
+    "lightning_bolt>stormkeeper": 43,
+    "lightning_shield>stormkeeper": 20,
+    "stormkeeper>ancestral_swiftness": 22,
+    "stormkeeper>ascendance": 15,
+    "stormkeeper>flame_shock": 3,
+    "stormkeeper>lava_burst": 24,
+    "stormkeeper>lightning_bolt": 33
+   },
+   "seconds": 3585
+  },
+  "5": {
+   "cpm": {
+    "ancestral_swiftness": 2.01,
+    "ascendance": 0.67,
+    "chain_lightning": 36.03,
+    "earthquake": 12.13,
+    "elemental_blast": 1.47,
+    "flame_shock": 0.67,
+    "flametongue_weapon": 0.33,
+    "lightning_shield": 0.33,
+    "stormkeeper": 1.61
+   },
+   "opener": [
+    "flametongue_weapon",
+    "lightning_shield",
+    "stormkeeper",
+    "ancestral_swiftness",
+    "ascendance",
+    "flame_shock",
+    "chain_lightning",
+    "elemental_blast"
+   ],
+   "pairs": {
+    "ancestral_swiftness>ascendance": 21,
+    "ancestral_swiftness>chain_lightning": 72,
+    "ancestral_swiftness>earthquake": 14,
+    "ancestral_swiftness>elemental_blast": 13,
+    "ascendance>flame_shock": 40,
+    "chain_lightning>ancestral_swiftness": 78,
+    "chain_lightning>ascendance": 7,
+    "chain_lightning>chain_lightning": 1257,
+    "chain_lightning>earthquake": 671,
+    "chain_lightning>elemental_blast": 70,
+    "chain_lightning>stormkeeper": 57,
+    "earthquake>ancestral_swiftness": 16,
+    "earthquake>ascendance": 1,
+    "earthquake>chain_lightning": 680,
+    "earthquake>earthquake": 6,
+    "earthquake>stormkeeper": 17,
+    "elemental_blast>ancestral_swiftness": 5,
+    "elemental_blast>ascendance": 1,
+    "elemental_blast>chain_lightning": 80,
+    "elemental_blast>stormkeeper": 2,
+    "flame_shock>chain_lightning": 20,
+    "flame_shock>earthquake": 16,
+    "flame_shock>elemental_blast": 4,
+    "flametongue_weapon>lightning_shield": 20,
+    "lightning_shield>stormkeeper": 20,
+    "stormkeeper>ancestral_swiftness": 21,
+    "stormkeeper>ascendance": 10,
+    "stormkeeper>chain_lightning": 45,
+    "stormkeeper>earthquake": 18,
+    "stormkeeper>elemental_blast": 1
+   },
+   "seconds": 3587
+  }
+ }
+}

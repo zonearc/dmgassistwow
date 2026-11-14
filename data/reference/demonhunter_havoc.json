@@ -1,0 +1,613 @@
+{
+ "build": "top player (Warcraft Logs)",
+ "profile": "MID1_Demon_Hunter_Havoc.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "demonhunter_havoc",
+ "talentOptions": [
+  "talents=",
+  "class_talents=112839:1/112841:1/112844:1/112845:1/112846:2/112847:2/112849:1/112850:1/112851:1/112852:1/112859:1/112861:1/112862:2/112863:1/112911:1/112914:1/112918:2/112919:1/112921:1/112923:1/112926:1/112927:1/112928:1/117755:1/117758:1/117759:1/117762:1/117768:1/136501:1/136502:1/112853:1",
+  "hero_talents=117492:1/117494:1/117495:1/117500:1/117503:1/117507:1/117511:1/117516:1/123046:1/123047:1/136027:1/136028:1/136029:1/117512:1",
+  "spec_talents=112823:1/112828:1/112830:1/112831:1/112832:1/112834:1/112932:1/112934:1/112936:2/112938:1/112939:1/112943:1/112944:1/112947:1/112948:1/112950:1/112951:1/112954:1/112955:1/112956:1/112957:2/115244:1/115245:1/115246:1/115248:1/117754:2/117764:1/137047:1/137048:2/137049:1"
+ ],
+ "talents": [
+  {
+   "id": 1266328,
+   "name": "Remorseless",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 320386,
+   "name": "Bouncing Glaives",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 207347,
+   "name": "Aura of Pain",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 393822,
+   "name": "Internal Struggle",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 389696,
+   "name": "Illidari Knowledge",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 204909,
+   "name": "Soul Rending",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 320361,
+   "name": "Improved Disrupt",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 389846,
+   "name": "Felfire Haste",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 320654,
+   "name": "Pursuit",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 320770,
+   "name": "Unrestrained Fury",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 207684,
+   "name": "Sigil of Misery",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 213010,
+   "name": "Charred Warblades",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266330,
+   "name": "Soul Splitter",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 389824,
+   "name": "Shattered Restoration",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 179057,
+   "name": "Chaos Nova",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 391397,
+   "name": "Erratic Felheart",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 389695,
+   "name": "Will of the Illidari",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 389783,
+   "name": "Pitch Black",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 196718,
+   "name": "Darkness",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266762,
+   "name": "Felbound",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 278326,
+   "name": "Consume Magic",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 217832,
+   "name": "Imprison",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 232893,
+   "name": "Felblade",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266307,
+   "name": "Demonic Resilience",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266497,
+   "name": "First In, Last Out",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 320416,
+   "name": "Blazing Path",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266326,
+   "name": "Furious",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 429211,
+   "name": "Champion of the Glaive",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266500,
+   "name": "Final Breath",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266496,
+   "name": "Soul Cleanse",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 198793,
+   "name": "Vengeful Retreat",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 428232,
+   "name": "Scars of Suffering",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1220506,
+   "name": "Screaming Brutality",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 370965,
+   "name": "The Hunt",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 213410,
+   "name": "Demonic",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 320374,
+   "name": "Burning Hatred",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 206416,
+   "name": "First Blood",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 391275,
+   "name": "Accelerated Blade",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 390154,
+   "name": "Serrated Glaive",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 389978,
+   "name": "Dancing with Fate",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 428241,
+   "name": "Demon Hide",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 198013,
+   "name": "Eye Beam",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 206476,
+   "name": "Exergy",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 389688,
+   "name": "Tactical Retreat",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 388112,
+   "name": "Chaotic Transformation",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 343311,
+   "name": "Furious Gaze",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 388108,
+   "name": "Initiative",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 320413,
+   "name": "Critical Chaos",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 388116,
+   "name": "Shattered Destiny",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 258887,
+   "name": "Cycle of Hatred",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 258860,
+   "name": "Essence Break",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 388118,
+   "name": "Know Your Enemy",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 393029,
+   "name": "Furious Throws",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 427794,
+   "name": "Never Say Die",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 427776,
+   "name": "Deflecting Dance",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 205411,
+   "name": "Desperate Instincts",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 428492,
+   "name": "Chaotic Disposition",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 388106,
+   "name": "Soulscar",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1270901,
+   "name": "Eternal Hunt",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1270900,
+   "name": "Eternal Hunt",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1270898,
+   "name": "Eternal Hunt",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 442492,
+   "name": "Incisive Blade",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 442806,
+   "name": "Wounded Quarry",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 442718,
+   "name": "Fury of the Aldrachi",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 442679,
+   "name": "Reaver's Mark",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1272153,
+   "name": "Bladecraft",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 442497,
+   "name": "Keen Engagement",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 442683,
+   "name": "Aldrachi Tactics",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 442686,
+   "name": "Thrill of the Fight",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 442736,
+   "name": "Incorruptible Spirit",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444931,
+   "name": "Unhindered Assault",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 442502,
+   "name": "Warblade's Hunger",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1272138,
+   "name": "Keen Edge",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1272143,
+   "name": "Broken Spirit",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 442290,
+   "name": "Art of the Glaive",
+   "rank": 1,
+   "tree": "hero"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "annihilation": 24.39,
+    "arcane_torrent": 0.02,
+    "blade_dance": 1.2,
+    "chaos_strike": 4.68,
+    "death_sweep": 10.24,
+    "essence_break": 1.57,
+    "eye_beam": 3.29,
+    "fel_rush": 1.24,
+    "felblade": 3.06,
+    "immolation_aura": 1.94,
+    "metamorphosis": 0.67,
+    "pick_up_fragment": 11.42,
+    "reavers_glaive": 4.65,
+    "the_hunt": 1.0,
+    "throw_glaive": 0.2,
+    "vengeful_retreat": 2.84
+   },
+   "opener": [
+    "immolation_aura",
+    "the_hunt",
+    "reavers_glaive",
+    "eye_beam",
+    "death_sweep",
+    "pick_up_fragment",
+    "vengeful_retreat",
+    "annihilation"
+   ],
+   "pairs": {
+    "annihilation>annihilation": 603,
+    "annihilation>death_sweep": 163,
+    "annihilation>essence_break": 23,
+    "annihilation>felblade": 40,
+    "annihilation>pick_up_fragment": 522,
+    "annihilation>vengeful_retreat": 40,
+    "chaos_strike>blade_dance": 32,
+    "chaos_strike>chaos_strike": 78,
+    "chaos_strike>felblade": 31,
+    "chaos_strike>immolation_aura": 23,
+    "chaos_strike>vengeful_retreat": 40,
+    "death_sweep>annihilation": 253,
+    "death_sweep>death_sweep": 120,
+    "death_sweep>felblade": 30,
+    "death_sweep>metamorphosis": 30,
+    "death_sweep>pick_up_fragment": 119,
+    "essence_break>annihilation": 32,
+    "essence_break>death_sweep": 60,
+    "eye_beam>annihilation": 33,
+    "eye_beam>death_sweep": 76,
+    "eye_beam>essence_break": 57,
+    "felblade>annihilation": 59,
+    "felblade>chaos_strike": 56,
+    "felblade>reavers_glaive": 23,
+    "immolation_aura>annihilation": 26,
+    "immolation_aura>chaos_strike": 27,
+    "immolation_aura>the_hunt": 22,
+    "metamorphosis>eye_beam": 38,
+    "pick_up_fragment>annihilation": 312,
+    "pick_up_fragment>death_sweep": 83,
+    "pick_up_fragment>felblade": 56,
+    "pick_up_fragment>reavers_glaive": 133,
+    "pick_up_fragment>vengeful_retreat": 28,
+    "reavers_glaive>annihilation": 80,
+    "reavers_glaive>chaos_strike": 48,
+    "reavers_glaive>death_sweep": 58,
+    "reavers_glaive>eye_beam": 35,
+    "the_hunt>reavers_glaive": 29,
+    "vengeful_retreat>annihilation": 41,
+    "vengeful_retreat>eye_beam": 92
+   },
+   "seconds": 3587
+  },
+  "5": {
+   "cpm": {
+    "annihilation": 23.18,
+    "arcane_torrent": 0.03,
+    "blade_dance": 1.5,
+    "chaos_strike": 5.03,
+    "death_sweep": 9.86,
+    "essence_break": 1.52,
+    "eye_beam": 3.19,
+    "fel_rush": 1.97,
+    "felblade": 2.66,
+    "immolation_aura": 2.96,
+    "metamorphosis": 0.67,
+    "pick_up_fragment": 9.96,
+    "reavers_glaive": 4.68,
+    "the_hunt": 1.0,
+    "throw_glaive": 0.15,
+    "vengeful_retreat": 2.54
+   },
+   "opener": [
+    "immolation_aura",
+    "the_hunt",
+    "reavers_glaive",
+    "eye_beam",
+    "death_sweep",
+    "pick_up_fragment",
+    "annihilation",
+    "vengeful_retreat"
+   ],
+   "pairs": {
+    "annihilation>annihilation": 540,
+    "annihilation>death_sweep": 202,
+    "annihilation>essence_break": 32,
+    "annihilation>eye_beam": 26,
+    "annihilation>felblade": 50,
+    "annihilation>immolation_aura": 34,
+    "annihilation>pick_up_fragment": 423,
+    "annihilation>vengeful_retreat": 35,
+    "chaos_strike>blade_dance": 58,
+    "chaos_strike>chaos_strike": 64,
+    "chaos_strike>eye_beam": 27,
+    "chaos_strike>fel_rush": 50,
+    "chaos_strike>felblade": 31,
+    "chaos_strike>immolation_aura": 24,
+    "death_sweep>annihilation": 208,
+    "death_sweep>death_sweep": 123,
+    "death_sweep>immolation_aura": 50,
+    "death_sweep>pick_up_fragment": 126,
+    "essence_break>death_sweep": 66,
+    "eye_beam>annihilation": 35,
+    "eye_beam>death_sweep": 88,
+    "eye_beam>essence_break": 48,
+    "fel_rush>chaos_strike": 51,
+    "felblade>annihilation": 47,
+    "felblade>chaos_strike": 35,
+    "felblade>reavers_glaive": 34,
+    "immolation_aura>annihilation": 87,
+    "immolation_aura>chaos_strike": 31,
+    "metamorphosis>eye_beam": 37,
+    "pick_up_fragment>annihilation": 239,
+    "pick_up_fragment>death_sweep": 68,
+    "pick_up_fragment>felblade": 34,
+    "pick_up_fragment>reavers_glaive": 132,
+    "pick_up_fragment>vengeful_retreat": 45,
+    "reavers_glaive>annihilation": 161,
+    "reavers_glaive>chaos_strike": 85,
+    "the_hunt>reavers_glaive": 38,
+    "vengeful_retreat>annihilation": 31,
+    "vengeful_retreat>death_sweep": 27,
+    "vengeful_retreat>eye_beam": 49
+   },
+   "seconds": 3590
+  }
+ }
+}

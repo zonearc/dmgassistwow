@@ -107,6 +107,11 @@ local function ApplyRead(id, pt, h)
     return nil -- spends more than the data says: not a gain to correct (left to the audit)
   end
   local old = info.gain and info.gain[pt] or 0
+  if gain <= 0 and old > 0 then
+    -- never "learn" that a builder builds nothing: that is a measurement taken after the gain had landed (the
+    -- offline grader: Sinister Strike's combo point went to 0 after six casts and Outlaw never finished again)
+    return nil
+  end
   if old == gain then
     return nil
   end

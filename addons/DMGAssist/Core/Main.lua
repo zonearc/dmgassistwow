@@ -384,6 +384,7 @@ local function Update()
   -- was hidden out of combat, so Astral Power was never read and never counted (Balance, 2026-11-14: no count
   -- in any fight).
   S.VerifyPowers()
+  ns.Diagnostics.NotePowers() -- (the "before" of each cast's resource audit)
   local show = ShouldShow()
   -- the settings window is open: dock the HUD beside it as a live preview (see Display.lua)
   local settingsOpen = not inCombat and SettingsPanel ~= nil and U.Get(SettingsPanel.IsShown, SettingsPanel) == true

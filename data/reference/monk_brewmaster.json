@@ -1,0 +1,618 @@
+{
+ "build": "profile",
+ "profile": "MID1_Monk_Brewmaster.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "monk_brewmaster",
+ "talentOptions": [],
+ "talents": [
+  {
+   "id": 0,
+   "name": "Master of Harmony",
+   "rank": 1,
+   "tree": "heroTree"
+  },
+  {
+   "id": 119582,
+   "name": "Purifying Brew",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 388505,
+   "name": "Quick Sip",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1241059,
+   "name": "Celestial Infusion",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 115181,
+   "name": "Breath of Fire",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 124502,
+   "name": "Gift of the Ox",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383695,
+   "name": "Improved Blackout Kick",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 387219,
+   "name": "Walk with the Ox",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 132578,
+   "name": "Invoke Niuzao, the Black Ox",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1263353,
+   "name": "Celestial Flames",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 387230,
+   "name": "Fluidity of Motion",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383785,
+   "name": "Counterstrike",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 389942,
+   "name": "Face Palm",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383714,
+   "name": "Training of Niuzao",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 400629,
+   "name": "Spirit of the Ox",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 322120,
+   "name": "Shuffle",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 121253,
+   "name": "Keg Smash",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 387276,
+   "name": "Strength of Spirit",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 116844,
+   "name": "Ring of Peace",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 322113,
+   "name": "Improved Touch of Death",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 115078,
+   "name": "Paralysis",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 388812,
+   "name": "Vivacious Vivification",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 388811,
+   "name": "Grace of the Crane",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 116841,
+   "name": "Tiger's Lust",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 116705,
+   "name": "Spear Hand Strike",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 388664,
+   "name": "Calming Presence",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 392900,
+   "name": "Vigorous Expulsion",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 450553,
+   "name": "Jade Walk",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 450520,
+   "name": "Bounding Agility",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 450448,
+   "name": "Peace and Prosperity",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 414131,
+   "name": "Yu'lon's Grace",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 388674,
+   "name": "Ferocity of Xuen",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 101643,
+   "name": "Transcendence",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 449582,
+   "name": "Lighter Than Air",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 450426,
+   "name": "Chi Proficiency",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 450569,
+   "name": "Flow of Chi",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 388917,
+   "name": "Fortifying Brew",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 388814,
+   "name": "Ironshell Brew",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 157411,
+   "name": "Windwalking",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1272452,
+   "name": "Chi Transfer",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 394123,
+   "name": "Fatal Touch",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 450427,
+   "name": "Martial Instincts",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 414132,
+   "name": "Dance of the Wind",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 264348,
+   "name": "Tiger Tail Sweep",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 115173,
+   "name": "Celerity",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 344359,
+   "name": "Ancient Arts",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 383994,
+   "name": "Dragonfire Brew",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383697,
+   "name": "Sal'salabim's Strength",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 115399,
+   "name": "Black Ox Brew",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 196736,
+   "name": "Blackout Combo",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383707,
+   "name": "Stormstout's Last Keg",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 325153,
+   "name": "Exploding Keg",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1262017,
+   "name": "Fuel on the Fire",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 393516,
+   "name": "Pretense of Instability",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 196730,
+   "name": "Special Delivery",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 451024,
+   "name": "Overwhelming Force",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 451041,
+   "name": "Tiger's Vigor",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450875,
+   "name": "Manifestation",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450508,
+   "name": "Aspect of Harmony",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450867,
+   "name": "Purified Spirit",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450892,
+   "name": "Endless Draught",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450965,
+   "name": "Way of a Thousand Strikes",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450529,
+   "name": "Coalescence",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 451017,
+   "name": "Clarity of Purpose",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 451036,
+   "name": "Mantra of Purity",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450889,
+   "name": "Balanced Stratagem",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450615,
+   "name": "Flurry Strikes",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1262329,
+   "name": "Empty the Cellar",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383700,
+   "name": "Gai Plin's Imperial Brew",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 123986,
+   "name": "Chi Burst",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270958,
+   "name": "Harmonic Surge",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1271048,
+   "name": "Potential Energy",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1271105,
+   "name": "Meditative Focus",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1261543,
+   "name": "Fast Feet",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 115069,
+   "name": "Stagger",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 387046,
+   "name": "Elusive Footwork",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1263245,
+   "name": "Heart of the Ox",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1265129,
+   "name": "Bring Me Another",
+   "rank": 0,
+   "tree": "spec"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "black_ox_brew": 0.68,
+    "blackout_kick": 19.43,
+    "breath_of_fire": 8.16,
+    "chi_burst": 2.0,
+    "empty_the_cellar": 0.23,
+    "expel_harm": 0.05,
+    "exploding_keg": 0.6,
+    "fortifying_brew": 0.33,
+    "invoke_niuzao_the_black_ox": 0.67,
+    "keg_smash": 8.37,
+    "purifying_brew": 7.44,
+    "tiger_palm": 18.88
+   },
+   "opener": [
+    "blackout_kick",
+    "fortifying_brew",
+    "chi_burst",
+    "invoke_niuzao_the_black_ox",
+    "tiger_palm",
+    "blackout_kick",
+    "breath_of_fire",
+    "tiger_palm"
+   ],
+   "pairs": {
+    "black_ox_brew>blackout_kick": 22,
+    "black_ox_brew>keg_smash": 6,
+    "black_ox_brew>purifying_brew": 12,
+    "blackout_kick>breath_of_fire": 437,
+    "blackout_kick>chi_burst": 52,
+    "blackout_kick>empty_the_cellar": 5,
+    "blackout_kick>exploding_keg": 31,
+    "blackout_kick>fortifying_brew": 20,
+    "blackout_kick>invoke_niuzao_the_black_ox": 16,
+    "blackout_kick>keg_smash": 22,
+    "blackout_kick>purifying_brew": 106,
+    "blackout_kick>tiger_palm": 470,
+    "breath_of_fire>chi_burst": 9,
+    "breath_of_fire>purifying_brew": 29,
+    "breath_of_fire>tiger_palm": 446,
+    "chi_burst>blackout_kick": 26,
+    "chi_burst>invoke_niuzao_the_black_ox": 20,
+    "chi_burst>tiger_palm": 72,
+    "empty_the_cellar>purifying_brew": 10,
+    "empty_the_cellar>tiger_palm": 4,
+    "exploding_keg>tiger_palm": 30,
+    "fortifying_brew>chi_burst": 20,
+    "invoke_niuzao_the_black_ox>tiger_palm": 36,
+    "keg_smash>black_ox_brew": 19,
+    "keg_smash>blackout_kick": 324,
+    "keg_smash>purifying_brew": 153,
+    "purifying_brew>black_ox_brew": 4,
+    "purifying_brew>blackout_kick": 242,
+    "purifying_brew>breath_of_fire": 52,
+    "purifying_brew>chi_burst": 10,
+    "purifying_brew>exploding_keg": 5,
+    "purifying_brew>keg_smash": 54,
+    "purifying_brew>purifying_brew": 4,
+    "purifying_brew>tiger_palm": 72,
+    "tiger_palm>black_ox_brew": 15,
+    "tiger_palm>blackout_kick": 527,
+    "tiger_palm>chi_burst": 26,
+    "tiger_palm>empty_the_cellar": 9,
+    "tiger_palm>keg_smash": 417,
+    "tiger_palm>purifying_brew": 126
+   },
+   "seconds": 3598
+  },
+  "5": {
+   "cpm": {
+    "black_ox_brew": 1.0,
+    "blackout_kick": 19.42,
+    "breath_of_fire": 8.19,
+    "chi_burst": 2.01,
+    "empty_the_cellar": 0.47,
+    "expel_harm": 0.03,
+    "exploding_keg": 0.52,
+    "fortifying_brew": 0.48,
+    "invoke_niuzao_the_black_ox": 0.67,
+    "keg_smash": 8.34,
+    "purifying_brew": 7.75,
+    "tiger_palm": 18.18
+   },
+   "opener": [
+    "blackout_kick",
+    "fortifying_brew",
+    "chi_burst",
+    "invoke_niuzao_the_black_ox",
+    "tiger_palm",
+    "blackout_kick",
+    "breath_of_fire",
+    "tiger_palm"
+   ],
+   "pairs": {
+    "black_ox_brew>blackout_kick": 26,
+    "black_ox_brew>purifying_brew": 21,
+    "black_ox_brew>tiger_palm": 7,
+    "blackout_kick>breath_of_fire": 424,
+    "blackout_kick>chi_burst": 60,
+    "blackout_kick>empty_the_cellar": 20,
+    "blackout_kick>exploding_keg": 29,
+    "blackout_kick>fortifying_brew": 26,
+    "blackout_kick>invoke_niuzao_the_black_ox": 13,
+    "blackout_kick>keg_smash": 48,
+    "blackout_kick>purifying_brew": 90,
+    "blackout_kick>tiger_palm": 440,
+    "breath_of_fire>black_ox_brew": 7,
+    "breath_of_fire>chi_burst": 15,
+    "breath_of_fire>keg_smash": 6,
+    "breath_of_fire>purifying_brew": 33,
+    "breath_of_fire>tiger_palm": 425,
+    "chi_burst>blackout_kick": 19,
+    "chi_burst>invoke_niuzao_the_black_ox": 21,
+    "chi_burst>keg_smash": 6,
+    "chi_burst>tiger_palm": 70,
+    "empty_the_cellar>purifying_brew": 10,
+    "empty_the_cellar>tiger_palm": 12,
+    "exploding_keg>tiger_palm": 25,
+    "fortifying_brew>chi_burst": 20,
+    "invoke_niuzao_the_black_ox>tiger_palm": 38,
+    "keg_smash>black_ox_brew": 22,
+    "keg_smash>blackout_kick": 279,
+    "keg_smash>purifying_brew": 195,
+    "purifying_brew>black_ox_brew": 8,
+    "purifying_brew>blackout_kick": 269,
+    "purifying_brew>breath_of_fire": 63,
+    "purifying_brew>keg_smash": 44,
+    "purifying_brew>tiger_palm": 65,
+    "tiger_palm>black_ox_brew": 11,
+    "tiger_palm>blackout_kick": 545,
+    "tiger_palm>chi_burst": 19,
+    "tiger_palm>empty_the_cellar": 8,
+    "tiger_palm>keg_smash": 387,
+    "tiger_palm>purifying_brew": 105
+   },
+   "seconds": 3590
+  }
+ }
+}

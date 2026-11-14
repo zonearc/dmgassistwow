@@ -1,0 +1,605 @@
+{
+ "build": "top player (Warcraft Logs)",
+ "profile": "MID1_Warrior_Arms.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "warrior_arms",
+ "talentOptions": [
+  "talents=",
+  "class_talents=112179:2/112183:1/112185:1/112188:1/112198:1/112206:1/112208:1/112209:1/112210:1/112216:1/112217:1/112219:1/112224:2/112233:2/112235:2/112238:1/112245:1/112248:2/112249:1/112253:1/118850:1/134031:1/134032:1/134033:1/134225:1/135597:1/136626:1/136627:1/114643:1/112184:1/134216:1",
+  "hero_talents=117381:1/117383:1/117385:1/117392:1/117398:1/117406:1/117407:1/117410:1/117417:1/123770:1/136074:1/136075:1/136076:1/117411:1",
+  "spec_talents=112121:1/112122:1/112123:1/112125:1/112126:1/112128:1/112131:1/112134:1/112144:1/112145:1/112146:1/112147:1/112310:1/112314:1/112317:2/112318:1/112320:2/135939:1/135940:1/135941:1/135942:1/135944:2/136703:1/136987:1/136988:2/136989:1/112129:1/112135:1/112311:1/114739:1"
+ ],
+ "talents": [
+  {
+   "id": 382896,
+   "name": "Two-Handed Weapon Specialization",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 202168,
+   "name": "Impending Victory",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 262231,
+   "name": "War Machine",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 97462,
+   "name": "Rallying Cry",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 107570,
+   "name": "Storm Bolt",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382260,
+   "name": "Fast Footwork",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 6544,
+   "name": "Heroic Leap",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 383082,
+   "name": "Barbaric Training",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1271925,
+   "name": "Fearless",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 392792,
+   "name": "Frothing Berserker",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382549,
+   "name": "Pain and Gain",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 202163,
+   "name": "Bounding Stride",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382946,
+   "name": "Wild Strikes",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 384124,
+   "name": "Armored to the Teeth",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 382939,
+   "name": "Reinforced Plates",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 382258,
+   "name": "Leeching Strikes",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382767,
+   "name": "Overwhelming Rage",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 392777,
+   "name": "Cruel Strikes",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 103827,
+   "name": "Double Time",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 23920,
+   "name": "Spell Reflection",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 391271,
+   "name": "Honed Reflexes",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1280961,
+   "name": "Stance Mastery",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 152278,
+   "name": "Anger Management",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 424742,
+   "name": "Battlefield Commander",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1243660,
+   "name": "Resonant Voice",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 772,
+   "name": "Rend",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1271926,
+   "name": "Field Dressing",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 12323,
+   "name": "Piercing Howl",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386208,
+   "name": "Defensive Stance",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386164,
+   "name": "Battle Stance",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1244088,
+   "name": "Interpose",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 118038,
+   "name": "Die by the Sword",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 12294,
+   "name": "Mortal Strike",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 7384,
+   "name": "Overpower",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 316405,
+   "name": "Improved Execute",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 29725,
+   "name": "Sudden Death",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383103,
+   "name": "Fueled by Violence",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 385571,
+   "name": "Improved Overpower",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 184783,
+   "name": "Tactician",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 167105,
+   "name": "Colossus Smash",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 281001,
+   "name": "Massacre",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383430,
+   "name": "Impale",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 845,
+   "name": "Cleave",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383154,
+   "name": "Bloodletting",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 227847,
+   "name": "Bladestorm",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 389306,
+   "name": "Critical Thinking",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 386634,
+   "name": "Executioner's Precision",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383341,
+   "name": "Sharpened Blades",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1261051,
+   "name": "Tactical Edge",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1261060,
+   "name": "Deep Wounds",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1261062,
+   "name": "Mortal Wounds",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1261049,
+   "name": "Broad Strokes",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 400803,
+   "name": "Strength of Arms",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 107574,
+   "name": "Avatar",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1269307,
+   "name": "Master of Warfare",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1269306,
+   "name": "Master of Warfare",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1269314,
+   "name": "Master of Warfare",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 384361,
+   "name": "Bloodsurge",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383287,
+   "name": "Bloodborne",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383703,
+   "name": "Fatality",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1261050,
+   "name": "Powerful Momentum",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 444771,
+   "name": "Show No Mercy",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444778,
+   "name": "Culling Cyclone",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444769,
+   "name": "Imminent Demise",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444776,
+   "name": "Relentless Pursuit",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444779,
+   "name": "Slayer's Malice",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444775,
+   "name": "Reap the Storm",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444772,
+   "name": "Overwhelming Blades",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444770,
+   "name": "Death Drive",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444780,
+   "name": "Unrelenting Onslaught",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444774,
+   "name": "Opportunist",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 386628,
+   "name": "Unhinged",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1270718,
+   "name": "Deadly Focus",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1270717,
+   "name": "Violent Euphoria",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 444767,
+   "name": "Slayer's Dominance",
+   "rank": 1,
+   "tree": "hero"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "avatar": 1.34,
+    "battle_stance": 0.34,
+    "bladestorm": 2.09,
+    "charge": 0.34,
+    "colossus_smash": 2.35,
+    "execute": 13.6,
+    "heroic_strike": 6.75,
+    "mortal_strike": 10.17,
+    "overpower": 10.19,
+    "rend": 2.21,
+    "slam": 4.47,
+    "storm_bolt": 1.91
+   },
+   "opener": [
+    "battle_stance",
+    "charge",
+    "avatar",
+    "colossus_smash",
+    "bladestorm",
+    "storm_bolt",
+    "mortal_strike",
+    "execute"
+   ],
+   "pairs": {
+    "avatar>colossus_smash": 39,
+    "battle_stance>charge": 20,
+    "bladestorm>storm_bolt": 114,
+    "charge>avatar": 20,
+    "colossus_smash>bladestorm": 56,
+    "colossus_smash>execute": 27,
+    "colossus_smash>heroic_strike": 21,
+    "colossus_smash>mortal_strike": 33,
+    "execute>avatar": 24,
+    "execute>bladestorm": 40,
+    "execute>colossus_smash": 33,
+    "execute>execute": 284,
+    "execute>heroic_strike": 92,
+    "execute>mortal_strike": 124,
+    "execute>overpower": 171,
+    "execute>slam": 23,
+    "heroic_strike>execute": 105,
+    "heroic_strike>mortal_strike": 164,
+    "heroic_strike>overpower": 77,
+    "mortal_strike>colossus_smash": 24,
+    "mortal_strike>execute": 190,
+    "mortal_strike>heroic_strike": 81,
+    "mortal_strike>overpower": 201,
+    "mortal_strike>rend": 45,
+    "mortal_strike>slam": 49,
+    "overpower>execute": 166,
+    "overpower>heroic_strike": 87,
+    "overpower>mortal_strike": 102,
+    "overpower>overpower": 90,
+    "overpower>rend": 64,
+    "overpower>slam": 62,
+    "rend>mortal_strike": 43,
+    "rend>overpower": 20,
+    "rend>slam": 52,
+    "slam>heroic_strike": 48,
+    "slam>mortal_strike": 96,
+    "slam>overpower": 30,
+    "slam>slam": 66,
+    "storm_bolt>heroic_strike": 62,
+    "storm_bolt>mortal_strike": 33
+   },
+   "seconds": 3582
+  },
+  "5": {
+   "cpm": {
+    "avatar": 1.0,
+    "battle_stance": 0.33,
+    "bladestorm": 2.51,
+    "charge": 0.33,
+    "cleave": 16.02,
+    "colossus_smash": 2.01,
+    "execute": 11.12,
+    "mortal_strike": 7.73,
+    "overpower": 8.61,
+    "rend": 1.97,
+    "storm_bolt": 1.82,
+    "sweeping_strikes": 1.56
+   },
+   "opener": [
+    "battle_stance",
+    "charge",
+    "rend",
+    "avatar",
+    "colossus_smash",
+    "bladestorm",
+    "storm_bolt",
+    "cleave"
+   ],
+   "pairs": {
+    "avatar>colossus_smash": 38,
+    "battle_stance>charge": 20,
+    "bladestorm>cleave": 39,
+    "bladestorm>storm_bolt": 109,
+    "charge>rend": 20,
+    "cleave>avatar": 13,
+    "cleave>colossus_smash": 27,
+    "cleave>execute": 484,
+    "cleave>mortal_strike": 179,
+    "cleave>overpower": 213,
+    "cleave>rend": 28,
+    "colossus_smash>bladestorm": 55,
+    "colossus_smash>cleave": 42,
+    "colossus_smash>execute": 23,
+    "execute>bladestorm": 82,
+    "execute>cleave": 138,
+    "execute>execute": 101,
+    "execute>mortal_strike": 211,
+    "execute>overpower": 82,
+    "execute>sweeping_strikes": 26,
+    "mortal_strike>avatar": 14,
+    "mortal_strike>cleave": 228,
+    "mortal_strike>colossus_smash": 25,
+    "mortal_strike>execute": 25,
+    "mortal_strike>overpower": 112,
+    "mortal_strike>rend": 17,
+    "mortal_strike>sweeping_strikes": 39,
+    "overpower>cleave": 276,
+    "overpower>colossus_smash": 10,
+    "overpower>execute": 23,
+    "overpower>mortal_strike": 56,
+    "overpower>overpower": 90,
+    "overpower>rend": 26,
+    "overpower>sweeping_strikes": 19,
+    "rend>avatar": 26,
+    "rend>cleave": 53,
+    "rend>rend": 11,
+    "storm_bolt>cleave": 108,
+    "sweeping_strikes>cleave": 66,
+    "sweeping_strikes>overpower": 14
+   },
+   "seconds": 3588
+  }
+ }
+}

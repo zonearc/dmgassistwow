@@ -1,0 +1,609 @@
+{
+ "build": "top player (Warcraft Logs)",
+ "profile": "MID1_Mage_Fire.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "mage_fire",
+ "talentOptions": [
+  "talents=",
+  "class_talents=80141:1/80142:1/80153:1/80155:1/80157:1/80159:2/80161:1/80163:1/80170:2/80173:2/80174:1/80175:1/80181:1/80182:2/80183:1/80187:1/115877:1/125819:1/126060:1/134183:1/134184:1/134186:1/134187:1/134188:1/134190:1/134191:1/136579:1/137410:1/80178:1/80147:1/136577:1",
+  "hero_talents=117246:1/117247:1/117248:1/117249:1/117251:1/117252:1/117255:1/117256:1/123867:1/134249:1/135924:1/135925:1/135926:1/117250:1",
+  "spec_talents=124750:1/124756:1/124759:1/124760:1/124771:1/124778:1/124779:1/124783:2/124786:1/124789:1/124793:1/135600:1/135601:1/135604:1/135606:1/135607:1/135608:1/135609:1/135610:1/135612:1/135615:1/135616:1/135617:1/135618:1/135619:1/135621:1/136587:1/136878:1/136879:1/137035:1/137036:2/137037:1"
+ ],
+ "talents": [
+  {
+   "id": 414658,
+   "name": "Ice Cold",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1265517,
+   "name": "Permafrost Bauble",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382268,
+   "name": "Flow of Time",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382490,
+   "name": "Tome of Antonidas",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386828,
+   "name": "Energized Barriers",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 342249,
+   "name": "Master of Time",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 382297,
+   "name": "Quick Witted",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 212653,
+   "name": "Shimmer",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382293,
+   "name": "Incantation of Swiftness",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 383092,
+   "name": "Arcane Warding",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 342245,
+   "name": "Alter Time",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 475,
+   "name": "Remove Curse",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 45438,
+   "name": "Ice Block",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382424,
+   "name": "Winter's Protection",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 55342,
+   "name": "Mirror Image",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382493,
+   "name": "Tome of Rhonin",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 110959,
+   "name": "Greater Invisibility",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 31661,
+   "name": "Dragon's Breath",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1244031,
+   "name": "Spatial Manipulation",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1244087,
+   "name": "Time Walk",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270872,
+   "name": "Captured Thoughts",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 321708,
+   "name": "Improved Blazing Barrier",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1244107,
+   "name": "Charm of Medivh",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1244105,
+   "name": "Charm of Aegwynn",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 458437,
+   "name": "Inspired Intellect",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 390218,
+   "name": "Overflowing Energy",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 461261,
+   "name": "Brainstorm",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1297073,
+   "name": "Improved Warding",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 235313,
+   "name": "Blazing Barrier",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 455428,
+   "name": "Barrier Diffusion",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270865,
+   "name": "Improved Counterspell",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 108853,
+   "name": "Fire Blast",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 190319,
+   "name": "Combustion",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 11366,
+   "name": "Pyroblast",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383391,
+   "name": "Feel the Burn",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 205029,
+   "name": "Flame On",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 269650,
+   "name": "Pyroclasm",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1254857,
+   "name": "Deep Impact",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383810,
+   "name": "Fevered Incantation",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 153561,
+   "name": "Meteor",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1254194,
+   "name": "Kindling",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 387044,
+   "name": "Fervent Flickering",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 342344,
+   "name": "From the Ashes",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 453282,
+   "name": "Flame Accelerant",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383634,
+   "name": "Fiery Rush",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 457803,
+   "name": "Molten Fury",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 343230,
+   "name": "Mote of Flame",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 416719,
+   "name": "Blast Zone",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383669,
+   "name": "Controlled Destruction",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 416714,
+   "name": "Intensifying Flame",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 86949,
+   "name": "Cauterize",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 416094,
+   "name": "Fuel the Fire",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1254756,
+   "name": "Ignition",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 450746,
+   "name": "Scald",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1254512,
+   "name": "Burn It All",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 2120,
+   "name": "Flamestrike",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 457735,
+   "name": "Heat Shimmer",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 417467,
+   "name": "Inflame",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 205026,
+   "name": "Firestarter",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 2948,
+   "name": "Scorch",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1257348,
+   "name": "Fired Up",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1257349,
+   "name": "Fired Up",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1257343,
+   "name": "Fired Up",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1260272,
+   "name": "Ashes of Inspiration",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 451035,
+   "name": "Burden of Power",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449382,
+   "name": "Codex of the Sunstriders",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449619,
+   "name": "Memory of Al'ar",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449596,
+   "name": "Rondurmancy",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449330,
+   "name": "Merely a Setback",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 448658,
+   "name": "Invocation: Arcane Phoenix",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449293,
+   "name": "Mana Cascade",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449349,
+   "name": "Sunfury Execution",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1246030,
+   "name": "Explosive Potential",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1260616,
+   "name": "Spellfire Salvo",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1260673,
+   "name": "Pyrocosm",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449394,
+   "name": "Glorious Incandescence",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 448601,
+   "name": "Spellfire Spheres",
+   "rank": 1,
+   "tree": "hero"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "blood_fury": 0.67,
+    "combustion": 1.0,
+    "fire_blast": 25.3,
+    "fireball": 10.07,
+    "meteor": 2.01,
+    "mirror_image": 0.33,
+    "pyroblast": 33.41,
+    "scorch": 5.45
+   },
+   "opener": [
+    "mirror_image",
+    "pyroblast",
+    "fire_blast",
+    "fireball",
+    "pyroblast",
+    "pyroblast",
+    "fire_blast",
+    "pyroblast"
+   ],
+   "pairs": {
+    "blood_fury>fire_blast": 11,
+    "blood_fury>meteor": 17,
+    "blood_fury>pyroblast": 8,
+    "blood_fury>scorch": 4,
+    "combustion>fire_blast": 4,
+    "combustion>fireball": 13,
+    "combustion>pyroblast": 41,
+    "combustion>scorch": 2,
+    "fire_blast>combustion": 18,
+    "fire_blast>fire_blast": 12,
+    "fire_blast>fireball": 221,
+    "fire_blast>meteor": 5,
+    "fire_blast>pyroblast": 1077,
+    "fire_blast>scorch": 167,
+    "fireball>blood_fury": 6,
+    "fireball>combustion": 8,
+    "fireball>fire_blast": 132,
+    "fireball>fireball": 187,
+    "fireball>meteor": 34,
+    "fireball>pyroblast": 227,
+    "fireball>scorch": 8,
+    "meteor>combustion": 15,
+    "meteor>fire_blast": 37,
+    "meteor>pyroblast": 68,
+    "mirror_image>pyroblast": 20,
+    "pyroblast>blood_fury": 28,
+    "pyroblast>combustion": 18,
+    "pyroblast>fire_blast": 1272,
+    "pyroblast>fireball": 164,
+    "pyroblast>meteor": 58,
+    "pyroblast>pyroblast": 326,
+    "pyroblast>scorch": 126,
+    "scorch>blood_fury": 6,
+    "scorch>combustion": 1,
+    "scorch>fire_blast": 45,
+    "scorch>fireball": 17,
+    "scorch>meteor": 6,
+    "scorch>pyroblast": 231,
+    "scorch>scorch": 19
+   },
+   "seconds": 3588
+  },
+  "5": {
+   "cpm": {
+    "blood_fury": 0.67,
+    "combustion": 1.0,
+    "fire_blast": 23.4,
+    "fireball": 10.45,
+    "flamestrike": 28.59,
+    "meteor": 2.01,
+    "mirror_image": 0.33,
+    "pyroblast": 5.4,
+    "scorch": 6.31
+   },
+   "opener": [
+    "mirror_image",
+    "pyroblast",
+    "fire_blast",
+    "fireball",
+    "pyroblast",
+    "pyroblast",
+    "fire_blast",
+    "pyroblast"
+   ],
+   "pairs": {
+    "blood_fury>flamestrike": 22,
+    "blood_fury>meteor": 15,
+    "combustion>fire_blast": 8,
+    "combustion>flamestrike": 37,
+    "combustion>scorch": 14,
+    "fire_blast>fireball": 248,
+    "fire_blast>flamestrike": 782,
+    "fire_blast>meteor": 10,
+    "fire_blast>pyroblast": 193,
+    "fire_blast>scorch": 147,
+    "fireball>fire_blast": 134,
+    "fireball>fireball": 200,
+    "fireball>flamestrike": 206,
+    "fireball>meteor": 24,
+    "fireball>pyroblast": 45,
+    "fireball>scorch": 8,
+    "flamestrike>blood_fury": 25,
+    "flamestrike>combustion": 15,
+    "flamestrike>fire_blast": 921,
+    "flamestrike>fireball": 163,
+    "flamestrike>flamestrike": 353,
+    "flamestrike>meteor": 48,
+    "flamestrike>pyroblast": 18,
+    "flamestrike>scorch": 158,
+    "meteor>combustion": 22,
+    "meteor>fire_blast": 19,
+    "meteor>flamestrike": 77,
+    "mirror_image>pyroblast": 20,
+    "pyroblast>fire_blast": 237,
+    "pyroblast>fireball": 13,
+    "pyroblast>flamestrike": 10,
+    "pyroblast>meteor": 11,
+    "pyroblast>pyroblast": 40,
+    "pyroblast>scorch": 8,
+    "scorch>blood_fury": 14,
+    "scorch>combustion": 8,
+    "scorch>fire_blast": 73,
+    "scorch>flamestrike": 222,
+    "scorch>meteor": 12,
+    "scorch>scorch": 40
+   },
+   "seconds": 3587
+  }
+ }
+}

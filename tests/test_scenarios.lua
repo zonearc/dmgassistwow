@@ -28,7 +28,13 @@ for _, a in ipairs(arg or {}) do
   end
 end
 
-local FIGHT = tonumber(_G.SCEN_FIGHT) or 40 -- seconds per fight (the combo miner runs longer ones)
+-- Grading (tools/grade.py): SCEN_GRADE names a Lua file { [spec] = { talents = { { name =, spellID =, rank = } } } }
+-- built from data/reference/<spec>.json. Each spec then fights at 1 and 5 targets with the reference's talents and a
+-- real resource model (costs, gains, regeneration, passive income; hidden in combat as in Midnight, with the game's
+-- "can I afford it?" answer following the true value), and its presses per spell are printed for the grader.
+local GRADE_FILE = os.getenv("SCEN_GRADE")
+local GRADE = GRADE_FILE and dofile(GRADE_FILE) or nil
+local FIGHT = tonumber(_G.SCEN_FIGHT) or tonumber(os.getenv("SCEN_FIGHT")) or 40 -- seconds per fight
 local TICK = 0.2      -- seconds between decisions
 local STUCK_MAX = 6   -- a ready major cooldown may wait behind Blizzard's pick at most this long
 local NO_PICK_MAX = 10 -- percent of the fight with nothing in slot 1
@@ -110,6 +116,128 @@ local function KeepUpBook(ns, key, book)
   return out, extra
 end
 
+-- The resource world for grading: true values the addon can't read (except the counted ones), spent and gained by
+-- the presses, refilled by regeneration and the spec's measured passive income.
+local DISCRETE = { [4] = true, [7] = true, [9] = true, [12] = true, [16] = true, [19] = true, [5] = true }
+local REGEN = { [3] = 10, [2] = 5, [5] = 0.6, [19] = 0.2 } -- per second (runes: 6 recharging ~10 s each)
+local START = { [3] = "max", [2] = "max", [5] = "max", [19] = "max", [7] = 3, [0] = "max" }
+-- Spells the game only offers while a same-named proc buff is up ("you may cast Ruination"): the world has no procs,
+-- so they stay unusable (in the game, IsSpellUsable / the button swap decide).
+local function ProcGated(record)
+  local gated, castable = {}, {}
+  for _, info in pairs(record.spellInfo or {}) do
+    if info.n and (info.gcd or info.ct) and not info.pas then
+      castable[info.n] = true
+    end
+  end
+  for id, info in pairs(record.spellInfo or {}) do
+    local ap = type(info.ap) == "table" and info.ap[1]
+    if info.n and castable[info.n] and ap and ap[1] == id and ap[2] == "self" and info.d and not info.gcd then
+      gated[info.n] = true
+    end
+  end
+  return gated
+end
+local function World(record)
+  local w = { cur = {}, max = {}, passive = {}, gated = ProcGated(record) }
+  local maxes = { [0] = 100000, [1] = 100, [2] = 100, [3] = 100, [4] = 5, [5] = 6, [6] = 100, [7] = 5, [8] = 100,
+    [9] = 5, [11] = 100, [12] = 5, [13] = 100, [16] = 4, [17] = 120, [18] = 100, [19] = 5 }
+  for _, info in pairs(record.spellInfo or {}) do
+    for pt, n in pairs(type(info.cmax) == "table" and info.cmax or {}) do
+      maxes[pt] = math.max(maxes[pt] or 0, n) -- finishers that spend up to 7 combo points: 7 is the cap
+    end
+  end
+  for pt, mx in pairs(maxes) do
+    w.max[pt] = mx
+    local s = START[pt]
+    w.cur[pt] = s == "max" and mx or (s or 0)
+  end
+  for pt, v in pairs(type(record.passiveGain) == "table" and record.passiveGain or {}) do
+    if not DISCRETE[pt] then
+      w.passive[pt] = v
+    end
+  end
+  return w
+end
+local function WorldPublish(w)
+  for pt, v in pairs(w.cur) do
+    mock.power[pt], mock.powerMax[pt] = math.floor(v), w.max[pt]
+    mock.powerReadable[pt] = DISCRETE[pt] or pt == 0
+  end
+end
+local function WorldTick(w, dt)
+  for pt, rate in pairs(REGEN) do
+    if w.cur[pt] then
+      w.cur[pt] = math.min(w.max[pt], w.cur[pt] + rate * dt)
+    end
+  end
+  for pt, rate in pairs(w.passive) do
+    if w.cur[pt] then
+      w.cur[pt] = math.min(w.max[pt], w.cur[pt] + rate * dt)
+    end
+  end
+end
+-- the game won't cast these in combat (IsSpellUsable says no)
+local OUT_OF_COMBAT = { stealth = true, prowl = true, shadowmeld = true }
+local function WorldAffordable(w, info, M)
+  if info.n and (OUT_OF_COMBAT[info.n] or w.gated[info.n]) then
+    return false
+  end
+  for pt, amount in pairs(M.Cost(info) or {}) do
+    if (w.cur[pt] or 0) < amount then
+      return false
+    end
+  end
+  return true
+end
+local function WorldCast(w, info, M)
+  for pt, amount in pairs(M.Cost(info) or {}) do
+    local cmax = info.cmax and info.cmax[pt]
+    local spend = cmax and math.max(amount, math.min(w.cur[pt] or 0, cmax)) or amount
+    w.cur[pt] = math.max(0, (w.cur[pt] or 0) - spend)
+  end
+  for pt, amount in pairs(type(info.gain) == "table" and info.gain or {}) do
+    if w.cur[pt] then
+      w.cur[pt] = math.min(w.max[pt], w.cur[pt] + amount)
+    end
+  end
+end
+
+-- Grading: Blizzard's assistant as the game runs it, its own list (assisted_combat) evaluated against the true
+-- state: resources from the world, the enemy count, everything else as our engine sees it (a line it can't decide
+-- is passed over). The plain stand-in below names the first ready spell, which at 6 combo points was Sinister Strike
+-- where the real one says Between the Eyes.
+local function AssistantPick(ns, record, world, targets, skip)
+  local S, M = ns.State, ns.SpellMap
+  local function resolve(name)
+    if name == "combo_points" or name == "effective_combo_points" then
+      return math.floor(world.cur[4] or 0)
+    end
+    local head, field = name:match("^([%w_]+)%.?([%w_]*)$")
+    local pt = head and S.PowerTypeOf(head)
+    if pt and world.cur[pt] then
+      if field == "deficit" then
+        return world.max[pt] - math.floor(world.cur[pt])
+      elseif field == "" then
+        return math.floor(world.cur[pt])
+      end
+    end
+    if name == "active_enemies" or name:match("^spell_targets") then
+      return targets
+    end
+    return S.Resolve(name, {})
+  end
+  for _, line in ipairs(ns.Clues.BlizzardOrder(record)) do
+    local id = M.SpellID(line.a)
+    local info = id and M.Info(id)
+    if id and info and not skip(line.a, id) and not mock.cooldowns[id] and WorldAffordable(world, info, M)
+      and ns.Expr.Test(line.c, resolve) == true then
+      return id
+    end
+  end
+  return nil
+end
+
 local function Fight(ns, key, record, book, scenario)
   local M, G = ns.SpellMap, ns.Engine
   local majors = Majors(record)
@@ -127,6 +255,11 @@ local function Fight(ns, key, record, book, scenario)
   for pt = 0, 19 do
     mock.powerMax[pt] = (pt == 4 or pt == 7 or pt == 9 or pt == 12 or pt == 16 or pt == 19) and 5 or 100
     mock.power[pt] = math.floor(mock.powerMax[pt] * 0.6)
+  end
+  local world = GRADE and World(record) or nil
+  if world then
+    WorldPublish(world)
+    mock.inRange = setmetatable({}, { __index = function() return true end }) -- standing at the target
   end
   mock.nameplates = scenario.targets
   mock.restricted, mock.inCombat = false, false
@@ -148,9 +281,22 @@ local function Fight(ns, key, record, book, scenario)
   local gcdEnd, lastMain, lastPress, stuck, charges = 0, nil, -10, {}, {}
   local predict -- slot 2's spell when slot 1 was pressed: checked against slot 1 on the next tick
   m.predN, m.predHit = 0, 0
+  m.cast = {}
   while mock.now - start < FIGHT do
     mock.Advance(TICK)
     local now = mock.now
+    if world then
+      WorldTick(world, TICK)
+      for _, b in ipairs(book) do
+        local bi = M.Info(b.spellID)
+        if bi and bi.n and (OUT_OF_COMBAT[bi.n] or world.gated[bi.n]) then
+          mock.usable[b.spellID] = { false, false } -- not usable (not "short of resource")
+        else
+          mock.usable[b.spellID] = (not bi or WorldAffordable(world, bi, M)) and { true, false } or { false, true }
+        end
+      end
+      WorldPublish(world)
+    end
     for id, c in pairs(charges) do
       while c.next and now >= c.next do
         c.n = c.n + 1
@@ -166,7 +312,13 @@ local function Fight(ns, key, record, book, scenario)
     -- real one names a spell up to a second or two before it is back (Holy Shock 1.6 s, Judgment 2.8 s early in
     -- a Holy Paladin log, 2026-11-10); one that named only ready spells taught our clock wrong numbers.
     mock.acSpell = nil
-    for _, b in ipairs(book) do
+    if world then
+      mock.acSpell = AssistantPick(ns, record, world, scenario.targets, function(token, id)
+        return (majors[token] or ns.Essentials.FORMS[id] or keepIDs[id] or ns.Buffs.IsBuffSpell(id) or G.SKIP[token])
+          and true or false
+      end)
+    end
+    for _, b in ipairs(mock.acSpell and {} or book) do
       local token = M.TokenForID(b.spellID)
       local cd = mock.cooldowns[b.spellID]
       local soon = not cd or (cd.start + cd.duration - now) <= AC_EARLY
@@ -250,7 +402,8 @@ local function Fight(ns, key, record, book, scenario)
     end
     -- the player: presses slot 1 when the GCD allows and it isn't shown as "not yet"
     if r and main and main.id and now >= gcdEnd and not (main.readyAt and main.readyAt > now)
-      and not mock.cooldowns[main.id] then
+      and not mock.cooldowns[main.id]
+      and not (world and M.Info(main.id) and not WorldAffordable(world, M.Info(main.id), M)) then
       local id = main.id
       -- prediction: was slot 2 at the last press what you pressed next? (as the in-game summary measures it)
       if predict then
@@ -279,6 +432,12 @@ local function Fight(ns, key, record, book, scenario)
         end
       elseif cd > 1.5 then
         mock.cooldowns[id] = { active = true, start = now, duration = cd }
+      end
+      if world then
+        WorldCast(world, info, M)
+        WorldPublish(world)
+        local tk = M.TokenForID(id) or tostring(id)
+        m.cast[tk] = (m.cast[tk] or 0) + 1
       end
       mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "cast-" .. m.presses, id)
       m.presses = m.presses + 1
@@ -320,10 +479,11 @@ local function Fight(ns, key, record, book, scenario)
     presses = m.presses, onCdPct = 100 * m.onCd / m.ticks, skipShown = m.skipShown,
     predPct = m.predN > 0 and 100 * m.predHit / m.predN or nil,
     msAvg = (m.msTotal or 0) / m.ticks, msPeak = m.msPeak or 0, keepPressed = keepPressed, keepKnown = keepKnown,
+    cast = m.cast,
   }
 end
 
-local SCENARIOS = {
+local SCENARIOS_ALL = {
   { name = "st", targets = 1 },
   { name = "aoe", targets = 5 },
   { name = "lvl", targets = 1, leveling = true },
@@ -331,6 +491,7 @@ local SCENARIOS = {
   -- a boss in a 5-player party with healing support on: Hunter's Mark, Atonement upkeep, Renewing Mist
   { name = "group", targets = 1, boss = true, group = 5 },
 }
+local SCENARIOS = GRADE and { { name = "st", targets = 1 }, { name = "aoe", targets = 5 } } or SCENARIOS_ALL
 
 local ns = Boot()
 _G.SCEN_NS = ns
@@ -352,6 +513,40 @@ local function Fail(msg)
 end
 
 local t0 = os.clock()
+if GRADE then
+  -- grading: each spec with a reference, its talents, 1 and 5 targets; presses per spell, then out
+  for _, key in ipairs(keys) do
+    local ref = GRADE[key]
+    if ref then
+      ns = Boot()
+      _G.SCEN_NS, NS = ns, ns
+      collectgarbage("collect")
+      local record = ns.Data.specs.midnight[key]
+      local book = BookFor(record)
+      mock.book = book
+      mock.talents, mock.playerSpells = {}, {}
+      for _, t in ipairs(ref.talents or {}) do
+        mock.talents[#mock.talents + 1] = { name = t.name, spellID = t.spellID, rank = t.rank or 1 }
+        mock.playerSpells[t.spellID] = true
+      end
+      mock.heroTree = ref.heroTree
+      ns.SpellMap.SetData(record)
+      ns.SpellMap.Refresh()
+      ns.State.Bind(key)
+      for _, sc in ipairs(SCENARIOS) do
+        math.randomseed(20261110)
+        local r = Fight(ns, key, record, book, sc)
+        local parts = {}
+        for tk, n in pairs(r.cast or {}) do
+          parts[#parts + 1] = tk .. "=" .. n
+        end
+        table.sort(parts)
+        print(string.format("GRADE %s %d %d errors=%d %s", key, sc.targets, FIGHT, r.errors, table.concat(parts, " ")))
+      end
+    end
+  end
+  os.exit(0)
+end
 for _, key in ipairs(keys) do
   -- every spec from a fresh load: nothing learned in one spec's fights may change another's
   ns = Boot()

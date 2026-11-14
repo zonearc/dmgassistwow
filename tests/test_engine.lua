@@ -2953,8 +2953,9 @@ test("resource audit: what each cast really did to a readable resource, against 
   Feral(ns, rec) -- combo points readable: 0 of 5; Shred: +1 in our data
   G.OnCombat(true)
   for i = 1, 2 do
+    G.NotePowers() -- the update pass right before the cast
+    mock.power[4] = mock.power[4] + 2 -- the game gave 2 (the power update can arrive before the cast event)
     G.AuditCast(5221)
-    mock.power[4] = mock.power[4] + 2 -- the game gave 2
     mock.Advance(0.7)
   end
   local text = G.AuditText()
@@ -3980,6 +3981,37 @@ test("a cast that lengthens running auras: Starfall keeps Sunfire up (Aetherial 
   S.auraUntil.tigers_fury = now + 2
   S.ApplyLinks(22568, false)
   eq(S.auraUntil.tigers_fury, now + 4.5, "a finisher: 0.5 s per combo point, a full spend")
+end)
+
+test("assistant clues read only Blizzard's own list, not the cooldowns SimC adds in front of it", function()
+  -- Outlaw: "adrenaline_rush,if=!buff.adrenaline_rush.up" in SimC's added "cooldowns" list made every assistant pick
+  -- "prove" Adrenaline Rush's buff up, so it was never shown again (offline grader, 2026-11-14)
+  Reset()
+  local ns = Boot()
+  local rec = { blizzard = {
+    default = { { a = "call_action_list", p = { name = "cooldowns" } }, { a = "call_action_list", p = { name = "assisted_combat" } } },
+    cooldowns = { { a = "adrenaline_rush", c = "!buff.adrenaline_rush.up" } },
+    assisted_combat = { { a = "dispatch", c = "combo_points>=5" }, { a = "sinister_strike" } },
+  } }
+  local order = ns.Clues.BlizzardOrder(rec)
+  eq(#order, 2)
+  eq(order[1].a, "dispatch")
+  eq(order[2].a, "sinister_strike")
+end)
+
+test("calibration never learns that a builder builds nothing", function()
+  -- a reading taken after the gain had landed measured +0 six times and set Sinister Strike's combo point to 0
+  Reset()
+  local ns = Boot()
+  local K, M = ns.Calibrate, ns.SpellMap
+  ns.Specs.current = { key = "rogue_outlaw", status = "ready", branch = "midnight", client = "Midnight" }
+  ns.global = ns.global or {}
+  ns.global.calibrate = nil
+  M.info[193315] = { n = "sinister_strike", gain = { [4] = 1 } }
+  for _ = 1, 8 do
+    K.OnReadDelta(193315, 4, 0)
+  end
+  eq(M.info[193315].gain[4], 1, "kept")
 end)
 
 test("learner (shadow): learns what you press next per situation, scores itself against slot 2, keeps it", function()

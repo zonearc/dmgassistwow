@@ -1,0 +1,616 @@
+{
+ "build": "profile",
+ "profile": "MID1_Monk_Windwalker.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "monk_windwalker",
+ "talentOptions": [],
+ "talents": [
+  {
+   "id": 0,
+   "name": "Shado-Pan",
+   "rank": 1,
+   "tree": "heroTree"
+  },
+  {
+   "id": 458623,
+   "name": "Ferociousness",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 261917,
+   "name": "Sharp Reflexes",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 115396,
+   "name": "Ascension",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 451485,
+   "name": "Brawler's Intensity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 392958,
+   "name": "Glory of the Dawn",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 451573,
+   "name": "Singularly Focused Jade",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 457974,
+   "name": "Jadefire Stomp",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1272175,
+   "name": "Universal Energy",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 451294,
+   "name": "Momentum Boost",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 280197,
+   "name": "Spiritual Focus",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1249625,
+   "name": "Zenith",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 116645,
+   "name": "Teachings of the Monastery",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 451823,
+   "name": "Dual Threat",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1248747,
+   "name": "Crashing Fists",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 451515,
+   "name": "Sequenced Strikes",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 325201,
+   "name": "Dance of Chi-Ji",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 116844,
+   "name": "Ring of Peace",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 432181,
+   "name": "Dance of the Wind",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 322113,
+   "name": "Improved Touch of Death",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 115078,
+   "name": "Paralysis",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 388811,
+   "name": "Grace of the Crane",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 116841,
+   "name": "Tiger's Lust",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 116095,
+   "name": "Disable",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 218164,
+   "name": "Detox",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 388664,
+   "name": "Calming Presence",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1272781,
+   "name": "Tiger Fang",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 450553,
+   "name": "Jade Walk",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1272694,
+   "name": "Zenith Stomp",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 414131,
+   "name": "Yu'lon's Grace",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 388674,
+   "name": "Ferocity of Xuen",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 101643,
+   "name": "Transcendence",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 449582,
+   "name": "Lighter Than Air",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 450426,
+   "name": "Chi Proficiency",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 450569,
+   "name": "Flow of Chi",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 388917,
+   "name": "Fortifying Brew",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 388814,
+   "name": "Ironshell Brew",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 157411,
+   "name": "Windwalking",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 394123,
+   "name": "Fatal Touch",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 450427,
+   "name": "Martial Instincts",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 264348,
+   "name": "Tiger Tail Sweep",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 115173,
+   "name": "Celerity",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 344359,
+   "name": "Ancient Arts",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 388809,
+   "name": "Fast Feet",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 107428,
+   "name": "Rising Sun Kick",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 451524,
+   "name": "Revolving Whirl",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 388849,
+   "name": "Rising Star",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1272678,
+   "name": "Weapon of Wind",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 152175,
+   "name": "Whirling Dragon Punch",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1272685,
+   "name": "Martial Agility",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 392993,
+   "name": "Xuen's Battlegear",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1272415,
+   "name": "Sunfire Spiral",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 397768,
+   "name": "Inner Peace",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 137384,
+   "name": "Combo Breaker",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 196740,
+   "name": "Hit Combo",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 121817,
+   "name": "Combat Wisdom",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 113656,
+   "name": "Fists of Fury",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 123904,
+   "name": "Invoke Xuen, the White Tiger",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450993,
+   "name": "Vigilant Watch",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450991,
+   "name": "Whirling Steel",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450990,
+   "name": "Martial Precision",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450979,
+   "name": "Pride of Pandaria",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450615,
+   "name": "Flurry Strikes",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450987,
+   "name": "Veteran's Eye",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450988,
+   "name": "One Versus Many",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450989,
+   "name": "Efficient Training",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1272821,
+   "name": "Wisdom of the Wall",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450986,
+   "name": "Against All Odds",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1272844,
+   "name": "Combat Stance",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1250566,
+   "name": "Rushing Wind Kick",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1262612,
+   "name": "Shado Over the Battlefield",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1262603,
+   "name": "Stand Ready",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1262610,
+   "name": "Weapons of the Wall",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 387276,
+   "name": "Strength of Spirit",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 388812,
+   "name": "Vivacious Vivification",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266733,
+   "name": "Stillstep Coil",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 116705,
+   "name": "Spear Hand Strike",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1261703,
+   "name": "Tigereye Brew",
+   "rank": 0,
+   "tree": "spec"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "berserking": 0.33,
+    "blackout_kick": 8.7,
+    "fists_of_fury": 5.82,
+    "rising_sun_kick": 9.37,
+    "rushing_wind_kick": 2.28,
+    "spinning_crane_kick": 4.05,
+    "tiger_palm": 11.23,
+    "touch_of_death": 0.33,
+    "touch_of_karma": 0.67,
+    "whirling_dragon_punch": 2.01,
+    "zenith": 1.34
+   },
+   "opener": [
+    "touch_of_karma",
+    "tiger_palm",
+    "zenith",
+    "berserking",
+    "fists_of_fury",
+    "rising_sun_kick",
+    "whirling_dragon_punch",
+    "spinning_crane_kick"
+   ],
+   "pairs": {
+    "berserking>fists_of_fury": 20,
+    "blackout_kick>fists_of_fury": 82,
+    "blackout_kick>rising_sun_kick": 129,
+    "blackout_kick>rushing_wind_kick": 93,
+    "blackout_kick>spinning_crane_kick": 12,
+    "blackout_kick>tiger_palm": 171,
+    "blackout_kick>whirling_dragon_punch": 16,
+    "fists_of_fury>blackout_kick": 18,
+    "fists_of_fury>rising_sun_kick": 79,
+    "fists_of_fury>rushing_wind_kick": 19,
+    "fists_of_fury>spinning_crane_kick": 19,
+    "fists_of_fury>tiger_palm": 176,
+    "fists_of_fury>whirling_dragon_punch": 20,
+    "rising_sun_kick>blackout_kick": 83,
+    "rising_sun_kick>fists_of_fury": 95,
+    "rising_sun_kick>spinning_crane_kick": 67,
+    "rising_sun_kick>tiger_palm": 214,
+    "rising_sun_kick>whirling_dragon_punch": 51,
+    "rising_sun_kick>zenith": 34,
+    "rushing_wind_kick>fists_of_fury": 37,
+    "rushing_wind_kick>rising_sun_kick": 68,
+    "rushing_wind_kick>tiger_palm": 25,
+    "spinning_crane_kick>blackout_kick": 142,
+    "spinning_crane_kick>fists_of_fury": 11,
+    "spinning_crane_kick>rising_sun_kick": 39,
+    "spinning_crane_kick>tiger_palm": 37,
+    "tiger_palm>blackout_kick": 269,
+    "tiger_palm>fists_of_fury": 76,
+    "tiger_palm>rising_sun_kick": 170,
+    "tiger_palm>rushing_wind_kick": 21,
+    "tiger_palm>spinning_crane_kick": 71,
+    "tiger_palm>whirling_dragon_punch": 21,
+    "tiger_palm>zenith": 28,
+    "touch_of_karma>tiger_palm": 25,
+    "whirling_dragon_punch>fists_of_fury": 13,
+    "whirling_dragon_punch>rising_sun_kick": 24,
+    "whirling_dragon_punch>spinning_crane_kick": 56,
+    "whirling_dragon_punch>tiger_palm": 16,
+    "zenith>berserking": 20,
+    "zenith>rising_sun_kick": 45
+   },
+   "seconds": 3585
+  },
+  "5": {
+   "cpm": {
+    "berserking": 0.34,
+    "blackout_kick": 4.98,
+    "fists_of_fury": 5.56,
+    "rising_sun_kick": 4.04,
+    "rushing_wind_kick": 2.06,
+    "spinning_crane_kick": 11.93,
+    "tiger_palm": 11.63,
+    "touch_of_death": 0.34,
+    "touch_of_karma": 0.67,
+    "whirling_dragon_punch": 2.01,
+    "zenith": 1.34
+   },
+   "opener": [
+    "touch_of_karma",
+    "tiger_palm",
+    "zenith",
+    "berserking",
+    "fists_of_fury",
+    "rising_sun_kick",
+    "whirling_dragon_punch",
+    "spinning_crane_kick"
+   ],
+   "pairs": {
+    "berserking>fists_of_fury": 20,
+    "blackout_kick>fists_of_fury": 47,
+    "blackout_kick>rushing_wind_kick": 42,
+    "blackout_kick>spinning_crane_kick": 30,
+    "blackout_kick>tiger_palm": 150,
+    "blackout_kick>zenith": 12,
+    "fists_of_fury>rising_sun_kick": 48,
+    "fists_of_fury>rushing_wind_kick": 24,
+    "fists_of_fury>spinning_crane_kick": 83,
+    "fists_of_fury>tiger_palm": 129,
+    "fists_of_fury>whirling_dragon_punch": 18,
+    "fists_of_fury>zenith": 13,
+    "rising_sun_kick>blackout_kick": 11,
+    "rising_sun_kick>fists_of_fury": 39,
+    "rising_sun_kick>spinning_crane_kick": 57,
+    "rising_sun_kick>tiger_palm": 59,
+    "rising_sun_kick>whirling_dragon_punch": 62,
+    "rushing_wind_kick>fists_of_fury": 26,
+    "rushing_wind_kick>spinning_crane_kick": 43,
+    "rushing_wind_kick>tiger_palm": 38,
+    "spinning_crane_kick>blackout_kick": 244,
+    "spinning_crane_kick>fists_of_fury": 27,
+    "spinning_crane_kick>rising_sun_kick": 114,
+    "spinning_crane_kick>spinning_crane_kick": 36,
+    "spinning_crane_kick>tiger_palm": 260,
+    "tiger_palm>blackout_kick": 33,
+    "tiger_palm>fists_of_fury": 124,
+    "tiger_palm>rising_sun_kick": 62,
+    "tiger_palm>rushing_wind_kick": 49,
+    "tiger_palm>spinning_crane_kick": 355,
+    "tiger_palm>touch_of_death": 11,
+    "tiger_palm>whirling_dragon_punch": 19,
+    "tiger_palm>zenith": 34,
+    "touch_of_karma>tiger_palm": 30,
+    "whirling_dragon_punch>fists_of_fury": 18,
+    "whirling_dragon_punch>spinning_crane_kick": 76,
+    "whirling_dragon_punch>tiger_palm": 20,
+    "zenith>berserking": 20,
+    "zenith>fists_of_fury": 26,
+    "zenith>spinning_crane_kick": 26
+   },
+   "seconds": 3580
+  }
+ }
+}

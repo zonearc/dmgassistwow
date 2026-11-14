@@ -753,6 +753,15 @@
    "difficulty": 4,
    "fights": 6,
    "gains": {},
+   "ooc": {
+    "2": {
+     "max": 125.0,
+     "n": 50,
+     "rate": null,
+     "rateFast": null,
+     "rest": 125.0
+    }
+   },
    "passive": {
     "2": 14.236
    },
@@ -786,6 +795,15 @@
    "difficulty": 4,
    "fights": 6,
    "gains": {},
+   "ooc": {
+    "2": {
+     "max": 125.0,
+     "n": 18,
+     "rate": null,
+     "rateFast": null,
+     "rest": 125.0
+    }
+   },
    "passive": {
     "2": 5.447
    },
@@ -851,6 +869,15 @@
    "gains": {
     "259489": {
      "2": 20
+    }
+   },
+   "ooc": {
+    "2": {
+     "max": 125.0,
+     "n": 27,
+     "rate": null,
+     "rateFast": null,
+     "rest": 125.0
     }
    },
    "passive": {
@@ -983,6 +1010,15 @@
      "3": 200
     }
    },
+   "ooc": {
+    "3": {
+     "max": 100.0,
+     "n": 29,
+     "rate": 0.34,
+     "rateFast": -8.25,
+     "rest": 100.0
+    }
+   },
    "passive": {},
    "seconds": 1576.5,
    "updated": "2026-11-14",
@@ -1069,6 +1105,15 @@
     },
     "129597": {
      "12": 1
+    }
+   },
+   "ooc": {
+    "3": {
+     "max": 150.0,
+     "n": 20,
+     "rate": null,
+     "rateFast": null,
+     "rest": null
     }
    },
    "passive": {

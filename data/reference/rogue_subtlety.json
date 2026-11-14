@@ -1,0 +1,599 @@
+{
+ "build": "profile",
+ "profile": "MID1_Rogue_Subtlety.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "rogue_subtlety",
+ "talentOptions": [],
+ "talents": [
+  {
+   "id": 0,
+   "name": "Trickster",
+   "rank": 1,
+   "tree": "heroTree"
+  },
+  {
+   "id": 378436,
+   "name": "Master Poisoner",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 470668,
+   "name": "Forced Induction",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 470347,
+   "name": "Supercharger",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 378996,
+   "name": "Recuperator",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 2094,
+   "name": "Blind",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 57934,
+   "name": "Tricks of the Trade",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 231691,
+   "name": "Improved Sprint",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 91023,
+   "name": "Find Weakness",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 381620,
+   "name": "Improved Ambush",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 394931,
+   "name": "Thrill Seeking",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 31224,
+   "name": "Cloak of Shadows",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 343160,
+   "name": "Premeditation",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 428486,
+   "name": "Exhilarating Execution",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 426555,
+   "name": "Warning Signs",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 382512,
+   "name": "Improved Find Weakness",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 469642,
+   "name": "Death Perception",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 58423,
+   "name": "Relentless Strikes",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 319951,
+   "name": "Improved Shuriken Storm",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 382017,
+   "name": "Veiltouched",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1279444,
+   "name": "Improved Secret Technique",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 382506,
+   "name": "Replicating Shadows",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 382525,
+   "name": "Finality",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 382517,
+   "name": "Deeper Daggers",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 394320,
+   "name": "Secret Stratagem",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 382511,
+   "name": "Shadowed Finishers",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 426591,
+   "name": "Goremaw's Bite",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 121471,
+   "name": "Shadow Blades",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 196976,
+   "name": "Master of Shadows",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 382528,
+   "name": "Danse Macabre",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 245687,
+   "name": "Dark Shadow",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 382514,
+   "name": "Fade to Nothing",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 108209,
+   "name": "Shadow Focus",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1281468,
+   "name": "Umbral Edge",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 319949,
+   "name": "Improved Backstab",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 200733,
+   "name": "Airborne Irritant",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 31230,
+   "name": "Cheat Death",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381542,
+   "name": "Deadly Precision",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 193546,
+   "name": "Iron Stomach",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 378427,
+   "name": "Nimble Fingers",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1267210,
+   "name": "Quick Fingers",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381543,
+   "name": "Virulent Poisons",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382245,
+   "name": "Cold Blooded Killer",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382238,
+   "name": "Lethality",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 193531,
+   "name": "Deeper Stratagem",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 193539,
+   "name": "Alacrity",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 381988,
+   "name": "Swift Slasher",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 423647,
+   "name": "Graceful Guile",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 280716,
+   "name": "Leeching Poison",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1267220,
+   "name": "Danger Sense",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 5277,
+   "name": "Evasion",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381637,
+   "name": "Atrophic Poison",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 378813,
+   "name": "Fleet Footed",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1267216,
+   "name": "Deep Cuts",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 426594,
+   "name": "Shadowcraft",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 385722,
+   "name": "Silent Storm",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 441321,
+   "name": "Flawless Form",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441423,
+   "name": "Coup de Grace",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441398,
+   "name": "No Scruples",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441274,
+   "name": "Disorienting Strikes",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441273,
+   "name": "Surprising Strikes",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441367,
+   "name": "Nimble Flurry",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441263,
+   "name": "Devious Distractions",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441403,
+   "name": "So Tricky",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 457052,
+   "name": "Deathstalker's Mark",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441346,
+   "name": "Thousand Cuts",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441146,
+   "name": "Unseen Blade",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441247,
+   "name": "Smoke",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 423683,
+   "name": "Featherfoot",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 394930,
+   "name": "Double Dance",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1276679,
+   "name": "Clever Combatant",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1276630,
+   "name": "Flashing Steel",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1276626,
+   "name": "Hoodwink",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 231719,
+   "name": "Deadened Nerves",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 378807,
+   "name": "Shadowrunner",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1268932,
+   "name": "Ancient Arts",
+   "rank": 0,
+   "tree": "spec"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "apply_poison": 0.33,
+    "backstab": 18.32,
+    "coup_de_grace": 3.37,
+    "eviscerate": 18.68,
+    "goremaws_bite": 1.34,
+    "secret_technique": 3.01,
+    "shadow_blades": 0.67,
+    "shadow_dance": 3.35,
+    "shadowstrike": 6.98,
+    "shuriken_storm": 0.1,
+    "stealth": 0.33,
+    "vanish": 0.67
+   },
+   "opener": [
+    "apply_poison",
+    "stealth",
+    "shadowstrike",
+    "eviscerate",
+    "vanish",
+    "shadowstrike",
+    "backstab",
+    "backstab"
+   ],
+   "pairs": {
+    "apply_poison>stealth": 20,
+    "backstab>backstab": 486,
+    "backstab>coup_de_grace": 65,
+    "backstab>eviscerate": 342,
+    "backstab>secret_technique": 20,
+    "backstab>shadow_blades": 40,
+    "backstab>shadow_dance": 128,
+    "coup_de_grace>backstab": 54,
+    "coup_de_grace>eviscerate": 131,
+    "coup_de_grace>goremaws_bite": 5,
+    "coup_de_grace>shadow_dance": 6,
+    "coup_de_grace>shadowstrike": 5,
+    "eviscerate>backstab": 534,
+    "eviscerate>eviscerate": 305,
+    "eviscerate>goremaws_bite": 2,
+    "eviscerate>shadow_dance": 26,
+    "eviscerate>shadowstrike": 202,
+    "eviscerate>vanish": 40,
+    "goremaws_bite>coup_de_grace": 6,
+    "goremaws_bite>eviscerate": 37,
+    "goremaws_bite>secret_technique": 26,
+    "goremaws_bite>shadowstrike": 11,
+    "secret_technique>coup_de_grace": 3,
+    "secret_technique>eviscerate": 17,
+    "secret_technique>goremaws_bite": 36,
+    "secret_technique>shadowstrike": 123,
+    "shadow_blades>shadow_dance": 40,
+    "shadow_dance>coup_de_grace": 2,
+    "shadow_dance>eviscerate": 33,
+    "shadow_dance>goremaws_bite": 37,
+    "shadow_dance>secret_technique": 123,
+    "shadow_dance>shuriken_storm": 5,
+    "shadowstrike>backstab": 20,
+    "shadowstrike>coup_de_grace": 123,
+    "shadowstrike>eviscerate": 248,
+    "shadowstrike>secret_technique": 11,
+    "shadowstrike>shadowstrike": 15,
+    "shuriken_storm>eviscerate": 3,
+    "stealth>shadowstrike": 20,
+    "vanish>shadowstrike": 40
+   },
+   "seconds": 3584
+  },
+  "5": {
+   "cpm": {
+    "apply_poison": 0.33,
+    "black_powder": 22.16,
+    "coup_de_grace": 3.21,
+    "eviscerate": 0.33,
+    "goremaws_bite": 1.34,
+    "secret_technique": 3.01,
+    "shadow_blades": 0.67,
+    "shadow_dance": 3.34,
+    "shuriken_storm": 21.74,
+    "stealth": 0.33,
+    "vanish": 0.67
+   },
+   "opener": [
+    "apply_poison",
+    "stealth",
+    "shuriken_storm",
+    "eviscerate",
+    "vanish",
+    "shuriken_storm",
+    "shuriken_storm",
+    "shuriken_storm"
+   ],
+   "pairs": {
+    "apply_poison>stealth": 20,
+    "black_powder>black_powder": 433,
+    "black_powder>goremaws_bite": 8,
+    "black_powder>shadow_dance": 24,
+    "black_powder>shuriken_storm": 828,
+    "black_powder>vanish": 20,
+    "coup_de_grace>black_powder": 140,
+    "coup_de_grace>goremaws_bite": 6,
+    "coup_de_grace>shadow_dance": 3,
+    "coup_de_grace>shuriken_storm": 43,
+    "eviscerate>vanish": 20,
+    "goremaws_bite>black_powder": 53,
+    "goremaws_bite>coup_de_grace": 3,
+    "goremaws_bite>secret_technique": 16,
+    "goremaws_bite>shuriken_storm": 8,
+    "secret_technique>black_powder": 15,
+    "secret_technique>coup_de_grace": 5,
+    "secret_technique>goremaws_bite": 42,
+    "secret_technique>shuriken_storm": 118,
+    "shadow_blades>shadow_dance": 40,
+    "shadow_dance>black_powder": 11,
+    "shadow_dance>coup_de_grace": 2,
+    "shadow_dance>goremaws_bite": 24,
+    "shadow_dance>secret_technique": 132,
+    "shadow_dance>shuriken_storm": 31,
+    "shuriken_storm>black_powder": 674,
+    "shuriken_storm>coup_de_grace": 182,
+    "shuriken_storm>eviscerate": 20,
+    "shuriken_storm>secret_technique": 32,
+    "shuriken_storm>shadow_blades": 40,
+    "shuriken_storm>shadow_dance": 133,
+    "shuriken_storm>shuriken_storm": 213,
+    "stealth>shuriken_storm": 20,
+    "vanish>shuriken_storm": 40
+   },
+   "seconds": 3590
+  }
+ }
+}

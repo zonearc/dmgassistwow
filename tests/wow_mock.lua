@@ -519,6 +519,10 @@ function mock.Install(env)
   env.UnitHealth = function()
     return ctx(1000)
   end
+  -- talents and other known spells (grading: the reference's talents)
+  env.IsPlayerSpell = function(id)
+    return mock.playerSpells ~= nil and mock.playerSpells[id] == true
+  end
   env.UnitPower = function(_, pt)
     if mock.power[pt] ~= nil then
       if mock.powerReadable[pt] then

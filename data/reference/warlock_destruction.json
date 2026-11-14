@@ -1,0 +1,671 @@
+{
+ "build": "profile",
+ "profile": "MID1_Warlock_Destruction.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "warlock_destruction",
+ "talentOptions": [],
+ "talents": [
+  {
+   "id": 0,
+   "name": "Diabolist",
+   "rank": 1,
+   "tree": "heroTree"
+  },
+  {
+   "id": 452902,
+   "name": "Swift Artifice",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386617,
+   "name": "Demonic Fortitude",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270701,
+   "name": "Gorefiend's Avarice",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 389367,
+   "name": "Fel Synergy",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 386689,
+   "name": "Pact of Gluttony",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 288843,
+   "name": "Demonic Embrace",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 333889,
+   "name": "Fel Domination",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1311653,
+   "name": "Soul Leech",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 108416,
+   "name": "Dark Pact",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386686,
+   "name": "Frequent Donor",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 6789,
+   "name": "Mortal Coil",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386110,
+   "name": "Fiendish Stride",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 111400,
+   "name": "Burning Rush",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386124,
+   "name": "Fel Armor",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 219272,
+   "name": "Demon Skin",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 389609,
+   "name": "Abyss Walker",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 111771,
+   "name": "Demonic Gateway",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 317138,
+   "name": "Strength of Will",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 385899,
+   "name": "Soulburn",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 417234,
+   "name": "Crashing Chaos",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1244928,
+   "name": "Destructive Rapidity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 387108,
+   "name": "Conflagration of Chaos",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 387275,
+   "name": "Chaos Incarnate",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 387173,
+   "name": "Diabolic Embers",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 387252,
+   "name": "Ashen Remains",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 453105,
+   "name": "Summoner's Embrace",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 388832,
+   "name": "Scalding Flames",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1280483,
+   "name": "Inferno",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 205148,
+   "name": "Reverse Entropy",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 387384,
+   "name": "Backlash",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1122,
+   "name": "Summon Infernal",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 388827,
+   "name": "Explosive Potential",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 17877,
+   "name": "Shadowburn",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1244788,
+   "name": "Chaotic Inferno",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 454744,
+   "name": "Emberstorm",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1244310,
+   "name": "Roaring Blaze",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 387103,
+   "name": "Ruin",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 196406,
+   "name": "Backdraft",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 17962,
+   "name": "Conflagrate",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 5740,
+   "name": "Rain of Fire",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 440057,
+   "name": "Curse of the Satyr",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 428518,
+   "name": "Secrets of the Coven",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 440055,
+   "name": "Seeds of Their Demise",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 428522,
+   "name": "Ruination",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429581,
+   "name": "Abyssal Dominion",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429657,
+   "name": "Flames of Xoroth",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 440046,
+   "name": "Mark of Xavius",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 440065,
+   "name": "Zevrim's Resilience",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 428911,
+   "name": "Soul-Etched Circles",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 440043,
+   "name": "Blackened Soul",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 445465,
+   "name": "Wither",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 430014,
+   "name": "Malevolence",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429899,
+   "name": "Gloom of Nathreza",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 440045,
+   "name": "Mark of Peroth'arn",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 440040,
+   "name": "Xalan's Cruelty",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429917,
+   "name": "Infernal Machine",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 428517,
+   "name": "Cloven Souls",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429130,
+   "name": "Infernal Bulwark",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 440044,
+   "name": "Xalan's Ferocity",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 440051,
+   "name": "Bleakheart Tactics",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 428514,
+   "name": "Diabolic Ritual",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429893,
+   "name": "Touch of Rancora",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 268358,
+   "name": "Demonic Circle",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 456951,
+   "name": "Improved Chaos Bolt",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1245633,
+   "name": "Fiendish Cruelty",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1244284,
+   "name": "Practiced Chaos",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 6353,
+   "name": "Soul Fire",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1268716,
+   "name": "Mind's Eyes",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1268713,
+   "name": "Looks That Kill",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1268709,
+   "name": "Diabolic Oculi",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1266803,
+   "name": "Alzzin's Iniquity",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1266805,
+   "name": "Devil Fruit",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1266799,
+   "name": "Through the Felvine",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1265801,
+   "name": "Frequent Traveler",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 108415,
+   "name": "Soul Link",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 1270695,
+   "name": "Pact of the Eredar",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1265816,
+   "name": "Improved Mortal Coil",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 334275,
+   "name": "Curse of Exhaustion",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270693,
+   "name": "Pact of the Annihilan",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270691,
+   "name": "Pact of the Satyr",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270690,
+   "name": "Pact of the Nathrezim",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1271694,
+   "name": "Fortified Soul",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1271699,
+   "name": "Empowered Healthstone",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1271689,
+   "name": "Empowered Drain Life",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1245089,
+   "name": "Avatar of Destruction",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 116858,
+   "name": "Chaos Bolt",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1265770,
+   "name": "Embers of Nihilam",
+   "rank": 0,
+   "tree": "spec"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "chaos_bolt": 11.9,
+    "conflagrate": 8.7,
+    "incinerate": 19.52,
+    "infernal_bolt": 1.46,
+    "ruination": 1.42,
+    "shadowburn": 7.4,
+    "soul_fire": 1.34,
+    "summon_infernal": 0.67
+   },
+   "opener": [
+    "soul_fire",
+    "conflagrate",
+    "chaos_bolt",
+    "conflagrate",
+    "summon_infernal",
+    "chaos_bolt",
+    "chaos_bolt",
+    "conflagrate"
+   ],
+   "pairs": {
+    "chaos_bolt>chaos_bolt": 56,
+    "chaos_bolt>conflagrate": 229,
+    "chaos_bolt>incinerate": 285,
+    "chaos_bolt>infernal_bolt": 37,
+    "chaos_bolt>ruination": 28,
+    "chaos_bolt>shadowburn": 43,
+    "chaos_bolt>soul_fire": 24,
+    "chaos_bolt>summon_infernal": 9,
+    "conflagrate>chaos_bolt": 146,
+    "conflagrate>incinerate": 141,
+    "conflagrate>infernal_bolt": 19,
+    "conflagrate>ruination": 25,
+    "conflagrate>shadowburn": 158,
+    "conflagrate>soul_fire": 5,
+    "conflagrate>summon_infernal": 25,
+    "incinerate>chaos_bolt": 343,
+    "incinerate>conflagrate": 189,
+    "incinerate>incinerate": 483,
+    "incinerate>shadowburn": 123,
+    "incinerate>soul_fire": 25,
+    "infernal_bolt>chaos_bolt": 57,
+    "infernal_bolt>conflagrate": 9,
+    "infernal_bolt>shadowburn": 19,
+    "ruination>chaos_bolt": 9,
+    "ruination>conflagrate": 8,
+    "ruination>incinerate": 63,
+    "ruination>shadowburn": 3,
+    "shadowburn>chaos_bolt": 40,
+    "shadowburn>conflagrate": 50,
+    "shadowburn>incinerate": 188,
+    "shadowburn>infernal_bolt": 29,
+    "shadowburn>ruination": 27,
+    "shadowburn>shadowburn": 91,
+    "soul_fire>chaos_bolt": 36,
+    "soul_fire>conflagrate": 33,
+    "soul_fire>incinerate": 3,
+    "soul_fire>summon_infernal": 6,
+    "summon_infernal>chaos_bolt": 24,
+    "summon_infernal>ruination": 4,
+    "summon_infernal>shadowburn": 5
+   },
+   "seconds": 3584
+  },
+  "5": {
+   "cpm": {
+    "chaos_bolt": 2.63,
+    "conflagrate": 8.62,
+    "incinerate": 24.29,
+    "infernal_bolt": 1.31,
+    "rain_of_fire": 10.98,
+    "ruination": 1.32,
+    "shadowburn": 8.35,
+    "soul_fire": 1.34,
+    "summon_infernal": 0.67
+   },
+   "opener": [
+    "soul_fire",
+    "summon_infernal",
+    "rain_of_fire",
+    "conflagrate",
+    "conflagrate",
+    "rain_of_fire",
+    "incinerate",
+    "incinerate"
+   ],
+   "pairs": {
+    "chaos_bolt>conflagrate": 15,
+    "chaos_bolt>incinerate": 34,
+    "chaos_bolt>infernal_bolt": 56,
+    "chaos_bolt>ruination": 50,
+    "conflagrate>chaos_bolt": 29,
+    "conflagrate>conflagrate": 21,
+    "conflagrate>incinerate": 189,
+    "conflagrate>rain_of_fire": 131,
+    "conflagrate>shadowburn": 133,
+    "conflagrate>soul_fire": 8,
+    "incinerate>chaos_bolt": 113,
+    "incinerate>conflagrate": 124,
+    "incinerate>incinerate": 622,
+    "incinerate>rain_of_fire": 401,
+    "incinerate>shadowburn": 164,
+    "incinerate>soul_fire": 10,
+    "incinerate>summon_infernal": 15,
+    "infernal_bolt>rain_of_fire": 60,
+    "infernal_bolt>shadowburn": 8,
+    "rain_of_fire>conflagrate": 199,
+    "rain_of_fire>incinerate": 366,
+    "rain_of_fire>shadowburn": 50,
+    "rain_of_fire>soul_fire": 34,
+    "ruination>conflagrate": 30,
+    "ruination>incinerate": 34,
+    "ruination>shadowburn": 10,
+    "shadowburn>chaos_bolt": 5,
+    "shadowburn>conflagrate": 102,
+    "shadowburn>incinerate": 183,
+    "shadowburn>infernal_bolt": 18,
+    "shadowburn>rain_of_fire": 14,
+    "shadowburn>ruination": 28,
+    "shadowburn>shadowburn": 125,
+    "soul_fire>conflagrate": 13,
+    "soul_fire>incinerate": 15,
+    "soul_fire>rain_of_fire": 23,
+    "soul_fire>summon_infernal": 20,
+    "summon_infernal>chaos_bolt": 6,
+    "summon_infernal>conflagrate": 6,
+    "summon_infernal>rain_of_fire": 24
+   },
+   "seconds": 3579
+  }
+ }
+}

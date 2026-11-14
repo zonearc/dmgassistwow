@@ -1,0 +1,586 @@
+{
+ "build": "profile",
+ "profile": "MID1_Demon_Hunter_Vengeance.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "demonhunter_vengeance",
+ "talentOptions": [],
+ "talents": [
+  {
+   "id": 0,
+   "name": "Annihilator",
+   "rank": 1,
+   "tree": "heroTree"
+  },
+  {
+   "id": 1266328,
+   "name": "Remorseless",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 320386,
+   "name": "Bouncing Glaives",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 207347,
+   "name": "Aura of Pain",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 393822,
+   "name": "Internal Struggle",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 389696,
+   "name": "Illidari Knowledge",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 204909,
+   "name": "Soul Rending",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 320361,
+   "name": "Improved Disrupt",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 320770,
+   "name": "Unrestrained Fury",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 198793,
+   "name": "Vengeful Retreat",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 207684,
+   "name": "Sigil of Misery",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 213010,
+   "name": "Charred Warblades",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266330,
+   "name": "Soul Splitter",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 389824,
+   "name": "Shattered Restoration",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 204021,
+   "name": "Fiery Brand",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 389729,
+   "name": "Retaliation",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 389724,
+   "name": "Felfire Fist",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 389705,
+   "name": "Fel Flame Fortification",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 389220,
+   "name": "Fiery Demise",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 207739,
+   "name": "Burning Alive",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 428603,
+   "name": "Ascending Flame",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 389732,
+   "name": "Down in Flames",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 336639,
+   "name": "Charred Flesh",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 389718,
+   "name": "Cycle of Binding",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 389715,
+   "name": "Chains of Anger",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1265800,
+   "name": "Tempered Steel",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 320387,
+   "name": "Perfectly Balanced Glaive",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 207548,
+   "name": "Agonizing Flames",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 227174,
+   "name": "Fallout",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 268175,
+   "name": "Void Reaver",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 343207,
+   "name": "Focused Cleave",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 389958,
+   "name": "Frailty",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 390163,
+   "name": "Sigil of Spite",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 389985,
+   "name": "Soulcrush",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 389976,
+   "name": "Vulnerability",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 393827,
+   "name": "Stoke the Flames",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 390808,
+   "name": "Volatile Flameblood",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 390213,
+   "name": "Burning Blood",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 209281,
+   "name": "Quickened Sigils",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 247454,
+   "name": "Spirit Bomb",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 212084,
+   "name": "Fel Devastation",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 389763,
+   "name": "Master of the Glaive",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 391397,
+   "name": "Erratic Felheart",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 391409,
+   "name": "Aldrachi Design",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 389695,
+   "name": "Will of the Illidari",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 389781,
+   "name": "Long Night",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 196718,
+   "name": "Darkness",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 320331,
+   "name": "Infernal Armor",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 278326,
+   "name": "Consume Magic",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 217832,
+   "name": "Imprison",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266497,
+   "name": "First In, Last Out",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 320416,
+   "name": "Blazing Path",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 428607,
+   "name": "Live by the Glaive",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266326,
+   "name": "Furious",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 232893,
+   "name": "Felblade",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 179057,
+   "name": "Chaos Nova",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1256353,
+   "name": "World Killer",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253817,
+   "name": "Otherworldly Focus",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1256307,
+   "name": "Dark Matter",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253805,
+   "name": "Final Hour",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253391,
+   "name": "Meteoric Fall",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1256295,
+   "name": "Mass Acceleration",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253402,
+   "name": "State of Matter",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253304,
+   "name": "Voidfall",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1279247,
+   "name": "Harness the Cosmos",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253415,
+   "name": "Celestial Echoes",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1256245,
+   "name": "Phase Shift",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253769,
+   "name": "Catastrophe",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253668,
+   "name": "Swift Erasure",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253377,
+   "name": "Meteoric Rise",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1266500,
+   "name": "Final Breath",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270444,
+   "name": "Untethered Rage",
+   "rank": 0,
+   "tree": "spec"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "demon_spikes": 4.55,
+    "disrupt": 0.58,
+    "fel_devastation": 1.34,
+    "felblade": 3.28,
+    "fiery_brand": 1.67,
+    "fracture": 19.74,
+    "immolation_aura": 5.5,
+    "infernal_strike": 8.56,
+    "metamorphosis": 3.21,
+    "sigil_of_flame": 2.32,
+    "sigil_of_spite": 1.34,
+    "soul_cleave": 17.4,
+    "spirit_bomb": 5.01,
+    "throw_glaive": 1.47
+   },
+   "opener": [
+    "sigil_of_flame",
+    "immolation_aura",
+    "infernal_strike",
+    "demon_spikes",
+    "fracture",
+    "fracture",
+    "infernal_strike",
+    "fiery_brand"
+   ],
+   "pairs": {
+    "demon_spikes>fracture": 91,
+    "demon_spikes>infernal_strike": 29,
+    "demon_spikes>soul_cleave": 61,
+    "fel_devastation>fracture": 38,
+    "felblade>fracture": 88,
+    "fracture>demon_spikes": 92,
+    "fracture>fel_devastation": 30,
+    "fracture>felblade": 32,
+    "fracture>fracture": 96,
+    "fracture>immolation_aura": 100,
+    "fracture>infernal_strike": 166,
+    "fracture>metamorphosis": 52,
+    "fracture>soul_cleave": 417,
+    "fracture>spirit_bomb": 112,
+    "immolation_aura>demon_spikes": 37,
+    "immolation_aura>fracture": 123,
+    "immolation_aura>infernal_strike": 58,
+    "immolation_aura>soul_cleave": 41,
+    "infernal_strike>demon_spikes": 44,
+    "infernal_strike>fiery_brand": 37,
+    "infernal_strike>fracture": 148,
+    "infernal_strike>immolation_aura": 41,
+    "infernal_strike>soul_cleave": 153,
+    "infernal_strike>spirit_bomb": 27,
+    "metamorphosis>felblade": 42,
+    "metamorphosis>soul_cleave": 32,
+    "metamorphosis>spirit_bomb": 66,
+    "sigil_of_flame>fracture": 59,
+    "soul_cleave>demon_spikes": 54,
+    "soul_cleave>felblade": 41,
+    "soul_cleave>fracture": 409,
+    "soul_cleave>immolation_aura": 92,
+    "soul_cleave>infernal_strike": 117,
+    "soul_cleave>metamorphosis": 83,
+    "soul_cleave>sigil_of_spite": 27,
+    "soul_cleave>soul_cleave": 154,
+    "spirit_bomb>fracture": 29,
+    "spirit_bomb>infernal_strike": 50,
+    "spirit_bomb>soul_cleave": 130,
+    "throw_glaive>fracture": 36
+   },
+   "seconds": 3591
+  },
+  "5": {
+   "cpm": {
+    "demon_spikes": 4.53,
+    "disrupt": 0.47,
+    "fel_devastation": 1.37,
+    "felblade": 2.94,
+    "fiery_brand": 1.67,
+    "fracture": 19.65,
+    "immolation_aura": 5.51,
+    "infernal_strike": 8.64,
+    "metamorphosis": 3.31,
+    "sigil_of_flame": 2.34,
+    "sigil_of_spite": 1.34,
+    "soul_cleave": 17.43,
+    "spirit_bomb": 5.21,
+    "throw_glaive": 1.57
+   },
+   "opener": [
+    "sigil_of_flame",
+    "immolation_aura",
+    "infernal_strike",
+    "demon_spikes",
+    "fracture",
+    "fracture",
+    "infernal_strike",
+    "fiery_brand"
+   ],
+   "pairs": {
+    "demon_spikes>fracture": 81,
+    "demon_spikes>infernal_strike": 36,
+    "demon_spikes>soul_cleave": 71,
+    "fel_devastation>fracture": 34,
+    "felblade>fracture": 78,
+    "felblade>throw_glaive": 28,
+    "fracture>demon_spikes": 87,
+    "fracture>fel_devastation": 29,
+    "fracture>fracture": 102,
+    "fracture>immolation_aura": 106,
+    "fracture>infernal_strike": 160,
+    "fracture>metamorphosis": 52,
+    "fracture>sigil_of_flame": 45,
+    "fracture>soul_cleave": 407,
+    "fracture>spirit_bomb": 107,
+    "immolation_aura>demon_spikes": 37,
+    "immolation_aura>fracture": 103,
+    "immolation_aura>infernal_strike": 59,
+    "immolation_aura>soul_cleave": 60,
+    "infernal_strike>demon_spikes": 42,
+    "infernal_strike>fiery_brand": 32,
+    "infernal_strike>fracture": 162,
+    "infernal_strike>immolation_aura": 39,
+    "infernal_strike>soul_cleave": 150,
+    "metamorphosis>felblade": 34,
+    "metamorphosis>spirit_bomb": 84,
+    "sigil_of_flame>fracture": 53,
+    "sigil_of_flame>soul_cleave": 29,
+    "sigil_of_spite>fracture": 33,
+    "soul_cleave>demon_spikes": 52,
+    "soul_cleave>felblade": 36,
+    "soul_cleave>fracture": 446,
+    "soul_cleave>immolation_aura": 93,
+    "soul_cleave>infernal_strike": 120,
+    "soul_cleave>metamorphosis": 84,
+    "soul_cleave>sigil_of_spite": 30,
+    "soul_cleave>soul_cleave": 121,
+    "spirit_bomb>fracture": 28,
+    "spirit_bomb>infernal_strike": 47,
+    "spirit_bomb>soul_cleave": 159
+   },
+   "seconds": 3590
+  }
+ }
+}

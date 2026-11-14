@@ -1,0 +1,591 @@
+{
+ "build": "profile",
+ "profile": "MID1_Rogue_Assassination.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "rogue_assassination",
+ "talentOptions": [],
+ "talents": [
+  {
+   "id": 0,
+   "name": "Fatebound",
+   "rank": 1,
+   "tree": "heroTree"
+  },
+  {
+   "id": 381640,
+   "name": "Lethal Dose",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 381632,
+   "name": "Improved Garrote",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1249809,
+   "name": "Finish the Job",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1247993,
+   "name": "Motivated Murderer",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 381626,
+   "name": "Bloody Mess",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 381627,
+   "name": "Internal Bleeding",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 381624,
+   "name": "Improved Poisons",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 378436,
+   "name": "Master Poisoner",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 378996,
+   "name": "Recuperator",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 2094,
+   "name": "Blind",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 57934,
+   "name": "Tricks of the Trade",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 231691,
+   "name": "Improved Sprint",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381621,
+   "name": "Tight Spender",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 394931,
+   "name": "Thrill Seeking",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 31224,
+   "name": "Cloak of Shadows",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 5938,
+   "name": "Shiv",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 200733,
+   "name": "Airborne Irritant",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 31230,
+   "name": "Cheat Death",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381542,
+   "name": "Deadly Precision",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 193546,
+   "name": "Iron Stomach",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 378427,
+   "name": "Nimble Fingers",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1267210,
+   "name": "Quick Fingers",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381543,
+   "name": "Virulent Poisons",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382245,
+   "name": "Cold Blooded Killer",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382238,
+   "name": "Lethality",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 193531,
+   "name": "Deeper Stratagem",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 193539,
+   "name": "Alacrity",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 381988,
+   "name": "Swift Slasher",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 423647,
+   "name": "Graceful Guile",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 469779,
+   "name": "Thistle Tea",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 14190,
+   "name": "Seal Fate",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 280716,
+   "name": "Leeching Poison",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 14983,
+   "name": "Vigor",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 1267220,
+   "name": "Danger Sense",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 5277,
+   "name": "Evasion",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381637,
+   "name": "Atrophic Poison",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 378813,
+   "name": "Fleet Footed",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 455072,
+   "name": "Rapid Injection",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1250036,
+   "name": "Inspiring Strike",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 79134,
+   "name": "Venomous Wounds",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 360194,
+   "name": "Deathmark",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 385627,
+   "name": "Kingsbane",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 381664,
+   "name": "Amplifying Poison",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 392384,
+   "name": "Fatal Concoction",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 381652,
+   "name": "Systemic Failure",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1249802,
+   "name": "Razor Wire",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 2823,
+   "name": "Deadly Poison",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1298812,
+   "name": "Unstable Toxin",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 381798,
+   "name": "Zoldyck Recipe",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 381797,
+   "name": "Dashing Scoundrel",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 423054,
+   "name": "Path of Blood",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1250325,
+   "name": "Regicide's Reward",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 381801,
+   "name": "Dragon-Tempered Blades",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 457512,
+   "name": "Sanguine Stratagem",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 381673,
+   "name": "Doomblade",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1267216,
+   "name": "Deep Cuts",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 454419,
+   "name": "Deal Fate",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1249190,
+   "name": "Overflowing Purse",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1249194,
+   "name": "Delivered Doom",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 453457,
+   "name": "Edge Case",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 453428,
+   "name": "Mean Streak",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 452536,
+   "name": "Hand of Fate",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1248970,
+   "name": "Lucky Coin",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1249204,
+   "name": "Rush to the Inevitable",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 454432,
+   "name": "Inexorable March",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 457052,
+   "name": "Deathstalker's Mark",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1249201,
+   "name": "Chosen's Revelry",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1249215,
+   "name": "Fate Intertwined",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 423683,
+   "name": "Featherfoot",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1276809,
+   "name": "Ravenholdt Mint",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1277030,
+   "name": "Sometimes Lucky",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1276816,
+   "name": "Controlled Chaos",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 231719,
+   "name": "Deadened Nerves",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1265385,
+   "name": "Implacable",
+   "rank": 0,
+   "tree": "spec"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "apply_poison": 0.33,
+    "blood_fury": 0.67,
+    "deathmark": 0.67,
+    "envenom": 14.2,
+    "garrote": 2.86,
+    "kingsbane": 1.0,
+    "mutilate": 27.04,
+    "rupture": 2.01,
+    "stealth": 0.33,
+    "thistle_tea": 1.52,
+    "vanish": 0.33
+   },
+   "opener": [
+    "apply_poison",
+    "stealth",
+    "garrote",
+    "mutilate",
+    "mutilate",
+    "rupture",
+    "garrote",
+    "mutilate"
+   ],
+   "pairs": {
+    "apply_poison>stealth": 20,
+    "blood_fury>kingsbane": 40,
+    "deathmark>blood_fury": 40,
+    "envenom>deathmark": 37,
+    "envenom>garrote": 50,
+    "envenom>kingsbane": 5,
+    "envenom>mutilate": 737,
+    "envenom>thistle_tea": 12,
+    "garrote>deathmark": 3,
+    "garrote>envenom": 46,
+    "garrote>mutilate": 108,
+    "garrote>rupture": 6,
+    "garrote>thistle_tea": 8,
+    "kingsbane>envenom": 39,
+    "kingsbane>thistle_tea": 1,
+    "kingsbane>vanish": 20,
+    "mutilate>envenom": 718,
+    "mutilate>garrote": 61,
+    "mutilate>kingsbane": 15,
+    "mutilate>mutilate": 632,
+    "mutilate>rupture": 107,
+    "mutilate>thistle_tea": 69,
+    "rupture>garrote": 18,
+    "rupture>mutilate": 101,
+    "rupture>thistle_tea": 1,
+    "stealth>garrote": 20,
+    "thistle_tea>envenom": 44,
+    "thistle_tea>garrote": 5,
+    "thistle_tea>mutilate": 37,
+    "thistle_tea>rupture": 5,
+    "vanish>envenom": 1,
+    "vanish>garrote": 17,
+    "vanish>rupture": 2
+   },
+   "seconds": 3584
+  },
+  "5": {
+   "cpm": {
+    "apply_poison": 0.33,
+    "blood_fury": 0.67,
+    "deathmark": 0.67,
+    "envenom": 11.21,
+    "fan_of_knives": 26.66,
+    "garrote": 10.39,
+    "kingsbane": 0.95,
+    "rupture": 9.67,
+    "stealth": 0.33,
+    "thistle_tea": 1.34,
+    "vanish": 0.67
+   },
+   "opener": [
+    "apply_poison",
+    "stealth",
+    "garrote",
+    "garrote",
+    "garrote",
+    "garrote",
+    "garrote",
+    "garrote"
+   ],
+   "pairs": {
+    "apply_poison>stealth": 20,
+    "blood_fury>kingsbane": 40,
+    "deathmark>blood_fury": 40,
+    "envenom>deathmark": 40,
+    "envenom>fan_of_knives": 466,
+    "envenom>garrote": 140,
+    "envenom>kingsbane": 8,
+    "envenom>thistle_tea": 5,
+    "envenom>vanish": 4,
+    "fan_of_knives>envenom": 538,
+    "fan_of_knives>fan_of_knives": 345,
+    "fan_of_knives>garrote": 165,
+    "fan_of_knives>kingsbane": 6,
+    "fan_of_knives>rupture": 467,
+    "fan_of_knives>thistle_tea": 53,
+    "fan_of_knives>vanish": 6,
+    "garrote>envenom": 65,
+    "garrote>fan_of_knives": 289,
+    "garrote>garrote": 148,
+    "garrote>kingsbane": 2,
+    "garrote>rupture": 74,
+    "garrote>thistle_tea": 21,
+    "garrote>vanish": 22,
+    "kingsbane>envenom": 38,
+    "kingsbane>garrote": 2,
+    "kingsbane>rupture": 13,
+    "kingsbane>vanish": 3,
+    "rupture>fan_of_knives": 442,
+    "rupture>garrote": 132,
+    "rupture>vanish": 4,
+    "stealth>garrote": 20,
+    "thistle_tea>envenom": 27,
+    "thistle_tea>fan_of_knives": 28,
+    "thistle_tea>garrote": 7,
+    "thistle_tea>rupture": 16,
+    "thistle_tea>vanish": 1,
+    "vanish>envenom": 2,
+    "vanish>fan_of_knives": 23,
+    "vanish>garrote": 7,
+    "vanish>rupture": 8
+   },
+   "seconds": 3586
+  }
+ }
+}

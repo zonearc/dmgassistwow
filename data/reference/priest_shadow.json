@@ -1,0 +1,608 @@
+{
+ "build": "profile",
+ "profile": "MID1_Priest_Shadow.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "priest_shadow",
+ "talentOptions": [],
+ "talents": [
+  {
+   "id": 0,
+   "name": "Voidweaver",
+   "rank": 1,
+   "tree": "heroTree"
+  },
+  {
+   "id": 373280,
+   "name": "Idol of N'Zoth",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 373273,
+   "name": "Idol of Yogg-Saron",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 10060,
+   "name": "Power Infusion",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1228516,
+   "name": "Subservient Shadows",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 373212,
+   "name": "Insidious Ire",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 407469,
+   "name": "Spectral Horrors",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 377349,
+   "name": "Idol of C'Thun",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 391151,
+   "name": "Mastermind",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 407470,
+   "name": "Mind's Eye",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 375767,
+   "name": "Screams of the Void",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 341491,
+   "name": "Shadowy Apparitions",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1279353,
+   "name": "Maddening Tentacles",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 341240,
+   "name": "Improved Voidform",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 228260,
+   "name": "Voidform",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1279355,
+   "name": "Haunting Shadows",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1250492,
+   "name": "Tormenting Whispers",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 199484,
+   "name": "Psychic Link",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 335467,
+   "name": "Shadow Word: Madness",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1279350,
+   "name": "Invoked Nightmare",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 155271,
+   "name": "Auspicious Spirits",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 391399,
+   "name": "Surge of Insanity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 375888,
+   "name": "Shadowy Insight",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1250818,
+   "name": "Spiritual Guidance",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 459559,
+   "name": "Phantom Reach",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1249230,
+   "name": "Focused Power",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 193063,
+   "name": "Protective Light",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 368275,
+   "name": "Binding Heals",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 373450,
+   "name": "Light's Inspiration",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 238100,
+   "name": "Angel's Mercy",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 390972,
+   "name": "Twist of Fate",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 373446,
+   "name": "Translucent Image",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 390670,
+   "name": "Improved Fade",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 1250820,
+   "name": "Strength of Resolve",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1251077,
+   "name": "Twin Disciplines",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 55676,
+   "name": "Petrifying Scream",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 8122,
+   "name": "Psychic Scream",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 121536,
+   "name": "Angelic Feather",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 213634,
+   "name": "Purify Disease",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 196704,
+   "name": "Psychic Voice",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 373223,
+   "name": "Tithe Evasion",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 32379,
+   "name": "Shadow Word: Death",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 8092,
+   "name": "Mind Blast",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 73325,
+   "name": "Leap of Faith",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 391284,
+   "name": "Tormented Spirits",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1227280,
+   "name": "Tentacle Slam",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 451840,
+   "name": "Devour Matter",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450612,
+   "name": "Void Infusion",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 448278,
+   "name": "Inner Quietus",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 263165,
+   "name": "Void Torrent",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1266845,
+   "name": "Quickened Pulse",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 451018,
+   "name": "Dark Energy",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 448403,
+   "name": "Collapsing Void",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449912,
+   "name": "Darkening Horizon",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 451311,
+   "name": "Void Leech",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 450405,
+   "name": "Void Blast",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 451234,
+   "name": "Voidwraith",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 375994,
+   "name": "Mental Decay",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 391090,
+   "name": "Shattered Psyche",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 373466,
+   "name": "Twins of the Sun Priestess",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1251030,
+   "name": "Painful Invocation",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 528,
+   "name": "Dispel Magic",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 390667,
+   "name": "Spell Warding",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 1251029,
+   "name": "Mindpierce",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 19236,
+   "name": "Desperate Prayer",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 586,
+   "name": "Fade",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 377065,
+   "name": "Mental Fortitude",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 34433,
+   "name": "Shadowfiend",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1250835,
+   "name": "Dark Enlightenment",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 373218,
+   "name": "Sanguine Teachings",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266883,
+   "name": "Overwhelming Shadows",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1266856,
+   "name": "Touch of the Void",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449880,
+   "name": "Voidheart",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 32375,
+   "name": "Mass Dispel",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 64129,
+   "name": "Body and Soul",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1264096,
+   "name": "Void Apparitions",
+   "rank": 0,
+   "tree": "spec"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "mind_blast": 6.63,
+    "mind_flay": 16.43,
+    "power_infusion": 0.67,
+    "shadow_word_death": 1.06,
+    "shadow_word_madness": 15.56,
+    "shadow_word_pain": 1.21,
+    "shadowform": 0.34,
+    "tentacle_slam": 4.02,
+    "vampiric_touch": 4.36,
+    "void_blast": 6.26,
+    "void_torrent": 2.01,
+    "void_volley": 3.35,
+    "voidform": 0.67
+   },
+   "opener": [
+    "shadowform",
+    "tentacle_slam",
+    "vampiric_touch",
+    "shadow_word_madness",
+    "vampiric_touch",
+    "shadow_word_madness",
+    "shadow_word_pain",
+    "voidform"
+   ],
+   "pairs": {
+    "mind_blast>mind_blast": 71,
+    "mind_blast>mind_flay": 173,
+    "mind_blast>shadow_word_madness": 70,
+    "mind_blast>tentacle_slam": 36,
+    "mind_blast>void_torrent": 15,
+    "mind_flay>mind_blast": 154,
+    "mind_flay>mind_flay": 394,
+    "mind_flay>shadow_word_death": 15,
+    "mind_flay>shadow_word_madness": 254,
+    "mind_flay>tentacle_slam": 77,
+    "mind_flay>void_blast": 30,
+    "mind_flay>void_torrent": 25,
+    "power_infusion>void_torrent": 22,
+    "shadow_word_death>mind_flay": 36,
+    "shadow_word_madness>mind_blast": 149,
+    "shadow_word_madness>mind_flay": 273,
+    "shadow_word_madness>shadow_word_death": 24,
+    "shadow_word_madness>shadow_word_madness": 40,
+    "shadow_word_madness>shadow_word_pain": 52,
+    "shadow_word_madness>tentacle_slam": 54,
+    "shadow_word_madness>vampiric_touch": 20,
+    "shadow_word_madness>void_blast": 198,
+    "shadow_word_madness>void_torrent": 52,
+    "shadow_word_madness>void_volley": 57,
+    "shadow_word_pain>void_blast": 16,
+    "shadow_word_pain>voidform": 21,
+    "shadowform>tentacle_slam": 20,
+    "tentacle_slam>vampiric_touch": 240,
+    "vampiric_touch>shadow_word_madness": 260,
+    "void_blast>mind_flay": 80,
+    "void_blast>shadow_word_madness": 91,
+    "void_blast>tentacle_slam": 38,
+    "void_blast>void_blast": 96,
+    "void_blast>void_volley": 56,
+    "void_torrent>shadow_word_madness": 115,
+    "void_volley>mind_flay": 18,
+    "void_volley>shadow_word_madness": 69,
+    "void_volley>void_blast": 24,
+    "void_volley>void_volley": 79,
+    "voidform>power_infusion": 40
+   },
+   "seconds": 3582
+  },
+  "5": {
+   "cpm": {
+    "mind_blast": 6.89,
+    "mind_flay": 12.36,
+    "power_infusion": 0.67,
+    "shadow_word_death": 1.06,
+    "shadow_word_madness": 15.5,
+    "shadow_word_pain": 4.89,
+    "shadowform": 0.34,
+    "tentacle_slam": 4.02,
+    "vampiric_touch": 4.36,
+    "void_blast": 6.62,
+    "void_torrent": 2.01,
+    "void_volley": 3.33,
+    "voidform": 0.67
+   },
+   "opener": [
+    "shadowform",
+    "tentacle_slam",
+    "vampiric_touch",
+    "shadow_word_madness",
+    "vampiric_touch",
+    "shadow_word_madness",
+    "shadow_word_pain",
+    "shadow_word_pain"
+   ],
+   "pairs": {
+    "mind_blast>mind_blast": 53,
+    "mind_blast>mind_flay": 178,
+    "mind_blast>shadow_word_madness": 62,
+    "mind_blast>tentacle_slam": 54,
+    "mind_flay>mind_blast": 132,
+    "mind_flay>mind_flay": 262,
+    "mind_flay>shadow_word_madness": 235,
+    "mind_flay>void_blast": 33,
+    "mind_flay>void_torrent": 30,
+    "power_infusion>shadow_word_madness": 33,
+    "shadow_word_death>mind_flay": 25,
+    "shadow_word_madness>mind_blast": 179,
+    "shadow_word_madness>mind_flay": 207,
+    "shadow_word_madness>shadow_word_death": 28,
+    "shadow_word_madness>shadow_word_madness": 31,
+    "shadow_word_madness>shadow_word_pain": 94,
+    "shadow_word_madness>tentacle_slam": 58,
+    "shadow_word_madness>vampiric_touch": 20,
+    "shadow_word_madness>void_blast": 176,
+    "shadow_word_madness>void_torrent": 65,
+    "shadow_word_madness>void_volley": 64,
+    "shadow_word_pain>mind_blast": 28,
+    "shadow_word_pain>shadow_word_madness": 18,
+    "shadow_word_pain>shadow_word_pain": 157,
+    "shadow_word_pain>void_blast": 31,
+    "shadow_word_pain>voidform": 27,
+    "shadowform>tentacle_slam": 20,
+    "tentacle_slam>vampiric_touch": 240,
+    "vampiric_touch>shadow_word_madness": 260,
+    "void_blast>mind_flay": 47,
+    "void_blast>shadow_word_madness": 96,
+    "void_blast>tentacle_slam": 71,
+    "void_blast>void_blast": 111,
+    "void_blast>void_volley": 56,
+    "void_torrent>shadow_word_madness": 97,
+    "void_torrent>void_blast": 17,
+    "void_volley>shadow_word_madness": 80,
+    "void_volley>void_blast": 23,
+    "void_volley>void_volley": 56,
+    "voidform>power_infusion": 40
+   },
+   "seconds": 3581
+  }
+ }
+}

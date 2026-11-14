@@ -1,0 +1,577 @@
+{
+ "build": "top player (Warcraft Logs)",
+ "profile": "MID1_Mage_Arcane.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "mage_arcane",
+ "talentOptions": [
+  "talents=",
+  "class_talents=80159:2/80174:1/80181:1/80183:1/134194:1/134184:1/137410:1/80182:2/80153:1/80141:1/80142:1/126060:1/80155:1/80157:1/80161:1/80163:1/80173:2/80175:1/80187:1/115877:1/125818:1/134183:1/134187:1/134188:1/134190:1/134191:1/136578:1/136579:1/80147:1/80140:1/134192:1/80180:1",
+  "hero_talents=117246:1/117248:1/117252:1/117247:1/117251:1/117256:1/117249:1/117255:1/117253:1/134249:1/135924:1/135925:1/135926:1/117250:1",
+  "spec_talents=134023:2/134030:1/126537:1/126521:1/126516:1/126519:1/134025:1/134020:1/126538:1/126540:1/126542:1/126544:1/126545:1/126550:2/134026:2/134196:1/134834:1/135698:1/137028:1/137027:2/137026:1/137084:1/137841:1/137842:1/126515:1/126541:1/128689:1/134027:1/134028:1/126510:1"
+ ],
+ "talents": [
+  {
+   "id": 342249,
+   "name": "Master of Time",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 342245,
+   "name": "Alter Time",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 45438,
+   "name": "Ice Block",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 55342,
+   "name": "Mirror Image",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 321745,
+   "name": "Improved Prismatic Barrier",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270872,
+   "name": "Captured Thoughts",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1297073,
+   "name": "Improved Warding",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382424,
+   "name": "Winter's Protection",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 382268,
+   "name": "Flow of Time",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 414658,
+   "name": "Ice Cold",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1265517,
+   "name": "Permafrost Bauble",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1244031,
+   "name": "Spatial Manipulation",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382490,
+   "name": "Tome of Antonidas",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386828,
+   "name": "Energized Barriers",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382297,
+   "name": "Quick Witted",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 212653,
+   "name": "Shimmer",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 383092,
+   "name": "Arcane Warding",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 475,
+   "name": "Remove Curse",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 382493,
+   "name": "Tome of Rhonin",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 110959,
+   "name": "Greater Invisibility",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 157980,
+   "name": "Supernova",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1244087,
+   "name": "Time Walk",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1244107,
+   "name": "Charm of Medivh",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1244105,
+   "name": "Charm of Aegwynn",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 458437,
+   "name": "Inspired Intellect",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 390218,
+   "name": "Overflowing Energy",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270845,
+   "name": "Mana Confluence",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 461261,
+   "name": "Brainstorm",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 455428,
+   "name": "Barrier Diffusion",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 30449,
+   "name": "Spellsteal",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1244025,
+   "name": "Improved Conjuration",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 235450,
+   "name": "Prismatic Barrier",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1243307,
+   "name": "Aether Attunement",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 205028,
+   "name": "Resonance",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 5143,
+   "name": "Arcane Missiles",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 461257,
+   "name": "Focusing Crystal",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1223798,
+   "name": "Intuition",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 365350,
+   "name": "Arcane Surge",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 236457,
+   "name": "Slipstream",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1243507,
+   "name": "Aegwynn's Technique",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 321507,
+   "name": "Touch of the Magi",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 321387,
+   "name": "Enlightened",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 461248,
+   "name": "High Voltage",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 384858,
+   "name": "Orb Barrage",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 384651,
+   "name": "Charged Orb",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 384612,
+   "name": "Prodigious Savant",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1244001,
+   "name": "Arcane Singularity",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 452198,
+   "name": "Eureka",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1243557,
+   "name": "Expanded Mind",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1244329,
+   "name": "Overpowered Missiles",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1295923,
+   "name": "Prismatic Bolt",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1295944,
+   "name": "Prismatic Bolt",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1295946,
+   "name": "Prismatic Bolt",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383980,
+   "name": "Arcane Tempo",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 236628,
+   "name": "Amplification",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1309497,
+   "name": "Refractive Images",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 321420,
+   "name": "Improved Clearcasting",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 231564,
+   "name": "Arcing Cleave",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 153626,
+   "name": "Arcane Orb",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 414379,
+   "name": "Concentrated Power",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 384452,
+   "name": "Arcane Salvo",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 457521,
+   "name": "Mana Bomb",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1260272,
+   "name": "Ashes of Inspiration",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449382,
+   "name": "Codex of the Sunstriders",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449330,
+   "name": "Merely a Setback",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 451035,
+   "name": "Burden of Power",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449596,
+   "name": "Rondurmancy",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449293,
+   "name": "Mana Cascade",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449619,
+   "name": "Memory of Al'ar",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 448658,
+   "name": "Invocation: Arcane Phoenix",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449412,
+   "name": "Savor the Moment",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1246030,
+   "name": "Explosive Potential",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1260616,
+   "name": "Spellfire Salvo",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1260673,
+   "name": "Pyrocosm",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449394,
+   "name": "Glorious Incandescence",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 448601,
+   "name": "Spellfire Spheres",
+   "rank": 1,
+   "tree": "hero"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "arcane_barrage": 28.23,
+    "arcane_blast": 3.45,
+    "arcane_missiles": 11.04,
+    "arcane_orb": 3.01,
+    "arcane_surge": 0.67,
+    "berserking": 0.33,
+    "mirror_image": 0.33,
+    "touch_of_the_magi": 1.34
+   },
+   "opener": [
+    "mirror_image",
+    "arcane_surge",
+    "arcane_barrage",
+    "arcane_missiles",
+    "arcane_blast",
+    "arcane_blast",
+    "arcane_blast",
+    "arcane_blast"
+   ],
+   "pairs": {
+    "arcane_barrage>arcane_barrage": 971,
+    "arcane_barrage>arcane_blast": 2,
+    "arcane_barrage>arcane_missiles": 462,
+    "arcane_barrage>arcane_orb": 179,
+    "arcane_barrage>arcane_surge": 12,
+    "arcane_barrage>touch_of_the_magi": 41,
+    "arcane_blast>arcane_barrage": 19,
+    "arcane_blast>arcane_blast": 171,
+    "arcane_blast>arcane_missiles": 1,
+    "arcane_blast>arcane_surge": 1,
+    "arcane_blast>touch_of_the_magi": 14,
+    "arcane_missiles>arcane_barrage": 461,
+    "arcane_missiles>arcane_blast": 33,
+    "arcane_missiles>arcane_missiles": 142,
+    "arcane_missiles>arcane_orb": 1,
+    "arcane_missiles>arcane_surge": 5,
+    "arcane_missiles>touch_of_the_magi": 18,
+    "arcane_orb>arcane_barrage": 135,
+    "arcane_orb>arcane_missiles": 36,
+    "arcane_orb>arcane_surge": 2,
+    "arcane_orb>touch_of_the_magi": 7,
+    "arcane_surge>arcane_barrage": 21,
+    "arcane_surge>arcane_missiles": 19,
+    "berserking>arcane_barrage": 20,
+    "mirror_image>arcane_surge": 20,
+    "touch_of_the_magi>arcane_barrage": 60,
+    "touch_of_the_magi>berserking": 20
+   },
+   "seconds": 3586
+  },
+  "5": {
+   "cpm": {
+    "arcane_barrage": 21.02,
+    "arcane_blast": 2.46,
+    "arcane_missiles": 11.28,
+    "arcane_orb": 2.96,
+    "arcane_surge": 0.67,
+    "berserking": 0.33,
+    "mirror_image": 0.33,
+    "touch_of_the_magi": 1.32
+   },
+   "opener": [
+    "mirror_image",
+    "arcane_surge",
+    "arcane_barrage",
+    "arcane_missiles",
+    "arcane_blast",
+    "arcane_blast",
+    "arcane_blast",
+    "arcane_blast"
+   ],
+   "pairs": {
+    "arcane_barrage>arcane_barrage": 520,
+    "arcane_barrage>arcane_blast": 16,
+    "arcane_barrage>arcane_missiles": 468,
+    "arcane_barrage>arcane_orb": 174,
+    "arcane_barrage>arcane_surge": 9,
+    "arcane_barrage>touch_of_the_magi": 49,
+    "arcane_blast>arcane_barrage": 35,
+    "arcane_blast>arcane_blast": 96,
+    "arcane_blast>arcane_missiles": 8,
+    "arcane_blast>arcane_surge": 2,
+    "arcane_blast>touch_of_the_magi": 6,
+    "arcane_missiles>arcane_barrage": 452,
+    "arcane_missiles>arcane_blast": 31,
+    "arcane_missiles>arcane_missiles": 157,
+    "arcane_missiles>arcane_orb": 3,
+    "arcane_missiles>arcane_surge": 9,
+    "arcane_missiles>touch_of_the_magi": 22,
+    "arcane_orb>arcane_barrage": 145,
+    "arcane_orb>arcane_blast": 4,
+    "arcane_orb>arcane_missiles": 26,
+    "arcane_orb>touch_of_the_magi": 2,
+    "arcane_surge>arcane_barrage": 25,
+    "arcane_surge>arcane_missiles": 15,
+    "berserking>arcane_barrage": 20,
+    "mirror_image>arcane_surge": 20,
+    "touch_of_the_magi>arcane_barrage": 59,
+    "touch_of_the_magi>berserking": 20
+   },
+   "seconds": 3586
+  }
+ }
+}

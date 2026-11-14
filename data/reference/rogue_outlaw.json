@@ -1,0 +1,607 @@
+{
+ "build": "profile",
+ "profile": "MID1_Rogue_Outlaw.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "rogue_outlaw",
+ "talentOptions": [],
+ "talents": [
+  {
+   "id": 0,
+   "name": "Fatebound",
+   "rank": 1,
+   "tree": "heroTree"
+  },
+  {
+   "id": 378436,
+   "name": "Master Poisoner",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 470668,
+   "name": "Forced Induction",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 470347,
+   "name": "Supercharger",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 378996,
+   "name": "Recuperator",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1259612,
+   "name": "Deadly Pursuit",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1259498,
+   "name": "Expert Duelist",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 61329,
+   "name": "Combat Potency",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 271877,
+   "name": "Blade Rush",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 381839,
+   "name": "Sleight of Hand",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 381989,
+   "name": "Keep It Rolling",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1259481,
+   "name": "Dragon-Bone Dice",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 395422,
+   "name": "Improved Adrenaline Rush",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1256630,
+   "name": "Menacing Rush",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 256170,
+   "name": "Loaded Dice",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 13750,
+   "name": "Adrenaline Rush",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1259499,
+   "name": "Crescendo of Violence",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 35551,
+   "name": "Fatal Flourish",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 196938,
+   "name": "Quick Draw",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 455143,
+   "name": "Acrobatic Strikes",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1277933,
+   "name": "Preparation",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 381846,
+   "name": "Fan the Hammer",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 381828,
+   "name": "Ace Up Your Sleeve",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1259485,
+   "name": "Zero In",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 381619,
+   "name": "Thief's Versatility",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 381990,
+   "name": "Summarily Dispatched",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 394321,
+   "name": "Devious Stratagem",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 14161,
+   "name": "Ruthlessness",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 196922,
+   "name": "Hit and Run",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 279876,
+   "name": "Opportunity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 2094,
+   "name": "Blind",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 57934,
+   "name": "Tricks of the Trade",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 231691,
+   "name": "Improved Sprint",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381621,
+   "name": "Tight Spender",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 394931,
+   "name": "Thrill Seeking",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 31224,
+   "name": "Cloak of Shadows",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 5938,
+   "name": "Shiv",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 200733,
+   "name": "Airborne Irritant",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 31230,
+   "name": "Cheat Death",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381542,
+   "name": "Deadly Precision",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 193546,
+   "name": "Iron Stomach",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 378427,
+   "name": "Nimble Fingers",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1267210,
+   "name": "Quick Fingers",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 381543,
+   "name": "Virulent Poisons",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 193531,
+   "name": "Deeper Stratagem",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 193539,
+   "name": "Alacrity",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 381988,
+   "name": "Swift Slasher",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 235484,
+   "name": "Improved Between the Eyes",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 423647,
+   "name": "Graceful Guile",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 428377,
+   "name": "Precision Shot",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 469779,
+   "name": "Thistle Tea",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 280716,
+   "name": "Leeching Poison",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 14983,
+   "name": "Vigor",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 1267220,
+   "name": "Danger Sense",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 5277,
+   "name": "Evasion",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 5761,
+   "name": "Numbing Poison",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 378813,
+   "name": "Fleet Footed",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1267216,
+   "name": "Deep Cuts",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 454419,
+   "name": "Deal Fate",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 454435,
+   "name": "Destiny Defined",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1249194,
+   "name": "Delivered Doom",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 453457,
+   "name": "Edge Case",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 453428,
+   "name": "Mean Streak",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 452536,
+   "name": "Hand of Fate",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1248970,
+   "name": "Lucky Coin",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1249204,
+   "name": "Rush to the Inevitable",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 454433,
+   "name": "Death's Arrival",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 454286,
+   "name": "Tempted Fate",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1249215,
+   "name": "Fate Intertwined",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441146,
+   "name": "Unseen Blade",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 423683,
+   "name": "Featherfoot",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1276809,
+   "name": "Ravenholdt Mint",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1277030,
+   "name": "Sometimes Lucky",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1276816,
+   "name": "Controlled Chaos",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 231719,
+   "name": "Deadened Nerves",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1265861,
+   "name": "Gravedigger",
+   "rank": 0,
+   "tree": "spec"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "adrenaline_rush": 1.97,
+    "apply_poison": 0.33,
+    "between_the_eyes": 10.68,
+    "blade_rush": 5.82,
+    "dispatch": 18.31,
+    "keep_it_rolling": 0.9,
+    "pistol_shot": 11.37,
+    "preparation": 0.33,
+    "roll_the_bones": 1.52,
+    "sinister_strike": 19.39,
+    "slice_and_dice": 0.33,
+    "stealth": 0.33
+   },
+   "opener": [
+    "apply_poison",
+    "stealth",
+    "adrenaline_rush",
+    "slice_and_dice",
+    "roll_the_bones",
+    "keep_it_rolling",
+    "blade_rush",
+    "sinister_strike"
+   ],
+   "pairs": {
+    "adrenaline_rush>between_the_eyes": 18,
+    "adrenaline_rush>blade_rush": 21,
+    "adrenaline_rush>dispatch": 42,
+    "adrenaline_rush>slice_and_dice": 20,
+    "apply_poison>stealth": 20,
+    "between_the_eyes>adrenaline_rush": 25,
+    "between_the_eyes>between_the_eyes": 146,
+    "between_the_eyes>blade_rush": 99,
+    "between_the_eyes>dispatch": 28,
+    "between_the_eyes>pistol_shot": 131,
+    "between_the_eyes>roll_the_bones": 15,
+    "between_the_eyes>sinister_strike": 185,
+    "blade_rush>between_the_eyes": 58,
+    "blade_rush>dispatch": 40,
+    "blade_rush>pistol_shot": 78,
+    "blade_rush>sinister_strike": 161,
+    "dispatch>adrenaline_rush": 45,
+    "dispatch>blade_rush": 136,
+    "dispatch>pistol_shot": 309,
+    "dispatch>roll_the_bones": 20,
+    "dispatch>sinister_strike": 571,
+    "keep_it_rolling>blade_rush": 21,
+    "keep_it_rolling>sinister_strike": 13,
+    "pistol_shot>between_the_eyes": 129,
+    "pistol_shot>blade_rush": 21,
+    "pistol_shot>dispatch": 470,
+    "pistol_shot>sinister_strike": 39,
+    "preparation>adrenaline_rush": 11,
+    "roll_the_bones>between_the_eyes": 13,
+    "roll_the_bones>dispatch": 10,
+    "roll_the_bones>keep_it_rolling": 34,
+    "roll_the_bones>sinister_strike": 17,
+    "sinister_strike>between_the_eyes": 268,
+    "sinister_strike>blade_rush": 33,
+    "sinister_strike>dispatch": 498,
+    "sinister_strike>pistol_shot": 147,
+    "sinister_strike>roll_the_bones": 20,
+    "sinister_strike>sinister_strike": 174,
+    "slice_and_dice>roll_the_bones": 20,
+    "stealth>adrenaline_rush": 20
+   },
+   "seconds": 3589
+  },
+  "5": {
+   "cpm": {
+    "adrenaline_rush": 1.75,
+    "apply_poison": 0.33,
+    "between_the_eyes": 9.73,
+    "blade_flurry": 6.36,
+    "blade_rush": 5.23,
+    "dispatch": 16.08,
+    "keep_it_rolling": 0.85,
+    "pistol_shot": 10.08,
+    "preparation": 0.33,
+    "roll_the_bones": 1.49,
+    "sinister_strike": 17.36,
+    "slice_and_dice": 0.33,
+    "stealth": 0.33
+   },
+   "opener": [
+    "apply_poison",
+    "stealth",
+    "adrenaline_rush",
+    "slice_and_dice",
+    "roll_the_bones",
+    "blade_flurry",
+    "keep_it_rolling",
+    "blade_rush"
+   ],
+   "pairs": {
+    "adrenaline_rush>dispatch": 29,
+    "adrenaline_rush>roll_the_bones": 18,
+    "adrenaline_rush>slice_and_dice": 20,
+    "apply_poison>stealth": 20,
+    "between_the_eyes>adrenaline_rush": 20,
+    "between_the_eyes>between_the_eyes": 106,
+    "between_the_eyes>blade_flurry": 65,
+    "between_the_eyes>blade_rush": 85,
+    "between_the_eyes>dispatch": 25,
+    "between_the_eyes>pistol_shot": 105,
+    "between_the_eyes>sinister_strike": 147,
+    "blade_flurry>between_the_eyes": 50,
+    "blade_flurry>blade_rush": 40,
+    "blade_flurry>dispatch": 92,
+    "blade_flurry>keep_it_rolling": 21,
+    "blade_flurry>pistol_shot": 62,
+    "blade_flurry>sinister_strike": 100,
+    "blade_rush>between_the_eyes": 54,
+    "blade_rush>blade_flurry": 36,
+    "blade_rush>dispatch": 17,
+    "blade_rush>pistol_shot": 59,
+    "blade_rush>sinister_strike": 142,
+    "dispatch>adrenaline_rush": 34,
+    "dispatch>blade_flurry": 99,
+    "dispatch>blade_rush": 112,
+    "dispatch>pistol_shot": 246,
+    "dispatch>sinister_strike": 446,
+    "keep_it_rolling>blade_rush": 23,
+    "pistol_shot>between_the_eyes": 107,
+    "pistol_shot>blade_flurry": 63,
+    "pistol_shot>dispatch": 381,
+    "pistol_shot>sinister_strike": 28,
+    "roll_the_bones>blade_flurry": 27,
+    "sinister_strike>between_the_eyes": 251,
+    "sinister_strike>blade_flurry": 87,
+    "sinister_strike>dispatch": 390,
+    "sinister_strike>pistol_shot": 115,
+    "sinister_strike>sinister_strike": 159,
+    "slice_and_dice>roll_the_bones": 20,
+    "stealth>adrenaline_rush": 20
+   },
+   "seconds": 3594
+  }
+ }
+}

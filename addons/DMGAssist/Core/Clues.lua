@@ -791,12 +791,18 @@ local function Flatten(lists, name, prefix, out, depth, seen)
   seen[name] = nil
 end
 
+-- Only the game's own list: SimC's export starts with a "cooldowns" list of its own ("Some cooldowns are not used by
+-- the Assisted Combat system. This simple default cooldown usage has been provided by simc"), which the assistant
+-- never names. Read as Blizzard's rules, every pick of the assistant "proved" those lines false: Outlaw's
+-- "adrenaline_rush,if=!buff.adrenaline_rush.up" made Adrenaline Rush's buff look up all fight, so it was never
+-- shown again (the offline grader, 2026-11-14; the owner's "Adrenaline Rush came up once, not the 2nd time").
 function C.BlizzardOrder(record)
   local flat = flatCache[record]
   if not flat then
     flat = {}
-    if type(record.blizzard) == "table" then
-      Flatten(record.blizzard, record.blizzard.default and "default" or "assisted_combat", nil, flat, 0, {})
+    local lists = type(record.blizzard) == "table" and record.blizzard or nil
+    if lists then
+      Flatten(lists, lists.assisted_combat and "assisted_combat" or "default", nil, flat, 0, {})
     end
     flatCache[record] = flat
   end

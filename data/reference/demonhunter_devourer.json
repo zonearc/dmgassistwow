@@ -1,0 +1,581 @@
+{
+ "build": "profile",
+ "profile": "MID1_Demon_Hunter_Devourer.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "demonhunter_devourer",
+ "talentOptions": [],
+ "talents": [
+  {
+   "id": 0,
+   "name": "Annihilator",
+   "rank": 1,
+   "tree": "heroTree"
+  },
+  {
+   "id": 1266496,
+   "name": "Soul Cleanse",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266328,
+   "name": "Remorseless",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 320386,
+   "name": "Bouncing Glaives",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 207347,
+   "name": "Aura of Pain",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 393822,
+   "name": "Internal Struggle",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 389696,
+   "name": "Illidari Knowledge",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 204909,
+   "name": "Soul Rending",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 183782,
+   "name": "Disrupting Fury",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 320361,
+   "name": "Improved Disrupt",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 389846,
+   "name": "Felfire Haste",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 320654,
+   "name": "Pursuit",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 320770,
+   "name": "Unrestrained Fury",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 198793,
+   "name": "Vengeful Retreat",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 213010,
+   "name": "Charred Warblades",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266330,
+   "name": "Soul Splitter",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 389824,
+   "name": "Shattered Restoration",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 389763,
+   "name": "Master of the Glaive",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 391397,
+   "name": "Erratic Felheart",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 1266307,
+   "name": "Demonic Resilience",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 389695,
+   "name": "Will of the Illidari",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 278326,
+   "name": "Consume Magic",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 217832,
+   "name": "Imprison",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266497,
+   "name": "First In, Last Out",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 320416,
+   "name": "Blazing Path",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266326,
+   "name": "Furious",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 473728,
+   "name": "Void Ray",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1221167,
+   "name": "Collapsing Star",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 471306,
+   "name": "Void Metamorphosis",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1227707,
+   "name": "Impending Apocalypse",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1238739,
+   "name": "Soulshaper",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1237270,
+   "name": "Feast of Souls",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1241937,
+   "name": "Soul Immolation",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1223171,
+   "name": "Guile",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1234195,
+   "name": "Void Nova",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1238488,
+   "name": "Moment of Craving",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1215617,
+   "name": "Predator's Thirst",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1240203,
+   "name": "Focused Ray",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1272847,
+   "name": "Gift of the Void",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1223918,
+   "name": "Waste Not",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1261684,
+   "name": "Entropy",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1242492,
+   "name": "Emptiness",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1244222,
+   "name": "Devourer's Edge",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1272817,
+   "name": "Improved Consume",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1242768,
+   "name": "Sweet Release",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1245412,
+   "name": "Voidblade",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1246562,
+   "name": "Duty Eternal",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1246556,
+   "name": "Spontaneous Immolation",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1256353,
+   "name": "World Killer",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253817,
+   "name": "Otherworldly Focus",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1256307,
+   "name": "Dark Matter",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253805,
+   "name": "Final Hour",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253391,
+   "name": "Meteoric Fall",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1256295,
+   "name": "Mass Acceleration",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253402,
+   "name": "State of Matter",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253304,
+   "name": "Voidfall",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1279247,
+   "name": "Harness the Cosmos",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253415,
+   "name": "Celestial Echoes",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1256245,
+   "name": "Phase Shift",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253769,
+   "name": "Catastrophe",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253668,
+   "name": "Swift Erasure",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1253377,
+   "name": "Meteoric Rise",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1242956,
+   "name": "Voidrage",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1266493,
+   "name": "Wings of Wrath",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1266500,
+   "name": "Final Breath",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 452402,
+   "name": "Voidsurge",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1247538,
+   "name": "Demonic Instinct",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1242495,
+   "name": "Calamitous",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1240201,
+   "name": "Devourer's Bite",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1244237,
+   "name": "Rolling Torment",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1240204,
+   "name": "Star Fragments",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1244220,
+   "name": "Voidpurge",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1242486,
+   "name": "Midnight",
+   "rank": 0,
+   "tree": "spec"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "collapsing_star": 3.76,
+    "consume": 8.81,
+    "cull": 4.68,
+    "devour": 21.52,
+    "metamorphosis": 1.0,
+    "reap": 2.94,
+    "soul_immolation": 1.0,
+    "void_ray": 7.86,
+    "voidblade": 1.67
+   },
+   "opener": [
+    "consume",
+    "soul_immolation",
+    "consume",
+    "consume",
+    "consume",
+    "consume",
+    "consume",
+    "void_ray"
+   ],
+   "pairs": {
+    "collapsing_star>cull": 25,
+    "collapsing_star>devour": 105,
+    "collapsing_star>soul_immolation": 1,
+    "collapsing_star>void_ray": 22,
+    "collapsing_star>voidblade": 72,
+    "consume>consume": 351,
+    "consume>metamorphosis": 1,
+    "consume>reap": 5,
+    "consume>soul_immolation": 20,
+    "consume>void_ray": 150,
+    "cull>collapsing_star": 98,
+    "cull>devour": 153,
+    "cull>soul_immolation": 2,
+    "cull>void_ray": 24,
+    "cull>voidblade": 1,
+    "devour>collapsing_star": 26,
+    "devour>cull": 73,
+    "devour>devour": 930,
+    "devour>reap": 4,
+    "devour>soul_immolation": 18,
+    "devour>void_ray": 197,
+    "devour>voidblade": 27,
+    "metamorphosis>void_ray": 60,
+    "reap>consume": 101,
+    "reap>metamorphosis": 43,
+    "reap>soul_immolation": 19,
+    "reap>void_ray": 13,
+    "soul_immolation>consume": 55,
+    "soul_immolation>reap": 2,
+    "soul_immolation>void_ray": 3,
+    "void_ray>collapsing_star": 100,
+    "void_ray>cull": 112,
+    "void_ray>devour": 71,
+    "void_ray>metamorphosis": 16,
+    "void_ray>reap": 165,
+    "voidblade>collapsing_star": 1,
+    "voidblade>cull": 70,
+    "voidblade>devour": 28,
+    "voidblade>void_ray": 1
+   },
+   "seconds": 3588
+  },
+  "5": {
+   "cpm": {
+    "collapsing_star": 4.05,
+    "consume": 8.72,
+    "cull": 4.79,
+    "devour": 21.36,
+    "metamorphosis": 1.0,
+    "reap": 2.86,
+    "soul_immolation": 1.0,
+    "void_ray": 7.97,
+    "voidblade": 1.72
+   },
+   "opener": [
+    "consume",
+    "soul_immolation",
+    "consume",
+    "consume",
+    "consume",
+    "consume",
+    "consume",
+    "void_ray"
+   ],
+   "pairs": {
+    "collapsing_star>cull": 54,
+    "collapsing_star>devour": 97,
+    "collapsing_star>soul_immolation": 4,
+    "collapsing_star>void_ray": 20,
+    "collapsing_star>voidblade": 65,
+    "consume>consume": 350,
+    "consume>metamorphosis": 3,
+    "consume>reap": 3,
+    "consume>soul_immolation": 20,
+    "consume>void_ray": 145,
+    "cull>collapsing_star": 92,
+    "cull>devour": 156,
+    "cull>soul_immolation": 3,
+    "cull>void_ray": 26,
+    "cull>voidblade": 5,
+    "devour>collapsing_star": 27,
+    "devour>cull": 61,
+    "devour>devour": 933,
+    "devour>reap": 2,
+    "devour>soul_immolation": 14,
+    "devour>void_ray": 205,
+    "devour>voidblade": 30,
+    "metamorphosis>void_ray": 60,
+    "reap>consume": 96,
+    "reap>metamorphosis": 43,
+    "reap>soul_immolation": 18,
+    "reap>void_ray": 14,
+    "soul_immolation>consume": 55,
+    "soul_immolation>void_ray": 4,
+    "void_ray>collapsing_star": 121,
+    "void_ray>cull": 102,
+    "void_ray>devour": 60,
+    "void_ray>metamorphosis": 14,
+    "void_ray>reap": 165,
+    "void_ray>soul_immolation": 1,
+    "void_ray>voidblade": 3,
+    "voidblade>collapsing_star": 2,
+    "voidblade>cull": 69,
+    "voidblade>devour": 30,
+    "voidblade>void_ray": 2
+   },
+   "seconds": 3584
+  }
+ }
+}

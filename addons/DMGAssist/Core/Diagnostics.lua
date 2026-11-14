@@ -654,6 +654,18 @@ end
 G.AUDIT_AFTER = 0.5
 G.AUDIT_POWERS = { 4, 6, 7, 8, 9, 11, 12, 13, 17 }
 G.audit = {}
+G.lastPowers = {} -- pt -> { v =, at = } read in the last update pass
+G.BEFORE_MAX = 0.5 -- a reading older than this isn't "right before the cast"
+function G.NotePowers()
+  local now = GetTime()
+  for _, pt in ipairs(G.AUDIT_POWERS) do
+    local max = U.Get(UnitPowerMax, "player", pt)
+    local v = U.Get(UnitPower, "player", pt)
+    if type(max) == "number" and max > 0 and type(v) == "number" then
+      G.lastPowers[pt] = { v = v, at = now }
+    end
+  end
+end
 local lastAudit
 function G.AuditCast(id)
   if not (id and C_Timer and C_Timer.After) then
@@ -664,12 +676,14 @@ function G.AuditCast(id)
     return
   end
   lastAudit = { base = Base(id), at = now }
+  -- "Before": the last value read before the cast (each update pass keeps one, G.NotePowers). Read at the cast event
+  -- itself it can already include the cast's own gain (the power update can arrive first), and the change measured
+  -- was 0 for every builder.
   local before = {}
   for _, pt in ipairs(G.AUDIT_POWERS) do
-    local max = U.Get(UnitPowerMax, "player", pt)
-    local v = U.Get(UnitPower, "player", pt)
-    if type(max) == "number" and max > 0 and type(v) == "number" then
-      before[pt] = v
+    local seen = G.lastPowers[pt]
+    if seen and now - seen.at <= G.BEFORE_MAX then
+      before[pt] = seen.v
     end
   end
   if not next(before) then

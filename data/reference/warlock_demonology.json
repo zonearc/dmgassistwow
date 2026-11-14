@@ -1,0 +1,596 @@
+{
+ "build": "profile",
+ "profile": "MID1_Warlock_Demonology.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "warlock_demonology",
+ "talentOptions": [],
+ "talents": [
+  {
+   "id": 0,
+   "name": "Diabolist",
+   "rank": 1,
+   "tree": "heroTree"
+  },
+  {
+   "id": 389590,
+   "name": "Demonic Resilience",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 452902,
+   "name": "Swift Artifice",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386617,
+   "name": "Demonic Fortitude",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 389367,
+   "name": "Fel Synergy",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 386689,
+   "name": "Pact of Gluttony",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 288843,
+   "name": "Demonic Embrace",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 333889,
+   "name": "Fel Domination",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1311653,
+   "name": "Soul Leech",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 108416,
+   "name": "Dark Pact",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386686,
+   "name": "Frequent Donor",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 6789,
+   "name": "Mortal Coil",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 710,
+   "name": "Banish",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 30283,
+   "name": "Shadowfury",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386110,
+   "name": "Fiendish Stride",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 111400,
+   "name": "Burning Rush",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386124,
+   "name": "Fel Armor",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 219272,
+   "name": "Demon Skin",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 111771,
+   "name": "Demonic Gateway",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 317138,
+   "name": "Strength of Will",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 385899,
+   "name": "Soulburn",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 428518,
+   "name": "Secrets of the Coven",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 428522,
+   "name": "Ruination",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429581,
+   "name": "Abyssal Dominion",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429657,
+   "name": "Flames of Xoroth",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 428911,
+   "name": "Soul-Etched Circles",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429899,
+   "name": "Gloom of Nathreza",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429917,
+   "name": "Infernal Machine",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 428517,
+   "name": "Cloven Souls",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449614,
+   "name": "Demonic Soul",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429115,
+   "name": "Infernal Vitality",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 428514,
+   "name": "Diabolic Ritual",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429893,
+   "name": "Touch of Rancora",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 268358,
+   "name": "Demonic Circle",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386194,
+   "name": "Carnivorous Stalkers",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1250273,
+   "name": "Hand of Gul'dan",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 196277,
+   "name": "Implosion",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 104316,
+   "name": "Call Dreadstalkers",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 455449,
+   "name": "Mark of Shatug",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1276947,
+   "name": "Demonic Calling",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 265187,
+   "name": "Summon Demonic Tyrant",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1240189,
+   "name": "Master Summoner",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 453699,
+   "name": "Flametouched",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 453744,
+   "name": "Rune of Shadows",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 453908,
+   "name": "Demonic Brutality",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 416230,
+   "name": "Imp-erator",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1250921,
+   "name": "Antoran Armaments",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 426115,
+   "name": "Demoniac",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1276956,
+   "name": "Blighted Maw",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1250372,
+   "name": "Fel Intellect",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1250375,
+   "name": "Practiced Rituals",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1251778,
+   "name": "Summon Vilefiend",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1250768,
+   "name": "Imp Gang Boss",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 30146,
+   "name": "Summon Felguard",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1268716,
+   "name": "Mind's Eyes",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1268713,
+   "name": "Looks That Kill",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1268709,
+   "name": "Diabolic Oculi",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1265801,
+   "name": "Frequent Traveler",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 108415,
+   "name": "Soul Link",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 1270695,
+   "name": "Pact of the Eredar",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1265816,
+   "name": "Improved Mortal Coil",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1714,
+   "name": "Curse of Tongues",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1263941,
+   "name": "Infernal Rapidity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1270693,
+   "name": "Pact of the Annihilan",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270691,
+   "name": "Pact of the Satyr",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270690,
+   "name": "Pact of the Nathrezim",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1271694,
+   "name": "Fortified Soul",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1271699,
+   "name": "Empowered Healthstone",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1276746,
+   "name": "Tyrant's Oblation",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 267216,
+   "name": "Inner Demons",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1276452,
+   "name": "Grimoire: Imp Lord",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1250897,
+   "name": "Hellbent Commander",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1281511,
+   "name": "To Hell and Back",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1276748,
+   "name": "Reign of Tyranny",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1276163,
+   "name": "Dominion of Argus",
+   "rank": 0,
+   "tree": "spec"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "blood_fury": 0.67,
+    "call_dreadstalkers": 3.0,
+    "demonbolt": 12.41,
+    "grimoire_imp_lord": 0.67,
+    "hand_of_guldan": 17.43,
+    "implosion": 3.93,
+    "infernal_bolt": 1.67,
+    "ruination": 1.67,
+    "shadow_bolt": 12.24,
+    "summon_demonic_tyrant": 1.0
+   },
+   "opener": [
+    "demonbolt",
+    "grimoire_imp_lord",
+    "call_dreadstalkers",
+    "shadow_bolt",
+    "summon_demonic_tyrant",
+    "blood_fury",
+    "hand_of_guldan",
+    "hand_of_guldan"
+   ],
+   "pairs": {
+    "blood_fury>hand_of_guldan": 40,
+    "call_dreadstalkers>demonbolt": 57,
+    "call_dreadstalkers>hand_of_guldan": 26,
+    "call_dreadstalkers>implosion": 44,
+    "call_dreadstalkers>shadow_bolt": 40,
+    "demonbolt>call_dreadstalkers": 36,
+    "demonbolt>demonbolt": 106,
+    "demonbolt>grimoire_imp_lord": 32,
+    "demonbolt>hand_of_guldan": 441,
+    "demonbolt>implosion": 31,
+    "demonbolt>shadow_bolt": 84,
+    "grimoire_imp_lord>call_dreadstalkers": 25,
+    "grimoire_imp_lord>demonbolt": 12,
+    "hand_of_guldan>call_dreadstalkers": 86,
+    "hand_of_guldan>demonbolt": 333,
+    "hand_of_guldan>hand_of_guldan": 54,
+    "hand_of_guldan>implosion": 98,
+    "hand_of_guldan>infernal_bolt": 80,
+    "hand_of_guldan>ruination": 83,
+    "hand_of_guldan>shadow_bolt": 305,
+    "implosion>call_dreadstalkers": 8,
+    "implosion>demonbolt": 102,
+    "implosion>hand_of_guldan": 35,
+    "implosion>infernal_bolt": 15,
+    "implosion>ruination": 12,
+    "implosion>shadow_bolt": 57,
+    "infernal_bolt>hand_of_guldan": 84,
+    "ruination>demonbolt": 40,
+    "ruination>hand_of_guldan": 21,
+    "ruination>implosion": 6,
+    "ruination>shadow_bolt": 29,
+    "shadow_bolt>call_dreadstalkers": 16,
+    "shadow_bolt>demonbolt": 68,
+    "shadow_bolt>grimoire_imp_lord": 5,
+    "shadow_bolt>hand_of_guldan": 318,
+    "shadow_bolt>implosion": 53,
+    "shadow_bolt>shadow_bolt": 215,
+    "shadow_bolt>summon_demonic_tyrant": 52,
+    "summon_demonic_tyrant>blood_fury": 40,
+    "summon_demonic_tyrant>hand_of_guldan": 20
+   },
+   "seconds": 3584
+  },
+  "5": {
+   "cpm": {
+    "blood_fury": 0.67,
+    "call_dreadstalkers": 3.01,
+    "demonbolt": 12.43,
+    "grimoire_imp_lord": 0.67,
+    "hand_of_guldan": 17.42,
+    "implosion": 3.94,
+    "infernal_bolt": 1.67,
+    "ruination": 1.67,
+    "shadow_bolt": 12.12,
+    "summon_demonic_tyrant": 1.0
+   },
+   "opener": [
+    "demonbolt",
+    "grimoire_imp_lord",
+    "call_dreadstalkers",
+    "shadow_bolt",
+    "summon_demonic_tyrant",
+    "blood_fury",
+    "hand_of_guldan",
+    "hand_of_guldan"
+   ],
+   "pairs": {
+    "blood_fury>hand_of_guldan": 40,
+    "call_dreadstalkers>demonbolt": 54,
+    "call_dreadstalkers>hand_of_guldan": 24,
+    "call_dreadstalkers>implosion": 43,
+    "call_dreadstalkers>ruination": 8,
+    "call_dreadstalkers>shadow_bolt": 44,
+    "demonbolt>call_dreadstalkers": 37,
+    "demonbolt>demonbolt": 118,
+    "demonbolt>grimoire_imp_lord": 29,
+    "demonbolt>hand_of_guldan": 451,
+    "demonbolt>implosion": 30,
+    "demonbolt>shadow_bolt": 71,
+    "grimoire_imp_lord>call_dreadstalkers": 22,
+    "grimoire_imp_lord>demonbolt": 15,
+    "hand_of_guldan>call_dreadstalkers": 96,
+    "hand_of_guldan>demonbolt": 326,
+    "hand_of_guldan>hand_of_guldan": 52,
+    "hand_of_guldan>implosion": 98,
+    "hand_of_guldan>infernal_bolt": 76,
+    "hand_of_guldan>ruination": 78,
+    "hand_of_guldan>shadow_bolt": 306,
+    "implosion>call_dreadstalkers": 8,
+    "implosion>demonbolt": 90,
+    "implosion>hand_of_guldan": 33,
+    "implosion>infernal_bolt": 18,
+    "implosion>ruination": 14,
+    "implosion>shadow_bolt": 64,
+    "infernal_bolt>hand_of_guldan": 86,
+    "ruination>demonbolt": 46,
+    "ruination>hand_of_guldan": 17,
+    "ruination>implosion": 7,
+    "ruination>shadow_bolt": 29,
+    "shadow_bolt>call_dreadstalkers": 12,
+    "shadow_bolt>demonbolt": 73,
+    "shadow_bolt>hand_of_guldan": 316,
+    "shadow_bolt>implosion": 55,
+    "shadow_bolt>shadow_bolt": 208,
+    "shadow_bolt>summon_demonic_tyrant": 52,
+    "summon_demonic_tyrant>blood_fury": 40,
+    "summon_demonic_tyrant>hand_of_guldan": 20
+   },
+   "seconds": 3583
+  }
+ }
+}

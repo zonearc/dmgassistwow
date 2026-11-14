@@ -168,6 +168,26 @@ for every spec, before asking for more in-game logs.
 
 ## Done (recent)
 
+- 1.6.0.276: Reference + offline grader (first version) and three bugs it found.
+  - tools/simc-reference.py -> data/reference/<spec>.json for 30 specs: SimC profile talents (SimC's own decoder,
+    debug output; hero tree), or a top player's talents from Warcraft Logs (combatant info -> class/spec/hero
+    talent entry IDs) where SimC's own MID1 profile no longer loads (Hunter, Mage, Paladin, Warrior, Havoc,
+    Elemental); 20 seeded fights at 1 and 5 targets: casts/min, opener, pairs. Not yet: Marksmanship and Survival
+    (SimC's own lists/data disagree), healers / Augmentation (no SimC profile).
+  - tests/test_scenarios.lua SCEN_GRADE: the reference's talents (IsPlayerSpell + talent tree mock), a resource
+    world (costs, gains, regen, passive income; hidden in combat; IsSpellUsable from the true value), Blizzard's
+    assistant emulated from its own list against the true state, out-of-combat spells and proc-gated spells
+    unusable. tools/grade.py: spell-mix overlap per spec at 1 / 5 targets + pace -> docs/coverage/grade.md.
+  - Bug 1 (all specs): the assistant clue read SimC's added "cooldowns" list as Blizzard's rules; every pick
+    "proved" e.g. Outlaw's Adrenaline Rush buff up all fight (never shown again - the owner's report). Clues now
+    read only assisted_combat.
+  - Bug 2: Calibrate's readable-resource audit took "before" at the cast event (already including the gain) and
+    learned Sinister Strike gives 0 combo points; now "before" is the previous update pass, and a positive gain
+    is never learned down to 0.
+  - Grader state: Balance 71/65%, Shadow 56/47, Elemental 45/57, Assassination 40/50, Arcane 49/41; many low
+    scores are the world's simplicity (auto-attack rage, refunds, procs) and data gaps (cooldowns missing for
+    Comet Storm, Ravager, Champion's Leap). Next: world fidelity per resource, cooldown data gaps, then the
+    engine deviations it shows.
 - 1.6.0.275: Out-of-combat model replaces 1.6.0.273's "Astral Power full after 5 s" (top players' logs: it drains
   ~2.9/s, fastest ~7/s, settles ~18). tools/wcl-ooc.py (first and last cast of consecutive fights, boss and trash
   pulls, top players; rate-limit aware) -> data/resource-gains.json "ooc" -> record.oocPower {rate, fast, rest}.

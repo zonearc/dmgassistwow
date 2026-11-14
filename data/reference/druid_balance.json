@@ -1,0 +1,586 @@
+{
+ "build": "profile",
+ "profile": "MID1_Druid_Balance.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "druid_balance",
+ "talentOptions": [],
+ "talents": [
+  {
+   "id": 0,
+   "name": "Elune's Chosen",
+   "rank": 1,
+   "tree": "heroTree"
+  },
+  {
+   "id": 102401,
+   "name": "Wild Charge",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 194153,
+   "name": "Starfire",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 78674,
+   "name": "Starsurge",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 377796,
+   "name": "Natural Recovery",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 102793,
+   "name": "Ursol's Vortex",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 24858,
+   "name": "Moonkin Form",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 132469,
+   "name": "Typhoon",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 197524,
+   "name": "Astral Influence",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 33873,
+   "name": "Nurturing Instinct",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 301768,
+   "name": "Verdant Heart",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 449182,
+   "name": "Ursoc's Spirit",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 22842,
+   "name": "Frenzied Regeneration",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 16931,
+   "name": "Thick Hide",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 2908,
+   "name": "Soothe",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1261867,
+   "name": "Heart of the Wild",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 474678,
+   "name": "Aessina's Renewal",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 378988,
+   "name": "Lycara's Teachings",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 106898,
+   "name": "Stampeding Roar",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 377847,
+   "name": "Well-Honed Instincts",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 131768,
+   "name": "Feline Swiftness",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 99,
+   "name": "Incapacitating Roar",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 2782,
+   "name": "Remove Corruption",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 449193,
+   "name": "Fluid Form",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 279620,
+   "name": "Twin Moons",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 468936,
+   "name": "Sunseeker Mushroom",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 343647,
+   "name": "Solstice",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 406890,
+   "name": "Wild Surges",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 394013,
+   "name": "Incarnation: Chosen of Elune",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 202345,
+   "name": "Starlord",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 383195,
+   "name": "Umbral Intensity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 450212,
+   "name": "Stellar Amplification",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 394121,
+   "name": "Radiant Moonlight",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 394048,
+   "name": "Balance of All Things",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 395022,
+   "name": "Celestial Alignment",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 394094,
+   "name": "Sundered Firmament",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 468743,
+   "name": "Whirling Stars",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 450356,
+   "name": "Touch the Cosmos",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1239669,
+   "name": "Eclipse",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 202770,
+   "name": "Fury of Elune",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 202342,
+   "name": "Shooting Stars",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 202430,
+   "name": "Nature's Balance",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 400059,
+   "name": "Cosmic Rapidity",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 78675,
+   "name": "Solar Beam",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 393760,
+   "name": "Umbral Embrace",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 394046,
+   "name": "Power of Goldrinn",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 393954,
+   "name": "Rattle the Stars",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1240906,
+   "name": "Improved Eclipse",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1232897,
+   "name": "Lycara's Inspiration",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 93402,
+   "name": "Sunfire",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 429536,
+   "name": "Astral Insight",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429540,
+   "name": "Arcane Affinity",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 424113,
+   "name": "The Eternal Moon",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429530,
+   "name": "Lunar Insight",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429523,
+   "name": "Lunar Calling",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429533,
+   "name": "Glistening Fur",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429668,
+   "name": "Stellar Command",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 443046,
+   "name": "Elune's Grace",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429520,
+   "name": "Moon Guardian",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 433831,
+   "name": "Dream Surge",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 429532,
+   "name": "Atmospheric Exposure",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 424058,
+   "name": "Boundless Moonlight",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 377842,
+   "name": "Ursine Vigor",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1262034,
+   "name": "Gift of the Wild",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 449191,
+   "name": "Oakskin",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 385786,
+   "name": "Matted Fur",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 451211,
+   "name": "Starlight Conduit",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 469004,
+   "name": "Hail of Stars",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1240185,
+   "name": "Celestial Fire",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 474541,
+   "name": "Circle of the Heavens",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 449185,
+   "name": "Lore of the Grove",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 202918,
+   "name": "Light of the Sun",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 327993,
+   "name": "Improved Barkskin",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 450558,
+   "name": "Harmony of the Heavens",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1271305,
+   "name": "Bask in Moonlight",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1271261,
+   "name": "Penumbral Swell",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1271206,
+   "name": "Star Cascade",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1261564,
+   "name": "Ascendant Eclipses",
+   "rank": 0,
+   "tree": "spec"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "eclipse": 2.31,
+    "fury_of_elune": 1.34,
+    "moonfire": 3.01,
+    "moonkin_form": 0.33,
+    "starfire": 20.78,
+    "starsurge": 17.35,
+    "sunfire": 3.68,
+    "wrath": 0.33
+   },
+   "opener": [
+    "moonkin_form",
+    "wrath",
+    "starfire",
+    "moonfire",
+    "sunfire",
+    "eclipse",
+    "starfire",
+    "fury_of_elune"
+   ],
+   "pairs": {
+    "eclipse>starfire": 23,
+    "eclipse>starsurge": 114,
+    "fury_of_elune>eclipse": 20,
+    "fury_of_elune>starsurge": 60,
+    "moonfire>eclipse": 2,
+    "moonfire>fury_of_elune": 1,
+    "moonfire>starfire": 36,
+    "moonfire>starsurge": 48,
+    "moonfire>sunfire": 93,
+    "moonkin_form>wrath": 20,
+    "starfire>eclipse": 37,
+    "starfire>fury_of_elune": 37,
+    "starfire>moonfire": 140,
+    "starfire>starfire": 496,
+    "starfire>starsurge": 426,
+    "starfire>sunfire": 101,
+    "starsurge>eclipse": 2,
+    "starsurge>fury_of_elune": 2,
+    "starsurge>moonfire": 40,
+    "starsurge>starfire": 620,
+    "starsurge>starsurge": 334,
+    "starsurge>sunfire": 26,
+    "sunfire>eclipse": 77,
+    "sunfire>fury_of_elune": 40,
+    "sunfire>starfire": 46,
+    "sunfire>starsurge": 54,
+    "wrath>starfire": 20
+   },
+   "seconds": 3584
+  },
+  "5": {
+   "cpm": {
+    "eclipse": 2.03,
+    "fury_of_elune": 1.34,
+    "moonfire": 8.03,
+    "moonkin_form": 0.34,
+    "starfall": 16.31,
+    "starfire": 18.18,
+    "sunfire": 3.39,
+    "wrath": 0.34
+   },
+   "opener": [
+    "moonkin_form",
+    "wrath",
+    "starfire",
+    "moonfire",
+    "moonfire",
+    "moonfire",
+    "sunfire",
+    "eclipse"
+   ],
+   "pairs": {
+    "eclipse>starfall": 97,
+    "eclipse>starfire": 23,
+    "fury_of_elune>eclipse": 20,
+    "fury_of_elune>starfall": 60,
+    "moonfire>eclipse": 36,
+    "moonfire>fury_of_elune": 8,
+    "moonfire>moonfire": 146,
+    "moonfire>starfall": 90,
+    "moonfire>starfire": 75,
+    "moonfire>sunfire": 121,
+    "moonkin_form>wrath": 20,
+    "starfall>eclipse": 2,
+    "starfall>fury_of_elune": 1,
+    "starfall>moonfire": 81,
+    "starfall>starfall": 261,
+    "starfall>starfire": 607,
+    "starfall>sunfire": 12,
+    "starfire>eclipse": 18,
+    "starfire>fury_of_elune": 37,
+    "starfire>moonfire": 200,
+    "starfire>starfall": 416,
+    "starfire>starfire": 338,
+    "starfire>sunfire": 69,
+    "sunfire>eclipse": 45,
+    "sunfire>fury_of_elune": 34,
+    "sunfire>moonfire": 52,
+    "sunfire>starfall": 49,
+    "sunfire>starfire": 22,
+    "wrath>starfire": 20
+   },
+   "seconds": 3580
+  }
+ }
+}

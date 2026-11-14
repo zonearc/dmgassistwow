@@ -1,0 +1,623 @@
+{
+ "build": "top player (Warcraft Logs)",
+ "profile": "MID1_Paladin_Protection.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "paladin_protection",
+ "talentOptions": [
+  "talents=",
+  "class_talents=102443:1/102464:1/102476:1/102518:1/102584:1/102590:1/102591:1/102592:1/102595:1/102596:1/102597:1/102602:1/102603:1/102604:1/102612:2/115034:2/115444:1/115479:1/115480:1/128240:1/128241:2/128244:1/128248:1/128251:1/128259:1/128260:1/128264:1/133481:1/136487:1/136496:1/136503:1/102587:1/102625:1/102583:1",
+  "hero_talents=117873:1/117874:1/117875:1/117877:1/117878:1/117881:1/117884:1/117885:1/117886:1/117887:1/136000:1/136001:1/136002:1/117882:1",
+  "spec_talents=102430:1/102433:2/102440:1/102445:1/102448:1/102454:1/102452:1/102453:1/102455:1/102456:1/102457:1/102459:1/102460:1/102463:1/102466:1/102470:1/102471:1/102474:1/102475:1/102600:1/111886:1/128278:1/137020:1/137021:2/137022:1/137855:1/137856:1/102450:2/102432:1/102446:2"
+ ],
+ "talents": [
+  {
+   "id": 386738,
+   "name": "Divine Resonance",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 406101,
+   "name": "Faith's Armor",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 213644,
+   "name": "Cleanse Toxins",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 204054,
+   "name": "Consecrated Ground",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 115750,
+   "name": "Blinding Light",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 231663,
+   "name": "Greater Judgment",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 96231,
+   "name": "Rebuke",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 230332,
+   "name": "Cavalier",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 384820,
+   "name": "Sacrifice of the Just",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 146956,
+   "name": "Light's Revocation",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 385515,
+   "name": "Holy Aegis",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 6940,
+   "name": "Blessing of Sacrifice",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 114154,
+   "name": "Unbreakable Spirit",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1022,
+   "name": "Blessing of Protection",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 385450,
+   "name": "Seal of Might",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 402964,
+   "name": "Sanctified Plates",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 403530,
+   "name": "Punishment",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 305394,
+   "name": "Unbound Freedom",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 385414,
+   "name": "Afterimage",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 406468,
+   "name": "Lightforged Blessing",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1241958,
+   "name": "Vengeful Wrath",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 223817,
+   "name": "Divine Purpose",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 469321,
+   "name": "Righteous Protection",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1044,
+   "name": "Blessing of Freedom",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1241945,
+   "name": "Blessing of Dusk",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 469439,
+   "name": "Inspired Guard",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 469770,
+   "name": "Blessed Calling",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1241288,
+   "name": "Hammer of Wrath",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 234299,
+   "name": "Fist of Justice",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 375576,
+   "name": "Divine Toll",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 404357,
+   "name": "Guided Prayer",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 385633,
+   "name": "Auras of the Resolute",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 190784,
+   "name": "Divine Steed",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 633,
+   "name": "Lay on Hands",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 204019,
+   "name": "Blessed Hammer",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 391142,
+   "name": "Zealot's Paragon",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 204074,
+   "name": "Righteous Protector",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 31850,
+   "name": "Ardent Defender",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 31884,
+   "name": "Avenging Wrath",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1277162,
+   "name": "Instrument of the Divine",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 469883,
+   "name": "Refining Fire",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 85043,
+   "name": "Grand Crusader",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 321136,
+   "name": "Shining Light",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 86659,
+   "name": "Guardian of Ancient Kings",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 386653,
+   "name": "Bulwark of Righteous Fury",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1244019,
+   "name": "Undying Embers",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 380188,
+   "name": "Crusader's Resolve",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1276945,
+   "name": "Imbued Shield",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 389539,
+   "name": "Sentinel",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1244070,
+   "name": "Searing Sunlight",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 31935,
+   "name": "Avenger's Shield",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1246488,
+   "name": "Sweeping Verdict",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383388,
+   "name": "Relentless Inquisitor",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 204023,
+   "name": "Crusader's Judgment",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 204018,
+   "name": "Blessing of Spellwarding",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1246481,
+   "name": "Empyrean Authority",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1267215,
+   "name": "Glory of the Vanguard",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1267211,
+   "name": "Glory of the Vanguard",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1267203,
+   "name": "Glory of the Vanguard",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 377053,
+   "name": "Seal of Reprisal",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 378845,
+   "name": "Focused Enmity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 379022,
+   "name": "Consecration in Flame",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1245354,
+   "name": "Vision of Sanctity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 378762,
+   "name": "Ferren Marcus's Fervor",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 432802,
+   "name": "Solidarity",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 432919,
+   "name": "Valiance",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 433011,
+   "name": "Blessing of the Forge",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 432964,
+   "name": "Divine Inspiration",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 469701,
+   "name": "Tempered in Battle",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 433568,
+   "name": "Rite of Sanctification",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 433106,
+   "name": "Divine Guidance",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 432866,
+   "name": "Laying Down Arms",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 432821,
+   "name": "Shared Resolve",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1271466,
+   "name": "Reflection of Radiance",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1271387,
+   "name": "Masterwork",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 433718,
+   "name": "Hammer and Anvil",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1271553,
+   "name": "Resounding Strike",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 432459,
+   "name": "Holy Armaments",
+   "rank": 1,
+   "tree": "hero"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "avengers_shield": 9.78,
+    "blessed_hammer": 14.78,
+    "consecration": 5.75,
+    "devotion_aura": 0.33,
+    "divine_toll": 1.0,
+    "hammer_of_wrath": 7.67,
+    "holy_armaments": 1.67,
+    "judgment": 14.39,
+    "rite_of_sanctification": 0.33,
+    "sentinel": 1.0,
+    "shield_of_the_righteous": 21.9,
+    "word_of_glory": 2.24
+   },
+   "opener": [
+    "rite_of_sanctification",
+    "devotion_aura",
+    "consecration",
+    "sentinel",
+    "divine_toll",
+    "shield_of_the_righteous",
+    "avengers_shield",
+    "shield_of_the_righteous"
+   ],
+   "pairs": {
+    "avengers_shield>judgment": 146,
+    "avengers_shield>shield_of_the_righteous": 420,
+    "blessed_hammer>avengers_shield": 90,
+    "blessed_hammer>blessed_hammer": 114,
+    "blessed_hammer>hammer_of_wrath": 48,
+    "blessed_hammer>judgment": 194,
+    "blessed_hammer>shield_of_the_righteous": 371,
+    "blessed_hammer>word_of_glory": 36,
+    "consecration>avengers_shield": 38,
+    "consecration>blessed_hammer": 56,
+    "consecration>hammer_of_wrath": 62,
+    "consecration>judgment": 142,
+    "divine_toll>shield_of_the_righteous": 60,
+    "hammer_of_wrath>avengers_shield": 80,
+    "hammer_of_wrath>blessed_hammer": 147,
+    "hammer_of_wrath>hammer_of_wrath": 139,
+    "hammer_of_wrath>holy_armaments": 30,
+    "hammer_of_wrath>shield_of_the_righteous": 48,
+    "holy_armaments>hammer_of_wrath": 21,
+    "holy_armaments>judgment": 28,
+    "judgment>avengers_shield": 137,
+    "judgment>blessed_hammer": 311,
+    "judgment>consecration": 23,
+    "judgment>judgment": 94,
+    "judgment>sentinel": 23,
+    "judgment>shield_of_the_righteous": 213,
+    "judgment>word_of_glory": 38,
+    "rite_of_sanctification>devotion_aura": 20,
+    "sentinel>divine_toll": 60,
+    "shield_of_the_righteous>avengers_shield": 214,
+    "shield_of_the_righteous>blessed_hammer": 218,
+    "shield_of_the_righteous>consecration": 229,
+    "shield_of_the_righteous>hammer_of_wrath": 188,
+    "shield_of_the_righteous>holy_armaments": 22,
+    "shield_of_the_righteous>judgment": 233,
+    "shield_of_the_righteous>shield_of_the_righteous": 138,
+    "shield_of_the_righteous>word_of_glory": 49,
+    "word_of_glory>consecration": 37,
+    "word_of_glory>judgment": 23,
+    "word_of_glory>shield_of_the_righteous": 42
+   },
+   "seconds": 3589
+  },
+  "5": {
+   "cpm": {
+    "avengers_shield": 9.95,
+    "blessed_hammer": 14.7,
+    "consecration": 5.77,
+    "devotion_aura": 0.33,
+    "divine_toll": 1.0,
+    "hammer_of_wrath": 7.89,
+    "holy_armaments": 1.66,
+    "judgment": 14.31,
+    "rite_of_sanctification": 0.33,
+    "sentinel": 1.0,
+    "shield_of_the_righteous": 22.25,
+    "word_of_glory": 2.02
+   },
+   "opener": [
+    "rite_of_sanctification",
+    "devotion_aura",
+    "consecration",
+    "sentinel",
+    "divine_toll",
+    "shield_of_the_righteous",
+    "avengers_shield",
+    "shield_of_the_righteous"
+   ],
+   "pairs": {
+    "avengers_shield>judgment": 133,
+    "avengers_shield>shield_of_the_righteous": 442,
+    "blessed_hammer>avengers_shield": 85,
+    "blessed_hammer>blessed_hammer": 94,
+    "blessed_hammer>consecration": 21,
+    "blessed_hammer>hammer_of_wrath": 37,
+    "blessed_hammer>judgment": 187,
+    "blessed_hammer>shield_of_the_righteous": 387,
+    "blessed_hammer>word_of_glory": 50,
+    "consecration>avengers_shield": 32,
+    "consecration>blessed_hammer": 47,
+    "consecration>hammer_of_wrath": 71,
+    "consecration>judgment": 151,
+    "devotion_aura>consecration": 20,
+    "divine_toll>shield_of_the_righteous": 60,
+    "hammer_of_wrath>avengers_shield": 93,
+    "hammer_of_wrath>blessed_hammer": 151,
+    "hammer_of_wrath>hammer_of_wrath": 147,
+    "hammer_of_wrath>holy_armaments": 32,
+    "hammer_of_wrath>shield_of_the_righteous": 45,
+    "holy_armaments>hammer_of_wrath": 22,
+    "holy_armaments>judgment": 34,
+    "judgment>avengers_shield": 147,
+    "judgment>blessed_hammer": 332,
+    "judgment>holy_armaments": 21,
+    "judgment>judgment": 95,
+    "judgment>shield_of_the_righteous": 193,
+    "judgment>word_of_glory": 23,
+    "rite_of_sanctification>devotion_aura": 20,
+    "sentinel>divine_toll": 60,
+    "shield_of_the_righteous>avengers_shield": 215,
+    "shield_of_the_righteous>blessed_hammer": 221,
+    "shield_of_the_righteous>consecration": 241,
+    "shield_of_the_righteous>hammer_of_wrath": 195,
+    "shield_of_the_righteous>judgment": 228,
+    "shield_of_the_righteous>shield_of_the_righteous": 152,
+    "shield_of_the_righteous>word_of_glory": 46,
+    "word_of_glory>consecration": 35,
+    "word_of_glory>judgment": 28,
+    "word_of_glory>shield_of_the_righteous": 35
+   },
+   "seconds": 3589
+  }
+ }
+}

@@ -1,0 +1,624 @@
+{
+ "build": "profile",
+ "profile": "MID1_Druid_Guardian.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "druid_guardian",
+ "talentOptions": [],
+ "talents": [
+  {
+   "id": 0,
+   "name": "Druid of the Claw",
+   "rank": 1,
+   "tree": "heroTree"
+  },
+  {
+   "id": 210706,
+   "name": "Gore",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 6807,
+   "name": "Maul",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 61336,
+   "name": "Survival Instincts",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 372618,
+   "name": "Vulnerable Flesh",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 393414,
+   "name": "Ursoc's Guidance",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 102558,
+   "name": "Incarnation: Guardian of Ursoc",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 370695,
+   "name": "Fury of Nature",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 371905,
+   "name": "After the Wildfire",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 203962,
+   "name": "Blood Frenzy",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 203965,
+   "name": "Survival of the Fittest",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 203964,
+   "name": "Galactic Guardian",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 238049,
+   "name": "Scintillating Moonlight",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1252871,
+   "name": "Red Moon",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 50334,
+   "name": "Berserk",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 204053,
+   "name": "Rend and Tear",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1252994,
+   "name": "Killing Blow",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 377811,
+   "name": "Innate Resolve",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 155835,
+   "name": "Bristling Fur",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 102401,
+   "name": "Wild Charge",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1822,
+   "name": "Rake",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 377796,
+   "name": "Natural Recovery",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 24858,
+   "name": "Moonkin Form",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 132469,
+   "name": "Typhoon",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 33873,
+   "name": "Nurturing Instinct",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 301768,
+   "name": "Verdant Heart",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 449182,
+   "name": "Ursoc's Spirit",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 22842,
+   "name": "Frenzied Regeneration",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 213764,
+   "name": "Swipe",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 159286,
+   "name": "Primal Fury",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 108299,
+   "name": "Killer Instinct",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 192081,
+   "name": "Ironfur",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 16931,
+   "name": "Thick Hide",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 2908,
+   "name": "Soothe",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1261867,
+   "name": "Heart of the Wild",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 474678,
+   "name": "Aessina's Renewal",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 378988,
+   "name": "Lycara's Teachings",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 106898,
+   "name": "Stampeding Roar",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 377847,
+   "name": "Well-Honed Instincts",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 131768,
+   "name": "Feline Swiftness",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 99,
+   "name": "Incapacitating Roar",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 474526,
+   "name": "Grievous Wounds",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 2782,
+   "name": "Remove Corruption",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 106839,
+   "name": "Skull Bash",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 400129,
+   "name": "Forestwalk",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 449193,
+   "name": "Fluid Form",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 197628,
+   "name": "Starfire",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 197628,
+   "name": "Starfire",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 158477,
+   "name": "Soul of the Forest",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1251406,
+   "name": "Persistence",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 372119,
+   "name": "Dream of Cenarius",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 400278,
+   "name": "Moonless Night",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 204066,
+   "name": "Lunar Beam",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 424058,
+   "name": "Boundless Moonlight",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441583,
+   "name": "Ravage",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441678,
+   "name": "Wildshape Mastery",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441841,
+   "name": "Bestial Strength",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441689,
+   "name": "Empowered Shapeshifting",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441835,
+   "name": "Claw Rampage",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441845,
+   "name": "Strike for the Heart",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441844,
+   "name": "Pack's Endurance",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441829,
+   "name": "Aggravate Wounds",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441675,
+   "name": "Fount of Strength",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1271839,
+   "name": "Exacerbating Wounds",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441809,
+   "name": "Dreadful Wound",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1262034,
+   "name": "Gift of the Wild",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 449191,
+   "name": "Oakskin",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 474530,
+   "name": "Circle of the Wild",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 449185,
+   "name": "Lore of the Grove",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 449184,
+   "name": "Instincts of the Claw",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 327993,
+   "name": "Improved Barkskin",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 393611,
+   "name": "Ursoc's Endurance",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1251876,
+   "name": "Gift of an Ancient Guardian",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 203953,
+   "name": "Brambles",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1253035,
+   "name": "Harnessed Rage",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1271635,
+   "name": "Twin Claw",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1271540,
+   "name": "Limb from Limb",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 441824,
+   "name": "Killing Strikes",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1269614,
+   "name": "Wild Guardian",
+   "rank": 0,
+   "tree": "spec"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "bristling_fur": 1.01,
+    "cat_form": 0.34,
+    "heart_of_the_wild": 0.67,
+    "ironfur": 8.24,
+    "lunar_beam": 1.01,
+    "mangle": 19.48,
+    "maul": 2.7,
+    "rake": 0.34,
+    "red_moon": 2.0,
+    "swipe_bear": 9.06,
+    "thrash": 12.94,
+    "wild_guardian": 0.67
+   },
+   "opener": [
+    "cat_form",
+    "lunar_beam",
+    "heart_of_the_wild",
+    "wild_guardian",
+    "thrash",
+    "red_moon",
+    "thrash",
+    "thrash"
+   ],
+   "pairs": {
+    "bristling_fur>mangle": 15,
+    "bristling_fur>swipe_bear": 16,
+    "bristling_fur>thrash": 17,
+    "cat_form>lunar_beam": 20,
+    "heart_of_the_wild>mangle": 20,
+    "heart_of_the_wild>wild_guardian": 20,
+    "ironfur>bristling_fur": 14,
+    "ironfur>mangle": 160,
+    "ironfur>swipe_bear": 92,
+    "ironfur>thrash": 189,
+    "lunar_beam>heart_of_the_wild": 20,
+    "lunar_beam>thrash": 14,
+    "lunar_beam>wild_guardian": 14,
+    "mangle>bristling_fur": 15,
+    "mangle>ironfur": 344,
+    "mangle>lunar_beam": 12,
+    "mangle>mangle": 300,
+    "mangle>maul": 92,
+    "mangle>swipe_bear": 126,
+    "mangle>thrash": 253,
+    "maul>mangle": 48,
+    "maul>swipe_bear": 26,
+    "maul>thrash": 69,
+    "rake>heart_of_the_wild": 20,
+    "red_moon>mangle": 95,
+    "red_moon>thrash": 20,
+    "swipe_bear>ironfur": 31,
+    "swipe_bear>lunar_beam": 12,
+    "swipe_bear>mangle": 156,
+    "swipe_bear>red_moon": 53,
+    "swipe_bear>swipe_bear": 88,
+    "swipe_bear>thrash": 179,
+    "thrash>bristling_fur": 22,
+    "thrash>ironfur": 99,
+    "thrash>mangle": 355,
+    "thrash>maul": 45,
+    "thrash>red_moon": 39,
+    "thrash>swipe_bear": 187,
+    "wild_guardian>rake": 14,
+    "wild_guardian>thrash": 20
+   },
+   "seconds": 3576
+  },
+  "5": {
+   "cpm": {
+    "bristling_fur": 0.94,
+    "cat_form": 0.34,
+    "heart_of_the_wild": 0.67,
+    "ironfur": 5.75,
+    "lunar_beam": 1.01,
+    "mangle": 14.66,
+    "maul": 6.31,
+    "rake": 0.34,
+    "red_moon": 1.9,
+    "swipe_bear": 4.23,
+    "thrash": 16.49,
+    "wild_guardian": 0.67
+   },
+   "opener": [
+    "cat_form",
+    "lunar_beam",
+    "heart_of_the_wild",
+    "wild_guardian",
+    "thrash",
+    "red_moon",
+    "thrash",
+    "thrash"
+   ],
+   "pairs": {
+    "bristling_fur>maul": 16,
+    "bristling_fur>thrash": 24,
+    "cat_form>lunar_beam": 20,
+    "heart_of_the_wild>mangle": 20,
+    "heart_of_the_wild>wild_guardian": 20,
+    "ironfur>bristling_fur": 16,
+    "ironfur>mangle": 117,
+    "ironfur>swipe_bear": 41,
+    "ironfur>thrash": 139,
+    "lunar_beam>heart_of_the_wild": 20,
+    "lunar_beam>wild_guardian": 17,
+    "mangle>bristling_fur": 20,
+    "mangle>ironfur": 179,
+    "mangle>lunar_beam": 13,
+    "mangle>mangle": 42,
+    "mangle>maul": 233,
+    "mangle>swipe_bear": 56,
+    "mangle>thrash": 323,
+    "maul>mangle": 96,
+    "maul>swipe_bear": 43,
+    "maul>thrash": 187,
+    "rake>heart_of_the_wild": 20,
+    "red_moon>ironfur": 13,
+    "red_moon>mangle": 50,
+    "red_moon>thrash": 41,
+    "swipe_bear>ironfur": 23,
+    "swipe_bear>mangle": 27,
+    "swipe_bear>maul": 29,
+    "swipe_bear>red_moon": 18,
+    "swipe_bear>swipe_bear": 34,
+    "swipe_bear>thrash": 114,
+    "thrash>ironfur": 109,
+    "thrash>lunar_beam": 20,
+    "thrash>mangle": 510,
+    "thrash>maul": 67,
+    "thrash>rake": 15,
+    "thrash>red_moon": 74,
+    "thrash>swipe_bear": 69,
+    "thrash>thrash": 106,
+    "wild_guardian>thrash": 38
+   },
+   "seconds": 3577
+  }
+ }
+}

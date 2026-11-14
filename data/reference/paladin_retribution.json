@@ -1,0 +1,584 @@
+{
+ "build": "top player (Warcraft Logs)",
+ "profile": "MID1_Paladin_Retribution.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "paladin_retribution",
+ "talentOptions": [
+  "talents=",
+  "class_talents=102476:1/102518:1/102583:1/102584:1/102592:1/102596:1/102597:1/102602:1/102603:1/102604:1/102612:2/102622:2/102625:1/115034:2/115454:1/115468:1/115481:1/128241:2/128243:1/128251:1/128257:1/128259:1/128260:1/128263:1/135564:1/136127:1/136487:1/136503:1/136592:1/136594:1/102590:1/102587:1/133481:1",
+  "hero_talents=117666:1/117668:1/117669:1/117677:1/117683:1/117691:1/117692:1/117702:1/117777:1/117778:1/136006:1/136007:1/136008:1/117696:1",
+  "spec_talents=102493:1/102497:1/102498:1/102499:1/102504:1/102505:1/102506:1/102515:1/102516:1/102519:1/102521:1/114824:1/114828:1/114830:1/115022:1/115024:1/115043:1/115165:2/115435:1/115438:1/115439:2/115443:2/115452:1/115453:1/115475:1/135565:1/136809:1/137023:1/137024:2/137025:1"
+ ],
+ "talents": [
+  {
+   "id": 213644,
+   "name": "Cleanse Toxins",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 204054,
+   "name": "Consecrated Ground",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 633,
+   "name": "Lay on Hands",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 115750,
+   "name": "Blinding Light",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 230332,
+   "name": "Cavalier",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 146956,
+   "name": "Light's Revocation",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 385515,
+   "name": "Holy Aegis",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 6940,
+   "name": "Blessing of Sacrifice",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 114154,
+   "name": "Unbreakable Spirit",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1022,
+   "name": "Blessing of Protection",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 385450,
+   "name": "Seal of Might",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 385427,
+   "name": "Obduracy",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 190784,
+   "name": "Divine Steed",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 402964,
+   "name": "Sanctified Plates",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 305394,
+   "name": "Unbound Freedom",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 384027,
+   "name": "Divine Resonance",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 326734,
+   "name": "Healing Hands",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1241958,
+   "name": "Vengeful Wrath",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 408459,
+   "name": "Divine Purpose",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1044,
+   "name": "Blessing of Freedom",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 469416,
+   "name": "Lightbearer",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1241945,
+   "name": "Blessing of Dusk",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 469439,
+   "name": "Inspired Guard",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 469780,
+   "name": "Lead the Charge",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 375576,
+   "name": "Divine Toll",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1261562,
+   "name": "Shield of Vengeance",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 234299,
+   "name": "Fist of Justice",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 404357,
+   "name": "Guided Prayer",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 403530,
+   "name": "Punishment",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 96231,
+   "name": "Rebuke",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 231663,
+   "name": "Greater Judgment",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 385633,
+   "name": "Auras of the Resolute",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1241288,
+   "name": "Hammer of Wrath",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 406064,
+   "name": "Art of War",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 255937,
+   "name": "Wake of Ashes",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 184575,
+   "name": "Blade of Justice",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 53385,
+   "name": "Divine Storm",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383328,
+   "name": "Final Verdict",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 405461,
+   "name": "Improved Judgment",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 404512,
+   "name": "Highlord's Wrath",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 403010,
+   "name": "Blessed Champion",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 402971,
+   "name": "Jurisdiction",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 31884,
+   "name": "Avenging Wrath",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 403826,
+   "name": "Blade of Vengeance",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 446663,
+   "name": "Burn to Ash",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 404436,
+   "name": "Light of Justice",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383344,
+   "name": "Expurgation",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 383342,
+   "name": "Holy Blade",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 403026,
+   "name": "Burning Crusade",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 405355,
+   "name": "Seething Flames",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 403509,
+   "name": "Zealot's Fervor",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 343527,
+   "name": "Execution Sentence",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 406545,
+   "name": "Holy Flames",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 406872,
+   "name": "Divine Wrath",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 403664,
+   "name": "Blades of Light",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 383396,
+   "name": "Tempest of the Lightbringer",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 387170,
+   "name": "Empyrean Legacy",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 407067,
+   "name": "Rush of Light",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1253598,
+   "name": "Crusade",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 404542,
+   "name": "Crusading Strikes",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1261159,
+   "name": "Light Within",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1261111,
+   "name": "Light Within",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1261113,
+   "name": "Light Within",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 439760,
+   "name": "Aurora",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 445200,
+   "name": "Blessing of An'she",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 431413,
+   "name": "Sun Sear",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 431402,
+   "name": "Luminosity",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 431474,
+   "name": "Second Sunrise",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1263782,
+   "name": "Walk Into Light",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 156322,
+   "name": "Eternal Flame",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 431425,
+   "name": "Sun's Avatar",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 431406,
+   "name": "Will of the Dawn",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 431480,
+   "name": "Gleaming Rays",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1263787,
+   "name": "Endless Gleam",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1263920,
+   "name": "Born in Sunlight",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 431404,
+   "name": "Solar Grace",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 431377,
+   "name": "Dawnlight",
+   "rank": 1,
+   "tree": "hero"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "avenging_wrath": 1.01,
+    "blade_of_justice": 6.71,
+    "divine_storm": 1.01,
+    "divine_toll": 1.01,
+    "execution_sentence": 1.01,
+    "fireblood": 0.67,
+    "hammer_of_wrath": 5.87,
+    "judgment": 5.7,
+    "wake_of_ashes": 2.02
+   },
+   "opener": [
+    "blade_of_justice",
+    "avenging_wrath",
+    "fireblood",
+    "execution_sentence",
+    "wake_of_ashes",
+    "divine_storm",
+    "divine_toll",
+    "hammer_of_wrath"
+   ],
+   "pairs": {
+    "avenging_wrath>divine_storm": 7,
+    "avenging_wrath>execution_sentence": 13,
+    "avenging_wrath>fireblood": 40,
+    "blade_of_justice>avenging_wrath": 41,
+    "blade_of_justice>blade_of_justice": 76,
+    "blade_of_justice>hammer_of_wrath": 37,
+    "blade_of_justice>judgment": 213,
+    "blade_of_justice>wake_of_ashes": 21,
+    "divine_storm>divine_toll": 50,
+    "divine_storm>execution_sentence": 9,
+    "divine_storm>hammer_of_wrath": 1,
+    "divine_toll>hammer_of_wrath": 60,
+    "execution_sentence>wake_of_ashes": 60,
+    "fireblood>divine_storm": 2,
+    "fireblood>execution_sentence": 38,
+    "hammer_of_wrath>blade_of_justice": 91,
+    "hammer_of_wrath>divine_toll": 1,
+    "hammer_of_wrath>hammer_of_wrath": 250,
+    "hammer_of_wrath>judgment": 6,
+    "judgment>avenging_wrath": 19,
+    "judgment>blade_of_justice": 159,
+    "judgment>judgment": 111,
+    "judgment>wake_of_ashes": 39,
+    "wake_of_ashes>blade_of_justice": 52,
+    "wake_of_ashes>divine_storm": 51,
+    "wake_of_ashes>divine_toll": 9,
+    "wake_of_ashes>judgment": 8
+   },
+   "seconds": 3556
+  },
+  "5": {
+   "cpm": {
+    "avenging_wrath": 1.01,
+    "blade_of_justice": 7.62,
+    "divine_storm": 32.6,
+    "divine_toll": 1.01,
+    "execution_sentence": 1.01,
+    "fireblood": 0.67,
+    "hammer_of_wrath": 5.21,
+    "judgment": 4.94,
+    "wake_of_ashes": 2.01
+   },
+   "opener": [
+    "blade_of_justice",
+    "avenging_wrath",
+    "fireblood",
+    "execution_sentence",
+    "wake_of_ashes",
+    "divine_storm",
+    "divine_storm",
+    "divine_toll"
+   ],
+   "pairs": {
+    "avenging_wrath>divine_storm": 9,
+    "avenging_wrath>execution_sentence": 11,
+    "avenging_wrath>fireblood": 40,
+    "blade_of_justice>avenging_wrath": 32,
+    "blade_of_justice>blade_of_justice": 6,
+    "blade_of_justice>divine_storm": 400,
+    "blade_of_justice>wake_of_ashes": 12,
+    "divine_storm>avenging_wrath": 26,
+    "divine_storm>blade_of_justice": 383,
+    "divine_storm>divine_storm": 837,
+    "divine_storm>divine_toll": 60,
+    "divine_storm>execution_sentence": 11,
+    "divine_storm>hammer_of_wrath": 311,
+    "divine_storm>judgment": 277,
+    "divine_storm>wake_of_ashes": 29,
+    "divine_toll>divine_storm": 60,
+    "execution_sentence>wake_of_ashes": 60,
+    "fireblood>divine_storm": 2,
+    "fireblood>execution_sentence": 38,
+    "hammer_of_wrath>divine_storm": 311,
+    "judgment>avenging_wrath": 2,
+    "judgment>blade_of_justice": 46,
+    "judgment>divine_storm": 207,
+    "judgment>judgment": 18,
+    "judgment>wake_of_ashes": 19,
+    "wake_of_ashes>divine_storm": 120
+   },
+   "seconds": 3582
+  }
+ }
+}

@@ -1,0 +1,577 @@
+{
+ "build": "profile",
+ "profile": "MID1_Warlock_Affliction.simc",
+ "simc": "0d19401",
+ "source": "simc",
+ "spec": "warlock_affliction",
+ "talentOptions": [],
+ "talents": [
+  {
+   "id": 0,
+   "name": "Soul Harvester",
+   "rank": 1,
+   "tree": "heroTree"
+  },
+  {
+   "id": 452902,
+   "name": "Swift Artifice",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386617,
+   "name": "Demonic Fortitude",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270701,
+   "name": "Gorefiend's Avarice",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 389367,
+   "name": "Fel Synergy",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 386689,
+   "name": "Pact of Gluttony",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 288843,
+   "name": "Demonic Embrace",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 333889,
+   "name": "Fel Domination",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1311653,
+   "name": "Soul Leech",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 108416,
+   "name": "Dark Pact",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386664,
+   "name": "Ichor of Devils",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 6789,
+   "name": "Mortal Coil",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386110,
+   "name": "Fiendish Stride",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 111400,
+   "name": "Burning Rush",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 386124,
+   "name": "Fel Armor",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 219272,
+   "name": "Demon Skin",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 389609,
+   "name": "Abyss Walker",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 111771,
+   "name": "Demonic Gateway",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 317138,
+   "name": "Strength of Will",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 385899,
+   "name": "Soulburn",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 48181,
+   "name": "Haunt",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 234876,
+   "name": "Death's Embrace",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 205180,
+   "name": "Summon Darkglare",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 453105,
+   "name": "Summoner's Embrace",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 453096,
+   "name": "Contagion",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 388667,
+   "name": "Drain Soul",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 108558,
+   "name": "Nightfall",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 980,
+   "name": "Agony",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 27243,
+   "name": "Seed of Corruption",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 196103,
+   "name": "Absolute Corruption",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 453172,
+   "name": "Cunning Cruelty",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 386976,
+   "name": "Withering Bolt",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 264000,
+   "name": "Creeping Death",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 449631,
+   "name": "Wicked Reaping",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449704,
+   "name": "Shared Fate",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449707,
+   "name": "Eternal Servitude",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449620,
+   "name": "Necrolyte Teachings",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449629,
+   "name": "Demoniac's Fervor",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449637,
+   "name": "Sataiel's Volition",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 445465,
+   "name": "Wither",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449634,
+   "name": "Quietus",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449624,
+   "name": "Soul Anathema",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449703,
+   "name": "Friends In Dark Places",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449614,
+   "name": "Demonic Soul",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 449638,
+   "name": "Shadow of Death",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 268358,
+   "name": "Demonic Circle",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 458034,
+   "name": "Improved Haunt",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 459440,
+   "name": "Ravenous Afflictions",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1268903,
+   "name": "Eternal Hunger",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1268889,
+   "name": "Shared Vessel",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 1268884,
+   "name": "Manifested Avarice",
+   "rank": 1,
+   "tree": "hero"
+  },
+  {
+   "id": 108415,
+   "name": "Soul Link",
+   "rank": 2,
+   "tree": "class"
+  },
+  {
+   "id": 1270695,
+   "name": "Pact of the Eredar",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1265810,
+   "name": "Infernal Beneficiary",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1265816,
+   "name": "Improved Mortal Coil",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 334275,
+   "name": "Curse of Exhaustion",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1260209,
+   "name": "Sudden Onset",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1260229,
+   "name": "Fatal Echoes",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1261124,
+   "name": "Cascading Calamity",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1260264,
+   "name": "Shard Instability",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1259886,
+   "name": "Cull the Weak",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1257052,
+   "name": "Dark Harvest",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1259825,
+   "name": "Shared Agony",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1259790,
+   "name": "Unstable Affliction",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1279510,
+   "name": "Niskaran Methods",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 416615,
+   "name": "Xavius' Gambit",
+   "rank": 2,
+   "tree": "spec"
+  },
+  {
+   "id": 1270693,
+   "name": "Pact of the Annihilan",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270691,
+   "name": "Pact of the Satyr",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1270690,
+   "name": "Pact of the Nathrezim",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1271694,
+   "name": "Fortified Soul",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1271699,
+   "name": "Empowered Healthstone",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1271689,
+   "name": "Empowered Drain Life",
+   "rank": 1,
+   "tree": "class"
+  },
+  {
+   "id": 1259811,
+   "name": "Practiced Pestilence",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1279521,
+   "name": "Eye Contract",
+   "rank": 1,
+   "tree": "spec"
+  },
+  {
+   "id": 1261984,
+   "name": "Shadow of Nathreza",
+   "rank": 0,
+   "tree": "spec"
+  }
+ ],
+ "targets": {
+  "1": {
+   "cpm": {
+    "agony": 3.53,
+    "dark_harvest": 1.68,
+    "drain_soul": 14.98,
+    "haunt": 3.89,
+    "summon_darkglare": 0.67,
+    "unstable_affliction": 21.98
+   },
+   "opener": [
+    "haunt",
+    "agony",
+    "unstable_affliction",
+    "unstable_affliction",
+    "dark_harvest",
+    "summon_darkglare",
+    "unstable_affliction",
+    "unstable_affliction"
+   ],
+   "pairs": {
+    "agony>dark_harvest": 7,
+    "agony>drain_soul": 52,
+    "agony>haunt": 4,
+    "agony>summon_darkglare": 1,
+    "agony>unstable_affliction": 142,
+    "dark_harvest>agony": 12,
+    "dark_harvest>drain_soul": 6,
+    "dark_harvest>haunt": 12,
+    "dark_harvest>summon_darkglare": 24,
+    "dark_harvest>unstable_affliction": 46,
+    "drain_soul>agony": 81,
+    "drain_soul>dark_harvest": 27,
+    "drain_soul>drain_soul": 254,
+    "drain_soul>haunt": 105,
+    "drain_soul>unstable_affliction": 417,
+    "haunt>agony": 53,
+    "haunt>dark_harvest": 8,
+    "haunt>drain_soul": 57,
+    "haunt>summon_darkglare": 2,
+    "haunt>unstable_affliction": 110,
+    "summon_darkglare>drain_soul": 5,
+    "summon_darkglare>haunt": 4,
+    "summon_darkglare>unstable_affliction": 31,
+    "unstable_affliction>agony": 65,
+    "unstable_affliction>dark_harvest": 58,
+    "unstable_affliction>drain_soul": 520,
+    "unstable_affliction>haunt": 87,
+    "unstable_affliction>summon_darkglare": 13,
+    "unstable_affliction>unstable_affliction": 566
+   },
+   "seconds": 3581
+  },
+  "5": {
+   "cpm": {
+    "agony": 10.85,
+    "dark_harvest": 1.68,
+    "drain_soul": 8.7,
+    "haunt": 3.73,
+    "seed_of_corruption": 1.13,
+    "summon_darkglare": 0.67,
+    "unstable_affliction": 25.4
+   },
+   "opener": [
+    "seed_of_corruption",
+    "haunt",
+    "agony",
+    "dark_harvest",
+    "agony",
+    "agony",
+    "summon_darkglare",
+    "unstable_affliction"
+   ],
+   "pairs": {
+    "agony>agony": 109,
+    "agony>dark_harvest": 32,
+    "agony>drain_soul": 176,
+    "agony>haunt": 49,
+    "agony>seed_of_corruption": 7,
+    "agony>summon_darkglare": 21,
+    "agony>unstable_affliction": 252,
+    "dark_harvest>agony": 31,
+    "dark_harvest>haunt": 7,
+    "dark_harvest>unstable_affliction": 62,
+    "drain_soul>agony": 15,
+    "drain_soul>dark_harvest": 10,
+    "drain_soul>drain_soul": 87,
+    "drain_soul>haunt": 58,
+    "drain_soul>seed_of_corruption": 22,
+    "drain_soul>summon_darkglare": 4,
+    "drain_soul>unstable_affliction": 312,
+    "haunt>agony": 67,
+    "haunt>dark_harvest": 8,
+    "haunt>drain_soul": 22,
+    "haunt>seed_of_corruption": 1,
+    "haunt>summon_darkglare": 1,
+    "haunt>unstable_affliction": 122,
+    "seed_of_corruption>agony": 7,
+    "seed_of_corruption>drain_soul": 17,
+    "seed_of_corruption>haunt": 20,
+    "seed_of_corruption>seed_of_corruption": 14,
+    "seed_of_corruption>unstable_affliction": 2,
+    "summon_darkglare>agony": 3,
+    "summon_darkglare>drain_soul": 3,
+    "summon_darkglare>haunt": 1,
+    "summon_darkglare>unstable_affliction": 33,
+    "unstable_affliction>agony": 414,
+    "unstable_affliction>dark_harvest": 50,
+    "unstable_affliction>drain_soul": 213,
+    "unstable_affliction>haunt": 87,
+    "unstable_affliction>seed_of_corruption": 3,
+    "unstable_affliction>summon_darkglare": 14,
+    "unstable_affliction>unstable_affliction": 729
+   },
+   "seconds": 3572
+  }
+ }
+}
