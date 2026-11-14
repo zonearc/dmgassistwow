@@ -145,6 +145,13 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
     },
   },
   key = "demonhunter_devourer",
+  oocPower = {
+    [17] = {
+      fast = -6.76,
+      rate = -1.75,
+      rest = 16.0,
+    },
+  },
   simc = {
     annihilator = {
       {

@@ -209,6 +209,11 @@ ns.RegisterSpecData("midnight", "deathknight_frost", {
     },
   },
   key = "deathknight_frost",
+  oocPower = {
+    [6] = {
+      rest = 40.0,
+    },
+  },
   simc = {
     aoe = {
       {

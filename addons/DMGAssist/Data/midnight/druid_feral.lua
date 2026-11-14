@@ -213,6 +213,11 @@ ns.RegisterSpecData("midnight", "druid_feral", {
     },
   },
   key = "druid_feral",
+  oocPower = {
+    [3] = {
+      rest = 120.0,
+    },
+  },
   passiveGain = { [3] = 3.564, [4] = 1.015 },
   simc = {
     aoe_builder = {

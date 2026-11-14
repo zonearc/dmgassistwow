@@ -1,7 +1,10 @@
 # DMGAssist
 
-**A rotation helper for World of Warcraft: Midnight (12.x) and WoW Forever.**
-DMGAssist shows the next three spells to press, in priority order, and flashes the moment to press them.
+**A rotation helper for World of Warcraft: Midnight (12.x) and WoW Forever that learns as you play.**
+DMGAssist shows the next three spells to press, in priority order, and flashes the moment to press them. Its
+rotations come from SimulationCraft, tuned with numbers measured from thousands of real players' fights (resource
+gains, passive income, what resources do between pulls), and it keeps correcting itself during your own fights
+and remembers per spec and talent build: what you see in the first minutes gets sharper over a session.
 It is built for 12.x's "secret values" rules from the ground up: no combat-log scraping, no protected calls,
 nothing automated. You press every button.
 

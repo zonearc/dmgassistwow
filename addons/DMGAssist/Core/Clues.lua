@@ -603,13 +603,21 @@ function C.SyncFloor(pt, value, max)
 end
 
 -- Midnight hides Astral Power, Energy and Rage even out of combat (Balance 2026-11-14: "secret, never ok" all
--- session), so a count can't start from a value the game shows. At the pull it starts from what is certain:
--- full for Astral Power after a few seconds out of combat (it refills; owner: "starts at 100 and refreshes within
--- seconds"), nothing for the rest (Rage, Insanity... drain). Casts, passive income and the game's affordability
--- answers move it from there (Calibrate.Snap: up when proven more, down when the game says a spender is out of
--- reach).
-C.OOC_FULL = { [8] = true } -- Astral Power refills to full within seconds out of combat (owner, 2026-11-14)
-C.OOC_FULL_AFTER = 5         -- seconds out of combat before we count it as full
+-- session), so a count can't start from a value the game shows. At the pull it starts from what is certain, by
+-- the spec's measured out-of-combat behaviour (tools/wcl-ooc.py -> record.oocPower, top players' consecutive
+-- pulls): from last fight's count minus the fastest drain seen over the `ooc` seconds in between (Astral Power
+-- ~3/s, Rage ~1.4/s, Runic Power ~1.1/s), never below 0; one that builds out of combat keeps last fight's count.
+-- The first pull after logging in, or with nothing measured: 0. Casts, passive income and the game's
+-- affordability answers move it from there (Calibrate.Snap: up when proven more, down when a spender is out of
+-- reach). (Owner: "3 seconds out of combat between pulls vs 30 makes a huge difference".)
+C.endFloor = {} -- pt -> our count when the last fight ended
+function C.NoteFightEnd()
+  local now = GetTime()
+  for pt, f in pairs(C.floor) do
+    C.endFloor[pt] = Accrued(f, pt, now)
+  end
+end
+
 function C.SeedFloors(ooc)
   local used = {}
   for _, info in pairs(M.info or {}) do
@@ -619,15 +627,25 @@ function C.SeedFloors(ooc)
       end
     end
   end
+  local state = ns.Specs and ns.Specs.current
+  local model = state and type(state.data) == "table" and type(state.data.oocPower) == "table" and state.data.oocPower
+    or {}
   -- (Energy and Focus are left to the affordability answers and regeneration: an opener cast from stealth spends
   -- before the pull is seen, so "full after a rest" could start above the truth.)
   for _, pt in pairs(C.BUILT) do
     local f = C.floor[pt]
-    if used[pt] and (not f or f.seeded) and not C.REGEN[pt] then -- (last fight's count drained since: anew)
+    if used[pt] and (not f or f.seeded) and not C.REGEN[pt] then -- (last fight's count changed since: anew)
       local max = ns.State.PowerMax and ns.State.PowerMax(pt)
-      local full = C.OOC_FULL[pt] and (ooc == nil or ooc >= C.OOC_FULL_AFTER)
-      C.floor[pt] = { lo = full and (type(max) == "number" and max or 100) or 0, max = max, at = GetTime(),
-        seeded = true }
+      local lo, m, last = 0, model[pt], C.endFloor[pt]
+      if m and last and ooc then
+        local rate = math.min(tonumber(m.rate) or 0, tonumber(m.fast) or 0)
+        if (tonumber(m.rate) or 0) < 0 then
+          lo = math.max(0, last + rate * ooc)
+        elseif (tonumber(m.rate) or 0) > 0 then
+          lo = last
+        end
+      end
+      C.floor[pt] = { lo = lo, max = max, at = GetTime(), seeded = true }
     end
   end
 end

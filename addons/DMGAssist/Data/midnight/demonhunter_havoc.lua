@@ -173,6 +173,13 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
   },
   heroTrees = {},
   key = "demonhunter_havoc",
+  oocPower = {
+    [17] = {
+      fast = -1.25,
+      rate = 4.55,
+      rest = 22.0,
+    },
+  },
   simc = {
     default = {
       {

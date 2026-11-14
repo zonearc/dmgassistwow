@@ -167,6 +167,13 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
     },
   },
   key = "demonhunter_vengeance",
+  oocPower = {
+    [17] = {
+      fast = -7.74,
+      rate = 0.25,
+      rest = 20.0,
+    },
+  },
   simc = {
     aldrachi_reaver = {
       {

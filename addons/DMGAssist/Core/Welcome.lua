@@ -1,4 +1,6 @@
--- Welcome.lua: four questions the first time DMGAssist runs (per settings profile, so alts sharing the Default
+-- Welcome.lua: a page on what DMGAssist is (it learns while you play: owner, 2026-11-14, "what they see in the
+-- first minute is not what will happen once they get done with one gaming session"), then four questions the first
+-- time DMGAssist runs (per settings profile, so alts sharing the Default
 -- profile are asked once): where the HUD goes, how big, when it shows, and Classic or Flow (two cards). Each has a
 -- suggested answer; "Use the suggestions" answers the rest at once. Asked again with /dmga welcome or the button on the main settings page.
 -- Players who had already placed the HUD before this existed are not asked.
@@ -97,6 +99,14 @@ W.QUESTIONS = {
     } },
 }
 
+W.INTRO_TITLE = "A rotation coach that learns as you play"
+W.INTRO = "DMGAssist shows the next spells to press, built on SimulationCraft's rotations and tuned with numbers "
+  .. "measured from thousands of real players' fights.\n\nIt keeps learning while you play: how much your spells "
+  .. "really give, when your cooldowns come back, how your fights go. What you see in the first minutes gets "
+  .. "sharper over a session, and it remembers for next time.\n\nIt also helps tanks keep up their mitigation, "
+  .. "calls interrupts and defensives, and reminds you of missing buffs."
+W.INTRO_GO = "Set it up (4 quick questions)"
+
 local frame, step
 
 -- The style question: two cards side by side, each with a small live preview (2026-11-12: "left Classic with its
@@ -194,6 +204,26 @@ end
 
 local function Show(i)
   step = i
+  local intro = i == 0
+  frame.intro:SetShown(intro)
+  frame.count:SetShown(not intro)
+  if intro then
+    frame.question:SetText(L[W.INTRO_TITLE])
+    for _, card in ipairs(frame.cards) do
+      card:Hide()
+    end
+    frame.switchNote:Hide()
+    for n, button in ipairs(frame.buttons) do
+      button:SetShown(n == 1)
+    end
+    frame.buttons[1]:SetText(L[W.INTRO_GO])
+    frame.buttons[1]:ClearAllPoints()
+    frame.buttons[1]:SetPoint("TOPLEFT", frame.intro, "BOTTOMLEFT", 0, -12)
+    frame.back:Hide()
+    return
+  end
+  frame.buttons[1]:ClearAllPoints()
+  frame.buttons[1]:SetPoint("TOPLEFT", frame.question, "BOTTOMLEFT", 0, -14)
   local q = W.QUESTIONS[i]
   frame.count:SetText(string.format(L["Question %d of %d"], i, #W.QUESTIONS))
   frame.question:SetText(L[q.text])
@@ -216,6 +246,10 @@ local function Show(i)
 end
 
 local function Answer(n)
+  if step == 0 then
+    Show(1)
+    return
+  end
   local o = W.QUESTIONS[step].options[n]
   if o then
     o[2]()
@@ -229,7 +263,7 @@ end
 
 local function Build()
   frame = CreateFrame("Frame", "DMGAssistWelcome", UIParent, "BasicFrameTemplateWithInset")
-  frame:SetSize(460, 300)
+  frame:SetSize(460, 340)
   frame:SetPoint("CENTER", 0, 80)
   frame:SetFrameStrata("DIALOG")
   frame:SetMovable(true)
@@ -246,6 +280,12 @@ local function Build()
   frame.question:SetPoint("TOPLEFT", frame.count, "BOTTOMLEFT", 0, -8)
   frame.question:SetWidth(420)
   frame.question:SetJustifyH("LEFT")
+  frame.intro = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  frame.intro:SetPoint("TOPLEFT", frame.question, "BOTTOMLEFT", 0, -10)
+  frame.intro:SetWidth(420)
+  frame.intro:SetJustifyH("LEFT")
+  frame.intro:SetText(L[W.INTRO])
+  frame.intro:Hide()
   frame.buttons = {}
   local anchor = frame.question
   for n = 1, 3 do
@@ -279,7 +319,7 @@ local function Build()
   skip:SetPoint("BOTTOMRIGHT", -14, 12)
   skip:SetText(L["Use the suggestions"])
   skip:SetScript("OnClick", function()
-    for i = step, #W.QUESTIONS do
+    for i = math.max(1, step), #W.QUESTIONS do
       W.QUESTIONS[i].options[1][2]()
     end
     Finish()
@@ -289,7 +329,7 @@ local function Build()
   frame.back:SetPoint("BOTTOMLEFT", 14, 12)
   frame.back:SetText(L["Back"])
   frame.back:SetScript("OnClick", function()
-    Show(math.max(1, step - 1))
+    Show(math.max(0, step - 1))
   end)
   local close = frame.CloseButton
   if close and close.SetScript then
@@ -308,7 +348,7 @@ function W.Open()
     Build()
   end
   W.afterwards = nil
-  Show(1)
+  Show(0)
   frame:Show()
 end
 

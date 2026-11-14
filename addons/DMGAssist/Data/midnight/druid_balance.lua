@@ -246,6 +246,13 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     },
   },
   key = "druid_balance",
+  oocPower = {
+    [8] = {
+      fast = -7.18,
+      rate = -2.93,
+      rest = 18.0,
+    },
+  },
   passiveGain = { [8] = 5.133 },
   simc = {
     aoe = {

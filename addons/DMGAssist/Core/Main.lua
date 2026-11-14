@@ -598,6 +598,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     end
   elseif event == "PLAYER_REGEN_ENABLED" then
     ns.combatEndedAt = GetTime()
+    ns.Clues.NoteFightEnd() -- our counts as the fight ended: the next pull starts from them (Clues.SeedFloors)
     inCombat = false
     S.OnCombat(false)
     ns.Options.OnCombatEnded() -- after the combat flags clear

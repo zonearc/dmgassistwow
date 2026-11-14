@@ -1,8 +1,13 @@
 # DMGAssist: your damage assistant
 
-**DMGAssist shows the next three spells to press for the most damage.**
-It follows SimulationCraft's priority lists, the same ones theorycrafters use, and flashes the moment to press.
-You press every button; it never plays for you.
+**DMGAssist shows the next three spells to press for the most damage, and learns as you play.**
+It follows SimulationCraft's priority lists, the same ones theorycrafters use, tuned with numbers measured from
+thousands of real players' fights, and flashes the moment to press. You press every button; it never plays for you.
+
+**What you see in the first minute is not where it ends.** During every fight DMGAssist measures what the game
+lets it see: how much your spells really give, when your cooldowns come back, how your resources move between
+pulls. It corrects itself as you go and remembers per spec and talent build, so recommendations get sharper over a
+single session and keep improving from there.
 
 **Works on World of Warcraft: Midnight and WoW Forever.**
 
@@ -12,7 +17,9 @@ You press every button; it never plays for you.
 
 - Shows your next three spells, in priority order
 - Flashes the exact moment to press, timed to your GCD
-- Self-learning: corrects its cooldown timing every fight and gets more accurate as you play
+- Self-learning: corrects resource gains, cooldown timing and your own patterns during play, kept per spec and build
+- Crowd-tuned: resource gains, passive income and out-of-combat behaviour measured from thousands of real players'
+  logs for every spec, refreshed as patches change things
 - Switches between single target and AoE automatically
 - Interrupts and defensives come first when they matter
 - Major cooldowns used where SimulationCraft uses them, or held
@@ -31,7 +38,7 @@ You press every button; it never plays for you.
 - Move it in Blizzard's Edit Mode with everything else
 - Turn it off per spec, or keep cooldowns for bosses
 - Profiles per character, or one shared by all alts
-- Three-question setup on first login
+- A short welcome and four-question setup on first login
 
 ## Built on SimulationCraft
 

@@ -168,6 +168,14 @@ for every spec, before asking for more in-game logs.
 
 ## Done (recent)
 
+- 1.6.0.275: Out-of-combat model replaces 1.6.0.273's "Astral Power full after 5 s" (top players' logs: it drains
+  ~2.9/s, fastest ~7/s, settles ~18). tools/wcl-ooc.py (first and last cast of consecutive fights, boss and trash
+  pulls, top players; rate-limit aware) -> data/resource-gains.json "ooc" -> record.oocPower {rate, fast, rest}.
+  Clues.NoteFightEnd keeps our count at the end of a fight; SeedFloors starts the next pull from it minus the
+  fastest drain over the break (0 at the first pull after login or with nothing measured; a resource that builds
+  out of combat keeps it). Welcome: an explainer page before the four questions (rotation coach that learns as
+  you play; crowd-tuned numbers; tanks, interrupts, defensives, buffs), in all 9 languages. README and CurseForge
+  description lead with self-learning and crowd-tuned numbers.
 - 1.6.0.274: Casts that lengthen running auras. Balance (owner's talents, SimC 6 targets): Sunfire 0.4/min vs
   DMGAssist 3.7/min - Aetherial Kindling (327541): "Casting Starfall extends the duration of active Moonfires and
   Sunfires by 3 sec, up to 28 sec" (sc_druid.cpp starfall_t::execute adjust_duration). The importer now reads

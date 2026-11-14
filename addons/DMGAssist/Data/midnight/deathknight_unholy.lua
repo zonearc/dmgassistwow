@@ -173,6 +173,11 @@ ns.RegisterSpecData("midnight", "deathknight_unholy", {
   },
   heroTrees = {},
   key = "deathknight_unholy",
+  oocPower = {
+    [5] = {
+      rest = 6.0,
+    },
+  },
   simc = {
     aoe = {
       {

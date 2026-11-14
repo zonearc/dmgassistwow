@@ -186,6 +186,12 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
     },
   },
   key = "deathknight_blood",
+  oocPower = {
+    [6] = {
+      fast = -4.08,
+      rate = -3.4,
+    },
+  },
   simc = {
     deathbringer = {
       {

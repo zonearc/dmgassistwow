@@ -508,6 +508,14 @@ def apply_measured(record, info, branch, spec, measured=None):
     passive = {int(pt): v for pt, v in m.get("passive", {}).items() if v and v > 0}
     if passive:
         record["passiveGain"] = dict(sorted(passive.items()))
+    # out of combat (tools/wcl-ooc.py): per second (rate: typical, fast: the quickest seen) and where it settles
+    ooc = {}
+    for pt, o in sorted(m.get("ooc", {}).items(), key=lambda kv: int(kv[0])):
+        row = {k: o[v] for k, v in (("rate", "rate"), ("fast", "rateFast"), ("rest", "rest")) if o.get(v) is not None}
+        if row:
+            ooc[int(pt)] = row
+    if ooc:
+        record["oocPower"] = ooc
     return changes
 
 

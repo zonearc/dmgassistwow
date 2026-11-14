@@ -2514,6 +2514,11 @@ test("welcome: four questions once per profile, suggestions applied, skipped for
   ns.Welcome.MaybeAsk()
   local w = DMGAssistWelcome
   eq(w and w:IsShown(), true, "asked on first login")
+  -- first a page on what DMGAssist is (it learns as you play), no question: one button into the questions
+  eq(w.intro:IsShown(), true, "the explainer page")
+  eq(w.buttons[2]:IsShown(), false, "no answers on it")
+  w.buttons[1].scripts.OnClick(w.buttons[1])
+  eq(w.intro:IsShown(), false, "then the questions")
   for n = 1, 3 do
     w.buttons[2].scripts.OnClick(w.buttons[2]) -- the second answer each time
   end
@@ -2918,6 +2923,7 @@ test("language: the setting picks another language than the game's, applied at l
   ns.ApplyLanguage()
   eq(ns.L["Report an issue"], "Problem melden", "German chosen")
   eq(ns.L["Welcome to DMGAssist"], "Willkommen bei DMGAssist")
+  eq(ns.L[ns.Welcome.INTRO]:find("lernt es weiter", 1, true) ~= nil, true, "the welcome explainer page, translated")
   ns.global.language = "auto"
   ns.SetLocale("enUS")
 end)
@@ -3917,20 +3923,28 @@ test("passive income: measured per spec, counted in the look-ahead in full and i
   S.combatStart = nil
 end)
 
-test("hidden even out of combat: the count starts from a safe 0 at every pull and builds from our casts", function()
-  -- Balance 2026-11-14: Astral Power "secret, never ok" all session, so it was never counted at all
+test("hidden even out of combat: each pull starts from last fight's count, drained as measured for the break", function()
+  -- Balance 2026-11-14: Astral Power "secret, never ok" all session; top players' logs: it drains ~3/s (fastest ~5)
   Reset()
   local ns = Boot()
   local C, M = ns.Clues, ns.SpellMap
   M.info[194153] = { n = "starfire", gain = { [8] = 12 } }
-  C.SeedFloors(2)
-  eq(C.FloorBounds(8), 0, "back in combat 2 s after the last fight: from nothing")
+  ns.Specs.current.data.oocPower = { [8] = { rate = -2.7, fast = -5, rest = 20 } }
+  C.SeedFloors(nil)
+  eq(C.FloorBounds(8), 0, "first pull after logging in: from nothing")
   eq(C.floor[3], nil, "Energy: left to affordability and regeneration")
-  C.OnOwnCast(194153)
-  eq(C.FloorBounds(8), 12)
+  for _ = 1, 6 do
+    C.OnOwnCast(194153)
+  end
+  eq(C.FloorBounds(8), 72)
+  C.NoteFightEnd()
+  C.SeedFloors(3)
+  eq(C.FloorBounds(8), 57, "3 s later: 72 - 3 x 5 (the fastest drain seen)")
+  C.NoteFightEnd()
   C.SeedFloors(30)
-  eq(C.FloorBounds(8), 100, "30 s out of combat: Astral Power refilled (owner: starts at 100)")
+  eq(C.FloorBounds(8), 0, "30 s later: drained")
   C.Affordability = function() return { [8] = { lo = 0, hi = 39 } } end -- Starsurge (40) out of reach
+  C.floor[8].lo = 60
   ns.State.combatStart = GetTime()
   ns.Calibrate.Snap()
   eq(C.FloorBounds(8), 39, "the game says otherwise: the count comes down")
