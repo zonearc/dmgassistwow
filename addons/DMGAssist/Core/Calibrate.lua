@@ -296,12 +296,71 @@ function K.SummaryText()
   return #parts > 0 and table.concat(parts, " | ") or nil
 end
 
+---------------------------------------------------------------------------
+-- Matching with the game's own combat log (owner, 2026-11-14: "so you can use outputs across both")
+---------------------------------------------------------------------------
+-- WoWCombatLog.txt (Advanced Combat Logging) has every cast with its resource values, ours and everyone's in
+-- range; the addon can't read it, the offline tools can. To line the two up, each fight logs `anchor_summary`:
+-- GetTime() and the wall clock at the same moment, your character's GUID (how the log names you), the spec and the
+-- talent loadout string (the log's COMBATANT_INFO carries the talents too). Our C lines (GetTime, spell ID) then
+-- match your SPELL_CAST_SUCCESS lines to the millisecond.
+function K.Anchor()
+  local state = ns.Specs and ns.Specs.current
+  local config = U.Get(C_ClassTalents and C_ClassTalents.GetActiveConfigID)
+  local loadout = type(config) == "number" and U.Get(C_Traits and C_Traits.GenerateImportString, config) or nil
+  local version = ns.VERSION
+  U.Log("anchor_summary", string.format("t=%.3f epoch=%s date=%s guid=%s spec=%s version=%s loadout=%s",
+    GetTime(), tostring(U.Get(time)), tostring(U.Get(date, "%Y-%m-%d %H:%M:%S")),
+    tostring(U.Get(UnitGUID, "player")), tostring(state and state.key), tostring(version),
+    type(loadout) == "string" and loadout or "?"))
+end
+
+-- Everything this spec and loadout has learned, at the end of each fight (`corrections_summary`), so it can go
+-- back into the shipped data: readable resource changes (id:pt=value/n), hidden extras per cast (id:pt=+x/n),
+-- cooldown timing corrections (spell=+s/n, unreliable marked !), regeneration seen (pt=rate@haste).
+function K.CorrectionsText()
+  local store = K.Store()
+  local parts = { "profile=" .. tostring(ProfileKey()) }
+  local read, hidden, timing, regen = {}, {}, {}, {}
+  for key, h in pairs(store and store.read or {}) do
+    local v, n = Mode(h)
+    if v then
+      read[#read + 1] = string.format("%s=%+d/%d", key, v, math.floor(n + 0.5))
+    end
+  end
+  for key, e in pairs(store and store.hidden or {}) do
+    if e.casts >= 1 and e.extra > 0 then
+      hidden[#hidden + 1] = string.format("%s=%+.1f/%d", key, e.extra / e.casts, math.floor(e.casts + 0.5))
+    end
+  end
+  local learned = ns.State.learned and ns.State.learned.timing or {}
+  for name, t in pairs(learned) do
+    if type(t) == "table" and (t.n or 0) >= 1 then
+      timing[#timing + 1] = string.format("%s=%+.1f/%d%s", name, t.mean or 0, t.n, t.unreliable and "!" or "")
+    end
+  end
+  for pt, r in pairs(ns.State.RegenSeen and ns.State.RegenSeen() or {}) do
+    regen[#regen + 1] = string.format("%s=%.1f@%s", pt, r.rate, type(r.haste) == "number"
+      and string.format("%.1f", r.haste) or "?")
+  end
+  for _, list in ipairs({ read, hidden, timing, regen }) do
+    table.sort(list)
+  end
+  parts[#parts + 1] = "read " .. (#read > 0 and table.concat(read, " ") or "-")
+  parts[#parts + 1] = "hidden " .. (#hidden > 0 and table.concat(hidden, " ") or "-")
+  parts[#parts + 1] = "timing " .. (#timing > 0 and table.concat(timing, " ") or "-")
+  parts[#parts + 1] = "regen " .. (#regen > 0 and table.concat(regen, " ") or "-")
+  return table.concat(parts, " | ")
+end
+
 function K.OnCombat(inCombat)
   if inCombat then
     K.since, K.fight = {}, {}
     K.ApplyAll()
+    K.Anchor()
     return
   end
+  U.Log("corrections_summary", K.CorrectionsText())
   local text = K.SummaryText()
   if text then
     U.Log("calibration_summary", text)

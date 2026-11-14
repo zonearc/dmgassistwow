@@ -77,7 +77,8 @@ def main():
         for e in s.get("events", []):
             if len(e) > 3 and e[1] == "D" and e[2] in ("prediction_summary", "learner_summary", "resource_audit",
                                                          "mark", "lane_close", "gains_learned",
-                                                         "calibration_summary", "gain_fixed"):
+                                                         "calibration_summary", "gain_fixed",
+                                                         "anchor_summary", "corrections_summary"):
                 print("   %s: %s" % (e[2], e[3]))
             if len(e) > 3 and e[1] == "D" and e[2] == "press":
                 kv = parse_kv(e[3])

@@ -50,7 +50,7 @@ read_globals = {
   "ChatFontNormal", "CreateFrame", "Enum", "GetBuildInfo", "GetCVar", "GetLocale",
   "GetRealZoneText", "GetSpecialization", "GetSpecializationInfo", "GetTime", "InCombatLockdown",
   "IsInInstance", "UIParent", "UnitClass", "UnitHealth", "UnitLevel", "UnitPower", "UnitPowerMax",
-  "canaccessvalue", "date", "debugprofilestop", "debugstack", "geterrorhandler", "issecretvalue",
+  "canaccessvalue", "date", "time", "debugprofilestop", "debugstack", "geterrorhandler", "issecretvalue",
   "seterrorhandler", "tinsert", "wipe", "GetNetStats", "IsAddOnLoaded", "C_Container", "GetItemCooldown", "GetCursorInfo", "ClearCursor", "C_TooltipInfo", "GetDetailedItemLevelInfo", "GetPowerRegen", "UnitPowerType",
 }
 

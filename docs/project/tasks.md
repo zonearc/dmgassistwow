@@ -142,6 +142,15 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Done (recent)
 
+- 1.6.0.269: Reports line up with the game's combat log (owner, 2026-11-14: "so you can use outputs across
+  both"). Each fight logs `anchor_summary` (GetTime and wall clock at the same moment, player GUID as the log names
+  you, spec, addon version, talent loadout string) so the C lines match SPELL_CAST_SUCCESS in WoWCombatLog.txt;
+  `corrections_summary` at each fight end: everything learned for the spec + loadout (readable resource changes,
+  hidden extras per cast, cooldown timing corrections, regeneration seen) to fold back into the shipped data.
+  Next (owner Todoist, Nov 14): owner records a combat log (Advanced Combat Logging, /combatlog, Balance then
+  Outlaw, raid / M+ best: everyone in range); then the offline log reader (names stripped): per spec and talent
+  build, real gains / costs, regen, procs per cast, cooldown cuts, against our data; and a corrections -> data
+  patch tool. Warcraft Logs dropped (API reads only your own uploads).
 - 1.6.0.268: Resource calibration and miss reasons (owner, 2026-11-14: "#1 and #2"). SimC test first: 600
   simulated fights (MID1 Balance / Outlaw profiles, 1 and 5 targets) as a next-press table scored on the owner's
   real fights: Balance 28-35%, Outlaw 35-38%, below the owner's own history (35-41%, 47-54%) and SimC live (57%

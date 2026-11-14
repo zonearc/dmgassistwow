@@ -2652,6 +2652,9 @@ end
 -- included), kept at no haste for when it's hidden. Without it the look-ahead never saw energy coming back.
 S.REGEN_BASE = { [3] = 10, [2] = 5 }
 local regenSeen = {}
+function S.RegenSeen()
+  return regenSeen
+end
 
 function S.RegenRate(pt)
   local base = S.REGEN_BASE[pt]

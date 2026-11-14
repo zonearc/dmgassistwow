@@ -3822,6 +3822,36 @@ test("calibration: hidden resources - the game proving more raises our count now
   S.combatStart = nil
 end)
 
+test("calibration: each fight logs an anchor for the game's combat log and what it has learned", function()
+  Reset()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, tostring(data) } end } -- luacheck: ignore 111
+  local ns = Boot()
+  local K, M = ns.Calibrate, ns.SpellMap
+  ns.Specs.current = { key = "rogue_outlaw", status = "ready", branch = "midnight", client = "Midnight" }
+  ns.global = ns.global or {}
+  ns.global.calibrate = nil
+  M.info[193315] = { n = "sinister_strike", gain = { [4] = 1 } }
+  K.OnCombat(true)
+  for _ = 1, 6 do
+    K.OnReadDelta(193315, 4, 2)
+  end
+  ns.State.learned.timing = { adrenaline_rush = { n = 3, mean = -4.2, spread = 0.3, agree = 0 } }
+  K.OnCombat(false)
+  local anchor, corr
+  for _, l in ipairs(logged) do
+    if l[1] == "anchor_summary" then anchor = l[2] end
+    if l[1] == "corrections_summary" then corr = l[2] end
+  end
+  eq(type(anchor), "string", "anchor logged at the pull")
+  eq(anchor:match("^t=%d+%.%d%d%d epoch=%d+ date=%d+%-%d+%-%d+ %d+:%d+:%d+ guid=") ~= nil, true, anchor)
+  eq(anchor:find("spec=rogue_outlaw", 1, true) ~= nil, true, anchor)
+  eq(type(corr), "string", "corrections logged at the end")
+  eq(corr:find("read 193315:4=+2/6", 1, true) ~= nil, true, corr)
+  eq(corr:find("timing adrenaline_rush=-4.2/3", 1, true) ~= nil, true, corr)
+  DMGAssistWatchdog = nil -- luacheck: ignore 111
+end)
+
 test("learner (shadow): learns what you press next per situation, scores itself against slot 2, keeps it", function()
   Reset()
   local logged = {}
