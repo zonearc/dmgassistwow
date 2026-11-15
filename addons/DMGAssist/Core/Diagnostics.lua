@@ -641,10 +641,17 @@ function G.StateTrace(id, last)
   local function J(list)
     return #list > 0 and table.concat(list, ",") or "-"
   end
-  U.Log("state_trace", string.format("t=%.3f p=%s q=%s ac=%s tg=%s gcd=%.2f glow=%s u=%s np=%s cd=%s res=%s est=%s",
+  -- slot 2's look-ahead for the spenders it weighed: pt:lo-hi/what the pretend casts spent (G.BelowCostAhead)
+  local ahead = {}
+  for aid, txt in pairs(ns.Engine.aheadSeen or {}) do
+    ahead[#ahead + 1] = aid .. "=" .. txt
+  end
+  table.sort(ahead)
+  ns.Engine.aheadSeen = nil
+  U.Log("state_trace", string.format("t=%.3f p=%s q=%s ac=%s tg=%s gcd=%.2f glow=%s u=%s np=%s cd=%s res=%s est=%s la=%s",
     GetTime(), tostring(id), #q > 0 and table.concat(q, " ") or "-",
     tostring(U.Get(C_AssistedCombat and C_AssistedCombat.GetNextCastSpell, false)), tostring((S.Targets())), gcd,
-    J(glow), J(usable), J(noPower), J(cds), S.ResourceText and S.ResourceText() or "-", J(est)))
+    J(glow), J(usable), J(noPower), J(cds), S.ResourceText and S.ResourceText() or "-", J(est), J(ahead)))
 end
 
 -- Resource audit (asked 2026-11-14: "ensure we are tracking all spends per spell properly"): after each of your

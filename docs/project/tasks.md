@@ -180,6 +180,13 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.289: Balance "Starfall > Starfall" (32 misses in the owner's 254 s 9-dummy fight) investigated. The slot-2
+  guard (G.BelowCostAhead: after a pretend spend from a hidden pool, only promise a spender the low end affords) is
+  right: the real Balance data with Astral Power 60-100 gives Starfall then Starfire (new test). The live fight
+  alternates the other way (after Starfall: Starfall; after Starfire: Starfire), so the range the look-ahead starts
+  from must swing between passes; the report only had the range at each press. state_trace now carries la= (slot 2's
+  step: per spender weighed, pt:lo-hi/spent) for the next fight. Seen on the way: before Eclipse has been cast, slot 2
+  can come up empty after Starfall (to look at).
 - 1.6.0.288: First full measured fight with the Cooldown Manager trusted (owner, 1.6.0.287, Balance 254 s):
   cdm 604 checks / 32 wrong (5%) / 101k facts, yet slot 2 36% (n=144; was 47%), slot 1 steady 83%. Found: two
   icons for one buff (Eclipse (Lunar) / (Solar) both read as "eclipse", and an icon + bar) were applied one by one,

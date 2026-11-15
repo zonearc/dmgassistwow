@@ -7062,6 +7062,70 @@ test("slots 2-3: Starfall (50 Astral Power, known only '34 or more') isn't promi
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("Balance AoE (real data): Starfall from 60-100 hidden Astral Power, then Starfire - not Starfall twice", function()
+  -- the owner's 9-dummy fights, 2026-11-14: slot 2 said Starfall after Starfall 32 times
+  Reset()
+  mock.specIndex = 1 -- Balance
+  local ns = Boot()
+  local M, C = ns.SpellMap, ns.Clues
+  local rec = ns.Data.Get("midnight", "druid_balance")
+  local book, seen = {}, {}
+  for token, e in pairs(rec.spells) do
+    local id = e.a and e.a[1]
+    local info = id and rec.spellInfo[id]
+    if id and not seen[id] and info and not info.pas then
+      seen[id] = true
+      book[#book + 1] = { spellID = id, name = token }
+    end
+  end
+  mock.book = book
+  M.Refresh()
+  ns.Specs.current = { key = "druid_balance", status = "ready", data = rec, branch = "midnight", client = "Midnight" }
+  M.SetData(rec)
+  for pt = 0, 19 do
+    mock.powerMax[pt], mock.power[pt] = 100, 60
+  end
+  mock.nameplates = 9
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Advance(20)
+  for _, b in ipairs(book) do
+    mock.usable[b.spellID] = { true, false }
+  end
+  for _, t in ipairs({ "moonfire", "sunfire", "eclipse", "celestial_alignment", "fury_of_elune", "force_of_nature" }) do
+    local id = M.SpellID(t)
+    if id then
+      mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "x", id)
+      mock.Advance(1.5)
+    end
+  end
+  for _, t in ipairs({ "celestial_alignment", "incarnation_chosen_of_elune", "fury_of_elune", "force_of_nature",
+    "eclipse", "warrior_of_elune", "convoke_the_spirits", "new_moon", "full_moon", "half_moon", "wild_mushroom" }) do
+    local id = M.SpellID(t)
+    if id then
+      mock.cooldowns[id] = { active = true, start = mock.now, duration = 120 }
+      mock.usable[id] = { false, false }
+    end
+  end
+  local r
+  for _ = 1, 3 do
+    C.bounds[8] = { lo = 60, hi = 100, untilT = GetTime() + 10, source = "usable" }
+    if C.floor[8] then
+      C.floor[8].lo = 60
+    end
+    r = ns.Update()
+    mock.Advance(0.2)
+  end
+  local qs = {}
+  for i, p in ipairs(r.queue or {}) do
+    qs[i] = tostring(p.token)
+  end
+  eq(r.queue[1] and r.queue[1].token, "starfall", table.concat(qs, ","))
+  eq(r.queue[2] and r.queue[2].token, "starfire", "60-100 less Starfall 50 cannot pay for another: " .. table.concat(qs, ","))
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 test("Outlaw: rtb_buffs is Roll the Bones' sets (1-4) - read when shown, 1-4 after our cast, 0 without it", function()
   Reset()
   local ns = Boot()

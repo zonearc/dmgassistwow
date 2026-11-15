@@ -463,6 +463,14 @@ function G.BelowCostAhead(id)
   for pt, amount in pairs(cost) do
     if amount > 0 and type(U.Get(UnitPower, "player", pt)) ~= "number" then
       local lo, hi = S.PowerBounds(pt)
+      -- for the extended log: what slot 2's step believed (Balance 2026-11-14: "Starfall > Starfall" with
+      -- Astral Power 57-100 before the first; the trace showed only the range at the press)
+      local V0 = S.Lookahead()
+      if V0 and #V0.prev == 1 then
+        G.aheadSeen = G.aheadSeen or {}
+        G.aheadSeen[id] = string.format("%d:%s-%s/%s", pt, lo and math.floor(lo) or "?", hi and math.floor(hi) or "?",
+          V0.power and V0.power[pt] and math.floor(V0.power[pt]) or "0")
+      end
       if hi and hi < amount then
         return true
       end
