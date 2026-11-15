@@ -930,3 +930,5 @@
 936	Solo importan los Beneficios seguidos (los iconos bastan): las Barras seguidas y las reutilizaciones esenciales y de utilidad no hacen falta. Déjalas vacías u ocúltalas, y pon cada beneficio en un solo sitio.
 937	Siguiente parte
 938	Informe %s, parte %d de %d: Ctrl+C, pégalo y luego Siguiente parte.
+939	Lecturas del Gestor de reutilización ignoradas hasta /dmga cdm use
+940	Lecturas del Gestor de reutilización en uso

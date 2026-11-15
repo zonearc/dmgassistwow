@@ -934,4 +934,6 @@ ns.LOCALE_DATA.ruRU = {
   ["Only Tracked Buffs matters (icons are enough): Tracked Bars and the Essential and Utility cooldowns aren't needed. Leave them empty or hide them, and put each buff in one place only."] = "Важны только отслеживаемые эффекты (значков достаточно): отслеживаемые полосы, основные и вспомогательные восстановления не нужны. Оставьте их пустыми или скройте и держите каждый эффект только в одном месте.",
   ["Next part"] = "Следующая часть",
   ["Report %s, part %d of %d: Ctrl+C, paste it, then Next part."] = "Отчёт %s, часть %d из %d: Ctrl+C, вставьте, затем «Следующая часть».",
+  ["Cooldown Manager readings ignored until /dmga cdm use"] = "Данные менеджера восстановления игнорируются до /dmga cdm use",
+  ["Cooldown Manager readings used"] = "Данные менеджера восстановления используются",
 }

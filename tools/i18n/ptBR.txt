@@ -930,3 +930,5 @@
 936	Só os Bônus Rastreados importam (os ícones bastam): as Barras Rastreadas e as recargas essenciais e utilitárias não são necessárias. Deixe-as vazias ou ocultas, e coloque cada bônus em um só lugar.
 937	Próxima parte
 938	Relatório %s, parte %d de %d: Ctrl+C, cole e depois Próxima parte.
+939	Leituras do Gerenciador de Recarga ignoradas até /dmga cdm use
+940	Leituras do Gerenciador de Recarga em uso

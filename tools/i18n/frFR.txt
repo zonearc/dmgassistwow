@@ -930,3 +930,5 @@
 936	Seules les améliorations suivies comptent (les icônes suffisent) : les barres suivies et les temps de recharge essentiels et utilitaires ne sont pas nécessaires. Laissez-les vides ou masquez-les, et ne mettez chaque amélioration qu'à un seul endroit.
 937	Partie suivante
 938	Rapport %s, partie %d sur %d : Ctrl+C, collez-la, puis Partie suivante.
+939	Lectures du gestionnaire de temps de recharge ignorées jusqu'à /dmga cdm use
+940	Lectures du gestionnaire de temps de recharge utilisées

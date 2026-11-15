@@ -934,4 +934,6 @@ ns.LOCALE_DATA.ptBR = {
   ["Only Tracked Buffs matters (icons are enough): Tracked Bars and the Essential and Utility cooldowns aren't needed. Leave them empty or hide them, and put each buff in one place only."] = "Só os Bônus Rastreados importam (os ícones bastam): as Barras Rastreadas e as recargas essenciais e utilitárias não são necessárias. Deixe-as vazias ou ocultas, e coloque cada bônus em um só lugar.",
   ["Next part"] = "Próxima parte",
   ["Report %s, part %d of %d: Ctrl+C, paste it, then Next part."] = "Relatório %s, parte %d de %d: Ctrl+C, cole e depois Próxima parte.",
+  ["Cooldown Manager readings ignored until /dmga cdm use"] = "Leituras do Gerenciador de Recarga ignoradas até /dmga cdm use",
+  ["Cooldown Manager readings used"] = "Leituras do Gerenciador de Recarga em uso",
 }

@@ -858,7 +858,10 @@ function G.Summary()
   G.audit = {}
   local pred = G.PredictionText()
   if pred then
-    U.Log("prediction_summary", pred)
+    -- which mode this fight ran in, for the with / without Cooldown Manager comparison
+    local cdm = ns.db.cdmIgnore and "ignored" or ns.CDM.Enabled() == false and "off"
+      or ns.Clues.Enabled("cdm") and "used" or "dropped"
+    U.Log("prediction_summary", pred .. " | cdm=" .. cdm)
   end
   local errors = {}
   for msg, n in pairs(U.callErrors or {}) do

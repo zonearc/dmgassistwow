@@ -3448,6 +3448,13 @@ test("Cooldown Manager: two icons for one buff (Eclipse Lunar / Solar) - up when
   local before = ns.Clues.stats.cdm and ns.Clues.stats.cdm.wrong or 0
   ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
   eq(ns.Clues.stats.cdm.wrong, before, "not counted wrong")
+  -- /dmga cdm ignore: no readings taken at all (the with / without comparison), /dmga cdm use: back on
+  ns.db.cdmIgnore = true
+  eq(ns.Clues.ReadCooldownManager(ns.State.ReadableAuras()), 0, "ignored: nothing read")
+  local checks = ns.Clues.stats.cdm.checks
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  eq(ns.Clues.stats.cdm.checks, checks, "ignored: nothing graded either")
+  ns.db.cdmIgnore = nil
   Restrict()
   lunar.isActive = false
   mock.Advance(1)

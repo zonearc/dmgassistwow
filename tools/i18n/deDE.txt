@@ -930,3 +930,5 @@
 936	Nur die verfolgten Buffs zählen (Symbole reichen): Verfolgte Leisten sowie wichtige und Hilfs-Abklingzeiten werden nicht gebraucht. Lass sie leer oder verstecke sie, und lege jeden Buff nur an eine Stelle.
 937	Nächster Teil
 938	Bericht %s, Teil %d von %d: Strg+C, einfügen, dann Nächster Teil.
+939	Cooldown-Manager-Werte werden ignoriert bis /dmga cdm use
+940	Cooldown-Manager-Werte werden genutzt

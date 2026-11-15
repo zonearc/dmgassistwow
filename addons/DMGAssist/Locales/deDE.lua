@@ -934,4 +934,6 @@ ns.LOCALE_DATA.deDE = {
   ["Only Tracked Buffs matters (icons are enough): Tracked Bars and the Essential and Utility cooldowns aren't needed. Leave them empty or hide them, and put each buff in one place only."] = "Nur die verfolgten Buffs zählen (Symbole reichen): Verfolgte Leisten sowie wichtige und Hilfs-Abklingzeiten werden nicht gebraucht. Lass sie leer oder verstecke sie, und lege jeden Buff nur an eine Stelle.",
   ["Next part"] = "Nächster Teil",
   ["Report %s, part %d of %d: Ctrl+C, paste it, then Next part."] = "Bericht %s, Teil %d von %d: Strg+C, einfügen, dann Nächster Teil.",
+  ["Cooldown Manager readings ignored until /dmga cdm use"] = "Cooldown-Manager-Werte werden ignoriert bis /dmga cdm use",
+  ["Cooldown Manager readings used"] = "Cooldown-Manager-Werte werden genutzt",
 }

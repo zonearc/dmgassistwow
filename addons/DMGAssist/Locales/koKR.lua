@@ -934,4 +934,6 @@ ns.LOCALE_DATA.koKR = {
   ["Only Tracked Buffs matters (icons are enough): Tracked Bars and the Essential and Utility cooldowns aren't needed. Leave them empty or hide them, and put each buff in one place only."] = "추적 중인 강화 효과만 중요합니다 (아이콘이면 충분): 추적 바와 핵심/보조 재사용 대기시간은 필요 없습니다. 비워 두거나 숨기고, 각 강화 효과는 한 곳에만 두세요.",
   ["Next part"] = "다음 부분",
   ["Report %s, part %d of %d: Ctrl+C, paste it, then Next part."] = "보고서 %s, %d/%d 부분: Ctrl+C로 복사해 붙여넣은 뒤 다음 부분을 누르세요.",
+  ["Cooldown Manager readings ignored until /dmga cdm use"] = "/dmga cdm use 전까지 재사용 대기시간 관리자 정보를 무시합니다",
+  ["Cooldown Manager readings used"] = "재사용 대기시간 관리자 정보를 사용합니다",
 }

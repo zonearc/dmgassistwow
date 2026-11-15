@@ -180,6 +180,15 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.294: Owner's 1.6.0.293 fight 455 (270 s AoE, every slot 1 pressed): slot 2 37% (n=149), slot 1 steady 63%
+  (63 changes in 148 windows), cdm 360 checks / 30 wrong (8%, was 13.6%). Top misses are a phase flip in the
+  Starfire / Starfall alternation: slot 2 Starfall, pressed Starfire x33 and the reverse x33. Owner's question: was
+  slot 2 better before the Cooldown Manager? History says yes: Balance slot 2 57% (1.6.0.26x), 47% (1.6.0.287,
+  first fight with the Cooldown Manager trusted), then 36% / 36% / 49% / 37% (288, 291, 292, 293). Other changes
+  landed in the same window (Astral Power bounds + calibration, oracle learning, look-ahead affordability), so the
+  Cooldown Manager is not proven to be the cause. New `/dmga cdm ignore | use`: fights without its readings on the
+  same version; `prediction_summary` ends with `cdm=used|ignored|off|dropped`, so the two modes are compared
+  directly. Next: one fight each way, then cut whichever change costs accuracy.
 - 1.6.0.293: Two fixes from the owner's 1.6.0.292 fight 452 (slot 2 49%, slot 1 steady 93%, 23 state misses, mostly
   "predicted Starfire, cast Starfall"). (1) Slot 2 never offered a spender the player could not afford NOW, even
   after the pretend builder in slot 1 paid for it: the look-ahead returned "starfall castable=false(power)". New

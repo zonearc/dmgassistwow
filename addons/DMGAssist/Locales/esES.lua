@@ -934,4 +934,6 @@ ns.LOCALE_DATA.esES = {
   ["Only Tracked Buffs matters (icons are enough): Tracked Bars and the Essential and Utility cooldowns aren't needed. Leave them empty or hide them, and put each buff in one place only."] = "Solo importan los Beneficios seguidos (los iconos bastan): las Barras seguidas y las reutilizaciones esenciales y de utilidad no hacen falta. Déjalas vacías u ocúltalas, y pon cada beneficio en un solo sitio.",
   ["Next part"] = "Siguiente parte",
   ["Report %s, part %d of %d: Ctrl+C, paste it, then Next part."] = "Informe %s, parte %d de %d: Ctrl+C, pégalo y luego Siguiente parte.",
+  ["Cooldown Manager readings ignored until /dmga cdm use"] = "Lecturas del Gestor de reutilización ignoradas hasta /dmga cdm use",
+  ["Cooldown Manager readings used"] = "Lecturas del Gestor de reutilización en uso",
 }

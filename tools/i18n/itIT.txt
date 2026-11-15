@@ -930,3 +930,5 @@
 936	Contano solo i benefici tracciati (bastano le icone): le barre tracciate e i tempi di recupero essenziali e di utilità non servono. Lasciali vuoti o nascondili, e metti ogni beneficio in un solo posto.
 937	Parte successiva
 938	Rapporto %s, parte %d di %d: Ctrl+C, incollala, poi Parte successiva.
+939	Letture del Gestore tempi di recupero ignorate fino a /dmga cdm use
+940	Letture del Gestore tempi di recupero in uso

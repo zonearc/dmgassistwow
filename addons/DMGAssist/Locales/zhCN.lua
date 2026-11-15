@@ -934,4 +934,6 @@ ns.LOCALE_DATA.zhCN = {
   ["Only Tracked Buffs matters (icons are enough): Tracked Bars and the Essential and Utility cooldowns aren't needed. Leave them empty or hide them, and put each buff in one place only."] = "只有追踪的增益有用（图标就够了）：追踪条、核心和辅助冷却都不需要。可以留空或隐藏，并且每个增益只放一个地方。",
   ["Next part"] = "下一部分",
   ["Report %s, part %d of %d: Ctrl+C, paste it, then Next part."] = "报告 %s，第 %d/%d 部分：Ctrl+C 复制并粘贴，然后点下一部分。",
+  ["Cooldown Manager readings ignored until /dmga cdm use"] = "忽略冷却管理器的读数，直到 /dmga cdm use",
+  ["Cooldown Manager readings used"] = "使用冷却管理器的读数",
 }

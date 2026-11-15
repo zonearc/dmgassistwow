@@ -937,5 +937,7 @@
 "Visibility: Always, or Hidden until combat (both work). Plain Hidden stops it working. To make it less visible, lower its opacity (50% is the lowest).",
 "Only Tracked Buffs matters (icons are enough): Tracked Bars and the Essential and Utility cooldowns aren't needed. Leave them empty or hide them, and put each buff in one place only.",
 "Next part",
-"Report %s, part %d of %d: Ctrl+C, paste it, then Next part."
+"Report %s, part %d of %d: Ctrl+C, paste it, then Next part.",
+"Cooldown Manager readings ignored until /dmga cdm use",
+"Cooldown Manager readings used"
 ]

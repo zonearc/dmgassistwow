@@ -1148,6 +1148,7 @@ function commands.help()
     { "/dmga mark", "mark this moment for your report (also a key binding)" },
     { "/dmga extended", "extended log on / off: every press records what the game showed, for reports" },
     { "/dmga cdm", "Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it" },
+    { "/dmga cdm ignore | use", "Fights without / with the Cooldown Manager's readings, to compare accuracy" },
     { "/dmga relearn", "forget learned cooldown timing and start learning again" },
     { "/dmga addons", "which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use" },
     { "/dmga potion", "choose the potion for this spec (shift-click it), or /dmga potion off" },
@@ -1168,7 +1169,14 @@ end
 
 -- Extended log: one state_trace line per press in combat (Diagnostics.StateTrace). Kept until turned off.
 -- /dmga cdm: the Cooldown Manager's state and your key buffs, in chat (the same as Settings > Integrations).
-function commands.cdm()
+function commands.cdm(arg)
+  -- "ignore" / "use": run fights without the Cooldown Manager's readings (to compare accuracy with and without)
+  if arg == "ignore" or arg == "use" then
+    ns.db.cdmIgnore = arg == "ignore" or nil
+    U.Print("%s", ns.db.cdmIgnore and L["Cooldown Manager readings ignored until /dmga cdm use"]
+      or L["Cooldown Manager readings used"])
+    return
+  end
   local text = ns.CDM.SettingsText()
   U.Print("%s", L["Cooldown Manager"])
   for line in tostring(text):gmatch("[^\n]+") do

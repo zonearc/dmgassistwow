@@ -727,7 +727,8 @@ end
 -- every other clue. Only buffs the player chose to track in the Cooldown Manager are visible here.
 function C.ReadCooldownManager(readable)
   local CDM = ns.CDM
-  if not C.Enabled("cdm") or CDM.Enabled() == false then
+  -- /dmga cdm ignore: the same fight without the Cooldown Manager, to measure what it adds (owner, 2026-11-15)
+  if ns.db and ns.db.cdmIgnore or not C.Enabled("cdm") or CDM.Enabled() == false then
     return 0
   end
   local seen, now = 0, GetTime()

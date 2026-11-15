@@ -934,4 +934,6 @@ ns.LOCALE_DATA.frFR = {
   ["Only Tracked Buffs matters (icons are enough): Tracked Bars and the Essential and Utility cooldowns aren't needed. Leave them empty or hide them, and put each buff in one place only."] = "Seules les améliorations suivies comptent (les icônes suffisent) : les barres suivies et les temps de recharge essentiels et utilitaires ne sont pas nécessaires. Laissez-les vides ou masquez-les, et ne mettez chaque amélioration qu'à un seul endroit.",
   ["Next part"] = "Partie suivante",
   ["Report %s, part %d of %d: Ctrl+C, paste it, then Next part."] = "Rapport %s, partie %d sur %d : Ctrl+C, collez-la, puis Partie suivante.",
+  ["Cooldown Manager readings ignored until /dmga cdm use"] = "Lectures du gestionnaire de temps de recharge ignorées jusqu'à /dmga cdm use",
+  ["Cooldown Manager readings used"] = "Lectures du gestionnaire de temps de recharge utilisées",
 }
