@@ -550,7 +550,7 @@ function G.AheadState()
   return string.format("after=%s dt=%.2f %s", table.concat(V.prev, ","), V.dt or 0, table.concat(pw, " "))
 end
 
-G.REGEN_WAIT = 1.0 -- s of regeneration a slot 2-3 spender may still be short by
+G.REGEN_WAIT = 2.0 -- s of regeneration a slot 2-3 spender may still be short by
 function G.AffordableAhead(id)
   local cost = M.Cost(M.Info(id))
   local V = S.Lookahead()

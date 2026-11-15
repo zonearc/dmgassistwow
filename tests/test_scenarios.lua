@@ -212,6 +212,14 @@ local START = { [3] = "max", [2] = "max", [5] = "max", [19] = "max", [7] = 3, [0
 local function ProcGated()
   return {}
 end
+-- Random procs (tests/procs.lua, tools/build-procs.py: Warcraft Logs' rates x the game data): rolled each tick at
+-- the rate top players get them; while up, the spells they act on glow (the addon's in-combat signal), cost nothing
+-- or cast instantly, or the button swaps (Rushing Wind Kick); a cast of one of them uses the proc up. SCEN_NOPROCS=1
+-- turns them off (to compare). Owner, 2026-11-15: "determine procs exist, execute at random".
+local PROCS = (function()
+  local ok, m = pcall(dofile, "tests/procs.lua")
+  return (ok and type(m) == "table" and not os.getenv("SCEN_NOPROCS")) and m or {}
+end)()
 local MAX_RESOURCE = (function()
   local ok, m = pcall(dofile, "tests/max_resource.lua")
   return ok and type(m) == "table" and m or {}
@@ -296,6 +304,9 @@ local function WorldAffordable(w, info, M)
   if info.n and (OUT_OF_COMBAT[info.n] or w.gated[info.n]) then
     return false
   end
+  if w.freeNow and w.freeNow[info] then
+    return true -- a proc made it free (Clearcasting)
+  end
   for pt, amount in pairs(M.Cost(info) or {}) do
     if (w.cur[pt] or 0) < amount then
       return false
@@ -304,7 +315,7 @@ local function WorldAffordable(w, info, M)
   return true
 end
 local function WorldCast(w, info, M)
-  for pt, amount in pairs(M.Cost(info) or {}) do
+  for pt, amount in pairs((w.freeNow and w.freeNow[info]) and {} or M.Cost(info) or {}) do
     local cmax = info.cmax and info.cmax[pt]
     local spend = cmax and math.max(amount, math.min(w.cur[pt] or 0, cmax)) or amount
     w.cur[pt] = math.max(0, (w.cur[pt] or 0) - spend)
@@ -430,6 +441,92 @@ local function Fight(ns, key, record, book, scenario)
       end
     end
   end
+  -- procs: index -> { up = until, stacks }
+  local procs, procState = world and PROCS[key] or {}, {}
+  local instantNow = {}
+  m.procs = 0
+  local function ProcIDs(p)
+    local all = {}
+    for _, list in ipairs({ p.free, p.instant, p.swap }) do
+      for _, id in ipairs(list) do
+        all[#all + 1] = id
+      end
+    end
+    return all
+  end
+  local function RefreshProcs()
+    world.freeNow, instantNow = {}, {}
+    for i, p in ipairs(procs) do
+      local st = procState[i]
+      if st and st.stacks > 0 then
+        for _, id in ipairs(p.free) do
+          local info = record.spellInfo[id]
+          if info then
+            world.freeNow[info] = true
+          end
+        end
+        for _, id in ipairs(p.instant) do
+          instantNow[id] = true
+        end
+      end
+    end
+  end
+  local function Glow(p, on)
+    for _, id in ipairs(ProcIDs(p)) do
+      mock.Fire(on and "SPELL_ACTIVATION_OVERLAY_GLOW_SHOW" or "SPELL_ACTIVATION_OVERLAY_GLOW_HIDE", id)
+    end
+  end
+  local function ProcSwaps(p, untilT)
+    for _, ov in ipairs(p.swap) do
+      for i, s in ipairs(swaps) do
+        if s.override == ov and s.aura == p.aura then
+          swapUntil[i] = untilT
+        end
+      end
+    end
+  end
+  local function ProcDown(i)
+    local p, st = procs[i], procState[i]
+    st.stacks, st.up = 0, nil
+    ProcSwaps(p, nil)
+    Glow(p, false)
+    RefreshProcs()
+  end
+  local function ProcTick(now)
+    for i, p in ipairs(procs) do
+      local st = procState[i] or { stacks = 0 }
+      procState[i] = st
+      if st.up and now >= st.up then
+        ProcDown(i)
+      end
+      if st.stacks < (p.stacks or 1) and math.random() < p.rate * TICK then
+        local was = st.stacks
+        st.stacks, st.up = st.stacks + 1, now + p.d
+        m.procs = m.procs + 1
+        ProcSwaps(p, st.up)
+        if was == 0 then
+          Glow(p, true)
+        end
+        RefreshProcs()
+      end
+    end
+  end
+  local function ProcUse(id)
+    for i, p in ipairs(procs) do
+      local st = procState[i]
+      if st and st.stacks > 0 then
+        for _, pid in ipairs(ProcIDs(p)) do
+          if pid == id then
+            st.stacks = st.stacks - 1
+            if st.stacks <= 0 then
+              ProcDown(i)
+            end
+            break
+          end
+        end
+      end
+    end
+  end
   m.predN, m.predHit = 0, 0
   m.cast = {}
   while mock.now - start < FIGHT do
@@ -445,6 +542,7 @@ local function Fight(ns, key, record, book, scenario)
           mock.usable[b.spellID] = (not bi or WorldAffordable(world, bi, M)) and { true, false } or { false, true }
         end
       end
+      ProcTick(now)
       WorldPublish(world)
     end
     PublishSwaps(now)
@@ -600,7 +698,7 @@ local function Fight(ns, key, record, book, scenario)
       predict = q[2] and q[2].id or nil
       local info = M.Info(id) or {}
       local gcd = tonumber(info.gcd) or 1.5
-      local ct = tonumber(info.ct) or 0
+      local ct = instantNow[id] and 0 or tonumber(info.ct) or 0
       gcdEnd = now + math.max(gcd, ct, 0.5)
       mock.cooldowns[61304] = { active = true, start = now, duration = math.max(gcd, 0.5), onGCD = true }
       local chcd = tonumber(info.chcd)
@@ -638,6 +736,7 @@ local function Fight(ns, key, record, book, scenario)
       PublishSwaps(now)
       if world then
         WorldCast(world, info, M)
+        ProcUse(id)
         WorldPublish(world)
         local tk = M.TokenForID(id) or tostring(id)
         m.cast[tk] = (m.cast[tk] or 0) + 1
@@ -686,7 +785,7 @@ local function Fight(ns, key, record, book, scenario)
     presses = m.presses, onCdPct = 100 * m.onCd / m.ticks, skipShown = m.skipShown,
     predPct = m.predN > 0 and 100 * m.predHit / m.predN or nil,
     msAvg = (m.msTotal or 0) / m.ticks, msPeak = m.msPeak or 0, keepPressed = keepPressed, keepKnown = keepKnown,
-    cast = m.cast,
+    cast = m.cast, procs = m.procs,
   }
 end
 
@@ -759,7 +858,8 @@ if GRADE then
           parts[#parts + 1] = tk .. "=" .. n
         end
         table.sort(parts)
-        print(string.format("GRADE %s %d %d errors=%d %s", key, sc.targets, FIGHT, r.errors, table.concat(parts, " ")))
+        print(string.format("GRADE %s %d %d errors=%d procs=%d %s", key, sc.targets, FIGHT, r.errors, r.procs or 0,
+          table.concat(parts, " ")))
         -- slot 2 right: pressing slot 1, was slot 2 the next press? (the in-game measure, offline)
         print(string.format("PRED %s %d %.1f", key, sc.targets, r.predPct or 0))
       end

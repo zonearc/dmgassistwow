@@ -180,6 +180,16 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.310: Random procs in the offline game (owner: "Warcraft logs can show us how often they generally happen ...
+  determine procs exist, execute at random and push the results down again and then have to fix it up").
+  * tools/wcl-procs.py: every buff on top players in raid fights, applications per minute (data/proc-rates.json);
+    tools/proc-map.py: auras that make spells free or instant, from the game data (data/proc-map.json);
+    tools/build-procs.py: per spec, the ones acting on its spells and not cast by you -> tests/procs.lua (57 procs,
+    26 specs).
+  * Offline, each is rolled every tick at its measured rate (fixed seed): while up the spells glow (the game's signal
+    the addon reads), cost nothing / cast instantly / the button swaps; a cast uses it up. Average 79.9 -> 74.4.
+  * Slot 2 waits up to 2 s of Energy / Focus regeneration for a spender (was 1 s): Feral 31 -> 45, Windwalker 88 ->
+    81, average +0.3.
 - 1.6.0.309: The offline game made honest (owner: "fix it in sims so we are forced to fix it before it goes in game").
   * Button swaps from the game data (tools/override-map.py -> Data/Overrides.lua): Metamorphosis turns Blade Dance
     into Death Sweep for 20 s, Ascendance Stormstrike into Windstrike... Offline, a swapped-in spell is castable only
