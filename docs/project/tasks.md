@@ -180,6 +180,16 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.299: Offline fights that measure slot 2 like the game (owner: "improve the offline testing system so you can do
+  more without me"). tools/sim.py <spec> --targets 8,8,8 --fight 180 [--log file] runs the graded scenario mode
+  (reference talents, hidden resources, the game's affordability answers following a true resource world whose
+  income by target count comes from Data/ResourceTargets.lua; past the measured counts it grows by the last step,
+  SCEN_FLAT=1 keeps it flat) and prints slot 2's accuracy per fight; fights run in order in one session, so the
+  in-play fit learned in one is used in the next. --log writes the fights as a decoded report (the addon's own lines
+  + casts): why-report.py, prediction-report.py and resource-replay.py read it like a real one.
+  First results, Balance at 8 targets, three fights in a row: slot 2 37.8% -> 68.4% -> 79.6% (flat income past 3
+  targets: 37.4 -> 63.7 -> 67.0); one target after those: 59.4 -> 72.9. The first fight matches the owner's
+  in-game 37-45%. The remaining misses (why-report on the log): Starfire not reached - a Starfall line above won.
 - 1.6.0.298: Resource income by number of targets, from Warcraft Logs (owner: "can't we guesstimate the astral power
   generation ... I thought all the combat logs at warcraft logs would help us"). New tools/wcl-targets.py reads
   Dummy Dome (target-dummy fights with 1, 2, 3, 5 targets; no rankings there, so recent reports are searched for the

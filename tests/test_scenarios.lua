@@ -77,6 +77,43 @@ end
 -- Major cooldowns: the ones Blizzard leaves out of its assistant, minus movement (Fel Rush, Vengeful Retreat are on
 -- that list but aren't damage cooldowns, and are never forced in: Engine G.NO_ESCALATE).
 local NS -- set after boot
+
+-- SCEN_LOG=path: the graded fights' log, as a decoded Watchdog report (the addon's own lines - press, pick,
+-- decision_trace, ahead_trace, floor_raised... - plus our casts), so tools/why-report.py, prediction-report.py and
+-- resource-replay.py read a simulated fight the way they read the owner's (offline: no one has to play it).
+local LOG_FILE = os.getenv("SCEN_LOG")
+local LOG = LOG_FILE and { sessions = {} } or nil
+local logSession, logStart
+if LOG then
+  _G.DMGAssistWatchdog = { Log = function(kind, data)
+    if logSession then
+      local t = math.floor((mock.now - logStart) * 100 + 0.5) / 100
+      logSession.events[#logSession.events + 1] = { t, "D", tostring(kind), tostring(data) }
+    end
+  end }
+end
+local function JsonStr(s)
+  return '"' .. tostring(s):gsub('[%c"\\]', function(c)
+    return string.format("\\u%04x", c:byte())
+  end) .. '"'
+end
+local function WriteLog()
+  local f = io.open(LOG_FILE, "w")
+  f:write('{"sessions": [')
+  for i, s in ipairs(LOG.sessions) do
+    f:write(i > 1 and "," or "", '{"id": ', s.id, ', "name": ', JsonStr(s.name), ', "events": [')
+    for j, e in ipairs(s.events) do
+      local parts = {}
+      for k, v in ipairs(e) do
+        parts[k] = type(v) == "number" and tostring(v) or JsonStr(v)
+      end
+      f:write(j > 1 and "," or "", "[", table.concat(parts, ","), "]")
+    end
+    f:write("]}")
+  end
+  f:write("]}")
+  f:close()
+end
 local function Majors(record)
   local set = {}
   for _, t in ipairs(record.blizzardExcluded or {}) do
@@ -138,7 +175,7 @@ local function ProcGated(record)
   end
   return gated
 end
-local function World(record)
+local function World(record, targets, key)
   local w = { cur = {}, max = {}, passive = {}, gated = ProcGated(record) }
   local maxes = { [0] = 100000, [1] = 100, [2] = 100, [3] = 100, [4] = 5, [5] = 6, [6] = 100, [7] = 5, [8] = 100,
     [9] = 5, [11] = 100, [12] = 5, [13] = 100, [16] = 4, [17] = 120, [18] = 100, [19] = 5 }
@@ -156,6 +193,22 @@ local function World(record)
     if not DISCRETE[pt] then
       w.passive[pt] = v
     end
+  end
+  -- income with nothing cast, by targets, where Warcraft Logs' dummy fights measured it (beyond: grows by the last
+  -- step per target - the truth the addon has to find out, not what it is told)
+  local byT = key and NS and NS.Data.resourceTargets and NS.Data.resourceTargets[key]
+  for pt, t in pairs(byT or {}) do
+    local ks = {}
+    for k in pairs(t) do
+      ks[#ks + 1] = k
+    end
+    table.sort(ks)
+    local top, before = ks[#ks], ks[#ks - 1]
+    local v = t[math.min(targets or 1, top)] or t[ks[1]]
+    if os.getenv("SCEN_FLAT") == nil and (targets or 1) > top and before then
+      v = t[top] + (t[top] - t[before]) / (top - before) * ((targets or 1) - top)
+    end
+    w.passive[pt] = v
   end
   return w
 end
@@ -256,7 +309,7 @@ local function Fight(ns, key, record, book, scenario)
     mock.powerMax[pt] = (pt == 4 or pt == 7 or pt == 9 or pt == 12 or pt == 16 or pt == 19) and 5 or 100
     mock.power[pt] = math.floor(mock.powerMax[pt] * 0.6)
   end
-  local world = GRADE and World(record) or nil
+  local world = GRADE and World(record, scenario.targets, key) or nil
   if world then
     WorldPublish(world)
     mock.inRange = setmetatable({}, { __index = function() return true end }) -- standing at the target
@@ -268,6 +321,11 @@ local function Fight(ns, key, record, book, scenario)
   ns.db.levelingMode = scenario.leveling and "blizzard" or "simc"
   G.ResetSteady()
   mock.Advance(1)
+  if LOG then
+    logSession = { id = #LOG.sessions + 1, name = key .. " " .. scenario.targets .. " targets", events = {} }
+    LOG.sessions[#LOG.sessions + 1] = logSession
+    logStart = mock.now
+  end
   mock.inCombat, mock.restricted = true, true
   mock.Fire("PLAYER_REGEN_DISABLED")
   local start = mock.now
@@ -439,6 +497,9 @@ local function Fight(ns, key, record, book, scenario)
         local tk = M.TokenForID(id) or tostring(id)
         m.cast[tk] = (m.cast[tk] or 0) + 1
       end
+      if logSession then
+        logSession.events[#logSession.events + 1] = { math.floor((mock.now - logStart) * 100 + 0.5) / 100, "C", id }
+      end
       mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "cast-" .. m.presses, id)
       m.presses = m.presses + 1
       if _G.SCEN_PRESS then _G.SCEN_PRESS(now - start, id) end
@@ -491,7 +552,15 @@ local SCENARIOS_ALL = {
   -- a boss in a 5-player party with healing support on: Hunter's Mark, Atonement upkeep, Renewing Mist
   { name = "group", targets = 1, boss = true, group = 5 },
 }
-local SCENARIOS = GRADE and { { name = "st", targets = 1 }, { name = "aoe", targets = 5 } } or SCENARIOS_ALL
+-- (SCEN_TARGETS="1,5,8": other target counts for the graded fights)
+local function GradeScenarios()
+  local out = {}
+  for n in (os.getenv("SCEN_TARGETS") or "1,5"):gmatch("%d+") do
+    out[#out + 1] = { name = "t" .. n, targets = tonumber(n) }
+  end
+  return out
+end
+local SCENARIOS = GRADE and GradeScenarios() or SCENARIOS_ALL
 
 local ns = Boot()
 _G.SCEN_NS = ns
@@ -542,8 +611,14 @@ if GRADE then
         end
         table.sort(parts)
         print(string.format("GRADE %s %d %d errors=%d %s", key, sc.targets, FIGHT, r.errors, table.concat(parts, " ")))
+        -- slot 2 right: pressing slot 1, was slot 2 the next press? (the in-game measure, offline)
+        print(string.format("PRED %s %d %.1f", key, sc.targets, r.predPct or 0))
       end
     end
+  end
+  if LOG then
+    logSession = nil
+    WriteLog()
   end
   os.exit(0)
 end
