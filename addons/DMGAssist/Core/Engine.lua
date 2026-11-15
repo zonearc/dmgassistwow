@@ -486,6 +486,39 @@ function G.BelowCostAhead(id)
   return false
 end
 
+-- Slots 2-3: a spender the game says is short now, after the casts we pretend: affordable when the hidden
+-- resource's range at that moment (S.PowerBounds) is at or above the cost - or, when the pretend casts have been
+-- building it, when the middle of the range is (Balance, 2026-11-14: Astral Power 17-26 after a Starfall, a Starfire
+-- adds ~22, Starfall costs 34; slot 2 said Starfire again because only "affordable now" counted, and you cast
+-- Starfall). Spending from an unknown pool stays strict (G.BelowCostAhead).
+function G.AffordableAhead(id)
+  local cost = M.Cost(M.Info(id))
+  local V = S.Lookahead()
+  if not cost or not V or #V.prev == 0 then
+    return UNKNOWN
+  end
+  for pt, amount in pairs(cost) do
+    if amount > 0 then
+      local cur = U.Get(UnitPower, "player", pt)
+      if type(cur) == "number" then
+        if cur + (V.power[pt] or 0) < amount then
+          return false
+        end
+      else
+        local lo, hi = S.PowerBounds(pt)
+        if not lo then
+          return UNKNOWN
+        end
+        local built = (V.power[pt] or 0) > 0
+        if not (lo >= amount or (built and hi and (lo + hi) / 2 >= amount)) then
+          return false
+        end
+      end
+    end
+  end
+  return true
+end
+
 -- Is Blizzard's assistant naming a rotation spell right now (so its silence about a spell means "not yet")?
 -- The assistant names one spell at a time. If it keeps naming the same one for G.FIXATED seconds and you don't cast
 -- it, it can't name anything else meanwhile: spells left to it ("Blizzard decides") would never come back. Balance,
@@ -642,6 +675,9 @@ local function CastableRaw(id)
     else
       -- Can't afford it now; by the look-ahead moment we may (resources gained in between).
       local afford = S.Affordable(id)
+      if afford ~= true then
+        afford = G.AffordableAhead(id)
+      end
       if afford ~= true then
         return false, "power"
       end

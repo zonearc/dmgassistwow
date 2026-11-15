@@ -3439,6 +3439,16 @@ test("Cooldown Manager: two icons for one buff (Eclipse Lunar / Solar) - up when
   mock.Advance(1)
   ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
   eq(ns.State.Resolve("buff.eclipse.up", {}), 1, "Lunar is up: Eclipse is up, whatever Solar says")
+  -- graded against the readable buffs out of combat: the generic Eclipse icon against Eclipse (Lunar) is right
+  mock.restricted, mock.inCombat = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  ns.SpellMap.info[48518] = { n = "eclipse_lunar" }
+  mock.auras.player = { { name = "Eclipse (Lunar)", spellId = 48518, duration = 15, expirationTime = mock.now + 15 } }
+  mock.Fire("UNIT_AURA", "player")
+  local before = ns.Clues.stats.cdm and ns.Clues.stats.cdm.wrong or 0
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  eq(ns.Clues.stats.cdm.wrong, before, "not counted wrong")
+  Restrict()
   lunar.isActive = false
   mock.Advance(1)
   ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
@@ -7135,6 +7145,43 @@ test("Balance AoE (real data): Starfall from 60-100 hidden Astral Power, then St
   local lo = C.ResourceBounds(8)
   eq(lo ~= nil and lo >= 90, false, "no Astral Power 90+ from the assistant's Starfall: " .. tostring(lo))
   mock.acSpell = nil
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
+test("slots 2-3: a spender short now becomes affordable after a pretend builder (middle of the range), not after a spender", function()
+  -- Balance, 2026-11-14: Astral Power 17-26 after Starfall; a Starfire later Starfall was affordable, slot 2 said Starfire
+  Reset()
+  local ns = Boot()
+  local S, G, C = ns.State, ns.Engine, ns.Clues
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[191034] = { n = "starfall", gcd = 1.5, cost = { [8] = 50 } }
+  rec.spellInfo[194153] = { n = "starfire", gcd = 1.5, gain = { [8] = 30 } }
+  Feral(ns, rec)
+  mock.powerMax[8] = 100
+  mock.inCombat, mock.restricted = true, true
+  ns.combatEndedAt = GetTime()
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  C.bounds[8] = { lo = 10, hi = 40, untilT = GetTime() + 10, source = "usable" }
+  S.BeginLookahead(0)
+  S.Apply(194153) -- a pretend Starfire: 40-70
+  eq(G.AffordableAhead(191034), true, "40-70 after the builder: the middle (55) pays for Starfall")
+  S.EndLookahead()
+  C.bounds[8] = { lo = 10, hi = 30, untilT = GetTime() + 10, source = "usable" }
+  S.BeginLookahead(0)
+  S.Apply(194153) -- 40-60: middle 50
+  eq(G.AffordableAhead(191034), true)
+  S.EndLookahead()
+  C.bounds[8] = { lo = 0, hi = 20, untilT = GetTime() + 10, source = "usable" }
+  S.BeginLookahead(0)
+  S.Apply(194153) -- 30-50: middle 40
+  eq(G.AffordableAhead(191034), false, "not yet")
+  S.EndLookahead()
+  C.bounds[8] = { lo = 50, hi = 100, untilT = GetTime() + 10, source = "usable" }
+  S.BeginLookahead(0)
+  S.Apply(191034) -- a pretend Starfall: 0-50, spent from an unknown pool
+  eq(G.AffordableAhead(191034), false, "after a spender only the low end counts")
+  S.EndLookahead()
   mock.inCombat, mock.restricted = false, false
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)

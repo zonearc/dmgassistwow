@@ -180,6 +180,14 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.293: Two fixes from the owner's 1.6.0.292 fight 452 (slot 2 49%, slot 1 steady 93%, 23 state misses, mostly
+  "predicted Starfire, cast Starfall"). (1) Slot 2 never offered a spender the player could not afford NOW, even
+  after the pretend builder in slot 1 paid for it: the look-ahead returned "starfall castable=false(power)". New
+  G.AffordableAhead: affordable in the look-ahead when the current power (or, hidden, the low bound - or the middle of
+  the bounds after a pretend builder) plus the pretend gain covers the cost. (2) Cooldown Manager reads graded 13.6%
+  wrong (36 of 264), close to the 20% cut-off: the generic Eclipse icon was compared with the readable buffs by
+  its own name "eclipse", while the buffs are eclipse_lunar / eclipse_solar. Grading now counts the buff as up under
+  any of the icon's names or aliases (M.Candidates). Tests for both.
 - 1.6.0.292: Root cause of Balance "Starfall > Starfall" found with 1.6.0.291's la= trace (owner's 283 s fight, slot 2
   36%, n=163; the report came whole in 4 parts). At those presses slot 2's step started from Astral Power 66-76
   AFTER a pretend Starfall (cost 34 live), i.e. "100" before it, while the real value was ~40-60 (3-26 after the

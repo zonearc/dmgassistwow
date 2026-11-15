@@ -734,13 +734,17 @@ function C.ReadCooldownManager(readable)
   -- One answer per buff: several icons can stand for the same buff (Eclipse (Lunar) and (Solar) both read as
   -- Eclipse; an icon and a bar). It is up when any of them says so. Taken icon by icon, the last one read won and
   -- "Eclipse up" flipped ten times a second (owner's Balance fights, 2026-11-14).
-  local active, shown = {}, {}
+  local active, shown, names = {}, {}, {}
   for _, b in ipairs(CDM.BuffItems()) do
     local item, info = b.item, b.info
     CDM.Observe(item, info, now, b.viewer)
     local token = info.token
     -- a hidden viewer isn't updated by the game: its buffs all read "not active", true or not (2026-11-14)
     if token and not b.hidden and not b.settling then
+      names[token] = names[token] or {}
+      for t in pairs(info.tokens) do
+        names[token][t] = true
+      end
       -- Only plain fields and widget methods are read here: calling Blizzard's own Lua methods on these frames
       -- (GetAuraDataUnit) runs their code from ours and can leave it "tainted by DMGAssist" (2026-11-12).
       local a = U.Read(item.isActive)
@@ -756,17 +760,33 @@ function C.ReadCooldownManager(readable)
     end
   end
   local truth = readable and readable.player
+  -- Up in the truth under any name the icon or the buff goes by: the Eclipse icon is the generic "eclipse" spell,
+  -- the buffs read as eclipse_lunar / eclipse_solar - compared by its own name only, every check while Eclipse
+  -- was up counted as wrong (36 of 264, 2026-11-14).
+  local function TruthUp(token)
+    for _, t in ipairs(M.Candidates(token)) do
+      if truth[t] ~= nil then
+        return true
+      end
+    end
+    for t in pairs(names[token] or {}) do
+      if truth[t] ~= nil then
+        return true
+      end
+    end
+    return false
+  end
   for token, a in pairs(active) do
     seen = seen + 1
     if truth then
-      Record("cdm", (truth[token] ~= nil) == a)
+      Record("cdm", TruthUp(token) == a)
     else
       C.SetAura("player", token, a, 0.5, "cdm")
     end
   end
   for token, sh in pairs(shown) do
     if truth then
-      CDM.GradeShown(sh, truth[token] ~= nil)
+      CDM.GradeShown(sh, TruthUp(token))
     elseif active[token] == nil and CDM.ShownTrusted() then
       -- isActive hidden in combat: the icon showing is the buff (proved out of combat)
       seen = seen + 1
