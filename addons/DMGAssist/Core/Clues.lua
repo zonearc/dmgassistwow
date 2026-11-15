@@ -733,7 +733,7 @@ function C.ReadCooldownManager(readable)
   local seen, now = 0, GetTime()
   for _, b in ipairs(CDM.BuffItems()) do
     local item, info = b.item, b.info
-    CDM.Observe(item, info, now)
+    CDM.Observe(item, info, now, b.viewer)
     local token = info.token
     if token then
       -- Only plain fields and widget methods are read here: calling Blizzard's own Lua methods on these frames

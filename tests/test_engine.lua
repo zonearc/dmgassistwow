@@ -3474,10 +3474,17 @@ test("Cooldown Manager: detected on or off; settings list each key buff as track
     end
   end
   eq(lines, 1)
-  -- a buff the Cooldown Manager doesn't offer: said so, not suggested
+  -- offered but greyed out (its talent isn't taken): not suggested
+  mock.cdmLearned = { [2] = { 1, 3 } }
+  st = ns.CDM.Refresh("test")
+  eq(#st.keys, 1, "only Hot Streak")
+  eq(st.add, 0)
+  mock.cdmLearned = nil
+  -- a buff the Cooldown Manager doesn't offer at all: not listed (nothing to do about it), counted in the log
   mock.cdmCategories = { [2] = { 1, 3 } }
   st = ns.CDM.Refresh("test")
-  eq(st.keys[2].where, "unavailable")
+  eq(#st.keys, 1)
+  eq(st.unavailable, 1)
   mock.cvars.cooldownViewerEnabled, mock.cdmCategories = nil, nil
   BuffIconCooldownViewer = nil -- luacheck: ignore 111
 end)

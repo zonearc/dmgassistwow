@@ -665,8 +665,10 @@ function mock.Install(env)
     GetCooldownViewerCooldownInfo = function(id)
       return mock.cdmInfo and mock.cdmInfo[id]
     end,
-    GetCooldownViewerCategorySet = function(category)
-      return mock.cdmCategories and mock.cdmCategories[category]
+    GetCooldownViewerCategorySet = function(category, allowUnlearned)
+      local learned = mock.cdmLearned or mock.cdmCategories -- (without allowUnlearned: talents taken only)
+      return (allowUnlearned and mock.cdmCategories or learned) and
+        (allowUnlearned and mock.cdmCategories or learned)[category]
     end,
   }
   env.C_RestrictedActions = {

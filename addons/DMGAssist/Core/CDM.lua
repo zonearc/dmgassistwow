@@ -107,8 +107,10 @@ function CDM.BuffItems()
   return out
 end
 
--- Every buff the Cooldown Manager can track for you, tracked or not: token -> { name, cdID }. From the game's
--- category lists (the tracked ones, and the "not displayed" ones where the game has that category).
+-- Every buff the Cooldown Manager can track for you, tracked or not: token -> { name, cdID, learned }. From the
+-- game's category lists (the tracked ones, and the "not displayed" ones where the game has that category), asked
+-- twice: with talents you haven't taken (greyed out in its settings) and without them (owner, 2026-11-14:
+-- Starweaver's Warp and Weft were suggested but greyed out - not talented).
 function CDM.Catalog()
   local cats = Enum and Enum.CooldownViewerCategory or {}
   local out, counts = {}, {}
@@ -119,18 +121,27 @@ function CDM.Catalog()
       cat = key == "TrackedBuff" and 2 or 3
     end
     if cat ~= nil and get then
-      local ids = U.Get(get, cat, true)
-      local n = 0
-      for _, cdID in ipairs(type(ids) == "table" and ids or {}) do
-        local info = CDM.Info(U.Read(cdID))
-        if info then
-          n = n + 1
-          for t in pairs(info.tokens) do
-            out[t] = out[t] or { name = info.name, cdID = cdID }
+      local n, learned = 0, 0
+      for _, allowUnlearned in ipairs({ false, true }) do
+        local ids = U.Get(get, cat, allowUnlearned)
+        for _, cdID in ipairs(type(ids) == "table" and ids or {}) do
+          local info = CDM.Info(U.Read(cdID))
+          if info then
+            if allowUnlearned then
+              n = n + 1
+            else
+              learned = learned + 1
+            end
+            for t in pairs(info.tokens) do
+              local e = out[t] or { name = info.name, cdID = cdID }
+              e.learned = e.learned or not allowUnlearned
+              out[t] = e
+            end
           end
         end
       end
       counts[key] = n
+      counts[key .. "Learned"] = learned
     end
   end
   return out, counts
@@ -209,6 +220,10 @@ function CDM.Refresh(reason)
     catalog, counts = CDM.Catalog()
   end
   local catalogKnown = next(catalog) ~= nil
+  local learnedKnown = false
+  for _, e in pairs(catalog) do
+    learnedKnown = learnedKnown or e.learned
+  end
   local keySet = {}
   for _, k in ipairs(CDM.KeyBuffs(record)) do
     keySet[k.token] = true
@@ -220,13 +235,17 @@ function CDM.Refresh(reason)
       st.have = st.have + 1
     elseif rank == 0 and not catalog[k.token] then
       where = nil -- a talent you haven't taken
+    elseif catalog[k.token] and learnedKnown and not catalog[k.token].learned then
+      where = nil -- offered, but greyed out: its talent isn't taken
     elseif catalog[k.token] or not catalogKnown then
       where = "add"
       st.add = st.add + 1
     else
       where = "unavailable" -- the Cooldown Manager can't track it
     end
-    if where and #st.keys < CDM.KEY_MAX then
+    if where == "unavailable" then
+      st.unavailable = (st.unavailable or 0) + 1 -- (logged, not listed: nothing to do about it)
+    elseif where and #st.keys < CDM.KEY_MAX then
       local name = U.Get(C_Spell and C_Spell.GetSpellName, k.id) or (catalog[k.token] and catalog[k.token].name)
       st.keys[#st.keys + 1] = { token = k.token, id = k.id, name = name or Pretty(k.token), where = where,
         refs = k.refs }
@@ -341,12 +360,13 @@ local function Part(rec, key, v)
   end
 end
 
-function CDM.Observe(item, info, now)
+function CDM.Observe(item, info, now, viewer)
   local f = CDM.fight
   if not f then
     return
   end
-  local key = info.token or tostring(info.sid)
+  -- per icon (the same buff tracked as an icon and as a bar is two: merged, their flips interleaved, 2026-11-14)
+  local key = (info.token or tostring(info.sid)) .. (viewer == "BuffBarCooldownViewer" and "@bar" or "")
   local rec = f.buffs[key]
   if not rec then
     rec = { flips = {}, n = 0 }

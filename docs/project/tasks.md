@@ -135,8 +135,7 @@ for every spec, before asking for more in-game logs.
 
 ## Open: needs in-game testing (built, not yet seen in game)
 
-- [ ] Cooldown Manager (1.6.0.280): Settings > Integrations lists your key buffs; does cdm_buff_summary show "shown"
-  readable in combat, and do its flips match the combat log's buff applied/removed? Opacity 0 still read?
+- [ ] Cooldown Manager (1.6.0.281): Starweaver's Warp / Weft (not talented) no longer suggested; flips per icon.
 - [ ] Action bar highlight in magenta on Blizzard bars and Bartender; grade window opacity / size / bar / parts
 - [ ] Taint: none logged since the Edit Mode fix (1.6.0.139); keep watching the Watchdog's error list
 - [ ] Feral: no stopwatch; Rake not shown before energy is there; Ferocious Bite at 5 combo points
@@ -170,6 +169,14 @@ for every spec, before asking for more in-game logs.
 
 ## Done (recent)
 
+- 1.6.0.281: Cooldown Manager proved valuable (owner's 1.6.0.280 Balance run, Silvermoon dummies, auras hidden:
+  aura_scan nil, restricted=2). In combat every tracked buff icon read plainly: isActive and shown T/F, 0 hidden
+  (cdm_buff_summary sh/act/a ok234/S0); clue_summary cdm=78654 checks / 90 wrong (99.9% right against readable
+  auras) and 2184 buff facts given in combat that nothing else could give. (1.6.0.277's "isActive nil in combat"
+  was an icon not tracked / no buff.) Opacity can't go below 50% in game (owner), so no 0% test needed.
+  Fixes: a key buff the Cooldown Manager offers only greyed out (talent not taken: Starweaver's Warp / Weft) is no
+  longer suggested - the game's catalog asked with and without unlearned talents; "can't track it" buffs are no
+  longer listed (counted in cdm_setup); flips kept per icon (the same buff as an icon and a bar interleaved).
 - 1.6.0.280: Cooldown Manager support (owner, 2026-11-14: "see on addon load if it's enabled ... automatically
   start tracking ... see what it's not tracking and let them know in settings ... only track what's important").
   New Core/CDM.lua:
