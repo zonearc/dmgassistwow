@@ -935,5 +935,7 @@
 "Keep its Visibility on Always. To make it less visible, lower its opacity (50% is the lowest). Hidden stops it working.",
 "Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons.",
 "Visibility: Always, or Hidden until combat (both work). Plain Hidden stops it working. To make it less visible, lower its opacity (50% is the lowest).",
-"Only Tracked Buffs matters (icons are enough): Tracked Bars and the Essential and Utility cooldowns aren't needed. Leave them empty or hide them, and put each buff in one place only."
+"Only Tracked Buffs matters (icons are enough): Tracked Bars and the Essential and Utility cooldowns aren't needed. Leave them empty or hide them, and put each buff in one place only.",
+"Next part",
+"Report %s, part %d of %d: Ctrl+C, paste it, then Next part."
 ]

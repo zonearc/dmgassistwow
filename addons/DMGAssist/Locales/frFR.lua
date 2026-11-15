@@ -932,4 +932,6 @@ ns.LOCALE_DATA.frFR = {
   ["Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."] = "Désactivé. DMGAssist est plus précis quand il est activé : il montre les procs que le jeu cache aux addons.",
   ["Visibility: Always, or Hidden until combat (both work). Plain Hidden stops it working. To make it less visible, lower its opacity (50% is the lowest)."] = "Visibilité : Toujours, ou Masqué hors combat (les deux fonctionnent). Masqué tout court l'empêche de fonctionner. Pour le rendre plus discret, baissez son opacité (50% au minimum).",
   ["Only Tracked Buffs matters (icons are enough): Tracked Bars and the Essential and Utility cooldowns aren't needed. Leave them empty or hide them, and put each buff in one place only."] = "Seules les améliorations suivies comptent (les icônes suffisent) : les barres suivies et les temps de recharge essentiels et utilitaires ne sont pas nécessaires. Laissez-les vides ou masquez-les, et ne mettez chaque amélioration qu'à un seul endroit.",
+  ["Next part"] = "Partie suivante",
+  ["Report %s, part %d of %d: Ctrl+C, paste it, then Next part."] = "Rapport %s, partie %d sur %d : Ctrl+C, collez-la, puis Partie suivante.",
 }

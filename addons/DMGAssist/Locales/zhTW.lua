@@ -932,4 +932,6 @@ ns.LOCALE_DATA.zhTW = {
   ["Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."] = "已關閉。開啟後 DMGAssist 會更準確：它能顯示遊戲對插件隱藏的觸發效果。",
   ["Visibility: Always, or Hidden until combat (both work). Plain Hidden stops it working. To make it less visible, lower its opacity (50% is the lowest)."] = "可見性：總是，或戰鬥前隱藏（都可以）。單純的隱藏會讓它失效。想不那麼顯眼，就調低不透明度（最低 50%）。",
   ["Only Tracked Buffs matters (icons are enough): Tracked Bars and the Essential and Utility cooldowns aren't needed. Leave them empty or hide them, and put each buff in one place only."] = "只有追蹤的增益有用（圖示就夠了）：追蹤條、核心和輔助冷卻都不需要。可以留空或隱藏，並且每個增益只放一個地方。",
+  ["Next part"] = "下一部分",
+  ["Report %s, part %d of %d: Ctrl+C, paste it, then Next part."] = "報告 %s，第 %d/%d 部分：Ctrl+C 複製並貼上，然後點下一部分。",
 }

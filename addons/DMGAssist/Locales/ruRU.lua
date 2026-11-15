@@ -932,4 +932,6 @@ ns.LOCALE_DATA.ruRU = {
   ["Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."] = "Выключен. С ним DMGAssist точнее: он показывает срабатывания, которые игра скрывает от аддонов.",
   ["Visibility: Always, or Hidden until combat (both work). Plain Hidden stops it working. To make it less visible, lower its opacity (50% is the lowest)."] = "Видимость: «Всегда» или «Скрыто вне боя» (работает и то, и другое). Просто «Скрыто» отключает его работу. Чтобы он меньше бросался в глаза, снизьте прозрачность (минимум 50%).",
   ["Only Tracked Buffs matters (icons are enough): Tracked Bars and the Essential and Utility cooldowns aren't needed. Leave them empty or hide them, and put each buff in one place only."] = "Важны только отслеживаемые эффекты (значков достаточно): отслеживаемые полосы, основные и вспомогательные восстановления не нужны. Оставьте их пустыми или скройте и держите каждый эффект только в одном месте.",
+  ["Next part"] = "Следующая часть",
+  ["Report %s, part %d of %d: Ctrl+C, paste it, then Next part."] = "Отчёт %s, часть %d из %d: Ctrl+C, вставьте, затем «Следующая часть».",
 }
