@@ -180,6 +180,29 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.305: Toward 80% slot 2 offline, every spec (owner: "average across all classes ... 80% min", then "how
+  consistent are the offline tests with the game"). Offline average (30 specs, 3 x 1 + 3 x 5 targets): 72.7 -> 78.8.
+  * Energy and Focus had no count at all (hidden in and out of combat; only "the dearest spender you can afford"):
+    now counted from full, with their measured passive income (excluded before). Subtlety 61 -> 89-95, Beast
+    Mastery 76 -> 89, Windwalker AoE 60 -> 77-96 offline. The game's answers win over a count that contradicts them.
+  * Regenerating spenders a second of regeneration away are what slot 2 offers (you wait for them).
+  * Blizzard's rules no longer confirm an uncertain SimC line in slots 2-3 (offline right 31%; the owner's Balance
+    fights 20-46% vs 42-57% plain SimC). Not in leveling mode. Offline +4: Guardian, Affliction, Elemental,
+    Destruction, Retribution, Balance, Shadow.
+  * Warrior Rage: auto-attack Rage is not logged as gains, so tools/wcl-income.py measures total income from each
+    cast's logged amount and cost: Fury 33/s on a boss (data 15.5), Protection 15 (11.7), Arms 10.7 on one target
+    falling to 7.7 on five (no target scaling, as the owner's notes said). tools/build-resource-targets.py now builds
+    Data/ResourceTargets.lua from both measurements (known-bad ones left out).
+  * tools/wcl-spellcheck.py: per spec, real time between casts vs our cooldown/charges, cost paid / free share vs
+    our cost (the Restless Blades / free Starfall kind of misunderstanding) - to run when the API allows.
+  * Offline world: the spellbook takes each name's castable entry (Arms single target was a fake 100%: with the real
+    IDs 32%); a slot 1 the game won't cast for 2 s is skipped like a player would; per-second power trace
+    (SCEN_POWER=pt).
+  * docs/project/sim-vs-game.md: the known differences between offline and the game, what each costs in game, how
+    a report shows it, what was done ahead of time.
+  Still low offline: Windwalker 36 (an ID mismatch shows proc-only Rushing Wind Kick forever - offline only), Arms
+  44, Feral 50, Brewmaster 52, Assassination 55, Unholy 61. API-throttled, still to measure: Havoc / Guardian /
+  Protection / Shadow / Elemental income by targets, wcl-spellcheck for every spec.
 - 1.6.0.300: Cross-spec pass after Balance (owner: "use warcraftlogs to find similar issues for the other specs").
   Found with the offline fights (tools/sim.py, all 30 specs with a reference, 3 single-target then 3 five-target
   fights in a row) and Warcraft Logs:

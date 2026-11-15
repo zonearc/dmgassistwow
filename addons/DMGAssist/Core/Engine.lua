@@ -550,6 +550,7 @@ function G.AheadState()
   return string.format("after=%s dt=%.2f %s", table.concat(V.prev, ","), V.dt or 0, table.concat(pw, " "))
 end
 
+G.REGEN_WAIT = 1.0 -- s of regeneration a slot 2-3 spender may still be short by
 function G.AffordableAhead(id)
   local cost = M.Cost(M.Info(id))
   local V = S.Lookahead()
@@ -569,7 +570,11 @@ function G.AffordableAhead(id)
           return UNKNOWN
         end
         local built = (V.power[pt] or 0) > 0
-        if not (lo >= amount or (built and hi and (lo + hi) / 2 >= amount)) then
+        -- Energy / Focus come back by themselves: a spender a moment of regeneration away is what you press next -
+        -- you wait for it, you don't press the line below (offline Feral: Ferocious Bite "short" after a pretend
+        -- Shred 22 times in a fight, then pressed a second later; tools/sim.py, 2026-11-15)
+        local soon = ns.Clues.REGEN[pt] and S.RegenRate(pt) * G.REGEN_WAIT or 0
+        if not (lo + soon >= amount or (built and hi and (lo + hi) / 2 >= amount)) then
           return false
         end
       end
@@ -978,7 +983,13 @@ local function Corroborated(id, token, run, castable)
   -- Looking ahead, Blizzard's rules don't confirm a line that nobody confirmed now: the hidden state that made it
   -- uncertain (a proc: Lava Surge) is just as hidden later. Elemental showed Lava Burst in slots 2 and 3 nearly
   -- all the time, and slot 1 never took it (2026-11-12: "only the primary button changes").
-  if rules and not run.first and G.uncertainNow[token] then
+  -- Looking ahead, Blizzard's rules don't confirm an uncertain SimC line at all (1.6.0.305): offline, slot 2 picks
+  -- confirmed that way were right 344 times in 1100 (31%), and leaving them out raised the 30-spec average from
+  -- 76.2% to 80.2% (Guardian +25, Affliction +25, Elemental +25, Destruction +22, Retribution +19, Balance +15;
+  -- tools/sim.py, 2026-11-15). Slot 1 (the present) still takes them.
+  -- (not in leveling mode: there Blizzard's rules are the rotation)
+  local state = ns.Specs and ns.Specs.current
+  if rules and not run.first and not (state and state.leveling) then
     rules = nil
   end
   if rules then

@@ -63,7 +63,17 @@ local RACIALS = { arcane_torrent = true, berserking = true, blood_fury = true, f
 local function BookFor(record)
   local book, seen = {}, {}
   for token, e in pairs(record.spells or {}) do
+    -- the button among the IDs a name has: the one with a cooldown, cost, GCD or cast time (the game's spellbook
+    -- holds that one; Windwalker's first "slicing_winds" ID is a 0.5 s effect with no cooldown, and the offline
+    -- player pressed it every GCD)
     local id = e.a and e.a[1]
+    for _, cand in ipairs(e.a or {}) do
+      local ci = record.spellInfo[cand]
+      if ci and not ci.pas and (ci.cd or ci.cost or ci.gcd or ci.ct or ci.chcd) then
+        id = cand
+        break
+      end
+    end
     local info = id and record.spellInfo[id]
     if id and not seen[id] and info and not info.pas and not RACIALS[token] then
       seen[id] = true
@@ -480,6 +490,28 @@ local function Fight(ns, key, record, book, scenario)
       io.stderr:write(string.format("POWER t=%.1f world=%.1f bounds=%s..%s floor=%s main=%s\n", now - start,
         world.cur[dbgPt] or -1, tostring(lo and math.floor(lo)), tostring(hi and math.floor(hi)),
         tostring(f and math.floor(f.lo)), tostring(main and main.token)))
+    end
+    -- a slot 1 the game won't cast at all (not a resource wait: a proc-only spell, a movement ability) for 2 s:
+    -- the player presses slot 2 instead (Windwalker's Slicing Winds held slot 1 for a whole offline fight, no press)
+    if world and main and main.id then
+      local bi = M.Info(main.id)
+      local blocked = bi and bi.n and (OUT_OF_COMBAT[bi.n] or world.gated[bi.n])
+      if blocked then
+        m.blockedSince = m.blockedSince or now
+        if now - m.blockedSince >= 2 then
+          -- slot 2, slot 3, else the assistant's pick: the first the game would cast
+          for _, cand in ipairs({ q[2] or false, q[3] or false, mock.acSpell and { id = mock.acSpell } or false }) do
+            local ci = cand and cand.id and M.Info(cand.id)
+            if ci and not (ci.n and (OUT_OF_COMBAT[ci.n] or world.gated[ci.n])) and not mock.cooldowns[cand.id]
+              and WorldAffordable(world, ci, M) then
+              main = cand
+              break
+            end
+          end
+        end
+      else
+        m.blockedSince = nil
+      end
     end
     -- the player: presses slot 1 when the GCD allows and it isn't shown as "not yet"
     if r and main and main.id and now >= gcdEnd and not (main.readyAt and main.readyAt > now)
