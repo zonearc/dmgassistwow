@@ -60,22 +60,58 @@ end
 local RACIALS = { arcane_torrent = true, berserking = true, blood_fury = true, fireblood = true,
   ancestral_call = true, bag_of_tricks = true, lights_judgment = true, arcane_pulse = true, haymaker = true,
   rocket_barrage = true, azerite_surge = true, shadowmeld = true, war_stomp = true, quaking_palm = true }
+-- Buttons an aura swaps for a while (data/overrides.lua, tools/override-map.py): Metamorphosis turns Blade Dance into
+-- Death Sweep for 20 s. The swapped-in spell isn't a button of its own: offline it was, and Havoc was offered Death
+-- Sweep outside Metamorphosis, which the game never does (owner, 2026-11-15: "fix it in sims so we are forced to fix
+-- it before it goes in game").
+local function SwapsFor(record)
+  local list, overrideIDs = {}, {}
+  local info = record.spellInfo or {}
+  local ns = _G.SCEN_NS
+  for _, s in ipairs(ns and ns.Data and ns.Data.overrides or {}) do
+    if info[s.override] ~= nil then
+      list[#list + 1] = s
+      overrideIDs[s.override] = true
+    end
+  end
+  return list, overrideIDs
+end
+
 local function BookFor(record)
   local book, seen = {}, {}
+  local _, swapped = SwapsFor(record)
   for token, e in pairs(record.spells or {}) do
     -- the button among the IDs a name has: the one with a cooldown, cost, GCD or cast time (the game's spellbook
     -- holds that one; Windwalker's first "slicing_winds" ID is a 0.5 s effect with no cooldown, and the offline
     -- player pressed it every GCD)
-    local id = e.a and e.a[1]
+    -- (a GCD or cast time first: Havoc's "metamorphosis" list starts with Vengeance's 187827, no GCD; Havoc's
+    -- button is 191427 - offline Havoc never cast Metamorphosis)
+    local id
     for _, cand in ipairs(e.a or {}) do
       local ci = record.spellInfo[cand]
-      if ci and not ci.pas and (ci.cd or ci.cost or ci.gcd or ci.ct or ci.chcd) then
+      if ci and not ci.pas and not swapped[cand] and (ci.gcd or ci.ct) and (ci.n == nil or ci.n == token) then
         id = cand
         break
       end
     end
+    for _, cand in ipairs(id and {} or e.a or {}) do
+      local ci = record.spellInfo[cand]
+      if ci and not ci.pas and not swapped[cand] and (ci.cd or ci.cost or ci.chcd) then
+        id = cand
+        break
+      end
+    end
+    -- (no button of its own when its castable entry is one a swap brings in: Rushing Wind Kick's other IDs are
+    -- empty, and the offline player pressed one of them every GCD)
+    local anySwapped = false
+    for _, cand in ipairs(e.a or {}) do
+      anySwapped = anySwapped or swapped[cand] == true
+    end
+    if not anySwapped then
+      id = id or (e.a and e.a[1])
+    end
     local info = id and record.spellInfo[id]
-    if id and not seen[id] and info and not info.pas and not RACIALS[token] then
+    if id and not seen[id] and info and not info.pas and not RACIALS[token] and not swapped[id] then
       seen[id] = true
       book[#book + 1] = { spellID = id, name = token }
     end
@@ -170,32 +206,31 @@ local REGEN = { [3] = 10, [2] = 5, [5] = 0.6, [19] = 0.2 } -- per second (runes:
 local START = { [3] = "max", [2] = "max", [5] = "max", [19] = "max", [7] = 3, [0] = "max" }
 -- Spells the game only offers while a same-named proc buff is up ("you may cast Ruination"): the world has no procs,
 -- so they stay unusable (in the game, IsSpellUsable / the button swap decide).
-local function ProcGated(record)
-  local gated, castable = {}, {}
-  local paid = {}
-  for _, info in pairs(record.spellInfo or {}) do
-    if info.n and (info.gcd or info.ct) and not info.pas then
-      castable[info.n] = true
-      if (tonumber(info.ct) or 0) > 0 then
-        paid[info.n] = true -- (cast-time spells: procs offer instants)
-      end
-    end
-  end
-  for id, info in pairs(record.spellInfo or {}) do
-    local ap = type(info.ap) == "table" and info.ap[1]
-    -- (a spell with a cast time is never proc-gated: Destruction's data names a 6 s effect "chaos_bolt" too, and
-    -- Chaos Bolt was never cast in the offline fights; procs offer instants)
-    if info.n and castable[info.n] and not paid[info.n] and ap and ap[1] == id and ap[2] == "self" and info.d
-      and not info.gcd then
-      gated[info.n] = true
-    end
-  end
-  return gated
+-- Proc-only spells: the ones a button turns into only while an aura is up (Data/Overrides.lua, the game data) -
+-- handled by the button swaps in Fight. (A guess from "has a self aura of its own name" blocked Eviscerate, Kill
+-- Command, Colossus Smash, Rake, Stormstrike, Metamorphosis... in every offline fight, 2026-11-15.)
+local function ProcGated()
+  return {}
 end
+local MAX_RESOURCE = (function()
+  local ok, m = pcall(dofile, "tests/max_resource.lua")
+  return ok and type(m) == "table" and m or {}
+end)()
 local function World(record, targets, key)
   local w = { cur = {}, max = {}, passive = {}, gated = ProcGated(record) }
   local maxes = { [0] = 100000, [1] = 100, [2] = 100, [3] = 100, [4] = 5, [5] = 6, [6] = 100, [7] = 5, [8] = 100,
     [9] = 5, [11] = 100, [12] = 5, [13] = 100, [16] = 4, [17] = 120, [18] = 100, [19] = 5 }
+  -- talents that raise a maximum (tests/max_resource.lua, from the game data: Deeper Stratagem and Secret
+  -- Stratagem make Subtlety's 7 combo points - capped at 5 offline, the player and the list disagreed on spending)
+  local raise = {}
+  for _, tal in ipairs(mock.talents or {}) do
+    for pt, n in pairs(MAX_RESOURCE[tal.spellID] or {}) do
+      raise[pt] = (raise[pt] or 0) + n * (tal.rank or 1)
+    end
+  end
+  for pt, n in pairs(raise) do
+    maxes[pt] = (maxes[pt] or 0) + n
+  end
   for _, info in pairs(record.spellInfo or {}) do
     for pt, n in pairs(type(info.cmax) == "table" and info.cmax or {}) do
       maxes[pt] = math.max(maxes[pt] or 0, n) -- finishers that spend up to 7 combo points: 7 is the cap
@@ -363,6 +398,38 @@ local function Fight(ns, key, record, book, scenario)
   end
   local gcdEnd, lastMain, lastPress, stuck, charges = 0, nil, -10, {}, {}
   local predict -- slot 2's spell when slot 1 was pressed: checked against slot 1 on the next tick
+  -- button swaps: aura index -> when it ends; the swapped-in spell is usable only while its aura is up
+  local swaps, swapUntil, inBook = SwapsFor(record), {}, {}
+  for _, b in ipairs(book) do
+    inBook[b.spellID] = true
+  end
+  if world then
+    for _, s in ipairs(swaps) do
+      local si = record.spellInfo[s.override]
+      if si and si.n then
+        world.gated[si.n] = nil -- (the swap decides now)
+      end
+    end
+  end
+  local function PublishSwaps(now)
+    mock.overrides = {}
+    for i, s in ipairs(swaps) do
+      local up = swapUntil[i] and swapUntil[i] > now
+      for _, b in ipairs(s.base) do
+        if up and inBook[b] then
+          mock.overrides[b] = s.override
+        end
+      end
+      local si = record.spellInfo[s.override]
+      if not up then
+        mock.usable[s.override] = { false, false }
+      elseif world and si then
+        mock.usable[s.override] = WorldAffordable(world, si, M) and { true, false } or { false, true }
+      else
+        mock.usable[s.override] = nil
+      end
+    end
+  end
   m.predN, m.predHit = 0, 0
   m.cast = {}
   while mock.now - start < FIGHT do
@@ -380,6 +447,7 @@ local function Fight(ns, key, record, book, scenario)
       end
       WorldPublish(world)
     end
+    PublishSwaps(now)
     for id, c in pairs(charges) do
       while c.next and now >= c.next do
         c.n = c.n + 1
@@ -495,14 +563,17 @@ local function Fight(ns, key, record, book, scenario)
     -- the player presses slot 2 instead (Windwalker's Slicing Winds held slot 1 for a whole offline fight, no press)
     if world and main and main.id then
       local bi = M.Info(main.id)
-      local blocked = bi and bi.n and (OUT_OF_COMBAT[bi.n] or world.gated[bi.n])
+      local u = mock.usable[main.id]
+      local blocked = (bi and bi.n and (OUT_OF_COMBAT[bi.n] or world.gated[bi.n])) or (u and u[1] == false and u[2] == false)
       if blocked then
         m.blockedSince = m.blockedSince or now
         if now - m.blockedSince >= 2 then
           -- slot 2, slot 3, else the assistant's pick: the first the game would cast
           for _, cand in ipairs({ q[2] or false, q[3] or false, mock.acSpell and { id = mock.acSpell } or false }) do
             local ci = cand and cand.id and M.Info(cand.id)
+            local cu = cand and mock.usable[cand.id]
             if ci and not (ci.n and (OUT_OF_COMBAT[ci.n] or world.gated[ci.n])) and not mock.cooldowns[cand.id]
+              and not (cu and cu[1] == false and cu[2] == false)
               and WorldAffordable(world, ci, M) then
               main = cand
               break
@@ -516,6 +587,7 @@ local function Fight(ns, key, record, book, scenario)
     -- the player: presses slot 1 when the GCD allows and it isn't shown as "not yet"
     if r and main and main.id and now >= gcdEnd and not (main.readyAt and main.readyAt > now)
       and not mock.cooldowns[main.id]
+      and not (mock.usable[main.id] and mock.usable[main.id][1] == false and mock.usable[main.id][2] == false)
       and not (world and M.Info(main.id) and not WorldAffordable(world, M.Info(main.id), M)) then
       local id = main.id
       -- prediction: was slot 2 at the last press what you pressed next? (as the in-game summary measures it)
@@ -546,6 +618,24 @@ local function Fight(ns, key, record, book, scenario)
       elseif cd > 1.5 then
         mock.cooldowns[id] = { active = true, start = now, duration = cd }
       end
+      for i, s in ipairs(swaps) do
+        -- a swapped-in spell's cooldown is its button's (Death Sweep and Blade Dance share one)
+        if s.override == id and swapUntil[i] and swapUntil[i] > now and mock.cooldowns[id] then
+          for _, b in ipairs(s.base) do
+            local bi = record.spellInfo[b]
+            -- (not onto a button with charges: Void Blast over Mind Blast leaves Mind Blast's charges alone)
+            if inBook[b] and not (bi and bi.chcd) then
+              mock.cooldowns[b] = mock.cooldowns[id]
+            end
+          end
+        end
+        for _, tid in ipairs(s.triggers) do
+          if tid == id then
+            swapUntil[i] = now + s.duration
+          end
+        end
+      end
+      PublishSwaps(now)
       if world then
         WorldCast(world, info, M)
         WorldPublish(world)
@@ -567,6 +657,7 @@ local function Fight(ns, key, record, book, scenario)
     end
   end
   mock.inCombat, mock.restricted = false, false
+  mock.overrides = nil
   mock.Fire("PLAYER_REGEN_ENABLED")
   local keepPressed, keepKnown = {}, {}
   for id, token in pairs(keepIDs) do

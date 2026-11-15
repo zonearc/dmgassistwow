@@ -8200,19 +8200,36 @@ test("a spell that needs its own buff stays unusable when the game says so, what
   local M, S, G = ns.SpellMap, ns.State, ns.Engine
   local record = ns.Data.specs.midnight.monk_windwalker
   M.SetData(record)
-  eq(M.procGated.rushing_wind_kick, true, "Rushing Wind Kick: a button and a 15 s self aura of the same name")
+  eq(M.procGated.rushing_wind_kick, true, "Rushing Wind Kick: swapped in by its 15 s aura (Data/Overrides.lua)")
   local readPower, ready = S.PowerNow, S.CooldownReady
   S.PowerNow = function() return 5 end
   S.CooldownReady = function() return true end
   local ok, err = pcall(function()
     eq(G.FinisherBlockedByHiddenPoints(467307), false, "no buff: the game's 'not usable' stands")
-    -- combo point finishers keep the override (Outlaw, 2026-11-09), even with an aura of their own name
+    -- the swap list is the game's: Eviscerate (an aura of its own name, but always a button) isn't on it, and
+    -- combo point finishers keep the override (Outlaw, 2026-11-09)
     M.SetData(ns.Data.specs.midnight.rogue_subtlety)
-    eq(M.procGated.eviscerate, true)
+    eq(M.procGated.eviscerate, nil)
     eq(G.FinisherBlockedByHiddenPoints(196819), true, "Eviscerate with points read: trusted")
+    M.SetData(ns.Data.specs.midnight.demonhunter_havoc)
+    eq(M.procGated.death_sweep, true, "Death Sweep: only in Metamorphosis")
+    eq(M.procGated.metamorphosis, nil)
   end)
   S.PowerNow, S.CooldownReady = readPower, ready
   assert(ok, err)
+end)
+
+test("a swapped-in spell's cast starts its button's cooldown (Death Sweep -> Blade Dance)", function()
+  Reset()
+  local ns = Boot()
+  local M, S = ns.SpellMap, ns.State
+  M.SetData(ns.Data.specs.midnight.demonhunter_havoc)
+  M.baseOf = M.baseOf or {}
+  M.baseOf[210152] = 188499 -- Metamorphosis: the Blade Dance button casts Death Sweep
+  S.lastCast[188499] = nil
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 210152)
+  eq(S.lastCast[210152] ~= nil, true, "Death Sweep cast")
+  eq(S.lastCast[188499], S.lastCast[210152], "Blade Dance's clock starts with it")
 end)
 
 print(string.format("\n%d passed, %d failed", passed, failed))

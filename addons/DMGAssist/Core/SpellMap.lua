@@ -120,23 +120,15 @@ function M.SetData(record)
   for _, tok in ipairs(type(record.volatile) == "table" and record.volatile or {}) do
     M.volatile[tok] = true
   end
-  -- Spells that exist only while a buff of their own name is up (Windwalker's Rushing Wind Kick: its data has a
-  -- 15 s self aura "rushing_wind_kick" with no GCD beside the button): when the game says "not usable", it isn't,
-  -- whatever the points (see Engine G.FinisherBlockedByHiddenPoints). Cast-time spells never (procs offer instants).
+  -- Spells a button turns into only while an aura is up (Data/Overrides.lua, from the game data: Windwalker's
+  -- Rushing Wind Kick, Havoc's Death Sweep in Metamorphosis): when the game says "not usable", it isn't, whatever
+  -- the points (see Engine G.FinisherBlockedByHiddenPoints). (A guess from "has a self aura of its own name" took in
+  -- Eviscerate, Kill Command and Colossus Smash too, 2026-11-15.)
   M.procGated = {}
-  local button, castTime = {}, {}
-  for _, info in pairs(M.info) do
-    if type(info) == "table" and info.n and (info.gcd or info.ct) and not info.pas then
-      button[info.n] = true
-      if (tonumber(info.ct) or 0) > 0 then
-        castTime[info.n] = true
-      end
-    end
-  end
-  for id, info in pairs(M.info) do
-    local ap = type(info) == "table" and type(info.ap) == "table" and info.ap[1]
-    if ap and info.n and button[info.n] and not castTime[info.n] and ap[1] == id and ap[2] == "self" and info.d
-      and not info.gcd then
+  local swaps = ns.Data and ns.Data.overrides
+  for _, s in ipairs(type(swaps) == "table" and swaps or {}) do
+    local info = M.info[s.override]
+    if type(info) == "table" and info.n then
       M.procGated[info.n] = true
     end
   end

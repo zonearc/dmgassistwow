@@ -180,6 +180,20 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.309: The offline game made honest (owner: "fix it in sims so we are forced to fix it before it goes in game").
+  * Button swaps from the game data (tools/override-map.py -> Data/Overrides.lua): Metamorphosis turns Blade Dance
+    into Death Sweep for 20 s, Ascendance Stormstrike into Windstrike... Offline, a swapped-in spell is castable only
+    while its aura is up, and its cast puts the button on cooldown. In the addon: the proc-only check (Rushing Wind
+    Kick) now uses this list instead of a guess, and a swapped-in spell's cast starts its button's cooldown clock
+    (Windstrike -> Stormstrike, Death Sweep -> Blade Dance).
+  * The offline guess at proc-only spells had blocked core spells in most specs for every graded fight (Eviscerate,
+    Backstab, Kill Command, Barbed Shot, Colossus Smash, Whirlwind, Rake, Stormstrike, Crash Lightning, Blackout Kick,
+    Metamorphosis, Eye Beam...): removed. Brewmaster 55 -> 95, Enhancement 76 -> 82, Arms 44 -> 51; Havoc 72 -> 66
+    and Feral 50 -> 37 are now honest numbers to fix.
+  * The offline spellbook takes each name's own button (Havoc's Metamorphosis list starts with Vengeance's ID; Berserk's
+    with another spell's), and resource maximums follow talents (tools/max-resource-map.py: Subtlety 7 combo points).
+  * Scenario baseline updated: Havoc slot 2 and leveling numbers, Fury spells pressed (Crushing Blow / Bloodbath only in
+    Recklessness now), Windwalker flips, small "shown ready on cooldown" rises from hasted vs unhasted charge clocks.
 - 1.6.0.308: Real-fight checks of every spec's spells, and the offline average past 80% (78.8 -> 80.4).
   * Windwalker: a spell that only exists while a buff of its own name is up (Rushing Wind Kick) had the game's
     "not usable" overruled whenever Chi was 2+ (the hidden-points override, proven only for Rogue combo points):

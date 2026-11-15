@@ -2016,6 +2016,14 @@ local function RecordCast(id, how)
   LearnFromRefusals(id, GetTime())
   S.NoteBusy(id, token)
   S.lastCast[id] = GetTime()
+  -- A spell the button turned into (Windstrike during Ascendance, Death Sweep in Metamorphosis) uses the button's
+  -- cooldown: the button is not ready when the swap ends (Stormstrike was shown ready right after Windstrike in the
+  -- offline fights once the swaps were real, 2026-11-15)
+  local base = M.baseOf and M.baseOf[id]
+  local oi, bi = info, base and M.Info(base)
+  if base and base ~= id and bi and not bi.chcd and not (oi and oi.chcd) and (tonumber(oi and oi.cd) or 0) > 1.5 then
+    S.lastCast[base] = GetTime()
+  end
   local byToken = M.TokenForID and M.TokenForID(id)
   for _, t in ipairs({ token, byToken }) do
     if type(t) == "string" then

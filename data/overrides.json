@@ -1,0 +1,1300 @@
+[
+ {
+  "aura": 1719,
+  "base": [
+   85288
+  ],
+  "duration": 12.0,
+  "name": "Recklessness",
+  "override": 335097,
+  "triggers": [
+   1719
+  ]
+ },
+ {
+  "aura": 1719,
+  "base": [
+   23881
+  ],
+  "duration": 12.0,
+  "name": "Recklessness",
+  "override": 335096,
+  "triggers": [
+   1719
+  ]
+ },
+ {
+  "aura": 101545,
+  "base": [
+   101545,
+   1217407,
+   1217408,
+   1217409,
+   1217412,
+   1217413
+  ],
+  "duration": 1.5,
+  "name": "Flying Serpent Kick",
+  "override": 115057,
+  "triggers": [
+   101545
+  ]
+ },
+ {
+  "aura": 114051,
+  "base": [
+   17364
+  ],
+  "duration": 15.0,
+  "name": "Ascendance",
+  "override": 115356,
+  "triggers": [
+   114051
+  ]
+ },
+ {
+  "aura": 121153,
+  "base": [
+   1329
+  ],
+  "duration": 10.0,
+  "name": "Blindside",
+  "override": 430023,
+  "triggers": [
+   121153
+  ]
+ },
+ {
+  "aura": 162264,
+  "base": [
+   162794,
+   197125
+  ],
+  "duration": 20.0,
+  "name": "Metamorphosis",
+  "override": 201427,
+  "triggers": [
+   162264,
+   191427
+  ]
+ },
+ {
+  "aura": 162264,
+  "base": [
+   188499,
+   199552,
+   200685,
+   391374,
+   391378
+  ],
+  "duration": 20.0,
+  "name": "Metamorphosis",
+  "override": 210152,
+  "triggers": [
+   162264,
+   191427
+  ]
+ },
+ {
+  "aura": 186289,
+  "base": [
+   186270,
+   265189,
+   1262293,
+   1262343
+  ],
+  "duration": 15.0,
+  "name": "Aspect of the Eagle",
+  "override": 265189,
+  "triggers": [
+   186289
+  ]
+ },
+ {
+  "aura": 202848,
+  "base": [
+   185763
+  ],
+  "duration": 10.0,
+  "name": "Blunderbuss",
+  "override": 202895,
+  "triggers": [
+   202848
+  ]
+ },
+ {
+  "aura": 209997,
+  "base": [
+   209997
+  ],
+  "duration": 360.0,
+  "name": "Play Dead",
+  "override": 210000,
+  "triggers": [
+   209997,
+   210000
+  ]
+ },
+ {
+  "aura": 216331,
+  "base": [
+   216331
+  ],
+  "duration": 15.0,
+  "name": "Avenging Crusader",
+  "override": 1279187,
+  "triggers": [
+   216331
+  ]
+ },
+ {
+  "aura": 284508,
+  "base": [
+   232698
+  ],
+  "duration": 15.0,
+  "name": "Voidform",
+  "override": 205448,
+  "triggers": [
+   284508
+  ]
+ },
+ {
+  "aura": 284508,
+  "base": [
+   232698
+  ],
+  "duration": 15.0,
+  "name": "Voidform",
+  "override": 194249,
+  "triggers": [
+   284508
+  ]
+ },
+ {
+  "aura": 310143,
+  "base": [
+   310143
+  ],
+  "duration": 12.0,
+  "name": "Soulshape (desc=Night Fae)",
+  "override": 324701,
+  "triggers": [
+   310143
+  ]
+ },
+ {
+  "aura": 322105,
+  "base": [
+   47540,
+   400169
+  ],
+  "duration": 15.0,
+  "name": "Shadow Covenant",
+  "override": 400169,
+  "triggers": [
+   322105
+  ]
+ },
+ {
+  "aura": 325013,
+  "base": [
+   325013
+  ],
+  "duration": 10.0,
+  "name": "Boon of the Ascended (desc=Kyrian)",
+  "override": 325020,
+  "triggers": [
+   325013
+  ]
+ },
+ {
+  "aura": 325013,
+  "base": [
+   585,
+   425529,
+   450215
+  ],
+  "duration": 10.0,
+  "name": "Boon of the Ascended (desc=Kyrian)",
+  "override": 325283,
+  "triggers": [
+   325013
+  ]
+ },
+ {
+  "aura": 325013,
+  "base": [
+   15407,
+   391403
+  ],
+  "duration": 10.0,
+  "name": "Boon of the Ascended (desc=Kyrian)",
+  "override": 325283,
+  "triggers": [
+   325013
+  ]
+ },
+ {
+  "aura": 356959,
+  "base": [
+   327661
+  ],
+  "duration": 20.0,
+  "name": "Bwonsamdi's Pact",
+  "override": 356532,
+  "triggers": [
+   356391,
+   356959
+  ]
+ },
+ {
+  "aura": 360955,
+  "base": [
+   259489
+  ],
+  "duration": 20.0,
+  "name": "Bestial Pact",
+  "override": 360972,
+  "triggers": [
+   360955
+  ]
+ },
+ {
+  "aura": 371159,
+  "base": [
+   361147
+  ],
+  "duration": 4.0,
+  "name": "Alter Time (desc=Utility)",
+  "override": 342247,
+  "triggers": [
+   361147,
+   371159
+  ]
+ },
+ {
+  "aura": 371807,
+  "base": [
+   357210,
+   433874,
+   1236943
+  ],
+  "duration": 10.0,
+  "name": "Recall (desc=Bronze)",
+  "override": 371838,
+  "triggers": [
+   371807,
+   371838
+  ]
+ },
+ {
+  "aura": 386270,
+  "base": [
+   193315,
+   197834,
+   341541
+  ],
+  "duration": 10.0,
+  "name": "Audacity",
+  "override": 430023,
+  "triggers": [
+   386270
+  ]
+ },
+ {
+  "aura": 387642,
+  "base": [
+   359816
+  ],
+  "duration": 10.0,
+  "name": "Recall (desc=Bronze)",
+  "override": 371838,
+  "triggers": [
+   371838,
+   387642
+  ]
+ },
+ {
+  "aura": 389714,
+  "base": [
+   1953
+  ],
+  "duration": 8.0,
+  "name": "Reflection",
+  "override": 389713,
+  "triggers": [
+   389714
+  ]
+ },
+ {
+  "aura": 389714,
+  "base": [
+   212653
+  ],
+  "duration": 8.0,
+  "name": "Reflection",
+  "override": 389713,
+  "triggers": [
+   389714
+  ]
+ },
+ {
+  "aura": 391401,
+  "base": [
+   15407,
+   391403
+  ],
+  "duration": 30.0,
+  "name": "Mind Flay: Insanity",
+  "override": 391403,
+  "triggers": [
+   391401
+  ]
+ },
+ {
+  "aura": 396752,
+  "base": [
+   85288
+  ],
+  "duration": 12.0,
+  "name": "Crushing Blow",
+  "override": 335097,
+  "triggers": [
+   396752
+  ]
+ },
+ {
+  "aura": 403760,
+  "base": [
+   357210,
+   403631,
+   433874,
+   442204,
+   1236943
+  ],
+  "duration": 10.0,
+  "name": "Recall (desc=Bronze)",
+  "override": 371838,
+  "triggers": [
+   371838,
+   403760
+  ]
+ },
+ {
+  "aura": 406648,
+  "base": [
+   407480
+  ],
+  "duration": 30.0,
+  "name": "Templar Strikes",
+  "override": 406647,
+  "triggers": [
+   406646,
+   406648,
+   407480
+  ]
+ },
+ {
+  "aura": 427441,
+  "base": [
+   255937,
+   383469,
+   403695,
+   405345,
+   405350
+  ],
+  "duration": 20.0,
+  "name": "Hammer of Light",
+  "override": 427453,
+  "triggers": [
+   427441,
+   427445
+  ]
+ },
+ {
+  "aura": 432594,
+  "base": [
+   432594
+  ],
+  "duration": 3.0,
+  "name": "Faeform (desc=Utility)",
+  "override": 443166,
+  "triggers": [
+   432594,
+   443166
+  ]
+ },
+ {
+  "aura": 432768,
+  "base": [
+   432768
+  ],
+  "duration": 3.0,
+  "name": "Faeform (desc=Utility)",
+  "override": 443166,
+  "triggers": [
+   432768,
+   443166
+  ]
+ },
+ {
+  "aura": 432769,
+  "base": [
+   432769
+  ],
+  "duration": 3.0,
+  "name": "Faeform (desc=Utility)",
+  "override": 443166,
+  "triggers": [
+   432769,
+   443166
+  ]
+ },
+ {
+  "aura": 432770,
+  "base": [
+   432770
+  ],
+  "duration": 3.0,
+  "name": "Faeform (desc=Utility)",
+  "override": 443166,
+  "triggers": [
+   432770,
+   443166
+  ]
+ },
+ {
+  "aura": 433721,
+  "base": [
+   258920,
+   258921,
+   258922,
+   427904,
+   427905,
+   427906,
+   427907,
+   427908,
+   427910,
+   427911,
+   427913,
+   427914,
+   427915,
+   427916,
+   1241937
+  ],
+  "duration": 10.0,
+  "name": "Immolation Aura",
+  "override": 427913,
+  "triggers": [
+   433721
+  ]
+ },
+ {
+  "aura": 433724,
+  "base": [
+   258920,
+   258921,
+   258922,
+   427904,
+   427905,
+   427906,
+   427907,
+   427908,
+   427910,
+   427911,
+   427913,
+   427914,
+   427915,
+   427916,
+   1241937
+  ],
+  "duration": 10.0,
+  "name": "Immolation Aura",
+  "override": 427914,
+  "triggers": [
+   433724
+  ]
+ },
+ {
+  "aura": 433737,
+  "base": [
+   258920,
+   258921,
+   258922,
+   427904,
+   427905,
+   427906,
+   427907,
+   427908,
+   427910,
+   427911,
+   427913,
+   427914,
+   427915,
+   427916,
+   1241937
+  ],
+  "duration": 10.0,
+  "name": "Immolation Aura",
+  "override": 427915,
+  "triggers": [
+   433737
+  ]
+ },
+ {
+  "aura": 433885,
+  "base": [
+   105174,
+   116858,
+   434635
+  ],
+  "duration": 20.0,
+  "name": "Ruination",
+  "override": 434635,
+  "triggers": [
+   433885
+  ]
+ },
+ {
+  "aura": 433891,
+  "base": [
+   686
+  ],
+  "duration": 20.0,
+  "name": "Infernal Bolt",
+  "override": 434506,
+  "triggers": [
+   433891
+  ]
+ },
+ {
+  "aura": 433891,
+  "base": [
+   29722
+  ],
+  "duration": 20.0,
+  "name": "Infernal Bolt",
+  "override": 434506,
+  "triggers": [
+   433891
+  ]
+ },
+ {
+  "aura": 434153,
+  "base": [
+   55090,
+   206930,
+   207311,
+   228645,
+   433895,
+   460501
+  ],
+  "duration": 10.0,
+  "name": "Gift of the San'layn",
+  "override": 433895,
+  "triggers": [
+   434153
+  ]
+ },
+ {
+  "aura": 435615,
+  "base": [
+   6343,
+   435222
+  ],
+  "duration": 15.0,
+  "name": "Thunder Blast",
+  "override": 435222,
+  "triggers": [
+   435615,
+   456270
+  ]
+ },
+ {
+  "aura": 441585,
+  "base": [
+   22568
+  ],
+  "duration": 20.0,
+  "name": "Ravage",
+  "override": 441591,
+  "triggers": [
+   441585
+  ]
+ },
+ {
+  "aura": 441602,
+  "base": [
+   6807,
+   236716,
+   400254,
+   441605
+  ],
+  "duration": 20.0,
+  "name": "Ravage",
+  "override": 441605,
+  "triggers": [
+   441602
+  ]
+ },
+ {
+  "aura": 441759,
+  "base": [
+   441759
+  ],
+  "duration": 12.0,
+  "name": "Soulshape",
+  "override": 441762,
+  "triggers": [
+   441759
+  ]
+ },
+ {
+  "aura": 443592,
+  "base": [
+   443028
+  ],
+  "duration": 4.0,
+  "name": "Unity Within",
+  "override": 443591,
+  "triggers": [
+   443592
+  ]
+ },
+ {
+  "aura": 450404,
+  "base": [
+   585
+  ],
+  "duration": 24.0,
+  "name": "Void Blast",
+  "override": 450215,
+  "triggers": [
+   450404
+  ]
+ },
+ {
+  "aura": 450404,
+  "base": [
+   8092
+  ],
+  "duration": 24.0,
+  "name": "Void Blast",
+  "override": 450983,
+  "triggers": [
+   450404
+  ]
+ },
+ {
+  "aura": 454015,
+  "base": [
+   188196
+  ],
+  "duration": 30.0,
+  "name": "Tempest",
+  "override": 452201,
+  "triggers": [
+   454015,
+   455129,
+   1264688
+  ]
+ },
+ {
+  "aura": 455962,
+  "base": [
+   357210,
+   403631,
+   433874,
+   442204,
+   1236943
+  ],
+  "duration": 3.0,
+  "name": "Recall (desc=Bronze)",
+  "override": 371838,
+  "triggers": [
+   371838,
+   455962
+  ]
+ },
+ {
+  "aura": 458123,
+  "base": [
+   85948
+  ],
+  "duration": 15.0,
+  "name": "Festering Scythe",
+  "override": 458128,
+  "triggers": [
+   458123
+  ]
+ },
+ {
+  "aura": 459808,
+  "base": [
+   288613
+  ],
+  "duration": 15.0,
+  "name": "Wailing Arrow",
+  "override": 392060,
+  "triggers": [
+   459808,
+   1264290
+  ]
+ },
+ {
+  "aura": 459808,
+  "base": [
+   19574
+  ],
+  "duration": 15.0,
+  "name": "Wailing Arrow",
+  "override": 392060,
+  "triggers": [
+   459808,
+   1264290
+  ]
+ },
+ {
+  "aura": 461288,
+  "base": [
+   23881
+  ],
+  "duration": 12.0,
+  "name": "Bloodbath",
+  "override": 335096,
+  "triggers": [
+   461288
+  ]
+ },
+ {
+  "aura": 462488,
+  "base": [
+   73920
+  ],
+  "duration": 16.0,
+  "name": "Downpour",
+  "override": 462603,
+  "triggers": [
+   462488
+  ]
+ },
+ {
+  "aura": 462488,
+  "base": [
+   444995
+  ],
+  "duration": 16.0,
+  "name": "Downpour",
+  "override": 462603,
+  "triggers": [
+   462488
+  ]
+ },
+ {
+  "aura": 472696,
+  "base": [
+   472696
+  ],
+  "duration": 10.0,
+  "name": "Void Tear (desc=Utility)",
+  "override": 472704,
+  "triggers": [
+   472696,
+   472704
+  ]
+ },
+ {
+  "aura": 472852,
+  "base": [
+   472852
+  ],
+  "duration": 10.0,
+  "name": "Void Tear (desc=Utility)",
+  "override": 472854,
+  "triggers": [
+   472852,
+   472854
+  ]
+ },
+ {
+  "aura": 472859,
+  "base": [
+   472859
+  ],
+  "duration": 10.0,
+  "name": "Void Tear (desc=Utility)",
+  "override": 472860,
+  "triggers": [
+   472859,
+   472860
+  ]
+ },
+ {
+  "aura": 472866,
+  "base": [
+   472866
+  ],
+  "duration": 10.0,
+  "name": "Void Tear (desc=Utility)",
+  "override": 472864,
+  "triggers": [
+   472864,
+   472866
+  ]
+ },
+ {
+  "aura": 473909,
+  "base": [
+   48438
+  ],
+  "duration": 12.0,
+  "name": "Ancient of Lore (desc=PvP Talent, Shapeshift)",
+  "override": 474149,
+  "triggers": [
+   473909
+  ]
+ },
+ {
+  "aura": 473909,
+  "base": [
+   473909
+  ],
+  "duration": 12.0,
+  "name": "Ancient of Lore (desc=PvP Talent, Shapeshift)",
+  "override": 473919,
+  "triggers": [
+   473909
+  ]
+ },
+ {
+  "aura": 1218125,
+  "base": [
+   197214
+  ],
+  "duration": 15.0,
+  "name": "Primordial Storm",
+  "override": 1218090,
+  "triggers": [
+   1218047,
+   1218125
+  ]
+ },
+ {
+  "aura": 1221695,
+  "base": [
+   1221620
+  ],
+  "duration": 4.0,
+  "name": "Shadow and Flame",
+  "override": 1221634,
+  "triggers": [
+   1221634,
+   1221695
+  ]
+ },
+ {
+  "aura": 1221698,
+  "base": [
+   1221620
+  ],
+  "duration": 4.0,
+  "name": "Shadow and Flame",
+  "override": 1221647,
+  "triggers": [
+   1221634,
+   1221647,
+   1221698
+  ]
+ },
+ {
+  "aura": 1222390,
+  "base": [
+   1221620
+  ],
+  "duration": 4.0,
+  "name": "Shadow and Flame",
+  "override": 1221647,
+  "triggers": [
+   1222390
+  ]
+ },
+ {
+  "aura": 1222865,
+  "base": [
+   116,
+   199786,
+   431044
+  ],
+  "duration": 60.0,
+  "name": "Glacial Spike!",
+  "override": 199786,
+  "triggers": [
+   1222865
+  ]
+ },
+ {
+  "aura": 1222865,
+  "base": [
+   431044
+  ],
+  "duration": 60.0,
+  "name": "Glacial Spike!",
+  "override": 199786,
+  "triggers": [
+   1222865
+  ]
+ },
+ {
+  "aura": 1228440,
+  "base": [
+   49143
+  ],
+  "duration": 4.0,
+  "name": "Frostbane",
+  "override": 1228436,
+  "triggers": [
+   1228436,
+   1228440
+  ]
+ },
+ {
+  "aura": 1229310,
+  "base": [
+   49143
+  ],
+  "duration": 30.0,
+  "name": "Frostbane",
+  "override": 1228433,
+  "triggers": [
+   1228433,
+   1229310
+  ]
+ },
+ {
+  "aura": 1234689,
+  "base": [
+   43265
+  ],
+  "duration": 10.0,
+  "name": "Desecrate",
+  "override": 1234698,
+  "triggers": [
+   1234689
+  ]
+ },
+ {
+  "aura": 1239525,
+  "base": [
+   1245412
+  ],
+  "duration": 6.0,
+  "name": "Hungering Slash",
+  "override": 1239123,
+  "triggers": [
+   1239525
+  ]
+ },
+ {
+  "aura": 1242171,
+  "base": [
+   228260,
+   228360,
+   228361
+  ],
+  "duration": 30.0,
+  "name": "Void Volley",
+  "override": 1242173,
+  "triggers": [
+   1242171
+  ]
+ },
+ {
+  "aura": 1242270,
+  "base": [
+   132578
+  ],
+  "duration": 25.0,
+  "name": "Mighty Stomp",
+  "override": 454523,
+  "triggers": [
+   1242270
+  ]
+ },
+ {
+  "aura": 1245523,
+  "base": [
+   1245483
+  ],
+  "duration": 6.0,
+  "name": "Reaper's Toll",
+  "override": 1245470,
+  "triggers": [
+   1245523
+  ]
+ },
+ {
+  "aura": 1245523,
+  "base": [
+   213241,
+   213243,
+   232893,
+   1241285,
+   1245412,
+   1245414,
+   1245483
+  ],
+  "duration": 6.0,
+  "name": "Reaper's Toll",
+  "override": 1245470,
+  "triggers": [
+   1245523
+  ]
+ },
+ {
+  "aura": 1246643,
+  "base": [
+   375576
+  ],
+  "duration": 20.0,
+  "name": "Hammer of Light",
+  "override": 427453,
+  "triggers": [
+   1246643
+  ]
+ },
+ {
+  "aura": 1248992,
+  "base": [
+   123904,
+   132578,
+   322118,
+   325197,
+   395267
+  ],
+  "duration": 60.0,
+  "name": "Celestial Conduit",
+  "override": 443028,
+  "triggers": [
+   1248989,
+   1248992
+  ]
+ },
+ {
+  "aura": 1249625,
+  "base": [
+   1249625
+  ],
+  "duration": 15.0,
+  "name": "Zenith",
+  "override": 1272696,
+  "triggers": [
+   1249625,
+   1261724,
+   1291484
+  ]
+ },
+ {
+  "aura": 1250554,
+  "base": [
+   107428,
+   185099,
+   392959,
+   467307,
+   468179
+  ],
+  "duration": 15.0,
+  "name": "Rushing Wind Kick",
+  "override": 467307,
+  "triggers": [
+   1250554
+  ]
+ },
+ {
+  "aura": 1253591,
+  "base": [
+   17
+  ],
+  "duration": 30.0,
+  "name": "Master the Darkness",
+  "override": 1253593,
+  "triggers": [
+   1253591
+  ]
+ },
+ {
+  "aura": 1256579,
+  "base": [
+   366155
+  ],
+  "duration": 30.0,
+  "name": "Merithra's Blessing",
+  "override": 1256581,
+  "triggers": [
+   1256577,
+   1256579
+  ]
+ },
+ {
+  "aura": 1260667,
+  "base": [
+   188196
+  ],
+  "duration": 30.0,
+  "name": "Elementalist",
+  "override": 117014,
+  "triggers": [
+   1260667
+  ]
+ },
+ {
+  "aura": 1260667,
+  "base": [
+   188443
+  ],
+  "duration": 30.0,
+  "name": "Elementalist",
+  "override": 333974,
+  "triggers": [
+   1260667
+  ]
+ },
+ {
+  "aura": 1262766,
+  "base": [
+   2061
+  ],
+  "duration": 30.0,
+  "name": "Benediction",
+  "override": 1262763,
+  "triggers": [
+   1262766
+  ]
+ },
+ {
+  "aura": 1264946,
+  "base": [
+   288613
+  ],
+  "duration": 15.0,
+  "name": "Moonlight Chakram",
+  "override": 1264949,
+  "triggers": [
+   1264902,
+   1264946
+  ]
+ },
+ {
+  "aura": 1264946,
+  "base": [
+   1250646
+  ],
+  "duration": 15.0,
+  "name": "Moonlight Chakram",
+  "override": 1264949,
+  "triggers": [
+   1264902,
+   1264946
+  ]
+ },
+ {
+  "aura": 1265871,
+  "base": [
+   362969
+  ],
+  "duration": 30.0,
+  "name": "Azure Sweep",
+  "override": 1265872,
+  "triggers": [
+   1265871
+  ]
+ },
+ {
+  "aura": 1267089,
+  "base": [
+   5394,
+   392915,
+   392916,
+   1267068
+  ],
+  "duration": 60.0,
+  "name": "Stormstream Totem",
+  "override": 1267068,
+  "triggers": [
+   1267089
+  ]
+ },
+ {
+  "aura": 1269391,
+  "base": [
+   1464
+  ],
+  "duration": 15.0,
+  "name": "Master of Warfare",
+  "override": 1269383,
+  "triggers": [
+   1269314,
+   1269391
+  ]
+ },
+ {
+  "aura": 1279437,
+  "base": [
+   228260
+  ],
+  "duration": 30.0,
+  "name": "Crushing Void",
+  "override": 1242173,
+  "triggers": [
+   1279437
+  ]
+ },
+ {
+  "aura": 1279659,
+  "base": [
+   686
+  ],
+  "duration": 20.0,
+  "name": "Malefic Grasp",
+  "override": 1261153,
+  "triggers": [
+   1279659
+  ]
+ },
+ {
+  "aura": 1279659,
+  "base": [
+   198590
+  ],
+  "duration": 20.0,
+  "name": "Malefic Grasp",
+  "override": 1261153,
+  "triggers": [
+   1279659
+  ]
+ },
+ {
+  "aura": 1292323,
+  "base": [
+   375087
+  ],
+  "duration": 60.0,
+  "name": "Unbound Flame",
+  "override": 1292321,
+  "triggers": [
+   1292323
+  ]
+ },
+ {
+  "aura": 1295942,
+  "base": [
+   30451
+  ],
+  "duration": 60.0,
+  "name": "Prismatic Bolt!",
+  "override": 1295924,
+  "triggers": [
+   1295942
+  ]
+ }
+]
