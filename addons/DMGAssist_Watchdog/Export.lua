@@ -29,6 +29,34 @@ end
 X.REPORT_LIMIT = 30000
 local DEFAULT_KEEP = { sessions = 4, notes = 120, probes = 2, stack = 900, events = 2000 }
 
+-- The fights that go in when only `n` fit: real fights before short pulls (owner, 2026-11-14: a 5 s pull right
+-- after a minutes-long fight was the only one left in the report). Newest first among fights of 15 s or more (or
+-- still running), then the newest short ones; kept in their original order.
+local LONG_FIGHT = 15
+local function PickSessions(sessions, n)
+  local chosen, count = {}, 0
+  for pass = 1, 2 do
+    for i = #sessions, 1, -1 do
+      if count >= n then
+        break
+      end
+      local s = sessions[i]
+      local long = type(s) == "table" and (s.duration == nil or (tonumber(s.duration) or 0) >= LONG_FIGHT)
+      if not chosen[i] and (pass == 2 or long) then
+        chosen[i], count = true, count + 1
+      end
+    end
+  end
+  local out = {}
+  for i = 1, #sessions do
+    if chosen[i] then
+      out[#out + 1] = sessions[i]
+    end
+  end
+  return out
+end
+X.PickSessions = PickSessions
+
 -- Fights with only their newest `n` events (a long fight can be most of the report on its own).
 local function TrimSessions(sessions, n)
   local out = {}
@@ -79,7 +107,7 @@ function X.Build(keep)
     counters = db.counters,
     settings = db.settings,
     errors = TrimErrors(Tail(db.errors, 30), keep.stack),
-    sessions = TrimSessions(Tail(db.sessions, keep.sessions), keep.events),
+    sessions = TrimSessions(PickSessions(db.sessions, keep.sessions), keep.events),
     probes = Tail(db.probes, keep.probes),
     notes = Tail(db.notes, keep.notes),
     launch = Tail(db.launch or {}, 1),

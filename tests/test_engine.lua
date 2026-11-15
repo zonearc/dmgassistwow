@@ -3425,6 +3425,28 @@ local function CDMRecord()
   }
 end
 
+test("Cooldown Manager: two icons for one buff (Eclipse Lunar / Solar) - up when either is, not the last one read", function()
+  Reset()
+  local ns = Boot()
+  mock.cvarsMissing.cooldownViewerEnabled = nil
+  mock.cvars.cooldownViewerEnabled = "1"
+  local lunar, solar = { cooldownID = 41, isActive = true }, { cooldownID = 42, isActive = false }
+  BuffIconCooldownViewer = { GetChildren = function() return lunar, solar end } -- luacheck: ignore 111
+  mock.cdmInfo = { [41] = { spellID = 9041 }, [42] = { spellID = 9042 } }
+  ns.SpellMap.info[9041] = { n = "eclipse" }
+  ns.SpellMap.info[9042] = { n = "eclipse" }
+  Restrict()
+  mock.Advance(1)
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  eq(ns.State.Resolve("buff.eclipse.up", {}), 1, "Lunar is up: Eclipse is up, whatever Solar says")
+  lunar.isActive = false
+  mock.Advance(1)
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  eq(ns.State.Resolve("buff.eclipse.up", {}), 0)
+  mock.cvars.cooldownViewerEnabled = nil
+  BuffIconCooldownViewer = nil -- luacheck: ignore 111
+end)
+
 test("Cooldown Manager: key buffs are the procs your rotation checks, not buffs you cast or others give", function()
   Reset()
   local ns = Boot()

@@ -180,6 +180,14 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.288: First full measured fight with the Cooldown Manager trusted (owner, 1.6.0.287, Balance 254 s):
+  cdm 604 checks / 32 wrong (5%) / 101k facts, yet slot 2 36% (n=144; was 47%), slot 1 steady 83%. Found: two
+  icons for one buff (Eclipse (Lunar) / (Solar) both read as "eclipse", and an icon + bar) were applied one by one,
+  the last read winning - "Eclipse up" flipped ~10 times a second (cdm_buff_summary flips 0.1+,0.2-,...). Now one
+  answer per buff per pass: up when any of its icons is. Misses still to work: resource 34 (starfall>starfire x32 -
+  slot 2 expects Starfall, slot 1 then shows Starfire: the look-ahead's Astral Power), state 51.
+  Watchdog export: when the 30,000-character report can't hold every fight it now keeps real fights (15 s+, or
+  running) before short pulls - the owner's previous report held only a 5 s pull made right after a long fight.
 - 1.6.0.287: Cooldown Manager switched itself off in the owner's first measured fight (1.6.0.286, Balance, 167 s,
   Hidden until combat): clue_summary cdm=24 checks / 6 wrong / OFF - right after the viewer appears at the pull its
   icons still hold the stale "not active" from while hidden, and those reads were graded against the still-readable

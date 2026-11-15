@@ -366,6 +366,21 @@ test("testing mode: off in release builds; switched on, the taint log is on; off
   eq(ns.db.settings.maxEventsPerSession, 1500)
 end)
 
+test("report: real fights kept before short pulls when only some fit", function()
+  local pick = ns.Export.PickSessions
+  local list = { { id = 1, duration = 200 }, { id = 2, duration = 250 }, { id = 3, duration = 5 } }
+  local one = pick(list, 1)
+  eq(#one, 1)
+  eq(one[1].id, 2, "the 250 s fight, not the 5 s pull after it")
+  local two = pick(list, 2)
+  eq(two[1].id, 1)
+  eq(two[2].id, 2, "kept in order")
+  local all = pick(list, 4)
+  eq(#all, 3, "room for all: all go in")
+  eq(all[3].id, 3)
+  eq(pick({ { id = 9, duration = 3 }, { id = 10 } }, 1)[1].id, 10, "a fight still running counts as real")
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)
