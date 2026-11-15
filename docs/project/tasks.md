@@ -180,7 +180,7 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
-- 1.6.0.310: Random procs in the offline game (owner: "Warcraft logs can show us how often they generally happen ...
+- 1.6.0.311: Random procs in the offline game (owner: "Warcraft logs can show us how often they generally happen ...
   determine procs exist, execute at random and push the results down again and then have to fix it up").
   * tools/wcl-procs.py: every buff on top players in raid fights, applications per minute (data/proc-rates.json);
     tools/proc-map.py: auras that make spells free or instant, from the game data (data/proc-map.json);
@@ -190,7 +190,7 @@ case someone refuses to turn it on. Both are valid."
     the addon reads), cost nothing / cast instantly / the button swaps; a cast uses it up. Average 79.9 -> 74.4.
   * Slot 2 waits up to 2 s of Energy / Focus regeneration for a spender (was 1 s): Feral 31 -> 45, Windwalker 88 ->
     81, average +0.3.
-- 1.6.0.309: The offline game made honest (owner: "fix it in sims so we are forced to fix it before it goes in game").
+- 1.6.0.310: The offline game made honest (owner: "fix it in sims so we are forced to fix it before it goes in game").
   * Button swaps from the game data (tools/override-map.py -> Data/Overrides.lua): Metamorphosis turns Blade Dance
     into Death Sweep for 20 s, Ascendance Stormstrike into Windstrike... Offline, a swapped-in spell is castable only
     while its aura is up, and its cast puts the button on cooldown. In the addon: the proc-only check (Rushing Wind
