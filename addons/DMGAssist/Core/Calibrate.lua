@@ -274,6 +274,8 @@ end
 -- is kept. The count and the look-ahead use K.FIT_SHARE of it (a little under: a spender isn't promised early),
 -- once K.FIT_MIN answers back it. tools/resource-replay.py --learn runs the same fit on recorded fights.
 K.FIT_MIN = 20
+K.FIT_PRICE = 2 -- stray points per point of extra, per fight
+K.FIT_OVER = 3
 K.FIT_PROVE = 0.85 -- the latest fight's stray must drop to this share of it without the fit
 K.FIT_FIGHTS = 3
 K.FIT_EVENTS = 600 -- per fight and resource
@@ -283,7 +285,7 @@ K.FIT_MAX = 60
 K.FIT_SWEEPS = 2
 K.FIT_STEP = 2
 K.FIT_RATE_STEP = 0.5
-K.FIT_RATE_MAX = 10
+K.FIT_RATE_MAX = 15
 K.tl = {} -- pt -> { casts = { {t, id, d} }, proofs = { {t, lo, hi} }, last = "lo:hi", t0 }
 
 -- Fits are kept per number of targets: one target, two or three, four or more (what comes in by the second grows
@@ -328,6 +330,10 @@ function K.NoteCast(id, pt, d)
     return
   end
   local tl = Timeline(pt)
+  -- the income our count took a second during this fight (the fit runs after it, when PassiveGain says 0: fitted
+  -- against 0, the whole income was learned again and counted twice - offline Devourer, 2026-11-15)
+  local passive = ns.State.PassiveGain and ns.State.PassiveGain(pt) or 0
+  tl.base = (ns.Clues.PASSIVE_SHARE or 0) * passive
   if #tl.casts < K.FIT_EVENTS then
     tl.casts[#tl.casts + 1] = { GetTime() - tl.t0, id, d }
     local b = K.Bucket()
@@ -369,7 +375,10 @@ local function Stray(tl, extra, rate, base, cap)
       if v < p[2] then
         err, v = err + p[2] - v, p[2]
       elseif p[3] >= 0 and v > p[3] then
-        err, v = err + v - p[3], p[3]
+        -- over counts K.FIT_OVER times: a count ahead of the truth promises a spender early, which costs slot 2
+        -- more than one behind (offline Devourer: stray 1500 -> 274 with the fit, slot 2 92% -> 43%, all of it
+        -- "Void Ray predicted, not affordable")
+        err, v = err + (v - p[3]) * K.FIT_OVER, p[3]
       end
       n = n + 1
       pi = pi + 1
@@ -401,7 +410,7 @@ function K.Fit(pt)
   local list = store.timelines[key] or {}
   store.timelines[key] = list
   if tl and #tl.proofs > 0 then
-    list[#list + 1] = { casts = tl.casts, proofs = tl.proofs }
+    list[#list + 1] = { casts = tl.casts, proofs = tl.proofs, base = tl.base }
     while #list > K.FIT_FIGHTS do
       table.remove(list, 1)
     end
@@ -434,15 +443,32 @@ function K.Fit(pt)
     for _, id in ipairs(ids) do
       extra[id] = old and old.w and old.w[id] or 0
     end
+    -- (a small price per point of extra a spell is given: where a spell cast every few seconds and a gain by the
+    -- second explain the answers about as well, the second wins - the offline Devourer fit put a steady Fury income
+    -- on Consume, +40 a cast, and slot 2 then promised Void Ray right after every Consume)
     local function Score()
       local e = 0
       for _, f in ipairs(fights) do
-        e = e + Stray(f, extra, rate, base, cap)
+        e = e + Stray(f, extra, rate, f.base or base, cap)
+      end
+      for _, x in pairs(extra) do
+        e = e + x * K.FIT_PRICE * #fights
       end
       return e
     end
     local best = Score()
     for _ = 1, K.FIT_SWEEPS do
+      do -- the rate first
+        local keep = rate
+        for r = 0, K.FIT_RATE_MAX, K.FIT_RATE_STEP do
+          rate = r
+          local e = Score()
+          if e < best then
+            best, keep = e, r
+          end
+        end
+        rate = keep
+      end
       for _, id in ipairs(ids) do
         local keep = extra[id]
         for x = 0, K.FIT_MAX, K.FIT_STEP do
@@ -481,8 +507,8 @@ function K.Fit(pt)
       used[id] = math.floor(x * K.FIT_SHARE)
     end
     local last = list[#list]
-    without = Stray(last, {}, 0, base, cap)
-    heldOut = Stray(last, used, tr * K.FIT_SHARE, base, cap)
+    without = Stray(last, {}, 0, last.base or base, cap)
+    heldOut = Stray(last, used, tr * K.FIT_SHARE, last.base or base, cap)
     validated = heldOut < without * K.FIT_PROVE
   end
   local extra, rate, best = Search(list)

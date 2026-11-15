@@ -3076,7 +3076,11 @@ function S.Apply(id)
     local step = math.max(S.GCD(id), castTime)
     for pt in pairs(ns.Clues.floor) do
       if not ns.Clues.REGEN[pt] then
-        local add = K.Extra(id, pt) + K.PassiveRate(pt) * step
+        -- (the fit's rate is measured against our count, which takes the data's passive income at
+        -- Clues.PASSIVE_SHARE; the look-ahead takes that income in full already, so only the rest is added here -
+        -- added twice, Devourer's offline slot 2 went 92% -> 43%: Void Ray promised early)
+        local fitted = K.PassiveRate(pt) - (1 - ns.Clues.PASSIVE_SHARE) * S.PassiveGain(pt)
+        local add = K.Extra(id, pt) + math.max(0, fitted) * step
         if add ~= 0 then
           V.power[pt] = (V.power[pt] or 0) + add
         end
