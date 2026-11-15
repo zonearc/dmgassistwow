@@ -37,7 +37,7 @@ Only two specs measured in game. Every other number below is an estimate until a
   the same source was right 20-46% vs 42-57% for plain SimC).
 - The look-ahead keeps buffs it knows are up (Lightning Shield).
 
-## Found by tools/wcl-spellcheck.py (1.6.0.306)
+## Found by tools/wcl-spellcheck.py (1.6.0.308)
 
 Real casts of top players (2 raid fights per spec) against our data - see docs/coverage/spell-check.md:
 
@@ -58,7 +58,7 @@ same.
 
 ## Expected in game
 
-Offline average 80.4% (30 specs, 1.6.0.306; 78.8 in 1.6.0.305). Expect less in game, most for gap 1 (procs): the Mages, Feral, Outlaw,
+Offline average 80.4% (30 specs, 1.6.0.308; 78.8 in 1.6.0.305). Expect less in game, most for gap 1 (procs): the Mages, Feral, Outlaw,
 Enhancement and Elemental can lose 15-30 points; resource specs measured from logs (Balance, Havoc, the Warriors,
 Death Knights) should land within ~10 of offline. The report of each fight carries everything listed above; with
 why-report.py every slot 2 miss has its cause.

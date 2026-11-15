@@ -180,7 +180,7 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
-- 1.6.0.306: Real-fight checks of every spec's spells, and the offline average past 80% (78.8 -> 80.4).
+- 1.6.0.308: Real-fight checks of every spec's spells, and the offline average past 80% (78.8 -> 80.4).
   * Windwalker: a spell that only exists while a buff of its own name is up (Rushing Wind Kick) had the game's
     "not usable" overruled whenever Chi was 2+ (the hidden-points override, proven only for Rogue combo points):
     it sat in slot 1 for whole offline fights. Now the game's answer stands for such spells unless they spend combo
