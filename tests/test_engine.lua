@@ -3371,25 +3371,35 @@ test("calibration fit: a fight replayed finds what a spell really builds, and wh
   local store = K.Store()
   store.fit, store.timelines = nil, nil
   -- truth: spell 202770 builds 40 (our data: 0); spender 191034 costs 45; 8921 builds 5 (our data: 5)
-  local truth = 10
-  for _ = 1, 15 do
-    mock.Advance(1.5)
-    K.NoteCast(202770, 8, 0)
-    truth = truth + 40
-    K.NoteProof(8, truth - 2, -1) -- the game: at least about what is really there
-    mock.Advance(1.5)
-    K.NoteCast(191034, 8, -45)
-    truth = truth - 45
-    K.NoteCast(8921, 8, 5)
-    truth = truth + 5
-    K.NoteProof(8, 0, truth + 3) -- and at most a little more
+  local function Fight()
+    K.tl = {}
+    local truth = 10
+    for _ = 1, 15 do
+      mock.Advance(1.5)
+      K.NoteCast(202770, 8, 0)
+      truth = truth + 40
+      K.NoteProof(8, truth - 2, -1) -- the game: at least about what is really there
+      mock.Advance(1.5)
+      K.NoteCast(191034, 8, -45)
+      truth = truth - 45
+      K.NoteCast(8921, 8, 5)
+      truth = truth + 5
+      K.NoteProof(8, 0, truth + 3) -- and at most a little more
+    end
   end
+  Fight()
+  local first = K.Fit(8)
+  eq(first.validated, false, "one fight: fitted, not used yet (nothing to prove it on)")
+  eq(K.Extra(202770, 8), 0, "not used yet")
+  Fight()
   local fit = K.Fit(8)
   eq(type(fit), "table", "fitted: " .. tostring(K.tl[8] and #K.tl[8].proofs) .. " answers, combat " ..
     tostring(ns.State.combatStart))
   eq(fit.w[202770] ~= nil and fit.w[202770] >= 30 and fit.w[202770] <= 50, true,
     "Fury of Elune's ~40 found: " .. tostring(fit.w[202770]))
   eq(fit.n >= K.FIT_MIN, true, "enough answers: " .. tostring(fit.n))
+  eq(fit.validated, true, "fitted on the first fight, it cut the second's stray: " .. tostring(fit.heldOut) .. " vs " ..
+    tostring(fit.without))
   eq(K.Extra(202770, 8), math.floor(fit.w[202770] * K.FIT_SHARE), "used at K.FIT_SHARE")
   eq(K.FitText():find("fury_of_elune", 1, true) ~= nil or K.FitText():find("202770", 1, true) ~= nil, true,
     K.FitText())

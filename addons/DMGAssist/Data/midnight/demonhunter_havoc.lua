@@ -180,6 +180,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       rest = 22.0,
     },
   },
+  passiveGain = { [17] = 30.08 },
   simc = {
     default = {
       {
@@ -828,7 +829,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       ch = 1,
       chcd = 30,
       d = 6,
-      gain = { [17] = 28 },
+      gain = { [17] = 20 },
       gcd = 1.5,
       n = "immolation_aura",
     },
@@ -1157,6 +1158,7 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       n = "immolation_aura",
     },
     [442294] = {
+      gain = { [17] = 20 },
       gcd = 1.5,
       n = "reavers_glaive",
       r = 40,

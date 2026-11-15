@@ -174,6 +174,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       rest = 20.0,
     },
   },
+  passiveGain = { [17] = 4.067 },
   simc = {
     aldrachi_reaver = {
       {
@@ -1273,7 +1274,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
       ch = 1,
       chcd = 30,
       d = 6,
-      gain = { [17] = 28 },
+      gain = { [17] = 8 },
       gcd = 1.5,
       n = "immolation_aura",
     },
@@ -1287,7 +1288,7 @@ ns.RegisterSpecData("midnight", "demonhunter_vengeance", {
     [263642] = {
       ch = 2,
       chcd = 5.5,
-      gain = { [17] = 25 },
+      gain = { [17] = 43 },
       gcd = 1.5,
       n = "fracture",
       r = 5,

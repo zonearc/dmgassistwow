@@ -192,6 +192,7 @@ ns.RegisterSpecData("midnight", "deathknight_blood", {
       rate = -3.4,
     },
   },
+  passiveGain = { [6] = 3.138 },
   simc = {
     deathbringer = {
       {

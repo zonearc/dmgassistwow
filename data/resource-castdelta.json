@@ -1,0 +1,131 @@
+{
+ "druid_balance": {
+  "fights": 3,
+  "power": 8,
+  "rate": 61.26,
+  "spells": [
+   {
+    "casts": 106,
+    "dataCost": 0,
+    "dataGain": 12.0,
+    "flag": [
+     "gain"
+    ],
+    "free": 0,
+    "gain": 53.1,
+    "id": 194153,
+    "paid": 0.0,
+    "token": "starfire"
+   },
+   {
+    "casts": 89,
+    "dataCost": 40.0,
+    "dataGain": 0,
+    "flag": [
+     "gain",
+     "cost"
+    ],
+    "free": 0.57,
+    "gain": 72.3,
+    "id": 78674,
+    "paid": 170.3,
+    "token": "starsurge"
+   },
+   {
+    "casts": 82,
+    "dataCost": 50.0,
+    "dataGain": 0,
+    "flag": [
+     "gain",
+     "cost"
+    ],
+    "free": 0.27,
+    "gain": 51.5,
+    "id": 191034,
+    "paid": 362.6,
+    "token": "starfall"
+   },
+   {
+    "casts": 37,
+    "dataCost": 0,
+    "dataGain": 6.0,
+    "flag": [
+     "gain"
+    ],
+    "free": 0,
+    "gain": 54.2,
+    "id": 93402,
+    "paid": 0.0,
+    "token": "sunfire"
+   },
+   {
+    "casts": 33,
+    "dataCost": 0,
+    "dataGain": 8.0,
+    "flag": [
+     "gain"
+    ],
+    "free": 0,
+    "gain": 35.1,
+    "id": 8921,
+    "paid": 0.0,
+    "token": "moonfire"
+   },
+   {
+    "casts": 18,
+    "dataCost": 0,
+    "dataGain": 0,
+    "flag": [
+     "gain"
+    ],
+    "free": 0,
+    "gain": 61.1,
+    "id": 202770,
+    "paid": 0.0,
+    "token": "fury_of_elune"
+   },
+   {
+    "casts": 15,
+    "dataCost": 0,
+    "dataGain": 0,
+    "flag": [
+     "gain"
+    ],
+    "free": 0,
+    "gain": 54.6,
+    "id": 1233272,
+    "paid": 0.0,
+    "token": "lunar_eclipse"
+   }
+  ]
+ },
+ "warlock_destruction": {
+  "fights": 3,
+  "power": 7,
+  "rate": 0.45,
+  "spells": [
+   {
+    "casts": 124,
+    "dataCost": 2.0,
+    "dataGain": 0,
+    "flag": [],
+    "free": 0.0,
+    "gain": 0.4,
+    "id": 116858,
+    "paid": 2.0,
+    "token": "chaos_bolt"
+   },
+   {
+    "casts": 55,
+    "dataCost": 1.0,
+    "dataGain": 0,
+    "flag": [],
+    "free": 0.0,
+    "gain": 0.0,
+    "id": 17877,
+    "paid": 1.0,
+    "token": "shadowburn"
+   }
+  ]
+ }
+}

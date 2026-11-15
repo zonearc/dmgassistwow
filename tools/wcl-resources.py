@@ -50,6 +50,8 @@ def query(q, variables=None, tries=6):
                               "-d", body], capture_output=True, text=True).stdout
         try:
             d = json.loads(out)
+            if "data" not in d and "errors" not in d:
+                raise ValueError(str(d)[:200])  # (a rate-limit or server message: wait and ask again)
             break
         except ValueError:
             # rate limited or a hiccup: wait (the hourly points come back), then again

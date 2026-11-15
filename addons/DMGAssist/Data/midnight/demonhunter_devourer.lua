@@ -152,6 +152,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       rest = 16.0,
     },
   },
+  passiveGain = { [17] = 15.646 },
   simc = {
     annihilator = {
       {
@@ -1401,6 +1402,7 @@ ns.RegisterSpecData("midnight", "demonhunter_devourer", {
       tal = true,
     },
     [1245414] = {
+      gain = { [17] = 20 },
       n = "voidblade",
       r = 15,
     },

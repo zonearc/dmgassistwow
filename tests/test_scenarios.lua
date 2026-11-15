@@ -162,14 +162,21 @@ local START = { [3] = "max", [2] = "max", [5] = "max", [19] = "max", [7] = 3, [0
 -- so they stay unusable (in the game, IsSpellUsable / the button swap decide).
 local function ProcGated(record)
   local gated, castable = {}, {}
+  local paid = {}
   for _, info in pairs(record.spellInfo or {}) do
     if info.n and (info.gcd or info.ct) and not info.pas then
       castable[info.n] = true
+      if (tonumber(info.ct) or 0) > 0 then
+        paid[info.n] = true -- (cast-time spells: procs offer instants)
+      end
     end
   end
   for id, info in pairs(record.spellInfo or {}) do
     local ap = type(info.ap) == "table" and info.ap[1]
-    if info.n and castable[info.n] and ap and ap[1] == id and ap[2] == "self" and info.d and not info.gcd then
+    -- (a spell with a cast time is never proc-gated: Destruction's data names a 6 s effect "chaos_bolt" too, and
+    -- Chaos Bolt was never cast in the offline fights; procs offer instants)
+    if info.n and castable[info.n] and not paid[info.n] and ap and ap[1] == id and ap[2] == "self" and info.d
+      and not info.gcd then
       gated[info.n] = true
     end
   end
@@ -191,6 +198,14 @@ local function World(record, targets, key)
   end
   for pt, v in pairs(type(record.passiveGain) == "table" and record.passiveGain or {}) do
     if not DISCRETE[pt] then
+      w.passive[pt] = v
+    end
+  end
+  -- resources our data gives no income for at all (Soul Shards: Incinerate's fragments aren't in it): the rate the
+  -- real players' casts show (tools/wcl-castdelta.py), so the world isn't starved where the game isn't
+  local CASTDELTA = { warlock_destruction = { [7] = 0.45 } }
+  for pt, v in pairs(key and CASTDELTA[key] or {}) do
+    if not w.passive[pt] then
       w.passive[pt] = v
     end
   end
@@ -589,6 +604,9 @@ if GRADE then
     if ref then
       ns = Boot()
       _G.SCEN_NS, NS = ns, ns
+      if os.getenv("SCEN_NOFIT") then
+        ns.Calibrate.FIT_MIN = math.huge -- (the in-play fit off: to measure what it adds)
+      end
       collectgarbage("collect")
       local record = ns.Data.specs.midnight[key]
       local book = BookFor(record)

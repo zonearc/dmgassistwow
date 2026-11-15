@@ -33,6 +33,13 @@ spec_.loader.exec_module(W)
 ZONE = 52
 TARGETS = {3591: 1, 3590: 2, 3592: 3, 3593: 5}
 OUT = os.path.join(HERE, "..", "data", "resource-targets.json")
+# each spec's resource hidden in combat that it builds and spends (Midnight power types)
+POWER = {"druid_balance": 8, "druid_guardian": 1, "warrior_arms": 1, "warrior_fury": 1, "warrior_protection": 1,
+         "deathknight_blood": 6, "deathknight_frost": 6, "deathknight_unholy": 6, "demonhunter_havoc": 17,
+         "demonhunter_vengeance": 17, "demonhunter_devourer": 17, "priest_shadow": 13, "shaman_elemental": 11,
+         "shaman_enhancement": 11, "hunter_beast_mastery": 2, "hunter_marksmanship": 2, "hunter_survival": 2,
+         "rogue_assassination": 3, "rogue_outlaw": 3, "rogue_subtlety": 3, "druid_feral": 3, "monk_windwalker": 3,
+         "monk_brewmaster": 3}
 
 
 def find_fights(spec, want, pages=10):
@@ -44,7 +51,7 @@ def find_fights(spec, want, pages=10):
     names = collections.defaultdict(set)
     for page in range(1, pages + 1):
         d = W.query("query($z:Int,$p:Int){reportData{reports(zoneID:$z,limit:50,page:$p){data{code "
-                    "fights{id encounterID} masterData{actors(type:\"Player\"){id name icon}}}}}}",
+                    "fights{id encounterID friendlyPlayers} masterData{actors(type:\"Player\"){id name icon}}}}}}",
                     {"z": ZONE, "p": page})
         reports = d["reportData"]["reports"]["data"]
         if not reports:
@@ -54,6 +61,10 @@ def find_fights(spec, want, pages=10):
             for pl in players[:1]:
                 for f in rep.get("fights") or []:
                     enc = f.get("encounterID")
+                    # (only a fight the player was in: one picked from the whole report came back empty for the
+                    # 5-target dummies)
+                    if pl["id"] not in (f.get("friendlyPlayers") or []):
+                        continue
                     if enc in TARGETS and len(found[enc]) < want and pl["name"] not in names[enc]:
                         names[enc].add(pl["name"])
                         found[enc].append((rep["code"], f["id"], pl["name"]))
@@ -115,8 +126,13 @@ def main():
     out = json.load(open(OUT)) if os.path.exists(OUT) else {}
     for spec in a.specs.split(","):
         known = W.spell_ids(spec)
+        a.power = POWER.get(spec, 8)
         result = {}
-        found = find_fights(spec, a.fights)
+        try:
+            found = find_fights(spec, a.fights)
+        except RuntimeError as err:
+            print("== %s: %s" % (spec, err))
+            continue
         for enc, n in TARGETS.items():
             fights = []
             for code, fight, name in found.get(enc, []):
@@ -146,6 +162,7 @@ def main():
                     print("   %-22s paid per cast: %.1f (%d casts)" % (g["token"] or aid, g["avg"], g["casts"]))
         if result:
             out[spec] = result
+            json.dump(out, open(OUT, "w"), indent=1, sort_keys=True)  # (each spec saved as it is done)
     json.dump(out, open(OUT, "w"), indent=1, sort_keys=True)
     write_lua(out, a.power)
 
@@ -166,7 +183,7 @@ def write_lua(out, power):
             if r.get("seconds", 0) >= 200 and r.get("perSecond"):
                 rows.append("[%d] = %.2f" % (int(n), sum(v["rate"] for v in r["perSecond"].values())))
         if rows:
-            lines.append("  %s = { [%d] = { %s } }," % (spec, power, ", ".join(rows)))
+            lines.append("  %s = { [%d] = { %s } }," % (spec, POWER.get(spec, power), ", ".join(rows)))
     lines.append("}")
     open(LUA, "w").write("\n".join(lines) + "\n")
 

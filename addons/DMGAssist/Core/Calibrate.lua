@@ -274,6 +274,7 @@ end
 -- is kept. The count and the look-ahead use K.FIT_SHARE of it (a little under: a spender isn't promised early),
 -- once K.FIT_MIN answers back it. tools/resource-replay.py --learn runs the same fit on recorded fights.
 K.FIT_MIN = 20
+K.FIT_PROVE = 0.85 -- the latest fight's stray must drop to this share of it without the fit
 K.FIT_FIGHTS = 3
 K.FIT_EVENTS = 600 -- per fight and resource
 K.FIT_SEEN = 3
@@ -300,7 +301,7 @@ end
 function K.Fitted(pt)
   local store = K.Store()
   local f = store and store.fit and store.fit[FitKey(pt)]
-  if f and (f.n or 0) >= K.FIT_MIN then
+  if f and (f.n or 0) >= K.FIT_MIN and f.validated then
     return f
   end
   return nil
@@ -427,41 +428,66 @@ function K.Fit(pt)
   local cap = ns.State.PowerMax and ns.State.PowerMax(pt) or 100
   cap = (type(cap) == "number" and cap > 0) and cap or 100
   local old = store.fit and store.fit[key]
-  local extra, rate = {}, old and old.rate or 0
-  for _, id in ipairs(ids) do
-    extra[id] = old and old.w and old.w[id] or 0
-  end
-  local function Score()
-    local e = 0
-    for _, f in ipairs(list) do
-      e = e + Stray(f, extra, rate, base, cap)
-    end
-    return e
-  end
-  local best = Score()
-  for _ = 1, K.FIT_SWEEPS do
+  -- coordinate search over `fights`, from the last fit: an extra per spell and the rate
+  local function Search(fights)
+    local extra, rate = {}, old and old.rate or 0
     for _, id in ipairs(ids) do
-      local keep = extra[id]
-      for x = 0, K.FIT_MAX, K.FIT_STEP do
-        extra[id] = x
+      extra[id] = old and old.w and old.w[id] or 0
+    end
+    local function Score()
+      local e = 0
+      for _, f in ipairs(fights) do
+        e = e + Stray(f, extra, rate, base, cap)
+      end
+      return e
+    end
+    local best = Score()
+    for _ = 1, K.FIT_SWEEPS do
+      for _, id in ipairs(ids) do
+        local keep = extra[id]
+        for x = 0, K.FIT_MAX, K.FIT_STEP do
+          extra[id] = x
+          local e = Score()
+          if e < best then
+            best, keep = e, x
+          end
+        end
+        extra[id] = keep
+      end
+      local keep = rate
+      for r = 0, K.FIT_RATE_MAX, K.FIT_RATE_STEP do
+        rate = r
         local e = Score()
         if e < best then
-          best, keep = e, x
+          best, keep = e, r
         end
       end
-      extra[id] = keep
+      rate = keep
     end
-    local keep = rate
-    for r = 0, K.FIT_RATE_MAX, K.FIT_RATE_STEP do
-      rate = r
-      local e = Score()
-      if e < best then
-        best, keep = e, r
-      end
-    end
-    rate = keep
+    return extra, rate, best
   end
-  local fit = { n = proofs, w = {}, rate = rate, stray = best }
+  -- Used only once it has proved itself: fitted on the earlier fights, it must cut the latest fight's stray (as the
+  -- count would use it, at K.FIT_SHARE) by K.FIT_PROVE. Offline (tools/sim.py, 2026-11-15) an unproved fit made
+  -- Shadow's single-target slot 2 worse (92-98% -> 65-74%) while helping Devourer's AoE and Havoc.
+  local validated, heldOut, without = false, nil, nil
+  if #list >= 2 then
+    local train = {}
+    for i = 1, #list - 1 do
+      train[i] = list[i]
+    end
+    local tx, tr = Search(train)
+    local used = {}
+    for id, x in pairs(tx) do
+      used[id] = math.floor(x * K.FIT_SHARE)
+    end
+    local last = list[#list]
+    without = Stray(last, {}, 0, base, cap)
+    heldOut = Stray(last, used, tr * K.FIT_SHARE, base, cap)
+    validated = heldOut < without * K.FIT_PROVE
+  end
+  local extra, rate, best = Search(list)
+  local fit = { n = proofs, w = {}, rate = rate, stray = best, validated = validated, heldOut = heldOut,
+    without = without }
   for id, x in pairs(extra) do
     if x > 0 then
       fit.w[id] = x
@@ -481,10 +507,12 @@ function K.FitText()
       spells[#spells + 1] = string.format("%s%+.0f", Token(tonumber(id) or id), x)
     end
     table.sort(spells)
-    parts[#parts + 1] = string.format("pt%s targets=%s answers=%d stray=%.0f rate=+%.1f/s %s%s",
+    parts[#parts + 1] = string.format("pt%s targets=%s answers=%d stray=%.0f rate=+%.1f/s %s%s%s",
       tostring(pt):match("^(%d+)") or pt, ({ ["1"] = "1", ["2"] = "2-3", ["4"] = "4+" })[tostring(pt):match(":(%d+)$")
       or ""] or "?", f.n or 0, f.stray or 0,
-      f.rate or 0, table.concat(spells, " "), (f.n or 0) >= K.FIT_MIN and "" or " (not used yet)")
+      f.rate or 0, table.concat(spells, " "),
+      f.heldOut and string.format(" latest fight: %.0f with it, %.0f without", f.heldOut, f.without) or "",
+      ((f.n or 0) >= K.FIT_MIN and f.validated) and "" or " (not used yet)")
   end
   return #parts > 0 and table.concat(parts, " | ") or nil
 end

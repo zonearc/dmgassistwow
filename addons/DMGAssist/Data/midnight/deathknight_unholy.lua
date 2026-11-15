@@ -178,6 +178,7 @@ ns.RegisterSpecData("midnight", "deathknight_unholy", {
       rest = 6.0,
     },
   },
+  passiveGain = { [6] = 1.916 },
   simc = {
     aoe = {
       {

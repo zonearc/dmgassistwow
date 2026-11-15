@@ -2507,7 +2507,9 @@ local function DirectAuraState(token, now)
   return nil
 end
 
-local function AuraState(unit, token)
+S.AHEAD_KEEP = 30
+local AuraState
+function AuraState(unit, token)
   local list = M.Candidates(token)
   local now = Now()
   if unit == "player" and STEALTH[token] and not V then
@@ -2524,6 +2526,33 @@ local function AuraState(unit, token)
           return true, vt[t] - now, 1
         end
         return false, 0, 0
+      end
+    end
+  end
+  -- Looking ahead past a pretend cast, what we know of the present is carried forward: an aura up now with a known
+  -- end stays up until then; one up with no known end stays up if it lasts S.AHEAD_KEEP s or more (Lightning Shield,
+  -- an hour). Without this the look-ahead dropped every fact it hadn't timed itself: slot 2 said Lightning Shield
+  -- (already up) in 35 of 66 Elemental presses offline (tools/sim.py, 2026-11-15). Short procs still aren't.
+  if V and #V.prev > 0 and not S.inPresent then
+    S.inPresent = true
+    local saved = V
+    V = nil
+    local ok, up, left, stacks = pcall(AuraState, unit, token)
+    V = saved
+    S.inPresent = nil
+    if ok and up == true then
+      local ahead = V.dt or 0
+      if type(left) == "number" and left > ahead then
+        return true, left - ahead, stacks
+      end
+      if left == UNKNOWN or left == nil then
+        local d
+        for _, t in ipairs(list) do
+          d = d or AuraLength(t)
+        end
+        if type(d) == "number" and d >= S.AHEAD_KEEP then
+          return true, UNKNOWN, stacks
+        end
       end
     end
   end
