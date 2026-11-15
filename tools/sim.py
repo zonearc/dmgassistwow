@@ -28,6 +28,8 @@ def main():
     ap.add_argument("--targets", default="1,5")
     ap.add_argument("--fight", type=int, default=120)
     ap.add_argument("--log")
+    ap.add_argument("--seeds", type=int, default=1, help="random runs (procs, timing); prints each and the spread")
+    ap.add_argument("--human", action="store_true", help="the player presses a measured moment after the GCD")
     a = ap.parse_args()
     spec_ = importlib.util.spec_from_file_location("grade", os.path.join(HERE, "grade.py"))
     g = importlib.util.module_from_spec(spec_)
@@ -37,16 +39,30 @@ def main():
     f.write(g.talents_file(refs))
     f.close()
     env = dict(os.environ, SCEN_GRADE=f.name, SCEN_FIGHT=str(a.fight), SCEN_TARGETS=a.targets)
+    if a.human:
+        env["SCEN_HUMAN"] = "1"
     if a.log:
         env["SCEN_LOG"] = os.path.abspath(a.log)
-    out = subprocess.run(["lua5.1", "tests/test_scenarios.lua", a.spec], cwd=ROOT, env=env, capture_output=True,
-                         text=True)
+    runs = []
+    for k in range(a.seeds):
+        if a.seeds > 1:
+            env["SCEN_SEED"] = str(20261110 + 7919 * k)
+        out = subprocess.run(["lua5.1", "tests/test_scenarios.lua", a.spec], cwd=ROOT, env=env, capture_output=True,
+                             text=True)
+        vals = []
+        for m in re.finditer(r"^PRED (\S+) (\d+) ([\d.]+)", out.stdout, re.M):
+            vals.append(float(m.group(3)))
+            print("%s  %s targets  slot 2 right %s%%" % (m.group(1), m.group(2), m.group(3)))
+        runs.append(sum(vals) / len(vals) if vals else 0)
+        for line in out.stderr.splitlines():
+            if line.startswith("POWER"):
+                print(line)
+        if out.returncode or "PRED" not in out.stdout:
+            break
     os.unlink(f.name)
-    for m in re.finditer(r"^PRED (\S+) (\d+) ([\d.]+)", out.stdout, re.M):
-        print("%s  %s targets  slot 2 right %s%%" % (m.group(1), m.group(2), m.group(3)))
-    for line in out.stderr.splitlines():
-        if line.startswith("POWER"):
-            print(line)
+    if a.seeds > 1:
+        print("%s  seeds %d: mean %.1f, lowest %.1f, highest %.1f" % (a.spec, len(runs), sum(runs) / len(runs),
+                                                                     min(runs), max(runs)))
     if out.returncode or "PRED" not in out.stdout:
         print(out.stdout[-1500:], out.stderr[-1500:])
 

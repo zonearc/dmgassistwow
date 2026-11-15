@@ -21,7 +21,7 @@ Only two specs measured in game. Every other number below is an estimate until a
 | 1 | PARTLY FIXED (1.6.0.311): procs are rolled at the rate top players get them (tools/wcl-procs.py, tools/proc-map.py, tools/build-procs.py -> tests/procs.lua): free spenders (Clearcasting, Starweaver), instant casts (Hot Streak, Lava Surge), button swaps (Rushing Wind Kick, Ravage), with the glow the game shows. Not yet: procs that reset a cooldown or add stacks/charges, procs tied to what you just cast (rolled by time, not by trigger) | procs all the time | lower: SimC lines behind `buff.X.react` stay unknown unless the Cooldown Manager or a glow shows the proc | Fire / Frost / Arcane Mage (Hot Streak, Brain Freeze, Clearcasting), Feral, Outlaw, Enhancement, Elemental (Lava Surge), Balance (Starweaver), Windwalker, Unholy | why-report: "condition unknown {buff...=?}"; `cdm_buff_summary` for what the Cooldown Manager read; `cost_live` lines for free casts |
 | 2 | the true resources come from the same data the addon uses (costs, gains, income) | the real numbers | lower where our data is wrong: the count drifts, spenders are promised early or late | any spec with a hidden resource whose data was not measured: Guardian, Shadow, Elemental income by target count still missing | `floor_raised` / `floor_capped` (the game correcting our count), `fit_summary`, `model_at_pull_summary`; resource-replay.py on the report |
 | 3 | no buffs or debuffs applied by casts; damage over time never ticks | real auras, hidden in combat (Cooldown Manager reads some) | either way: conditions on our own buffs are unknown in both, but the game's Cooldown Manager answers some | specs with buff windows (Arms Colossus Smash, Fury Enrage, Unholy diseases: `active_dots`) | why-report: "condition unknown"; `clue_summary` cdm checks |
-| 4 | a perfect player: presses slot 1 the moment it can, never moves, never swaps | hesitation, movement, swapping, pressing before the GCD ends | lower, and "followed" in prediction_summary shows it | all | `prediction_summary` followed=..; slot1_steady |
+| 4 | PARTLY FIXED: `tools/sim.py --human` presses a measured moment after the GCD (the owner's Balance fights: median 0.25 s, p90 0.48 s). Still: never moves, never swaps targets, never presses something else |  hesitation, movement, swapping, pressing before the GCD ends | lower, and "followed" in prediction_summary shows it | all | `prediction_summary` followed=..; slot1_steady |
 | 5 | fixed target count, all in range, never dying | adds come and go, targets die, out of range | lower in dungeons | AoE-heavy specs | `press` lines carry tg=st/aoe; `targets` miss reason |
 | 6 | Blizzard's assistant = its rules evaluated against the offline world (sees resources, not procs) | the live assistant sees everything | higher in game where the assistant's pick corroborates slot 1 | specs that lean on `assisted` | slot2_by_source assisted / simc+assisted |
 | 7 | no cooldown reductions (Restless Blades), resets or extra charges from talents | real | lower where a cooldown comes back early | Outlaw, Retribution, Frost DK, Havoc | tools/wcl-spellcheck.py flags "cd"; why-report: "not castable (?)" on a spell the player then pressed |
@@ -62,6 +62,12 @@ same.
 With the procs rolled, the 30-spec average is 74.4% (79.9% without; SCEN_NOPROCS=1 to compare). That is the honest
 offline number now: Fire 97 -> 77, Balance 72 -> 63, Feral 37 -> 31 (45 with the longer regeneration wait), Unholy
 79 -> 55, Evoker 96 -> 70. Fury 72 -> 83 (free Executes). The owner's Balance in game: 37-45.
+
+## Luck: one seed is one sample (owner, 2026-11-15: "so we don't create models against flat behaviours")
+
+`tools/sim.py --seeds N` runs N different random fights (procs, timing) and prints the spread. Four seeds, one and
+five targets: Fire 44-64, Balance 59-75, Feral 41-49. A change is only real when it moves the mean of several seeds by
+more than that spread; judged on one seed, a model can be fitted to one lucky sequence.
 
 ## Expected in game
 

@@ -220,6 +220,15 @@ local PROCS = (function()
   local ok, m = pcall(dofile, "tests/procs.lua")
   return (ok and type(m) == "table" and not os.getenv("SCEN_NOPROCS")) and m or {}
 end)()
+-- SCEN_SEED: which random run (procs, the player's timing); one seed is one sample of the luck, not the truth -
+-- tools/sim.py --seeds N runs several and reports the spread (owner, 2026-11-15: "ensure the randomness is there ...
+-- so we don't create models against flat behaviours").
+local SEED = tonumber(os.getenv("SCEN_SEED") or "") or 20261110
+-- SCEN_HUMAN=1: the player presses a moment after the GCD ends, as the owner does - delays after the GCD measured
+-- from his Balance fights (1.6.0.291-296 reports, instant after instant, 272 pairs): median 0.25 s, p90 0.48 s,
+-- 1% over a second. Without it the offline player presses the instant the GCD ends, every time.
+local HUMAN = os.getenv("SCEN_HUMAN") == "1"
+local HUMAN_DELAYS = { 0.06, 0.12, 0.17, 0.2, 0.22, 0.24, 0.25, 0.27, 0.29, 0.31, 0.33, 0.36, 0.4, 0.48, 0.6, 1.2 }
 local MAX_RESOURCE = (function()
   local ok, m = pcall(dofile, "tests/max_resource.lua")
   return ok and type(m) == "table" and m or {}
@@ -409,6 +418,7 @@ local function Fight(ns, key, record, book, scenario)
   end
   local gcdEnd, lastMain, lastPress, stuck, charges = 0, nil, -10, {}, {}
   local predict -- slot 2's spell when slot 1 was pressed: checked against slot 1 on the next tick
+  local pressAt -- (SCEN_HUMAN) when the player will press, after this GCD
   -- button swaps: aura index -> when it ends; the swapped-in spell is usable only while its aura is up
   local swaps, swapUntil, inBook = SwapsFor(record), {}, {}
   for _, b in ipairs(book) do
@@ -683,7 +693,11 @@ local function Fight(ns, key, record, book, scenario)
       end
     end
     -- the player: presses slot 1 when the GCD allows and it isn't shown as "not yet"
-    if r and main and main.id and now >= gcdEnd and not (main.readyAt and main.readyAt > now)
+    if HUMAN and now >= gcdEnd and not pressAt then
+      pressAt = gcdEnd + HUMAN_DELAYS[math.random(#HUMAN_DELAYS)]
+    end
+    if r and main and main.id and now >= gcdEnd and (not HUMAN or now >= (pressAt or 0))
+      and not (main.readyAt and main.readyAt > now)
       and not mock.cooldowns[main.id]
       and not (mock.usable[main.id] and mock.usable[main.id][1] == false and mock.usable[main.id][2] == false)
       and not (world and M.Info(main.id) and not WorldAffordable(world, M.Info(main.id), M)) then
@@ -696,6 +710,7 @@ local function Fight(ns, key, record, book, scenario)
         end
       end
       predict = q[2] and q[2].id or nil
+      pressAt = nil
       local info = M.Info(id) or {}
       local gcd = tonumber(info.gcd) or 1.5
       local ct = instantNow[id] and 0 or tonumber(info.ct) or 0
@@ -851,7 +866,7 @@ if GRADE then
       ns.SpellMap.Refresh()
       ns.State.Bind(key)
       for _, sc in ipairs(SCENARIOS) do
-        math.randomseed(20261110)
+        math.randomseed(SEED)
         local r = Fight(ns, key, record, book, sc)
         local parts = {}
         for tk, n in pairs(r.cast or {}) do
