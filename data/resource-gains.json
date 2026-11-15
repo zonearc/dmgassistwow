@@ -2,70 +2,771 @@
  "_about": "Measured from public Warcraft Logs reports by tools/wcl-resources.py: per spec, gains per cast (gains: spellID -> powerType -> amount) and passive income per second (passive: powerType -> per second). No player data is kept.",
  "midnight": {
   "deathknight_blood": {
-   "ooc": {
-    "6": {
-     "max": 125.0,
-     "n": 5,
-     "rate": -3.4,
-     "rateFast": -4.08,
-     "rest": null
+   "detail": [
+    {
+     "casts": 77,
+     "gain": 10,
+     "hits": 18,
+     "id": 43265,
+     "pt": 6,
+     "token": "death_and_decay",
+     "total": 180,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 63,
+     "id": 49088,
+     "perSecond": 0.247,
+     "pt": 6,
+     "token": null,
+     "total": 270,
+     "waste": 37
+    },
+    {
+     "casts": 62,
+     "gain": 20,
+     "hits": 62,
+     "id": 195182,
+     "pt": 6,
+     "token": "marrowrend",
+     "total": 1239,
+     "waste": 47
+    },
+    {
+     "casts": 12,
+     "gain": 10,
+     "hits": 12,
+     "id": 195292,
+     "pt": 6,
+     "token": "deaths_caress",
+     "total": 120,
+     "waste": 0
+    },
+    {
+     "casts": 360,
+     "gain": 15,
+     "hits": 360,
+     "id": 206930,
+     "pt": 6,
+     "token": "heart_strike",
+     "total": 5397,
+     "waste": 98
+    },
+    {
+     "casts": 0,
+     "hits": 705,
+     "id": 210738,
+     "perSecond": 1.289,
+     "pt": 6,
+     "token": null,
+     "total": 1410,
+     "waste": 36
+    },
+    {
+     "casts": 0,
+     "hits": 345,
+     "id": 221322,
+     "perSecond": 0.947,
+     "pt": 6,
+     "token": null,
+     "total": 1035,
+     "waste": 29
+    },
+    {
+     "casts": 0,
+     "hits": 29,
+     "id": 317614,
+     "perSecond": 0.265,
+     "pt": 6,
+     "token": null,
+     "total": 290,
+     "waste": 0
+    },
+    {
+     "casts": 122,
+     "gain": 15,
+     "hits": 123,
+     "id": 433895,
+     "pt": 6,
+     "token": "vampiric_strike",
+     "total": 1844,
+     "waste": 72
+    },
+    {
+     "casts": 12,
+     "gain": 20,
+     "hits": 12,
+     "id": 439843,
+     "pt": 6,
+     "token": "reapers_mark",
+     "total": 240,
+     "waste": 14
+    },
+    {
+     "casts": 0,
+     "hits": 213,
+     "id": 1263774,
+     "perSecond": 0.39,
+     "pt": 6,
+     "token": null,
+     "total": 426,
+     "waste": 85
     }
-   }
+   ],
+   "difficulty": 4,
+   "fights": 5,
+   "gains": {
+    "195182": {
+     "6": 20
+    },
+    "195292": {
+     "6": 10
+    },
+    "206930": {
+     "6": 15
+    },
+    "43265": {
+     "6": 10
+    },
+    "433895": {
+     "6": 15
+    },
+    "439843": {
+     "6": 20
+    }
+   },
+   "passive": {
+    "6": 3.138
+   },
+   "seconds": 1093.5,
+   "updated": "2026-11-15",
+   "zone": 53
   },
   "deathknight_frost": {
-   "ooc": {
-    "6": {
-     "max": 100.0,
-     "n": 8,
-     "rate": null,
-     "rateFast": null,
-     "rest": 40.0
+   "detail": [
+    {
+     "casts": 606,
+     "gain": 20,
+     "hits": 546,
+     "id": 49020,
+     "pt": 6,
+     "token": "obliterate",
+     "total": 10002,
+     "waste": 1534
+    },
+    {
+     "casts": 0,
+     "hits": 132,
+     "id": 49088,
+     "perSecond": 0.353,
+     "pt": 6,
+     "token": null,
+     "total": 528,
+     "waste": 162
+    },
+    {
+     "casts": 288,
+     "gain": 10,
+     "hits": 3,
+     "id": 49184,
+     "pt": 6,
+     "token": "howling_blast",
+     "total": 30,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 309,
+     "id": 193486,
+     "perSecond": 0.207,
+     "pt": 5,
+     "token": null,
+     "total": 309,
+     "waste": 4
+    },
+    {
+     "casts": 0,
+     "hits": 128,
+     "id": 195617,
+     "perSecond": 0.343,
+     "pt": 6,
+     "token": "frost_fever",
+     "total": 512,
+     "waste": 69
+    },
+    {
+     "casts": 0,
+     "hits": 168,
+     "id": 207062,
+     "perSecond": 0.112,
+     "pt": 5,
+     "token": null,
+     "total": 168,
+     "waste": 0
+    },
+    {
+     "casts": 9,
+     "gain": 20,
+     "hits": 8,
+     "id": 207230,
+     "pt": 6,
+     "token": "frostscythe",
+     "total": 140,
+     "waste": 5
+    },
+    {
+     "casts": 0,
+     "hits": 433,
+     "id": 221322,
+     "perSecond": 0.869,
+     "pt": 6,
+     "token": null,
+     "total": 1298,
+     "waste": 229
+    },
+    {
+     "casts": 0,
+     "hits": 42,
+     "id": 281327,
+     "perSecond": 0.028,
+     "pt": 5,
+     "token": null,
+     "total": 42,
+     "waste": 2
+    },
+    {
+     "casts": 0,
+     "hits": 285,
+     "id": 377077,
+     "perSecond": 1.525,
+     "pt": 6,
+     "token": null,
+     "total": 2279,
+     "waste": 126
+    },
+    {
+     "casts": 35,
+     "gain": 20,
+     "hits": 35,
+     "id": 439843,
+     "pt": 6,
+     "token": "reapers_mark",
+     "total": 698,
+     "waste": 106
+    },
+    {
+     "casts": 0,
+     "hits": 16,
+     "id": 1234304,
+     "perSecond": 0.021,
+     "pt": 5,
+     "token": "breath_of_sindragosa",
+     "total": 32,
+     "waste": 1
     }
-   }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "207230": {
+     "6": 20
+    },
+    "439843": {
+     "6": 20
+    },
+    "49020": {
+     "6": 20
+    },
+    "49184": {
+     "6": 10
+    }
+   },
+   "passive": {
+    "5": 0.369,
+    "6": 3.09
+   },
+   "seconds": 1494.3,
+   "updated": "2026-11-15",
+   "zone": 53
   },
   "deathknight_unholy": {
-   "ooc": {
-    "5": {
-     "max": 6.0,
-     "n": 8,
-     "rate": null,
-     "rateFast": null,
-     "rest": 6.0
+   "detail": [
+    {
+     "casts": 19,
+     "hits": 38,
+     "id": 42650,
+     "perSecond": 0.672,
+     "pt": 6,
+     "token": "army_of_the_dead",
+     "total": 948,
+     "waste": 98
+    },
+    {
+     "casts": 0,
+     "hits": 145,
+     "id": 49088,
+     "perSecond": 0.479,
+     "pt": 6,
+     "token": null,
+     "total": 676,
+     "waste": 45
+    },
+    {
+     "casts": 186,
+     "gain": 10,
+     "hits": 186,
+     "id": 55090,
+     "pt": 6,
+     "token": "scourge_strike",
+     "total": 1859,
+     "waste": 35
+    },
+    {
+     "casts": 10,
+     "gain": 10,
+     "hits": 10,
+     "id": 77575,
+     "pt": 6,
+     "token": "outbreak",
+     "total": 100,
+     "waste": 0
+    },
+    {
+     "casts": 86,
+     "gain": 20,
+     "hits": 86,
+     "id": 85948,
+     "pt": 6,
+     "token": "festering_strike",
+     "total": 1717,
+     "waste": 9
+    },
+    {
+     "casts": 0,
+     "hits": 357,
+     "id": 221322,
+     "perSecond": 0.759,
+     "pt": 6,
+     "token": null,
+     "total": 1071,
+     "waste": 42
+    },
+    {
+     "casts": 56,
+     "gain": 10,
+     "hits": 56,
+     "id": 343294,
+     "pt": 6,
+     "token": "soul_reaper",
+     "total": 560,
+     "waste": 3
+    },
+    {
+     "casts": 0,
+     "hits": 1,
+     "id": 378849,
+     "perSecond": 0.007,
+     "pt": 6,
+     "token": null,
+     "total": 10,
+     "waste": 0
+    },
+    {
+     "casts": 380,
+     "gain": 10,
+     "hits": 380,
+     "id": 433895,
+     "pt": 6,
+     "token": "vampiric_strike",
+     "total": 3798,
+     "waste": 64
+    },
+    {
+     "casts": 33,
+     "gain": 100,
+     "hits": 33,
+     "id": 1233448,
+     "pt": 3,
+     "token": "dark_transformation",
+     "total": 3300,
+     "waste": 1972
+    },
+    {
+     "casts": 87,
+     "gain": 10,
+     "hits": 87,
+     "id": 1247378,
+     "pt": 6,
+     "token": "putrefy",
+     "total": 869,
+     "waste": 33
     }
-   }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "1233448": {
+     "3": 100
+    },
+    "1247378": {
+     "6": 10
+    },
+    "343294": {
+     "6": 10
+    },
+    "433895": {
+     "6": 10
+    },
+    "55090": {
+     "6": 10
+    },
+    "77575": {
+     "6": 10
+    },
+    "85948": {
+     "6": 20
+    }
+   },
+   "passive": {
+    "6": 1.916
+   },
+   "seconds": 1411.7,
+   "updated": "2026-11-15",
+   "zone": 53
   },
   "demonhunter_devourer": {
-   "ooc": {
-    "17": {
-     "max": 140.0,
-     "n": 39,
-     "rate": -1.75,
-     "rateFast": -6.76,
-     "rest": 16.0
+   "detail": [
+    {
+     "casts": 0,
+     "hits": 2929,
+     "id": 1223628,
+     "perSecond": 8.256,
+     "pt": 17,
+     "token": null,
+     "total": 11716,
+     "waste": 2582
+    },
+    {
+     "casts": 0,
+     "hits": 82,
+     "id": 1239507,
+     "perSecond": 0.578,
+     "pt": 17,
+     "token": "hungering_slash",
+     "total": 820,
+     "waste": 202
+    },
+    {
+     "casts": 0,
+     "hits": 74,
+     "id": 1241922,
+     "perSecond": 0.521,
+     "pt": 17,
+     "token": null,
+     "total": 740,
+     "waste": 136
+    },
+    {
+     "casts": 0,
+     "hits": 303,
+     "id": 1242475,
+     "perSecond": 1.281,
+     "pt": 17,
+     "token": "soul_immolation",
+     "total": 1818,
+     "waste": 59
+    },
+    {
+     "casts": 45,
+     "gain": 20,
+     "hits": 45,
+     "id": 1245414,
+     "pt": 17,
+     "token": "voidblade",
+     "total": 900,
+     "waste": 164
+    },
+    {
+     "casts": 0,
+     "hits": 164,
+     "id": 1261710,
+     "perSecond": 1.009,
+     "pt": 17,
+     "token": "consume",
+     "total": 1432,
+     "waste": 44
+    },
+    {
+     "casts": 0,
+     "hits": 10,
+     "id": 1277769,
+     "perSecond": 0.461,
+     "pt": 17,
+     "token": null,
+     "total": 654,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 293,
+     "id": 1288123,
+     "perSecond": 3.539,
+     "pt": 17,
+     "token": "devour",
+     "total": 5022,
+     "waste": 530
     }
-   }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "1245414": {
+     "17": 20
+    }
+   },
+   "passive": {
+    "17": 15.646
+   },
+   "seconds": 1419.0,
+   "updated": "2026-11-15",
+   "zone": 53
   },
   "demonhunter_havoc": {
-   "ooc": {
-    "17": {
-     "max": 170.0,
-     "n": 20,
-     "rate": 4.55,
-     "rateFast": -1.25,
-     "rest": 22.0
+   "detail": [
+    {
+     "casts": 0,
+     "hits": 163,
+     "id": 193840,
+     "perSecond": 3.798,
+     "pt": 17,
+     "token": "chaos_strike",
+     "total": 3260,
+     "waste": 4
+    },
+    {
+     "casts": 0,
+     "hits": 902,
+     "id": 203796,
+     "perSecond": 13.912,
+     "pt": 17,
+     "token": null,
+     "total": 11941,
+     "waste": 1989
+    },
+    {
+     "casts": 0,
+     "hits": 341,
+     "id": 210041,
+     "perSecond": 7.946,
+     "pt": 17,
+     "token": null,
+     "total": 6820,
+     "waste": 1352
+    },
+    {
+     "casts": 83,
+     "gain": 15,
+     "hits": 83,
+     "id": 213243,
+     "pt": 17,
+     "token": "felblade",
+     "total": 1245,
+     "waste": 204
+    },
+    {
+     "casts": 30,
+     "gain": 20,
+     "hits": 31,
+     "id": 258920,
+     "pt": 17,
+     "token": "immolation_aura",
+     "total": 620,
+     "waste": 136
+    },
+    {
+     "casts": 0,
+     "hits": 326,
+     "id": 258922,
+     "perSecond": 1.139,
+     "pt": 17,
+     "token": "immolation_aura",
+     "total": 978,
+     "waste": 150
+    },
+    {
+     "casts": 0,
+     "hits": 292,
+     "id": 389890,
+     "perSecond": 2.644,
+     "pt": 17,
+     "token": null,
+     "total": 2269,
+     "waste": 0
+    },
+    {
+     "casts": 0,
+     "hits": 80,
+     "id": 427908,
+     "perSecond": 0.28,
+     "pt": 17,
+     "token": "immolation_aura",
+     "total": 240,
+     "waste": 18
+    },
+    {
+     "casts": 0,
+     "hits": 30,
+     "id": 427910,
+     "perSecond": 0.105,
+     "pt": 17,
+     "token": "immolation_aura",
+     "total": 90,
+     "waste": 9
+    },
+    {
+     "casts": 0,
+     "hits": 8,
+     "id": 427912,
+     "perSecond": 0.186,
+     "pt": 17,
+     "token": null,
+     "total": 160,
+     "waste": 7
+    },
+    {
+     "casts": 0,
+     "hits": 3,
+     "id": 427913,
+     "perSecond": 0.07,
+     "pt": 17,
+     "token": "immolation_aura",
+     "total": 60,
+     "waste": 40
+    },
+    {
+     "casts": 65,
+     "gain": 20,
+     "hits": 65,
+     "id": 442294,
+     "pt": 17,
+     "token": "reavers_glaive",
+     "total": 1300,
+     "waste": 480
     }
-   }
+   ],
+   "difficulty": 4,
+   "fights": 4,
+   "gains": {
+    "213243": {
+     "17": 15
+    },
+    "258920": {
+     "17": 20
+    },
+    "442294": {
+     "17": 20
+    }
+   },
+   "passive": {
+    "17": 30.08
+   },
+   "seconds": 858.3,
+   "updated": "2026-11-15",
+   "zone": 53
   },
   "demonhunter_vengeance": {
-   "ooc": {
-    "17": {
-     "max": 120.0,
-     "n": 48,
-     "rate": 0.25,
-     "rateFast": -7.74,
-     "rest": 20.0
+   "detail": [
+    {
+     "casts": 40,
+     "gain": 15,
+     "hits": 40,
+     "id": 213243,
+     "pt": 17,
+     "token": "felblade",
+     "total": 600,
+     "waste": 65
+    },
+    {
+     "casts": 123,
+     "gain": 8,
+     "hits": 123,
+     "id": 258920,
+     "pt": 17,
+     "token": "immolation_aura",
+     "total": 984,
+     "waste": 112
+    },
+    {
+     "casts": 0,
+     "hits": 1095,
+     "id": 258922,
+     "perSecond": 1.56,
+     "pt": 17,
+     "token": "immolation_aura",
+     "total": 2190,
+     "waste": 341
+    },
+    {
+     "casts": 453,
+     "gain": 43,
+     "hits": 453,
+     "id": 263642,
+     "pt": 17,
+     "token": "fracture",
+     "total": 16524,
+     "waste": 1990
+    },
+    {
+     "casts": 0,
+     "hits": 42,
+     "id": 389787,
+     "perSecond": 0.748,
+     "pt": 17,
+     "token": "sigil_of_flame",
+     "total": 1050,
+     "waste": 309
+    },
+    {
+     "casts": 0,
+     "hits": 628,
+     "id": 392997,
+     "perSecond": 1.353,
+     "pt": 17,
+     "token": null,
+     "total": 1899,
+     "waste": 308
+    },
+    {
+     "casts": 0,
+     "hits": 57,
+     "id": 428608,
+     "perSecond": 0.406,
+     "pt": 17,
+     "token": null,
+     "total": 570,
+     "waste": 85
     }
-   }
+   ],
+   "difficulty": 4,
+   "fights": 6,
+   "gains": {
+    "213243": {
+     "17": 15
+    },
+    "258920": {
+     "17": 8
+    },
+    "263642": {
+     "17": 43
+    }
+   },
+   "passive": {
+    "17": 4.067
+   },
+   "seconds": 1403.7,
+   "updated": "2026-11-15",
+   "zone": 53
   },
   "druid_balance": {
    "detail": [
