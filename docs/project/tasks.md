@@ -205,6 +205,9 @@ case someone refuses to turn it on. Both are valid."
     (tools/wcl-castdelta.py: resources not logged as gain events, Soul Shards and Essence - cost paid per cast and
     how often free, against our data; its per-cast gains are unreliable where casts come at a steady pace).
   Offline average over the 30 specs: 68.5% -> 72.7% (part of it is the offline world fixed, not the addon).
+  Income by target count now also for Blood, Frost DK, Devourer, Vengeance, Fury warrior (Data/ResourceTargets.lua;
+  Arms left out - 0.12/s on 5 targets vs 0.70 on 1 isn't believable; Havoc, Guardian, Protection warrior, Shadow,
+  Elemental: the Warcraft Logs API throttled the run, to measure again). Fury warrior offline 55 -> 74.
   Still weak offline: Unholy AoE (dread_plague.active_dots unknown), Arms AoE (Rage bounds straddle the cost),
   Windwalker, Fury, Brewmaster, Retribution ~50-57%.
 - 1.6.0.299: Offline fights that measure slot 2 like the game (owner: "improve the offline testing system so you can do
