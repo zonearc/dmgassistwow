@@ -4357,7 +4357,7 @@ test("passive income: measured per spec, counted in the look-ahead in full and i
   ns.Data.resourceTargets = nil
   eq(S.RegenRate(8), 4, "fighting, no dummy measure: the raid logs' rate")
   ns.Specs.current.data.passiveGain[3] = 6
-  eq(S.PassiveGain(3), 0, "Energy: not yet (finisher refunds counted as passive)")
+  eq(S.PassiveGain(3), 6, "Energy too since 1.6.0.305 (Energy is counted now)")
   eq(S.PassiveGain(4), 0, "combo points: counted from what the game shows instead")
   C.SyncFloor(8, 10, 100)
   mock.Advance(10)
@@ -4375,7 +4375,7 @@ test("hidden even out of combat: each pull starts from last fight's count, drain
   ns.Specs.current.data.oocPower = { [8] = { rate = -2.7, fast = -5, rest = 20 } }
   C.SeedFloors(nil)
   eq(C.FloorBounds(8), 0, "first pull after logging in: from nothing")
-  eq(C.floor[3], nil, "Energy: left to affordability and regeneration")
+  eq(C.floor[3] ~= nil and C.floor[3].regen, true, "Energy: counted too, from full (1.6.0.305)")
   for _ = 1, 6 do
     C.OnOwnCast(194153)
   end

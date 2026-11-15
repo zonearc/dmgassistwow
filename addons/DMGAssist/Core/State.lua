@@ -2745,11 +2745,8 @@ function S.PassiveGain(pt)
       return 0
     end
   end
-  if S.REGEN_BASE[pt] then
-    -- Energy / Focus: not yet. Part of what the reader counts as passive is tied to finishers (Subtlety's
-    -- Relentless Strikes refunds ~14 Energy a second), and adding it moved slot 2 off in the every-spec check.
-    return 0
-  end
+  -- (Energy / Focus count too since 1.6.0.305: Beast Mastery's Focus comes ~14/s beyond regeneration - Barbed Shot,
+  -- the pet - and without it the new count fell to 0 within 7 s while the real Focus ran 40-100 offline.)
   local state = ns.Specs and ns.Specs.current
   -- By your number of targets where Warcraft Logs' dummy fights measured it (Data/ResourceTargets.lua): Balance's
   -- Astral Power with nothing cast is ~1.7 a second on one target, ~5.3 on three (Shooting Stars from damage over

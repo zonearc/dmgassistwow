@@ -44,6 +44,9 @@ def main():
     os.unlink(f.name)
     for m in re.finditer(r"^PRED (\S+) (\d+) ([\d.]+)", out.stdout, re.M):
         print("%s  %s targets  slot 2 right %s%%" % (m.group(1), m.group(2), m.group(3)))
+    for line in out.stderr.splitlines():
+        if line.startswith("POWER"):
+            print(line)
     if out.returncode or "PRED" not in out.stdout:
         print(out.stdout[-1500:], out.stderr[-1500:])
 

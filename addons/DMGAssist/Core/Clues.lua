@@ -317,7 +317,7 @@ function C.SetBound(pt, lo, hi, ttl, source)
 end
 
 -- Combined lo, hi for a power type (nil when nothing is known). Contradictions (lo > hi) are dropped.
-function C.ResourceBounds(pt)
+local function Bounds(pt, withFloor)
   local lo, hi = 0, math.huge
   local known = false
   local now = GetTime()
@@ -330,7 +330,7 @@ function C.ResourceBounds(pt)
     lo, hi, known = math.max(lo, slo), math.min(hi, shi), true
   end
   local flo, fhi = C.FloorBounds(pt)
-  if flo then
+  if flo and withFloor then
     lo, hi, known = math.max(lo, flo), math.min(hi, fhi), true
   end
   if C.Enabled("usable") then
@@ -347,9 +347,23 @@ function C.ResourceBounds(pt)
     end
   end
   if not known or lo > hi then
-    return nil
+    return nil, flo ~= nil and withFloor
   end
   return lo, hi
+end
+
+function C.ResourceBounds(pt)
+  local lo, hi = Bounds(pt, true)
+  if lo then
+    return lo, hi
+  end
+  -- our count contradicts what the game says (a regenerating count started full, the assistant waiting for Energy):
+  -- the game's answers alone, until Calibrate.Snap brings the count in line
+  local conflict = select(2, Bounds(pt, true))
+  if conflict then
+    return Bounds(pt, false)
+  end
+  return nil
 end
 
 -- Grade bounds against a readable value (out of combat, or a resource that isn't secret).
@@ -483,6 +497,11 @@ function C.OnOwnCast(id)
     local base = M.Cost(info)
     if base and next(base) then
       M.live[info], freed = {}, true
+    end
+  end
+  for pt in pairs(M.Cost(info) or {}) do
+    if C.REGEN[pt] and not C.floor[pt] then
+      C.StartRegenFloor(pt) -- (an opener before any count: from full)
     end
   end
   C.FloorOnCast(info, id)
@@ -672,6 +691,24 @@ function C.SeedFloors(ooc)
       C.floor[pt] = { lo = lo, max = max, at = GetTime(), seeded = true }
     end
   end
+  -- Energy and Focus too (1.6.0.305): hidden in and out of combat like the rest ("secret, never ok" in the owner's
+  -- logs), they had no count at all - only the game's "the dearest spender you can afford" answer, a floor with
+  -- nothing above it. Slot 2 then never offered two spenders in a row: offline Beast Mastery's Cobra Shot "not
+  -- affordable" 230 times in four fights while Focus ran 40-100 (tools/sim.py, 2026-11-15). Out of combat they
+  -- refill: a count kept from the last fight goes on regenerating (opener casts before the pull spend from it,
+  -- C.OnOwnCast), a first count starts full.
+  for _, pt in pairs(C.BUILT) do
+    if used[pt] and C.REGEN[pt] and not C.floor[pt] then
+      C.StartRegenFloor(pt)
+    end
+  end
+end
+
+-- A count for a regenerating resource we have none for: full (it refills out of combat).
+function C.StartRegenFloor(pt)
+  local max = ns.State.PowerMax and ns.State.PowerMax(pt)
+  max = type(max) == "number" and max > 0 and max or 100
+  C.floor[pt] = { lo = max, max = max, at = GetTime(), seeded = true, regen = true }
 end
 
 -- The game proved at least `v` (Calibrate.Snap): the counted floor comes up to it.

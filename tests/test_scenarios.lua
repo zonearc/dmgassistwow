@@ -473,6 +473,14 @@ local function Fight(ns, key, record, book, scenario)
         m.maxHold = math.max(m.maxHold, now - t)
       end
     end
+    local dbgPt = tonumber(os.getenv("SCEN_POWER") or "")
+    if dbgPt and world and math.floor((now - start) * 5 + 0.5) % 5 == 0 then
+      local lo, hi = ns.Clues.ResourceBounds(dbgPt)
+      local f = ns.Clues.floor[dbgPt]
+      io.stderr:write(string.format("POWER t=%.1f world=%.1f bounds=%s..%s floor=%s main=%s\n", now - start,
+        world.cur[dbgPt] or -1, tostring(lo and math.floor(lo)), tostring(hi and math.floor(hi)),
+        tostring(f and math.floor(f.lo)), tostring(main and main.token)))
+    end
     -- the player: presses slot 1 when the GCD allows and it isn't shown as "not yet"
     if r and main and main.id and now >= gcdEnd and not (main.readyAt and main.readyAt > now)
       and not mock.cooldowns[main.id]
