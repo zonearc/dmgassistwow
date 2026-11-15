@@ -924,4 +924,10 @@ ns.LOCALE_DATA.deDE = {
   ["tracked"] = "verfolgt",
   ["Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"] = "Blizzards Abklingzeitenmanager: an oder aus, und welche wichtigen Buffs sich darin zu verfolgen lohnen",
   ["Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."] = "Seine Buffs sind auf Versteckt gestellt: Das Spiel aktualisiert sie dann nicht mehr, daher kann DMGAssist sie nicht lesen. Stelle die Sichtbarkeit auf Immer (die Deckkraft lässt sich bis 50% senken).",
+  ["Tip: DMGAssist is more accurate with Blizzard's Cooldown Manager on and visible: it shows procs the game hides from addons. Steps: Settings > Integrations, or /dmga cdm."] = "Tipp: DMGAssist ist genauer, wenn Blizzards Abklingzeitenmanager an und sichtbar ist: Er zeigt Procs, die das Spiel vor Addons verbirgt. Schritte: Einstellungen > Integrationen oder /dmga cdm.",
+  ["How to set it up:"] = "So richtest du ihn ein:",
+  ["Options > Gameplay Enhancements: tick Enable Cooldown Manager."] = "Optionen > Spielverbesserungen: Abklingzeitenmanager aktivieren anhaken.",
+  ["Open its Cooldown Settings (the same page, or Edit Mode), Buffs tab: drag the buffs marked 'add it' below into Tracked Buffs. Only those: the others add clutter, not accuracy."] = "Öffne seine Abklingzeiteinstellungen (gleiche Seite oder Bearbeitungsmodus), Reiter Buffs: Ziehe die unten mit 'hinzufügen' markierten Buffs zu den verfolgten Buffs. Nur diese: Die anderen bringen Unordnung, keine Genauigkeit.",
+  ["Keep its Visibility on Always. To make it less visible, lower its opacity (50% is the lowest). Hidden stops it working."] = "Lass die Sichtbarkeit auf Immer. Um ihn unauffälliger zu machen, senke die Deckkraft (50% ist das Minimum). Versteckt schaltet ihn außer Funktion.",
+  ["Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."] = "Aus. DMGAssist ist genauer, wenn er an ist: Er zeigt Procs, die das Spiel vor Addons verbirgt.",
 }

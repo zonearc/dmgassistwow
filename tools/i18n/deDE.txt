@@ -920,3 +920,9 @@
 926	verfolgt
 927	Blizzards Abklingzeitenmanager: an oder aus, und welche wichtigen Buffs sich darin zu verfolgen lohnen
 928	Seine Buffs sind auf Versteckt gestellt: Das Spiel aktualisiert sie dann nicht mehr, daher kann DMGAssist sie nicht lesen. Stelle die Sichtbarkeit auf Immer (die Deckkraft lässt sich bis 50% senken).
+929	Tipp: DMGAssist ist genauer, wenn Blizzards Abklingzeitenmanager an und sichtbar ist: Er zeigt Procs, die das Spiel vor Addons verbirgt. Schritte: Einstellungen > Integrationen oder /dmga cdm.
+930	So richtest du ihn ein:
+931	Optionen > Spielverbesserungen: Abklingzeitenmanager aktivieren anhaken.
+932	Öffne seine Abklingzeiteinstellungen (gleiche Seite oder Bearbeitungsmodus), Reiter Buffs: Ziehe die unten mit 'hinzufügen' markierten Buffs zu den verfolgten Buffs. Nur diese: Die anderen bringen Unordnung, keine Genauigkeit.
+933	Lass die Sichtbarkeit auf Immer. Um ihn unauffälliger zu machen, senke die Deckkraft (50% ist das Minimum). Versteckt schaltet ihn außer Funktion.
+934	Aus. DMGAssist ist genauer, wenn er an ist: Er zeigt Procs, die das Spiel vor Addons verbirgt.

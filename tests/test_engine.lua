@@ -52,6 +52,7 @@ local function Reset()
   mock.targetCast, mock.important = nil, nil
   mock.plateCombat, mock.plateNames = nil, nil
   mock.healthPct, mock.mounted, mock.sounds, mock.castTimes = nil, nil, {}, nil
+  mock.cvarsMissing.cooldownViewerEnabled = true -- no Cooldown Manager unless a test sets one up
   mock.targetGUID, mock.groupSize, mock.targetLevel = nil, nil, nil
   SettingsPanel, ActionButton3 = nil, nil
   DBM, BigWigsLoader, BT4Button1, BuffIconCooldownViewer = nil, nil, nil, nil
@@ -3373,6 +3374,7 @@ test("Cooldown Manager: tracked buffs read from its frames when readable, graded
   local ns = Boot()
   local item = { cooldownID = 11, isActive = true }
   BuffIconCooldownViewer = { GetChildren = function() return item end }
+  mock.cvarsMissing.cooldownViewerEnabled = nil
   mock.cvars.cooldownViewerEnabled = "1"
   mock.cdmInfo = { [11] = { spellID = 135700 } }
   ns.SpellMap.info[135700] = { n = "clearcasting", d = 15 }
@@ -3393,6 +3395,7 @@ test("Cooldown Manager: tracked buffs read from its frames when readable, graded
   ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
   eq(ns.State.Resolve("buff.clearcasting.up", {}), ns.Expr.UNKNOWN)
   -- switched off in the game's options: not read at all
+  mock.cvarsMissing.cooldownViewerEnabled = nil
   mock.cvars.cooldownViewerEnabled = "0"
   item.isActive = true
   mock.Advance(1)
@@ -3438,12 +3441,27 @@ test("Cooldown Manager: detected on or off; settings list each key buff as track
   local ns = Boot()
   ns.Specs.current = { key = "mage_fire", data = CDMRecord() }
   -- off: says how to turn it on, still lists what to track
+  mock.cvarsMissing.cooldownViewerEnabled = nil
   mock.cvars.cooldownViewerEnabled = "0"
   local st = ns.CDM.Refresh("test")
   eq(st.enabled, false)
   local text = ns.CDM.SettingsText()
   eq(text:find("Gameplay Enhancements", 1, true) ~= nil, true, text)
+  eq(text:find("more accurate", 1, true) ~= nil, true, text)
+  -- one tip in chat, once per profile
+  ns.db.cdmTipShown = nil
+  mock.printed = {}
+  ns.CDM.Announce()
+  ns.CDM.Announce()
+  local tips = 0
+  for _, m in ipairs(mock.printed) do
+    if tostring(m):find("more accurate with Blizzard's Cooldown Manager", 1, true) then
+      tips = tips + 1
+    end
+  end
+  eq(tips, 1)
   -- on: Hot Streak tracked (and one buff DMGAssist doesn't need), Heating Up offered but not tracked
+  mock.cvarsMissing.cooldownViewerEnabled = nil
   mock.cvars.cooldownViewerEnabled = "1"
   mock.cdmInfo = { [1] = { spellID = 48108 }, [2] = { spellID = 48107 }, [3] = { spellID = 999 } }
   ns.SpellMap.info[48108] = { n = "hot_streak" }
@@ -3494,6 +3512,7 @@ test("Cooldown Manager: a hidden viewer (Visibility: Hidden) is not believed; ev
   local logged = {}
   DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, tostring(data) } end } -- luacheck: ignore 111
   local ns = Boot()
+  mock.cvarsMissing.cooldownViewerEnabled = nil
   mock.cvars.cooldownViewerEnabled = "1"
   local hidden = false
   local item = { cooldownID = 31, isActive = true }
@@ -3534,6 +3553,7 @@ test("Cooldown Manager: an icon showing stands for its buff in combat once it pr
   local logged = {}
   DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, tostring(data) } end } -- luacheck: ignore 111
   local ns = Boot()
+  mock.cvarsMissing.cooldownViewerEnabled = nil
   mock.cvars.cooldownViewerEnabled = "1"
   local shown = false
   local item = { cooldownID = 21, isActive = nil, IsShown = function() return shown end }

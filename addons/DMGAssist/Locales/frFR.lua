@@ -924,4 +924,10 @@ ns.LOCALE_DATA.frFR = {
   ["tracked"] = "suivie",
   ["Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"] = "Gestionnaire de temps de recharge de Blizzard : activé ou non, et les améliorations clés à y suivre",
   ["Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."] = "Ses améliorations sont réglées sur Masqué : le jeu cesse de les mettre à jour, DMGAssist ne peut donc pas les lire. Réglez la visibilité sur Toujours (l'opacité peut descendre à 50%).",
+  ["Tip: DMGAssist is more accurate with Blizzard's Cooldown Manager on and visible: it shows procs the game hides from addons. Steps: Settings > Integrations, or /dmga cdm."] = "Astuce : DMGAssist est plus précis avec le gestionnaire de temps de recharge de Blizzard activé et visible : il montre les procs que le jeu cache aux addons. Étapes : Options > Intégrations, ou /dmga cdm.",
+  ["How to set it up:"] = "Comment le configurer :",
+  ["Options > Gameplay Enhancements: tick Enable Cooldown Manager."] = "Options > Améliorations de jeu : cochez Activer le gestionnaire de temps de recharge.",
+  ["Open its Cooldown Settings (the same page, or Edit Mode), Buffs tab: drag the buffs marked 'add it' below into Tracked Buffs. Only those: the others add clutter, not accuracy."] = "Ouvrez ses paramètres de temps de recharge (même page, ou mode Édition), onglet Améliorations : faites glisser dans les améliorations suivies celles marquées « ajoutez-la » ci-dessous. Seulement celles-là : les autres ajoutent du désordre, pas de la précision.",
+  ["Keep its Visibility on Always. To make it less visible, lower its opacity (50% is the lowest). Hidden stops it working."] = "Laissez la visibilité sur Toujours. Pour le rendre plus discret, baissez son opacité (50% au minimum). Masqué l'empêche de fonctionner.",
+  ["Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."] = "Désactivé. DMGAssist est plus précis quand il est activé : il montre les procs que le jeu cache aux addons.",
 }

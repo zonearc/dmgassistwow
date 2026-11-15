@@ -920,3 +920,9 @@
 926	suivie
 927	Gestionnaire de temps de recharge de Blizzard : activé ou non, et les améliorations clés à y suivre
 928	Ses améliorations sont réglées sur Masqué : le jeu cesse de les mettre à jour, DMGAssist ne peut donc pas les lire. Réglez la visibilité sur Toujours (l'opacité peut descendre à 50%).
+929	Astuce : DMGAssist est plus précis avec le gestionnaire de temps de recharge de Blizzard activé et visible : il montre les procs que le jeu cache aux addons. Étapes : Options > Intégrations, ou /dmga cdm.
+930	Comment le configurer :
+931	Options > Améliorations de jeu : cochez Activer le gestionnaire de temps de recharge.
+932	Ouvrez ses paramètres de temps de recharge (même page, ou mode Édition), onglet Améliorations : faites glisser dans les améliorations suivies celles marquées « ajoutez-la » ci-dessous. Seulement celles-là : les autres ajoutent du désordre, pas de la précision.
+933	Laissez la visibilité sur Toujours. Pour le rendre plus discret, baissez son opacité (50% au minimum). Masqué l'empêche de fonctionner.
+934	Désactivé. DMGAssist est plus précis quand il est activé : il montre les procs que le jeu cache aux addons.

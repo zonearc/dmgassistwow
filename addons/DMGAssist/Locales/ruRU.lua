@@ -924,4 +924,10 @@ ns.LOCALE_DATA.ruRU = {
   ["tracked"] = "отслеживается",
   ["Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"] = "Менеджер восстановления Blizzard: включён или нет и какие ключевые эффекты стоит в нём отслеживать",
   ["Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."] = "Его эффекты скрыты: игра перестаёт их обновлять, поэтому DMGAssist не может их прочитать. Установите видимость «Всегда» (прозрачность можно снизить до 50%).",
+  ["Tip: DMGAssist is more accurate with Blizzard's Cooldown Manager on and visible: it shows procs the game hides from addons. Steps: Settings > Integrations, or /dmga cdm."] = "Совет: DMGAssist точнее, когда менеджер восстановления Blizzard включён и виден: он показывает срабатывания, которые игра скрывает от аддонов. Шаги: Настройки > Интеграции или /dmga cdm.",
+  ["How to set it up:"] = "Как настроить:",
+  ["Options > Gameplay Enhancements: tick Enable Cooldown Manager."] = "Настройки > Улучшения игрового процесса: отметьте «Включить менеджер восстановления».",
+  ["Open its Cooldown Settings (the same page, or Edit Mode), Buffs tab: drag the buffs marked 'add it' below into Tracked Buffs. Only those: the others add clutter, not accuracy."] = "Откройте его настройки восстановления (та же страница или режим редактирования), вкладка «Эффекты»: перетащите в отслеживаемые эффекты отмеченные ниже «добавьте». Только их: остальные добавляют беспорядок, а не точность.",
+  ["Keep its Visibility on Always. To make it less visible, lower its opacity (50% is the lowest). Hidden stops it working."] = "Оставьте видимость «Всегда». Чтобы он меньше бросался в глаза, снизьте прозрачность (минимум 50%). «Скрыто» отключает его работу.",
+  ["Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."] = "Выключен. С ним DMGAssist точнее: он показывает срабатывания, которые игра скрывает от аддонов.",
 }

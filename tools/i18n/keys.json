@@ -927,5 +927,11 @@
 "the Cooldown Manager can't track it",
 "tracked",
 "Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it",
-"Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."
+"Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%).",
+"Tip: DMGAssist is more accurate with Blizzard's Cooldown Manager on and visible: it shows procs the game hides from addons. Steps: Settings > Integrations, or /dmga cdm.",
+"How to set it up:",
+"Options > Gameplay Enhancements: tick Enable Cooldown Manager.",
+"Open its Cooldown Settings (the same page, or Edit Mode), Buffs tab: drag the buffs marked 'add it' below into Tracked Buffs. Only those: the others add clutter, not accuracy.",
+"Keep its Visibility on Always. To make it less visible, lower its opacity (50% is the lowest). Hidden stops it working.",
+"Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."
 ]

@@ -920,3 +920,9 @@
 926	seguido
 927	Gestor de reutilizaciones de Blizzard: activado o no, y los beneficios clave que vale la pena seguir en él
 928	Sus beneficios están en Oculto: el juego deja de actualizarlos, así que DMGAssist no puede leerlos. Pon la visibilidad en Siempre (la opacidad puede bajar hasta el 50%).
+929	Consejo: DMGAssist es más preciso con el gestor de reutilizaciones de Blizzard activado y visible: muestra procs que el juego oculta a los addons. Pasos: Opciones > Integraciones, o /dmga cdm.
+930	Cómo configurarlo:
+931	Opciones > Mejoras de juego: marca Activar gestor de reutilizaciones.
+932	Abre su configuración de reutilizaciones (la misma página o el modo de edición), pestaña Beneficios: arrastra a Beneficios seguidos los marcados con 'añádelo' abajo. Solo esos: los demás añaden desorden, no precisión.
+933	Deja la visibilidad en Siempre. Para que se note menos, baja su opacidad (50% es el mínimo). Oculto hace que deje de funcionar.
+934	Desactivado. DMGAssist es más preciso con él activado: muestra procs que el juego oculta a los addons.

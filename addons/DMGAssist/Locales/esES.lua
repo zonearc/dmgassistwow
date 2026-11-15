@@ -924,4 +924,10 @@ ns.LOCALE_DATA.esES = {
   ["tracked"] = "seguido",
   ["Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"] = "Gestor de reutilizaciones de Blizzard: activado o no, y los beneficios clave que vale la pena seguir en él",
   ["Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."] = "Sus beneficios están en Oculto: el juego deja de actualizarlos, así que DMGAssist no puede leerlos. Pon la visibilidad en Siempre (la opacidad puede bajar hasta el 50%).",
+  ["Tip: DMGAssist is more accurate with Blizzard's Cooldown Manager on and visible: it shows procs the game hides from addons. Steps: Settings > Integrations, or /dmga cdm."] = "Consejo: DMGAssist es más preciso con el gestor de reutilizaciones de Blizzard activado y visible: muestra procs que el juego oculta a los addons. Pasos: Opciones > Integraciones, o /dmga cdm.",
+  ["How to set it up:"] = "Cómo configurarlo:",
+  ["Options > Gameplay Enhancements: tick Enable Cooldown Manager."] = "Opciones > Mejoras de juego: marca Activar gestor de reutilizaciones.",
+  ["Open its Cooldown Settings (the same page, or Edit Mode), Buffs tab: drag the buffs marked 'add it' below into Tracked Buffs. Only those: the others add clutter, not accuracy."] = "Abre su configuración de reutilizaciones (la misma página o el modo de edición), pestaña Beneficios: arrastra a Beneficios seguidos los marcados con 'añádelo' abajo. Solo esos: los demás añaden desorden, no precisión.",
+  ["Keep its Visibility on Always. To make it less visible, lower its opacity (50% is the lowest). Hidden stops it working."] = "Deja la visibilidad en Siempre. Para que se note menos, baja su opacidad (50% es el mínimo). Oculto hace que deje de funcionar.",
+  ["Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."] = "Desactivado. DMGAssist es más preciso con él activado: muestra procs que el juego oculta a los addons.",
 }

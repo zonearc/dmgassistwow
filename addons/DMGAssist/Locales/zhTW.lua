@@ -924,4 +924,10 @@ ns.LOCALE_DATA.zhTW = {
   ["tracked"] = "已追蹤",
   ["Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"] = "暴雪冷卻管理器：是否開啟，以及值得在其中追蹤的關鍵增益",
   ["Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."] = "它的增益設為隱藏：遊戲會停止更新它們，DMGAssist 因此無法讀取。請將可見性設為總是（不透明度可降到 50%）。",
+  ["Tip: DMGAssist is more accurate with Blizzard's Cooldown Manager on and visible: it shows procs the game hides from addons. Steps: Settings > Integrations, or /dmga cdm."] = "提示：開啟並顯示暴雪冷卻管理器後，DMGAssist 會更準確：它能顯示遊戲對插件隱藏的觸發效果。步驟：設定 > 整合，或 /dmga cdm。",
+  ["How to set it up:"] = "如何設定：",
+  ["Options > Gameplay Enhancements: tick Enable Cooldown Manager."] = "選項 > 遊戲功能強化：勾選啟用冷卻管理器。",
+  ["Open its Cooldown Settings (the same page, or Edit Mode), Buffs tab: drag the buffs marked 'add it' below into Tracked Buffs. Only those: the others add clutter, not accuracy."] = "打開它的冷卻設定（同一頁面或編輯模式），增益分頁：把下面標為「加入」的增益拖到追蹤的增益裡。只拖這些：其他的只會增加雜亂，不會提高準確度。",
+  ["Keep its Visibility on Always. To make it less visible, lower its opacity (50% is the lowest). Hidden stops it working."] = "可見性保持為總是。想不那麼顯眼，就調低不透明度（最低 50%）。設為隱藏會讓它失效。",
+  ["Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."] = "已關閉。開啟後 DMGAssist 會更準確：它能顯示遊戲對插件隱藏的觸發效果。",
 }

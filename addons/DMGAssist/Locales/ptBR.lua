@@ -924,4 +924,10 @@ ns.LOCALE_DATA.ptBR = {
   ["tracked"] = "rastreado",
   ["Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"] = "Gerenciador de Recargas da Blizzard: ligado ou não, e os bônus principais que vale a pena rastrear nele",
   ["Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."] = "Os bônus estão em Oculto: o jogo para de atualizá-los, então o DMGAssist não consegue lê-los. Defina a visibilidade como Sempre (a opacidade pode ir até 50%).",
+  ["Tip: DMGAssist is more accurate with Blizzard's Cooldown Manager on and visible: it shows procs the game hides from addons. Steps: Settings > Integrations, or /dmga cdm."] = "Dica: o DMGAssist é mais preciso com o Gerenciador de Recargas da Blizzard ligado e visível: ele mostra procs que o jogo esconde dos addons. Passos: Configurações > Integrações, ou /dmga cdm.",
+  ["How to set it up:"] = "Como configurar:",
+  ["Options > Gameplay Enhancements: tick Enable Cooldown Manager."] = "Opções > Melhorias de Jogabilidade: marque Ativar Gerenciador de Recargas.",
+  ["Open its Cooldown Settings (the same page, or Edit Mode), Buffs tab: drag the buffs marked 'add it' below into Tracked Buffs. Only those: the others add clutter, not accuracy."] = "Abra as Configurações de Recarga (mesma página ou Modo de Edição), aba Bônus: arraste para os Bônus Rastreados os marcados com 'adicione' abaixo. Só esses: os outros trazem poluição, não precisão.",
+  ["Keep its Visibility on Always. To make it less visible, lower its opacity (50% is the lowest). Hidden stops it working."] = "Mantenha a visibilidade em Sempre. Para deixá-lo mais discreto, reduza a opacidade (50% é o mínimo). Oculto faz ele parar de funcionar.",
+  ["Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."] = "Desligado. O DMGAssist é mais preciso com ele ligado: ele mostra procs que o jogo esconde dos addons.",
 }

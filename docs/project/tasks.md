@@ -180,6 +180,12 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.284: Cooldown Manager coaching (owner, 2026-11-14: "coach people that DMGAssist is more accurate with the
+  Cooldown Manager enabled ... give them instructions"). Settings > Integrations, until it's set up: "Off. DMGAssist
+  is more accurate with it on" and 3 steps (enable it in Options > Gameplay Enhancements; in its Cooldown Settings,
+  Buffs tab, drag only the buffs marked "add it" to Tracked Buffs; keep Visibility on Always, lower opacity to 50% at
+  most - Hidden stops it working). One chat tip per profile when it's off or hidden (never repeated). Tests start
+  with no Cooldown Manager unless a test sets one up.
 - 1.6.0.283: Cooldown Manager set to Hidden is NOT readable (owner's test, 1.6.0.281, 2026-11-14): with the
   buff icons' Visibility on Hidden (viewer shown=F, alpha 0.50) every buff read act=F / sh=F all fight, no flips,
   Eclipse included (it read T while visible) - the game stops updating a hidden viewer. Those stale "not active"

@@ -924,4 +924,10 @@ ns.LOCALE_DATA.koKR = {
   ["tracked"] = "추적 중",
   ["Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"] = "블리자드 재사용 대기시간 관리자: 켜짐 여부와 추적할 만한 핵심 강화 효과",
   ["Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."] = "강화 효과가 숨김으로 설정되어 있습니다: 게임이 더 이상 갱신하지 않으므로 DMGAssist가 읽을 수 없습니다. 표시를 항상으로 설정하세요 (불투명도는 50%까지 낮출 수 있습니다).",
+  ["Tip: DMGAssist is more accurate with Blizzard's Cooldown Manager on and visible: it shows procs the game hides from addons. Steps: Settings > Integrations, or /dmga cdm."] = "팁: 블리자드 재사용 대기시간 관리자를 켜고 보이게 두면 DMGAssist가 더 정확해집니다: 게임이 애드온에 숨기는 발동 효과를 보여줍니다. 방법: 설정 > 연동 또는 /dmga cdm.",
+  ["How to set it up:"] = "설정 방법:",
+  ["Options > Gameplay Enhancements: tick Enable Cooldown Manager."] = "설정 > 게임 플레이 향상: 재사용 대기시간 관리자 활성화를 체크하세요.",
+  ["Open its Cooldown Settings (the same page, or Edit Mode), Buffs tab: drag the buffs marked 'add it' below into Tracked Buffs. Only those: the others add clutter, not accuracy."] = "재사용 대기시간 설정을 여세요 (같은 페이지 또는 편집 모드), 강화 효과 탭: 아래에 '추가'로 표시된 강화 효과를 추적 중인 강화 효과로 끌어 놓으세요. 그것들만: 나머지는 정확도가 아니라 화면만 복잡하게 합니다.",
+  ["Keep its Visibility on Always. To make it less visible, lower its opacity (50% is the lowest). Hidden stops it working."] = "표시는 항상으로 두세요. 덜 보이게 하려면 불투명도를 낮추세요 (최저 50%). 숨김으로 하면 작동하지 않습니다.",
+  ["Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."] = "꺼짐. 켜 두면 DMGAssist가 더 정확해집니다: 게임이 애드온에 숨기는 발동 효과를 보여줍니다.",
 }

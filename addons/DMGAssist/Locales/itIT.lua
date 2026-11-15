@@ -924,4 +924,10 @@ ns.LOCALE_DATA.itIT = {
   ["tracked"] = "tracciato",
   ["Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"] = "Gestore dei tempi di recupero di Blizzard: attivo o no, e i benefici chiave da tracciare",
   ["Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."] = "I suoi benefici sono impostati su Nascosto: il gioco smette di aggiornarli, quindi DMGAssist non può leggerli. Imposta la visibilità su Sempre (l'opacità può scendere fino al 50%).",
+  ["Tip: DMGAssist is more accurate with Blizzard's Cooldown Manager on and visible: it shows procs the game hides from addons. Steps: Settings > Integrations, or /dmga cdm."] = "Suggerimento: DMGAssist è più preciso con il gestore dei tempi di recupero di Blizzard attivo e visibile: mostra i proc che il gioco nasconde agli addon. Passaggi: Impostazioni > Integrazioni, oppure /dmga cdm.",
+  ["How to set it up:"] = "Come configurarlo:",
+  ["Options > Gameplay Enhancements: tick Enable Cooldown Manager."] = "Opzioni > Miglioramenti di gioco: spunta Attiva gestore dei tempi di recupero.",
+  ["Open its Cooldown Settings (the same page, or Edit Mode), Buffs tab: drag the buffs marked 'add it' below into Tracked Buffs. Only those: the others add clutter, not accuracy."] = "Apri le sue impostazioni dei tempi di recupero (stessa pagina o modalità modifica), scheda Benefici: trascina nei benefici tracciati quelli segnati 'aggiungilo' qui sotto. Solo quelli: gli altri aggiungono disordine, non precisione.",
+  ["Keep its Visibility on Always. To make it less visible, lower its opacity (50% is the lowest). Hidden stops it working."] = "Lascia la visibilità su Sempre. Per renderlo meno visibile, abbassa l'opacità (50% è il minimo). Nascosto lo fa smettere di funzionare.",
+  ["Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."] = "Disattivato. DMGAssist è più preciso con il gestore attivo: mostra i proc che il gioco nasconde agli addon.",
 }

@@ -311,8 +311,18 @@ end
 
 -- One chat line per spec and session when the Cooldown Manager is on: what DMGAssist reads from it, and how many
 -- key buffs it could add. Nothing when it's off (the settings page says how to turn it on).
+-- Coaching (owner, 2026-11-14: "we coach people that DMGAssist is more accurate with the Cooldown Manager
+-- enabled ... give them instructions"): off, or set to Hidden - one tip in chat, once per profile, pointing at the
+-- step-by-step in Settings > Integrations. Never repeated after that (no nagging).
 function CDM.Announce()
   local st = CDM.status
+  local db = ns.db
+  if st and st.enabled ~= nil and db and not db.cdmTipShown and (st.enabled == false or next(st.hidden or {})) then
+    db.cdmTipShown = true
+    U.Print("%s", ns.L["Tip: DMGAssist is more accurate with Blizzard's Cooldown Manager on and visible: it shows "
+      .. "procs the game hides from addons. Steps: Settings > Integrations, or /dmga cdm."])
+    return
+  end
   if not (st and st.enabled and st.spec) or (CDM.announced or {})[st.spec] then
     return
   end
@@ -339,8 +349,8 @@ function CDM.SettingsText()
   end
   local lines = {}
   if not st.enabled then
-    lines[1] = "|cff888888" .. L["Off. Turn it on in Options > Gameplay Enhancements (Enable Cooldown Manager), "
-      .. "then track the buffs below."] .. "|r"
+    lines[1] = "|cffffd100" .. L["Off. DMGAssist is more accurate with it on: it shows procs the game hides from "
+      .. "addons."] .. "|r"
   else
     lines[1] = "|cff33dd33" .. string.format(L["On: %d buffs tracked, %d of your key buffs among them."],
       st.trackedCount, st.have) .. "|r"
@@ -349,6 +359,15 @@ function CDM.SettingsText()
     -- the game stops updating a hidden viewer: every buff reads "not active" (owner's test, 2026-11-14)
     lines[#lines + 1] = "|cffff6060" .. L["Its buffs are set to Hidden: the game stops updating them, so DMGAssist "
       .. "can't read them. Set Visibility to Always (opacity can go down to 50%)."] .. "|r"
+  end
+  if not st.enabled or st.add > 0 or next(st.hidden) then
+    -- the steps, until everything is set
+    lines[#lines + 1] = L["How to set it up:"]
+    lines[#lines + 1] = "  1. " .. L["Options > Gameplay Enhancements: tick Enable Cooldown Manager."]
+    lines[#lines + 1] = "  2. " .. L["Open its Cooldown Settings (the same page, or Edit Mode), Buffs tab: drag the "
+      .. "buffs marked 'add it' below into Tracked Buffs. Only those: the others add clutter, not accuracy."]
+    lines[#lines + 1] = "  3. " .. L["Keep its Visibility on Always. To make it less visible, lower its opacity "
+      .. "(50% is the lowest). Hidden stops it working."]
   end
   if #st.keys == 0 then
     lines[#lines + 1] = L["No key buffs for this spec: nothing to add."]

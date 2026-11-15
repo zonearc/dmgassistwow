@@ -920,3 +920,9 @@
 926	tracciato
 927	Gestore dei tempi di recupero di Blizzard: attivo o no, e i benefici chiave da tracciare
 928	I suoi benefici sono impostati su Nascosto: il gioco smette di aggiornarli, quindi DMGAssist non può leggerli. Imposta la visibilità su Sempre (l'opacità può scendere fino al 50%).
+929	Suggerimento: DMGAssist è più preciso con il gestore dei tempi di recupero di Blizzard attivo e visibile: mostra i proc che il gioco nasconde agli addon. Passaggi: Impostazioni > Integrazioni, oppure /dmga cdm.
+930	Come configurarlo:
+931	Opzioni > Miglioramenti di gioco: spunta Attiva gestore dei tempi di recupero.
+932	Apri le sue impostazioni dei tempi di recupero (stessa pagina o modalità modifica), scheda Benefici: trascina nei benefici tracciati quelli segnati 'aggiungilo' qui sotto. Solo quelli: gli altri aggiungono disordine, non precisione.
+933	Lascia la visibilità su Sempre. Per renderlo meno visibile, abbassa l'opacità (50% è il minimo). Nascosto lo fa smettere di funzionare.
+934	Disattivato. DMGAssist è più preciso con il gestore attivo: mostra i proc che il gioco nasconde agli addon.

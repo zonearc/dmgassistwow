@@ -737,6 +737,7 @@ function O.Register()
           local st = ns.CDM.status
           local n = 2 + math.max(1, st and #st.keys or 1) + (st and st.clutter > 0 and 1 or 0)
             + (st and next(st.hidden or {}) and 2 or 0)
+            + ((not st or not st.enabled or st.add > 0 or next(st.hidden or {})) and 6 or 0)
           return 8 + n * 15
         end
         cdmLayout:AddInitializer(init)
