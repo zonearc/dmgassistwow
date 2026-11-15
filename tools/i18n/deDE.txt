@@ -927,3 +927,4 @@
 933	Lass die Sichtbarkeit auf Immer. Um ihn unauffälliger zu machen, senke die Deckkraft (50% ist das Minimum). Versteckt schaltet ihn außer Funktion.
 934	Aus. DMGAssist ist genauer, wenn er an ist: Er zeigt Procs, die das Spiel vor Addons verbirgt.
 935	Sichtbarkeit: Immer oder Bis zum Kampf versteckt (beides funktioniert). Nur Versteckt schaltet ihn außer Funktion. Um ihn unauffälliger zu machen, senke die Deckkraft (50% ist das Minimum).
+936	Nur die verfolgten Buffs zählen (Symbole reichen): Verfolgte Leisten sowie wichtige und Hilfs-Abklingzeiten werden nicht gebraucht. Lass sie leer oder verstecke sie, und lege jeden Buff nur an eine Stelle.

@@ -927,3 +927,4 @@
 933	Deja la visibilidad en Siempre. Para que se note menos, baja su opacidad (50% es el mínimo). Oculto hace que deje de funcionar.
 934	Desactivado. DMGAssist es más preciso con él activado: muestra procs que el juego oculta a los addons.
 935	Visibilidad: Siempre, u Oculto hasta el combate (ambas funcionan). Solo Oculto hace que deje de funcionar. Para que se note menos, baja su opacidad (50% es el mínimo).
+936	Solo importan los Beneficios seguidos (los iconos bastan): las Barras seguidas y las reutilizaciones esenciales y de utilidad no hacen falta. Déjalas vacías u ocúltalas, y pon cada beneficio en un solo sitio.

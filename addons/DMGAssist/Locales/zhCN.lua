@@ -931,4 +931,5 @@ ns.LOCALE_DATA.zhCN = {
   ["Keep its Visibility on Always. To make it less visible, lower its opacity (50% is the lowest). Hidden stops it working."] = "可见性保持为始终。想不那么显眼，就调低不透明度（最低 50%）。设为隐藏会让它失效。",
   ["Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."] = "已关闭。开启后 DMGAssist 会更准确：它能显示游戏对插件隐藏的触发效果。",
   ["Visibility: Always, or Hidden until combat (both work). Plain Hidden stops it working. To make it less visible, lower its opacity (50% is the lowest)."] = "可见性：始终，或战斗前隐藏（都可以）。单纯的隐藏会让它失效。想不那么显眼，就调低不透明度（最低 50%）。",
+  ["Only Tracked Buffs matters (icons are enough): Tracked Bars and the Essential and Utility cooldowns aren't needed. Leave them empty or hide them, and put each buff in one place only."] = "只有追踪的增益有用（图标就够了）：追踪条、核心和辅助冷却都不需要。可以留空或隐藏，并且每个增益只放一个地方。",
 }

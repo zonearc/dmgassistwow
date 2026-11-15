@@ -374,6 +374,8 @@ function CDM.SettingsText()
       .. "buffs marked 'add it' below into Tracked Buffs. Only those: the others add clutter, not accuracy."]
     lines[#lines + 1] = "  3. " .. L["Visibility: Always, or Hidden until combat (both work). Plain Hidden stops it "
       .. "working. To make it less visible, lower its opacity (50% is the lowest)."]
+    lines[#lines + 1] = "  4. " .. L["Only Tracked Buffs matters (icons are enough): Tracked Bars and the Essential "
+      .. "and Utility cooldowns aren't needed. Leave them empty or hide them, and put each buff in one place only."]
   end
   if #st.keys == 0 then
     lines[#lines + 1] = L["No key buffs for this spec: nothing to add."]

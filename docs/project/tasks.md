@@ -180,6 +180,9 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.286: Setup step 4 (owner, 2026-11-14: "that's the key for the instructions"): only Tracked Buffs matters,
+  icons are enough; Tracked Bars and the Essential / Utility cooldowns aren't needed (cooldowns come from the game
+  directly) - leave them empty or hidden, each buff in one place only.
 - 1.6.0.285: "Hidden until combat" works (owner's test, 2026-11-14: viewer shown=T in combat, act=T/F live,
   Eclipse flipping) - out of combat auras are readable anyway, and the tracked list (which key buffs to add) reads
   from its icons even while hidden. Settings and the tip now judge "Hidden" by the last fight only (remembered per

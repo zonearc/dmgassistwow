@@ -931,4 +931,5 @@ ns.LOCALE_DATA.koKR = {
   ["Keep its Visibility on Always. To make it less visible, lower its opacity (50% is the lowest). Hidden stops it working."] = "표시는 항상으로 두세요. 덜 보이게 하려면 불투명도를 낮추세요 (최저 50%). 숨김으로 하면 작동하지 않습니다.",
   ["Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."] = "꺼짐. 켜 두면 DMGAssist가 더 정확해집니다: 게임이 애드온에 숨기는 발동 효과를 보여줍니다.",
   ["Visibility: Always, or Hidden until combat (both work). Plain Hidden stops it working. To make it less visible, lower its opacity (50% is the lowest)."] = "표시: 항상, 또는 전투 전까지 숨김 (둘 다 작동). 그냥 숨김은 작동하지 않습니다. 덜 보이게 하려면 불투명도를 낮추세요 (최저 50%).",
+  ["Only Tracked Buffs matters (icons are enough): Tracked Bars and the Essential and Utility cooldowns aren't needed. Leave them empty or hide them, and put each buff in one place only."] = "추적 중인 강화 효과만 중요합니다 (아이콘이면 충분): 추적 바와 핵심/보조 재사용 대기시간은 필요 없습니다. 비워 두거나 숨기고, 각 강화 효과는 한 곳에만 두세요.",
 }
