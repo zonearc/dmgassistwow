@@ -736,7 +736,7 @@ function C.ReadCooldownManager(readable)
     CDM.Observe(item, info, now, b.viewer)
     local token = info.token
     -- a hidden viewer isn't updated by the game: its buffs all read "not active", true or not (2026-11-14)
-    if token and not b.hidden then
+    if token and not b.hidden and not b.settling then
       -- Only plain fields and widget methods are read here: calling Blizzard's own Lua methods on these frames
       -- (GetAuraDataUnit) runs their code from ours and can leave it "tainted by DMGAssist" (2026-11-12).
       local active = U.Read(item.isActive)

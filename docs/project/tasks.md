@@ -180,6 +180,11 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.287: Cooldown Manager switched itself off in the owner's first measured fight (1.6.0.286, Balance, 167 s,
+  Hidden until combat): clue_summary cdm=24 checks / 6 wrong / OFF - right after the viewer appears at the pull its
+  icons still hold the stale "not active" from while hidden, and those reads were graded against the still-readable
+  auras. Slot 2 47% (n=88), the same as without it (misses: resource 18 - starfall>starfire x16, the Astral Power
+  ceiling; state 22). Now a viewer's icons are neither used nor graded for 1.5 s after it appears (CDM.SETTLE).
 - 1.6.0.286: Setup step 4 (owner, 2026-11-14: "that's the key for the instructions"): only Tracked Buffs matters,
   icons are enough; Tracked Bars and the Essential / Utility cooldowns aren't needed (cooldowns come from the game
   directly) - leave them empty or hidden, each buff in one place only.

@@ -25,6 +25,7 @@ CDM.BUFF_VIEWERS = { "BuffIconCooldownViewer", "BuffBarCooldownViewer" }
 CDM.ALL_VIEWERS = { "EssentialCooldownViewer", "UtilityCooldownViewer", "BuffIconCooldownViewer",
   "BuffBarCooldownViewer" }
 CDM.KEY_MAX = 6 -- the most key buffs suggested (the rest add little and clutter the screen)
+CDM.SETTLE = 1.5 -- seconds after a viewer appears before its icons are believed
 -- buffs other players or items give: not yours to track
 CDM.EXTERNAL = { bloodlust = true, heroism = true, time_warp = true, primal_rage = true, fury_of_the_aspects = true,
   ancient_hysteria = true, power_infusion = true, potion = true, tempered_potion = true }
@@ -101,6 +102,15 @@ function CDM.BuffItems()
       -- and still have DMGAssist read them?)
       local shown = U.Get(viewer.IsShown, viewer)
       local alpha = U.Get(viewer.GetAlpha, viewer)
+      -- just shown ("Hidden until combat" at the pull): for a moment its icons still hold what they had while
+      -- hidden ("not active"); 6 such reads in 24 switched the source off for a whole fight (2026-11-14)
+      CDM.shownSince = CDM.shownSince or {}
+      if shown == true then
+        CDM.shownSince[name] = CDM.shownSince[name] or GetTime()
+      else
+        CDM.shownSince[name] = nil
+      end
+      local settling = shown == true and GetTime() - CDM.shownSince[name] < CDM.SETTLE
       local vstate = tostring(shown) .. "/" .. (type(alpha) == "number" and string.format("%.2f", alpha) or "-")
       CDM.viewerState = CDM.viewerState or {}
       if CDM.viewerState[name] ~= vstate then
@@ -129,7 +139,8 @@ function CDM.BuffItems()
         local cdID = type(item) == "table" and U.Read(item.cooldownID) or nil
         local info = CDM.Info(cdID)
         if info then
-          out[#out + 1] = { item = item, cdID = cdID, info = info, viewer = name, hidden = shown == false }
+          out[#out + 1] = { item = item, cdID = cdID, info = info, viewer = name, hidden = shown == false,
+            settling = settling }
         end
       end
     end

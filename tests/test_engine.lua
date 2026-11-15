@@ -3544,6 +3544,21 @@ test("Cooldown Manager: a hidden viewer (Visibility: Hidden) is not believed; ev
   mock.Fire("PLAYER_REGEN_ENABLED")
   hidden = true
   eq(next(ns.CDM.Refresh("test").hidden), nil, "hidden only out of combat")
+  -- just shown at the pull, its icons still stale ("not active" while the buff is up): not graded, not used
+  local checks = ns.Clues.stats.cdm and ns.Clues.stats.cdm.checks or 0
+  item.isActive = false
+  mock.auras.player = { { name = "Clearcasting", spellId = 135700, duration = 15, expirationTime = mock.now + 15 } }
+  mock.Fire("UNIT_AURA", "player")
+  hidden = false
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  mock.Advance(1)
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  eq(ns.Clues.stats.cdm and ns.Clues.stats.cdm.checks or 0, checks, "settling: not graded")
+  mock.Advance(1)
+  item.isActive = true
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  eq(ns.Clues.stats.cdm.checks, checks + 1, "settled: graded again")
+  eq(ns.Clues.stats.cdm.wrong, 0)
   eq(ns.CDM.SettingsText():find("set to Hidden", 1, true), nil)
   mock.restricted, mock.inCombat = false, false
   mock.Fire("PLAYER_REGEN_ENABLED")
@@ -3552,7 +3567,7 @@ test("Cooldown Manager: a hidden viewer (Visibility: Hidden) is not believed; ev
     if l[1] == "cdm_buff_summary" and not summary then summary = l[2] end
     if l[1] == "cdm_viewer" and l[2]:find("BuffBar", 1, true) then changes = changes + 1 end
   end
-  eq(changes, 4, "shown, hidden, shown, hidden")
+  eq(changes, 5, "shown, hidden, shown, hidden, shown")
   eq(summary ~= nil and summary:find("BuffBar=shown1/hidden", 1, true) ~= nil, true, tostring(summary))
   eq(summary:find("clearcasting@bar:", 1, true) ~= nil and summary:find("hidden=", 1, true) ~= nil, true, summary)
   mock.cvars.cooldownViewerEnabled = nil
