@@ -7122,6 +7122,19 @@ test("Balance AoE (real data): Starfall from 60-100 hidden Astral Power, then St
   end
   eq(r.queue[1] and r.queue[1].token, "starfall", table.concat(qs, ","))
   eq(r.queue[2] and r.queue[2].token, "starfire", "60-100 less Starfall 50 cannot pay for another: " .. table.concat(qs, ","))
+  -- Blizzard's assistant shows Starfall on 9 targets: its rules have "active_enemies>3&astral_power>=90" and, further
+  -- down, plain "active_enemies>3" - which one held is unknown, so no "90 or more" (it made slot 2 promise a second
+  -- Starfall 28 times in the owner's fight, 2026-11-14)
+  C.bounds[8] = nil
+  if C.floor[8] then
+    C.floor[8].lo = 40
+  end
+  mock.acSpell = M.SpellID("starfall")
+  mock.Advance(0.2)
+  ns.Update()
+  local lo = C.ResourceBounds(8)
+  eq(lo ~= nil and lo >= 90, false, "no Astral Power 90+ from the assistant's Starfall: " .. tostring(lo))
+  mock.acSpell = nil
   mock.inCombat, mock.restricted = false, false
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)

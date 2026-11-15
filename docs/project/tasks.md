@@ -180,6 +180,16 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.292: Root cause of Balance "Starfall > Starfall" found with 1.6.0.291's la= trace (owner's 283 s fight, slot 2
+  36%, n=163; the report came whole in 4 parts). At those presses slot 2's step started from Astral Power 66-76
+  AFTER a pretend Starfall (cost 34 live), i.e. "100" before it, while the real value was ~40-60 (3-26 after the
+  cast). Source: the assistant oracle (Clues.ObserveAssisted) learned the FIRST Blizzard line for the named spell as
+  true - Balance has Starfall "active_enemies>3&astral_power>=90" and later plain "active_enemies>3", so every
+  Starfall the assistant showed became "Astral Power 90+". Never graded: AP is hidden all fight (assisted 0 checks).
+  Now a spell's line is learned as true only when it is the only one of its lines that could hold. Affects every
+  spec whose assistant list names a spell more than once. Test on real Balance data (fails without the fix: 90).
+  Scenario baseline updated: Arms st slot-2 25% -> 75%, Havoc / Feral / Outlaw better; leveling Arms (one spell)
+  leaves slot 3 blank instead of guessing a third Rage spender; Enhancement with no target: slot 1 empty 66% -> 83%.
 - 1.6.0.290: Watchdog reports in parts (owner, 2026-11-14: "are we at capacity ... cutting critical data?"). Yes: one
   paste holds ~30,000 characters, and long fights lost their start (the 254 s fight: 531 of 1,281 events; 167 s: 368).
   Now a report too big for one paste comes as up to 4 parts ("DMGWP 1/3 ..."), a Next part button in the window,

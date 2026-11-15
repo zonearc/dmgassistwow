@@ -931,9 +931,28 @@ function C.ObserveAssisted(record, acSpell, ctx)
   if not k then
     return nil
   end
-  local node = lines[k].c and E.Compile(lines[k].c)
-  if node then
-    Learn(node, true, ctx)
+  -- The spell can have more than one line (Balance: Starfall "active_enemies>3&astral_power>=90", and further down
+  -- plain "active_enemies>3"). The assistant naming it says one of them held, not which: the first one is only
+  -- learned as true when every other line for it is known to be false. Taking the first as true turned every
+  -- Starfall the assistant showed into "Astral Power 90 or more" and slot 2 promised a second Starfall (2026-11-14).
+  local candidates = {}
+  for i = k, #lines do
+    local line = lines[i]
+    local id = M.SpellID(line.a)
+    if id and ctx.same(id, acSpell) then
+      local n = line.c and E.Compile(line.c)
+      local known = n and E.Truth(E.Eval(n, ctx.resolve, ctx.bounds))
+      if not line.c or known ~= false then
+        candidates[#candidates + 1] = { i = i, node = n }
+      end
+    end
+  end
+  if #candidates == 1 then
+    local only = candidates[1]
+    if only.node then
+      Learn(only.node, true, ctx)
+    end
+    k = only.i
   end
   for j = 1, k - 1 do
     local line = lines[j]
