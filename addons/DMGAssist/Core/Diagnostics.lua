@@ -142,11 +142,55 @@ end
 
 -- Decision trace for a pick change in combat (at most TRACE_MAX per fight): what was shown, the resources as
 -- the engine saw them, every list line checked and why it was passed over, and the terms it could not read.
-local TRACE_MAX = 40
+-- Why traces: every change of slot 1 or slot 2 in combat logs the decision behind each slot - every list line
+-- checked, why it was passed over, the values its condition read, the power behind a "power" refusal, and for
+-- slot 2 the look-ahead it started from (the pretend cast, the power it built). Paired with the next press, each
+-- slot 2 miss is one case with its cause in the report (owner, 2026-11-15: "you need to be handed the WHY").
+-- Per fight at most G.TRACE_MAX changes (/dmga why <n> | all | off); long ones are split into ~1900-character
+-- parts (the Watchdog keeps _trace lines up to 2000).
+G.TRACE_MAX = 400
+G.TRACE_PART = 1900
 G.traces = 0
 
-function G.Trace(result, traced)
-  if G.traces >= TRACE_MAX then
+function G.TraceMax()
+  local v = ns.db and ns.db.whyMax
+  if v == "all" then
+    return math.huge
+  elseif v == "off" then
+    return 0
+  end
+  return tonumber(v) or G.TRACE_MAX
+end
+
+-- One trace, split into numbered parts that fit a Watchdog line.
+local function LogParts(kind, text)
+  local n, i = 0, 1
+  local total = math.ceil(#text / G.TRACE_PART)
+  while i <= #text do
+    n = n + 1
+    U.Log(kind, string.format("#%d %d/%d %s", G.traces, n, total, text:sub(i, i + G.TRACE_PART - 1)))
+    i = i + G.TRACE_PART
+  end
+end
+
+-- Lines as a change from the last trace of the same kind: "n=<count>" and only the lines that differ ("<i>=<text>"),
+-- so a fight's traces fit a report; tools/why-report.py rebuilds each one whole. The first of a fight is whole.
+G.lastLines = {}
+function G.LinesDelta(key, lines)
+  lines = lines or {}
+  local prev = G.lastLines[key]
+  G.lastLines[key] = lines
+  local out = { "n=" .. #lines }
+  for i, l in ipairs(lines) do
+    if not prev or prev[i] ~= l then
+      out[#out + 1] = i .. "=" .. l
+    end
+  end
+  return table.concat(out, "; ")
+end
+
+function G.Trace(result, traced, ahead)
+  if G.traces >= G.TraceMax() then
     return
   end
   G.traces = G.traces + 1
@@ -170,10 +214,18 @@ function G.Trace(result, traced)
   local c = ns.State.lastCount or {}
   local counted = string.format("(fighting %s, remembered %s, unreadable %s, dummies %s)", tostring(c.fighting),
     tostring(c.remembered), tostring(c.unknown), tostring(c.dummies))
-  U.Log("decision_trace", string.format("show=%s | mode: %s targets=%s %s aoeAt=%s | res: %s | lines: %s | unknown: %s",
+  LogParts("decision_trace", string.format(
+    "show=%s | mode: %s targets=%s %s aoeAt=%s | res: %s | lines: %s | unknown: %s",
     table.concat(q, " > "), tostring(label), tostring(targets), counted, tostring(ns.State.AoeTargets()),
     G.ResourceText(),
-    table.concat(traced or {}, "; "), table.concat(top, " ")))
+    G.LinesDelta("slot1", traced), table.concat(top, " ")))
+  for slot = 2, 3 do
+    local a = ahead and ahead[slot]
+    if a then
+      LogParts("ahead_trace", string.format("slot=%d pick=%s | %s | lines: %s", slot, q[slot] or "-",
+        tostring(a.state), G.LinesDelta("slot" .. slot, a.lines)))
+    end
+  end
 end
 
 function G.Tick(force)
@@ -878,6 +930,7 @@ end
 
 function G.OnCombat(inCombat)
   G.traces = 0
+  G.lastLines = {}
   G.cdmProbes = 0
   if not inCombat then
     G.ProbeCDM("ooc") -- the readable baseline right after the fight

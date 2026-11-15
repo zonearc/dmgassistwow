@@ -491,6 +491,65 @@ end
 -- building it, when the middle of the range is (Balance, 2026-11-14: Astral Power 17-26 after a Starfall, a Starfire
 -- adds ~22, Starfall costs 34; slot 2 said Starfire again because only "affordable now" counted, and you cast
 -- Starfall). Spending from an unknown pool stays strict (G.BelowCostAhead).
+-- Why traces (Diagnostics.Trace): the values a condition read, the power behind a "power" refusal, and the
+-- look-ahead's state for slot 2 / 3.
+G.TERMS_MAX = 10
+local function Num(v)
+  if type(v) == "number" then
+    return v == math.floor(v) and tostring(v) or string.format("%.1f", v)
+  end
+  return v == UNKNOWN and "?" or tostring(v)
+end
+
+function G.TermsText(terms)
+  if not terms or terms.n == 0 then
+    return ""
+  end
+  local parts = {}
+  for i = 1, terms.n do
+    local name = terms[i]
+    parts[i] = name .. "=" .. Num(terms[name])
+  end
+  return " {" .. table.concat(parts, " ") .. "}"
+end
+
+-- "pt8 cost=50 now=36..44 ahead=+17": the cost, what we have (or its bounds when hidden) and the look-ahead's change
+function G.PowerWhy(id)
+  local cost = M.Cost(M.Info(id))
+  local V = S.Lookahead()
+  local parts = {}
+  for pt, amount in pairs(cost or {}) do
+    if amount > 0 then
+      local cur = U.Get(UnitPower, "player", pt)
+      local have
+      if type(cur) == "number" then
+        have = Num(cur)
+      else
+        local lo, hi = S.PowerBounds(pt)
+        have = lo and (Num(lo) .. ".." .. Num(hi)) or "?"
+      end
+      parts[#parts + 1] = string.format("pt%d cost=%s now=%s ahead=%+d", pt, Num(amount), have,
+        V and V.power[pt] or 0)
+    end
+  end
+  return table.concat(parts, " ")
+end
+
+-- The look-ahead at slot 2 / 3: pretend casts so far, the clock moved, and each power's change.
+function G.AheadState()
+  local V = S.Lookahead()
+  if not V then
+    return "-"
+  end
+  local pw = {}
+  for pt, d in pairs(V.power) do
+    local lo, hi = S.PowerBounds(pt)
+    pw[#pw + 1] = string.format("pt%d%+d(now %s)", pt, d, lo and (Num(lo) .. ".." .. Num(hi)) or "?")
+  end
+  table.sort(pw)
+  return string.format("after=%s dt=%.2f %s", table.concat(V.prev, ","), V.dt or 0, table.concat(pw, " "))
+end
+
 function G.AffordableAhead(id)
   local cost = M.Cost(M.Info(id))
   local V = S.Lookahead()
@@ -1152,8 +1211,9 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
         run.poolNext = nil
         if run.trace then
           local charges = S.Charges(id)
-          run.trace[#run.trace + 1] = string.format("%s:%s castable=%s%s%s", name, a, tostring(castable),
-            why and ("(" .. why .. ")") or "", charges and (" charges=" .. charges) or "")
+          run.trace[#run.trace + 1] = string.format("%s:%s castable=%s%s%s%s", name, a, tostring(castable),
+            why and ("(" .. why .. ")") or "", charges and (" charges=" .. charges) or "",
+            why == "power" and (" " .. G.PowerWhy(id)) or "")
         end
         if castable == false and why == "power" and pooling and not isBlizzard and not maybe
           and Test(cond, run, a) == true then
@@ -1183,9 +1243,13 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
           run.powerBlockedMaybe = { id = id, token = a, source = "pool", behind = run.firstMaybe ~= nil }
         end
         if castable ~= false then
+          if run.trace then
+            run.terms = { n = 0 }
+          end
           local t = Test(cond, run, a)
           if run.trace then
-            run.trace[#run.trace] = run.trace[#run.trace] .. " cond=" .. tostring(t)
+            run.trace[#run.trace] = run.trace[#run.trace] .. " cond=" .. tostring(t) .. G.TermsText(run.terms)
+            run.terms = nil
           end
           if not isBlizzard then
             -- a token is "not now" when every one of its lines read so far was false (G.PromoteReadyMajor reads the
@@ -1417,7 +1481,8 @@ local function Decide(record, opts, targets, first)
     blizzardByAction = prep.blizzardByAction,
     burst = opts.burst ~= false,
     override = {},
-    trace = (first and opts.trace) and {} or nil,
+    -- every decision traces when asked, slot 2's look-ahead too (owner, 2026-11-15: "log the WHY")
+    trace = opts.trace and {} or nil,
   }
   run.first = first
   run.notNow = {}
@@ -1428,6 +1493,11 @@ local function Decide(record, opts, targets, first)
   run.castMemo = {}
   run.resolve = function(name)
     local v = S.Resolve(name, run.ctx)
+    if run.terms and run.terms.n < G.TERMS_MAX and run.terms[name] == nil then
+      run.terms[name] = v
+      run.terms.n = run.terms.n + 1
+      run.terms[run.terms.n] = name
+    end
     if v == UNKNOWN then
       S.unknownTerms[name] = (S.unknownTerms[name] or 0) + 1
       if run.lineUnknown then
@@ -1685,7 +1755,12 @@ local function Queue(record, opts, targets)
       break
     end
     S.Apply(last.id)
-    local nextPick = DecideAhead(record, opts, targets, false).main
+    local ahead = DecideAhead(record, opts, targets, false)
+    local nextPick = ahead.main
+    if opts.trace then
+      result.traceAhead = result.traceAhead or {}
+      result.traceAhead[slot] = { state = G.AheadState(), lines = ahead.trace }
+    end
     result.queue[slot] = nextPick
     last = nextPick
   end

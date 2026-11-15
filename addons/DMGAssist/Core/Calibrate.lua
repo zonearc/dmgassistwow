@@ -175,6 +175,10 @@ function K.OnOwnCast(id)
         local key = id .. ":" .. pt
         local e = store.hidden[key] or { casts = 0, extra = 0 }
         store.hidden[key] = e
+        -- the gain our data had for this cast: the extra is measured on top of it, and the data's number can change
+        -- between fights (the tooltip is re-read out of combat, buffs included)
+        -- (entries from before 1.6.0.295: their casts so far taken as built on today's gain)
+        e.based = (e.based or e.casts * amount) + amount
         e.casts = e.casts + 1
       end
     end
@@ -254,12 +258,18 @@ function K.Extra(id, pt)
   if not (e and e.casts >= K.HIDDEN_N) then
     return 0
   end
+  local info = M.Info(id)
+  local gain = info and info.gain and info.gain[pt] or 0
   local per = e.extra / e.casts
+  -- Measured: what a cast really built = the data's gain at the time + the extra. Against today's gain: when the
+  -- tooltip moved Starfire from 17 to 12 between fights, the old extra (+5) left the look-ahead 4-5 short a cast and
+  -- slot 2 stopped offering Starfall after Starfire (owner's fights 452 / 455, 2026-11-15).
+  if e.based and e.based > 0 then
+    per = (e.based + e.extra) / e.casts - gain
+  end
   if per < K.HIDDEN_MIN then
     return 0
   end
-  local info = M.Info(id)
-  local gain = info and info.gain and info.gain[pt] or 0
   return math.min(math.floor(per), gain)
 end
 
@@ -403,6 +413,7 @@ function K.OnCombat(inCombat)
     end
     for key, e in pairs(store.hidden) do
       e.casts, e.extra = e.casts * K.DECAY, e.extra * K.DECAY
+      e.based = e.based and e.based * K.DECAY
       if e.casts < 0.05 then
         store.hidden[key] = nil
       end

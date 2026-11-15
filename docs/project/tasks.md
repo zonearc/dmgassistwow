@@ -180,6 +180,21 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.295: Why traces + two Astral Power causes found in fight 455. (1) Owner: "log the WHY, not THAT". Until
+  now only slot 1's decision was traced, at most 40 per fight, and slot 2's look-ahead decision never: every slot 2
+  miss had to be guessed at. Now every change of slot 1 or slot 2 in combat logs decision_trace (slot 1) and
+  ahead_trace (slots 2 and 3: the pretend casts, the clock, each power's change and bounds), each line with
+  castable / why, the power behind a "power" refusal (cost, now, ahead) and the values its condition read; logged
+  as changes from the previous trace, split in parts under 2000 characters; 400 per fight (/dmga why n|all|off).
+  Reports may now be up to 8 parts. New tools/why-report.py: each slot 2 miss as one case (what slot 2 showed,
+  what was pressed, the trace showing then, the winning line and every line of the pressed spell), then the misses
+  grouped by reason. floor_capped logs once per new cap (was 93-135 identical lines a fight).
+  (2) Fight 452 -> 455: after Starfire, slot 2 said Starfall 10 times (8 right) in 452 and Starfire 33 times (23
+  wrong) in 455. The look-ahead's Starfire gain went 22 -> 17: the tooltip was re-read after 452 (gains_learned
+  n=1, 17 -> 12) and the calibration's extra (+5, measured on top of 17) stayed. The extra is now kept as what a
+  cast really built (data's gain at the time + extra), so a changed tooltip doesn't move it. Starfall's look-ahead
+  cost was 34 in one fight and 45 in the next: live costs are read after each fight, buffs included; now the
+  highest cost since the last spell / talent change is used.
 - 1.6.0.294: Owner's 1.6.0.293 fight 455 (270 s AoE, every slot 1 pressed): slot 2 37% (n=149), slot 1 steady 63%
   (63 changes in 148 windows), cdm 360 checks / 30 wrong (8%, was 13.6%). Top misses are a phase flip in the
   Starfire / Starfall alternation: slot 2 Starfall, pressed Starfire x33 and the reverse x33. Owner's question: was

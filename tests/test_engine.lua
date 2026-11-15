@@ -3327,6 +3327,42 @@ test("calibration: live costs from the game replace SimC's base costs", function
   eq(ns.SpellMap.Cost(info)[3], 32)
 end)
 
+test("calibration: a cost cut read after a fight (a proc still up) doesn't carry into the next one", function()
+  Reset()
+  mock.powerCost = { [5221] = { { type = 3, cost = 40 } } }
+  local ns = Boot()
+  local info = ns.SpellMap.Info(5221)
+  eq(ns.SpellMap.Cost(info)[3], 40)
+  mock.powerCost = { [5221] = { { type = 3, cost = 20 } } } -- read while a cost cut is up
+  ns.State.Calibrate()
+  eq(ns.SpellMap.Cost(info)[3], 40, "the usual cost stays")
+  mock.powerCost = { [5221] = {} } -- free for now
+  ns.State.Calibrate()
+  eq(ns.SpellMap.Cost(info)[3], 40, "free for now: still its usual cost")
+  ns.State.ResetCosts() -- talents changed: a lower cost can be real
+  mock.powerCost = { [5221] = { { type = 3, cost = 32 } } }
+  ns.State.Calibrate()
+  eq(ns.SpellMap.Cost(info)[3], 32, "after a talent change the new cost counts")
+end)
+
+test("calibration: a hidden gain's extra is what a cast really built, whatever the data's number becomes", function()
+  Reset()
+  local ns = Boot()
+  local K = ns.Calibrate
+  local store = K.Store()
+  ns.SpellMap.info[194153] = ns.SpellMap.info[194153] or { n = "starfire" }
+  local info = ns.SpellMap.info[194153]
+  info.gain = { [8] = 17 }
+  -- 20 casts measured with the data at 17, each really building 22
+  store.hidden["194153:8"] = { casts = 20, extra = 100, based = 20 * 17 }
+  eq(K.Extra(194153, 8), 5, "17 + 5 = 22")
+  info.gain[8] = 12 -- the tooltip read lower after the fight
+  eq(K.Extra(194153, 8), 10, "still 22 a cast: 12 + 10")
+  -- an entry from before (no record of the gain it was measured on): taken as built on today's gain
+  store.hidden["194153:8"] = { casts = 20, extra = 100 }
+  eq(K.Extra(194153, 8), 5, "old entry: as before")
+end)
+
 test("stacking own buffs (Ironfur): learned from a readable scan, then tracked per cast", function()
   Reset()
   local ns = Boot()
@@ -5136,6 +5172,38 @@ test("decision traces: each pick change in combat logs resources, the lines chec
   eq(trace:find("res: ", 1, true) ~= nil, true)
   eq(trace:find("energy=", 1, true) ~= nil, true, "energy listed: " .. trace)
   eq(trace:find("lines: ", 1, true) ~= nil, true)
+end)
+
+test("why traces: slot 2's look-ahead traced too, with the values read; later traces only carry what changed",
+  function()
+  Reset()
+  local ns = Boot()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, data } end }
+  mock.power[3], mock.powerMax[3] = 80, 100
+  ns.Update()
+  Restrict()
+  ns.Update()
+  local slot1, ahead
+  for _, l in ipairs(logged) do
+    if l[1] == "decision_trace" then
+      slot1 = l[2]
+    elseif l[1] == "ahead_trace" and l[2]:find("slot=2", 1, true) then
+      ahead = l[2]
+    end
+  end
+  eq(type(ahead), "string", "slot 2 traced")
+  eq(ahead:find("after=", 1, true) ~= nil, true, "the look-ahead it started from: " .. ahead)
+  eq(ahead:find("n=", 1, true) ~= nil, true, "line count")
+  eq(slot1:find("^#%d+ 1/%d+ ") ~= nil, true, "numbered parts: " .. slot1:sub(1, 40))
+  eq(slot1:find("{", 1, true) ~= nil or slot1:find("cond=", 1, true) == nil, true, "a condition carries its values")
+  -- the same lines again: only the count
+  eq(ns.Diagnostics.LinesDelta("x", { "a", "b" }), "n=2; 1=a; 2=b", "first: whole")
+  eq(ns.Diagnostics.LinesDelta("x", { "a", "c" }), "n=2; 2=c", "then: what changed")
+  -- a power refusal says how much and from what
+  local why = ns.Engine.PowerWhy(5221)
+  eq(type(why), "string")
+  DMGAssistWatchdog = nil
 end)
 
 test("resource floors: energy regenerates at least at base rate, spenders cost, graded after combat", function()

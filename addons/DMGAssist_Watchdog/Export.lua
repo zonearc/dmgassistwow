@@ -286,7 +286,7 @@ end
 -- A report too big for one paste comes in parts (owner, 2026-11-14: long fights were losing their first 40% to
 -- the one-paste limit). Each part: "DMGWP i/n " + a slice of the report string; tools/decode-export.py joins
 -- them. Up to MAX_PARTS parts of REPORT_LIMIT each; past that, fewer fights / events go in, as before.
-X.MAX_PARTS = 4
+X.MAX_PARTS = 8
 X.PART_TAG = "DMGWP"
 function X.EncodeParts()
   local str, fmt, len = X.Encode(X.REPORT_LIMIT * X.MAX_PARTS)

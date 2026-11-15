@@ -580,7 +580,12 @@ function C.CapFloor(pt, hi)
     local cur = Accrued(f, pt, now)
     if cur > hi then
       f.lo, f.at = math.max(0, hi), now
-      U.Log("floor_capped", { power = pt, was = math.floor(cur), now = math.floor(hi) })
+      -- once per new cap: the same cap re-applied every pass filled a fight's log (93-135 lines, 2026-11-15)
+      local key = math.floor(cur) .. ">" .. math.floor(hi)
+      if f.cappedLog ~= key then
+        f.cappedLog = key
+        U.Log("floor_capped", { power = pt, was = math.floor(cur), now = math.floor(hi) })
+      end
     end
   end
 end

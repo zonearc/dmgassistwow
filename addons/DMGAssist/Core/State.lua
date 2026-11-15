@@ -3608,6 +3608,14 @@ end
 ---------------------------------------------------------------------------
 -- C_Spell.GetSpellPowerCost (not secret) -> live resource costs; C_Spell.GetSpellCharges (readable out of combat)
 -- -> live max charges; UnitSpellHaste -> haste. Run after login, spec/talent changes and at the end of each fight.
+-- Live costs are read out of combat, buffs included: a cost cut that is still up after a fight (Balance's Starfall
+-- read 34 after one fight, 45 after the next, 2026-11-15) must not carry into the next fight. Costs only drop for a
+-- while, so the highest cost seen since the last spell / talent change (S.ResetCosts) is the one we use.
+S.costHigh = {}
+function S.ResetCosts()
+  S.costHigh = {}
+end
+
 function S.Calibrate()
   if S.combatStart then
     return 0
@@ -3625,6 +3633,21 @@ function S.Calibrate()
           if type(pt) == "number" and type(amount) == "number" and amount > 0 then
             live = live or {}
             live[pt] = amount
+          end
+        end
+        local high = S.costHigh[id] or {}
+        S.costHigh[id] = high
+        for pt, amount in pairs(live or {}) do
+          if (high[pt] or 0) > amount then
+            live[pt] = high[pt]
+          else
+            high[pt] = amount
+          end
+        end
+        for pt, amount in pairs(high) do
+          if not (live and live[pt]) then
+            live = live or {}
+            live[pt] = amount -- free for now (a proc): still costs its usual price next fight
           end
         end
         info.costLive = live

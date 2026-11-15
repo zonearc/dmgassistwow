@@ -75,6 +75,7 @@ local function RefreshSpells()
   end
   spellsDirty = false
   M.Refresh()
+  S.ResetCosts() -- talents or spells changed: costs may really be lower now
   S.Calibrate()
   S.OnAura("player")
   S.OnTargetChanged()
@@ -455,7 +456,8 @@ local function Update()
   local cd = main and main.major and main or nil
   local q2, q3 = result.queue and result.queue[2], result.queue and result.queue[3]
   local sig = (main and (main.token or main.id) or "-") .. "/" .. (cd and cd.token or "-") .. "/" ..
-    tostring(result.modeLabel) .. "/" .. tostring(result.trinket and result.trinket.token)
+    tostring(result.modeLabel) .. "/" .. tostring(result.trinket and result.trinket.token) .. "/" ..
+    tostring(q2 and q2.token) -- slot 2 changing is a decision too: traced the same way (owner, 2026-11-15)
   if sig ~= lastLogged then
     lastLogged = sig
     if inCombat then
@@ -463,7 +465,7 @@ local function Update()
       S.unknownTerms = {}
       local traced = G.Recommend(ns.ActiveRecord(state), { burst = ns.BurstAllowed(), trace = true,
         useAssisted = (state.branch == "midnight" or state.assistedOnly or state.leveling) and ns.db.useAssisted ~= false })
-      ns.Diagnostics.Trace(result, traced.trace)
+      ns.Diagnostics.Trace(result, traced.trace, traced.traceAhead)
     end
     U.Log("pick", {
       main = main and main.token, source = main and main.source, cd = cd and cd.token, ac = result.acSpell,
@@ -1148,6 +1150,7 @@ function commands.help()
     { "/dmga mark", "mark this moment for your report (also a key binding)" },
     { "/dmga extended", "extended log on / off: every press records what the game showed, for reports" },
     { "/dmga cdm", "Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it" },
+    { "/dmga why 400 | all | off", "How many slot changes per fight are logged with their reasons" },
     { "/dmga cdm ignore | use", "Fights without / with the Cooldown Manager's readings, to compare accuracy" },
     { "/dmga relearn", "forget learned cooldown timing and start learning again" },
     { "/dmga addons", "which supported addons (Masque, ElvUI, Bartender, boss mods...) are found and in use" },
@@ -1182,6 +1185,16 @@ function commands.cdm(arg)
   for line in tostring(text):gmatch("[^\n]+") do
     print("  " .. line)
   end
+end
+
+-- /dmga why <n> | all | off: how many slot changes a fight traces with their reasons (default 400)
+function commands.why(arg)
+  if arg == "all" or arg == "off" or tonumber(arg) then
+    ns.db.whyMax = tonumber(arg) or arg
+  elseif arg == "" or arg == nil then
+    ns.db.whyMax = nil
+  end
+  U.Print("why traces per fight: %s", tostring(ns.db.whyMax or ns.Diagnostics.TRACE_MAX))
 end
 
 function commands.extended(arg)
