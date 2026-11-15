@@ -923,4 +923,5 @@ ns.LOCALE_DATA.ruRU = {
   ["the Cooldown Manager can't track it"] = "менеджер восстановления не может его отслеживать",
   ["tracked"] = "отслеживается",
   ["Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"] = "Менеджер восстановления Blizzard: включён или нет и какие ключевые эффекты стоит в нём отслеживать",
+  ["Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."] = "Его эффекты скрыты: игра перестаёт их обновлять, поэтому DMGAssist не может их прочитать. Установите видимость «Всегда» (прозрачность можно снизить до 50%).",
 }

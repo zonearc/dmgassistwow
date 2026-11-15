@@ -923,4 +923,5 @@ ns.LOCALE_DATA.itIT = {
   ["the Cooldown Manager can't track it"] = "il gestore dei tempi di recupero non può tracciarlo",
   ["tracked"] = "tracciato",
   ["Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"] = "Gestore dei tempi di recupero di Blizzard: attivo o no, e i benefici chiave da tracciare",
+  ["Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."] = "I suoi benefici sono impostati su Nascosto: il gioco smette di aggiornarli, quindi DMGAssist non può leggerli. Imposta la visibilità su Sempre (l'opacità può scendere fino al 50%).",
 }

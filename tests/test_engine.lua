@@ -3489,6 +3489,46 @@ test("Cooldown Manager: detected on or off; settings list each key buff as track
   BuffIconCooldownViewer = nil -- luacheck: ignore 111
 end)
 
+test("Cooldown Manager: a hidden viewer (Visibility: Hidden) is not believed; every hide / show logged", function()
+  Reset()
+  local logged = {}
+  DMGAssistWatchdog = { Log = function(kind, data) logged[#logged + 1] = { kind, tostring(data) } end } -- luacheck: ignore 111
+  local ns = Boot()
+  mock.cvars.cooldownViewerEnabled = "1"
+  local hidden = false
+  local item = { cooldownID = 31, isActive = true }
+  BuffBarCooldownViewer = { IsShown = function() return not hidden end, GetAlpha = function() return 1 end, -- luacheck: ignore 111
+    GetChildren = function() return item end }
+  mock.cdmInfo = { [31] = { spellID = 135700 } }
+  ns.SpellMap.info[135700] = { n = "clearcasting", d = 15 }
+  Restrict()
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  hidden = true
+  for _ = 1, 3 do
+    mock.Advance(0.5)
+    ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  end
+  -- the game stops updating a hidden viewer (owner's test, 2026-11-14): not used; settings say so
+  mock.Advance(16)
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  eq(ns.State.Resolve("buff.clearcasting.up", {}), ns.Expr.UNKNOWN, "a hidden viewer isn't believed")
+  eq(next(ns.CDM.Refresh("test").hidden), "BuffBarCooldownViewer")
+  eq(ns.CDM.SettingsText():find("set to Hidden", 1, true) ~= nil, true)
+  mock.restricted, mock.inCombat = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  local summary, changes = nil, 0
+  for _, l in ipairs(logged) do
+    if l[1] == "cdm_buff_summary" then summary = l[2] end
+    if l[1] == "cdm_viewer" and l[2]:find("BuffBar", 1, true) then changes = changes + 1 end
+  end
+  eq(changes, 2, "shown, then hidden")
+  eq(summary ~= nil and summary:find("BuffBar=shown1/hidden", 1, true) ~= nil, true, tostring(summary))
+  eq(summary:find("clearcasting@bar:", 1, true) ~= nil and summary:find("hidden=", 1, true) ~= nil, true, summary)
+  mock.cvars.cooldownViewerEnabled = nil
+  BuffBarCooldownViewer = nil -- luacheck: ignore 111
+  DMGAssistWatchdog = nil -- luacheck: ignore 111
+end)
+
 test("Cooldown Manager: an icon showing stands for its buff in combat once it proved right out of combat", function()
   Reset()
   local logged = {}
@@ -3529,6 +3569,7 @@ test("Cooldown Manager: an icon showing stands for its buff in combat once it pr
     if l[1] == "cdm_buff_summary" then line = l[2] end
   end
   eq(line ~= nil and line:find("clearcasting:sh=ok3/S0", 1, true) ~= nil, true, tostring(line))
+  eq(line:find("viewers[BuffIcon=shown3/hidden0]", 1, true) ~= nil, true, line)
   eq(line:find("flips[18.0+,19.0-]", 1, true) ~= nil, true, line)
   -- never proved (a fresh session): the icon alone says nothing
   ns.CDM.shownStat = { checks = 0, wrong = 0, up = 0 }

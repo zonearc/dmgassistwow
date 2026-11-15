@@ -923,4 +923,5 @@ ns.LOCALE_DATA.ptBR = {
   ["the Cooldown Manager can't track it"] = "o Gerenciador de Recargas não consegue rastreá-lo",
   ["tracked"] = "rastreado",
   ["Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"] = "Gerenciador de Recargas da Blizzard: ligado ou não, e os bônus principais que vale a pena rastrear nele",
+  ["Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."] = "Os bônus estão em Oculto: o jogo para de atualizá-los, então o DMGAssist não consegue lê-los. Defina a visibilidade como Sempre (a opacidade pode ir até 50%).",
 }

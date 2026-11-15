@@ -919,3 +919,4 @@
 925	il gestore dei tempi di recupero non può tracciarlo
 926	tracciato
 927	Gestore dei tempi di recupero di Blizzard: attivo o no, e i benefici chiave da tracciare
+928	I suoi benefici sono impostati su Nascosto: il gioco smette di aggiornarli, quindi DMGAssist non può leggerli. Imposta la visibilità su Sempre (l'opacità può scendere fino al 50%).

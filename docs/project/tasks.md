@@ -180,6 +180,13 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.283: Cooldown Manager set to Hidden is NOT readable (owner's test, 1.6.0.281, 2026-11-14): with the
+  buff icons' Visibility on Hidden (viewer shown=F, alpha 0.50) every buff read act=F / sh=F all fight, no flips,
+  Eclipse included (it read T while visible) - the game stops updating a hidden viewer. Those stale "not active"
+  reads were believed: cdm wrong 90 -> 222. Now a hidden viewer is never used, and Settings say "set to Hidden ...
+  set Visibility to Always (opacity can go down to 50%)". The clean-screen option is the 50% opacity minimum, not
+  Hidden. Also: cdm_viewer logs every hide / show / fade; cdm_buff_summary starts with viewers[...shownN/hiddenN]
+  and is written every 60 s in long fights ("so_far"), so a report taken mid-fight has it.
 - 1.6.0.281: Cooldown Manager proved valuable (owner's 1.6.0.280 Balance run, Silvermoon dummies, auras hidden:
   aura_scan nil, restricted=2). In combat every tracked buff icon read plainly: isActive and shown T/F, 0 hidden
   (cdm_buff_summary sh/act/a ok234/S0); clue_summary cdm=78654 checks / 90 wrong (99.9% right against readable

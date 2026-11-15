@@ -926,5 +926,6 @@
 "on: reading %d of your key buffs (%d more to add)",
 "the Cooldown Manager can't track it",
 "tracked",
-"Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"
+"Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it",
+"Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."
 ]

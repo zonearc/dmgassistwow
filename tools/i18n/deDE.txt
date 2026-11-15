@@ -919,3 +919,4 @@
 925	der Abklingzeitenmanager kann ihn nicht verfolgen
 926	verfolgt
 927	Blizzards Abklingzeitenmanager: an oder aus, und welche wichtigen Buffs sich darin zu verfolgen lohnen
+928	Seine Buffs sind auf Versteckt gestellt: Das Spiel aktualisiert sie dann nicht mehr, daher kann DMGAssist sie nicht lesen. Stelle die Sichtbarkeit auf Immer (die Deckkraft lässt sich bis 50% senken).

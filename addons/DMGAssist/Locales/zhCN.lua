@@ -923,4 +923,5 @@ ns.LOCALE_DATA.zhCN = {
   ["the Cooldown Manager can't track it"] = "冷却管理器无法追踪它",
   ["tracked"] = "已追踪",
   ["Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"] = "暴雪冷却管理器：是否开启，以及值得在其中追踪的关键增益",
+  ["Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."] = "它的增益设为隐藏：游戏会停止更新它们，DMGAssist 因此无法读取。请将可见性设为始终（不透明度可降到 50%）。",
 }

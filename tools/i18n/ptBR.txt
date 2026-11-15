@@ -919,3 +919,4 @@
 925	o Gerenciador de Recargas não consegue rastreá-lo
 926	rastreado
 927	Gerenciador de Recargas da Blizzard: ligado ou não, e os bônus principais que vale a pena rastrear nele
+928	Os bônus estão em Oculto: o jogo para de atualizá-los, então o DMGAssist não consegue lê-los. Defina a visibilidade como Sempre (a opacidade pode ir até 50%).

@@ -923,4 +923,5 @@ ns.LOCALE_DATA.esES = {
   ["the Cooldown Manager can't track it"] = "el gestor de reutilizaciones no puede seguirlo",
   ["tracked"] = "seguido",
   ["Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"] = "Gestor de reutilizaciones de Blizzard: activado o no, y los beneficios clave que vale la pena seguir en él",
+  ["Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."] = "Sus beneficios están en Oculto: el juego deja de actualizarlos, así que DMGAssist no puede leerlos. Pon la visibilidad en Siempre (la opacidad puede bajar hasta el 50%).",
 }

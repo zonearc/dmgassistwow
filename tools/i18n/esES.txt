@@ -919,3 +919,4 @@
 925	el gestor de reutilizaciones no puede seguirlo
 926	seguido
 927	Gestor de reutilizaciones de Blizzard: activado o no, y los beneficios clave que vale la pena seguir en él
+928	Sus beneficios están en Oculto: el juego deja de actualizarlos, así que DMGAssist no puede leerlos. Pon la visibilidad en Siempre (la opacidad puede bajar hasta el 50%).

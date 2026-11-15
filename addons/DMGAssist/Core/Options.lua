@@ -736,6 +736,7 @@ function O.Register()
           -- the status (up to 2 lines), one line per key buff, the "others" line
           local st = ns.CDM.status
           local n = 2 + math.max(1, st and #st.keys or 1) + (st and st.clutter > 0 and 1 or 0)
+            + (st and next(st.hidden or {}) and 2 or 0)
           return 8 + n * 15
         end
         cdmLayout:AddInitializer(init)

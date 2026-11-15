@@ -923,4 +923,5 @@ ns.LOCALE_DATA.deDE = {
   ["the Cooldown Manager can't track it"] = "der Abklingzeitenmanager kann ihn nicht verfolgen",
   ["tracked"] = "verfolgt",
   ["Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"] = "Blizzards Abklingzeitenmanager: an oder aus, und welche wichtigen Buffs sich darin zu verfolgen lohnen",
+  ["Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."] = "Seine Buffs sind auf Versteckt gestellt: Das Spiel aktualisiert sie dann nicht mehr, daher kann DMGAssist sie nicht lesen. Stelle die Sichtbarkeit auf Immer (die Deckkraft lässt sich bis 50% senken).",
 }

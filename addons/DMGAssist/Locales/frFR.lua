@@ -923,4 +923,5 @@ ns.LOCALE_DATA.frFR = {
   ["the Cooldown Manager can't track it"] = "le gestionnaire de temps de recharge ne peut pas la suivre",
   ["tracked"] = "suivie",
   ["Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"] = "Gestionnaire de temps de recharge de Blizzard : activé ou non, et les améliorations clés à y suivre",
+  ["Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."] = "Ses améliorations sont réglées sur Masqué : le jeu cesse de les mettre à jour, DMGAssist ne peut donc pas les lire. Réglez la visibilité sur Toujours (l'opacité peut descendre à 50%).",
 }

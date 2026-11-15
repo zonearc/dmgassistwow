@@ -923,4 +923,5 @@ ns.LOCALE_DATA.koKR = {
   ["the Cooldown Manager can't track it"] = "재사용 대기시간 관리자가 추적할 수 없습니다",
   ["tracked"] = "추적 중",
   ["Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it"] = "블리자드 재사용 대기시간 관리자: 켜짐 여부와 추적할 만한 핵심 강화 효과",
+  ["Its buffs are set to Hidden: the game stops updating them, so DMGAssist can't read them. Set Visibility to Always (opacity can go down to 50%)."] = "강화 효과가 숨김으로 설정되어 있습니다: 게임이 더 이상 갱신하지 않으므로 DMGAssist가 읽을 수 없습니다. 표시를 항상으로 설정하세요 (불투명도는 50%까지 낮출 수 있습니다).",
 }

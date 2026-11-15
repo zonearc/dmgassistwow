@@ -919,3 +919,4 @@
 925	le gestionnaire de temps de recharge ne peut pas la suivre
 926	suivie
 927	Gestionnaire de temps de recharge de Blizzard : activé ou non, et les améliorations clés à y suivre
+928	Ses améliorations sont réglées sur Masqué : le jeu cesse de les mettre à jour, DMGAssist ne peut donc pas les lire. Réglez la visibilité sur Toujours (l'opacité peut descendre à 50%).

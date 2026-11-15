@@ -92,14 +92,38 @@ end
 -- cooldown are skipped).
 function CDM.BuffItems()
   local out = {}
+  local f = CDM.fight
   for _, name in ipairs(CDM.BUFF_VIEWERS) do
     local viewer = _G[name]
     if type(viewer) == "table" and type(viewer.GetChildren) == "function" then
+      -- the viewer itself: hidden by its Visibility setting ("Hidden", "In combat only") or faded. Every change is
+      -- logged, and the buff reads made while it was hidden counted (owner, 2026-11-14: can people hide the bars
+      -- and still have DMGAssist read them?)
+      local shown = U.Get(viewer.IsShown, viewer)
+      local alpha = U.Get(viewer.GetAlpha, viewer)
+      local vstate = tostring(shown) .. "/" .. (type(alpha) == "number" and string.format("%.2f", alpha) or "-")
+      CDM.viewerState = CDM.viewerState or {}
+      if CDM.viewerState[name] ~= vstate then
+        CDM.viewerState[name] = vstate
+        U.Log("cdm_viewer", string.format("%s shown=%s alpha=%s", name, tostring(shown), tostring(alpha)))
+      end
+      if f and GetTime() - (f.lastSummary or f.start) >= CDM.SUMMARY_EVERY then
+        f.lastSummary = GetTime()
+        CDM.Summary(f, "so_far")
+      end
+      if f then
+        f.viewers = f.viewers or {}
+        f.viewers[name] = f.viewers[name] or { hidden = 0, shown = 0, reads = 0 }
+        local v = f.viewers[name]
+        v[shown == false and "hidden" or "shown"] = v[shown == false and "hidden" or "shown"] + 1
+        f.viewerHidden = f.viewerHidden or {}
+        f.viewerHidden[name] = shown == false
+      end
       for _, item in ipairs({ U.Call(viewer.GetChildren, viewer) }) do
         local cdID = type(item) == "table" and U.Read(item.cooldownID) or nil
         local info = CDM.Info(cdID)
         if info then
-          out[#out + 1] = { item = item, cdID = cdID, info = info, viewer = name }
+          out[#out + 1] = { item = item, cdID = cdID, info = info, viewer = name, hidden = shown == false }
         end
       end
     end
@@ -204,11 +228,15 @@ end
 -- Worked out out of combat (login, spec or talent change, settings shown): on or off, what's tracked, and the key
 -- buffs for your spec - tracked, "add" (the Cooldown Manager offers it) or "talent" (not taken).
 function CDM.Refresh(reason)
-  local st = { enabled = CDM.Enabled(), tracked = {}, trackedCount = 0, keys = {}, add = 0, have = 0, clutter = 0 }
+  local st = { enabled = CDM.Enabled(), tracked = {}, trackedCount = 0, keys = {}, add = 0, have = 0, clutter = 0,
+    hidden = {} }
   local state = ns.Specs and ns.Specs.current
   local record = state and state.data and ns.ActiveRecord and ns.ActiveRecord(state) or (state and state.data)
   if st.enabled then
     for _, b in ipairs(CDM.BuffItems()) do
+      if b.hidden then
+        st.hidden[b.viewer] = true
+      end
       st.trackedCount = st.trackedCount + 1
       for t in pairs(b.info.tokens) do
         st.tracked[t] = true
@@ -317,6 +345,11 @@ function CDM.SettingsText()
     lines[1] = "|cff33dd33" .. string.format(L["On: %d buffs tracked, %d of your key buffs among them."],
       st.trackedCount, st.have) .. "|r"
   end
+  if st.enabled and next(st.hidden) then
+    -- the game stops updating a hidden viewer: every buff reads "not active" (owner's test, 2026-11-14)
+    lines[#lines + 1] = "|cffff6060" .. L["Its buffs are set to Hidden: the game stops updating them, so DMGAssist "
+      .. "can't read them. Set Visibility to Always (opacity can go down to 50%)."] .. "|r"
+  end
   if #st.keys == 0 then
     lines[#lines + 1] = L["No key buffs for this spec: nothing to add."]
   end
@@ -373,6 +406,9 @@ function CDM.Observe(item, info, now, viewer)
     f.buffs[key] = rec
   end
   rec.n = rec.n + 1
+  if f.viewerHidden and f.viewerHidden[viewer] and type(U.Read(item.isActive)) == "boolean" then
+    rec.hiddenReads = (rec.hiddenReads or 0) + 1 -- read plainly while its viewer was hidden
+  end
   local shown = type(item.IsShown) == "function" and U.Call(item.IsShown, item)
   Part(rec, "sh", shown)
   Part(rec, "act", item.isActive)
@@ -387,13 +423,11 @@ function CDM.Observe(item, info, now, viewer)
   end
 end
 
-function CDM.OnCombat(inCombat)
-  if inCombat then
-    CDM.fight = { start = GetTime(), buffs = {} }
-    return
-  end
-  local f = CDM.fight
-  CDM.fight = nil
+-- One line for the fight so far: written at its end, and every CDM.SUMMARY_EVERY seconds during a long one (dummy
+-- sessions stay in combat for minutes; a report taken mid-fight still has it).
+CDM.SUMMARY_EVERY = 60
+
+function CDM.Summary(f, tag)
   if not f or not next(f.buffs) then
     return
   end
@@ -403,12 +437,28 @@ function CDM.OnCombat(inCombat)
       local p = rec[k] or { ok = 0, s = 0 }
       return string.format("%s=ok%d/S%d", k, p.ok, p.s)
     end
-    parts[#parts + 1] = string.format("%s:%s,%s,%s flips[%s]", key, P("sh"), P("act"), P("a"),
-      table.concat(rec.flips, ","))
+    parts[#parts + 1] = string.format("%s:%s,%s,%s%s flips[%s]", key, P("sh"), P("act"), P("a"),
+      rec.hiddenReads and (",hidden=" .. rec.hiddenReads) or "", table.concat(rec.flips, ","))
   end
   table.sort(parts)
+  local views = {}
+  for name, v in pairs(f.viewers or {}) do
+    views[#views + 1] = string.format("%s=shown%d/hidden%d", name:gsub("CooldownViewer", ""), v.shown, v.hidden)
+  end
+  table.sort(views)
+  table.insert(parts, 1, string.format("%s %.0fs viewers[%s]", tag, GetTime() - f.start, table.concat(views, ",")))
   U.Log("cdm_buff_summary", table.concat(parts, " "))
-  if not InCombatLockdown or not InCombatLockdown() then
+end
+
+function CDM.OnCombat(inCombat)
+  if inCombat then
+    CDM.fight = { start = GetTime(), buffs = {}, lastSummary = GetTime() }
+    return
+  end
+  local f = CDM.fight
+  CDM.fight = nil
+  CDM.Summary(f, "end")
+  if f and (not InCombatLockdown or not InCombatLockdown()) then
     CDM.Refresh("fight_end")
   end
 end
