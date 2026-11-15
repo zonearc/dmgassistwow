@@ -17,7 +17,7 @@ ns.UI = V
 
 V.ISSUES = "https://github.com/zonearc/dmgassist-issues/issues/new?template=bug_report.yml"
 
-local frame, editBox, status, whatBox, doingBox, linkBox
+local frame, editBox, status, whatBox, doingBox, linkBox, nextButton
 
 -- Text in the player's language: DMGAssist's translations, when DMGAssist is loaded (it always is by the time
 -- this window opens). The copied report itself stays in English, so anyone can read it.
@@ -261,8 +261,18 @@ local function Build()
   end)
   button:SetPoint("BOTTOMLEFT", 14, 12)
 
+  -- a report too big for one paste: its parts, one at a time (Export.EncodeParts)
+  nextButton = TryCreate("Button", nil, frame, "UIPanelButtonTemplate")
+  nextButton:SetSize(110, 22)
+  nextButton:SetText(T("Next part"))
+  nextButton:SetPoint("LEFT", button, "RIGHT", 6, 0)
+  nextButton:SetScript("OnClick", function()
+    V.ShowPart((V.part or 1) % #(V.parts or { 1 }) + 1)
+  end)
+  nextButton:Hide()
+
   status = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-  status:SetPoint("LEFT", button, "RIGHT", 10, 0)
+  status:SetPoint("LEFT", nextButton, "RIGHT", 10, 0)
 end
 
 local function Fill(text, select, note)
@@ -304,34 +314,58 @@ end
 function V.ShowReport(typing)
   local limit = ns.Export.REPORT_LIMIT
   for _ = 1, 4 do
-    local ok, str, fmt, len = pcall(ns.Export.Encode)
-    if not ok or not str then
-      local why = ok and tostring(fmt) or tostring(str)
+    local ok, parts, fmt, len = pcall(ns.Export.EncodeParts)
+    if ok and not parts and fmt == "too large" then
+      break -- (the window holds too little for even the smallest report in parts)
+    end
+    if not ok or not parts then
+      local why = ok and tostring(fmt) or tostring(parts)
       ns.Errors.Record("watchdog_internal", "report failed: " .. why)
       Fill(T("The report could not be built:") .. " " .. why, false, T("Report failed"))
       return false
     end
-    local text = V.Header() .. str
-    -- The report's time is shown, so a paste can be matched to the report (a stale clipboard is easy to spot).
-    local stamp = date("%H:%M:%S")
-    Fill(text, not typing, string.format(T(typing and "Report %s, %d characters" or
-      "Report %s, %d characters, selected: press Ctrl+C to copy it."), stamp, len))
-    local held = editBox:GetText()
+    V.parts, V.typing, V.len = parts, typing, len
+    V.stamp = date("%H:%M:%S") -- shown, so a paste can be matched to the report (a stale clipboard is easy to spot)
+    local text, held = V.ShowPart(1)
     if type(held) == "string" and #held == #text then
       if not typing then
-        U.Print("Report %s ready (%d characters, already selected): press Ctrl+C, then paste it into a new issue.",
-          stamp, len)
+        if #parts > 1 then
+          U.Print("Report %s ready in %d parts (part 1 selected): Ctrl+C and paste it, then Next part for the rest.",
+            V.stamp, #parts)
+        else
+          U.Print("Report %s ready (%d characters, already selected): press Ctrl+C, then paste it into a new issue.",
+            V.stamp, len)
+        end
       end
       ns.Export.REPORT_LIMIT = limit
       return true
     end
-    -- The box kept only part of it: rebuild smaller.
+    -- The box kept only part of it: rebuild in smaller pieces.
     ns.Export.REPORT_LIMIT = math.floor(math.min(ns.Export.REPORT_LIMIT, #(held or "")) * 0.8)
   end
   ns.Export.REPORT_LIMIT = limit
   Fill(T("The report did not fit in the window. Type /dmgw status and paste what it prints instead."), false,
     T("Report too large"))
   return false
+end
+
+-- Part i of the report in the box (part 1 carries your words), selected. Returns the text and what the box holds.
+function V.ShowPart(i)
+  local parts = V.parts or {}
+  V.part = i
+  local text = (i == 1 and V.Header() or "") .. (parts[i] or "")
+  local note
+  if #parts > 1 then
+    note = string.format(T("Report %s, part %d of %d: Ctrl+C, paste it, then Next part."), V.stamp or "", i, #parts)
+  else
+    note = string.format(T(V.typing and "Report %s, %d characters" or
+      "Report %s, %d characters, selected: press Ctrl+C to copy it."), V.stamp or "", V.len or #text)
+  end
+  Fill(text, not V.typing, note)
+  if nextButton then
+    nextButton:SetShown(#parts > 1)
+  end
+  return text, editBox:GetText()
 end
 
 -- Readable overview (/dmgw status prints it to chat; not part of the panel any more).

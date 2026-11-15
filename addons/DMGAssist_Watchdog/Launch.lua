@@ -237,7 +237,7 @@ function L.ApplyTesting(announce)
       s.taintLogBefore = current
       pcall(C_CVar.SetCVar, "taintLog", "1")
     end
-    s.maxEventsPerSession = math.max(s.maxEventsPerSession or 600, 1500)
+    s.maxEventsPerSession = math.max(s.maxEventsPerSession or 600, 4000) -- (reports come in parts)
     s.maxSessions = math.max(s.maxSessions or 8, 12)
     s.autoProbe, s.logCasts, s.logGlows = true, true, true
     if announce then

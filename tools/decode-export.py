@@ -13,6 +13,7 @@ Formats:
 import argparse
 import base64
 import json
+import re
 import sys
 import zlib
 
@@ -27,7 +28,31 @@ def inflate(data: bytes) -> bytes:
     raise ValueError("could not decompress payload (not deflate/zlib/gzip)")
 
 
+PART = re.compile(r"DMGWP (\d+)/(\d+) ")
+
+
+def join_parts(text: str) -> str:
+    """A report in parts ("DMGWP 1/3 DMGW1:...", "DMGWP 2/3 ...", pasted together or one after another): their
+    slices joined in order. Text without part tags comes back unchanged."""
+    marks = list(PART.finditer(text))
+    if not marks:
+        return text
+    total = int(marks[0].group(2))
+    slices = {}
+    for i, m in enumerate(marks):
+        end = marks[i + 1].start() if i + 1 < len(marks) else len(text)
+        chunk = text[m.end():end]
+        # whatever the player typed after a part (the next message's "What went wrong:") is not report data
+        chunk = re.split(r"\n\s*What went wrong:|\n\s*What I was doing:", chunk)[0]
+        slices[int(m.group(1))] = "".join(chunk.split())
+    missing = [i for i in range(1, total + 1) if i not in slices]
+    if missing:
+        raise ValueError("report parts missing: %s of %d" % (missing, total))
+    return "".join(slices[i] for i in range(1, total + 1))
+
+
 def decode(text: str):
+    text = join_parts(text)
     # A pasted report can start with the player's own words ("What went wrong: ..."); the string follows them.
     for prefix in ("DMGW1:", "DMGW0:"):
         at = text.find(prefix)

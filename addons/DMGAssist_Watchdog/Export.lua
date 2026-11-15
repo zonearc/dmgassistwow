@@ -27,7 +27,7 @@ end
 -- launch snapshot, the latest login and combat probes, the latest fights, recent notes. `keep` sets how much
 -- history goes in (Encode lowers it until the string fits REPORT_LIMIT).
 X.REPORT_LIMIT = 30000
-local DEFAULT_KEEP = { sessions = 4, notes = 120, probes = 2, stack = 900, events = 2000 }
+local DEFAULT_KEEP = { sessions = 4, notes = 120, probes = 2, stack = 900, events = 4000 }
 
 -- The fights that go in when only `n` fit: real fights before short pulls (owner, 2026-11-14: a 5 s pull right
 -- after a minutes-long fight was the only one left in the report). Newest first among fights of 15 s or more (or
@@ -169,8 +169,10 @@ local function EncodeData(data)
   return "DMGW0:" .. X.ToLua(data), "lua"
 end
 
--- Returns reportString, formatTag, length  (or nil, errorMessage). Fewer fights / notes go in until it fits.
-function X.Encode()
+-- Returns reportString, formatTag, length  (or nil, errorMessage). Fewer fights / notes go in until it fits
+-- `limit` (default REPORT_LIMIT).
+function X.Encode(limit)
+  limit = limit or X.REPORT_LIMIT
   local keep = {}
   for k, v in pairs(DEFAULT_KEEP) do
     keep[k] = v
@@ -184,7 +186,7 @@ function X.Encode()
     local str, fmt = EncodeData(data)
     local small = keep.sessions <= 1 and keep.notes <= 20 and keep.probes <= 1 and keep.stack <= 300
       and keep.events <= 60
-    if #str <= X.REPORT_LIMIT or small then
+    if #str <= limit or small then
       return str, fmt, #str
     end
     first = false
@@ -279,4 +281,29 @@ function X.Summary()
     end
   end
   return table.concat(lines, "\n")
+end
+
+-- A report too big for one paste comes in parts (owner, 2026-11-14: long fights were losing their first 40% to
+-- the one-paste limit). Each part: "DMGWP i/n " + a slice of the report string; tools/decode-export.py joins
+-- them. Up to MAX_PARTS parts of REPORT_LIMIT each; past that, fewer fights / events go in, as before.
+X.MAX_PARTS = 4
+X.PART_TAG = "DMGWP"
+function X.EncodeParts()
+  local str, fmt, len = X.Encode(X.REPORT_LIMIT * X.MAX_PARTS)
+  if not str then
+    return nil, fmt
+  end
+  if #str <= X.REPORT_LIMIT then
+    return { str }, fmt, len
+  end
+  local size = X.REPORT_LIMIT - 20
+  local n = math.ceil(#str / size)
+  if n > X.MAX_PARTS then
+    return nil, "too large" -- (the smallest report is bigger than MAX_PARTS small parts: the window is too small)
+  end
+  local parts = {}
+  for i = 1, n do
+    parts[i] = string.format("%s %d/%d ", X.PART_TAG, i, n) .. string.sub(str, (i - 1) * size + 1, i * size)
+  end
+  return parts, fmt, len
 end

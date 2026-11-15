@@ -104,7 +104,9 @@ function M.Add(code, a, b)
   end
   local db = ns.db
   session.counts[code] = (session.counts[code] or 0) + 1
-  if #session.events >= db.settings.maxEventsPerSession then
+  -- full: the end-of-fight summaries still go in (they are what a report is read for)
+  local summary = type(a) == "string" and (a:find("_summary$") or a == "prediction_summary")
+  if #session.events >= db.settings.maxEventsPerSession and not summary then
     session.dropped = session.dropped + 1
     return
   end

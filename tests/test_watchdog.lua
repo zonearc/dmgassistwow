@@ -283,7 +283,7 @@ test("one report: fits the size limit, keeps the newest fights, never leaves old
   end
   eq(ns.UI.ShowReport(), true, "fits after shrinking")
   truthy(#box.text <= 16000)
-  eq(box.text:sub(1, 5), "DMGW0", "the box holds a whole report, not the summary")
+  eq(box.text:sub(1, 4), "DMGW", "the box holds a report (or its first part), not the summary")
   -- a box that can't hold even the smallest report: a clear message, no partial string
   box.SetText = function(self, t)
     realSet(self, string.sub(t, 1, 500))
@@ -307,7 +307,11 @@ test("report window: your words go first, in the copied text and inside the repo
   truthy(box.text:find("What I was doing: dummies", 1, true), "both fields")
   local at = box.text:find("DMGW", 1, true)
   truthy(at, "the report string follows")
-  local data = assert(loadstring("return " .. box.text:sub(at + 6)))()
+  local whole = {}
+  for i, p in ipairs(ns.UI.parts) do
+    whole[i] = p:gsub("^DMGWP %d+/%d+ ", "")
+  end
+  local data = assert(loadstring("return " .. table.concat(whole):sub(7)))()
   eq(data.userNote.doing, "dummies", "inside the report too")
   DMGAssistWatchdogDB.reportNote = nil
   ns.UI.ShowReport()
@@ -363,7 +367,34 @@ test("testing mode: off in release builds; switched on, the taint log is on; off
   eq(ns.db.settings.maxEventsPerSession, 600)
   SlashCmdList.DMGASSISTWATCHDOG("testing on")
   eq(mock.cvars.taintLog, "1")
-  eq(ns.db.settings.maxEventsPerSession, 1500)
+  eq(ns.db.settings.maxEventsPerSession, 4000)
+end)
+
+test("report: too big for one paste - in parts that join back into the whole report", function()
+  for i = 1, 2 do
+    mock.Fire("PLAYER_REGEN_DISABLED")
+    for j = 1, 550 do
+      DMGAssistWatchdog.Log("pick", "main=starfire next=starfall fight=" .. i .. " n=" .. j)
+    end
+    mock.Fire("PLAYER_REGEN_ENABLED")
+  end
+  local limit = ns.Export.REPORT_LIMIT
+  ns.Export.REPORT_LIMIT = 25000
+  local parts = ns.Export.EncodeParts()
+  truthy(#parts > 1, "more than one part: " .. #parts)
+  truthy(#parts <= ns.Export.MAX_PARTS, "at most MAX_PARTS")
+  local joined = {}
+  for i, p in ipairs(parts) do
+    local tag = string.format("DMGWP %d/%d ", i, #parts)
+    eq(p:sub(1, #tag), tag, "tagged")
+    truthy(#p <= ns.Export.REPORT_LIMIT, "each part fits one paste")
+    joined[#joined + 1] = p:sub(#tag + 1)
+  end
+  local whole = table.concat(joined)
+  local data = assert(loadstring("return " .. whole:sub(7)))()
+  local last = data.sessions[#data.sessions]
+  eq(#last.events >= 550, true, "the newest fight whole, not cut to fit one paste: " .. #last.events)
+  ns.Export.REPORT_LIMIT = limit
 end)
 
 test("report: real fights kept before short pulls when only some fit", function()

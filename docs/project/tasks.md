@@ -180,6 +180,13 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.290: Watchdog reports in parts (owner, 2026-11-14: "are we at capacity ... cutting critical data?"). Yes: one
+  paste holds ~30,000 characters, and long fights lost their start (the 254 s fight: 531 of 1,281 events; 167 s: 368).
+  Now a report too big for one paste comes as up to 4 parts ("DMGWP 1/3 ..."), a Next part button in the window,
+  and tools/decode-export.py joins them (the player's words between parts are skipped). End-of-fight summaries are
+  always stored even when a fight is full; the test-build cap per fight is 4,000 events (was 1,500).
+  Note (owner): multi-player capture never came from Watchdog (only your own character); a raid's combat log file
+  (/combatlog, advanced logging) has everyone - upload it, or Warcraft Logs.
 - 1.6.0.289: Balance "Starfall > Starfall" (32 misses in the owner's 254 s 9-dummy fight) investigated. The slot-2
   guard (G.BelowCostAhead: after a pretend spend from a hidden pool, only promise a spender the low end affords) is
   right: the real Balance data with Astral Power 60-100 gives Starfall then Starfire (new test). The live fight
