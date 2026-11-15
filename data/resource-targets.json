@@ -1,20 +1,1327 @@
 {
+ "deathknight_blood": {
+  "1": {
+   "fights": 1,
+   "gains": {
+    "43265": {
+     "avg": 2.0,
+     "casts": 15,
+     "token": "death_and_decay",
+     "usual": 10
+    },
+    "195182": {
+     "avg": 20.0,
+     "casts": 8,
+     "token": "marrowrend",
+     "usual": 20
+    },
+    "195292": {
+     "avg": 10.0,
+     "casts": 4,
+     "token": "deaths_caress",
+     "usual": 10
+    },
+    "206930": {
+     "avg": 15.0,
+     "casts": 66,
+     "token": "heart_strike",
+     "usual": 15
+    },
+    "433895": {
+     "avg": 15.0,
+     "casts": 36,
+     "token": "vampiric_strike",
+     "usual": 15
+    }
+   },
+   "perSecond": {
+    "210738": {
+     "hits": 102,
+     "rate": 0.68,
+     "token": null
+    },
+    "221322": {
+     "hits": 79,
+     "rate": 0.79,
+     "token": null
+    }
+   },
+   "seconds": 299.7,
+   "spent": {
+    "43265": {
+     "avg": 0.0,
+     "casts": 15,
+     "token": "death_and_decay"
+    },
+    "46585": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": "raise_dead"
+    },
+    "49028": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": "dancing_rune_weapon"
+    },
+    "49998": {
+     "avg": 450.0,
+     "casts": 61,
+     "token": "death_strike"
+    },
+    "50842": {
+     "avg": 0.0,
+     "casts": 53,
+     "token": "blood_boil"
+    },
+    "55233": {
+     "avg": 0.0,
+     "casts": 9,
+     "token": "vampiric_blood"
+    },
+    "434144": {
+     "avg": 0.0,
+     "casts": 33,
+     "token": null
+    },
+    "1236994": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1297761": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": null
+    }
+   }
+  },
+  "5": {
+   "fights": 4,
+   "gains": {
+    "43265": {
+     "avg": 5.1,
+     "casts": 51,
+     "token": "death_and_decay",
+     "usual": 10
+    },
+    "195182": {
+     "avg": 20.0,
+     "casts": 12,
+     "token": "marrowrend",
+     "usual": 20
+    },
+    "195292": {
+     "avg": 10.0,
+     "casts": 8,
+     "token": "deaths_caress",
+     "usual": 10
+    },
+    "206930": {
+     "avg": 15.0,
+     "casts": 161,
+     "token": "heart_strike",
+     "usual": 15
+    },
+    "433895": {
+     "avg": 15.0,
+     "casts": 128,
+     "token": "vampiric_strike",
+     "usual": 15
+    }
+   },
+   "perSecond": {
+    "210738": {
+     "hits": 1426,
+     "rate": 3.71,
+     "token": null
+    },
+    "221322": {
+     "hits": 221,
+     "rate": 0.86,
+     "token": null
+    }
+   },
+   "seconds": 768.9,
+   "spent": {
+    "43265": {
+     "avg": 0.0,
+     "casts": 51,
+     "token": "death_and_decay"
+    },
+    "46585": {
+     "avg": 0.0,
+     "casts": 6,
+     "token": "raise_dead"
+    },
+    "49028": {
+     "avg": 0.0,
+     "casts": 11,
+     "token": "dancing_rune_weapon"
+    },
+    "49576": {
+     "avg": 0.0,
+     "casts": 7,
+     "token": null
+    },
+    "49998": {
+     "avg": 450.0,
+     "casts": 227,
+     "token": "death_strike"
+    },
+    "50842": {
+     "avg": 0.0,
+     "casts": 94,
+     "token": "blood_boil"
+    },
+    "434144": {
+     "avg": 0.0,
+     "casts": 599,
+     "token": null
+    },
+    "1236616": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": null
+    },
+    "1243972": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": null
+    },
+    "1297761": {
+     "avg": 0.0,
+     "casts": 11,
+     "token": null
+    }
+   }
+  }
+ },
+ "deathknight_frost": {
+  "1": {
+   "fights": 3,
+   "gains": {
+    "49020": {
+     "avg": 17.6,
+     "casts": 314,
+     "token": "obliterate",
+     "usual": 20
+    },
+    "49184": {
+     "avg": 0.2,
+     "casts": 142,
+     "token": "howling_blast",
+     "usual": 10
+    }
+   },
+   "perSecond": {
+    "195617": {
+     "hits": 33,
+     "rate": 0.13,
+     "token": "frost_fever"
+    },
+    "221322": {
+     "hits": 229,
+     "rate": 0.7,
+     "token": null
+    },
+    "377077": {
+     "hits": 139,
+     "rate": 1.13,
+     "token": null
+    }
+   },
+   "seconds": 981.6,
+   "spent": {
+    "26297": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": null
+    },
+    "46585": {
+     "avg": 0.0,
+     "casts": 6,
+     "token": "raise_dead"
+    },
+    "47568": {
+     "avg": 0.0,
+     "casts": 84,
+     "token": "empower_rune_weapon"
+    },
+    "49020": {
+     "avg": 0.0,
+     "casts": 314,
+     "token": "obliterate"
+    },
+    "49039": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": "lichborne"
+    },
+    "49143": {
+     "avg": 350.0,
+     "casts": 254,
+     "token": "frost_strike"
+    },
+    "49184": {
+     "avg": 0.0,
+     "casts": 142,
+     "token": "howling_blast"
+    },
+    "51271": {
+     "avg": 0.0,
+     "casts": 21,
+     "token": "pillar_of_frost"
+    },
+    "279302": {
+     "avg": 0.0,
+     "casts": 12,
+     "token": "frostwyrms_fury"
+    },
+    "1236994": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1243972": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1249658": {
+     "avg": 600.0,
+     "casts": 12,
+     "token": "breath_of_sindragosa"
+    },
+    "1250580": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": null
+    },
+    "1265384": {
+     "avg": 0.0,
+     "casts": 11,
+     "token": "frostwyrms_fury"
+    },
+    "1297761": {
+     "avg": 0.0,
+     "casts": 8,
+     "token": null
+    }
+   }
+  },
+  "5": {
+   "fights": 2,
+   "gains": {
+    "49020": {
+     "avg": 15.0,
+     "casts": 4,
+     "token": "obliterate",
+     "usual": 10
+    },
+    "49184": {
+     "avg": 0.3,
+     "casts": 65,
+     "token": "howling_blast",
+     "usual": 10
+    },
+    "207230": {
+     "avg": 19.2,
+     "casts": 119,
+     "token": "frostscythe",
+     "usual": 20
+    },
+    "439843": {
+     "avg": 20.0,
+     "casts": 1,
+     "token": "reapers_mark",
+     "usual": 20
+    }
+   },
+   "perSecond": {
+    "195617": {
+     "hits": 40,
+     "rate": 0.45,
+     "token": "frost_fever"
+    },
+    "221322": {
+     "hits": 97,
+     "rate": 0.81,
+     "token": null
+    },
+    "377077": {
+     "hits": 63,
+     "rate": 1.41,
+     "token": null
+    }
+   },
+   "seconds": 358.3,
+   "spent": {
+    "46585": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": "raise_dead"
+    },
+    "47568": {
+     "avg": 0.0,
+     "casts": 24,
+     "token": "empower_rune_weapon"
+    },
+    "49184": {
+     "avg": 0.0,
+     "casts": 65,
+     "token": "howling_blast"
+    },
+    "51271": {
+     "avg": 0.0,
+     "casts": 6,
+     "token": "pillar_of_frost"
+    },
+    "194913": {
+     "avg": 350.0,
+     "casts": 96,
+     "token": "glacial_advance"
+    },
+    "207230": {
+     "avg": 0.0,
+     "casts": 119,
+     "token": "frostscythe"
+    },
+    "279302": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": "frostwyrms_fury"
+    },
+    "441424": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": null
+    },
+    "441426": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": null
+    },
+    "1236994": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1249658": {
+     "avg": 600.0,
+     "casts": 4,
+     "token": "breath_of_sindragosa"
+    },
+    "1265384": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": "frostwyrms_fury"
+    },
+    "1297761": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": null
+    }
+   }
+  }
+ },
+ "deathknight_unholy": {
+  "1": {
+   "fights": 1,
+   "gains": {
+    "55090": {
+     "avg": 10.0,
+     "casts": 10,
+     "token": "scourge_strike",
+     "usual": 10
+    },
+    "85948": {
+     "avg": 20.0,
+     "casts": 3,
+     "token": "festering_strike",
+     "usual": 20
+    },
+    "343294": {
+     "avg": 10.0,
+     "casts": 1,
+     "token": "soul_reaper",
+     "usual": 10
+    },
+    "433895": {
+     "avg": 10.0,
+     "casts": 15,
+     "token": "vampiric_strike",
+     "usual": 10
+    },
+    "1247378": {
+     "avg": 10.0,
+     "casts": 3,
+     "token": "putrefy",
+     "usual": 10
+    }
+   },
+   "perSecond": {
+    "42650": {
+     "hits": 2,
+     "rate": 0.82,
+     "token": "army_of_the_dead"
+    },
+    "221322": {
+     "hits": 14,
+     "rate": 0.69,
+     "token": null
+    }
+   },
+   "seconds": 60.8,
+   "spent": {
+    "47541": {
+     "avg": 300.0,
+     "casts": 5,
+     "token": "death_coil"
+    },
+    "48265": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "458128": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": "festering_scythe"
+    },
+    "1233448": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": "dark_transformation"
+    },
+    "1242174": {
+     "avg": 300.0,
+     "casts": 11,
+     "token": null
+    }
+   }
+  },
+  "5": {
+   "fights": 2,
+   "gains": {
+    "43265": {
+     "avg": 10.0,
+     "casts": 2,
+     "token": "death_and_decay",
+     "usual": 10
+    },
+    "55090": {
+     "avg": 10.0,
+     "casts": 11,
+     "token": "scourge_strike",
+     "usual": 10
+    },
+    "77575": {
+     "avg": 10.0,
+     "casts": 1,
+     "token": "outbreak",
+     "usual": 10
+    },
+    "85948": {
+     "avg": 20.0,
+     "casts": 1,
+     "token": "festering_strike",
+     "usual": 20
+    },
+    "433895": {
+     "avg": 10.0,
+     "casts": 30,
+     "token": "vampiric_strike",
+     "usual": 10
+    },
+    "1247378": {
+     "avg": 10.0,
+     "casts": 9,
+     "token": "putrefy",
+     "usual": 10
+    }
+   },
+   "perSecond": {
+    "42650": {
+     "hits": 2,
+     "rate": 0.3,
+     "token": "army_of_the_dead"
+    },
+    "221322": {
+     "hits": 18,
+     "rate": 0.32,
+     "token": null
+    }
+   },
+   "seconds": 167.4,
+   "spent": {
+    "47541": {
+     "avg": 300.0,
+     "casts": 10,
+     "token": "death_coil"
+    },
+    "48265": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "207317": {
+     "avg": 300.0,
+     "casts": 8,
+     "token": "epidemic"
+    },
+    "383269": {
+     "avg": 300.0,
+     "casts": 1,
+     "token": null
+    },
+    "458128": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": "festering_scythe"
+    },
+    "1233448": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": "dark_transformation"
+    },
+    "1236616": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1242174": {
+     "avg": 300.0,
+     "casts": 11,
+     "token": null
+    },
+    "1271967": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": "blightfall"
+    },
+    "1297761": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    }
+   }
+  }
+ },
+ "demonhunter_devourer": {
+  "1": {
+   "fights": 4,
+   "gains": {
+    "1245414": {
+     "avg": 13.7,
+     "casts": 19,
+     "token": "voidblade",
+     "usual": 20
+    }
+   },
+   "perSecond": {
+    "1223628": {
+     "hits": 2019,
+     "rate": 8.11,
+     "token": null
+    },
+    "1239507": {
+     "hits": 28,
+     "rate": 0.28,
+     "token": "hungering_slash"
+    },
+    "1242475": {
+     "hits": 250,
+     "rate": 1.51,
+     "token": "soul_immolation"
+    },
+    "1261679": {
+     "hits": 81,
+     "rate": 0.81,
+     "token": "reap"
+    },
+    "1261710": {
+     "hits": 110,
+     "rate": 1.0,
+     "token": "consume"
+    },
+    "1277769": {
+     "hits": 18,
+     "rate": 2.1,
+     "token": null
+    },
+    "1288123": {
+     "hits": 225,
+     "rate": 3.98,
+     "token": "devour"
+    }
+   },
+   "seconds": 995.4,
+   "spent": {
+    "198793": {
+     "avg": 0.0,
+     "casts": 26,
+     "token": "vengeful_retreat"
+    },
+    "473662": {
+     "avg": 0.0,
+     "casts": 110,
+     "token": "consume"
+    },
+    "473728": {
+     "avg": 55.1,
+     "casts": 107,
+     "token": "void_ray"
+    },
+    "1217610": {
+     "avg": 0.0,
+     "casts": 225,
+     "token": "devour"
+    },
+    "1221150": {
+     "avg": 0.0,
+     "casts": 36,
+     "token": "collapsing_star"
+    },
+    "1223412": {
+     "avg": 0.0,
+     "casts": 1984,
+     "token": null
+    },
+    "1226019": {
+     "avg": 0.0,
+     "casts": 60,
+     "token": "reap"
+    },
+    "1236616": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1236994": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": null
+    },
+    "1239123": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": "hungering_slash"
+    },
+    "1241937": {
+     "avg": 0.0,
+     "casts": 33,
+     "token": "soul_immolation"
+    },
+    "1243972": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": null
+    },
+    "1245412": {
+     "avg": 0.0,
+     "casts": 9,
+     "token": "voidblade"
+    },
+    "1245414": {
+     "avg": 0.0,
+     "casts": 19,
+     "token": "voidblade"
+    },
+    "1245453": {
+     "avg": 0.0,
+     "casts": 104,
+     "token": "cull"
+    },
+    "1245470": {
+     "avg": 0.0,
+     "casts": 26,
+     "token": "reapers_toll"
+    },
+    "1245483": {
+     "avg": 0.0,
+     "casts": 10,
+     "token": "pierce_the_veil"
+    },
+    "1246167": {
+     "avg": 0.0,
+     "casts": 6,
+     "token": "the_hunt"
+    },
+    "1246169": {
+     "avg": 0.0,
+     "casts": 16,
+     "token": null
+    },
+    "1250533": {
+     "avg": 0.0,
+     "casts": 7,
+     "token": null
+    },
+    "1259431": {
+     "avg": 0.0,
+     "casts": 10,
+     "token": "predators_wake"
+    }
+   }
+  },
+  "2": {
+   "fights": 2,
+   "gains": {
+    "1245414": {
+     "avg": 20.0,
+     "casts": 29,
+     "token": "voidblade",
+     "usual": 20
+    }
+   },
+   "perSecond": {
+    "1223628": {
+     "hits": 1141,
+     "rate": 7.61,
+     "token": null
+    },
+    "1239507": {
+     "hits": 46,
+     "rate": 0.77,
+     "token": "hungering_slash"
+    },
+    "1242475": {
+     "hits": 233,
+     "rate": 2.33,
+     "token": "soul_immolation"
+    },
+    "1261710": {
+     "hits": 50,
+     "rate": 0.67,
+     "token": "consume"
+    },
+    "1277769": {
+     "hits": 14,
+     "rate": 3.74,
+     "token": null
+    },
+    "1288123": {
+     "hits": 65,
+     "rate": 1.73,
+     "token": "devour"
+    }
+   },
+   "seconds": 599.6,
+   "spent": {
+    "198793": {
+     "avg": 0.0,
+     "casts": 31,
+     "token": "vengeful_retreat"
+    },
+    "473662": {
+     "avg": 0.0,
+     "casts": 50,
+     "token": "consume"
+    },
+    "473728": {
+     "avg": 62.0,
+     "casts": 71,
+     "token": "void_ray"
+    },
+    "1217610": {
+     "avg": 0.0,
+     "casts": 65,
+     "token": "devour"
+    },
+    "1223412": {
+     "avg": 0.0,
+     "casts": 1097,
+     "token": null
+    },
+    "1226019": {
+     "avg": 0.0,
+     "casts": 16,
+     "token": "reap"
+    },
+    "1236994": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": null
+    },
+    "1239123": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": "hungering_slash"
+    },
+    "1241937": {
+     "avg": 0.0,
+     "casts": 28,
+     "token": "soul_immolation"
+    },
+    "1243972": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1245412": {
+     "avg": 0.0,
+     "casts": 14,
+     "token": "voidblade"
+    },
+    "1245414": {
+     "avg": 0.0,
+     "casts": 29,
+     "token": "voidblade"
+    },
+    "1245453": {
+     "avg": 0.0,
+     "casts": 41,
+     "token": "cull"
+    },
+    "1245470": {
+     "avg": 0.0,
+     "casts": 44,
+     "token": "reapers_toll"
+    },
+    "1245483": {
+     "avg": 0.0,
+     "casts": 15,
+     "token": "pierce_the_veil"
+    },
+    "1246167": {
+     "avg": 0.0,
+     "casts": 6,
+     "token": "the_hunt"
+    },
+    "1246169": {
+     "avg": 0.0,
+     "casts": 21,
+     "token": null
+    },
+    "1250533": {
+     "avg": 0.0,
+     "casts": 7,
+     "token": null
+    },
+    "1259431": {
+     "avg": 0.0,
+     "casts": 15,
+     "token": "predators_wake"
+    }
+   }
+  },
+  "5": {
+   "fights": 4,
+   "gains": {},
+   "perSecond": {
+    "1223628": {
+     "hits": 1985,
+     "rate": 7.69,
+     "token": null
+    },
+    "1239507": {
+     "hits": 11,
+     "rate": 0.11,
+     "token": "hungering_slash"
+    },
+    "1242475": {
+     "hits": 167,
+     "rate": 0.97,
+     "token": "soul_immolation"
+    },
+    "1261679": {
+     "hits": 97,
+     "rate": 0.94,
+     "token": "reap"
+    },
+    "1261710": {
+     "hits": 77,
+     "rate": 0.72,
+     "token": "consume"
+    },
+    "1277769": {
+     "hits": 12,
+     "rate": 1.06,
+     "token": null
+    },
+    "1288123": {
+     "hits": 184,
+     "rate": 3.18,
+     "token": "devour"
+    }
+   },
+   "seconds": 1031.9,
+   "spent": {
+    "185123": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": null
+    },
+    "198793": {
+     "avg": 0.0,
+     "casts": 12,
+     "token": "vengeful_retreat"
+    },
+    "473662": {
+     "avg": 0.0,
+     "casts": 77,
+     "token": "consume"
+    },
+    "473728": {
+     "avg": 46.1,
+     "casts": 89,
+     "token": "void_ray"
+    },
+    "1217610": {
+     "avg": 0.0,
+     "casts": 184,
+     "token": "devour"
+    },
+    "1221150": {
+     "avg": 0.0,
+     "casts": 44,
+     "token": "collapsing_star"
+    },
+    "1223412": {
+     "avg": 0.0,
+     "casts": 1877,
+     "token": null
+    },
+    "1226019": {
+     "avg": 0.0,
+     "casts": 10,
+     "token": "reap"
+    },
+    "1236616": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1236994": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": null
+    },
+    "1239123": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": "hungering_slash"
+    },
+    "1241937": {
+     "avg": 0.0,
+     "casts": 25,
+     "token": "soul_immolation"
+    },
+    "1243972": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1245412": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": "voidblade"
+    },
+    "1245414": {
+     "avg": 0.0,
+     "casts": 6,
+     "token": "voidblade"
+    },
+    "1245453": {
+     "avg": 0.0,
+     "casts": 24,
+     "token": "cull"
+    },
+    "1245470": {
+     "avg": 0.0,
+     "casts": 9,
+     "token": "reapers_toll"
+    },
+    "1245483": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": "pierce_the_veil"
+    },
+    "1246167": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": "the_hunt"
+    },
+    "1246169": {
+     "avg": 0.0,
+     "casts": 6,
+     "token": null
+    },
+    "1250533": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": null
+    },
+    "1259431": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": "predators_wake"
+    }
+   }
+  }
+ },
+ "demonhunter_vengeance": {
+  "1": {
+   "fights": 1,
+   "gains": {
+    "213243": {
+     "avg": 15.0,
+     "casts": 12,
+     "token": "felblade",
+     "usual": 15
+    },
+    "258920": {
+     "avg": 8.0,
+     "casts": 26,
+     "token": "immolation_aura",
+     "usual": 8
+    },
+    "263642": {
+     "avg": 36.5,
+     "casts": 92,
+     "token": "fracture",
+     "usual": 43
+    }
+   },
+   "perSecond": {
+    "258922": {
+     "hits": 241,
+     "rate": 1.61,
+     "token": "immolation_aura"
+    },
+    "389787": {
+     "hits": 6,
+     "rate": 0.5,
+     "token": "sigil_of_flame"
+    },
+    "392997": {
+     "hits": 153,
+     "rate": 1.52,
+     "token": null
+    }
+   },
+   "seconds": 300.0,
+   "spent": {
+    "183752": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": "disrupt"
+    },
+    "187827": {
+     "avg": 0.0,
+     "casts": 13,
+     "token": "metamorphosis"
+    },
+    "203720": {
+     "avg": 0.0,
+     "casts": 16,
+     "token": "demon_spikes"
+    },
+    "204021": {
+     "avg": 0.0,
+     "casts": 8,
+     "token": "fiery_brand"
+    },
+    "204255": {
+     "avg": 0.0,
+     "casts": 307,
+     "token": null
+    },
+    "204596": {
+     "avg": 0.0,
+     "casts": 6,
+     "token": "sigil_of_flame"
+    },
+    "213243": {
+     "avg": 0.0,
+     "casts": 12,
+     "token": "felblade"
+    },
+    "225919": {
+     "avg": 0.0,
+     "casts": 92,
+     "token": "fracture"
+    },
+    "225921": {
+     "avg": 0.0,
+     "casts": 92,
+     "token": "fracture"
+    },
+    "228477": {
+     "avg": 35.0,
+     "casts": 112,
+     "token": "soul_cleave"
+    },
+    "232893": {
+     "avg": 0.0,
+     "casts": 12,
+     "token": "felblade"
+    },
+    "247454": {
+     "avg": 40.0,
+     "casts": 20,
+     "token": "spirit_bomb"
+    },
+    "258920": {
+     "avg": 0.0,
+     "casts": 26,
+     "token": "immolation_aura"
+    },
+    "263642": {
+     "avg": 0.0,
+     "casts": 92,
+     "token": "fracture"
+    },
+    "390163": {
+     "avg": 0.0,
+     "casts": 5,
+     "token": "sigil_of_spite"
+    }
+   }
+  },
+  "5": {
+   "fights": 2,
+   "gains": {
+    "213243": {
+     "avg": 15.0,
+     "casts": 5,
+     "token": "felblade",
+     "usual": 15
+    },
+    "258920": {
+     "avg": 8.0,
+     "casts": 26,
+     "token": "immolation_aura",
+     "usual": 8
+    },
+    "263642": {
+     "avg": 37.5,
+     "casts": 93,
+     "token": "fracture",
+     "usual": 43
+    }
+   },
+   "perSecond": {
+    "258922": {
+     "hits": 245,
+     "rate": 1.54,
+     "token": "immolation_aura"
+    },
+    "389787": {
+     "hits": 9,
+     "rate": 0.71,
+     "token": "sigil_of_flame"
+    },
+    "392997": {
+     "hits": 252,
+     "rate": 2.25,
+     "token": null
+    }
+   },
+   "seconds": 318.6,
+   "spent": {
+    "187827": {
+     "avg": 0.0,
+     "casts": 18,
+     "token": "metamorphosis"
+    },
+    "198793": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "203720": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": "demon_spikes"
+    },
+    "204021": {
+     "avg": 0.0,
+     "casts": 8,
+     "token": "fiery_brand"
+    },
+    "204255": {
+     "avg": 0.0,
+     "casts": 409,
+     "token": null
+    },
+    "204596": {
+     "avg": 0.0,
+     "casts": 9,
+     "token": "sigil_of_flame"
+    },
+    "207407": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": "soul_carver"
+    },
+    "213243": {
+     "avg": 0.0,
+     "casts": 5,
+     "token": "felblade"
+    },
+    "225919": {
+     "avg": 0.0,
+     "casts": 93,
+     "token": "fracture"
+    },
+    "225921": {
+     "avg": 0.0,
+     "casts": 93,
+     "token": "fracture"
+    },
+    "228477": {
+     "avg": 35.0,
+     "casts": 120,
+     "token": "soul_cleave"
+    },
+    "232893": {
+     "avg": 0.0,
+     "casts": 5,
+     "token": "felblade"
+    },
+    "247454": {
+     "avg": 40.0,
+     "casts": 23,
+     "token": "spirit_bomb"
+    },
+    "258920": {
+     "avg": 0.0,
+     "casts": 26,
+     "token": "immolation_aura"
+    },
+    "263642": {
+     "avg": 0.0,
+     "casts": 93,
+     "token": "fracture"
+    },
+    "390163": {
+     "avg": 0.0,
+     "casts": 6,
+     "token": "sigil_of_spite"
+    },
+    "1236616": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1243972": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1293316": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    }
+   }
+  }
+ },
  "druid_balance": {
   "1": {
    "fights": 4,
    "gains": {
-    "8921": {
-     "avg": 8.0,
-     "casts": 14,
-     "token": "moonfire",
-     "usual": 8
-    },
-    "93402": {
-     "avg": 5.9,
-     "casts": 19,
-     "token": "sunfire",
-     "usual": 6
-    },
     "190984": {
      "avg": 9.0,
      "casts": 36,
@@ -32,6 +1339,18 @@
      "casts": 1,
      "token": "force_of_nature",
      "usual": 20
+    },
+    "8921": {
+     "avg": 8.0,
+     "casts": 14,
+     "token": "moonfire",
+     "usual": 8
+    },
+    "93402": {
+     "avg": 5.9,
+     "casts": 19,
+     "token": "sunfire",
+     "usual": 6
     }
    },
    "perSecond": {
@@ -58,25 +1377,30 @@
    },
    "seconds": 661.0,
    "spent": {
-    "8921": {
-     "avg": 0.0,
-     "casts": 14,
-     "token": "moonfire"
-    },
-    "78674": {
-     "avg": 315.8,
-     "casts": 95,
-     "token": "starsurge"
-    },
-    "93402": {
-     "avg": 0.0,
-     "casts": 19,
-     "token": "sunfire"
-    },
     "102560": {
      "avg": 0.0,
      "casts": 4,
      "token": "incarnation_chosen_of_elune"
+    },
+    "1233272": {
+     "avg": 0.0,
+     "casts": 9,
+     "token": "lunar_eclipse"
+    },
+    "1236994": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1243972": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1293316": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": null
     },
     "190984": {
      "avg": 0.0,
@@ -108,31 +1432,32 @@
      "casts": 1,
      "token": "convoke_the_spirits"
     },
-    "1233272": {
-     "avg": 0.0,
-     "casts": 9,
-     "token": "lunar_eclipse"
+    "78674": {
+     "avg": 315.8,
+     "casts": 95,
+     "token": "starsurge"
     },
-    "1236994": {
+    "8921": {
      "avg": 0.0,
-     "casts": 1,
-     "token": null
+     "casts": 14,
+     "token": "moonfire"
     },
-    "1243972": {
+    "93402": {
      "avg": 0.0,
-     "casts": 1,
-     "token": null
-    },
-    "1293316": {
-     "avg": 0.0,
-     "casts": 4,
-     "token": null
+     "casts": 19,
+     "token": "sunfire"
     }
    }
   },
   "2": {
    "fights": 4,
    "gains": {
+    "194153": {
+     "avg": 12.0,
+     "casts": 224,
+     "token": "starfire",
+     "usual": 12
+    },
     "8921": {
      "avg": 7.9,
      "casts": 19,
@@ -144,12 +1469,6 @@
      "casts": 22,
      "token": "sunfire",
      "usual": 6
-    },
-    "194153": {
-     "avg": 12.0,
-     "casts": 224,
-     "token": "starfire",
-     "usual": 12
     }
    },
    "perSecond": {
@@ -181,21 +1500,6 @@
    },
    "seconds": 736.9,
    "spent": {
-    "8921": {
-     "avg": 0.0,
-     "casts": 19,
-     "token": "moonfire"
-    },
-    "78674": {
-     "avg": 0.0,
-     "casts": 36,
-     "token": "starsurge"
-    },
-    "93402": {
-     "avg": 0.0,
-     "casts": 22,
-     "token": "sunfire"
-    },
     "102383": {
      "avg": 0.0,
      "casts": 1,
@@ -205,21 +1509,6 @@
      "avg": 0.0,
      "casts": 8,
      "token": "incarnation_chosen_of_elune"
-    },
-    "191034": {
-     "avg": 403.6,
-     "casts": 140,
-     "token": "starfall"
-    },
-    "194153": {
-     "avg": 0.0,
-     "casts": 224,
-     "token": "starfire"
-    },
-    "202770": {
-     "avg": 0.0,
-     "casts": 18,
-     "token": "fury_of_elune"
     },
     "1233272": {
      "avg": 0.0,
@@ -250,12 +1539,48 @@
      "avg": 0.0,
      "casts": 3,
      "token": null
+    },
+    "191034": {
+     "avg": 403.6,
+     "casts": 140,
+     "token": "starfall"
+    },
+    "194153": {
+     "avg": 0.0,
+     "casts": 224,
+     "token": "starfire"
+    },
+    "202770": {
+     "avg": 0.0,
+     "casts": 18,
+     "token": "fury_of_elune"
+    },
+    "78674": {
+     "avg": 0.0,
+     "casts": 36,
+     "token": "starsurge"
+    },
+    "8921": {
+     "avg": 0.0,
+     "casts": 19,
+     "token": "moonfire"
+    },
+    "93402": {
+     "avg": 0.0,
+     "casts": 22,
+     "token": "sunfire"
     }
    }
   },
   "3": {
    "fights": 1,
    "gains": {
+    "194153": {
+     "avg": 12.0,
+     "casts": 90,
+     "token": "starfire",
+     "usual": 12
+    },
     "8921": {
      "avg": 8.0,
      "casts": 16,
@@ -267,12 +1592,6 @@
      "casts": 20,
      "token": "sunfire",
      "usual": 6
-    },
-    "194153": {
-     "avg": 12.0,
-     "casts": 90,
-     "token": "starfire",
-     "usual": 12
     }
    },
    "perSecond": {
@@ -309,25 +1628,25 @@
    },
    "seconds": 300.0,
    "spent": {
-    "8921": {
-     "avg": 0.0,
-     "casts": 16,
-     "token": "moonfire"
-    },
-    "78674": {
-     "avg": 121.7,
-     "casts": 46,
-     "token": "starsurge"
-    },
-    "93402": {
-     "avg": 0.0,
-     "casts": 20,
-     "token": "sunfire"
-    },
     "102560": {
      "avg": 0.0,
      "casts": 4,
      "token": "incarnation_chosen_of_elune"
+    },
+    "1233272": {
+     "avg": 0.0,
+     "casts": 10,
+     "token": "lunar_eclipse"
+    },
+    "1236616": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1250533": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": null
     },
     "191034": {
      "avg": 381.4,
@@ -344,20 +1663,20 @@
      "casts": 9,
      "token": "fury_of_elune"
     },
-    "1233272": {
-     "avg": 0.0,
-     "casts": 10,
-     "token": "lunar_eclipse"
+    "78674": {
+     "avg": 121.7,
+     "casts": 46,
+     "token": "starsurge"
     },
-    "1236616": {
+    "8921": {
      "avg": 0.0,
-     "casts": 1,
-     "token": null
+     "casts": 16,
+     "token": "moonfire"
     },
-    "1250533": {
+    "93402": {
      "avg": 0.0,
-     "casts": 3,
-     "token": null
+     "casts": 20,
+     "token": "sunfire"
     }
    }
   },
@@ -367,6 +1686,608 @@
    "perSecond": {},
    "seconds": 942.3,
    "spent": {}
+  }
+ },
+ "warrior_arms": {
+  "1": {
+   "fights": 4,
+   "gains": {
+    "167105": {
+     "avg": 1.4,
+     "casts": 33,
+     "token": "colossus_smash",
+     "usual": 15
+    },
+    "281000": {
+     "avg": 3.4,
+     "casts": 205,
+     "token": "execute",
+     "usual": 20
+    }
+   },
+   "perSecond": {
+    "384362": {
+     "hits": 48,
+     "rate": 0.24,
+     "token": null
+    },
+    "392776": {
+     "hits": 102,
+     "rate": 0.39,
+     "token": null
+    },
+    "392793": {
+     "hits": 24,
+     "rate": 0.07,
+     "token": null
+    }
+   },
+   "seconds": 980.2,
+   "spent": {
+    "772": {
+     "avg": 100.0,
+     "casts": 1,
+     "token": "rend"
+    },
+    "845": {
+     "avg": 200.0,
+     "casts": 43,
+     "token": "cleave"
+    },
+    "1464": {
+     "avg": 200.0,
+     "casts": 49,
+     "token": "slam"
+    },
+    "7384": {
+     "avg": 0.0,
+     "casts": 165,
+     "token": "overpower"
+    },
+    "12294": {
+     "avg": 129.8,
+     "casts": 289,
+     "token": "mortal_strike"
+    },
+    "20572": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": null
+    },
+    "52174": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "58984": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "107570": {
+     "avg": 0.0,
+     "casts": 7,
+     "token": "storm_bolt"
+    },
+    "107574": {
+     "avg": 0.0,
+     "casts": 17,
+     "token": "avatar"
+    },
+    "126664": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": "charge"
+    },
+    "167105": {
+     "avg": 0.0,
+     "casts": 33,
+     "token": "colossus_smash"
+    },
+    "281000": {
+     "avg": 129.0,
+     "casts": 205,
+     "token": "execute"
+    },
+    "446035": {
+     "avg": 0.0,
+     "casts": 34,
+     "token": "bladestorm"
+    },
+    "1234969": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": null
+    },
+    "1236994": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1269383": {
+     "avg": 200.0,
+     "casts": 91,
+     "token": "heroic_strike"
+    },
+    "1293316": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": null
+    }
+   }
+  },
+  "2": {
+   "fights": 4,
+   "gains": {
+    "100": {
+     "avg": 20.0,
+     "casts": 1,
+     "token": "charge",
+     "usual": 20
+    },
+    "281000": {
+     "avg": 3.4,
+     "casts": 183,
+     "token": "execute",
+     "usual": 20
+    }
+   },
+   "perSecond": {
+    "384362": {
+     "hits": 169,
+     "rate": 0.91,
+     "token": null
+    },
+    "392776": {
+     "hits": 82,
+     "rate": 0.31,
+     "token": null
+    },
+    "392793": {
+     "hits": 41,
+     "rate": 0.12,
+     "token": null
+    }
+   },
+   "seconds": 926.7,
+   "spent": {
+    "100": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": "charge"
+    },
+    "772": {
+     "avg": 100.0,
+     "casts": 14,
+     "token": "rend"
+    },
+    "845": {
+     "avg": 200.0,
+     "casts": 42,
+     "token": "cleave"
+    },
+    "1464": {
+     "avg": 200.0,
+     "casts": 38,
+     "token": "slam"
+    },
+    "6552": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": "pummel"
+    },
+    "7384": {
+     "avg": 0.0,
+     "casts": 103,
+     "token": "overpower"
+    },
+    "12294": {
+     "avg": 140.0,
+     "casts": 270,
+     "token": "mortal_strike"
+    },
+    "52174": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "107570": {
+     "avg": 0.0,
+     "casts": 15,
+     "token": "storm_bolt"
+    },
+    "107574": {
+     "avg": 0.0,
+     "casts": 16,
+     "token": "avatar"
+    },
+    "126664": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": "charge"
+    },
+    "167105": {
+     "avg": 0.0,
+     "casts": 31,
+     "token": "colossus_smash"
+    },
+    "202168": {
+     "avg": 100.0,
+     "casts": 1,
+     "token": null
+    },
+    "260708": {
+     "avg": 0.0,
+     "casts": 25,
+     "token": "sweeping_strikes"
+    },
+    "281000": {
+     "avg": 111.3,
+     "casts": 183,
+     "token": "execute"
+    },
+    "444257": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "446035": {
+     "avg": 0.0,
+     "casts": 31,
+     "token": "bladestorm"
+    },
+    "1236616": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1236994": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": null
+    },
+    "1269383": {
+     "avg": 200.0,
+     "casts": 123,
+     "token": "heroic_strike"
+    },
+    "1297761": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": null
+    }
+   }
+  },
+  "3": {
+   "fights": 1,
+   "gains": {
+    "281000": {
+     "avg": 2.9,
+     "casts": 14,
+     "token": "execute",
+     "usual": 20
+    }
+   },
+   "perSecond": {
+    "392793": {
+     "hits": 3,
+     "rate": 0.07,
+     "token": null
+    }
+   },
+   "seconds": 83.2,
+   "spent": {
+    "845": {
+     "avg": 200.0,
+     "casts": 18,
+     "token": "cleave"
+    },
+    "1464": {
+     "avg": 200.0,
+     "casts": 1,
+     "token": "slam"
+    },
+    "7384": {
+     "avg": 0.0,
+     "casts": 12,
+     "token": "overpower"
+    },
+    "12294": {
+     "avg": 65.2,
+     "casts": 23,
+     "token": "mortal_strike"
+    },
+    "107574": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": "avatar"
+    },
+    "126664": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": "charge"
+    },
+    "167105": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": "colossus_smash"
+    },
+    "260708": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": "sweeping_strikes"
+    },
+    "281000": {
+     "avg": 0.0,
+     "casts": 14,
+     "token": "execute"
+    },
+    "446035": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": "bladestorm"
+    },
+    "1269383": {
+     "avg": 200.0,
+     "casts": 1,
+     "token": "heroic_strike"
+    }
+   }
+  },
+  "5": {
+   "fights": 4,
+   "gains": {
+    "281000": {
+     "avg": 6.1,
+     "casts": 197,
+     "token": "execute",
+     "usual": 20
+    }
+   },
+   "perSecond": {
+    "392793": {
+     "hits": 56,
+     "rate": 0.12,
+     "token": null
+    }
+   },
+   "seconds": 978.7,
+   "spent": {
+    "845": {
+     "avg": 200.0,
+     "casts": 239,
+     "token": "cleave"
+    },
+    "1464": {
+     "avg": 200.0,
+     "casts": 9,
+     "token": "slam"
+    },
+    "7384": {
+     "avg": 0.0,
+     "casts": 174,
+     "token": "overpower"
+    },
+    "12294": {
+     "avg": 50.8,
+     "casts": 242,
+     "token": "mortal_strike"
+    },
+    "52174": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "107570": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": "storm_bolt"
+    },
+    "107574": {
+     "avg": 0.0,
+     "casts": 15,
+     "token": "avatar"
+    },
+    "126664": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": "charge"
+    },
+    "167105": {
+     "avg": 0.0,
+     "casts": 28,
+     "token": "colossus_smash"
+    },
+    "202168": {
+     "avg": 100.0,
+     "casts": 2,
+     "token": null
+    },
+    "260708": {
+     "avg": 0.0,
+     "casts": 26,
+     "token": "sweeping_strikes"
+    },
+    "281000": {
+     "avg": 44.7,
+     "casts": 197,
+     "token": "execute"
+    },
+    "446035": {
+     "avg": 0.0,
+     "casts": 42,
+     "token": "bladestorm"
+    },
+    "1236994": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": null
+    },
+    "1243972": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1269383": {
+     "avg": 200.0,
+     "casts": 1,
+     "token": "heroic_strike"
+    }
+   }
+  }
+ },
+ "warrior_fury": {
+  "5": {
+   "fights": 2,
+   "gains": {
+    "1719": {
+     "avg": 49.8,
+     "casts": 9,
+     "token": "recklessness",
+     "usual": 50
+    },
+    "5308": {
+     "avg": 31.6,
+     "casts": 47,
+     "token": "execute",
+     "usual": 37
+    },
+    "23881": {
+     "avg": 3.9,
+     "casts": 8,
+     "token": "bloodthirst",
+     "usual": 8
+    },
+    "85288": {
+     "avg": 12.0,
+     "casts": 67,
+     "token": "raging_blow",
+     "usual": 12
+    },
+    "335096": {
+     "avg": 2.1,
+     "casts": 34,
+     "token": "bloodbath",
+     "usual": 12
+    },
+    "335097": {
+     "avg": 17.9,
+     "casts": 54,
+     "token": "crushing_blow",
+     "usual": 18
+    },
+    "385059": {
+     "avg": 24.4,
+     "casts": 9,
+     "token": "odyns_fury",
+     "usual": 20
+    }
+   },
+   "perSecond": {
+    "50622": {
+     "hits": 67,
+     "rate": 1.13,
+     "token": "bladestorm"
+    },
+    "280715": {
+     "hits": 84,
+     "rate": 2.04,
+     "token": "whirlwind"
+    },
+    "392793": {
+     "hits": 20,
+     "rate": 0.32,
+     "token": null
+    }
+   },
+   "seconds": 400.6,
+   "spent": {
+    "1719": {
+     "avg": 0.0,
+     "casts": 9,
+     "token": "recklessness"
+    },
+    "5308": {
+     "avg": 0.0,
+     "casts": 47,
+     "token": "execute"
+    },
+    "23881": {
+     "avg": 0.0,
+     "casts": 8,
+     "token": "bloodthirst"
+    },
+    "85288": {
+     "avg": 0.0,
+     "casts": 67,
+     "token": "raging_blow"
+    },
+    "107570": {
+     "avg": 0.0,
+     "casts": 5,
+     "token": "storm_bolt"
+    },
+    "126664": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": "charge"
+    },
+    "184367": {
+     "avg": 800.0,
+     "casts": 123,
+     "token": "rampage"
+    },
+    "190411": {
+     "avg": 0.0,
+     "casts": 84,
+     "token": "whirlwind"
+    },
+    "335096": {
+     "avg": 0.0,
+     "casts": 34,
+     "token": "bloodbath"
+    },
+    "335097": {
+     "avg": 0.0,
+     "casts": 54,
+     "token": "crushing_blow"
+    },
+    "385059": {
+     "avg": 0.0,
+     "casts": 9,
+     "token": "odyns_fury"
+    },
+    "385060": {
+     "avg": 0.0,
+     "casts": 9,
+     "token": "odyns_fury"
+    },
+    "385061": {
+     "avg": 0.0,
+     "casts": 18,
+     "token": null
+    },
+    "385062": {
+     "avg": 0.0,
+     "casts": 9,
+     "token": "odyns_fury"
+    },
+    "446035": {
+     "avg": 0.0,
+     "casts": 9,
+     "token": "bladestorm"
+    },
+    "1236994": {
+     "avg": 0.0,
+     "casts": 2,
+     "token": null
+    },
+    "1243972": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    }
+   }
   }
  }
 }

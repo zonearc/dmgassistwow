@@ -3423,6 +3423,43 @@ test("calibration fit: a fight replayed finds what a spell really builds, and wh
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("calibration fit: the income our count took during the fight is the baseline, not what it says after", function()
+  -- offline Devourer (2026-11-15): fitted after combat, when the data's passive income reads 0, the whole income was
+  -- learned again as a "missing" rate and counted twice: slot 2 promised Void Ray early, 92% -> 43%
+  Reset()
+  local ns = Boot()
+  local K, S = ns.Calibrate, ns.State
+  ns.Specs.current = { key = "demonhunter_havoc", status = "ready", branch = "midnight", client = "Midnight",
+    data = { passiveGain = { [17] = 10 } } }
+  local store = K.Store()
+  store.fit, store.timelines = nil, nil
+  local real = S.Targets
+  S.Targets = function()
+    return 1
+  end
+  local function Fight()
+    S.combatStart = GetTime()
+    K.tl = {}
+    -- truth: exactly the income our count takes (the data's 10 a second at Clues.PASSIVE_SHARE)
+    local share = ns.Clues.PASSIVE_SHARE * 10
+    local truth = 0
+    for _ = 1, 30 do
+      mock.Advance(1)
+      truth = math.min(100, truth + share)
+      K.NoteCast(1001, 17, 0)
+      K.NoteProof(17, math.floor(truth), math.floor(truth) + 1)
+    end
+    S.combatStart = nil -- the fight is over when the fit runs
+    return K.Fit(17)
+  end
+  local t0 = mock.now
+  Fight()
+  local fit = Fight()
+  mock.now = t0
+  S.Targets = real
+  eq(fit.rate, 0, "nothing missing: no rate learned (was the whole income again)")
+end)
+
 test("calibration: a hidden gain's extra is what a cast really built, whatever the data's number becomes", function()
   Reset()
   local ns = Boot()

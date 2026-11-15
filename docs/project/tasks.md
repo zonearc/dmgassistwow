@@ -180,6 +180,33 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.300: Cross-spec pass after Balance (owner: "use warcraftlogs to find similar issues for the other specs").
+  Found with the offline fights (tools/sim.py, all 30 specs with a reference, 3 single-target then 3 five-target
+  fights in a row) and Warcraft Logs:
+  * Six specs had no measured resource income at all: Death Knight x3, Demon Hunter x3 (wcl-resources.py had only
+    their out-of-combat drain). Havoc's Fury comes ~30/s with no cast (Demon Blades): our count had 0, so Havoc waited
+    for Fury forever (offline slot 2 0%). Measured and folded into the spec data (new tools/fold-measured.py: the
+    measured numbers only, the local SimC copy lags the shipped data). Havoc 0% -> 82%, Frost DK 54 -> 74, Unholy 41
+    -> 53, Blood 58 -> 65 (offline, average of the six fights).
+  * The look-ahead dropped every buff fact it hadn't timed itself (game reads, Cooldown Manager, clues): slot 2 said
+    Lightning Shield (up all fight) in 35 of 66 Elemental presses. Now an aura up with a known end stays up until
+    then, one with no known end stays up if it lasts 30 s+ (State.AuraState). Elemental single target 33 -> 51.
+  * The in-play fit (1.6.0.297) had a double count: fitted after combat, when the data's passive income reads 0, it
+    learned the whole income again (offline Devourer 92% -> 43% by the third fight). Each fight's timeline now keeps
+    the income our count took during it; the look-ahead adds only the fit's part beyond the data's income; the
+    search tries the rate before per-spell extras, prices each point of extra, weighs overshoot 3x; and a fit is
+    used only once fitted on earlier fights it cuts the latest fight's stray by 15%+. Fit on vs off over all 30 specs:
+    neutral to positive (72.6 vs 72.7 average; Balance 8 targets 37.8 -> 69.4 -> 79.6 over three fights).
+  * Resource income by target count (tools/wcl-targets.py, Dummy Dome) for more specs - the 5-target fights came back
+    empty because the player was picked from the whole report, not the fight (friendlyPlayers now). Blood's Runic
+    Power with nothing cast: 1.5/s on 1 target, 4.6/s on 5.
+  * Offline world fixes (tests only): Destruction's Chaos Bolt was treated as proc-only (a 6 s effect shares its
+    name) - cast-time spells are never proc-gated; Soul Shards income from the casts' logged amounts
+    (tools/wcl-castdelta.py: resources not logged as gain events, Soul Shards and Essence - cost paid per cast and
+    how often free, against our data; its per-cast gains are unreliable where casts come at a steady pace).
+  Offline average over the 30 specs: 68.5% -> 72.7% (part of it is the offline world fixed, not the addon).
+  Still weak offline: Unholy AoE (dread_plague.active_dots unknown), Arms AoE (Rage bounds straddle the cost),
+  Windwalker, Fury, Brewmaster, Retribution ~50-57%.
 - 1.6.0.299: Offline fights that measure slot 2 like the game (owner: "improve the offline testing system so you can do
   more without me"). tools/sim.py <spec> --targets 8,8,8 --fight 180 [--log file] runs the graded scenario mode
   (reference talents, hidden resources, the game's affordability answers following a true resource world whose
