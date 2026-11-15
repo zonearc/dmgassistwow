@@ -167,9 +167,20 @@ end
 
 -- Resource cost for a spell's data: the live cost read from the game out of combat (talents and buffs that change
 -- costs are included), else SimC's base cost.
+-- The cost a cast pays: in combat, what the game says right now (State.ReadLiveCosts: a free or cheaper Starfall
+-- from a proc or Incarnation), else the usual cost. In the look-ahead, only the first pretend cast of a spell gets
+-- the cut (the proc is used up by it).
+M.live = {} -- info -> { [pt] = amount } read this pass ({} = free)
 function M.Cost(info)
   if not info then
     return nil
+  end
+  local live = M.live[info]
+  if live then
+    local V = ns.State and ns.State.Lookahead and ns.State.Lookahead()
+    if not (V and V.usedLive and V.usedLive[info]) then
+      return live
+    end
   end
   return info.costLive or info.cost
 end

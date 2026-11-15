@@ -3359,6 +3359,60 @@ test("model at the pull: each spell's cost and gain as the look-ahead uses them,
   eq(logged:find("c3=32", 1, true) ~= nil, true, "Shred's live cost")
 end)
 
+test("calibration fit: a fight replayed finds what a spell really builds, and what comes in by the second", function()
+  -- the owner's Balance fights (2026-11-15): Fury of Elune built ~40 our data didn't place, and ~3 a second came
+  -- in on 8 targets; tools/resource-replay.py --learn runs the same fit on recorded fights
+  Reset()
+  local ns = Boot()
+  local K = ns.Calibrate
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  K.tl = {}
+  local store = K.Store()
+  store.fit, store.timelines = nil, nil
+  -- truth: spell 202770 builds 40 (our data: 0); spender 191034 costs 45; 8921 builds 5 (our data: 5)
+  local truth = 10
+  for _ = 1, 15 do
+    mock.Advance(1.5)
+    K.NoteCast(202770, 8, 0)
+    truth = truth + 40
+    K.NoteProof(8, truth - 2, -1) -- the game: at least about what is really there
+    mock.Advance(1.5)
+    K.NoteCast(191034, 8, -45)
+    truth = truth - 45
+    K.NoteCast(8921, 8, 5)
+    truth = truth + 5
+    K.NoteProof(8, 0, truth + 3) -- and at most a little more
+  end
+  local fit = K.Fit(8)
+  eq(type(fit), "table", "fitted: " .. tostring(K.tl[8] and #K.tl[8].proofs) .. " answers, combat " ..
+    tostring(ns.State.combatStart))
+  eq(fit.w[202770] ~= nil and fit.w[202770] >= 30 and fit.w[202770] <= 50, true,
+    "Fury of Elune's ~40 found: " .. tostring(fit.w[202770]))
+  eq(fit.n >= K.FIT_MIN, true, "enough answers: " .. tostring(fit.n))
+  eq(K.Extra(202770, 8), math.floor(fit.w[202770] * K.FIT_SHARE), "used at K.FIT_SHARE")
+  eq(K.FitText():find("fury_of_elune", 1, true) ~= nil or K.FitText():find("202770", 1, true) ~= nil, true,
+    K.FitText())
+  -- three full fights (600 casts and 600 answers each, 10 spells): the end-of-fight fit stays quick
+  store.timelines[8] = {}
+  for f = 1, 3 do
+    local tl = { casts = {}, proofs = {} }
+    for i = 1, 600 do
+      tl.casts[i] = { i * 0.4, 1000 + (i % 10), (i % 3 == 0) and -45 or 12 }
+      tl.proofs[i] = { i * 0.4 + 0.1, (i * 7) % 60, -1 }
+    end
+    store.timelines[8][f] = tl
+  end
+  K.tl = {}
+  local t0 = os.clock()
+  K.Fit(8)
+  local took = os.clock() - t0
+  eq(took < 1.5, true, "fit time: " .. string.format("%.2f s", took))
+  print(string.format("    (fit over 3 x 1200 events: %.2f s)", took))
+  mock.inCombat = false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 test("calibration: a hidden gain's extra is what a cast really built, whatever the data's number becomes", function()
   Reset()
   local ns = Boot()
@@ -7234,6 +7288,64 @@ test("Balance AoE (real data): Starfall from 60-100 hidden Astral Power, then St
   local lo = C.ResourceBounds(8)
   eq(lo ~= nil and lo >= 90, false, "no Astral Power 90+ from the assistant's Starfall: " .. tostring(lo))
   mock.acSpell = nil
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
+test("free spenders (a proc): the game's cost in combat, else the proc's border - not charged, not taken for proof",
+  function()
+  -- Balance, owner's fight 459 (2026-11-15): three Starfalls in 2.5 s with nothing built; each charged 45, the count
+  -- fell to 0 and "Starfall allowed" was then read as proof of 45 more
+  Reset()
+  local ns = Boot()
+  local S, C, M = ns.State, ns.Clues, ns.SpellMap
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[191034] = { n = "starfall", gcd = 1.5, cost = { [8] = 45 } }
+  Feral(ns, rec)
+  local book = {}
+  for i, e in ipairs(mock.book or {}) do
+    book[i] = e
+  end
+  book[#book + 1] = { spellID = 191034, name = "starfall" }
+  mock.book = book -- (a copy: the shared Feral book stays as it is)
+  M.Refresh()
+  M.SetData(rec)
+  mock.powerMax[8] = 100
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  local info = M.Info(191034)
+  C.floor[8] = { lo = 50, max = 100, at = GetTime(), moved = true }
+  -- the game states the cost in combat: free right now
+  mock.powerCost = { [191034] = {} }
+  S.BeginPass()
+  S.EndPass()
+  eq(next(M.Cost(info)), nil, "free now")
+  C.OnOwnCast(191034)
+  eq(math.floor(C.floor[8].lo), 50, "a free Starfall spends nothing")
+  -- in the look-ahead only the first pretend Starfall is free
+  S.BeginLookahead(0)
+  S.Apply(191034)
+  eq(M.Cost(info)[8], 45, "the next one pays")
+  S.EndLookahead()
+  -- usual cost again
+  mock.powerCost = { [191034] = { { type = 8, cost = 45 } } }
+  S.BeginPass()
+  S.EndPass()
+  C.OnOwnCast(191034)
+  eq(math.floor(C.floor[8].lo), 5, "a paid Starfall spends 45")
+  -- the cost unreadable in combat, the spell lit by its proc: free
+  mock.powerCost = { [191034] = false }
+  S.BeginPass()
+  S.EndPass()
+  C.floor[8].lo = 50
+  S.OnGlow(191034, true)
+  C.OnOwnCast(191034)
+  eq(math.floor(C.floor[8].lo), 50, "lit: free")
+  S.OnGlow(191034, false)
+  mock.Advance(1)
+  C.OnOwnCast(191034)
+  eq(math.floor(C.floor[8].lo), 5, "not lit: paid")
+  mock.powerCost = nil
   mock.inCombat, mock.restricted = false, false
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)

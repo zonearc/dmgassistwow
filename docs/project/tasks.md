@@ -180,6 +180,25 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.297: Astral Power, from the first why traces (owner's 1.6.0.296 fight 459, 216 s AoE: slot 2 45%, n=127).
+  tools/why-report.py grouped the 78 slot 2 misses: 31 "Starfall: not castable (power)" - every one with our
+  Astral Power at 12-30 when the game had just allowed Starfall; 21 Starfire lines false (APL detail, same cause
+  underneath: with Elune's Chosen the AoE list casts Starfall whenever it is affordable, so slot 2 is the count).
+  The count fell 30-45 short with nothing cast between (three Starfalls in 2.5 s, no builder). Causes:
+  (1) every Starfall charged 45, free / cut ones too (procs, Incarnation). Now the game's cost is read in combat
+  every pass (State.ReadLiveCosts; secret: the usual cost) - a free spell neither spends from the count nor proves
+  it (the game "allowing" a free Starfall was taken as proof of 45); in the look-ahead only the first pretend cast
+  gets the cut. Cost unreadable and the spell lit by its proc (the border; it often goes a moment before the cast
+  event): free (Clues.OnOwnCast). cost_live lines log every cost that differs from the usual one.
+  (2) what builds Astral Power beyond our data: offline, new tools/resource-replay.py replays a fight's casts, proc
+  borders and the game's answers and scores resource models. Fits agree over four fights: on 8 targets Starfire
+  builds ~16-22 (data 12, from raid logs), Fury of Elune ~20-40 and Incarnation ~20 (data 0), ~3/s more by the
+  second. A model fitted on one half of fight 459 cut the other half's error 321 -> 87 and 384 -> 166. In game,
+  Calibrate section 3 now keeps each fight's timeline (casts with what our count did, every answer the game gave -
+  not only the corrections) and, at the fight's end, replays the last 3 fights to fit an extra per spell and a gain
+  a second (coordinate search; 0.25 s at 3 x 1200 events). The count and the look-ahead use 75% of it once 20
+  answers back it; fit_summary / model_at_pull show it. resource-replay.py --learn runs the same fit on recorded
+  fights, fight by fight. Older hidden extras (learned with free spells charged) are reset (store version 2).
 - 1.6.0.296: Blind spots of the same kind as 1.6.0.295's: values learned between fights now show. Each fight logs
   model_at_pull_summary (every spell's cost and gain as the look-ahead uses them: live / data cost, tooltip /
   measured gain, calibrated extra; Cooldown Manager on / off / ignored), so two fights' starting numbers can be

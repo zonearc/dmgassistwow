@@ -350,6 +350,7 @@ function S.BeginPass()
   if S.SnapshotReady then
     S.SnapshotReady()
   end
+  S.ReadLiveCosts()
   if ns.Calibrate then
     ns.Calibrate.Snap() -- the game proved more of a hidden resource than we counted (Calibrate.lua)
   end
@@ -2154,6 +2155,10 @@ function S.OnGlow(spellID, shown)
   local id = U.Read(spellID)
   if type(id) == "number" then
     S.glow[id] = shown or nil
+    if not shown then
+      S.glowGone = S.glowGone or {}
+      S.glowGone[id] = GetTime() -- (the glow often goes a moment before the cast event arrives)
+    end
     if shown then
       S.glowAt = S.glowAt or {}
       S.glowAt[id] = GetTime()
@@ -2988,6 +2993,10 @@ function S.Apply(id)
   end
   S.ApplyLinks(id, true)
   local cost = M.Cost(info)
+  if M.live[info] then
+    V.usedLive = V.usedLive or {}
+    V.usedLive[info] = true -- (the next pretend cast of it pays the usual cost)
+  end
   if cost then
     for pt, amount in pairs(cost) do
       local spend = amount
@@ -3008,8 +3017,22 @@ function S.Apply(id)
   end
   if info.gain then
     for pt, amount in pairs(info.gain) do
-      -- plus what this spell has really been building beyond the data (talents, procs: Calibrate.lua)
-      V.power[pt] = (V.power[pt] or 0) + amount + (ns.Calibrate and ns.Calibrate.Extra(id, pt) or 0)
+      V.power[pt] = (V.power[pt] or 0) + amount
+    end
+  end
+  -- plus what this spell really builds beyond the data, and the clock's gain while it is cast (Calibrate.lua's fit:
+  -- Fury of Elune ~40, ~3 Astral Power a second on 8 targets); for every counted hidden resource, gain or not
+  local K = ns.Calibrate
+  if K then
+    local castTime = info.ct and info.ct / HasteFactor() or 0
+    local step = math.max(S.GCD(id), castTime)
+    for pt in pairs(ns.Clues.floor) do
+      if not ns.Clues.REGEN[pt] then
+        local add = K.Extra(id, pt) + K.PassiveRate(pt) * step
+        if add ~= 0 then
+          V.power[pt] = (V.power[pt] or 0) + add
+        end
+      end
     end
   end
   do
@@ -3613,6 +3636,53 @@ end
 -- Live costs are read out of combat, buffs included: a cost cut that is still up after a fight (Balance's Starfall
 -- read 34 after one fight, 45 after the next, 2026-11-15) must not carry into the next fight. Costs only drop for a
 -- while, so the highest cost seen since the last spell / talent change (S.ResetCosts) is the one we use.
+-- In combat, each pass: every spender's cost as the game states it now. Balance cast three Starfalls in 2.5 s with
+-- nothing built between (owner's fight 459, 2026-11-15): some were free or cut. Charged the full 45 each, our
+-- Astral Power count fell to 0 while the game still allowed Starfall - and that "allowed" was then taken as proof of
+-- 45 more. A free spell has no cost here (M.Cost gives {}), so it neither spends from the count nor proves it.
+-- Unreadable (secret) costs leave the usual cost in place.
+S.LIVE_COST_LOGS = 60
+S.liveCostLogs = 0
+function S.ReadLiveCosts()
+  local live = {}
+  if S.combatStart then
+    for id, b in pairs(M.book or {}) do
+      local info = b.id == id and not b.passive and M.Info(id)
+      local base = info and (info.costLive or info.cost)
+      if base and next(base) then
+        local costs = U.Get(C_Spell and C_Spell.GetSpellPowerCost, id)
+        local ok = type(costs) == "table"
+        local now = ok and {} or nil
+        for _, c in ipairs(ok and costs or {}) do
+          local pt, amount = U.Read(c.type), U.Read(c.cost)
+          if type(pt) ~= "number" or type(amount) ~= "number" then
+            now = nil
+            break
+          end
+          if amount > 0 then
+            now[pt] = amount
+          end
+        end
+        if ns.Diagnostics and ns.Diagnostics.Observe then
+          ns.Diagnostics.Observe("live_cost", ok, now and 1 or nil, now and "ok" or (ok and "secret" or nil))
+        end
+        if now then
+          live[info] = now
+          for pt, amount in pairs(base) do
+            if (now[pt] or 0) ~= amount and S.liveCostLogs < S.LIVE_COST_LOGS then
+              S.liveCostLogs = S.liveCostLogs + 1
+              U.Log("cost_live", { spell = info.n or id, pt = pt, usual = amount, now = now[pt] or 0 })
+            end
+          end
+        end
+      end
+    end
+  else
+    S.liveCostLogs = 0
+  end
+  M.live = live
+end
+
 S.costHigh = {}
 function S.ResetCosts()
   S.costHigh = {}

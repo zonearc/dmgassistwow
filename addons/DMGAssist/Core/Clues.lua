@@ -466,13 +466,30 @@ local function Settle(sh)
   end
 end
 
+C.GLOW_FREE_WINDOW = 0.5
 function C.OnOwnCast(id)
   local info = M.Info(id)
   if not info then
     return
   end
-  C.FloorOnCast(info)
+  -- A spender lit by a proc when cast (the game's border: Clearcasting, Starweaver's Warp...) and whose cost the game
+  -- didn't state in combat: taken as free. Charged in full, three Starfalls in 2.5 s took our Astral Power count to
+  -- 0 while the game kept allowing them (owner's fight 459, 2026-11-15).
+  local S = ns.State
+  local gone = S.glowGone and S.glowGone[id]
+  local lit = S.glow[id] or (gone and GetTime() - gone <= C.GLOW_FREE_WINDOW)
+  local freed = false
+  if lit and M.live[info] == nil then
+    local base = M.Cost(info)
+    if base and next(base) then
+      M.live[info], freed = {}, true
+    end
+  end
+  C.FloorOnCast(info, id)
   local costs = M.Cost(info)
+  if freed then
+    M.live[info] = nil
+  end
   for pt, sh in pairs(C.shadow) do
     Settle(sh)
     local cost = costs and costs[pt]
@@ -564,7 +581,9 @@ C.floor = {} -- pt -> { lo =, max =, at = time of lo, moved = true once a cast c
 C.PASSIVE_SHARE = 0.6
 local function Accrued(f, pt, now)
   local passive = ns.State.PassiveGain and ns.State.PassiveGain(pt) or 0
-  local lo = f.lo + ((C.REGEN[pt] or 0) + C.PASSIVE_SHARE * passive) * math.max(0, now - f.at)
+  -- (+ the gain a second Calibrate's fit found: Balance's ~3 Astral Power a second on 8 targets)
+  local fitted = not C.REGEN[pt] and ns.Calibrate and ns.State.combatStart and ns.Calibrate.PassiveRate(pt) or 0
+  local lo = f.lo + ((C.REGEN[pt] or 0) + C.PASSIVE_SHARE * passive + fitted) * math.max(0, now - f.at)
   if type(f.max) == "number" and f.max > 0 then
     lo = math.min(lo, f.max)
   end
@@ -663,11 +682,16 @@ function C.RaiseFloor(pt, v)
   end
 end
 
-function C.FloorOnCast(info)
+function C.FloorOnCast(info, id)
   local costs = M.Cost(info)
   local now = GetTime()
   for pt, f in pairs(C.floor) do
     local d = ((info.gain and info.gain[pt]) or 0) - ((costs and costs[pt]) or 0)
+    -- plus what this spell really builds beyond our data (Calibrate's fit / sharing: Fury of Elune's ~40)
+    if id and not C.REGEN[pt] and ns.Calibrate then
+      ns.Calibrate.NoteCast(id, pt, d) -- (the fight's timeline: Calibrate.Fit replays it)
+      d = d + ns.Calibrate.FitExtra(id, pt) -- (only a fit backed by replayed fights moves the count itself)
+    end
     if d ~= 0 then
       f.lo = math.max(0, Accrued(f, pt, now) + d)
       f.at = now

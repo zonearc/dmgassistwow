@@ -27,6 +27,7 @@ ns.Calibrate = K
 K.READ_N = 6
 K.READ_SHARE = 0.7
 K.HIDDEN_N = 15
+K.HIDDEN_VERSION = 2
 K.HIDDEN_MIN = 1
 K.DECAY = 0.97
 K.SNAP_LOGS = 100 -- (was 10: the rest of a fight's corrections went unseen)
@@ -55,8 +56,13 @@ function K.Store()
   end
   local p = g.calibrate[key]
   if type(p) ~= "table" or type(p.read) ~= "table" or type(p.hidden) ~= "table" then
-    p = { read = {}, hidden = {} }
+    p = { read = {}, hidden = {}, v = K.HIDDEN_VERSION }
     g.calibrate[key] = p
+  end
+  if p.v ~= K.HIDDEN_VERSION then
+    -- hidden extras learned before 1.6.0.297 counted free spenders (procs) as paid and took "the game allows it" for
+    -- proof: Starfire's +6 a cast was mostly that. Learned again from scratch.
+    p.hidden, p.v = {}, K.HIDDEN_VERSION
   end
   return p
 end
@@ -235,6 +241,9 @@ function K.Snap()
       -- where the data said 8) is exactly what this is for; free procs there light the spell up and are skipped.
       local ceiling = C.REGEN[pt] and C.FloorCeiling(pt)
       local free = waiting or (ceiling and a and a.lo > ceiling)
+      if a and not C.REGEN[pt] then
+        K.NoteProof(pt, a.lo, a.hi)
+      end
       if a and lo and a.hi < lo then
         C.CapFloor(pt, a.hi) -- the game: a spender we counted as affordable isn't: the count comes down
       elseif a and lo and not free and a.lo > lo + 0.5 then
@@ -251,8 +260,224 @@ function K.Snap()
   end
 end
 
--- The expected extra per cast of `id` for hidden resource `pt` (whole points, at most the data's own gain).
+---------------------------------------------------------------------------
+-- 3. The fit: replay the fight, every spell and the clock (1.6.0.297)
+---------------------------------------------------------------------------
+-- The sharing above gives a correction only to spells our data says build the resource, and only when we were
+-- found wrong. Balance showed what that misses (tools/resource-replay.py on the owner's fights 449-459, 2026-11-15):
+-- on 8 targets Starfire builds ~16-22 Astral Power (data, from raid logs: 12), Fury of Elune and Incarnation build
+-- some 20-40 our counting doesn't place, and more comes in by the second than the raid logs' average.
+-- So each fight keeps its timeline for each counted hidden resource: our casts (with what our count did for each)
+-- and every answer the game gave (a spender allowed: at least its cost; refused: less than it), whether our count
+-- agreed or not. At the fight's end the last K.FIT_FIGHTS timelines are replayed under candidate models - an extra
+-- per spell cast K.FIT_SEEN+ times, and a gain a second - and the model that strays least from the game's answers
+-- is kept. The count and the look-ahead use K.FIT_SHARE of it (a little under: a spender isn't promised early),
+-- once K.FIT_MIN answers back it. tools/resource-replay.py --learn runs the same fit on recorded fights.
+K.FIT_MIN = 20
+K.FIT_FIGHTS = 3
+K.FIT_EVENTS = 600 -- per fight and resource
+K.FIT_SEEN = 3
+K.FIT_SHARE = 0.75
+K.FIT_MAX = 60
+K.FIT_SWEEPS = 2
+K.FIT_STEP = 2
+K.FIT_RATE_STEP = 0.5
+K.FIT_RATE_MAX = 10
+K.tl = {} -- pt -> { casts = { {t, id, d} }, proofs = { {t, lo, hi} }, last = "lo:hi", t0 }
+
+function K.Fitted(pt)
+  local store = K.Store()
+  local f = store and store.fit and store.fit[pt]
+  if f and (f.n or 0) >= K.FIT_MIN then
+    return f
+  end
+  return nil
+end
+
+-- The gain a second the fit found for `pt` (as used: K.FIT_SHARE of it), 0 without a fit.
+function K.PassiveRate(pt)
+  local f = K.Fitted(pt)
+  return f and (f.rate or 0) * K.FIT_SHARE or 0
+end
+
+local function Timeline(pt)
+  local tl = K.tl[pt]
+  if not tl then
+    tl = { casts = {}, proofs = {}, t0 = ns.State.combatStart or GetTime() }
+    K.tl[pt] = tl
+  end
+  return tl
+end
+
+-- Our cast, as our count took it (`d`: gain - cost as charged, before any fitted extra).
+function K.NoteCast(id, pt, d)
+  if not ns.State.combatStart then
+    return
+  end
+  local tl = Timeline(pt)
+  if #tl.casts < K.FIT_EVENTS then
+    tl.casts[#tl.casts + 1] = { GetTime() - tl.t0, id, d }
+  end
+end
+
+-- The game's answer this pass: at least lo, at most hi (each pass; kept when it changes).
+function K.NoteProof(pt, lo, hi)
+  if not ns.State.combatStart then
+    return
+  end
+  local tl = Timeline(pt)
+  hi = hi == math.huge and -1 or hi -- (saved variables can't hold infinity: -1 is "no upper answer")
+  local key = lo .. ":" .. hi
+  if tl.last ~= key and #tl.proofs < K.FIT_EVENTS then
+    tl.last = key
+    tl.proofs[#tl.proofs + 1] = { GetTime() - tl.t0, lo, hi }
+  end
+end
+
+-- Replay one timeline under a model: how far the count strays from the game's answers (and how many answers).
+local function Stray(tl, extra, rate, base, cap)
+  local casts, proofs = tl.casts, tl.proofs
+  local ci, pi = 1, 1
+  local v, last = 0, 0
+  local err, n = 0, 0
+  while ci <= #casts or pi <= #proofs do
+    local c, p = casts[ci], proofs[pi]
+    local isCast = c and (not p or c[1] <= p[1])
+    local t = isCast and c[1] or p[1]
+    v = v + (base + rate) * (t - last)
+    last = t
+    if isCast then
+      v = v + c[3] + (extra[c[2]] or 0)
+      ci = ci + 1
+    else
+      if v < p[2] then
+        err, v = err + p[2] - v, p[2]
+      elseif p[3] >= 0 and v > p[3] then
+        err, v = err + v - p[3], p[3]
+      end
+      n = n + 1
+      pi = pi + 1
+    end
+    if v < 0 then
+      v = 0
+    elseif v > cap then
+      v = cap
+    end
+  end
+  return err, n
+end
+
+function K.Fit(pt)
+  local store = K.Store()
+  if not store then
+    return nil
+  end
+  store.timelines = type(store.timelines) == "table" and store.timelines or {}
+  local list = store.timelines[pt] or {}
+  store.timelines[pt] = list
+  local tl = K.tl[pt]
+  if tl and #tl.proofs > 0 then
+    list[#list + 1] = { casts = tl.casts, proofs = tl.proofs }
+    while #list > K.FIT_FIGHTS do
+      table.remove(list, 1)
+    end
+  end
+  local proofs, seen = 0, {}
+  for _, f in ipairs(list) do
+    proofs = proofs + #f.proofs
+    for _, c in ipairs(f.casts) do
+      seen[c[2]] = (seen[c[2]] or 0) + 1
+    end
+  end
+  if proofs == 0 then
+    return nil
+  end
+  local ids = {}
+  for id, n in pairs(seen) do
+    if n >= K.FIT_SEEN then
+      ids[#ids + 1] = id
+    end
+  end
+  table.sort(ids)
+  local passive = ns.State.PassiveGain and ns.State.PassiveGain(pt) or 0
+  local base = (ns.Clues.PASSIVE_SHARE or 0) * passive
+  local cap = ns.State.PowerMax and ns.State.PowerMax(pt) or 100
+  cap = (type(cap) == "number" and cap > 0) and cap or 100
+  local old = store.fit and store.fit[pt]
+  local extra, rate = {}, old and old.rate or 0
+  for _, id in ipairs(ids) do
+    extra[id] = old and old.w and old.w[id] or 0
+  end
+  local function Score()
+    local e = 0
+    for _, f in ipairs(list) do
+      e = e + Stray(f, extra, rate, base, cap)
+    end
+    return e
+  end
+  local best = Score()
+  for _ = 1, K.FIT_SWEEPS do
+    for _, id in ipairs(ids) do
+      local keep = extra[id]
+      for x = 0, K.FIT_MAX, K.FIT_STEP do
+        extra[id] = x
+        local e = Score()
+        if e < best then
+          best, keep = e, x
+        end
+      end
+      extra[id] = keep
+    end
+    local keep = rate
+    for r = 0, K.FIT_RATE_MAX, K.FIT_RATE_STEP do
+      rate = r
+      local e = Score()
+      if e < best then
+        best, keep = e, r
+      end
+    end
+    rate = keep
+  end
+  local fit = { n = proofs, w = {}, rate = rate, stray = best }
+  for id, x in pairs(extra) do
+    if x > 0 then
+      fit.w[id] = x
+    end
+  end
+  store.fit = type(store.fit) == "table" and store.fit or {}
+  store.fit[pt] = fit
+  return fit
+end
+
+function K.FitText()
+  local store = K.Store()
+  local parts = {}
+  for pt, f in pairs(store and store.fit or {}) do
+    local spells = {}
+    for id, x in pairs(f.w or {}) do
+      spells[#spells + 1] = string.format("%s%+.0f", Token(tonumber(id) or id), x)
+    end
+    table.sort(spells)
+    parts[#parts + 1] = string.format("pt%s answers=%d stray=%.0f rate=+%.1f/s %s%s", pt, f.n or 0, f.stray or 0,
+      f.rate or 0, table.concat(spells, " "), (f.n or 0) >= K.FIT_MIN and "" or " (not used yet)")
+  end
+  return #parts > 0 and table.concat(parts, " | ") or nil
+end
+
+-- The fit's extra per cast (as used: K.FIT_SHARE of it), 0 without a fit.
+function K.FitExtra(id, pt)
+  local fit = K.Fitted(pt)
+  return fit and math.min(K.FIT_MAX, math.floor((fit.w[id] or 0) * K.FIT_SHARE)) or 0
+end
+
+-- The expected extra per cast of `id` for hidden resource `pt` (whole points): from the fit once there is one
+-- (any spell, up to K.FIT_MAX), else from the sharing (builders only, at most the data's own gain).
 function K.Extra(id, pt)
+  local fit = K.Fitted(pt)
+  if fit then
+    local x = fit.w[id] or 0
+    return math.min(K.FIT_MAX, math.floor(x * K.FIT_SHARE))
+  end
   local store = K.Store()
   local e = store and store.hidden[id .. ":" .. pt]
   if not (e and e.casts >= K.HIDDEN_N) then
@@ -317,7 +542,8 @@ function K.ModelAtPull()
   end
   table.sort(rows)
   local cdm = ns.db and ns.db.cdmIgnore and "ignored" or (ns.CDM and ns.CDM.Enabled() == false and "off" or "on")
-  U.Log("model_at_pull_summary", "cdm=" .. cdm .. " | " .. table.concat(rows, " "))
+  U.Log("model_at_pull_summary", "cdm=" .. cdm .. " | " .. table.concat(rows, " ") .. " | fit " ..
+    (K.FitText() or "-"))
 end
 
 function K.SummaryText()
@@ -405,7 +631,7 @@ end
 
 function K.OnCombat(inCombat)
   if inCombat then
-    K.since, K.fight = {}, {}
+    K.since, K.fight, K.tl = {}, {}, {}
     K.ApplyAll()
     K.Anchor()
     -- which hidden resources we count from the pull, and from what (nothing listed: we can't count them)
@@ -424,6 +650,16 @@ function K.OnCombat(inCombat)
       (#reads > 0 and table.concat(reads, " ") or "-"))
     K.ModelAtPull()
     return
+  end
+  -- (the fit replays up to three fights: ~0.25 s, done just after combat so it lands in this fight's log)
+  for pt in pairs(ns.Clues.floor) do
+    if not ns.Clues.REGEN[pt] then
+      K.Fit(pt)
+    end
+  end
+  local fitText = K.FitText()
+  if fitText then
+    U.Log("fit_summary", fitText)
   end
   U.Log("corrections_summary", K.CorrectionsText())
   local text = K.SummaryText()
