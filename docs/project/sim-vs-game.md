@@ -25,7 +25,8 @@ Only two specs measured in game. Every other number below is an estimate until a
 | 5 | fixed target count, all in range, never dying | adds come and go, targets die, out of range | lower in dungeons | AoE-heavy specs | `press` lines carry tg=st/aoe; `targets` miss reason |
 | 6 | Blizzard's assistant = its rules evaluated against the offline world (sees resources, not procs) | the live assistant sees everything | higher in game where the assistant's pick corroborates slot 1 | specs that lean on `assisted` | slot2_by_source assisted / simc+assisted |
 | 7 | no cooldown reductions (Restless Blades), resets or extra charges from talents | real | lower where a cooldown comes back early | Outlaw, Retribution, Frost DK, Havoc | tools/wcl-spellcheck.py flags "cd"; why-report: "not castable (?)" on a spell the player then pressed |
-| 8 | spell IDs: the offline spellbook takes the castable entry of each name (1.6.0.305); a name the engine resolves to another ID can still show a proc-only spell forever (Windwalker's Rushing Wind Kick) | the game's spellbook | game: IsSpellUsable decides, no such stall | Windwalker offline (35%) | offline only |
+| 8 | override spells are in the offline spellbook as their own buttons (Havoc's Death Sweep castable outside Metamorphosis) | the game's spellbook holds the base button; the override exists only while it is swapped | game: the override check decides, no such pick | Havoc AoE offline (39-72) | offline only |
+| 9 | cooldowns that reset at random (Gore, Restless Blades, Sudden Death...) never reset offline | real (wcl-spellcheck: Mangle recast every 2.1 s on a 6 s cooldown) | slot 1 follows the assistant for them (volatile); slot 2 after one of them can't know a reset | Guardian, Brewmaster, Beast Mastery, Survival, Arms, Fury, Havoc, Elemental | why-report: "not castable (?)" on the spell then pressed |
 
 ## What was done ahead of time (1.6.0.305)
 
@@ -36,9 +37,28 @@ Only two specs measured in game. Every other number below is an estimate until a
   the same source was right 20-46% vs 42-57% for plain SimC).
 - The look-ahead keeps buffs it knows are up (Lightning Shield).
 
+## Found by tools/wcl-spellcheck.py (1.6.0.306)
+
+Real casts of top players (2 raid fights per spec) against our data - see docs/coverage/spell-check.md:
+
+- never paid: Havoc Throw Glaive, Windwalker Spinning Crane Kick (Energy), Fury Execute, Protection Thunder Clap ->
+  cost removed;
+- free half the time or more (procs): Starsurge 65%, Shred 64%, Maul 88%, Pistol Shot 66%, Mortal Strike 51%, Arms
+  Execute 67%, Void Ray 55%, Elemental Blast 53% -> the game's live cost and the proc glow cover these in game; the
+  offline game never makes them free (gap 1);
+- recast far sooner than our cooldown allows: see gap 9;
+- read wrong by the tool, not the data: Shadow (Insanity logged in hundredths), the Warlocks and Holy Power (tenths).
+
+Income measured from logs and now used (gap 2 shrinks): Unholy 10.7 Runic Power/s (data 1.9), Elemental 12.4
+Maelstrom/s on five targets (7.8), Shadow, Guardian (from raid fights), Havoc.
+
+A real bug found through the offline game: Windwalker's Rushing Wind Kick (exists only with its buff) was shown
+whenever Chi was 2+, the game's "not usable" overruled. Fixed (36 -> 94 offline); in game it would have done the
+same.
+
 ## Expected in game
 
-Offline average 78.8% (30 specs, 1.6.0.305). Expect less in game, most for gap 1 (procs): the Mages, Feral, Outlaw,
+Offline average 80.4% (30 specs, 1.6.0.306; 78.8 in 1.6.0.305). Expect less in game, most for gap 1 (procs): the Mages, Feral, Outlaw,
 Enhancement and Elemental can lose 15-30 points; resource specs measured from logs (Balance, Havoc, the Warriors,
 Death Knights) should land within ~10 of offline. The report of each fight carries everything listed above; with
 why-report.py every slot 2 miss has its cause.

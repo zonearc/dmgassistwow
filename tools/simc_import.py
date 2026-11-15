@@ -505,6 +505,16 @@ def apply_measured(record, info, branch, spec, measured=None):
             if g.get(pt) != v:
                 changes.append("%s pt%d %s->%d" % (sp.get("n", sid), pt, g.get(pt, 0), v))
                 g[pt] = v
+    # never paid in real fights (tools/wcl-spellcheck.py): Havoc's Throw Glaive was costed 25 Fury, Protection's
+    # Thunder Clap 20 Rage - the count spent what the game never took, and the spells looked unaffordable
+    for sid, pts in sorted(m.get("free", {}).items()):
+        sp = info.get(int(sid))
+        cost = sp and sp.get("cost")
+        for pt in pts if cost else []:
+            if cost.pop(int(pt), None) is not None:
+                changes.append("%s pt%d cost removed (never paid)" % (sp.get("n", sid), int(pt)))
+        if cost is not None and not cost:
+            del sp["cost"]
     passive = {int(pt): v for pt, v in m.get("passive", {}).items() if v and v > 0}
     if passive:
         record["passiveGain"] = dict(sorted(passive.items()))

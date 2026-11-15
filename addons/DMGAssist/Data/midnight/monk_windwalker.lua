@@ -1115,7 +1115,7 @@ ns.RegisterSpecData("midnight", "monk_windwalker", {
         { 101546, "self" },
       },
       chan = true,
-      cost = { [3] = 40, [12] = 2 },
+      cost = { [12] = 2 },
       d = 1.5,
       gcd = 1.5,
       n = "spinning_crane_kick",

@@ -499,7 +499,6 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
     [185123] = {
       ch = 1,
       chcd = 9,
-      cost = { [17] = 25 },
       gcd = 1.5,
       n = "throw_glaive",
       r = 30,
@@ -1532,5 +1531,5 @@ ns.RegisterSpecData("midnight", "demonhunter_havoc", {
       t = { 452409 },
     },
   },
-  volatile = { "eye_beam" },
+  volatile = { "death_sweep", "eye_beam" },
 })

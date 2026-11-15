@@ -120,6 +120,26 @@ function M.SetData(record)
   for _, tok in ipairs(type(record.volatile) == "table" and record.volatile or {}) do
     M.volatile[tok] = true
   end
+  -- Spells that exist only while a buff of their own name is up (Windwalker's Rushing Wind Kick: its data has a
+  -- 15 s self aura "rushing_wind_kick" with no GCD beside the button): when the game says "not usable", it isn't,
+  -- whatever the points (see Engine G.FinisherBlockedByHiddenPoints). Cast-time spells never (procs offer instants).
+  M.procGated = {}
+  local button, castTime = {}, {}
+  for _, info in pairs(M.info) do
+    if type(info) == "table" and info.n and (info.gcd or info.ct) and not info.pas then
+      button[info.n] = true
+      if (tonumber(info.ct) or 0) > 0 then
+        castTime[info.n] = true
+      end
+    end
+  end
+  for id, info in pairs(M.info) do
+    local ap = type(info) == "table" and type(info.ap) == "table" and info.ap[1]
+    if ap and info.n and button[info.n] and not castTime[info.n] and ap[1] == id and ap[2] == "self" and info.d
+      and not info.gcd then
+      M.procGated[info.n] = true
+    end
+  end
   for _, l in ipairs(type(record.cdLinks) == "table" and record.cdLinks or {}) do
     if l[5] and l[5] > 0 then
       M.linksBySpend[l[5]] = M.linksBySpend[l[5]] or {}

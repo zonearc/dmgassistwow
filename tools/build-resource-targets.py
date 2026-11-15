@@ -18,6 +18,7 @@ POWER = {"druid_balance": 8, "druid_guardian": 1, "warrior_arms": 1, "warrior_fu
          "deathknight_blood": 6, "deathknight_frost": 6, "deathknight_unholy": 6, "demonhunter_havoc": 17,
          "demonhunter_vengeance": 17, "demonhunter_devourer": 17, "priest_shadow": 13, "shaman_elemental": 11}
 # event-based measurements that don't hold: Arms' Rage comes from auto-attacks, not logged as gains (0.12/s on 5)
+TANKS = {"druid_guardian", "warrior_protection", "deathknight_blood", "demonhunter_vengeance", "monk_brewmaster"}
 SKIP_EVENTS = {"warrior_arms", "warrior_fury", "warrior_protection", "druid_guardian"}  # (Rage: auto-attacks, damage taken)
 
 
@@ -47,7 +48,12 @@ def main():
             if r.get("seconds", 0) < 200:
                 continue
             k = 1 if n == "raid" else int(n)
-            if n == "raid" and "1" in by:
+            # tanks: one target from raid fights (Rage / Runic Power / Fury from being hit, which dummies don't do -
+            # Guardian 7/s on a dummy, 19/s on a boss); everyone else from the dummy when there is one
+            usable1 = "1" in by and by["1"].get("seconds", 0) >= 200
+            if n == "raid" and usable1 and spec not in TANKS:
+                continue
+            if n == "1" and "raid" in by and spec in TANKS:
                 continue
             rows[k] = max(0.0, base + r["income"] - r["model"])
         if rows:

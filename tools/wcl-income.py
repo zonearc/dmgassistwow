@@ -58,10 +58,9 @@ def main():
                 casts = CD.fight_rows(code, fight, name, power)
                 if not casts or len(casts) < 20:
                     continue
-                scale = SCALE.get(power, 1)
-                # is the logged amount in tenths? (a max over 100 means so)
-                if max(c[4] for c in casts) <= 100:
-                    scale = 1
+                # logged finer than the game shows: by the logged maximum (Insanity in hundredths: 10000)
+                mx = max(c[4] for c in casts)
+                scale = 100 if mx > 1000 else (10 if mx > 200 else 1)
                 paid = sum(c[3] for c in casts) / scale
                 dur = casts[-1][0] - casts[0][0]
                 if dur < 30:

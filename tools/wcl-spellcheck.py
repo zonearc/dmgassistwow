@@ -42,6 +42,19 @@ DATA = os.path.join(ROOT, "addons", "DMGAssist", "Data", "midnight")
 TENTHS = {1, 6, 7, 8}  # resources Warcraft Logs logs in tenths (Rage, Runic Power, Soul Shards, Astral Power)
 
 
+def unit(power, mx):
+    """how many logged units make one point: Insanity in hundredths (max logged 10000+), Rage / Runic Power /
+    Astral Power in tenths (1000+), Soul Shards / Holy Power / combo-type points in tenths (max 5 logged as 50)"""
+    if mx >= 5000:
+        return 100
+    if (power in TENTHS and mx > 100) or mx >= 1000 or (power in SMALL and mx >= 20):
+        return 10
+    return 1
+
+
+SMALL = {4, 7, 9, 12, 16, 19}  # resources with a maximum of 5-10
+
+
 def data_spells(spec):
     t = open(os.path.join(DATA, spec + ".lua"), encoding="utf-8").read()
     i = t.find("spellInfo")
@@ -91,7 +104,7 @@ def main():
             per = collections.defaultdict(list)
             for t, sid, amt, cost, mx in casts:
                 per[sid].append(t)
-                scale = 10 if (power in TENTHS and mx > 100) else 1
+                scale = unit(power, mx)
                 paid[sid].append(cost / scale)
             for sid, ts in per.items():
                 times[sid].append(ts)

@@ -1,4 +1,110 @@
 {
+ "deathknight_unholy": {
+  "1": {
+   "fights": 1,
+   "income": 10.69,
+   "model": 1.92,
+   "seconds": 47
+  },
+  "5": {
+   "fights": 1,
+   "income": 8.17,
+   "model": 1.92,
+   "seconds": 77
+  },
+  "raid": {
+   "fights": 3,
+   "income": 10.72,
+   "model": 1.97,
+   "seconds": 807
+  }
+ },
+ "demonhunter_havoc": {
+  "1": {
+   "fights": 3,
+   "income": 28.28,
+   "model": 31.3,
+   "seconds": 502
+  },
+  "5": {
+   "fights": 2,
+   "income": 23.78,
+   "model": 31.46,
+   "seconds": 543
+  },
+  "raid": {
+   "fights": 3,
+   "income": 26.91,
+   "model": 33.89,
+   "seconds": 834
+  }
+ },
+ "druid_guardian": {
+  "1": {
+   "fights": 2,
+   "income": 7.37,
+   "model": 14.04,
+   "seconds": 375
+  },
+  "raid": {
+   "fights": 3,
+   "income": 19.0,
+   "model": 17.5,
+   "seconds": 537
+  }
+ },
+ "priest_shadow": {
+  "1": {
+   "fights": 2,
+   "income": 7.48,
+   "model": 6.56,
+   "seconds": 593
+  },
+  "2": {
+   "fights": 2,
+   "income": 7.33,
+   "model": 7.01,
+   "seconds": 291
+  },
+  "5": {
+   "fights": 2,
+   "income": 8.08,
+   "model": 6.91,
+   "seconds": 598
+  },
+  "raid": {
+   "fights": 3,
+   "income": 9.59,
+   "model": 7.5,
+   "seconds": 577
+  }
+ },
+ "shaman_elemental": {
+  "1": {
+   "fights": 3,
+   "income": 6.38,
+   "model": 7.62,
+   "seconds": 889
+  },
+  "2": {
+   "fights": 2,
+   "income": 5.96,
+   "model": 7.7,
+   "seconds": 589
+  },
+  "5": {
+   "fights": 3,
+   "income": 12.64,
+   "model": 7.76,
+   "seconds": 890
+  },
+  "raid": {
+   "fights": 3,
+   "income": 8.62,
+   "model": 7.69,
+   "seconds": 351
+  }
+ },
  "warrior_arms": {
   "1": {
    "fights": 3,

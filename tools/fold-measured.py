@@ -65,6 +65,28 @@ def fold(spec):
                         k += 1
                 k += 1
             lines.insert(k, text)
+    # spells never paid for in real fights: the cost removed (same as simc_import.apply_measured)
+    for sid, pts in sorted(m.get("free", {}).items()):
+        head = "    [%s] = {" % sid
+        try:
+            i = lines.index(head, start)
+        except ValueError:
+            continue
+        j = i + 1
+        while lines[j] != "    },":
+            j += 1
+        ci = next((k for k in range(i + 1, j) if lines[k].startswith("      cost = ")), None)
+        if ci is None:
+            continue
+        cur = {int(a): b for a, b in re.findall(r"\[(\d+)\] = ([\d.]+)", lines[ci])}
+        new = {k: v for k, v in cur.items() if k not in {int(p) for p in pts}}
+        if new == cur:
+            continue
+        changes.append("[%s] cost %s -> %s" % (sid, lines[ci].strip(), table(new) if new else "-"))
+        if new:
+            lines[ci] = "      cost = { %s }," % ", ".join("[%d] = %s" % (k, new[k]) for k in sorted(new))
+        else:
+            del lines[ci]
     passive = {int(pt): v for pt, v in m.get("passive", {}).items() if v and v > 0}
     if passive:
         text = "  passiveGain = %s," % table(passive)

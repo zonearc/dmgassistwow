@@ -1,5 +1,6 @@
 {
  "_about": "Measured from public Warcraft Logs reports by tools/wcl-resources.py: per spec, gains per cast (gains: spellID -> powerType -> amount) and passive income per second (passive: powerType -> per second). No player data is kept.",
+ "_free": "midnight.<spec>.free: spells top players never paid the listed resource for (tools/wcl-spellcheck.py, 2026-11-15: 0 of every cast, 2 raid fights each) - the cost is removed from the shipped data",
  "midnight": {
   "deathknight_blood": {
    "detail": [
@@ -657,6 +658,11 @@
    ],
    "difficulty": 4,
    "fights": 4,
+   "free": {
+    "185123": [
+     17
+    ]
+   },
    "gains": {
     "213243": {
      "17": 15
@@ -1800,6 +1806,11 @@
    ],
    "difficulty": 4,
    "fights": 6,
+   "free": {
+    "101546": [
+     3
+    ]
+   },
    "gains": {
     "100780": {
      "12": 2
@@ -3259,6 +3270,14 @@
    ],
    "difficulty": 4,
    "fights": 5,
+   "free": {
+    "280735": [
+     1
+    ],
+    "5308": [
+     1
+    ]
+   },
    "gains": {
     "100": {
      "1": 20
@@ -3436,6 +3455,11 @@
    ],
    "difficulty": 4,
    "fights": 6,
+   "free": {
+    "6343": [
+     1
+    ]
+   },
    "gains": {
     "100": {
      "1": 20

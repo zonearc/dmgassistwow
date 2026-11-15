@@ -936,7 +936,6 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     [5308] = {
       cd = 6,
       cmax = { [1] = 40 },
-      cost = { [1] = 20 },
       gain = { [1] = 20 },
       gcd = 1.5,
       n = "execute",
@@ -1295,7 +1294,6 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
     [280735] = {
       cd = 4.5,
       cmax = { [1] = 40 },
-      cost = { [1] = 20 },
       gain = { [1] = 37 },
       gcd = 1.5,
       n = "execute",
@@ -1700,4 +1698,5 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       t = { 392936, 386045 },
     },
   },
+  volatile = { "crushing_blow", "raging_blow" },
 })

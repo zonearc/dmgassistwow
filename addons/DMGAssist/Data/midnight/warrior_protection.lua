@@ -644,7 +644,6 @@ ns.RegisterSpecData("midnight", "warrior_protection", {
     },
     [6343] = {
       cd = 6,
-      cost = { [1] = 20 },
       gain = { [1] = 5 },
       gcd = 1.5,
       n = "thunder_clap",

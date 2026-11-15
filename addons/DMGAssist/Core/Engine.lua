@@ -619,6 +619,14 @@ function G.FinisherBlockedByHiddenPoints(id)
   if not info then
     return false
   end
+  -- (not a spell that may need a buff of its own name, unless it spends combo points - the only resource this was
+  -- seen in game for: Windwalker's Rushing Wind Kick exists only with its buff, and "not usable" without it was
+  -- overruled every time Chi reached 2 - slot 1 for whole offline fights, slot 2 right 4%, 2026-11-15)
+  local token = info.n or M.TokenForID(id)
+  local combo = type(info.cost) == "table" and info.cost[4] or type(info.cmax) == "table" and info.cmax[4]
+  if token and M.procGated and M.procGated[token] and not combo then
+    return false
+  end
   local found = false
   for _, tbl in ipairs({ info.cost, info.cmax }) do
     for pt, amount in pairs(type(tbl) == "table" and tbl or {}) do

@@ -1,0 +1,3776 @@
+{
+ "deathknight_blood": {
+  "fights": 1,
+  "spells": [
+   {
+    "casts": 47,
+    "cd": 0,
+    "charges": 1,
+    "cost": 45.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 4.3,
+    "gapMin": 0.8,
+    "id": 49998,
+    "paid": 45.0,
+    "token": "death_strike"
+   },
+   {
+    "casts": 35,
+    "cd": 7.5,
+    "charges": 2,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 5.2,
+    "gapMin": 2.2,
+    "id": 50842,
+    "paid": 0.0,
+    "token": "blood_boil"
+   },
+   {
+    "casts": 12,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 4.1,
+    "gapMin": 1.1,
+    "id": 441424,
+    "paid": 0.0,
+    "token": "exterminate"
+   },
+   {
+    "casts": 12,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 4.1,
+    "gapMin": 1.1,
+    "id": 441426,
+    "paid": 0.0,
+    "token": "exterminate"
+   },
+   {
+    "casts": 10,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 10.6,
+    "gapMin": 1.0,
+    "id": 206930,
+    "paid": 0.0,
+    "token": "heart_strike"
+   },
+   {
+    "casts": 8,
+    "cd": 30.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 17.7,
+    "gapMin": 12.1,
+    "id": 43265,
+    "paid": 0.0,
+    "token": "death_and_decay"
+   }
+  ]
+ },
+ "deathknight_frost": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 127,
+    "cd": 0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [],
+    "free": 0.01,
+    "gapMed": 3.0,
+    "gapMin": 0.8,
+    "id": 49143,
+    "paid": 34.7,
+    "token": "frost_strike"
+   },
+   {
+    "casts": 86,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 3.6,
+    "gapMin": 2.1,
+    "id": 49184,
+    "paid": 0.0,
+    "token": "howling_blast"
+   },
+   {
+    "casts": 37,
+    "cd": 30.0,
+    "charges": 2,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 11.7,
+    "gapMin": 0.8,
+    "id": 47568,
+    "paid": 0.0,
+    "token": "empower_rune_weapon"
+   },
+   {
+    "casts": 26,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 2.3,
+    "gapMin": 1.0,
+    "id": 441424,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 26,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 2.3,
+    "gapMin": 1.0,
+    "id": 441426,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 15,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 17.1,
+    "gapMin": 0.8,
+    "id": 49020,
+    "paid": 0.0,
+    "token": "obliterate"
+   },
+   {
+    "casts": 11,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 35.8,
+    "gapMin": 11.2,
+    "id": 48265,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 9,
+    "cd": 45.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 46.4,
+    "gapMin": 45.0,
+    "id": 51271,
+    "paid": 0.0,
+    "token": "pillar_of_frost"
+   }
+  ]
+ },
+ "deathknight_unholy": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 83,
+    "cd": 0,
+    "charges": 1,
+    "cost": 30.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 3.1,
+    "gapMin": 0.9,
+    "id": 47541,
+    "paid": 30.0,
+    "token": "death_coil"
+   },
+   {
+    "casts": 62,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 2.3,
+    "gapMin": 0.7,
+    "id": 1242174,
+    "paid": 30.0,
+    "token": null
+   },
+   {
+    "casts": 25,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 16.4,
+    "gapMin": 5.8,
+    "id": 458128,
+    "paid": 0.0,
+    "token": "festering_scythe"
+   },
+   {
+    "casts": 10,
+    "cd": 45.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 45.7,
+    "gapMin": 45.1,
+    "id": 1233448,
+    "paid": 0.0,
+    "token": "dark_transformation"
+   },
+   {
+    "casts": 10,
+    "cd": 0.75,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 47.0,
+    "gapMin": 40.1,
+    "id": 1271967,
+    "paid": 0.0,
+    "token": "blightfall"
+   },
+   {
+    "casts": 6,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 92.4,
+    "gapMin": 90.4,
+    "id": 1297761,
+    "paid": 0.0,
+    "token": null
+   }
+  ]
+ },
+ "demonhunter_devourer": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 750,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 0.2,
+    "gapMin": 0.0,
+    "id": 1223412,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 57,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 0.9,
+    "gapMin": 0.7,
+    "id": 1217610,
+    "paid": 0.0,
+    "token": "devour"
+   },
+   {
+    "casts": 48,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 2.4,
+    "gapMin": 0.7,
+    "id": 473662,
+    "paid": 0.0,
+    "token": "consume"
+   },
+   {
+    "casts": 38,
+    "cd": 0,
+    "charges": 1,
+    "cost": 100.0,
+    "flags": [
+     "cost",
+     "free"
+    ],
+    "free": 0.55,
+    "gapMed": 10.4,
+    "gapMin": 5.0,
+    "id": 473728,
+    "paid": 44.7,
+    "token": "void_ray"
+   },
+   {
+    "casts": 36,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 6.4,
+    "gapMin": 1.3,
+    "id": 1245470,
+    "paid": 0.0,
+    "token": "reapers_toll"
+   },
+   {
+    "casts": 35,
+    "cd": 8.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 5.9,
+    "gapMin": 0.7,
+    "id": 1245453,
+    "paid": 0.0,
+    "token": "cull"
+   },
+   {
+    "casts": 24,
+    "cd": 8.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 5.9,
+    "gapMin": 0.8,
+    "id": 1226019,
+    "paid": 0.0,
+    "token": "reap"
+   },
+   {
+    "casts": 22,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 16.9,
+    "gapMin": 2.9,
+    "id": 1245414,
+    "paid": 0.0,
+    "token": "voidblade"
+   },
+   {
+    "casts": 19,
+    "cd": 25.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 6.5,
+    "gapMin": 1.6,
+    "id": 198793,
+    "paid": 0.0,
+    "token": "vengeful_retreat"
+   },
+   {
+    "casts": 19,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 12.9,
+    "gapMin": 6.2,
+    "id": 1246169,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 18,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 14.6,
+    "gapMin": 8.8,
+    "id": 1221150,
+    "paid": 0.0,
+    "token": "collapsing_star"
+   },
+   {
+    "casts": 16,
+    "cd": 90.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 13.5,
+    "gapMin": 6.3,
+    "id": 1259431,
+    "paid": 0.0,
+    "token": "predators_wake"
+   },
+   {
+    "casts": 15,
+    "cd": 30.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 20.6,
+    "gapMin": 12.2,
+    "id": 1245483,
+    "paid": 0.0,
+    "token": "pierce_the_veil"
+   },
+   {
+    "casts": 10,
+    "cd": 60.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 21.3,
+    "gapMin": 10.0,
+    "id": 1241937,
+    "paid": 0.0,
+    "token": "soul_immolation"
+   },
+   {
+    "casts": 7,
+    "cd": 30.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 69.1,
+    "gapMin": 34.8,
+    "id": 1245412,
+    "paid": 0.0,
+    "token": "voidblade"
+   }
+  ]
+ },
+ "demonhunter_havoc": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 328,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 0.5,
+    "gapMin": 0.0,
+    "id": 393035,
+    "paid": 0.0,
+    "token": "throw_glaive"
+   },
+   {
+    "casts": 308,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 0.5,
+    "gapMin": 0.0,
+    "id": 337819,
+    "paid": 0.0,
+    "token": "throw_glaive"
+   },
+   {
+    "casts": 269,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 1.4,
+    "gapMin": 0.0,
+    "id": 228537,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 188,
+    "cd": 0,
+    "charges": 1,
+    "cost": 40.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 1.4,
+    "gapMin": 0.7,
+    "id": 201427,
+    "paid": 40.0,
+    "token": "annihilation"
+   },
+   {
+    "casts": 98,
+    "cd": 9.0,
+    "charges": 1,
+    "cost": 25.0,
+    "flags": [
+     "cd",
+     "free"
+    ],
+    "free": 1.0,
+    "gapMed": 6.1,
+    "gapMin": 0.7,
+    "id": 185123,
+    "paid": 0.0,
+    "token": "throw_glaive"
+   },
+   {
+    "casts": 98,
+    "cd": 0,
+    "charges": 1,
+    "cost": 40.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 1.2,
+    "gapMin": 1.0,
+    "id": 162794,
+    "paid": 40.0,
+    "token": "chaos_strike"
+   },
+   {
+    "casts": 88,
+    "cd": 9.0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 5.2,
+    "gapMin": 0.7,
+    "id": 210152,
+    "paid": 35.0,
+    "token": "death_sweep"
+   },
+   {
+    "casts": 54,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 10.2,
+    "gapMin": 2.8,
+    "id": 442294,
+    "paid": 0.0,
+    "token": "reavers_glaive"
+   },
+   {
+    "casts": 51,
+    "cd": 12.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 11.3,
+    "gapMin": 1.5,
+    "id": 232893,
+    "paid": 0.0,
+    "token": "felblade"
+   },
+   {
+    "casts": 50,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 11.7,
+    "gapMin": 1.5,
+    "id": 213243,
+    "paid": 0.0,
+    "token": "felblade"
+   },
+   {
+    "casts": 35,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 9.1,
+    "gapMin": 0.8,
+    "id": 444686,
+    "paid": 0.0,
+    "token": "reavers_glaive"
+   },
+   {
+    "casts": 29,
+    "cd": 30.0,
+    "charges": 1,
+    "cost": 30.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 21.1,
+    "gapMin": 6.8,
+    "id": 198013,
+    "paid": 30.0,
+    "token": "eye_beam"
+   },
+   {
+    "casts": 27,
+    "cd": 25.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 21.4,
+    "gapMin": 20.0,
+    "id": 198793,
+    "paid": 0.0,
+    "token": "vengeful_retreat"
+   },
+   {
+    "casts": 21,
+    "cd": 15.0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 17.7,
+    "gapMin": 7.0,
+    "id": 188499,
+    "paid": 35.0,
+    "token": "blade_dance"
+   },
+   {
+    "casts": 19,
+    "cd": 40.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 33.6,
+    "gapMin": 30.1,
+    "id": 258860,
+    "paid": 0.0,
+    "token": "essence_break"
+   },
+   {
+    "casts": 19,
+    "cd": 30.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 27.2,
+    "gapMin": 17.4,
+    "id": 258920,
+    "paid": 0.0,
+    "token": "immolation_aura"
+   },
+   {
+    "casts": 13,
+    "cd": 10.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 31.6,
+    "gapMin": 1.0,
+    "id": 195072,
+    "paid": 0.0,
+    "token": "fel_rush"
+   },
+   {
+    "casts": 11,
+    "cd": 90.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 62.8,
+    "gapMin": 60.7,
+    "id": 370965,
+    "paid": 0.0,
+    "token": "the_hunt"
+   },
+   {
+    "casts": 11,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 62.8,
+    "gapMin": 60.5,
+    "id": 370966,
+    "paid": 0.0,
+    "token": "the_hunt"
+   },
+   {
+    "casts": 6,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 132.6,
+    "gapMin": 122.6,
+    "id": 200166,
+    "paid": 0.0,
+    "token": "metamorphosis"
+   }
+  ]
+ },
+ "demonhunter_vengeance": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 575,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 0.3,
+    "gapMin": 0.0,
+    "id": 204255,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 172,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 3.2,
+    "gapMin": 0.8,
+    "id": 225919,
+    "paid": 0.0,
+    "token": "fracture"
+   },
+   {
+    "casts": 172,
+    "cd": 5.5,
+    "charges": 2,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 3.2,
+    "gapMin": 0.8,
+    "id": 263642,
+    "paid": 0.0,
+    "token": "fracture"
+   },
+   {
+    "casts": 172,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 3.2,
+    "gapMin": 0.8,
+    "id": 225921,
+    "paid": 0.0,
+    "token": "fracture"
+   },
+   {
+    "casts": 164,
+    "cd": 0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 2.7,
+    "gapMin": 0.7,
+    "id": 228477,
+    "paid": 35.0,
+    "token": "soul_cleave"
+   },
+   {
+    "casts": 63,
+    "cd": 20.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 7.3,
+    "gapMin": 1.9,
+    "id": 203720,
+    "paid": 0.0,
+    "token": "demon_spikes"
+   },
+   {
+    "casts": 46,
+    "cd": 30.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 11.8,
+    "gapMin": 8.4,
+    "id": 258920,
+    "paid": 0.0,
+    "token": "immolation_aura"
+   },
+   {
+    "casts": 35,
+    "cd": 25.0,
+    "charges": 1,
+    "cost": 40.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 15.4,
+    "gapMin": 3.5,
+    "id": 247454,
+    "paid": 40.0,
+    "token": "spirit_bomb"
+   },
+   {
+    "casts": 21,
+    "cd": 120.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 25.4,
+    "gapMin": 3.4,
+    "id": 187827,
+    "paid": 0.0,
+    "token": "metamorphosis"
+   },
+   {
+    "casts": 17,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 19.1,
+    "gapMin": 9.8,
+    "id": 213243,
+    "paid": 0.0,
+    "token": "felblade"
+   },
+   {
+    "casts": 17,
+    "cd": 12.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 19.1,
+    "gapMin": 9.9,
+    "id": 232893,
+    "paid": 0.0,
+    "token": "felblade"
+   },
+   {
+    "casts": 15,
+    "cd": 30.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 33.6,
+    "gapMin": 30.0,
+    "id": 204596,
+    "paid": 0.0,
+    "token": "sigil_of_flame"
+   },
+   {
+    "casts": 13,
+    "cd": 60.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 39.2,
+    "gapMin": 16.4,
+    "id": 204021,
+    "paid": 0.0,
+    "token": "fiery_brand"
+   },
+   {
+    "casts": 9,
+    "cd": 60.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 63.0,
+    "gapMin": 60.7,
+    "id": 390163,
+    "paid": 0.0,
+    "token": "sigil_of_spite"
+   },
+   {
+    "casts": 7,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 94.2,
+    "gapMin": 0.3,
+    "id": 185245,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 7,
+    "cd": 40.0,
+    "charges": 1,
+    "cost": 50.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 42.5,
+    "gapMin": 41.9,
+    "id": 212084,
+    "paid": 50.0,
+    "token": "fel_devastation"
+   },
+   {
+    "casts": 6,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 97.7,
+    "gapMin": 90.2,
+    "id": 1297761,
+    "paid": 0.0,
+    "token": null
+   }
+  ]
+ },
+ "druid_balance": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 104,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 2.5,
+    "gapMin": 0.9,
+    "id": 194153,
+    "paid": 0.0,
+    "token": "starfire"
+   },
+   {
+    "casts": 66,
+    "cd": 0,
+    "charges": 1,
+    "cost": 40.0,
+    "flags": [
+     "cost",
+     "free"
+    ],
+    "free": 0.65,
+    "gapMed": 4.1,
+    "gapMin": 0.7,
+    "id": 78674,
+    "paid": 13.9,
+    "token": "starsurge"
+   },
+   {
+    "casts": 66,
+    "cd": 0,
+    "charges": 1,
+    "cost": 50.0,
+    "flags": [
+     "cost",
+     "free"
+    ],
+    "free": 0.26,
+    "gapMed": 3.6,
+    "gapMin": 0.8,
+    "id": 191034,
+    "paid": 37.1,
+    "token": "starfall"
+   },
+   {
+    "casts": 33,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 5.7,
+    "gapMin": 1.0,
+    "id": 8921,
+    "paid": 0.0,
+    "token": "moonfire"
+   },
+   {
+    "casts": 28,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 9.3,
+    "gapMin": 1.1,
+    "id": 93402,
+    "paid": 0.0,
+    "token": "sunfire"
+   },
+   {
+    "casts": 16,
+    "cd": 60.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 23.4,
+    "gapMin": 18.7,
+    "id": 202770,
+    "paid": 0.0,
+    "token": "fury_of_elune"
+   },
+   {
+    "casts": 12,
+    "cd": 32.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 29.9,
+    "gapMin": 16.2,
+    "id": 1233272,
+    "paid": 0.0,
+    "token": "lunar_eclipse"
+   },
+   {
+    "casts": 6,
+    "cd": 180.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 74.9,
+    "gapMin": 20.9,
+    "id": 102560,
+    "paid": 0.0,
+    "token": "incarnation_chosen_of_elune"
+   }
+  ]
+ },
+ "druid_feral": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 97,
+    "cd": 0,
+    "charges": 1,
+    "cost": 40.0,
+    "flags": [
+     "cost",
+     "free"
+    ],
+    "free": 0.64,
+    "gapMed": 2.0,
+    "gapMin": 1.0,
+    "id": 5221,
+    "paid": 14.4,
+    "token": "shred"
+   },
+   {
+    "casts": 76,
+    "cd": 0,
+    "charges": 1,
+    "cost": 25.0,
+    "flags": [],
+    "free": 0.05,
+    "gapMed": 3.3,
+    "gapMin": 1.0,
+    "id": 22568,
+    "paid": 23.7,
+    "token": "ferocious_bite"
+   },
+   {
+    "casts": 35,
+    "cd": 0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 10.1,
+    "gapMin": 2.0,
+    "id": 1822,
+    "paid": 35.0,
+    "token": "rake"
+   },
+   {
+    "casts": 28,
+    "cd": 0,
+    "charges": 1,
+    "cost": 20.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 10.4,
+    "gapMin": 1.8,
+    "id": 1079,
+    "paid": 20.0,
+    "token": "rip"
+   },
+   {
+    "casts": 27,
+    "cd": 0,
+    "charges": 1,
+    "cost": 30.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 12.4,
+    "gapMin": 0.8,
+    "id": 155625,
+    "paid": 30.0,
+    "token": "moonfire"
+   },
+   {
+    "casts": 12,
+    "cd": 30.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 30.8,
+    "gapMin": 30.1,
+    "id": 5217,
+    "paid": 0.0,
+    "token": "tigers_fury"
+   },
+   {
+    "casts": 12,
+    "cd": 45.0,
+    "charges": 1,
+    "cost": 25.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 31.4,
+    "gapMin": 30.0,
+    "id": 274837,
+    "paid": 25.0,
+    "token": "feral_frenzy"
+   },
+   {
+    "casts": 10,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 11.7,
+    "gapMin": 6.7,
+    "id": 8936,
+    "paid": 0.0,
+    "token": "regrowth"
+   }
+  ]
+ },
+ "druid_guardian": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 186,
+    "cd": 0.5,
+    "charges": 1,
+    "cost": 40.0,
+    "flags": [],
+    "free": 0.02,
+    "gapMed": 1.8,
+    "gapMin": 0.5,
+    "id": 192081,
+    "paid": 39.4,
+    "token": "ironfur"
+   },
+   {
+    "casts": 164,
+    "cd": 6.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 2.1,
+    "gapMin": 0.7,
+    "id": 33917,
+    "paid": 0.0,
+    "token": "mangle"
+   },
+   {
+    "casts": 119,
+    "cd": 6.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 4.0,
+    "gapMin": 1.1,
+    "id": 77758,
+    "paid": 0.0,
+    "token": "thrash"
+   },
+   {
+    "casts": 35,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 5.6,
+    "gapMin": 1.1,
+    "id": 213771,
+    "paid": 0.0,
+    "token": "swipe"
+   },
+   {
+    "casts": 25,
+    "cd": 0,
+    "charges": 1,
+    "cost": 40.0,
+    "flags": [
+     "cost",
+     "free"
+    ],
+    "free": 0.88,
+    "gapMed": 11.4,
+    "gapMin": 4.2,
+    "id": 6807,
+    "paid": 4.8,
+    "token": "maul"
+   },
+   {
+    "casts": 15,
+    "cd": 30.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 30.9,
+    "gapMin": 30.2,
+    "id": 1252871,
+    "paid": 0.0,
+    "token": "red_moon"
+   },
+   {
+    "casts": 12,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 41.3,
+    "gapMin": 40.5,
+    "id": 1270292,
+    "paid": 0.0,
+    "token": "lunar_beam"
+   },
+   {
+    "casts": 12,
+    "cd": 60.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 41.3,
+    "gapMin": 40.5,
+    "id": 204066,
+    "paid": 0.0,
+    "token": "lunar_beam"
+   }
+  ]
+ },
+ "evoker_augmentation": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 81,
+    "cd": 0,
+    "charges": 1,
+    "cost": 3.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 2.7,
+    "gapMin": 1.0,
+    "id": 395160,
+    "paid": 3.0,
+    "token": "eruption"
+   }
+  ]
+ },
+ "evoker_devastation": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 86,
+    "cd": 0,
+    "charges": 1,
+    "cost": 3.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 4.9,
+    "gapMin": 1.0,
+    "id": 356995,
+    "paid": 3.0,
+    "token": "disintegrate"
+   }
+  ]
+ },
+ "hunter_beast_mastery": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 136,
+    "cd": 7.5,
+    "charges": 1,
+    "cost": 30.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 2.4,
+    "gapMin": 1.5,
+    "id": 34026,
+    "paid": 30.0,
+    "token": "kill_command"
+   },
+   {
+    "casts": 112,
+    "cd": 0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 3.1,
+    "gapMin": 0.8,
+    "id": 193455,
+    "paid": 35.0,
+    "token": "cobra_shot"
+   },
+   {
+    "casts": 78,
+    "cd": 18.0,
+    "charges": 2,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 4.9,
+    "gapMin": 0.9,
+    "id": 217200,
+    "paid": 0.0,
+    "token": "barbed_shot"
+   },
+   {
+    "casts": 59,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 4.9,
+    "gapMin": 0.0,
+    "id": 1308188,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 13,
+    "cd": 90.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 30.4,
+    "gapMin": 30.0,
+    "id": 19574,
+    "paid": 0.0,
+    "token": "bestial_wrath"
+   }
+  ]
+ },
+ "hunter_marksmanship": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 98,
+    "cd": 0,
+    "charges": 1,
+    "cost": 40.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 3.4,
+    "gapMin": 1.7,
+    "id": 185358,
+    "paid": 40.0,
+    "token": "arcane_shot"
+   },
+   {
+    "casts": 97,
+    "cd": 15.0,
+    "charges": 2,
+    "cost": 35.0,
+    "flags": [
+     "cd",
+     "cost",
+     "free"
+    ],
+    "free": 0.29,
+    "gapMed": 4.9,
+    "gapMin": 1.1,
+    "id": 19434,
+    "paid": 24.9,
+    "token": "aimed_shot"
+   },
+   {
+    "casts": 44,
+    "cd": 16.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 12.8,
+    "gapMin": 4.7,
+    "id": 257044,
+    "paid": 0.0,
+    "token": "rapid_fire"
+   },
+   {
+    "casts": 40,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 5.7,
+    "gapMin": 1.2,
+    "id": 56641,
+    "paid": 0.0,
+    "token": "steady_shot"
+   },
+   {
+    "casts": 34,
+    "cd": 30.0,
+    "charges": 1,
+    "cost": 20.0,
+    "flags": [
+     "cd",
+     "cost",
+     "free"
+    ],
+    "free": 0.5,
+    "gapMed": 1.4,
+    "gapMin": 1.0,
+    "id": 212431,
+    "paid": 10.0,
+    "token": "explosive_shot"
+   },
+   {
+    "casts": 26,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 3.6,
+    "gapMin": 2.0,
+    "id": 257620,
+    "paid": 30.0,
+    "token": null
+   },
+   {
+    "casts": 11,
+    "cd": 45.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 49.8,
+    "gapMin": 45.0,
+    "id": 260243,
+    "paid": 0.0,
+    "token": "volley"
+   }
+  ]
+ },
+ "hunter_survival": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 110,
+    "cd": 5.0,
+    "charges": 2,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 3.6,
+    "gapMin": 1.1,
+    "id": 259489,
+    "paid": 0.0,
+    "token": "kill_command"
+   },
+   {
+    "casts": 76,
+    "cd": 0,
+    "charges": 1,
+    "cost": 30.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 3.9,
+    "gapMin": 1.5,
+    "id": 1262293,
+    "paid": 30.0,
+    "token": "raptor_swipe"
+   },
+   {
+    "casts": 74,
+    "cd": 0,
+    "charges": 1,
+    "cost": 30.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 4.5,
+    "gapMin": 2.0,
+    "id": 186270,
+    "paid": 30.0,
+    "token": "raptor_strike"
+   },
+   {
+    "casts": 67,
+    "cd": 18.0,
+    "charges": 1,
+    "cost": 10.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 6.5,
+    "gapMin": 0.8,
+    "id": 259495,
+    "paid": 10.0,
+    "token": "wildfire_bomb"
+   },
+   {
+    "casts": 10,
+    "cd": 60.0,
+    "charges": 1,
+    "cost": 50.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 45.7,
+    "gapMin": 45.1,
+    "id": 1261193,
+    "paid": 50.0,
+    "token": "boomstick"
+   },
+   {
+    "casts": 8,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 60.8,
+    "gapMin": 60.1,
+    "id": 1253859,
+    "paid": 0.0,
+    "token": "takedown"
+   },
+   {
+    "casts": 8,
+    "cd": 90.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 60.8,
+    "gapMin": 60.3,
+    "id": 1250646,
+    "paid": 0.0,
+    "token": "takedown"
+   },
+   {
+    "casts": 8,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 60.6,
+    "gapMin": 59.4,
+    "id": 1264949,
+    "paid": 0.0,
+    "token": "moonlight_chakram"
+   },
+   {
+    "casts": 8,
+    "cd": 0,
+    "charges": 1,
+    "cost": 30.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 4.4,
+    "gapMin": 2.0,
+    "id": 265189,
+    "paid": 30.0,
+    "token": "raptor_strike"
+   },
+   {
+    "casts": 6,
+    "cd": 0,
+    "charges": 1,
+    "cost": 30.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 4.4,
+    "gapMin": 3.0,
+    "id": 1262343,
+    "paid": 30.0,
+    "token": "raptor_swipe"
+   }
+  ]
+ },
+ "mage_arcane": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 129,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 3.1,
+    "gapMin": 1.1,
+    "id": 5143,
+    "paid": 0.0,
+    "token": "arcane_missiles"
+   },
+   {
+    "casts": 115,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 4.4,
+    "gapMin": 0.8,
+    "id": 44425,
+    "paid": 0.0,
+    "token": "arcane_barrage"
+   },
+   {
+    "casts": 46,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 8.2,
+    "gapMin": 2.8,
+    "id": 1295924,
+    "paid": 6875.0,
+    "token": "prismatic_bolt"
+   },
+   {
+    "casts": 37,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 1.2,
+    "gapMin": 0.7,
+    "id": 30451,
+    "paid": 6875.0,
+    "token": "arcane_blast"
+   },
+   {
+    "casts": 11,
+    "cd": 45.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 46.7,
+    "gapMin": 45.4,
+    "id": 321507,
+    "paid": 12500.0,
+    "token": "touch_of_the_magi"
+   },
+   {
+    "casts": 8,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 50.6,
+    "gapMin": 3.6,
+    "id": 212653,
+    "paid": 5000.0,
+    "token": null
+   },
+   {
+    "casts": 6,
+    "cd": 90.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 94.7,
+    "gapMin": 91.9,
+    "id": 365350,
+    "paid": 322145.7,
+    "token": "arcane_surge"
+   },
+   {
+    "casts": 6,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 94.6,
+    "gapMin": 91.8,
+    "id": 1250533,
+    "paid": 0.0,
+    "token": null
+   }
+  ]
+ },
+ "monk_brewmaster": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 109,
+    "cd": 8.0,
+    "charges": 1,
+    "cost": 40.0,
+    "flags": [
+     "cd",
+     "cost",
+     "free"
+    ],
+    "free": 0.24,
+    "gapMed": 4.6,
+    "gapMin": 2.0,
+    "id": 121253,
+    "paid": 30.5,
+    "token": "keg_smash"
+   },
+   {
+    "casts": 102,
+    "cd": 4.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 4.6,
+    "gapMin": 4.0,
+    "id": 205523,
+    "paid": 0.0,
+    "token": "blackout_kick"
+   },
+   {
+    "casts": 100,
+    "cd": 15.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 4.7,
+    "gapMin": 2.0,
+    "id": 115181,
+    "paid": 0.0,
+    "token": "breath_of_fire"
+   },
+   {
+    "casts": 97,
+    "cd": 0,
+    "charges": 1,
+    "cost": 50.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 4.8,
+    "gapMin": 1.0,
+    "id": 100780,
+    "paid": 50.0,
+    "token": "tiger_palm"
+   },
+   {
+    "casts": 51,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 9.5,
+    "gapMin": 2.5,
+    "id": 124506,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 50,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 9.1,
+    "gapMin": 4.0,
+    "id": 124503,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 38,
+    "cd": 20.0,
+    "charges": 2,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 7.4,
+    "gapMin": 2.0,
+    "id": 119582,
+    "paid": 0.0,
+    "token": "purifying_brew"
+   },
+   {
+    "casts": 18,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 24.1,
+    "gapMin": 1.6,
+    "id": 109132,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 13,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 44.7,
+    "gapMin": 6.8,
+    "id": 1241059,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 12,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 40.6,
+    "gapMin": 22.6,
+    "id": 115546,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 8,
+    "cd": 60.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 65.0,
+    "gapMin": 60.8,
+    "id": 325153,
+    "paid": 0.0,
+    "token": "exploding_keg"
+   },
+   {
+    "casts": 8,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 64.8,
+    "gapMin": 56.8,
+    "id": 1263438,
+    "paid": 0.0,
+    "token": "empty_the_cellar"
+   },
+   {
+    "casts": 6,
+    "cd": 120.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 98.9,
+    "gapMin": 95.2,
+    "id": 132578,
+    "paid": 0.0,
+    "token": "invoke_niuzao_the_black_ox"
+   },
+   {
+    "casts": 6,
+    "cd": 15.0,
+    "charges": 1,
+    "cost": 15.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 96.5,
+    "gapMin": 54.5,
+    "id": 322101,
+    "paid": 15.0,
+    "token": "expel_harm"
+   }
+  ]
+ },
+ "monk_windwalker": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 94,
+    "cd": 0,
+    "charges": 1,
+    "cost": 50.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 4.5,
+    "gapMin": 2.0,
+    "id": 100780,
+    "paid": 50.0,
+    "token": "tiger_palm"
+   },
+   {
+    "casts": 48,
+    "cd": 3.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 8.7,
+    "gapMin": 2.0,
+    "id": 100784,
+    "paid": 0.0,
+    "token": "blackout_kick"
+   },
+   {
+    "casts": 36,
+    "cd": 0,
+    "charges": 1,
+    "cost": 40.0,
+    "flags": [
+     "free"
+    ],
+    "free": 1.0,
+    "gapMed": 13.9,
+    "gapMin": 3.0,
+    "id": 101546,
+    "paid": 0.0,
+    "token": "spinning_crane_kick"
+   },
+   {
+    "casts": 26,
+    "cd": 10.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 16.5,
+    "gapMin": 6.1,
+    "id": 467307,
+    "paid": 0.0,
+    "token": "rushing_wind_kick"
+   },
+   {
+    "casts": 21,
+    "cd": 35.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 27.2,
+    "gapMin": 15.8,
+    "id": 152175,
+    "paid": 0.0,
+    "token": "whirling_dragon_punch"
+   },
+   {
+    "casts": 9,
+    "cd": 90.0,
+    "charges": 2,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 90.2,
+    "gapMin": 18.4,
+    "id": 1249625,
+    "paid": 0.0,
+    "token": "zenith"
+   },
+   {
+    "casts": 7,
+    "cd": 120.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 93.9,
+    "gapMin": 90.1,
+    "id": 123904,
+    "paid": 0.0,
+    "token": "invoke_xuen_the_white_tiger"
+   },
+   {
+    "casts": 7,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 93.8,
+    "gapMin": 90.2,
+    "id": 1297761,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 7,
+    "cd": 90.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 93.9,
+    "gapMin": 90.4,
+    "id": 443028,
+    "paid": 0.0,
+    "token": "celestial_conduit"
+   },
+   {
+    "casts": 7,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 83.5,
+    "gapMin": 21.9,
+    "id": 109132,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 6,
+    "cd": 90.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 105.1,
+    "gapMin": 94.2,
+    "id": 122470,
+    "paid": 0.0,
+    "token": "touch_of_karma"
+   }
+  ]
+ },
+ "paladin_protection": {
+  "fights": 1,
+  "spells": [
+   {
+    "casts": 46,
+    "cd": 1.0,
+    "charges": 1,
+    "cost": 3.0,
+    "flags": [
+     "cost"
+    ],
+    "free": 0.0,
+    "gapMed": 3.9,
+    "gapMin": 1.3,
+    "id": 53600,
+    "paid": 4.3,
+    "token": "shield_of_the_righteous"
+   }
+  ]
+ },
+ "paladin_retribution": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 130,
+    "cd": 0,
+    "charges": 1,
+    "cost": 3.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 2.4,
+    "gapMin": 0.7,
+    "id": 383328,
+    "paid": 3.0,
+    "token": "final_verdict"
+   },
+   {
+    "casts": 65,
+    "cd": 0,
+    "charges": 1,
+    "cost": 3.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 6.0,
+    "gapMin": 1.0,
+    "id": 53385,
+    "paid": 3.0,
+    "token": "divine_storm"
+   }
+  ]
+ },
+ "priest_shadow": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 359,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 0.9,
+    "gapMin": 0.0,
+    "id": 341263,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 76,
+    "cd": 0,
+    "charges": 1,
+    "cost": 50.0,
+    "flags": [
+     "cost"
+    ],
+    "free": 0.0,
+    "gapMed": 5.9,
+    "gapMin": 2.0,
+    "id": 335467,
+    "paid": 5000.0,
+    "token": "shadow_word_madness"
+   },
+   {
+    "casts": 61,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 6.7,
+    "gapMin": 0.7,
+    "id": 1242173,
+    "paid": 0.0,
+    "token": "void_volley"
+   },
+   {
+    "casts": 56,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 4.9,
+    "gapMin": 1.3,
+    "id": 15407,
+    "paid": 0.0,
+    "token": "mind_flay"
+   },
+   {
+    "casts": 42,
+    "cd": 15.0,
+    "charges": 2,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 11.5,
+    "gapMin": 1.2,
+    "id": 1227280,
+    "paid": 0.0,
+    "token": "tentacle_slam"
+   },
+   {
+    "casts": 33,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 5.1,
+    "gapMin": 1.2,
+    "id": 391403,
+    "paid": 0.0,
+    "token": "mind_flay_insanity"
+   },
+   {
+    "casts": 12,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 13.0,
+    "gapMin": 1.1,
+    "id": 34914,
+    "paid": 0.0,
+    "token": "vampiric_touch"
+   },
+   {
+    "casts": 8,
+    "cd": 120.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 61.7,
+    "gapMin": 0.0,
+    "id": 10060,
+    "paid": 0.0,
+    "token": "power_infusion"
+   }
+  ]
+ },
+ "rogue_assassination": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 148,
+    "cd": 0,
+    "charges": 1,
+    "cost": 50.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 2.0,
+    "gapMin": 1.0,
+    "id": 1329,
+    "paid": 50.0,
+    "token": "mutilate"
+   },
+   {
+    "casts": 146,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 2.0,
+    "gapMin": 1.0,
+    "id": 27576,
+    "paid": 0.0,
+    "token": "mutilate"
+   },
+   {
+    "casts": 100,
+    "cd": 0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 3.0,
+    "gapMin": 1.0,
+    "id": 32645,
+    "paid": 35.0,
+    "token": "envenom"
+   },
+   {
+    "casts": 63,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 2.4,
+    "gapMin": 0.3,
+    "id": 452538,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 22,
+    "cd": 6.0,
+    "charges": 1,
+    "cost": 45.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 18.9,
+    "gapMin": 3.5,
+    "id": 703,
+    "paid": 45.0,
+    "token": "garrote"
+   },
+   {
+    "casts": 17,
+    "cd": 0,
+    "charges": 1,
+    "cost": 25.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 25.9,
+    "gapMin": 3.6,
+    "id": 1943,
+    "paid": 25.0,
+    "token": "rupture"
+   },
+   {
+    "casts": 14,
+    "cd": 0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 1.5,
+    "gapMin": 1.0,
+    "id": 51723,
+    "paid": 35.0,
+    "token": "fan_of_knives"
+   },
+   {
+    "casts": 9,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 32.4,
+    "gapMin": 3.4,
+    "id": 36554,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 8,
+    "cd": 0,
+    "charges": 1,
+    "cost": 60.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 18.8,
+    "gapMin": 11.0,
+    "id": 1247227,
+    "paid": 60.0,
+    "token": "crimson_tempest"
+   },
+   {
+    "casts": 7,
+    "cd": 60.0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 61.3,
+    "gapMin": 60.2,
+    "id": 385627,
+    "paid": 35.0,
+    "token": "kingsbane"
+   }
+  ]
+ },
+ "rogue_outlaw": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 202,
+    "cd": 0,
+    "charges": 1,
+    "cost": 40.0,
+    "flags": [
+     "cost",
+     "free"
+    ],
+    "free": 0.66,
+    "gapMed": 0.2,
+    "gapMin": 0.1,
+    "id": 185763,
+    "paid": 13.5,
+    "token": "pistol_shot"
+   },
+   {
+    "casts": 124,
+    "cd": 0,
+    "charges": 1,
+    "cost": 45.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 3.0,
+    "gapMin": 0.8,
+    "id": 193315,
+    "paid": 45.0,
+    "token": "sinister_strike"
+   },
+   {
+    "casts": 96,
+    "cd": 45.0,
+    "charges": 1,
+    "cost": 25.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 2.4,
+    "gapMin": 0.8,
+    "id": 315341,
+    "paid": 25.0,
+    "token": "between_the_eyes"
+   },
+   {
+    "casts": 75,
+    "cd": 0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [
+     "cost",
+     "free"
+    ],
+    "free": 0.28,
+    "gapMed": 4.0,
+    "gapMin": 0.8,
+    "id": 2098,
+    "paid": 25.2,
+    "token": "dispatch"
+   },
+   {
+    "casts": 21,
+    "cd": 0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [
+     "cost",
+     "free"
+    ],
+    "free": 0.29,
+    "gapMed": 21.9,
+    "gapMin": 7.6,
+    "id": 441776,
+    "paid": 25.0,
+    "token": "coup_de_grace"
+   },
+   {
+    "casts": 16,
+    "cd": 180.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 27.4,
+    "gapMin": 15.2,
+    "id": 13750,
+    "paid": 0.0,
+    "token": "adrenaline_rush"
+   },
+   {
+    "casts": 16,
+    "cd": 180.0,
+    "charges": 1,
+    "cost": 45.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 27.0,
+    "gapMin": 11.0,
+    "id": 51690,
+    "paid": 45.0,
+    "token": "killing_spree"
+   },
+   {
+    "casts": 11,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 18.2,
+    "gapMin": 9.8,
+    "id": 2983,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 11,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 29.2,
+    "gapMin": 9.2,
+    "id": 426586,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 11,
+    "cd": 30.0,
+    "charges": 1,
+    "cost": 15.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 29.2,
+    "gapMin": 9.2,
+    "id": 13877,
+    "paid": 15.0,
+    "token": "blade_flurry"
+   },
+   {
+    "casts": 9,
+    "cd": 45.0,
+    "charges": 1,
+    "cost": 25.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 61.0,
+    "gapMin": 10.5,
+    "id": 1214909,
+    "paid": 25.0,
+    "token": "roll_the_bones"
+   },
+   {
+    "casts": 7,
+    "cd": 360.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 57.4,
+    "gapMin": 49.3,
+    "id": 381989,
+    "paid": 0.0,
+    "token": "keep_it_rolling"
+   },
+   {
+    "casts": 6,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 91.2,
+    "gapMin": 90.8,
+    "id": 1297761,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 6,
+    "cd": 15.0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 22.2,
+    "gapMin": 10.2,
+    "id": 1966,
+    "paid": 35.0,
+    "token": "feint"
+   }
+  ]
+ },
+ "rogue_subtlety": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 131,
+    "cd": 0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 2.0,
+    "gapMin": 1.0,
+    "id": 196819,
+    "paid": 35.0,
+    "token": "eviscerate"
+   },
+   {
+    "casts": 112,
+    "cd": 0,
+    "charges": 1,
+    "cost": 40.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 2.0,
+    "gapMin": 1.0,
+    "id": 53,
+    "paid": 40.0,
+    "token": "backstab"
+   },
+   {
+    "casts": 78,
+    "cd": 0,
+    "charges": 1,
+    "cost": 50.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 3.2,
+    "gapMin": 1.0,
+    "id": 185438,
+    "paid": 50.0,
+    "token": "shadowstrike"
+   },
+   {
+    "casts": 48,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 0.7,
+    "gapMin": 0.1,
+    "id": 282449,
+    "paid": 0.0,
+    "token": "secret_technique"
+   },
+   {
+    "casts": 30,
+    "cd": 0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 12.0,
+    "gapMin": 6.4,
+    "id": 441776,
+    "paid": 35.0,
+    "token": "coup_de_grace"
+   },
+   {
+    "casts": 25,
+    "cd": 20.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 18.2,
+    "gapMin": 9.0,
+    "id": 185313,
+    "paid": 0.0,
+    "token": "shadow_dance"
+   },
+   {
+    "casts": 24,
+    "cd": 25.0,
+    "charges": 1,
+    "cost": 30.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 18.3,
+    "gapMin": 13.4,
+    "id": 280719,
+    "paid": 30.0,
+    "token": "secret_technique"
+   },
+   {
+    "casts": 11,
+    "cd": 15.0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 14.8,
+    "gapMin": 6.8,
+    "id": 1966,
+    "paid": 35.0,
+    "token": "feint"
+   },
+   {
+    "casts": 10,
+    "cd": 45.0,
+    "charges": 1,
+    "cost": 25.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 45.6,
+    "gapMin": 45.0,
+    "id": 426591,
+    "paid": 25.0,
+    "token": "goremaws_bite"
+   },
+   {
+    "casts": 8,
+    "cd": 0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 3.1,
+    "gapMin": 1.0,
+    "id": 319175,
+    "paid": 35.0,
+    "token": "black_powder"
+   },
+   {
+    "casts": 8,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 3.1,
+    "gapMin": 2.2,
+    "id": 212743,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 8,
+    "cd": 0,
+    "charges": 1,
+    "cost": 50.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 3.1,
+    "gapMin": 2.2,
+    "id": 197835,
+    "paid": 50.0,
+    "token": "shuriken_storm"
+   },
+   {
+    "casts": 7,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 30.2,
+    "gapMin": 1.0,
+    "id": 36554,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 6,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 94.4,
+    "gapMin": 91.3,
+    "id": 1297761,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 6,
+    "cd": 90.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 94.4,
+    "gapMin": 91.3,
+    "id": 121471,
+    "paid": 0.0,
+    "token": "shadow_blades"
+   }
+  ]
+ },
+ "shaman_elemental": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 38,
+    "cd": 12.0,
+    "charges": 1,
+    "cost": 90.0,
+    "flags": [
+     "cd",
+     "cost",
+     "free"
+    ],
+    "free": 0.53,
+    "gapMed": 3.7,
+    "gapMin": 0.0,
+    "id": 117014,
+    "paid": 42.6,
+    "token": "elemental_blast"
+   },
+   {
+    "casts": 8,
+    "cd": 30.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 31.2,
+    "gapMin": 30.2,
+    "id": 443454,
+    "paid": 0.0,
+    "token": "ancestral_swiftness"
+   },
+   {
+    "casts": 6,
+    "cd": 60.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 42.7,
+    "gapMin": 40.9,
+    "id": 191634,
+    "paid": 0.0,
+    "token": "stormkeeper"
+   }
+  ]
+ },
+ "warlock_affliction": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 71,
+    "cd": 0,
+    "charges": 1,
+    "cost": 1.0,
+    "flags": [
+     "cost"
+    ],
+    "free": 0.0,
+    "gapMed": 2.2,
+    "gapMin": 0.7,
+    "id": 1259790,
+    "paid": 10.0,
+    "token": "unstable_affliction"
+   }
+  ]
+ },
+ "warlock_demonology": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 170,
+    "cd": 0,
+    "charges": 1,
+    "cost": 3.0,
+    "flags": [
+     "cost"
+    ],
+    "free": 0.0,
+    "gapMed": 3.1,
+    "gapMin": 0.8,
+    "id": 105174,
+    "paid": 30.0,
+    "token": "hand_of_guldan"
+   },
+   {
+    "casts": 6,
+    "cd": 120.0,
+    "charges": 1,
+    "cost": 1.0,
+    "flags": [
+     "cost"
+    ],
+    "free": 0.0,
+    "gapMed": 125.2,
+    "gapMin": 120.7,
+    "id": 1276452,
+    "paid": 10.0,
+    "token": "grimoire_imp_lord"
+   }
+  ]
+ },
+ "warlock_destruction": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 86,
+    "cd": 0,
+    "charges": 1,
+    "cost": 2.0,
+    "flags": [
+     "cost"
+    ],
+    "free": 0.0,
+    "gapMed": 3.2,
+    "gapMin": 1.0,
+    "id": 116858,
+    "paid": 20.0,
+    "token": "chaos_bolt"
+   },
+   {
+    "casts": 47,
+    "cd": 0,
+    "charges": 1,
+    "cost": 1.0,
+    "flags": [
+     "cost"
+    ],
+    "free": 0.0,
+    "gapMed": 1.1,
+    "gapMin": 0.8,
+    "id": 17877,
+    "paid": 10.0,
+    "token": "shadowburn"
+   }
+  ]
+ },
+ "warrior_arms": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 134,
+    "cd": 6.0,
+    "charges": 1,
+    "cost": 30.0,
+    "flags": [
+     "cd",
+     "cost",
+     "free"
+    ],
+    "free": 0.51,
+    "gapMed": 3.1,
+    "gapMin": 0.2,
+    "id": 12294,
+    "paid": 14.8,
+    "token": "mortal_strike"
+   },
+   {
+    "casts": 99,
+    "cd": 6.0,
+    "charges": 1,
+    "cost": 20.0,
+    "flags": [
+     "cd",
+     "cost",
+     "free"
+    ],
+    "free": 0.67,
+    "gapMed": 2.9,
+    "gapMin": 0.8,
+    "id": 281000,
+    "paid": 13.3,
+    "token": "execute"
+   },
+   {
+    "casts": 45,
+    "cd": 12.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 5.4,
+    "gapMin": 0.8,
+    "id": 7384,
+    "paid": 0.0,
+    "token": "overpower"
+   },
+   {
+    "casts": 41,
+    "cd": 0,
+    "charges": 1,
+    "cost": 20.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 9.2,
+    "gapMin": 3.5,
+    "id": 1269383,
+    "paid": 20.0,
+    "token": "heroic_strike"
+   },
+   {
+    "casts": 31,
+    "cd": 0,
+    "charges": 1,
+    "cost": 20.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 2.3,
+    "gapMin": 0.8,
+    "id": 1464,
+    "paid": 20.0,
+    "token": "slam"
+   },
+   {
+    "casts": 19,
+    "cd": 4.5,
+    "charges": 1,
+    "cost": 20.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 16.0,
+    "gapMin": 9.9,
+    "id": 845,
+    "paid": 20.0,
+    "token": "cleave"
+   },
+   {
+    "casts": 14,
+    "cd": 90.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 30.1,
+    "gapMin": 16.8,
+    "id": 446035,
+    "paid": 0.0,
+    "token": "bladestorm"
+   },
+   {
+    "casts": 13,
+    "cd": 45.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 30.8,
+    "gapMin": 25.6,
+    "id": 167105,
+    "paid": 0.0,
+    "token": "colossus_smash"
+   },
+   {
+    "casts": 9,
+    "cd": 30.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 41.3,
+    "gapMin": 30.4,
+    "id": 107570,
+    "paid": 0.0,
+    "token": "storm_bolt"
+   },
+   {
+    "casts": 8,
+    "cd": 20.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 40.5,
+    "gapMin": 24.2,
+    "id": 100,
+    "paid": 0.0,
+    "token": "charge"
+   },
+   {
+    "casts": 8,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 40.3,
+    "gapMin": 23.9,
+    "id": 126664,
+    "paid": 0.0,
+    "token": "charge"
+   },
+   {
+    "casts": 7,
+    "cd": 90.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 57.9,
+    "gapMin": 52.1,
+    "id": 107574,
+    "paid": 0.0,
+    "token": "avatar"
+   }
+  ]
+ },
+ "warrior_fury": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 192,
+    "cd": 0,
+    "charges": 1,
+    "cost": 80.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 1.8,
+    "gapMin": 0.7,
+    "id": 184367,
+    "paid": 80.0,
+    "token": "rampage"
+   },
+   {
+    "casts": 81,
+    "cd": 8.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 1.9,
+    "gapMin": 0.7,
+    "id": 85288,
+    "paid": 0.0,
+    "token": "raging_blow"
+   },
+   {
+    "casts": 74,
+    "cd": 8.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 2.6,
+    "gapMin": 0.7,
+    "id": 335097,
+    "paid": 0.0,
+    "token": "crushing_blow"
+   },
+   {
+    "casts": 47,
+    "cd": 4.5,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 0.7,
+    "gapMin": 0.5,
+    "id": 335096,
+    "paid": 0.0,
+    "token": "bloodbath"
+   },
+   {
+    "casts": 39,
+    "cd": 4.5,
+    "charges": 1,
+    "cost": 20.0,
+    "flags": [
+     "free"
+    ],
+    "free": 1.0,
+    "gapMed": 4.3,
+    "gapMin": 1.6,
+    "id": 280735,
+    "paid": 0.0,
+    "token": "execute"
+   },
+   {
+    "casts": 32,
+    "cd": 6.0,
+    "charges": 1,
+    "cost": 20.0,
+    "flags": [
+     "cd",
+     "free"
+    ],
+    "free": 1.0,
+    "gapMed": 5.5,
+    "gapMin": 1.7,
+    "id": 5308,
+    "paid": 0.0,
+    "token": "execute"
+   },
+   {
+    "casts": 18,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 13.1,
+    "gapMin": 3.0,
+    "id": 190411,
+    "paid": 0.0,
+    "token": "whirlwind"
+   },
+   {
+    "casts": 16,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 0.2,
+    "gapMin": 0.2,
+    "id": 385061,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 16,
+    "cd": 4.5,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 8.6,
+    "gapMin": 0.6,
+    "id": 23881,
+    "paid": 0.0,
+    "token": "bloodthirst"
+   },
+   {
+    "casts": 14,
+    "cd": 90.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 33.7,
+    "gapMin": 15.8,
+    "id": 446035,
+    "paid": 0.0,
+    "token": "bladestorm"
+   },
+   {
+    "casts": 12,
+    "cd": 90.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 40.3,
+    "gapMin": 35.2,
+    "id": 1719,
+    "paid": 0.0,
+    "token": "recklessness"
+   },
+   {
+    "casts": 10,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 23.3,
+    "gapMin": 23.0,
+    "id": 23920,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 8,
+    "cd": 45.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 46.1,
+    "gapMin": 45.4,
+    "id": 385059,
+    "paid": 0.0,
+    "token": "odyns_fury"
+   },
+   {
+    "casts": 8,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 46.1,
+    "gapMin": 45.4,
+    "id": 385060,
+    "paid": 0.0,
+    "token": "odyns_fury"
+   },
+   {
+    "casts": 8,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 46.1,
+    "gapMin": 45.4,
+    "id": 385062,
+    "paid": 0.0,
+    "token": "odyns_fury"
+   },
+   {
+    "casts": 7,
+    "cd": 20.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 34.7,
+    "gapMin": 3.3,
+    "id": 100,
+    "paid": 0.0,
+    "token": "charge"
+   },
+   {
+    "casts": 7,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 34.5,
+    "gapMin": 3.6,
+    "id": 126664,
+    "paid": 0.0,
+    "token": "charge"
+   },
+   {
+    "casts": 6,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 90.8,
+    "gapMin": 90.3,
+    "id": 1297761,
+    "paid": 0.0,
+    "token": null
+   }
+  ]
+ },
+ "warrior_protection": {
+  "fights": 2,
+  "spells": [
+   {
+    "casts": 144,
+    "cd": 9.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 3.3,
+    "gapMin": 1.1,
+    "id": 23922,
+    "paid": 0.0,
+    "token": "shield_slam"
+   },
+   {
+    "casts": 127,
+    "cd": 0,
+    "charges": 1,
+    "cost": 20.0,
+    "flags": [
+     "cost",
+     "free"
+    ],
+    "free": 0.22,
+    "gapMed": 2.8,
+    "gapMin": 0.7,
+    "id": 6572,
+    "paid": 15.6,
+    "token": "revenge"
+   },
+   {
+    "casts": 105,
+    "cd": 6.0,
+    "charges": 1,
+    "cost": 20.0,
+    "flags": [
+     "cd",
+     "free"
+    ],
+    "free": 1.0,
+    "gapMed": 4.4,
+    "gapMin": 2.4,
+    "id": 6343,
+    "paid": 0.0,
+    "token": "thunder_clap"
+   },
+   {
+    "casts": 96,
+    "cd": 6.0,
+    "charges": 1,
+    "cost": 20.0,
+    "flags": [
+     "cd",
+     "cost",
+     "free"
+    ],
+    "free": 0.24,
+    "gapMed": 2.1,
+    "gapMin": 0.8,
+    "id": 281000,
+    "paid": 29.4,
+    "token": "execute"
+   },
+   {
+    "casts": 77,
+    "cd": 1.0,
+    "charges": 1,
+    "cost": 35.0,
+    "flags": [],
+    "free": 0.0,
+    "gapMed": 4.2,
+    "gapMin": 1.0,
+    "id": 190456,
+    "paid": 35.0,
+    "token": "ignore_pain"
+   },
+   {
+    "casts": 51,
+    "cd": 16.0,
+    "charges": 1,
+    "cost": 30.0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0.0,
+    "gapMed": 8.9,
+    "gapMin": 1.8,
+    "id": 2565,
+    "paid": 30.0,
+    "token": "shield_block"
+   },
+   {
+    "casts": 17,
+    "cd": 45.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 33.8,
+    "gapMin": 24.0,
+    "id": 1160,
+    "paid": 0.0,
+    "token": "demoralizing_shout"
+   },
+   {
+    "casts": 17,
+    "cd": 30.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 31.3,
+    "gapMin": 30.1,
+    "id": 436358,
+    "paid": 0.0,
+    "token": "demolish"
+   },
+   {
+    "casts": 11,
+    "cd": 90.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 54.0,
+    "gapMin": 50.4,
+    "id": 107574,
+    "paid": 0.0,
+    "token": "avatar"
+   },
+   {
+    "casts": 11,
+    "cd": 45.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 51.0,
+    "gapMin": 47.2,
+    "id": 385952,
+    "paid": 0.0,
+    "token": "shield_charge"
+   },
+   {
+    "casts": 10,
+    "cd": 20.0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "cd"
+    ],
+    "free": 0,
+    "gapMed": 49.8,
+    "gapMin": 3.8,
+    "id": 100,
+    "paid": 0.0,
+    "token": "charge"
+   },
+   {
+    "casts": 10,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [],
+    "free": 0,
+    "gapMed": 50.2,
+    "gapMin": 3.6,
+    "id": 126664,
+    "paid": 0.0,
+    "token": "charge"
+   },
+   {
+    "casts": 9,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 53.1,
+    "gapMin": 10.1,
+    "id": 355,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 6,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 109.2,
+    "gapMin": 105.7,
+    "id": 1297761,
+    "paid": 0.0,
+    "token": null
+   },
+   {
+    "casts": 6,
+    "cd": 0,
+    "charges": 1,
+    "cost": 0,
+    "flags": [
+     "missing"
+    ],
+    "free": 0,
+    "gapMed": 52.9,
+    "gapMin": 33.9,
+    "id": 23920,
+    "paid": 0.0,
+    "token": null
+   }
+  ]
+ }
+}

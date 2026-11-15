@@ -8194,6 +8194,27 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   eq(Game.actAlpha < 0.05, true, "the action row stays quiet")
 end)
 
+test("a spell that needs its own buff stays unusable when the game says so, whatever the Chi (Rushing Wind Kick)", function()
+  Reset()
+  local ns = Boot()
+  local M, S, G = ns.SpellMap, ns.State, ns.Engine
+  local record = ns.Data.specs.midnight.monk_windwalker
+  M.SetData(record)
+  eq(M.procGated.rushing_wind_kick, true, "Rushing Wind Kick: a button and a 15 s self aura of the same name")
+  local readPower, ready = S.PowerNow, S.CooldownReady
+  S.PowerNow = function() return 5 end
+  S.CooldownReady = function() return true end
+  local ok, err = pcall(function()
+    eq(G.FinisherBlockedByHiddenPoints(467307), false, "no buff: the game's 'not usable' stands")
+    -- combo point finishers keep the override (Outlaw, 2026-11-09), even with an aura of their own name
+    M.SetData(ns.Data.specs.midnight.rogue_subtlety)
+    eq(M.procGated.eviscerate, true)
+    eq(G.FinisherBlockedByHiddenPoints(196819), true, "Eviscerate with points read: trusted")
+  end)
+  S.PowerNow, S.CooldownReady = readPower, ready
+  assert(ok, err)
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

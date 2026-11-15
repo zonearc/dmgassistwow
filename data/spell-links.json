@@ -3,6 +3,7 @@
   "volatile": {
     "warrior_arms": [
       "colossus_smash",
+      "mortal_strike",
       "overpower"
     ],
     "warrior_protection": [
@@ -12,6 +13,7 @@
       "mangle"
     ],
     "shaman_elemental": [
+      "elemental_blast",
       "lava_burst"
     ],
     "shaman_enhancement": [
@@ -24,6 +26,7 @@
       "shadow_dance"
     ],
     "demonhunter_havoc": [
+      "death_sweep",
       "eye_beam"
     ],
     "evoker_devastation": [
@@ -35,6 +38,10 @@
     ],
     "druid_balance": [
       "fury_of_elune"
+    ],
+    "warrior_fury": [
+      "crushing_blow",
+      "raging_blow"
     ]
   },
   "rogue": [

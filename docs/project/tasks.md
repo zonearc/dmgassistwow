@@ -180,6 +180,24 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.306: Real-fight checks of every spec's spells, and the offline average past 80% (78.8 -> 80.4).
+  * Windwalker: a spell that only exists while a buff of its own name is up (Rushing Wind Kick) had the game's
+    "not usable" overruled whenever Chi was 2+ (the hidden-points override, proven only for Rogue combo points):
+    it sat in slot 1 for whole offline fights. Now the game's answer stands for such spells unless they spend combo
+    points. Windwalker 36 -> 94 offline. Hammer of Light, Void Volley and the like are covered by the same rule.
+  * Spells top players never pay for (tools/wcl-spellcheck.py, 2 raid fights each, 0 of every cast): Havoc's Throw
+    Glaive (data 25 Fury), Windwalker's Spinning Crane Kick (40 Energy), Fury's Execute (20 Rage), Protection's
+    Thunder Clap (20 Rage). The cost is removed (resource-gains.json "free", applied by the import and
+    tools/fold-measured.py). Windwalker AoE 50 -> 67 before the fix above.
+  * Cooldowns that reset or come back far sooner than any fixed cooldown (median recast under 60% of ours, beyond
+    what timing learning may correct): Havoc Death Sweep, Elemental Blast, Arms Mortal Strike, Fury Raging Blow /
+    Crushing Blow now start "Blizzard decides" (volatile), as Mangle did. No offline effect (the offline game has
+    no resets); in game slot 1 follows the assistant for them.
+  * Measured income now in Data/ResourceTargets.lua for Unholy (10.7 Runic Power/s; data 1.9 - Unholy 61 -> 81
+    offline), Elemental (12.4 Maelstrom/s on 5), Shadow (Insanity was read 100x too high: logged in hundredths),
+    Guardian (tanks from raid fights: Rage from being hit), Havoc.
+  * Offline artifacts found and left (they don't happen in game): Havoc AoE (the offline game calls Death Sweep
+    castable outside Metamorphosis), Subtlety single target (the offline player builds at 5 combo points).
 - 1.6.0.305: Toward 80% slot 2 offline, every spec (owner: "average across all classes ... 80% min", then "how
   consistent are the offline tests with the game"). Offline average (30 specs, 3 x 1 + 3 x 5 targets): 72.7 -> 78.8.
   * Energy and Focus had no count at all (hidden in and out of combat; only "the dearest spender you can afford"):
