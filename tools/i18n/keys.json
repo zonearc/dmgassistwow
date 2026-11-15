@@ -933,5 +933,6 @@
 "Options > Gameplay Enhancements: tick Enable Cooldown Manager.",
 "Open its Cooldown Settings (the same page, or Edit Mode), Buffs tab: drag the buffs marked 'add it' below into Tracked Buffs. Only those: the others add clutter, not accuracy.",
 "Keep its Visibility on Always. To make it less visible, lower its opacity (50% is the lowest). Hidden stops it working.",
-"Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."
+"Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons.",
+"Visibility: Always, or Hidden until combat (both work). Plain Hidden stops it working. To make it less visible, lower its opacity (50% is the lowest)."
 ]

@@ -926,3 +926,4 @@
 932	Abre su configuración de reutilizaciones (la misma página o el modo de edición), pestaña Beneficios: arrastra a Beneficios seguidos los marcados con 'añádelo' abajo. Solo esos: los demás añaden desorden, no precisión.
 933	Deja la visibilidad en Siempre. Para que se note menos, baja su opacidad (50% es el mínimo). Oculto hace que deje de funcionar.
 934	Desactivado. DMGAssist es más preciso con él activado: muestra procs que el juego oculta a los addons.
+935	Visibilidad: Siempre, u Oculto hasta el combate (ambas funcionan). Solo Oculto hace que deje de funcionar. Para que se note menos, baja su opacidad (50% es el mínimo).

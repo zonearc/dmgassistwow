@@ -3531,16 +3531,28 @@ test("Cooldown Manager: a hidden viewer (Visibility: Hidden) is not believed; ev
   mock.Advance(16)
   ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
   eq(ns.State.Resolve("buff.clearcasting.up", {}), ns.Expr.UNKNOWN, "a hidden viewer isn't believed")
-  eq(next(ns.CDM.Refresh("test").hidden), "BuffBarCooldownViewer")
+  eq(next(ns.CDM.Refresh("test").hidden), "BuffBarCooldownViewer", "hidden in combat: said in settings")
   eq(ns.CDM.SettingsText():find("set to Hidden", 1, true) ~= nil, true)
+  -- "Hidden until combat": hidden now, out of combat, but shown in the fight - nothing to warn about
+  ns.db.cdmHiddenInCombat = nil
+  mock.restricted, mock.inCombat = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  Restrict()
+  hidden = false
+  ns.Clues.ReadCooldownManager(ns.State.ReadableAuras())
+  mock.restricted, mock.inCombat = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  hidden = true
+  eq(next(ns.CDM.Refresh("test").hidden), nil, "hidden only out of combat")
+  eq(ns.CDM.SettingsText():find("set to Hidden", 1, true), nil)
   mock.restricted, mock.inCombat = false, false
   mock.Fire("PLAYER_REGEN_ENABLED")
   local summary, changes = nil, 0
   for _, l in ipairs(logged) do
-    if l[1] == "cdm_buff_summary" then summary = l[2] end
+    if l[1] == "cdm_buff_summary" and not summary then summary = l[2] end
     if l[1] == "cdm_viewer" and l[2]:find("BuffBar", 1, true) then changes = changes + 1 end
   end
-  eq(changes, 2, "shown, then hidden")
+  eq(changes, 4, "shown, hidden, shown, hidden")
   eq(summary ~= nil and summary:find("BuffBar=shown1/hidden", 1, true) ~= nil, true, tostring(summary))
   eq(summary:find("clearcasting@bar:", 1, true) ~= nil and summary:find("hidden=", 1, true) ~= nil, true, summary)
   mock.cvars.cooldownViewerEnabled = nil

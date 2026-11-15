@@ -930,4 +930,5 @@ ns.LOCALE_DATA.zhTW = {
   ["Open its Cooldown Settings (the same page, or Edit Mode), Buffs tab: drag the buffs marked 'add it' below into Tracked Buffs. Only those: the others add clutter, not accuracy."] = "打開它的冷卻設定（同一頁面或編輯模式），增益分頁：把下面標為「加入」的增益拖到追蹤的增益裡。只拖這些：其他的只會增加雜亂，不會提高準確度。",
   ["Keep its Visibility on Always. To make it less visible, lower its opacity (50% is the lowest). Hidden stops it working."] = "可見性保持為總是。想不那麼顯眼，就調低不透明度（最低 50%）。設為隱藏會讓它失效。",
   ["Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."] = "已關閉。開啟後 DMGAssist 會更準確：它能顯示遊戲對插件隱藏的觸發效果。",
+  ["Visibility: Always, or Hidden until combat (both work). Plain Hidden stops it working. To make it less visible, lower its opacity (50% is the lowest)."] = "可見性：總是，或戰鬥前隱藏（都可以）。單純的隱藏會讓它失效。想不那麼顯眼，就調低不透明度（最低 50%）。",
 }

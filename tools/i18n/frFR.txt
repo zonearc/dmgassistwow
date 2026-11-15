@@ -926,3 +926,4 @@
 932	Ouvrez ses paramètres de temps de recharge (même page, ou mode Édition), onglet Améliorations : faites glisser dans les améliorations suivies celles marquées « ajoutez-la » ci-dessous. Seulement celles-là : les autres ajoutent du désordre, pas de la précision.
 933	Laissez la visibilité sur Toujours. Pour le rendre plus discret, baissez son opacité (50% au minimum). Masqué l'empêche de fonctionner.
 934	Désactivé. DMGAssist est plus précis quand il est activé : il montre les procs que le jeu cache aux addons.
+935	Visibilité : Toujours, ou Masqué hors combat (les deux fonctionnent). Masqué tout court l'empêche de fonctionner. Pour le rendre plus discret, baissez son opacité (50% au minimum).

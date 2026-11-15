@@ -926,3 +926,4 @@
 932	Abra as Configurações de Recarga (mesma página ou Modo de Edição), aba Bônus: arraste para os Bônus Rastreados os marcados com 'adicione' abaixo. Só esses: os outros trazem poluição, não precisão.
 933	Mantenha a visibilidade em Sempre. Para deixá-lo mais discreto, reduza a opacidade (50% é o mínimo). Oculto faz ele parar de funcionar.
 934	Desligado. O DMGAssist é mais preciso com ele ligado: ele mostra procs que o jogo esconde dos addons.
+935	Visibilidade: Sempre, ou Oculto até o combate (ambos funcionam). Apenas Oculto faz ele parar de funcionar. Para deixá-lo mais discreto, reduza a opacidade (50% é o mínimo).

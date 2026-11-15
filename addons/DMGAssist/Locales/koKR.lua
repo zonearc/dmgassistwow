@@ -930,4 +930,5 @@ ns.LOCALE_DATA.koKR = {
   ["Open its Cooldown Settings (the same page, or Edit Mode), Buffs tab: drag the buffs marked 'add it' below into Tracked Buffs. Only those: the others add clutter, not accuracy."] = "재사용 대기시간 설정을 여세요 (같은 페이지 또는 편집 모드), 강화 효과 탭: 아래에 '추가'로 표시된 강화 효과를 추적 중인 강화 효과로 끌어 놓으세요. 그것들만: 나머지는 정확도가 아니라 화면만 복잡하게 합니다.",
   ["Keep its Visibility on Always. To make it less visible, lower its opacity (50% is the lowest). Hidden stops it working."] = "표시는 항상으로 두세요. 덜 보이게 하려면 불투명도를 낮추세요 (최저 50%). 숨김으로 하면 작동하지 않습니다.",
   ["Off. DMGAssist is more accurate with it on: it shows procs the game hides from addons."] = "꺼짐. 켜 두면 DMGAssist가 더 정확해집니다: 게임이 애드온에 숨기는 발동 효과를 보여줍니다.",
+  ["Visibility: Always, or Hidden until combat (both work). Plain Hidden stops it working. To make it less visible, lower its opacity (50% is the lowest)."] = "표시: 항상, 또는 전투 전까지 숨김 (둘 다 작동). 그냥 숨김은 작동하지 않습니다. 덜 보이게 하려면 불투명도를 낮추세요 (최저 50%).",
 }

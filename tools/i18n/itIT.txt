@@ -926,3 +926,4 @@
 932	Apri le sue impostazioni dei tempi di recupero (stessa pagina o modalità modifica), scheda Benefici: trascina nei benefici tracciati quelli segnati 'aggiungilo' qui sotto. Solo quelli: gli altri aggiungono disordine, non precisione.
 933	Lascia la visibilità su Sempre. Per renderlo meno visibile, abbassa l'opacità (50% è il minimo). Nascosto lo fa smettere di funzionare.
 934	Disattivato. DMGAssist è più preciso con il gestore attivo: mostra i proc che il gioco nasconde agli addon.
+935	Visibilità: Sempre, oppure Nascosto fino al combattimento (funzionano entrambe). Solo Nascosto lo fa smettere di funzionare. Per renderlo meno visibile, abbassa l'opacità (50% è il minimo).

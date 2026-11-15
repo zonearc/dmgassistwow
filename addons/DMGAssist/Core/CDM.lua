@@ -107,6 +107,12 @@ function CDM.BuffItems()
         CDM.viewerState[name] = vstate
         U.Log("cdm_viewer", string.format("%s shown=%s alpha=%s", name, tostring(shown), tostring(alpha)))
       end
+      -- "Hidden until combat" is fine (auras are readable out of combat anyway, owner's test 2026-11-14): only a
+      -- viewer hidden IN combat is a problem. Remembered per character for the settings page and the tip.
+      if f and type(shown) == "boolean" and ns.db then
+        ns.db.cdmHiddenInCombat = ns.db.cdmHiddenInCombat or {}
+        ns.db.cdmHiddenInCombat[name] = not shown or nil
+      end
       if f and GetTime() - (f.lastSummary or f.start) >= CDM.SUMMARY_EVERY then
         f.lastSummary = GetTime()
         CDM.Summary(f, "so_far")
@@ -234,8 +240,8 @@ function CDM.Refresh(reason)
   local record = state and state.data and ns.ActiveRecord and ns.ActiveRecord(state) or (state and state.data)
   if st.enabled then
     for _, b in ipairs(CDM.BuffItems()) do
-      if b.hidden then
-        st.hidden[b.viewer] = true
+      if (ns.db and ns.db.cdmHiddenInCombat or {})[b.viewer] then
+        st.hidden[b.viewer] = true -- seen hidden in the last fight (not just out of combat)
       end
       st.trackedCount = st.trackedCount + 1
       for t in pairs(b.info.tokens) do
@@ -366,8 +372,8 @@ function CDM.SettingsText()
     lines[#lines + 1] = "  1. " .. L["Options > Gameplay Enhancements: tick Enable Cooldown Manager."]
     lines[#lines + 1] = "  2. " .. L["Open its Cooldown Settings (the same page, or Edit Mode), Buffs tab: drag the "
       .. "buffs marked 'add it' below into Tracked Buffs. Only those: the others add clutter, not accuracy."]
-    lines[#lines + 1] = "  3. " .. L["Keep its Visibility on Always. To make it less visible, lower its opacity "
-      .. "(50% is the lowest). Hidden stops it working."]
+    lines[#lines + 1] = "  3. " .. L["Visibility: Always, or Hidden until combat (both work). Plain Hidden stops it "
+      .. "working. To make it less visible, lower its opacity (50% is the lowest)."]
   end
   if #st.keys == 0 then
     lines[#lines + 1] = L["No key buffs for this spec: nothing to add."]

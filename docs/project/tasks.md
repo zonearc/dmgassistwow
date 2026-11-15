@@ -180,6 +180,10 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.285: "Hidden until combat" works (owner's test, 2026-11-14: viewer shown=T in combat, act=T/F live,
+  Eclipse flipping) - out of combat auras are readable anyway, and the tracked list (which key buffs to add) reads
+  from its icons even while hidden. Settings and the tip now judge "Hidden" by the last fight only (remembered per
+  character), not by the viewer being hidden out of combat; step 3 says "Always, or Hidden until combat".
 - 1.6.0.284: Cooldown Manager coaching (owner, 2026-11-14: "coach people that DMGAssist is more accurate with the
   Cooldown Manager enabled ... give them instructions"). Settings > Integrations, until it's set up: "Off. DMGAssist
   is more accurate with it on" and 3 steps (enable it in Options > Gameplay Enhancements; in its Cooldown Settings,
