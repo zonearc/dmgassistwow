@@ -3345,6 +3345,20 @@ test("calibration: a cost cut read after a fight (a proc still up) doesn't carry
   eq(ns.SpellMap.Cost(info)[3], 32, "after a talent change the new cost counts")
 end)
 
+test("model at the pull: each spell's cost and gain as the look-ahead uses them, and the Cooldown Manager mode",
+  function()
+  Reset()
+  mock.powerCost = { [5221] = { { type = 3, cost = 32 } } }
+  local ns = Boot()
+  local logged
+  DMGAssistWatchdog = { Log = function(kind, data) if kind == "model_at_pull_summary" then logged = data end end }
+  ns.Calibrate.ModelAtPull()
+  DMGAssistWatchdog = nil
+  eq(type(logged), "string", "logged")
+  eq(logged:find("^cdm=") ~= nil, true, logged:sub(1, 60))
+  eq(logged:find("c3=32", 1, true) ~= nil, true, "Shred's live cost")
+end)
+
 test("calibration: a hidden gain's extra is what a cast really built, whatever the data's number becomes", function()
   Reset()
   local ns = Boot()

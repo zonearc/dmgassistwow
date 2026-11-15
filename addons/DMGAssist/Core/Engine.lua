@@ -1831,7 +1831,7 @@ end
 
 -- Why slot 1 let go of the spell it was holding (one line each, at most G.RELEASE_LOGS a fight): Outlaw 1.6.0.255
 -- showed lit Pistol Shot -> Dispatch about a second after a press 13 times with no hold in the log.
-G.RELEASE_LOGS = 40
+G.RELEASE_LOGS = 400 -- (was 40: a long fight's later slot 1 changes went unexplained)
 G.releaseCount = 0
 local function Released(reason, from, to, extra)
   if G.releaseCount >= G.RELEASE_LOGS or not (from and to) or from.id == to.id then

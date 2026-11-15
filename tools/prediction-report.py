@@ -76,7 +76,7 @@ def main():
         print("== fight %s  %s  %.0fs  %s" % (s.get("id"), s.get("when"), s.get("duration") or 0, s.get("zone")))
         for e in s.get("events", []):
             if len(e) > 3 and e[1] == "D" and e[2] in ("prediction_summary", "learner_summary", "resource_audit",
-                                                         "mark", "lane_close", "lane_close_trace", "gains_learned", "floors_at_pull",
+                                                         "mark", "lane_close", "lane_close_trace", "gains_learned", "floors_at_pull", "model_at_pull_summary",
                                                          "calibration_summary", "gain_fixed",
                                                          "anchor_summary", "corrections_summary",
                                                          "cdm_setup", "cdm_buff_summary"):

@@ -180,6 +180,11 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.296: Blind spots of the same kind as 1.6.0.295's: values learned between fights now show. Each fight logs
+  model_at_pull_summary (every spell's cost and gain as the look-ahead uses them: live / data cost, tooltip /
+  measured gain, calibrated extra; Cooldown Manager on / off / ignored), so two fights' starting numbers can be
+  compared; gains_learned names the spell and old > new. Caps that cut a fight's evidence short raised:
+  steady_release 40 -> 400, floor_raised 10 -> 100.
 - 1.6.0.295: Why traces + two Astral Power causes found in fight 455. (1) Owner: "log the WHY, not THAT". Until
   now only slot 1's decision was traced, at most 40 per fight, and slot 2's look-ahead decision never: every slot 2
   miss had to be guessed at. Now every change of slot 1 or slot 2 in combat logs decision_trace (slot 1) and

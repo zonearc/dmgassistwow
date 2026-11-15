@@ -1749,7 +1749,7 @@ function S.LearnGains()
     return
   end
   lastGains = now
-  local learned = 0
+  local learned, changes = 0, {}
   for id, info in pairs(M.info or {}) do
     if type(info) == "table" and type(info.gain) == "table" then
       local desc = U.Get(C_Spell and C_Spell.GetSpellDescription, id)
@@ -1770,6 +1770,8 @@ function S.LearnGains()
           end
           local v = tonumber(found)
           if v and v > 0 and v ~= info.gain[pt] then
+            -- which spell, from what to what: a tooltip read with a buff up changed a fight's numbers unseen
+            changes[#changes + 1] = string.format("%s:%d:%s>%d", tostring(info.n or id), pt, tostring(info.gain[pt]), v)
             info.gain[pt] = v
             learned = learned + 1
           end
@@ -1778,7 +1780,7 @@ function S.LearnGains()
     end
   end
   if learned > 0 then
-    U.Log("gains_learned", { n = learned })
+    U.Log("gains_learned", { n = learned, what = table.concat(changes, " ") })
   end
 end
 

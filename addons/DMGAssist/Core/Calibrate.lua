@@ -29,7 +29,7 @@ K.READ_SHARE = 0.7
 K.HIDDEN_N = 15
 K.HIDDEN_MIN = 1
 K.DECAY = 0.97
-K.SNAP_LOGS = 10
+K.SNAP_LOGS = 100 -- (was 10: the rest of a fight's corrections went unseen)
 K.since = {}  -- hidden power type -> { spellID -> casts since the last proof }
 K.fight = {}  -- this fight: { raised = n, short = total, fixed = { text } }
 
@@ -290,6 +290,36 @@ function K.ApplyAll()
   end
 end
 
+-- The numbers this fight's decisions start from, at the pull: each spell's cost and gain as the look-ahead uses
+-- them (live cost, tooltip / measured gain, calibrated extra) and whether the Cooldown Manager is read. Learned
+-- values change between fights without a release; comparing two fights needs both models side by side (fights 452
+-- and 455: Starfire's gain moved 22 -> 17 and Starfall's cost 34 -> 45 with no code change, 2026-11-15).
+function K.ModelAtPull()
+  local rows = {}
+  local book = M.book or {}
+  for id, b in pairs(book) do
+    local info = b.id == id and M.Info(id)
+    if info and (info.gain or info.cost) then
+      local parts = {}
+      for pt, amount in pairs(M.Cost(info) or {}) do
+        parts[#parts + 1] = string.format("c%d=%s%s", pt, amount, info.costLive and "" or "(data)")
+      end
+      for pt, amount in pairs(info.gain or {}) do
+        local extra = K.Extra(id, pt)
+        parts[#parts + 1] = string.format("g%d=%s%s%s", pt, amount,
+          info.gainMeasured and info.gainMeasured[pt] and "(measured)"
+            or (info.gainBase and info.gainBase[pt] ~= amount and "(tooltip)" or ""),
+          extra ~= 0 and string.format("%+d", extra) or "")
+      end
+      table.sort(parts)
+      rows[#rows + 1] = Token(id) .. ":" .. table.concat(parts, ",")
+    end
+  end
+  table.sort(rows)
+  local cdm = ns.db and ns.db.cdmIgnore and "ignored" or (ns.CDM and ns.CDM.Enabled() == false and "off" or "on")
+  U.Log("model_at_pull_summary", "cdm=" .. cdm .. " | " .. table.concat(rows, " "))
+end
+
 function K.SummaryText()
   local store = K.Store()
   local parts = {}
@@ -392,6 +422,7 @@ function K.OnCombat(inCombat)
     table.sort(reads)
     U.Log("floors_at_pull", (#floors > 0 and table.concat(floors, " ") or "none") .. " | read " ..
       (#reads > 0 and table.concat(reads, " ") or "-"))
+    K.ModelAtPull()
     return
   end
   U.Log("corrections_summary", K.CorrectionsText())
