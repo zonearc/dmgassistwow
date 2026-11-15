@@ -285,9 +285,21 @@ K.FIT_RATE_STEP = 0.5
 K.FIT_RATE_MAX = 10
 K.tl = {} -- pt -> { casts = { {t, id, d} }, proofs = { {t, lo, hi} }, last = "lo:hi", t0 }
 
+-- Fits are kept per number of targets: one target, two or three, four or more (what comes in by the second grows
+-- with targets: Shooting Stars from damage over time; a fit made on 8 dummies would count far too much on a boss).
+function K.Bucket(n)
+  n = n or (ns.State.Targets and ns.State.Targets()) or 1
+  n = type(n) == "number" and n or 1
+  return n >= 4 and 4 or (n >= 2 and 2 or 1)
+end
+
+local function FitKey(pt, bucket)
+  return pt .. ":" .. (bucket or K.Bucket())
+end
+
 function K.Fitted(pt)
   local store = K.Store()
-  local f = store and store.fit and store.fit[pt]
+  local f = store and store.fit and store.fit[FitKey(pt)]
   if f and (f.n or 0) >= K.FIT_MIN then
     return f
   end
@@ -317,6 +329,9 @@ function K.NoteCast(id, pt, d)
   local tl = Timeline(pt)
   if #tl.casts < K.FIT_EVENTS then
     tl.casts[#tl.casts + 1] = { GetTime() - tl.t0, id, d }
+    local b = K.Bucket()
+    tl.buckets = tl.buckets or {}
+    tl.buckets[b] = (tl.buckets[b] or 0) + 1
   end
 end
 
@@ -372,10 +387,18 @@ function K.Fit(pt)
   if not store then
     return nil
   end
-  store.timelines = type(store.timelines) == "table" and store.timelines or {}
-  local list = store.timelines[pt] or {}
-  store.timelines[pt] = list
   local tl = K.tl[pt]
+  -- the fight's number of targets: the one most casts were made at
+  local bucket, most = K.Bucket(), -1
+  for b, n in pairs(tl and tl.buckets or {}) do
+    if n > most then
+      bucket, most = b, n
+    end
+  end
+  local key = FitKey(pt, bucket)
+  store.timelines = type(store.timelines) == "table" and store.timelines or {}
+  local list = store.timelines[key] or {}
+  store.timelines[key] = list
   if tl and #tl.proofs > 0 then
     list[#list + 1] = { casts = tl.casts, proofs = tl.proofs }
     while #list > K.FIT_FIGHTS do
@@ -403,7 +426,7 @@ function K.Fit(pt)
   local base = (ns.Clues.PASSIVE_SHARE or 0) * passive
   local cap = ns.State.PowerMax and ns.State.PowerMax(pt) or 100
   cap = (type(cap) == "number" and cap > 0) and cap or 100
-  local old = store.fit and store.fit[pt]
+  local old = store.fit and store.fit[key]
   local extra, rate = {}, old and old.rate or 0
   for _, id in ipairs(ids) do
     extra[id] = old and old.w and old.w[id] or 0
@@ -445,7 +468,7 @@ function K.Fit(pt)
     end
   end
   store.fit = type(store.fit) == "table" and store.fit or {}
-  store.fit[pt] = fit
+  store.fit[key] = fit
   return fit
 end
 
@@ -458,7 +481,9 @@ function K.FitText()
       spells[#spells + 1] = string.format("%s%+.0f", Token(tonumber(id) or id), x)
     end
     table.sort(spells)
-    parts[#parts + 1] = string.format("pt%s answers=%d stray=%.0f rate=+%.1f/s %s%s", pt, f.n or 0, f.stray or 0,
+    parts[#parts + 1] = string.format("pt%s targets=%s answers=%d stray=%.0f rate=+%.1f/s %s%s",
+      tostring(pt):match("^(%d+)") or pt, ({ ["1"] = "1", ["2"] = "2-3", ["4"] = "4+" })[tostring(pt):match(":(%d+)$")
+      or ""] or "?", f.n or 0, f.stray or 0,
       f.rate or 0, table.concat(spells, " "), (f.n or 0) >= K.FIT_MIN and "" or " (not used yet)")
   end
   return #parts > 0 and table.concat(parts, " | ") or nil

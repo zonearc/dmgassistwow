@@ -2722,6 +2722,25 @@ function S.PassiveGain(pt)
     return 0
   end
   local state = ns.Specs and ns.Specs.current
+  -- By your number of targets where Warcraft Logs' dummy fights measured it (Data/ResourceTargets.lua): Balance's
+  -- Astral Power with nothing cast is ~1.7 a second on one target, ~5.3 on three (Shooting Stars from damage over
+  -- time) - the flat raid average (5.1) counted three times too much on a single target. More targets than
+  -- measured: the most measured (the in-play fit adds what comes beyond, Calibrate section 3).
+  local byT = state and ns.Data and ns.Data.resourceTargets and ns.Data.resourceTargets[state.key]
+  byT = byT and byT[pt]
+  if type(byT) == "table" then
+    local n = S.Targets and S.Targets() or 1
+    n = type(n) == "number" and n or 1
+    local best, bestN
+    for k, v in pairs(byT) do
+      if k <= math.max(1, n) and (not bestN or k > bestN) then
+        best, bestN = v, k
+      end
+    end
+    if best then
+      return best
+    end
+  end
   local p = state and type(state.data) == "table" and state.data.passiveGain
   return type(p) == "table" and tonumber(p[pt]) or 0
 end

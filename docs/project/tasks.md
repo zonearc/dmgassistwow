@@ -180,6 +180,16 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.298: Resource income by number of targets, from Warcraft Logs (owner: "can't we guesstimate the astral power
+  generation ... I thought all the combat logs at warcraft logs would help us"). New tools/wcl-targets.py reads
+  Dummy Dome (target-dummy fights with 1, 2, 3, 5 targets; no rankings there, so recent reports are searched for the
+  spec's player by icon). Balance: Starfire gives exactly 12 a cast at every target count; what grows is Shooting
+  Stars (procs from damage over time): Astral Power with nothing cast ~1.7/s on 1 target, 3.1 on 2, 5.3 on 3; Starfall
+  paid ~40 a cast on average (free / cut ones included). Written to Data/ResourceTargets.lua; State.PassiveGain uses
+  it for your target count (the flat raid average, 5.1, counted 3x too much on a single target: Starsurge promised
+  early). More targets than measured: the most measured, the in-play fit adds the rest - and that fit is now kept per
+  target count (1, 2-3, 4+), so one made on 8 dummies isn't used on a boss. The 5-target fights came back empty
+  (to look at).
 - 1.6.0.297: Astral Power, from the first why traces (owner's 1.6.0.296 fight 459, 216 s AoE: slot 2 45%, n=127).
   tools/why-report.py grouped the 78 slot 2 misses: 31 "Starfall: not castable (power)" - every one with our
   Astral Power at 12-30 when the game had just allowed Starfall; 21 Starfire lines false (APL detail, same cause

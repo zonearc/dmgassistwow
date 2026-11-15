@@ -57,6 +57,7 @@ Core\Minimap.lua
 
 Data\Combos.lua
 Data\Mitigation.lua [AllowLoadGameType standard]
+Data\ResourceTargets.lua [AllowLoadGameType standard]
 # BEGIN GENERATED DATA (tools/simc_import.py)
 Data\midnight\Index.lua [AllowLoadGameType standard]
 Data\midnight\deathknight_blood.lua [AllowLoadGameType standard]

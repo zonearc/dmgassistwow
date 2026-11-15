@@ -1,0 +1,372 @@
+{
+ "druid_balance": {
+  "1": {
+   "fights": 4,
+   "gains": {
+    "8921": {
+     "avg": 8.0,
+     "casts": 14,
+     "token": "moonfire",
+     "usual": 8
+    },
+    "93402": {
+     "avg": 5.9,
+     "casts": 19,
+     "token": "sunfire",
+     "usual": 6
+    },
+    "190984": {
+     "avg": 9.0,
+     "casts": 36,
+     "token": "wrath",
+     "usual": 8
+    },
+    "194153": {
+     "avg": 12.0,
+     "casts": 77,
+     "token": "starfire",
+     "usual": 12
+    },
+    "205636": {
+     "avg": 20.0,
+     "casts": 1,
+     "token": "force_of_nature",
+     "usual": 20
+    }
+   },
+   "perSecond": {
+    "202430": {
+     "hits": 167,
+     "rate": 0.25,
+     "token": null
+    },
+    "202497": {
+     "hits": 230,
+     "rate": 0.69,
+     "token": null
+    },
+    "202770": {
+     "hits": 190,
+     "rate": 0.57,
+     "token": "fury_of_elune"
+    },
+    "428682": {
+     "hits": 20,
+     "rate": 0.18,
+     "token": null
+    }
+   },
+   "seconds": 661.0,
+   "spent": {
+    "8921": {
+     "avg": 0.0,
+     "casts": 14,
+     "token": "moonfire"
+    },
+    "78674": {
+     "avg": 315.8,
+     "casts": 95,
+     "token": "starsurge"
+    },
+    "93402": {
+     "avg": 0.0,
+     "casts": 19,
+     "token": "sunfire"
+    },
+    "102560": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": "incarnation_chosen_of_elune"
+    },
+    "190984": {
+     "avg": 0.0,
+     "casts": 36,
+     "token": "wrath"
+    },
+    "194153": {
+     "avg": 0.0,
+     "casts": 77,
+     "token": "starfire"
+    },
+    "194223": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": "celestial_alignment"
+    },
+    "202770": {
+     "avg": 0.0,
+     "casts": 13,
+     "token": "fury_of_elune"
+    },
+    "205636": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": "force_of_nature"
+    },
+    "391528": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": "convoke_the_spirits"
+    },
+    "1233272": {
+     "avg": 0.0,
+     "casts": 9,
+     "token": "lunar_eclipse"
+    },
+    "1236994": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1243972": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1293316": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": null
+    }
+   }
+  },
+  "2": {
+   "fights": 4,
+   "gains": {
+    "8921": {
+     "avg": 7.9,
+     "casts": 19,
+     "token": "moonfire",
+     "usual": 8
+    },
+    "93402": {
+     "avg": 6.0,
+     "casts": 22,
+     "token": "sunfire",
+     "usual": 6
+    },
+    "194153": {
+     "avg": 12.0,
+     "casts": 224,
+     "token": "starfire",
+     "usual": 12
+    }
+   },
+   "perSecond": {
+    "202497": {
+     "hits": 661,
+     "rate": 1.79,
+     "token": null
+    },
+    "202770": {
+     "hits": 283,
+     "rate": 0.76,
+     "token": "fury_of_elune"
+    },
+    "274283": {
+     "hits": 10,
+     "rate": 0.27,
+     "token": "full_moon"
+    },
+    "424588": {
+     "hits": 20,
+     "rate": 0.08,
+     "token": null
+    },
+    "428682": {
+     "hits": 27,
+     "rate": 0.22,
+     "token": null
+    }
+   },
+   "seconds": 736.9,
+   "spent": {
+    "8921": {
+     "avg": 0.0,
+     "casts": 19,
+     "token": "moonfire"
+    },
+    "78674": {
+     "avg": 0.0,
+     "casts": 36,
+     "token": "starsurge"
+    },
+    "93402": {
+     "avg": 0.0,
+     "casts": 22,
+     "token": "sunfire"
+    },
+    "102383": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "102560": {
+     "avg": 0.0,
+     "casts": 8,
+     "token": "incarnation_chosen_of_elune"
+    },
+    "191034": {
+     "avg": 403.6,
+     "casts": 140,
+     "token": "starfall"
+    },
+    "194153": {
+     "avg": 0.0,
+     "casts": 224,
+     "token": "starfire"
+    },
+    "202770": {
+     "avg": 0.0,
+     "casts": 18,
+     "token": "fury_of_elune"
+    },
+    "1233272": {
+     "avg": 0.0,
+     "casts": 19,
+     "token": "lunar_eclipse"
+    },
+    "1236616": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1236994": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1243972": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": null
+    },
+    "1250533": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": null
+    },
+    "1293316": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": null
+    }
+   }
+  },
+  "3": {
+   "fights": 1,
+   "gains": {
+    "8921": {
+     "avg": 8.0,
+     "casts": 16,
+     "token": "moonfire",
+     "usual": 8
+    },
+    "93402": {
+     "avg": 6.0,
+     "casts": 20,
+     "token": "sunfire",
+     "usual": 6
+    },
+    "194153": {
+     "avg": 12.0,
+     "casts": 90,
+     "token": "starfire",
+     "usual": 12
+    }
+   },
+   "perSecond": {
+    "202430": {
+     "hits": 138,
+     "rate": 0.46,
+     "token": null
+    },
+    "202497": {
+     "hits": 423,
+     "rate": 2.82,
+     "token": null
+    },
+    "202770": {
+     "hits": 135,
+     "rate": 0.9,
+     "token": "fury_of_elune"
+    },
+    "274283": {
+     "hits": 11,
+     "rate": 0.73,
+     "token": "full_moon"
+    },
+    "424588": {
+     "hits": 22,
+     "rate": 0.22,
+     "token": null
+    },
+    "428682": {
+     "hits": 9,
+     "rate": 0.18,
+     "token": null
+    }
+   },
+   "seconds": 300.0,
+   "spent": {
+    "8921": {
+     "avg": 0.0,
+     "casts": 16,
+     "token": "moonfire"
+    },
+    "78674": {
+     "avg": 121.7,
+     "casts": 46,
+     "token": "starsurge"
+    },
+    "93402": {
+     "avg": 0.0,
+     "casts": 20,
+     "token": "sunfire"
+    },
+    "102560": {
+     "avg": 0.0,
+     "casts": 4,
+     "token": "incarnation_chosen_of_elune"
+    },
+    "191034": {
+     "avg": 381.4,
+     "casts": 59,
+     "token": "starfall"
+    },
+    "194153": {
+     "avg": 0.0,
+     "casts": 90,
+     "token": "starfire"
+    },
+    "202770": {
+     "avg": 0.0,
+     "casts": 9,
+     "token": "fury_of_elune"
+    },
+    "1233272": {
+     "avg": 0.0,
+     "casts": 10,
+     "token": "lunar_eclipse"
+    },
+    "1236616": {
+     "avg": 0.0,
+     "casts": 1,
+     "token": null
+    },
+    "1250533": {
+     "avg": 0.0,
+     "casts": 3,
+     "token": null
+    }
+   }
+  },
+  "5": {
+   "fights": 4,
+   "gains": {},
+   "perSecond": {},
+   "seconds": 942.3,
+   "spent": {}
+  }
+ }
+}

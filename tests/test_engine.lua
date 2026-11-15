@@ -3394,14 +3394,14 @@ test("calibration fit: a fight replayed finds what a spell really builds, and wh
   eq(K.FitText():find("fury_of_elune", 1, true) ~= nil or K.FitText():find("202770", 1, true) ~= nil, true,
     K.FitText())
   -- three full fights (600 casts and 600 answers each, 10 spells): the end-of-fight fit stays quick
-  store.timelines[8] = {}
+  store.timelines["8:" .. K.Bucket()] = {}
   for f = 1, 3 do
     local tl = { casts = {}, proofs = {} }
     for i = 1, 600 do
       tl.casts[i] = { i * 0.4, 1000 + (i % 10), (i % 3 == 0) and -45 or 12 }
       tl.proofs[i] = { i * 0.4 + 0.1, (i * 7) % 60, -1 }
     end
-    store.timelines[8][f] = tl
+    store.timelines["8:" .. K.Bucket()][f] = tl
   end
   K.tl = {}
   local t0 = os.clock()
@@ -4294,13 +4294,28 @@ test("passive income: measured per spec, counted in the look-ahead in full and i
     data = { passiveGain = { [8] = 4, [4] = 2 } } }
   eq(S.RegenRate(8), 0, "out of combat: nothing")
   S.combatStart = GetTime()
-  eq(S.RegenRate(8), 4, "fighting: the measured rate")
+  -- Warcraft Logs' dummy fights by number of targets (Data/ResourceTargets.lua) come first
+  local targets = 1
+  local real = S.Targets
+  S.Targets = function()
+    return targets
+  end
+  eq(S.RegenRate(8), 1.69, "one target: the dummy fights' rate")
+  targets = 3
+  eq(S.RegenRate(8), 5.31, "three")
+  targets = 8
+  eq(S.RegenRate(8), 5.31, "eight: the most measured (the fit adds what comes beyond)")
+  S.Targets = real
+  local saved = ns.Data.resourceTargets
+  ns.Data.resourceTargets = nil
+  eq(S.RegenRate(8), 4, "fighting, no dummy measure: the raid logs' rate")
   ns.Specs.current.data.passiveGain[3] = 6
   eq(S.PassiveGain(3), 0, "Energy: not yet (finisher refunds counted as passive)")
   eq(S.PassiveGain(4), 0, "combo points: counted from what the game shows instead")
   C.SyncFloor(8, 10, 100)
   mock.Advance(10)
   eq(math.floor(C.FloorBounds(8) + 0.5), 10 + 24, "our count: 60% of it (procs can run below average)")
+  ns.Data.resourceTargets = saved
   S.combatStart = nil
 end)
 
