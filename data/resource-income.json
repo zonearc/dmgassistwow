@@ -1,0 +1,50 @@
+{
+ "warrior_arms": {
+  "1": {
+   "fights": 3,
+   "income": 10.66,
+   "model": 7.07,
+   "seconds": 897
+  },
+  "2": {
+   "fights": 2,
+   "income": 11.15,
+   "model": 6.62,
+   "seconds": 598
+  },
+  "3": {
+   "fights": 2,
+   "income": 9.64,
+   "model": 6.82,
+   "seconds": 379
+  },
+  "5": {
+   "fights": 3,
+   "income": 7.67,
+   "model": 6.45,
+   "seconds": 898
+  }
+ },
+ "warrior_fury": {
+  "5": {
+   "fights": 2,
+   "income": 25.34,
+   "model": 12.47,
+   "seconds": 395
+  },
+  "raid": {
+   "fights": 3,
+   "income": 32.6,
+   "model": 15.5,
+   "seconds": 718
+  }
+ },
+ "warrior_protection": {
+  "raid": {
+   "fights": 3,
+   "income": 15.25,
+   "model": 11.7,
+   "seconds": 777
+  }
+ }
+}
