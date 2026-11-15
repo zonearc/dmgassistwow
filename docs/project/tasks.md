@@ -104,6 +104,17 @@ for every spec, before asking for more in-game logs.
   welcome page + store description on self-learning; racials checked in SimC (no passive regen racials; haste
   racials and Arcane Torrent only).
 
+## Two paths for accuracy (owner, 2026-11-14): with and without the Cooldown Manager
+
+"Make sure the availability of it increases our accuracy, but continue to improve accuracy without it as well in
+case someone refuses to turn it on. Both are valid."
+- [ ] Measure the gain: each fight's prediction_summary says whether Cooldown Manager facts were used (and how
+  many); reports compare slot 1 steady / slot 2 right with and without.
+- [ ] Offline grader runs every spec twice: procs visible (as with the Cooldown Manager tracking the key buffs)
+  and procs hidden (as without); both scores are tracked, neither may regress.
+- [ ] Without it: keep improving the hidden-proc model (proc rates from top players' logs, Blizzard's assistant
+  and glows as signals, "?" in slot 2 for a coin flip) - the default path for everyone who leaves it off.
+
 ## Proposed (waiting on a decision)
 - Prediction plan (owner, 2026-11-13), in order: (1) measurement (1.6.0.252); (2) slot 1 commitment (built 1.6.0.253): keep the
   shown spell until pressed while its SimC line still holds, switching only for situations (interrupt, defensive)
