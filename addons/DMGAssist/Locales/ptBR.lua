@@ -942,4 +942,6 @@ ns.LOCALE_DATA.ptBR = {
   ["Standard"] = "Padrão",
   ["Enhanced (records each fight for replay)"] = "Ampliado (registra cada combate para repetir)",
   ["Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."] = "Ampliado deixa os relatórios maiores (um relatório pode vir em mais partes). Volte para Padrão quando terminar os testes.",
+  ["Predictable spending on: a spender waits until our count of your resource clears its cost by how far off it tends to be."] = "Gasto previsível ligado: um consumidor espera até nossa contagem do seu recurso superar o custo pela nossa margem de erro habitual.",
+  ["Predictable spending off: spenders show as soon as the game allows them."] = "Gasto previsível desligado: consumidores aparecem assim que o jogo permite.",
 }

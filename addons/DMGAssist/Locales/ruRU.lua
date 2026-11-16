@@ -942,4 +942,6 @@ ns.LOCALE_DATA.ruRU = {
   ["Standard"] = "Стандартный",
   ["Enhanced (records each fight for replay)"] = "Расширенный (записывает каждый бой для воспроизведения)",
   ["Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."] = "Расширенный увеличивает отчёты (отчёт может состоять из большего числа частей). После тестов верните Стандартный.",
+  ["Predictable spending on: a spender waits until our count of your resource clears its cost by how far off it tends to be."] = "Предсказуемая трата включена: тратящая способность ждёт, пока наш подсчёт ресурса не превысит её стоимость на нашу обычную погрешность.",
+  ["Predictable spending off: spenders show as soon as the game allows them."] = "Предсказуемая трата выключена: тратящие способности показываются, как только игра их позволяет.",
 }

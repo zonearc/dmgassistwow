@@ -942,4 +942,6 @@ ns.LOCALE_DATA.frFR = {
   ["Standard"] = "Standard",
   ["Enhanced (records each fight for replay)"] = "Étendu (enregistre chaque combat pour le rejouer)",
   ["Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."] = "Étendu rend les rapports plus gros (un rapport peut venir en plus de parties). Revenez à Standard une fois les tests finis.",
+  ["Predictable spending on: a spender waits until our count of your resource clears its cost by how far off it tends to be."] = "Dépense prévisible activée : une technique de dépense attend que notre décompte de ta ressource dépasse son coût de notre écart habituel.",
+  ["Predictable spending off: spenders show as soon as the game allows them."] = "Dépense prévisible désactivée : les techniques de dépense apparaissent dès que le jeu les autorise.",
 }

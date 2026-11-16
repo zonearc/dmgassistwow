@@ -1252,6 +1252,37 @@ test("live cost: a lasting cut applies to every pretend cast, a fresh one only t
   M.live, S.liveStable = {}, {}
 end)
 
+-- A button and the spell it turns into are one cooldown: cast as the button (Incarnation 102560, no cooldown in our
+-- data), the spell that has the cooldown (Celestial Alignment 194223) is on cooldown too - it was offered as ready at
+-- every pull after it was used and refused again and again (owner, 2026-11-16).
+test("a cast as the button starts the cooldown of the spell it turns into, even when only that one has the cooldown",
+  function()
+  Reset()
+  local ns = Boot()
+  local M, S = ns.SpellMap, ns.State
+  M.baseOf = M.baseOf or {}
+  M.baseOf[102560] = 194223
+  M.info[194223] = M.info[194223] or { n = "celestial_alignment", gcd = 1.5 }
+  local had = M.info[194223].cd
+  M.info[194223].cd = 180
+  local hadButton = M.info[102560]
+  M.info[102560] = nil
+  S.lastCast[194223] = nil
+  mock.inCombat = true
+  S.OnSpellcastSucceeded(102560)
+  eq(S.lastCast[194223] ~= nil, true, "Celestial Alignment's clock started by the Incarnation cast")
+  -- the real data: both one charge on a 180 s recharge, in separate entries - one charge clock for the pair
+  M.info[194223].ch, M.info[194223].chcd = 1, 180
+  M.info[102560] = { n = "incarnation_chosen_of_elune", cd = 1, ch = 1, chcd = 180 }
+  mock.now = mock.now + 1
+  S.OnSpellcastSucceeded(102560)
+  eq(S.Charges(194223), 0, "Celestial Alignment has no charge left after the Incarnation cast")
+  M.info[194223].ch, M.info[194223].chcd = nil, nil
+  M.info[194223].cd, M.info[102560] = had, hadButton
+  M.baseOf[102560] = nil
+  mock.inCombat = false
+end)
+
 test("charges: the game's count counts in the look-ahead too, and each predicted cast spends one", function()
   Reset()
   local book = {}

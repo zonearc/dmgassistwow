@@ -942,4 +942,6 @@ ns.LOCALE_DATA.koKR = {
   ["Standard"] = "표준",
   ["Enhanced (records each fight for replay)"] = "확장 (재생을 위해 모든 전투 기록)",
   ["Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."] = "확장은 보고서를 더 크게 만듭니다 (보고서가 더 많은 부분으로 나뉠 수 있음). 테스트가 끝나면 표준으로 되돌리세요.",
+  ["Predictable spending on: a spender waits until our count of your resource clears its cost by how far off it tends to be."] = "예측 가능한 소모 켜짐: 소모 기술은 자원 추정치가 평소 오차만큼 비용을 넘을 때까지 기다립니다.",
+  ["Predictable spending off: spenders show as soon as the game allows them."] = "예측 가능한 소모 꺼짐: 게임이 허용하는 즉시 소모 기술이 표시됩니다.",
 }

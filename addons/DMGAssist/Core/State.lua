@@ -995,7 +995,42 @@ local function GroupOf(id)
       end
     end
   end
-  return chargeGroup.map[id] or id
+  if chargeGroup.baseOf ~= M.baseOf then
+    chargeGroup.baseOf, chargeGroup.paired = M.baseOf, {}
+  end
+  local hit = chargeGroup.paired[id]
+  if hit then
+    return hit
+  end
+  local g = chargeGroup.map[id] or id
+  -- a button and the spell it turns into share their charges (Incarnation 102560 on the button, Celestial Alignment
+  -- 194223 in the list: one charge, 180 s; cast as Incarnation, Celestial Alignment still showed charges=1 and was
+  -- offered at every pull, 2026-11-16)
+  -- (only when both have the same charges and recharge: Enhancement's pairs differ, and merging them showed spells
+  -- ready while on cooldown far more often - the offline gate caught it)
+  local mine = ChargeInfo(id)
+  local function Same(other)
+    local o = ChargeInfo(other)
+    return o and mine and (o.ch or 1) == (mine.ch or 1) and (o.chcd or 0) == (mine.chcd or 0)
+      and (mine.chcd or 0) >= 60 -- (major cooldowns: a short pair - Stormstrike / Windstrike - keeps its own)
+  end
+  local base = M.baseOf and M.baseOf[id]
+  if base and base ~= id and Same(base) then
+    local gb = chargeGroup.map[base] or base
+    if gb < g then
+      g = gb
+    end
+  end
+  for other, b in pairs(M.baseOf or {}) do
+    if b == id and other ~= id and Same(other) then
+      local go = chargeGroup.map[other] or other
+      if go < g then
+        g = go
+      end
+    end
+  end
+  chargeGroup.paired[id] = g
+  return g
 end
 
 local function PendingRecharges(group, at)

@@ -942,4 +942,6 @@ ns.LOCALE_DATA.zhCN = {
   ["Standard"] = "标准",
   ["Enhanced (records each fight for replay)"] = "增强（记录每场战斗以便重放）",
   ["Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."] = "增强会使报告变大（报告可能分成更多部分）。测试结束后改回标准。",
+  ["Predictable spending on: a spender waits until our count of your resource clears its cost by how far off it tends to be."] = "可预测消耗已开启：消耗技能会等到我们对你资源的估计超过其消耗加上通常的误差。",
+  ["Predictable spending off: spenders show as soon as the game allows them."] = "可预测消耗已关闭：游戏允许时立即显示消耗技能。",
 }

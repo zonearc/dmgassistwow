@@ -245,7 +245,8 @@ function mock.Install(env)
   function FrameMethods:IsVisible()
     return self.shown ~= false
   end
-  for _, name in ipairs({ "SetShadowOffset", "SetShadowColor", "SetWordWrap", "SetBlendMode", "SetTexCoord", "SetColorTexture",
+  for _, name in ipairs({ "SetShadowOffset", "SetShadowColor", "SetWordWrap",
+    "SetMaxLines", "SetBlendMode", "SetTexCoord", "SetColorTexture",
     "SetDrawLayer", "SetBackdropColor",
     "SetBackdropBorderColor", "SetStatusBarTexture", "SetStatusBarColor", "SetMinMaxValues",
     "SetJustifyH", "SetTextColor", "SetAllPoints", "SetMovable", "RegisterForDrag",

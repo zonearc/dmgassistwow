@@ -629,6 +629,7 @@ function OnEvent(_, event, ...)
     end
   elseif event == "PLAYER_REGEN_ENABLED" then
     U.CostLog() -- where the fight's time went (cost line)
+    ns.Calibrate.LogMargin() -- what the predictable-spending margin learned and did this fight
     ns.Record.End()
     ns.combatEndedAt = GetTime()
     ns.Clues.NoteFightEnd() -- our counts as the fight ended: the next pull starts from them (Clues.SeedFloors)
@@ -781,6 +782,20 @@ function commands.relearn()
   else
     U.Print(L["Not in combat: try again after the fight."])
   end
+end
+
+-- /dmga margin [on|off]: the predictable-spending margin (Calibrate.Margin; off by default while it's measured)
+function commands.margin(arg)
+  if arg == "on" then
+    ns.db.spendMargin = true
+  elseif arg == "off" then
+    ns.db.spendMargin = nil
+  else
+    ns.db.spendMargin = not ns.db.spendMargin or nil
+  end
+  local on = L["Predictable spending on: a spender waits until our count of your resource clears its cost by how far "
+    .. "off it tends to be."]
+  U.Print("%s", ns.db.spendMargin and on or L["Predictable spending off: spenders show as soon as the game allows them."])
 end
 
 function commands.on()

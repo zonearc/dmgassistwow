@@ -938,3 +938,5 @@
 944	Standard
 945	Erweitert (zeichnet jeden Kampf zum Nachspielen auf)
 946	Erweitert macht Berichte größer (ein Bericht kann aus mehr Teilen bestehen). Nach dem Testen zurück auf Standard.
+947	Planbares Ausgeben an: ein Verbraucher wartet, bis unsere Zählung deiner Ressource seine Kosten um unsere übliche Abweichung übersteigt.
+948	Planbares Ausgeben aus: Verbraucher erscheinen, sobald das Spiel sie erlaubt.

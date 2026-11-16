@@ -938,3 +938,5 @@
 944	Padrão
 945	Ampliado (registra cada combate para repetir)
 946	Ampliado deixa os relatórios maiores (um relatório pode vir em mais partes). Volte para Padrão quando terminar os testes.
+947	Gasto previsível ligado: um consumidor espera até nossa contagem do seu recurso superar o custo pela nossa margem de erro habitual.
+948	Gasto previsível desligado: consumidores aparecem assim que o jogo permite.

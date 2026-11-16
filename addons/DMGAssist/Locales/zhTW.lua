@@ -942,4 +942,6 @@ ns.LOCALE_DATA.zhTW = {
   ["Standard"] = "標準",
   ["Enhanced (records each fight for replay)"] = "增強（記錄每場戰鬥以便重播）",
   ["Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."] = "增強會讓報告變大（報告可能分成更多部分）。測試結束後改回標準。",
+  ["Predictable spending on: a spender waits until our count of your resource clears its cost by how far off it tends to be."] = "可預測消耗已開啟：消耗技能會等到我們對你資源的估計超過其消耗加上平常的誤差。",
+  ["Predictable spending off: spenders show as soon as the game allows them."] = "可預測消耗已關閉：遊戲允許時立即顯示消耗技能。",
 }

@@ -938,3 +938,5 @@
 944	Standard
 945	Étendu (enregistre chaque combat pour le rejouer)
 946	Étendu rend les rapports plus gros (un rapport peut venir en plus de parties). Revenez à Standard une fois les tests finis.
+947	Dépense prévisible activée : une technique de dépense attend que notre décompte de ta ressource dépasse son coût de notre écart habituel.
+948	Dépense prévisible désactivée : les techniques de dépense apparaissent dès que le jeu les autorise.

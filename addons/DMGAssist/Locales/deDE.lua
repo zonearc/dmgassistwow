@@ -942,4 +942,6 @@ ns.LOCALE_DATA.deDE = {
   ["Standard"] = "Standard",
   ["Enhanced (records each fight for replay)"] = "Erweitert (zeichnet jeden Kampf zum Nachspielen auf)",
   ["Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."] = "Erweitert macht Berichte größer (ein Bericht kann aus mehr Teilen bestehen). Nach dem Testen zurück auf Standard.",
+  ["Predictable spending on: a spender waits until our count of your resource clears its cost by how far off it tends to be."] = "Planbares Ausgeben an: ein Verbraucher wartet, bis unsere Zählung deiner Ressource seine Kosten um unsere übliche Abweichung übersteigt.",
+  ["Predictable spending off: spenders show as soon as the game allows them."] = "Planbares Ausgeben aus: Verbraucher erscheinen, sobald das Spiel sie erlaubt.",
 }

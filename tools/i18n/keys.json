@@ -945,5 +945,7 @@
 "Logging",
 "Standard",
 "Enhanced (records each fight for replay)",
-"Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."
+"Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing.",
+"Predictable spending on: a spender waits until our count of your resource clears its cost by how far off it tends to be.",
+"Predictable spending off: spenders show as soon as the game allows them."
 ]

@@ -446,7 +446,11 @@ function G.HoldForMargin(pt, amount, lo)
   if type(max) == "number" and max > 0 and lo + m >= max - m then
     return false
   end
-  return lo < amount + m
+  if lo < amount + m then
+    ns.Calibrate.holds = (ns.Calibrate.holds or 0) + 1
+    return true
+  end
+  return false
 end
 
 -- The upper end of what we know about a hidden resource is below this spell's cost.

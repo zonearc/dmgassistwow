@@ -16,6 +16,14 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 1.6.0.328: the real Incarnation bug was charges - both entries are 1 charge / 180 s, in separate charge groups, so
+  the Incarnation cast never spent Celestial Alignment's charge (the 1.6.0.327 cooldown fix didn't reach charged
+  spells; its test passed without the fix). Pairs with the same charges and a recharge >= 60 s now share one group;
+  the new test fails without it. The first version merged short pairs too and the all-specs gate caught Enhancement
+  (shown ready on cooldown 13% -> 36%). /dmga margin on|off for in-game testing; spend_margin line per fight. Name
+  under an icon on one line (Moonkin Form wrapped onto the streak). Simulator gaps behind this bug: fresh cooldowns
+  every fight, no button/override pairs, no refused presses - next: the recorded spellbook and back-to-back pulls.
+
 - 2026-11-16 fifth upload (fights 478-483, 1.6.0.326): Celestial Alignment still offered as ready after Incarnation
   was cast (481) and refused over and over (482-483). Cast as Incarnation 102560 (no cooldown in our data), the clock
   of Celestial Alignment 194223 (which has it) never started; the refusal hold used 102560's missing cooldown too.

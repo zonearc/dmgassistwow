@@ -938,3 +938,5 @@
 944	Estándar
 945	Ampliado (registra cada combate para reproducirlo)
 946	Ampliado hace los informes más grandes (un informe puede venir en más partes). Vuelve a Estándar cuando termines de probar.
+947	Gasto predecible activado: un consumidor espera hasta que nuestra cuenta de tu recurso supere su coste por nuestro margen de error habitual.
+948	Gasto predecible desactivado: los consumidores aparecen en cuanto el juego los permite.

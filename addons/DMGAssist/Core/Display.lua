@@ -505,6 +505,14 @@ local function Icon(parent, size, cfg)
   SetColor(f.name, cfg.nameColor)
   f.name:SetPoint("TOP", f, "BOTTOM", 0, -2)
   f.name:SetWidth(size + 24)
+  -- one line, cut with "..." when long: "Moonkin Form" wrapped and its second line ran over the Flow box's streak
+  -- text (owner, 2026-11-16)
+  if f.name.SetWordWrap then
+    f.name:SetWordWrap(false)
+  end
+  if f.name.SetMaxLines then
+    f.name:SetMaxLines(1)
+  end
   f.label = f:CreateFontString(nil, "OVERLAY")
   SetFont(f.label, 11) -- 9 was hard to read (2026-11-12: "text has gotten smaller ... illegible")
   f.label:SetPoint("BOTTOM", f, "TOP", 0, 3)

@@ -942,4 +942,6 @@ ns.LOCALE_DATA.itIT = {
   ["Standard"] = "Standard",
   ["Enhanced (records each fight for replay)"] = "Esteso (registra ogni combattimento per rigiocarlo)",
   ["Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."] = "Esteso rende i rapporti più grandi (un rapporto può arrivare in più parti). Torna a Standard quando hai finito i test.",
+  ["Predictable spending on: a spender waits until our count of your resource clears its cost by how far off it tends to be."] = "Spesa prevedibile attiva: un consumatore attende finché il nostro conteggio della risorsa supera il suo costo del nostro scarto abituale.",
+  ["Predictable spending off: spenders show as soon as the game allows them."] = "Spesa prevedibile disattivata: i consumatori compaiono appena il gioco li consente.",
 }

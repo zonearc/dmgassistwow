@@ -805,3 +805,18 @@ function K.Margin(pt)
   return m.e
 end
 
+-- The fight's line for the margin: on/off, the learned error per hidden resource (n proofs), how often it held a
+-- spender back (Engine.HoldForMargin).
+K.holds = 0
+function K.LogMargin()
+  local p = K.Store()
+  local parts = { "on=" .. tostring(ns.db and ns.db.spendMargin and 1 or 0), "holds=" .. tostring(K.holds) }
+  for pt, m in pairs(p and type(p.margin) == "table" and p.margin or {}) do
+    if type(m) == "table" then
+      parts[#parts + 1] = string.format("pt%s=%.1f(n=%d)", tostring(pt), m.e or 0, m.n or 0)
+    end
+  end
+  U.Log("spend_margin", table.concat(parts, " "))
+  K.holds = 0
+end
+
