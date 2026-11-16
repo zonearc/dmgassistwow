@@ -16,6 +16,13 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 2026-11-16 fifth upload (fights 478-483, 1.6.0.326): Celestial Alignment still offered as ready after Incarnation
+  was cast (481) and refused over and over (482-483). Cast as Incarnation 102560 (no cooldown in our data), the clock
+  of Celestial Alignment 194223 (which has it) never started; the refusal hold used 102560's missing cooldown too.
+  Both now take the cooldown from either of the pair, and the hold covers both. Replayed 481-483: slot 1 steady for
+  the first 6 s (was a flip every ~0.5 s). Cost (Standard 478, 102 s): passes 85 ms/s, Flow drawing 48, HUD 14,
+  events ~15; Enhanced adds recording ~48 (was 62). Open: text crowding under the Flow box (needs a close-up).
+
 - 2026-11-16 fourth upload (fights 474-477, 1.6.0.325): "Standard" still recorded (an old /dmga record on set
   recordInputs; the dropdown didn't clear it) - Logging alone decides now. Cost line, fight 475 (81 s): passes 109
   ms/s (~12 ms each in game vs 3.5 offline), recording 62, Flow drawing 58 (1.2 ms a frame), events 41 (peaks 36),

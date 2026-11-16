@@ -1456,12 +1456,16 @@ function S.OnCastFailed(id)
       -- or its whole cooldown has passed - a 2 s hold put Celestial Alignment back in slot 1 four times in the
       -- first 5 s of a fight, and it was pressed each time by mistake (owner, 2026-11-16: "lots of early primary
       -- slot 1 swaps").
-      local info = M.Info(id)
-      local cd = info and tonumber(info.cd)
+      local base = M.baseOf and M.baseOf[id]
+      local info, binfo = M.Info(id), base and M.Info(base)
+      local cd = tonumber(info and info.cd) or tonumber(binfo and binfo.cd)
       if cd and cd >= S.LONG_REFUSAL_CD then
         hold = math.max(hold, math.min(cd, S.LONG_REFUSAL_MAX))
       end
       S.notBefore[id] = now + hold
+      if base and base ~= id then
+        S.notBefore[base] = now + hold -- (the spell it turns into is held too: they are one button)
+      end
       if p0 and now - p0.last <= 2 then
         p0.refusedInRow = k
       end
@@ -2076,7 +2080,11 @@ local function RecordCast(id, how)
   -- offline fights once the swaps were real, 2026-11-15)
   local base = M.baseOf and M.baseOf[id]
   local oi, bi = info, base and M.Info(base)
-  if base and base ~= id and bi and not bi.chcd and not (oi and oi.chcd) and (tonumber(oi and oi.cd) or 0) > 1.5 then
+  -- (the cooldown from whichever of the two has it: Incarnation 102560 has none in our data, Celestial Alignment
+  -- 194223 has it - cast as Incarnation, our clock for Celestial Alignment never started and it was offered as ready
+  -- again and again, 2026-11-16)
+  local cd = tonumber(oi and oi.cd) or tonumber(bi and bi.cd) or 0
+  if base and base ~= id and bi and not bi.chcd and not (oi and oi.chcd) and cd > 1.5 then
     S.lastCast[base] = GetTime()
   end
   local byToken = M.TokenForID and M.TokenForID(id)
