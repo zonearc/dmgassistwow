@@ -69,6 +69,17 @@ function M.Start()
     counts = {},
   }
   S.Push(db.sessions, current, db.settings.maxSessions)
+  -- only the newest fights keep their input recording (each can be a few MB): older ones keep their events
+  local keep, kept = db.settings.maxRecordedFights or 5, 0
+  for i = #db.sessions, 1, -1 do
+    local s = db.sessions[i]
+    if s.rec then
+      kept = kept + 1
+      if kept > keep then
+        s.rec, s.recCleared = nil, true
+      end
+    end
+  end
 end
 
 function M.Stop(reason)

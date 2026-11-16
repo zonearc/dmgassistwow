@@ -345,8 +345,22 @@ end
 local targetsMemo = {}
 local passSerial, inPass = 0, false
 local CountTargets
+-- the questions asked many times in a pass whose answer can't change within it (U.Call answers them once)
+local function PassCached()
+  local set = U.PASS_CACHED
+  local sp = C_Spell or {}
+  for _, fn in ipairs({ UnitPower, UnitPowerMax, UnitSpellHaste, IsPlayerSpell, sp.GetSpellCooldown,
+    sp.IsSpellUsable, sp.GetSpellCharges, sp.GetSpellName, sp.GetSpellTexture, sp.GetSpellInfo, sp.GetOverrideSpell,
+    C_ClassTalents and C_ClassTalents.GetActiveConfigID }) do
+    set[fn] = true
+  end
+end
 function S.BeginPass()
   passSerial, inPass = passSerial + 1, true
+  if not next(U.PASS_CACHED) then
+    PassCached()
+  end
+  U.passCache = {}
   if S.SnapshotReady then
     S.SnapshotReady()
   end
@@ -357,23 +371,37 @@ function S.BeginPass()
 end
 function S.EndPass()
   inPass = false
+  U.passCache = nil
   if ns.Record and ns.Record.on then
     ns.Record.Flush()
   end
 end
+-- Code that runs every frame (the grade's tick) uses S.TargetsCached: the last count while it's fresh. A count asks
+-- ~6 questions of each of 40 nameplates, and asked every frame it cost ~20 FPS in a city (owner, 2026-11-16: 59
+-- FPS without DMGAssist, 36 with it; the recorded fight showed ~330 game calls per frame).
+S.TARGETS_FRESH = 0.25
 function S.Targets()
   local m = targetsMemo
   if inPass and m.pass == passSerial then
     return m.n, m.label
   end
   local n, label = CountTargets()
+  m.n, m.label, m.at = n, label, GetTime()
   if inPass then
-    m.pass, m.n, m.label = passSerial, n, label
+    m.pass = passSerial
   end
   return n, label
 end
+-- For code that runs every frame (the grade's tick): the last count while it's fresh, a new one otherwise.
+function S.TargetsCached()
+  local m = targetsMemo
+  if not inPass and m.at and GetTime() - m.at < S.TARGETS_FRESH then
+    return m.n, m.label
+  end
+  return S.Targets()
+end
 function S.ForgetTargets()
-  targetsMemo.pass = nil
+  targetsMemo.pass, targetsMemo.at = nil, nil
 end
 
 function CountTargets()
@@ -756,7 +784,7 @@ local function TimingKeys(id)
     return nil, nil
   end
   local aoe = name .. "@aoe"
-  if (S.Targets() or 1) >= S.AOE_BAND then
+  if (S.TargetsCached() or 1) >= S.AOE_BAND then
     return aoe, name, name
   end
   return name, aoe, name
@@ -1646,7 +1674,7 @@ function S.ApplyLinks(id, lookahead)
       local amount = l[3]
       if l[6] and type(amount) == "number" and amount > 0 then
         -- per enemy hit, up to a cap (Lethal Calibration: 2 s per enemy hit, up to 10 s): our enemy count
-        local n = (S.Targets()) or 1
+        local n = (S.TargetsCached()) or 1
         amount = math.min(amount * math.max(1, n), l[6])
       end
       ReduceTarget(l[2], amount, lookahead)
@@ -2793,7 +2821,7 @@ function S.PassiveGain(pt)
   local byT = state and ns.Data and ns.Data.resourceTargets and ns.Data.resourceTargets[state.key]
   byT = byT and byT[pt]
   if type(byT) == "table" then
-    local n = S.Targets and S.Targets() or 1
+    local n = S.Targets and S.TargetsCached() or 1
     n = type(n) == "number" and n or 1
     local best, bestN
     for k, v in pairs(byT) do
@@ -3497,7 +3525,7 @@ function S.Resolve(name, ctx)
     if ctx and ctx.targets then
       return ctx.targets
     end
-    return (S.Targets())
+    return (S.TargetsCached())
   elseif head == "fight_remains" or head == "time_to_die" then
     return S.FightRemains()
   elseif head == "expected_combat_length" then
@@ -3755,19 +3783,43 @@ function S.ReadLiveCosts()
         end
         if now then
           live[info] = now
-          for pt, amount in pairs(base) do
-            if (now[pt] or 0) ~= amount and S.liveCostLogs < S.LIVE_COST_LOGS then
-              S.liveCostLogs = S.liveCostLogs + 1
-              U.Log("cost_live", { spell = info.n or id, pt = pt, usual = amount, now = now[pt] or 0 })
+          -- how long the game has stated this same cost (M.Cost: a cut that holds is a talent or a long buff, not a
+          -- proc one cast uses up)
+          local sig = {}
+          for pt, amount in pairs(now) do
+            sig[#sig + 1] = pt .. ":" .. amount
+          end
+          table.sort(sig)
+          sig = table.concat(sig, ",")
+          local st = S.liveStable[info]
+          if not st or st.sig ~= sig then
+            S.liveStable[info] = { sig = sig, since = GetTime() }
+            -- (logged when it changes, not every pass: the first 60 passes used up the log in 2 s, 2026-11-16)
+            for pt, amount in pairs(base) do
+              if (now[pt] or 0) ~= amount and S.liveCostLogs < S.LIVE_COST_LOGS then
+                S.liveCostLogs = S.liveCostLogs + 1
+                U.Log("cost_live", { spell = info.n or id, pt = pt, usual = amount, now = now[pt] or 0 })
+              end
             end
           end
+        else
+          S.liveStable[info] = nil
         end
       end
     end
   else
     S.liveCostLogs = 0
+    S.liveStable = {}
   end
   M.live = live
+end
+S.liveStable = {} -- info -> { sig = the stated cost, since = GetTime() it was first stated }
+S.LIVE_STABLE = 3 -- s: a cut stated this long applies to every pretend cast, not only the first
+
+-- The live cost has held for LIVE_STABLE s (SpellMap.Cost)
+function S.LiveCostStable(info)
+  local st = S.liveStable[info]
+  return st ~= nil and GetTime() - st.since >= S.LIVE_STABLE
 end
 
 S.costHigh = {}

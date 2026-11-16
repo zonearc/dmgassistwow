@@ -102,6 +102,8 @@ def main():
     ap.add_argument("file")
     ap.add_argument("--fight")
     ap.add_argument("--picks", action="store_true")
+    ap.add_argument("--cost", action="store_true", help="time a pass and the per-frame drawing (Flow mode)")
+    ap.add_argument("--profile", action="store_true", help="where a pass spends its time, by function")
     a = ap.parse_args()
     d = load(a.file)
     sessions = [s for s in d.get("sessions", []) if s.get("rec")]
@@ -114,13 +116,15 @@ def main():
         f = tempfile.NamedTemporaryFile("w", suffix=".lua", delete=False)
         f.write(build_input(s))
         f.close()
-        cmd = ["lua5.1", "tests/replay.lua", f.name] + (["--picks"] if a.picks else [])
+        cmd = ["lua5.1", "tests/replay.lua", f.name] + (["--picks"] if a.picks else ["--cost"] if a.cost else ["--profile"] if a.profile else [])
         out = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True)
         os.unlink(f.name)
         same = re.search(r"^SAME ([\d.]+) ([\d.]+) (\d+)", out.stdout, re.M)
         real = re.search(r"^REAL ([\d.]+) (\d+)", out.stdout, re.M)
         if a.picks:
             print("\n".join(l for l in out.stdout.splitlines() if l.startswith("PICK")))
+        if a.cost or a.profile:
+            print("\n".join(l for l in out.stdout.splitlines() if l.startswith(("COST", "PROF"))))
         if not same:
             print("== fight %s: replay failed\n%s" % (s.get("id"), (out.stdout + out.stderr)[-1500:]))
             continue

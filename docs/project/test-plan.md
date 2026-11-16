@@ -28,8 +28,12 @@ If something looks wrong in a fight, `/dmga mark wrong <a few words>` at that mo
 
 ## Export
 
-1. `/dmgw` -> Report -> copy. If it says "part 1/n", copy every part (each starts with `DMGWP i/n`).
-2. Paste them here. Nothing else is needed: the recording, the decisions and the settings are all in it.
+Preferred (no copying): `/reload` (or log out) so WoW writes the file, then attach
+`World of Warcraft\_retail_\WTF\Account\<ACCOUNT>\SavedVariables\DMGAssist_Watchdog.lua`. It holds the last 8 fights,
+the newest 5 with their full recording, so earlier tests aren't lost when you run another.
+
+Fallback: `/dmgw` -> Report -> copy. If it says "part 1/n", copy every part (each starts with `DMGWP i/n`); the decoder
+names any part that changed in the copy.
 
 ## What happens with it (offline)
 

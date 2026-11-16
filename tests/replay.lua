@@ -12,6 +12,23 @@ mock.Install(_G)
 
 local input = dofile(arg[1])
 local showPicks = arg[2] == "--picks"
+-- --cost: what a pass costs on this machine (os.clock), with Flow mode on
+-- (owner, 2026-11-16: 59 FPS without DMGAssist, 36 with it in Flow mode)
+local costMode = arg[2] == "--cost"
+local cost = { update = 0, frames = 0, n = 0 }
+-- --profile: where a pass spends its time (sampled every 1000 VM instructions, by function)
+local profile = arg[2] == "--profile"
+local samples = {}
+if profile then
+  costMode = true
+  debug.sethook(function()
+    local info = debug.getinfo(2, "Sn")
+    if info then
+      local k = (info.short_src or "?"):gsub("^.*/", "") .. ":" .. tostring(info.linedefined) .. " " .. tostring(info.name)
+      samples[k] = (samples[k] or 0) + 1
+    end
+  end, "", 1000)
+end
 
 mock.frames, mock.timers, mock.printed = {}, {}, {}
 mock.restricted, mock.inCombat, mock.hasTarget = false, false, true
@@ -179,7 +196,21 @@ for _, line in ipairs(input.lines) do
     local t, updates = line:match("^T ([%d.]+)|(.*)$")
     mock.now = t0 + tonumber(t)
     Apply(updates)
+    local c0 = os.clock()
     local ok, r = pcall(ns.Update)
+    cost.update, cost.n = cost.update + os.clock() - c0, cost.n + 1
+    if costMode then -- the per-frame work that runs between passes (Flow mode's lanes, the HUD's timing)
+      c0 = os.clock()
+      for _ = 1, 6 do -- (a pass every 0.1 s, ~6 frames between passes at 60 fps)
+        pcall(ns.Game.Render)
+        local hud = ns.Display and ns.Display.frame
+        local onUpdate = hud and hud.GetScript and hud:GetScript("OnUpdate")
+        if onUpdate then
+          pcall(onUpdate, hud, 1 / 60)
+        end
+      end
+      cost.frames = cost.frames + os.clock() - c0
+    end
     if ok and r and r.main then
       local q2 = r.queue and r.queue[2]
       picks[#picks + 1] = { t = tonumber(t), s1 = r.main.id, s2 = q2 and q2.id or nil }
@@ -228,6 +259,24 @@ for _, g in ipairs(input.shown or {}) do
       same2 = same2 + 1
     end
   end
+end
+if profile then
+  debug.sethook()
+  local list, total = {}, 0
+  for k, v in pairs(samples) do
+    list[#list + 1] = { k, v }
+    total = total + v
+  end
+  table.sort(list, function(a, b)
+    return a[2] > b[2]
+  end)
+  for i = 1, math.min(40, #list) do
+    print(string.format("PROF %5.1f%% %s", 100 * list[i][2] / total, list[i][1]))
+  end
+end
+if costMode then
+  print(string.format("COST %.3f ms per pass, %.3f ms per frame of drawing (%d passes)", 1000 * cost.update / math.max(cost.n, 1),
+    1000 * cost.frames / math.max(cost.n * 6, 1), cost.n))
 end
 print(string.format("SAME %.1f %.1f %d", n > 0 and 100 * same1 / n or 0, n > 0 and 100 * same2 / n or 0, n))
 

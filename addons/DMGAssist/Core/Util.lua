@@ -71,10 +71,52 @@ end
 U.callErrors = {}
 local callErrorKinds = 0
 
+-- Within one decision pass the game's answers don't change (same frame), yet a pass asks some of them dozens of
+-- times (the talent config 62 times, cooldowns ~90, power ~50: 2026-11-16 recorded fight). State.BeginPass sets
+-- U.passCache = {}; the questions in U.PASS_CACHED are answered once per pass (up to two plain arguments).
+U.passCache = nil
+U.PASS_CACHED = {}
+local NIL = {}
+local function CacheSlot(fn, n, a1, a2)
+  local c = U.passCache
+  if not c or n > 2 or not U.PASS_CACHED[fn] then
+    return nil
+  end
+  if (a1 ~= nil and issecretvalue and issecretvalue(a1)) or (a2 ~= nil and issecretvalue and issecretvalue(a2)) then
+    return nil
+  end
+  local byFn = c[fn]
+  if not byFn then
+    byFn = {}
+    c[fn] = byFn
+  end
+  local k1 = a1 == nil and NIL or a1
+  local by1 = byFn[k1]
+  if not by1 then
+    by1 = {}
+    byFn[k1] = by1
+  end
+  return by1, a2 == nil and NIL or a2
+end
+
 function U.Call(fn, ...)
   if type(fn) ~= "function" then
     return nil
   end
+  local slot, k2 = CacheSlot(fn, select("#", ...), ...)
+  if slot then
+    local hit = slot[k2]
+    if hit then
+      return unpack(hit, 1, hit.n)
+    end
+    hit = Pack(U.CallUncached(fn, ...))
+    slot[k2] = hit
+    return unpack(hit, 1, hit.n)
+  end
+  return U.CallUncached(fn, ...)
+end
+
+function U.CallUncached(fn, ...)
   local rp = ns.Record and ns.Record.replay
   if rp then -- (tests/replay.lua: the recorded game's answer, when it has one)
     local hit, vals = rp(fn, ...)

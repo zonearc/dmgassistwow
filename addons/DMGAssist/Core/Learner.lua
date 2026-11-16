@@ -291,7 +291,10 @@ function L.OnPress(id, shown, last)
   local followed = shown and shown.id and (baseOf[shown.id] or shown.id) == base
   prev = { token = token, keys = keys,
     pending = { guess = guess, conf = conf or 0, slot2 = followed and slot2 or nil } }
+  -- shown2: the slot 2 on screen at the press (the learner's when live; q2 is then SimC's forecast)
+  local shown2 = q2 and (q2.token or (q2.id and ns.SpellMap.TokenForID(q2.id))) or nil
   U.Log("press", { s = token, cp = cp, lit = lit, tg = tg, q2 = followed and slot2 or nil,
+    shown2 = followed and shown2 or nil,
     q2src = followed and q2 and q2.source or nil, guess = guess,
     conf = conf and string.format("%.2f", conf) or nil, lvl = level })
 end

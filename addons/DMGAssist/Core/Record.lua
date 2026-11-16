@@ -59,7 +59,7 @@ local function Enc(v, depth)
     return v and "T" or "F"
   elseif t == "string" then
     return '"' .. v:gsub("[;|\n\"]", " "):sub(1, 40) .. '"'
-  elseif t == "table" and (depth or 0) < 1 then
+  elseif t == "table" and (depth or 0) < 2 then -- (two levels: GetSpellPowerCost is a list of cost tables)
     local keys = {}
     for k in pairs(v) do
       if type(k) == "string" or type(k) == "number" then
@@ -203,7 +203,9 @@ function R.EncTable(v)
   local vals = {}
   for i, k in ipairs(keys) do
     local item = v[k]
-    vals[i] = type(item) == "table" and not U.IsSecret(item) and "?" or Enc(item, 1):gsub("/", "\\")
+    -- (a table inside: written inline, so a list of tables comes back whole - the live costs went missing as "?",
+    -- 2026-11-16)
+    vals[i] = Enc(item, 1):gsub("/", "\\")
   end
   return "#" .. id .. ":" .. table.concat(vals, "/")
 end

@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Decode a DMGAssist Watchdog export string into readable JSON.
 
+A SavedVariables file works too (WTF/Account/<account>/SavedVariables/DMGAssist_Watchdog.lua): every stored fight.
+
 Usage:
     python3 tools/decode-export.py export.txt          # file containing the string
     python3 tools/decode-export.py - < export.txt      # from stdin
@@ -127,7 +129,110 @@ def loads_salvage(js: str):
     return data
 
 
+def lua_saved_variables(text: str):
+    """The Watchdog's SavedVariables file (WTF/Account/<account>/SavedVariables/DMGAssist_Watchdog.lua) as the same
+    structure an export decodes to: every stored fight with its recording, no copying and pasting of parts (owner,
+    2026-11-16: "copy and paste on 15 different sections is annoying and obviously error prone")."""
+    i, n = 0, len(text)
+
+    def ws():
+        nonlocal i
+        while i < n:
+            if text[i] in " \t\r\n,;":
+                i += 1
+            elif text.startswith("--", i):
+                j = text.find("\n", i)
+                i = n if j < 0 else j + 1
+            else:
+                break
+
+    def string():
+        nonlocal i
+        q = text[i]
+        i += 1
+        out = []
+        while text[i] != q:
+            c = text[i]
+            if c == "\\":
+                i += 1
+                e = text[i]
+                if e.isdigit():
+                    j = i
+                    while j < i + 3 and j < n and text[j].isdigit():
+                        j += 1
+                    out.append(chr(int(text[i:j])))
+                    i = j
+                    continue
+                out.append({"n": "\n", "t": "\t", "r": "\r", "\n": "\n"}.get(e, e))
+            else:
+                out.append(c)
+            i += 1
+        i += 1
+        return "".join(out)
+
+    def value():
+        nonlocal i
+        ws()
+        c = text[i]
+        if c == "{":
+            i += 1
+            arr, obj = [], {}
+            while True:
+                ws()
+                if text[i] == "}":
+                    i += 1
+                    break
+                if text[i] == "[":
+                    i += 1
+                    ws()
+                    k = value()
+                    ws()
+                    i += 1  # ]
+                    ws()
+                    i += 1  # =
+                    obj[k] = value()
+                else:
+                    arr.append(value())
+            if obj and not arr:
+                keys = list(obj)
+                if all(isinstance(k, int) for k in keys) and sorted(keys) == list(range(1, len(keys) + 1)):
+                    return [obj[k] for k in range(1, len(keys) + 1)]
+                return {str(k): v for k, v in obj.items()}
+            if obj:
+                for k, v in obj.items():
+                    if isinstance(k, int) and k == len(arr) + 1:
+                        arr.append(v)
+                return arr
+            return arr
+        if c in "\"'":
+            return string()
+        m = re.match(r"-?(?:\d+\.?\d*(?:[eE][-+]?\d+)?|\.\d+|inf|nan)", text[i:i + 40])
+        if text.startswith("true", i):
+            i += 4
+            return True
+        if text.startswith("false", i):
+            i += 5
+            return False
+        if text.startswith("nil", i):
+            i += 3
+            return None
+        if m:
+            i += len(m.group(0))
+            v = float(m.group(0))
+            return int(v) if v.is_integer() and "." not in m.group(0) else v
+        raise ValueError("SavedVariables: can't read at %d: %r" % (i, text[i:i + 30]))
+
+    at = text.find("DMGAssistWatchdogDB")
+    i = text.find("=", at) + 1
+    db = value()
+    db["format"] = "dmgassist-watchdog"
+    db["fromSavedVariables"] = True
+    return db
+
+
 def decode(text: str):
+    if "DMGAssistWatchdogDB" in text[:200]:
+        return lua_saved_variables(text)
     text = join_parts(text)
     # A pasted report can start with the player's own words ("What went wrong: ..."); the string follows them.
     for prefix in ("DMGW1:", "DMGW0:"):

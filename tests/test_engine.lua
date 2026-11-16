@@ -1164,6 +1164,94 @@ test("training dummies that never show as in combat are counted while you fight"
   mock.nameplates, mock.plateCombat, mock.plateNames = 0, nil, nil
 end)
 
+-- In game the per-frame handlers (OnUpdate: the HUD's timing, the grade's tick, Flow mode's lanes) run 60 times a
+-- second; the other tests call the decision pass directly and never run them, with a handful of nameplates. A count
+-- of all 40 nameplates asked every frame cost ~20 FPS in a city (owner, 2026-11-16) and no test saw it. Here the
+-- frame handlers run as the game runs them, in a crowd, and the game calls they make are counted against a budget.
+test("cost: a frame between passes asks the game little (40 nameplates, Flow mode, in combat)", function()
+  Reset()
+  local ns = Boot()
+  mock.nameplates = 40
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  ns.commands.game("on")
+  local U = ns.U
+  local calls, real, which = 0, U.CallUncached, {}
+  U.CallUncached = function(fn, ...)
+    calls = calls + 1
+    which[fn] = (which[fn] or 0) + 1
+    return real(fn, ...)
+  end
+  local function Frames(n)
+    for _ = 1, n do
+      mock.now = mock.now + 1 / 60
+      for _, f in ipairs(mock.frames) do
+        local h = f.GetScript and f:GetScript("OnUpdate")
+        if h and f:IsVisible() and f ~= ns.mainFrame then
+          pcall(h, f, 1 / 60)
+        end
+      end
+    end
+  end
+  local realCount, seen = ns.State.CountEnemies, {}
+  ns.State.CountEnemies = function(...)
+    local tb = debug.traceback("", 2):gsub("\n%s*%[C%].-\n", "\n")
+    local key = tb:match("\n%s*([^\n]+)\n%s*([^\n]+)\n%s*([^\n]+)") and tb:sub(1, 400)
+    if os.getenv("TRACE_COUNT") and not seen[key] then
+      seen[key] = true
+      print(key)
+    end
+    return realCount(...)
+  end
+  ns.Update()
+  Frames(1) -- (first frame: anything built once)
+  calls = 0
+  Frames(5) -- the frames between two passes (a pass every 0.1 s)
+  local perFrame = calls / 5
+  if perFrame > 60 then
+    for fn, n in pairs(which) do
+      for name, g in pairs(_G) do
+        if g == fn and n >= 5 then
+          print("    per-frame call: " .. name .. " x" .. n / 5)
+        end
+      end
+    end
+  end
+  calls = 0
+  ns.Update()
+  local perPass = calls
+  U.CallUncached = real
+  ns.State.CountEnemies = realCount
+  eq(perFrame <= 60, true, "game calls per frame between passes: " .. perFrame) -- (was 766 before 2026-11-16)
+  eq(perPass <= 900, true, "game calls per pass with 40 nameplates: " .. perPass)
+  mock.Fire("PLAYER_REGEN_ENABLED")
+  mock.inCombat, mock.nameplates = false, 0
+  ns.commands.game("off")
+end)
+
+-- The game states a cost cut (GetSpellPowerCost): a proc's cut is used by the first cast; a cut that holds (a
+-- talent: Balance's Starfall at 34 the whole fight, 2026-11-16) applies to every pretend cast in the look-ahead.
+test("live cost: a lasting cut applies to every pretend cast, a fresh one only to the first", function()
+  Reset()
+  local ns = Boot()
+  local M, S = ns.SpellMap, ns.State
+  local info = { cost = { [8] = 45 } }
+  local V = { usedLive = { [info] = true } } -- the look-ahead already cast it once
+  local real = S.Lookahead
+  S.Lookahead = function()
+    return V
+  end
+  M.live = { [info] = { [8] = 34 } }
+  S.liveStable = { [info] = { sig = "8:34", since = mock.now } }
+  eq(M.Cost(info)[8], 45, "just stated: a proc, the second pretend cast pays the usual cost")
+  mock.now = mock.now + S.LIVE_STABLE + 0.1
+  eq(M.Cost(info)[8], 34, "held 3 s: a lasting cut, every pretend cast")
+  V.usedLive = {}
+  eq(M.Cost(info)[8], 34, "first pretend cast: the stated cost")
+  S.Lookahead = real
+  M.live, S.liveStable = {}, {}
+end)
+
 test("charges: the game's count counts in the look-ahead too, and each predicted cast spends one", function()
   Reset()
   local book = {}

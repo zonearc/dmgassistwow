@@ -221,6 +221,12 @@ function M.Cost(info)
     if not (V and V.usedLive and V.usedLive[info]) then
       return live
     end
+    -- a cut the game has stated for a while is a talent or a long buff: every pretend cast gets it (Balance's
+    -- Starfall at 34, not 45, the whole fight: the look-ahead charged 45 for the second one and kept slot 2 on
+    -- Starfire after Starfire, 39 times in one fight, 2026-11-16)
+    if ns.State.LiveCostStable and ns.State.LiveCostStable(info) then
+      return live
+    end
   end
   return info.costLive or info.cost
 end

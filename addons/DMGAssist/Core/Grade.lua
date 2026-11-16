@@ -215,7 +215,7 @@ function Gr.Tick(pressNow)
   if key and not f.cdShown["item:" .. tostring(key)] and not (f.itemsUsed and f.itemsUsed[key]) then
     f.cdShown["item:" .. tostring(key)] = now
   end
-  f.targets = math.max(f.targets, tonumber((ns.State.Targets())) or 0)
+  f.targets = math.max(f.targets, tonumber((ns.State.TargetsCached())) or 0) -- (every frame: the cached count)
   local w = ns.last and ns.last.weave
   if w and w.source == "mitigation" and w.id and not f.mitShown[Base(w.id)] then
     f.mitShown[Base(w.id)] = Clock(f)

@@ -16,6 +16,18 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 2026-11-16 second recorded fight (Balance, 9 dummies, 316 s): FPS 59 -> 36 with DMGAssist. The grade's per-frame tick
+  recounted all 40 nameplates (~330 game calls a frame, ~20 000 a second): per-frame code uses State.TargetsCached;
+  answers that can't change within a pass are asked once per pass (U.passCache); a test runs the frame handlers with
+  40 nameplates against a budget (the offline tests never ran OnUpdate, so they never saw it). Slot 2 (SimC's forecast
+  right 44%): the look-ahead charged Starfall 45 after the first pretend cast while the game stated 34 all fight (a
+  talent), so Starfire stayed in slot 2 - a cut held 3 s now applies to every pretend cast. Recording: costs (lists
+  of tables) were written as "?"; cap 8000 -> 40000 lines (held 167 of 316 s); recordings kept for the newest 5 fights;
+  the press log has shown2 (what slot 2 really showed). Upload the SavedVariables file instead of copying parts
+  (tools/decode-export.py reads it). Next: replay this fight with the costs recorded; the offline world takes Astral
+  Power income from the addon's own data, so an income the addon has wrong can't show offline (measure income from
+  IsSpellUsable flips in recordings, feed it to tests/procs income).
+
 - 2026-11-16 first recorded fight (Balance, dummies): Logging Standard/Enhanced switch on the main settings page (each
   fight recorded and numbered by itself); the recording now starts with the addon's state at the pull (replay of the
   first recording was 11% faithful without it); answers stored as table shapes (~10x smaller); each report part

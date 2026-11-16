@@ -17,7 +17,9 @@ local DEFAULT_SETTINGS = {
   testingMode = false,    -- test builds: taint log on, more events kept, login notice (see Launch.lua)
   maxSessions = 8,
   maxEventsPerSession = 600,
-  maxRecordLines = 8000,  -- DMGAssist's input recording, per fight (Core/Record.lua)
+  maxRecordLines = 40000, -- DMGAssist's input recording, per fight (Core/Record.lua): ~10 minutes (8000 held 167 s
+                          -- of a 316 s fight, 2026-11-16)
+  maxRecordedFights = 5,  -- the newest fights keep their recording; older ones drop it (the file stays small)
   maxErrors = 60,
   maxNotes = 200,
   maxProbes = 6,
@@ -38,6 +40,9 @@ function S.Init()
   end
   db.settings = type(db.settings) == "table" and db.settings or {}
   Fill(db.settings, DEFAULT_SETTINGS)
+  if db.settings.maxRecordLines == 8000 then
+    db.settings.maxRecordLines = DEFAULT_SETTINGS.maxRecordLines -- (the old default: too short for a real fight)
+  end
   db.errors = db.errors or {}     -- deduplicated Lua errors and blocked actions
   db.sessions = db.sessions or {} -- combat sessions (ring)
   db.probes = db.probes or {}     -- API probe results (ring)
