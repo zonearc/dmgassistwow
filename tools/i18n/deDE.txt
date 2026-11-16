@@ -932,3 +932,9 @@
 938	Bericht %s, Teil %d von %d: Strg+C, einfügen, dann Nächster Teil.
 939	Cooldown-Manager-Werte werden ignoriert bis /dmga cdm use
 940	Cooldown-Manager-Werte werden genutzt
+941	Protokoll für Tests
+942	Standard behält den üblichen Bericht. Erweitert zeichnet in jedem Kampf alles auf, was das Spiel DMGAssist zeigt, damit ein Kampf offline nachgespielt und behoben werden kann. Jeder Kampf wird einzeln nummeriert. Einschalten, spielen, dann den Bericht senden (/dmgw).
+943	Protokoll
+944	Standard
+945	Erweitert (zeichnet jeden Kampf zum Nachspielen auf)
+946	Erweitert macht Berichte größer (ein Bericht kann aus mehr Teilen bestehen). Nach dem Testen zurück auf Standard.

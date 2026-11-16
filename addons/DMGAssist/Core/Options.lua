@@ -317,6 +317,12 @@ function O.Register()
   end, "language", "Language", "auto", ns.LANGUAGES,
     "DMGAssist's text in another language than the game's. Chinese and Korean need a game client in that "
       .. "language (its fonts). Applied after /reload.")
+  Header(main, "Logging for testing", "Standard keeps the usual report. Enhanced records everything the game "
+    .. "shows DMGAssist in every fight, so a fight can be replayed and fixed offline. Each fight is numbered on its "
+    .. "own. Turn it on, play, then send the report (/dmgw).")
+  Choice(main, DB, "loggingMode", "Logging", "standard", { { "standard", "Standard" },
+    { "enhanced", "Enhanced (records each fight for replay)" } },
+    "Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing.")
   Header(main, "Setup and reset", "Answer the first-time questions again, bind keys, or start over.")
   Button(main, "Quick setup", "Run the setup again", function()
     ns.Welcome.Open()

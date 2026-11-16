@@ -5944,8 +5944,9 @@ test("game mode: one lane and a bonus row, notes reach the line when ready, stre
   eq(Game.streak, 10, "30 s at the line: still 10")
   eq(Game.frame.flashAt ~= nil, true, "the line flashed when the note arrived")
   Gr.OnPress(102, r, true)
-  eq(Game.streak, 11, "slot 2 keeps the streak (a Good)")
-  eq(Game.lastJudge, "good")
+  eq(Game.streak, 0, "slot 2 isn't slot 1: the streak ends (owner, 2026-11-16)")
+  eq(Game.lastJudge, "miss")
+  eq(Game.mainNote and Game.mainNote.missAt, nil, "no red X for a slot 2 press")
   D.frame.lastWait = 0
   Game.Render()
   local mainNote = Game.mainNote
@@ -5959,7 +5960,7 @@ test("game mode: one lane and a bonus row, notes reach the line when ready, stre
   Gr.OnPress(22812, rb, true)
   eq(Game.streak, 1, "bonus: +1") eq(Game.lastJudge, "bonus")
   Game.streak = 0
-  eq(Game.Best(), 11, "best streak kept")
+  eq(Game.Best(), 10, "best streak kept")
   -- the set runs across pulls: 10 s out of combat and a new pull carry on; 20 s ends it with the grade
   local score = Game.score
   Gr.OnCombat(false)
@@ -8167,8 +8168,11 @@ test("game mode: one note in the box, real gaps between notes, a put-off next hi
   -- a hot streak: Flow State
   Game.flowStateUntil, Game.hotRun = nil, Game.FLOW_STATE_AT - 1
   Game.cast = nil
-  Game.OnJudged("near", 201) -- a Good: the hot streak needs Perfect / Great
+  Game.streak = 5
+  Game.OnJudged("near", 201) -- slot 2 / 3 pressed: not slot 1, so the streak ends (owner, 2026-11-16)
   eq(Game.FlowStateOn(), false)
+  eq(Game.streak, 0, "a slot 2 / 3 press ends the streak like any wrong key")
+  eq(Game.lastJudge, "miss")
   Game.hotRun = Game.FLOW_STATE_AT - 1
   Game.cast = { id = 201, at = mock.now, judge = "perfect" }
   Game.OnJudged("hit", 201)
@@ -8262,7 +8266,7 @@ test("input recording: a fight's questions, answers and events go to the Watchdo
     mock.Fire("PLAYER_REGEN_ENABLED")
     eq(ns.Record.on, false, "stopped after the fight")
     local text = table.concat(lines, "\n")
-    assert(text:find("^H version="), "header first: " .. text:sub(1, 80))
+    assert(text:find("^H fight=%d+;version="), "header first: " .. text:sub(1, 80))
     local id = text:match("\nK (%d+) UnitPower%(\"player\",3%)")
     assert(id, "the question is defined: " .. text)
     local _, n40 = text:gsub(id .. "=40", "")

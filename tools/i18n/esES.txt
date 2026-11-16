@@ -932,3 +932,9 @@
 938	Informe %s, parte %d de %d: Ctrl+C, pégalo y luego Siguiente parte.
 939	Lecturas del Gestor de reutilización ignoradas hasta /dmga cdm use
 940	Lecturas del Gestor de reutilización en uso
+941	Registro para pruebas
+942	Estándar mantiene el informe habitual. Ampliado registra todo lo que el juego muestra a DMGAssist en cada combate, para poder reproducir y corregir un combate sin conexión. Cada combate se numera por separado. Actívalo, juega y envía el informe (/dmgw).
+943	Registro
+944	Estándar
+945	Ampliado (registra cada combate para reproducirlo)
+946	Ampliado hace los informes más grandes (un informe puede venir en más partes). Vuelve a Estándar cuando termines de probar.

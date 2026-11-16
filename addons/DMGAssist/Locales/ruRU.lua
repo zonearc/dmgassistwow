@@ -936,4 +936,10 @@ ns.LOCALE_DATA.ruRU = {
   ["Report %s, part %d of %d: Ctrl+C, paste it, then Next part."] = "Отчёт %s, часть %d из %d: Ctrl+C, вставьте, затем «Следующая часть».",
   ["Cooldown Manager readings ignored until /dmga cdm use"] = "Данные менеджера восстановления игнорируются до /dmga cdm use",
   ["Cooldown Manager readings used"] = "Данные менеджера восстановления используются",
+  ["Logging for testing"] = "Журнал для тестов",
+  ["Standard keeps the usual report. Enhanced records everything the game shows DMGAssist in every fight, so a fight can be replayed and fixed offline. Each fight is numbered on its own. Turn it on, play, then send the report (/dmgw)."] = "Стандартный оставляет обычный отчёт. Расширенный записывает в каждом бою всё, что игра показывает DMGAssist, чтобы бой можно было воспроизвести и исправить офлайн. Каждый бой получает свой номер. Включите, играйте, затем отправьте отчёт (/dmgw).",
+  ["Logging"] = "Журнал",
+  ["Standard"] = "Стандартный",
+  ["Enhanced (records each fight for replay)"] = "Расширенный (записывает каждый бой для воспроизведения)",
+  ["Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."] = "Расширенный увеличивает отчёты (отчёт может состоять из большего числа частей). После тестов верните Стандартный.",
 }

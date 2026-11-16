@@ -128,6 +128,90 @@ function R.Key(fn, args)
   return name .. "(" .. table.concat(a, ",") .. ")"
 end
 
+-- The addon's own state worth carrying into a replay (State.lua tables; the replay copies them back)
+R.STATE_KEYS = { "history", "auraUntil", "dotUntil", "lastCast", "lastCastToken", "glow", "stackUntil",
+  "consumeLeft", "chargeSpentAt", "chargeUse", "notBefore", "readyBeforeFight", "liveCharges", "boost", "costHigh",
+  "wasActive", "stacksUnknown", "nonSecret" }
+R.SER_MAX = 60000 -- characters per table (a learner of thousands of situations is cut: the rest is a replay's guess)
+
+-- A Lua literal of a table (numbers, strings, booleans, nested tables; secrets and functions left out)
+function R.Ser(v, depth, out, budget)
+  out = out or {}
+  budget = budget or { n = 0 }
+  local t = type(v)
+  if v == nil or U.IsSecret(v) then
+    out[#out + 1] = "nil"
+  elseif t == "number" then
+    out[#out + 1] = (v == math.floor(v) and math.abs(v) < 1e15) and string.format("%d", v) or string.format("%.4f", v)
+  elseif t == "boolean" then
+    out[#out + 1] = v and "true" or "false"
+  elseif t == "string" then
+    out[#out + 1] = string.format("%q", (v:gsub("[\r\n]", " ")))
+  elseif t == "table" and depth < 6 then
+    out[#out + 1] = "{"
+    for k, item in pairs(v) do
+      if budget.n > R.SER_MAX then
+        break
+      end
+      local kt, it = type(k), type(item)
+      if (kt == "number" or kt == "string") and it ~= "function" and it ~= "userdata" and not U.IsSecret(item) then
+        out[#out + 1] = kt == "number" and ("[" .. (k == math.floor(k) and string.format("%d", k) or tostring(k)) .. "]=")
+          or ("[" .. string.format("%q", k) .. "]=")
+        R.Ser(item, depth + 1, out, budget)
+        out[#out + 1] = ","
+        budget.n = budget.n + 12
+      end
+    end
+    out[#out + 1] = "}"
+  else
+    out[#out + 1] = "nil"
+  end
+  if depth == 0 then
+    return table.concat(out)
+  end
+end
+
+-- A table answer as its shape's id and the values: "#3:0/F/T/1/0". The shape (its sorted field names) is written
+-- once: "Q 3 duration,isActive,isEnabled,modRate,startTime". (Cooldown tables for ~50 spells change every GCD: written
+-- whole they were 80% of a recording, 2026-11-16.)
+local shapes, nextShape = {}, 0
+function R.EncTable(v)
+  local keys = {}
+  for k, item in pairs(v) do
+    if (type(k) == "string" or type(k) == "number") and type(item) ~= "function" and type(item) ~= "userdata" then
+      keys[#keys + 1] = k
+    end
+  end
+  table.sort(keys, function(a, b)
+    return tostring(a) < tostring(b)
+  end)
+  if #keys > 12 then
+    return Enc(v)
+  end
+  local fields = {}
+  for i, k in ipairs(keys) do
+    fields[i] = tostring(k)
+  end
+  local sig = table.concat(fields, ",")
+  local id = shapes[sig]
+  if not id then
+    nextShape = nextShape + 1
+    id = nextShape
+    shapes[sig] = id
+    R.Write("Q " .. id .. " " .. sig)
+  end
+  local vals = {}
+  for i, k in ipairs(keys) do
+    local item = v[k]
+    vals[i] = type(item) == "table" and not U.IsSecret(item) and "?" or Enc(item, 1):gsub("/", "\\")
+  end
+  return "#" .. id .. ":" .. table.concat(vals, "/")
+end
+
+R.Write = function(line)
+  return Write(line)
+end
+
 -- U.Call's hook: one question and its answers
 function R.Note(fn, args, n, results)
   if not R.on then
@@ -163,7 +247,7 @@ function R.Note(fn, args, n, results)
   end
   local out = {}
   for i = 1, math.max(1, n or 0) do
-    out[i] = Enc(results[i])
+    out[i] = type(results[i]) == "table" and not U.IsSecret(results[i]) and R.EncTable(results[i]) or Enc(results[i])
   end
   local val = table.concat(out, ",")
   if last[id] ~= val then
@@ -207,6 +291,7 @@ function R.Begin()
     BuildNames()
   end
   keyId, last, nextId, pending = {}, {}, 0, {}
+  shapes, nextShape = {}, 0
   start = GetTime()
   early = {}
   local state = ns.Specs and ns.Specs.current
@@ -214,7 +299,10 @@ function R.Begin()
   local config = C_ClassTalents and U.Get(C_ClassTalents.GetActiveConfigID)
   local loadout = config and C_Traits and U.Get(C_Traits.GenerateImportString, config)
   local build = GetBuildInfo and select(2, GetBuildInfo())
-  Write(string.format("H version=%s;spec=%s;client=%s;start=%.2f;haste=%s;loadout=%s", tostring(ns.VERSION or "?"),
+  local g = ns.global or ns.db
+  g.recordedFights = (tonumber(g.recordedFights) or 0) + 1
+  Write(string.format("H fight=%d;version=%s;spec=%s;client=%s;start=%.2f;haste=%s;loadout=%s", g.recordedFights,
+    tostring(ns.VERSION or "?"),
     tostring(state and state.key or "?"), tostring(build or "?"), start,
     Enc(U.Get(UnitSpellHaste, "player")), tostring(loadout or "?")))
   -- what DMGAssist read out of combat and keeps: the spellbook (and swapped buttons), the talents, your settings
@@ -248,6 +336,21 @@ function R.Begin()
   end
   table.sort(set)
   Write("D " .. table.concat(set, ";"))
+  -- What DMGAssist knew at the pull (a replay starts from it): its clocks and memory of this session (a Moonfire cast
+  -- before the pull, buffs, glows - the first replay of a real fight recommended Moonfire all fight without it) and
+  -- what it has learned over past fights (cooldown timing, glow links, the resource fit, the learner). As Lua
+  -- literals: "L <name> <table>". Times are GetTime() values: the replay's clock starts at the header's start.
+  local S, C = ns.State, ns.Clues
+  local live = {}
+  for _, k in ipairs(R.STATE_KEYS) do
+    live[k] = S[k]
+  end
+  Write("L state " .. R.Ser(live, 0))
+  Write("L learned " .. R.Ser(S.learned, 0))
+  Write("L clues " .. R.Ser({ floor = C.floor, bounds = C.bounds, aura = C.aura, links = C.links,
+    glowSeen = C.glowSeen, procDown = C.procDown }, 0))
+  Write("L calibrate " .. R.Ser(ns.Calibrate and ns.Calibrate.Store and ns.Calibrate.Store(), 0))
+  Write("L learner " .. R.Ser(ns.Learner and ns.Learner.Store and ns.Learner.Store(), 0))
   R.on = true
 end
 
@@ -257,14 +360,16 @@ function R.End()
   start = nil
 end
 
+-- On with Logging: Enhanced (the main settings page) or /dmga record on
 function R.Enabled()
   local db = ns.db
-  return type(db) == "table" and db.recordInputs == true
+  return type(db) == "table" and (db.loggingMode == "enhanced" or db.recordInputs == true)
 end
 
 function R.Set(on)
   if type(ns.db) == "table" then
     ns.db.recordInputs = on and true or nil
+    ns.db.loggingMode = on and "enhanced" or "standard"
   end
 end
 

@@ -936,4 +936,10 @@ ns.LOCALE_DATA.itIT = {
   ["Report %s, part %d of %d: Ctrl+C, paste it, then Next part."] = "Rapporto %s, parte %d di %d: Ctrl+C, incollala, poi Parte successiva.",
   ["Cooldown Manager readings ignored until /dmga cdm use"] = "Letture del Gestore tempi di recupero ignorate fino a /dmga cdm use",
   ["Cooldown Manager readings used"] = "Letture del Gestore tempi di recupero in uso",
+  ["Logging for testing"] = "Registro per i test",
+  ["Standard keeps the usual report. Enhanced records everything the game shows DMGAssist in every fight, so a fight can be replayed and fixed offline. Each fight is numbered on its own. Turn it on, play, then send the report (/dmgw)."] = "Standard mantiene il rapporto abituale. Esteso registra tutto ciò che il gioco mostra a DMGAssist in ogni combattimento, così un combattimento può essere rigiocato e corretto offline. Ogni combattimento è numerato. Attivalo, gioca, poi invia il rapporto (/dmgw).",
+  ["Logging"] = "Registro",
+  ["Standard"] = "Standard",
+  ["Enhanced (records each fight for replay)"] = "Esteso (registra ogni combattimento per rigiocarlo)",
+  ["Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."] = "Esteso rende i rapporti più grandi (un rapporto può arrivare in più parti). Torna a Standard quando hai finito i test.",
 }

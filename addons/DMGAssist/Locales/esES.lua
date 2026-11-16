@@ -936,4 +936,10 @@ ns.LOCALE_DATA.esES = {
   ["Report %s, part %d of %d: Ctrl+C, paste it, then Next part."] = "Informe %s, parte %d de %d: Ctrl+C, pégalo y luego Siguiente parte.",
   ["Cooldown Manager readings ignored until /dmga cdm use"] = "Lecturas del Gestor de reutilización ignoradas hasta /dmga cdm use",
   ["Cooldown Manager readings used"] = "Lecturas del Gestor de reutilización en uso",
+  ["Logging for testing"] = "Registro para pruebas",
+  ["Standard keeps the usual report. Enhanced records everything the game shows DMGAssist in every fight, so a fight can be replayed and fixed offline. Each fight is numbered on its own. Turn it on, play, then send the report (/dmgw)."] = "Estándar mantiene el informe habitual. Ampliado registra todo lo que el juego muestra a DMGAssist en cada combate, para poder reproducir y corregir un combate sin conexión. Cada combate se numera por separado. Actívalo, juega y envía el informe (/dmgw).",
+  ["Logging"] = "Registro",
+  ["Standard"] = "Estándar",
+  ["Enhanced (records each fight for replay)"] = "Ampliado (registra cada combate para reproducirlo)",
+  ["Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."] = "Ampliado hace los informes más grandes (un informe puede venir en más partes). Vuelve a Estándar cuando termines de probar.",
 }

@@ -6,15 +6,16 @@ without another session, (3) set the offline game's assumptions from real play.
 ## Before the first pull (once)
 
 1. Install the latest nightly (1.6.0.32x or later). `/dmga` should print the version.
-2. `/dmga record on` - every fight then records what the game showed DMGAssist (Core/Record.lua). It stays on until
-   `/dmga record off`. It only costs memory in the saved Watchdog data; nothing is sent anywhere.
+2. `/dmga` -> settings main page -> Logging: **Enhanced**. Every fight then records what the game showed DMGAssist
+   (Core/Record.lua), each numbered by itself, nothing to mark. Back to Standard when the testing is done. It only
+   costs memory in the saved Watchdog data; nothing is sent anywhere.
 3. `/dmgw` - the Watchdog window: check it says testing mode (more events kept). If not: `/dmgw testing on`.
 4. Settings as you normally play. Note anything unusual (Cooldown Manager on/off, queue size) - the recording keeps
    the settings too, but a sentence helps.
 
 ## The tests (about 15 minutes; any spec, two if there is time)
 
-Mark the start of each with `/dmga mark <name>` so the report says which is which.
+No marks needed: each fight is numbered. Do the tests in this order (or say which fight was which).
 
 | # | where | what | why |
 |---|---|---|---|

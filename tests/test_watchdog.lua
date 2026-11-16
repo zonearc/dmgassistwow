@@ -179,6 +179,20 @@ test("encoded export is used when C_EncodingUtil exists", function()
   local str, fmt = ns.Export.Encode()
   eq(fmt, "json+deflate+base64")
   eq(str, "DMGW1:b64(z{})")
+  -- checked by decoding it again: a round trip that doesn't give the JSON back is flagged
+  C_EncodingUtil.DecodeBase64 = function(s)
+    return s:match("^b64%((.*)%)$")
+  end
+  C_EncodingUtil.DecompressString = function(s)
+    return s:sub(2)
+  end
+  fmt = select(2, ns.Export.Encode())
+  eq(fmt, "json+deflate+base64+verified")
+  C_EncodingUtil.DecompressString = function(s)
+    return s:sub(3)
+  end
+  fmt = select(2, ns.Export.Encode())
+  eq(fmt, "json+deflate+base64+UNVERIFIED")
   C_EncodingUtil = nil
 end)
 
@@ -309,7 +323,7 @@ test("report window: your words go first, in the copied text and inside the repo
   truthy(at, "the report string follows")
   local whole = {}
   for i, p in ipairs(ns.UI.parts) do
-    whole[i] = p:gsub("^DMGWP %d+/%d+ ", "")
+    whole[i] = p:gsub("^DMGWP %d+/%d+ c=%d+%.%x+ ", ""):gsub(" END$", "")
   end
   local data = assert(loadstring("return " .. table.concat(whole):sub(7)))()
   eq(data.userNote.doing, "dummies", "inside the report too")
@@ -388,7 +402,10 @@ test("report: too big for one paste - in parts that join back into the whole rep
     local tag = string.format("DMGWP %d/%d ", i, #parts)
     eq(p:sub(1, #tag), tag, "tagged")
     truthy(#p <= ns.Export.REPORT_LIMIT, "each part fits one paste")
-    joined[#joined + 1] = p:sub(#tag + 1)
+    local check, chunk = p:sub(#tag + 1):match("^(c=%d+%.%x+) (.*) END$")
+    truthy(chunk, "a check, the slice, END")
+    eq(check, ns.Export.PartCheck(chunk), "the check matches the slice")
+    joined[#joined + 1] = chunk
   end
   local whole = table.concat(joined)
   local data = assert(loadstring("return " .. whole:sub(7)))()

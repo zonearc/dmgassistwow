@@ -932,3 +932,9 @@
 938	Rapport %s, partie %d sur %d : Ctrl+C, collez-la, puis Partie suivante.
 939	Lectures du gestionnaire de temps de recharge ignorées jusqu'à /dmga cdm use
 940	Lectures du gestionnaire de temps de recharge utilisées
+941	Journal pour les tests
+942	Standard garde le rapport habituel. Étendu enregistre tout ce que le jeu montre à DMGAssist à chaque combat, pour pouvoir rejouer et corriger un combat hors ligne. Chaque combat est numéroté. Activez-le, jouez, puis envoyez le rapport (/dmgw).
+943	Journal
+944	Standard
+945	Étendu (enregistre chaque combat pour le rejouer)
+946	Étendu rend les rapports plus gros (un rapport peut venir en plus de parties). Revenez à Standard une fois les tests finis.

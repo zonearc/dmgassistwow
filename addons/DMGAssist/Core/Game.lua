@@ -1582,12 +1582,15 @@ function G.OnJudged(kind, id)
   local f = G.Create()
   local judge
   local baseOf = ns.SpellMap.baseOf or {}
-  if kind == "miss" then
+  -- 2026-11-16 (owner): "sometimes if I press the wrong key it doesnt end the streak and sometimes it does" - a slot 2
+  -- or 3 press used to count as Good and keep the streak. Any press that isn't slot 1 now ends it; only a slot 3 /
+  -- slot 2 press doesn't shake the note (it was on screen as an option).
+  if kind == "miss" or kind == "near" then
     judge = "miss"
     G.Break()
     G.perfectRun = 0
     G.hotRun, G.flowStateUntil = 0, nil -- a miss ends a hot streak and Flow State
-    if G.mainNote then
+    if G.mainNote and kind == "miss" then
       G.mainNote.missAt = GetTime() -- the note shakes with a red X and stays: press it now
     end
   else
@@ -1597,8 +1600,6 @@ function G.OnJudged(kind, id)
     if kind == "hit" and c and id and (baseOf[c.id] or c.id) == (baseOf[id] or id) and GetTime() - c.at < 10 then
       judge, fire = c.judge, c.fire -- judged when the cast began
       G.cast = nil
-    elseif kind == "near" then
-      judge = "good"
     else
       local note = id and NoteFor(id)
       judge = Timing(note or G.mainNote)
@@ -1671,7 +1672,7 @@ function G.OnJudged(kind, id)
     end
   end
   G.lastJudge = judge
-  -- combos move with the same judgement as the streak (a switch that doesn't cost the streak doesn't cost the combo)
+  -- combos: a "miss" ends one; a slot 2 / 3 press still moves it on (its notes are linked slots 1-2)
   if ns.Combos then
     ns.Combos.OnJudged(kind, id)
   end

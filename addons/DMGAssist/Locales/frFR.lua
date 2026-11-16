@@ -936,4 +936,10 @@ ns.LOCALE_DATA.frFR = {
   ["Report %s, part %d of %d: Ctrl+C, paste it, then Next part."] = "Rapport %s, partie %d sur %d : Ctrl+C, collez-la, puis Partie suivante.",
   ["Cooldown Manager readings ignored until /dmga cdm use"] = "Lectures du gestionnaire de temps de recharge ignorées jusqu'à /dmga cdm use",
   ["Cooldown Manager readings used"] = "Lectures du gestionnaire de temps de recharge utilisées",
+  ["Logging for testing"] = "Journal pour les tests",
+  ["Standard keeps the usual report. Enhanced records everything the game shows DMGAssist in every fight, so a fight can be replayed and fixed offline. Each fight is numbered on its own. Turn it on, play, then send the report (/dmgw)."] = "Standard garde le rapport habituel. Étendu enregistre tout ce que le jeu montre à DMGAssist à chaque combat, pour pouvoir rejouer et corriger un combat hors ligne. Chaque combat est numéroté. Activez-le, jouez, puis envoyez le rapport (/dmgw).",
+  ["Logging"] = "Journal",
+  ["Standard"] = "Standard",
+  ["Enhanced (records each fight for replay)"] = "Étendu (enregistre chaque combat pour le rejouer)",
+  ["Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."] = "Étendu rend les rapports plus gros (un rapport peut venir en plus de parties). Revenez à Standard une fois les tests finis.",
 }

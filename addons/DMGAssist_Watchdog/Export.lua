@@ -161,7 +161,18 @@ local function EncodeData(data)
       if okC and type(compressed) == "string" then
         local okB, b64 = pcall(enc.EncodeBase64, compressed)
         if okB and type(b64) == "string" then
-          return "DMGW1:" .. b64, "json+deflate+base64"
+          -- checked here before it's shown: decoded and decompressed again, it must give the same JSON back
+          -- (2026-11-16: a report reached us one character short; this tells a bad encode from a bad copy)
+          local fmt = "json+deflate+base64"
+          if enc.DecodeBase64 and enc.DecompressString then
+            local okD, raw = pcall(enc.DecodeBase64, b64)
+            local okU, back = false, nil
+            if okD and type(raw) == "string" then
+              okU, back = pcall(enc.DecompressString, raw, method)
+            end
+            fmt = fmt .. ((okU and back == json) and "+verified" or "+UNVERIFIED")
+          end
+          return "DMGW1:" .. b64, fmt
         end
       end
     end
@@ -286,7 +297,7 @@ end
 -- A report too big for one paste comes in parts (owner, 2026-11-14: long fights were losing their first 40% to
 -- the one-paste limit). Each part: "DMGWP i/n " + a slice of the report string; tools/decode-export.py joins
 -- them. Up to MAX_PARTS parts of REPORT_LIMIT each; past that, fewer fights / events go in, as before.
-X.MAX_PARTS = 8
+X.MAX_PARTS = 16 -- (a recorded test session - Logging: Enhanced - can need more than 8)
 X.PART_TAG = "DMGWP"
 function X.EncodeParts()
   local str, fmt, len = X.Encode(X.REPORT_LIMIT * X.MAX_PARTS)
@@ -296,14 +307,26 @@ function X.EncodeParts()
   if #str <= X.REPORT_LIMIT then
     return { str }, fmt, len
   end
-  local size = X.REPORT_LIMIT - 20
+  local size = X.REPORT_LIMIT - 40 -- the tag, the check and END
   local n = math.ceil(#str / size)
   if n > X.MAX_PARTS then
     return nil, "too large" -- (the smallest report is bigger than MAX_PARTS small parts: the window is too small)
   end
   local parts = {}
   for i = 1, n do
-    parts[i] = string.format("%s %d/%d ", X.PART_TAG, i, n) .. string.sub(str, (i - 1) * size + 1, i * size)
+    local chunk = string.sub(str, (i - 1) * size + 1, i * size)
+    parts[i] = string.format("%s %d/%d %s ", X.PART_TAG, i, n, X.PartCheck(chunk)) .. chunk .. " END"
   end
   return parts, fmt, len
+end
+
+-- Each part says how long it is and a checksum of its text, and ends with END (2026-11-16: a report came back one
+-- character short somewhere and nothing could say which part, or whether the copy or the paste lost it). The decoder
+-- (tools/decode-export.py) names the part that changed so only that one is copied again.
+function X.PartCheck(chunk)
+  local sum = 0
+  for i = 1, #chunk do
+    sum = (sum * 31 + string.byte(chunk, i)) % 16777213
+  end
+  return string.format("c=%d.%06x", #chunk, sum)
 end

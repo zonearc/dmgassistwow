@@ -1024,8 +1024,8 @@ function ns.OnOwnCast(id)
     ns.Diagnostics.OnPress(id, shown, ns.last) -- was slot 2 right? (prediction_summary)
     ns.Learner.OnPress(id, shown, ns.last) -- the shadow learner (learner_summary, press lines)
     ns.Diagnostics.AuditCast(id) -- what each cast did to your resources (resource_audit)
-    if ns.db and ns.db.extendedLog then
-      ns.Diagnostics.StateTrace(id, ns.last) -- what the game showed at this press (/dmga extended)
+    if ns.db and (ns.db.extendedLog or ns.db.loggingMode == "enhanced") then
+      ns.Diagnostics.StateTrace(id, ns.last) -- what the game showed at this press (/dmga extended, Logging: Enhanced)
     end
   end
   ns.Essentials.OnOwnCast(id)

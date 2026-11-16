@@ -932,3 +932,9 @@
 938	Relatório %s, parte %d de %d: Ctrl+C, cole e depois Próxima parte.
 939	Leituras do Gerenciador de Recarga ignoradas até /dmga cdm use
 940	Leituras do Gerenciador de Recarga em uso
+941	Registro para testes
+942	Padrão mantém o relatório de sempre. Ampliado registra tudo o que o jogo mostra ao DMGAssist em cada combate, para que um combate possa ser repetido e corrigido offline. Cada combate é numerado. Ative, jogue e envie o relatório (/dmgw).
+943	Registro
+944	Padrão
+945	Ampliado (registra cada combate para repetir)
+946	Ampliado deixa os relatórios maiores (um relatório pode vir em mais partes). Volte para Padrão quando terminar os testes.

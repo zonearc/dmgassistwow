@@ -939,5 +939,11 @@
 "Next part",
 "Report %s, part %d of %d: Ctrl+C, paste it, then Next part.",
 "Cooldown Manager readings ignored until /dmga cdm use",
-"Cooldown Manager readings used"
+"Cooldown Manager readings used",
+"Logging for testing",
+"Standard keeps the usual report. Enhanced records everything the game shows DMGAssist in every fight, so a fight can be replayed and fixed offline. Each fight is numbered on its own. Turn it on, play, then send the report (/dmgw).",
+"Logging",
+"Standard",
+"Enhanced (records each fight for replay)",
+"Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."
 ]

@@ -936,4 +936,10 @@ ns.LOCALE_DATA.koKR = {
   ["Report %s, part %d of %d: Ctrl+C, paste it, then Next part."] = "보고서 %s, %d/%d 부분: Ctrl+C로 복사해 붙여넣은 뒤 다음 부분을 누르세요.",
   ["Cooldown Manager readings ignored until /dmga cdm use"] = "/dmga cdm use 전까지 재사용 대기시간 관리자 정보를 무시합니다",
   ["Cooldown Manager readings used"] = "재사용 대기시간 관리자 정보를 사용합니다",
+  ["Logging for testing"] = "테스트용 기록",
+  ["Standard keeps the usual report. Enhanced records everything the game shows DMGAssist in every fight, so a fight can be replayed and fixed offline. Each fight is numbered on its own. Turn it on, play, then send the report (/dmgw)."] = "표준은 평소 보고서를 유지합니다. 확장은 모든 전투에서 게임이 DMGAssist에 보여 주는 모든 것을 기록하여, 전투를 오프라인에서 다시 재생하고 고칠 수 있게 합니다. 전투마다 번호가 붙습니다. 켜고 플레이한 뒤 보고서를 보내세요 (/dmgw).",
+  ["Logging"] = "기록",
+  ["Standard"] = "표준",
+  ["Enhanced (records each fight for replay)"] = "확장 (재생을 위해 모든 전투 기록)",
+  ["Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."] = "확장은 보고서를 더 크게 만듭니다 (보고서가 더 많은 부분으로 나뉠 수 있음). 테스트가 끝나면 표준으로 되돌리세요.",
 }

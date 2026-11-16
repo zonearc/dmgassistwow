@@ -72,7 +72,15 @@ def build_input(session):
         if len(e) > 3 and e[1] == "D" and e[2] == "pick":
             f = fields(e[3])
             shown.append((e[0], f.get("main"), f.get("next")))
-    out = ["return {", "spec = %s," % lua_str(spec.group(1) if spec else "?")]
+    start = re.search(r"start=([\d.]+)", head)
+    snap = {}
+    for l in rec:
+        if l.startswith("L "):
+            _, name, lit = l.split(" ", 2)
+            snap[name] = lit
+    out = ["return {", "spec = %s," % lua_str(spec.group(1) if spec else "?"),
+           "start = %s," % (start.group(1) if start else "nil"),
+           "snapshot = {" + ",".join("[%s]=%s" % (lua_str(k), lua_str(v)) for k, v in snap.items()) + "},"]
     out.append("book = {" + ",".join("{%d,%d,%s,%s}" % (a, b, "true" if c else "false", d if d else "nil")
                                     for a, b, c, d in book) + "},")
     out.append("talentIDs = {" + ",".join("[%d]=%d" % kv for kv in talent_ids.items()) + "},")
@@ -84,7 +92,7 @@ def build_input(session):
     out.append("settings = {" + ",".join(sv) + "},")
     out.append("shown = {" + ",".join("{t=%s,main=%s,next=%s}" % (t, lua_str(m or ""), lua_str(n or ""))
                                      for t, m, n in shown) + "},")
-    out.append("lines = {" + ",\n".join(lua_str(l) for l in rec if l[:2] in ("K ", "T ", "E ")) + "},")
+    out.append("lines = {" + ",\n".join(lua_str(l) for l in rec if l[:2] in ("K ", "T ", "E ", "Q ")) + "},")
     out.append("}")
     return "\n".join(out)
 

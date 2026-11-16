@@ -44,8 +44,44 @@ for k, v in pairs(input.settings) do
   ns.db[k] = v
 end
 
+-- what the addon knew at the pull (Record.lua "L" lines): its clocks, its memory, what it learned over past fights.
+-- The clock starts at the recorded pull time, so the snapshot's GetTime() values line up.
+mock.now = input.start or mock.now
+for name, lit in pairs(input.snapshot or {}) do
+  local fn = loadstring("return " .. lit)
+  local ok, v = pcall(fn or function() end)
+  if ok and type(v) == "table" then
+    local into = ({ state = S, learned = S.learned, clues = ns.Clues })[name]
+    if name == "calibrate" then
+      into = ns.Calibrate.Store()
+    elseif name == "learner" then
+      into = ns.Learner.Store()
+    end
+    for k, item in pairs(into and v or {}) do
+      into[k] = item
+    end
+  end
+end
+
 -- answers
+local shapes = {} -- Record.lua "Q <id> field,field,...": a table answer's shape
 local function Dec(s)
+  if s:sub(1, 1) == "#" then
+    local id, body = s:match("^#(%d+):(.*)$")
+    local fields = id and shapes[tonumber(id)]
+    if not fields then
+      return nil
+    end
+    local t, i = {}, 0
+    for item in (body .. "/"):gmatch("([^/]*)/") do
+      i = i + 1
+      local k = fields[i]
+      if k then
+        t[tonumber(k) or k] = Dec(item)
+      end
+    end
+    return t
+  end
   if s == "-" then
     return nil
   elseif s == "S" then
@@ -129,7 +165,14 @@ local picks, presses = {}, {}
 mock.inCombat, mock.restricted = true, true
 for _, line in ipairs(input.lines) do
   local kind = line:sub(1, 1)
-  if kind == "K" then
+  if kind == "Q" then
+    local id, sig = line:match("^Q (%d+) (.*)$")
+    local fields = {}
+    for f in sig:gmatch("[^,]+") do
+      fields[#fields + 1] = f
+    end
+    shapes[tonumber(id)] = fields
+  elseif kind == "K" then
     local id, q = line:match("^K (%d+) (.*)$")
     keys[tonumber(id)] = q
   elseif kind == "T" then

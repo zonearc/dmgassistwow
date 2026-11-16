@@ -932,3 +932,9 @@
 938	Rapporto %s, parte %d di %d: Ctrl+C, incollala, poi Parte successiva.
 939	Letture del Gestore tempi di recupero ignorate fino a /dmga cdm use
 940	Letture del Gestore tempi di recupero in uso
+941	Registro per i test
+942	Standard mantiene il rapporto abituale. Esteso registra tutto ciò che il gioco mostra a DMGAssist in ogni combattimento, così un combattimento può essere rigiocato e corretto offline. Ogni combattimento è numerato. Attivalo, gioca, poi invia il rapporto (/dmgw).
+943	Registro
+944	Standard
+945	Esteso (registra ogni combattimento per rigiocarlo)
+946	Esteso rende i rapporti più grandi (un rapporto può arrivare in più parti). Torna a Standard quando hai finito i test.

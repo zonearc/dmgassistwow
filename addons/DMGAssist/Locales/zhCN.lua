@@ -936,4 +936,10 @@ ns.LOCALE_DATA.zhCN = {
   ["Report %s, part %d of %d: Ctrl+C, paste it, then Next part."] = "报告 %s，第 %d/%d 部分：Ctrl+C 复制并粘贴，然后点下一部分。",
   ["Cooldown Manager readings ignored until /dmga cdm use"] = "忽略冷却管理器的读数，直到 /dmga cdm use",
   ["Cooldown Manager readings used"] = "使用冷却管理器的读数",
+  ["Logging for testing"] = "测试日志",
+  ["Standard keeps the usual report. Enhanced records everything the game shows DMGAssist in every fight, so a fight can be replayed and fixed offline. Each fight is numbered on its own. Turn it on, play, then send the report (/dmgw)."] = "标准保留常规报告。增强会在每场战斗中记录游戏向 DMGAssist 显示的一切，以便离线重放并修复战斗。每场战斗单独编号。开启后进行游戏，然后发送报告（/dmgw）。",
+  ["Logging"] = "日志",
+  ["Standard"] = "标准",
+  ["Enhanced (records each fight for replay)"] = "增强（记录每场战斗以便重放）",
+  ["Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."] = "增强会使报告变大（报告可能分成更多部分）。测试结束后改回标准。",
 }

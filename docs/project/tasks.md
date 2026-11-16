@@ -16,6 +16,13 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 2026-11-16 first recorded fight (Balance, dummies): Logging Standard/Enhanced switch on the main settings page (each
+  fight recorded and numbered by itself); the recording now starts with the addon's state at the pull (replay of the
+  first recording was 11% faithful without it); answers stored as table shapes (~10x smaller); each report part
+  carries a length/checksum and END, and the report is decoded again in game before it's shown (the first report
+  arrived one character short with no way to tell which part); a slot 2 / 3 press now ends the Flow streak like any
+  other wrong key ("sometimes it ends the streak, sometimes not"). Next: replay the next Enhanced fights.
+
 - Mage: Frost good (2026-11-12). Fire: "only 1 icon to start" was everything blocked while moving.
 
 - UI errors (2026-11-12): AssistedCombatManager.lua "attempt to call a nil value" also happens with DMGAssist

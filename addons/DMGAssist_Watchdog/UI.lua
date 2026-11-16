@@ -337,6 +337,11 @@ function V.ShowReport(typing)
             V.stamp, len)
         end
       end
+      if type(fmt) == "string" and fmt:find("UNVERIFIED", 1, true) then
+        -- the game's encoder gave back something that doesn't decode to the same report: say so, it's not the copy
+        ns.Errors.Record("watchdog_internal", "report did not decode back to itself")
+        U.Print("The report did not check out when decoded again; paste it anyway and say so.")
+      end
       ns.Export.REPORT_LIMIT = limit
       return true
     end
