@@ -2628,6 +2628,9 @@ function AuraState(unit, token)
       if read or M.IsOwnAura(t) or S.learnedOwn(t) then
         return false, 0, 0
       end
+      if unit == "player" and not (V and #V.prev > 0) and ns.Clues.ProcDown(t) then
+        return false, 0, 0 -- its button isn't lit (Clues: shipped glow links)
+      end
       return UNKNOWN, UNKNOWN, UNKNOWN
     end
   end
@@ -2645,6 +2648,14 @@ function AuraState(unit, token)
         if applied == t then
           return false, 0, 0
         end
+      end
+    end
+  end
+  -- A proc whose button isn't lit is down (Clues: shipped glow links), in the present only
+  if unit == "player" and not (V and #V.prev > 0) then
+    for _, t in ipairs(list) do
+      if ns.Clues.ProcDown(t) then
+        return false, 0, 0
       end
     end
   end
@@ -3969,7 +3980,7 @@ function S.Bind(key)
   l.castAura = type(l.castAura) == "table" and l.castAura or {}
   l.glowAura = type(l.glowAura) == "table" and l.glowAura or {}
   S.learned = l
-  ns.Clues.Reset(l.glowAura)
+  ns.Clues.Reset(l.glowAura, key)
   S.auraUntil, S.dotUntil, S.lastCast, S.wasActive, S.glow = {}, {}, {}, {}, {}
   S.readyBeforeFight = {} -- (with our cast records: S.SnapshotReady fills it again within a second)
   S.cdRefusal = {}

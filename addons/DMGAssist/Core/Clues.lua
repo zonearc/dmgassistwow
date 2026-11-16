@@ -57,7 +57,49 @@ local function Record(source, correct)
   end
 end
 
-function C.Reset(links)
+-- Shipped glow links (Data/ProcGlows.lua, from the game data and Warcraft Logs): the buttons a proc lights. Learned
+-- links need the buff and the glow seen together out of combat, and procs mostly come in combat - Arcane's
+-- Clearcasting, Demonic Core, Killing Machine stayed "unknown" in every offline fight (2026-11-16). With these, a
+-- glow says the proc is up and no glow says it's down; the readable-aura check below switches them off if wrong.
+C.shipped = {}       -- glowing spellID -> aura token
+C.shippedTokens = {} -- token -> true
+local function SeedShipped(key)
+  C.shipped, C.shippedTokens = {}, {}
+  local all = ns.Data and ns.Data.procGlows
+  for _, row in pairs(type(all) == "table" and key and all[key] or {}) do
+    local token, spells = row[1], row[2]
+    for _, id in ipairs(type(spells) == "table" and spells or {}) do
+      C.shipped[id] = C.shipped[id] or token
+    end
+    C.shippedTokens[token] = true
+  end
+end
+
+-- Pull: every shipped proc whose button isn't lit is down (until a glow says otherwise). Kept apart from the other
+-- facts and only asked last (S.AuraState): the assistant's oracle and the Cooldown Manager know better.
+C.procDown = {} -- token -> true while its buttons are dark
+C.glowSeen = {} -- token -> true once a shipped link's glow was seen (this session)
+function C.ProcsAtPull(lit)
+  C.procDown = {}
+  for token in pairs(C.shippedTokens) do
+    local on = false
+    for id, tk in pairs(C.shipped) do
+      if tk == token and lit and lit[id] then
+        on = true
+      end
+    end
+    -- (only procs seen lighting their button this session: not every proc glows in game - Feral's Clearcasting may
+    -- not light Shred - and "no glow" says nothing about one that never does)
+    C.procDown[token] = (C.glowSeen[token] and not on) or nil
+  end
+end
+function C.ProcDown(token)
+  return C.procDown[token] == true and C.Enabled("glow")
+end
+
+function C.Reset(links, key)
+  SeedShipped(key)
+  C.procDown = {}
   C.aura = { player = {}, target = {} }
   C.bounds = {}
   C.named = {}
@@ -211,6 +253,20 @@ function C.OnSignal(key, on, aurasReadable)
       C.SetAura("player", token, true, 30, SignalSource(key))
     else
       C.SetAura("player", token, false, 1.0, SignalSource(key))
+    end
+  elseif C.shipped[key] then
+    -- (shipped: lit -> up; the glow going away means the proc is gone, until the next glow)
+    local tk = C.shipped[key]
+    if on then
+      C.SetAura("player", tk, true, 30, SignalSource(key))
+      C.procDown[tk] = nil
+      C.glowSeen[tk] = true
+    else
+      C.procDown[tk] = C.glowSeen[tk] or nil
+      local f = C.aura.player[tk]
+      if f and f.up then
+        C.aura.player[tk] = nil
+      end
     end
   end
 end

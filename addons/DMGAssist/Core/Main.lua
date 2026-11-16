@@ -596,6 +596,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
     stuck.ignored, stuck.snapped = 0, {}
     lastLogged = nil -- the first pick of every fight is logged (and traced)
     S.OnCombat(true)
+    ns.Clues.ProcsAtPull(S.glow) -- shipped procs: down unless their button is lit (Clues.lua)
     ns.Combos.OnFightStart() -- a few presses before the first combo (Combos.lua)
     ns.Essentials.Reset()
     ns.Engine.OnCombat()

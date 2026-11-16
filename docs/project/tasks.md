@@ -180,6 +180,20 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.313: Procs work like the game's, the player is human, and glows tell the addon which proc is up (owner,
+  2026-11-16: "make the procs work like the ones in game where me casting x spell makes clearcasting proc ... same
+  with resets ... occasionally press the wrong spell").
+  * tools/wcl-triggers.py: per spec, each buff application put on the cast just before it -> chance per cast (Rip /
+    Ferocious Bite -> Predatory Swiftness 92-99%, Shred -> Clearcasting 27%, Swipe -> Gore 26%) plus a background
+    rate (auto-attacks); resets: the buff seen before a spell's early casts more than before on-time ones, or acting
+    on it in the game data. Offline, every cast rolls its procs; a reset proc ends the cooldown.
+  * Procs the rotation lists check now light the spells they act on (game data, data/aura-affects.json), offline and
+    in Data/ProcGlows.lua for the addon: a lit button says the proc is up; once a proc was seen lit this session, a
+    dark button says it's down (not before: not every proc glows in game). Feral 42 -> 55, Arcane 56 -> 62, Unholy
+    57 -> 62, Assassination 54 -> 58 offline; the drops elsewhere are the offline game's new procs (Affliction's
+    Shard Instability 85 -> 64, Fire 71 -> 62), the same with the addon change off.
+  * --human: the owner's measured delay after the GCD and 10% presses of something else (slot 2 40%, the same spell
+    28%, other 32%, as in his fights). Scoring run now: 30 specs x 3 seeds x human: 71.5 -> 71.3 (harder world).
 - 1.6.0.311: Random procs in the offline game (owner: "Warcraft logs can show us how often they generally happen ...
   determine procs exist, execute at random and push the results down again and then have to fix it up").
   * tools/wcl-procs.py: every buff on top players in raid fights, applications per minute (data/proc-rates.json);

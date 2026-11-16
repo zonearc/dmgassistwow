@@ -459,9 +459,13 @@ local function Fight(ns, key, record, book, scenario)
   m.procs = 0
   local function ProcIDs(p)
     local all = {}
-    for _, list in ipairs({ p.free, p.instant, p.swap }) do
+    local seen = {}
+    for _, list in ipairs({ p.free, p.instant, p.swap, p.glow or {} }) do
       for _, id in ipairs(list) do
-        all[#all + 1] = id
+        if not seen[id] then
+          seen[id] = true
+          all[#all + 1] = id
+        end
       end
     end
     return all
