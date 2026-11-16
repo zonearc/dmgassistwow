@@ -180,7 +180,7 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
-- 1.6.0.313: Procs work like the game's, the player is human, and glows tell the addon which proc is up (owner,
+- 1.6.0.317: Procs work like the game's, the player is human, and glows tell the addon which proc is up (owner,
   2026-11-16: "make the procs work like the ones in game where me casting x spell makes clearcasting proc ... same
   with resets ... occasionally press the wrong spell").
   * tools/wcl-triggers.py: per spec, each buff application put on the cast just before it -> chance per cast (Rip /

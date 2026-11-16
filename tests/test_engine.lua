@@ -3059,7 +3059,7 @@ test("glows: learned out of combat, then reveal the proc in combat", function()
   Restrict()
   mock.Advance(2)
   -- (a proc seen lighting its button, now dark: down - Data/ProcGlows.lua links Clearcasting to Shred; before
-  -- 1.6.0.313 this stayed unknown)
+  -- 1.6.0.317 this stayed unknown)
   eq(S.Resolve("buff.clearcasting.up", {}), 0)
   mock.Fire("SPELL_ACTIVATION_OVERLAY_GLOW_SHOW", 5221)
   eq(S.Resolve("buff.clearcasting.up", {}), 1)

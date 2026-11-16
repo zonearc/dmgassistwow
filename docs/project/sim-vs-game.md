@@ -69,6 +69,13 @@ offline number now: Fire 97 -> 77, Balance 72 -> 63, Feral 37 -> 31 (45 with the
 five targets: Fire 44-64, Balance 59-75, Feral 41-49. A change is only real when it moves the mean of several seeds by
 more than that spread; judged on one seed, a model can be fitted to one lucky sequence.
 
+## The scoring run (1.6.0.317)
+
+30 specs x 3 seeds x one and five targets, the human player (the owner's measured timing, 10% other presses), procs
+rolled per cast at the logs' chances with resets: average 71.6%. Below 65: Blood 50, Arms 52, Vengeance 55, Balance
+56, Assassination 57, Arcane 62, Feral 62, Unholy 62, Fire 62, Havoc 62, Frost DK 63, Affliction 64, Devastation 65.
+Much of what is left is a proc that comes after slot 2 was set (Rime after Frost Strike): no prediction can know it.
+
 ## Expected in game
 
 Offline average 80.4% (30 specs, 1.6.0.308; 78.8 in 1.6.0.305). Expect less in game, most for gap 1 (procs): the Mages, Feral, Outlaw,
