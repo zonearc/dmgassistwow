@@ -16,12 +16,13 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.join(HERE, "..")
 SRC = os.path.join(ROOT, ".libraries", "simc", "midnight", "SpellDataDump", "allspells.txt")
 JSON = os.path.join(ROOT, "data", "proc-map.json")
+AFFECTS = os.path.join(ROOT, "data", "aura-affects.json")
 HEAD = re.compile(r"^Name\s*:\s*.+? \(id=(\d+)\)")
 
 
 def main():
     lines = open(SRC, encoding="utf-8", errors="replace").read().splitlines()
-    out = {}
+    out, affects = {}, {}
     sid, dur, stacks = None, 0, 1
     for i, line in enumerate(lines):
         m = HEAD.match(line)
@@ -34,6 +35,8 @@ def main():
         s = re.match(r"^Max Stacks?\s*:\s*(\d+)", line)
         if s:
             stacks = int(s.group(1))
+        if dur > 0 and sid and "Affected Spells" in line:
+            affects.setdefault(sid, set()).update(int(x) for x in re.findall(r"\((\d+)\)", line))
         kind = None
         if "Spell Resource Cost" in line and "Percent Modifier" in line:
             kind = "free"
@@ -50,6 +53,7 @@ def main():
         if ids:
             row = out.setdefault(sid, {"d": dur, "stacks": stacks, "free": set(), "instant": set()})
             row[kind] |= set(ids)
+    json.dump({str(a): sorted(v) for a, v in affects.items()}, open(AFFECTS, "w"), sort_keys=True)
     json.dump({str(a): {"d": r["d"], "stacks": r["stacks"], "free": sorted(r["free"]), "instant": sorted(r["instant"])}
                for a, r in out.items()}, open(JSON, "w"), indent=1, sort_keys=True)
     print("%d proc auras -> %s" % (len(out), JSON))

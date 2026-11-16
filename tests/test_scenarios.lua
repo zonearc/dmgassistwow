@@ -228,6 +228,7 @@ local SEED = tonumber(os.getenv("SCEN_SEED") or "") or 20261110
 -- from his Balance fights (1.6.0.291-296 reports, instant after instant, 272 pairs): median 0.25 s, p90 0.48 s,
 -- 1% over a second. Without it the offline player presses the instant the GCD ends, every time.
 local HUMAN = os.getenv("SCEN_HUMAN") == "1"
+local WRONG = tonumber(os.getenv("SCEN_WRONG") or "") or 0.10 -- share of presses that aren't slot 1 (SCEN_HUMAN)
 local HUMAN_DELAYS = { 0.06, 0.12, 0.17, 0.2, 0.22, 0.24, 0.25, 0.27, 0.29, 0.31, 0.33, 0.36, 0.4, 0.48, 0.6, 1.2 }
 local MAX_RESOURCE = (function()
   local ok, m = pcall(dofile, "tests/max_resource.lua")
@@ -419,6 +420,7 @@ local function Fight(ns, key, record, book, scenario)
   local gcdEnd, lastMain, lastPress, stuck, charges = 0, nil, -10, {}, {}
   local predict -- slot 2's spell when slot 1 was pressed: checked against slot 1 on the next tick
   local pressAt -- (SCEN_HUMAN) when the player will press, after this GCD
+  local lastPressedID
   -- button swaps: aura index -> when it ends; the swapped-in spell is usable only while its aura is up
   local swaps, swapUntil, inBook = SwapsFor(record), {}, {}
   for _, b in ipairs(book) do
@@ -502,6 +504,26 @@ local function Fight(ns, key, record, book, scenario)
     Glow(p, false)
     RefreshProcs()
   end
+  local function ProcUp(i, now)
+    local p = procs[i]
+    local st = procState[i] or { stacks = 0 }
+    procState[i] = st
+    local was = st.stacks
+    st.stacks, st.up = math.min(p.stacks or 1, st.stacks + 1), now + p.d
+    m.procs = m.procs + 1
+    ProcSwaps(p, st.up)
+    -- a reset (Gore -> Mangle): the cooldown is over, every charge back
+    for _, rid in ipairs(p.resets or {}) do
+      mock.cooldowns[rid] = nil
+      if charges[rid] then
+        charges[rid].n, charges[rid].next = charges[rid].max, nil
+      end
+    end
+    if was == 0 then
+      Glow(p, true)
+    end
+    RefreshProcs()
+  end
   local function ProcTick(now)
     for i, p in ipairs(procs) do
       local st = procState[i] or { stacks = 0 }
@@ -509,15 +531,17 @@ local function Fight(ns, key, record, book, scenario)
       if st.up and now >= st.up then
         ProcDown(i)
       end
-      if st.stacks < (p.stacks or 1) and math.random() < p.rate * TICK then
-        local was = st.stacks
-        st.stacks, st.up = st.stacks + 1, now + p.d
-        m.procs = m.procs + 1
-        ProcSwaps(p, st.up)
-        if was == 0 then
-          Glow(p, true)
-        end
-        RefreshProcs()
+      if math.random() < p.rate * TICK then
+        ProcUp(i, now)
+      end
+    end
+  end
+  -- what a cast brings (tools/wcl-triggers.py: Shred -> Clearcasting 27%, Rip -> Predatory Swiftness 92%)
+  local function ProcCast(id, now)
+    for i, p in ipairs(procs) do
+      local c = p.by and p.by[id]
+      if c and math.random() < c then
+        ProcUp(i, now)
       end
     end
   end
@@ -702,6 +726,27 @@ local function Fight(ns, key, record, book, scenario)
       and not (mock.usable[main.id] and mock.usable[main.id][1] == false and mock.usable[main.id][2] == false)
       and not (world and M.Info(main.id) and not WorldAffordable(world, M.Info(main.id), M)) then
       local id = main.id
+      -- (SCEN_HUMAN) now and then the player presses something else - in the owner's fights the other press was
+      -- slot 2 40% of the time, the spell just pressed 28%, something else 32% (1.6.0.291-296 reports)
+      local followed = true
+      if HUMAN and math.random() < WRONG then
+        local roll = math.random()
+        local alt
+        if roll < 0.40 then
+          alt = q[2] and q[2].id
+        elseif roll < 0.68 then
+          alt = lastPressedID
+        else
+          local b = book[math.random(#book)]
+          alt = b and b.spellID
+        end
+        local ai = alt and M.Info(alt)
+        local au = alt and mock.usable[alt]
+        if ai and alt ~= id and not mock.cooldowns[alt] and not (au and au[1] == false)
+          and not (world and not WorldAffordable(world, ai, M)) then
+          id, followed = alt, false
+        end
+      end
       -- prediction: was slot 2 at the last press what you pressed next? (as the in-game summary measures it)
       if predict then
         m.predN = m.predN + 1
@@ -709,8 +754,10 @@ local function Fight(ns, key, record, book, scenario)
           m.predHit = m.predHit + 1
         end
       end
-      predict = q[2] and q[2].id or nil
+      -- (slot 2 counts only after a press that followed slot 1, as in game)
+      predict = followed and q[2] and q[2].id or nil
       pressAt = nil
+      lastPressedID = id
       local info = M.Info(id) or {}
       local gcd = tonumber(info.gcd) or 1.5
       local ct = instantNow[id] and 0 or tonumber(info.ct) or 0
@@ -752,6 +799,7 @@ local function Fight(ns, key, record, book, scenario)
       if world then
         WorldCast(world, info, M)
         ProcUse(id)
+        ProcCast(id, now)
         WorldPublish(world)
         local tk = M.TokenForID(id) or tostring(id)
         m.cast[tk] = (m.cast[tk] or 0) + 1
