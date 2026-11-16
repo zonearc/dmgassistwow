@@ -111,6 +111,25 @@ function M.SetData(record)
   M.data = type(record.spells) == "table" and record.spells or {}
   M.info = type(record.spellInfo) == "table" and record.spellInfo or {}
   M.hero = type(record.heroTrees) == "table" and record.heroTrees or {}
+  -- A button with no resource gain whose effect entry (same name, not a button) has one: the button gains it.
+  -- Shadow Bolt's button (686) has none and its Soul Shard sits on the effect - offline Demonology had 0 shards all
+  -- fight and never cast Hand of Gul'dan (top players: its most cast spell), 2026-11-16.
+  local effectGain = {}
+  for _, info in pairs(M.info) do
+    if type(info) == "table" and info.n and type(info.gain) == "table" and not (info.gcd or info.ct) then
+      effectGain[info.n] = effectGain[info.n] or info.gain
+    end
+  end
+  for _, info in pairs(M.info) do
+    if type(info) == "table" and info.n and (info.gcd or info.ct) and not info.pas and info.gain == nil
+      and effectGain[info.n] then
+      local g = {}
+      for pt, v in pairs(effectGain[info.n]) do
+        g[pt] = v
+      end
+      info.gain = g
+    end
+  end
   -- Spell interdependencies from the game's spell descriptions (tools/simc_spells.py): by source token, and
   -- "per resource spent" ones by power type. { source, target, seconds | "reset" | "charge", requires, power }
   M.linksBySource, M.linksBySpend = {}, {}
