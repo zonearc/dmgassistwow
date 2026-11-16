@@ -8398,6 +8398,48 @@ test("input recording: a fight's questions, answers and events go to the Watchdo
   assert(ok, err)
 end)
 
+test("signals: a piece keeps answers until its event; shadow reports a change with no event; live answers kept", function()
+  local ns = Boot()
+  local Sig = ns.Signals
+  local function fresh(fn, ...)
+    return { n = 1, fn(...) }
+  end
+  mock.power[3] = 40
+  mock.now = mock.now + 1
+  Sig.Reset()
+  Sig.All("test")
+  mock.now = mock.now + 1 -- (settled: an answer right after a signal isn't kept)
+  local p = Sig.Ask(fresh, UnitPower, "player", 3)
+  eq(p[1], 40, "fresh answer")
+  mock.power[3] = 55 -- changes with no event: the piece would have said 40
+  Sig.Ask(fresh, UnitPower, "player", 3)
+  eq(Sig.stats.resources.wrong, 1, "the miss is counted")
+  eq(Sig.misses[1].piece, "resources", "and reported by piece")
+  mock.Fire("UNIT_POWER_FREQUENT", "player")
+  mock.now = mock.now + 1
+  mock.power[3] = 60
+  Sig.Ask(fresh, UnitPower, "player", 3)
+  eq(Sig.stats.resources.wrong, 1, "after its event the piece asks again: no miss")
+  -- live: the kept answer, no game call, until an event
+  ns.db.signalsMode = "live"
+  Sig.lastReferee = mock.now -- (not a referee pass)
+  Sig.BeginPass()
+  mock.power[3] = 70
+  eq(Sig.Ask(fresh, UnitPower, "player", 3)[1], 60, "live answers what it kept")
+  mock.Fire("UNIT_POWER_UPDATE", "player")
+  mock.now = mock.now + 1
+  eq(Sig.Ask(fresh, UnitPower, "player", 3)[1], 70, "an event makes it ask")
+  -- the GCD ends silently: a kept readable cooldown expires when it ends
+  mock.cooldowns[12345] = { active = true, start = mock.now, duration = 0.5 }
+  local cd = Sig.Ask(fresh, C_Spell.GetSpellCooldown, 12345)
+  eq(cd[1].isActive, true, "on cooldown")
+  mock.cooldowns[12345] = nil
+  mock.now = mock.now + 0.6
+  eq(Sig.Ask(fresh, C_Spell.GetSpellCooldown, 12345)[1].isActive, false, "asked again once it ended")
+  ns.db.signalsMode = nil
+  assert(Sig.Summary():find("resources=1/"), Sig.Summary())
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

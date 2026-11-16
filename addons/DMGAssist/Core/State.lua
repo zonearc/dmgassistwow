@@ -361,6 +361,9 @@ function S.BeginPass()
     PassCached()
   end
   U.passCache = {}
+  if ns.Signals then
+    ns.Signals.BeginPass()
+  end
   if S.SnapshotReady then
     S.SnapshotReady()
   end

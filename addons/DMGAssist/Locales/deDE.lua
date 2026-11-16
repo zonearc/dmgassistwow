@@ -944,4 +944,6 @@ ns.LOCALE_DATA.deDE = {
   ["Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."] = "Erweitert macht Berichte größer (ein Bericht kann aus mehr Teilen bestehen). Nach dem Testen zurück auf Standard.",
   ["Predictable spending on: a spender waits until our count of your resource clears its cost by how far off it tends to be."] = "Planbares Ausgeben an: ein Verbraucher wartet, bis unsere Zählung deiner Ressource seine Kosten um unsere übliche Abweichung übersteigt.",
   ["Predictable spending off: spenders show as soon as the game allows them."] = "Planbares Ausgeben aus: Verbraucher erscheinen, sobald das Spiel sie erlaubt.",
+  ["Flow mode and the timing cue draw %d times a second (/dmga fps 10-120)."] = "Flow-Modus und Timing-Hinweis werden %d-mal pro Sekunde gezeichnet (/dmga fps 10-120).",
+  ["Signals: %s. %s"] = "Signale: %s. %s",
 }

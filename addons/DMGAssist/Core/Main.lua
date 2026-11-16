@@ -419,6 +419,7 @@ local function Update()
   ns.Choices.Filter(result)
   ns.Alerts(result)
   ns.Diagnostics.OnPick(result)
+  ns.Signals.OnPick(result) -- (would a skipped pass have missed a change? Signals.lua)
   if settingsOpen then
     -- preview: both small icons shown, so their position and size can be set
     result.weave = result.weave or D.SAMPLE_DEFENSIVE
@@ -554,8 +555,10 @@ frame:SetScript("OnEvent", function(self, event, ...)
 end)
 function OnEvent(_, event, ...)
   local arg1, _, arg3 = ...
+  ns.Signals.OnEvent(event) -- (first: what this event makes stale, before anything below asks again)
   if event == "PLAYER_REGEN_DISABLED" then
     U.CostReset()
+    ns.Signals.Reset()
     ns.Record.Begin() -- (first: the fight's recording starts with the events below; Record.lua)
   end
   if ns.Record.on then
@@ -629,6 +632,7 @@ function OnEvent(_, event, ...)
     end
   elseif event == "PLAYER_REGEN_ENABLED" then
     U.CostLog() -- where the fight's time went (cost line)
+    ns.Signals.LogSummary() -- which pieces kept a wrong answer, and what the game told them (signals line)
     ns.Calibrate.LogMargin() -- what the predictable-spending margin learned and did this fight
     ns.Record.End()
     ns.combatEndedAt = GetTime()
@@ -796,6 +800,23 @@ function commands.margin(arg)
   local on = L["Predictable spending on: a spender waits until our count of your resource clears its cost by how far "
     .. "off it tends to be."]
   U.Print("%s", ns.db.spendMargin and on or L["Predictable spending off: spenders show as soon as the game allows them."])
+end
+
+-- /dmga fps <n>: how many times a second Flow mode and the HUD's timing are drawn (10-120, default 30)
+function commands.fps(arg)
+  local n = tonumber(arg)
+  if n then
+    ns.db.flowFPS = math.max(10, math.min(120, math.floor(n)))
+  end
+  U.Print(L["Flow mode and the timing cue draw %d times a second (/dmga fps 10-120)."], ns.Game.FPS())
+end
+
+-- /dmga signals [shadow|live|off]: answers kept per kind until a game event changes them (Core/Signals.lua)
+function commands.signals(arg)
+  if arg == "shadow" or arg == "live" or arg == "off" then
+    ns.db.signalsMode = arg
+  end
+  U.Print(L["Signals: %s. %s"], ns.Signals.Mode(), ns.Signals.Summary())
 end
 
 function commands.on()

@@ -26,6 +26,11 @@ No marks needed: each fight is numbered. Do the tests in this order (or say whic
 
 If something looks wrong in a fight, `/dmga mark wrong <a few words>` at that moment.
 
+Signals check (1.6.0.329, shadow mode is the default; nothing on screen changes): after a fight, `/dmga signals`
+prints `piece=wrong/kept/asked` per piece. Any piece with wrong above 0 names what the game changed without an
+event; the `signal_miss` lines in the upload say which question. Note your FPS in combat with Flow mode on (Flow now
+draws 30 times a second; `/dmga fps 24` or `/dmga fps 60` to compare).
+
 ## Export
 
 Preferred (no copying): `/reload` (or log out) so WoW writes the file, then attach

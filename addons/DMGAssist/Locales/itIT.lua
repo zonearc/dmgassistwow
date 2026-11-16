@@ -944,4 +944,6 @@ ns.LOCALE_DATA.itIT = {
   ["Enhanced makes reports bigger (a report may come in more parts). Back to Standard when you're done testing."] = "Esteso rende i rapporti più grandi (un rapporto può arrivare in più parti). Torna a Standard quando hai finito i test.",
   ["Predictable spending on: a spender waits until our count of your resource clears its cost by how far off it tends to be."] = "Spesa prevedibile attiva: un consumatore attende finché il nostro conteggio della risorsa supera il suo costo del nostro scarto abituale.",
   ["Predictable spending off: spenders show as soon as the game allows them."] = "Spesa prevedibile disattivata: i consumatori compaiono appena il gioco li consente.",
+  ["Flow mode and the timing cue draw %d times a second (/dmga fps 10-120)."] = "La modalità Flow e il segnale di tempismo vengono disegnati %d volte al secondo (/dmga fps 10-120).",
+  ["Signals: %s. %s"] = "Segnali: %s. %s",
 }

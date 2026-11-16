@@ -940,3 +940,5 @@
 946	Erweitert macht Berichte größer (ein Bericht kann aus mehr Teilen bestehen). Nach dem Testen zurück auf Standard.
 947	Planbares Ausgeben an: ein Verbraucher wartet, bis unsere Zählung deiner Ressource seine Kosten um unsere übliche Abweichung übersteigt.
 948	Planbares Ausgeben aus: Verbraucher erscheinen, sobald das Spiel sie erlaubt.
+949	Flow-Modus und Timing-Hinweis werden %d-mal pro Sekunde gezeichnet (/dmga fps 10-120).
+950	Signale: %s. %s

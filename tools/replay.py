@@ -125,6 +125,8 @@ def main():
             print("\n".join(l for l in out.stdout.splitlines() if l.startswith("PICK")))
         if a.cost or a.profile:
             print("\n".join(l for l in out.stdout.splitlines() if l.startswith(("COST", "PROF"))))
+        if os.environ.get("SCEN_SIGNALS"):
+            print("\n".join(l for l in out.stdout.splitlines() if l.startswith(("SIGNALS", "  MISS"))))
         if not same:
             print("== fight %s: replay failed\n%s" % (s.get("id"), (out.stdout + out.stderr)[-1500:]))
             continue

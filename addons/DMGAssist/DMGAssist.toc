@@ -12,6 +12,7 @@
 
 Core\Util.lua
 Core\Record.lua
+Core\Signals.lua
 Locales\deDE.lua
 Locales\esES.lua
 Locales\frFR.lua

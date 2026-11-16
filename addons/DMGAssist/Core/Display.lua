@@ -688,12 +688,20 @@ function D.Create()
   D.SetFont(f.hold, 14)
   f.hold:Hide()
   -- every frame while shown: only the timing visuals (cheap), so the flash is on time
+  -- (as often as Flow mode draws - the cue lands within a draw of its moment; the grade's clock 10 times a second)
   f:SetScript("OnUpdate", function(self)
     if self.timingCfg then
-      U.Timed("frame_hud", D.RenderTiming, self, self.timingCfg)
-      D.PulseBadges(self)
-      if ns.Grade then
-        U.Timed("frame_grade", ns.Grade.Tick, self.pressNow == true)
+      local now = GetTime()
+      local G = ns.Game
+      if now - (self.lastDraw or 0) >= 1 / (G and G.FPS and G.FPS() or 30) then
+        self.lastDraw = now
+        U.Timed("frame_hud", D.RenderTiming, self, self.timingCfg)
+        D.PulseBadges(self)
+      end
+      local press = self.pressNow == true
+      if ns.Grade and (press ~= self.gradePress or now - (self.lastGrade or 0) >= 0.1) then
+        self.lastGrade, self.gradePress = now, press
+        U.Timed("frame_grade", ns.Grade.Tick, press)
       end
     end
   end)

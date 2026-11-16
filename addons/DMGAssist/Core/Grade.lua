@@ -169,7 +169,7 @@ function Gr.OnReady(id, _, main) -- (2nd: the time; the fight clock is used)
   end
 end
 
--- Every frame while the HUD shows: count the time slot 1 was ready and nothing was pressed.
+-- While the HUD shows (10 times a second, and when "press now" changes): count the time slot 1 was ready and nothing was pressed.
 function Gr.Tick(pressNow)
   local f = fight
   if not f then

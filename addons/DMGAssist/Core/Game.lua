@@ -521,7 +521,15 @@ function G.Create()
   f.readySub:SetPoint("TOP", f.ready, "BOTTOM", 0, -4)
   f.readySub:SetTextColor(1, 1, 1)
   f.slip:Hide()
+  -- Drawn at most G.FPS times a second (DMGAssistDB.flowFPS, /dmga fps): the notes glide by the time that passed, so
+  -- fewer draws only cost smoothness (owner, 2026-11-16: "24 is relatively smooth", 10-12 "slightly choppy"; Flow
+  -- drawing every frame was 48-70 ms of every second)
   f:SetScript("OnUpdate", function()
+    local now = GetTime()
+    if now - (G.lastDraw or 0) < 1 / G.FPS() then
+      return
+    end
+    G.lastDraw = now
     U.Timed("frame_flow", G.Render)
   end)
   Place(f)
@@ -847,6 +855,12 @@ local function Flash(fs, text, color)
   fs.at = GetTime()
   fs:SetAlpha(1)
   fs:Show()
+end
+
+G.FPS_DEFAULT = 30
+function G.FPS()
+  local v = tonumber(ns.db and ns.db.flowFPS) or G.FPS_DEFAULT
+  return math.max(10, math.min(120, v))
 end
 
 function G.Render()

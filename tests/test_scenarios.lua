@@ -15,6 +15,7 @@
 --             run with --update to record the new numbers (and say why in the commit).
 package.path = "./tests/?.lua;" .. package.path
 
+local lastUsableSig -- (SPELL_UPDATE_USABLE: what you can cast, as the game last said it)
 local mock = require("wow_mock")
 local print = print
 mock.Install(_G)
@@ -321,9 +322,14 @@ local function World(record, targets, key)
   return w
 end
 local function WorldPublish(w)
+  local changed = false
   for pt, v in pairs(w.cur) do
+    changed = changed or mock.power[pt] ~= math.floor(v)
     mock.power[pt], mock.powerMax[pt] = math.floor(v), w.max[pt]
     mock.powerReadable[pt] = DISCRETE[pt] or pt == 0
+  end
+  if changed then -- the game says when your power changes (runes, essence and shards refilling too)
+    mock.Fire("UNIT_POWER_FREQUENT", "player")
   end
 end
 local function WorldTick(w, dt)
@@ -500,6 +506,7 @@ local function Fight(ns, key, record, book, scenario)
     end
   end
   local function PublishSwaps(now)
+    local before = mock.overrides or {}
     mock.overrides = {}
     for i, s in ipairs(swaps) do
       local up = swapUntil[i] and swapUntil[i] > now
@@ -516,6 +523,17 @@ local function Fight(ns, key, record, book, scenario)
       else
         mock.usable[s.override] = nil
       end
+    end
+    -- the game says when a button turns into another spell
+    local changed = false
+    for b, o in pairs(mock.overrides) do
+      changed = changed or before[b] ~= o
+    end
+    for b in pairs(before) do
+      changed = changed or mock.overrides[b] == nil
+    end
+    if changed then
+      mock.Fire("SPELL_UPDATE_ICON")
     end
   end
   -- procs: index -> { up = until, stacks }
@@ -595,6 +613,7 @@ local function Fight(ns, key, record, book, scenario)
       if charges[rid] then
         charges[rid].n, charges[rid].next = charges[rid].max, nil
       end
+      mock.Fire("SPELL_UPDATE_COOLDOWN")
     end
     if was == 0 then
       Glow(p, true)
@@ -657,16 +676,26 @@ local function Fight(ns, key, record, book, scenario)
       WorldPublish(world)
     end
     PublishSwaps(now)
+    local recharged = false
     for id, c in pairs(charges) do
       while c.next and now >= c.next do
         c.n = c.n + 1
         c.next = c.n < c.max and (c.next + c.len) or nil
+        recharged = true
       end
     end
+    if recharged then
+      mock.Fire("SPELL_UPDATE_CHARGES")
+    end
+    local ended = false
     for id, c in pairs(mock.cooldowns) do
       if c.start + c.duration <= now then
         mock.cooldowns[id] = nil
+        ended = ended or id ~= 61304 -- (the game says when a cooldown ends; the GCD ends silently - fight 488)
       end
+    end
+    if ended then
+      mock.Fire("SPELL_UPDATE_COOLDOWN")
     end
     -- Blizzard's assistant: the first rotation spell that is ready or about to be (never a major cooldown). The
     -- real one names a spell up to a second or two before it is back (Holy Shock 1.6 s, Judgment 2.8 s early in
@@ -694,6 +723,17 @@ local function Fight(ns, key, record, book, scenario)
       for _, b in ipairs(book) do
         mock.usable[b.spellID] = { false, false } -- no weapon: nothing can be cast
       end
+    end
+    -- the game says when what you can cast changes (SPELL_UPDATE_USABLE); the world above changed it silently
+    local usableSig = {}
+    for id, u in pairs(mock.usable) do
+      usableSig[#usableSig + 1] = id .. (u[1] and "1" or "0") .. (u[2] and "1" or "0")
+    end
+    table.sort(usableSig)
+    usableSig = table.concat(usableSig, ",")
+    if usableSig ~= lastUsableSig then
+      lastUsableSig = usableSig
+      mock.Fire("SPELL_UPDATE_USABLE")
     end
     local c0 = os.clock()
     local ok, r = pcall(ns.Update)
@@ -1002,6 +1042,16 @@ if GRADE then
       ns.SpellMap.SetData(record)
       ns.SpellMap.Refresh()
       ns.State.Bind(key)
+      -- the game says which spec you play (it was always "Feral" here: a spec re-check switched to Feral's data)
+      for id, k in pairs(ns.Specs.KEYS) do
+        if k == key then
+          local cls = key:match("^(%a+)_"):upper()
+          mock.class, mock.specs, mock.specIndex = { cls, cls, 0 }, { [1] = id }, 1
+        end
+      end
+      if not os.getenv("SCEN_NOSC") then
+        mock.Fire("SPELLS_CHANGED") -- (the game says when your talents change what you know)
+      end
       for _, sc in ipairs(SCENARIOS) do
         math.randomseed(SEED)
         local r = Fight(ns, key, record, book, sc)
@@ -1014,6 +1064,15 @@ if GRADE then
           table.concat(parts, " ")))
         -- slot 2 right: pressing slot 1, was slot 2 the next press? (the in-game measure, offline)
         print(string.format("PRED %s %d %.1f", key, sc.targets, r.predPct or 0))
+        if os.getenv("SCEN_SIGNALS") then
+          print("SIGNALS " .. key .. " " .. sc.targets .. " " .. ns.Signals.Summary())
+          for i, m in ipairs(ns.Signals.misses) do
+            if i <= tonumber(os.getenv("SCEN_SIGNALS")) then
+              print(string.format("  MISS %s %s held=%s game=%s age=%s last=%s (%s s ago)", m.piece, m.q, m.held,
+                m.game, m.age, m.last, m.lastAgo))
+            end
+          end
+        end
         local E2 = ns.Engine
         if E2.marginWrapped then print(string.format("MARGIN holds=%d margin8=%.1f", E2.marginHolds, ns.Calibrate.Margin(8))) end
       end

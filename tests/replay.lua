@@ -36,6 +36,9 @@ mock.gameType = "standard"
 WOW_PROJECT_ID = 1
 DMGAssistDB = nil
 local ns = mock.LoadAddon("addons/DMGAssist", "DMGAssist")
+if os.getenv("SCEN_SIGNALS") then
+  ns.Signals.MISS_LOGS = math.max(30, tonumber(os.getenv("SCEN_SIGNALS")) or 0)
+end
 mock.Fire("ADDON_LOADED", "DMGAssist")
 mock.Fire("PLAYER_LOGIN")
 local M, S, R = ns.SpellMap, ns.State, ns.Record
@@ -189,6 +192,7 @@ end
 -- the fight
 local t0 = mock.now
 local picks, presses, castStarts = {}, {}, {}
+local sinceT = {} -- events fired since the last recorded pass
 mock.inCombat, mock.restricted = true, true
 for _, line in ipairs(input.lines) do
   local kind = line:sub(1, 1)
@@ -206,9 +210,20 @@ for _, line in ipairs(input.lines) do
     local t, updates = line:match("^T ([%d.]+)|(.*)$")
     mock.now = t0 + tonumber(t)
     Apply(updates)
+    -- The recording keeps the game's answers per pass, so what the addon asked while handling an event got the
+    -- answers of the pass before; the event's change lands here. Signal the events again with their answers.
+    for ev in pairs(sinceT) do
+      ns.Signals.OnEvent(ev)
+    end
+    sinceT = {}
     if lateSnapshot then
       lateSnapshot = false
       ApplySnapshot(true)
+      ns.Signals.All("replay start") -- (what the pieces kept from before the recorded answers isn't the game's)
+      ns.Signals.Reset()
+      if os.getenv("SCEN_SIGMODE") then -- shadow / live / off (cost comparisons)
+        ns.db.signalsMode = os.getenv("SCEN_SIGMODE")
+      end
     end
     local c0 = os.clock()
     local ok, r = pcall(ns.Update)
@@ -252,6 +267,7 @@ for _, line in ipairs(input.lines) do
         castStarts[a[3] or 0] = nil
         presses[#presses + 1] = { t = tonumber(t), id = a[3], decided = decided }
       end
+      sinceT[ev] = true
       pcall(mock.Fire, ev, a[1], a[2], a[3], a[4], a[5], a[6])
     end
   end
@@ -297,6 +313,25 @@ end
 if costMode then
   print(string.format("COST %.3f ms per pass, %.3f ms per frame of drawing (%d passes)", 1000 * cost.update / math.max(cost.n, 1),
     1000 * cost.frames / math.max(cost.n * 6, 1), cost.n))
+end
+if os.getenv("SCEN_SIGNALS") then -- (MISS_LOGS raised at the top)
+  print("SIGNALS " .. ns.Signals.Summary())
+  local by = {}
+  for k, c in pairs(ns.Signals.missBy) do
+    by[#by + 1] = { k = k, c = c }
+  end
+  table.sort(by, function(a, b)
+    return a.c > b.c
+  end)
+  for i = 1, math.min(25, #by) do
+    print("  MISSBY " .. by[i].c .. " " .. by[i].k)
+  end
+  for i, m in ipairs(ns.Signals.misses) do
+    if i <= tonumber(os.getenv("SCEN_SIGNALS")) then
+      print(string.format("  MISS %s %s held=%s game=%s age=%s last=%s (%s s ago)", m.piece, m.q, m.held, m.game,
+        m.age, m.last, m.lastAgo))
+    end
+  end
 end
 print(string.format("SAME %.1f %.1f %d", n > 0 and 100 * same1 / n or 0, n > 0 and 100 * same2 / n or 0, n))
 

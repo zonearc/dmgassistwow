@@ -16,6 +16,20 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 1.6.0.329: signals (Core/Signals.lua), shadow mode. Every game question belongs to a piece (resources, cooldowns,
+  usable, auras, casting, haste, units, range, spellbook, overrides); a game event marks its pieces stale. Shadow
+  mode still asks everything and counts where a kept answer would have been wrong (`signals` / `signal_miss` lines,
+  /dmga signals). Fight 488 replayed: 3,746 cooldown misses at first -> 4, all from the replay (answers recorded per
+  pass reach an event's handler a pass late; the replay now re-signals at the next pass). Rules found: an answer
+  within 0.1 s of its signal isn't kept (a pass right after UNIT_SPELLCAST_START still read no cast); a readable
+  cooldown expires when it ends (the GCD ends with no event); a hidden one at the GCD's end (max 0.25 s); a cast at
+  its end time; haste re-asked at the pull (it turns hidden). Simulator realism: SPELL_UPDATE_USABLE / _COOLDOWN /
+  _CHARGES / _ICON and UNIT_POWER_FREQUENT fired when the world changes them; the GCD readable (as in game); the
+  scenario says the spec it plays (a spec re-check switched every druid to Feral). Shadow costs ~15% of a pass
+  offline; live would skip ~230 of ~365 game calls a pass (units alone 510k of 540k asks). Unmapped calls left as
+  always-asked: GetActionInfo, GetBindingKey, the assistant, CVars. Flow mode and the HUD timing draw at
+  /dmga fps (default 30), the grade's clock 10 times a second. Next: in-game shadow pass, then live per clean piece.
+
 - 1.6.0.328: the real Incarnation bug was charges - both entries are 1 charge / 180 s, in separate charge groups, so
   the Incarnation cast never spent Celestial Alignment's charge (the 1.6.0.327 cooldown fix didn't reach charged
   spells; its test passed without the fix). Pairs with the same charges and a recharge >= 60 s now share one group;

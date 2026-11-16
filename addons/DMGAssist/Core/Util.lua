@@ -99,6 +99,20 @@ local function CacheSlot(fn, n, a1, a2)
   return by1, a2 == nil and NIL or a2
 end
 
+-- the game's answer, packed (Signals.Ask's way of asking fresh)
+local function Fresh(fn, ...)
+  return Pack(U.CallUncached(fn, ...))
+end
+
+-- through the pieces (Signals.lua): fresh in shadow mode (checked against what the piece kept), kept in live mode
+local function Asked(fn, ...)
+  local sig = ns.Signals
+  if sig and sig.Ask then
+    return sig.Ask(Fresh, fn, ...)
+  end
+  return Fresh(fn, ...)
+end
+
 function U.Call(fn, ...)
   if type(fn) ~= "function" then
     return nil
@@ -109,11 +123,12 @@ function U.Call(fn, ...)
     if hit then
       return unpack(hit, 1, hit.n)
     end
-    hit = Pack(U.CallUncached(fn, ...))
+    hit = Asked(fn, ...)
     slot[k2] = hit
     return unpack(hit, 1, hit.n)
   end
-  return U.CallUncached(fn, ...)
+  local vals = Asked(fn, ...)
+  return unpack(vals, 1, vals.n)
 end
 
 function U.CallUncached(fn, ...)

@@ -754,11 +754,15 @@ function mock.Install(env)
     end,
     GetSpellCooldown = function(id)
       local c = mock.cooldowns[id]
+      local hide = id == 61304 and function(v) -- (the GCD is never hidden: fight 488 read it plainly in combat)
+        return v
+      end or ctx
       if c then
-        return { startTime = ctx(c.start or 0), duration = ctx(c.duration or 0), isEnabled = true,
-          isActive = c.active == true, modRate = ctx(1), isOnGCD = c.onGCD == true }
+        return { startTime = hide(c.start or 0), duration = hide(c.duration or 0), isEnabled = true,
+          isActive = c.active == true, modRate = hide(1), isOnGCD = c.onGCD == true }
       end
-      return { startTime = ctx(0), duration = ctx(0), isEnabled = true, isActive = false, modRate = ctx(1), isOnGCD = false }
+      return { startTime = hide(0), duration = hide(0), isEnabled = true, isActive = false, modRate = hide(1),
+        isOnGCD = false }
     end,
     GetSpellTexture = function(id)
       return 1000000 + id

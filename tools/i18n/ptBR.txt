@@ -940,3 +940,5 @@
 946	Ampliado deixa os relatórios maiores (um relatório pode vir em mais partes). Volte para Padrão quando terminar os testes.
 947	Gasto previsível ligado: um consumidor espera até nossa contagem do seu recurso superar o custo pela nossa margem de erro habitual.
 948	Gasto previsível desligado: consumidores aparecem assim que o jogo permite.
+949	O modo Flow e o sinal de tempo são desenhados %d vezes por segundo (/dmga fps 10-120).
+950	Sinais: %s. %s
