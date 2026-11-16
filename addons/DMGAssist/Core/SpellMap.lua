@@ -53,7 +53,23 @@ function M.Token(name)
   return t
 end
 
+-- (memoized: asked thousands of times a pass, always the same answer for a token - 12% of a pass, 2026-11-16.
+-- Callers only read the list.)
+local candidatesMemo = {}
 function M.Candidates(token)
+  local hit = candidatesMemo[token]
+  if hit then
+    return hit
+  end
+  local list = M.CandidatesUncached(token)
+  candidatesMemo[token] = list
+  return list
+end
+function M.ForgetCandidates()
+  candidatesMemo = {}
+end
+
+function M.CandidatesUncached(token)
   local list = { token }
   local alias = M.ALIASES[token]
   if alias then

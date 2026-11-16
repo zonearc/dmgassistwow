@@ -255,7 +255,7 @@ def main():
     ap.add_argument("source", help="file with the export string, or - for stdin")
     ap.add_argument("-o", "--output", help="write JSON here instead of stdout")
     args = ap.parse_args()
-    text = sys.stdin.read() if args.source == "-" else open(args.source, encoding="utf-8").read()
+    text = sys.stdin.read() if args.source == "-" else open(args.source, encoding="utf-8", errors="replace").read()
     data = decode(text)
     out = json.dumps(data, indent=2, sort_keys=True)
     if args.output:

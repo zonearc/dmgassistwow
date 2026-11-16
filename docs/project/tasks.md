@@ -16,6 +16,16 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 2026-11-16 third upload (SavedVariables file, fight 469 on 1.6.0.323, 7 dummies, 269 s): slot 2 judged at the
+  wrong moment for cast-time spells (a Starfire's press is its cast end, when slot 1 has moved on: the logged "slot 2"
+  was the next spell's). Measured when each cast began: 54.5% (466, before) -> 60.4% (469). Diagnostics/Learner now get
+  the slots from the cast's start; the replay counts presses the same way, and loads the learner/calibration memory
+  once the loadout is known (it went into an "unknown loadout" store). Replay vs shown: slot 1 75%, slot 2 85%; replay
+  slot 2 vs real presses 74.5% (47). FPS 76 -> 49 in game: offline the work is ~45 ms/s, the game reported ~235 -
+  a "cost" line per fight now says where it goes (passes, events, per-frame handlers, recording). Candidates
+  memoized (12% of a pass). Remaining slot 2 miss: after a Starfire, Starfall predicted and Starfire came (20) - the
+  hidden Astral Power estimate.
+
 - 2026-11-16 second recorded fight (Balance, 9 dummies, 316 s): FPS 59 -> 36 with DMGAssist. The grade's per-frame tick
   recounted all 40 nameplates (~330 game calls a frame, ~20 000 a second): per-frame code uses State.TargetsCached;
   answers that can't change within a pass are asked once per pass (U.passCache); a test runs the frame handlers with

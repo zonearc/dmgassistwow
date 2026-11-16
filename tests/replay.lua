@@ -64,21 +64,31 @@ end
 -- what the addon knew at the pull (Record.lua "L" lines): its clocks, its memory, what it learned over past fights.
 -- The clock starts at the recorded pull time, so the snapshot's GetTime() values line up.
 mock.now = input.start or mock.now
-for name, lit in pairs(input.snapshot or {}) do
-  local fn = loadstring("return " .. lit)
-  local ok, v = pcall(fn or function() end)
-  if ok and type(v) == "table" then
-    local into = ({ state = S, learned = S.learned, clues = ns.Clues })[name]
-    if name == "calibrate" then
-      into = ns.Calibrate.Store()
-    elseif name == "learner" then
-      into = ns.Learner.Store()
-    end
-    for k, item in pairs(into and v or {}) do
-      into[k] = item
+-- (the learner's and the calibration's memory are filed under spec + talent loadout: they are put in place once the
+-- recorded answers can tell the loadout, at the first recorded pass - before that they went into an "unknown
+-- loadout" store and the replayed learner never went live, 2026-11-16)
+local function ApplySnapshot(only)
+  for name, lit in pairs(input.snapshot or {}) do
+    local late = name == "calibrate" or name == "learner"
+    if late == only then
+      local fn = loadstring("return " .. lit)
+      local ok, v = pcall(fn or function() end)
+      if ok and type(v) == "table" then
+        local into = ({ state = S, learned = S.learned, clues = ns.Clues })[name]
+        if name == "calibrate" then
+          into = ns.Calibrate.Store()
+        elseif name == "learner" then
+          into = ns.Learner.Store()
+        end
+        for k, item in pairs(into and v or {}) do
+          into[k] = item
+        end
+      end
     end
   end
 end
+ApplySnapshot(false)
+local lateSnapshot = true
 
 -- answers
 local shapes = {} -- Record.lua "Q <id> field,field,...": a table answer's shape
@@ -178,7 +188,7 @@ end
 
 -- the fight
 local t0 = mock.now
-local picks, presses = {}, {}
+local picks, presses, castStarts = {}, {}, {}
 mock.inCombat, mock.restricted = true, true
 for _, line in ipairs(input.lines) do
   local kind = line:sub(1, 1)
@@ -196,6 +206,10 @@ for _, line in ipairs(input.lines) do
     local t, updates = line:match("^T ([%d.]+)|(.*)$")
     mock.now = t0 + tonumber(t)
     Apply(updates)
+    if lateSnapshot then
+      lateSnapshot = false
+      ApplySnapshot(true)
+    end
     local c0 = os.clock()
     local ok, r = pcall(ns.Update)
     cost.update, cost.n = cost.update + os.clock() - c0, cost.n + 1
@@ -229,8 +243,14 @@ for _, line in ipairs(input.lines) do
       if ev == "PLAYER_REGEN_ENABLED" then
         mock.inCombat, mock.restricted = false, false
       end
+      if ev == "UNIT_SPELLCAST_START" and a[1] == "player" then
+        castStarts[a[3] or 0] = tonumber(t) -- (a cast-time spell is decided when its cast begins)
+      end
       if ev == "UNIT_SPELLCAST_SUCCEEDED" and a[1] == "player" then
-        presses[#presses + 1] = { t = tonumber(t), id = a[3] }
+        local st = castStarts[a[3] or 0]
+        local decided = st and tonumber(t) - st < 10 and st or tonumber(t)
+        castStarts[a[3] or 0] = nil
+        presses[#presses + 1] = { t = tonumber(t), id = a[3], decided = decided }
       end
       pcall(mock.Fire, ev, a[1], a[2], a[3], a[4], a[5], a[6])
     end
@@ -286,7 +306,7 @@ for i = 1, #presses - 1 do
   local p = presses[i]
   local shown
   for _, q in ipairs(picks) do
-    if q.t <= p.t then
+    if q.t <= p.decided then
       shown = q
     else
       break

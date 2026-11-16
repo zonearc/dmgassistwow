@@ -682,10 +682,10 @@ function D.Create()
   -- every frame while shown: only the timing visuals (cheap), so the flash is on time
   f:SetScript("OnUpdate", function(self)
     if self.timingCfg then
-      D.RenderTiming(self, self.timingCfg)
+      U.Timed("frame_hud", D.RenderTiming, self, self.timingCfg)
       D.PulseBadges(self)
       if ns.Grade then
-        ns.Grade.Tick(self.pressNow == true)
+        U.Timed("frame_grade", ns.Grade.Tick, self.pressNow == true)
       end
     end
   end)

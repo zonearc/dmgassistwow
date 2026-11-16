@@ -25,7 +25,7 @@ ROOT = os.path.join(HERE, "..")
 
 
 def load(path):
-    text = open(path, encoding="utf-8").read().strip()
+    text = open(path, encoding="utf-8", errors="replace").read().strip()
     if text.startswith("{"):
         return json.loads(text)
     out = subprocess.run([sys.executable, os.path.join(HERE, "decode-export.py"), path], capture_output=True,

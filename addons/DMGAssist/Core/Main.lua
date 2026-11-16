@@ -545,9 +545,17 @@ local SPEC_EVENTS = {}
 for _, e in ipairs(Specs.EVENTS) do
   SPEC_EVENTS[e] = true
 end
-frame:SetScript("OnEvent", function(_, event, ...)
+local OnEvent
+frame:SetScript("OnEvent", function(self, event, ...)
+  if inCombat then
+    return U.Timed("event", OnEvent, self, event, ...) -- (time per fight: U.CostLog)
+  end
+  return OnEvent(self, event, ...)
+end)
+function OnEvent(_, event, ...)
   local arg1, _, arg3 = ...
   if event == "PLAYER_REGEN_DISABLED" then
+    U.CostReset()
     ns.Record.Begin() -- (first: the fight's recording starts with the events below; Record.lua)
   end
   if ns.Record.on then
@@ -620,6 +628,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
       end)
     end
   elseif event == "PLAYER_REGEN_ENABLED" then
+    U.CostLog() -- where the fight's time went (cost line)
     ns.Record.End()
     ns.combatEndedAt = GetTime()
     ns.Clues.NoteFightEnd() -- our counts as the fight ended: the next pull starts from them (Clues.SeedFloors)
@@ -721,7 +730,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
       end)
     end
   end
-end)
+end
 
 local elapsed = 0
 frame:SetScript("OnUpdate", function(_, dt)
@@ -730,7 +739,7 @@ frame:SetScript("OnUpdate", function(_, dt)
     return
   end
   elapsed = 0
-  local ok, err = pcall(ns.Update)
+  local ok, err = U.Timed("pass", pcall, ns.Update)
   if not ok then
     U.Log("engine_error", U.Safe(err))
     if ns.TESTING and not ns.shownEngineError then
@@ -983,7 +992,9 @@ function ns.NoteShown(main)
 end
 
 function ns.OnOwnCastStart(id)
-  castStart = { id = id, t = GetTime() }
+  -- (the slots as they were when the cast began: a cast-time spell is judged against them at its end, when slot 1
+  -- has already moved on - slot 2 after a Starfire was read 2.5 s late, from the next spell's slots, 2026-11-16)
+  castStart = { id = id, t = GetTime(), result = ns.last }
   if ns.Game then
     ns.Game.Started(id)
     ns.Game.OnCastStart(id) -- the note bursts the moment the cast begins
@@ -1020,9 +1031,13 @@ function ns.OnOwnCast(id)
   end
   local shown = ns.ShownForPress(id)
   ns.Diagnostics.OnOwnCast(id, inCombat) -- (casts before the pull: prepull_casts)
+  local decided = ns.last
+  if castStart and castStart.id == id and castStart.result and GetTime() - castStart.t < 10 then
+    decided = castStart.result
+  end
   if inCombat then
-    ns.Diagnostics.OnPress(id, shown, ns.last) -- was slot 2 right? (prediction_summary)
-    ns.Learner.OnPress(id, shown, ns.last) -- the shadow learner (learner_summary, press lines)
+    ns.Diagnostics.OnPress(id, shown, decided) -- was slot 2 right? (prediction_summary)
+    ns.Learner.OnPress(id, shown, decided) -- the shadow learner (learner_summary, press lines)
     ns.Diagnostics.AuditCast(id) -- what each cast did to your resources (resource_audit)
     if ns.db and (ns.db.extendedLog or ns.db.loggingMode == "enhanced") then
       ns.Diagnostics.StateTrace(id, ns.last) -- what the game showed at this press (/dmga extended, Logging: Enhanced)

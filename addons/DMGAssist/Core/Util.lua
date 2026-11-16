@@ -144,7 +144,7 @@ function U.CallUncached(fn, ...)
     for i = 2, p.n do
       results[i - 1] = p[i]
     end
-    rec.Note(fn, Pack(...), p.n - 1, results)
+    U.Timed("record", rec.Note, fn, Pack(...), p.n - 1, results)
   end
   return unpack(p, 2, p.n)
 end
@@ -208,3 +208,48 @@ function U.Log(kind, data)
     pcall(wd.Log, kind, Flatten(data))
   end
 end
+
+-- Where DMGAssist's time goes in a fight, measured in game (debugprofilestop, ms): passes, events, each per-frame
+-- handler, the recording. Logged as "cost" at the fight's end. Offline the addon's work was ~45 ms a second; the game
+-- reported ~235 (owner, 2026-11-16: 76 FPS without DMGAssist, 49 with it) - the difference has to be measured there.
+U.cost = {}
+local clock = debugprofilestop
+function U.Timed(name, fn, ...)
+  if not clock then
+    return fn(...)
+  end
+  local t0 = clock()
+  local a, b, c = fn(...)
+  local c2 = U.cost[name]
+  if not c2 then
+    c2 = { ms = 0, n = 0, peak = 0 }
+    U.cost[name] = c2
+  end
+  local d = clock() - t0
+  c2.ms, c2.n = c2.ms + d, c2.n + 1
+  if d > c2.peak then
+    c2.peak = d
+  end
+  return a, b, c
+end
+function U.CostReset()
+  U.cost = {}
+  U.costStart = GetTime()
+end
+function U.CostLog()
+  local secs = math.max(1, GetTime() - (U.costStart or GetTime()))
+  local list = {}
+  for name, c in pairs(U.cost) do
+    list[#list + 1] = { name = name, ms = c.ms, n = c.n, peak = c.peak }
+  end
+  table.sort(list, function(x, y)
+    return x.ms > y.ms
+  end)
+  local parts = {}
+  for i = 1, math.min(12, #list) do
+    local c = list[i]
+    parts[#parts + 1] = string.format("%s=%.1fms/s(n=%d,peak=%.1f)", c.name, c.ms / secs, c.n, c.peak)
+  end
+  U.Log("cost", table.concat(parts, " "))
+end
+
