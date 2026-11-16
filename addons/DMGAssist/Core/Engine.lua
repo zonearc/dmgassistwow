@@ -478,7 +478,10 @@ function G.BelowCostAhead(id)
       -- (Balance in AoE, 2026-11-11: "Starfall > Starfall" from Astral Power known only as "34 or more"; following
       -- slot 2 ran you dry).
       local V = S.Lookahead()
-      if lo and lo < amount and V and V.power and (V.power[pt] or 0) < 0 then
+      -- (Energy / Focus: the regeneration you'd wait for counts - offline Feral's Shred "short" after a pretend
+      -- Shred with 22-82 Energy, 37 times a fight, and pressed next, 2026-11-16)
+      local soon = ns.Clues.REGEN[pt] and S.RegenRate(pt) * G.REGEN_WAIT or 0
+      if lo and lo + soon < amount and V and V.power and (V.power[pt] or 0) < 0 then
         return true
       end
     end
