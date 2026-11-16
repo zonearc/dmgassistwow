@@ -246,7 +246,7 @@ function U.CostLog()
     return x.ms > y.ms
   end)
   local parts = {}
-  for i = 1, math.min(12, #list) do
+  for i = 1, math.min(16, #list) do
     local c = list[i]
     parts[#parts + 1] = string.format("%s=%.1fms/s(n=%d,peak=%.1f)", c.name, c.ms / secs, c.n, c.peak)
   end

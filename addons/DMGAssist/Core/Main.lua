@@ -548,7 +548,7 @@ end
 local OnEvent
 frame:SetScript("OnEvent", function(self, event, ...)
   if inCombat then
-    return U.Timed("event", OnEvent, self, event, ...) -- (time per fight: U.CostLog)
+    return U.Timed("ev:" .. tostring(event), OnEvent, self, event, ...) -- (time per fight and event: U.CostLog)
   end
   return OnEvent(self, event, ...)
 end)

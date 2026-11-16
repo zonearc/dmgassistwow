@@ -16,6 +16,14 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 2026-11-16 fourth upload (fights 474-477, 1.6.0.325): "Standard" still recorded (an old /dmga record on set
+  recordInputs; the dropdown didn't clear it) - Logging alone decides now. Cost line, fight 475 (81 s): passes 109
+  ms/s (~12 ms each in game vs 3.5 offline), recording 62, Flow drawing 58 (1.2 ms a frame), events 41 (peaks 36),
+  HUD 16 - ~29% of the CPU. Recording: question ids cached (no text built per answer); events timed per name. Early
+  slot 1 swaps: Celestial Alignment refused at the pull (our clock said ready), held 0.5-3 s, back as a major four
+  times in 5 s - a long cooldown refused now waits until the assistant names it or its cooldown (max 60 s) passes.
+  Next: Flow drawing and the passes' game calls (per name in the next cost line).
+
 - Core platform item (owner, 2026-11-16: "a dynamic system is almost necessary ... ensure this is a core part of the
   platform"): hidden-resource income learned by context (spell x target count x key buffs) from every proof the game
   gives, its spread kept per spec/loadout across logins, and a spending margin from that spread. Step 1 shipped off by

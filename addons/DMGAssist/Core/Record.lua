@@ -87,6 +87,7 @@ R.Enc = Enc
 
 -- (lines before the Watchdog has opened the fight wait here: both start on the same combat event, in either order)
 local early = {}
+local idCache, NOARG = {}, {} -- fn -> arg1 -> arg2 -> question id (R.Note)
 local function Write(line)
   local wd = DMGAssistWatchdog
   if type(wd) ~= "table" or type(wd.Record) ~= "function" then
@@ -233,11 +234,40 @@ function R.Note(fn, args, n, results)
       end
     end
   end
-  local key = R.Key(fn, args)
-  if not key then
-    return
+  -- (the question's id, cached by function and its first two plain arguments: building the question's text for
+  -- each of ~9 000 answers a second was most of the recording's cost - 62 ms a second, 2026-11-16)
+  local nargs = args.n or #args
+  local a1, a2 = args[1], args[2]
+  local plain = nargs <= 2 and (a1 == nil or type(a1) == "number" or type(a1) == "string" or type(a1) == "boolean")
+    and (a2 == nil or type(a2) == "number" or type(a2) == "string" or type(a2) == "boolean")
+    and not (issecretvalue and ((a1 ~= nil and issecretvalue(a1)) or (a2 ~= nil and issecretvalue(a2))))
+  local slot, k2
+  if plain then
+    local byFn = idCache[fn]
+    if not byFn then
+      byFn = {}
+      idCache[fn] = byFn
+    end
+    local k1 = a1 == nil and NOARG or a1
+    slot = byFn[k1]
+    if not slot then
+      slot = {}
+      byFn[k1] = slot
+    end
+    k2 = a2 == nil and NOARG or a2
   end
-  local id = keyId[key]
+  local id = slot and slot[k2]
+  local key
+  if not id then
+    key = R.Key(fn, args)
+    if not key then
+      return
+    end
+    id = keyId[key]
+    if id and slot then
+      slot[k2] = id
+    end
+  end
   if not id then
     if nextId >= R.MAX_KEYS then
       return
@@ -245,6 +275,9 @@ function R.Note(fn, args, n, results)
     nextId = nextId + 1
     id = nextId
     keyId[key] = id
+    if slot then
+      slot[k2] = id
+    end
     Write("K " .. id .. " " .. key)
   end
   local out = {}
@@ -293,6 +326,7 @@ function R.Begin()
     BuildNames()
   end
   keyId, last, nextId, pending = {}, {}, 0, {}
+  idCache = {}
   shapes, nextShape = {}, 0
   start = GetTime()
   early = {}
@@ -365,7 +399,9 @@ end
 -- On with Logging: Enhanced (the main settings page) or /dmga record on
 function R.Enabled()
   local db = ns.db
-  return type(db) == "table" and (db.loggingMode == "enhanced" or db.recordInputs == true)
+  -- (the Logging setting alone: an old "/dmga record on" left recordInputs set, so Standard kept recording,
+  -- 2026-11-16)
+  return type(db) == "table" and db.loggingMode == "enhanced"
 end
 
 function R.Set(on)

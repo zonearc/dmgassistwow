@@ -1288,6 +1288,8 @@ function S.RefusedHold(id)
 end
 S.notBefore = {}     -- spell -> not ready before this time: the game refused it while our clock said ready
 S.REFUSE_HOLD = { 0.5, 1, 2, 3 } -- seconds held, by refused presses in a row
+S.LONG_REFUSAL_CD = 20  -- a cooldown this long, refused while we called it ready: held until named, or for its cd
+S.LONG_REFUSAL_MAX = 60 -- ... at most this long
 
 -- Cooldowns our data doesn't have (Void Volley only exists inside Voidform, so the game never shows its cooldown
 -- out of combat, where we learn the others): learned from the game refusing it. A refusal counts only when the
@@ -1448,7 +1450,18 @@ function S.OnCastFailed(id)
     local left = OurLeft(id, ChargeInfo(id))
     if left == nil or left <= 0.3 then
       local k = (p0 and now - p0.last <= 2) and math.min(#S.REFUSE_HOLD, (p0.refusedInRow or 0) + 1) or 1
-      S.notBefore[id] = now + S.REFUSE_HOLD[k]
+      local hold = S.REFUSE_HOLD[k]
+      -- A long cooldown the game refused while our clock said ready: our clock for it is wrong by an unknown
+      -- amount (used in an earlier fight, a reload). Held until Blizzard's assistant names it (that clears the hold)
+      -- or its whole cooldown has passed - a 2 s hold put Celestial Alignment back in slot 1 four times in the
+      -- first 5 s of a fight, and it was pressed each time by mistake (owner, 2026-11-16: "lots of early primary
+      -- slot 1 swaps").
+      local info = M.Info(id)
+      local cd = info and tonumber(info.cd)
+      if cd and cd >= S.LONG_REFUSAL_CD then
+        hold = math.max(hold, math.min(cd, S.LONG_REFUSAL_MAX))
+      end
+      S.notBefore[id] = now + hold
       if p0 and now - p0.last <= 2 then
         p0.refusedInRow = k
       end
