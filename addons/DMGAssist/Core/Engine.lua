@@ -480,7 +480,8 @@ function G.BelowCostAhead(id)
       local V = S.Lookahead()
       -- (Energy / Focus: the regeneration you'd wait for counts - offline Feral's Shred "short" after a pretend
       -- Shred with 22-82 Energy, 37 times a fight, and pressed next, 2026-11-16)
-      local soon = ns.Clues.REGEN[pt] and S.RegenRate(pt) * G.REGEN_WAIT or 0
+      local rate = ns.Clues.REGEN[pt] and S.RegenRate(pt)
+      local soon = type(rate) == "number" and rate * G.REGEN_WAIT or 0
       if lo and lo + soon < amount and V and V.power and (V.power[pt] or 0) < 0 then
         return true
       end
