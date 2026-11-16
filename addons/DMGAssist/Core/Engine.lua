@@ -434,6 +434,21 @@ function G.OnAssistantWait(id)
   end
 end
 
+-- The spending margin (Calibrate.Margin, setting "predictable spending"): a spender of a hidden resource waits
+-- until our low count clears its cost plus how far off we tend to be - unless the resource is near its cap, where
+-- waiting would waste it. true = hold the spender back.
+function G.HoldForMargin(pt, amount, lo)
+  local m = ns.Calibrate and ns.Calibrate.Margin and ns.Calibrate.Margin(pt) or 0
+  if m <= 0 or not lo then
+    return false
+  end
+  local max = U.Get(UnitPowerMax, "player", pt)
+  if type(max) == "number" and max > 0 and lo + m >= max - m then
+    return false
+  end
+  return lo < amount + m
+end
+
 -- The upper end of what we know about a hidden resource is below this spell's cost.
 G.BELOW_COST_MARGIN = 10
 function G.BelowCost(id)
@@ -447,6 +462,9 @@ function G.BelowCost(id)
       -- clearly short only: our range is an estimate (regeneration it can't see, such as Adrenaline Rush's, made
       -- it low), and the game said usable. Slot 1 showed blue at 50+ Energy (Outlaw, 2026-11-13).
       if lo and hi and hi < amount - G.BELOW_COST_MARGIN then
+        return true
+      end
+      if G.HoldForMargin(pt, amount, lo) then
         return true
       end
     end
@@ -473,6 +491,9 @@ function G.BelowCostAhead(id)
       end
       if hi and hi < amount then
         return true
+      end
+      if G.HoldForMargin(pt, amount, lo) then
+        return true -- (the same margin as slot 1: slots 2-3 follow the cycle it makes)
       end
       -- A pretend cast already spent from this hidden pool: only promise another spender we know is affordable
       -- (Balance in AoE, 2026-11-11: "Starfall > Starfall" from Astral Power known only as "34 or more"; following

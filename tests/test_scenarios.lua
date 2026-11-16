@@ -450,6 +450,18 @@ local function Fight(ns, key, record, book, scenario)
   ns.Specs.current = { key = key, status = "ready", data = record, branch = "midnight", client = "Midnight",
     leveling = scenario.leveling or nil }
   ns.db.levelingMode = scenario.leveling and "blizzard" or "simc"
+  ns.db.spendMargin = os.getenv("SCEN_MARGIN") == "1" or nil -- (the predictable-spending margin, measured on and off)
+  if os.getenv("SCEN_MARGIN") == "1" and not G.marginWrapped then
+    G.marginWrapped, G.marginHolds = true, 0
+    local hold = G.HoldForMargin
+    G.HoldForMargin = function(...)
+      local r = hold(...)
+      if r then
+        G.marginHolds = G.marginHolds + 1
+      end
+      return r
+    end
+  end
   G.ResetSteady()
   mock.Advance(1)
   if LOG then
@@ -1002,6 +1014,8 @@ if GRADE then
           table.concat(parts, " ")))
         -- slot 2 right: pressing slot 1, was slot 2 the next press? (the in-game measure, offline)
         print(string.format("PRED %s %d %.1f", key, sc.targets, r.predPct or 0))
+        local E2 = ns.Engine
+        if E2.marginWrapped then print(string.format("MARGIN holds=%d margin8=%.1f", E2.marginHolds, ns.Calibrate.Margin(8))) end
       end
     end
   end

@@ -248,6 +248,7 @@ function K.Snap()
         C.CapFloor(pt, a.hi) -- the game: a spender we counted as affordable isn't: the count comes down
       elseif a and lo and not free and a.lo > lo + 0.5 then
         local short = a.lo - lo
+        K.NoteError(pt, short)
         C.RaiseFloor(pt, a.lo)
         K.Attribute(pt, short)
         local fs = K.fight
@@ -767,3 +768,40 @@ function K.OnCombat(inCombat)
   end
   K.since, K.fight = {}, {}
 end
+
+-- How far our count of a hidden resource tends to be from what the game proves (a spender usable at a count below its
+-- cost, or not usable above it): a slow running average per resource, kept with the loadout's other corrections
+-- (DMGAssistDB.calibrate, across logins). The spending margin (K.Margin) is built from it.
+K.ERROR_RATE = 0.1   -- each new proof's share of the average
+K.ERROR_MIN_N = 5    -- proofs before the margin is used
+function K.NoteError(pt, err)
+  local p = K.Store()
+  if not p or type(err) ~= "number" or err <= 0 then
+    return
+  end
+  p.margin = type(p.margin) == "table" and p.margin or {}
+  local m = p.margin[pt]
+  if type(m) ~= "table" then
+    m = { e = err, n = 0 }
+    p.margin[pt] = m
+  end
+  m.e = m.e + K.ERROR_RATE * (err - m.e)
+  m.n = m.n + 1
+end
+
+-- The spending margin for a hidden resource (owner, 2026-11-16: "make sure that with energy spending we always add a
+-- comfortable buffer ... dynamic ... persistent across logins"): with the setting on (DMGAssistDB.spendMargin), a
+-- spender waits until our count clears its cost by how far off we tend to be, so the cycle is predictable - one
+-- more builder now and then instead of a spender the count can't promise. 0 when off or not learned yet.
+function K.Margin(pt)
+  if not (ns.db and ns.db.spendMargin) then
+    return 0
+  end
+  local p = K.Store()
+  local m = p and type(p.margin) == "table" and p.margin[pt]
+  if type(m) ~= "table" or (m.n or 0) < K.ERROR_MIN_N then
+    return 0
+  end
+  return m.e
+end
+

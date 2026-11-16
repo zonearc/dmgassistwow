@@ -16,6 +16,15 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- Core platform item (owner, 2026-11-16: "a dynamic system is almost necessary ... ensure this is a core part of the
+  platform"): hidden-resource income learned by context (spell x target count x key buffs) from every proof the game
+  gives, its spread kept per spec/loadout across logins, and a spending margin from that spread. Step 1 shipped off by
+  default: Calibrate.NoteError (both directions) -> Calibrate.Margin, Engine.HoldForMargin in slot 1 and the look-ahead
+  (DMGAssistDB.spendMargin; sim: SCEN_MARGIN=1). Measured: Balance 1 target 72.4 -> 72.4, 5 targets 46.6 -> 46.3 - no
+  gain while the offline world's income is the addon's own model. Next: (2) the offline world's income from recordings
+  and Warcraft Logs, with its real spread; (3) income per context + margin from its spread, judged per spec on slot 2
+  and DPS.
+
 - 2026-11-16 third upload (SavedVariables file, fight 469 on 1.6.0.323, 7 dummies, 269 s): slot 2 judged at the
   wrong moment for cast-time spells (a Starfire's press is its cast end, when slot 1 has moved on: the logged "slot 2"
   was the next spell's). Measured when each cast began: 54.5% (466, before) -> 60.4% (469). Diagnostics/Learner now get

@@ -673,6 +673,9 @@ function C.CapFloor(pt, hi)
     local now = GetTime()
     local cur = Accrued(f, pt, now)
     if cur > hi then
+      if ns.Calibrate and ns.Calibrate.NoteError then
+        ns.Calibrate.NoteError(pt, cur - hi) -- (we counted more than the game allows: our error, for the margin)
+      end
       f.lo, f.at = math.max(0, hi), now
       -- once per new cap: the same cap re-applied every pass filled a fight's log (93-135 lines, 2026-11-15)
       local key = math.floor(cur) .. ">" .. math.floor(hi)
