@@ -180,6 +180,21 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- 1.6.0.318+: Toward 80% - and the score found to be partly fake (owner, 2026-11-16: "Try to get it to 80").
+  * tools/rotation-check.py: the offline cast mix per spec against top players' (Warcraft Logs). Slot 2's accuracy
+    alone rewarded predictable wrong rotations: Protection Warrior "99%" was Champion's Leap 91% of its casts (an
+    effect, not a button: the offline spellbook took names with no cast entry - fixed), Blood "57%" was Marrowrend
+    spam with no Heart Strike. Average match 0.42; worst: Protection / Retribution Paladin, Demonology, Elemental
+    (their secondary-resource spenders hardly cast offline) - the next work.
+  * The assistant's pick says a buff is up, not how many stacks: reading it as 1 stack kept Marrowrend in slot 1.
+  * Data/CastAuras.lua (Warcraft Logs): a buff a cast always brings (Marrowrend -> Bone Shield, which the spell
+    data doesn't link): its clock starts on the cast; stacks stay unknown; "ours" (down when never applied) only when
+    nothing else brings it (Clearcasting also procs at random).
+  * Offline the world keeps buffs (casts' auras, the logs' links with stacks per cast, procs) and its assistant reads
+    them: with no buffs offline, Blood's assistant asked for Marrowrend forever.
+  * Learner: per situation, the learner takes slot 2 where it has been right more often than SimC's forecast (2+
+    presses ahead, 6+ compared, 60%+ the same way).
+  * Scoring run (30 specs x 3 seeds, human): 70.5% - lower, honest; rotation match is now reported beside it.
 - 1.6.0.317: Procs work like the game's, the player is human, and glows tell the addon which proc is up (owner,
   2026-11-16: "make the procs work like the ones in game where me casting x spell makes clearcasting proc ... same
   with resets ... occasionally press the wrong spell").

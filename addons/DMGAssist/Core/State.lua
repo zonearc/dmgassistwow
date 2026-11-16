@@ -1904,6 +1904,12 @@ end
 local NONE = {}
 function S.AppliedAuras(id)
   local info = M.Info(id)
+  -- what the logs show this cast always brings (Data/CastAuras.lua: Marrowrend -> Bone Shield; the spell data has
+  -- no link, SimC applies it in code)
+  local shipped = M.castAuras and M.castAuras[id]
+  if shipped and not (info and info.ap) then
+    return { { shipped[2], "self", "shipped" } }
+  end
   if info and info.ap then
     -- not the cast's own short effect (see M.IsCastEffect): casting Eradicate ends buff.eradicate, it doesn't start it
     local list = {}
@@ -1934,12 +1940,17 @@ S.ALSO_STARTS = {
   incarnation_chosen_of_elune = { "eclipse_lunar", "eclipse_solar" },
 }
 
-local function StartAuraClock(token, auraID, target, from)
+S.stacksUnknown = {} -- tokens whose clock a shipped link starts: up / remains known, stacks not (a Marrowrend gives
+                     -- several Bone Shield stacks; counting one per cast spammed Marrowrend, 2026-11-16)
+local function StartAuraClock(token, auraID, target, from, shipped)
   local d = AuraLength(token, auraID)
   if not d then
     return
   end
-  if target ~= "enemy" and S.IsStacking(token) then
+  if shipped then
+    S.stacksUnknown[token] = true
+  end
+  if target ~= "enemy" and S.IsStacking(token) and not shipped then
     local list = S.stackUntil[token] or {}
     local alive = {}
     for _, e in ipairs(list) do
@@ -2052,7 +2063,7 @@ local function RecordCast(id, how)
   for _, ap in ipairs(S.AppliedAuras(id)) do
     local ai = M.Info(ap[1])
     if ai and ai.n then
-      StartAuraClock(ai.n, ap[1], ap[2], GetTime())
+      StartAuraClock(ai.n, ap[1], ap[2], GetTime(), ap[3] == "shipped")
       started = true
     end
   end
@@ -2588,7 +2599,9 @@ function AuraState(unit, token)
       end
     end
     if up ~= nil then
-      return up, remains, up and 1 or 0
+      -- (an inferred "up" says nothing of the stacks: the assistant passing over "Marrowrend if Bone Shield stacks
+      -- <= 6" means 7 or more, and reading it as 1 kept Marrowrend in slot 1 all fight, offline Blood 2026-11-16)
+      return up, remains, up and UNKNOWN or 0
     end
   end
   for _, t in ipairs(list) do
@@ -2621,6 +2634,9 @@ function AuraState(unit, token)
     if untilT then
       if untilT > now then
         local left = unit == "player" and S.consumeLeft[t]
+        if S.stacksUnknown[t] and not (left and left > 0) then
+          return true, untilT - now, UNKNOWN
+        end
         return true, untilT - now, (left and left > 0) and left or 1
       end
       -- Expired on our clock. Certain only for auras our own casts apply (we'd have seen the cast);

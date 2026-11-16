@@ -35,6 +35,9 @@ L.LOCAL_CONF = 0.85
 L.LOCAL_VS_N = 20   -- presses compared with SimC's forecast before a situation can take slot 2 on its own
 L.LOCAL_LEAD = 0.15 -- its confidence must beat SimC's accuracy so far by this much
 L.LIVE_LEAD = 0.10
+L.SIT_LEAD = 2      -- per situation: the learner right this many presses more than SimC's forecast takes slot 2 there
+L.SIT_CONF = 0.6    -- ... while it goes the same way at least this often there
+L.SIT_N = 6         -- ... after this many presses there compared (and a lead of a quarter of them)
 L.DROP_LEAD = 0.03
 L.CONFIDENT = 0.9    -- "confident" guesses: the share it would show live first
 L.DECAY = 0.97       -- each fight end: old counts x this (recent fights weigh more)
@@ -256,6 +259,15 @@ function L.OnPress(id, shown, last)
           vs.n = vs.n + 1
           vs.learner = vs.learner + (ok and 1 or 0)
           vs.simc = vs.simc + (p.slot2 == token and 1 or 0)
+          -- and per situation: who was right here (SIT_LEAD below)
+          local k = prev.keys and prev.keys[1]
+          if k then
+            store.sit = store.sit or {}
+            local s = store.sit[k] or { 0, 0 }
+            store.sit[k] = s
+            s[1] = s[1] + (ok and 1 or 0) - (p.slot2 == token and 1 or 0)
+            s[2] = (s[2] or 0) + 1
+          end
         end
       end
     end
@@ -336,7 +348,13 @@ function L.Apply(result)
   local healer = profile and profile.role == "healer"
   local confident = not healer and guess and level and level <= 2 and (total or 0) >= L.LOCAL_N and simcRate
     and conf >= math.max(L.LOCAL_CONF, simcRate + L.LOCAL_LEAD)
-  if not (L.Live(store) or confident) then
+  -- In this very situation, the learner has been right more often than SimC's forecast (by SIT_LEAD presses):
+  -- it takes slot 2 here, whatever the spec-wide score (offline, the spec-wide bar was rarely reached within a
+  -- session; per situation the better source is plain to see after a few presses, 2026-11-16)
+  local s = store.sit and store.sit[keys[1]]
+  local here = not healer and guess and level == 1 and s and s[1] >= L.SIT_LEAD and (s[2] or 0) >= L.SIT_N
+    and s[1] >= 0.25 * s[2] and (conf or 0) >= L.SIT_CONF
+  if not (L.Live(store) or confident or here) then
     return result
   end
   local q2 = queue[2]

@@ -167,6 +167,15 @@ function M.SetData(record)
       end
     end
   end
+  -- Buffs a cast always brings in real fights (Data/CastAuras.lua, Warcraft Logs): ours too
+  M.castAuras = {}
+  local ca = ns.Data and ns.Data.castAuras
+  for castID, row in pairs(type(ca) == "table" and record.key and ca[record.key] or {}) do
+    M.castAuras[castID] = row
+    if row[3] then -- (only when nothing else brings it: Clearcasting also comes at random)
+      M.applied[row[1]] = true
+    end
+  end
   -- Spells our keep-ups add that a spec's lists leave out (Hunter's Mark, Renewing Mist, Shield / Radiance on
   -- Discipline): without their cooldown and charges our clock calls them ready all fight, in combat, where the game
   -- hides its own cooldowns (Renewing Mist was suggested every GCD). The spec's own data wins when it has them.

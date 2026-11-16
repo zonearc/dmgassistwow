@@ -101,15 +101,9 @@ local function BookFor(record)
         break
       end
     end
-    -- (no button of its own when its castable entry is one a swap brings in: Rushing Wind Kick's other IDs are
-    -- empty, and the offline player pressed one of them every GCD)
-    local anySwapped = false
-    for _, cand in ipairs(e.a or {}) do
-      anySwapped = anySwapped or swapped[cand] == true
-    end
-    if not anySwapped then
-      id = id or (e.a and e.a[1])
-    end
+    -- (no other fallback: a name with no entry that has a GCD, cast time, cooldown or cost isn't a button - the game's
+    -- spellbook doesn't hold it. Champion's Leap (an effect of Champion's Spear) and Bone Shield (a buff) were
+    -- "buttons" offline: Protection Warrior pressed Champion's Leap 116 times in two minutes, 2026-11-16)
     local info = id and record.spellInfo[id]
     if id and not seen[id] and info and not info.pas and not RACIALS[token] and not swapped[id] then
       seen[id] = true
@@ -235,7 +229,28 @@ local MAX_RESOURCE = (function()
   return ok and type(m) == "table" and m or {}
 end)()
 local function World(record, targets, key)
-  local w = { cur = {}, max = {}, passive = {}, gated = ProcGated(record) }
+  local w = { cur = {}, max = {}, passive = {}, gated = ProcGated(record), auras = {}, knownAura = {} }
+  -- buffs the world can apply: the data's own (a cast's self aura), the logs' cast -> buff links, the procs
+  for _, info in pairs(record.spellInfo or {}) do
+    for _, ap in ipairs(type(info.ap) == "table" and info.ap or {}) do
+      local ai = record.spellInfo[ap[1]]
+      if ap[2] == "self" and ai and ai.n then
+        w.knownAura[ai.n] = true
+      end
+    end
+  end
+  local ca = NS and NS.Data.castAuras and NS.Data.castAuras[key] or {}
+  for _, row in pairs(ca) do
+    w.knownAura[row[1]] = true
+  end
+  local pg = NS and NS.Data.procGlows and NS.Data.procGlows[key] or {}
+  for _, row in pairs(pg) do
+    w.knownAura[row[1]] = true
+  end
+  w.castAuras, w.procTokens = ca, {}
+  for aid, row in pairs(pg) do
+    w.procTokens[aid] = row[1]
+  end
   local maxes = { [0] = 100000, [1] = 100, [2] = 100, [3] = 100, [4] = 5, [5] = 6, [6] = 100, [7] = 5, [8] = 100,
     [9] = 5, [11] = 100, [12] = 5, [13] = 100, [16] = 4, [17] = 120, [18] = 100, [19] = 5 }
   -- talents that raise a maximum (tests/max_resource.lua, from the game data: Deeper Stratagem and Secret
@@ -324,6 +339,11 @@ local function WorldAffordable(w, info, M)
   end
   return true
 end
+local function WorldAura(w, token, d, n, maxStacks, now)
+  local a = w.auras[token]
+  local stacks = (a and a.untilT > now and a.stacks or 0) + (n or 1)
+  w.auras[token] = { untilT = now + (d or 30), stacks = math.min(maxStacks or 99, stacks) }
+end
 local function WorldCast(w, info, M)
   for pt, amount in pairs((w.freeNow and w.freeNow[info]) and {} or M.Cost(info) or {}) do
     local cmax = info.cmax and info.cmax[pt]
@@ -358,6 +378,21 @@ local function AssistantPick(ns, record, world, targets, skip)
     end
     if name == "active_enemies" or name:match("^spell_targets") then
       return targets
+    end
+    -- buffs the offline world keeps (casts and procs apply them): the real assistant sees them
+    local tok, f2 = name:match("^buff%.([%w_]+)%.([%w_]+)$")
+    if tok and world.knownAura and world.knownAura[tok] then
+      local a = world.auras[tok]
+      local up = a and a.untilT > mock.now
+      if f2 == "up" or f2 == "react" then
+        return up and 1 or 0
+      elseif f2 == "down" then
+        return up and 0 or 1
+      elseif f2 == "remains" then
+        return up and (a.untilT - mock.now) or 0
+      elseif f2 == "stack" then
+        return up and a.stacks or 0
+      end
     end
     return S.Resolve(name, {})
   end
@@ -504,6 +539,10 @@ local function Fight(ns, key, record, book, scenario)
   local function ProcDown(i)
     local p, st = procs[i], procState[i]
     st.stacks, st.up = 0, nil
+    local ptk = world.procTokens[p.aura]
+    if ptk then
+      world.auras[ptk] = nil
+    end
     ProcSwaps(p, nil)
     Glow(p, false)
     RefreshProcs()
@@ -516,6 +555,10 @@ local function Fight(ns, key, record, book, scenario)
     st.stacks, st.up = math.min(p.stacks or 1, st.stacks + 1), now + p.d
     m.procs = m.procs + 1
     ProcSwaps(p, st.up)
+    local ptk = world.procTokens[p.aura]
+    if ptk then
+      world.auras[ptk] = { untilT = st.up, stacks = st.stacks }
+    end
     -- a reset (Gore -> Mangle): the cooldown is over, every charge back
     for _, rid in ipairs(p.resets or {}) do
       mock.cooldowns[rid] = nil
@@ -802,6 +845,18 @@ local function Fight(ns, key, record, book, scenario)
       PublishSwaps(now)
       if world then
         WorldCast(world, info, M)
+        -- the buffs this cast applies, in the world (the data's self auras; the logs' links with their stacks)
+        for _, ap in ipairs(type(info.ap) == "table" and info.ap or {}) do
+          local ai = record.spellInfo[ap[1]]
+          if ap[2] == "self" and ai and ai.n and ai.d and ai.d > 1.5 then
+            WorldAura(world, ai.n, ai.d, 1, ai.st, now)
+          end
+        end
+        local link = world.castAuras[id]
+        if link then
+          local ai = record.spellInfo[link[2]] or {}
+          WorldAura(world, link[1], ai.d or 30, link[4] or 1, ai.st, now)
+        end
         ProcUse(id)
         ProcCast(id, now)
         WorldPublish(world)
