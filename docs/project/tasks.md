@@ -180,6 +180,19 @@ case someone refuses to turn it on. Both are valid."
 
 ## Done (recent)
 
+- Input recording and replay (owner, 2026-11-16: "design ahead of time to make it easy and robust what I can export
+  from the game so you have literally everything you need"; "as new patches come in ... model out changes").
+  * Core/Record.lua (`/dmga record on`): each fight, every answer the game gave (through U.Call / U.Get), only when it
+    changes, every event the addon handled, and a header (version, spec, client build, haste, the talent loadout
+    string, the spellbook with swapped buttons, the talents as read, the settings). Kept per fight in the Watchdog
+    (DMGAssistWatchdog.Record, beside the decision log) and exported with it. UI objects (frames) aren't recorded.
+  * tests/replay.lua + tools/replay.py: a recorded fight decided again by the current code - "same as shown" (92% on
+    an offline Feral fight, 81% Balance: the learner's memory and the addon's timers aren't recorded yet) and slot 2
+    against the presses really made.
+  * tools/calibrate.py: the owner's timing, presses that weren't slot 1, proc glow rates, against the offline game's
+    numbers. tools/score.py: every spec's slot 2 and rotation match, saved and compared with the run before (the
+    harness for patches). docs/project/tester-design.md: the whole loop; docs/project/test-plan.md: the session.
+  * `/dmga mark <name>`: a named mark (and in the recording), to tell the tests apart.
 - 1.6.0.318+: Toward 80% - and the score found to be partly fake (owner, 2026-11-16: "Try to get it to 80").
   * tools/rotation-check.py: the offline cast mix per spec against top players' (Warcraft Logs). Slot 2's accuracy
     alone rewarded predictable wrong rotations: Protection Warrior "99%" was Champion's Leap 91% of its casts (an

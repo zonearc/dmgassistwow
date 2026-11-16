@@ -75,6 +75,13 @@ function U.Call(fn, ...)
   if type(fn) ~= "function" then
     return nil
   end
+  local rp = ns.Record and ns.Record.replay
+  if rp then -- (tests/replay.lua: the recorded game's answer, when it has one)
+    local hit, vals = rp(fn, ...)
+    if hit then
+      return unpack(vals, 1, vals.n)
+    end
+  end
   local p = Pack(pcall(fn, ...))
   if not p[1] then
     local msg = U.Safe(p[2])
@@ -88,6 +95,14 @@ function U.Call(fn, ...)
       U.callErrors[msg] = n + 1
     end
     return nil
+  end
+  local rec = ns.Record
+  if rec and rec.on then -- (Record.lua: the answer noted for the replay)
+    local results = {}
+    for i = 2, p.n do
+      results[i - 1] = p[i]
+    end
+    rec.Note(fn, Pack(...), p.n - 1, results)
   end
   return unpack(p, 2, p.n)
 end

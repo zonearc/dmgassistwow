@@ -17,6 +17,7 @@ local DEFAULT_SETTINGS = {
   testingMode = false,    -- test builds: taint log on, more events kept, login notice (see Launch.lua)
   maxSessions = 8,
   maxEventsPerSession = 600,
+  maxRecordLines = 8000,  -- DMGAssist's input recording, per fight (Core/Record.lua)
   maxErrors = 60,
   maxNotes = 200,
   maxProbes = 6,

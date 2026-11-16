@@ -8234,6 +8234,47 @@ test("a swapped-in spell's cast starts its button's cooldown (Death Sweep -> Bla
   eq(S.lastCast[188499], S.lastCast[210152], "Blade Dance's clock starts with it")
 end)
 
+test("input recording: a fight's questions, answers and events go to the Watchdog, answers only when they change", function()
+  Reset()
+  local ns = Boot()
+  local lines = {}
+  local saved = _G.DMGAssistWatchdog
+  _G.DMGAssistWatchdog = { Log = function() end, Record = function(l)
+    lines[#lines + 1] = l
+    return true
+  end }
+  local ok, err = pcall(function()
+    ns.Record.Set(true)
+    mock.inCombat = true
+    mock.Fire("PLAYER_REGEN_DISABLED")
+    eq(ns.Record.on, true, "recording in the fight")
+    mock.power[3] = 40
+    ns.State.BeginPass()
+    ns.U.Get(UnitPower, "player", 3)
+    ns.U.Get(UnitPower, "player", 3) -- the same answer: not written again
+    ns.State.EndPass()
+    mock.power[3] = 55
+    ns.State.BeginPass()
+    ns.U.Get(UnitPower, "player", 3)
+    ns.State.EndPass()
+    mock.Fire("SPELL_ACTIVATION_OVERLAY_GLOW_SHOW", 5221)
+    mock.inCombat = false
+    mock.Fire("PLAYER_REGEN_ENABLED")
+    eq(ns.Record.on, false, "stopped after the fight")
+    local text = table.concat(lines, "\n")
+    assert(text:find("^H version="), "header first: " .. text:sub(1, 80))
+    local id = text:match("\nK (%d+) UnitPower%(\"player\",3%)")
+    assert(id, "the question is defined: " .. text)
+    local _, n40 = text:gsub(id .. "=40", "")
+    eq(n40, 1, "an answer is written once")
+    assert(text:find(id .. "=55"), "the change is written")
+    assert(text:find("\nE [%d.]+|SPELL_ACTIVATION_OVERLAY_GLOW_SHOW|5221"), "the glow event")
+    ns.Record.Set(false)
+  end)
+  _G.DMGAssistWatchdog = saved
+  assert(ok, err)
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

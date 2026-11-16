@@ -357,6 +357,9 @@ function S.BeginPass()
 end
 function S.EndPass()
   inPass = false
+  if ns.Record and ns.Record.on then
+    ns.Record.Flush()
+  end
 end
 function S.Targets()
   local m = targetsMemo

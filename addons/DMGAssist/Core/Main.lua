@@ -547,6 +547,12 @@ for _, e in ipairs(Specs.EVENTS) do
 end
 frame:SetScript("OnEvent", function(_, event, ...)
   local arg1, _, arg3 = ...
+  if event == "PLAYER_REGEN_DISABLED" then
+    ns.Record.Begin() -- (first: the fight's recording starts with the events below; Record.lua)
+  end
+  if ns.Record.on then
+    ns.Record.Event(event, ...)
+  end
   if SPEC_EVENTS[event] then
     ns.Choices.QuietNotes() -- mid spec switch: the old spec's spells against the new bars
   end
@@ -614,6 +620,7 @@ frame:SetScript("OnEvent", function(_, event, ...)
       end)
     end
   elseif event == "PLAYER_REGEN_ENABLED" then
+    ns.Record.End()
     ns.combatEndedAt = GetTime()
     ns.Clues.NoteFightEnd() -- our counts as the fight ended: the next pull starts from them (Clues.SeedFloors)
     inCombat = false
@@ -1102,6 +1109,15 @@ function commands.config()
 end
 commands.options = commands.config
 
+-- /dmga record on | off: the input recording for replaying fights offline (Record.lua). On for test sessions.
+function commands.record(arg)
+  if arg == "on" or arg == "off" then
+    ns.Record.Set(arg == "on")
+  end
+  U.Print("input recording %s (each fight: everything the game showed DMGAssist, in the Watchdog report)",
+    ns.Record.Enabled() and "on" or "off")
+end
+
 function commands.why()
   local r = ns.last
   if not r or not r.main then
@@ -1139,6 +1155,7 @@ function commands.help()
     { "/dmga queue 1-3", "icons shown (1-3)" },
     { "/dmga lock", "lock or unlock the icon position" },
     { "/dmga why", "explain the current pick" },
+    { "/dmga record on | off", "record what the game shows DMGAssist in each fight, to replay it offline (tests)" },
     { "/dmga config", "open the settings panel" },
     { "/dmga keys", "refresh keybinds" },
     { "/dmga report", "report an issue or give feedback: describe it, copy the report, open the issue page" },
@@ -1148,7 +1165,7 @@ function commands.help()
     { "/dmga test", "test the defensive alert (8 seconds)" },
     { "/dmga test interrupt | assisted | bossmods", "test the interrupt alert, Assisted Combat, or boss mod detection" },
     { "/dmga snapshot", "save a full decision trace for troubleshooting" },
-    { "/dmga mark", "mark this moment for your report (also a key binding)" },
+    { "/dmga mark [name]", "mark this moment for your report, with a name (a test: /dmga mark st-normal)" },
     { "/dmga extended", "extended log on / off: every press records what the game showed, for reports" },
     { "/dmga cdm", "Blizzard's Cooldown Manager: on or off, and the key buffs worth tracking in it" },
     { "/dmga why 400 | all | off", "How many slot changes per fight are logged with their reasons" },
@@ -1212,15 +1229,19 @@ end
 -- "That, right there": a labelled snapshot of the moment for the report - the Flow lane as drawn, the three
 -- slots, resources, and the full decision trace (asked 2026-11-14: so a report points at the moment, not 2 minutes).
 ns.markCount = 0
-function commands.mark()
+function commands.mark(arg)
   ns.markCount = ns.markCount + 1
+  local label = type(arg) == "string" and arg ~= "" and arg:sub(1, 60) or nil
+  if ns.Record.on then
+    ns.Record.Event("DMGA_MARK", label or "") -- (in the recording too: tools/replay.py shows which test a fight was)
+  end
   local r = ns.last or {}
   local slots = {}
   for i, p in ipairs(r.queue or {}) do
     slots[#slots + 1] = string.format("%d:%s(%s)%s", i, tostring(p.token or p.id), tostring(p.source),
       p.readyAt and string.format("@%.1f", p.readyAt - S.Now()) or "")
   end
-  U.Log("mark", { n = ns.markCount, slots = table.concat(slots, " "), lane = ns.Game and ns.Game.LaneText and
+  U.Log("mark", { n = ns.markCount, label = label, slots = table.concat(slots, " "), lane = ns.Game and ns.Game.LaneText and
     ns.Game.LaneText() or nil, gcd = string.format("%.2f", S.GCDRemains() or 0),
     res = S.ResourceText and S.ResourceText() or nil })
   ns.QuietSnapshot()

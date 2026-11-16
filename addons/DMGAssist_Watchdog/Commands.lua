@@ -119,6 +119,22 @@ DMGAssistWatchdog = {
   Error = function(message)
     ns.Errors.Record("dmgassist", message)
   end,
+  -- DMGAssist's input recording (Core/Record.lua): what the game answered, line by line, kept apart from the event
+  -- log (it would push the decisions out) and exported with the fight. Returns false when no fight is on.
+  Record = function(line)
+    local s = ns.Sessions.Current and ns.Sessions.Current()
+    if not (s and type(line) == "string") then
+      return false
+    end
+    s.rec = s.rec or {}
+    local cap = (ns.db and ns.db.settings.maxRecordLines) or 8000
+    if #s.rec >= cap then
+      s.recDropped = (s.recDropped or 0) + 1
+      return true
+    end
+    s.rec[#s.rec + 1] = line
+    return true
+  end,
   -- Open the panel with the report selected (DMGAssist's minimap button, shift-click).
   OpenReport = function()
     ns.UI.ShowReport()

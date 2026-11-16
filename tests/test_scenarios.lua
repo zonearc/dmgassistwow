@@ -130,6 +130,13 @@ if LOG then
       local t = math.floor((mock.now - logStart) * 100 + 0.5) / 100
       logSession.events[#logSession.events + 1] = { t, "D", tostring(kind), tostring(data) }
     end
+  end, Record = function(line) -- (Core/Record.lua: the input recording, as the game's Watchdog keeps it)
+    if logSession then
+      logSession.rec = logSession.rec or {}
+      logSession.rec[#logSession.rec + 1] = line
+      return true
+    end
+    return false
   end }
 end
 local function JsonStr(s)
@@ -149,7 +156,15 @@ local function WriteLog()
       end
       f:write(j > 1 and "," or "", "[", table.concat(parts, ","), "]")
     end
-    f:write("]}")
+    f:write("]")
+    if s.rec then
+      local lines = {}
+      for j, l in ipairs(s.rec) do
+        lines[j] = JsonStr(l)
+      end
+      f:write(', "rec": [', table.concat(lines, ","), "]")
+    end
+    f:write("}")
   end
   f:write("]}")
   f:close()
@@ -443,6 +458,9 @@ local function Fight(ns, key, record, book, scenario)
     logStart = mock.now
   end
   mock.inCombat, mock.restricted = true, true
+  if LOG and os.getenv("SCEN_RECORD") then
+    ns.Record.Set(true) -- (the input recording too: tools/replay.py replays the fight)
+  end
   mock.Fire("PLAYER_REGEN_DISABLED")
   local start = mock.now
   local m = { ticks = 0, noMain = 0, no2 = 0, no3 = 0, flips = 0, maxStuck = 0, maxHold = 0, errors = 0,
