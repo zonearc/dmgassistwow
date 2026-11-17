@@ -1694,7 +1694,9 @@ function D.Update(result, visible)
   -- Game mode: the lanes show instead; this HUD keeps running unseen (its clock times the notes, the press-now
   -- moment feeds the grade, the action bar highlight stays).
   f:SetAlpha((ns.Game and ns.Game.On()) and 0 or cfg.alpha)
-  f:Show()
+  if not (ns.probeHide and ns.probeHide.hud) then -- (/dmga fpsprobe hides it for a step)
+    f:Show()
+  end
 end
 
 -- Locked = click-through (never blocks clicks on the world behind it). Unlocked = drag to move, right-click

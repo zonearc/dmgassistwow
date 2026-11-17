@@ -16,6 +16,14 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 1.6.0.332: /dmga fpsprobe flashed Flow mode nonstop (owner, 2026-11-17: "would give someone with epilepsy a
+  seizure"). The probe hid the window every frame and every decision (10 a second) showed it again; its test ran no
+  decisions, so it passed. Now Flow's and the HUD's updates leave a window the probe hid hidden (ns.probeHide), a
+  step changes only what differs, more than 2 visibility changes of a window within a second stops the probe and
+  restores everything, the probe stops when the fight ends, and /dmga fpsprobe again stops it. The test runs real
+  decisions during the probe and records every Show/Hide; it fails with the 1.6.0.331 code. Rule from this: any
+  change that shows or hides something gets a test that drives the real updates and counts visibility changes.
+
 - 1.6.0.331 (fights 492-496 on 1.6.0.330, base FPS 52-56 without DMGAssist; 44 with it, 49 low power, 53 window
   hidden): the cast event recounted every nameplate ~23 times (~2,000 game calls per cast) - the count is now kept
   for one event's handling (S.inEvent), as is Calibrate's profile key (219 asks in 14 casts); offline the cast event

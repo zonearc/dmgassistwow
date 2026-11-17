@@ -870,7 +870,7 @@ end
 -- /dmga fpsprobe: where DMGAssist's frames go (owner, 2026-11-17: 44 FPS with it, 53 with its window hidden, 56
 -- without it). Steps of PROBE_STEP s, each with something hidden or paused; the game's own frame rate is averaged
 -- over the end of each step (the first PROBE_SETTLE s skipped) and logged (fps_probe), then printed.
-ns.PROBE_STEP, ns.PROBE_SETTLE = 8, 2
+ns.PROBE_STEP, ns.PROBE_SETTLE, ns.PROBE_MAX_FLIPS = 8, 2, 2
 ns.PROBE_STEPS = {
   { name = "all" },
   { name = "flow_hidden", flow = true },
@@ -883,24 +883,44 @@ local probe
 local probeFrame = CreateFrame("Frame")
 ns.probeFrame = probeFrame
 local function ProbeApply(step)
-  local gf, df = ns.Game and ns.Game.frame, D.frame
-  if gf and step.flow and gf:IsShown() then
-    gf:Hide()
-    probe.hidFlow = true
-  end
-  if df and step.hud and df:IsShown() then
-    df:Hide()
-    probe.hidHud = true
-  end
+  -- (hidden through ns.probeHide: the updates that show these frames leave them hidden while it is set; a step
+  -- changes only what differs from the last one, so nothing is shown and hidden again in between)
+  ns.probeHide = { flow = step.flow, hud = step.hud }
   ns.probePaused = step.pause or nil
+  local gf, df = ns.Game and ns.Game.frame, D.frame
+  if gf then
+    if step.flow and gf:IsShown() then
+      gf:Hide()
+      probe.hidFlow = true
+    elseif not step.flow and probe.hidFlow then
+      gf:Show()
+      probe.hidFlow = nil
+    end
+  end
+  if df then
+    if step.hud and df:IsShown() then
+      df:Hide()
+      probe.hidHud = true
+    elseif not step.hud and probe.hidHud then
+      df:Show()
+      probe.hidHud = nil
+    end
+  end
 end
 local function ProbeRestore()
-  ns.probePaused = nil
+  ns.probePaused, ns.probeHide = nil, nil
   if probe and probe.hidFlow and ns.Game and ns.Game.frame then
     ns.Game.frame:Show()
   end
   if probe and probe.hidHud and D.frame then
     D.frame:Show()
+  end
+end
+function ns.StopProbe()
+  if probe then
+    ProbeRestore()
+    probe = nil
+    return true
   end
 end
 probeFrame:SetScript("OnUpdate", function()
@@ -910,12 +930,20 @@ probeFrame:SetScript("OnUpdate", function()
   local now = GetTime()
   local i = math.floor((now - probe.start) / ns.PROBE_STEP) + 1
   local step = ns.PROBE_STEPS[i]
-  if not step then
+  if not step or (probe.inCombat and not InCombatLockdown() and not UnitAffectingCombat("player")) then
     ProbeRestore()
+    if step then -- (the fight ended first: nothing stays hidden; what was measured so far is still logged)
+      probe.cut = true
+    end
     local parts = {}
     for _, st in ipairs(ns.PROBE_STEPS) do
       local r = probe.sum[st.name]
-      parts[#parts + 1] = string.format("%s=%.1f", st.name, r and r.n > 0 and r.fps / r.n or 0)
+      if r and r.n > 0 then
+        parts[#parts + 1] = string.format("%s=%.1f", st.name, r.fps / r.n)
+      end
+    end
+    if probe.cut then
+      parts[#parts + 1] = "(cut short: the fight ended)"
     end
     local text = table.concat(parts, " ")
     U.Log("fps_probe", text)
@@ -923,11 +951,30 @@ probeFrame:SetScript("OnUpdate", function()
     probe = nil
     return
   end
-  if i ~= probe.step then -- (each step starts from everything shown, then hides its part)
-    ProbeRestore()
-    probe.hidFlow, probe.hidHud, probe.step = nil, nil, i
+  probe.inCombat = probe.inCombat or InCombatLockdown() or UnitAffectingCombat("player")
+  -- Safety: a window must never blink (photosensitivity; 1.6.0.331's probe fought the updates that show the
+  -- windows and flashed Flow mode nonstop). More than PROBE_MAX_FLIPS visibility changes within a second stops it.
+  local gf, df = ns.Game and ns.Game.frame, D.frame
+  local vis = (gf and gf:IsShown() and "1" or "0") .. (df and df:IsShown() and "1" or "0")
+  if probe.vis and vis ~= probe.vis then
+    probe.flips = probe.flips or {}
+    table.insert(probe.flips, now)
+    while probe.flips[1] and now - probe.flips[1] > 1 do
+      table.remove(probe.flips, 1)
+    end
+    if #probe.flips > ns.PROBE_MAX_FLIPS then
+      ProbeRestore()
+      probe = nil
+      U.Log("fps_probe", "stopped: a window changed visibility too often")
+      U.Print("%s", L["FPS probe stopped."])
+      return
+    end
   end
-  ProbeApply(step)
+  probe.vis = vis
+  if i ~= probe.step then
+    probe.step = i
+    ProbeApply(step)
+  end
   if now - probe.start - (i - 1) * ns.PROBE_STEP >= ns.PROBE_SETTLE then
     local r = probe.sum[step.name] or { fps = 0, n = 0 }
     probe.sum[step.name] = r
@@ -935,6 +982,10 @@ probeFrame:SetScript("OnUpdate", function()
   end
 end)
 function commands.fpsprobe()
+  if ns.StopProbe() then
+    U.Print("%s", L["FPS probe stopped."])
+    return
+  end
   probe = { start = GetTime(), sum = {}, step = 0 }
   U.Print(L["FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another."],
     ns.PROBE_STEP * #ns.PROBE_STEPS)

@@ -958,5 +958,6 @@
 "How many times a second Flow mode and the timing cue are drawn. 30 looks smooth; lower gives back FPS.",
 "FPS probe done: %s",
 "FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another.",
-"Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: Settings > DMGAssist, or /dmga lowpower."
+"Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: Settings > DMGAssist, or /dmga lowpower.",
+"FPS probe stopped."
 ]

@@ -951,3 +951,4 @@
 957	Test FPS terminé : %s
 958	Test FPS : reste immobile et continue de lancer pendant %d secondes ; des parties de DMGAssist se masquent l'une après l'autre.
 959	Ta fréquence d'images était basse pendant ce combat (%d FPS). Sur un PC plus lent, le mode économie en rend un peu : Options > DMGAssist, ou /dmga lowpower.
+960	Test FPS arrêté.

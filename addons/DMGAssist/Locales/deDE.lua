@@ -955,4 +955,5 @@ ns.LOCALE_DATA.deDE = {
   ["FPS probe done: %s"] = "FPS-Test fertig: %s",
   ["FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another."] = "FPS-Test: %d Sekunden stillstehen und weiter zaubern; Teile von DMGAssist werden nacheinander ausgeblendet.",
   ["Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: Settings > DMGAssist, or /dmga lowpower."] = "Deine Bildrate war in diesem Kampf niedrig (%d FPS). Auf einem langsameren PC bringt der Energiesparmodus etwas zurück: Einstellungen > DMGAssist oder /dmga lowpower.",
+  ["FPS probe stopped."] = "FPS-Test abgebrochen.",
 }

@@ -951,3 +951,4 @@
 957	Prueba de FPS terminada: %s
 958	Prueba de FPS: quédate quieto y sigue lanzando durante %d segundos; partes de DMGAssist se ocultan una tras otra.
 959	Tu tasa de fotogramas fue baja en ese combate (%d FPS). En un PC más lento, el modo de bajo consumo recupera algo: Ajustes > DMGAssist, o /dmga lowpower.
+960	Prueba de FPS detenida.

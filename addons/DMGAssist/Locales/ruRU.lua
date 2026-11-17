@@ -955,4 +955,5 @@ ns.LOCALE_DATA.ruRU = {
   ["FPS probe done: %s"] = "Замер FPS завершён: %s",
   ["FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another."] = "Замер FPS: стойте на месте и продолжайте применять заклинания %d секунд; части DMGAssist скрываются по очереди.",
   ["Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: Settings > DMGAssist, or /dmga lowpower."] = "В этом бою частота кадров была низкой (%d FPS). На медленном ПК режим экономии вернёт часть: Настройки > DMGAssist или /dmga lowpower.",
+  ["FPS probe stopped."] = "Замер FPS остановлен.",
 }

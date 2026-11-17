@@ -951,3 +951,4 @@
 957	FPS-Test fertig: %s
 958	FPS-Test: %d Sekunden stillstehen und weiter zaubern; Teile von DMGAssist werden nacheinander ausgeblendet.
 959	Deine Bildrate war in diesem Kampf niedrig (%d FPS). Auf einem langsameren PC bringt der Energiesparmodus etwas zurück: Einstellungen > DMGAssist oder /dmga lowpower.
+960	FPS-Test abgebrochen.

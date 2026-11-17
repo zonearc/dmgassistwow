@@ -955,4 +955,5 @@ ns.LOCALE_DATA.esES = {
   ["FPS probe done: %s"] = "Prueba de FPS terminada: %s",
   ["FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another."] = "Prueba de FPS: quédate quieto y sigue lanzando durante %d segundos; partes de DMGAssist se ocultan una tras otra.",
   ["Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: Settings > DMGAssist, or /dmga lowpower."] = "Tu tasa de fotogramas fue baja en ese combate (%d FPS). En un PC más lento, el modo de bajo consumo recupera algo: Ajustes > DMGAssist, o /dmga lowpower.",
+  ["FPS probe stopped."] = "Prueba de FPS detenida.",
 }

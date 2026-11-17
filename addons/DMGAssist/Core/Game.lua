@@ -1437,7 +1437,9 @@ function G.Update(result, visible)
     f:SetFrameStrata("MEDIUM")
     Place(f)
   end
-  f:Show()
+  if not (ns.probeHide and ns.probeHide.flow) then -- (/dmga fpsprobe hides it for a step: shown again here, it flashed)
+    f:Show()
+  end
 end
 
 function G.Break()

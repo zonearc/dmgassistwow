@@ -951,3 +951,4 @@
 957	Test FPS completato: %s
 958	Test FPS: resta fermo e continua a lanciare per %d secondi; parti di DMGAssist si nascondono una dopo l'altra.
 959	Il frame rate era basso in quel combattimento (%d FPS). Su un PC più lento, il risparmio energetico ne recupera un po': Impostazioni > DMGAssist, o /dmga lowpower.
+960	Test FPS interrotto.

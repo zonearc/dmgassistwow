@@ -955,4 +955,5 @@ ns.LOCALE_DATA.koKR = {
   ["FPS probe done: %s"] = "FPS 측정 완료: %s",
   ["FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another."] = "FPS 측정: %d초 동안 가만히 서서 계속 시전하세요. DMGAssist의 부분들이 하나씩 숨겨집니다.",
   ["Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: Settings > DMGAssist, or /dmga lowpower."] = "이번 전투에서 프레임이 낮았습니다(%d FPS). 느린 PC라면 저전력 모드가 도움이 됩니다: 설정 > DMGAssist 또는 /dmga lowpower.",
+  ["FPS probe stopped."] = "FPS 측정을 중지했습니다.",
 }

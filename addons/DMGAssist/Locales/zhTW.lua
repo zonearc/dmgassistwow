@@ -955,4 +955,5 @@ ns.LOCALE_DATA.zhTW = {
   ["FPS probe done: %s"] = "幀數測試完成：%s",
   ["FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another."] = "幀數測試：站著不動並持續施法 %d 秒；DMGAssist 的各部分會依序隱藏。",
   ["Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: Settings > DMGAssist, or /dmga lowpower."] = "這場戰鬥的幀數較低（%d FPS）。在較慢的電腦上，低功耗模式能找回一些：設定 > DMGAssist，或 /dmga lowpower。",
+  ["FPS probe stopped."] = "幀數測試已停止。",
 }

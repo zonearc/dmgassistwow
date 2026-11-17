@@ -8475,12 +8475,37 @@ test("fps probe: hides Flow, the HUD, both, pauses decisions, logs each step's F
   ns.Display.frame:Show()
   ns.commands.fpsprobe()
   local onUpdate = ns.probeFrame:GetScript("OnUpdate")
+  local mainUpdate = ns.eventFrame:GetScript("OnUpdate")
   local sawPaused, sawFlowHidden = false, false
-  for _ = 1, 110 do
-    mock.Advance(0.5)
-    onUpdate(ns.probeFrame, 0.5)
+  ns.db.gameMode = true -- (Flow mode: its update shows the lanes every pass)
+  -- every real change of a window's visibility, whoever makes it (the screen draws between any two of them)
+  local flips = {}
+  for _, f in ipairs({ ns.Game.frame, ns.Display.frame }) do
+    local show, hide = f.Show, f.Hide
+    f.Show = function(self, ...)
+      if not self:IsShown() then
+        flips[#flips + 1] = mock.now
+      end
+      return show(self, ...)
+    end
+    f.Hide = function(self, ...)
+      if self:IsShown() then
+        flips[#flips + 1] = mock.now
+      end
+      return hide(self, ...)
+    end
+  end
+  for _ = 1, 500 do -- (0.1 s steps: the decisions run in between, as in game)
+    mock.Advance(0.1)
+    mainUpdate(ns.eventFrame, 0.1)
+    pcall(ns.Game.Update, ns.last or { main = { id = 5221, token = "shred" }, queue = {} }, true)
+    onUpdate(ns.probeFrame, 0.1)
     sawPaused = sawPaused or ns.probePaused == true
     sawFlowHidden = sawFlowHidden or not ns.Game.frame:IsShown()
+  end
+  -- never blinking: at most a change at each step's start and end (8 s apart), never several within a second
+  for i = 3, #flips do
+    assert(flips[i] - flips[i - 2] > 1, "visibility changed 3 times within a second at " .. flips[i])
   end
   assert(sawPaused and sawFlowHidden, "steps applied")
   eq(ns.probePaused, nil, "decisions back")
