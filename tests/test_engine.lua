@@ -8516,6 +8516,27 @@ test("fps probe: hides Flow, the HUD, both, pauses decisions, logs each step's F
     out)
 end)
 
+test("charges spent before the pull stay spent in combat, where the game hides them, and come back on time", function()
+  Reset()
+  local ns = Boot()
+  local S, M = ns.State, ns.SpellMap
+  local id = 106951 -- (Berserk, given two 120 s charges for this test)
+  local info = M.Info(id)
+  local saved = { info.ch, info.chcd }
+  info.ch, info.chcd = 2, 120
+  local len = 120
+  mock.charges = { [id] = { 0, 2, mock.now - (len - 45), len, true } } -- both spent before we watched
+  mock.Advance(2)
+  S.SnapshotReady()
+  Restrict()
+  eq(S.Charges(id), 0, "none left")
+  local left = S.ChargeRemains(id)
+  assert(type(left) == "number" and left > 40 and left < 45, "the next in ~43 s: " .. tostring(left))
+  mock.Advance(45)
+  eq(S.Charges(id), 1, "one back")
+  info.ch, info.chcd = saved[1], saved[2]
+end)
+
 test("low power: half the decisions, none when nothing changed (up to 0.5 s), Flow at 15", function()
   Reset()
   local ns = Boot()

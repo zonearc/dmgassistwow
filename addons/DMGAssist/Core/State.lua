@@ -1087,6 +1087,12 @@ function S.Charges(id)
   -- ignoring it there showed Mind Blast in slot 1 with no charge left (Shadow, 2026-11-08).
   local c = U.Get(C_Spell and C_Spell.GetSpellCharges, id)
   local cur = type(c) == "table" and U.Read(c.currentCharges)
+  if type(cur) ~= "number" then
+    local before = S.ChargesFromBefore(id, group) -- (hidden now: what it had before the pull, counted forward)
+    if before and before < n then
+      n = before
+    end
+  end
   if type(cur) == "number" then
     -- The game's own count for the exact ID the engine uses: the truth, both ways (a charge back sooner than our
     -- clock says counts too). Logged once per spell so a report shows it's readable.
@@ -1128,6 +1134,10 @@ function S.ChargeRemains(id)
   local pending = PendingRecharges(GroupOf(id), Now() + shift)
   if pending[1] then
     return math.max(0, pending[1] - Now() - shift)
+  end
+  local _, nextAt = S.ChargesFromBefore(id, GroupOf(id)) -- (spent before the pull: when the next comes back)
+  if nextAt then
+    return math.max(0, nextAt - Now() - shift)
   end
   return nil -- the game says none left but we saw no cast: unknown, fall back to the cooldown API
 end
@@ -1915,6 +1925,19 @@ function S.SnapshotReady()
   lastSnapshot = now
   for id, b in pairs(M.book or {}) do
     if b.id == id and not b.passive then
+      -- charges left and when the next comes back, while the game shows them (fight 503: Celestial Alignment's two
+      -- charges spent before we watched; in combat they are hidden and our count said both were there - the
+      -- opener waited 46 s for a cast that couldn't happen)
+      local ch = ChargeInfo(id) and U.Get(C_Spell and C_Spell.GetSpellCharges, id)
+      if type(ch) == "table" then
+        local cur, max = U.Read(ch.currentCharges), U.Read(ch.maxCharges)
+        local st, dur = U.Read(ch.cooldownStartTime), U.Read(ch.cooldownDuration)
+        if type(cur) == "number" and type(max) == "number" then
+          S.chargesBeforeFight[id] = { at = now, cur = cur, max = max,
+            next = (cur < max and type(st) == "number" and type(dur) == "number" and dur > 0) and (st + dur) or nil,
+            len = type(dur) == "number" and dur > 0 and dur or nil }
+        end
+      end
       local info = CooldownInfo(id)
       if info then
         local active, onGCD = U.Read(info.isActive), U.Read(info.isOnGCD)
@@ -1935,6 +1958,25 @@ function S.SnapshotReady()
 end
 
 S.busyBeforeFight = {}
+S.chargesBeforeFight = {}
+-- Charges known before the fight, counted forward (nil once we've seen a cast of it, or without a reading)
+local function ChargesFromBefore(id, group)
+  local b = S.combatStart and S.chargesBeforeFight[id]
+  if not b then
+    return nil
+  end
+  local last = S.lastCast[id]
+  if (last and last >= b.at) or (S.chargeSpentAt[group] or 0) >= b.at then
+    return nil
+  end
+  local n, nextAt = b.cur, b.next
+  while nextAt and n < b.max and Now() >= nextAt do
+    n = n + 1
+    nextAt = (n < b.max and b.len) and (nextAt + b.len) or nil
+  end
+  return n, nextAt
+end
+S.ChargesFromBefore = ChargesFromBefore
 -- On cooldown before the fight and not cast since: seconds until it ends (nil when we don't know)
 local function BusyFromBefore(id)
   local b = S.combatStart and S.busyBeforeFight[id]
@@ -4176,6 +4218,7 @@ function S.Bind(key)
   S.auraUntil, S.dotUntil, S.lastCast, S.wasActive, S.glow = {}, {}, {}, {}, {}
   S.readyBeforeFight = {} -- (with our cast records: S.SnapshotReady fills it again within a second)
   S.busyBeforeFight = {}
+  S.chargesBeforeFight = {}
   S.cdRefusal = {}
   l.unreliable = type(l.unreliable) == "table" and l.unreliable or {}
   S.chargeSpentAt, S.readyShown = {}, nil -- liveCharges: re-read by S.Calibrate

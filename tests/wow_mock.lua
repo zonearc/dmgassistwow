@@ -791,7 +791,10 @@ function mock.Install(env)
     GetSpellCharges = function(id)
       local c = mock.charges and mock.charges[id]
       if c then
-        return { currentCharges = c[1], maxCharges = c[2] }
+        -- ([3], [4]: recharge start and length; [5]: hidden in restricted combat, as the game does)
+        local hide = c[5] and mock.restricted
+        return { currentCharges = hide and mock.Secret() or c[1], maxCharges = c[2],
+          cooldownStartTime = hide and mock.Secret() or c[3], cooldownDuration = hide and mock.Secret() or c[4] }
       end
       return nil
     end,

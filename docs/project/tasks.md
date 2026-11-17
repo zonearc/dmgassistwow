@@ -16,6 +16,14 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 1.6.0.333: fight 503 began with both Celestial Alignment charges spent before we watched (the game read 0 at the
+  pull, hidden after); our count, with no cast of ours, said 2 - "ready", and the opener waited 46 s until the
+  safety cap. Charges and the next recharge are now read before the pull and counted forward while hidden
+  (S.chargesBeforeFight); the test fails without it. FPS on Standard (fight 506): 48 with it, 53-55 enabled but idle
+  (~2.6 ms a frame; Hekili's own notes estimate ~5% in combat). Learner back LIVE on fresh scores (61% vs SimC 51%,
+  n=126). Fight 506 slot 2 59%: 0-30s 11/20, 30-60s 11/15, 60-120s 20/36; misses Starfall/Starfire on hidden Astral
+  Power (resource 8, state 19).
+
 - 1.6.0.332: /dmga fpsprobe flashed Flow mode nonstop (owner, 2026-11-17: "would give someone with epilepsy a
   seizure"). The probe hid the window every frame and every decision (10 a second) showed it again; its test ran no
   decisions, so it passed. Now Flow's and the HUD's updates leave a window the probe hid hidden (ns.probeHide), a
