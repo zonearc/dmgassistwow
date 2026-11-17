@@ -16,6 +16,12 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 1.6.0.337 (Subtlety fight 524, 104 s, 5 dummies): slot 2 70%, slot 1 steady 94%. From the game's own answers,
+  nothing in the rotation was affordable 21 s of 103 (20%): real Energy starvation, not the addon holding back.
+  Casts 51/min vs SimC's 57/min for this spec on 5 targets (89%). 11 presses refused for Energy while slot 1 waited.
+  The wait cue now re-estimates when its estimate runs out and the game still says "not enough". Open: the replay
+  doesn't reproduce Subtlety (same as shown: slot 1 6%) - find out why before trusting offline Rogue numbers.
+
 - 1.6.0.336 (Subtlety fights 520-522): slot 2 68% (30-60 s 80%). Six presses refused "Not enough energy", each while
   slot 1 waited for Energy with no sign of how long. Slot 1's timing cue now counts a resource wait too: dimmed, an
   estimate counting down (our lower bound and the cost, halved, at the regeneration rate), ready the moment the game

@@ -1507,6 +1507,10 @@ function D.RenderTiming(f, cfg)
         local key = tostring(id)
         if f.powerFor ~= key then -- (one estimate per wait: counted down, not re-guessed every frame)
           f.powerFor, f.powerUntil = key, GetTime() + math.min(t, 5)
+        elseif f.powerUntil <= GetTime() then
+          -- (ran out and the game still says "not enough": a new estimate, at least a short wait, so the cue never
+          -- sits at "about to be ready" - Subtlety, 2026-11-17: energy starved a fifth of the fight)
+          f.powerUntil = GetTime() + math.max(0.25, math.min(t, 5))
         end
         powerLeft = math.max(0.05, f.powerUntil - GetTime()) -- (not ready before the game agrees)
       end
