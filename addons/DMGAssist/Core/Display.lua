@@ -1065,8 +1065,9 @@ local function SetIcon(icon, pick, cfg, isMain, labelText)
   -- resource. Only when the game says so (an unreadable answer leaves the icon as it is).
   local r, g, b = 1, 1, 1
   if cfg.rangeTint ~= false and pick.id and not pick.item and U.Get(UnitExists, "target") == true then
-    if U.Get(C_Spell and C_Spell.IsSpellInRange, pick.id, "target") == false then
+    if U.Get(C_Spell and C_Spell.IsSpellInRange, pick.id, "target") == false and not D.rangeWrong[pick.id] then
       r, g, b = 1, 0.3, 0.3
+      D.redAt[pick.id] = GetTime()
     elseif isMain then
       local usable, noPower = U.Call(C_Spell and C_Spell.IsSpellUsable, pick.id)
       if U.Read(usable) == false and U.Read(noPower) == true then
@@ -1696,6 +1697,17 @@ function D.Update(result, visible)
   f:SetAlpha((ns.Game and ns.Game.On()) and 0 or cfg.alpha)
   if not (ns.probeHide and ns.probeHide.hud) then -- (/dmga fpsprobe hides it for a step)
     f:Show()
+  end
+end
+
+-- Shown red ("out of range") and cast anyway within a second: the game's range answer for that spell is wrong
+-- (Fury of Elune red twice and pressed, 2026-11-17) - not tinted again this session.
+D.redAt, D.rangeWrong = {}, {}
+function D.OnOwnCast(id)
+  local at = id and D.redAt[id]
+  if at and GetTime() - at < 1 and not D.rangeWrong[id] then
+    D.rangeWrong[id] = true
+    U.Log("range_wrong", { spell = id })
   end
 end
 

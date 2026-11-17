@@ -16,6 +16,14 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 1.6.0.334: fight 509 (0 Celestial Alignment charges at the pull) still said "ready": the pre-pull charge reading
+  was kept by spell ID and asked by the other one of the pair - now by charge group. Fight 508 (cooldown ready): slot 2
+  0/7 in the opener, the live learner overriding SimC's sequence - the learner stays out of openers. Fury of Elune
+  shown red (out of range) and cast anyway: a spell cast within a second of a red tint is not tinted again
+  (range_wrong). Low power mode (owner: "should likely force classic, turn logging on its lowest, slow down some
+  checks"): the Classic display, no decision traces, plus the earlier rate cuts. Marksmanship fights 510 / 512: slot 2
+  57% / 35%, followed 59-63%.
+
 - 1.6.0.333: fight 503 began with both Celestial Alignment charges spent before we watched (the game read 0 at the
   pull, hidden after); our count, with no cast of ours, said 2 - "ready", and the opener waited 46 s until the
   safety cap. Charges and the next recharge are now read before the pull and counted forward while hidden

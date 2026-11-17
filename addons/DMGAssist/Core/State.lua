@@ -1933,7 +1933,9 @@ function S.SnapshotReady()
         local cur, max = U.Read(ch.currentCharges), U.Read(ch.maxCharges)
         local st, dur = U.Read(ch.cooldownStartTime), U.Read(ch.cooldownDuration)
         if type(cur) == "number" and type(max) == "number" then
-          S.chargesBeforeFight[id] = { at = now, cur = cur, max = max,
+          -- (by charge group: a button and the spell it turns into share them - read as Celestial Alignment, asked
+          -- as Incarnation, fight 509)
+          S.chargesBeforeFight[GroupOf(id)] = { at = now, cur = cur, max = max,
             next = (cur < max and type(st) == "number" and type(dur) == "number" and dur > 0) and (st + dur) or nil,
             len = type(dur) == "number" and dur > 0 and dur or nil }
         end
@@ -1961,7 +1963,7 @@ S.busyBeforeFight = {}
 S.chargesBeforeFight = {}
 -- Charges known before the fight, counted forward (nil once we've seen a cast of it, or without a reading)
 local function ChargesFromBefore(id, group)
-  local b = S.combatStart and S.chargesBeforeFight[id]
+  local b = S.combatStart and S.chargesBeforeFight[group or GroupOf(id)]
   if not b then
     return nil
   end

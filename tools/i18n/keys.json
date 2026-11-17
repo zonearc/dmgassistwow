@@ -953,7 +953,7 @@
 "Low power on: fewer updates a second, no recording.",
 "Low power off: full update rate.",
 "Low power mode",
-"More FPS: fewer updates a second, Flow mode drawn 15 times a second, no recording. The same as /dmga lowpower.",
+"More FPS for slower PCs: the Classic display instead of Flow mode, fewer updates a second, no recording. The same as /dmga lowpower.",
 "Flow mode smoothness",
 "How many times a second Flow mode and the timing cue are drawn. 30 looks smooth; lower gives back FPS.",
 "FPS probe done: %s",

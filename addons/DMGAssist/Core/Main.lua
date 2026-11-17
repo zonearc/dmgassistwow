@@ -461,8 +461,9 @@ local function Update()
     tostring(q2 and q2.token) -- slot 2 changing is a decision too: traced the same way (owner, 2026-11-15)
   if sig ~= lastLogged then
     lastLogged = sig
-    if inCombat then
-      -- Why this pick: the same decision again with every line traced (one per change, capped per fight).
+    if inCombat and not ns.LowPower() then
+      -- Why this pick: the same decision again with every line traced (one per change, capped per fight; not in
+      -- low power mode: it is a whole second decision).
       S.unknownTerms = {}
       local traced = G.Recommend(ns.ActiveRecord(state), { burst = ns.BurstAllowed(), trace = true,
         useAssisted = (state.branch == "midnight" or state.assistedOnly or state.leveling) and ns.db.useAssisted ~= false })
@@ -760,8 +761,8 @@ function ns.MaybeLowPowerTip()
 end
 
 -- Low power mode (/dmga lowpower): 5 decisions a second instead of 10, a decision skipped when no game event
--- touched anything since the last one (at least every LOW_POWER_MAX_QUIET s), Flow drawn 15 times a second,
--- no recording (owner, 2026-11-17: 77 FPS without DMGAssist, 56 with).
+-- touched anything since the last one (at least every LOW_POWER_MAX_QUIET s), Classic display (not Flow), no
+-- recording and no decision traces (owner, 2026-11-17: 77 FPS without DMGAssist, 56 with).
 ns.LOW_POWER_INTERVAL, ns.LOW_POWER_MAX_QUIET = 0.2, 0.5
 function ns.LowPower()
   return ns.db and ns.db.lowPower == true
@@ -1260,6 +1261,7 @@ function ns.OnOwnCast(id)
     end
   end
   ns.Essentials.OnOwnCast(id)
+  D.OnOwnCast(id) -- (a spell shown out of range and cast anyway: its range answer is wrong)
   ns.Trinkets.OnOwnCast(id)
   ns.Defensives.OnOwnCast(id)
   local press = IsPress(id)
@@ -1384,7 +1386,7 @@ function commands.help()
     { "/dmga on | off", "show or hide recommendations" },
     { "/dmga burst", "toggle major cooldowns" },
     { "/dmga flow", "Flow mode on / off: notes slide into a hit line, streaks and stars" },
-    { "/dmga lowpower", "low power mode on / off: more FPS on slower PCs (also in Settings > DMGAssist)" },
+    { "/dmga lowpower", "low power mode on / off: more FPS on slower PCs - Classic display, fewer updates (also in Settings > DMGAssist)" },
     { "/dmga fps <10-60>", "how smoothly Flow mode is drawn (30 by default)" },
     { "/dmga fpsprobe", "measure how many FPS each part of DMGAssist costs (about 50 seconds)" },
     { "/dmga mode st | aoe", "primary target mode" },

@@ -945,7 +945,7 @@
 951	Mode économie activé : moins de mises à jour par seconde, pas d'enregistrement.
 952	Mode économie désactivé : fréquence de mise à jour complète.
 953	Mode économie
-954	Plus de FPS : moins de mises à jour par seconde, mode Flow dessiné 15 fois par seconde, pas d'enregistrement. Identique à /dmga lowpower.
+954	Plus de FPS pour les PC plus lents : l'affichage classique au lieu du mode Flow, moins de mises à jour par seconde, pas d'enregistrement. Identique à /dmga lowpower.
 955	Fluidité du mode Flow
 956	Combien de fois par seconde le mode Flow et le signal de timing sont dessinés. 30 est fluide ; moins rend des FPS.
 957	Test FPS terminé : %s

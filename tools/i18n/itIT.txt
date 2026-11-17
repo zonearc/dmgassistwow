@@ -945,7 +945,7 @@
 951	Risparmio energetico attivo: meno aggiornamenti al secondo, nessuna registrazione.
 952	Risparmio energetico disattivato: frequenza di aggiornamento completa.
 953	Risparmio energetico
-954	Più FPS: meno aggiornamenti al secondo, modalità Flow disegnata 15 volte al secondo, nessuna registrazione. Come /dmga lowpower.
+954	Più FPS per PC più lenti: la visualizzazione classica invece della modalità Flow, meno aggiornamenti al secondo, nessuna registrazione. Come /dmga lowpower.
 955	Fluidità della modalità Flow
 956	Quante volte al secondo vengono disegnati la modalità Flow e il segnale di tempismo. 30 è fluido; meno restituisce FPS.
 957	Test FPS completato: %s

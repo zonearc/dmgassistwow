@@ -115,7 +115,9 @@ G.score, G.setBest, G.hits, G.perfects = 0, 0, 0, 0
 G.notes = {}
 
 function G.On()
-  return ns.db ~= nil and ns.db.gameMode == true
+  -- (low power mode shows Classic: Flow mode's moving notes cost the most to draw - owner, 2026-11-17: "Low power
+  -- mode as a toggle should likely force classic")
+  return ns.db ~= nil and ns.db.gameMode == true and not (ns.LowPower and ns.LowPower())
 end
 
 local function SpecKey()

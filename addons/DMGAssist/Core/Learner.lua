@@ -338,6 +338,11 @@ function L.Apply(result)
   if not (main and main.id and queue and ns.State.combatStart) or L.SITUATIONAL[main.source or ""] then
     return result
   end
+  -- (not inside an opener: SimC wrote it as a sequence. Fight 508, Celestial Alignment ready: the learner's slot 2
+  -- there was wrong at every step, 0/7)
+  if main.phase then
+    return result
+  end
   local store = Store()
   if not store or not Rotation(main.id) then
     return result

@@ -8564,6 +8564,11 @@ test("low power: half the decisions, none when nothing changed (up to 0.5 s), Fl
   onUpdate(ns.eventFrame, 0.1)
   eq(n, 3, "5 a second at most")
   eq(ns.Game.FPS(), 15, "Flow drawn 15 times a second")
+  ns.db.gameMode = true
+  eq(ns.Game.On(), false, "the Classic display, even with Flow mode chosen")
+  ns.db.lowPower = nil
+  eq(ns.Game.On(), true, "Flow back without it")
+  ns.db.lowPower, ns.db.gameMode = true, nil
   ns.db.loggingMode = "enhanced"
   eq(ns.Record.Enabled(), false, "no recording")
   ns.Update = real

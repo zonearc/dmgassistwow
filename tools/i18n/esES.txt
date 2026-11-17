@@ -945,7 +945,7 @@
 951	Modo de bajo consumo activado: menos actualizaciones por segundo, sin grabación.
 952	Modo de bajo consumo desactivado: frecuencia de actualización completa.
 953	Modo de bajo consumo
-954	Más FPS: menos actualizaciones por segundo, el modo Flow se dibuja 15 veces por segundo, sin grabación. Igual que /dmga lowpower.
+954	Más FPS para PC más lentos: la vista clásica en lugar del modo Flow, menos actualizaciones por segundo, sin grabación. Igual que /dmga lowpower.
 955	Fluidez del modo Flow
 956	Cuántas veces por segundo se dibujan el modo Flow y la señal de ritmo. 30 se ve fluido; menos devuelve FPS.
 957	Prueba de FPS terminada: %s
