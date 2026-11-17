@@ -383,11 +383,18 @@ end
 -- ~6 questions of each of 40 nameplates, and asked every frame it cost ~20 FPS in a city (owner, 2026-11-16: 59
 -- FPS without DMGAssist, 36 with it; the recorded fight showed ~330 game calls per frame).
 S.TARGETS_FRESH = 0.25
+-- Inside one game event's handling (Main sets S.inEvent to a serial): the count once, however many parts react
+-- (a cast event asked it ~23 times - ~2,000 game calls per cast, fight 492).
+S.inEvent, S.eventSerial = nil, 0
 function S.Targets()
   local m = targetsMemo
   if inPass and m.pass == passSerial then
     return m.n, m.label
   end
+  if not inPass and S.inEvent and m.event == S.inEvent and m.n ~= nil then
+    return m.n, m.label
+  end
+  m.event = not inPass and S.inEvent or nil
   local n, label = CountTargets()
   m.n, m.label, m.at = n, label, GetTime()
   if inPass then
@@ -932,6 +939,14 @@ function S.CooldownRemains(id)
   end
   if S.StillReadyFromBefore and S.StillReadyFromBefore(id) then
     return 0 -- ready before the fight, not cast since (S.SnapshotReady)
+  end
+  local busy = S.BusyFromBefore and S.BusyFromBefore(id)
+  if busy and busy > 0 then
+    local info0 = CooldownInfo(id)
+    local readable = info0 and U.Read(info0.duration)
+    if type(readable) ~= "number" then
+      return busy -- (hidden in combat: the time it had left at the pull, counted down)
+    end
   end
   local info = CooldownInfo(id)
   if not info then
@@ -1905,13 +1920,34 @@ function S.SnapshotReady()
         local active, onGCD = U.Read(info.isActive), U.Read(info.isOnGCD)
         if active == false or onGCD == true then
           S.readyBeforeFight[id] = now
+          S.busyBeforeFight[id] = nil
         elseif active == true then
           S.readyBeforeFight[id] = nil
+          -- when it comes back, read while we can (in combat it is hidden: fight 496 began with Celestial Alignment
+          -- 49 s away, cast before we were watching, and the opener waited for it - nothing said it was down)
+          local st, dur = U.Read(info.startTime), U.Read(info.duration)
+          S.busyBeforeFight[id] = (type(st) == "number" and type(dur) == "number" and dur > 1.5)
+            and { at = now, ends = st + dur } or nil
         end
       end
     end
   end
 end
+
+S.busyBeforeFight = {}
+-- On cooldown before the fight and not cast since: seconds until it ends (nil when we don't know)
+local function BusyFromBefore(id)
+  local b = S.combatStart and S.busyBeforeFight[id]
+  if not b then
+    return nil
+  end
+  local last = S.lastCast[id]
+  if last and last >= b.at then
+    return nil
+  end
+  return math.max(0, b.ends - Now())
+end
+S.BusyFromBefore = BusyFromBefore
 
 local function StillReadyFromBefore(id)
   local at = S.combatStart and S.readyBeforeFight[id]
@@ -4139,6 +4175,7 @@ function S.Bind(key)
   ns.Clues.Reset(l.glowAura, key)
   S.auraUntil, S.dotUntil, S.lastCast, S.wasActive, S.glow = {}, {}, {}, {}, {}
   S.readyBeforeFight = {} -- (with our cast records: S.SnapshotReady fills it again within a second)
+  S.busyBeforeFight = {}
   S.cdRefusal = {}
   l.unreliable = type(l.unreliable) == "table" and l.unreliable or {}
   S.chargeSpentAt, S.readyShown = {}, nil -- liveCharges: re-read by S.Calibrate

@@ -944,3 +944,10 @@
 950	Segnali: %s. %s
 951	Risparmio energetico attivo: meno aggiornamenti al secondo, nessuna registrazione.
 952	Risparmio energetico disattivato: frequenza di aggiornamento completa.
+953	Risparmio energetico
+954	Più FPS: meno aggiornamenti al secondo, modalità Flow disegnata 15 volte al secondo, nessuna registrazione. Come /dmga lowpower.
+955	Fluidità della modalità Flow
+956	Quante volte al secondo vengono disegnati la modalità Flow e il segnale di tempismo. 30 è fluido; meno restituisce FPS.
+957	Test FPS completato: %s
+958	Test FPS: resta fermo e continua a lanciare per %d secondi; parti di DMGAssist si nascondono una dopo l'altra.
+959	Il frame rate era basso in quel combattimento (%d FPS). Su un PC più lento, il risparmio energetico ne recupera un po': Impostazioni > DMGAssist, o /dmga lowpower.

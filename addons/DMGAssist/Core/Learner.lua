@@ -27,6 +27,7 @@ L.MIN_N = 3          -- a situation needs this many samples before the learner g
 -- shadow when its lead shrinks: L.LIVE_N presses (decayed like the counts), a lead of L.LIVE_LEAD to go live,
 -- under L.DROP_LEAD to step back.
 L.LIVE_N = 100
+L.VS_VERSION = 2
 -- Before that, situation by situation: one the learner has seen at least LOCAL_N times, going the same way at least
 -- LOCAL_CONF of the time, takes slot 2 at once (its confident guesses were right 18/22 and 19/22 on Outlaw while
 -- the whole spec still trailed the 10-point bar: owner, 2026-11-14, "why isn't it adapting in real time?").
@@ -83,6 +84,12 @@ local function Store()
   if type(p) ~= "table" or type(p.next) ~= "table" then
     p = { next = {}, fights = 0 }
     g.learner[key] = p
+  end
+  -- The scores against SimC's forecast start over at a new L.VS_VERSION (what it learned stays): before 1.6.0.331
+  -- SimC's slot 2 was compared while an opener stuck behind a cooldown left it nothing to say, so the learner went
+  -- live on Balance at 58% vs 47% - and was then right 1/11, 0/3, 0/2 in the fights after the opener fix.
+  if p.vsVersion ~= L.VS_VERSION then
+    p.vs, p.sit, p.live, p.vsVersion = nil, nil, nil, L.VS_VERSION
   end
   return p
 end

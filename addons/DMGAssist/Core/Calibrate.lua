@@ -34,14 +34,20 @@ K.SNAP_LOGS = 100 -- (was 10: the rest of a fight's corrections went unseen)
 K.since = {}  -- hidden power type -> { spellID -> casts since the last proof }
 K.fight = {}  -- this fight: { raised = n, short = total, fixed = { text } }
 
+local profileMemo = {}
 local function ProfileKey()
   local state = ns.Specs and ns.Specs.current
   local key = state and state.key
   if not key then
     return nil
   end
-  local config = U.Get(C_ClassTalents and C_ClassTalents.GetActiveConfigID)
-  return key .. ":" .. tostring(type(config) == "number" and config or "?")
+  local ev = ns.State.inEvent -- (once per game event: asked 219 times in 14 casts)
+  if not ev or profileMemo.event ~= ev or profileMemo.key ~= key then
+    local config = U.Get(C_ClassTalents and C_ClassTalents.GetActiveConfigID)
+    profileMemo.event, profileMemo.key = ev, key
+    profileMemo.v = key .. ":" .. tostring(type(config) == "number" and config or "?")
+  end
+  return profileMemo.v
 end
 
 function K.Store()

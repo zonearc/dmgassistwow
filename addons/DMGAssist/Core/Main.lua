@@ -548,10 +548,14 @@ for _, e in ipairs(Specs.EVENTS) do
 end
 local OnEvent
 frame:SetScript("OnEvent", function(self, event, ...)
+  S.eventSerial = S.eventSerial + 1
+  S.inEvent = S.eventSerial -- (memos good for this one event: State.Targets, Calibrate's profile key)
   if inCombat then
-    return U.Timed("ev:" .. tostring(event), OnEvent, self, event, ...) -- (time per fight and event: U.CostLog)
+    U.Timed("ev:" .. tostring(event), OnEvent, self, event, ...) -- (time per fight and event: U.CostLog)
+  else
+    OnEvent(self, event, ...)
   end
-  return OnEvent(self, event, ...)
+  S.inEvent = nil
 end)
 function OnEvent(_, event, ...)
   local arg1, _, arg3 = ...
@@ -634,6 +638,7 @@ function OnEvent(_, event, ...)
     U.CostLog() -- where the fight's time went (cost line)
     ns.Signals.LogSummary() -- which pieces kept a wrong answer, and what the game told them (signals line)
     ns.Calibrate.LogMargin() -- what the predictable-spending margin learned and did this fight
+    ns.MaybeLowPowerTip() -- (a slow fight: once, where low power mode is)
     ns.Record.End()
     ns.combatEndedAt = GetTime()
     ns.Clues.NoteFightEnd() -- our counts as the fight ended: the next pull starts from them (Clues.SeedFloors)
@@ -737,6 +742,23 @@ function OnEvent(_, event, ...)
   end
 end
 
+local fightFPS
+-- After a fight that ran under LOW_POWER_TIP_FPS on average, once per character: low power mode exists, and where.
+ns.LOW_POWER_TIP_FPS = 45
+function ns.MaybeLowPowerTip()
+  local f = fightFPS
+  fightFPS = { sum = 0, n = 0 }
+  if not (f and f.n >= 50 and ns.db) or ns.db.lowPower or ns.db.lowPowerTipShown then
+    return
+  end
+  local avg = f.sum / f.n
+  if avg < ns.LOW_POWER_TIP_FPS then
+    ns.db.lowPowerTipShown = true
+    U.Print(L["Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: "
+      .. "Settings > DMGAssist, or /dmga lowpower."], math.floor(avg + 0.5))
+  end
+end
+
 -- Low power mode (/dmga lowpower): 5 decisions a second instead of 10, a decision skipped when no game event
 -- touched anything since the last one (at least every LOW_POWER_MAX_QUIET s), Flow drawn 15 times a second,
 -- no recording (owner, 2026-11-17: 77 FPS without DMGAssist, 56 with).
@@ -746,6 +768,7 @@ function ns.LowPower()
 end
 
 local elapsed, lastFull = 0, 0
+fightFPS = { sum = 0, n = 0 }
 frame:SetScript("OnUpdate", function(_, dt)
   elapsed = elapsed + (dt or 0)
   local low = ns.LowPower()
@@ -753,6 +776,12 @@ frame:SetScript("OnUpdate", function(_, dt)
     return
   end
   elapsed = 0
+  if ns.probePaused then
+    return -- (/dmga fpsprobe: what the decisions cost)
+  end
+  if inCombat and GetFramerate then -- (the fight's frame rate: the low power tip)
+    fightFPS.sum, fightFPS.n = fightFPS.sum + (GetFramerate() or 0), fightFPS.n + 1
+  end
   local quiet = ns.Signals.Quiet()
   if low and quiet and GetTime() - lastFull < ns.LOW_POWER_MAX_QUIET then
     return
@@ -836,6 +865,79 @@ function commands.lowpower(arg)
   end
   U.Print("%s", ns.db.lowPower and L["Low power on: fewer updates a second, no recording."]
     or L["Low power off: full update rate."])
+end
+
+-- /dmga fpsprobe: where DMGAssist's frames go (owner, 2026-11-17: 44 FPS with it, 53 with its window hidden, 56
+-- without it). Steps of PROBE_STEP s, each with something hidden or paused; the game's own frame rate is averaged
+-- over the end of each step (the first PROBE_SETTLE s skipped) and logged (fps_probe), then printed.
+ns.PROBE_STEP, ns.PROBE_SETTLE = 8, 2
+ns.PROBE_STEPS = {
+  { name = "all" },
+  { name = "flow_hidden", flow = true },
+  { name = "hud_hidden", hud = true },
+  { name = "both_hidden", flow = true, hud = true },
+  { name = "decisions_paused", flow = true, hud = true, pause = true },
+  { name = "all_again" },
+}
+local probe
+local probeFrame = CreateFrame("Frame")
+ns.probeFrame = probeFrame
+local function ProbeApply(step)
+  local gf, df = ns.Game and ns.Game.frame, D.frame
+  if gf and step.flow and gf:IsShown() then
+    gf:Hide()
+    probe.hidFlow = true
+  end
+  if df and step.hud and df:IsShown() then
+    df:Hide()
+    probe.hidHud = true
+  end
+  ns.probePaused = step.pause or nil
+end
+local function ProbeRestore()
+  ns.probePaused = nil
+  if probe and probe.hidFlow and ns.Game and ns.Game.frame then
+    ns.Game.frame:Show()
+  end
+  if probe and probe.hidHud and D.frame then
+    D.frame:Show()
+  end
+end
+probeFrame:SetScript("OnUpdate", function()
+  if not probe then
+    return
+  end
+  local now = GetTime()
+  local i = math.floor((now - probe.start) / ns.PROBE_STEP) + 1
+  local step = ns.PROBE_STEPS[i]
+  if not step then
+    ProbeRestore()
+    local parts = {}
+    for _, st in ipairs(ns.PROBE_STEPS) do
+      local r = probe.sum[st.name]
+      parts[#parts + 1] = string.format("%s=%.1f", st.name, r and r.n > 0 and r.fps / r.n or 0)
+    end
+    local text = table.concat(parts, " ")
+    U.Log("fps_probe", text)
+    U.Print(L["FPS probe done: %s"], text)
+    probe = nil
+    return
+  end
+  if i ~= probe.step then -- (each step starts from everything shown, then hides its part)
+    ProbeRestore()
+    probe.hidFlow, probe.hidHud, probe.step = nil, nil, i
+  end
+  ProbeApply(step)
+  if now - probe.start - (i - 1) * ns.PROBE_STEP >= ns.PROBE_SETTLE then
+    local r = probe.sum[step.name] or { fps = 0, n = 0 }
+    probe.sum[step.name] = r
+    r.fps, r.n = r.fps + (GetFramerate and GetFramerate() or 0), r.n + 1
+  end
+end)
+function commands.fpsprobe()
+  probe = { start = GetTime(), sum = {}, step = 0 }
+  U.Print(L["FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another."],
+    ns.PROBE_STEP * #ns.PROBE_STEPS)
 end
 
 -- /dmga signals [shadow|live|off]: answers kept per kind until a game event changes them (Core/Signals.lua)
@@ -1231,6 +1333,9 @@ function commands.help()
     { "/dmga on | off", "show or hide recommendations" },
     { "/dmga burst", "toggle major cooldowns" },
     { "/dmga flow", "Flow mode on / off: notes slide into a hit line, streaks and stars" },
+    { "/dmga lowpower", "low power mode on / off: more FPS on slower PCs (also in Settings > DMGAssist)" },
+    { "/dmga fps <10-60>", "how smoothly Flow mode is drawn (30 by default)" },
+    { "/dmga fpsprobe", "measure how many FPS each part of DMGAssist costs (about 50 seconds)" },
     { "/dmga mode st | aoe", "primary target mode" },
     { "/dmga mode", "cycle Auto / Single / AoE (also a key binding)" },
     { "/dmga auto on | off", "auto-detect targets from nameplates" },

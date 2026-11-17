@@ -948,4 +948,11 @@ ns.LOCALE_DATA.zhTW = {
   ["Signals: %s. %s"] = "信號：%s。%s",
   ["Low power on: fewer updates a second, no recording."] = "低功耗模式已開啟：每秒更新更少，不記錄。",
   ["Low power off: full update rate."] = "低功耗模式已關閉：完整更新頻率。",
+  ["Low power mode"] = "低功耗模式",
+  ["More FPS: fewer updates a second, Flow mode drawn 15 times a second, no recording. The same as /dmga lowpower."] = "更高幀數：每秒更新更少，心流模式每秒繪製 15 次，不記錄。與 /dmga lowpower 相同。",
+  ["Flow mode smoothness"] = "心流模式流暢度",
+  ["How many times a second Flow mode and the timing cue are drawn. 30 looks smooth; lower gives back FPS."] = "心流模式和時機提示每秒繪製的次數。30 次較流暢；更低可提升幀數。",
+  ["FPS probe done: %s"] = "幀數測試完成：%s",
+  ["FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another."] = "幀數測試：站著不動並持續施法 %d 秒；DMGAssist 的各部分會依序隱藏。",
+  ["Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: Settings > DMGAssist, or /dmga lowpower."] = "這場戰鬥的幀數較低（%d FPS）。在較慢的電腦上，低功耗模式能找回一些：設定 > DMGAssist，或 /dmga lowpower。",
 }

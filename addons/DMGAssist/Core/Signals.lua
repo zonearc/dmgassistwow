@@ -150,6 +150,11 @@ function Sig.OnEvent(event)
   end
 end
 
+-- How many signals a piece has seen (a memo is good while this hasn't moved)
+function Sig.Gen(piece)
+  return State(piece).gen
+end
+
 -- Everything stale (a referee pass, a reload)
 function Sig.All(why)
   local now = GetTime()

@@ -165,7 +165,25 @@ local function Split(s)
 end
 
 local keys, answer = {}, {} -- id -> question; question -> packed answer
+local callCount, callWhere, whereFor
+callCount = 0 -- (game calls answered from the recording)
+callWhere = nil -- (--cost: which code asked, per event)
 R.replay = function(fn, ...)
+  callCount = callCount + 1
+  if callWhere then
+    local qkey = R.Key(fn, { n = select("#", ...), ... }) or "?"
+    local k = tostring(qkey):gsub("%(.*", "")
+    local tb = debug.traceback("", 2)
+    for line in tb:gmatch("[^\n]+") do
+      local src, ln = line:match("([%w_]+%.lua):(%d+):")
+      if src and src ~= "Util.lua" and src ~= "Signals.lua" and src ~= "Record.lua" and src ~= "replay.lua"
+          and src ~= "wow_mock.lua" then
+        k = k .. " <- " .. src .. ":" .. ln
+        break
+      end
+    end
+    callWhere[k] = (callWhere[k] or 0) + 1
+  end
   local k = R.Key(fn, { n = select("#", ...), ... })
   local a = k and answer[k]
   if a then
@@ -193,6 +211,7 @@ end
 local t0 = mock.now
 local picks, presses, castStarts = {}, {}, {}
 local sinceT = {} -- events fired since the last recorded pass
+local evCost, evN, evCalls = {}, {}, {} -- time and game calls in each event's handlers (--cost)
 mock.inCombat, mock.restricted = true, true
 for _, line in ipairs(input.lines) do
   local kind = line:sub(1, 1)
@@ -268,7 +287,17 @@ for _, line in ipairs(input.lines) do
         presses[#presses + 1] = { t = tonumber(t), id = a[3], decided = decided }
       end
       sinceT[ev] = true
+      local e0 = os.clock()
+      local calls0 = callCount
+      if costMode and os.getenv("SCEN_WHERE") == ev then
+        callWhere = whereFor or {}
+        whereFor = callWhere
+      end
       pcall(mock.Fire, ev, a[1], a[2], a[3], a[4], a[5], a[6])
+      callWhere = nil
+      evCalls[ev] = (evCalls[ev] or 0) + callCount - calls0
+      evCost[ev] = (evCost[ev] or 0) + os.clock() - e0
+      evN[ev] = (evN[ev] or 0) + 1
     end
   end
 end
@@ -313,6 +342,31 @@ end
 if costMode then
   print(string.format("COST %.3f ms per pass, %.3f ms per frame of drawing (%d passes)", 1000 * cost.update / math.max(cost.n, 1),
     1000 * cost.frames / math.max(cost.n * 6, 1), cost.n))
+end
+if costMode then
+  local list = {}
+  for ev, c in pairs(evCost) do
+    list[#list + 1] = { ev = ev, c = c }
+  end
+  table.sort(list, function(x, y)
+    return x.c > y.c
+  end)
+  for i = 1, math.min(6, #list) do
+    print(string.format("EVCOST %s %.3f ms each (%d), %.0f game calls each", list[i].ev,
+      1000 * list[i].c / evN[list[i].ev], evN[list[i].ev], (evCalls[list[i].ev] or 0) / evN[list[i].ev]))
+  end
+end
+if whereFor then
+  local list = {}
+  for k, c in pairs(whereFor) do
+    list[#list + 1] = { k = k, c = c }
+  end
+  table.sort(list, function(x, y)
+    return x.c > y.c
+  end)
+  for i = 1, math.min(12, #list) do
+    print(string.format("WHERE %s %d", list[i].k, list[i].c))
+  end
 end
 if os.getenv("SCEN_SIGNALS") then -- (MISS_LOGS raised at the top)
   print("SIGNALS " .. ns.Signals.Summary())

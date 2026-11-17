@@ -948,4 +948,11 @@ ns.LOCALE_DATA.frFR = {
   ["Signals: %s. %s"] = "Signaux : %s. %s",
   ["Low power on: fewer updates a second, no recording."] = "Mode économie activé : moins de mises à jour par seconde, pas d'enregistrement.",
   ["Low power off: full update rate."] = "Mode économie désactivé : fréquence de mise à jour complète.",
+  ["Low power mode"] = "Mode économie",
+  ["More FPS: fewer updates a second, Flow mode drawn 15 times a second, no recording. The same as /dmga lowpower."] = "Plus de FPS : moins de mises à jour par seconde, mode Flow dessiné 15 fois par seconde, pas d'enregistrement. Identique à /dmga lowpower.",
+  ["Flow mode smoothness"] = "Fluidité du mode Flow",
+  ["How many times a second Flow mode and the timing cue are drawn. 30 looks smooth; lower gives back FPS."] = "Combien de fois par seconde le mode Flow et le signal de timing sont dessinés. 30 est fluide ; moins rend des FPS.",
+  ["FPS probe done: %s"] = "Test FPS terminé : %s",
+  ["FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another."] = "Test FPS : reste immobile et continue de lancer pendant %d secondes ; des parties de DMGAssist se masquent l'une après l'autre.",
+  ["Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: Settings > DMGAssist, or /dmga lowpower."] = "Ta fréquence d'images était basse pendant ce combat (%d FPS). Sur un PC plus lent, le mode économie en rend un peu : Options > DMGAssist, ou /dmga lowpower.",
 }

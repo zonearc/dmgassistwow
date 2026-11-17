@@ -16,6 +16,19 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 1.6.0.331 (fights 492-496 on 1.6.0.330, base FPS 52-56 without DMGAssist; 44 with it, 49 low power, 53 window
+  hidden): the cast event recounted every nameplate ~23 times (~2,000 game calls per cast) - the count is now kept
+  for one event's handling (S.inEvent), as is Calibrate's profile key (219 asks in 14 casts); offline the cast event
+  went 2,079 -> 141 calls, combat end 898 -> 117. Same-frame dedupe of the cooldown / usable scans was tried and
+  dropped (two events in one frame can carry a real change; 7 tests). Fight 496 began with Celestial Alignment 49 s
+  away, cast before we watched: hidden in combat, so the opener didn't pause - the time left is now read before the
+  pull and counted down (S.busyBeforeFight). The learner went live on Balance at 58% vs 47%, compared while the stuck
+  opener left SimC nothing; after the fix it was right 1/11, 0/3, 0/2 - its scores against SimC restart
+  (L.VS_VERSION 2; what it learned stays). Tried and dropped: an opener step hidden only now (fight 492: Starfire
+  behind Ascendant Fires after Eclipse) taken as the next step in the look-ahead - no change against real presses in
+  five fights. /dmga fpsprobe (each part hidden in turn, the game's FPS per step, fps_probe line); Low power mode and
+  Flow smoothness in Settings; a one-time tip after a fight under 45 FPS; help lines.
+
 - 1.6.0.330: the first-minute instability was SimC's opener. Balance's opener is "run_action_list,name=opener,
   if=variable.opener", exclusive, and ends only when Celestial Alignment is up; SimC's fights start with it ready,
   ours don't. Fight 488 began with it 63 s away: the opener ran 64 s, slot 2 had no SimC answer (Blizzard's list,

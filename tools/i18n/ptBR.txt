@@ -944,3 +944,10 @@
 950	Sinais: %s. %s
 951	Modo de baixo consumo ligado: menos atualizações por segundo, sem gravação.
 952	Modo de baixo consumo desligado: taxa de atualização completa.
+953	Modo de baixo consumo
+954	Mais FPS: menos atualizações por segundo, modo Flow desenhado 15 vezes por segundo, sem gravação. O mesmo que /dmga lowpower.
+955	Suavidade do modo Flow
+956	Quantas vezes por segundo o modo Flow e o sinal de tempo são desenhados. 30 fica suave; menos devolve FPS.
+957	Teste de FPS concluído: %s
+958	Teste de FPS: fique parado e continue lançando por %d segundos; partes do DMGAssist se ocultam uma após a outra.
+959	Sua taxa de quadros ficou baixa nesse combate (%d FPS). Em um PC mais lento, o modo de baixo consumo devolve um pouco: Configurações > DMGAssist, ou /dmga lowpower.

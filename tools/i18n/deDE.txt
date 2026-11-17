@@ -944,3 +944,10 @@
 950	Signale: %s. %s
 951	Energiesparmodus an: weniger Aktualisierungen pro Sekunde, keine Aufzeichnung.
 952	Energiesparmodus aus: volle Aktualisierungsrate.
+953	Energiesparmodus
+954	Mehr FPS: weniger Aktualisierungen pro Sekunde, Flow-Modus 15-mal pro Sekunde gezeichnet, keine Aufzeichnung. Dasselbe wie /dmga lowpower.
+955	Flüssigkeit des Flow-Modus
+956	Wie oft pro Sekunde der Flow-Modus und der Timing-Hinweis gezeichnet werden. 30 wirkt flüssig; weniger bringt FPS zurück.
+957	FPS-Test fertig: %s
+958	FPS-Test: %d Sekunden stillstehen und weiter zaubern; Teile von DMGAssist werden nacheinander ausgeblendet.
+959	Deine Bildrate war in diesem Kampf niedrig (%d FPS). Auf einem langsameren PC bringt der Energiesparmodus etwas zurück: Einstellungen > DMGAssist oder /dmga lowpower.

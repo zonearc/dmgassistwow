@@ -8451,6 +8451,46 @@ test("opener phase: paused while its cooldown is down, ended when held or after 
   eq(G.phase.why.opener, "time")
 end)
 
+test("a cooldown that was running before the pull counts down in combat, where the game hides it", function()
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  mock.cooldowns[106951] = { active = true, start = mock.now - 70, duration = 120 } -- (cast before we watched)
+  mock.Advance(2)
+  S.SnapshotReady()
+  Restrict() -- the pull: cooldowns hidden
+  local left = S.CooldownRemains(106951)
+  assert(type(left) == "number" and left > 45 and left < 50, "about 48 s left: " .. tostring(left))
+  mock.Advance(10)
+  left = S.CooldownRemains(106951)
+  assert(type(left) == "number" and left > 35 and left < 40, "counting down: " .. tostring(left))
+end)
+
+test("fps probe: hides Flow, the HUD, both, pauses decisions, logs each step's FPS, restores everything", function()
+  Reset()
+  local ns = Boot()
+  ns.Display.Create()
+  ns.Game.Create()
+  ns.Game.frame:Show()
+  ns.Display.frame:Show()
+  ns.commands.fpsprobe()
+  local onUpdate = ns.probeFrame:GetScript("OnUpdate")
+  local sawPaused, sawFlowHidden = false, false
+  for _ = 1, 110 do
+    mock.Advance(0.5)
+    onUpdate(ns.probeFrame, 0.5)
+    sawPaused = sawPaused or ns.probePaused == true
+    sawFlowHidden = sawFlowHidden or not ns.Game.frame:IsShown()
+  end
+  assert(sawPaused and sawFlowHidden, "steps applied")
+  eq(ns.probePaused, nil, "decisions back")
+  eq(ns.Game.frame:IsShown(), true, "Flow shown again")
+  eq(ns.Display.frame:IsShown(), true, "HUD shown again")
+  local out = table.concat(mock.printed, "\n")
+  assert(out:find("all=[%d.]+ flow_hidden=[%d.]+ hud_hidden=[%d.]+ both_hidden=[%d.]+ decisions_paused=[%d.]+ all_again="),
+    out)
+end)
+
 test("low power: half the decisions, none when nothing changed (up to 0.5 s), Flow at 15", function()
   Reset()
   local ns = Boot()

@@ -289,6 +289,10 @@ function O.Register()
     "Left-click: show / hide. Right-click: menu and settings. Drag to move it.")
   Check(main, DB, "locked", "Lock position", true,
     "Unlock to drag the icons; they are also shown while this panel is open.")
+  Check(main, DB, "lowPower", "Low power mode", false,
+    "More FPS: fewer updates a second, Flow mode drawn 15 times a second, no recording. The same as /dmga lowpower.")
+  Slider(main, DB, "flowFPS", "Flow mode smoothness", 30, 10, 60, 1,
+    "How many times a second Flow mode and the timing cue are drawn. 30 looks smooth; lower gives back FPS.")
   -- Language: the game's (default) or any other; account-wide, applied after a /reload.
   local langProxy = setmetatable({}, {
     __index = function(_, k)

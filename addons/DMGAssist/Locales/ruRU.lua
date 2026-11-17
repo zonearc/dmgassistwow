@@ -948,4 +948,11 @@ ns.LOCALE_DATA.ruRU = {
   ["Signals: %s. %s"] = "Сигналы: %s. %s",
   ["Low power on: fewer updates a second, no recording."] = "Режим экономии включён: меньше обновлений в секунду, без записи.",
   ["Low power off: full update rate."] = "Режим экономии выключен: полная частота обновлений.",
+  ["Low power mode"] = "Режим экономии",
+  ["More FPS: fewer updates a second, Flow mode drawn 15 times a second, no recording. The same as /dmga lowpower."] = "Больше FPS: меньше обновлений в секунду, режим Flow рисуется 15 раз в секунду, без записи. То же, что /dmga lowpower.",
+  ["Flow mode smoothness"] = "Плавность режима Flow",
+  ["How many times a second Flow mode and the timing cue are drawn. 30 looks smooth; lower gives back FPS."] = "Сколько раз в секунду рисуются режим Flow и подсказка тайминга. 30 выглядит плавно; меньше возвращает FPS.",
+  ["FPS probe done: %s"] = "Замер FPS завершён: %s",
+  ["FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another."] = "Замер FPS: стойте на месте и продолжайте применять заклинания %d секунд; части DMGAssist скрываются по очереди.",
+  ["Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: Settings > DMGAssist, or /dmga lowpower."] = "В этом бою частота кадров была низкой (%d FPS). На медленном ПК режим экономии вернёт часть: Настройки > DMGAssist или /dmga lowpower.",
 }

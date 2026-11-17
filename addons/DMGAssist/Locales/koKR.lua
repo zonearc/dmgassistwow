@@ -948,4 +948,11 @@ ns.LOCALE_DATA.koKR = {
   ["Signals: %s. %s"] = "신호: %s. %s",
   ["Low power on: fewer updates a second, no recording."] = "저전력 모드 켜짐: 초당 업데이트 감소, 기록 안 함.",
   ["Low power off: full update rate."] = "저전력 모드 꺼짐: 최대 업데이트 속도.",
+  ["Low power mode"] = "저전력 모드",
+  ["More FPS: fewer updates a second, Flow mode drawn 15 times a second, no recording. The same as /dmga lowpower."] = "FPS 향상: 초당 업데이트 감소, 플로우 모드를 초당 15회 그림, 기록 안 함. /dmga lowpower와 같습니다.",
+  ["Flow mode smoothness"] = "플로우 모드 부드러움",
+  ["How many times a second Flow mode and the timing cue are drawn. 30 looks smooth; lower gives back FPS."] = "플로우 모드와 타이밍 신호를 초당 몇 번 그릴지. 30이면 부드럽고, 낮추면 FPS가 올라갑니다.",
+  ["FPS probe done: %s"] = "FPS 측정 완료: %s",
+  ["FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another."] = "FPS 측정: %d초 동안 가만히 서서 계속 시전하세요. DMGAssist의 부분들이 하나씩 숨겨집니다.",
+  ["Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: Settings > DMGAssist, or /dmga lowpower."] = "이번 전투에서 프레임이 낮았습니다(%d FPS). 느린 PC라면 저전력 모드가 도움이 됩니다: 설정 > DMGAssist 또는 /dmga lowpower.",
 }
