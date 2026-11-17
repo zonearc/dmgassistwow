@@ -255,6 +255,23 @@ function mock.Install(env)
     "RegisterForClicks", "SetVertexColor", "HasFocus", "SetMaxLetters", "SetSpacing", "SetHighlightTexture", "SetOwner", "AddLine" }) do
     FrameMethods[name] = noop
   end
+  -- Cooldown frames (the radial sweep): what was set, for tests
+  function FrameMethods:SetCooldown(start, duration)
+    self.cdStart, self.cdDuration = start, duration
+  end
+  function FrameMethods:Clear()
+    self.cdStart, self.cdDuration = nil, nil
+  end
+  function FrameMethods:SetDesaturated(on)
+    self.desaturated = on and true or false
+  end
+  for _, name in ipairs({ "SetReverse", "SetDrawEdge", "SetDrawBling", "SetHideCountdownNumbers", "SetSwipeColor",
+    "SetDrawSwipe", "SetFrameLevel" }) do
+    FrameMethods[name] = noop
+  end
+  function FrameMethods:GetFrameLevel()
+    return self.level or 1
+  end
   env.CreateFrame = function(frameType, name)
     local f = setmetatable({ type = frameType, name = name, events = {}, scripts = {} }, FrameMethods)
     mock.frames[#mock.frames + 1] = f

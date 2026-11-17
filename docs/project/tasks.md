@@ -16,6 +16,14 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 1.6.0.338 (owner: "I don't want a cast to land in slot #1 unless we already know it will have enough energy";
+  "we need a better indicator than the slight greyed out icon"): slot 1 lets go of a spell short of its resource
+  at once when SimC's own pick can be pressed now - unless the resource will be there by the end of the global
+  cooldown (kept, so Outlaw's dip after each press doesn't jump). SimC's deliberate pooling still waits. Slot 1's
+  "not ready" is the cooldown sweep, ending on the "press now" flash, for every wait (GCD, cast, cooldown,
+  resource); the icon is grey while the game says "not enough" (Flow's next note too). A test drives 10 s of presses
+  and Energy waits and fails on four visual changes within a second.
+
 - 1.6.0.337 (Subtlety fight 524, 104 s, 5 dummies): slot 2 70%, slot 1 steady 94%. From the game's own answers,
   nothing in the rotation was affordable 21 s of 103 (20%): real Energy starvation, not the addon holding back.
   Casts 51/min vs SimC's 57/min for this spec on 5 targets (89%). 11 presses refused for Energy while slot 1 waited.

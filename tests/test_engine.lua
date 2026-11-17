@@ -1603,6 +1603,28 @@ test("steady slot 1: a moment short of Energy keeps the shown spell (it waits); 
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("steady slot 1: short of Energy past the global cooldown, while SimC's pick can be pressed: switches at once",
+  function()
+  Reset()
+  local ns = Boot()
+  local G, S = ns.Engine, ns.State
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  G.ResetSteady()
+  local rip, shred = { id = 1079, token = "rip", source = "simc" }, { id = 5221, token = "shred", source = "simc" }
+  G.Steady({ main = rip, queue = { rip, shred } })
+  mock.now = mock.now + 0.5
+  mock.usable[1079] = { false, true } -- short of Energy
+  local tta = S.TimeToAfford
+  S.TimeToAfford = function()
+    return 2.5 -- (not by the time the global cooldown ends)
+  end
+  local r = G.Steady({ main = shred, queue = { shred, rip } })
+  eq(r.main.token, "shred", "the pressable one, at once")
+  S.TimeToAfford = tta
+  mock.usable[1079] = nil
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 test("steady slot 1: a major cooldown SimC wants now takes slot 1 at once (its window can be one press)", function()
   -- Improved Adrenaline Rush (at 2 combo points or fewer) waited 70 s behind held Sinister Strikes (2026-11-13)
   Reset()
@@ -5389,13 +5411,15 @@ test("timing: our cast is timed from its start event when the game hides it; wip
   eq(math.abs(left - 2) < 0.01, true, "2 s left: " .. tostring(left))
   local f = ns.Display.frame
   ns.Update()
-  eq(f.wipe:IsShown(), true, "not ready: slot 1 darkened")
+  eq(f.sweep:IsShown(), true, "not ready: the sweep runs")
+  assert(f.sweep.cdDuration and math.abs(f.sweep.cdStart + f.sweep.cdDuration - (mock.now + 2)) < 0.1,
+    "it ends when the cast does")
   eq(f.pressNow, false)
   mock.Advance(1.96) -- 40 ms before the end: inside the 50 ms lead
   ns.Display.RenderTiming(f, ns.Display.Settings())
   eq(f.pressNow, true, "ready 50 ms early")
   eq(f.flash:IsShown(), true, "flash")
-  eq(f.wipe:IsShown(), false)
+  eq(f.sweep:IsShown(), false, "ready: no sweep")
   mock.Advance(0.04)
   mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5221)
   mock.Fire("UNIT_SPELLCAST_STOP", "player", "guid", 5221)
@@ -5421,14 +5445,54 @@ test("timing: slot 1 short of Energy waits (dimmed, no early flash) and is ready
   ns.Display.RenderTiming(f, ns.Display.Settings())
   eq(f.pressNow, false, "not yet")
   assert(f.lastWait > 1.2 and f.lastWait <= 1.5, "about 1.5 s to wait: " .. tostring(f.lastWait))
-  eq(f.wipe:IsShown(), true, "dimmed while waiting")
+  eq(f.sweep:IsShown(), true, "the sweep while waiting")
+  eq(f.main.tex.desaturated, true, "grey: waiting for Energy")
   mock.Advance(2) -- (the estimate ran out, the game still says no: still waiting)
   ns.Display.RenderTiming(f, ns.Display.Settings())
   eq(f.pressNow, false, "never ready before the game agrees")
   mock.usable[id] = nil -- (enough now)
   ns.Display.RenderTiming(f, ns.Display.Settings())
   eq(f.pressNow, true, "ready the moment it's usable")
+  eq(f.main.tex.desaturated, false, "in colour again")
   S.TimeToAfford = tta
+end)
+
+test("timing: the sweep and the grey never blink - at most one change each per wait, through presses and Energy",
+  function()
+  Reset()
+  local ns = Boot()
+  ns.Update()
+  Restrict()
+  local f = ns.Display.frame
+  local id = f.shownId
+  local S = ns.State
+  local tta = S.TimeToAfford
+  S.TimeToAfford = function()
+    return 0.8
+  end
+  local changes, lastVis, lastGrey = {}, nil, nil
+  for i = 1, 300 do -- (10 s at 30 draws a second: a press every 1.5 s, short of Energy now and then)
+    mock.Advance(1 / 30)
+    if i % 45 == 1 then
+      mock.cooldowns[61304] = { start = mock.now, duration = 1.0, active = true, onGCD = true }
+    end
+    mock.usable[id] = (i % 90 < 50) and { false, true } or nil
+    ns.Display.RenderTiming(f, ns.Display.Settings())
+    local vis, grey = f.sweep:IsShown(), f.greyed == true
+    if lastVis ~= nil and vis ~= lastVis then
+      changes[#changes + 1] = mock.now
+    end
+    if lastGrey ~= nil and grey ~= lastGrey then
+      changes[#changes + 1] = mock.now
+    end
+    lastVis, lastGrey = vis, grey
+  end
+  for i = 4, #changes do
+    assert(changes[i] - changes[i - 3] > 1, "four visual changes within a second at " .. changes[i])
+  end
+  S.TimeToAfford = tta
+  mock.usable[id] = nil
+  mock.cooldowns[61304] = nil
 end)
 
 test("decision traces: each pick change in combat logs resources, the lines checked and unknown terms", function()

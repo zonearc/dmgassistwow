@@ -667,6 +667,17 @@ function D.Create()
   f.wipe:SetPoint("TOPLEFT", f.main, "TOPLEFT", 0, 0)
   f.wipe:SetPoint("TOPRIGHT", f.main, "TOPRIGHT", 0, 0)
   f.wipe:Hide()
+  -- Not ready yet: the familiar cooldown sweep, timed to end on the "press now" flash; the icon grey while it waits
+  -- for a resource (owner, 2026-11-17: the slight darkening wasn't a clear "not ready" - "something like the circle
+  -- spin that times it properly with the flash")
+  f.sweep = CreateFrame("Cooldown", nil, f.main, "CooldownFrameTemplate")
+  f.sweep:SetAllPoints(f.main)
+  if f.sweep.SetDrawEdge then
+    f.sweep:SetDrawEdge(true)
+    f.sweep:SetDrawBling(false)
+    f.sweep:SetHideCountdownNumbers(true)
+    f.sweep:SetSwipeColor(0, 0, 0, 0.75)
+  end
   f.flash = f.main:CreateTexture(nil, "OVERLAY")
   f.flash:SetAllPoints(f.main)
   f.flash:SetColorTexture(1, 1, 0.8, 1)
@@ -1562,12 +1573,25 @@ function D.RenderTiming(f, cfg)
   end
   f.pressNow = ready
   local frac = ready and 0 or math.min(1, wait / f.waitTotal)
-  -- dark wipe: the remaining part of the wait, from the top of the icon down
-  if cfg.pressCue and frac > 0 then
-    f.wipe:SetHeight(math.max(1, f.main:GetHeight() * frac))
-    f.wipe:Show()
-  else
-    f.wipe:Hide()
+  -- the sweep: the whole wait, ending when slot 1 flashes (set again only when that moment moves)
+  if cfg.pressCue and frac > 0 and f.sweep then
+    local ends = now + wait
+    if not f.sweepEnd or math.abs(ends - f.sweepEnd) > 0.05 then
+      f.sweepEnd = ends
+      f.sweep:SetCooldown(ends - f.waitTotal, f.waitTotal)
+    end
+    f.sweep:Show()
+  elseif f.sweep and f.sweepEnd then
+    f.sweepEnd = nil
+    f.sweep:Clear()
+    f.sweep:Hide()
+  end
+  f.wipe:Hide()
+  -- grey while it waits for a resource: "not enough", the game's own answer
+  local grey = not ready and powerLeft > 0 -- (whatever else runs too: a global cooldown starting doesn't undo it)
+  if f.main.tex and f.main.tex.SetDesaturated and f.greyed ~= grey then
+    f.greyed = grey
+    f.main.tex:SetDesaturated(grey)
   end
   -- A channel of yours is running (Spinning Crane Kick, Fists of Fury, Mind Flay, Volley...): pressing anything now
   -- cuts it short. Slot 1 says HOLD (amber, the wipe drains with it) until it ends, then its border flashes green

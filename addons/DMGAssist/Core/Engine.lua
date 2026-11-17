@@ -2058,6 +2058,19 @@ function G.Steady(result)
   -- Right after Sinister Strike, Energy dipped under its cost and slot 1 jumped to whatever could be pressed
   -- (Blade Flurry, Roll the Bones), 9 changes in 56 presses (Outlaw, 2026-11-13; target: steady 95%).
   local wait = (why == "power" and not fast) and G.POWER_WAIT or G.UNCASTABLE_FOR
+  -- ...unless SimC's pick now is pressable right away: never keep a spell you can't afford over one you can
+  -- (owner, 2026-11-17: "I don't want a cast to land in slot #1 unless we already know it will have enough energy";
+  -- Subtlety fight 524: 2.8 s of slot 1 short of Energy while SimC's own pick could be pressed).
+  -- (Kept while the resource will be there when you can press - the end of the global cooldown: the dip right after
+  -- a press made Outlaw's slot 1 jump to Blade Flurry, 9 changes in 56 presses, 2026-11-13.)
+  local tta = ok == false and why == "power" and S.TimeToAfford and S.TimeToAfford(held.pick.id)
+  local inTime = type(tta) == "number" and tta <= S.GCDRemains() + 0.1
+  if ok == false and why == "power" and not inTime and main.id ~= held.pick.id and main.source ~= "pool"
+      and Castable(main.id) == true then
+    Released("affordable_other", held.pick, main, tostring(why))
+    held = { pick = main, at = now }
+    return result
+  end
   if ok == false then
     held.badSince = held.badSince or now
     if now - held.badSince >= wait then

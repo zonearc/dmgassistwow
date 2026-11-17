@@ -1112,6 +1112,13 @@ function G.Render()
     local dim = p and (p.source == "guess" or p.source == "rules?" or p.source == "soon") and 0.5 or 1
     n.waitingFor = (dim < 1 or (p and p.source == "pool")) or nil
     n:SetAlpha(((w.main or w.lane == 2) and 1 or 0.75) * fadeIn * dim)
+    -- the next note grey while it waits for a resource, as slot 1 in the classic HUD (it reaches the line when the
+    -- game says it's affordable)
+    local grey = w.main and ns.Display.frame and ns.Display.frame.greyed or false
+    if n.tex and n.tex.SetDesaturated and n.greyed ~= grey then
+      n.greyed = grey
+      n.tex:SetDesaturated(grey)
+    end
     -- hidden facts the game decides (combat): the same alpha tricks as the classic HUD
     if w.intr and w.intr.how == "render" then
       D.SetAlphaBool(n, w.intr.notInterruptible, 0, 1)
