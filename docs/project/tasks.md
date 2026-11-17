@@ -16,6 +16,12 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 1.6.0.335: the cooldown event (15 a second, ~25 ms of every second in game) asked all 44 cooldown spells; the event
+  names the spell that changed (3,412 of 3,421 in fight 518), so only that one is checked, or none. Cast inference
+  from cooldown edges only while the game hides cast IDs (with readable casts a late edge inferred a false cast).
+  Replays of 488 / 492 / 496 / 518 identical. Fight 518 (Balance, back-to-back pull): slot 2 70%, first 30 s 15/16.
+  Owner, 2026-11-17: 70% is the bar for now - next: every class, the open issues, the shadow features on, release.
+
 - 1.6.0.334: fight 509 (0 Celestial Alignment charges at the pull) still said "ready": the pre-pull charge reading
   was kept by spell ID and asked by the other one of the pair - now by charge group. Fight 508 (cooldown ready): slot 2
   0/7 in the opener, the live learner overriding SimC's sequence - the learner stays out of openers. Fury of Elune

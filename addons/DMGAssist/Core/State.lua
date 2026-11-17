@@ -2313,7 +2313,7 @@ CooldownSpells = function()
   return cdSpells
 end
 
-function S.OnCooldownUpdate()
+function S.OnCooldownUpdate(changedID)
   local g = CooldownInfo(GCD_SPELL)
   local gActive = g and U.Read(g.isActive)
   if gActive == true and not gcdStart then
@@ -2337,7 +2337,15 @@ function S.OnCooldownUpdate()
   -- "on GCD" flag unreadable, a lockout or a silence: no casts (inferring them once restarted our cooldown
   -- clocks for twenty spells and emptied slots 2 and 3, Brewmaster).
   local started = {}
-  for id in pairs(CooldownSpells()) do
+  -- The event names the spell whose cooldown changed (3,412 of 3,421 in fight 518, mostly spells we don't track):
+  -- that one only, or nothing. Without a name (or a hidden one), every cooldown spell, as before.
+  local scan = CooldownSpells()
+  local named = U.Read(changedID)
+  if type(named) == "number" then
+    local id = scan[named] and named or (M.baseOf and M.baseOf[named] and scan[M.baseOf[named]] and M.baseOf[named])
+    scan = id and { [id] = true } or {}
+  end
+  for id in pairs(scan) do
     do
       local info = CooldownInfo(id)
       if info then
@@ -2357,7 +2365,9 @@ function S.OnCooldownUpdate()
   end
   for _, c in ipairs(started) do
     local last = S.lastCast[c.id]
-    if not last or GetTime() - last > 0.5 then
+    -- (only while the game hides which spell was cast: with readable cast events an edge seen late is an old cast,
+    -- not a new one - one false cast in fight 518 once only the named spell is checked)
+    if (not last or GetTime() - last > 0.5) and (S.castsSecret > 0 or S.castsSeen == 0) then
       S.castsInferred = S.castsInferred + 1
       RecordCast(c.id, "cooldown")
     end

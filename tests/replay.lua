@@ -356,6 +356,12 @@ if costMode then
       1000 * list[i].c / evN[list[i].ev], evN[list[i].ev], (evCalls[list[i].ev] or 0) / evN[list[i].ev]))
   end
 end
+if os.getenv("SCEN_DBG") then
+  local l = {}
+  for id, v in pairs(ns.State.learned.cd or {}) do l[#l + 1] = id .. "=" .. string.format("%.1f", v) end
+  table.sort(l)
+  print("DBG inferred=" .. tostring(ns.State.castsInferred) .. " learned=" .. table.concat(l, ","))
+end
 if whereFor then
   local list = {}
   for k, c in pairs(whereFor) do

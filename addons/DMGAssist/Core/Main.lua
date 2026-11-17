@@ -703,7 +703,7 @@ function OnEvent(_, event, ...)
     S.inEncounter = false
     ns.BossMods.Reset()
   elseif event == "SPELL_UPDATE_COOLDOWN" then
-    S.OnCooldownUpdate()
+    S.OnCooldownUpdate(arg1) -- (the spell that changed, when the game says)
   elseif event == "SPELL_ACTIVATION_OVERLAY_GLOW_SHOW" then
     S.OnGlow(arg1, true)
   elseif event == "SPELL_ACTIVATION_OVERLAY_GLOW_HIDE" then
