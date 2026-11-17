@@ -946,4 +946,6 @@ ns.LOCALE_DATA.esES = {
   ["Predictable spending off: spenders show as soon as the game allows them."] = "Gasto predecible desactivado: los consumidores aparecen en cuanto el juego los permite.",
   ["Flow mode and the timing cue draw %d times a second (/dmga fps 10-120)."] = "El modo Flow y la señal de ritmo se dibujan %d veces por segundo (/dmga fps 10-120).",
   ["Signals: %s. %s"] = "Señales: %s. %s",
+  ["Low power on: fewer updates a second, no recording."] = "Modo de bajo consumo activado: menos actualizaciones por segundo, sin grabación.",
+  ["Low power off: full update rate."] = "Modo de bajo consumo desactivado: frecuencia de actualización completa.",
 }

@@ -4257,7 +4257,8 @@ test("diagnostics: prediction - pressing slot 1, was slot 2 right about what cam
   mock.Advance(0.2)
   G.OnPick({ main = PS, queue = { PS } })
   eq(G.PredictionText(), "hit=50% n=2 misses: dispatch>sinister_strikex1(state) | slot1_steady=50% windows=2 "
-    .. "changes=1 situational=2 | miss_why state=1 | slot3=100% n3=1 | slot2_by_source rules=1/2 | lastpress_baseline=100% n=2 | "
+    .. "changes=1 situational=2 | miss_why state=1 | slot3=100% n3=1 | slot2_by_source rules=1/2 | slot2_by_time 0-30s=1/2 | "
+    .. "lastpress_baseline=100% n=2 | "
     .. "followed=75% presses=4")
   G.OnCombat(false)
   eq(G.PredictionText(), nil, "starts over each fight")
@@ -8396,6 +8397,91 @@ test("input recording: a fight's questions, answers and events go to the Watchdo
   end)
   _G.DMGAssistWatchdog = saved
   assert(ok, err)
+end)
+
+test("opener phase: paused while its cooldown is down, ended when held or after 45 s in it", function()
+  local function PhaseRecord()
+    local rec = Record()
+    rec.simcOrder = { "default", "opener" }
+    rec.simc.precombat = { { a = "variable", k = "S", p = { name = "opener", op = "set", value = "1" } } }
+    rec.simc.default = {
+      { a = "run_action_list", k = "T", c = "variable.opener", p = { name = "opener" } },
+      { a = "shred", k = "R" },
+    }
+    rec.simc.opener = {
+      { a = "berserk", k = "R" },
+      { a = "rake", k = "T", c = "!dot.rake.ticking" },
+    }
+    return rec
+  end
+  local function Pull()
+    Reset()
+    local ns = Boot()
+    mock.inCombat = true
+    mock.Fire("PLAYER_REGEN_DISABLED")
+    return ns
+  end
+  -- the big cooldown down at the pull (a pull right after another): the regular list from the first second
+  local ns = Pull()
+  local G = ns.Engine
+  mock.cooldowns[106951] = { active = true, start = mock.now - 60, duration = 180 }
+  eq(G.Recommend(PhaseRecord(), {}).main.token, "shred", "opener paused: its cooldown is 120 s away")
+  eq(G.phase.paused.opener, true, "paused, not ended")
+  mock.cooldowns[106951] = nil -- back
+  eq(G.Recommend(PhaseRecord(), {}).main.token, "berserk", "the ramp resumes with the cooldown")
+  -- ready: the opener plays
+  ns = Pull()
+  G = ns.Engine
+  local r = G.Recommend(PhaseRecord(), {})
+  eq(r.main.token, "berserk", "cooldown ready: the opener's ramp")
+  eq(r.main.phase, "opener", "the pick knows its phase")
+  -- held: something else pressed twice while it showed the cooldown
+  G.OnPressForPhase(r.main, 1822)
+  eq(G.Recommend(PhaseRecord(), {}).main.token, "berserk", "one other press: still the opener")
+  G.OnPressForPhase(r.main, 1822)
+  eq(G.Recommend(PhaseRecord(), {}).main.token, "shred", "two: held on purpose, the regular list")
+  -- time cap
+  ns = Pull()
+  G = ns.Engine
+  for _ = 1, 47 do -- (45 s spent inside it)
+    G.Recommend(PhaseRecord(), {})
+    mock.Advance(1)
+  end
+  eq(G.Recommend(PhaseRecord(), {}).main.token, "shred", "45 s inside it: no opener")
+  eq(G.phase.why.opener, "time")
+end)
+
+test("low power: half the decisions, none when nothing changed (up to 0.5 s), Flow at 15", function()
+  Reset()
+  local ns = Boot()
+  ns.db.lowPower = true
+  local n = 0
+  local real = ns.Update
+  ns.Update = function()
+    n = n + 1
+  end
+  local onUpdate = ns.eventFrame:GetScript("OnUpdate")
+  onUpdate(ns.eventFrame, 0.25)
+  eq(n, 1, "a decision")
+  mock.Advance(0.25)
+  onUpdate(ns.eventFrame, 0.25)
+  eq(n, 1, "nothing signalled since: skipped")
+  mock.Fire("UNIT_AURA", "player")
+  mock.Advance(0.25)
+  onUpdate(ns.eventFrame, 0.25)
+  eq(n, 2, "an event: decided again")
+  mock.Advance(0.6)
+  onUpdate(ns.eventFrame, 0.25)
+  mock.Advance(0.25)
+  onUpdate(ns.eventFrame, 0.25)
+  eq(n, 3, "quiet, but 0.5 s since the last: decided anyway")
+  onUpdate(ns.eventFrame, 0.1)
+  eq(n, 3, "5 a second at most")
+  eq(ns.Game.FPS(), 15, "Flow drawn 15 times a second")
+  ns.db.loggingMode = "enhanced"
+  eq(ns.Record.Enabled(), false, "no recording")
+  ns.Update = real
+  ns.db.lowPower = nil
 end)
 
 test("signals: a piece keeps answers until its event; shadow reports a change with no event; live answers kept", function()

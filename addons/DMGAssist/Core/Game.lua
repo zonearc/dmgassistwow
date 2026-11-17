@@ -860,6 +860,9 @@ end
 G.FPS_DEFAULT = 30
 function G.FPS()
   local v = tonumber(ns.db and ns.db.flowFPS) or G.FPS_DEFAULT
+  if ns.LowPower and ns.LowPower() then
+    v = math.min(v, 15)
+  end
   return math.max(10, math.min(120, v))
 end
 

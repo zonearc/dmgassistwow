@@ -737,13 +737,27 @@ function OnEvent(_, event, ...)
   end
 end
 
-local elapsed = 0
+-- Low power mode (/dmga lowpower): 5 decisions a second instead of 10, a decision skipped when no game event
+-- touched anything since the last one (at least every LOW_POWER_MAX_QUIET s), Flow drawn 15 times a second,
+-- no recording (owner, 2026-11-17: 77 FPS without DMGAssist, 56 with).
+ns.LOW_POWER_INTERVAL, ns.LOW_POWER_MAX_QUIET = 0.2, 0.5
+function ns.LowPower()
+  return ns.db and ns.db.lowPower == true
+end
+
+local elapsed, lastFull = 0, 0
 frame:SetScript("OnUpdate", function(_, dt)
   elapsed = elapsed + (dt or 0)
-  if elapsed < UPDATE_INTERVAL then
+  local low = ns.LowPower()
+  if elapsed < (low and ns.LOW_POWER_INTERVAL or UPDATE_INTERVAL) then
     return
   end
   elapsed = 0
+  local quiet = ns.Signals.Quiet()
+  if low and quiet and GetTime() - lastFull < ns.LOW_POWER_MAX_QUIET then
+    return
+  end
+  lastFull = GetTime()
   local ok, err = U.Timed("pass", pcall, ns.Update)
   if not ok then
     U.Log("engine_error", U.Safe(err))
@@ -809,6 +823,19 @@ function commands.fps(arg)
     ns.db.flowFPS = math.max(10, math.min(120, math.floor(n)))
   end
   U.Print(L["Flow mode and the timing cue draw %d times a second (/dmga fps 10-120)."], ns.Game.FPS())
+end
+
+-- /dmga lowpower [on|off]: fewer decisions and draws a second, no recording (more FPS, a little less smooth)
+function commands.lowpower(arg)
+  if arg == "on" then
+    ns.db.lowPower = true
+  elseif arg == "off" then
+    ns.db.lowPower = nil
+  else
+    ns.db.lowPower = not ns.db.lowPower or nil
+  end
+  U.Print("%s", ns.db.lowPower and L["Low power on: fewer updates a second, no recording."]
+    or L["Low power off: full update rate."])
 end
 
 -- /dmga signals [shadow|live|off]: answers kept per kind until a game event changes them (Core/Signals.lua)
@@ -1098,6 +1125,12 @@ function ns.OnOwnCast(id)
     return
   end
   if inCombat then
+    -- an opener's big cooldown shown and something else pressed: holding it (Engine: phases)
+    local m = decided and decided.main
+    local baseOf = ns.SpellMap.baseOf or {}
+    if m and (baseOf[m.id] or m.id) ~= (baseOf[id] or id) then
+      G.OnPressForPhase(m, id)
+    end
     local what, spell = G.OnPlayerCast(id, shown, ns.db.skipHold ~= false, ns.last and ns.last.queue)
     if what then
       U.Log(what == "held" and "hold" or "hold_released", { spell = spell, cast = id })

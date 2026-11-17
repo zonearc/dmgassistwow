@@ -16,6 +16,25 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 1.6.0.330: the first-minute instability was SimC's opener. Balance's opener is "run_action_list,name=opener,
+  if=variable.opener", exclusive, and ends only when Celestial Alignment is up; SimC's fights start with it ready,
+  ours don't. Fight 488 began with it 63 s away: the opener ran 64 s, slot 2 had no SimC answer (Blizzard's list,
+  rules, guesses) and was right 12/37 when followed, 42/68 after. All recorded fights: 36% during the opener, 65%
+  after; after it, SimC's slot 2 71%, the learner's 50%. Any list run on a plain variable is now a phase: paused
+  while a major cooldown in it is > 5 s from ready (the regular list plays; the ramp resumes with the cooldown - on
+  one target SimC casts Celestial Alignment only inside the opener, so ending it for good lost it, caught by the
+  gate), ended when you press something else twice while it shows its cooldown, or after 45 s inside it (15 s cut
+  the single-target ramp short and lost every cooldown in the simulator). It stays exclusive while it runs (letting
+  the rest fill in mid-ramp spent Astral Power on Starfall). Replay 488: slot 2 vs real presses 44.7% -> 52.5%; 489
+  (cooldown ready) unchanged. Baseline re-recorded for Balance aoe/group/lvl: in the simulator those fights start with
+  Celestial Alignment down (it was cast in the fight before), and the stuck opener's repeated spell scored slot 2
+  76/88/100%; now 67/80/79%. The simulator's player follows slot 1, so a stuck loop predicts itself; the real fight
+  says otherwise - the in-game test decides. prediction_summary now has slot2_by_time (0-30/30-60/60-120/120+ s),
+  slot2_by_phase and worst= (a stretch 20+ points below the rest). FPS (fight 489: 240 ms of every second = 77 -> 56
+  FPS): the cooldown event handler asked every spell in the book ~15 times a second (25 ms/s), now only spells with
+  a cooldown; /dmga lowpower (5 decisions a second, skipped when no event touched anything, at least every 0.5 s;
+  Flow at 15; no recording). GetSpellInfo moved to the haste piece (its cast time changes with procs: 20 misses).
+
 - 1.6.0.329: signals (Core/Signals.lua), shadow mode. Every game question belongs to a piece (resources, cooldowns,
   usable, auras, casting, haste, units, range, spellbook, overrides); a game event marks its pieces stale. Shadow
   mode still asks everything and counts where a kept answer would have been wrong (`signals` / `signal_miss` lines,

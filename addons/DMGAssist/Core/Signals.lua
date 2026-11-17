@@ -85,7 +85,8 @@ local function Build()
     Put("units", fn)
   end
   Put("range", sp.IsSpellInRange)
-  for _, fn in ipairs({ IsPlayerSpell, sp.GetSpellName, sp.GetSpellTexture, sp.GetSpellInfo,
+  Put("haste", sp.GetSpellInfo) -- (its castTime: haste, and a proc making Starfire instant - 20 misses, fight 489)
+  for _, fn in ipairs({ IsPlayerSpell, sp.GetSpellName, sp.GetSpellTexture,
     C_ClassTalents and C_ClassTalents.GetActiveConfigID, IsSpellKnown, IsSpellKnownOrOverridesKnown }) do
     Put("spellbook", fn)
   end
@@ -386,6 +387,19 @@ function Sig.OnPick(result)
     end
   end
   lastSig, lastPick = sig, pick
+end
+
+-- Nothing signalled since the last pass (low power mode skips such passes, up to a limit)
+local lastPassSig
+function Sig.Quiet()
+  local parts = {}
+  for piece in pairs(Sig.PIECES) do
+    parts[#parts + 1] = State(piece).gen
+  end
+  local sig = table.concat(parts, ",")
+  local quiet = sig == lastPassSig
+  lastPassSig = sig
+  return quiet
 end
 
 -- Fight start / end

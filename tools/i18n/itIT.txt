@@ -942,3 +942,5 @@
 948	Spesa prevedibile disattivata: i consumatori compaiono appena il gioco li consente.
 949	La modalità Flow e il segnale di tempismo vengono disegnati %d volte al secondo (/dmga fps 10-120).
 950	Segnali: %s. %s
+951	Risparmio energetico attivo: meno aggiornamenti al secondo, nessuna registrazione.
+952	Risparmio energetico disattivato: frequenza di aggiornamento completa.

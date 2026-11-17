@@ -946,4 +946,6 @@ ns.LOCALE_DATA.zhCN = {
   ["Predictable spending off: spenders show as soon as the game allows them."] = "可预测消耗已关闭：游戏允许时立即显示消耗技能。",
   ["Flow mode and the timing cue draw %d times a second (/dmga fps 10-120)."] = "心流模式和时机提示每秒绘制 %d 次（/dmga fps 10-120）。",
   ["Signals: %s. %s"] = "信号：%s。%s",
+  ["Low power on: fewer updates a second, no recording."] = "低功耗模式已开启：每秒更新更少，不记录。",
+  ["Low power off: full update rate."] = "低功耗模式已关闭：完整更新频率。",
 }

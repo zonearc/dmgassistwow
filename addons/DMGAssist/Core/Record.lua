@@ -401,7 +401,7 @@ function R.Enabled()
   local db = ns.db
   -- (the Logging setting alone: an old "/dmga record on" left recordInputs set, so Standard kept recording,
   -- 2026-11-16)
-  return type(db) == "table" and db.loggingMode == "enhanced"
+  return type(db) == "table" and db.loggingMode == "enhanced" and db.lowPower ~= true
 end
 
 function R.Set(on)

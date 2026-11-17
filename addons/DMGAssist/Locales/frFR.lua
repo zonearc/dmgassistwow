@@ -946,4 +946,6 @@ ns.LOCALE_DATA.frFR = {
   ["Predictable spending off: spenders show as soon as the game allows them."] = "Dépense prévisible désactivée : les techniques de dépense apparaissent dès que le jeu les autorise.",
   ["Flow mode and the timing cue draw %d times a second (/dmga fps 10-120)."] = "Le mode Flow et le signal de timing sont dessinés %d fois par seconde (/dmga fps 10-120).",
   ["Signals: %s. %s"] = "Signaux : %s. %s",
+  ["Low power on: fewer updates a second, no recording."] = "Mode économie activé : moins de mises à jour par seconde, pas d'enregistrement.",
+  ["Low power off: full update rate."] = "Mode économie désactivé : fréquence de mise à jour complète.",
 }

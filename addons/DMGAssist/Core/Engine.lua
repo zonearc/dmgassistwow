@@ -1082,6 +1082,109 @@ function G.Branch(cond, run, id, token)
   return { pt = pt, max = max, truth = truth, pick = { id = id, token = token, source = "branch" } }
 end
 
+-- Phases (an opener). SimC writes Balance's opener as "run_action_list,name=opener,if=variable.opener": set to 1
+-- before the pull, back to 0 once Celestial Alignment is up, and while it is 1 nothing else is looked at. SimC's
+-- fights always start with that cooldown ready; ours don't (back-to-back pulls, open world, holding it): fight 488
+-- began with it 63 s from ready, the opener ran 64 s and slot 2 was guessed all that time (right 12/37 vs 42/71
+-- after). A list run on a plain variable is a phase (owner, 2026-11-17: "a global condition that makes it so that
+-- it doesn't lock inside the opener for long"):
+--   * paused while a major cooldown in it is more than PHASE_CD_SLACK s from ready: the rest of the list plays, and
+--     the ramp comes back with the cooldown (on one target SimC casts Celestial Alignment only inside the opener:
+--     ending it for good never offered it again - the all-specs gate, Balance's group fight);
+--   * ended for the fight when you pressed something else, twice, while it showed one of its major cooldowns
+--     (holding it), or after PHASE_MAX s spent inside it (a safety net: a single-target ramp into Celestial
+--     Alignment and Convoke ran past 15 s in the simulator).
+-- While it runs it stays exclusive, as SimC wrote it: a pass where it has nothing castable is waiting (for Astral
+-- Power, mid-ramp) - letting the rest of the list fill in spent it on Starfall and broke the ramp (5 targets in the
+-- simulator: slot 2 72% -> 56%).
+G.PHASE_MAX = 45
+G.PHASE_CD_SLACK = 5
+G.PHASE_HOLD_PRESSES = 2
+G.phase = { fight = nil, done = {}, why = {}, holds = {}, paused = {}, inside = {}, seen = {} }
+
+function G.IsPhase(e, lists, sub)
+  return type(e.c) == "string" and e.c:match("^variable%.[%w_]+$") ~= nil and lists[sub] ~= nil
+end
+
+local function PhaseFight()
+  local f = S.combatStart
+  if G.phase.fight ~= f then
+    G.phase = { fight = f, done = {}, why = {}, holds = {}, paused = {}, inside = {}, seen = {} }
+  end
+  return G.phase
+end
+
+function G.ReleasePhase(sub, why)
+  local ph = PhaseFight()
+  if ph.done[sub] or not S.combatStart then
+    return
+  end
+  ph.done[sub], ph.why[sub] = true, why
+  U.Log("phase_released", { list = sub, why = why, t = string.format("%.1f", S.Now() - S.combatStart) })
+end
+
+function G.PhaseOver(sub, lists, run)
+  local ph = PhaseFight()
+  if ph.done[sub] then
+    return true
+  end
+  local V = S.Lookahead()
+  local live = not (V and ((V.dt or 0) > 0 or next(V.cast or {}) ~= nil))
+  if not S.combatStart then
+    return false -- (before the pull the opener is the plan)
+  end
+  local now = S.Now()
+  for _, le in ipairs(lists[sub] or {}) do
+    local tk = le.a
+    if tk and run.cooldowns and run.cooldowns[tk] then
+      local id = M.SpellID(tk)
+      local book = M.book or {}
+      local known = id and (book[id] or (M.baseOf and M.baseOf[id] and book[M.baseOf[id]]))
+      local left = known and S.CooldownRemains(id) -- (a cooldown you haven't learned yet holds nothing up)
+      if type(left) == "number" and left > G.PHASE_CD_SLACK then
+        if live and not ph.paused[sub] then
+          ph.paused[sub] = true
+          U.Log("phase_paused", { list = sub, why = "cooldown:" .. tk, left = math.floor(left),
+            t = string.format("%.1f", now - S.combatStart) })
+        end
+        if live then
+          ph.seen[sub] = nil -- (the look-ahead's imagined casts change nothing here)
+        end
+        return true, "paused (cooldown:" .. tk .. ")"
+      end
+    end
+  end
+  if live then
+    if ph.paused[sub] then
+      ph.paused[sub] = nil
+      U.Log("phase_resumed", { list = sub, t = string.format("%.1f", now - S.combatStart) })
+    end
+    -- time spent inside it (not paused)
+    if ph.seen[sub] then
+      ph.inside[sub] = (ph.inside[sub] or 0) + math.min(1, now - ph.seen[sub])
+    end
+    ph.seen[sub] = now
+    if (ph.inside[sub] or 0) > G.PHASE_MAX then
+      G.ReleasePhase(sub, "time")
+      return true
+    end
+  end
+  return false
+end
+
+-- A press (State.RecordCast's caller): slot 1 showed a phase's major cooldown and you pressed something else.
+function G.OnPressForPhase(shown, castID)
+  if not (shown and shown.phase and shown.major and S.combatStart) or shown.id == castID then
+    return
+  end
+  local ph = PhaseFight()
+  local sub = shown.phase
+  ph.holds[sub] = (ph.holds[sub] or 0) + 1
+  if ph.holds[sub] >= G.PHASE_HOLD_PRESSES then
+    G.ReleasePhase(sub, "held")
+  end
+end
+
 local function Walk(lists, name, maybe, depth, run, isBlizzard)
   local list = lists[name]
   if not list or depth > MAX_DEPTH or run.visiting[name] then
@@ -1124,10 +1227,24 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
           end
         end
       end
+      local phase = sub and not isBlizzard and a == "run_action_list" and G.IsPhase(e, lists, sub)
+      if phase and t ~= false then
+        local over, why = G.PhaseOver(sub, lists, run)
+        if over then
+          t = false -- (an opener that can't play out now: the rest of the list, as for a pull with it done)
+          if run.trace then
+            run.trace[#run.trace + 1] = string.format("%s:%s %s %s", name, a, sub,
+              why or ("released (" .. tostring(G.phase.why[sub]) .. ")"))
+          end
+        end
+      end
       if sub and t ~= false then
         local r = Walk(lists, sub, maybe or t == UNKNOWN, depth + 1, run, isBlizzard)
         if r then
           run.visiting[name] = nil
+          if phase and r ~= STOP and type(r) == "table" and not r.phase then
+            r.phase = sub
+          end
           return r
         end
         if a == "run_action_list" and t == true and not maybe then

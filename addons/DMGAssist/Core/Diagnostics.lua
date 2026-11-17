@@ -302,8 +302,25 @@ G.SITUATIONAL = { interrupt = true, defensive = true, gapcloser = true, potion =
 -- least. "steady": slot 1 didn't change between one press and the next. Slot 2 right: what it showed at the press
 -- was slot 1 once the press settled; slot 3 right: it was slot 2 then. The baseline: how often "the spell that
 -- followed this one most often in this fight" came next, a fixed guess from the last press alone.
+-- Slot 2 per stretch of the fight and per phase (owner, 2026-11-17: the whole fight was graded low when only its
+-- first minute - an opener stuck behind a cooldown - was at fault: 36% there, 65% after). A stretch far below the
+-- rest is named in the summary (worst=...).
+G.SPANS = { 30, 60, 120 }
+function G.Span(t)
+  local lo = 0
+  for _, hi in ipairs(G.SPANS) do
+    if t < hi then
+      return lo .. "-" .. hi .. "s"
+    end
+    lo = hi
+  end
+  return lo .. "s+"
+end
+G.WORST_GAP, G.WORST_MIN_N = 20, 8
+
 local function NewPred()
-  return { n = 0, hit = 0, miss = {}, why = {}, missWhy = {}, bySource = {}, n3 = 0, hit3 = 0,
+  return { n = 0, hit = 0, miss = {}, why = {}, missWhy = {}, bySource = {}, n3 = 0, hit3 = 0, bySpan = {},
+    byPhase = {},
     win = { n = 0, steady = 0, changes = 0, situational = 0 }, follow = {}, presses = 0, followed = 0 }
 end
 G.pred = NewPred()
@@ -374,8 +391,11 @@ function G.OnPress(id, shown, last)
     for gid, on in pairs(ns.State.glow or {}) do
       glowing[gid] = on and true or nil
     end
+    local cs = ns.State.combatStart
+    local ft = cs and now - cs or 0
     G.pending = { token = q2.token or tostring(q2.id), id = q2.id, at = now, source = q2.source or "?",
-      q3 = q3 and q3.id and { id = q3.id } or nil, targets = (ns.State.Targets()), glowing = glowing }
+      q3 = q3 and q3.id and { id = q3.id } or nil, targets = (ns.State.Targets()), glowing = glowing,
+      span = G.Span(ft), phase = (last.main and last.main.phase) and "opener" or "regular" }
   end
 end
 
@@ -438,9 +458,23 @@ local function Settle(result)
   local src = pr.bySource[p.source] or { n = 0, hit = 0 }
   pr.bySource[p.source] = src
   src.n = src.n + 1
+  local span = p.span and (pr.bySpan[p.span] or { n = 0, hit = 0 })
+  local phase = p.phase and (pr.byPhase[p.phase] or { n = 0, hit = 0 })
+  if span then
+    pr.bySpan[p.span], span.n = span, span.n + 1
+  end
+  if phase then
+    pr.byPhase[p.phase], phase.n = phase, phase.n + 1
+  end
   if Base(main.id) == Base(p.id) then
     pr.hit = pr.hit + 1
     src.hit = src.hit + 1
+    if span then
+      span.hit = span.hit + 1
+    end
+    if phase then
+      phase.hit = phase.hit + 1
+    end
   else
     local k = p.token .. ">" .. tostring(main.token or main.id)
     pr.miss[k] = (pr.miss[k] or 0) + 1
@@ -517,6 +551,40 @@ function G.PredictionText()
   table.sort(srcs)
   if #srcs > 0 then
     extra[#extra + 1] = "slot2_by_source " .. table.concat(srcs, " ")
+  end
+  local spans, worst = {}, nil
+  local order = {}
+  for k in pairs(pr.bySpan) do
+    order[#order + 1] = k
+  end
+  table.sort(order, function(a, b)
+    return (tonumber(a:match("^(%d+)")) or 0) < (tonumber(b:match("^(%d+)")) or 0)
+  end)
+  for _, k in ipairs(order) do
+    local c = pr.bySpan[k]
+    spans[#spans + 1] = string.format("%s=%d/%d", k, c.hit, c.n)
+    -- a stretch far below the rest of the fight (the rest without it, so one bad stretch can't hide in the average)
+    local restN, restHit = pr.n - c.n, pr.hit - c.hit
+    if c.n >= G.WORST_MIN_N and restN >= G.WORST_MIN_N then
+      local gap = Pct(restHit, restN) - Pct(c.hit, c.n)
+      if gap >= G.WORST_GAP and (not worst or gap > worst.gap) then
+        worst = { k = k, gap = gap, pct = Pct(c.hit, c.n), rest = Pct(restHit, restN) }
+      end
+    end
+  end
+  if #spans > 0 then
+    extra[#extra + 1] = "slot2_by_time " .. table.concat(spans, " ")
+  end
+  local phases = {}
+  for k, c in pairs(pr.byPhase) do
+    phases[#phases + 1] = string.format("%s=%d/%d", k, c.hit, c.n)
+  end
+  table.sort(phases)
+  if #phases > 1 then
+    extra[#extra + 1] = "slot2_by_phase " .. table.concat(phases, " ")
+  end
+  if worst then
+    extra[#extra + 1] = string.format("worst=%s %d%% vs %d%% rest", worst.k, worst.pct, worst.rest)
   end
   local best, total = 0, 0
   for _, f in pairs(pr.follow) do

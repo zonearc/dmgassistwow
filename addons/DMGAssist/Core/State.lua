@@ -2206,6 +2206,32 @@ end
 
 -- SPELL_UPDATE_COOLDOWN: infer casts of cooldown spells from isActive edges (works with secret cast events).
 local gcdStart, gcdBase = nil, nil
+local CooldownSpells
+
+-- The spells whose cooldown edge means a cast: the ones with a real cooldown (data, charges, or one we measured).
+-- Every spell in the book was asked on each SPELL_UPDATE_COOLDOWN (~15 a second in combat): 25 ms of every second
+-- in fight 489 (owner, 2026-11-17: 77 FPS without DMGAssist, 56 with).
+local cdSpells, cdSpellsBook, cdSpellsLearned = nil, nil, -1
+CooldownSpells = function()
+  local learned = 0
+  for _ in pairs(S.learned.cd) do
+    learned = learned + 1
+  end
+  if cdSpells and cdSpellsBook == M.book and cdSpellsLearned == learned then
+    return cdSpells
+  end
+  cdSpells, cdSpellsBook, cdSpellsLearned = {}, M.book, learned
+  for id, b in pairs(M.book) do
+    if b.id == id and not b.passive then
+      local info = M.Info(id)
+      local cd = info and (tonumber(info.cd) or 0) or 0
+      if cd > 1.5 or (info and info.chcd) or S.learned.cd[id] or not info then
+        cdSpells[id] = true
+      end
+    end
+  end
+  return cdSpells
+end
 
 function S.OnCooldownUpdate()
   local g = CooldownInfo(GCD_SPELL)
@@ -2231,8 +2257,8 @@ function S.OnCooldownUpdate()
   -- "on GCD" flag unreadable, a lockout or a silence: no casts (inferring them once restarted our cooldown
   -- clocks for twenty spells and emptied slots 2 and 3, Brewmaster).
   local started = {}
-  for id, b in pairs(M.book) do
-    if b.id == id and not b.passive then
+  for id in pairs(CooldownSpells()) do
+    do
       local info = CooldownInfo(id)
       if info then
         local active, onGCD = U.Read(info.isActive), U.Read(info.isOnGCD)

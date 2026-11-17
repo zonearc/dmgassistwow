@@ -946,4 +946,6 @@ ns.LOCALE_DATA.koKR = {
   ["Predictable spending off: spenders show as soon as the game allows them."] = "예측 가능한 소모 꺼짐: 게임이 허용하는 즉시 소모 기술이 표시됩니다.",
   ["Flow mode and the timing cue draw %d times a second (/dmga fps 10-120)."] = "플로우 모드와 타이밍 신호를 초당 %d회 그립니다 (/dmga fps 10-120).",
   ["Signals: %s. %s"] = "신호: %s. %s",
+  ["Low power on: fewer updates a second, no recording."] = "저전력 모드 켜짐: 초당 업데이트 감소, 기록 안 함.",
+  ["Low power off: full update rate."] = "저전력 모드 꺼짐: 최대 업데이트 속도.",
 }

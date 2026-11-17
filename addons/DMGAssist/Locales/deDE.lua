@@ -946,4 +946,6 @@ ns.LOCALE_DATA.deDE = {
   ["Predictable spending off: spenders show as soon as the game allows them."] = "Planbares Ausgeben aus: Verbraucher erscheinen, sobald das Spiel sie erlaubt.",
   ["Flow mode and the timing cue draw %d times a second (/dmga fps 10-120)."] = "Flow-Modus und Timing-Hinweis werden %d-mal pro Sekunde gezeichnet (/dmga fps 10-120).",
   ["Signals: %s. %s"] = "Signale: %s. %s",
+  ["Low power on: fewer updates a second, no recording."] = "Energiesparmodus an: weniger Aktualisierungen pro Sekunde, keine Aufzeichnung.",
+  ["Low power off: full update rate."] = "Energiesparmodus aus: volle Aktualisierungsrate.",
 }

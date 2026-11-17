@@ -946,4 +946,6 @@ ns.LOCALE_DATA.ruRU = {
   ["Predictable spending off: spenders show as soon as the game allows them."] = "Предсказуемая трата выключена: тратящие способности показываются, как только игра их позволяет.",
   ["Flow mode and the timing cue draw %d times a second (/dmga fps 10-120)."] = "Режим Flow и подсказка тайминга рисуются %d раз в секунду (/dmga fps 10-120).",
   ["Signals: %s. %s"] = "Сигналы: %s. %s",
+  ["Low power on: fewer updates a second, no recording."] = "Режим экономии включён: меньше обновлений в секунду, без записи.",
+  ["Low power off: full update rate."] = "Режим экономии выключен: полная частота обновлений.",
 }

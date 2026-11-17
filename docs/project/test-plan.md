@@ -26,6 +26,10 @@ No marks needed: each fight is numbered. Do the tests in this order (or say whic
 
 If something looks wrong in a fight, `/dmga mark wrong <a few words>` at that moment.
 
+Opener check (1.6.0.330): pull a dummy pack, kill or leave it, and pull again at once while Celestial Alignment is
+still on cooldown. The first 30 s should look like the end of a fight; `prediction_summary` shows slot2_by_time and
+worst= (no worst= is the goal). FPS: Standard logging, then `/dmga lowpower` and note both numbers.
+
 Signals check (1.6.0.329, shadow mode is the default; nothing on screen changes): after a fight, `/dmga signals`
 prints `piece=wrong/kept/asked` per piece. Any piece with wrong above 0 names what the game changed without an
 event; the `signal_miss` lines in the upload say which question. Note your FPS in combat with Flow mode on (Flow now

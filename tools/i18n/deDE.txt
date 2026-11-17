@@ -942,3 +942,5 @@
 948	Planbares Ausgeben aus: Verbraucher erscheinen, sobald das Spiel sie erlaubt.
 949	Flow-Modus und Timing-Hinweis werden %d-mal pro Sekunde gezeichnet (/dmga fps 10-120).
 950	Signale: %s. %s
+951	Energiesparmodus an: weniger Aktualisierungen pro Sekunde, keine Aufzeichnung.
+952	Energiesparmodus aus: volle Aktualisierungsrate.
