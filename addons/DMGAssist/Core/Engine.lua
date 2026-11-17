@@ -2005,7 +2005,7 @@ local function Released(reason, from, to, extra)
   U.Log("steady_release", { why = reason, from = from.token or from.id, to = to.token or to.id, extra = extra })
 end
 
-function G.Steady(result)
+local function SteadySlot1(result)
   local main = result and result.main
   if not main or not main.id or not S.combatStart then
     held = nil
@@ -2087,8 +2087,11 @@ function G.Steady(result)
   -- became better meanwhile waits in slot 2 (owner, 2026-11-13: "slot 1 stays the same 95% of the time, only a
   -- switch in a real emergency"; a moved finger costs about what the better spell gains).
   local reach, debounce = fast and G.REACH_FAST or G.REACH, fast and G.DEBOUNCE_FAST or G.DEBOUNCE
+  -- (waiting for a resource itself, it gives way only to a spell you can press now: Eviscerate waiting for Energy
+  -- swapped with Black Powder waiting too, 0.02 s before the press - Subtlety 2026-11-17)
+  local waitingBoth = held.pick.source == "pool" and Castable(main.id) ~= true
   local stillWanted = not fast and held.pick.token and not (G.notNow and G.notNow[held.pick.token] == true)
-    and held.pick.source ~= "pool" and held.pick.source ~= "guess" and held.pick.source ~= "soon"
+    and (held.pick.source ~= "pool" or waitingBoth) and held.pick.source ~= "guess" and held.pick.source ~= "soon"
   if ready <= reach or stillWanted then
     held.cand = nil
   elseif held.cand ~= main.id then
@@ -2107,6 +2110,10 @@ function G.Steady(result)
   end
   result.queue, result.main, result.steadied = out, held.pick, main.token
   return result
+end
+
+function G.Steady(result)
+  return SteadySlot1(result)
 end
 
 -- One rule for every path (normal, leveling, Blizzard's pick as fallback): a major cooldown the priority list

@@ -1625,6 +1625,35 @@ test("steady slot 1: short of Energy past the global cooldown, while SimC's pick
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("steady slot 1: a spell waiting for Energy gives way only to one you can press now", function()
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  G.ResetSteady()
+  local evis = { id = 1079, token = "rip", source = "pool" }
+  local bp = { id = 5221, token = "shred", source = "simc" }
+  mock.cooldowns[61304] = { start = mock.now, duration = 5, active = true, onGCD = true } -- (not about to press)
+  local mainNow = G.Steady({ main = evis, queue = { evis, bp } }).main
+  eq(mainNow.token, "rip")
+  mock.now = mock.now + 1 -- (past the moment right after a press, when a new pick settles)
+  mock.usable[1079] = { false, true }
+  mock.usable[5221] = { false, true } -- (Rip waiting for Energy, Shred short too)
+  for _ = 1, 10 do
+    mock.now = mock.now + 0.1
+    mainNow = G.Steady({ main = bp, queue = { bp, evis } }).main
+  end
+  eq(mainNow.token, "rip", "no swap between two spells both waiting for Energy")
+  mock.usable[5221] = nil
+  for _ = 1, 10 do
+    mock.now = mock.now + 0.1
+    mainNow = G.Steady({ main = bp, queue = { bp, evis } }).main
+  end
+  eq(mainNow.token, "shred", "one you can press takes over")
+  mock.cooldowns[61304], mock.usable[1079] = nil, nil
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 test("steady slot 1: a major cooldown SimC wants now takes slot 1 at once (its window can be one press)", function()
   -- Improved Adrenaline Rush (at 2 combo points or fewer) waited 70 s behind held Sinister Strikes (2026-11-13)
   Reset()

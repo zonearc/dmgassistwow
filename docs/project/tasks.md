@@ -16,6 +16,13 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 1.6.0.339 (Subtlety fight 526: slot 2 71%, slot 1 steady 90%; owner: "lots of ms swapping of slot #1", "E drops
+  in often over another"): slot 1 changed 6 times in 50 s without a press, mostly Eviscerate <-> Black Powder - one
+  waiting for Energy gave way to the other, waiting too, 0.02 s before the press. A spell waiting for a resource now
+  gives way only to one you can press now. Slot 2 also changed 17 times in 50 s with slot 1 the same; a slot-2 hold
+  (0.35 s) was tried and dropped: the gate caught Restoration Druid's slot 2 falling 92% -> 80% (in-game replays
+  unchanged vs real presses) - to be revisited as a narrower rule (only quick back-and-forth).
+
 - 1.6.0.338 (owner: "I don't want a cast to land in slot #1 unless we already know it will have enough energy";
   "we need a better indicator than the slight greyed out icon"): slot 1 lets go of a spell short of its resource
   at once when SimC's own pick can be pressed now - unless the resource will be there by the end of the global
