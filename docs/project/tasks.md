@@ -16,6 +16,12 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 1.6.0.340 (Subtlety fight 529, 1.6.0.339: slot 1 steady 96%, refused presses 11 -> 3, slot 2 64%): in Flow mode a
+  note short of Energy stopped short of the line for a second (owner: "looks broken"). Notes now move on the press
+  timing alone (GCD, cast, cooldown) and land on the line; while the game says "not enough" a countdown sweep runs
+  over the note and the "press now" flash waits for the game's yes. Test: on the line, sweep on once, no flash,
+  then flash when affordable.
+
 - 1.6.0.339 (Subtlety fight 526: slot 2 71%, slot 1 steady 90%; owner: "lots of ms swapping of slot #1", "E drops
   in often over another"): slot 1 changed 6 times in 50 s without a press, mostly Eviscerate <-> Black Powder - one
   waiting for Energy gave way to the other, waiting too, 0.02 s before the press. A spell waiting for a resource now

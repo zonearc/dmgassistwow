@@ -1517,7 +1517,7 @@ function D.RenderTiming(f, cfg)
       if type(t) == "number" then
         local key = tostring(id)
         if f.powerFor ~= key then -- (one estimate per wait: counted down, not re-guessed every frame)
-          f.powerFor, f.powerUntil = key, GetTime() + math.min(t, 5)
+          f.powerFor, f.powerUntil, f.powerStart = key, GetTime() + math.min(t, 5), GetTime()
         elseif f.powerUntil <= GetTime() then
           -- (ran out and the game still says "not enough": a new estimate, at least a short wait, so the cue never
           -- sits at "about to be ready" - Subtlety, 2026-11-17: energy starved a fifth of the fight)
@@ -1530,6 +1530,9 @@ function D.RenderTiming(f, cfg)
     end
   end
   local wait = math.max(busy, cdLeft, powerLeft)
+  -- (Flow mode moves its notes on the press timing alone and shows the resource wait over the note on the line:
+  -- a note that stopped short of the line read as broken - owner, 2026-11-17)
+  f.moveWait, f.powerLeft = math.max(busy, cdLeft), powerLeft
   -- A long shade goes in the report with where it came from (global cooldown, a cast or channel, a cooldown), so a
   -- "slot 1 shaded while ready on my bar" report says which timer was wrong. Once per shade, at most 20 a fight.
   if wait > 1.0 and not f.shadeLogged then

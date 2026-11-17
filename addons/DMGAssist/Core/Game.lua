@@ -591,6 +591,16 @@ local function NewNote(f)
   n.xmark:SetPoint("CENTER", n, "CENTER", 0, 0)
   n.xmark:SetSize(G.ICON * 0.8, G.ICON * 0.8)
   n.xmark:Hide()
+  -- on the line waiting for a resource: a countdown sweep over the note (Render)
+  n.sweep = CreateFrame("Cooldown", nil, n, "CooldownFrameTemplate")
+  n.sweep:SetAllPoints(n)
+  if n.sweep.SetDrawEdge then
+    n.sweep:SetDrawEdge(true)
+    n.sweep:SetDrawBling(false)
+    n.sweep:SetHideCountdownNumbers(true)
+    n.sweep:SetSwipeColor(0, 0, 0, 0.75)
+  end
+  n.sweep:Hide()
   -- hold bar: the cast (yellow) or channel (blue) trailing the note
   n.bar = n:CreateTexture(nil, "BACKGROUND", nil, -1)
   n.bar:SetPoint("LEFT", n, "CENTER", 0, 0)
@@ -878,7 +888,11 @@ function G.Render()
   local cfg = D.Settings()
   local now = GetTime()
   local df = D.frame
-  local wait = (df and df.lastWait or 0) - G.Offset()
+  -- (the press timing alone: a resource wait is shown on the note once it is on the line, not by stopping short)
+  local total = df and df.lastWait or 0
+  local extra = df and math.max(0, (df.powerLeft or 0) - (df.moveWait or 0)) or 0 -- (the resource's part of it)
+  local wait = math.max(0, total - extra) - G.Offset()
+  local powerWait = df and (df.powerLeft or 0) > 0
   -- casting or channelling: the next note can't land before it ends (the bar to it shows the rest of the cast)
   local _, castLeft = ns.State.CurrentCast()
   if castLeft and castLeft > 0 then
@@ -1052,7 +1066,7 @@ function G.Render()
           G.hidden[w.key] = nil
         end
         -- waiting on the line with you free to press it: the clock for a quiet miss
-        if w.t <= 0.05 and not G.paused and not (casting and casting > 0) then
+        if w.t <= 0.05 and not G.paused and not (casting and casting > 0) and not powerWait then
           -- on the line, you free to press it (not paused, not casting: a Starfire still casting is not "late",
           -- 2026-11-11: a streak of 12 lost while the bar ran)
           n.readyAt = n.readyAt or now
@@ -1130,8 +1144,26 @@ function G.Render()
         n:SetAlpha(a)
       end
     end
+    -- on the line short of a resource: the countdown sweep over the note, to the moment the game says yes
+    if n.sweep then
+      local sweepOn = w.main and w.t <= 0.05 and powerWait and df.powerStart and df.powerUntil
+      if sweepOn then
+        local dur = math.max(0.1, df.powerUntil - df.powerStart)
+        if n.sweepStart ~= df.powerStart or n.sweepDur ~= dur then
+          n.sweepStart, n.sweepDur = df.powerStart, dur
+          n.sweep:SetCooldown(df.powerStart, dur)
+        end
+        if not n.sweep:IsShown() then
+          n.sweep:Show()
+        end
+      elseif n.sweepStart then
+        n.sweepStart, n.sweepDur = nil, nil
+        n.sweep:Clear()
+        n.sweep:Hide()
+      end
+    end
     if w.main then
-      if w.t <= 0.05 then
+      if w.t <= 0.05 and not powerWait then
         -- reaching the line: one flash of the hit box, the instant it can be pressed (waiting never costs you)
         if not G.arrived or G.arrived.id ~= w.pick.id then
           G.arrived = { id = w.pick.id, at = now }

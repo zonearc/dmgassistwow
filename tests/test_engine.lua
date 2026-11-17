@@ -6107,6 +6107,43 @@ test("wrong-key hint: the key next to slot 1's ('5' for '6') shows for a moment 
   Gr.Reset(spec)
 end)
 
+test("game mode: short of Energy, the note lands on the line with a sweep over it, and flashes when it can be pressed",
+  function()
+  Reset()
+  local ns = Boot()
+  local Game, D = ns.Game, ns.Display
+  ns.commands.game("on")
+  Game.IDLE_PAUSE, Game.lastAct = 1e9, mock.now
+  local A, B = { id = 101, token = "a" }, { id = 102, token = "b" }
+  D.Update({ main = A, queue = { A, B } }, true)
+  local f = Game.frame
+  -- no global cooldown left, 1.5 s short of Energy
+  D.frame.moveWait, D.frame.powerLeft, D.frame.lastWait = 0, 1.5, 1.5
+  D.frame.powerStart, D.frame.powerUntil = mock.now, mock.now + 1.5
+  f.flashAt = nil
+  local flips, last = 0, nil
+  for _ = 1, 20 do
+    mock.now = mock.now + 0.05
+    Game.Render()
+    local main = Game.notes["1:101:1"]
+    local vis = main and main.sweep:IsShown()
+    if last ~= nil and vis ~= last then
+      flips = flips + 1
+    end
+    last = vis
+  end
+  local main = Game.notes["1:101:1"]
+  eq(math.floor(main.x + 0.5), Game.HIT_X, "on the line, not stopped short of it")
+  eq(main.sweep:IsShown(), true, "the countdown over it")
+  eq(f.flashAt, nil, "no 'press now' flash yet")
+  eq(flips <= 1, true, "the sweep came on once, no blinking")
+  D.frame.powerLeft, D.frame.lastWait = 0, 0 -- (the game says: enough)
+  mock.now = mock.now + 0.05
+  Game.Render()
+  eq(main.sweep:IsShown(), false, "sweep gone")
+  eq(f.flashAt ~= nil, true, "the flash: press now")
+end)
+
 test("game mode: one lane and a bonus row, notes reach the line when ready, streaks, stars, misses break it", function()
   Reset()
   local ns = Boot()
