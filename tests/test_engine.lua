@@ -5403,6 +5403,34 @@ test("timing: our cast is timed from its start event when the game hides it; wip
   mock.castTimes = nil
 end)
 
+test("timing: slot 1 short of Energy waits (dimmed, no early flash) and is ready when the game says it's usable",
+  function()
+  Reset()
+  local ns = Boot()
+  ns.Update()
+  local f = ns.Display.frame
+  local id = f.shownId
+  assert(id, "slot 1 shows a spell")
+  mock.usable[id] = { false, true } -- (the game: not enough)
+  local S = ns.State
+  local tta = S.TimeToAfford
+  S.TimeToAfford = function()
+    return 1.5
+  end
+  mock.Advance(0.5) -- (past the global cooldown)
+  ns.Display.RenderTiming(f, ns.Display.Settings())
+  eq(f.pressNow, false, "not yet")
+  assert(f.lastWait > 1.2 and f.lastWait <= 1.5, "about 1.5 s to wait: " .. tostring(f.lastWait))
+  eq(f.wipe:IsShown(), true, "dimmed while waiting")
+  mock.Advance(2) -- (the estimate ran out, the game still says no: still waiting)
+  ns.Display.RenderTiming(f, ns.Display.Settings())
+  eq(f.pressNow, false, "never ready before the game agrees")
+  mock.usable[id] = nil -- (enough now)
+  ns.Display.RenderTiming(f, ns.Display.Settings())
+  eq(f.pressNow, true, "ready the moment it's usable")
+  S.TimeToAfford = tta
+end)
+
 test("decision traces: each pick change in combat logs resources, the lines checked and unknown terms", function()
   Reset()
   local ns = Boot()

@@ -468,9 +468,8 @@ function G.BelowCost(id)
       if lo and hi and hi < amount - G.BELOW_COST_MARGIN then
         return true
       end
-      if G.HoldForMargin(pt, amount, lo) then
-        return true
-      end
+      -- (no margin here: slot 1 has the game's own "usable" answer. With it, a Subtlety fight held its spenders 670
+      -- times on a lower bound that ran ~15 Energy low - owner: "often have to wait 1-2s", 2026-11-17)
     end
   end
   return false

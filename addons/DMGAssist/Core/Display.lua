@@ -1496,7 +1496,25 @@ function D.RenderTiming(f, cfg)
     end
     cdLeft = math.min(left, f.readyAt - GetTime() + 0.5)
   end
-  local wait = math.max(busy, cdLeft)
+  -- Waiting for a resource (the game says "not enough" for slot 1): an estimate of when it will be there; ready the
+  -- moment the game says it's usable.
+  local powerLeft = 0
+  if id then
+    local usable, noPower = U.Call(C_Spell and C_Spell.IsSpellUsable, id)
+    if U.Read(usable) == false and U.Read(noPower) == true then
+      local t = ns.State.TimeToAfford(id)
+      if type(t) == "number" then
+        local key = tostring(id)
+        if f.powerFor ~= key then -- (one estimate per wait: counted down, not re-guessed every frame)
+          f.powerFor, f.powerUntil = key, GetTime() + math.min(t, 5)
+        end
+        powerLeft = math.max(0.05, f.powerUntil - GetTime()) -- (not ready before the game agrees)
+      end
+    else
+      f.powerFor = nil
+    end
+  end
+  local wait = math.max(busy, cdLeft, powerLeft)
   -- A long shade goes in the report with where it came from (global cooldown, a cast or channel, a cooldown), so a
   -- "slot 1 shaded while ready on my bar" report says which timer was wrong. Once per shade, at most 20 a fight.
   if wait > 1.0 and not f.shadeLogged then
@@ -1504,7 +1522,7 @@ function D.RenderTiming(f, cfg)
     D.shadesLogged = (D.shadesLogged or 0) + 1
     if D.shadesLogged <= 20 then
       local castID = ns.State.CurrentCast()
-      U.Log("shade", { spell = id, wait = string.format("%.1f", wait),
+      U.Log("shade", { spell = id, wait = string.format("%.1f", wait), power = string.format("%.1f", powerLeft),
         gcd = string.format("%.1f", ns.State.GCDRemains()), cast = castID,
         castLeft = string.format("%.1f", castLeft), cd = string.format("%.1f", cdLeft),
         castSource = ns.State.castSource })
@@ -1521,8 +1539,8 @@ function D.RenderTiming(f, cfg)
   -- The game queues an early press only for the global cooldown or a cast ending; a press before the spell's own
   -- cooldown is back is refused ("not ready yet"). Waiting on the cooldown, the flash comes on time, not early
   -- (Warrior: flash, press, refused, 0.2 s later it went: 2026-11-10).
-  if cdLeft > busy + 0.01 then
-    lead = 0
+  if cdLeft > busy + 0.01 or powerLeft > busy + 0.01 then
+    lead = 0 -- (nor one short of Energy: "Not enough energy")
   end
   local ready = wait <= lead
   local now = GetTime()

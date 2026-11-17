@@ -3121,6 +3121,37 @@ function S.Affordable(id)
   return result
 end
 
+-- Seconds until a resource-held spell can be paid for (slot 1's wait cue while "waiting for Energy"), or nil when
+-- there is no estimate. The true amount is between our lower bound and the cost (the game says "not enough"): the
+-- middle of that, at the regeneration rate. Six presses refused for Energy in a 67 s Subtlety fight, slot 1 showing
+-- the finisher with no sign of how long (owner, 2026-11-17: "often have to wait 1-2s before there's enough").
+function S.TimeToAfford(id)
+  local info = M.Info(id)
+  local cost = info and M.Cost(info)
+  if not cost then
+    return nil
+  end
+  local wait = 0
+  for pt, amount in pairs(cost) do
+    local rate = S.RegenRate(pt)
+    local cur = PowerNow(pt)
+    local est
+    if type(cur) == "number" then
+      est = cur
+    else
+      local lo = S.PowerBounds(pt)
+      est = lo and (lo + amount) / 2 or nil
+    end
+    if est and est < amount then
+      if not (rate and rate > 0) then
+        return nil -- (not regenerating: no time to give)
+      end
+      wait = math.max(wait, (amount - est) / rate)
+    end
+  end
+  return wait
+end
+
 -- Rogue effective_combo_points (sc_rogue.cpp current_effective_cp): combo points (at most the spendable maximum),
 -- plus Supercharger's bonus while one of its hidden charges is up. lo, hi; nil when combo points are unknown.
 S.SUPERCHARGE_BONUS = 3 -- Supercharger 2 + Forced Induction 1, the most it can add

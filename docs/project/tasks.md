@@ -16,6 +16,12 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 1.6.0.336 (Subtlety fights 520-522): slot 2 68% (30-60 s 80%). Six presses refused "Not enough energy", each while
+  slot 1 waited for Energy with no sign of how long. Slot 1's timing cue now counts a resource wait too: dimmed, an
+  estimate counting down (our lower bound and the cost, halved, at the regeneration rate), ready the moment the game
+  says usable, no early flash. The spending margin applied to slot 1 too (BelowCost), against the plan (slots 2-3
+  only): 670 holds in 67 s on a lower bound that ran ~15 Energy low - removed from slot 1.
+
 - 1.6.0.335: the cooldown event (15 a second, ~25 ms of every second in game) asked all 44 cooldown spells; the event
   names the spell that changed (3,412 of 3,421 in fight 518), so only that one is checked, or none. Cast inference
   from cooldown edges only while the game hides cast IDs (with readable casts a late edge inferred a false cast).
