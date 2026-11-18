@@ -39,6 +39,8 @@ Last updated: 1.6.0.157 (2026-11-10).
     Shadowburn (SimC 8/min), Fury no Rampage (SimC 22/min), Unholy almost no Scourge Strike / Epidemic, Fire no
     Fireball/Pyroblast, Frost Mage no Frostbolt/Glacial Spike, Subtlety little Black Powder, Blood little Heart
     Strike, Protection Warrior little Shield Slam / no Execute, Vengeance no Immolation Aura / Demon Spikes
+  - [ ] Evokers (upload e033882b): Preservation slot 2 31% / steady 38%; Devastation slot 2 23-41%, 11 refused
+    presses, no Fire Breath / Living Flame cast; Augmentation slot 2 34-43%, steady 50-68%
   - [ ] Replay fidelity is low for many specs (Subtlety 6%, Enhancement 44% same-as-shown) - fix before trusting
     offline checks for them
 - [ ] Outlaw / Assassination regression: slot 1 swapping, slot 2 8-35% (fights 558, 559, 561)
