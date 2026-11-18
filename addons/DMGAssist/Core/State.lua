@@ -738,7 +738,8 @@ end
 
 local function MaxCharges(info)
   local l = Live(info)
-  return (l and l.max) or info.chLive or info.ch or 1
+  -- (at least one: a spell you can cast has a charge; game data gives Unholy's Blightfall 0)
+  return math.max(1, (l and l.max) or info.chLive or info.ch or 1)
 end
 
 local function DataCooldown(id)
@@ -3598,7 +3599,47 @@ local function SoulFragments(field)
 end
 S.SoulFragments = SoulFragments
 
-local STATIC_ZERO = { set_bonus = true, equipped = true, trinket = true, main_hand = true, off_hand = true,
+-- main_hand.<type> / off_hand.<type>: the weapon in that hand (item class 2, the game's weapon subclasses). Read as
+-- 0 before (as an unknown item), Assassination's "fan_of_knives,if=!(main_hand.dagger&off_hand.dagger)" filler was
+-- true for every player: Fan of Knives on one target whenever Mutilate waited for energy (simulator, 2026-11-18).
+local WEAPON_SUB = { axe = { [0] = true, [1] = true }, mace = { [4] = true, [5] = true },
+  sword = { [7] = true, [8] = true }, dagger = { [15] = true }, fist = { [13] = true }, polearm = { [6] = true },
+  staff = { [10] = true }, warglaive = { [9] = true }, bow = { [2] = true }, gun = { [3] = true },
+  crossbow = { [18] = true }, wand = { [19] = true } }
+local WEAPON_2H = { [1] = true, [5] = true, [6] = true, [8] = true, [10] = true, [2] = true, [3] = true, [18] = true }
+local function WeaponTerm(hand, what)
+  if type(GetInventoryItemID) ~= "function" then
+    return UNKNOWN
+  end
+  local item = U.Get(GetInventoryItemID, "player", hand == "main_hand" and 16 or 17)
+  if item == nil then
+    return hand == "off_hand" and 0 or UNKNOWN -- (an empty off hand is an answer; an unreadable main hand is not)
+  end
+  if type(item) ~= "number" or not (C_Item and C_Item.GetItemInfoInstant) then
+    return UNKNOWN
+  end
+  local _, _, _, _, _, classID, subID = U.Call(C_Item.GetItemInfoInstant, item)
+  classID, subID = U.Read(classID), U.Read(subID)
+  if type(classID) ~= "number" or type(subID) ~= "number" then
+    return UNKNOWN
+  end
+  if classID ~= 2 then
+    return 0
+  end
+  if what == "2h" then
+    return WEAPON_2H[subID] and 1 or 0
+  elseif what == "1h" then
+    return WEAPON_2H[subID] and 0 or 1
+  end
+  local subs = WEAPON_SUB[what]
+  if not subs then
+    return UNKNOWN
+  end
+  return subs[subID] and 1 or 0
+end
+S.WeaponTerm = WeaponTerm
+
+local STATIC_ZERO = { set_bonus = true, equipped = true, trinket = true,
   item = true, bugs = true, covenant = true, runeforge = true,
   consumable = true, potion = true }
 
@@ -3866,6 +3907,8 @@ function S.Resolve(name, ctx)
     return ns.Trinkets.Term(slot, p, 2)
   elseif head == "trinket" and (p[2] == "1" or p[2] == "2") and ns.Trinkets then
     return ns.Trinkets.Term(12 + tonumber(p[2]), p, 3)
+  elseif (head == "main_hand" or head == "off_hand") and p[2] then
+    return WeaponTerm(head, p[2])
   elseif STATIC_ZERO[head] then
     return 0
   elseif head == "level" then

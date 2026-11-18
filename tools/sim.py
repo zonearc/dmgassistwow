@@ -30,6 +30,7 @@ def main():
     ap.add_argument("--log")
     ap.add_argument("--seeds", type=int, default=1, help="random runs (procs, timing); prints each and the spread")
     ap.add_argument("--human", action="store_true", help="the player presses a measured moment after the GCD")
+    ap.add_argument("--misses", type=int, default=0, help="print slot 2's N most common misses per fight")
     a = ap.parse_args()
     spec_ = importlib.util.spec_from_file_location("grade", os.path.join(HERE, "grade.py"))
     g = importlib.util.module_from_spec(spec_)
@@ -41,6 +42,8 @@ def main():
     env = dict(os.environ, SCEN_GRADE=f.name, SCEN_FIGHT=str(a.fight), SCEN_TARGETS=a.targets)
     if a.human:
         env["SCEN_HUMAN"] = "1"
+    if a.misses:
+        env["SCEN_MISSES"] = str(a.misses)
     if a.log:
         env["SCEN_LOG"] = os.path.abspath(a.log)
     runs = []
@@ -53,6 +56,9 @@ def main():
         for m in re.finditer(r"^PRED (\S+) (\d+) ([\d.]+)", out.stdout, re.M):
             vals.append(float(m.group(3)))
             print("%s  %s targets  slot 2 right %s%%" % (m.group(1), m.group(2), m.group(3)))
+        for line in out.stdout.splitlines():
+            if line.startswith("  MISS") and k == 0:
+                print(line)
         runs.append(sum(vals) / len(vals) if vals else 0)
         for line in out.stderr.splitlines():
             if line.startswith("POWER"):

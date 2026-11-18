@@ -17,6 +17,7 @@ package.path = "./tests/?.lua;" .. package.path
 
 local lastUsableSig -- (SPELL_UPDATE_USABLE: what you can cast, as the game last said it)
 local mock = require("wow_mock")
+_G.SCEN_MOCK = mock
 local print = print
 mock.Install(_G)
 
@@ -225,6 +226,12 @@ local START = { [3] = "max", [2] = "max", [5] = "max", [19] = "max", [7] = 3, [0
 local function ProcGated()
   return {}
 end
+-- Stealth (the game's rule, not in the data we import): these work only while stealthed or while a proc that makes
+-- them free is up (Blindside -> Ambush); Vanish and Shadow Dance stealth you for their aura's time, Vanish's ends at
+-- your next cast. Without it the offline Assassination pooled energy for Ambush all fight and slot 2 guessed it 47
+-- times in two minutes (2026-11-18).
+local NEEDS_STEALTH = { ambush = true, shadowstrike = true, cheap_shot = true }
+local GRANTS_STEALTH = { vanish = "breaks", shadow_dance = "lasts", shadowmeld = "breaks" }
 -- Random procs (tests/procs.lua, tools/build-procs.py: Warcraft Logs' rates x the game data): rolled each tick at
 -- the rate top players get them; while up, the spells they act on glow (the addon's in-combat signal), cost nothing
 -- or cast instantly, or the button swaps (Rushing Wind Kick); a cast of one of them uses the proc up. SCEN_NOPROCS=1
@@ -524,6 +531,7 @@ local function Fight(ns, key, record, book, scenario)
     end
   end
   local gcdEnd, lastMain, lastPress, stuck, charges = 0, nil, -10, {}, {}
+  local predictSrc
   local predict -- slot 2's spell when slot 1 was pressed: checked against slot 1 on the next tick
   local pressAt -- (SCEN_HUMAN) when the player will press, after this GCD
   local lastPressedID
@@ -692,13 +700,28 @@ local function Fight(ns, key, record, book, scenario)
       end
     end
   end
-  m.predN, m.predHit = 0, 0
+  m.predN, m.predHit, m.misses = 0, 0, {}
   m.cast = {}
   while mock.now - start < FIGHT do
     mock.Advance(TICK)
     local now = mock.now
     if world then
       WorldTick(world, TICK)
+      local stealthed = (world.stealthUntil or 0) > now
+      for nm in pairs(NEEDS_STEALTH) do
+        world.gated[nm] = not stealthed or nil
+      end
+      for i, p in ipairs(procs) do
+        local st = procState[i]
+        if st and st.stacks > 0 then
+          for _, fid in ipairs(p.free) do
+            local fi = record.spellInfo[fid]
+            if fi and fi.n and NEEDS_STEALTH[fi.n] then
+              world.gated[fi.n] = nil
+            end
+          end
+        end
+      end
       for _, b in ipairs(book) do
         local bi = M.Info(b.spellID)
         if bi and bi.n and (OUT_OF_COMBAT[bi.n] or world.gated[bi.n]) then
@@ -925,10 +948,18 @@ local function Fight(ns, key, record, book, scenario)
         m.predN = m.predN + 1
         if id == predict then
           m.predHit = m.predHit + 1
+        else
+          local mk = tostring(M.TokenForID(predict) or predict) .. "(" .. tostring(predictSrc) .. ") -> "
+            .. tostring(M.TokenForID(id) or id)
+          m.misses[mk] = (m.misses[mk] or 0) + 1
+          if _G.SCEN_MISS then
+            _G.SCEN_MISS(key, scenario.name, M.TokenForID(predict) or predict, M.TokenForID(id) or id, predictSrc)
+          end
         end
       end
       -- (slot 2 counts only after a press that followed slot 1, as in game)
       predict = followed and q[2] and q[2].id or nil
+      predictSrc = q[2] and q[2].source
       pressAt = nil
       lastPressedID = id
       local info = M.Info(id) or {}
@@ -971,6 +1002,20 @@ local function Fight(ns, key, record, book, scenario)
       PublishSwaps(now)
       if world then
         WorldCast(world, info, M)
+        -- stealth: granted by Vanish / Shadow Dance for their aura's time; Vanish's ends with the next cast
+        local grant = info.n and GRANTS_STEALTH[info.n]
+        if grant then
+          local d = 3
+          for _, ap in ipairs(type(info.ap) == "table" and info.ap or {}) do
+            local ai = record.spellInfo[ap[1]]
+            if ap[2] == "self" and ai and ai.d then
+              d = math.max(d, ai.d)
+            end
+          end
+          world.stealthUntil, world.stealthBreaks = now + d, grant == "breaks"
+        elseif world.stealthBreaks and (world.stealthUntil or 0) > now then
+          world.stealthUntil = now
+        end
         -- the buffs this cast applies, in the world (the data's self auras; the logs' links with their stacks)
         for _, ap in ipairs(type(info.ap) == "table" and info.ap or {}) do
           local ai = record.spellInfo[ap[1]]
@@ -1040,7 +1085,7 @@ local function Fight(ns, key, record, book, scenario)
     presses = m.presses, onCdPct = 100 * m.onCd / m.ticks, skipShown = m.skipShown,
     predPct = m.predN > 0 and 100 * m.predHit / m.predN or nil,
     msAvg = (m.msTotal or 0) / m.ticks, msPeak = m.msPeak or 0, keepPressed = keepPressed, keepKnown = keepKnown,
-    cast = m.cast, procs = m.procs, offBarShown = m.offBarShown,
+    cast = m.cast, procs = m.procs, offBarShown = m.offBarShown, misses = m.misses,
   }
 end
 
@@ -1107,6 +1152,27 @@ if GRADE then
       ns.SpellMap.SetData(record)
       ns.SpellMap.Refresh()
       ns.State.Bind(key)
+      -- weapons: what the spec's own lists are written for (Assassination's "main_hand.dagger&off_hand.dagger"
+      -- filler choice: daggers); otherwise none readable, and weapon terms stay unknown
+      local daggers = false
+      for _, list in pairs(record.simc or {}) do
+        for _, e in ipairs(list) do
+          if type(e.c) == "string" and e.c:find("main_hand.dagger", 1, true) then
+            daggers = true
+          end
+        end
+      end
+      if daggers then
+        GetInventoryItemID = function(_, slot) -- luacheck: ignore 111
+          return (slot == 16 or slot == 17) and 900000 + slot or nil
+        end
+        C_Item = C_Item or {} -- luacheck: ignore 111
+        C_Item.GetItemInfoInstant = function(item)
+          return item, nil, nil, nil, nil, 2, 15 -- a dagger
+        end
+      else
+        GetInventoryItemID = nil -- luacheck: ignore 111
+      end
       -- the game says which spec you play (it was always "Feral" here: a spec re-check switched to Feral's data)
       for id, k in pairs(ns.Specs.KEYS) do
         if k == key then
@@ -1129,6 +1195,17 @@ if GRADE then
           table.concat(parts, " ")))
         -- slot 2 right: pressing slot 1, was slot 2 the next press? (the in-game measure, offline)
         print(string.format("PRED %s %d %.1f", key, sc.targets, r.predPct or 0))
+        -- (SCEN_MISSES=n) slot 2's most common misses: what it showed (and from where) -> what was pressed
+        if os.getenv("SCEN_MISSES") then
+          local list = {}
+          for k, n in pairs(r.misses or {}) do
+            list[#list + 1] = { k, n }
+          end
+          table.sort(list, function(x, y) return x[2] > y[2] or (x[2] == y[2] and x[1] < y[1]) end)
+          for i = 1, math.min(#list, tonumber(os.getenv("SCEN_MISSES")) or 5) do
+            print(string.format("  MISS %s %d %3d  %s", key, sc.targets, list[i][2], list[i][1]))
+          end
+        end
         if os.getenv("SCEN_SIGNALS") then
           print("SIGNALS " .. key .. " " .. sc.targets .. " " .. ns.Signals.Summary())
           for i, m in ipairs(ns.Signals.misses) do

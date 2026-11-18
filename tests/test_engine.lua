@@ -2114,6 +2114,53 @@ test("charges: the game's count for the ID the engine uses, never raised from th
   mock.inCombat, mock.restricted = false, false
 end)
 
+test("charges: a spell the data gives 0 charges counts as one (Unholy's Blightfall: ch 0, 0.75 s recharge)", function()
+  -- the graded simulator crashed on its first cast (State.OnChargeSpent, 2026-11-18)
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", ch = 0, chcd = 0.75, gcd = 1.5 }
+  Feral(ns, rec)
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  local ok, err = pcall(mock.Fire, "UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  eq(ok, true, tostring(err))
+  ok, err = pcall(mock.Fire, "UNIT_SPELLCAST_SUCCEEDED", "player", "guid2", 5217)
+  eq(ok, true, tostring(err))
+  eq(S.Charges(5217) <= 1, true, "never more than one")
+  mock.inCombat, mock.restricted = false, false
+end)
+
+test("weapons: main_hand / off_hand terms read the equipped weapons; unreadable is unknown, never 0", function()
+  -- Assassination's filler "fan_of_knives,if=!(main_hand.dagger&off_hand.dagger)" was true for everyone
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local E = ns.Expr
+  local saved = { C_Item = C_Item, inv = GetInventoryItemID }
+  local hands = {}
+  GetInventoryItemID = function(_, slot) return hands[slot] end -- luacheck: ignore 111
+  C_Item = { GetItemInfoInstant = function(item) -- luacheck: ignore 111
+    local sub = ({ [1] = 15, [2] = 15, [3] = 7, [4] = 8 })[item]
+    return item, nil, nil, nil, nil, 2, sub
+  end }
+  local function T(c)
+    return E.Test(c, function(name) return S.Resolve(name, {}) end)
+  end
+  local fok = "!(main_hand.dagger&off_hand.dagger)"
+  hands = { [16] = 1, [17] = 2 }
+  eq(T(fok), false, "two daggers: Mutilate, not the Fan of Knives filler")
+  hands = { [16] = 3, [17] = 2 }
+  eq(T(fok), true, "a sword in the main hand: Fan of Knives is the filler")
+  hands = { [16] = 4 }
+  eq(T("main_hand.2h"), true, "a two-handed sword")
+  eq(T("off_hand.dagger"), false, "nothing in the off hand")
+  GetInventoryItemID = nil -- luacheck: ignore 111
+  eq(T(fok) == true, false, "can't read the weapons: not true")
+  C_Item, GetInventoryItemID = saved.C_Item, saved.inv -- luacheck: ignore 111
+end)
+
 test("spell interdependencies: casting one spell takes time off another (Shield of the Righteous -> Holy Shock)", function()
   Reset()
   local ns = Boot()
