@@ -379,6 +379,12 @@ function L.Apply(result)
   if not id or guess == simcNext then
     return result
   end
+  -- (never a spell hidden or on none of your bars: the guess comes from what was pressed, and once Assassination's
+  -- Stealth was guessed into slot 2 with no button for it - simulator, 2026-11-18. Not "castable now": slot 2 is
+  -- the press after this one, often not affordable yet)
+  if ns.Choices and ns.Choices.Skip(id) then
+    return result
+  end
   local out, size = { queue[1], { id = id, token = guess, source = "learned" } }, math.max(#queue, 2)
   for i = 2, #queue do
     if #out < size and queue[i] and queue[i].token ~= guess then

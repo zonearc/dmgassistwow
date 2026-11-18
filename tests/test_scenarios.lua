@@ -45,6 +45,9 @@ local PERF_NONE_MAX = 20 -- ms per update (this interpreter) when nothing can be
 
 local function Boot()
   mock.frames, mock.timers, mock.printed = {}, {}, {}
+  -- each spec starts at the same clock: its fights do not depend on how long the specs before it took
+  -- (a new scenario for Assassination moved Outlaw's and Subtlety's numbers, 2026-11-18)
+  mock.now = 1000
   mock.restricted, mock.inCombat, mock.hasTarget = false, false, true
   mock.gameType = "standard"
   WOW_PROJECT_ID = 1
@@ -469,6 +472,37 @@ local function Fight(ns, key, record, book, scenario)
     end
   end
   G.ResetSteady()
+  -- (scenario.real) what live play has that a clean dummy pull doesn't (simulator level-up, 2026-11-18):
+  -- every spell on an action bar but one, the game hiding a cooldown's "active" flag in restricted combat, the
+  -- major cooldowns used in the last pull, a player who is late and presses other buttons, and range drop-outs
+  local offBar
+  if scenario.real then
+    mock.actionInfo, mock.actionSlots = {}, {}
+    for i, b in ipairs(book) do
+      local bi = record.spellInfo[b.spellID]
+      local tk = M.TokenForID(b.spellID)
+      if not offBar and i > 3 and not (tk and majors[tk]) and not (bi and bi.ct) then
+        offBar = b.spellID -- (on no bar: never to be suggested)
+      else
+        mock.actionInfo[i] = { "spell", b.spellID }
+        mock.actionSlots[b.spellID] = { i }
+        _G["BT4Button" .. i] = { action = i, IsVisible = function() return true end }
+      end
+    end
+    ns.Display.InvalidateKeybinds()
+    mock.hideActive = true
+    -- the last pull: each major cooldown pressed some seconds before this one (back on cooldown at the pull)
+    for _, b in ipairs(book) do
+      local bi = record.spellInfo[b.spellID]
+      local tk = M.TokenForID(b.spellID)
+      local cd = bi and tonumber(bi.cd) or 0
+      if tk and majors[tk] and cd >= 30 and not bi.chcd then
+        mock.cooldowns[b.spellID] = { active = true, start = mock.now - math.min(30, cd * 0.6), duration = cd }
+        mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "prepull-" .. b.spellID, b.spellID)
+      end
+    end
+    mock.Fire("SPELL_UPDATE_COOLDOWN")
+  end
   mock.Advance(1)
   if LOG then
     logSession = { id = #LOG.sessions + 1, name = key .. " " .. scenario.targets .. " targets", events = {} }
@@ -482,7 +516,8 @@ local function Fight(ns, key, record, book, scenario)
   mock.Fire("PLAYER_REGEN_DISABLED")
   local start = mock.now
   local m = { ticks = 0, noMain = 0, no2 = 0, no3 = 0, flips = 0, maxStuck = 0, maxHold = 0, errors = 0,
-    presses = 0, pressed = {}, majorsCast = {}, majorsKnown = 0, firstError = nil, onCd = 0, skipShown = {} }
+    presses = 0, pressed = {}, majorsCast = {}, majorsKnown = 0, firstError = nil, onCd = 0, skipShown = {},
+    offBarShown = 0, outOfRange = 0 }
   for token in pairs(majors) do
     if M.SpellID(token) then
       m.majorsKnown = m.majorsKnown + 1
@@ -697,6 +732,11 @@ local function Fight(ns, key, record, book, scenario)
     if ended then
       mock.Fire("SPELL_UPDATE_COOLDOWN")
     end
+    -- (scenario.real) out of range for 2 s every 12 s: the target moved, the player walks back
+    local away = scenario.real and (now - start) % 12 >= 10
+    if scenario.real then
+      mock.inRange = away and setmetatable({}, { __index = function() return false end }) or nil
+    end
     -- Blizzard's assistant: the first rotation spell that is ready or about to be (never a major cooldown). The
     -- real one names a spell up to a second or two before it is back (Holy Shock 1.6 s, Judgment 2.8 s early in
     -- a Holy Paladin log, 2026-11-10); one that named only ready spells taught our clock wrong numbers.
@@ -764,6 +804,18 @@ local function Fight(ns, key, record, book, scenario)
     if main and main.id and mock.cooldowns[main.id] and not main.readyAt and main.source ~= "soon"
       and now - lastPress > 0.3 then
       m.onCd = m.onCd + 1
+    end
+    -- (scenario.real) never a spell on none of the bars
+    for _, p in ipairs(q) do
+      if offBar and p and p.id == offBar then
+        if os.getenv("SCEN_OFFBAR") and m.offBarShown == 0 then
+          io.stderr:write(string.format("OFFBAR %s %s id=%s source=%s\n", key, tostring(p.token), p.id, tostring(p.source)))
+        end
+        m.offBarShown = m.offBarShown + 1
+      end
+    end
+    if away and main and main.id then
+      m.outOfRange = m.outOfRange + 1
     end
     -- never something that isn't pressed by hand (auto attacks, group cooldowns)
     for _, p in ipairs(q) do
@@ -834,10 +886,11 @@ local function Fight(ns, key, record, book, scenario)
       end
     end
     -- the player: presses slot 1 when the GCD allows and it isn't shown as "not yet"
-    if HUMAN and now >= gcdEnd and not pressAt then
+    local human = HUMAN or scenario.real
+    if human and now >= gcdEnd and not pressAt then
       pressAt = gcdEnd + HUMAN_DELAYS[math.random(#HUMAN_DELAYS)]
     end
-    if r and main and main.id and now >= gcdEnd and (not HUMAN or now >= (pressAt or 0))
+    if r and main and main.id and now >= gcdEnd and (not human or now >= (pressAt or 0)) and not away
       and not (main.readyAt and main.readyAt > now)
       and not mock.cooldowns[main.id]
       and not (mock.usable[main.id] and mock.usable[main.id][1] == false and mock.usable[main.id][2] == false)
@@ -846,7 +899,7 @@ local function Fight(ns, key, record, book, scenario)
       -- (SCEN_HUMAN) now and then the player presses something else - in the owner's fights the other press was
       -- slot 2 40% of the time, the spell just pressed 28%, something else 32% (1.6.0.291-296 reports)
       local followed = true
-      if HUMAN and math.random() < WRONG then
+      if human and math.random() < WRONG then
         local roll = math.random()
         local alt
         if roll < 0.40 then
@@ -856,6 +909,9 @@ local function Fight(ns, key, record, book, scenario)
         else
           local b = book[math.random(#book)]
           alt = b and b.spellID
+          if alt and mock.actionSlots and not mock.actionSlots[alt] then
+            alt = nil -- (no button for it: can't be pressed)
+          end
         end
         local ai = alt and M.Info(alt)
         local au = alt and mock.usable[alt]
@@ -950,6 +1006,13 @@ local function Fight(ns, key, record, book, scenario)
   mock.inCombat, mock.restricted = false, false
   mock.overrides = nil
   mock.Fire("PLAYER_REGEN_ENABLED")
+  if scenario.real then
+    for i in pairs(mock.actionInfo) do
+      _G["BT4Button" .. i] = nil
+    end
+    mock.actionInfo, mock.actionSlots, mock.hideActive, mock.inRange = nil, nil, nil, nil
+    ns.Display.InvalidateKeybinds()
+  end
   local keepPressed, keepKnown = {}, {}
   for id, token in pairs(keepIDs) do
     keepKnown[token] = true
@@ -977,7 +1040,7 @@ local function Fight(ns, key, record, book, scenario)
     presses = m.presses, onCdPct = 100 * m.onCd / m.ticks, skipShown = m.skipShown,
     predPct = m.predN > 0 and 100 * m.predHit / m.predN or nil,
     msAvg = (m.msTotal or 0) / m.ticks, msPeak = m.msPeak or 0, keepPressed = keepPressed, keepKnown = keepKnown,
-    cast = m.cast, procs = m.procs,
+    cast = m.cast, procs = m.procs, offBarShown = m.offBarShown,
   }
 end
 
@@ -988,6 +1051,8 @@ local SCENARIOS_ALL = {
   { name = "none", targets = 1, unusable = true }, -- nothing castable (no weapon, silenced, out of resources)
   -- a boss in a 5-player party with healing support on: Hunter's Mark, Atonement upkeep, Renewing Mist
   { name = "group", targets = 1, boss = true, group = 5 },
+  -- live play: bars, hidden "active" flag, cooldowns from the last pull, a late and wandering player, range
+  { name = "real", targets = 1, real = true },
 }
 -- (SCEN_TARGETS="1,5,8": other target counts for the graded fights)
 local function GradeScenarios()
@@ -1121,6 +1186,9 @@ for _, key in ipairs(keys) do
     end
     if r.maxStuck > STUCK_MAX then
       Fail(string.format("%s: a ready major cooldown waited %.1f s in slot 2/3 behind Blizzard's pick", id, r.maxStuck))
+    end
+    if (r.offBarShown or 0) > 0 then
+      Fail(string.format("%s: suggested a spell on none of the bars (%d updates)", id, r.offBarShown))
     end
     for token in pairs(r.skipShown) do
       Fail(string.format("%s: showed %s (never pressed by hand)", id, token))

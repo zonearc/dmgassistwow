@@ -4736,6 +4736,39 @@ test("learner: live in slot 2 only after clearly beating SimC's forecast; steps 
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("learner: never guesses a spell hidden or on none of your bars into slot 2", function()
+  -- simulator 'real' fight, 2026-11-18: Assassination's Stealth (pressed once, no button) went to slot 2
+  Reset()
+  local ns = Boot()
+  local L = ns.Learner
+  local rec = QRecord({ { a = "shred", k = "S" }, { a = "rip", k = "S" }, { a = "rake", k = "S" } })
+  rec.spells.rake = { a = { 1822 } }
+  Feral(ns, rec)
+  ns.Specs.current = { key = "druid_feral", status = "ready", data = rec, branch = "midnight", client = "Midnight" }
+  ns.global = ns.global or {}
+  ns.global.learner = nil
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  local store = L.Store()
+  store.next["shred"] = { rip = 9, rake = 1 }
+  store.vs = { n = 120, learner = 60, simc = 40 }
+  local SH, RA = { id = 5221, token = "shred", source = "simc" }, { id = 1822, token = "rake", source = "simc" }
+  local function Result()
+    return { main = SH, queue = { SH, RA } }
+  end
+  eq(L.Apply(Result()).queue[2].token, "rip", "on a bar: the guess")
+  ns.Choices.SetHidden(1079, true)
+  eq(L.Apply(Result()).queue[2].token, "rake", "hidden: SimC's slot 2")
+  ns.Choices.SetHidden(1079, false)
+  -- bars read, Rip on none of them
+  mock.actionInfo = { [3] = { "spell", 5221 }, [4] = { "spell", 1822 } }
+  ActionButton3 = { action = 3, IsVisible = function() return true end } -- luacheck: ignore 111
+  ns.Display.InvalidateKeybinds()
+  eq(L.Apply(Result()).queue[2].token, "rake", "no button for it: SimC's slot 2")
+  mock.actionInfo, ActionButton3 = nil, nil -- luacheck: ignore 111
+  ns.Display.InvalidateKeybinds()
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 test("diagnostics: slot 1 moving on because you'd already pressed it (spell queue) isn't a change", function()
   -- Outlaw 2026-11-13: 23 of 29 counted changes were the next cast starting from the queue, its event ~0.1 s later
   Reset()

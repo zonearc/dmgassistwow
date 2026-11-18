@@ -50,13 +50,25 @@ Last updated: 1.6.0.157 (2026-11-10).
     Shield of the Righteous
   - [ ] Specs with no fight from the walk: Feral, Guardian, Restoration Druid, Mistweaver, Holy and Retribution
     Paladin, Restoration Shaman, Affliction, Demonology (Balance only from earlier days)
-  - [ ] Simulator level-up (why it missed these): no action bars (Hammer of Wrath), fresh cooldowns every fight
+  - [x] Simulator level-up (why it missed these): no action bars (Hammer of Wrath), fresh cooldowns every fight
     (Nature's Swiftness, Celestial Alignment), hidden fields not matching the game ("active" readable), a player who
     always follows slot 1 (stuck loops score well), no range or movement (Holy Nova), no visuals (sweep cycling,
-    Flow stall). Plan: real fights as permanent replay tests with invariants; recorded bars and pre-pull state in the
-    simulator; secrecy learned from recordings; a player model that skips and presses other buttons
+    Flow stall). Built 2026-11-18:
+    - real fights as permanent tests: tests/fights/ (35 fights, 26 specs, names and GUIDs stripped by
+      tools/fight-corpus.py), replayed by tools/replay-suite.py in scripts/check.sh against tests/fights/baseline.json
+      (slot 1/2 same-as-shown, slot 2 vs presses, invariants: uncastable slot 1, movement spells, unexplained changes)
+    - a 6th simulated fight per spec, "real": every spell on a bar but one (must never be suggested), the hidden
+      "active" flag, major cooldowns used before the pull, a late player who presses other buttons 10% of the time,
+      out of range 2 s in every 12. It found the learner putting an off-bar spell (Stealth) in slot 2 - fixed
+    - each spec's simulated fights start at the same clock (they depended on how long earlier specs ran: Outlaw's
+      "100%" slot 2 was the clock; at a fixed clock it is 63%, Subtlety 70%, Assassination 17%. Few presses per
+      fight - these stay on the Rogue task)
+    - [ ] still to add: Flow/HUD visuals (stall, blink counts) for every spec; target movement for range-limited AoE
   - [ ] Replay fidelity is low for many specs (Subtlety 6%, Enhancement 44% same-as-shown) - fix before trusting
-    offline checks for them
+    offline checks for them. Same-as-shown is now right for Subtlety (75%) and Enhancement (60%) after the replay
+    fixes; the corpus table (python3 tools/replay-suite.py) shows the rest
+  - [ ] Found by the "real" fight: Protection Warrior slot 2 0%, Devourer 11% and slot 3 empty, Windwalker slot 3
+    empty and shown ready on cooldown 27%
 - [ ] Outlaw / Assassination regression: slot 1 swapping, slot 2 8-35% (fights 558, 559, 561)
 - [ ] Assassination: Amplifying Poison asked for after two poisons were applied before the pull
 - [ ] Destruction: slot 2 22%, 13 refused presses (fight 556)
