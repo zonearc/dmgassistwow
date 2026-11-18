@@ -697,6 +697,18 @@ local function CastableRaw(id)
   -- A spell that only exists while a button turns into it (Wailing Arrow on Trueshot / Bestial Wrath for a while
   -- after you press them): once the button is back, it can't be pressed. The game kept calling Wailing Arrow usable
   -- after it was fired, and it sat in slot 1 on the cooldown's key (2026-11-12, Marksmanship and Beast Mastery).
+  -- Not in your spellbook and not a spell you know: it exists only while a button turns into it (Protection's
+  -- Hammer of Wrath on Judgment's button, low-health targets): castable only while a button on your bars is it now
+  -- (asked fresh: the bars check remembers, and Hammer of Wrath stayed in slot 1 after Judgment's button turned
+  -- back - "I pressed every spell I had one by one... it never left the slot", 2026-11-18).
+  local Dsp = ns.Display
+  if not (M.book and M.book[id]) and U.Get(IsPlayerSpell, id) ~= true and Dsp and Dsp.HasButtons and Dsp.HasButtons()
+      and not (ns.db and ns.db.barsRequired == false) then
+    local slots = U.Get(C_ActionBar and C_ActionBar.FindSpellActionButtons, id)
+    if type(slots) == "table" and #slots == 0 then
+      return false, "override"
+    end
+  end
   local base = M.baseOf and M.baseOf[id]
   if base and not (M.book and M.book[id]) then
     local now = U.Get(C_Spell and C_Spell.GetOverrideSpell, base)

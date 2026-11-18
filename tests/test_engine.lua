@@ -5584,6 +5584,27 @@ test("movement spells (a leap, a jump back) are never suggested unless the setti
   M.TokenForID = token
 end)
 
+test("a spell you don't have, that a button only turns into for a while, is castable only while it is that button now",
+  function()
+  Reset()
+  mock.bindings = { ACTIONBUTTON3 = "3" }
+  mock.actionInfo = { [3] = { "spell", 5221 } }
+  local ns = Boot()
+  ns.Display.InvalidateKeybinds()
+  local hb = ns.Display.HasButtons
+  ns.Display.HasButtons = function()
+    return true -- (your bars have been read)
+  end
+  local G = ns.Engine
+  local ok, why = G.Castable(999003) -- (Hammer of Wrath: not in the book, not a known spell, on no button now)
+  eq(ok, false, "not suggested")
+  eq(why, "override")
+  mock.actionSlots = { [999003] = { 3 } } -- (the button is it now)
+  eq(select(2, G.Castable(999003)) ~= "override", true, "while the button is it")
+  ns.Display.HasButtons = hb
+  mock.actionSlots, mock.actionInfo, mock.bindings = nil, nil, nil
+end)
+
 test("decision traces: each pick change in combat logs resources, the lines checked and unknown terms", function()
   Reset()
   local ns = Boot()

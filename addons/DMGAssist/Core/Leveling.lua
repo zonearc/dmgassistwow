@@ -202,9 +202,14 @@ function LV.TellNew(ids, key)
   ns.Display.InvalidateKeybinds()
   local D = ns.Display
   local missing = {}
+  local book = ns.SpellMap.book or {}
   for _, id in ipairs(ids) do
     LV.told[id] = true
-    if not ns.Choices.IsHidden(id) and not D.Keybind(id) then
+    -- (not a spell of its own: one a button turns into for a while - Protection's Hammer of Wrath on Judgment. "New
+    -- spell: Hammer of Wrath. Put it on your action bars" sent the player looking for a spell they can't have,
+    -- 2026-11-18)
+    local own = book[id] or U.Get(IsPlayerSpell, id) == true
+    if own and not ns.Choices.IsHidden(id) and not D.Keybind(id) then
       missing[#missing + 1] = id
     end
   end

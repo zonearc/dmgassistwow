@@ -52,7 +52,11 @@ Last updated: 1.6.0.157 (2026-11-10).
 - [ ] Destruction: slot 2 22%, 13 refused presses (fight 556)
 - [ ] Holy Priest: Holy Nova with no enemy in its range (fight 562)
 - [ ] Discipline: Atonement upkeep on you and the party; spell mix vs SimC / guides (fight 563)
-- [ ] Paladin (low level): "New spell: Hammer of Wrath" for a spell not in the spellbook (screenshot, no log)
+- [x] 1.6.0.346 Paladin (low level): "New spell: Hammer of Wrath" for a spell not in the spellbook (fight 606).
+  Hammer of Wrath (1241413) exists only while Judgment's button turns into it; the bars check remembered the button
+  as Hammer of Wrath after it turned back, and the new-spell notice told the player to find it. A spell not in the
+  book and not known is castable only while a button on the bars is it now (asked fresh), and no new-spell notice
+  for it. The simulator has no action bars, so it could not see this.
 - [ ] Monk: Vivify shown late (no log); Enhancement: Maelstrom spend underestimated (fight 572)
 - [ ] Arms / Shadow: slot 2 39-50% (fights 565, 568, 570)
 - [ ] Slot 2 steadiness, narrow (quick back-and-forth only); the 0.35 s hold cut Restoration Druid 92% -> 80%
