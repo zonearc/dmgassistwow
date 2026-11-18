@@ -461,6 +461,18 @@ local function AssistantPick(ns, record, world, targets, skip)
       return id
     end
   end
+  -- nothing castable now: the spell it is waiting for - the first line that holds once the resource is there or the
+  -- cooldown is about to end. (Before, the book's first spell off cooldown: Arms' Rend, by spell ID, named every
+  -- time Rage ran short - and pressed back to back offline, 2026-11-18.)
+  for _, line in ipairs(ns.Clues.BlizzardOrder(record)) do
+    local id = M.SpellID(line.a)
+    local info = id and M.Info(id)
+    local cd = id and mock.cooldowns[id]
+    local soon = not cd or (cd.start + cd.duration - mock.now) <= AC_EARLY
+    if id and info and not skip(line.a, id) and soon and ns.Expr.Test(line.c, resolve) == true then
+      return id
+    end
+  end
   return nil
 end
 
@@ -812,7 +824,7 @@ local function Fight(ns, key, record, book, scenario)
           and true or false
       end)
     end
-    for _, b in ipairs(mock.acSpell and {} or book) do
+    for _, b in ipairs((mock.acSpell or world) and {} or book) do -- (the simple fights: no world to decide by)
       local token = M.TokenForID(b.spellID)
       local cd = mock.cooldowns[b.spellID]
       local soon = not cd or (cd.start + cd.duration - now) <= AC_EARLY
