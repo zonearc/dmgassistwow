@@ -775,8 +775,10 @@ function mock.Install(env)
         return v
       end or ctx
       if c then
+        -- (mock.hideActive: the game also hides "active" in restricted combat at times)
+        local active = (mock.hideActive and mock.restricted and id ~= 61304) and mock.Secret() or c.active == true
         return { startTime = hide(c.start or 0), duration = hide(c.duration or 0), isEnabled = true,
-          isActive = c.active == true, modRate = hide(1), isOnGCD = c.onGCD == true }
+          isActive = active, modRate = hide(1), isOnGCD = c.onGCD == true }
       end
       return { startTime = hide(0), duration = hide(0), isEnabled = true, isActive = false, modRate = hide(1),
         isOnGCD = false }

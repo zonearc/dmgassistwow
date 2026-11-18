@@ -5554,6 +5554,20 @@ test("timing: one sweep per wait for Energy - never restarted when the estimate 
   mock.usable[id] = nil
 end)
 
+test("a button turned into another spell is ready when that spell is (Stormstrike as Windstrike)", function()
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  Restrict()
+  mock.overrides = { [5221] = 999001 } -- (Shred's button casts another spell for now)
+  mock.cooldowns[999001] = { start = mock.now, duration = 6, active = true }
+  ns.State.lastCast[999001] = mock.now
+  eq(G.Castable(5221) == true, false, "the spell it casts is on cooldown: not ready")
+  mock.cooldowns[999001] = nil
+  ns.State.lastCast[999001] = nil
+  mock.overrides = nil
+end)
+
 test("decision traces: each pick change in combat logs resources, the lines checked and unknown terms", function()
   Reset()
   local ns = Boot()
@@ -8649,6 +8663,9 @@ test("a cooldown that was running before the pull counts down in combat, where t
   Restrict() -- the pull: cooldowns hidden
   local left = S.CooldownRemains(106951)
   assert(type(left) == "number" and left > 45 and left < 50, "about 48 s left: " .. tostring(left))
+  mock.hideActive = true -- (the game hid even "active" in the Elemental fight)
+  eq(S.CooldownReady(106951), false, "and not ready (the game's 'usable' ignores cooldowns)")
+  mock.hideActive = nil
   mock.Advance(10)
   left = S.CooldownRemains(106951)
   assert(type(left) == "number" and left > 35 and left < 40, "counting down: " .. tostring(left))

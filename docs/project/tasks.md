@@ -16,6 +16,26 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+### Open issues from the 2026-11-18 spec walk (tracked until each is fixed and re-tested)
+- [x] 1.6.0.342 Enhancement: Stormstrike stuck in slot 1 during Ascendance (button is Windstrike; fight 572) - a button
+  turned into another spell is ready when that spell is, and slot 1 shows that spell (the gate's "shown ready on
+  cooldown" for Enhancement went 20% -> 8%)
+- [x] 1.6.0.342 Elemental: Nature's Swiftness offered again right after casting it (fight 575) - cast 2.8 s before the
+  pull; the ready check didn't use the cooldown read before the pull (the remaining-time one did). The skip hold
+  lapses after 20 s by design (Eclipse, 2026-11-10).
+- [ ] Arcane Mage: slot 1 lands 0.5-1 s after a spell can be cast (upload a6e3c82b)
+- [ ] Blood DK: slot 1 looked starved of resources at one point (upload e1222d6e)
+- [ ] The sweep reads as broken when it moves in steps (owner: "quarter, quarter, quarter") - a static ~80% shade
+- [ ] Outlaw / Assassination regression: slot 1 swapping, slot 2 8-35% (fights 558, 559, 561)
+- [ ] Assassination: Amplifying Poison asked for after two poisons were applied before the pull
+- [ ] Destruction: slot 2 22%, 13 refused presses (fight 556)
+- [ ] Holy Priest: Holy Nova with no enemy in its range (fight 562)
+- [ ] Discipline: Atonement upkeep on you and the party; spell mix vs SimC / guides (fight 563)
+- [ ] Paladin (low level): "New spell: Hammer of Wrath" for a spell not in the spellbook (screenshot, no log)
+- [ ] Monk: Vivify shown late (no log); Enhancement: Maelstrom spend underestimated (fight 572)
+- [ ] Arms / Shadow: slot 2 39-50% (fights 565, 568, 570)
+- [ ] Slot 2 steadiness, narrow (quick back-and-forth only); the 0.35 s hold cut Restoration Druid 92% -> 80%
+
 - 1.6.0.341 (walk of many specs, 2026-11-18): Outlaw's slot 1 sweep "ticks over and over again in rapid cycles" -
   the energy estimate ran out, was extended, and the sweep restarted each time. A resource wait now has one sweep
   from its start to a cautious estimate (our lower bound), never restarted; slot 1 flashes the moment the game says

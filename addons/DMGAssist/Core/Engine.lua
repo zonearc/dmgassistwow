@@ -797,7 +797,16 @@ local function CastableRaw(id)
   if first and S.moving and not (ns.db and ns.db.castWhileMoving) and CastTime(id) > 0 and not S.CastsWhileMoving() then
     return false, "moving"
   end
-  local ready = S.CooldownReady(id)
+  -- A button that has turned into another spell for now (Stormstrike into Windstrike during Ascendance): pressing it
+  -- casts the other one, so its readiness is the other one's. Stormstrike's own cooldown never started while you
+  -- pressed Windstrike, and slot 1 kept showing it ready (Enhancement, 2026-11-18: "kept pressing it and it wouldn't
+  -- clear").
+  local cdID = id
+  local ov = U.Get(C_Spell and C_Spell.GetOverrideSpell, id)
+  if type(ov) == "number" and ov > 0 and ov ~= id then
+    cdID = ov
+  end
+  local ready = S.CooldownReady(cdID)
   if ready == false then
     return false
   end
@@ -1941,6 +1950,18 @@ local function Queue(record, opts, targets)
       -- "not yet" until then, like Blizzard's not-ready pick (Leveling): never counted as shown ready
       result.main.readyAt = S.Now() + (result.main.wait or 0)
     end
+  end
+  -- Slot 1's button turned into another spell for now (Stormstrike into Windstrike during Ascendance): that spell is
+  -- what a press casts - shown, timed and judged as itself (Castable already takes its readiness).
+  local m = result.main
+  local ov = m and m.id and U.Get(C_Spell and C_Spell.GetOverrideSpell, m.id)
+  if type(ov) == "number" and ov > 0 and ov ~= m.id then
+    local copy = {}
+    for k, val in pairs(m) do
+      copy[k] = val
+    end
+    copy.id, copy.token = ov, M.TokenForID(ov) or m.token
+    result.main, result.queue[1] = copy, copy
   end
   result.casting = castID
   return result

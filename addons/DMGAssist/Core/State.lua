@@ -2022,6 +2022,16 @@ function S.CooldownReady(id)
     return true
   end
   local info = CooldownInfo(id)
+  -- On cooldown when the fight began (read before the pull) and hidden now: not ready until that runs out. Nature's
+  -- Swiftness cast 2.8 s before the pull was offered for 12 s - "usable" from the game ignores cooldowns (Elemental,
+  -- 2026-11-18).
+  local busy = S.BusyFromBefore and S.BusyFromBefore(id)
+  if busy and busy > 0 then
+    local dur = info and U.Read(info.duration)
+    if type(dur) ~= "number" then
+      return false
+    end
+  end
   if not info then
     return S.OwnClockReady(id)
   end
