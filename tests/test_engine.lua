@@ -5440,15 +5440,13 @@ test("timing: our cast is timed from its start event when the game hides it; wip
   eq(math.abs(left - 2) < 0.01, true, "2 s left: " .. tostring(left))
   local f = ns.Display.frame
   ns.Update()
-  eq(f.sweep:IsShown(), true, "not ready: the sweep runs")
-  assert(f.sweep.cdDuration and math.abs(f.sweep.cdStart + f.sweep.cdDuration - (mock.now + 2)) < 0.1,
-    "it ends when the cast does")
+  eq(f.wipe:IsShown(), true, "not ready: slot 1 shaded")
   eq(f.pressNow, false)
   mock.Advance(1.96) -- 40 ms before the end: inside the 50 ms lead
   ns.Display.RenderTiming(f, ns.Display.Settings())
   eq(f.pressNow, true, "ready 50 ms early")
   eq(f.flash:IsShown(), true, "flash")
-  eq(f.sweep:IsShown(), false, "ready: no sweep")
+  eq(f.wipe:IsShown(), false, "ready: clear")
   mock.Advance(0.04)
   mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5221)
   mock.Fire("UNIT_SPELLCAST_STOP", "player", "guid", 5221)
@@ -5474,7 +5472,7 @@ test("timing: slot 1 short of Energy waits (dimmed, no early flash) and is ready
   ns.Display.RenderTiming(f, ns.Display.Settings())
   eq(f.pressNow, false, "not yet")
   assert(f.lastWait > 1.2 and f.lastWait <= 1.5, "about 1.5 s to wait: " .. tostring(f.lastWait))
-  eq(f.sweep:IsShown(), true, "the sweep while waiting")
+  eq(f.wipe:IsShown(), true, "shaded while waiting")
   eq(f.main.tex.desaturated, true, "grey: waiting for Energy")
   mock.Advance(2) -- (the estimate ran out, the game still says no: still waiting)
   ns.Display.RenderTiming(f, ns.Display.Settings())
@@ -5486,7 +5484,7 @@ test("timing: slot 1 short of Energy waits (dimmed, no early flash) and is ready
   S.TimeToAfford = tta
 end)
 
-test("timing: the sweep and the grey never blink - at most one change each per wait, through presses and Energy",
+test("timing: the shade and the grey never blink - at most one change each per wait, through presses and Energy",
   function()
   Reset()
   local ns = Boot()
@@ -5507,7 +5505,7 @@ test("timing: the sweep and the grey never blink - at most one change each per w
     end
     mock.usable[id] = (i % 90 < 50) and { false, true } or nil
     ns.Display.RenderTiming(f, ns.Display.Settings())
-    local vis, grey = f.sweep:IsShown(), f.greyed == true
+    local vis, grey = f.wipe:IsShown(), f.greyed == true
     if lastVis ~= nil and vis ~= lastVis then
       changes[#changes + 1] = mock.now
     end
@@ -5524,7 +5522,7 @@ test("timing: the sweep and the grey never blink - at most one change each per w
   mock.cooldowns[61304] = nil
 end)
 
-test("timing: one sweep per wait for Energy - never restarted when the estimate runs out", function()
+test("timing: waiting for Energy, slot 1 stays shaded the whole wait - never on and off", function()
   Reset()
   local ns = Boot()
   ns.Update()
@@ -5537,19 +5535,16 @@ test("timing: one sweep per wait for Energy - never restarted when the estimate 
     return 0.5 -- (too short: the game still says "not enough" for 3 s)
   end
   mock.usable[id] = { false, true }
-  local sets = 0
-  local set = f.sweep.SetCooldown
-  f.sweep.SetCooldown = function(self, ...)
-    sets = sets + 1
-    return set(self, ...)
-  end
+  local off = 0
   for _ = 1, 90 do
     mock.Advance(1 / 30)
     ns.Display.RenderTiming(f, ns.Display.Settings())
+    if not f.wipe:IsShown() then
+      off = off + 1
+    end
   end
-  eq(sets, 1, "one sweep, not restarted")
+  eq(off, 0, "shaded throughout")
   eq(f.pressNow, false, "and not ready until the game says so")
-  f.sweep.SetCooldown = nil
   S.TimeToAfford = tta
   mock.usable[id] = nil
 end)
@@ -6151,7 +6146,7 @@ test("wrong-key hint: the key next to slot 1's ('5' for '6') shows for a moment 
   Gr.Reset(spec)
 end)
 
-test("game mode: short of Energy, the note lands on the line with a sweep over it, and flashes when it can be pressed",
+test("game mode: short of Energy, the note lands on the line shaded, and flashes when it can be pressed",
   function()
   Reset()
   local ns = Boot()
@@ -6170,7 +6165,7 @@ test("game mode: short of Energy, the note lands on the line with a sweep over i
     mock.now = mock.now + 0.05
     Game.Render()
     local main = Game.notes["1:101:1"]
-    local vis = main and main.sweep:IsShown()
+    local vis = main and main.shade:IsShown()
     if last ~= nil and vis ~= last then
       flips = flips + 1
     end
@@ -6178,13 +6173,13 @@ test("game mode: short of Energy, the note lands on the line with a sweep over i
   end
   local main = Game.notes["1:101:1"]
   eq(math.floor(main.x + 0.5), Game.HIT_X, "on the line, not stopped short of it")
-  eq(main.sweep:IsShown(), true, "the countdown over it")
+  eq(main.shade:IsShown(), true, "shaded")
   eq(f.flashAt, nil, "no 'press now' flash yet")
-  eq(flips <= 1, true, "the sweep came on once, no blinking")
+  eq(flips <= 1, true, "the shade came on once, no blinking")
   D.frame.powerLeft, D.frame.lastWait = 0, 0 -- (the game says: enough)
   mock.now = mock.now + 0.05
   Game.Render()
-  eq(main.sweep:IsShown(), false, "sweep gone")
+  eq(main.shade:IsShown(), false, "clear")
   eq(f.flashAt ~= nil, true, "the flash: press now")
 end)
 

@@ -25,7 +25,11 @@ Last updated: 1.6.0.157 (2026-11-10).
   lapses after 20 s by design (Eclipse, 2026-11-10).
 - [ ] Arcane Mage: slot 1 lands 0.5-1 s after a spell can be cast (upload a6e3c82b)
 - [ ] Blood DK: slot 1 looked starved of resources at one point (upload e1222d6e)
-- [ ] The sweep reads as broken when it moves in steps (owner: "quarter, quarter, quarter") - a static ~80% shade
+- [x] 1.6.0.343 The sweep read as broken when it moved in steps (owner: "quarter, quarter, quarter") - slot 1 and
+  Flow's note on the line are now a static 80% shade (grey too while short of a resource), clear + flash when ready
+- [ ] Vengeance DH: Vengeful Retreat recommended (jumps away from the target) - upload a074bdfe
+- [ ] Every spec: check each fight for deviations the owner didn't name (cast mix vs SimC, movement spells, spells
+  shown but not castable, refused presses, odd prepull prompts)
 - [ ] Outlaw / Assassination regression: slot 1 swapping, slot 2 8-35% (fights 558, 559, 561)
 - [ ] Assassination: Amplifying Poison asked for after two poisons were applied before the pull
 - [ ] Destruction: slot 2 22%, 13 refused presses (fight 556)

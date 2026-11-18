@@ -591,16 +591,11 @@ local function NewNote(f)
   n.xmark:SetPoint("CENTER", n, "CENTER", 0, 0)
   n.xmark:SetSize(G.ICON * 0.8, G.ICON * 0.8)
   n.xmark:Hide()
-  -- on the line waiting for a resource: a countdown sweep over the note (Render)
-  n.sweep = CreateFrame("Cooldown", nil, n, "CooldownFrameTemplate")
-  n.sweep:SetAllPoints(n)
-  if n.sweep.SetDrawEdge then
-    n.sweep:SetDrawEdge(true)
-    n.sweep:SetDrawBling(false)
-    n.sweep:SetHideCountdownNumbers(true)
-    n.sweep:SetSwipeColor(0, 0, 0, 0.75)
-  end
-  n.sweep:Hide()
+  -- on the line waiting for a resource: the note shaded dark (Render)
+  n.shade = n:CreateTexture(nil, "OVERLAY")
+  n.shade:SetAllPoints(n)
+  n.shade:SetColorTexture(0, 0, 0, 0.8)
+  n.shade:Hide()
   -- hold bar: the cast (yellow) or channel (blue) trailing the note
   n.bar = n:CreateTexture(nil, "BACKGROUND", nil, -1)
   n.bar:SetPoint("LEFT", n, "CENTER", 0, 0)
@@ -1144,22 +1139,16 @@ function G.Render()
         n:SetAlpha(a)
       end
     end
-    -- on the line short of a resource: the countdown sweep over the note, to the moment the game says yes
-    if n.sweep then
-      local sweepOn = w.main and w.t <= 0.05 and powerWait and df.powerStart and df.powerUntil
-      if sweepOn then
-        local dur = math.max(0.1, df.powerUntil - df.powerStart)
-        if n.sweepStart ~= df.powerStart or n.sweepDur ~= dur then
-          n.sweepStart, n.sweepDur = df.powerStart, dur
-          n.sweep:SetCooldown(df.powerStart, dur)
+    -- on the line short of a resource: the note shaded dark until the game says it can be paid for (static)
+    if n.shade then
+      local shadeOn = w.main and w.t <= 0.05 and powerWait or false
+      if n.shadeOn ~= shadeOn then
+        n.shadeOn = shadeOn
+        if shadeOn then
+          n.shade:Show()
+        else
+          n.shade:Hide()
         end
-        if not n.sweep:IsShown() then
-          n.sweep:Show()
-        end
-      elseif n.sweepStart then
-        n.sweepStart, n.sweepDur = nil, nil
-        n.sweep:Clear()
-        n.sweep:Hide()
       end
     end
     if w.main then

@@ -663,7 +663,7 @@ function D.Create()
   f.glow = Glow(f.main)
   -- "not ready yet" wipe and the "press now" flash on slot 1 (see D.RenderTiming)
   f.wipe = f.main:CreateTexture(nil, "OVERLAY")
-  f.wipe:SetColorTexture(0, 0, 0, 0.55)
+  f.wipe:SetColorTexture(0, 0, 0, 0.8)
   f.wipe:SetPoint("TOPLEFT", f.main, "TOPLEFT", 0, 0)
   f.wipe:SetPoint("TOPRIGHT", f.main, "TOPRIGHT", 0, 0)
   f.wipe:Hide()
@@ -1575,29 +1575,17 @@ function D.RenderTiming(f, cfg)
   end
   f.pressNow = ready
   local frac = ready and 0 or math.min(1, wait / f.waitTotal)
-  -- the sweep: the whole wait, ending when slot 1 flashes (set again only when that moment moves). A wait for a
-  -- resource is one sweep from its start to its estimate, never restarted (Outlaw 2026-11-18: re-estimates restarted
-  -- it over and over - "ticks over and over again in rapid cycles").
-  if cfg.pressCue and frac > 0 and f.sweep then
-    local sStart, sDur
-    if powerLeft > math.max(busy, cdLeft) and f.powerStart and f.powerUntil then
-      sStart, sDur = f.powerStart, math.max(0.1, f.powerUntil - f.powerStart)
-    else
-      sStart, sDur = now + wait - f.waitTotal, f.waitTotal
-    end
-    local ends = sStart + sDur
-    if not f.sweepEnd or math.abs(ends - f.sweepEnd) > 0.05 or f.sweepFrom ~= sStart and math.abs(sStart -
-        (f.sweepFrom or 0)) > 0.05 then
-      f.sweepEnd, f.sweepFrom = ends, sStart
-      f.sweep:SetCooldown(sStart, sDur)
-    end
-    f.sweep:Show()
-  elseif f.sweep and f.sweepEnd then
-    f.sweepEnd = nil
-    f.sweep:Clear()
+  -- Not ready: slot 1 shaded dark (static - a sweep that moved in steps read as broken, owner 2026-11-18: "something
+  -- that just looks clear it's not ready like 80% shaded"), clear and flashing the moment it can be pressed.
+  if cfg.pressCue and frac > 0 then
+    f.wipe:SetHeight(math.max(1, f.main:GetHeight()))
+    f.wipe:Show()
+  else
+    f.wipe:Hide()
+  end
+  if f.sweep and f.sweep:IsShown() then
     f.sweep:Hide()
   end
-  f.wipe:Hide()
   -- grey while it waits for a resource: "not enough", the game's own answer
   local grey = not ready and powerLeft > 0 -- (whatever else runs too: a global cooldown starting doesn't undo it)
   if f.main.tex and f.main.tex.SetDesaturated and f.greyed ~= grey then
