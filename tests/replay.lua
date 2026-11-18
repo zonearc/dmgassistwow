@@ -211,6 +211,7 @@ end
 local t0 = mock.now
 local picks, presses, castStarts = {}, {}, {}
 local sinceT = {} -- events fired since the last recorded pass
+local inv = { passes = 0, uncastable = 0, movement = 0 } -- invariant breaks (INV line)
 local evCost, evN, evCalls = {}, {}, {} -- time and game calls in each event's handlers (--cost)
 mock.inCombat, mock.restricted = true, true
 for _, line in ipairs(input.lines) do
@@ -261,10 +262,25 @@ for _, line in ipairs(input.lines) do
     end
     if ok and r and r.main then
       local q2 = r.queue and r.queue[2]
-      picks[#picks + 1] = { t = tonumber(t), s1 = r.main.id, s2 = q2 and q2.id or nil }
+      -- (names taken now: after the fight the spell map can be gone, and every comparison read "different" -
+      -- Subtlety "matched" 6% of what was shown, 2026-11-18)
+      picks[#picks + 1] = { t = tonumber(t), s1 = r.main.id, s2 = q2 and q2.id or nil,
+        t1 = r.main.token or M.TokenForID(r.main.id), t2 = q2 and (q2.token or M.TokenForID(q2.id)) or nil }
       if showPicks then
         print(string.format("PICK %.2f %s %s", tonumber(t), tostring(r.main.id), tostring(q2 and q2.id)))
       end
+      -- Invariants (owner, 2026-11-18: "we make changes to fix 1 thing, and then literally break half the specs"):
+      -- slot 1 never a spell the game called neither usable nor short of a resource (unless waiting by design), never
+      -- a spell that moves you, never one you don't have (not in the book, on no button now).
+      local uk = R.Key(C_Spell.IsSpellUsable, { n = 1, r.main.id })
+      local u = uk and answer[uk]
+      if u and u[1] == false and u[2] == false and r.main.source ~= "pool" then
+        inv.uncastable = inv.uncastable + 1
+      end
+      if r.main.token and ns.Engine.MOVEMENT and ns.Engine.MOVEMENT[r.main.token] then
+        inv.movement = inv.movement + 1
+      end
+      inv.passes = inv.passes + 1
     end
   elseif kind == "E" then
     local t, ev, args = line:match("^E ([%d.]+)|([%w_]+)|(.*)$")
@@ -315,10 +331,13 @@ for _, g in ipairs(input.shown or {}) do
   end
   if best then
     n = n + 1
-    local t1 = M.TokenForID(best.s1)
-    local t2 = best.s2 and M.TokenForID(best.s2)
+    local t1 = best.t1 or M.TokenForID(best.s1)
+    local t2 = best.t2 or (best.s2 and M.TokenForID(best.s2))
     if t1 == g.main then
       same1 = same1 + 1
+    elseif os.getenv("SAMEDBG") then
+      io.stderr:write(string.format("DIFF t=%.2f shown=%s replay=%s(%s)\n", g.t, tostring(g.main), tostring(t1),
+        tostring(best.s1)))
     end
     if t2 == g.next then
       same2 = same2 + 1
@@ -393,6 +412,31 @@ if os.getenv("SCEN_SIGNALS") then -- (MISS_LOGS raised at the top)
     end
   end
 end
+-- slot 1 changes per minute that no press explains (a press: a cast start or success within 0.35 s before)
+local changes, lastS1 = 0, nil
+local pressT = {}
+for _, p in ipairs(presses) do
+  pressT[#pressT + 1] = p.decided or p.t
+  pressT[#pressT + 1] = p.t
+end
+for _, p in ipairs(picks) do
+  if lastS1 and p.s1 ~= lastS1 then
+    local explained = false
+    for _, pt in ipairs(pressT) do
+      if p.t - pt >= -0.05 and p.t - pt < 0.35 then
+        explained = true
+        break
+      end
+    end
+    if not explained then
+      changes = changes + 1
+    end
+  end
+  lastS1 = p.s1
+end
+local span = (#picks > 1 and picks[#picks].t - picks[1].t or 0) / 60
+print(string.format("INV uncastable=%d movement=%d passes=%d unexplained_per_min=%.1f", inv.uncastable,
+  inv.movement, inv.passes, span > 0 and changes / span or 0))
 print(string.format("SAME %.1f %.1f %d", n > 0 and 100 * same1 / n or 0, n > 0 and 100 * same2 / n or 0, n))
 
 -- slot 2 vs the press that came next (only after a press of what slot 1 showed, as in game)

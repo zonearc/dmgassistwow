@@ -813,9 +813,11 @@ local function CastableRaw(id)
   -- casts the other one, so its readiness is the other one's. Stormstrike's own cooldown never started while you
   -- pressed Windstrike, and slot 1 kept showing it ready (Enhancement, 2026-11-18: "kept pressing it and it wouldn't
   -- clear").
+  -- (only a swap our data describes - an aura turning the button for a while: Surging Totem's button also turns into
+  -- another spell, and the replay of an Enhancement fight showed it stuck in slot 1 judged by that one)
   local cdID = id
   local ov = U.Get(C_Spell and C_Spell.GetOverrideSpell, id)
-  if type(ov) == "number" and ov > 0 and ov ~= id then
+  if type(ov) == "number" and ov > 0 and ov ~= id and M.baseOf and M.baseOf[ov] == id then
     cdID = ov
   end
   local ready = S.CooldownReady(cdID)
@@ -1979,7 +1981,7 @@ local function Queue(record, opts, targets)
   -- what a press casts - shown, timed and judged as itself (Castable already takes its readiness).
   local m = result.main
   local ov = m and m.id and U.Get(C_Spell and C_Spell.GetOverrideSpell, m.id)
-  if type(ov) == "number" and ov > 0 and ov ~= m.id then
+  if type(ov) == "number" and ov > 0 and ov ~= m.id and M.baseOf and M.baseOf[ov] == m.id then
     local copy = {}
     for k, val in pairs(m) do
       copy[k] = val

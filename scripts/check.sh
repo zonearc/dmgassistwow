@@ -19,3 +19,6 @@ echo "== lua tests"
 for t in tests/test_*.lua; do
   lua5.1 "$t"
 done
+
+echo "== real fights (tests/fights, every recorded fight of every spec)"
+python3 tools/replay-suite.py

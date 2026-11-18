@@ -5555,11 +5555,14 @@ test("a button turned into another spell is ready when that spell is (Stormstrik
   local G = ns.Engine
   Restrict()
   mock.overrides = { [5221] = 999001 } -- (Shred's button casts another spell for now)
+  ns.SpellMap.baseOf = ns.SpellMap.baseOf or {}
+  ns.SpellMap.baseOf[999001] = 5221 -- (a swap the data describes, as Ascendance's Windstrike over Stormstrike)
   mock.cooldowns[999001] = { start = mock.now, duration = 6, active = true }
   ns.State.lastCast[999001] = mock.now
   eq(G.Castable(5221) == true, false, "the spell it casts is on cooldown: not ready")
   mock.cooldowns[999001] = nil
   ns.State.lastCast[999001] = nil
+  ns.SpellMap.baseOf[999001] = nil
   mock.overrides = nil
 end)
 
