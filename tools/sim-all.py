@@ -10,6 +10,9 @@ import argparse, concurrent.futures, glob, json, os, re, subprocess, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.join(HERE, "..")
+BASE = os.path.join(ROOT, "tests", "sim_baseline.json")
+SPEC_TOL = 5.0  # points a spec's mean may lose (two seeds: luck moves it about +-3)
+AVG_TOL = 1.0
 
 
 def run(spec, a):
@@ -33,6 +36,9 @@ def main():
     ap.add_argument("--exact", action="store_true", help="a player who presses slot 1 the moment it is ready")
     ap.add_argument("--json")
     ap.add_argument("--bar", type=float, default=70.0)
+    ap.add_argument("--check", action="store_true", help="fail when a spec's mean drops > SPEC_TOL points from "
+                    "tests/sim_baseline.json, or the average > AVG_TOL (scripts/check.sh)")
+    ap.add_argument("--update", action="store_true", help="write tests/sim_baseline.json (say why in the commit)")
     a = ap.parse_args()
     specs = sorted(os.path.basename(p)[:-5] for p in glob.glob(os.path.join(ROOT, "data", "reference", "*.json")))
     specs = [s for s in specs if a.specs in s]
@@ -54,7 +60,24 @@ def main():
                                                                len(below), ", ".join(below)))
     if a.json:
         json.dump(res, open(a.json, "w"), indent=1, sort_keys=True)
+    means = {s: (sum(res[s].values()) / len(res[s]) if res[s] else 0) for s in specs}
+    if a.update:
+        json.dump({k: round(v, 1) for k, v in means.items()}, open(BASE, "w"), indent=1, sort_keys=True)
+        print("baseline written: %s" % BASE)
+    if a.check:
+        base = json.load(open(BASE)) if os.path.exists(BASE) else {}
+        fails = ["%s: %.1f, was %.1f" % (s, means[s], base[s]) for s in specs
+                 if s in base and means[s] < base[s] - SPEC_TOL]
+        b_avg = sum(base.values()) / len(base) if base else 0
+        n_avg = sum(means[s] for s in base if s in means) / max(1, len([s for s in base if s in means]))
+        if base and n_avg < b_avg - AVG_TOL:
+            fails.append("average %.1f, was %.1f" % (n_avg, b_avg))
+        if fails:
+            print("FAILED (graded simulator, slot 2):\n  " + "\n  ".join(fails))
+            return 1
+        print("graded simulator: nothing got worse")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

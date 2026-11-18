@@ -67,6 +67,22 @@ Last updated: 1.6.0.157 (2026-11-10).
   - [ ] Replay fidelity is low for many specs (Subtlety 6%, Enhancement 44% same-as-shown) - fix before trusting
     offline checks for them. Same-as-shown is now right for Subtlety (75%) and Enhancement (60%) after the replay
     fixes; the corpus table (python3 tools/replay-suite.py) shows the rest
+  - [ ] Offline slot 2 to 70% for every spec (owner, 2026-11-18: "take this offline ... get the baseline to 70%
+    before we move back to the game engine"). Measured by the graded simulator (python3 tools/sim-all.py: reference
+    talents, one hero tree, resource world, procs, casts as the game reports them), gated in check.sh against
+    tests/sim_baseline.json. 2026-11-18: 30 specs average 76.2% -> 80.4%, under 70% 9 -> 6.
+    Fixed on the way (all also in game): weapon checks (Assassination's Fan of Knives filler), Blightfall crash
+    (Unholy), Essence regeneration ahead (Devastation), the expected next spell moving up during a cast (Devourer),
+    a proc-lit spender free in the prediction (Arms), the learner never suggesting off-bar spells.
+    Simulator fixes: stealth-only spells, casts end with "succeeded", same-button presses count, the reference's own
+    talents and hero tree (tools/hero-talents.py), permanent talent swaps (data/talent-overrides.json), the assistant
+    waiting for a spell instead of naming the book's first.
+    Still under 70%: Arms 60 (hero tree unknown in the reference), Shadow 62 (Voidform / Void Volley: the player
+    stalls after Voidform - the button swap and its resource, not yet understood), Retribution 63 (Judgment predicted,
+    Hammer of Wrath / Blade of Justice next), Destruction 64 (Shadowburn needs the assistant to confirm; target health
+    hidden ahead), Devourer 65-68, Windwalker 69. 7 references have no hero tree (Havoc, Beast Mastery, the mages,
+    Retribution, Arms, Fury): tools/simc-reference.py skips SimC's "selection" lines - decode the tree from them.
+    10 specs have no reference build yet (healers, Augmentation, Preservation, Marksmanship, Survival).
   - [ ] Found by the "real" fight: Protection Warrior slot 2 0%, Devourer 11% and slot 3 empty, Windwalker slot 3
     empty and shown ready on cooldown 27%
 - [ ] Outlaw / Assassination regression: slot 1 swapping, slot 2 8-35% (fights 558, 559, 561)

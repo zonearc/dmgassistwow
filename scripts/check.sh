@@ -22,3 +22,6 @@ done
 
 echo "== real fights (tests/fights, every recorded fight of every spec)"
 python3 tools/replay-suite.py
+
+echo "== graded simulator (slot 2 per spec, reference builds, resource world)"
+python3 tools/sim-all.py --check
