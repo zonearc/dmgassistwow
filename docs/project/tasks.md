@@ -45,6 +45,16 @@ Last updated: 1.6.0.157 (2026-11-10).
     presses, no Fire Breath / Living Flame cast; Augmentation slot 2 34-43%, steady 50-68%
   - [ ] Hunters (upload a2b9d83e, 1.6.0.342): Beast Mastery runs out of Focus (owner), Cobra Shot 5.5/min vs SimC
     16.9, slot 2 19%; Marksmanship slot 2 38%; Survival 34%
+  - [ ] Monk (upload cf31bd61): Windwalker slot 2 24%, no Spinning Crane Kick on 4 targets (SimC 12/min); Brewmaster
+    slot 2 29%, Tiger Palm 2.9/min vs SimC 18, no Purifying Brew; Protection Paladin slot 2 22%, few Judgment /
+    Shield of the Righteous
+  - [ ] Specs with no fight from the walk: Feral, Guardian, Restoration Druid, Mistweaver, Holy and Retribution
+    Paladin, Restoration Shaman, Affliction, Demonology (Balance only from earlier days)
+  - [ ] Simulator level-up (why it missed these): no action bars (Hammer of Wrath), fresh cooldowns every fight
+    (Nature's Swiftness, Celestial Alignment), hidden fields not matching the game ("active" readable), a player who
+    always follows slot 1 (stuck loops score well), no range or movement (Holy Nova), no visuals (sweep cycling,
+    Flow stall). Plan: real fights as permanent replay tests with invariants; recorded bars and pre-pull state in the
+    simulator; secrecy learned from recordings; a player model that skips and presses other buttons
   - [ ] Replay fidelity is low for many specs (Subtlety 6%, Enhancement 44% same-as-shown) - fix before trusting
     offline checks for them
 - [ ] Outlaw / Assassination regression: slot 1 swapping, slot 2 8-35% (fights 558, 559, 561)
