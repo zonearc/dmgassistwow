@@ -956,4 +956,6 @@ ns.LOCALE_DATA.deDE = {
   ["FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another."] = "FPS-Test: %d Sekunden stillstehen und weiter zaubern; Teile von DMGAssist werden nacheinander ausgeblendet.",
   ["Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: Settings > DMGAssist, or /dmga lowpower."] = "Deine Bildrate war in diesem Kampf niedrig (%d FPS). Auf einem langsameren PC bringt der Energiesparmodus etwas zurück: Einstellungen > DMGAssist oder /dmga lowpower.",
   ["FPS probe stopped."] = "FPS-Test abgebrochen.",
+  ["Movement spells in the rotation"] = "Bewegungszauber in der Rotation",
+  ["Spells that move you (Infernal Strike, Vengeful Retreat, Fel Rush, Heroic Leap, Disengage, Roll, Blink) when SimC uses them for damage. Off: they're never suggested."] = "Zauber, die dich bewegen (Höllenschlag, Rachsüchtiger Rückzug, Teufelsrausch, Heldenhafter Sprung, Rückzug, Rollen, Blinzeln), wenn SimC sie für Schaden nutzt. Aus: Sie werden nie vorgeschlagen.",
 }

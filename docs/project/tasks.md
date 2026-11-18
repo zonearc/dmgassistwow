@@ -30,8 +30,10 @@ Last updated: 1.6.0.157 (2026-11-10).
 - [ ] Vengeance DH: Vengeful Retreat recommended (jumps away from the target) - upload a074bdfe
 - [ ] Every spec: check each fight for deviations the owner didn't name (cast mix vs SimC, movement spells, spells
   shown but not castable, refused presses, odd prepull prompts). Audit of 27 fights / 24 specs (2026-11-18) found:
-  - [ ] Movement spells in slot 1: Vengeance Infernal Strike 14 times (owner saw "Vengeful Retreat"), Havoc
-    Vengeful Retreat 3 - movement only with the gap-closer setting, never for a tank
+  - [x] 1.6.0.345 Movement spells in slot 1: Vengeance Infernal Strike 14 times, Havoc Vengeful Retreat 3 - off unless
+    "Movement spells in the rotation" (new setting, off by default). Baseline re-recorded: Vengeance st 74->88%,
+    aoe 75->88%; its leveling fight 47->14% (the simulator's stand-in for Blizzard's assistant still names Infernal
+    Strike); Havoc's "nothing castable" fight now shows nothing (it showed Vengeful Retreat)
   - [ ] Slot 2 under 40%: Destruction 22%, Enhancement 22%, Vengeance 19%, Outlaw 19-35%, Assassination 8%, Fire
     31-33%, Unholy 33%, Arms 39%, Shadow 38%, Frost Mage 40%, Devourer 41%
   - [ ] Refused presses: Destruction 13 (11 "Not enough"), Subtlety 9, Blood 5, Frost DK 4, Outlaw 5
@@ -41,6 +43,8 @@ Last updated: 1.6.0.157 (2026-11-10).
     Strike, Protection Warrior little Shield Slam / no Execute, Vengeance no Immolation Aura / Demon Spikes
   - [ ] Evokers (upload e033882b): Preservation slot 2 31% / steady 38%; Devastation slot 2 23-41%, 11 refused
     presses, no Fire Breath / Living Flame cast; Augmentation slot 2 34-43%, steady 50-68%
+  - [ ] Hunters (upload a2b9d83e, 1.6.0.342): Beast Mastery runs out of Focus (owner), Cobra Shot 5.5/min vs SimC
+    16.9, slot 2 19%; Marksmanship slot 2 38%; Survival 34%
   - [ ] Replay fidelity is low for many specs (Subtlety 6%, Enhancement 44% same-as-shown) - fix before trusting
     offline checks for them
 - [ ] Outlaw / Assassination regression: slot 1 swapping, slot 2 8-35% (fights 558, 559, 561)

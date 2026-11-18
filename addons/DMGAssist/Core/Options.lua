@@ -384,6 +384,9 @@ function O.Register()
     "Every fight, or save them for bosses, PvP and big pulls (size set below).")
   Slider(combat, DB, "bigPull", "Big pull size", G.bigPull or 5, 2, 10, 1,
     "With \"Bosses and big pulls\": this many enemies or more counts as a big pull.")
+  Check(combat, DB, "movementSpells", "Movement spells in the rotation", false,
+    "Spells that move you (Infernal Strike, Vengeful Retreat, Fel Rush, Heroic Leap, Disengage, Roll, Blink) when "
+      .. "SimC uses them for damage. Off: they're never suggested.")
   Check(combat, DB, "gapClosers", "Gap closers", true,
     "Melee: out of range of your target, show your charge / leap (Wild Charge, Charge, Shadowstep...) first.")
   Check(combat, DB, "tankEssentials", "Tank essentials", true,

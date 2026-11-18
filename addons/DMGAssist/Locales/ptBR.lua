@@ -956,4 +956,6 @@ ns.LOCALE_DATA.ptBR = {
   ["FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another."] = "Teste de FPS: fique parado e continue lançando por %d segundos; partes do DMGAssist se ocultam uma após a outra.",
   ["Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: Settings > DMGAssist, or /dmga lowpower."] = "Sua taxa de quadros ficou baixa nesse combate (%d FPS). Em um PC mais lento, o modo de baixo consumo devolve um pouco: Configurações > DMGAssist, ou /dmga lowpower.",
   ["FPS probe stopped."] = "Teste de FPS interrompido.",
+  ["Movement spells in the rotation"] = "Feitiços de movimento na rotação",
+  ["Spells that move you (Infernal Strike, Vengeful Retreat, Fel Rush, Heroic Leap, Disengage, Roll, Blink) when SimC uses them for damage. Off: they're never suggested."] = "Feitiços que movem você (Golpe Infernal, Retirada Vingativa, Investida Vil, Salto Heroico, Desengajar, Rolamento, Lampejo) quando o SimC os usa para dano. Desligado: nunca são sugeridos.",
 }

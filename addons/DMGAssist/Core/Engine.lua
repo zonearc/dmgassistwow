@@ -837,9 +837,21 @@ local function CastRecently(id)
 end
 G.CastRecently = CastRecently
 
+-- Spells that move you (a leap, a jump back, a dash). SimC uses some for damage (Vengeance's Infernal Strike,
+-- Havoc's Vengeful Retreat with Initiative), but being told to leap or jump away mid-fight isn't what a player wants -
+-- above all a tank (owner, 2026-11-18: "it made me hit vengeful retreat which bounces you AWAY from the mob").
+-- Off unless Settings > Combat > "Movement spells in the rotation" is on. (Gap closers when you're out of range are
+-- a separate feature: Essentials.)
+G.MOVEMENT = { vengeful_retreat = true, infernal_strike = true, fel_rush = true, heroic_leap = true, disengage = true,
+  roll = true, chi_torpedo = true, blink = true, shimmer = true }
+
 local function Castable(id)
   if id and M.IsAutomatic(id) then
     return false, "auto" -- the game casts it for you (M.AUTO_TRIGGERED)
+  end
+  local token = id and M.TokenForID(id)
+  if token and G.MOVEMENT[token] and not (ns.db and ns.db.movementSpells) then
+    return false, "movement"
   end
   local castable, why = CastableRaw(id)
   if castable ~= false and castable ~= true and id and CastRecently(id) then

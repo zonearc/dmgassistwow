@@ -959,5 +959,7 @@
 "FPS probe done: %s",
 "FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another.",
 "Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: Settings > DMGAssist, or /dmga lowpower.",
-"FPS probe stopped."
+"FPS probe stopped.",
+"Movement spells in the rotation",
+"Spells that move you (Infernal Strike, Vengeful Retreat, Fel Rush, Heroic Leap, Disengage, Roll, Blink) when SimC uses them for damage. Off: they're never suggested."
 ]

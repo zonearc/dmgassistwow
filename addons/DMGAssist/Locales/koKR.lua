@@ -956,4 +956,6 @@ ns.LOCALE_DATA.koKR = {
   ["FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another."] = "FPS 측정: %d초 동안 가만히 서서 계속 시전하세요. DMGAssist의 부분들이 하나씩 숨겨집니다.",
   ["Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: Settings > DMGAssist, or /dmga lowpower."] = "이번 전투에서 프레임이 낮았습니다(%d FPS). 느린 PC라면 저전력 모드가 도움이 됩니다: 설정 > DMGAssist 또는 /dmga lowpower.",
   ["FPS probe stopped."] = "FPS 측정을 중지했습니다.",
+  ["Movement spells in the rotation"] = "로테이션에 이동 주문 포함",
+  ["Spells that move you (Infernal Strike, Vengeful Retreat, Fel Rush, Heroic Leap, Disengage, Roll, Blink) when SimC uses them for damage. Off: they're never suggested."] = "SimC가 피해를 위해 사용하는 이동 주문(지옥 강타, 복수의 퇴각, 지옥 돌진, 영웅의 도약, 철수, 구르기, 점멸). 끄면 절대 추천하지 않습니다.",
 }

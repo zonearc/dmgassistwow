@@ -5563,6 +5563,27 @@ test("a button turned into another spell is ready when that spell is (Stormstrik
   mock.overrides = nil
 end)
 
+test("movement spells (a leap, a jump back) are never suggested unless the setting is on", function()
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  local M = ns.SpellMap
+  local token = M.TokenForID
+  M.TokenForID = function(id)
+    if id == 5221 then
+      return "vengeful_retreat"
+    end
+    return token(id)
+  end
+  local ok, why = G.Castable(5221)
+  eq(ok, false, "off by default")
+  eq(why, "movement")
+  ns.db.movementSpells = true
+  eq(G.Castable(5221) ~= false, true, "with the setting on")
+  ns.db.movementSpells = nil
+  M.TokenForID = token
+end)
+
 test("decision traces: each pick change in combat logs resources, the lines checked and unknown terms", function()
   Reset()
   local ns = Boot()

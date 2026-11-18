@@ -956,4 +956,6 @@ ns.LOCALE_DATA.itIT = {
   ["FPS probe: stand still and keep casting for %d seconds; parts of DMGAssist hide one after another."] = "Test FPS: resta fermo e continua a lanciare per %d secondi; parti di DMGAssist si nascondono una dopo l'altra.",
   ["Your frame rate was low in that fight (%d FPS). On a slower PC, Low power mode gives some back: Settings > DMGAssist, or /dmga lowpower."] = "Il frame rate era basso in quel combattimento (%d FPS). Su un PC più lento, il risparmio energetico ne recupera un po': Impostazioni > DMGAssist, o /dmga lowpower.",
   ["FPS probe stopped."] = "Test FPS interrotto.",
+  ["Movement spells in the rotation"] = "Incantesimi di movimento nella rotazione",
+  ["Spells that move you (Infernal Strike, Vengeful Retreat, Fel Rush, Heroic Leap, Disengage, Roll, Blink) when SimC uses them for damage. Off: they're never suggested."] = "Incantesimi che ti spostano (Assalto Infernale, Ritirata Vendicativa, Scatto Vile, Balzo Eroico, Disimpegno, Rotolata, Traslocazione) quando SimC li usa per il danno. Disattivato: non vengono mai suggeriti.",
 }

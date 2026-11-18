@@ -952,3 +952,5 @@
 958	Prueba de FPS: quédate quieto y sigue lanzando durante %d segundos; partes de DMGAssist se ocultan una tras otra.
 959	Tu tasa de fotogramas fue baja en ese combate (%d FPS). En un PC más lento, el modo de bajo consumo recupera algo: Ajustes > DMGAssist, o /dmga lowpower.
 960	Prueba de FPS detenida.
+961	Hechizos de movimiento en la rotación
+962	Hechizos que te mueven (Golpe infernal, Retirada vengativa, Embestida vil, Salto heroico, Separación, Rodar, Traslación) cuando SimC los usa para hacer daño. Desactivado: nunca se sugieren.
