@@ -1751,7 +1751,10 @@ function S.ApplyLinks(id, lookahead)
     return
   end
   for _, l in ipairs(M.linksBySource[token] or {}) do
-    if Requires(l[4]) then
+    -- (never a spell on itself: Retribution's data held "Blade of Justice resets Blade of Justice" from Art of War's
+    -- chance to reset it, and every cast showed it ready again at once - the player waited 8 s on a cooldown, graded
+    -- simulator 2026-11-18. A chance to reset is a proc: the game's glow says when it happened)
+    if Requires(l[4]) and l[2] ~= token then
       local amount = l[3]
       if l[6] and type(amount) == "number" and amount > 0 then
         -- per enemy hit, up to a cap (Lethal Calibration: 2 s per enemy hit, up to 10 s): our enemy count

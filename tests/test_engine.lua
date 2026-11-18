@@ -2272,6 +2272,27 @@ test("spell interdependencies: casting one spell takes time off another (Shield 
   mock.inCombat, mock.restricted = false, false
 end)
 
+test("spell interdependencies: a spell never resets itself on its own cast (Retribution's Blade of Justice)", function()
+  -- the data held "blade_of_justice resets blade_of_justice" (Art of War's chance): shown ready after every cast
+  Reset()
+  local ns = Boot()
+  local S = ns.State
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", ch = 1, chcd = 12, gcd = 1.5 }
+  rec.cdLinks = { { "tigers_fury", "tigers_fury", "reset", 0, 0 } }
+  Feral(ns, rec)
+  mock.inCombat, mock.restricted = true, true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5217)
+  mock.Advance(1)
+  eq(S.Charges(5217), 0, "spent, recharging 12 s")
+  S.BeginLookahead(0)
+  S.Apply(5217)
+  eq(S.Charges(5217), 0, "nor in the look-ahead")
+  S.EndLookahead()
+  mock.inCombat, mock.restricted = false, false
+end)
+
 test("Bloodlust with readable haste: the jump is compared with the value before it", function()
   Reset()
   local ns = Boot()

@@ -53,7 +53,12 @@ def hero_tree(r, trees):
         tree = trees.get(str(t.get("id")))
         if tree and token(t["name"]) in cast:
             votes[tree] = votes.get(tree, 0) + 1
-    return max(votes, key=votes.get) if votes else None
+    if votes:
+        return max(votes, key=votes.get)
+    # no hero ability cast, but every hero talent the reference holds is from one tree: that one (Arms, Fury, Havoc,
+    # Beast Mastery, the mages, Retribution - SimC's "selection" lines naming the tree are not extracted)
+    held = {trees.get(str(t.get("id"))) for t in r["talents"]} - {None}
+    return held.pop() if len(held) == 1 else None
 
 
 def talents_file(refs):
