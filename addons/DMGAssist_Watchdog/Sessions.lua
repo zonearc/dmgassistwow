@@ -68,9 +68,11 @@ function M.Start()
     dropped = 0,
     counts = {},
   }
-  S.Push(db.sessions, current, db.settings.maxSessions)
-  -- only the newest fights keep their input recording (each can be a few MB): older ones keep their events
-  local keep, kept = db.settings.maxRecordedFights or 5, 0
+  local long = db.settings.longHistory
+  S.Push(db.sessions, current, long and math.max(db.settings.maxSessions or 8, M.LONG_SESSIONS) or db.settings.maxSessions)
+  -- only the newest fights keep their input recording (each up to ~1 MB): older ones keep their events. With
+  -- DMGAssist's Enhanced logging, a long history.
+  local keep, kept = long and M.LONG_RECORDED or (db.settings.maxRecordedFights or 5), 0
   for i = #db.sessions, 1, -1 do
     local s = db.sessions[i]
     if s.rec then
@@ -81,6 +83,8 @@ function M.Start()
     end
   end
 end
+
+M.LONG_SESSIONS, M.LONG_RECORDED = 50, 40
 
 function M.Stop(reason)
   if not current then

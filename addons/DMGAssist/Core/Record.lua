@@ -317,7 +317,16 @@ function R.Event(event, ...)
 end
 
 -- A fight begins: every question gets asked anew (the replay of one fight needs no other), the header goes first.
+-- The Watchdog keeps a long history only with Enhanced logging (Standard: its small defaults)
+function R.TellWatchdog()
+  local wd = DMGAssistWatchdog
+  if type(wd) == "table" and type(wd.LongHistory) == "function" then
+    pcall(wd.LongHistory, R.Enabled())
+  end
+end
+
 function R.Begin()
+  R.TellWatchdog()
   if not R.Enabled() then
     R.on = false
     return

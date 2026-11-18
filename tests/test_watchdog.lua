@@ -429,6 +429,33 @@ test("report: real fights kept before short pulls when only some fit", function(
   eq(pick({ { id = 9, duration = 3 }, { id = 10 } }, 1)[1].id, 10, "a fight still running counts as real")
 end)
 
+test("Enhanced logging keeps a long history (40 recorded fights); without it the small defaults", function()
+  local db = ns.db
+  local function fight()
+    mock.Fire("PLAYER_REGEN_DISABLED")
+    DMGAssistWatchdog.Record("T 0.00|1=1")
+    mock.Fire("PLAYER_REGEN_ENABLED")
+  end
+  local function recorded()
+    local n = 0
+    for _, s in ipairs(db.sessions) do
+      if s.rec then
+        n = n + 1
+      end
+    end
+    return n
+  end
+  DMGAssistWatchdog.LongHistory(true)
+  for _ = 1, 45 do
+    fight()
+  end
+  eq(recorded() >= 40, true, "40 fights keep their recording: " .. recorded())
+  eq(#db.sessions >= 45, true, "and the fights themselves: " .. #db.sessions)
+  DMGAssistWatchdog.LongHistory(false)
+  fight()
+  eq(recorded() <= (db.settings.maxRecordedFights or 5) + 1, true, "Standard: back to the small defaults")
+end)
+
 print(string.format("\n%d passed, %d failed", passed, failed))
 if failed > 0 then
   os.exit(1)

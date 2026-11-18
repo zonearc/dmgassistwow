@@ -119,6 +119,13 @@ DMGAssistWatchdog = {
   Error = function(message)
     ns.Errors.Record("dmgassist", message)
   end,
+  -- DMGAssist's Enhanced logging: keep a long history (a walk through every spec of several characters) - off, the
+  -- small defaults (owner, 2026-11-18: "5 fights isn't great... only do this with enhanced logging")
+  LongHistory = function(on)
+    if ns.db then
+      ns.db.settings.longHistory = on and true or nil
+    end
+  end,
   -- DMGAssist's input recording (Core/Record.lua): what the game answered, line by line, kept apart from the event
   -- log (it would push the decisions out) and exported with the fight. Returns false when no fight is on.
   Record = function(line)

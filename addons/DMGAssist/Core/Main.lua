@@ -583,6 +583,7 @@ function OnEvent(_, event, ...)
     D.InvalidateKeybinds() -- a bar addon may have just loaded
   elseif event == "PLAYER_LOGIN" then
     ns.Minimap.Apply()
+    ns.Record.TellWatchdog() -- (Enhanced logging: the Watchdog keeps a long history)
     local state = Specs.Refresh("login")
     U.Print("%s", Describe(state))
     local loaded = ns.Data.LoadedBranches()
