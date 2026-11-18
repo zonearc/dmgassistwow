@@ -5524,6 +5524,36 @@ test("timing: the sweep and the grey never blink - at most one change each per w
   mock.cooldowns[61304] = nil
 end)
 
+test("timing: one sweep per wait for Energy - never restarted when the estimate runs out", function()
+  Reset()
+  local ns = Boot()
+  ns.Update()
+  Restrict()
+  local f = ns.Display.frame
+  local id = f.shownId
+  local S = ns.State
+  local tta = S.TimeToAfford
+  S.TimeToAfford = function()
+    return 0.5 -- (too short: the game still says "not enough" for 3 s)
+  end
+  mock.usable[id] = { false, true }
+  local sets = 0
+  local set = f.sweep.SetCooldown
+  f.sweep.SetCooldown = function(self, ...)
+    sets = sets + 1
+    return set(self, ...)
+  end
+  for _ = 1, 90 do
+    mock.Advance(1 / 30)
+    ns.Display.RenderTiming(f, ns.Display.Settings())
+  end
+  eq(sets, 1, "one sweep, not restarted")
+  eq(f.pressNow, false, "and not ready until the game says so")
+  f.sweep.SetCooldown = nil
+  S.TimeToAfford = tta
+  mock.usable[id] = nil
+end)
+
 test("decision traces: each pick change in combat logs resources, the lines checked and unknown terms", function()
   Reset()
   local ns = Boot()

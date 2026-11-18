@@ -238,7 +238,7 @@ function L.ApplyTesting(announce)
       pcall(C_CVar.SetCVar, "taintLog", "1")
     end
     s.maxEventsPerSession = math.max(s.maxEventsPerSession or 600, 4000) -- (reports come in parts)
-    s.maxSessions = math.max(s.maxSessions or 8, 12)
+    s.maxSessions = math.max(s.maxSessions or 8, 30)
     s.autoProbe, s.logCasts, s.logGlows = true, true, true
     if announce then
       U.Print("Test build: logging is on. After a fight: /dmgw, Ctrl+C, paste into the chat. "

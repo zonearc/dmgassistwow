@@ -16,6 +16,15 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+- 1.6.0.341 (walk of many specs, 2026-11-18): Outlaw's slot 1 sweep "ticks over and over again in rapid cycles" -
+  the energy estimate ran out, was extended, and the sweep restarted each time. A resource wait now has one sweep
+  from its start to a cautious estimate (our lower bound), never restarted; slot 1 flashes the moment the game says
+  "enough". Test counts the sweep's restarts. The Watchdog kept only 12 fights in testing mode: Paladin, Shaman and
+  Monk were lost from the upload - now 30. Open from the walk: Outlaw/Assassination swapping (slot 1 steady 50-65%),
+  Assassination's poisons pre-pull, Holy Priest Holy Nova out of range, Discipline's Atonement upkeep, Paladin's
+  Hammer of Wrath notice, Shaman Nature's Swiftness on cooldown, Enhancement Stormstrike stuck, Maelstrom spend, Monk
+  Vivify late, Destruction slot 2 22%.
+
 - 1.6.0.340 (Subtlety fight 529, 1.6.0.339: slot 1 steady 96%, refused presses 11 -> 3, slot 2 64%): in Flow mode a
   note short of Energy stopped short of the line for a second (owner: "looks broken"). Notes now move on the press
   timing alone (GCD, cast, cooldown) and land on the line; while the game says "not enough" a countdown sweep runs

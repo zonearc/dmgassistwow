@@ -1516,12 +1516,8 @@ function D.RenderTiming(f, cfg)
       local t = ns.State.TimeToAfford(id)
       if type(t) == "number" then
         local key = tostring(id)
-        if f.powerFor ~= key then -- (one estimate per wait: counted down, not re-guessed every frame)
+        if f.powerFor ~= key then -- (one estimate per wait: counted down once, never restarted - see the sweep)
           f.powerFor, f.powerUntil, f.powerStart = key, GetTime() + math.min(t, 5), GetTime()
-        elseif f.powerUntil <= GetTime() then
-          -- (ran out and the game still says "not enough": a new estimate, at least a short wait, so the cue never
-          -- sits at "about to be ready" - Subtlety, 2026-11-17: energy starved a fifth of the fight)
-          f.powerUntil = GetTime() + math.max(0.25, math.min(t, 5))
         end
         powerLeft = math.max(0.05, f.powerUntil - GetTime()) -- (not ready before the game agrees)
       end
@@ -1549,9 +1545,12 @@ function D.RenderTiming(f, cfg)
     f.shadeLogged = nil
   end
   -- Length of this wait period, for the wipe and the bar: a jump up means a new GCD or cast started.
-  if not f.waitTotal or wait > (f.lastWait or 0) + 0.05 then
+  -- (the resource's own wait doesn't count: it has its own sweep and never restarts)
+  local timed = math.max(busy, cdLeft)
+  if not f.waitTotal or timed > (f.lastTimed or 0) + 0.05 then
     f.waitTotal = math.max(wait, 0.01)
   end
+  f.lastTimed = timed
   f.lastWait = wait
   local lead = (tonumber(cfg.pressLead) or 50) / 1000 + D.Latency()
   -- The game queues an early press only for the global cooldown or a cast ending; a press before the spell's own
@@ -1576,12 +1575,21 @@ function D.RenderTiming(f, cfg)
   end
   f.pressNow = ready
   local frac = ready and 0 or math.min(1, wait / f.waitTotal)
-  -- the sweep: the whole wait, ending when slot 1 flashes (set again only when that moment moves)
+  -- the sweep: the whole wait, ending when slot 1 flashes (set again only when that moment moves). A wait for a
+  -- resource is one sweep from its start to its estimate, never restarted (Outlaw 2026-11-18: re-estimates restarted
+  -- it over and over - "ticks over and over again in rapid cycles").
   if cfg.pressCue and frac > 0 and f.sweep then
-    local ends = now + wait
-    if not f.sweepEnd or math.abs(ends - f.sweepEnd) > 0.05 then
-      f.sweepEnd = ends
-      f.sweep:SetCooldown(ends - f.waitTotal, f.waitTotal)
+    local sStart, sDur
+    if powerLeft > math.max(busy, cdLeft) and f.powerStart and f.powerUntil then
+      sStart, sDur = f.powerStart, math.max(0.1, f.powerUntil - f.powerStart)
+    else
+      sStart, sDur = now + wait - f.waitTotal, f.waitTotal
+    end
+    local ends = sStart + sDur
+    if not f.sweepEnd or math.abs(ends - f.sweepEnd) > 0.05 or f.sweepFrom ~= sStart and math.abs(sStart -
+        (f.sweepFrom or 0)) > 0.05 then
+      f.sweepEnd, f.sweepFrom = ends, sStart
+      f.sweep:SetCooldown(sStart, sDur)
     end
     f.sweep:Show()
   elseif f.sweep and f.sweepEnd then

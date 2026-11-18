@@ -3122,9 +3122,9 @@ function S.Affordable(id)
 end
 
 -- Seconds until a resource-held spell can be paid for (slot 1's wait cue while "waiting for Energy"), or nil when
--- there is no estimate. The true amount is between our lower bound and the cost (the game says "not enough"): the
--- middle of that, at the regeneration rate. Six presses refused for Energy in a 67 s Subtlety fight, slot 1 showing
--- the finisher with no sign of how long (owner, 2026-11-17: "often have to wait 1-2s before there's enough").
+-- there is no estimate: from our lower bound for a hidden resource, at the regeneration rate. Six presses refused
+-- for Energy in a 67 s Subtlety fight, slot 1 showing the finisher with no sign of how long (owner, 2026-11-17:
+-- "often have to wait 1-2s before there's enough").
 function S.TimeToAfford(id)
   local info = M.Info(id)
   local cost = info and M.Cost(info)
@@ -3139,8 +3139,9 @@ function S.TimeToAfford(id)
     if type(cur) == "number" then
       est = cur
     else
-      local lo = S.PowerBounds(pt)
-      est = lo and (lo + amount) / 2 or nil
+      -- (our lower bound: a cautious wait. Slot 1 turns ready the moment the game says "enough", so ending early is
+      -- fine; ending late made the cue extend itself again and again - Outlaw's sweep cycled, 2026-11-18)
+      est = (S.PowerBounds(pt))
     end
     if est and est < amount then
       if not (rate and rate > 0) then
