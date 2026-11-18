@@ -41,3 +41,13 @@ Enhancement), plus problems no check could see. Why, and the rules that follow.
   recordings, a player who skips / delays / presses other buttons, target range.
 - A per-spec scorecard per release (slot 2, steadiness, refused presses, cast mix vs SimC), from the simulator and
   from real fights.
+
+## Built (2026-11-18)
+
+- `python3 tools/replay-suite.py` (in check.sh): every fight in tests/fights replayed; fails when a fight's slot 1 /
+  slot 2 agreement drops more than 3 points or an invariant count rises. New uploads join the corpus with
+  `python3 tools/fight-corpus.py`, then `--update` with the reason in the commit.
+- Simulated fight "real" for every spec (bars, hidden active flag, cooldowns from the last pull, a late player who
+  strays, range drop-outs); every spec's fights start at the same clock, so a single-spec run and the full run agree.
+- `python3 tools/scorecard.py` writes docs/project/scorecard.md: run it with every release batch and read the bold
+  cells first.
