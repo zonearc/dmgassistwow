@@ -29,7 +29,18 @@ Last updated: 1.6.0.157 (2026-11-10).
   Flow's note on the line are now a static 80% shade (grey too while short of a resource), clear + flash when ready
 - [ ] Vengeance DH: Vengeful Retreat recommended (jumps away from the target) - upload a074bdfe
 - [ ] Every spec: check each fight for deviations the owner didn't name (cast mix vs SimC, movement spells, spells
-  shown but not castable, refused presses, odd prepull prompts)
+  shown but not castable, refused presses, odd prepull prompts). Audit of 27 fights / 24 specs (2026-11-18) found:
+  - [ ] Movement spells in slot 1: Vengeance Infernal Strike 14 times (owner saw "Vengeful Retreat"), Havoc
+    Vengeful Retreat 3 - movement only with the gap-closer setting, never for a tank
+  - [ ] Slot 2 under 40%: Destruction 22%, Enhancement 22%, Vengeance 19%, Outlaw 19-35%, Assassination 8%, Fire
+    31-33%, Unholy 33%, Arms 39%, Shadow 38%, Frost Mage 40%, Devourer 41%
+  - [ ] Refused presses: Destruction 13 (11 "Not enough"), Subtlety 9, Blood 5, Frost DK 4, Outlaw 5
+  - [ ] Cast mix far from SimC (needs the id->token mapping checked first - some are aliases): Destruction no
+    Shadowburn (SimC 8/min), Fury no Rampage (SimC 22/min), Unholy almost no Scourge Strike / Epidemic, Fire no
+    Fireball/Pyroblast, Frost Mage no Frostbolt/Glacial Spike, Subtlety little Black Powder, Blood little Heart
+    Strike, Protection Warrior little Shield Slam / no Execute, Vengeance no Immolation Aura / Demon Spikes
+  - [ ] Replay fidelity is low for many specs (Subtlety 6%, Enhancement 44% same-as-shown) - fix before trusting
+    offline checks for them
 - [ ] Outlaw / Assassination regression: slot 1 swapping, slot 2 8-35% (fights 558, 559, 561)
 - [ ] Assassination: Amplifying Poison asked for after two poisons were applied before the pull
 - [ ] Destruction: slot 2 22%, 13 refused presses (fight 556)
