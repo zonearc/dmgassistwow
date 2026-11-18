@@ -83,6 +83,11 @@ Last updated: 1.6.0.157 (2026-11-10).
     hidden ahead), Devourer 65-68, Windwalker 69. 7 references have no hero tree (Havoc, Beast Mastery, the mages,
     Retribution, Arms, Fury): tools/simc-reference.py skips SimC's "selection" lines - decode the tree from them.
     10 specs have no reference build yet (healers, Augmentation, Preservation, Marksmanship, Survival).
+  - [ ] Proc resets teach the cooldown clock wrong: Arcane Orb reset by a proc, then named by Blizzard's assistant,
+    is learned as "our clock is 14 s slow" (one sample, applied at once, clamped to 60%) - every later Orb shown back
+    8 s early (graded simulator: shown ready on cooldown 39-46% of updates). Waiting for a second sample fixed Arcane
+    (+4) but cost Frost DK / Holy Paladin 10-16 points where one early naming is a real clock difference (cooldowns
+    used before the pull). Needs a signal that tells a reset apart (the game's glow, a charge count readable again).
   - [ ] Found by the "real" fight: Protection Warrior slot 2 0%, Devourer 11% and slot 3 empty, Windwalker slot 3
     empty and shown ready on cooldown 27%
 - [ ] Outlaw / Assassination regression: slot 1 swapping, slot 2 8-35% (fights 558, 559, 561)

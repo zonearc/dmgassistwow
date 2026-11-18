@@ -1072,6 +1072,46 @@ local function Fight(ns, key, record, book, scenario)
         end
       end
       PublishSwaps(now)
+      -- the game's cooldown links (record.cdLinks, the same data the addon reads): this cast takes time off, resets
+      -- or gives a charge of another spell, when the talent it needs is taken. Without them offline Barbed Shot
+      -- stayed on cooldown while the addon (rightly) counted Cobra Shot's 2 s off it (2026-11-18).
+      if world then
+        local srcTok = info.n or M.TokenForID(id)
+        for _, l in ipairs(record.cdLinks or {}) do
+          local need = tonumber(l[4]) or 0
+          if l[1] == srcTok and l[2] ~= srcTok and (need == 0 or mock.playerSpells[need]) and not l[5]
+            or (l[1] == srcTok and l[2] ~= srcTok and (need == 0 or mock.playerSpells[need]) and l[5] == 0) then
+            local tid = M.SpellID(l[2])
+            local c = tid and charges[tid]
+            local cdc = tid and mock.cooldowns[tid]
+            if tid and (c or cdc) then
+              if l[3] == "reset" then
+                mock.cooldowns[tid] = nil
+                if c then
+                  c.n, c.next = c.max, nil
+                end
+              elseif l[3] == "charge" then
+                if c then
+                  c.n = math.min(c.max, c.n + 1)
+                  c.next = c.n < c.max and c.next or nil
+                  mock.cooldowns[tid] = nil
+                else
+                  mock.cooldowns[tid] = nil
+                end
+              elseif type(l[3]) == "number" then
+                if c and c.next then
+                  c.next = c.next - l[3]
+                  if mock.cooldowns[tid] then
+                    mock.cooldowns[tid].start = mock.cooldowns[tid].start - l[3]
+                  end
+                elseif cdc then
+                  cdc.start = cdc.start - l[3]
+                end
+              end
+            end
+          end
+        end
+      end
       if world then
         WorldCast(world, info, M)
         -- stealth: granted by Vanish / Shadow Dance for their aura's time; Vanish's ends with the next cast
@@ -1308,6 +1348,7 @@ if GRADE then
           table.concat(parts, " ")))
         -- slot 2 right: pressing slot 1, was slot 2 the next press? (the in-game measure, offline)
         print(string.format("PRED %s %d %.1f", key, sc.targets, r.predPct or 0))
+        print(string.format("ONCD %s %d %.1f", key, sc.targets, r.onCdPct or 0))
         -- (SCEN_MISSES=n) slot 2's most common misses: what it showed (and from where) -> what was pressed
         if os.getenv("SCEN_MISSES") then
           local list = {}
