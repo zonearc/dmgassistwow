@@ -702,9 +702,22 @@ local function Fight(ns, key, record, book, scenario)
   end
   m.predN, m.predHit, m.misses = 0, 0, {}
   m.cast = {}
+  local castEnd, castDone
   while mock.now - start < FIGHT do
     mock.Advance(TICK)
     local now = mock.now
+    if castEnd then
+      if now >= castEnd - 1e-6 then
+        castEnd, mock.casting = nil, nil
+        mock.Fire("UNIT_SPELLCAST_STOP", "player")
+        if castDone then
+          mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", castDone[1], castDone[2])
+          castDone = nil
+        end
+      else
+        mock.casting.endsIn = castEnd - now
+      end
+    end
     if world then
       WorldTick(world, TICK)
       local stealthed = (world.stealthUntil or 0) > now
@@ -824,8 +837,11 @@ local function Fight(ns, key, record, book, scenario)
       m.no3 = m.no3 + 1
     end
     -- shown as ready while its cooldown is still running (not marked "not yet")
-    if main and main.id and mock.cooldowns[main.id] and not main.readyAt and main.source ~= "soon"
-      and now - lastPress > 0.3 then
+    -- (a cooldown that ends before you can press again - during a cast or the GCD - is ready in time: Aimed Shot
+    -- shown while Steady Shot is cast, once the simulator showed casts as the game does, 2026-11-18)
+    local cdNow = main and main.id and mock.cooldowns[main.id]
+    if cdNow and not main.readyAt and main.source ~= "soon" and now - lastPress > 0.3
+      and cdNow.start + cdNow.duration - now > math.max(0, gcdEnd - now) + 0.1 then
       m.onCd = m.onCd + 1
     end
     -- (scenario.real) never a spell on none of the bars
@@ -946,7 +962,11 @@ local function Fight(ns, key, record, book, scenario)
       -- prediction: was slot 2 at the last press what you pressed next? (as the in-game summary measures it)
       if predict then
         m.predN = m.predN + 1
-        if id == predict then
+        -- (the same button counts, as in game: Festering Strike's button cast Festering Scythe - Diagnostics' Base)
+        local function base(x)
+          return (M.baseOf and M.baseOf[x]) or x
+        end
+        if id == predict or base(id) == base(predict) then
           m.predHit = m.predHit + 1
         else
           local mk = tostring(M.TokenForID(predict) or predict) .. "(" .. tostring(predictSrc) .. ") -> "
@@ -966,6 +986,13 @@ local function Fight(ns, key, record, book, scenario)
       local gcd = tonumber(info.gcd) or 1.5
       local ct = instantNow[id] and 0 or tonumber(info.ct) or 0
       gcdEnd = now + math.max(gcd, ct, 0.5)
+      -- the game shows a cast in progress (UnitCastingInfo) until it ends: without it the addon thought the player
+      -- free 0.5 s into a 2 s Consume (graded simulator, 2026-11-18)
+      if ct > 0 then
+        castEnd = now + ct
+        mock.casting = { id = id, endsIn = ct }
+        mock.Fire("UNIT_SPELLCAST_START", "player", "cast-" .. m.presses, id)
+      end
       mock.cooldowns[61304] = { active = true, start = now, duration = math.max(gcd, 0.5), onGCD = true }
       local chcd = tonumber(info.chcd)
       local cd = tonumber(info.cd) or 0
@@ -1037,7 +1064,11 @@ local function Fight(ns, key, record, book, scenario)
       if logSession then
         logSession.events[#logSession.events + 1] = { math.floor((mock.now - logStart) * 100 + 0.5) / 100, "C", id }
       end
-      mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "cast-" .. m.presses, id)
+      if castEnd and mock.casting and mock.casting.id == id then
+        castDone = { "cast-" .. m.presses, id } -- (a cast: "succeeded" comes as it ends, as in game)
+      else
+        mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "cast-" .. m.presses, id)
+      end
       m.presses = m.presses + 1
       if _G.SCEN_PRESS then _G.SCEN_PRESS(now - start, id) end
       m.pressed[id] = true
@@ -1049,7 +1080,7 @@ local function Fight(ns, key, record, book, scenario)
     end
   end
   mock.inCombat, mock.restricted = false, false
-  mock.overrides = nil
+  mock.overrides, mock.casting = nil, nil
   mock.Fire("PLAYER_REGEN_ENABLED")
   if scenario.real then
     for i in pairs(mock.actionInfo) do

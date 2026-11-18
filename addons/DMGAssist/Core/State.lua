@@ -2978,7 +2978,7 @@ end
 -- Passive regeneration per second for resources that refill on their own (energy 10/s, focus 5/s at no haste;
 -- both scale with haste, so Bloodlust counts). The game's own number while readable (talents, gear and haste
 -- included), kept at no haste for when it's hidden. Without it the look-ahead never saw energy coming back.
-S.REGEN_BASE = { [3] = 10, [2] = 5 }
+S.REGEN_BASE = { [3] = 10, [2] = 5, [19] = 0.2 } -- (Essence: 1 per 5 s, with haste)
 local regenSeen = {}
 function S.RegenSeen()
   return regenSeen
@@ -3055,10 +3055,39 @@ function BaseRegen(pt)
   return base * HasteFactor()
 end
 
+-- The part of the next point a slowly ticking resource has built (Essence: 1 per 5 s; the game reads whole points).
+-- The game's own partial count when it answers, else the time since the count last went up by itself. Without it a
+-- read 2 at a true 2.6 was "short" for Disintegrate after a 3.3 s Living Flame, and slot 2 missed it every time
+-- (Devastation, graded simulator 2026-11-18).
+S.PARTIAL_MAX_RATE = 1 -- points per second: faster resources (Energy, Focus) gain whole points every update
+function S.PartialPower(pt)
+  local rate = ns.Clues.REGEN[pt] and S.RegenRate(pt) or 0
+  if rate <= 0 or rate > S.PARTIAL_MAX_RATE then
+    return 0
+  end
+  local part = U.Get(_G.UnitPartialPower, "player", pt)
+  if type(part) == "number" and part >= 0 then
+    return math.min(0.999, part / 1000)
+  end
+  local r = S.powerRead and S.powerRead[pt]
+  local max = U.Get(UnitPowerMax, "player", pt)
+  if not (r and r.upAt) or (type(max) == "number" and r.val and r.val >= max) then
+    return 0
+  end
+  return math.min(0.999, math.max(0, (GetTime() - r.upAt) * rate) % 1)
+end
+
 local function PowerNow(pt)
   local cur = U.Get(UnitPower, "player", pt)
   local max = U.Get(UnitPowerMax, "player", pt)
-  if type(cur) ~= "number" then
+  if type(cur) == "number" then
+    -- (slots 2-3 only: slot 1 - decided for the end of the current cast - stays with what the game shows. With it, a
+    -- recorded Devastation fight's slot 1 said Disintegrate 3 times where the player pressed the empower the game had
+    -- shown, tests/fights 2026-11-18)
+    if V and V.predict then
+      cur = cur + S.PartialPower(pt)
+    end
+  else
     cur = ns.Clues.ShadowValue(pt) -- counted from our casts, confirmed by power events
   end
   if V then
@@ -3270,6 +3299,11 @@ function S.VerifyPowers()
       r.state = type(cur) == "number" and "ok" or (U.IsSecret(raw) and "secret" or tostring(raw))
       if type(cur) == "number" then
         r.okAt = GetTime()
+        -- when a ticking resource last went up by itself (S.PartialPower: the fraction toward the next point)
+        if r.val and cur > r.val then
+          r.upAt = GetTime()
+        end
+        r.val = cur
       end
     end
     if type(cur) == "number" then

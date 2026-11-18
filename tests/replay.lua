@@ -301,6 +301,9 @@ for _, line in ipairs(input.lines) do
         local decided = st and tonumber(t) - st < 10 and st or tonumber(t)
         castStarts[a[3] or 0] = nil
         presses[#presses + 1] = { t = tonumber(t), id = a[3], decided = decided }
+        if os.getenv("PRESSDBG") then
+          io.stderr:write(string.format("PRESS t=%.2f decided=%.2f %s\n", tonumber(t), decided, tostring(a[3])))
+        end
       end
       sinceT[ev] = true
       local e0 = os.clock()

@@ -643,8 +643,11 @@ end
 -- as Balance's "wrath while astral_power<80". Graded against the real value whenever it is readable again
 -- ("floor", logged as floor_check), and switched off if it is ever above it.
 C.BUILT = { RAGE = 1, FOCUS = 2, ENERGY = 3, RUNIC_POWER = 6, ASTRAL_POWER = 8, MAELSTROM = 11, INSANITY = 13,
-  FURY = 17 }
-C.REGEN = { [2] = 5, [3] = 10 } -- base points per second
+  FURY = 17, ESSENCE = 19 }
+-- base points per second (Essence: 1 per 5 s. Uncounted, the look-ahead knew only "under 3" after a Disintegrate and
+-- never expected the next one: Devastation's slot 2 said Living Flame while Essence came back during its cast,
+-- graded simulator 2026-11-18)
+C.REGEN = { [2] = 5, [3] = 10, [19] = 0.2 }
 local BUILT_PT = {}
 for _, pt in pairs(C.BUILT) do
   BUILT_PT[pt] = true

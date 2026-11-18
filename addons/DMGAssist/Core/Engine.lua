@@ -589,7 +589,10 @@ function G.AffordableAhead(id)
     if amount > 0 then
       local cur = U.Get(UnitPower, "player", pt)
       if type(cur) == "number" then
-        if cur + (V.power[pt] or 0) < amount then
+        -- (plus what regenerates by then: read Essence 2.6 before a 3.3 s Living Flame was "short" for Disintegrate,
+        -- which came next every time - Devastation, graded simulator 2026-11-18)
+        local regen = ns.Clues.REGEN[pt] and S.RegenRate(pt) * math.max(0, V.dt or 0) or 0
+        if cur + (V.predict and S.PartialPower(pt) or 0) + (V.power[pt] or 0) + regen < amount then
           return false
         end
       else
@@ -1954,6 +1957,7 @@ local function Queue(record, opts, targets)
       break
     end
     S.Apply(last.id)
+    v.predict = true -- (slots 2-3: a prediction - best estimates, not slot 1's caution)
     local ahead = DecideAhead(record, opts, targets, false)
     local nextPick = ahead.main
     if opts.trace then
@@ -2052,6 +2056,9 @@ local function Released(reason, from, to, extra)
   U.Log("steady_release", { why = reason, from = from.token or from.id, to = to.token or to.id, extra = extra })
 end
 
+local expectNext -- slot 2's spell at your last press
+-- (the expected next spell moves up only while at least this long is left before you can press: a reaction time)
+G.EXPECT_SWAP_MIN = 0.3
 local function SteadySlot1(result)
   local main = result and result.main
   if not main or not main.id or not S.combatStart then
@@ -2068,6 +2075,11 @@ local function SteadySlot1(result)
   if pressed or not held or now - held.at > G.LOCK_MAX then
     if held and not pressed then
       Released("lock_max", held.pick, main)
+    end
+    -- (what slot 2 showed as you pressed: the spell you expect after this one, until the next press)
+    if pressed then
+      local q2 = result.queue and result.queue[2]
+      expectNext = q2 and q2.id or nil
     end
     held = { pick = main, at = now, fresh = pressed }
     return result
@@ -2139,6 +2151,18 @@ local function SteadySlot1(result)
   local waitingBoth = held.pick.source == "pool" and Castable(main.id) ~= true
   local stillWanted = not fast and held.pick.token and not (G.notNow and G.notNow[held.pick.token] == true)
     and (held.pick.source ~= "pool" or waitingBoth) and held.pick.source ~= "guess" and held.pick.source ~= "soon"
+  -- The spell slot 2 showed when you pressed, now SimC's pick and pressable, while a cast of yours still runs (at
+  -- least a reaction time, G.EXPECT_SWAP_MIN, before it ends): it moves up. It is the one you were already looking
+  -- at, not a surprise. Held behind an always-wanted filler, Devourer's Void Ray waited a whole extra 2 s Consume once
+  -- its Fury came mid-cast, and slot 2 was wrong 29 times in two minutes (graded simulator, 2026-11-18). Only during
+  -- a real cast: in plain global cooldowns SimC's pick flickers, and Arms lost 11 points of slot 2 with it on there.
+  local _, castLeft = S.CurrentCast()
+  if expectNext and main.id == expectNext and (castLeft or 0) >= G.EXPECT_SWAP_MIN and type(main.source) == "string"
+      and main.source:find("^simc") and Castable(main.id) == true then
+    Released("expected_next", held.pick, main, held.pick.source)
+    held = { pick = main, at = now }
+    return result
+  end
   if ready <= reach or stillWanted then
     held.cand = nil
   elseif held.cand ~= main.id then

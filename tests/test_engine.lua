@@ -1283,6 +1283,64 @@ test("a cast as the button starts the cooldown of the spell it turns into, even 
   mock.inCombat = false
 end)
 
+test("steady slot 1: during a cast, the spell slot 2 showed at the press moves up when it becomes the pick", function()
+  -- Devourer, graded simulator 2026-11-18: Void Ray (slot 2 at the press) became SimC's pick mid-way through a 2 s
+  -- Consume; held behind the always-wanted filler, it waited a whole extra Consume
+  Reset()
+  local ns = Boot()
+  local G = ns.Engine
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  G.ResetSteady()
+  local rip, shred = { id = 1079, token = "rip", source = "simc" }, { id = 5221, token = "shred", source = "simc" }
+  local rake = { id = 1822, token = "rake", source = "simc" }
+  G.Steady({ main = rip, queue = { rip, shred, rake } })
+  mock.now = mock.now + 0.2
+  -- the press: a 2 s cast starts; slot 1 is rip again, slot 2 shred
+  mock.casting = { id = 1079, endsIn = 2.0 }
+  mock.cooldowns[61304] = { start = mock.now, duration = 1.5, active = true }
+  mock.Fire("UNIT_SPELLCAST_START", "player", "guid", 1079)
+  G.Steady({ main = rip, queue = { rip, shred, rake } })
+  mock.now, mock.casting.endsIn = mock.now + 0.6, 1.4
+  G.Steady({ main = shred, queue = { shred, rip, rake } })
+  mock.now, mock.casting.endsIn = mock.now + 0.2, 1.2
+  local r = G.Steady({ main = shred, queue = { shred, rip, rake } })
+  eq(r.main.token, "shred", "the expected next spell moves up while the cast runs")
+  -- not a spell slot 2 didn't show: held as before
+  mock.now, mock.casting.endsIn = mock.now + 0.2, 1.0
+  r = G.Steady({ main = rake, queue = { rake, shred, rip } })
+  eq(r.main.token, "shred", "an unexpected change still waits")
+  mock.casting, mock.cooldowns[61304] = nil, nil
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
+test("look-ahead: a slow-ticking resource (Essence) regenerates by the predicted moment; slot 1 stays cautious", function()
+  -- Devastation, graded simulator 2026-11-18: Essence read 2 at a true 2.6 before a 3.3 s Living Flame; slot 2 said
+  -- Living Flame again and Disintegrate came next every time
+  Reset()
+  local ns = Boot()
+  local S, G, M = ns.State, ns.Engine, ns.SpellMap
+  M.info[5221] = M.info[5221] or {}
+  local saved = M.info[5221].cost
+  M.info[5221].cost = { [19] = 3 }
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  mock.power[19], mock.powerMax[19] = 1, 5
+  S.VerifyPowers()
+  mock.now = mock.now + 2.0
+  mock.power[19] = 2 -- ticked up just now
+  S.VerifyPowers()
+  mock.now = mock.now + 3.0 -- 3 s into the next point: 2.6 really (2 read)
+  local v = S.BeginLookahead(3.3)
+  v.prev[1] = 999
+  eq(G.AffordableAhead(5221), false, "slot 1's look-ahead (the end of the current cast): the whole points only")
+  v.predict = true
+  eq(G.AffordableAhead(5221), true, "slot 2's prediction: 2 + 0.6 built + 0.66 by then >= 3")
+  S.EndLookahead()
+  M.info[5221].cost = saved
+  mock.inCombat = false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 test("charges: the game's count counts in the look-ahead too, and each predicted cast spends one", function()
   Reset()
   local book = {}
