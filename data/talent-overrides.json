@@ -1,0 +1,133 @@
+[
+ {
+  "base": [
+   686
+  ],
+  "name": "Drain Soul",
+  "override": 198590,
+  "talent": 388667
+ },
+ {
+  "base": [
+   33891,
+   102543,
+   102558,
+   102560,
+   390414,
+   473909
+  ],
+  "name": "Orbital Strike",
+  "override": 390414,
+  "talent": 390378
+ },
+ {
+  "base": [
+   361469,
+   431443
+  ],
+  "name": "Chrono Flame (desc=Bronze)",
+  "override": 431443,
+  "talent": 431442
+ },
+ {
+  "base": [
+   702,
+   442804
+  ],
+  "name": "Curse of the Satyr",
+  "override": 442804,
+  "talent": 440057
+ },
+ {
+  "base": [
+   48265
+  ],
+  "name": "Death Charge",
+  "override": 444347,
+  "talent": 444010
+ },
+ {
+  "base": [
+   348
+  ],
+  "name": "Wither",
+  "override": 445468,
+  "talent": 445465
+ },
+ {
+  "base": [
+   172
+  ],
+  "name": "Wither",
+  "override": 445468,
+  "talent": 445465
+ },
+ {
+  "base": [
+   455465,
+   455476,
+   1251781
+  ],
+  "name": "Mark of Shatug",
+  "override": 455465,
+  "talent": 455449
+ },
+ {
+  "base": [
+   455465,
+   455476,
+   1251781
+  ],
+  "name": "Mark of F'harg",
+  "override": 455476,
+  "talent": 455450
+ },
+ {
+  "base": [
+   231895
+  ],
+  "name": "Radiant Glory",
+  "override": 454353,
+  "talent": 458359
+ },
+ {
+  "base": [
+   31884
+  ],
+  "name": "Radiant Glory",
+  "override": 462048,
+  "talent": 458359
+ },
+ {
+  "base": [
+   53351
+  ],
+  "name": "Black Arrow",
+  "override": 466930,
+  "talent": 466932
+ },
+ {
+  "base": [
+   272651
+  ],
+  "name": "Cunning",
+  "override": 1241871,
+  "talent": 474440
+ },
+ {
+  "base": [
+   34861
+  ],
+  "name": "Ultimate Serenity",
+  "override": 1250548,
+  "talent": 1246517
+ },
+ {
+  "base": [
+   2061
+  ],
+  "name": "Shadow Mend",
+  "override": 186263,
+  "talent": 1252217
+ }
+]

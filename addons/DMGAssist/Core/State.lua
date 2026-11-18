@@ -3360,6 +3360,15 @@ function S.Apply(id)
     V.usedLive = V.usedLive or {}
     V.usedLive[info] = true -- (the next pretend cast of it pays the usual cost)
   end
+  -- Lit by a proc (the game's border) with no cost stated in combat: free, as a real cast of it is (Clues.OnOwnCast).
+  -- Charged in full, Arms' free Execute (Sudden Death) left the look-ahead with no Rage at all, and slot 2 fell back
+  -- to Demolish 24 times in two minutes while Cleave came next (graded simulator, 2026-11-18). Once per look-ahead:
+  -- the proc is spent by the first press.
+  V.glowUsed = V.glowUsed or {}
+  if cost and S.glow[id] == true and M.live[info] == nil and not V.glowUsed[id] then
+    V.glowUsed[id] = true
+    cost = nil
+  end
   if cost then
     for pt, amount in pairs(cost) do
       local spend = amount

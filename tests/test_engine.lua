@@ -1341,6 +1341,30 @@ test("look-ahead: a slow-ticking resource (Essence) regenerates by the predicted
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("look-ahead: a spender lit by a proc is free once (Arms' Sudden Death Execute), then costs again", function()
+  -- graded simulator 2026-11-18: charged in full, the free Execute left the look-ahead with no Rage at all, and slot
+  -- 2 fell back to a free spell while Cleave came next
+  Reset()
+  local ns = Boot()
+  local S, M = ns.State, ns.SpellMap
+  M.info[5221] = M.info[5221] or {}
+  local saved = M.info[5221].cost
+  M.info[5221].cost = { [1] = 20 }
+  S.glow[5221] = true
+  local V = S.BeginLookahead(0)
+  S.Apply(5221)
+  eq(V.power[1] or 0, 0, "lit: no Rage spent")
+  S.Apply(5221)
+  eq(V.power[1], -20, "the proc is spent: the next one pays")
+  S.EndLookahead()
+  S.glow[5221] = nil
+  V = S.BeginLookahead(0)
+  S.Apply(5221)
+  eq(V.power[1], -20, "not lit: pays")
+  S.EndLookahead()
+  M.info[5221].cost = saved
+end)
+
 test("charges: the game's count counts in the look-ahead too, and each predicted cast spends one", function()
   Reset()
   local book = {}

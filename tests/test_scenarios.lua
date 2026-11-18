@@ -226,6 +226,32 @@ local START = { [3] = "max", [2] = "max", [5] = "max", [19] = "max", [7] = 3, [0
 local function ProcGated()
   return {}
 end
+-- Talents that turn a button into another spell for good (data/talent-overrides.json, tools/override-map.py: Wither
+-- makes Immolate's button Wither). The graded fights apply the reference build's; pressing the button casts the
+-- other spell, as in game. Without them offline Destruction had both an "Immolate" and a "Wither" and slot 2 asked
+-- for an Immolate the game would never cast (2026-11-18).
+local TALENT_OVERRIDES = (function()
+  local f = io.open("data/talent-overrides.json")
+  if not f then
+    return {}
+  end
+  local text = f:read("*a")
+  f:close()
+  local out = {}
+  for body in text:gmatch("{(.-)}") do
+    local base = body:match('"base": %[(.-)%]')
+    local ov, tal = tonumber(body:match('"override": (%d+)')), tonumber(body:match('"talent": (%d+)'))
+    if base and ov and tal then
+      local list = {}
+      for id in base:gmatch("%d+") do
+        list[#list + 1] = tonumber(id)
+      end
+      out[#out + 1] = { talent = tal, base = list, override = ov }
+    end
+  end
+  return out
+end)()
+local permanentOverrides = {}
 -- Stealth (the game's rule, not in the data we import): these work only while stealthed or while a proc that makes
 -- them free is up (Blindside -> Ambush); Vanish and Shadow Dance stealth you for their aura's time, Vanish's ends at
 -- your next cast. Without it the offline Assassination pooled energy for Ambush all fight and slot 2 guessed it 47
@@ -551,6 +577,9 @@ local function Fight(ns, key, record, book, scenario)
   local function PublishSwaps(now)
     local before = mock.overrides or {}
     mock.overrides = {}
+    for bid, oid in pairs(GRADE and permanentOverrides or {}) do
+      mock.overrides[bid] = oid
+    end
     for i, s in ipairs(swaps) do
       local up = swapUntil[i] and swapUntil[i] > now
       for _, b in ipairs(s.base) do
@@ -981,6 +1010,10 @@ local function Fight(ns, key, record, book, scenario)
       predict = followed and q[2] and q[2].id or nil
       predictSrc = q[2] and q[2].source
       pressAt = nil
+      -- (the button casts what it has turned into for good: Immolate's button casts Wither)
+      if GRADE and permanentOverrides[id] then
+        id = permanentOverrides[id]
+      end
       lastPressedID = id
       local info = M.Info(id) or {}
       local gcd = tonumber(info.gcd) or 1.5
@@ -1173,13 +1206,50 @@ if GRADE then
       collectgarbage("collect")
       local record = ns.Data.specs.midnight[key]
       local book = BookFor(record)
+      -- only the talents the reference build takes: a talent spell it doesn't (the other hero tree's Demolish for a
+      -- Slayer Arms warrior) isn't in the character's spellbook - offline it was, and Blizzard's rules put Demolish in
+      -- slot 2 all fight (2026-11-18)
+      local taken = {}
+      for _, t in ipairs(ref.talents or {}) do
+        taken[t.spellID or t.id or 0] = true
+        if t.name then
+          taken[ns.SpellMap.Token(t.name)] = true
+        end
+      end
+      local kept, dropped = {}, {}
+      for _, b in ipairs(book) do
+        local bi = record.spellInfo[b.spellID]
+        -- a talent spell (flagged, or a name the data links to talents: Wither <- the Hellcaller talent 445465)
+        local links = record.spells and record.spells[b.name] and record.spells[b.name].t
+        local linkedTaken = nil
+        for _, tid in ipairs(links or {}) do
+          linkedTaken = linkedTaken or taken[tid] or false
+        end
+        if linkedTaken == false or (linkedTaken == nil and bi and bi.tal and not taken[b.spellID] and not taken[b.name]) then
+          dropped[#dropped + 1] = b.name
+        else
+          kept[#kept + 1] = b
+        end
+      end
+      if os.getenv("SCEN_BOOKDBG") then
+        io.stderr:write("BOOK " .. key .. " dropped: " .. table.concat(dropped, " ") .. "\n")
+      end
+      book = kept
       mock.book = book
       mock.talents, mock.playerSpells = {}, {}
       for _, t in ipairs(ref.talents or {}) do
-        mock.talents[#mock.talents + 1] = { name = t.name, spellID = t.spellID, rank = t.rank or 1 }
-        mock.playerSpells[t.spellID] = true
+        mock.talents[#mock.talents + 1] = { name = t.name, spellID = t.spellID or t.id, rank = t.rank or 1 }
+        mock.playerSpells[t.spellID or t.id] = true
       end
       mock.heroTree = ref.heroTree
+      permanentOverrides = {}
+      for _, o in ipairs(TALENT_OVERRIDES) do
+        if mock.playerSpells[o.talent] then
+          for _, bid in ipairs(o.base) do
+            permanentOverrides[bid] = o.override
+          end
+        end
+      end
       ns.SpellMap.SetData(record)
       ns.SpellMap.Refresh()
       ns.State.Bind(key)

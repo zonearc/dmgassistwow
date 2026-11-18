@@ -19,6 +19,7 @@ import sys
 ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 SRC = os.path.join(ROOT, ".libraries", "simc", "midnight", "SpellDataDump", "allspells.txt")
 OUT = os.path.join(ROOT, "data", "overrides.json")
+PERM = os.path.join(ROOT, "data", "talent-overrides.json")
 LUA = os.path.join(ROOT, "addons", "DMGAssist", "Data", "Overrides.lua")
 HEAD = re.compile(r"^Name\s*:\s*(.+?) \(id=(\d+)\)")
 
@@ -37,7 +38,7 @@ def blocks(text):
 def main():
     text = open(sys.argv[1] if len(sys.argv) > 1 else SRC, encoding="utf-8", errors="replace").read()
     names = {int(m.group(2)): m.group(1) for m in (HEAD.match(line) for line in text.splitlines()) if m}
-    out = []
+    out, permanent = [], []
     for b in blocks(text):
         m = HEAD.match(b[0])
         if not m:
@@ -52,7 +53,8 @@ def main():
             t = re.match(r"^Triggered By\s*:\s*(.*)$", line)
             if t:
                 triggers |= {int(x) for x in re.findall(r"\((\d+)\)", t.group(1))}
-        if dur <= 0:
+        passive = dur <= 0 and any(l.startswith("Talent Entry") for l in b) and "Passive" in b[0]
+        if dur <= 0 and not passive:
             continue
         for i, line in enumerate(b):
             if "Override Action Spell" not in line:
@@ -73,7 +75,9 @@ def main():
             # names itself (Voidform) - those are buttons of their own
             if not base or aid == ovr or all(names.get(x) == names.get(ovr) for x in base):
                 continue
-            if base:
+            if base and passive:
+                permanent.append({"talent": aid, "name": name, "base": sorted(base), "override": ovr})
+            elif base:
                 out.append({"aura": aid, "name": name, "duration": dur, "triggers": sorted(triggers),
                             "base": sorted(base), "override": int(ov.group(1))})
     json.dump(out, open(OUT, "w"), indent=1, sort_keys=True)
@@ -94,7 +98,11 @@ def main():
                 s["aura"], s["duration"], s["override"], ", ".join(map(str, s["triggers"])),
                 ", ".join(map(str, s["base"]))))
         f.write("}\n")
-    print("%d button swaps with a duration -> %s" % (len(out), OUT))
+    # A talent that turns a button into another spell for good (Wither: Immolate's button is Wither). The addon reads
+    # it from the game (GetOverrideSpell); the offline game needs the list to answer the same (tests/test_scenarios.lua).
+    json.dump(permanent, open(PERM, "w"), indent=1, sort_keys=True)
+    open(PERM, "a").write("\n")
+    print("%d button swaps with a duration -> %s; %d by talents -> %s" % (len(out), OUT, len(permanent), PERM))
 
 
 if __name__ == "__main__":

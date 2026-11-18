@@ -36,12 +36,37 @@ def lua_str(s):
     return '"' + str(s).replace("\\", "\\\\").replace('"', '\\"') + '"'
 
 
+HERO = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "hero-talents.json")
+
+
+def hero_tree(r, trees):
+    """The reference's hero tree: as recorded, else the tree whose hero talents SimC's own run of the profile cast
+    (Protection Warrior cast Demolish: Colossus). None when nothing tells."""
+    hero = next((token(t["name"]) for t in r["talents"] if t["tree"] == "heroTree"), None)
+    if hero:
+        return hero
+    cast = set()
+    for tgt in (r.get("targets") or {}).values():
+        cast |= set((tgt.get("cpm") or {}).keys())
+    votes = {}
+    for t in r["talents"]:
+        tree = trees.get(str(t.get("id")))
+        if tree and token(t["name"]) in cast:
+            votes[tree] = votes.get(tree, 0) + 1
+    return max(votes, key=votes.get) if votes else None
+
+
 def talents_file(refs):
+    trees = json.load(open(HERO)) if os.path.exists(HERO) else {}
     lines = ["return {"]
     for spec, r in sorted(refs.items()):
-        hero = next((token(t["name"]) for t in r["talents"] if t["tree"] == "heroTree"), None)
+        hero = hero_tree(r, trees)
         lines.append("  [%s] = { heroTree = %s, talents = {" % (lua_str(spec), lua_str(hero) if hero else "nil"))
         for t in r["talents"]:
+            # (a character has one hero tree: the reference lists both trees' talents its string holds)
+            tree = trees.get(str(t.get("id")))
+            if hero and tree and tree != hero:
+                continue
             if t.get("id"):
                 lines.append("    { name = %s, spellID = %d, rank = %d }," % (lua_str(t["name"]), t["id"], t["rank"]))
         lines.append("  } },")
