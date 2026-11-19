@@ -344,6 +344,8 @@ for _, g in ipairs(input.shown or {}) do
     end
     if t2 == g.next then
       same2 = same2 + 1
+    elseif os.getenv("SAMEDBG") then
+      io.stderr:write(string.format("DIFF2 t=%.2f shown2=%s replay2=%s\n", g.t, tostring(g.next), tostring(t2)))
     end
   end
 end

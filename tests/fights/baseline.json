@@ -4,7 +4,7 @@
   "presses": 12,
   "real": 25.0,
   "same1": 75.0,
-  "same2": 70.6,
+  "same2": 63.2,
   "uncastable": 18,
   "unexplained": 18.5
  },
@@ -37,8 +37,8 @@
  },
  "demonhunter_havoc-587": {
   "movement": 0,
-  "presses": 13,
-  "real": 7.7,
+  "presses": 12,
+  "real": 8.3,
   "same1": 67.7,
   "same2": 66.7,
   "uncastable": 21,
@@ -85,7 +85,7 @@
   "presses": 16,
   "real": 18.8,
   "same1": 77.1,
-  "same2": 66.7,
+  "same2": 64.6,
   "uncastable": 30,
   "unexplained": 10.5
  },
@@ -93,10 +93,10 @@
   "movement": 0,
   "presses": 7,
   "real": 42.9,
-  "same1": 51.6,
-  "same2": 43.8,
+  "same1": 53.1,
+  "same2": 45.3,
   "uncastable": 81,
-  "unexplained": 11.5
+  "unexplained": 10.4
  },
  "hunter_beast_mastery-514": {
   "movement": 0,
@@ -132,7 +132,7 @@
   "same1": 77.5,
   "same2": 58.4,
   "uncastable": 0,
-  "unexplained": 5.6
+  "unexplained": 6.8
  },
  "hunter_survival-600": {
   "movement": 0,
@@ -163,10 +163,10 @@
  },
  "mage_fire-580": {
   "movement": 0,
-  "presses": 13,
-  "real": 38.5,
+  "presses": 12,
+  "real": 41.7,
   "same1": 50.0,
-  "same2": 40.0,
+  "same2": 37.5,
   "uncastable": 0,
   "unexplained": 7.0
  },
