@@ -592,6 +592,14 @@ local function Fight(ns, key, record, book, scenario)
     for bid, oid in pairs(GRADE and permanentOverrides or {}) do
       mock.overrides[bid] = oid
     end
+    -- (a spell several auras can swap in - Void Volley from two - is up while any of them is: one entry's "not up"
+    -- made it unusable while the other had the button swapped, and offline Shadow stalled 8 s, 2026-11-19)
+    local anyUp = {}
+    for i, s in ipairs(swaps) do
+      if swapUntil[i] and swapUntil[i] > now then
+        anyUp[s.override] = true
+      end
+    end
     for i, s in ipairs(swaps) do
       local up = swapUntil[i] and swapUntil[i] > now
       for _, b in ipairs(s.base) do
@@ -600,6 +608,7 @@ local function Fight(ns, key, record, book, scenario)
         end
       end
       local si = record.spellInfo[s.override]
+      up = anyUp[s.override]
       if not up then
         mock.usable[s.override] = { false, false }
       elseif world and si then

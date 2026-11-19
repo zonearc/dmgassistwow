@@ -17,7 +17,7 @@
  "monk_windwalker": 71.2,
  "paladin_protection": 87.4,
  "paladin_retribution": 90.1,
- "priest_shadow": 62.4,
+ "priest_shadow": 68.4,
  "rogue_assassination": 83.5,
  "rogue_outlaw": 77.6,
  "rogue_subtlety": 88.1,
@@ -27,6 +27,6 @@
  "warlock_demonology": 81.8,
  "warlock_destruction": 63.9,
  "warrior_arms": 60.5,
- "warrior_fury": 77.6,
+ "warrior_fury": 79.8,
  "warrior_protection": 77.5
 }
