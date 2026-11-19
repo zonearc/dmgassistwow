@@ -77,7 +77,14 @@ Last updated: 1.6.0.157 (2026-11-10).
     Simulator fixes: stealth-only spells, casts end with "succeeded", same-button presses count, the reference's own
     talents and hero tree (tools/hero-talents.py), permanent talent swaps (data/talent-overrides.json), the assistant
     waiting for a spell instead of naming the book's first.
-    Still under 70%: Arms 60 (hero tree unknown in the reference), Shadow 62 (Voidform / Void Volley: the player
+    2026-11-19: average 83.4%, only Arms under 70% (60). Since: Blade of Justice / Between the Eyes self-reset links
+    ignored (Retribution 63 -> 88), cooldown links in the simulated world (Beast Mastery 83 -> 94), Fury cap not a
+    real top (Devourer 68 -> 79), the assistant's learned confirmation of hidden lines (Destruction 64 -> 77), a long
+    cooldown's swapped button not judged by the swapped-in spell (Shadow 67 -> 82), simulator: shared button swaps,
+    stealth rules everywhere, hero trees for every reference.
+    Arms: misses scattered - Sudden Death Execute and Overpower (Tactician) procs, Rage a few points short in the
+    look-ahead; no single cause yet.
+    (Older notes:) Still under 70%: Arms 60 (hero tree unknown in the reference), Shadow 62 (Voidform / Void Volley: the player
     stalls after Voidform - the button swap and its resource, not yet understood), Retribution 63 (Judgment predicted,
     Hammer of Wrath / Blade of Justice next), Destruction 64 (Shadowburn needs the assistant to confirm; target health
     hidden ahead), Devourer 65-68, Windwalker 69. 7 references have no hero tree (Havoc, Beast Mastery, the mages,
