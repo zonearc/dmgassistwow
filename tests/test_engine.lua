@@ -7993,6 +7993,13 @@ test("slots 2-3: a spender short now becomes affordable after a pretend builder 
   S.Apply(191034) -- a pretend Starfall: 0-50, spent from an unknown pool
   eq(G.AffordableAhead(191034), false, "after a spender only the low end counts")
   S.EndLookahead()
+  -- the top of the range is only the cap (nothing known above the low end): the middle means nothing (Devourer's
+  -- Fury 76..136 "afforded" a 100 Fury Void Ray, graded simulator 2026-11-19)
+  C.bounds[8] = { lo = 15, hi = 100, untilT = GetTime() + 10, source = "usable" }
+  S.BeginLookahead(0)
+  S.Apply(194153) -- 45-100 (capped): middle 72, low end 45
+  eq(G.AffordableAhead(191034), false, "45 up to the cap: not affordable from the middle")
+  S.EndLookahead()
   mock.inCombat, mock.restricted = false, false
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)

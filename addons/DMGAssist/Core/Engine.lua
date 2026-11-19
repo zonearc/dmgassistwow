@@ -605,7 +605,12 @@ function G.AffordableAhead(id)
         -- you wait for it, you don't press the line below (offline Feral: Ferocious Bite "short" after a pretend
         -- Shred 22 times in a fight, then pressed a second later; tools/sim.py, 2026-11-15)
         local soon = ns.Clues.REGEN[pt] and S.RegenRate(pt) * G.REGEN_WAIT or 0
-        if not (lo + soon >= amount or (built and hi and (lo + hi) / 2 >= amount)) then
+        -- (the middle of the range only when its top is a real limit, not just the resource's cap: Devourer's Fury
+        -- 76..136 after a pretend Consume "afforded" a 100 Fury Void Ray at its middle, with ~70 really there -
+        -- slot 2 said Void Ray 20 times while Consume came next, graded simulator 2026-11-19)
+        local maxP = U.Get(UnitPowerMax, "player", pt)
+        local realTop = hi and not (type(maxP) == "number" and maxP > 0 and hi >= maxP - 0.5)
+        if not (lo + soon >= amount or (built and realTop and (lo + hi) / 2 >= amount)) then
           return false
         end
       end
