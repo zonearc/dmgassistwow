@@ -103,9 +103,9 @@
   "presses": 4,
   "real": 0.0,
   "same1": 53.2,
-  "same2": 31.6,
+  "same2": 26.6,
   "uncastable": 0,
-  "unexplained": 8.0
+  "unexplained": 5.8
  },
  "hunter_beast_mastery-602": {
   "movement": 0,
@@ -129,10 +129,10 @@
   "movement": 0,
   "presses": 12,
   "real": 25.0,
-  "same1": 77.5,
+  "same1": 76.4,
   "same2": 58.4,
   "uncastable": 0,
-  "unexplained": 6.8
+  "unexplained": 7.3
  },
  "hunter_survival-600": {
   "movement": 0,
@@ -175,7 +175,7 @@
   "presses": 16,
   "real": 12.5,
   "same1": 42.3,
-  "same2": 34.6,
+  "same2": 39.7,
   "uncastable": 0,
   "unexplained": 6.1
  },

@@ -698,6 +698,7 @@ local function TooFar(id)
 end
 G.TooFar = TooFar
 
+G.REPLACED_CD = 30
 local function CastableRaw(id)
   if S.EquipRefused and S.EquipRefused(id) then
     return false, "equipment" -- (refused for the weapon you hold, until your gear changes)
@@ -826,6 +827,14 @@ local function CastableRaw(id)
   local cdID = id
   local ov = U.Get(C_Spell and C_Spell.GetOverrideSpell, id)
   if type(ov) == "number" and ov > 0 and ov ~= id and M.baseOf and M.baseOf[ov] == id then
+    -- ...but a long cooldown's line means using that cooldown, and while its button is swapped it has just been used
+    -- (Shadow's Voidform, 120 s, is Void Volley's button for a while: judged by Void Volley it looked ready again and
+    -- filled slot 2 - graded simulator, 2026-11-19). Short ones follow the button (Stormstrike as Windstrike, Smite
+    -- as Void Blast: skipping Smite's lines cost a recorded Discipline fight a fifth of slot 2's hits).
+    local baseCd = S.CooldownLength and S.CooldownLength(id)
+    if type(baseCd) == "number" and baseCd >= G.REPLACED_CD then
+      return false, "replaced"
+    end
     cdID = ov
   end
   local ready = S.CooldownReady(cdID)

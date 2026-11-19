@@ -5778,6 +5778,27 @@ test("a button turned into another spell is ready when that spell is (Stormstrik
   mock.overrides = nil
 end)
 
+test("a long cooldown whose button is swapped is not judged by the swapped-in spell (Voidform / Void Volley)", function()
+  -- Shadow, graded simulator 2026-11-19: Voidform (120 s) judged by Void Volley's readiness looked ready again right
+  -- after it; short ones follow the button (Stormstrike as Windstrike, Smite as Void Blast)
+  Reset()
+  local ns = Boot()
+  local G, M = ns.Engine, ns.SpellMap
+  local rec = QRecord({ { a = "tigers_fury", k = "R" }, { a = "shred", k = "R" } })
+  rec.spellInfo[5217] = { n = "tigers_fury", cd = 120, gcd = 1.5 }
+  Feral(ns, rec)
+  Restrict()
+  mock.overrides = { [5217] = 999002, [5221] = 999003 }
+  M.baseOf = M.baseOf or {}
+  M.baseOf[999002], M.baseOf[999003] = 5217, 5221
+  local ok, why = G.Castable(5217)
+  eq(ok, false, "120 s cooldown, button swapped: it has just been used")
+  eq(why, "replaced")
+  eq(select(2, G.Castable(5221)) ~= "replaced", true, "no long cooldown: follows the button")
+  M.baseOf[999002], M.baseOf[999003] = nil, nil
+  mock.overrides = nil
+end)
+
 test("movement spells (a leap, a jump back) are never suggested unless the setting is on", function()
   Reset()
   local ns = Boot()
