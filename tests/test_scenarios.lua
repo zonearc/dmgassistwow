@@ -850,6 +850,16 @@ local function Fight(ns, key, record, book, scenario)
         mock.usable[b.spellID] = { false, false } -- no weapon: nothing can be cast
       end
     end
+    -- (the simple fights too: Stealth, Prowl and Shadowmeld can't be used in combat - offline Assassination pressed
+    -- Stealth every few seconds there, 2026-11-19)
+    if not world then
+      for _, b in ipairs(book) do
+        local bi = M.Info(b.spellID)
+        if bi and bi.n and (OUT_OF_COMBAT[bi.n] or NEEDS_STEALTH[bi.n]) then
+          mock.usable[b.spellID] = { false, false } -- (no stealth in the simple fights: stealth-only spells wait)
+        end
+      end
+    end
     -- the game says when what you can cast changes (SPELL_UPDATE_USABLE); the world above changed it silently
     local usableSig = {}
     for id, u in pairs(mock.usable) do

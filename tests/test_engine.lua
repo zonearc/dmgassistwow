@@ -3104,6 +3104,35 @@ test("look-ahead with secret resources: a finisher still empties combo points", 
   eq(r.queue[2].token, "shred", "after a finisher, combo points are known to be 0")
 end)
 
+test("look-ahead: a hidden line the assistant nearly always confirms in slot 1 is predicted (Shadowburn)", function()
+  -- Destruction, graded simulator 2026-11-19: "shadowburn if target.health.pct<=20" (health hidden) confirmed by the
+  -- assistant in slot 1 35 times in 57 presses, never predicted in slot 2
+  local function Run(named)
+    Reset()
+    local ns = Boot()
+    local rec = QRecord({
+      { a = "ferocious_bite", k = "R", c = "target.health.pct<=20" },
+      { a = "shred", k = "R" },
+    })
+    Feral(ns, rec)
+    Restrict()
+    mock.Fire("PLAYER_REGEN_DISABLED")
+    mock.acSpell = named
+    for _ = 1, 12 do
+      ns.Engine.Recommend(rec, { useAssisted = true })
+      mock.Advance(0.2)
+    end
+    mock.acSpell = 5221 -- now the assistant says Shred: slot 1 Shred, and after it?
+    return ns.Engine.Recommend(rec, { useAssisted = true })
+  end
+  local r = Run(22568) -- the assistant kept confirming Bite
+  eq(r.main.token, "shred")
+  eq(r.queue[2].token, "ferocious_bite", "confirmed nearly every time: predicted next")
+  eq(r.queue[2].source, "simc+likely")
+  r = Run(5221) -- the assistant only ever named Shred: the hidden line was never confirmed
+  eq(r.queue[2].token, "shred", "never confirmed: not predicted")
+end)
+
 test("modes: auto-detect counts enemies, hotkey cycles, primary mode is the fallback", function()
   Reset()
   local ns = Boot()

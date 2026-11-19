@@ -4341,6 +4341,9 @@ end
 
 -- Learned durations are kept per spec in DMGAssistDB.learned[key].
 function S.Bind(key)
+  if ns.Engine and ns.Engine.ResetConfirm then
+    ns.Engine.ResetConfirm() -- (the assistant's confirmation rates are per spec)
+  end
   local db = ns.global or ns.db
   if type(db) ~= "table" then
     return

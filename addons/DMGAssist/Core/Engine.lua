@@ -1027,6 +1027,15 @@ end
 G.SameSpender = SameSpender
 
 G.uncertainNow = {} -- SimC lines uncertain now and not confirmed by the assistant or a glow (see Corroborated)
+-- token -> { n, yes }: uncertain SimC lines in slot 1 while the assistant named a spell, and how many it confirmed
+-- (decaying: recent play counts most). Reset with the spec (G.ResetConfirm).
+G.confirmRate = {}
+G.CONFIRM_DECAY = 0.995
+G.CONFIRM_MIN = 8
+G.CONFIRM_SHARE = 0.75
+function G.ResetConfirm()
+  G.confirmRate = {}
+end
 
 local function Corroborated(id, token, run, castable)
   -- The game's own button highlight (a proc glow: Earthquake / Earth Shock with enough Maelstrom, a free
@@ -1515,6 +1524,22 @@ local function Walk(lists, name, maybe, depth, run, isBlizzard)
                 run.lineUnknown = nil
               end
               local how = Corroborated(id, a, run, castable)
+              -- How often the assistant confirms this uncertain line when it can (slot 1, the assistant naming a
+              -- spell): looking ahead there is no assistant, and a line it nearly always confirms is the likely next
+              -- press. Destruction's Shadowburn ("target.health.pct<=20": hidden) was confirmed in slot 1 35 times in
+              -- 57 presses and never predicted - slot 2 was right 37% of the time (graded simulator, 2026-11-19).
+              -- (only while the assistant is healthy: fixated on one spell, its "confirmations" say nothing)
+              if run.first and run.acSpell and castable == true and not G.uncertainNow[a] and G.AssistantHealthy() then
+                local cr = G.confirmRate[a] or { n = 0, yes = 0 }
+                G.confirmRate[a] = cr
+                cr.n, cr.yes = cr.n * G.CONFIRM_DECAY + 1, cr.yes * G.CONFIRM_DECAY + ((how == "assisted") and 1 or 0)
+              end
+              if not how and not run.first and not G.uncertainNow[a] and castable ~= false then
+                local cr = G.confirmRate[a]
+                if cr and cr.n >= G.CONFIRM_MIN and cr.yes / cr.n >= G.CONFIRM_SHARE then
+                  how = "likely"
+                end
+              end
               -- Looking ahead, a line hidden now only behind a proc (buff.opportunity: Outlaw's Pistol Shot) is
               -- not predicted unless the game lights the button: guessed into slots 2-3, the row rewrote itself
               -- every time the proc did or didn't come (2026-11-13: "the entire spell row in flow is constantly
