@@ -5831,6 +5831,45 @@ test("a long cooldown whose button is swapped is not judged by the swapped-in sp
   mock.overrides = nil
 end)
 
+test("Holy Nova (hits only around you): with no distance to measure, only while the assistant names it lately", function()
+  -- owner, 2026-11-18: Holy Priest spammed Holy Nova with every enemy out of its 12 yards
+  Reset()
+  local ns = Boot()
+  local G, M = ns.Engine, ns.SpellMap
+  local token, info, book = M.TokenForID, M.Info, M.book
+  M.TokenForID = function(id) if id == 5221 then return "holy_nova" end return token(id) end
+  M.book = { [5221] = { id = 5221 }, [1822] = { id = 1822 } }
+  M.Info = function(id)
+    if id == 5221 then return { n = "holy_nova", gcd = 1.5 } end
+    if id == 1822 then return { n = "smite", r = 30, gcd = 1.5 } end
+    return info(id)
+  end
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  G.NoteAssistant(1822) -- the assistant names Smite (it sees nobody within 12 yards)
+  local ok, why = G.Castable(5221)
+  eq(ok, false, "named something else, nothing measured: not offered")
+  eq(why, "range")
+  G.NoteAssistant(5221) -- now it names Holy Nova: enemies close
+  G.NoteAssistant(1822)
+  eq(G.Castable(5221) ~= false, true, "named within the last seconds: offered")
+  mock.Advance(G.NEAR_CONFIRM + 1)
+  G.NoteAssistant(nil) -- (Smite cast meanwhile: the assistant moves on and names it again - not fixated)
+  G.NoteAssistant(1822)
+  eq(G.Castable(5221), false, "not named for a while: not offered")
+  M.book[1822] = { id = 1822 }
+  M.Info = function(id)
+    if id == 5221 then return { n = "holy_nova", gcd = 1.5 } end
+    if id == 1822 then return { n = "smite", r = 5, gcd = 1.5 } end
+    return info(id)
+  end
+  M.book = { [5221] = { id = 5221 }, [1822] = { id = 1822 } } -- (a new book: a melee spell measures)
+  eq(G.Castable(5221) ~= false, true, "a spec with a melee spell: decided by measuring, not by the assistant")
+  M.TokenForID, M.Info, M.book = token, info, book
+  mock.inCombat = false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 test("movement spells (a leap, a jump back) are never suggested unless the setting is on", function()
   Reset()
   local ns = Boot()

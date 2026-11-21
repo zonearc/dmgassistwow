@@ -630,6 +630,9 @@ end
 
 function G.NoteAssistant(ac)
   local now = S.Now()
+  if type(ac) == "number" then
+    G.acNamedSince[ac] = now
+  end
   if type(ac) ~= "number" then
     G.acName, G.acNamedAt, G.acFixated = nil, nil, false
     return
@@ -687,6 +690,32 @@ G.NEAR_ONLY = { holy_nova = 12, arcane_explosion = 10, spinning_crane_kick = 8, 
   thrash_bear = 8, thrash_cat = 8, blade_dance = 8, death_sweep = 8, immolation_aura = 8, crash_lightning = 8,
   bladestorm = 8, breath_of_sindragosa = 12, remorseless_winter = 8 }
 
+-- With no distance known (a healer with no enemy target, or a spec with no short-range spell to probe with), a spell
+-- that only hits around you is offered only while Blizzard's assistant - which sees where everyone stands - has named
+-- it lately. Holy Priest: Holy Nova spammed with every enemy out of its 12 yards ("active_enemies" counts the 30-40
+-- yard probe; owner, 2026-11-18). No assistant, or one stuck on something: as before.
+G.NEAR_CONFIRM = 8 -- s since the assistant last named it
+G.acNamedSince = {} -- spellID -> when Blizzard's assistant last named it
+local probeMemo = { book = nil, r = {} }
+function G.CanProbe(radius)
+  if probeMemo.book ~= M.book then
+    probeMemo.book, probeMemo.r = M.book, {}
+  end
+  local v = probeMemo.r[radius]
+  if v == nil then
+    v = false
+    for bid, b in pairs(M.book or {}) do
+      local info = type(b) == "table" and b.id == bid and not b.passive and M.Info(bid)
+      if info and type(info.r) == "number" and info.r > 0 and info.r <= radius then
+        v = true
+        break
+      end
+    end
+    probeMemo.r[radius] = v
+  end
+  return v
+end
+
 local function TooFar(id)
   local token = M.TokenForID(id)
   local radius = token and G.NEAR_ONLY[token]
@@ -694,7 +723,16 @@ local function TooFar(id)
     return false
   end
   local lo = ns.Clues.DistanceBounds()
-  return type(lo) == "number" and lo > radius
+  if type(lo) == "number" then
+    return lo > radius
+  end
+  -- (only where nothing in your spellbook reaches that close to measure it: melee specs probe the target with their
+  -- melee spells, and Blizzard's assistant rarely names Crash Lightning or Shuriken Storm when they'd hit)
+  if not G.CanProbe(radius) and G.acName and G.AssistantHealthy() and ns.db and ns.db.useAssisted ~= false then
+    local seen = G.acNamedSince[id] or (M.baseOf and M.baseOf[id] and G.acNamedSince[M.baseOf[id]])
+    return not (seen and S.Now() - seen <= G.NEAR_CONFIRM)
+  end
+  return false
 end
 G.TooFar = TooFar
 
