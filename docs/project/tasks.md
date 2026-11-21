@@ -23,8 +23,8 @@ Last updated: 1.6.0.157 (2026-11-10).
 - [x] 1.6.0.342 Elemental: Nature's Swiftness offered again right after casting it (fight 575) - cast 2.8 s before the
   pull; the ready check didn't use the cooldown read before the pull (the remaining-time one did). The skip hold
   lapses after 20 s by design (Eclipse, 2026-11-10).
-- [ ] Arcane Mage: slot 1 lands 0.5-1 s after a spell can be cast (upload a6e3c82b)
-- [ ] Blood DK: slot 1 looked starved of resources at one point (upload e1222d6e)
+- [ ] Arcane Mage: slot 1 lands 0.5-1 s after a spell can be cast (upload a6e3c82b) - not reproduced 2026-11-21 in fight 584: cast times predicted within 0.1 s, shade ended before presses; needs a fresh log
+- [ ] Blood DK: slot 1 looked starved of resources at one point (upload e1222d6e) - fight 576: 18 updates of Blood Boil "soon" (nothing castable, shaded wait) - designed; rune tracking unverified, needs a fresh log
 - [x] 1.6.0.343 The sweep read as broken when it moved in steps (owner: "quarter, quarter, quarter") - slot 1 and
   Flow's note on the line are now a static 80% shade (grey too while short of a resource), clear + flash when ready
 - [x] 1.6.0.345 Vengeance DH: Vengeful Retreat recommended (jumps away from the target) - upload a074bdfe
@@ -101,15 +101,16 @@ Last updated: 1.6.0.157 (2026-11-10).
   - 1.6.0.367: slot 1 locked once about to land (owner's fight 608: unexplained changes 12.4 -> 10.4/min); offline slot 2
     Assassination 86%, Outlaw 78%. Needs a game check.
 - [x] 1.6.0.367 Assassination: Amplifying Poison asked for after two poisons were applied before the pull (poisons: before the pull only)
-- [ ] Destruction: slot 2 22%, 13 refused presses (fight 556)
-- [ ] Holy Priest: Holy Nova with no enemy in its range (fight 562)
-- [ ] Discipline: Atonement upkeep on you and the party; spell mix vs SimC / guides (fight 563)
+- [ ] Destruction: slot 2 22%, 13 refused presses (fight 556) - Rain of Fire refused 9x "not enough shards" on 1.6.0.33x; not reproduced in the current build (simulated AoE: never shown ready while short); slot 2 now 77% offline. Needs a fresh log
+- [x] 1.6.0.368 Holy Priest: Holy Nova with no enemy in its range (fight 562) - with no distance to measure, close-range AoE only while the assistant names it
+- [x] Discipline: Atonement upkeep on you and the party; spell mix vs SimC / guides (fight 563) - verified 2026-11-21: group with healing support Shield 5x/40 s (+Radiance at 3 missing); solo dummy fight = damage rotation, mix Penance 40 Smite 24 Void Blast 18 SW:P 8 MB 5
 - [x] 1.6.0.346 Paladin (low level): "New spell: Hammer of Wrath" for a spell not in the spellbook (fight 606).
   Hammer of Wrath (1241413) exists only while Judgment's button turns into it; the bars check remembered the button
   as Hammer of Wrath after it turned back, and the new-spell notice told the player to find it. A spell not in the
   book and not known is castable only while a button on the bars is it now (asked fresh), and no new-spell notice
   for it. The simulator has no action bars, so it could not see this.
-- [ ] Monk: Vivify shown late (no log); Enhancement: Maelstrom spend underestimated (fight 572)
+- [ ] Monk: Vivify shown late (no log) - Vivify is last in the low-health list (35%); ask: earlier threshold or on the free proc?
+  Enhancement: Maelstrom spend underestimated (fight 572) - not reproduced: stacks read from the game in combat (direct aura); needs a fresh log
 - [ ] Arms / Shadow: slot 2 39-50% (fights 565, 568, 570)
 - [ ] Slot 2 steadiness, narrow (quick back-and-forth only); the 0.35 s hold cut Restoration Druid 92% -> 80%
 

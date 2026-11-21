@@ -276,6 +276,9 @@ for _, line in ipairs(input.lines) do
       local u = uk and answer[uk]
       if u and u[1] == false and u[2] == false and r.main.source ~= "pool" then
         inv.uncastable = inv.uncastable + 1
+        if os.getenv("UNCDBG") then
+          io.stderr:write("UNC " .. tostring(r.main.token) .. " " .. tostring(r.main.source) .. "\n")
+        end
       end
       if r.main.token and ns.Engine.MOVEMENT and ns.Engine.MOVEMENT[r.main.token] then
         inv.movement = inv.movement + 1
