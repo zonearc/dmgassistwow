@@ -27,7 +27,7 @@ Last updated: 1.6.0.157 (2026-11-10).
 - [ ] Blood DK: slot 1 looked starved of resources at one point (upload e1222d6e)
 - [x] 1.6.0.343 The sweep read as broken when it moved in steps (owner: "quarter, quarter, quarter") - slot 1 and
   Flow's note on the line are now a static 80% shade (grey too while short of a resource), clear + flash when ready
-- [ ] Vengeance DH: Vengeful Retreat recommended (jumps away from the target) - upload a074bdfe
+- [x] 1.6.0.345 Vengeance DH: Vengeful Retreat recommended (jumps away from the target) - upload a074bdfe
 - [ ] Every spec: check each fight for deviations the owner didn't name (cast mix vs SimC, movement spells, spells
   shown but not castable, refused presses, odd prepull prompts). Audit of 27 fights / 24 specs (2026-11-18) found:
   - [x] 1.6.0.345 Movement spells in slot 1: Vengeance Infernal Strike 14 times, Havoc Vengeful Retreat 3 - off unless
@@ -98,7 +98,9 @@ Last updated: 1.6.0.157 (2026-11-10).
   - [ ] Found by the "real" fight: Protection Warrior slot 2 0%, Devourer 11% and slot 3 empty, Windwalker slot 3
     empty and shown ready on cooldown 27%
 - [ ] Outlaw / Assassination regression: slot 1 swapping, slot 2 8-35% (fights 558, 559, 561)
-- [ ] Assassination: Amplifying Poison asked for after two poisons were applied before the pull
+  - 1.6.0.367: slot 1 locked once about to land (owner's fight 608: unexplained changes 12.4 -> 10.4/min); offline slot 2
+    Assassination 86%, Outlaw 78%. Needs a game check.
+- [x] 1.6.0.367 Assassination: Amplifying Poison asked for after two poisons were applied before the pull (poisons: before the pull only)
 - [ ] Destruction: slot 2 22%, 13 refused presses (fight 556)
 - [ ] Holy Priest: Holy Nova with no enemy in its range (fight 562)
 - [ ] Discipline: Atonement upkeep on you and the party; spell mix vs SimC / guides (fight 563)
