@@ -5135,6 +5135,35 @@ test("defensives: boss mod warning -> decided with sound; low health in combat -
   eq(r.defensive, nil, "readable full health: nothing")
 end)
 
+test("defensives: a free (glowing) heal from 80% health, a paid one only below the low line", function()
+  -- owner, 2026-11-21: "free heal is useless if you're full ... I would take the free vivify heal if I'm below full
+  -- health. But dont pop a non free one unless I'm below 35%"
+  Reset()
+  DefBook()
+  mock.book[#mock.book + 1] = { spellID = 8936, name = "Regrowth" }
+  local ns = Boot()
+  local F = ns.Defensives
+  local prof = F.Profile()
+  eq(prof ~= nil, true, "Feral's mitigation profile (Regrowth in its low list)")
+  mock.cooldowns[22812], mock.cooldowns[61336] = { active = true }, { active = true } -- Barkskin, SI on cooldown
+  mock.healthPct = { player = 0.7 }
+  local r = ns.Update()
+  eq(r.defensive, nil, "70% and Regrowth costs mana and a cast: not yet")
+  mock.Fire("SPELL_ACTIVATION_OVERLAY_GLOW_SHOW", 8936) -- Predatory Swiftness: free and instant
+  r = ns.Update()
+  eq(r.defensive and r.defensive.id, 8936, "free Regrowth at 70%")
+  mock.healthPct = { player = 0.9 }
+  eq(ns.Update().defensive, nil, "90%: a free heal would heal next to nothing")
+  Restrict()
+  mock.healthPct = { player = 0.7 }
+  r = ns.Update()
+  eq(r.defensive and r.defensive.how, "render", "health hidden: the game shows it below the line")
+  eq(r.defensive and r.defensive.threshold, 0.8, "from the free heal's line")
+  mock.restricted = false
+  mock.Fire("SPELL_ACTIVATION_OVERLAY_GLOW_HIDE", 8936)
+  mock.cooldowns[22812], mock.cooldowns[61336] = nil, nil
+end)
+
 test("defensives: a heal you just cast isn't asked for again while it lands (Regrowth stayed up, 2026-11-12)", function()
   Reset()
   local ns = Boot()

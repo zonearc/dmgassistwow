@@ -534,8 +534,9 @@ function mock.Install(env)
     end
     return 60
   end
-  env.UnitHealth = function()
-    return ctx(1000)
+  env.UnitHealth = function(unit)
+    local pct = (mock.healthPct and mock.healthPct[unit or "player"]) or 1
+    return ctx(1000 * pct)
   end
   -- talents and other known spells (grading: the reference's talents)
   env.IsPlayerSpell = function(id)

@@ -17,7 +17,7 @@ Last updated: 1.6.0.157 (2026-11-10).
 ## Open: build
 
 ### Open issues from the 2026-11-21 test (upload aca7ca48, 1.6.0.369/370)
-- [ ] Free heals (a proc makes the heal free / instant: Vivify, Regrowth...): offer in the defensive row at <= 80% health;
+- [x] Free heals (a proc makes the heal free / instant: Vivify, Regrowth...): offer in the defensive row at <= 80% health;
   a paid heal only below 35% (owner: "free heal is useless if you're full ... I would take the free vivify heal if
   I'm below full health ... probably anywhere at 80% or below")
 - [ ] Balance: Incarnation: Chosen of Elune cast back to back - verify charges stack (2 x 20 s) or overwrite

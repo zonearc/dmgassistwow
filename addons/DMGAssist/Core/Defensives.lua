@@ -276,6 +276,40 @@ function F.Lead(id, setting)
   return math.min(lead, earliest, F.MAX_LEAD)
 end
 
+-- A heal a proc made free and instant (its button glows: Vivify with Vivacious Vivification, Regrowth with
+-- Predatory Swiftness, Word of Glory with Shining Light...) is worth a press well above the low-health line: it costs
+-- only the GCD. Not near full health, where it heals nothing (a tank may have a healer). Owner, 2026-11-21: "I would
+-- take the free vivify heal if I'm below full health ... probably anywhere at 80% or below".
+F.FREE_HEAL_HEALTH = 80
+function F.FreeHeal()
+  local glow = ns.State.glow or {}
+  local function Lit(id, token, e)
+    return id and glow[id] == true and Usable(id, token, e, false) and id or nil
+  end
+  local p = F.Profile()
+  if p then
+    for _, e in ipairs(p.low or {}) do
+      if e.heal then
+        local id = Lit(F.Resolve(e), e.t, e)
+        if id then
+          return id, e.t
+        end
+      end
+    end
+    return nil
+  end
+  local M = ns.SpellMap
+  for _, token in ipairs(F.TOKENS) do
+    if F.HEALS[token] then
+      local id = Lit(M.SpellID(token), token, nil)
+      if id then
+        return id, token
+      end
+    end
+  end
+  return nil
+end
+
 -- nil, or { id =, how = "decided" | "render", why =, threshold = }
 function F.Evaluate()
   local mode = F.Mode()
@@ -284,7 +318,8 @@ function F.Evaluate()
   end
   local tank = ns.Tanks and ns.Tanks.Profile()
   local id = (tank and ns.Tanks.LowSpell()) or F.Spell()
-  if not id then
+  local free = mode ~= "bossmods" and F.FreeHeal() or nil
+  if not id and not free then
     return nil
   end
   local B = ns.BossMods
@@ -292,7 +327,7 @@ function F.Evaluate()
   if not tank then
     pre = F.Spell(true)
   end
-  if mode ~= "health" and pre and not F.Covered() then
+  if mode ~= "health" and pre and id and not F.Covered() then
     local lead = F.Lead(pre, tonumber(ns.db and ns.db.defensiveLead) or 3)
     if B.Alert("defensive") then
       return { id = pre, how = "decided", why = "bossmod" }
@@ -308,6 +343,15 @@ function F.Evaluate()
     local prof = F.Profile()
     local threshold = (tank and ns.Tanks.Health() or tonumber(ns.db and ns.db.defensiveHealth)
       or (prof and prof.health) or 35) / 100
+    -- a free heal: offered from its own, higher line (the low-health defensive still wins below the low line)
+    local freeLine = (tonumber(ns.db and ns.db.freeHealHealth) or F.FREE_HEAL_HEALTH) / 100
+    if free and freeLine > threshold then
+      local hp0, max0 = U.Get(UnitHealth, "player"), U.Get(UnitHealthMax, "player")
+      local readable = type(hp0) == "number" and type(max0) == "number" and max0 > 0
+      if not (readable and id and hp0 / max0 <= threshold) then
+        id, threshold = free, freeLine
+      end
+    end
     local hp, max = U.Get(UnitHealth, "player"), U.Get(UnitHealthMax, "player")
     if type(hp) == "number" and type(max) == "number" and max > 0 then
       if hp / max <= threshold then
