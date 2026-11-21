@@ -2149,6 +2149,18 @@ local function SteadySlot1(result)
   local ready = G.ReadyIn()
   local pressed = ready > lastReady + 0.3 -- a new GCD or cast just started: you pressed something
   lastReady = ready
+  -- ...or the spell slot 1 holds was cast without one (off the GCD: Incarnation, Pillar of Frost, Bladestorm's
+  -- trinkets). Held on, it was offered again and its second charge spent - Balance cast Incarnation back to back,
+  -- 2026-11-21 (the lock kept the spell just pressed in slot 1).
+  -- (only spells off the GCD by the data: a cast-time spell is recorded as it ends, and the same spell held again -
+  -- Fireball after Fireball - looked "pressed" mid-cast, freeing slot 1 to change; 6 recorded fights lost 4-9 points)
+  local heldInfo = held and held.pick and held.pick.id and M.Info(held.pick.id)
+  if not pressed and heldInfo and not heldInfo.gcd and not heldInfo.ct and S.lastCast then
+    local last = S.lastCast[held.pick.id]
+    if type(last) == "number" and last > held.at then
+      pressed = true
+    end
+  end
   if pressed then
     pressedAt = now
   end

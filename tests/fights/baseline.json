@@ -1,8 +1,8 @@
 {
  "deathknight_blood-576": {
   "movement": 0,
-  "presses": 12,
-  "real": 25.0,
+  "presses": 11,
+  "real": 27.3,
   "same1": 75.0,
   "same2": 63.2,
   "uncastable": 18,
@@ -45,20 +45,20 @@
   "unexplained": 16.0
  },
  "demonhunter_vengeance-586": {
-  "movement": 257,
-  "presses": 11,
+  "movement": 247,
+  "presses": 6,
   "real": 0.0,
-  "same1": 69.8,
-  "same2": 41.9,
+  "same1": 60.5,
+  "same2": 34.9,
   "uncastable": 0,
-  "unexplained": 7.3
+  "unexplained": 6.1
  },
  "druid_balance-518": {
   "movement": 0,
-  "presses": 45,
-  "real": 77.8,
-  "same1": 87.8,
-  "same2": 88.4,
+  "presses": 44,
+  "real": 79.5,
+  "same1": 87.3,
+  "same2": 87.3,
   "uncastable": 0,
   "unexplained": 4.2
  },
@@ -71,22 +71,49 @@
   "uncastable": 0,
   "unexplained": 0.2
  },
- "evoker_augmentation-595": {
+ "druid_balance-613": {
+  "movement": 0,
+  "presses": 18,
+  "real": 72.2,
+  "same1": 81.2,
+  "same2": 78.8,
+  "uncastable": 0,
+  "unexplained": 2.1
+ },
+ "druid_feral-615": {
   "movement": 0,
   "presses": 7,
-  "real": 14.3,
+  "real": 57.1,
+  "same1": 32.4,
+  "same2": 35.1,
+  "uncastable": 0,
+  "unexplained": 7.5
+ },
+ "druid_restoration-614": {
+  "movement": 0,
+  "presses": 0,
+  "real": 0.0,
+  "same1": 24.4,
+  "same2": 4.9,
+  "uncastable": 0,
+  "unexplained": 2.6
+ },
+ "evoker_augmentation-595": {
+  "movement": 0,
+  "presses": 6,
+  "real": 16.7,
   "same1": 30.4,
   "same2": 13.9,
-  "uncastable": 18,
-  "unexplained": 4.5
+  "uncastable": 17,
+  "unexplained": 3.8
  },
  "evoker_augmentation-598": {
   "movement": 0,
-  "presses": 16,
-  "real": 18.8,
-  "same1": 77.1,
-  "same2": 64.6,
-  "uncastable": 30,
+  "presses": 15,
+  "real": 20.0,
+  "same1": 75.0,
+  "same2": 62.5,
+  "uncastable": 28,
   "unexplained": 10.5
  },
  "evoker_devastation-594": {
@@ -127,12 +154,12 @@
  },
  "hunter_marksmanship-601": {
   "movement": 0,
-  "presses": 12,
-  "real": 25.0,
-  "same1": 76.4,
+  "presses": 11,
+  "real": 27.3,
+  "same1": 75.3,
   "same2": 58.4,
   "uncastable": 0,
-  "unexplained": 6.2
+  "unexplained": 5.6
  },
  "hunter_survival-600": {
   "movement": 0,
@@ -145,30 +172,30 @@
  },
  "mage_arcane-584": {
   "movement": 0,
-  "presses": 26,
-  "real": 57.7,
-  "same1": 88.2,
-  "same2": 86.3,
+  "presses": 24,
+  "real": 58.3,
+  "same1": 90.2,
+  "same2": 88.2,
   "uncastable": 0,
-  "unexplained": 6.9
+  "unexplained": 5.2
  },
  "mage_fire-579": {
   "movement": 0,
-  "presses": 4,
+  "presses": 1,
   "real": 0.0,
   "same1": 33.3,
   "same2": 25.0,
   "uncastable": 0,
-  "unexplained": 9.8
+  "unexplained": 8.2
  },
  "mage_fire-580": {
   "movement": 0,
-  "presses": 12,
-  "real": 41.7,
-  "same1": 50.0,
-  "same2": 37.5,
+  "presses": 6,
+  "real": 83.3,
+  "same1": 42.5,
+  "same2": 30.0,
   "uncastable": 0,
-  "unexplained": 7.0
+  "unexplained": 6.1
  },
  "mage_frost-583": {
   "movement": 0,
@@ -188,6 +215,24 @@
   "uncastable": 0,
   "unexplained": 10.6
  },
+ "monk_brewmaster-620": {
+  "movement": 0,
+  "presses": 4,
+  "real": 25.0,
+  "same1": 40.6,
+  "same2": 33.3,
+  "uncastable": 0,
+  "unexplained": 13.4
+ },
+ "monk_mistweaver-621": {
+  "movement": 0,
+  "presses": 0,
+  "real": 0.0,
+  "same1": 18.8,
+  "same2": 12.5,
+  "uncastable": 0,
+  "unexplained": 3.0
+ },
  "monk_windwalker-603": {
   "movement": 0,
   "presses": 1,
@@ -196,6 +241,15 @@
   "same2": 13.1,
   "uncastable": 0,
   "unexplained": 4.6
+ },
+ "monk_windwalker-623": {
+  "movement": 0,
+  "presses": 8,
+  "real": 0.0,
+  "same1": 37.0,
+  "same2": 29.6,
+  "uncastable": 0,
+  "unexplained": 2.9
  },
  "paladin_protection-606": {
   "movement": 0,
@@ -251,11 +305,20 @@
   "uncastable": 0,
   "unexplained": 11.8
  },
+ "rogue_assassination-611": {
+  "movement": 0,
+  "presses": 20,
+  "real": 50.0,
+  "same1": 43.2,
+  "same2": 45.5,
+  "uncastable": 0,
+  "unexplained": 17.8
+ },
  "rogue_subtlety-526": {
   "movement": 0,
-  "presses": 1,
+  "presses": 0,
   "real": 0.0,
-  "same1": 34.7,
+  "same1": 33.3,
   "same2": 5.3,
   "uncastable": 0,
   "unexplained": 12.5
@@ -287,6 +350,33 @@
   "uncastable": 0,
   "unexplained": 12.0
  },
+ "warlock_affliction-627": {
+  "movement": 0,
+  "presses": 5,
+  "real": 0.0,
+  "same1": 42.6,
+  "same2": 3.7,
+  "uncastable": 0,
+  "unexplained": 3.3
+ },
+ "warlock_demonology-626": {
+  "movement": 0,
+  "presses": 17,
+  "real": 23.5,
+  "same1": 80.0,
+  "same2": 41.1,
+  "uncastable": 0,
+  "unexplained": 6.3
+ },
+ "warlock_destruction-625": {
+  "movement": 0,
+  "presses": 23,
+  "real": 39.1,
+  "same1": 48.8,
+  "same2": 42.9,
+  "uncastable": 0,
+  "unexplained": 2.2
+ },
  "warrior_arms-568": {
   "movement": 0,
   "presses": 4,
@@ -305,19 +395,55 @@
   "uncastable": 106,
   "unexplained": 15.7
  },
+ "warrior_arms-616": {
+  "movement": 0,
+  "presses": 1,
+  "real": 0.0,
+  "same1": 52.0,
+  "same2": 34.7,
+  "uncastable": 164,
+  "unexplained": 14.9
+ },
+ "warrior_arms-617": {
+  "movement": 0,
+  "presses": 6,
+  "real": 0.0,
+  "same1": 14.3,
+  "same2": 28.6,
+  "uncastable": 22,
+  "unexplained": 2.7
+ },
  "warrior_fury-569": {
   "movement": 0,
-  "presses": 29,
-  "real": 3.4,
-  "same1": 81.0,
-  "same2": 83.3,
+  "presses": 28,
+  "real": 0.0,
+  "same1": 79.8,
+  "same2": 82.1,
   "uncastable": 0,
   "unexplained": 7.8
  },
+ "warrior_fury-618": {
+  "movement": 0,
+  "presses": 5,
+  "real": 20.0,
+  "same1": 90.0,
+  "same2": 90.0,
+  "uncastable": 0,
+  "unexplained": 4.9
+ },
+ "warrior_fury-619": {
+  "movement": 0,
+  "presses": 14,
+  "real": 0.0,
+  "same1": 61.4,
+  "same2": 70.5,
+  "uncastable": 0,
+  "unexplained": 5.4
+ },
  "warrior_protection-571": {
   "movement": 0,
-  "presses": 7,
-  "real": 42.9,
+  "presses": 6,
+  "real": 50.0,
   "same1": 94.3,
   "same2": 85.7,
   "uncastable": 50,

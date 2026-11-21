@@ -16,6 +16,21 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+### Open issues from the 2026-11-21 test (upload aca7ca48, 1.6.0.369/370)
+- [ ] Free heals (a proc makes the heal free / instant: Vivify, Regrowth...): offer in the defensive row at <= 80% health;
+  a paid heal only below 35% (owner: "free heal is useless if you're full ... I would take the free vivify heal if
+  I'm below full health ... probably anywhere at 80% or below")
+- [ ] Balance: Incarnation: Chosen of Elune cast back to back - verify charges stack (2 x 20 s) or overwrite
+- [ ] Restoration Druid: Starfire cast permanently
+- [ ] Arms: Demolish (and once Bladestorm) shown far longer than its real cast/channel; during Bladestorm the next
+  spell isn't shown until it ends, then lands in slot 1 with no warning
+- [ ] Mistweaver: Spinning Crane Kick forever
+- [ ] Windwalker: Fists of Fury shown while still on cooldown
+- [ ] Demonology: slot 2 swaps often; a spell pauses just before the slot 1 box
+- [ ] Affliction: slot 1 swapped several times (the lock); slot 2 swaps; rotation mostly one spell - check vs SimC
+- [ ] Rogue: still runs out of Energy and then floats near empty (better overall: "night and day")
+- [ ] Reported versions: confirm the nightly after the last push (said 369, the game had 370)
+
 ### Open issues from the 2026-11-18 spec walk (tracked until each is fixed and re-tested)
 - [x] 1.6.0.342 Enhancement: Stormstrike stuck in slot 1 during Ascendance (button is Windstrike; fight 572) - a button
   turned into another spell is ready when that spell is, and slot 1 shows that spell (the gate's "shown ready on

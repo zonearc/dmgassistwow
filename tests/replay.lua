@@ -269,6 +269,25 @@ for _, line in ipairs(input.lines) do
       if showPicks then
         print(string.format("PICK %.2f %s %s", tonumber(t), tostring(r.main.id), tostring(q2 and q2.id)))
       end
+      -- (TERM=name[,name]: those rotation terms at every decision, with slot 1 and 2 - to see what a line read)
+      if os.getenv("TERM_DBG") then
+        local vals = {}
+        for name in os.getenv("TERM_DBG"):gmatch("[^,]+") do
+          vals[#vals + 1] = name .. "=" .. tostring(ns.State.Resolve(name, {}))
+        end
+        io.stderr:write(string.format("TERM %.2f %s %s %s\n", tonumber(t), tostring(r.main.token),
+          tostring(q2 and q2.token), table.concat(vals, " ")))
+      end
+      local at = tonumber(os.getenv("TRACE_AT") or "")
+      if at and math.abs(tonumber(t) - at) < 0.06 then
+        local tr = ns.Engine.Recommend(ns.ActiveRecord(ns.Specs.current), { burst = true, trace = true,
+          useAssisted = true })
+        io.stderr:write(string.format("TRACE %.2f main=%s(%s) steadied=%s\n", tonumber(t), tostring(r.main.token),
+          tostring(r.main.source), tostring(r.steadied)))
+        for _, l in ipairs(tr.trace or {}) do
+          io.stderr:write("  " .. l .. "\n")
+        end
+      end
       -- Invariants (owner, 2026-11-18: "we make changes to fix 1 thing, and then literally break half the specs"):
       -- slot 1 never a spell the game called neither usable nor short of a resource (unless waiting by design), never
       -- a spell that moves you, never one you don't have (not in the book, on no button now).

@@ -1739,6 +1739,26 @@ test("steady slot 1: locked once about to land (Flow's note at the box) - no las
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("steady slot 1: a spell cast off the GCD lets go at once (Incarnation was offered again and cast twice)", function()
+  -- Balance, 2026-11-21: Incarnation (no GCD) stayed in slot 1 after the press and its second charge was spent
+  Reset()
+  local ns = Boot()
+  local G, S = ns.Engine, ns.State
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  G.ResetSteady()
+  local inc, sf = { id = 1079, token = "rip", source = "simc" }, { id = 5221, token = "shred", source = "simc" }
+  local info = ns.SpellMap.Info(1079)
+  local gcd, ct = info.gcd, info.ct
+  info.gcd, info.ct = nil, nil -- (off the GCD, like Incarnation)
+  G.Steady({ main = inc, queue = { inc, sf } })
+  mock.now = mock.now + 0.3
+  S.lastCast[1079] = mock.now -- cast, no GCD started
+  local r = G.Steady({ main = sf, queue = { sf, inc } })
+  eq(r.main.token, "shred", "the next pick at once, not the spell just cast")
+  info.gcd, info.ct = gcd, ct
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 test("steady slot 1: a spell waiting for Energy gives way only to one you can press now", function()
   Reset()
   local ns = Boot()
@@ -6077,7 +6097,7 @@ test("fight length: learned per kind of fight from your own fights; SimC default
   mock.Advance(25)
   eq(S.Resolve("expected_combat_length", {}), 25)
   ns.db.fightMode = "custom"
-  eq(S.Resolve("fight_remains", {}), 65, "custom 120 s, 55 s in: as given")
+  eq(math.floor(S.Resolve("fight_remains", {}) + 0.5), 65, "custom 120 s, 55 s in: as given") -- (float clock)
   mock.inCombat = false
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
