@@ -43,8 +43,10 @@ B.LIST = {
   { id = 318038, weapon = "main", specs = { [ELE] = true } },  -- Flametongue Weapon
   { id = 382021, weapon = "main", specs = { [RSHAM] = true } }, -- Earthliving Weapon
   { group = { 465, 317920, 32223 }, class = "PALADIN" },       -- an aura: Devotion / Concentration / Crusader
-  { group = { 2823, 315584, 8679, 381664 }, class = "ROGUE" }, -- Deadly / Instant / Wound / Amplifying Poison
-  { group = { 3408, 5761, 381637 }, class = "ROGUE" },         -- Crippling / Numbing / Atrophic Poison
+  -- (prep = before the pull only: an hour-long coating, applied out of combat - owner, 2026-11-19: "It had me start
+  -- combat and then later asked me to apply poisons. Poisons should be precombat prep." SimC: precombat only)
+  { group = { 2823, 315584, 8679, 381664 }, class = "ROGUE", prep = true }, -- Deadly / Instant / Wound / Amplifying
+  { group = { 3408, 5761, 381637 }, class = "ROGUE", prep = true },         -- Crippling / Numbing / Atrophic
   { id = 974, onTank = true, specs = { [RSHAM] = true } },     -- Earth Shield
   { id = 53563, onTank = true, specs = { paladin_holy = true } }, -- Beacon of Light
 }
@@ -276,6 +278,9 @@ function B.FromAssistant()
       inGroup = inGroup or g == id
     end
     if (e.id == id or inGroup) and Applies(e, class, spec) then
+      if e.prep then
+        return nil -- (prepared before the pull, never mid-fight)
+      end
       if Known(id) and not ns.Choices.Skip(id) and Usable(id) then
         return { id = id, token = ns.SpellMap.TokenForID and ns.SpellMap.TokenForID(id) or nil, source = "buff",
           why = "assisted" }, inGroup and class == "ROGUE"

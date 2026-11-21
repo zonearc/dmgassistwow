@@ -1707,6 +1707,38 @@ test("steady slot 1: short of Energy past the global cooldown, while SimC's pick
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
+test("steady slot 1: locked once about to land (Flow's note at the box) - no last-second swaps", function()
+  -- owner, 2026-11-19 (Assassination): "when a spell is already partially covering the box ... consider it locked";
+  -- Crimson Tempest -> Garrote 0.02 s before the press, Fan of Knives -> Garrote 0.4 s before
+  Reset()
+  local ns = Boot()
+  local G, S = ns.Engine, ns.State
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  G.ResetSteady()
+  local rip, shred = { id = 1079, token = "rip", source = "simc" }, { id = 5221, token = "shred", source = "simc" }
+  mock.cooldowns[61304] = { start = mock.now - 0.1, duration = 1.5, active = true }
+  G.Steady({ main = rip, queue = { rip, shred } })
+  mock.now = mock.now + 1.1 -- 0.3 s before you can press
+  local tta = S.TimeToAfford
+  S.TimeToAfford = function() return 0.9 end -- (past the end of the GCD: before, Shred took its place at once)
+  mock.usable[1079] = { false, true } -- short of Energy; Shred can be pressed
+  local r = G.Steady({ main = shred, queue = { shred, rip } })
+  eq(r.main.token, "rip", "about to land: stays")
+  mock.now = mock.now + 0.5 -- in the box now, still short (0.9 s to go)
+  r = G.Steady({ main = shred, queue = { shred, rip } })
+  eq(r.main.token, "rip", "in the box: stays")
+
+  mock.now = mock.now + 1.4 -- over a second in the box, still not pressable
+  mock.cooldowns[61304] = nil
+  mock.usable[1079] = { false, true }
+  S.TimeToAfford = function() return 2.5 end
+  r = G.Steady({ main = shred, queue = { shred, rip } })
+  eq(r.main.token, "shred", "long in the box and stuck: gives way")
+  S.TimeToAfford = tta
+  mock.usable[1079] = nil
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
 test("steady slot 1: a spell waiting for Energy gives way only to one you can press now", function()
   Reset()
   local ns = Boot()
@@ -6848,6 +6880,26 @@ test("tanks: hidden health + aggro = being hit; Stagger 0 only means unhurt for 
   UnitHealth, UnitHealthMax, UnitStagger, UnitThreatSituation = uh, uhm, ust, uts -- luacheck: ignore 121
 end)
 
+
+test("buffs: poisons are preparation - never suggested mid-fight, even when the assistant names one", function()
+  -- owner, 2026-11-19 (Assassination): "It had me start combat and then later asked me to apply poisons"
+  Reset()
+  local book = {}
+  for i, b in ipairs(FERAL_BOOK) do
+    book[i] = b
+  end
+  book[#book + 1] = { spellID = 381664, name = "Amplifying Poison" }
+  mock.book = book
+  local ns = Boot()
+  local G = ns.Engine
+  mock.class = { "Rogue", "ROGUE", 4 }
+  mock.inCombat = true
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  G.acName, G.acNamedAt = 381664, ns.State.Now() - 5 -- named for 5 s
+  eq(ns.Buffs.FromAssistant(), nil, "a poison: not in combat")
+  mock.inCombat = false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
 
 test("rogue: a finisher the game calls unusable with points read is still castable; poisons named in combat ignored", function()
   Reset()

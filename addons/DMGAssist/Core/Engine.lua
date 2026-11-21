@@ -2095,6 +2095,9 @@ local function Released(reason, from, to, extra)
   U.Log("steady_release", { why = reason, from = from.token or from.id, to = to.token or to.id, extra = extra })
 end
 
+local boxAt -- when the shown spell reaches / reached the box (the end of the GCD or cast)
+G.LOCK_AFTER = 1.0 -- s in the box it stays locked; after that a spell still waiting can give way
+G.LOCK_WAIT_MAX = 1.5 -- s of resource still to come: longer is "stuck", not "about to land"
 local expectNext -- slot 2's spell at your last press
 -- (the expected next spell moves up only while at least this long is left before you can press: a reaction time)
 G.EXPECT_SWAP_MIN = 0.3
@@ -2134,6 +2137,48 @@ local function SteadySlot1(result)
   if held.pick.id == main.id then
     held.cand, held.badSince = nil, nil
     return result
+  end
+  -- Locked: the spell about to land (Flow's note at the box, from G.REACH before you can press) or in the box (up to
+  -- G.LOCK_AFTER after) stays. Owner, 2026-11-19: "when a spell is already partially covering the box ... we should
+  -- consider it locked. It, multiple times, switched it at the last possible second or even when in primary" -
+  -- Assassination: Crimson Tempest -> Garrote 0.02 s before the press, Fan of Knives -> Garrote 0.4 s before.
+  -- Only a spell that can never be pressed lets go (refused by the game, on none of your bars).
+  -- (when it reaches the box: the end of the GCD / cast as last seen, kept once it is there)
+  if ready > 0.05 or not boxAt then
+    boxAt = now + ready
+  end
+  if ready <= G.REACH and now - boxAt <= G.LOCK_AFTER then
+    local _, whyLocked = Castable(held.pick.id)
+    -- (a spell that won't be affordable for a while isn't about to land, it's stuck: one you can press now still
+    -- takes its place at once - owner, 2026-11-17, "I don't want a cast to land in slot #1 unless ... enough energy")
+    local stuck = false
+    if whyLocked == "power" then
+      local wait = S.TimeToAfford and S.TimeToAfford(held.pick.id)
+      stuck = type(wait) == "number" and wait > G.LOCK_WAIT_MAX and Castable(main.id) == true
+    end
+    -- (nor one on a cooldown that outlasts the time until you can press: it can't land - Havoc, Augmentation and
+    -- Devastation were shown ready on cooldown 7-10% of the time in the simulated fights with the lock first built)
+    local rem = S.CooldownRemains and S.CooldownRemains(held.pick.id)
+    if type(rem) == "number" and rem > ready + 0.3 then
+      stuck = true
+    end
+    -- (nor one the game says can't be used at all, not for want of a resource: you'd press a refused button)
+    local usable, noPower = U.Call(C_Spell and C_Spell.IsSpellUsable, held.pick.id)
+    usable, noPower = U.Read(usable), U.Read(noPower)
+    if usable == false and noPower ~= true then
+      stuck = true
+    end
+    if whyLocked ~= "refused" and whyLocked ~= "nobar" and not stuck then
+      held.cand = nil
+      local queue, out = result.queue or { main }, { held.pick }
+      for _, p in ipairs(queue) do
+        if p.id ~= held.pick.id and #out < math.max(#queue, 1) then
+          out[#out + 1] = p
+        end
+      end
+      result.queue, result.main, result.steadied = out, held.pick, main.token
+      return result
+    end
   end
   -- A major cooldown SimC wants right now takes slot 1 at once: its window can be one press long (Improved
   -- Adrenaline Rush: "at 2 combo points or fewer", right after a finisher). Held behind Sinister Strike it waited in
@@ -2255,5 +2300,5 @@ function G.PromoteReadyMajor(result)
 end
 
 function G.ResetSteady()
-  held, lastReady, pressedAt, G.releaseCount = nil, 0, -10, 0
+  held, lastReady, pressedAt, G.releaseCount, boxAt = nil, 0, -10, 0, nil
 end

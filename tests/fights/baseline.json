@@ -30,7 +30,7 @@
   "movement": 0,
   "presses": 11,
   "real": 9.1,
-  "same1": 42.9,
+  "same1": 40.8,
   "same2": 42.9,
   "uncastable": 126,
   "unexplained": 10.4
@@ -39,7 +39,7 @@
   "movement": 0,
   "presses": 12,
   "real": 8.3,
-  "same1": 67.7,
+  "same1": 68.7,
   "same2": 66.7,
   "uncastable": 21,
   "unexplained": 16.0
@@ -60,7 +60,7 @@
   "same1": 87.8,
   "same2": 88.4,
   "uncastable": 0,
-  "unexplained": 4.8
+  "unexplained": 4.2
  },
  "druid_balance-519": {
   "movement": 0,
@@ -105,16 +105,16 @@
   "same1": 53.2,
   "same2": 26.6,
   "uncastable": 0,
-  "unexplained": 5.8
+  "unexplained": 5.1
  },
  "hunter_beast_mastery-602": {
   "movement": 0,
-  "presses": 12,
-  "real": 8.3,
-  "same1": 59.8,
-  "same2": 29.9,
+  "presses": 11,
+  "real": 9.1,
+  "same1": 55.7,
+  "same2": 30.9,
   "uncastable": 0,
-  "unexplained": 10.7
+  "unexplained": 11.3
  },
  "hunter_marksmanship-513": {
   "movement": 0,
@@ -132,7 +132,7 @@
   "same1": 76.4,
   "same2": 58.4,
   "uncastable": 0,
-  "unexplained": 7.3
+  "unexplained": 6.2
  },
  "hunter_survival-600": {
   "movement": 0,
@@ -220,7 +220,7 @@
   "presses": 4,
   "real": 0.0,
   "same1": 50.0,
-  "same2": 33.3,
+  "same2": 16.7,
   "uncastable": 0,
   "unexplained": 11.8
  },
@@ -237,28 +237,37 @@
   "movement": 0,
   "presses": 11,
   "real": 18.2,
-  "same1": 59.3,
-  "same2": 66.7,
+  "same1": 57.4,
+  "same2": 64.8,
   "uncastable": 0,
   "unexplained": 8.4
+ },
+ "rogue_assassination-608": {
+  "movement": 0,
+  "presses": 16,
+  "real": 12.5,
+  "same1": 46.5,
+  "same2": 43.0,
+  "uncastable": 0,
+  "unexplained": 11.8
  },
  "rogue_subtlety-526": {
   "movement": 0,
   "presses": 1,
   "real": 0.0,
-  "same1": 36.0,
-  "same2": 4.0,
+  "same1": 34.7,
+  "same2": 5.3,
   "uncastable": 0,
-  "unexplained": 15.0
+  "unexplained": 12.5
  },
  "rogue_subtlety-529": {
   "movement": 0,
   "presses": 1,
   "real": 100.0,
   "same1": 23.3,
-  "same2": 7.8,
+  "same2": 8.6,
   "uncastable": 0,
-  "unexplained": 12.0
+  "unexplained": 10.0
  },
  "shaman_elemental-575": {
   "movement": 0,
@@ -267,7 +276,7 @@
   "same1": 33.3,
   "same2": 10.0,
   "uncastable": 0,
-  "unexplained": 5.9
+  "unexplained": 4.4
  },
  "shaman_enhancement-572": {
   "movement": 0,
@@ -294,16 +303,16 @@
   "same1": 42.3,
   "same2": 33.8,
   "uncastable": 106,
-  "unexplained": 16.6
+  "unexplained": 15.7
  },
  "warrior_fury-569": {
   "movement": 0,
-  "presses": 30,
-  "real": 3.3,
-  "same1": 82.1,
+  "presses": 29,
+  "real": 3.4,
+  "same1": 81.0,
   "same2": 83.3,
   "uncastable": 0,
-  "unexplained": 8.3
+  "unexplained": 7.8
  },
  "warrior_protection-571": {
   "movement": 0,
