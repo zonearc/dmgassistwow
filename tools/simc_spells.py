@@ -163,8 +163,18 @@ def parse_dump(text):
                 cur["hastedCooldown"] = True
             if "Hasted Global Cooldown" in val:
                 cur["hastedGcd"] = True
+            if "Haste Affects Duration" in val:
+                cur["hastedDuration"] = True
             if "Is Channelled" in val:
                 cur["channel"] = True  # Game mode's hold bar: a channel lasts its Duration
+    for s in spells.values():
+        # "Disable Abilities" on yourself for its duration (Bladestorm: only the listed defensives stay usable): a
+        # cast the game doesn't call a channel but that leaves nothing else to press, so the next spell waits on it
+        # (Arms, 2026-11-21: the spell after Bladestorm only appeared when it ended, with no warning).
+        if s.get("passive") or s.get("channel") or not (s.get("duration") or 0) > 1.5:
+            continue
+        if any("Disable Abilities (263)" in e["text"] and "Target: Self" in e["detail"] for e in s["effects"]):
+            s["busy"] = True
     _baseline_energize(spells)
     _cooldown_links(spells)
     for s in spells.values():
@@ -710,6 +720,8 @@ def select(spells, refs, other_specs=(), this_spec=None):
             rec["hg"] = True
         if s.get("channel"):
             rec["chan"] = True
+        if s.get("busy"):
+            rec["busy"] = "haste" if s.get("hastedDuration") else True
         if s.get("cost"):
             rec["cost"] = dict(sorted(s["cost"].items()))
         if s.get("costMax"):

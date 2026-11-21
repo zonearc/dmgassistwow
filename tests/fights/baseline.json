@@ -121,7 +121,7 @@
   "presses": 7,
   "real": 42.9,
   "same1": 53.1,
-  "same2": 45.3,
+  "same2": 48.4,
   "uncastable": 81,
   "unexplained": 10.4
  },
@@ -211,7 +211,7 @@
   "presses": 1,
   "real": 0.0,
   "same1": 41.7,
-  "same2": 20.4,
+  "same2": 21.3,
   "uncastable": 0,
   "unexplained": 10.6
  },
@@ -220,9 +220,9 @@
   "presses": 4,
   "real": 25.0,
   "same1": 40.6,
-  "same2": 33.3,
+  "same2": 32.7,
   "uncastable": 0,
-  "unexplained": 13.4
+  "unexplained": 12.9
  },
  "monk_mistweaver-621": {
   "movement": 0,
@@ -246,10 +246,10 @@
   "movement": 0,
   "presses": 8,
   "real": 0.0,
-  "same1": 37.0,
+  "same1": 39.5,
   "same2": 29.6,
   "uncastable": 0,
-  "unexplained": 2.9
+  "unexplained": 4.0
  },
  "paladin_protection-606": {
   "movement": 0,
@@ -397,12 +397,12 @@
  },
  "warrior_arms-616": {
   "movement": 0,
-  "presses": 1,
-  "real": 0.0,
-  "same1": 52.0,
-  "same2": 34.7,
+  "presses": 2,
+  "real": 50.0,
+  "same1": 45.9,
+  "same2": 29.6,
   "uncastable": 164,
-  "unexplained": 14.9
+  "unexplained": 16.1
  },
  "warrior_arms-617": {
   "movement": 0,

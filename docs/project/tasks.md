@@ -21,13 +21,25 @@ Last updated: 1.6.0.157 (2026-11-10).
   a paid heal only below 35% (owner: "free heal is useless if you're full ... I would take the free vivify heal if
   I'm below full health ... probably anywhere at 80% or below")
 - [ ] Balance: Incarnation: Chosen of Elune cast back to back - verify charges stack (2 x 20 s) or overwrite
-- [ ] Restoration Druid: Starfire cast permanently
-- [ ] Arms: Demolish (and once Bladestorm) shown far longer than its real cast/channel; during Bladestorm the next
-  spell isn't shown until it ends, then lands in slot 1 with no warning
-- [ ] Mistweaver: Spinning Crane Kick forever
-- [ ] Windwalker: Fists of Fury shown while still on cooldown
+- [x] Restoration Druid: Starfire cast permanently - mana is hidden in combat and its floor was "enough for Sunfire";
+  one pretend Starfire put Sunfire "out of mana" (4,500 of 261,000). A cheap (<= 5% of max) spell usable now stays
+  affordable in the look-ahead. Same cause in Affliction (Shadow Bolt / Haunt "out of mana" at 0..49,000).
+  (SimC's own Resto list does pick Starfire at 3+ targets with Master Shapeshifter; Sunfire / Moonfire now come first
+  when missing, as the list says.)
+- [x] Arms: during Bladestorm the next spell wasn't shown until it ended - spells that put "Disable Abilities" on
+  you (SimC data: Bladestorm, Deep Breath, Breath of Eons) are now waited on like a channel; the next spell shows
+  ahead of the end. Its once-a-second ticks no longer count as new casts. Simulator: you can't press during them.
+- [ ] Arms: Demolish shown longer than its channel - the replay tracks its channel correctly from the game; the
+  2-3 s extra isn't reproduced yet
+- [x] Mistweaver: Spinning Crane Kick forever - as designed: 4 dummies, SimC's list (Rising Sun Kick, else Crane Kick
+  at 4+ targets) and Blizzard's assistant (RSK 17 / SCK 15 of 32) agree
+- [x] Windwalker: Fists of Fury shown while still on cooldown - Crane Kick's damage ticks (107270, every 0.4 s) were
+  counted as casts, and each took 2.5 s off Fists of Fury (Xuen's Battlegear): a channel's ticks are now pieces of
+  its press
 - [ ] Demonology: slot 2 swaps often; a spell pauses just before the slot 1 box
-- [ ] Affliction: slot 1 swapped several times (the lock); slot 2 swaps; rotation mostly one spell - check vs SimC
+- [ ] Affliction: slot 1 swapped several times (the lock); slot 2 swaps; rotation mostly one spell - check vs SimC.
+  Found: mana "out" in the look-ahead (fixed, see Resto); Seed of Corruption at 8 targets is SimC's AoE choice;
+  Blizzard's assistant named Summon Felhunter (691) most of the fight in Affliction and Destruction - no pet out?
 - [ ] Rogue: still runs out of Energy and then floats near empty (better overall: "night and day")
 - [ ] Reported versions: confirm the nightly after the last push (said 369, the game had 370)
 

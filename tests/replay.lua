@@ -278,6 +278,12 @@ for _, line in ipairs(input.lines) do
         io.stderr:write(string.format("TERM %.2f %s %s %s\n", tonumber(t), tostring(r.main.token),
           tostring(q2 and q2.token), table.concat(vals, " ")))
       end
+      if os.getenv("CASTDBG") then
+        local cid, left = ns.State.CurrentCast()
+        io.stderr:write(string.format("CAST %.2f main=%s cast=%s left=%s src=%s ready=%.2f gcd=%.2f\n", tonumber(t),
+          tostring(r.main.token), tostring(cid), tostring(left and string.format("%.2f", left)),
+          tostring(ns.State.castSource), ns.Engine.ReadyIn(), ns.State.GCDRemains() or -1))
+      end
       local at = tonumber(os.getenv("TRACE_AT") or "")
       if at and math.abs(tonumber(t) - at) < 0.06 then
         local tr = ns.Engine.Recommend(ns.ActiveRecord(ns.Specs.current), { burst = true, trace = true,

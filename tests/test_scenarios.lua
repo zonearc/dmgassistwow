@@ -1050,6 +1050,10 @@ local function Fight(ns, key, record, book, scenario)
       local gcd = tonumber(info.gcd) or 1.5
       local ct = instantNow[id] and 0 or tonumber(info.ct) or 0
       gcdEnd = now + math.max(gcd, ct, 0.5)
+      -- Bladestorm, Deep Breath, Breath of Eons ("busy" in the data): nothing else can be pressed until they end
+      if info.busy and tonumber(info.d) then
+        gcdEnd = now + math.max(gcd, tonumber(info.d))
+      end
       -- the game shows a cast in progress (UnitCastingInfo) until it ends: without it the addon thought the player
       -- free 0.5 s into a 2 s Consume (graded simulator, 2026-11-18)
       if ct > 0 then

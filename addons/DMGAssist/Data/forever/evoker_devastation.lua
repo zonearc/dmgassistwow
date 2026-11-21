@@ -952,6 +952,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       ap = {
         { 357210, "self" },
       },
+      busy = true,
       cd = 1,
       ch = 1,
       chcd = 120,
@@ -1437,6 +1438,7 @@ ns.RegisterSpecData("forever", "evoker_devastation", {
       ap = {
         { 433874, "self" },
       },
+      busy = true,
       cd = 1,
       ch = 1,
       chcd = 120,

@@ -1230,6 +1230,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       ap = {
         { 222634, "self" },
       },
+      busy = "haste",
       cd = 60,
       d = 6,
       gcd = 1.5,
@@ -1239,6 +1240,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       ap = {
         { 227847, "self" },
       },
+      busy = "haste",
       cd = 90,
       ch = 1,
       chcd = 90,
@@ -1474,6 +1476,7 @@ ns.RegisterSpecData("midnight", "warrior_fury", {
       ap = {
         { 446035, "self" },
       },
+      busy = "haste",
       cd = 90,
       ch = 1,
       chcd = 90,

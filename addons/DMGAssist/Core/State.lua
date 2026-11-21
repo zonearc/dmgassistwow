@@ -2191,7 +2191,25 @@ local function RecordCast(id, how)
     token = info.n
   end
   local now0 = GetTime()
+  -- A channel's or Bladestorm's ticks report as casts of the same name with another ID (Spinning Crane Kick's
+  -- 107270 every 0.4 s, Bladestorm's 50622 every second): pieces of that press too. Counted as casts, each one
+  -- took Fists of Fury's cooldown down again (Xuen's Battlegear), so it was offered 6 s after it was cast
+  -- (Windwalker, 2026-11-21).
+  local span = S.pressSpan
+  if token and span and token == span.token and id ~= span.id and now0 >= span.from and now0 <= span.to then
+    if info and info.gain then
+      ns.Clues.OnOwnCast(id) -- (what a tick gives still counts: Bladestorm's 5 Rage a second)
+    end
+    return
+  end
+  local timed = info and (info.chan or info.busy) and tonumber(info.d)
+  if timed then
+    S.pressSpan = { token = token, id = id, from = now0, to = now0 + timed / HasteFactor() + 0.5 }
+  end
   if token and token == lastToken and now0 - lastTokenAt < S.PIECE_WINDOW then
+    if timed then
+      S.NoteBusy(id, token) -- the press itself came just after its first tick
+    end
     return -- another piece of the same press
   end
   lastToken, lastTokenAt = token, now0
@@ -2479,6 +2497,18 @@ function S.CurrentCast()
     return id, math.max(0, endMs / 1000 - GetTime())
   end
   S.castSource = "ours"
+  -- Bladestorm and the like (S.NoteBusy): nothing else to press until it ends, so the next spell is timed to its
+  -- end like after a channel, and shows ahead of it (Arms, 2026-11-21: the spell after Bladestorm appeared only as
+  -- it ended, straight in slot 1, with no warning).
+  local b = S.busy
+  if b then
+    local left = b.t + b.len - GetTime()
+    if left > 0 and left <= b.len then
+      S.castSource = "busy" -- (already cast: its effects are counted, unlike a cast that lands at its end)
+      return b.id, left
+    end
+    S.busy = nil
+  end
   local mine = S.myCast
   if mine and mine.ended then
     if GetTime() - mine.ended > 1 then
@@ -2517,7 +2547,7 @@ function S.Channeling()
   local b = S.busy
   if b then
     local left = b.t + b.len - GetTime()
-    if left > 0 then
+    if left > 0 and left <= b.len then
       return b.id, left
     end
     S.busy = nil
@@ -2525,14 +2555,26 @@ function S.Channeling()
   return nil
 end
 
+-- Which spells: the data's "busy" (SimC's spell data: "Disable Abilities" on yourself for its duration, "haste"
+-- when haste shortens it), else this list for data that predates the flag.
 S.BUSY = { bladestorm = 6 } -- token -> seconds (the data's duration first)
 function S.NoteBusy(id, token)
-  local d = token and S.BUSY[token]
+  local b = S.busy
+  if b and GetTime() < b.t + b.len and GetTime() >= b.t then
+    return -- its own ticks (Bladestorm's 50622 each second) don't start it again
+  end
+  local info = M.Info(id)
+  local d = (info and info.busy and tonumber(info.d)) or (token and S.BUSY[token])
   if not d then
     return
   end
-  local info = M.Info(id)
-  S.busy = { id = id, t = GetTime(), len = (info and info.d and info.d > 0) and info.d or d }
+  if info and info.d and info.d > 0 then
+    d = info.d
+  end
+  if info and info.busy == "haste" then
+    d = d / HasteFactor()
+  end
+  S.busy = { id = id, t = GetTime(), len = d }
 end
 
 ---------------------------------------------------------------------------
@@ -4364,6 +4406,7 @@ function S.Bind(key)
   S.auraUntil, S.dotUntil, S.lastCast, S.wasActive, S.glow = {}, {}, {}, {}, {}
   S.readyBeforeFight = {} -- (with our cast records: S.SnapshotReady fills it again within a second)
   S.busyBeforeFight = {}
+  S.busy, S.myCast, S.pressSpan = nil, nil, nil
   S.chargesBeforeFight = {}
   S.cdRefusal = {}
   l.unreliable = type(l.unreliable) == "table" and l.unreliable or {}

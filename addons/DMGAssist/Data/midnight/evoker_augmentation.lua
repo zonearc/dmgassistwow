@@ -739,6 +739,7 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       ap = {
         { 357210, "self" },
       },
+      busy = true,
       cd = 1,
       ch = 1,
       chcd = 120,
@@ -1093,6 +1094,7 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       ap = {
         { 403631, "self" },
       },
+      busy = true,
       cd = 120,
       d = 6,
       gcd = 1.5,
@@ -1316,6 +1318,7 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       ap = {
         { 433874, "self" },
       },
+      busy = true,
       cd = 1,
       ch = 1,
       chcd = 120,
@@ -1351,6 +1354,7 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       ap = {
         { 442204, "self" },
       },
+      busy = true,
       cd = 120,
       d = 3.75,
       gcd = 1.5,

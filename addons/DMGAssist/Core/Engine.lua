@@ -579,6 +579,15 @@ function G.AheadState()
 end
 
 G.REGEN_WAIT = 2.0 -- s of regeneration a slot 2-3 spender may still be short by
+G.SMALL_MANA = 0.05 -- of your maximum mana
+function G.SmallManaCost(id, amount)
+  local maxP = U.Get(UnitPowerMax, "player", 0)
+  if not (type(maxP) == "number" and maxP > 0 and amount <= maxP * G.SMALL_MANA) then
+    return false
+  end
+  return U.Get(C_Spell and C_Spell.IsSpellUsable, id) == true
+end
+
 function G.AffordableAhead(id)
   local cost = M.Cost(M.Info(id))
   local V = S.Lookahead()
@@ -595,7 +604,11 @@ function G.AffordableAhead(id)
         if cur + (V.predict and S.PartialPower(pt) or 0) + (V.power[pt] or 0) + regen < amount then
           return false
         end
-      else
+      -- Mana is hidden in combat, and its known floor is only "enough for a spell that's usable": one pretend
+      -- Starfire put Sunfire "out of mana" with 261,000 mana and a 4,500 cost, so Starfire was all that was left
+      -- (Restoration Druid, 2026-11-21). A cheap spell usable now stays affordable a few casts on; running out
+      -- shows up as "not usable" in slot 1.
+      elseif not (pt == 0 and G.SmallManaCost(id, amount)) then
         local lo, hi = S.PowerBounds(pt)
         if not lo then
           return UNKNOWN
@@ -2022,8 +2035,10 @@ local function Queue(record, opts, targets)
   local castID, castLeft = S.CurrentCast()
   local dt = math.max(S.GCDRemains(), castLeft or 0)
   local v = S.BeginLookahead(dt)
-  if castID then
+  if castID and S.castSource ~= "busy" then
     S.Apply(castID)
+  end
+  if castID then
     v.dt = dt
   end
   local result = DecideAhead(record, opts, targets, true)

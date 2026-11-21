@@ -5293,6 +5293,23 @@ test("channels: slot 1 says HOLD while one runs, GO when it ends; none for chann
   eq(left > 5, true)
   mock.Advance(7)
   eq(S.Channeling(), nil, "over after its duration")
+  -- From the data's "busy" (Disable Abilities on yourself): the engine waits for its end like a channel's, so the
+  -- next spell shows ahead of it; its own ticks don't restart it (Arms, 2026-11-21: no warning before the spin ended)
+  local M = ns.SpellMap
+  local had = M.info[227847]
+  M.info[227847] = { n = "bladestorm", d = 6, gcd = 1.5, busy = "haste" }
+  M.byID[50622] = "bladestorm"
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "cast-bs2", 227847)
+  local cid, cleft = S.CurrentCast()
+  eq(cid, 227847, "the cast the next spell waits on")
+  eq(cleft > 4 and cleft <= 6, true, "its hasted duration")
+  S.busy.t = S.busy.t - 2 -- 2 s in (moving the clock would lengthen this test's fight for later tests)
+  mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "cast-tick", 50622)
+  local _, after = S.CurrentCast()
+  eq(after < cleft - 1.5, true, "a tick doesn't start it again")
+  S.busy.t = S.busy.t - 6
+  eq(S.CurrentCast(), nil, "free once it ends")
+  M.info[227847], M.byID[50622] = had, nil
   mock.inCombat = false
 end)
 
@@ -8161,6 +8178,36 @@ test("slots 2-3: a spender short now becomes affordable after a pretend builder 
   S.Apply(194153) -- 45-100 (capped): middle 72, low end 45
   eq(G.AffordableAhead(191034), false, "45 up to the cap: not affordable from the middle")
   S.EndLookahead()
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
+test("slots 1-3: hidden mana's floor doesn't price a cheap usable spell out after a pretend cast", function()
+  -- Restoration Druid, 2026-11-21: mana known only as "at least Sunfire's 4,500", one pretend Starfire and Sunfire
+  -- was "out of mana" with 261,000 mana; Starfire was shown for the whole fight
+  Reset()
+  local ns = Boot()
+  local S, G, C = ns.State, ns.Engine, ns.Clues
+  local rec = QRecord({ { a = "tigers_fury", k = "R" } })
+  rec.spellInfo[93402] = { n = "sunfire", gcd = 1.5, cost = { [0] = 4500 } }
+  rec.spellInfo[194153] = { n = "starfire", gcd = 1.5, cost = { [0] = 1500 } }
+  Feral(ns, rec)
+  mock.powerMax[0] = 261000
+  mock.inCombat, mock.restricted = true, true
+  ns.combatEndedAt = GetTime()
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  C.bounds[0] = { lo = 4500, hi = 261000, untilT = GetTime() + 10, source = "usable" }
+  mock.usable[93402] = { true, false }
+  S.BeginLookahead(0)
+  S.Apply(194153)
+  eq(G.AffordableAhead(93402), true, "usable now and 2% of the pool: still affordable after one Starfire")
+  S.EndLookahead()
+  mock.usable[93402] = { false, true }
+  S.BeginLookahead(0)
+  S.Apply(194153)
+  eq(G.AffordableAhead(93402), false, "really short now: the floor decides")
+  S.EndLookahead()
+  mock.usable[93402] = nil
   mock.inCombat, mock.restricted = false, false
   mock.Fire("PLAYER_REGEN_ENABLED")
 end)
