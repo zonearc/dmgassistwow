@@ -404,6 +404,7 @@ ns.RegisterSpecData("forever", "mage_arcane", {
       d = 8,
       gcd = 1.5,
       n = "evocation",
+      rgp = { [0] = 1500 },
     },
     [12536] = {
       ap = {

@@ -901,6 +901,7 @@ ns.RegisterSpecData("midnight", "evoker_devastation", {
       cost = { [19] = 3 },
       d = 1.5,
       gcd = 1.5,
+      mpct = 15,
       n = "emerald_blossom",
       r = 25,
     },
@@ -1036,6 +1037,7 @@ ns.RegisterSpecData("midnight", "evoker_devastation", {
       ch = 1,
       chcd = 24,
       gcd = 1.5,
+      mpct = 10,
       n = "verdant_embrace",
       r = 25,
       tal = true,
@@ -1046,6 +1048,7 @@ ns.RegisterSpecData("midnight", "evoker_devastation", {
     [361469] = {
       ct = 2,
       gcd = 1.5,
+      mpct = 12,
       n = "living_flame",
       r = 25,
     },

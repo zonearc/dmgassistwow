@@ -16,6 +16,22 @@ Last updated: 1.6.0.157 (2026-11-10).
 
 ## Open: build
 
+### Resources (owner, 2026-11-21: "catalogue ALL resources ... make sure its all tracked ... never happens again")
+See docs/project/resources.md.
+- [x] Catalogue of every power type spells use; build check (tests/test_resources.py) that each has a model and that
+  mana specs have mana costs
+- [x] Mana costs imported (share of base mana, per spec) and mana counted; runes counted; spells outside our data
+  charge the cost the game states
+- [x] Warcraft Logs truth per spec (tools/wcl-truth.py) and the count replayed against it (tools/count-error.lua)
+- [x] Passive income measured from the truth (Data/IncomeTruth.lua); regeneration from the game's stated rate with
+  haste; regeneration auras from spell data (Adrenaline Rush); "usable" no longer dismissed as a free proc when the
+  game states costs live; the count's maximum follows the game's (a mana count kept a cap of 1,000)
+- [ ] Counted too high: Assassination +77 Energy, Survival +22 Focus, Unholy +19 Runic Power
+- [ ] Counted too low: Vengeance -33 Fury, Blood -27 Runic Power, Arms -40 Rage; mana for Arcane / Augmentation /
+  Protection Paladin
+- [ ] Measured income held back for Fury, Blood, Frost DK, Guardian, Survival (graded simulator worse with it): find why
+- [ ] Buffer per resource from the measured spread, only where refused presses show up in play
+
 ### Open issues from the 2026-11-21 test (upload aca7ca48, 1.6.0.369/370)
 - [x] Free heals (a proc makes the heal free / instant: Vivify, Regrowth...): offer in the defensive row at <= 80% health;
   a paid heal only below 35% (owner: "free heal is useless if you're full ... I would take the free vivify heal if

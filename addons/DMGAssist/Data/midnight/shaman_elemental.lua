@@ -727,6 +727,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     [2825] = {
       cd = 300,
       d = 40,
+      mpct = 0.4,
       n = "bloodlust",
     },
     [8042] = {
@@ -744,6 +745,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     [32182] = {
       cd = 300,
       d = 40,
+      mpct = 0.4,
       n = "heroism",
     },
     [37661] = {
@@ -756,6 +758,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       ct = 2,
       gain = { [11] = 8 },
       gcd = 1.5,
+      mpct = 0.5,
       n = "lava_burst",
       r = 40,
       tal = true,
@@ -803,6 +806,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       },
       cd = 120,
       d = 15,
+      mpct = 2.82,
       n = "spiritwalkers_grace",
       tal = true,
     },
@@ -896,6 +900,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     [188196] = {
       ct = 2.5,
       gcd = 1.5,
+      mpct = 0.2,
       n = "lightning_bolt",
       r = 40,
     },
@@ -905,12 +910,14 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       },
       d = 18,
       gain = { [11] = 3 },
+      mpct = 0.3,
       n = "flame_shock",
       r = 40,
     },
     [188443] = {
       ct = 2,
       gcd = 1.5,
+      mpct = 0.2,
       n = "chain_lightning",
       r = 40,
       tal = true,
@@ -938,6 +945,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     },
     [191732] = {
       ct = 1.5,
+      mpct = 0.15,
       n = "chain_lightning",
       r = 40,
     },
@@ -947,6 +955,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       },
       d = 3600,
       gcd = 1.5,
+      mpct = 0.3,
       n = "lightning_shield",
     },
     [192109] = {
@@ -960,6 +969,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       ch = 1,
       chcd = 120,
       gcd = 1.5,
+      mpct = 1,
       n = "storm_elemental",
       r = 40,
     },
@@ -970,6 +980,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       d = 6,
       gain = { [11] = 3 },
       gcd = 1.5,
+      mpct = 0.2,
       n = "frost_shock",
       r = 40,
       tal = true,
@@ -992,6 +1003,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       ch = 1,
       chcd = 120,
       gcd = 1.5,
+      mpct = 1,
       n = "fire_elemental",
       r = 40,
     },
@@ -1211,6 +1223,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
     [452201] = {
       ct = 2,
       gcd = 1.5,
+      mpct = 0.2,
       n = "tempest",
       r = 40,
     },
@@ -1267,6 +1280,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       cd = 10,
       gain = { [11] = 6 },
       gcd = 1.5,
+      mpct = 0.3,
       n = "voltaic_blaze",
       r = 40,
       tal = true,
@@ -1277,6 +1291,7 @@ ns.RegisterSpecData("midnight", "shaman_elemental", {
       },
       cd = 6,
       gcd = 1.5,
+      mpct = 0.3,
       n = "flame_shock",
       r = 40,
     },

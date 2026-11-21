@@ -4745,6 +4745,8 @@ test("passive income: measured per spec, counted in the look-ahead in full and i
     data = { passiveGain = { [8] = 4, [4] = 2 } } }
   eq(S.RegenRate(8), 0, "out of combat: nothing")
   S.combatStart = GetTime()
+  local truth = ns.Data.incomeTruth
+  ns.Data.incomeTruth = nil
   -- Warcraft Logs' dummy fights by number of targets (Data/ResourceTargets.lua) come first
   local targets = 1
   local real = S.Targets
@@ -4765,8 +4767,12 @@ test("passive income: measured per spec, counted in the look-ahead in full and i
   eq(S.PassiveGain(4), 0, "combo points: counted from what the game shows instead")
   C.SyncFloor(8, 10, 100)
   mock.Advance(10)
-  eq(math.floor(C.FloorBounds(8) + 0.5), 10 + 24, "our count: 60% of it (procs can run below average)")
+  eq(math.floor(C.FloorBounds(8) + 0.5), 10 + 36, "our count: 90% of it (measured from real fights now)")
   ns.Data.resourceTargets = saved
+  -- top players' real fights first (Data/IncomeTruth.lua, 2026-11-21)
+  ns.Data.incomeTruth = { druid_balance = { [8] = 7 } }
+  eq(S.PassiveGain(8), 7, "what top players really gained comes first")
+  ns.Data.incomeTruth = truth
   S.combatStart = nil
 end)
 
@@ -6042,11 +6048,13 @@ test("resource floors: energy regenerates at least at base rate, spenders cost, 
   Restrict()
   mock.Advance(2)
   local lo = ns.Clues.FloorBounds(3)
-  local passive = ns.Clues.PASSIVE_SHARE * ns.State.PassiveGain(3) -- (proc Energy: 0 for now)
-  eq(math.floor(lo + 0.5), math.floor(20 + 2 * (10 + passive) + 0.5), "20 + 2 s x (10/s + a safe share of procs)")
+  local passive = ns.Clues.PASSIVE_SHARE * ns.State.PassiveGain(3) -- (proc Energy, measured for the spec)
+  local regen = ns.State.BaseRegen(3) -- (10 a second with haste, or the rate the game states)
+  eq(regen >= 10, true, "at least the base rate")
+  eq(math.floor(lo + 0.5), math.floor(20 + 2 * (regen + passive) + 0.5), "20 + 2 s x (regeneration + procs)")
   mock.Fire("UNIT_SPELLCAST_SUCCEEDED", "player", "guid", 5221) -- shred costs 40
   lo = ns.Clues.FloorBounds(3)
-  eq(math.floor(lo + 0.5), math.max(0, math.floor(20 + 2 * (10 + passive) - 40 + 0.5)), "spent 40")
+  eq(math.floor(lo + 0.5), math.max(0, math.floor(20 + 2 * (regen + passive) - 40 + 0.5)), "spent 40")
   eq(ns.State.Bounds("energy") ~= nil, true, "the engine sees a range")
   local logged = {}
   DMGAssistWatchdog = { Log = function(kind, data) logged[kind] = data end }
@@ -8231,14 +8239,60 @@ test("slots 1-3: hidden mana's floor doesn't price a cheap usable spell out afte
   S.Apply(194153)
   eq(G.AffordableAhead(93402), true, "usable now and 2% of the pool: still affordable after one Starfire")
   S.EndLookahead()
-  mock.usable[93402] = { false, true }
+  -- really short: a dear spell (8% of the pool) the game calls unaffordable, more than 2 s of regeneration away
+  rec.spellInfo[8936] = { n = "regrowth", gcd = 1.5, cost = { [0] = 21000 } }
+  mock.usable[8936] = { false, true }
+  C.floor[0] = nil -- (no count of our own here: only the game's answers)
+  C.bounds[0] = { lo = 0, hi = 261000, untilT = GetTime() + 10, source = "usable" }
   S.BeginLookahead(0)
   S.Apply(194153)
-  eq(G.AffordableAhead(93402), false, "really short now: the floor decides")
+  eq(G.AffordableAhead(8936), false, "really short now: the floor decides")
   S.EndLookahead()
-  mock.usable[93402] = nil
+  mock.usable[93402], mock.usable[8936] = nil, nil
   mock.inCombat, mock.restricted = false, false
   mock.Fire("PLAYER_REGEN_ENABLED")
+end)
+
+test("mana is counted like Energy: full after a rest, each cast's cost out, the game's regeneration in", function()
+  -- 2026-11-21: mana had no count at all; its costs (a share of base mana) weren't in the data either
+  Reset()
+  local ns = Boot()
+  local C, M, S = ns.Clues, ns.SpellMap, ns.State
+  mock.powerMax[0] = 250000
+  M.info[93402] = { n = "sunfire", gcd = 1.5, mpct = 1.8 }
+  eq(M.Cost(M.info[93402])[0], 4500, "1.8% of 250,000")
+  mock.powerRegen, mock.powerType = 2000, 0
+  eq(S.RegenRate(0), 2000, "the game's stated rate (read out of combat, kept for combat)")
+  C.SeedFloors(nil)
+  eq(C.FloorBounds(0), 250000, "from full")
+  for _ = 1, 10 do
+    C.OnOwnCast(93402)
+  end
+  eq(C.FloorBounds(0), 205000, "ten Sunfires: 45,000 spent")
+  mock.Advance(5)
+  eq(math.floor(C.FloorBounds(0) + 0.5), 215000, "5 s at 2,000 a second")
+  mock.powerRegen, mock.powerType = nil, nil
+  M.info[93402] = nil
+end)
+
+test("runes are counted: spent by casts, three recharging at once, 10 s each with haste", function()
+  Reset()
+  local ns = Boot()
+  local C, M = ns.Clues, ns.SpellMap
+  mock.powerMax[5] = 6
+  M.info[195182] = { n = "marrowrend", gcd = 1.5, cost = { [5] = 2 } }
+  C.floor[5] = nil
+  C.SeedFloors(nil)
+  eq(C.FloorBounds(5), 6, "from full")
+  C.OnOwnCast(195182)
+  C.OnOwnCast(195182)
+  eq(C.FloorBounds(5), 2, "two Marrowrends")
+  mock.Advance(5)
+  local now = C.FloorBounds(5)
+  eq(now > 3 and now < 4, true, "5 s: three recharging at 0.1 a second each (haste included)")
+  mock.Advance(60)
+  eq(C.FloorBounds(5), 6, "never above six")
+  M.info[195182] = nil
 end)
 
 test("Outlaw: rtb_buffs is Roll the Bones' sets (1-4) - read when shown, 1-4 after our cast, 0 without it", function()

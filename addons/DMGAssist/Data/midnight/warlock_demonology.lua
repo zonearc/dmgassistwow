@@ -552,6 +552,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
     [686] = {
       ct = 2,
       gcd = 1.5,
+      mpct = 1.5,
       n = "shadow_bolt",
       r = 40,
     },
@@ -595,6 +596,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       },
       cd = 180,
       d = 8,
+      mpct = 2,
       n = "unending_resolve",
     },
     [105174] = {
@@ -681,6 +683,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
     [264178] = {
       ct = 4.5,
       gcd = 1.5,
+      mpct = 2,
       n = "demonbolt",
       r = 40,
     },
@@ -693,6 +696,7 @@ ns.RegisterSpecData("midnight", "warlock_demonology", {
       d = 15,
       gain = { [7] = 3 },
       gcd = 1.5,
+      mpct = 2,
       n = "summon_demonic_tyrant",
       r = 40,
       tal = true,

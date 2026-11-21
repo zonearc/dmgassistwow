@@ -1854,7 +1854,7 @@ local lastSnapshot = -10
 -- data has Starfire's base 8: the owner's tooltip, 2026-11-13). Read out of combat every GAIN_EVERY s; the number
 -- right before the resource's name. Not found (another language, other wording): our data's number stays.
 S.GAIN_EVERY = 10
-S.POWER_NAMES = { [3] = { "ENERGY", "Energy" }, [4] = { "COMBO_POINTS", "combo point" }, [1] = { "RAGE", "Rage" },
+S.POWER_NAMES = { [0] = { "MANA", "Mana" }, [3] = { "ENERGY", "Energy" }, [4] = { "COMBO_POINTS", "combo point" }, [1] = { "RAGE", "Rage" },
   [2] = { "FOCUS", "Focus" }, [6] = { "RUNIC_POWER", "Runic Power" }, [8] = { "ASTRAL_POWER", "Astral Power" },
   [9] = { "HOLY_POWER", "Holy Power" }, [11] = { "MAELSTROM", "Maelstrom" }, [12] = { "CHI", "Chi" },
   [13] = { "INSANITY", "Insanity" }, [17] = { "FURY", "Fury" }, [7] = { "SOUL_SHARDS", "Soul Shard" } }
@@ -3023,8 +3023,13 @@ end
 -- Passive regeneration per second for resources that refill on their own (energy 10/s, focus 5/s at no haste;
 -- both scale with haste, so Bloodlust counts). The game's own number while readable (talents, gear and haste
 -- included), kept at no haste for when it's hidden. Without it the look-ahead never saw energy coming back.
-S.REGEN_BASE = { [3] = 10, [2] = 5, [19] = 0.2 } -- (Essence: 1 per 5 s, with haste)
+S.REGEN_BASE = { [3] = 10, [2] = 5, [19] = 0.2, [0] = 0 } -- (Essence: 1 per 5 s, with haste; mana: the game's rate)
 local regenSeen = {}
+S.MANA_REGEN_SHARE = 0.01
+-- per spec / class, measured from top players' fights (tools/wcl-truth.py; specs whose mana never fell under 97%
+-- have nothing to measure: at least enough to stay near full, 1%)
+S.MANA_REGEN = { mage = 0.02, evoker = 0.018, warlock = 0.0092, priest_discipline = 0.0098,
+  monk_mistweaver = 0.0075, druid_restoration = 0.007 }
 function S.RegenSeen()
   return regenSeen
 end
@@ -3049,8 +3054,24 @@ function S.PassiveGain(pt)
   -- Astral Power with nothing cast is ~1.7 a second on one target, ~5.3 on three (Shooting Stars from damage over
   -- time) - the flat raid average (5.1) counted three times too much on a single target. More targets than
   -- measured: the most measured (the in-play fit adds what comes beyond, Calibrate section 3).
+  -- Top players' real fights first (Data/IncomeTruth.lua, from the true resource values at every cast): our data's
+  -- figure was 2-10x too low for Fury, Outlaw, Death Knights, Arms (2026-11-21). More targets than one: whichever of
+  -- the two is larger (the dummy measure grows with targets).
+  local truth = state and ns.Data and ns.Data.incomeTruth and ns.Data.incomeTruth[state.key]
+  truth = truth and tonumber(truth[pt])
   local byT = state and ns.Data and ns.Data.resourceTargets and ns.Data.resourceTargets[state.key]
   byT = byT and byT[pt]
+  if truth then
+    local n = S.Targets and S.TargetsCached() or 1
+    n = type(n) == "number" and n or 1
+    local best, bestN = nil, nil
+    for k, v in pairs(type(byT) == "table" and byT or {}) do
+      if k <= math.max(1, n) and (not bestN or k > bestN) then
+        best, bestN = v, k
+      end
+    end
+    return (n > 1 and best and best > truth) and best or truth
+  end
   if type(byT) == "table" then
     local n = S.Targets and S.TargetsCached() or 1
     n = type(n) == "number" and n or 1
@@ -3071,6 +3092,10 @@ end
 local BaseRegen
 function S.RegenRate(pt)
   return BaseRegen(pt) + S.PassiveGain(pt)
+end
+
+function S.BaseRegen(pt)
+  return BaseRegen(pt)
 end
 
 function BaseRegen(pt)
@@ -3096,6 +3121,16 @@ function BaseRegen(pt)
       return seen.rate * (1 + readHaste / 100) / (1 + seen.haste / 100)
     end
     return seen.rate
+  end
+  if pt == 0 then
+    -- never stated yet: the share of base mana a second top players regenerated (Warcraft Logs, 2026-11-21)
+    local baseMana = ns.SpellMap.BaseMana and ns.SpellMap.BaseMana()
+    if not baseMana then
+      return 0
+    end
+    local key = ns.Specs and ns.Specs.current and ns.Specs.current.key or ""
+    local share = S.MANA_REGEN[key] or S.MANA_REGEN[key:match("^(%a+)_") or ""] or S.MANA_REGEN_SHARE
+    return baseMana * share
   end
   return base * HasteFactor()
 end
@@ -3267,6 +3302,9 @@ function S.PowerBounds(pt, max)
   if type(max) ~= "number" then
     max = U.Get(UnitPowerMax, "player", pt)
   end
+  if pt == 0 and not M.ManaMaxTrusted() then
+    max = nil -- (a maximum below what the costs imply caps nothing: SpellMap.ManaMaxTrusted)
+  end
   if type(max) == "number" and max > 0 then
     hi = math.min(hi, max)
     lo = math.min(lo, max)
@@ -3307,6 +3345,18 @@ function S.Bounds(name)
   local cur, max = PowerNow(pt)
   if type(cur) == "number" then
     return nil -- exact value known; the resolver already returns it
+  end
+  -- (mana: our count is good enough to say a spell is affordable, too rough for a list's "mana.pct" lines - Arcane
+  -- Surge spends it all, Evocation refills it; answered from the count, Arcane's replay agreed 45% instead of 90%)
+  if pt == 0 then
+    local lo0, hi0 = ns.Clues.ResourceBounds(0, true)
+    if not lo0 then
+      return nil
+    end
+    if field == "deficit" then
+      return type(max) == "number" and max - hi0 or nil, type(max) == "number" and max - lo0 or nil
+    end
+    return lo0, (type(max) == "number" and max > 0) and math.min(hi0, max) or hi0
   end
   local lo, hi = S.PowerBounds(pt, max)
   if not lo then
@@ -4130,6 +4180,7 @@ function S.ReadLiveCosts()
           ns.Diagnostics.Observe("live_cost", ok, now and 1 or nil, now and "ok" or (ok and "secret" or nil))
         end
         if now then
+          S.liveReadAt = GetTime()
           live[info] = now
           -- how long the game has stated this same cost (M.Cost: a cut that holds is a talent or a long buff, not a
           -- proc one cast uses up)

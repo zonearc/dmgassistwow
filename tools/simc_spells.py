@@ -150,6 +150,17 @@ def parse_dump(text):
                     cur.setdefault("gainSpec", {}).setdefault(w.group(1), {})[pt] = amount
                 else:
                     cur.setdefault("costGain", {})[pt] = amount
+        elif key == "Resource" and "% Base Mana (0)" in val:
+            # Mana costs are a share of base mana, often per spec ("2.6% Base Mana (0) ... w/ Discipline Priest"):
+            # kept as a percentage, turned into mana with your maximum in game. Skipped before, so no healer or
+            # caster had a mana cost in the data (2026-11-21: Restoration's Sunfire priced from a guess).
+            m = re.match(r"([\d.]+)% Base Mana \(0\)", val)
+            if m:
+                w = re.search(r"\) w/ (.+?) \(id=", val)
+                if w:
+                    cur.setdefault("manaPctSpec", {})[w.group(1)] = _num(m.group(1))
+                else:
+                    cur["manaPct"] = _num(m.group(1))
         elif key == "Resource":
             c = COST.match(val)
             if c and "%" not in val.split("(")[0]:
@@ -167,6 +178,17 @@ def parse_dump(text):
                 cur["hastedDuration"] = True
             if "Is Channelled" in val:
                 cur["channel"] = True  # Game mode's hold bar: a channel lasts its Duration
+    regen_pt = {"mana": 0, "rage": 1, "focus": 2, "energy": 3, "rune": 5, "runic_power": 6, "astral_power": 8,
+                "chi": 12, "fury": 17, "essence": 19}
+    for s in spells.values():
+        # "Modify Power Regen" on yourself while the aura is up (Adrenaline Rush: Energy regeneration +75%): the
+        # count regenerates that much faster (Outlaw's count ran 90 Energy low against top players' logs, 2026-11-21)
+        for e in s["effects"]:
+            if "Modify Power Regen (110)" in e["text"] and "Target: Self" in e["detail"]:
+                v = re.search(r"Base Value: (-?[\d.]+)", e["detail"])
+                r = re.search(r"Resource: ([a-z_]+)", e["detail"])
+                if v and r and r.group(1) in regen_pt and float(v.group(1)) != 0:
+                    s.setdefault("regenPct", {})[regen_pt[r.group(1)]] = _num(v.group(1))
     for s in spells.values():
         # "Disable Abilities" on yourself for its duration (Bladestorm: only the listed defensives stay usable): a
         # cast the game doesn't call a channel but that leaves nothing else to press, so the next spell waits on it
@@ -720,10 +742,18 @@ def select(spells, refs, other_specs=(), this_spec=None):
             rec["hg"] = True
         if s.get("channel"):
             rec["chan"] = True
+        if s.get("regenPct"):
+            rec["rgp"] = dict(sorted(s["regenPct"].items()))
         if s.get("busy"):
             rec["busy"] = "haste" if s.get("hastedDuration") else True
         if s.get("cost"):
             rec["cost"] = dict(sorted(s["cost"].items()))
+        mpct = s.get("manaPct")
+        for who, v in (s.get("manaPctSpec") or {}).items():
+            if this_spec and who.startswith(this_spec + " "):
+                mpct = v
+        if mpct and not (s.get("cost") or {}).get(0):
+            rec["mpct"] = mpct
         if s.get("costMax"):
             rec["cmax"] = dict(sorted(s["costMax"].items()))
         gain = _gain(s, this_spec)

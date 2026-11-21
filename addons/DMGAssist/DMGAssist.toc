@@ -60,6 +60,7 @@ Core\Minimap.lua
 Data\Combos.lua
 Data\Mitigation.lua [AllowLoadGameType standard]
 Data\ResourceTargets.lua [AllowLoadGameType standard]
+Data\IncomeTruth.lua [AllowLoadGameType standard]
 Data\Overrides.lua [AllowLoadGameType standard]
 Data\ProcGlows.lua [AllowLoadGameType standard]
 Data\CastAuras.lua [AllowLoadGameType standard]

@@ -244,7 +244,76 @@ function M.Cost(info)
       return live
     end
   end
-  return info.costLive or info.cost
+  if info.costLive then
+    return info.costLive
+  end
+  if info.mpct then
+    return M.ManaCost(info)
+  end
+  return info.cost
+end
+
+-- A mana cost in the data is a share of base mana ("mpct", SimC's "1.8% Base Mana"): in mana with your maximum
+-- (base mana for nearly everyone; a talent that raises it makes this a little dear, never cheap). Merged with the
+-- spell's other costs. Cached per maximum.
+M.manaCostCache = {}
+-- Base mana at the top level (every class's maximum without talents, Warcraft Logs 2026-11-21: 250,000; Arcane's
+-- 370,000 and Restoration Shaman's 306,000 are talents): costs are shares of this, not of your maximum.
+M.BASE_MANA = 250000
+function M.BaseMana()
+  local derived = M.DerivedBaseMana()
+  if derived then
+    return derived
+  end
+  local max = U.Get(UnitPowerMax, "player", 0)
+  if type(max) ~= "number" or max <= 0 then
+    return nil
+  end
+  return math.min(max, M.BASE_MANA)
+end
+
+-- Base mana from a cost the game states: a spell whose data says "2.75% of base mana" costing 1,884 now means base
+-- mana 68,500 (any level, any client). nil when no such cost has been read.
+function M.DerivedBaseMana()
+  local best
+  for info, live in pairs(M.live or {}) do
+    local pct = type(info) == "table" and tonumber(info.mpct)
+    local amount = type(live) == "table" and tonumber(live[0])
+    if pct and pct > 0 and amount and amount > 0 then
+      local base = amount / (pct / 100)
+      best = best and math.max(best, base) or base -- (a cut cost under-states it: the highest)
+    end
+  end
+  return best
+end
+
+-- Is the maximum mana the game reports consistent with the base mana its costs imply? (An old recording, or a value
+-- that isn't really readable, gave 1,000 against costs implying 68,500: the count then fought every game answer.)
+function M.ManaMaxTrusted()
+  local max = U.Get(UnitPowerMax, "player", 0)
+  if type(max) ~= "number" or max <= 0 then
+    return false
+  end
+  local derived = M.DerivedBaseMana()
+  return not derived or max >= derived * 0.95
+end
+
+function M.ManaCost(info)
+  local max = M.BaseMana()
+  if not max then
+    return info.cost
+  end
+  local c = M.manaCostCache[info]
+  if c and c.max == max then
+    return c.cost
+  end
+  local cost = {}
+  for pt, v in pairs(info.cost or {}) do
+    cost[pt] = v
+  end
+  cost[0] = cost[0] or math.floor(info.mpct / 100 * max + 0.5)
+  M.manaCostCache[info] = { max = max, cost = cost }
+  return cost
 end
 
 function M.IsOwnAura(token)

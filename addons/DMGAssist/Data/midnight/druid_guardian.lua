@@ -668,6 +668,7 @@ ns.RegisterSpecData("midnight", "druid_guardian", {
     [78675] = {
       cd = 60,
       d = 8,
+      mpct = 3.36,
       n = "solar_beam",
       r = 40,
       tal = true,

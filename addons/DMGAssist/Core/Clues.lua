@@ -386,6 +386,9 @@ local function Bounds(pt, withFloor)
     lo, hi, known = math.max(lo, slo), math.min(hi, shi), true
   end
   local flo, fhi = C.FloorBounds(pt)
+  if pt == 0 and flo and not M.ManaMaxTrusted() then
+    flo, fhi = nil, nil -- (no count of mana without a maximum we can believe)
+  end
   if flo and withFloor then
     lo, hi, known = math.max(lo, flo), math.min(hi, fhi), true
   end
@@ -397,7 +400,11 @@ local function Bounds(pt, withFloor)
     -- "energy 40+" right after spending, from a free Shred (2026-11-10).
     local waiting = o and o.source == "wait" and o.untilT > now
     local ceiling = C.FloorCeiling(pt)
-    local free = waiting or (ceiling and a and a.lo > ceiling)
+    -- (with the costs the game states this moment, a free spell has none and proves nothing: "usable" is proof. Taken
+    -- as a free proc whenever above our count, a count that had run low never came back - Arms sat at 3 Rage for a
+    -- whole fight against 100+ in top players' logs, tools/count-error.lua 2026-11-21)
+    local liveNow = ns.State.liveReadAt and now - ns.State.liveReadAt < 1
+    local free = waiting or (not liveNow and ceiling and a and a.lo > ceiling)
     if a and (a.lo > 0 or a.hi < math.huge) then
       lo, hi, known = math.max(lo, free and 0 or a.lo), math.min(hi, a.hi), true
     end
@@ -408,7 +415,10 @@ local function Bounds(pt, withFloor)
   return lo, hi
 end
 
-function C.ResourceBounds(pt)
+function C.ResourceBounds(pt, noFloor)
+  if noFloor then
+    return Bounds(pt, false)
+  end
   local lo, hi = Bounds(pt, true)
   if lo then
     return lo, hi
@@ -540,6 +550,20 @@ C.GLOW_FREE_WINDOW = 0.5
 function C.OnOwnCast(id)
   local info = M.Info(id)
   if not info then
+    -- A spell outside our data (a healer's heals, utility): what the game says it cost, still spent from the count
+    -- (2026-11-21: Discipline's count ran 40,000 mana high on average, its heals never charged)
+    local costs = U.Get(C_Spell and C_Spell.GetSpellPowerCost, id)
+    local live
+    for _, c in ipairs(type(costs) == "table" and costs or {}) do
+      local pt, amount = U.Read(c.type), U.Read(c.cost)
+      if type(pt) == "number" and type(amount) == "number" and amount > 0 and C.floor[pt] then
+        live = live or {}
+        live[pt] = amount
+      end
+    end
+    if live then
+      C.FloorOnCast({ cost = live }, nil)
+    end
     return
   end
   -- A spender lit by a proc when cast (the game's border: Clearcasting, Starweaver's Warp...) and whose cost the game
@@ -642,12 +666,48 @@ end
 -- floor. The ceiling comes from what we can't afford (IsSpellUsable, see Affordability). It decides lines such
 -- as Balance's "wrath while astral_power<80". Graded against the real value whenever it is readable again
 -- ("floor", logged as floor_check), and switched off if it is ever above it.
-C.BUILT = { RAGE = 1, FOCUS = 2, ENERGY = 3, RUNIC_POWER = 6, ASTRAL_POWER = 8, MAELSTROM = 11, INSANITY = 13,
+C.BUILT = { MANA = 0, RAGE = 1, FOCUS = 2, ENERGY = 3, RUNES = 5, RUNIC_POWER = 6, ASTRAL_POWER = 8, MAELSTROM = 11, INSANITY = 13,
   FURY = 17, ESSENCE = 19 }
 -- base points per second (Essence: 1 per 5 s. Uncounted, the look-ahead knew only "under 3" after a Disintegrate and
 -- never expected the next one: Devastation's slot 2 said Living Flame while Essence came back during its cast,
 -- graded simulator 2026-11-18)
-C.REGEN = { [2] = 5, [3] = 10, [19] = 0.2 }
+C.REGEN = { [0] = 0, [2] = 5, [3] = 10, [5] = 0, [19] = 0.2 }
+-- Runes (never counted either, only "not enough runes" from the game): up to three recharge at once, 10 s each
+-- with haste.
+C.RUNE_TIME, C.RUNES_AT_ONCE = 10, 3
+-- Mana (2026-11-21: never counted - only "at least the dearest usable spell's cost", so Restoration's Sunfire looked
+-- unaffordable with 261,000 mana): counted like Energy, refilling at the rate the game states (GetPowerRegen, read
+-- whenever it is readable, kept for when it isn't), from full after a rest.
+-- Auras of ours that speed a resource's regeneration (spell data "rgp": Adrenaline Rush +75% Energy), while our clock
+-- says they're up.
+local regenAuras, regenFrom
+function C.RegenMult(pt)
+  if regenFrom ~= M.info then
+    regenFrom, regenAuras = M.info, {}
+    for _, info in pairs(M.info or {}) do
+      if type(info) == "table" and type(info.rgp) == "table" and info.n then
+        regenAuras[#regenAuras + 1] = info
+      end
+    end
+  end
+  local mult, now = 1, GetTime()
+  local S = ns.State
+  for _, info in ipairs(regenAuras) do
+    local pct = info.rgp[pt]
+    local up = pct and S.auraUntil and S.auraUntil[info.n]
+    if type(up) == "number" and up > now then
+      mult = mult + pct / 100
+    end
+  end
+  return mult
+end
+
+function C.RegenOf(pt)
+  if pt == 0 then
+    return (ns.State.RegenRate and ns.State.RegenRate(0)) or 0
+  end
+  return C.REGEN[pt] or 0
+end
 local BUILT_PT = {}
 for _, pt in pairs(C.BUILT) do
   BUILT_PT[pt] = true
@@ -656,12 +716,32 @@ C.floor = {} -- pt -> { lo =, max =, at = time of lo, moved = true once a cast c
 
 -- Measured passive income (State.PassiveGain) counts at this share: it comes from procs, so over a few seconds it
 -- can run below its average, and the count must stay a lower bound.
-C.PASSIVE_SHARE = 0.6
+C.PASSIVE_SHARE = 0.9 -- (measured income from top players since 2026-11-21: 0.6 left most counts low)
 local function Accrued(f, pt, now)
+  -- the maximum as it is now (seeded before it was readable, or raised by a talent or Adrenaline Rush since: a
+  -- mana count kept 1,000 as its cap against a real 68,500 - Arcane's replay, 2026-11-21)
+  local live = ns.State.PowerMax and ns.State.PowerMax(pt)
+  if type(live) == "number" and live > 0 and live ~= f.max then
+    f.max = live
+  end
   local passive = ns.State.PassiveGain and ns.State.PassiveGain(pt) or 0
   -- (+ the gain a second Calibrate's fit found: Balance's ~3 Astral Power a second on 8 targets)
   local fitted = not C.REGEN[pt] and ns.Calibrate and ns.State.combatStart and ns.Calibrate.PassiveRate(pt) or 0
-  local lo = f.lo + ((C.REGEN[pt] or 0) + C.PASSIVE_SHARE * passive + fitted) * math.max(0, now - f.at)
+  -- regeneration at the rate the game states (GetPowerRegen: haste included; kept from when it was readable, scaled
+  -- by haste since) - a fixed 10 Energy a second ignored haste, and the count ran 59 Energy low for Feral and 139
+  -- for Outlaw against top players' logs (tools/count-error.lua, 2026-11-21)
+  local base = C.REGEN[pt] and ns.State.BaseRegen and ns.State.BaseRegen(pt) or (C.REGEN[pt] or 0)
+  if pt == 0 then
+    base = C.RegenOf(0)
+  end
+  base = base * C.RegenMult(pt)
+  if pt == 5 then
+    local max = (type(f.max) == "number" and f.max > 0) and f.max or 6
+    local haste = ns.State.HasteFactor and ns.State.HasteFactor() or 1
+    base = math.min(C.RUNES_AT_ONCE, math.max(0, max - f.lo)) / C.RUNE_TIME * haste
+  end
+  local lo = f.lo + (base + ((pt == 0 or pt == 5) and 0 or C.PASSIVE_SHARE * passive) + fitted)
+    * math.max(0, now - f.at)
   if type(f.max) == "number" and f.max > 0 then
     lo = math.min(lo, f.max)
   end
@@ -769,7 +849,7 @@ end
 -- A count for a regenerating resource we have none for: full (it refills out of combat).
 function C.StartRegenFloor(pt)
   local max = ns.State.PowerMax and ns.State.PowerMax(pt)
-  max = type(max) == "number" and max > 0 and max or 100
+  max = type(max) == "number" and max > 0 and max or (pt == 5 and 6 or 100)
   C.floor[pt] = { lo = max, max = max, at = GetTime(), seeded = true, regen = true }
 end
 

@@ -81,6 +81,7 @@ ns.RegisterSpecData("midnight", "evoker_preservation", {
       chcd = 30,
       d = 2.5,
       gcd = 0.5,
+      mpct = 1.8,
       n = "fire_breath",
     },
     [357209] = {
@@ -118,6 +119,7 @@ ns.RegisterSpecData("midnight", "evoker_preservation", {
     [361469] = {
       ct = 2,
       gcd = 1.5,
+      mpct = 2.2,
       n = "living_flame",
       r = 25,
     },
@@ -243,6 +245,7 @@ ns.RegisterSpecData("midnight", "evoker_preservation", {
       chcd = 30,
       d = 3.25,
       gcd = 0.5,
+      mpct = 1.8,
       n = "fire_breath",
     },
     [383880] = {

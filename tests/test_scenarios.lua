@@ -326,7 +326,9 @@ local function World(record, targets, key)
     local s = START[pt]
     w.cur[pt] = s == "max" and mx or (s or 0)
   end
-  for pt, v in pairs(type(record.passiveGain) == "table" and record.passiveGain or {}) do
+  -- (top players' measured income where we have it, Data/IncomeTruth.lua - the data's own figure was 2-10x off)
+  local truth = key and NS and NS.Data.incomeTruth and NS.Data.incomeTruth[key]
+  for pt, v in pairs(truth or (type(record.passiveGain) == "table" and record.passiveGain) or {}) do
     if not DISCRETE[pt] then
       w.passive[pt] = v
     end
@@ -362,13 +364,22 @@ local function WorldPublish(w)
   for pt, v in pairs(w.cur) do
     changed = changed or mock.power[pt] ~= math.floor(v)
     mock.power[pt], mock.powerMax[pt] = math.floor(v), w.max[pt]
-    mock.powerReadable[pt] = DISCRETE[pt] or pt == 0
+    -- (mana is hidden in combat like the rest: readable here, the simulator never caught the addon having no
+    -- count of it - Restoration's Sunfire "unaffordable" with 261,000 mana, 2026-11-21)
+    mock.powerReadable[pt] = DISCRETE[pt] or nil
   end
   if changed then -- the game says when your power changes (runes, essence and shards refilling too)
     mock.Fire("UNIT_POWER_FREQUENT", "player")
   end
 end
 local function WorldTick(w, dt)
+  -- mana refills at the spec's measured share of the maximum a second (Warcraft Logs, 2026-11-21: 0.7-2%)
+  if w.cur[0] and w.max[0] then
+    local S = NS and NS.State
+    local key = NS and NS.Specs.current and NS.Specs.current.key or ""
+    local share = S and S.MANA_REGEN and (S.MANA_REGEN[key] or S.MANA_REGEN[key:match("^(%a+)_") or ""]) or 0.008
+    w.cur[0] = math.min(w.max[0], w.cur[0] + share * w.max[0] * dt)
+  end
   for pt, rate in pairs(REGEN) do
     if w.cur[pt] then
       w.cur[pt] = math.min(w.max[pt], w.cur[pt] + rate * dt)
@@ -491,7 +502,7 @@ local function Fight(ns, key, record, book, scenario)
   mock.cooldowns, mock.usable, mock.auras = {}, {}, { player = {}, target = {} }
   mock.power, mock.powerMax, mock.powerReadable = {}, {}, {}
   for pt = 0, 19 do
-    mock.powerMax[pt] = (pt == 4 or pt == 7 or pt == 9 or pt == 12 or pt == 16 or pt == 19) and 5 or 100
+    mock.powerMax[pt] = (pt == 4 or pt == 7 or pt == 9 or pt == 12 or pt == 16 or pt == 19) and 5 or pt == 5 and 6 or 100
     mock.power[pt] = math.floor(mock.powerMax[pt] * 0.6)
   end
   local world = GRADE and World(record, scenario.targets, key) or nil

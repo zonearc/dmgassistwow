@@ -712,6 +712,7 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       cost = { [19] = 3 },
       d = 1.5,
       gcd = 1.5,
+      mpct = 15,
       n = "emerald_blossom",
       r = 25,
     },
@@ -820,6 +821,7 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
     [361469] = {
       ct = 2,
       gcd = 1.5,
+      mpct = 12,
       n = "living_flame",
       r = 25,
     },
@@ -1010,6 +1012,7 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
     [390386] = {
       cd = 300,
       d = 40,
+      mpct = 4,
       n = "fury_of_the_aspects",
     },
     [392268] = {
@@ -1040,6 +1043,7 @@ ns.RegisterSpecData("midnight", "evoker_augmentation", {
       ct = 1.5,
       d = 10,
       gcd = 1.5,
+      mpct = 1,
       n = "ebon_might",
       tal = true,
     },

@@ -74,6 +74,7 @@ ns.RegisterSpecData("midnight", "monk_mistweaver", {
       cost = { [3] = 40, [12] = 2 },
       d = 1.5,
       gcd = 1.5,
+      mpct = 1,
       n = "spinning_crane_kick",
     },
     [107270] = {
@@ -84,6 +85,7 @@ ns.RegisterSpecData("midnight", "monk_mistweaver", {
       chcd = 10,
       cost = { [12] = 2 },
       gcd = 1.5,
+      mpct = 2.5,
       n = "rising_sun_kick",
       r = 5,
       tal = true,
@@ -219,6 +221,7 @@ ns.RegisterSpecData("midnight", "monk_mistweaver", {
       chcd = 10,
       cost = { [12] = 2 },
       gcd = 1.5,
+      mpct = 1.25,
       n = "rushing_wind_kick",
       tal = true,
     },

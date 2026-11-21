@@ -1043,6 +1043,7 @@ ns.RegisterSpecData("forever", "rogue_assassination", {
       d = 15,
       gcd = 1,
       n = "adrenaline_rush",
+      rgp = { [3] = 75 },
     },
     [13877] = {
       ap = {

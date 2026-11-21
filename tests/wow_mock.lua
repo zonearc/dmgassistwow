@@ -542,6 +542,13 @@ function mock.Install(env)
   env.IsPlayerSpell = function(id)
     return mock.playerSpells ~= nil and mock.playerSpells[id] == true
   end
+  -- (mock.powerRegen: the primary power's regeneration a second, as GetPowerRegen states it)
+  env.GetPowerRegen = function()
+    return mock.powerRegen or 0, mock.powerRegen or 0
+  end
+  env.UnitPowerType = function()
+    return mock.powerType
+  end
   env.UnitPower = function(_, pt)
     if mock.power[pt] ~= nil then
       if mock.powerReadable[pt] then

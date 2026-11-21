@@ -844,6 +844,7 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
     [2825] = {
       cd = 300,
       d = 40,
+      mpct = 0.4,
       n = "bloodlust",
     },
     [17364] = {
@@ -853,6 +854,7 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
       ch = 1,
       chcd = 7.5,
       gcd = 1.5,
+      mpct = 0.4,
       n = "stormstrike",
       r = 5,
     },
@@ -864,6 +866,7 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
     [32182] = {
       cd = 300,
       d = 40,
+      mpct = 0.4,
       n = "heroism",
     },
     [33757] = {
@@ -892,6 +895,7 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
     [60103] = {
       cd = 18,
       gcd = 1.5,
+      mpct = 0.16,
       n = "lava_lash",
       r = 5,
       tal = true,
@@ -953,6 +957,7 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
       ch = 1,
       chcd = 15,
       gcd = 1.5,
+      mpct = 0.2,
       n = "crash_lightning",
       r = 5,
       tal = true,
@@ -987,6 +992,7 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
     [188196] = {
       ct = 2.5,
       gcd = 1.5,
+      mpct = 0.2,
       n = "lightning_bolt",
       r = 40,
     },
@@ -996,6 +1002,7 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
       },
       d = 18,
       gain = { [11] = 3 },
+      mpct = 0.3,
       n = "flame_shock",
       r = 40,
     },
@@ -1007,12 +1014,14 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
     [188443] = {
       ct = 2,
       gcd = 1.5,
+      mpct = 0.2,
       n = "chain_lightning",
       r = 40,
       tal = true,
     },
     [191732] = {
       ct = 1.5,
+      mpct = 0.15,
       n = "chain_lightning",
       r = 40,
     },
@@ -1022,6 +1031,7 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
       },
       d = 3600,
       gcd = 1.5,
+      mpct = 0.3,
       n = "lightning_shield",
     },
     [192109] = {
@@ -1047,6 +1057,7 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
       d = 6,
       gain = { [11] = 3 },
       gcd = 1.5,
+      mpct = 0.2,
       n = "frost_shock",
       r = 40,
       tal = true,
@@ -1062,6 +1073,7 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
     [197214] = {
       cd = 30,
       gcd = 1.5,
+      mpct = 1.2,
       n = "sundering",
       tal = true,
     },
@@ -1269,6 +1281,7 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
       cd = 25,
       d = 25,
       gcd = 1,
+      mpct = 0.4,
       n = "surging_totem",
       r = 40,
     },
@@ -1288,6 +1301,7 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
     [452201] = {
       ct = 2,
       gcd = 1.5,
+      mpct = 0.2,
       n = "tempest",
       r = 40,
     },
@@ -1381,6 +1395,7 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
     [470057] = {
       cd = 10,
       gcd = 1.5,
+      mpct = 0.3,
       n = "voltaic_blaze",
       r = 40,
       tal = true,
@@ -1391,6 +1406,7 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
       },
       cd = 6,
       gcd = 1.5,
+      mpct = 0.3,
       n = "flame_shock",
       r = 40,
     },
@@ -1401,6 +1417,7 @@ ns.RegisterSpecData("midnight", "shaman_enhancement", {
     },
     [1218090] = {
       gcd = 1.5,
+      mpct = 0.8,
       n = "primordial_storm",
       r = 5,
     },

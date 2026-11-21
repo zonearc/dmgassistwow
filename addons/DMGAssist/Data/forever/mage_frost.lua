@@ -514,6 +514,7 @@ ns.RegisterSpecData("forever", "mage_frost", {
       d = 8,
       gcd = 1.5,
       n = "evocation",
+      rgp = { [0] = 1500 },
     },
     [12472] = {
       cd = 600,

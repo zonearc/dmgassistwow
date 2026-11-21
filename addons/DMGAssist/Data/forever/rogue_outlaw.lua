@@ -1003,6 +1003,7 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
       d = 15,
       gcd = 1,
       n = "adrenaline_rush",
+      rgp = { [3] = 75 },
     },
     [13877] = {
       ap = {
@@ -1080,6 +1081,7 @@ ns.RegisterSpecData("forever", "rogue_outlaw", {
     [14983] = {
       n = "vigor",
       pas = true,
+      rgp = { [3] = 5 },
     },
     [15087] = {
       ap = {

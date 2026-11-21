@@ -912,6 +912,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     [5176] = {
       ct = 1.5,
       gcd = 1.5,
+      mpct = 0.2,
       n = "wrath",
       r = 40,
     },
@@ -1000,6 +1001,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     [78675] = {
       cd = 60,
       d = 8,
+      mpct = 3.36,
       n = "solar_beam",
       r = 40,
       tal = true,
@@ -1136,6 +1138,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     [197626] = {
       cd = 10,
       gcd = 1.5,
+      mpct = 0.6,
       n = "starsurge",
       r = 40,
       tal = true,
@@ -1143,6 +1146,7 @@ ns.RegisterSpecData("midnight", "druid_balance", {
     [197628] = {
       ct = 2.5,
       gcd = 1.5,
+      mpct = 0.6,
       n = "starfire",
       r = 40,
       tal = true,

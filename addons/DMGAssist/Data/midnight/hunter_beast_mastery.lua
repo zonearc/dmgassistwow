@@ -663,6 +663,7 @@ ns.RegisterSpecData("midnight", "hunter_beast_mastery", {
     [321014] = {
       n = "pack_tactics",
       pas = true,
+      rgp = { [2] = 75 },
       tal = true,
     },
     [344572] = {

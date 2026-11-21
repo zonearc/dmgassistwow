@@ -809,6 +809,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
       ct = 1.5,
       d = 6,
       gcd = 1.5,
+      mpct = 10,
       n = "regrowth",
       r = 40,
     },
@@ -894,6 +895,7 @@ ns.RegisterSpecData("midnight", "druid_feral", {
     [78675] = {
       cd = 60,
       d = 8,
+      mpct = 3.36,
       n = "solar_beam",
       r = 40,
       tal = true,

@@ -55,6 +55,7 @@ ns.RegisterSpecData("midnight", "priest_holy", {
     [585] = {
       ct = 1.5,
       gcd = 1.5,
+      mpct = 0.2,
       n = "smite",
       r = 40,
     },
@@ -75,6 +76,7 @@ ns.RegisterSpecData("midnight", "priest_holy", {
       ct = 1.5,
       d = 7,
       gcd = 1.5,
+      mpct = 0.24,
       n = "holy_fire",
       r = 40,
       st = 1,
@@ -106,6 +108,7 @@ ns.RegisterSpecData("midnight", "priest_holy", {
       chcd = 10,
       gain = { [13] = 4 },
       gcd = 1.5,
+      mpct = 0.5,
       n = "shadow_word_death",
       r = 40,
       tal = true,
@@ -126,12 +129,14 @@ ns.RegisterSpecData("midnight", "priest_holy", {
     [88625] = {
       cd = 60,
       gcd = 1.5,
+      mpct = 0.6,
       n = "holy_word_chastise",
       r = 30,
       tal = true,
     },
     [132157] = {
       gcd = 1.5,
+      mpct = 0.2,
       n = "holy_nova",
       tal = true,
     },

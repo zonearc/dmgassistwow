@@ -1171,6 +1171,7 @@ ns.RegisterSpecData("forever", "monk_windwalker", {
     [115396] = {
       n = "ascension",
       pas = true,
+      rgp = { [3] = 10 },
       tal = true,
     },
     [116705] = {

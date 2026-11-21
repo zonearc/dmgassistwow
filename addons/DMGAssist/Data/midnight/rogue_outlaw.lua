@@ -574,6 +574,7 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       cd = 180,
       d = 15,
       n = "adrenaline_rush",
+      rgp = { [3] = 75 },
       tal = true,
     },
     [13877] = {
@@ -589,6 +590,7 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
     [14983] = {
       n = "vigor",
       pas = true,
+      rgp = { [3] = 5 },
       tal = true,
     },
     [22482] = {
@@ -671,6 +673,7 @@ ns.RegisterSpecData("midnight", "rogue_outlaw", {
       cd = 180,
       d = 4,
       n = "adrenaline_rush",
+      rgp = { [3] = 100 },
     },
     [193315] = {
       cost = { [3] = 45 },

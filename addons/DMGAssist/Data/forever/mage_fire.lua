@@ -667,6 +667,7 @@ ns.RegisterSpecData("forever", "mage_fire", {
       d = 8,
       gcd = 1.5,
       n = "evocation",
+      rgp = { [0] = 1500 },
     },
     [12505] = {
       ap = {
