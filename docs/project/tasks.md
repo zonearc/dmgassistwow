@@ -31,6 +31,12 @@ See docs/project/resources.md.
   Protection Paladin
 - [ ] Measured income held back for Fury, Blood, Frost DK, Guardian, Survival (graded simulator worse with it): find why
 - [ ] Buffer per resource from the measured spread, only where refused presses show up in play
+- [x] Upkeep gate in the graded simulator (DoT uptime, dropped upkeep, tests/upkeep_baseline.json) and the upkeep
+  guarantee in the look-ahead; targeted reserve measured worse, not shipped (docs/project/resources.md)
+- [ ] Found by the upkeep gate: Destruction spams Shadowburn offline (58 in 2 min, no Incinerate / Chaos Bolt /
+  Wither); Unholy's Dread Plague never up; Feral's Rip 71% on one target
+- [ ] Graded reference builds for the healers (Restoration Druid, Holy / Discipline, Resto Shaman, Holy Paladin,
+  Mistweaver, Preservation) so the gate covers them
 
 ### Open issues from the 2026-11-21 test (upload aca7ca48, 1.6.0.369/370)
 - [x] Free heals (a proc makes the heal free / instant: Vivify, Regrowth...): offer in the defensive row at <= 80% health;

@@ -77,3 +77,26 @@ refused press there; it only acts on predictions (slot 1's next, slots 2-3). Whi
 (3-8%) would have held spenders and DoTs back further. Now that most counts are close to unbiased, the buffer should
 be each resource's measured spread (`count-error.lua` p10 / p90), per spec, and only where refused presses show up
 in play. The optional "predictable spending" margin stays off by default.
+
+## Keeping upkeep up (2026-11-23)
+
+Owner: "how do we ensure ... it can spend the critical spells and not starve ... and leaves some out, such as the
+sunfire example?"
+
+- Priority and pooling come from the lists (DoT refreshes above fillers, `pool_resource` lines): honest counts are
+  what make them work.
+- Upkeep guarantee (Engine `G.UpkeepTrusted`): a spell the list keeps up - its line checks its own DoT, a DoT record
+  of its name, no real cooldown - that the game calls usable now is never priced out by our estimate in the
+  look-ahead, as long as nothing pretended since has spent from its resources. Mana's cheap-spell rule covers the
+  Restoration case itself (a pretend Starfire spends mana).
+- Targeted reserve: built and measured, not shipped. Holding a spender for a DoT refresh due within two GCDs made
+  things worse offline: Feral's Rip uptime 78 -> 73%, Assassination's slot 2 on one target 98 -> 86%, Feral's real
+  fight 6/53 -> 4/53 presses - holding a spender delays the build-and-spend cycle that pays for the refresh.
+- The gate: the graded simulator's world keeps DoTs on the target; per spec and target count it measures DoT uptime
+  and dropped upkeep (seconds a minute a DoT was down, its spell castable, and in neither slot 1 nor 2), held to
+  `tests/upkeep_baseline.json` (uptime may lose 5 points, dropped may gain 3 s/min).
+
+Found by the gate, open: Destruction casts Shadowburn 58 times in two minutes offline (no Incinerate, Chaos Bolt or
+Immolate/Wither); Unholy's Dread Plague never up; Feral's Rip 71% on one target; Guardian's Moonfire never (its
+in-combat line needs talents the reference build lacks - likely intended). Restoration (where Sunfire was dropped)
+and the other healers have no graded reference build, so the gate can't see them yet.

@@ -56,8 +56,11 @@ def main():
         for m in re.finditer(r"^PRED (\S+) (\d+) ([\d.]+)", out.stdout, re.M):
             vals.append(float(m.group(3)))
             print("%s  %s targets  slot 2 right %s%%" % (m.group(1), m.group(2), m.group(3)))
+        for m in re.finditer(r"^UPKEEP (\S+) (\d+) ([\d.]+) ([\d.]+) ?(.*)$", out.stdout, re.M):
+            print("%s  %s targets  upkeep %s%% dropped %s s/min  %s" % (m.group(1), m.group(2), m.group(3),
+                                                                       m.group(4), m.group(5)))
         for line in out.stdout.splitlines():
-            if line.startswith("  MISS") and k == 0:
+            if (line.startswith("  MISS") or (os.environ.get("SIM_CASTS") and line.startswith("GRADE"))) and k == 0:
                 print(line)
         runs.append(sum(vals) / len(vals) if vals else 0)
         for line in out.stderr.splitlines():

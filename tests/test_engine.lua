@@ -511,6 +511,8 @@ test("major cooldowns are ordinary queue lines; switched off they never show", f
   local ns = Boot()
   local regen = ns.State.REGEN_BASE
   ns.State.REGEN_BASE = {} -- this fixture's energy is about placement, not regeneration
+  -- (Rake short of Energy as the game says: an upkeep spell the game calls usable is never priced out)
+  mock.usable[1822] = { false, true }
   local now = Record()
   now.simc.default[1].c = nil
   local r = ns.Engine.Recommend(now, {})
@@ -532,6 +534,7 @@ test("major cooldowns are ordinary queue lines; switched off they never show", f
   for _, p in ipairs(r.queue) do
     eq(p.token ~= "berserk", true, "major cooldowns off")
   end
+  mock.usable[1822] = nil
   ns.State.REGEN_BASE = regen
 end)
 
@@ -8293,6 +8296,42 @@ test("runes are counted: spent by casts, three recharging at once, 10 s each wit
   mock.Advance(60)
   eq(C.FloorBounds(5), 6, "never above six")
   M.info[195182] = nil
+end)
+
+test("upkeep: a DoT the list keeps up is never priced out by our estimate while the game calls it usable", function()
+  -- owner, 2026-11-21: "ensure ... it can spend the critical spells and not starve" (Restoration's Sunfire)
+  Reset()
+  local ns = Boot()
+  local S, G, C = ns.State, ns.Engine, ns.Clues
+  local rec = QRecord({ { a = "rip", c = "refreshable", k = "T" }, { a = "ferocious_bite", k = "R" } })
+  rec.spellInfo[5176] = { n = "wrath", gcd = 1.5 } -- (a pretend cast that spends no Energy)
+  Feral(ns, rec)
+  ns.Specs.current = { key = "druid_feral", status = "ready", data = rec, branch = "midnight", client = "Midnight" }
+  eq(G.IsUpkeep(1079), true, "Rip: a DoT its line refreshes")
+  eq(G.IsUpkeep(22568), false, "Ferocious Bite: a spender, not upkeep")
+  mock.inCombat, mock.restricted = true, true
+  ns.combatEndedAt = GetTime()
+  mock.Fire("PLAYER_REGEN_DISABLED")
+  C.floor[3] = nil
+  C.bounds[3] = { lo = 5, hi = 100, untilT = GetTime() + 10, source = "usable" } -- our estimate: 5+, short
+  mock.usable[1079], mock.usable[22568] = { true, false }, { true, false }
+  S.BeginLookahead(0)
+  S.Apply(5176) -- a pretend cast that spends no Energy
+  eq(G.AffordableAhead(1079), true, "Rip: the game says usable, our estimate can't drop it")
+  eq(G.AffordableAhead(22568) ~= true, true, "Ferocious Bite: our estimate decides as before")
+  S.EndLookahead()
+  S.BeginLookahead(0)
+  S.Apply(5221) -- a pretend Shred spends Energy: "usable now" says nothing about after it
+  eq(G.AffordableAhead(1079) ~= true, true, "spent since: no guarantee")
+  S.EndLookahead()
+  mock.usable[1079] = { false, true }
+  S.BeginLookahead(0)
+  S.Apply(5176)
+  eq(G.AffordableAhead(1079) ~= true, true, "really short: no guarantee")
+  S.EndLookahead()
+  mock.usable[1079], mock.usable[22568] = nil, nil
+  mock.inCombat, mock.restricted = false, false
+  mock.Fire("PLAYER_REGEN_ENABLED")
 end)
 
 test("Outlaw: rtb_buffs is Roll the Bones' sets (1-4) - read when shown, 1-4 after our cast, 0 without it", function()

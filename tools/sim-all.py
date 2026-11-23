@@ -13,6 +13,13 @@ ROOT = os.path.join(HERE, "..")
 BASE = os.path.join(ROOT, "tests", "sim_baseline.json")
 SPEC_TOL = 5.0  # points a spec's mean may lose (two seeds: luck moves it about +-3)
 AVG_TOL = 1.0
+# Upkeep (owner, 2026-11-21: "ensure ... it can spend the critical spells and not starve"): DoT uptime and dropped
+# upkeep (seconds a minute a DoT was down, its spell castable, and in neither slot 1 nor 2) per spec and target
+# count. Some drops are the list's intent (Crimson Tempest replaces Rupture at 3+ targets), so each is held to its
+# own baseline.
+UPKEEP_BASE = os.path.join(ROOT, "tests", "upkeep_baseline.json")
+UPKEEP_UP_TOL = 5.0     # points of uptime a spec may lose
+UPKEEP_DROP_TOL = 3.0   # seconds a minute of dropped upkeep it may gain
 
 
 def run(spec, a):
@@ -21,10 +28,39 @@ def run(spec, a):
     if not a.exact:
         cmd.append("--human")
     out = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=3600).stdout
-    per = {}
+    per, up = {}, {}
     for m in re.finditer(r"^\S+  (\d+) targets  slot 2 right ([\d.]+)%", out, re.M):
         per.setdefault(m.group(1), []).append(float(m.group(2)))
+    for m in re.finditer(r"^\S+  (\d+) targets  upkeep ([\d.]+)% dropped ([\d.]+) s/min", out, re.M):
+        up.setdefault(m.group(1), []).append((float(m.group(2)), float(m.group(3))))
+    UPKEEP[spec] = {t: [sum(x[0] for x in v) / len(v), sum(x[1] for x in v) / len(v)] for t, v in up.items()}
     return spec, {t: sum(v) / len(v) for t, v in per.items()}
+
+
+UPKEEP = {}
+
+
+def upkeep_report(a, specs):
+    """Print each spec's upkeep; with --update write the baseline, with --check list what got worse."""
+    rows = [(s, t, v) for s in specs for t, v in sorted(UPKEEP.get(s, {}).items())]
+    if not rows:
+        return []
+    print("\n%-28s %4s  %7s  %8s" % ("upkeep", "tgt", "uptime", "dropped"))
+    for s, t, (u, d) in rows:
+        print("%-28s %4s  %6.1f%%  %5.1f s/min" % (s, t, u, d))
+    if a.update:
+        json.dump({"%s/%s" % (s, t): [round(u, 1), round(d, 1)] for s, t, (u, d) in rows}, open(UPKEEP_BASE, "w"),
+                  indent=1, sort_keys=True)
+    fails = []
+    if a.check and os.path.exists(UPKEEP_BASE):
+        base = json.load(open(UPKEEP_BASE))
+        for s, t, (u, d) in rows:
+            b = base.get("%s/%s" % (s, t))
+            if b and u < b[0] - UPKEEP_UP_TOL:
+                fails.append("%s %st: DoT uptime %.1f%%, was %.1f%%" % (s, t, u, b[0]))
+            if b and d > b[1] + UPKEEP_DROP_TOL:
+                fails.append("%s %st: dropped upkeep %.1f s/min, was %.1f" % (s, t, d, b[1]))
+    return fails
 
 
 def main():
@@ -64,6 +100,10 @@ def main():
     if a.update:
         json.dump({k: round(v, 1) for k, v in means.items()}, open(BASE, "w"), indent=1, sort_keys=True)
         print("baseline written: %s" % BASE)
+    upfails = upkeep_report(a, specs)
+    if upfails:
+        print("FAILED (graded simulator, upkeep):\n  " + "\n  ".join(upfails))
+        return 1
     if a.check:
         base = json.load(open(BASE)) if os.path.exists(BASE) else {}
         fails = ["%s: %.1f, was %.1f" % (s, means[s], base[s]) for s in specs

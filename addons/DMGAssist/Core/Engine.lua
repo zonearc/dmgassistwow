@@ -588,11 +588,83 @@ function G.SmallManaCost(id, amount)
   return U.Get(C_Spell and C_Spell.IsSpellUsable, id) == true
 end
 
+-- Upkeep: spells the list keeps up - a damage-over-time effect on the target (a spell record of that name puts an
+-- aura of 4 s or more on the enemy) whose line checks its own DoT ("refreshable", "!dot.sunfire.ticking"), without a
+-- real cooldown. Built per spec's data; token -> true.
+local upkeepFor, upkeepSet
+function G.UpkeepSet()
+  local record = ns.Specs and ns.Specs.current and ns.Specs.current.data
+  if upkeepFor == record and upkeepSet then
+    return upkeepSet
+  end
+  upkeepFor, upkeepSet = record, {}
+  if type(record) ~= "table" then
+    return upkeepSet
+  end
+  local info = record.spellInfo or M.info or {}
+  local dotOf, dotLen = {}, {}
+  for _, ri in pairs(info) do
+    for _, ap in ipairs(type(ri) == "table" and type(ri.ap) == "table" and ri.ap or {}) do
+      local ai = info[ap[1]]
+      if ap[2] == "enemy" and type(ai) == "table" and ai.n and (tonumber(ai.d) or 0) >= 4 and ri.n then
+        if not dotOf[ri.n] then
+          dotOf[ri.n], dotLen[ri.n] = ai.n, tonumber(ai.d)
+        end
+      end
+    end
+  end
+  local noCd = {}
+  for _, ri in pairs(info) do
+    if type(ri) == "table" and ri.n and not ri.pas and (tonumber(ri.cd) or 0) <= 1.5 and not tonumber(ri.chcd) then
+      noCd[ri.n] = true
+    end
+  end
+  for name, list in pairs(type(record.simc) == "table" and record.simc or {}) do
+    for _, e in ipairs(name ~= "precombat" and type(list) == "table" and list or {}) do
+      local a, c = e.a, type(e.c) == "string" and e.c or ""
+      local dot = a and dotOf[a]
+      if dot and noCd[a] and (c:find("refreshable", 1, true) or c:find("dot." .. dot .. ".", 1, true)
+        or c:find("debuff." .. dot .. ".", 1, true)) then
+        upkeepSet[a] = { dot = dot, d = dotLen[a] }
+      end
+    end
+  end
+  return upkeepSet
+end
+
+function G.IsUpkeep(id)
+  local info = M.Info(id)
+  local token = (info and info.n) or M.TokenForID(id)
+  return token ~= nil and G.UpkeepSet()[token] ~= nil
+end
+
+-- An upkeep spell the game calls usable now, while nothing pretended in the look-ahead has spent from its resources
+-- ("usable now" predates that: a pretend Shadow Word: Madness, then Madness "affordable" again left Shadow's slot 2
+-- empty offline).
+function G.UpkeepTrusted(id)
+  if not G.IsUpkeep(id) or U.Get(C_Spell and C_Spell.IsSpellUsable, id) ~= true then
+    return false
+  end
+  local V = S.Lookahead()
+  for pt, amount in pairs(M.Cost(M.Info(id)) or {}) do
+    if amount > 0 and V and (V.power[pt] or 0) < 0 then
+      return false
+    end
+  end
+  return true
+end
+
 function G.AffordableAhead(id)
   local cost = M.Cost(M.Info(id))
   local V = S.Lookahead()
   if not cost or not V or #V.prev == 0 then
     return UNKNOWN
+  end
+  -- An upkeep spell the game calls usable right now is never priced out by our estimate (owner, 2026-11-21:
+  -- Restoration showed Starfire all fight, Sunfire and Moonfire "unaffordable" with 261,000 mana - "people will hate
+  -- this if we're missing key dots"). Whether it is due is the list's own condition.
+  if G.UpkeepTrusted(id) then
+    return true
   end
   for pt, amount in pairs(cost) do
     if amount > 0 then
@@ -854,7 +926,7 @@ local function CastableRaw(id)
         return false, "power"
       end
     end
-  elseif ahead and not first and (S.Affordable(id) == false or G.BelowCostAhead(id)) then
+  elseif ahead and not first and not G.UpkeepTrusted(id) and (S.Affordable(id) == false or G.BelowCostAhead(id)) then
     -- (Usable now per the game: resources only grow until the next press. Our estimate is only for predicting
     -- slots 2-3 after casts we pretend.)
     return false, "power"
@@ -865,6 +937,7 @@ local function CastableRaw(id)
   if usable and first and not named and not S.glow[id] and G.BelowCost(id) then
     return false, "power"
   end
+
   -- (Spiritwalker's Grace and the like let you: the Elemental bar emptied while it ran, 2026-11-10)
   if first and S.moving and not (ns.db and ns.db.castWhileMoving) and CastTime(id) > 0 and not S.CastsWhileMoving() then
     return false, "moving"

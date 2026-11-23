@@ -571,6 +571,51 @@ local function Fight(ns, key, record, book, scenario)
   end
   mock.Fire("PLAYER_REGEN_DISABLED")
   local start = mock.now
+  -- Upkeep: spells that put a damage-over-time effect on the target (the data's enemy auras lasting 4 s or more).
+  -- The world keeps those on the target; each tick, a DoT that is down while its spell could be cast and isn't in
+  -- slot 1 or 2 counts as dropped upkeep (owner, 2026-11-21: Restoration showed Starfire for a whole fight and never
+  -- Sunfire / Moonfire - the gate that would have caught it before the owner did).
+  local upkeep = {}
+  if world then
+    world.dots = {}
+    -- (the DoT is often a record of its own with the spell's name: Moonfire 8921 -> 164812)
+    local dotOf = {}
+    for _, ri in pairs(record.spellInfo or {}) do
+      for _, ap in ipairs(type(ri.ap) == "table" and ri.ap or {}) do
+        local ai = record.spellInfo[ap[1]]
+        if ap[2] == "enemy" and ai and ai.n and tonumber(ai.d) and ai.d >= 4 and ri.n then
+          dotOf[ri.n] = dotOf[ri.n] or { token = ai.n, d = ai.d }
+        end
+      end
+    end
+    world.dotOf = dotOf
+    -- upkeep is what the list keeps up: a line for the spell that checks its own DoT ("refreshable",
+    -- "dot.rupture.remains<4", "!dot.sunfire.ticking") - not every spell with a debuff (Frostbolt's slow, Mind Flay)
+    local kept = {}
+    for name, list in pairs(record.simc or {}) do
+      for _, e in ipairs(name ~= "precombat" and list or {}) do
+        local c, a = type(e.c) == "string" and e.c or "", e.a
+        local dot = a and dotOf[a]
+        if dot and (c:find("refreshable", 1, true) or c:find("dot." .. dot.token .. ".", 1, true)
+          or c:find("debuff." .. dot.token .. ".", 1, true)) then
+          kept[a] = true
+        end
+      end
+    end
+    for _, b in ipairs(book) do
+      -- (a button turned into another spell for good counts as that spell: Immolate's button casts Wither)
+      local castID = (GRADE and permanentOverrides[b.spellID]) or b.spellID
+      local base, bi = M.Info(b.spellID), M.Info(castID)
+      local name = bi and bi.n
+      local dot = name and dotOf[name] or (base and base.n and dotOf[base.n])
+      local wanted = (name and kept[name]) or (base and base.n and kept[base.n])
+      -- (upkeep only: a DoT behind a real cooldown - Deathmark, Shiv - is a cooldown, not something kept up)
+      if bi and not bi.pas and dot and wanted and not ((tonumber(bi.cd) or 0) > 1.5 or tonumber(bi.chcd)) then
+        upkeep[#upkeep + 1] = { id = castID, base = b.spellID, token = dot.token, d = dot.d, info = bi }
+      end
+    end
+  end
+  local m_upkeep = { up = 0, total = 0, dropped = 0 }
   local m = { ticks = 0, noMain = 0, no2 = 0, no3 = 0, flips = 0, maxStuck = 0, maxHold = 0, errors = 0,
     presses = 0, pressed = {}, majorsCast = {}, majorsKnown = 0, firstError = nil, onCd = 0, skipShown = {},
     offBarShown = 0, outOfRange = 0 }
@@ -898,6 +943,32 @@ local function Fight(ns, key, record, book, scenario)
     m.ticks = m.ticks + 1
     local main = r and r.main
     local q = r and r.queue or {}
+    for _, u in ipairs(upkeep) do
+      local up = (world.dots[u.token] or 0) > now
+      m_upkeep.total = m_upkeep.total + TICK
+      local per = m_upkeep[u.token] or { up = 0, dropped = 0 }
+      m_upkeep[u.token] = per
+      if up then
+        m_upkeep.up = m_upkeep.up + TICK
+        per.up = per.up + TICK
+      else
+        local cd = mock.cooldowns[u.id]
+        local ready = not (cd and cd.active and cd.start and cd.start + cd.duration > now)
+        local function is(p)
+          return p and (p.id == u.id or p.id == u.base)
+        end
+        local shown = is(q[1]) or is(q[2])
+        -- (a finisher needs points to spend: Rupture with no combo points can't be cast)
+        local points = true
+        for pt in pairs(type(u.info.cmax) == "table" and u.info.cmax or {}) do
+          points = points and (world.cur[pt] or 0) >= 1
+        end
+        if ready and points and not shown and WorldAffordable(world, u.info, M) then
+          m_upkeep.dropped = m_upkeep.dropped + TICK
+          per.dropped = per.dropped + TICK
+        end
+      end
+    end
     if not (main and main.id) then
       m.noMain = m.noMain + 1
     end
@@ -1053,6 +1124,7 @@ local function Fight(ns, key, record, book, scenario)
       predictSrc = q[2] and q[2].source
       pressAt = nil
       -- (the button casts what it has turned into for good: Immolate's button casts Wither)
+      local buttonID = id
       if GRADE and permanentOverrides[id] then
         id = permanentOverrides[id]
       end
@@ -1162,6 +1234,22 @@ local function Fight(ns, key, record, book, scenario)
         elseif world.stealthBreaks and (world.stealthUntil or 0) > now then
           world.stealthUntil = now
         end
+        -- the damage over time it puts on the target (refreshed with up to 30% of what was left carried over)
+        -- (and the button's, when it casts another spell for good: Immolate's button casting Wither keeps the
+        -- upkeep the list asks for under Immolate's name)
+        local names = { info.n or false, (M.Info(buttonID) or {}).n or false }
+        for b, o in pairs(permanentOverrides) do
+          if o == id then
+            names[#names + 1] = (M.Info(b) or {}).n or false
+          end
+        end
+        for _, nm in ipairs(names) do
+          local dot = nm and world.dotOf and world.dotOf[nm]
+          if dot then
+            local left = math.max(0, (world.dots[dot.token] or 0) - now)
+            world.dots[dot.token] = now + dot.d + math.min(left, 0.3 * dot.d)
+          end
+        end
         -- the buffs this cast applies, in the world (the data's self auras; the logs' links with their stacks)
         for _, ap in ipairs(type(info.ap) == "table" and info.ap or {}) do
           local ai = record.spellInfo[ap[1]]
@@ -1236,6 +1324,18 @@ local function Fight(ns, key, record, book, scenario)
     predPct = m.predN > 0 and 100 * m.predHit / m.predN or nil,
     msAvg = (m.msTotal or 0) / m.ticks, msPeak = m.msPeak or 0, keepPressed = keepPressed, keepKnown = keepKnown,
     cast = m.cast, procs = m.procs, offBarShown = m.offBarShown, misses = m.misses,
+    upkeepPct = m_upkeep.total > 0 and 100 * m_upkeep.up / m_upkeep.total or nil,
+    upkeepEach = (function()
+      local parts = {}
+      for tk, v in pairs(m_upkeep) do
+        if type(v) == "table" then
+          parts[#parts + 1] = string.format("%s=%.0f%%/%.0fs", tk, 100 * v.up / FIGHT, v.dropped * 60 / FIGHT)
+        end
+      end
+      table.sort(parts)
+      return table.concat(parts, " ")
+    end)(),
+    droppedPerMin = m_upkeep.total > 0 and m_upkeep.dropped * 60 / FIGHT or nil,
   }
 end
 
@@ -1383,6 +1483,11 @@ if GRADE then
         -- slot 2 right: pressing slot 1, was slot 2 the next press? (the in-game measure, offline)
         print(string.format("PRED %s %d %.1f", key, sc.targets, r.predPct or 0))
         print(string.format("ONCD %s %d %.1f", key, sc.targets, r.onCdPct or 0))
+        if r.upkeepPct then
+          -- DoT uptime and dropped upkeep (seconds a minute a DoT was down, castable, and in neither slot 1 nor 2)
+          print(string.format("UPKEEP %s %d %.1f %.1f %s", key, sc.targets, r.upkeepPct, r.droppedPerMin,
+            r.upkeepEach or ""))
+        end
         -- (SCEN_MISSES=n) slot 2's most common misses: what it showed (and from where) -> what was pressed
         if os.getenv("SCEN_MISSES") then
           local list = {}
